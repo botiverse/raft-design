@@ -1,0 +1,19 @@
+{
+  "name": "@slock-ai/trace-upload-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev --local --port ${PORT:-8787} --var SCOPE_ATTESTATION_SECRET:${SCOPE_ATTESTATION_SECRET:-dev-scope-attestation-secret} --var TRACE_UPLOAD_WORKER_SECRET:${TRACE_UPLOAD_WORKER_SECRET:-dev-trace-upload-worker-secret} --var TRACE_UPLOAD_MAX_BYTES:${TRACE_UPLOAD_MAX_BYTES:-52428800} --var TRACE_INGEST_OTLP_ENDPOINT:${TRACE_INGEST_OTLP_ENDPOINT:-}",
+    "start": "tsx src/node.ts",
+    "test": "node --import tsx --test 'src/**/*.test.ts'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.50.0"
+  }
+}

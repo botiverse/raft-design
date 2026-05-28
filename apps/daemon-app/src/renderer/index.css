@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant hover (&:hover);
+
+@theme {
+  --color-brutal-yellow: #FFD700;
+  --color-brutal-pink: #FF6B9D;
+  --color-brutal-cyan: #00CFFF;
+  --color-brutal-lime: #A6FF00;
+  --color-brutal-lavender: #C4B5FD;
+  --color-brutal-orange: #FF9F43;
+  --color-brutal-cream: #FFF8E7;
+  --color-brutal-black: #000000;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  --shadow-brutal: 4px 4px 0px #000;
+  --shadow-brutal-sm: 2px 2px 0px #000;
+  --shadow-brutal-lg: 6px 6px 0px #000;
+  --shadow-brutal-hover: 2px 2px 0px #000;
+  --shadow-brutal-active: 1px 1px 0px #000;
+
+  --border-width-3: 3px;
+}
+
+@layer base {
+  html {
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: none;
+    background-color: #FFF8E7;
+  }
+
+  body {
+    margin: 0;
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: none;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FFF8E7;
+    color: #000000;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF8E7;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FFF8E7;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #000;
+  }
+}
+
+@layer components {
+  .btn-brutal {
+    @apply border-2 border-black font-display font-bold shadow-brutal
+           transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-brutal-active;
+  }
+  .btn-brutal:hover {
+    @apply -translate-y-[1px] shadow-brutal-lg;
+  }
+
+  .btn-brutal-sm {
+    @apply border-2 border-black font-display font-bold shadow-brutal-sm
+           transition-all duration-100 active:translate-x-[1px] active:translate-y-[1px] active:shadow-brutal-active;
+  }
+  .btn-brutal-sm:hover {
+    @apply -translate-y-[1px] shadow-brutal;
+  }
+
+  .card-brutal {
+    @apply border-2 border-black bg-white shadow-brutal;
+  }
+
+  .input-brutal {
+    @apply border-2 border-black bg-white px-3 py-2 font-display shadow-brutal-sm
+           focus:outline-none focus:shadow-brutal;
+  }
+}

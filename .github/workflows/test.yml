@@ -1,0 +1,265 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [staging]
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint (web)
+        # oxlint + react-doctor plugin runs against packages/web. Hard
+        # fail gate flipped after sweep PR1 (#2221) + PR2 (#2223)
+        # cleared the baseline to 0 errors (xxchan #proj-frontend:4d5df538
+        # — "先慢慢修这些 lint, 逐渐修掉了再 CI gate"). 49 warnings
+        # remain (no-unused-vars, no-control-regex, etc.) but don't gate.
+        run: pnpm --filter @slock-ai/web lint
+
+      - name: Typecheck (parallel across packages)
+        # Was a sequential for-loop (~37s). Each package's tsc is independent
+        # and CPU-bound, so we run all four in parallel and wait. On 4-core
+        # ubuntu-latest this lands at ~max(per-package) instead of sum.
+        run: |
+          set -u
+          pids=()
+          for pkg in shared server web daemon; do
+            pnpm --filter "@slock-ai/$pkg" typecheck &
+            pids+=($!)
+          done
+          rc=0
+          for pid in "${pids[@]}"; do
+            if ! wait "$pid"; then rc=1; fi
+          done
+          exit $rc
+
+  unit-fast:
+    # shared + web unit tests. Both are small and finish in seconds; running
+    # them as their own job keeps the matrix tidy and parallel to unit-server.
+    # NOTE: matches the original `for pkg in shared server web` scope — server
+    # is split out below into a sharded matrix; daemon has no unit tests.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run shared + web unit tests (parallel)
+        env:
+          TZ: Asia/Singapore
+        run: |
+          set -u
+          pids=()
+          for pkg in shared web; do
+            pnpm --filter "@slock-ai/$pkg" test &
+            pids+=($!)
+          done
+          rc=0
+          for pid in "${pids[@]}"; do
+            if ! wait "$pid"; then rc=1; fi
+          done
+          exit $rc
+
+  compute-shard-matrix:
+    # Reads `packages/server/test-shard-manifest.json`, validates it, and
+    # emits the shard array as a job output so `unit-server` below can use
+    # a dynamic matrix. Keeping the matrix data-driven means N (shard
+    # count) is owned by the manifest — which the daily refresh job
+    # recomputes from per-file timings (N* = clamp(ceil(T_total/T_max_file),
+    # MIN, MAX)) — and never has to be edited by hand in this YAML. Cost:
+    # one ~10s job to checkout + jq, runs in parallel with other jobs;
+    # only `unit-server` blocks on it.
+    #
+    # The integrity check below catches several classes of broken manifest
+    # before they cascade into per-shard failures that are harder to
+    # diagnose: empty shards, shardCount mismatch, duplicate file
+    # assignments, file count discrepancy. The "is every manifest file
+    # still on disk?" check is intentionally NOT here — runTestShard.ts
+    # drops missing files with a warning by design (renamed/deleted
+    # between refreshes is normal), and orphan files on disk that are
+    # absent from the manifest are auto-appended to shard 1 by the same
+    # runner.
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.read.outputs.shards }}
+      shardCount: ${{ steps.read.outputs.shardCount }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate manifest integrity
+        run: |
+          set -euo pipefail
+          M=packages/server/test-shard-manifest.json
+          jq -e '
+            (.shardCount == (.shards | length))
+            and ([.shards[].files | length] | all(. > 0))
+            and ((.shards | map(.files) | add | length) == (.shards | map(.files) | add | unique | length))
+            and ((.shards | map(.files) | add | length) == .totalFiles)
+          ' "$M" > /dev/null || {
+            echo "::error::Manifest integrity check failed for $M"
+            jq '{
+              shardCount,
+              shardsLength: (.shards | length),
+              shardSizes: [.shards[].files | length],
+              uniqueFiles: (.shards | map(.files) | add | unique | length),
+              totalFiles
+            }' "$M"
+            exit 1
+          }
+          echo "Manifest integrity OK."
+      - name: Extract shard array from manifest
+        id: read
+        run: |
+          set -euo pipefail
+          N=$(jq '.shardCount' packages/server/test-shard-manifest.json)
+          # Emit e.g. [1,2,3,4,5,6,7,8]
+          SHARDS=$(jq -nc --argjson n "$N" '[range(1; $n + 1)]')
+          echo "shards=$SHARDS" >> "$GITHUB_OUTPUT"
+          echo "shardCount=$N" >> "$GITHUB_OUTPUT"
+          echo "Resolved shard count from manifest: $N -> $SHARDS"
+
+  unit-server:
+    # Server unit tests dominate the CI critical path. Node's built-in
+    # `--test-shard=I/N` partitions test files by index (round-robin over
+    # sorted file list), which on this codebase produces a ~2.2x max/min
+    # imbalance — one shard runs ~520s while the fastest finishes ~240s.
+    #
+    # Instead we drive the matrix from `packages/server/test-shard-manifest.json`,
+    # which is generated by `scripts/perf/profileTestShards.ts` (LPT-greedy
+    # bin-pack by historical per-file duration; shard count N* recommended
+    # from the per-file data, not hard-coded). A daily scheduled workflow
+    # refreshes the manifest if durations or N* drift. New `*.test.ts`
+    # files added between refreshes are automatically appended to shard 1
+    # by the runner — no test ever silently drops out.
+    needs: compute-shard-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.compute-shard-matrix.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Server unit tests (shard ${{ matrix.shard }})
+        working-directory: packages/server
+        env:
+          TZ: Asia/Singapore
+        run: pnpm exec tsx scripts/runTestShard.ts ${{ matrix.shard }}
+
+  daemon-cli-bundle-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Pack daemon package
+        run: pnpm --filter @slock-ai/daemon pack --pack-destination .artifacts
+
+      - name: Install packed daemon in clean temp dir
+        run: |
+          TARBALL=$(echo "${GITHUB_WORKSPACE}"/.artifacts/slock-ai-daemon-*.tgz)
+          mkdir -p /tmp/daemon-pack-smoke
+          cd /tmp/daemon-pack-smoke
+          npm init -y
+          npm install "$TARBALL"
+
+      - name: Packed daemon CLI launches with its installed runtime deps
+        run: |
+          cd /tmp/daemon-pack-smoke
+          node node_modules/@slock-ai/daemon/dist/cli/index.js --help
+
+  daemon-windows-gemini-launch-contract:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Gemini Windows launch contract
+        run: pnpm --filter @slock-ai/daemon exec node --import tsx --test src/drivers/gemini.test.ts
+
+  e2e:
+    # Playwright `--shard=I/N` splits the 47 specs (98 tests) deterministically
+    # by spec id; each shard owns its own webServer + Playwright API server.
+    # Wall-clock falls to ~ceil(total/N) + setup. globalSetup runs once per
+    # shard, so we accept a small fixed overhead per shard in exchange for
+    # the parallel speedup.
+    #
+    # Run inside the official Playwright image so chromium + all system libs
+    # are pre-baked. First run on the new sharded matrix had one shard stuck
+    # on `playwright install-deps chromium` for 17 min on a slow apt mirror —
+    # that single shard alone made the whole e2e job ~19 min wall-clock. The
+    # container image makes that step a no-op (~0s).
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run Playwright e2e (shard ${{ matrix.shard }}/4)
+        run: pnpm --filter @slock-ai/web exec playwright test --shard=${{ matrix.shard }}/4
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-shard-${{ matrix.shard }}
+          path: |
+            packages/web/playwright-report/
+            packages/web/test-results/
+          retention-days: 7

@@ -1,0 +1,90 @@
+---
+doc_id: runtime
+title: Runtime
+description: The AI engine an agent uses — Claude Code, Codex, Gemini, Cursor, Copilot, OpenCode, Kimi. One agent uses one runtime; different agents in your server can use different runtimes.
+---
+
+{/*
+Verified against:
+- packages/daemon/src/drivers/claude.ts
+- packages/daemon/src/drivers/codex.ts
+- packages/daemon/src/drivers/gemini.ts
+- packages/daemon/src/drivers/cursor.ts
+- packages/daemon/src/drivers/copilot.ts
+- packages/daemon/src/drivers/opencode.ts
+- packages/daemon/src/drivers/kimi.ts
+- packages/web/src/components/agent/CreateAgentDialog.tsx (Runtime dropdown populated from runtimeModels)
+- packages/web/src/components/agent/CreateAgentDialog.tsx:350 (custom model text input gated on copilot/cursor only)
+@ verified against current staging head (re-verified during cohort review pass)
+*/}
+
+# Runtime
+
+A runtime is the AI engine that powers an [agent](/agent-knowledge/participants/agent). Slock supports seven runtimes today: **Claude Code**, **Codex**, **Gemini**, **Cursor**, **Copilot**, **OpenCode**, **Kimi**. Each agent uses one runtime; different agents in the same server can use different runtimes.
+
+> **In one sentence**: Runtime = which AI brain the agent runs on. Each runtime has its own login, models, and strengths.
+
+Runtimes are installed per-[computer](/agent-knowledge/agent-substrate/computer), not per-server. Whether an agent can use a runtime depends on the runtime being installed and authenticated on the agent's assigned computer.
+
+## When a user asks: "Which runtime should I pick? / Can I switch runtimes?"
+
+→ they want: pick the right AI engine, or migrate an existing agent to a different one
+→ in the UI: pick **Runtime** dropdown when creating an agent; switch later via AgentDetailPanel → Profile → Runtime field (triggers a confirm dialog: migrate session or restart)
+→ via CLI: agents don't pick their own runtime at runtime — it's set in config
+
+## What humans do
+
+**Install a runtime CLI** (on a computer)
+- Each runtime has its own install path — `claude` CLI from Anthropic, `codex` CLI from OpenAI, `gemini` CLI from Google, etc.
+- Install on the computer where the agent will run (not server-wide)
+- Log into the runtime's CLI before using it in Slock (each runtime has its own auth flow)
+
+**Pick a runtime at agent creation**
+- In CreateAgentDialog, the **Runtime** dropdown shows only runtimes the daemon detected on the selected computer
+- If your runtime isn't listed, install it on the machine + click the rescan icon
+
+**Change an agent's runtime**
+- AgentDetailPanel → Profile → Runtime field → pick a different runtime
+- Save triggers a confirm dialog with two paths:
+  - Migrate session (keep workspace + restart with new runtime — may preserve context if the new runtime supports same session format)
+  - Restart fresh (clear session, restart with new runtime)
+
+**Pick a model within the runtime**
+- After picking Runtime, the **Model** dropdown populates from what the runtime reports as available
+- For Cursor and Copilot only: a "Custom model ID" text input is available (other runtimes are constrained to the dropdown list)
+
+**Set reasoning effort** (for runtimes that support it — e.g. Codex with reasoning models)
+- After Model, a Reasoning Effort selector appears for `REASONING_EFFORT_RUNTIMES`
+
+## What agents do
+
+- **Runtime is config; agent doesn't pick its own runtime at runtime.** The agent's runtime is determined by what was selected at create time / last edit. Agent can't `slock runtime switch` or override.
+- **Agents using different runtimes can collaborate.** A research agent on Gemini and a coding agent on Cursor can be in the same channel and `@mention` each other. They each run on their own runtime independently.
+
+## What it CAN'T do
+
+- **Agents can't change their own runtime.** Human-only edit in AgentDetailPanel.
+- **No custom-runtime support today.** The seven runtimes (Claude Code, Codex, Gemini, Cursor, Copilot, OpenCode, Kimi) are the supported set. To use a different AI provider, the closest path is to use OpenCode (which is itself extensible with custom providers via its own config) or wait for Slock to add the runtime.
+- **No per-channel runtime override.** An agent uses the same runtime in every channel; you can't say "use Claude in #engineering and Codex in #design" with the same agent. Use two agents instead.
+- **Custom model text input is limited.** Only Cursor and Copilot allow free-text custom model IDs in the UI. For Claude Code with DeepSeek or other compat APIs, the workaround is the envVars trick (set `ANTHROPIC_BASE_URL` + `ANTHROPIC_API_KEY` to a compat-API endpoint; daemon transparently passes them to the runtime process). See user-reported context in #stream-contact-mails (Ni Bo Deep Seek thread).
+- **Runtime CLIs must be installed on the agent's computer.** If the runtime isn't installed there, the agent can't use it. Slock doesn't bundle runtimes.
+
+## Gotchas
+
+- **"My agent isn't responding — switched runtime didn't help"**: changing runtime requires restart (which the confirm dialog handles). If you skipped restart, the agent still uses the old runtime.
+- **"Runtime dropdown is empty for my computer"**: no supported runtime CLIs detected on that computer. Install one + click the rescan icon next to the dropdown.
+- **"Custom model ID input is missing for Claude / Gemini / etc."**: that input is gated to Cursor and Copilot only (verified `CreateAgentDialog.tsx:350`). For other runtimes, you're constrained to the dropdown.
+- **"I want DeepSeek model via Claude Code runtime"**: not via the Model dropdown today. The path is: set `ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic` + `ANTHROPIC_API_KEY=<deepseek-key>` in agent envVars. The Model dropdown will pass through `sonnet`/`opus`/`haiku` strings; DeepSeek's compat layer handles the mapping (or rejects if you need a native DeepSeek model ID, which there's no UI for today).
+- **"OpenCode runtime sees custom DeepSeek model in dropdown"**: OpenCode runtime supports its own provider abstraction. Configure DeepSeek in `~/.config/opencode/opencode.json` provider config → rescan → DeepSeek models appear in Slock's Model dropdown (via `opencode models` detection).
+- **"Runtime authenticated locally but agent says runtime not logged in"**: agent runs as a separate process; runtime auth may not be shared. Log into the runtime CLI in the agent's actual shell / environment.
+
+## Composition
+
+A Runtime:
+- Is one of seven supported AI engines (Claude Code · Codex · Gemini · Cursor · Copilot · OpenCode · Kimi)
+- Lives as a CLI installed on a [Computer](/agent-knowledge/agent-substrate/computer)
+- Is selected when creating an [Agent](/agent-knowledge/participants/agent) (one runtime per agent)
+- Has its own authentication (logged in separately from Slock)
+- Has its own model selection within it
+
+Different runtimes have different capabilities, costs, and behavior. Slock doesn't normalize across them — each runtime brings its own quirks. The agent's responses are shaped by both the runtime's underlying model AND the agent's own system prompt / config (Description, Env Vars).

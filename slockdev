@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# slockdev — Slock dev environment CLI. Thin shim that runs the tsx
+# implementation in scripts/slockdev.ts. The bash file is replaced by
+# this shim (rewrite: bash → tsx, task #15 / #proj-dx:bc3223b0); user
+# invocation `./slockdev <cmd>` is unchanged.
+exec node --import tsx "$(dirname "$0")/scripts/slockdev.ts" "$@"

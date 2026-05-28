@@ -1,0 +1,73 @@
+name: Publish @slock-ai/computer
+
+# Mirror of publish-daemon.yml. Computer is the human / local-machine
+# control-plane CLI (separate from the agent-facing @slock-ai/cli); we
+# keep its publish flow independent from the daemon's so versions can
+# move on their own cadence.
+#
+# Triggered by tags `computer-v*`. Tag-name segments drive the npm
+# dist-tag (so `computer-v0.0.1` → latest, `computer-v0.0.2-alpha.0` →
+# alpha, `computer-v0.0.2-experimental.0` → experimental). Staging
+# branch pushes do NOT auto-publish — the daemon does that on its own
+# pre-release lane; we keep Computer tag-only until there's a need for
+# a separate staging channel.
+#
+# Requires npm-side trusted-publisher configuration for
+# `@slock-ai/computer` matching this workflow / repo (same shape as
+# the existing daemon trusted publisher). Without that, the OIDC
+# handshake in `npm publish` will fail with 403.
+
+on:
+  push:
+    tags:
+      - "computer-v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          registry-url: https://registry.npmjs.org
+
+      # Same hardening as publish-daemon.yml — bump npm to latest so
+      # the OIDC handshake bug shipped with setup-node + Node 23
+      # doesn't surface as a `404 PUT` against npmjs.com.
+      - run: npm install -g npm@latest
+
+      - run: pnpm install
+
+      - name: Determine npm dist-tag
+        id: dist-tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          if echo "$TAG" | grep -q "alpha"; then
+            echo "tag=alpha" >> "$GITHUB_OUTPUT"
+          elif echo "$TAG" | grep -q "experimental"; then
+            echo "tag=experimental" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Use `pnpm publish` (NOT `npm publish`): @slock-ai/computer has a
+      # `@slock-ai/daemon: workspace:*` dependency, and only pnpm rewrites
+      # the `workspace:` protocol to a concrete version range at publish
+      # time. `npm publish` leaves `workspace:*` literally in the
+      # published `dependencies` block, which breaks downstream installs
+      # with `EUNSUPPORTEDPROTOCOL` (verified on the failed 0.0.1 publish
+      # from this same workflow). `--no-git-checks` skips pnpm's clean
+      # working-tree assertion (CI runners never have unrelated dirty
+      # files but pnpm bails on detached HEAD by default).
+      # `botiverse/slock` is private, so `--provenance` is intentionally
+      # omitted (same reason as publish-daemon.yml — sigstore provenance
+      # rejects private source repos).
+      - run: cd packages/computer && pnpm run build && pnpm publish --tag ${{ steps.dist-tag.outputs.tag }} --no-git-checks --access public

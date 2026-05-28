@@ -1,0 +1,25 @@
+{
+  "name": "slock",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.29.3",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "argon2",
+      "electron",
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "scripts": {
+    "perf:boot-profile": "node scripts/perf/boot-profile.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1",
+    "tsx": "^4.21.0"
+  }
+}

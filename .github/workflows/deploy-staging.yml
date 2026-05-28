@@ -1,0 +1,22 @@
+name: Deploy Staging
+on:
+  workflow_dispatch:
+  push:
+    branches: [staging]
+    paths:
+      - ".github/workflows/deploy-staging.yml"
+      - "docs/**"
+      - "packages/server/**"
+      - "packages/shared/**"
+      - "fly.staging.toml"
+      - "pnpm-lock.yaml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --app slock-server-staging --config fly.staging.toml --local-only --build-arg SLOCK_RELEASE_SHA=${GITHUB_SHA}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_STAGING }}

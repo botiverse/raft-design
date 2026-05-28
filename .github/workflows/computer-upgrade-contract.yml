@@ -1,0 +1,179 @@
+name: Computer upgrade contract smoke
+
+# v8.3.3 §4.4 upgrade closed-set contract regression gate (Gate 7).
+# Companion to the unit harness in
+# packages/computer/src/upgradeContractRegression.test.ts (PR #2108).
+#
+# Drives scripts/computer-upgrade-contract-smoke.sh against a real
+# published @slock-ai/computer@<ver> tarball. Lives outside the main
+# Test workflow because the smoke depends on the registry having
+# published the tag (post-publish only) and is slower than unit tests.
+#
+# Trigger surface:
+#   - `workflow_run` chained to `Publish @slock-ai/computer` success
+#     (release gate) — fires AFTER publish-computer.yml has finished
+#     pushing the tarball to the npm registry, so case3/no-target/
+#     already-running can `npm i -g @slock-ai/computer@<new>` without
+#     hitting the publish race. Acts as Gate 7 in the release
+#     checklist. (Earlier draft used a direct `push.tags` trigger;
+#     replaced after cross msg=f03ab46d review flagged the race —
+#     both workflows would fire on the same tag push independently.)
+#   - Daily cron @ 04:00 UTC (regression watch) — defends against
+#     packaging / registry drift between releases.
+#   - workflow_dispatch (manual) — ad-hoc verify for in-flight
+#     development PRs or post-mortem reproduction.
+#
+# Version resolution (per-trigger):
+#   - workflow_run: derive <new> from
+#     `github.event.workflow_run.head_branch` (the upstream
+#     publish-computer.yml tag, e.g. `computer-v0.0.10` or
+#     `computer-v0.0.11-alpha.0`). Do NOT use `npm view <pkg> version`
+#     here: `latest` dist-tag (a) lags CDN propagation and (b) is not
+#     advanced for alpha/experimental tags — both produce false-green
+#     where Gate 7 smokes the wrong pair (cross msg=1e7ee755 +
+#     Hao msg=bb4d5a3b).
+#   - schedule (cron): registry `latest` + second-to-last — regression
+#     watch on the current stable pair, no specific publish to chase.
+#   - workflow_dispatch: explicit prev/new inputs.
+#
+# Belt-and-braces: even chained to a successful publish, npm registry
+# CDN propagation can lag 10-60s after `pnpm publish` returns. The
+# smoke job's first step polls `npm view @slock-ai/computer@<ver>`
+# until both <prev> and <new> are fetchable before installing.
+#
+# Node version matrix is locked to 20+22 per spec §3.1 (Hao+cross
+# converged). Engine policy is `>=20`; node18 is explicitly excluded.
+
+on:
+  workflow_run:
+    workflows: ["Publish @slock-ai/computer"]
+    types: [completed]
+  schedule:
+    # 04:00 UTC = 12:00 CST. Off-hours for both US-Pacific and CN.
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+    inputs:
+      prev_version:
+        description: "Previous Computer version to install (e.g. 0.0.9)"
+        required: true
+        default: "0.0.9"
+      new_version:
+        description: "New Computer version to upgrade to (e.g. 0.0.10)"
+        required: true
+        default: "0.0.10"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # workflow_run fires on every completed run regardless of
+    # conclusion. Gate the job on `success` so a failed
+    # publish-computer.yml doesn't trigger a doomed smoke run that
+    # would just fail trying to install the never-published tag.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org
+
+      - name: Determine smoke versions
+        id: versions
+        env:
+          WORKFLOW_RUN_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PREV="${{ inputs.prev_version }}"
+            NEW="${{ inputs.new_version }}"
+          elif [ "${{ github.event_name }}" = "workflow_run" ]; then
+            # workflow_run path: trust the upstream publish tag, not the
+            # `latest` dist-tag. `npm view <pkg> version` returns
+            # `latest`, which (a) lags publish CDN propagation, and
+            # (b) does not advance for alpha/experimental publishes —
+            # both produce a false-green where Gate 7 smokes the wrong
+            # pair (cross msg=1e7ee755 + Hao msg=bb4d5a3b).
+            # publish-computer.yml is triggered by computer-v* /
+            # computer-v*-alpha* / computer-v*-experimental* tag push,
+            # so workflow_run.head_branch carries that exact tag name.
+            case "$WORKFLOW_RUN_HEAD_BRANCH" in
+              computer-v*)
+                NEW="${WORKFLOW_RUN_HEAD_BRANCH#computer-v}"
+                ;;
+              *)
+                echo "Unexpected workflow_run head_branch '$WORKFLOW_RUN_HEAD_BRANCH'; expected computer-v*" >&2
+                exit 1
+                ;;
+            esac
+            # PREV: most recently published version that is not NEW.
+            # versions[] is publish-chronological, so filter NEW and
+            # take the tail. Works regardless of NEW propagation state
+            # (this query runs before the propagation wait).
+            PREV="$(npm view @slock-ai/computer versions --json \
+              | node -e 'const v=JSON.parse(require("fs").readFileSync(0,"utf8")).filter(x=>x!==process.argv[1]);process.stdout.write(v[v.length-1]||"")' \
+              "$NEW")"
+          else
+            # schedule (cron): regression watch on the current latest
+            # pair. Registry `latest` and second-to-last are correct
+            # here — no specific publish to chase.
+            NEW="$(npm view @slock-ai/computer version)"
+            PREV="$(npm view @slock-ai/computer versions --json \
+              | node -e 'const v=JSON.parse(require("fs").readFileSync(0,"utf8"));process.stdout.write(v[v.length-2]||"")')"
+          fi
+          if [ -z "$PREV" ] || [ -z "$NEW" ]; then
+            echo "Failed to resolve PREV=$PREV NEW=$NEW from event ${{ github.event_name }}" >&2
+            exit 1
+          fi
+          echo "prev=$PREV" >> "$GITHUB_OUTPUT"
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"
+          echo "Resolved: prev=$PREV new=$NEW"
+
+      # Belt-and-braces against npm CDN propagation lag. `workflow_run`
+      # filtering on publish success eliminates the "publish hasn't run
+      # yet" race, but `pnpm publish` returning success can still
+      # precede the registry CDN serving the new tag by 10-60s. Poll
+      # `npm view <pkg>@<ver> version` until the exact version is
+      # resolvable. Capped at 2 minutes; failing here is a real npm /
+      # publish-pipeline issue, not a transient.
+      - name: Wait for npm propagation
+        env:
+          PREV: ${{ steps.versions.outputs.prev }}
+          NEW: ${{ steps.versions.outputs.new }}
+        run: |
+          for ver in "$PREV" "$NEW"; do
+            echo "Waiting for @slock-ai/computer@$ver on registry..."
+            attempt=0
+            until [ "$(npm view "@slock-ai/computer@$ver" version 2>/dev/null)" = "$ver" ]; do
+              attempt=$((attempt + 1))
+              if [ "$attempt" -gt 24 ]; then
+                echo "Timed out waiting for @slock-ai/computer@$ver after $((attempt * 5))s" >&2
+                exit 1
+              fi
+              sleep 5
+            done
+            echo "  @slock-ai/computer@$ver resolvable after $((attempt * 5))s"
+          done
+
+      - name: Run upgrade contract smoke
+        env:
+          UPGRADE_CONTRACT_ARTIFACT_DIR: ${{ github.workspace }}/_artifacts
+        run: |
+          bash scripts/computer-upgrade-contract-smoke.sh \
+            "${{ steps.versions.outputs.prev }}" \
+            "${{ steps.versions.outputs.new }}"
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upgrade-contract-${{ matrix.node-version }}-${{ github.run_id }}
+          path: ${{ github.workspace }}/_artifacts
+          if-no-files-found: ignore
+          retention-days: 14

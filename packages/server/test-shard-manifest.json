@@ -1,0 +1,684 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-27T05:21:47.133Z",
+  "sourceCommit": "d358eeccdbce3a1e4d48bd05c09b2fb57867cfc8",
+  "nodeVersion": "v25.9.0",
+  "shardCount": 10,
+  "totalFiles": 122,
+  "totalDurationMsLocal": 859677,
+  "maxFileDurationMsLocal": 88932,
+  "fileTimings": [
+    {
+      "file": "src/routes/channels.api.test.ts",
+      "durationMs": 88932
+    },
+    {
+      "file": "src/routes/servers.api.test.ts",
+      "durationMs": 58369
+    },
+    {
+      "file": "src/routes/attachments.api.test.ts",
+      "durationMs": 31118
+    },
+    {
+      "file": "src/routes/internal.attestedSend.api.test.ts",
+      "durationMs": 29409
+    },
+    {
+      "file": "src/routes/internal.channelMembership.api.test.ts",
+      "durationMs": 28984
+    },
+    {
+      "file": "src/routes/internalAgentApi.auth.test.ts",
+      "durationMs": 28269
+    },
+    {
+      "file": "src/routes/messageTranslations.api.test.ts",
+      "durationMs": 24573
+    },
+    {
+      "file": "src/routes/deviceAuth.api.test.ts",
+      "durationMs": 22043
+    },
+    {
+      "file": "src/services/reminderService.contract.test.ts",
+      "durationMs": 19065
+    },
+    {
+      "file": "src/routes/internalAgentApi.send.test.ts",
+      "durationMs": 18966
+    },
+    {
+      "file": "src/services/messageMentions.contract.test.ts",
+      "durationMs": 17607
+    },
+    {
+      "file": "src/routes/computerAttach.api.test.ts",
+      "durationMs": 17157
+    },
+    {
+      "file": "src/routes/computerAdopt.api.test.ts",
+      "durationMs": 16066
+    },
+    {
+      "file": "src/routes/messages.api.test.ts",
+      "durationMs": 16000
+    },
+    {
+      "file": "src/routes/internal.profile.api.test.ts",
+      "durationMs": 15659
+    },
+    {
+      "file": "src/routes/actions.privateAccess.api.test.ts",
+      "durationMs": 14735
+    },
+    {
+      "file": "src/routes/auth.api.test.ts",
+      "durationMs": 14250
+    },
+    {
+      "file": "src/routes/agents.api.test.ts",
+      "durationMs": 14169
+    },
+    {
+      "file": "src/services/newsletterService.test.ts",
+      "durationMs": 13099
+    },
+    {
+      "file": "src/services/agentRuntimeProfileService.test.ts",
+      "durationMs": 12406
+    },
+    {
+      "file": "src/routes/channels.archive.api.test.ts",
+      "durationMs": 12257
+    },
+    {
+      "file": "src/routes/internalComputer.agentO11y.api.test.ts",
+      "durationMs": 11793
+    },
+    {
+      "file": "src/services/agentOrchestrator.deterministic.test.ts",
+      "durationMs": 11740
+    },
+    {
+      "file": "src/routes/serverAgreements.api.test.ts",
+      "durationMs": 11731
+    },
+    {
+      "file": "src/routes/internal.scopeAttestation.api.test.ts",
+      "durationMs": 10931
+    },
+    {
+      "file": "src/services/reminderWallClock.smoke.test.ts",
+      "durationMs": 10866
+    },
+    {
+      "file": "src/routes/servers.joinCommunity.api.test.ts",
+      "durationMs": 10550
+    },
+    {
+      "file": "src/routes/tasks.orphanCleanup.api.test.ts",
+      "durationMs": 10546
+    },
+    {
+      "file": "src/routes/announcements.api.test.ts",
+      "durationMs": 10087
+    },
+    {
+      "file": "src/services/agentService.status.test.ts",
+      "durationMs": 9865
+    },
+    {
+      "file": "src/services/agentService.batchEnrich.test.ts",
+      "durationMs": 9700
+    },
+    {
+      "file": "src/routes/agentCredentials.api.test.ts",
+      "durationMs": 9498
+    },
+    {
+      "file": "src/services/principalHandleUniqueness.test.ts",
+      "durationMs": 9003
+    },
+    {
+      "file": "src/routes/internal.search.api.test.ts",
+      "durationMs": 8943
+    },
+    {
+      "file": "src/routes/channels.getJoined.api.test.ts",
+      "durationMs": 8445
+    },
+    {
+      "file": "src/routes/internalComputer.runners.test.ts",
+      "durationMs": 8197
+    },
+    {
+      "file": "src/routes/internal.reminders.api.test.ts",
+      "durationMs": 7612
+    },
+    {
+      "file": "src/services/reminderRecurring.contract.test.ts",
+      "durationMs": 6967
+    },
+    {
+      "file": "src/routes/internal.test.ts",
+      "durationMs": 6624
+    },
+    {
+      "file": "src/services/inviteService.emailNormalization.test.ts",
+      "durationMs": 6617
+    },
+    {
+      "file": "src/routes/agentDiscovery.api.test.ts",
+      "durationMs": 6520
+    },
+    {
+      "file": "src/routes/internalComputer.preflight.test.ts",
+      "durationMs": 6345
+    },
+    {
+      "file": "src/services/agentScopesService.test.ts",
+      "durationMs": 6314
+    },
+    {
+      "file": "src/routes/reminders.api.test.ts",
+      "durationMs": 6161
+    },
+    {
+      "file": "src/routes/tasks.channelMembership.api.test.ts",
+      "durationMs": 6041
+    },
+    {
+      "file": "src/routes/channelFiles.api.test.ts",
+      "durationMs": 5764
+    },
+    {
+      "file": "src/services/reminderCancel.contract.test.ts",
+      "durationMs": 5544
+    },
+    {
+      "file": "src/routes/oauth.api.test.ts",
+      "durationMs": 5278
+    },
+    {
+      "file": "src/routes/productEvents.api.test.ts",
+      "durationMs": 5210
+    },
+    {
+      "file": "src/routes/internal.runtimeProfile.api.test.ts",
+      "durationMs": 5146
+    },
+    {
+      "file": "src/services/agentPermalinkRenderService.test.ts",
+      "durationMs": 4850
+    },
+    {
+      "file": "src/routes/agentLogin.gate.test.ts",
+      "durationMs": 4738
+    },
+    {
+      "file": "src/middleware/perfAttribution.test.ts",
+      "durationMs": 4458
+    },
+    {
+      "file": "src/routes/internalAgentApi.killSwitch.test.ts",
+      "durationMs": 4339
+    },
+    {
+      "file": "src/routes/internal.agentScope.api.test.ts",
+      "durationMs": 4248
+    },
+    {
+      "file": "src/routes/servers.scopeAttestation.api.test.ts",
+      "durationMs": 3986
+    },
+    {
+      "file": "src/routes/agents.credentials.gate.test.ts",
+      "durationMs": 3930
+    },
+    {
+      "file": "src/services/agentActivityLogService.test.ts",
+      "durationMs": 3461
+    },
+    {
+      "file": "src/services/reminderScheduler.contract.test.ts",
+      "durationMs": 3159
+    },
+    {
+      "file": "src/services/userService.emailNormalization.test.ts",
+      "durationMs": 2878
+    },
+    {
+      "file": "src/services/planService.test.ts",
+      "durationMs": 2680
+    },
+    {
+      "file": "src/middleware/agentRouteScopeCoverage.test.ts",
+      "durationMs": 1986
+    },
+    {
+      "file": "src/services/messageService.test.ts",
+      "durationMs": 1771
+    },
+    {
+      "file": "src/socket/traceMetadata.test.ts",
+      "durationMs": 1744
+    },
+    {
+      "file": "src/services/agentOrchestrator.statusPlan.test.ts",
+      "durationMs": 1711
+    },
+    {
+      "file": "src/services/agentOrchestrator.sendToMachinePlan.test.ts",
+      "durationMs": 1702
+    },
+    {
+      "file": "src/services/agentOrchestrator.readyPlan.test.ts",
+      "durationMs": 1678
+    },
+    {
+      "file": "src/services/agentOrchestrator.receivePlan.test.ts",
+      "durationMs": 1663
+    },
+    {
+      "file": "src/services/agentOrchestrator.activityBroadcastPlan.test.ts",
+      "durationMs": 1641
+    },
+    {
+      "file": "src/services/productEventsService.test.ts",
+      "durationMs": 1634
+    },
+    {
+      "file": "src/services/agentOrchestrator.stopPlan.test.ts",
+      "durationMs": 1632
+    },
+    {
+      "file": "src/services/messageService.summarize.test.ts",
+      "durationMs": 1613
+    },
+    {
+      "file": "src/socket/index.test.ts",
+      "durationMs": 1593
+    },
+    {
+      "file": "src/services/agentOrchestrator.resetPlan.test.ts",
+      "durationMs": 1580
+    },
+    {
+      "file": "src/services/agentSendReplayService.test.ts",
+      "durationMs": 1577
+    },
+    {
+      "file": "src/services/agentOrchestrator.ackPlan.test.ts",
+      "durationMs": 1562
+    },
+    {
+      "file": "src/services/agentOrchestrator.launchGuardVersion.test.ts",
+      "durationMs": 1553
+    },
+    {
+      "file": "src/services/agentOrchestrator.machineReachabilityPlan.test.ts",
+      "durationMs": 1549
+    },
+    {
+      "file": "src/services/agentOrchestrator.staleActivityPlan.test.ts",
+      "durationMs": 1549
+    },
+    {
+      "file": "src/services/agentOrchestrator.localInboxPlan.test.ts",
+      "durationMs": 1545
+    },
+    {
+      "file": "src/services/agentOrchestrator.lifecycleAcceptancePlan.test.ts",
+      "durationMs": 1540
+    },
+    {
+      "file": "src/services/agentOrchestrator.localDeliveryPlan.test.ts",
+      "durationMs": 1540
+    },
+    {
+      "file": "src/services/agentOrchestrator.sessionPlan.test.ts",
+      "durationMs": 1527
+    },
+    {
+      "file": "src/services/agentOrchestrator.readCursorPlan.test.ts",
+      "durationMs": 1520
+    },
+    {
+      "file": "src/services/agentOrchestrator.activityHintPlan.test.ts",
+      "durationMs": 1505
+    },
+    {
+      "file": "src/routes/attachments.test.ts",
+      "durationMs": 1499
+    },
+    {
+      "file": "src/services/agentOrchestrator.routedOwnershipPlan.test.ts",
+      "durationMs": 1482
+    },
+    {
+      "file": "src/services/searchService.test.ts",
+      "durationMs": 1481
+    },
+    {
+      "file": "src/services/agentOrchestrator.activityPlan.test.ts",
+      "durationMs": 1460
+    },
+    {
+      "file": "src/services/onboardingService.activationPlan.test.ts",
+      "durationMs": 1459
+    },
+    {
+      "file": "src/services/onboardingService.test.ts",
+      "durationMs": 1457
+    },
+    {
+      "file": "src/services/agentOrchestrator.staleTransientPlan.test.ts",
+      "durationMs": 1428
+    },
+    {
+      "file": "src/services/agentOrchestrator.wakePlan.test.ts",
+      "durationMs": 1406
+    },
+    {
+      "file": "src/services/attachmentPreviews/registry.test.ts",
+      "durationMs": 1307
+    },
+    {
+      "file": "src/services/storageService.test.ts",
+      "durationMs": 1275
+    },
+    {
+      "file": "src/middleware/auth.test.ts",
+      "durationMs": 1234
+    },
+    {
+      "file": "src/services/sessionService.test.ts",
+      "durationMs": 1108
+    },
+    {
+      "file": "src/services/oauthService.test.ts",
+      "durationMs": 1017
+    },
+    {
+      "file": "src/services/socialAuthService.test.ts",
+      "durationMs": 1017
+    },
+    {
+      "file": "src/tracing/otlpHttpTraceSink.test.ts",
+      "durationMs": 523
+    },
+    {
+      "file": "src/services/agentLifecycleEvents.test.ts",
+      "durationMs": 520
+    },
+    {
+      "file": "src/middleware/requestObservability.test.ts",
+      "durationMs": 466
+    },
+    {
+      "file": "src/services/agentLifecycleReducer.test.ts",
+      "durationMs": 436
+    },
+    {
+      "file": "src/services/translation/providers/google.test.ts",
+      "durationMs": 435
+    },
+    {
+      "file": "src/services/attachmentPreviews/documentProviders.test.ts",
+      "durationMs": 412
+    },
+    {
+      "file": "src/services/translation/providers/azure.test.ts",
+      "durationMs": 412
+    },
+    {
+      "file": "src/tracing/semanticTrace.test.ts",
+      "durationMs": 409
+    },
+    {
+      "file": "src/tracing/serverTracer.test.ts",
+      "durationMs": 379
+    },
+    {
+      "file": "src/services/translation/providers/volcengine.test.ts",
+      "durationMs": 350
+    },
+    {
+      "file": "src/services/emailService.test.ts",
+      "durationMs": 332
+    },
+    {
+      "file": "src/services/agentDaemonReleaseNotes.test.ts",
+      "durationMs": 314
+    },
+    {
+      "file": "src/services/daemonVersionService.test.ts",
+      "durationMs": 313
+    },
+    {
+      "file": "src/services/registrationPolicy.test.ts",
+      "durationMs": 306
+    },
+    {
+      "file": "src/routes/otlpRelay.test.ts",
+      "durationMs": 305
+    },
+    {
+      "file": "src/services/reminderScheduleInput.test.ts",
+      "durationMs": 301
+    },
+    {
+      "file": "src/middleware/slockdevActivity.test.ts",
+      "durationMs": 298
+    },
+    {
+      "file": "src/services/recurrence.test.ts",
+      "durationMs": 297
+    },
+    {
+      "file": "src/services/taskRealtimeEvents.test.ts",
+      "durationMs": 296
+    },
+    {
+      "file": "src/services/translation/placeholderValidator.test.ts",
+      "durationMs": 291
+    },
+    {
+      "file": "src/services/attachmentPreviews/diffPatchProvider.test.ts",
+      "durationMs": 289
+    },
+    {
+      "file": "src/services/channelDmAvatarSource.test.ts",
+      "durationMs": 284
+    },
+    {
+      "file": "src/version.test.ts",
+      "durationMs": 266
+    }
+  ],
+  "shards": [
+    {
+      "shard": 1,
+      "expectedDurationMs": 88932,
+      "files": [
+        "src/routes/channels.api.test.ts"
+      ]
+    },
+    {
+      "shard": 2,
+      "expectedDurationMs": 85648,
+      "files": [
+        "src/middleware/agentRouteScopeCoverage.test.ts",
+        "src/middleware/perfAttribution.test.ts",
+        "src/routes/channels.getJoined.api.test.ts",
+        "src/routes/reminders.api.test.ts",
+        "src/routes/servers.api.test.ts",
+        "src/services/agentLifecycleReducer.test.ts",
+        "src/services/agentOrchestrator.localDeliveryPlan.test.ts",
+        "src/services/onboardingService.test.ts",
+        "src/services/reminderScheduleInput.test.ts",
+        "src/socket/index.test.ts",
+        "src/tracing/otlpHttpTraceSink.test.ts",
+        "src/tracing/serverTracer.test.ts"
+      ]
+    },
+    {
+      "shard": 3,
+      "expectedDurationMs": 85651,
+      "files": [
+        "src/routes/agentLogin.gate.test.ts",
+        "src/routes/agents.api.test.ts",
+        "src/routes/attachments.api.test.ts",
+        "src/routes/internal.search.api.test.ts",
+        "src/services/agentOrchestrator.activityPlan.test.ts",
+        "src/services/agentOrchestrator.localInboxPlan.test.ts",
+        "src/services/agentScopesService.test.ts",
+        "src/services/messageService.summarize.test.ts",
+        "src/services/oauthService.test.ts",
+        "src/services/recurrence.test.ts",
+        "src/services/reminderScheduler.contract.test.ts",
+        "src/services/reminderWallClock.smoke.test.ts",
+        "src/services/translation/providers/azure.test.ts"
+      ]
+    },
+    {
+      "shard": 4,
+      "expectedDurationMs": 85653,
+      "files": [
+        "src/routes/agentCredentials.api.test.ts",
+        "src/routes/auth.api.test.ts",
+        "src/routes/internal.attestedSend.api.test.ts",
+        "src/routes/internalComputer.preflight.test.ts",
+        "src/services/agentActivityLogService.test.ts",
+        "src/services/agentDaemonReleaseNotes.test.ts",
+        "src/services/agentLifecycleEvents.test.ts",
+        "src/services/agentOrchestrator.deterministic.test.ts",
+        "src/services/agentOrchestrator.resetPlan.test.ts",
+        "src/services/agentOrchestrator.sessionPlan.test.ts",
+        "src/services/agentOrchestrator.staleTransientPlan.test.ts",
+        "src/services/agentPermalinkRenderService.test.ts",
+        "src/services/taskRealtimeEvents.test.ts",
+        "src/services/translation/providers/google.test.ts"
+      ]
+    },
+    {
+      "shard": 5,
+      "expectedDurationMs": 85653,
+      "files": [
+        "src/routes/actions.privateAccess.api.test.ts",
+        "src/routes/internal.channelMembership.api.test.ts",
+        "src/routes/productEvents.api.test.ts",
+        "src/routes/serverAgreements.api.test.ts",
+        "src/services/agentOrchestrator.ackPlan.test.ts",
+        "src/services/agentOrchestrator.activityHintPlan.test.ts",
+        "src/services/agentOrchestrator.readyPlan.test.ts",
+        "src/services/attachmentPreviews/registry.test.ts",
+        "src/services/inviteService.emailNormalization.test.ts",
+        "src/services/planService.test.ts",
+        "src/services/principalHandleUniqueness.test.ts",
+        "src/services/translation/placeholderValidator.test.ts",
+        "src/services/translation/providers/volcengine.test.ts"
+      ]
+    },
+    {
+      "shard": 6,
+      "expectedDurationMs": 85690,
+      "files": [
+        "src/routes/agentDiscovery.api.test.ts",
+        "src/routes/attachments.test.ts",
+        "src/routes/internal.profile.api.test.ts",
+        "src/routes/internal.runtimeProfile.api.test.ts",
+        "src/routes/internal.scopeAttestation.api.test.ts",
+        "src/routes/internalAgentApi.auth.test.ts",
+        "src/services/agentOrchestrator.launchGuardVersion.test.ts",
+        "src/services/agentOrchestrator.receivePlan.test.ts",
+        "src/services/agentService.batchEnrich.test.ts",
+        "src/services/channelDmAvatarSource.test.ts",
+        "src/services/daemonVersionService.test.ts",
+        "src/services/storageService.test.ts",
+        "src/services/userService.emailNormalization.test.ts"
+      ]
+    },
+    {
+      "shard": 7,
+      "expectedDurationMs": 85451,
+      "files": [
+        "src/middleware/requestObservability.test.ts",
+        "src/routes/agents.credentials.gate.test.ts",
+        "src/routes/internal.test.ts",
+        "src/routes/internalComputer.agentO11y.api.test.ts",
+        "src/routes/messageTranslations.api.test.ts",
+        "src/routes/messages.api.test.ts",
+        "src/routes/oauth.api.test.ts",
+        "src/routes/otlpRelay.test.ts",
+        "src/services/agentOrchestrator.readCursorPlan.test.ts",
+        "src/services/agentOrchestrator.sendToMachinePlan.test.ts",
+        "src/services/agentOrchestrator.wakePlan.test.ts",
+        "src/services/agentSendReplayService.test.ts",
+        "src/services/agentService.status.test.ts",
+        "src/services/attachmentPreviews/documentProviders.test.ts"
+      ]
+    },
+    {
+      "shard": 8,
+      "expectedDurationMs": 85696,
+      "files": [
+        "src/middleware/auth.test.ts",
+        "src/routes/announcements.api.test.ts",
+        "src/routes/channels.archive.api.test.ts",
+        "src/routes/computerAdopt.api.test.ts",
+        "src/routes/deviceAuth.api.test.ts",
+        "src/routes/servers.scopeAttestation.api.test.ts",
+        "src/routes/tasks.channelMembership.api.test.ts",
+        "src/services/agentOrchestrator.activityBroadcastPlan.test.ts",
+        "src/services/agentOrchestrator.machineReachabilityPlan.test.ts",
+        "src/services/agentOrchestrator.routedOwnershipPlan.test.ts",
+        "src/services/messageService.test.ts",
+        "src/services/registrationPolicy.test.ts",
+        "src/services/reminderRecurring.contract.test.ts",
+        "src/version.test.ts"
+      ]
+    },
+    {
+      "shard": 9,
+      "expectedDurationMs": 85653,
+      "files": [
+        "src/routes/channelFiles.api.test.ts",
+        "src/routes/computerAttach.api.test.ts",
+        "src/routes/internal.reminders.api.test.ts",
+        "src/routes/internalAgentApi.killSwitch.test.ts",
+        "src/routes/tasks.orphanCleanup.api.test.ts",
+        "src/services/agentOrchestrator.lifecycleAcceptancePlan.test.ts",
+        "src/services/agentOrchestrator.statusPlan.test.ts",
+        "src/services/agentOrchestrator.stopPlan.test.ts",
+        "src/services/attachmentPreviews/diffPatchProvider.test.ts",
+        "src/services/emailService.test.ts",
+        "src/services/newsletterService.test.ts",
+        "src/services/onboardingService.activationPlan.test.ts",
+        "src/services/reminderService.contract.test.ts",
+        "src/services/sessionService.test.ts"
+      ]
+    },
+    {
+      "shard": 10,
+      "expectedDurationMs": 85650,
+      "files": [
+        "src/middleware/slockdevActivity.test.ts",
+        "src/routes/internal.agentScope.api.test.ts",
+        "src/routes/internalAgentApi.send.test.ts",
+        "src/routes/internalComputer.runners.test.ts",
+        "src/routes/servers.joinCommunity.api.test.ts",
+        "src/services/agentOrchestrator.staleActivityPlan.test.ts",
+        "src/services/agentRuntimeProfileService.test.ts",
+        "src/services/messageMentions.contract.test.ts",
+        "src/services/productEventsService.test.ts",
+        "src/services/reminderCancel.contract.test.ts",
+        "src/services/searchService.test.ts",
+        "src/services/socialAuthService.test.ts",
+        "src/socket/traceMetadata.test.ts",
+        "src/tracing/semanticTrace.test.ts"
+      ]
+    }
+  ]
+}

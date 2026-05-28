@@ -1,0 +1,45 @@
+app = "slock-server-staging"
+primary_region = "sin"
+
+[build]
+  dockerfile = "packages/server/Dockerfile"
+
+[deploy]
+  release_command = "bash -c 'set -o pipefail; cd /app/packages/server && npx drizzle-kit migrate 2>&1 | cat'"
+  strategy = "rolling"
+
+[env]
+  NODE_ENV = "production"
+  DEPLOYMENT_ENV = "staging"
+  PORT = "3001"
+  SLOCK_TRACE_OTLP_ENDPOINT = "http://slock-telescope-staging.internal:4318"
+  SLOCK_TRACE_SERVICE_NAME = "slock-server-staging"
+  SLOCK_DISABLE_MIGRATION_NUDGE_PIGGYBACK = "true"
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 10000
+    soft_limit = 8000
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "8s"
+    grace_period = "60s"
+    method = "GET"
+    path = "/health"
+
+[metrics]
+  port = 9091
+  path = "/metrics"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+  processes = ["app"]

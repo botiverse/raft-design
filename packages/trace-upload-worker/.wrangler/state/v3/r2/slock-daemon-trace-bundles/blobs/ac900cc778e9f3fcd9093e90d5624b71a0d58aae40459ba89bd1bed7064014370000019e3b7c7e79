@@ -1,0 +1,17 @@
+{
+  "type": "daemon_trace_upload",
+  "schema_version": 1,
+  "updated_at": "2026-05-18T14:27:55.129Z",
+  "upload_id": "1eea9b3a-3e2c-46ef-a70e-a1e336f609f6",
+  "bundle_id": "9ab12859-54d2-414b-9007-7e847f9c4314",
+  "object_key": "trace-bundles/05e7482c-620f-4e6d-8a14-3a13d08e91fe/d47bea1f-eb90-4b52-9160-156f09378d80/1eea9b3a-3e2c-46ef-a70e-a1e336f609f6.jsonl.gz",
+  "ledger_key": "trace-ledgers/05e7482c-620f-4e6d-8a14-3a13d08e91fe/d47bea1f-eb90-4b52-9160-156f09378d80/1eea9b3a-3e2c-46ef-a70e-a1e336f609f6.json",
+  "bundle_sha256": "988eda7fc9cbd7d198a9c08b446481507d932b6cdd9b55e81073091b2f8c6efd",
+  "bundle_size_bytes": 3328,
+  "server_id": "05e7482c-620f-4e6d-8a14-3a13d08e91fe",
+  "machine_id": "d47bea1f-eb90-4b52-9160-156f09378d80",
+  "deployment_environment": "slockdev",
+  "span_key_identity": "serverId:machineId:bundleSha256:trace_id:span_id",
+  "r2_status": "success",
+  "scopedb_status": "skipped"
+}

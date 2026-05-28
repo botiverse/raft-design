@@ -1,0 +1,50 @@
+{
+  "name": "@slock-ai/daemon-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/main.js",
+  "scripts": {
+    "check:electron": "node scripts/check-electron-install.mjs",
+    "typecheck": "tsc --noEmit",
+    "build:deps": "pnpm --filter @slock-ai/daemon build",
+    "build:main": "tsup --config tsup.config.ts",
+    "build:renderer": "vite build",
+    "postbuild:renderer": "node scripts/check-renderer-build.mjs",
+    "build": "pnpm run build:deps && pnpm run build:main && pnpm run build:renderer",
+    "prestart": "pnpm run check:electron && pnpm run build",
+    "start": "electron .",
+    "screenshots": "node scripts/run-screenshots.mjs",
+    "screenshots:verify": "node scripts/verify-screenshots.mjs",
+    "presmoke": "pnpm run check:electron && pnpm run build",
+    "smoke": "electron . --smoke-test",
+    "test:unit": "node scripts/run-unit-tests.mjs",
+    "fixture-isolated-exit": "node scripts/fixtures/isolated-exit.mjs",
+    "fixture-isolated-wait": "node scripts/fixtures/isolated-wait.mjs",
+    "smoke:isolated": "node scripts/run-isolated-app.mjs smoke",
+    "screenshots:isolated": "node scripts/run-isolated-app.mjs screenshots",
+    "start:isolated": "node scripts/run-isolated-app.mjs start",
+    "verify": "pnpm run typecheck && pnpm run test:unit && pnpm run smoke:isolated",
+    "verify:stack": "pnpm --filter @slock-ai/daemon typecheck && pnpm --filter @slock-ai/daemon build && pnpm --filter @slock-ai/server typecheck && pnpm --filter @slock-ai/server build && pnpm run verify"
+  },
+  "dependencies": {
+    "@slock-ai/daemon": "workspace:*",
+    "@slock-ai/shared": "workspace:*",
+    "electron": "^36.2.1",
+    "lucide-react": "^0.575.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}

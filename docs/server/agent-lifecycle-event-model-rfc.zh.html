@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RFC：Agent 生命周期事件模型 + Tracing 协同设计</title>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      securityLevel: "loose",
+      themeVariables: {
+        background: "#f7f1e6",
+        primaryColor: "#fffaf0",
+        primaryTextColor: "#1d241f",
+        primaryBorderColor: "#aa9d86",
+        lineColor: "#7d715f",
+        secondaryColor: "#e7efe4",
+        tertiaryColor: "#efe8ff",
+        noteBkgColor: "#fff3cc",
+        noteTextColor: "#1d241f",
+        fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+      }
+    });
+  </script>
+  <style>
+    :root {
+      --paper: #fbf4e8;
+      --paper-2: #f1e7d8;
+      --ink: #1c211d;
+      --muted: #667064;
+      --line: #c5b8a3;
+      --card: rgba(255, 251, 243, 0.9);
+      --green: #496f4a;
+      --blue: #315f73;
+      --amber: #a86f24;
+      --red: #a94c3f;
+      --purple: #69558b;
+      --code: #111813;
+      --shadow: 0 18px 50px rgba(41, 33, 22, 0.14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% -10%, rgba(168, 111, 36, 0.24), transparent 30%),
+        radial-gradient(circle at 90% 0%, rgba(49, 95, 115, 0.22), transparent 35%),
+        linear-gradient(135deg, var(--paper), var(--paper-2));
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main { max-width: 1220px; margin: 0 auto; padding: 38px 28px 64px; }
+    header {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    h1 {
+      margin: 0;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 6vw, 76px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+    .subtitle { margin-top: 18px; max-width: 780px; color: var(--muted); font-size: 18px; }
+    .meta {
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: 22px;
+      padding: 18px;
+      font-size: 14px;
+    }
+    .meta div { margin: 7px 0; }
+    section {
+      margin: 24px 0;
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: 26px;
+      padding: 24px;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      letter-spacing: -0.035em;
+    }
+    h3 { margin: 22px 0 8px; font-size: 18px; letter-spacing: -0.01em; }
+    p { margin: 9px 0; }
+    ul { padding-left: 21px; }
+    li { margin: 6px 0; }
+    .callout {
+      border-left: 7px solid var(--blue);
+      background: #fffdf8;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin: 14px 0;
+    }
+    .callout.warn { border-left-color: var(--amber); }
+    .callout.danger { border-left-color: var(--red); }
+    .callout.good { border-left-color: var(--green); }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card {
+      border: 1px solid var(--line);
+      background: #fffdf8;
+      border-radius: 18px;
+      padding: 16px;
+      min-height: 128px;
+    }
+    .card h3 { margin-top: 0; }
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eee1cf;
+      color: #4e4437;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    .pill.green { background: #dcebd9; color: #274d2c; }
+    .pill.blue { background: #dcebf0; color: #244a5a; }
+    .pill.red { background: #f2d9d3; color: #743028; }
+    .pill.purple { background: #e8def7; color: #463264; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; border-radius: 14px; font-size: 14px; }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+      background: rgba(255,255,255,0.55);
+    }
+    th { text-align: left; background: #eadfce; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    code { background: #efe4d1; border-radius: 5px; padding: 1px 5px; font-size: 0.94em; }
+    pre.code {
+      background: var(--code);
+      color: #e4f0e3;
+      border-radius: 18px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    .diagram {
+      background: #fffdf8;
+      border: 1px dashed #b6aa96;
+      border-radius: 20px;
+      padding: 14px;
+      margin: 14px 0 20px;
+      overflow-x: auto;
+    }
+    .diagram .mermaid { min-width: 820px; }
+    .toc { columns: 2; font-size: 14px; }
+    .toc a { color: var(--blue); text-decoration: none; }
+    .small { color: var(--muted); font-size: 13px; }
+    @media (max-width: 880px) {
+      main { padding: 24px 14px 48px; }
+      header, .cards { grid-template-columns: 1fr; }
+      .toc { columns: 1; }
+      section { padding: 18px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Agent 生命周期事件模型</h1>
+      <div class="subtitle">
+        这份 RFC 目标是把 Slock 当前分散的 agent status / activity / daemon trace 行为，收敛成一套 canonical lifecycle event、reducer、projection 和 ScopeDB tracing contract。
+      </div>
+    </div>
+    <div class="meta">
+      <div><b>Owner:</b> @Hao</div>
+      <div><b>Observability co-design:</b> @Leiysky</div>
+      <div>
+        <b>Discussion:</b>
+        <a href="https://app.slock.ai/s/botiverse/channel/91592d8c-5c5f-4d8f-bb6c-f2aa7b7a85b5?thread=91592d8c-5c5f-4d8f-bb6c-f2aa7b7a85b5%3A4dbe9aa7-8df4-40cf-ab20-69a6a9d0f60a&amp;msg=4dbe9aa7-8df4-40cf-ab20-69a6a9d0f60a">#proj-runtime:4dbe9aa7</a>
+        <span class="small">(#proj-runtime msg=4dbe9aa7)</span>
+      </div>
+      <div><b>Task:</b> #proj-runtime:4dbe9aa7 / task #164</div>
+      <div><b>Date:</b> 2026-05-12</div>
+      <div><b>Status:</b> Checked-in RFC/design reference for PR #1683; implementation follows the adapter → reducer → projection writer boundary.</div>
+    </div>
+  </header>
+
+  <section id="summary">
+    <h2>1. 摘要</h2>
+    <div class="callout danger">
+      当前系统已经“事实上”形成了一台状态机，但这台状态机是隐式的、分散的：<code>agents.status</code>、live activity、Activity Log、daemon trace、ready reconcile 各自写一部分事实。结果是同一个 <code>offline/Stopped</code> 可能表示用户手动 Stop、daemon 升级、机器断线、runtime crash 或 ready reconcile 缺失，用户和工程师都需要手工拼接上下文。
+    </div>
+    <p>
+      RFC 建议把 lifecycle 改成一等 event pipeline：所有 user command、daemon lifecycle、runtime process、ready reconcile、migration control 都先写成 canonical lifecycle event envelope，再由 reducer 读取显式的 in-memory state snapshot 并生成 projection plan，然后投影出 DB status、authoritative wake eligibility、live activity、durable Activity Log 和 ScopeDB trace rows。
+    </p>
+    <pre class="code">canonical lifecycle event
+  -> lifecycle reducer
+  -> intent_state / machine_reachability / runtime_state / control_gate
+  -> db_status / authoritative_wake_eligibility / live_activity / activity_log / trace projections</pre>
+  </section>
+
+  <section id="toc">
+    <h2>2. 目录</h2>
+    <div class="toc">
+      <p><a href="#current">3. 当前隐式模型</a></p>
+      <p><a href="#incidents">4. 必须覆盖的历史事故模式</a></p>
+      <p><a href="#principles">5. 设计原则</a></p>
+      <p><a href="#concepts">6. 核心概念</a></p>
+      <p><a href="#events">7. 事件分类</a></p>
+      <p><a href="#states">8. 状态模型</a></p>
+      <p><a href="#reducer">9. Reducer 与 Projection 规则</a></p>
+      <p><a href="#concurrency">10. 并发模型</a></p>
+      <p><a href="#tracing">11. Tracing Contract</a></p>
+      <p><a href="#rollout">12. Rollout 查询</a></p>
+      <p><a href="#external">13. External Agent Projection</a></p>
+      <p><a href="#flows">14. Mermaid 架构图</a></p>
+      <p><a href="#migration">15. 迁移计划</a></p>
+      <p><a href="#acceptance">16. 验收场景</a></p>
+      <p><a href="#open">17. Open Decisions</a></p>
+      <p><a href="#recommendation">18. 建议</a></p>
+    </div>
+  </section>
+
+  <section id="current">
+    <h2>3. 当前隐式模型</h2>
+    <p>当前 lifecycle 行为分散在五条路径里。每条路径单独看都有道理，但合起来没有一个统一 reducer。</p>
+    <div class="diagram">
+      <pre class="mermaid">
+flowchart LR
+  subgraph Server
+    A[agents.status<br/>active / inactive / stopped]
+    B[live agent.activity<br/>online / working / thinking / offline / error]
+    C[durable Activity Log<br/>trajectory entries]
+    D[ready reconcile<br/>daemon runningAgents diff]
+  end
+  subgraph Daemon
+    E[process lifecycle<br/>spawn / close / crash / stop]
+    F[agent:status + agent:activity]
+    G[daemon traces<br/>daemon.lifecycle.stop / ready.sent]
+  end
+  subgraph Web
+    H[dot / profile activity<br/>label projection]
+  end
+  E --> F --> B
+  F --> A
+  D --> A
+  D --> B
+  B --> C
+  G -. manual debugging .-> C
+  A --> H
+  B --> H
+  C --> H
+      </pre>
+    </div>
+    <table>
+      <thead><tr><th>当前组件</th><th>角色</th><th>问题</th></tr></thead>
+      <tbody>
+        <tr><td><code>agents.status</code></td><td>偏产品/lifecycle 的持久字段，当前值类似 <code>active</code>、<code>inactive</code>、<code>stopped</code>。</td><td>粒度太粗，分不清 manual stop、daemon interrupted、sleeping、recovering。</td></tr>
+        <tr><td><code>agent.activity</code></td><td>给 dot/current state 用的 live read model，例如 <code>online</code>、<code>working</code>、<code>offline</code>。</td><td>经常把 lifecycle 语义塞进字符串 detail，例如 <code>offline/Stopped</code>。</td></tr>
+        <tr><td>Activity Log / trajectory</td><td>用户可见的持久历史。</td><td>会持久化部分 status-only entry，但没有 canonical reason/correlation/idempotency。</td></tr>
+        <tr><td>daemon traces</td><td>daemon lifecycle/runtime 的诊断事实。</td><td>和产品状态分离，事故排查时需要人工 join。</td></tr>
+        <tr><td>ready reconcile</td><td>server 用 DB agents 和 daemon reported runningAgents 做 diff。</td><td>可能把同一个 missing active agent 多次投影成 <code>offline/Stopped</code>。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="incidents">
+    <h2>4. 必须覆盖的历史事故模式</h2>
+    <table>
+      <thead><tr><th>事故模式</th><th>发生过的问题</th><th>RFC 必须提供的能力</th></tr></thead>
+      <tbody>
+        <tr><td>Starting vs Stopped 不对称<br/><span class="small">#proj-runtime:9debd7fb</span></td><td><code>Starting</code> 曾经只是 live hint，而 <code>Stopped</code> 会进 durable log。</td><td>明确哪些 lifecycle event 进入 durable projection，而不是由 activity persistence policy 隐式决定。</td></tr>
+        <tr><td>Stop 按钮与绿点/read-model 分叉<br/><span class="small">task #393</span></td><td>用户点 Stop 后仍看到绿点，说明 user Stop、lazy wake、dot projection 没有统一 source of truth。</td><td><code>manual_stop_requested</code> 应进入 <code>manual_stopped</code>，并投影出 no-wake 和灰点。</td></tr>
+        <tr><td>Daemon upgrade/restart 产生多条普通 Stopped<br/><span class="small">@哭哭 case / task #163</span></td><td>一次 daemon lifecycle stop + 多次 ready reconcile 被投影成多条 <code>Stopped</code>。</td><td>事件需要 <code>reason=daemon_upgrade</code>、<code>correlationId</code>、<code>idempotencyKey</code>，Activity Log 要 dedupe。</td></tr>
+        <tr><td>false-green / runtime stalled</td><td>agent 看起来 online/idle，但 runtime 实际不可服务或 stalled。</td><td>区分 <code>available_sleeping</code>、<code>running_idle</code>、<code>stalled/recovering/interrupted</code>。</td></tr>
+        <tr><td>migration pending + false Idle</td><td>runtime profile migration 未完成时显示 Idle，用户以为 agent 可正常工作。</td><td>migration/control state 必须是一等 lifecycle/control reason，不能投影成普通 Idle。</td></tr>
+        <tr><td>offline 家族语义坍缩</td><td><code>Stopped</code>、<code>Machine disconnected</code>、<code>Process unavailable</code>、<code>Crashed</code> 都落入 offline 家族。</td><td>Activity Log 应从 canonical reason 投影用户可解释文案，而不是从 <code>offline</code> 猜。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="principles">
+    <h2>5. 设计原则</h2>
+    <div class="cards">
+      <div class="card"><h3>Event First</h3><p>状态变化先表示为 canonical lifecycle event，再由 reducer 生成当前状态和投影。</p></div>
+      <div class="card"><h3>Orthogonal State</h3><p><code>manual_stopped</code>、<code>machine_unreachable</code>、<code>migration_pending</code>、<code>working</code> 不是同一维度的互斥状态。</p></div>
+      <div class="card"><h3>Projection, Not Truth</h3><p><code>status</code>、dot、Activity Log、trace 都是 projection，不是独立事实源。</p></div>
+      <div class="card"><h3>Reason Required</h3><p>任何停止/中断/离线都必须带 reason/source，不能只写 <code>offline</code>。</p></div>
+      <div class="card"><h3>Observable Dedupe</h3><p>dedupe 不能静默发生；ScopeDB 里要能看到 <code>outcome=deduped</code>。</p></div>
+      <div class="card"><h3>Tracing Co-Design</h3><p>lifecycle event identity、correlation、projection rows 必须和 ScopeDB 查询一起设计。</p></div>
+      <div class="card"><h3>Authoritative Wake</h3><p>delivery/lazy wake 只能读 reducer state snapshot / wake plan 或持久 wake eligibility projection，不能从 live cache 猜。</p></div>
+    </div>
+  </section>
+
+  <section id="concepts">
+    <h2>6. 核心概念</h2>
+    <h3>6.1 Canonical lifecycle event</h3>
+    <p>当前 PR #1683 实现里，canonical lifecycle event 是 server handler 内构造的 typed envelope，用来描述 agent lifecycle 发生了什么。它不是新增的 durable DB event row，也不是可 replay 的 append-only ledger。</p>
+    <pre class="code">type LifecycleEvent = {
+  lifecycleEventId: string;
+  serverId: string;
+  agentId: string;
+  machineId?: string;
+  launchId?: string;
+  eventType: LifecycleEventType;
+  actor: "human" | "agent" | "daemon" | "server" | "system";
+  source: "web" | "api" | "daemon" | "ready_reconcile" | "runtime" | "scheduler" | "external_cli";
+  reason: LifecycleReason;
+  correlationId: string;
+  idempotencyKey: string;
+  occurredAt: string;
+  attrs?: Record&lt;string, string | number | boolean&gt;; // low cardinality only
+};</pre>
+    <div class="callout warn">
+      <b>Identity separation:</b> <code>lifecycleEventId</code>、<code>correlationId</code>、<code>idempotencyKey</code> 是 canonical lifecycle identity。<code>traceId</code> / <code>spanId</code> 是 tracing 系统的 observation identity，不能成为 lifecycle source of truth。
+    </div>
+    <h3>6.2 Lifecycle reducer</h3>
+    <p>纯逻辑：输入 explicit state snapshot + lifecycle event，输出 projection plan。当前 snapshot 是内存对象，由现有 DB/cache/control-gate 信息即时组装，不单独持久化。</p>
+    <pre class="code">type AgentLifecycleStateSnapshot = {
+  intentState: "running_allowed" | "manual_stopped" | "deleted";
+  machineReachability: "reachable" | "degraded" | "unreachable" | "unknown";
+  runtimeState: "not_running" | "starting" | "running_idle" | "working" | "thinking" | "interrupted" | "crashed" | "stalled";
+  controlGate: "open" | "runtime_profile_migration" | "reset_window";
+  dbStatus: "active" | "inactive" | "stopped"; // legacy physical projection/input
+  resetMode: "restart" | "session" | "full" | null;
+  machineId?: string | null;
+  sessionId?: string | null;
+  launchId?: string | null;
+};</pre>
+    <div class="callout warn">
+      <b>Important:</b> 这四个维度是正交的，不是一个互斥 enum。<code>manual_stopped + machine_unreachable</code>、<code>migration_pending + not_running</code>、<code>running_allowed + machine_unreachable + interrupted</code> 都可能同时成立。Reducer 必须输出 tuple，再由 projection layer 组合成 dot、log、wake eligibility 和 legacy <code>AgentStatus</code>。
+    </div>
+    <h3>6.3 Authoritative state snapshot</h3>
+    <p>用于 scheduling / wake / delivery 决策的 canonical state snapshot，不等同于 UI dot。当前实现用 <code>AgentLifecycleStateSnapshot</code> 在代码里显式表达这个 tuple；它由旧 <code>agents.status</code>、reset window、runtime profile migration gate、machine reachability、session/launch 信息组合而来。它不是新的 durable source of truth，也不能 replay；如果未来需要 replay/CAS，需要把这个 snapshot 加 version 后持久化。</p>
+    <h3>6.4 Projections</h3>
+    <ul>
+      <li><b>DB status projection:</b> 兼容现有 API/UI 的持久 status。</li>
+      <li><b>Wake eligibility projection:</b> 当前是否允许 delivery lazy-wake/start agent。它是 delivery boundary 的 authoritative projection，不只是 trace row。</li>
+      <li><b>Live activity projection:</b> dot/current label。</li>
+      <li><b>Durable Activity Log projection:</b> 用户可读历史行，带 reason-aware label。</li>
+      <li><b>Trace projection:</b> ScopeDB event/span，带稳定 join keys。</li>
+    </ul>
+    <h3>6.5 Correlation window</h3>
+    <p>由同一个高层 incident 引起的一组 lifecycle events，例如 2026-05-12 06:01:08Z daemon upgrade 中断四个 agents。</p>
+    <h3>6.6 Correlation ownership</h3>
+    <p>每个 lifecycle producer 必须定义自己如何 mint 或 propagate <code>correlationId</code>。</p>
+    <table>
+      <thead><tr><th>Producer</th><th>CorrelationId owner</th><th>规则</th></tr></thead>
+      <tbody>
+        <tr><td>Web/API user command</td><td>Server</td><td>request 入口 mint，例如 <code>userStop:{requestId}</code>，传给 daemon command 和所有 projection。</td></tr>
+        <tr><td>Daemon upgrade/restart/shutdown</td><td>Daemon 优先；server 只做诊断 fallback</td><td>正确性需要 explicit <code>daemonSessionId</code>、<code>connectionEpoch</code>、<code>restartWindowId</code> 在 daemon stop / ready / reconcile 链路传播。<code>machineId + daemonVersion + coarseTimeBucket</code> 只能作为 trace fallback，不能作为 durable dedupe correctness key。</td></tr>
+        <tr><td>Machine disconnect</td><td>Server</td><td>从 machine connection identity mint：<code>machineId + connectionEpoch + closeEventSeq</code>。</td></tr>
+        <tr><td>Runtime launch/exit/crash</td><td>Daemon</td><td>用 <code>launchId</code> 做 runtime incident anchor，再包进 lifecycle <code>correlationId</code>。</td></tr>
+        <tr><td>Ready reconcile</td><td>Server</td><td>如果存在 active daemon/machine correlation window，必须复用；否则 mint <code>ready:{machineId}:{connectionEpoch}:{readySeq}</code>。</td></tr>
+        <tr><td>Runtime Profile migration / daemon release notice</td><td>Server</td><td>使用 migration key hash / release-notice window + agent id。trace attrs 不暴露 raw key。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="events">
+    <h2>7. 事件分类</h2>
+    <table>
+      <thead><tr><th>Event type</th><th>Reason examples</th><th>Typical source</th><th>主要影响的维度</th><th>是否写 durable log?</th></tr></thead>
+      <tbody>
+        <tr><td><code>manual_start_requested</code></td><td><code>user_start</code></td><td>web/api</td><td><code>intent_state</code> 回到 <code>running_allowed</code>，并可能触发 runtime start。</td><td>是</td></tr>
+        <tr><td><code>manual_stop_requested</code></td><td><code>user_stop</code></td><td>web/api</td><td><code>intent_state=manual_stopped</code>；runtime/machine 维度按后续事实更新。</td><td>是，显示 Stopped</td></tr>
+        <tr><td><code>runtime_spawned</code></td><td><code>wake_delivery</code>, <code>manual_start</code></td><td>daemon</td><td><code>runtime_state=starting/running_idle/working</code>。</td><td>通常是</td></tr>
+        <tr><td><code>runtime_activity_changed</code></td><td><code>working</code>, <code>thinking</code>, <code>idle</code></td><td>runtime parser / daemon</td><td><code>runtime_state</code> 短期变化。</td><td>按 policy，不能让 transient hint 自己决定 durable lifecycle</td></tr>
+        <tr><td><code>runtime_interrupted</code></td><td><code>daemon_upgrade</code>, <code>daemon_restart</code>, <code>runtime_crash</code></td><td>daemon/server</td><td><code>runtime_state=interrupted/crashed</code>；不覆盖 <code>intent_state</code>。</td><td>是，必须带 reason 并 dedupe</td></tr>
+        <tr><td><code>machine_disconnected</code></td><td><code>heartbeat_timeout</code>, <code>socket_close</code></td><td>server</td><td><code>machine_reachability=unreachable</code>；不等于 manual stop。</td><td>是</td></tr>
+        <tr><td><code>ready_reconciled</code></td><td><code>missing_running_agent</code>, <code>daemon_ready</code></td><td>server</td><td>通常更新 machine/runtime 维度或 projection dedupe，不应改变 intent。</td><td>只在非 duplicate 时写</td></tr>
+        <tr><td><code>control_state_changed</code></td><td><code>runtime_profile_migration</code>, <code>daemon_release_notice</code></td><td>server/daemon</td><td><code>control_gate</code> 变化；release notice 不一定 gate。</td><td>取决于 user-facing 影响</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="states">
+    <h2>8. 状态模型</h2>
+    <p>状态模型不再是一个单一 enum，而是四个正交维度。这样可以表达多个事实同时成立，避免把优先级写死进一台过大的 state machine。PR #1683 在代码里定义 <code>AgentLifecycleStateSnapshot</code> 作为 in-memory reducer 输入边界；现有 DB/cache/control gate 只负责构造这个 snapshot。</p>
+    <div class="diagram">
+      <pre class="mermaid">
+flowchart TB
+  Event[Lifecycle event]
+  Event --> Intent[intent_state<br/>running_allowed / manual_stopped / deleted]
+  Event --> Machine[machine_reachability<br/>reachable / degraded / unreachable / unknown]
+  Event --> Runtime[runtime_state<br/>not_running / starting / running_idle / working / thinking / interrupted / crashed / stalled]
+  Event --> Gate[control_gate<br/>open / migration / reset_window]
+
+  Intent --> Wake[Authoritative wake eligibility]
+  Machine --> Wake
+  Runtime --> Wake
+  Gate --> Wake
+
+  Intent --> Dot[Dot and user label]
+  Machine --> Dot
+  Runtime --> Dot
+  Gate --> Dot
+      </pre>
+    </div>
+    <table>
+      <thead><tr><th>维度</th><th>值</th><th>影响</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><code>intent_state</code></td><td><code>running_allowed</code> / <code>manual_stopped</code> / <code>deleted</code></td><td>决定 agent 是否允许被调度和 lazy wake。</td><td>用户 Stop 是 intent，不是 runtime 或 machine reachability。</td></tr>
+        <tr><td><code>machine_reachability</code></td><td><code>reachable</code> / <code>degraded</code> / <code>unreachable</code> / <code>unknown</code></td><td>决定 server 能否把 wake/start 送到托管机器。</td><td>machine unreachable 可以和 manual_stopped 同时成立。</td></tr>
+        <tr><td><code>runtime_state</code></td><td><code>not_running</code> / <code>starting</code> / <code>running_idle</code> / <code>working</code> / <code>thinking</code> / <code>interrupted</code> / <code>crashed</code> / <code>stalled</code></td><td>解释当前 runtime process / turn 是否可服务。</td><td>短期 activity 不再覆盖长期 intent。</td></tr>
+        <tr><td><code>control_gate</code></td><td><code>open</code> / <code>runtime_profile_migration</code> / <code>reset_window</code></td><td>决定 normal inbox delivery / lazy wake 是否 gated。</td><td>migration pending 和 reset window 都是 control/gate 输入，不是 ordinary Idle。</td></tr>
+      </tbody>
+    </table>
+    <div class="callout good">
+      <b>示例：</b>用户点 Stop 后机器断线，应表示为 <code>intent_state=manual_stopped</code> + <code>machine_reachability=unreachable</code> + <code>runtime_state=not_running</code>。这不需要选择“到底是 stopped 还是 disconnected”作为唯一状态；UI 可以按产品优先级显示灰点/Stopped，同时 tooltip 和 trace 仍能解释 machine unreachable。
+    </div>
+  </section>
+
+  <section id="reducer">
+    <h2>9. Reducer 与 Projection 规则</h2>
+    <h3>9.1 Reducer output</h3>
+    <pre class="code">type LifecycleReducerOutput = {
+  state: AgentLifecycleStateSnapshot;
+  dbStatusProjection: "active" | "inactive" | "stopped";
+  wakeEligibilityProjection: {
+    eligible: boolean;
+    blockReason?: "manual_stopped" | "machine_unreachable" | "control_gate" | "reset_window" | "runtime_fault";
+    sourceEventId: string;
+    sourceVersion: number;
+  };
+  liveActivityProjection: {
+    activity: "online" | "working" | "thinking" | "offline" | "error";
+    detail: string;
+  };
+  durableActivityProjection?: {
+    label: string;
+    detail?: string;
+    dedupeKey: string; // semantic operation/window key, not lifecycleEventId
+  };
+  traceProjection: {
+    eventType: string;
+    attrs: Record&lt;string, string | number | boolean&gt;;
+  };
+};</pre>
+    <h3>9.2 Projection rules</h3>
+    <table>
+      <thead><tr><th>Canonical event</th><th>DB status projection</th><th>Live activity</th><th>Activity Log label</th><th>Dedupe key</th></tr></thead>
+      <tbody>
+        <tr><td><code>manual_stop_requested(reason=user_stop)</code></td><td><code>intent_state=manual_stopped</code>，legacy <code>status=stopped</code></td><td><code>offline / Stopped</code></td><td>Stopped</td><td><code>agent:stopCommand:{requestId|commandId}</code></td></tr>
+        <tr><td><code>runtime_interrupted(reason=daemon_upgrade)</code></td><td><code>runtime_state=interrupted</code>；intent 保持 <code>running_allowed</code></td><td><code>offline / Daemon upgraded</code></td><td>Daemon upgraded; runtime interrupted</td><td><code>agent:machine:restartWindow:{restartWindowId}</code></td></tr>
+        <tr><td><code>machine_disconnected(reason=heartbeat_timeout)</code></td><td><code>machine_reachability=unreachable</code>；intent 不变</td><td><code>offline / Machine disconnected</code></td><td>Machine disconnected</td><td><code>agent:machine:connection:{connectionEpoch}:disconnect:{closeEventSeq}</code></td></tr>
+        <tr><td><code>runtime_interrupted(reason=runtime_crash)</code></td><td><code>runtime_state=crashed</code>；crash policy 可另行影响 intent/wake</td><td><code>error / Runtime crashed</code></td><td>Runtime crashed</td><td><code>agent:launch:{launchId}:runtime_crash</code></td></tr>
+        <tr><td><code>control_state_changed(reason=runtime_profile_migration)</code></td><td><code>control_gate=runtime_profile_migration</code>；intent/runtime 不被覆盖</td><td><code>working / Runtime Profile migration</code> 或 migration_pending UI</td><td>Runtime Profile migration</td><td><code>agent:migration:{migrationKeyHash}</code></td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <b>Dedupe identity rule:</b> <code>lifecycleEventId</code> 是事件身份，不能作为 durable projection dedupe key。Dedupe key 必须来自 semantic operation/window：user request id / stop command id、restartWindowId、connectionEpoch + closeEventSeq、launchId、migrationKeyHash 等。否则 retry/replay 只会生成新的唯一 event，不能 dedupe 同一次操作。
+    </div>
+    <div class="callout good">
+      兼容策略：现有 <code>AgentStatus = active | inactive | stopped</code> 继续作为 projection 存在，避免为了 lifecycle cutover 做大爆炸式 DB migration。但 delivery/wake boundary 不能只读这个 legacy field；它必须读 reducer state snapshot / wake plan 或 authoritative wake eligibility projection。
+    </div>
+    <h3>9.3 Wake payload / freshness seed</h3>
+    <p>#proj-aiax 的 duplicate-reply 讨论要求 wake/resume 入口提供 freshness seed。这个不进入第一版 reducer，但属于 lifecycle event payload 的扩展 slot。</p>
+    <pre class="code">type WakePayloadFreshnessSeed = {
+  target: string;                  // canonical reply/read target
+  replyTarget?: string;             // canonical write target if different from delivery target
+  lastSeenMsgId: string;            // server-known latest relevant msg at wake creation
+  lastSeenSeq?: number;
+  recentActivitySummary?: string;   // sanitized / compact
+  pendingNoticeIds?: string[];
+  sourceEventId: string;
+};</pre>
+    <p>后续 exit-side <code>send --seen-up-to</code> / <code>needs_confirmation</code> 应复用同一组 anchor 字段名和语义。Notice response 必须是 proof-producing：必须包含足够 agent 构造 <code>--seen-up-to=&lt;anchor&gt;</code> 的字段，而不是纯 UX warning。</p>
+    <p>Native daemon-managed agent 通过 wake event 获得这些字段；external slock-cli agent 应通过 <code>slock message check</code> envelope 获得同构字段。两条路径的 producer 不同，但入口 freshness contract 必须 functionally equivalent。</p>
+  </section>
+
+  <section id="concurrency">
+    <h2>10. 并发模型</h2>
+    <p>PR #1683 当前不是 event sourcing，也不是全局串行 event loop。每个 server handler / daemon ingress path 同步执行 adapter → reducer → projection writer，projection writer 直接写现有 DB/read model 和副作用。这个设计先把 lifecycle 语义边界收敛到单 reducer/writer，不同时引入 durable queue、per-agent sequence 或 replay store。</p>
+    <h3>当前保证</h3>
+    <ul>
+      <li><b>单次 projection plan 内部一致：</b>reducer 看到一个显式 <code>AgentLifecycleStateSnapshot</code> 和一个 canonical event，输出一组 DB status、wake eligibility、live activity、Activity Log、side-effect plan；writer 按这个 plan 执行，不再在旧 orchestrator 分支里重新判断产品语义。</li>
+      <li><b>DB 原子写和唯一约束：</b>Activity Log projection 依赖 <code>(agent_id, dedupe_key)</code> partial unique index 做用户可见日志幂等。重复 ready reconcile / restart-window projection 会走 conflict/deduped，而不是追加多条相同日志。</li>
+      <li><b>wake/start 局部锁：</b>现有 wake lock / launch guard 继续防止多个 replica 同时 wake/start 同一 agent；reducer 统一 wake eligibility 语义，但不替代这些锁。</li>
+      <li><b>reset / runtime-profile gate：</b>delivery 和 routed delivery 都通过 reducer-owned wake plan 判断 <code>reset_window</code> / <code>runtime_profile_migration</code>，因此 projection trace 与真实 suppress 行为一致。</li>
+      <li><b>cross-replica routing：</b>消息投递仍使用现有 owner/routed inbox 机制；lifecycle reducer 不改变 machine ownership routing，只统一状态/wake 语义。</li>
+    </ul>
+    <h3>明确不保证</h3>
+    <ul>
+      <li><b>不保证 per-agent total order：</b>两个 server handler 可以并发处理同一 agent 的 daemon activity、manual stop、ready reconcile。当前没有一条全局 per-agent queue 把所有 lifecycle event 串行化。</li>
+      <li><b>不保证 event replay：</b>ScopeDB trace 和 Activity Log 是 projection/observability，不是 durable lifecycle event store。不能从它们重建完整 reducer state。</li>
+      <li><b>不保证 CAS/version 推进：</b><code>AgentLifecycleStateSnapshot</code> 不是带 version 的 persisted state row。<code>agents.status</code> 等 read model 仍可能在并发窗口里 last-write-wins；关键用户可见日志靠 dedupe key 幂等，而不是靠完整状态版本。</li>
+      <li><b>不保证所有旧 transient race 消失：</b>本 PR 把语义出口统一起来，降低分叉和重复投影；它不是完整的 concurrency model replacement。</li>
+    </ul>
+    <div class="callout warn">
+      <b>未来增强：</b>如果后续需要强并发语义，应引入 durable <code>agent_lifecycle_events</code> table / event stream，或持久化带 version 的 <code>agent_lifecycle_state</code> 并用 CAS/transaction 推进 projection。不要把 ScopeDB trace row、Activity Log row 或 live activity cache 误当成 replayable source of truth。
+    </div>
+  </section>
+
+  <section id="tracing">
+    <h2>11. Tracing Contract</h2>
+    <p>Tracing 是设计约束，不是事后补字段。lifecycle state snapshot、projection 和 ScopeDB 必须用同一组 correlation / idempotency / dedupe 描述同一批事实。</p>
+    <h3>11.1 必要 invariants</h3>
+    <ul>
+      <li>每个 canonical lifecycle event 都 emit 一个 trace event/span，并携带 <code>lifecycle_event_id</code>、<code>event_type</code>、<code>agent_id</code>、<code>machine_id</code>、<code>reason</code>、<code>source</code>、<code>correlation_id</code>、<code>idempotency_key</code>。</li>
+      <li>同一个 incident window 内，server reducer/projection spans 和 daemon/runtime spans 必须共享 <code>correlation_id</code>。</li>
+      <li><code>correlation_id</code> 用来 join incident；<code>idempotency_key</code> 用来表达 event ingest/retry 幂等；durable projection dedupe 另用 <code>dedupe_key</code>，不能混用。</li>
+      <li>Projection writes 必须携带 <code>lifecycle_event_id</code> 或 <code>correlation_id</code>，让 Activity Log row 能 join 回 canonical event。</li>
+      <li>Dedupe 必须可观察：duplicate reconcile attempt emit <code>outcome=deduped</code> 或 <code>projection_skipped_reason=duplicate</code>。</li>
+      <li>Trace attrs 必须 sanitized。<code>agent_id</code>、<code>machine_id</code>、<code>launch_id</code> 是 join-only internal ids，不是 dashboard aggregate dimensions。</li>
+    </ul>
+    <h3>11.2 Attribute vocabulary</h3>
+    <table>
+      <thead><tr><th>Attr</th><th>Required?</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><code>lifecycle_event_id</code></td><td>Yes</td><td>canonical lifecycle event id；和 trace/span id 分离。</td></tr>
+        <tr><td><code>event_type</code></td><td>Yes</td><td>canonical enum，例如 <code>runtime_interrupted</code>。</td></tr>
+        <tr><td><code>reason</code></td><td>Yes</td><td>低基数 enum，例如 <code>daemon_upgrade</code>。</td></tr>
+        <tr><td><code>source</code></td><td>Yes</td><td><code>web</code>、<code>daemon</code>、<code>ready_reconcile</code> 等。</td></tr>
+        <tr><td><code>correlation_id</code></td><td>Yes</td><td>同一个 incident window 内 event、reducer、projection、traces 共享。</td></tr>
+        <tr><td><code>idempotency_key</code></td><td>Yes</td><td>用于 lifecycle event ingest/replay 幂等；不能替代 durable projection dedupe key。</td></tr>
+        <tr><td><code>dedupe_key</code></td><td>For durable projections</td><td>semantic operation/window key，例如 stop command id、restartWindowId、connectionEpoch。</td></tr>
+        <tr><td><code>agent_id</code> / <code>machine_id</code> / <code>launch_id</code></td><td>When applicable</td><td>join-only internal ids；用于 debugging join，不做聚合维度。</td></tr>
+        <tr><td><code>projection_kind</code></td><td>For projections</td><td><code>db_status</code>、<code>wake_eligibility</code>、<code>live_activity</code>、<code>activity_log</code>。</td></tr>
+        <tr><td><code>outcome</code></td><td>Yes</td><td><code>applied</code>、<code>deduped</code>、<code>skipped</code>、<code>dropped</code>、<code>error</code>。</td></tr>
+      </tbody>
+    </table>
+    <h3>11.3 Projection trace rows</h3>
+    <p>每个 lifecycle event 可以生成零到多条 projection rows。Projection rows 必须显式存在，才能回答“用户为什么看到这条状态/日志？”</p>
+    <table>
+      <thead><tr><th>Projection kind</th><th>Required attrs</th><th>Outcome values</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>db_status</code></td><td><code>lifecycle_event_id</code>, <code>correlation_id</code>, <code>previous_status</code>, <code>next_status</code></td><td><code>applied</code>, <code>skipped</code>, <code>deduped</code>, <code>error</code></td><td>解释持久 profile/status 变化。</td></tr>
+        <tr><td><code>wake_eligibility</code></td><td><code>lifecycle_event_id</code>, <code>correlation_id</code>, <code>previous_wake_eligibility</code>, <code>wake_eligibility</code>, <code>wake_block_reason?</code>, <code>source_version</code></td><td><code>applied</code>, <code>skipped</code>, <code>deduped</code>, <code>error</code></td><td>authoritative delivery boundary projection。<code>wake_eligibility</code> 是 boolean，<code>false</code> 时必须带低基数 <code>wake_block_reason</code>（例如 <code>manual_stopped</code> / <code>control_gate</code> / <code>machine_unreachable</code>）。</td></tr>
+        <tr><td><code>live_activity</code></td><td><code>lifecycle_event_id</code>, <code>correlation_id</code>, <code>activity</code>, <code>detail_kind</code></td><td><code>applied</code>, <code>skipped</code>, <code>deduped</code></td><td>解释 dot/current-state projection。</td></tr>
+        <tr><td><code>activity_log</code></td><td><code>lifecycle_event_id</code>, <code>correlation_id</code>, <code>label_kind</code>, <code>dedupe_key</code></td><td><code>applied</code>, <code>deduped</code>, <code>skipped</code></td><td>解释 durable user-visible rows 和 dedupe。</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="rollout">
+    <h2>12. Rollout 查询</h2>
+    <p>下面是伪查询形状，用来确保 rollout 后不是只能靠文字解释，而是可以在 ScopeDB 中验证。</p>
+    <h3>12.1 Daemon upgrade dedupe</h3>
+    <pre class="code">-- For one daemon upgrade/restart window:
+SELECT correlation_id, agent_id,
+       count_if(event_type = 'runtime_interrupted') AS interrupted_events,
+       count_if(projection_kind = 'activity_log' AND outcome = 'applied') AS durable_rows,
+       count_if(outcome = 'deduped') AS deduped_attempts
+FROM lifecycle_trace_view
+WHERE correlation_id = :window
+GROUP BY correlation_id, agent_id;
+
+-- Assertion: durable_rows <= interrupted_events per agent,
+-- and repeated ready reconcile attempts show up as deduped_attempts.</pre>
+    <h3>12.2 Manual stop no-lazy-wake projection</h3>
+    <pre class="code">SELECT lifecycle_event_id, agent_id,
+       intent_state, machine_reachability, runtime_state, control_gate,
+       wake_eligibility, wake_block_reason, label_kind
+FROM lifecycle_projection_events
+WHERE event_type = 'manual_stop_requested'
+  AND reason = 'user_stop'
+ORDER BY occurred_at DESC
+LIMIT 20;
+
+-- Assertion: intent_state='manual_stopped',
+-- wake_eligibility=false and wake_block_reason='manual_stopped',
+-- label_kind='stopped',
+-- no wake event applies until manual_start_requested.</pre>
+    <h3>12.3 Migration pending 不应投影成普通 Idle</h3>
+    <pre class="code">SELECT lifecycle_event_id, projection_kind, outcome, label_kind, activity, detail_kind
+FROM lifecycle_projection_events
+WHERE event_type = 'control_state_changed'
+  AND reason = 'runtime_profile_migration'
+ORDER BY occurred_at DESC
+LIMIT 50;
+
+-- Assertion: migration pending projects as migration/control state,
+-- not ordinary live_activity online/Idle while inbox delivery is gated.</pre>
+  </section>
+
+  <section id="external">
+    <h2>13. External Agent Projection</h2>
+    <p>
+      新 roadmap 下，second-tier agents 更可能通过 public <code>slock-cli</code> 自接入，而不是作为 daemon-managed runtime driver。RFC 不能强行让 external agent 假装有 daemon process lifecycle；但 #proj-aiax 的 Work Inbox / post-action nudge 仍需要一个可比较的 projected agent state。
+    </p>
+    <div class="callout warn">
+      External slock-cli agent 的 identity/profile 是 launch-time contract：一个 external process 在其生命周期内代表一个 Slock agent identity。Slock 不能假设可以在运行中注入环境变量、system prompt 或 transient notice；动态 notice 必须通过 CLI pull surface 暴露，静态规则应通过 integration <code>SKILL.md</code> / guide 交给第三方 runtime。
+    </div>
+    <table>
+      <thead><tr><th>AX 消费侧问题</th><th>Projection 字段</th><th>Native daemon-managed source</th><th>External slock-cli source</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>agent 现在是否 reachable？</td>
+          <td><code>reachable_now: boolean</code> + <code>reachability_expires_at</code></td>
+          <td>machine websocket、daemon ready、runtime process / launch state。</td>
+          <td>public auth/session validity、lease/heartbeat、recent successful CLI/API call。必须有 TTL/lease；不能只因过去登录过就永久 reachable。</td>
+        </tr>
+        <tr>
+          <td>agent 最近是否 active？</td>
+          <td><code>last_activity_ts</code></td>
+          <td>runtime activity events、message send/read/check、task updates。</td>
+          <td>message send/read/check、task updates、token refresh / heartbeat。</td>
+        </tr>
+        <tr>
+          <td>agent 是否有 work in flight？</td>
+          <td><code>has_work_in_flight: boolean</code></td>
+          <td>open turn、busy runtime state、claimed/open task。</td>
+          <td>claimed/open task、optional external lease / active work marker。</td>
+        </tr>
+        <tr>
+          <td>agent 是否处于 fault state？</td>
+          <td><code>fault_state: stalled | crashed | auth_failed | offline | null</code></td>
+          <td>runtime stalled/crash、machine offline、auth failure、daemon disconnect。</td>
+          <td>token expired/revoked、auth failed、lease expired、no recent heartbeat/activity。</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      Projection 等价不等于 producer 等价。Native runtime 的 facts 来自 daemon/process；external agent 的 facts 来自 public surface。AX 层只消费同一套 projection schema，不能假设所有 agent 都有 process-level lifecycle。
+    </div>
+    <h3>13.1 External notice / instruction limitations</h3>
+    <ul>
+      <li><b>Static instruction:</b> public integration 应提供 versioned <code>SKILL.md</code> / guide，内容包括 thread etiquette、message/task commands、freshness policy、notice check 习惯。Skill 是 slock-cli contract 的一部分，需要跟随 CLI semantic version、兼容窗口和 deprecation policy；第三方 adapter 可以 pin 版本，并在不兼容时 fail loud。</li>
+      <li><b>Dynamic notice:</b> daemon release notice、runtime profile notice、policy notice、pending migration 不能依赖 push 注入。CLI 需要一个 pull surface，例如 <code>slock notices pending</code> 或并入 <code>slock message check</code>。</li>
+      <li><b>Notice ack:</b> 某些 notice ack 有 server-side 副作用，例如 runtime profile migration ack 会解锁后续 delivery。External surface 必须提供 <code>slock notices ack &lt;id&gt;</code> 等价写路径；daemon-managed tool ack 和 external CLI ack 必须投影为同一个 lifecycle event，而不是两套独立状态。</li>
+      <li><b>Envelope hints:</b> <code>slock message check</code> 的返回 envelope 应 mirror wake payload 字段，例如 <code>reply_target</code>、<code>last_seen_msg_id</code>、<code>last_seen_seq</code>、<code>pending_notice_ids</code>。Native 用 push wake，external 用 pull envelope，但 agent 看到的 freshness/context shape 应保持等价。</li>
+      <li><b>Self diagnosis:</b> <code>slock agent whoami</code> / <code>slock doctor</code> 应显示 profile、agent、server、scopes、credential expiry、contract version、pending notices。</li>
+    </ul>
+  </section>
+
+  <section id="flows">
+    <h2>14. Mermaid 架构图</h2>
+    <p>为降低 Mermaid 语法风险，本节图中的节点和箭头文案保留英文。</p>
+    <h3>14.1 Current architecture</h3>
+    <div class="diagram">
+      <pre class="mermaid">
+flowchart TB
+  subgraph Producers
+    Web[Web/API user command]
+    Server[Server reconcile / scheduler]
+    Daemon[Daemon lifecycle]
+    Runtime[Runtime parser]
+  end
+
+  Web --> Event[Canonical lifecycle event]
+  Server --> Event
+  Daemon --> Event
+  Runtime --> Event
+
+  Event --> Snapshot[In-memory state snapshot<br/>existing DB/cache/gates]
+  Snapshot --> Reducer[Lifecycle reducer]
+  Event --> Reducer
+
+  Reducer --> Current[Projection plan<br/>status / wake / activity / side effects]
+  Current --> Status[DB status projection<br/>active / inactive / stopped]
+  Current --> Wake[Authoritative wake eligibility]
+  Reducer --> Live[Live activity projection<br/>dot/current label]
+  Reducer --> Log[Durable Activity Log<br/>reason-aware + deduped]
+  Reducer --> Trace[ScopeDB trace projection<br/>correlation/idempotency]
+      </pre>
+    </div>
+    <h3>14.2 Daemon upgrade / restart interruption</h3>
+    <div class="diagram">
+      <pre class="mermaid">
+sequenceDiagram
+  participant D as Daemon
+  participant S as Server
+  participant R as Lifecycle reducer
+  participant L as Activity Log
+  participant T as ScopeDB
+
+  D->>S: daemon.lifecycle.stop(reason=upgrade, runningAgents=[A,B,C,D])
+  S->>R: runtime_interrupted(A, reason=daemon_upgrade, correlationId=upgradeWindow)
+  R->>L: write daemon-upgraded runtime-interrupted row with dedupe key
+  R->>T: trace outcome=applied correlationId=upgradeWindow
+
+  D->>S: ready.sent(running_agents_count=0)
+  S->>R: ready_reconciled(A missing, same correlationId)
+  R->>L: skip duplicate activity row
+  R->>T: trace outcome=deduped projection_skipped_reason=duplicate
+
+  D->>S: ready.sent(running_agents_count=0)
+  S->>R: ready_reconciled(A missing, same correlationId)
+  R->>T: trace outcome=deduped
+      </pre>
+    </div>
+    <h3>14.3 Manual Stop</h3>
+    <div class="diagram">
+      <pre class="mermaid">
+sequenceDiagram
+  participant U as User
+  participant W as Web/API
+  participant S as Server
+  participant D as Daemon
+  participant R as Lifecycle reducer
+  participant UI as UI projections
+
+  U->>W: Click Stop
+  W->>S: stopAgent(agentId)
+  S->>R: manual_stop_requested(reason=user_stop)
+  R->>S: intent_state=manual_stopped and wake eligible=false
+  R->>UI: dot gray and log Stopped
+  S->>D: agent:stop
+  D-->>S: agent:status inactive/offline (late)
+  S->>R: late status signal or runtime interrupted event
+  R-->>UI: no duplicate Stopped row and preserve manual stop state
+      </pre>
+    </div>
+    <h3>14.4 Migration pending</h3>
+    <div class="diagram">
+      <pre class="mermaid">
+sequenceDiagram
+  participant S as Server
+  participant D as Daemon
+  participant A as Agent runtime
+  participant R as Lifecycle reducer
+  participant UI as UI / Activity Log
+
+  S->>R: control_state_changed(reason=runtime_profile_migration, keyHash)
+  R->>UI: state migration pending with runtime profile migration label
+  S->>D: agent:runtime_profile:migration
+  D->>A: inject migration control
+  A-->>D: runtime_profile_migration_done(key)
+  D-->>S: ack
+  S->>R: control_state_changed(reason=migration_done)
+  R->>UI: control_gate=open and previous runtime state preserved
+      </pre>
+    </div>
+  </section>
+
+  <section id="migration">
+    <h2>15. 当前落地与后续迁移</h2>
+    <div class="callout good">
+      <b>PR #1683 current state:</b> 这已经不是只定义 envelope 或只补 observability 的早期草案。当前实现把 start path、daemon activity ingest、manual stop/start、ready reconcile、machine disconnect、runtime profile gate 和 delivery wake plan 收敛到 adapter → reducer → projection writer 路径。Legacy 输入仍被兼容，但只停留在 adapter 层；lifecycle 产品语义必须由 reducer 决定，status/activity/log/wake 副作用必须由 projection writer 写出。
+    </div>
+    <h3>已完成的 cutover 边界</h3>
+    <ul>
+      <li><b>Event/envelope layer:</b> <code>agentLifecycleEvents.ts</code> 定义 canonical event / projection trace envelope、identity、sanitized attrs 和 reserved attrs。它不做 reducer 语义，不写 DB，也不翻译 legacy daemon/server 信号。</li>
+      <li><b>Legacy adapter:</b> 老 daemon/server 信号先进 <code>legacyAgentLifecycleAdapter</code>，转成 canonical lifecycle events。旧协议兼容集中在这里，不能散回 orchestrator 分支。</li>
+      <li><b>Reducer:</b> <code>agentLifecycleReducer</code> 是 lifecycle semantic boundary，集中决定 DB status、wake eligibility、live activity、Activity Log projection 和 side-effect plan。</li>
+      <li><b>Projection writer:</b> <code>agentLifecycleProjectionWriter</code> 是唯一输出 seam，统一写 DB status、live activity、durable Activity Log、wake projection trace、wake lock / launch guard / stop side effects。</li>
+      <li><b>Wake boundary:</b> delivery 和 routed delivery 通过 reducer-owned wake plan 判断是否可唤醒；reset window 显式投影为 <code>wake_eligibility=false</code> + <code>wake_block_reason=reset_window</code>，与真实 delivery suppress-reset 行为一致。</li>
+      <li><b>Activity dedupe:</b> durable Activity Log projection 使用 nullable <code>dedupe_key</code> 和 per-agent partial unique index 做语义去重；它不是 lifecycle event id、trace id、request id 或 correlation id。</li>
+    </ul>
+    <h3>兼容层保留</h3>
+    <ul>
+      <li>现有 <code>agents.status</code> 继续作为兼容 projection 存在；读/写语义由 reducer/writer 统一维护，而不是让旧 orchestrator 分支各自决定。</li>
+      <li>当前没有新增持久化 lifecycle events 表。Canonical event 是 in-process envelope；state 是 in-memory <code>AgentLifecycleStateSnapshot</code>；structured trace/projection contract 只用于观测和 rollout 验证。如果未来需要 durable event ledger，必须沿用本 RFC 的 identity/correlation/dedupe 边界，而不是把 Activity Log 或 trace row 当 event store。</li>
+      <li>daemon 老协议仍可输入：<code>agent:status</code>、<code>agent:activity</code>、ready reconcile、manual controls 等先经 adapter 映射。新 daemon 可以补更精确字段，但 server reducer 必须兼容老 daemon。</li>
+    </ul>
+    <h3>Merge / rollout gate</h3>
+    <ul>
+      <li>这是 server lifecycle source-of-truth 重构，不是普通 helper PR。Code review no-blocker 只表示实现/contract review 通过，不等于可 merge。</li>
+      <li>PR #1683 必须等 @xxchan / @tygg 显式 merge gate 后才能进入 staging；不能仅凭 CI 绿和 reviewer no-blocker 直接合。</li>
+      <li>合入后用本 RFC 的 acceptance cases 和 ScopeDB rollout queries 验证真实投影，不允许靠手工拼 Activity Log、daemon trace、server reconcile 来判断状态。</li>
+    </ul>
+    <h3>后续 UI / Product cleanup</h3>
+    <ul>
+      <li>用户可见 labels：Stopped、Sleeping/Available、Running、Working、Interrupted、Disconnected、Migration pending。</li>
+      <li>tooltip 包含 reason/source，例如 Interrupted by daemon upgrade。</li>
+      <li>Profile Activity 不直接渲染 raw <code>offline</code>。</li>
+    </ul>
+    <h3>后续 Advanced AX hooks</h3>
+    <ul>
+      <li>Task post-action nudge 和未来 Agent Inbox handled/read 语义应接入 lifecycle producer/reducer contract；如果需要 durable stream，必须先实现真正的 event ledger，而不是另造 parallel ack model。</li>
+      <li>第三方 agent 如果通过 public slock-cli 接入，也需要能产生/暴露足够 lifecycle events，否则 AX 行为会断层。</li>
+    </ul>
+  </section>
+
+  <section id="acceptance">
+    <h2>16. 验收场景</h2>
+    <table>
+      <thead><tr><th>场景</th><th>Expected canonical events</th><th>Expected projections</th><th>Trace assertion</th></tr></thead>
+      <tbody>
+        <tr><td>用户在 runtime working 时点击 Stop。</td><td><code>manual_stop_requested(reason=user_stop)</code>，可选 <code>runtime_interrupted(reason=user_stop)</code>。</td><td><code>intent_state=manual_stopped</code>，wake disabled，dot gray，Activity Log 正好一条 <code>Stopped</code>。</td><td>stop request、daemon stop、projection 共享一个 correlation id；dedupe key 来自 stop command/request id。</td></tr>
+        <tr><td>Daemon upgrade 停掉四个 agents，随后三次 reconnect 都报告 zero running agents。</td><td>四个 <code>runtime_interrupted(reason=daemon_upgrade)</code>，同一个 upgrade correlation window；ready reconcile duplicates 被 dedupe。</td><td>最多四条 durable Activity Log rows，reason-labeled；不重复刷普通 <code>Stopped</code>。</td><td>Query 显示 N interrupted events，<= N log projections，duplicate reconcile attempts 为 <code>outcome=deduped</code>。</td></tr>
+        <tr><td>Machine websocket 在 agents active 时断开。</td><td><code>machine_disconnected(reason=socket_close|heartbeat_timeout)</code>。</td><td>Dot disconnected/offline；Activity Log 显示 <code>Machine disconnected</code>，不是 <code>Stopped</code>。</td><td>Disconnect span 与 affected agents 通过 correlation id join。</td></tr>
+        <tr><td>Runtime turn 中非零退出。</td><td><code>runtime_interrupted(reason=runtime_crash)</code>。</td><td>Status 可变 inactive；dot error/offline；Activity Log 使用 sanitized crash summary。</td><td>attrs 不含 raw stderr，只含 error class/category/reason。</td></tr>
+        <tr><td>Runtime Profile migration pending，normal inbox gated。</td><td><code>control_state_changed(reason=runtime_profile_migration)</code>。</td><td>UI/log 显示 migration pending/control notice；不是 ordinary Idle。</td><td>migration key hashed；control delivery、injection、ack 共享 trace/correlation。</td></tr>
+        <tr><td>Deferred/lazy runtime 没有 process 但可以 wake。</td><td><code>runtime_state=not_running</code> 且 <code>intent_state=running_allowed</code>。</td><td>Projection 表示 available/sleeping，不是 running；tooltip 解释可被 delivery wake。</td><td>后续 wake event 能 join 回 idle config/launch context。</td></tr>
+        <tr><td>同一 machine incident 影响多个 agents。</td><td>每个 affected agent 有自己的 lifecycle event；共享 machine incident <code>correlation_id</code>。</td><td>Activity Log 可选择 per-agent 或 machine-level+fanout，但两种都必须 reason-labeled 且 deduped。</td><td>per-agent rows 和 machine incident row 都能用同一个 correlation id join。</td></tr>
+        <tr><td>同一个 pending migration notice 分别投递给 daemon-managed agent 和 external slock-cli agent。</td><td>Native tool ack 与 external <code>slock notices ack</code> 都生成同类 lifecycle ack event。</td><td>Ack 前 delivery gated；ack 后 <code>control_gate=open</code>。两种接入方式的 pending notice、freshness anchor、ack 投影语义一致。</td><td>wake payload 与 <code>slock message check</code> envelope 携带同构 fields；ack event 可用同一 notice id / correlation id join。</td></tr>
+      </tbody>
+    </table>
+    <div class="callout good">
+      RFC 只有在以上场景都能通过 deterministic tests 和 ScopeDB queries 验证时才算完成。如果仍需要人工拼 Activity Log、daemon trace、server reconcile，模型还不完整。
+    </div>
+  </section>
+
+  <section id="open">
+    <h2>17. Open Decisions</h2>
+    <ul>
+      <li><code>intent_state=running_allowed + runtime_state=not_running + machine_reachability=reachable</code> 应显示绿点、灰点，还是独立 sleeping indicator？这是产品决定。</li>
+      <li>daemon upgrade interruption 后 DB projection 保持 <code>active</code> 还是变 <code>inactive</code>？取决于 lazy-wake recovery contract 和 machine 是否已恢复。</li>
+      <li>Activity Log 中 daemon upgrade 是显示一条 machine-level row，还是每个 affected agent 一条 row？当前建议：先保持 per-agent row，但必须能 join 到同一个 machine incident correlation。</li>
+      <li>未来是否需要持久化 lifecycle event ledger？当前 #1683 不新增 event 表；canonical event 作为 typed envelope + structured trace/projection contract 使用。若后续上表，必须保留本 RFC 的 event identity、correlation、projection dedupe 分层。</li>
+      <li>未来 Agent Inbox 的 acted/read/handled 语义如何消费 lifecycle events？先 defer，不要另造 parallel ack state。</li>
+    </ul>
+  </section>
+
+  <section id="recommendation">
+    <h2>18. 建议</h2>
+    <ol>
+      <li>按 PR #1683 的新老分离边界继续 review：legacy adapter 只做输入转换，reducer 是唯一语义层，projection writer 是唯一输出层。</li>
+      <li>不要把 lifecycle 产品语义重新写回 <code>AgentOrchestrator</code> 分支；如果出现新 daemon/server 输入，先加 adapter，再让 reducer 产出 projection plan。</li>
+      <li>在新的 Agent Inbox / external agent / attested send 设计里，不要各自发明 parallel ack/handled/lifecycle 概念；需要状态转换时接入本 lifecycle model。</li>
+      <li>用上面的 acceptance cases 作为 regression tests 和 ScopeDB rollout queries；合入 staging 需要显式 human merge gate。</li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>

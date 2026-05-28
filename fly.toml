@@ -1,0 +1,55 @@
+app = "slock-server"
+primary_region = "sin"
+
+[build]
+  dockerfile = "packages/server/Dockerfile"
+
+[deploy]
+  release_command = "bash -c 'set -o pipefail; cd /app/packages/server && npx drizzle-kit migrate 2>&1 | cat'"
+  # Switched from "bluegreen" to "rolling" — Fly's bluegreen needs 2x
+  # machine slots simultaneously and we hit the org cap during a
+  # release deploy ("Error: app can't undergo bluegreen deployment due
+  # to org limits ... please email us at billing@fly.io"). Rolling
+  # keeps the same correctness contract: schema migrations are
+  # backward-compatible (additive), protocol fields are optional, and
+  # the inevitable mixed-version window during deploy is no worse than
+  # bluegreen's existing connection-drain overlap on the old set.
+  # Decision context: tygg + stdrc, #proj-release:25ffb6fb 2026-05-04.
+  # Staging has been on rolling since #1330 without incident.
+  strategy = "rolling"
+
+[env]
+  NODE_ENV = "production"
+  DEPLOYMENT_ENV = "production"
+  PORT = "3001"
+  SLOCK_TRACE_OTLP_ENDPOINT = "http://slock-telescope.internal:4318"
+  SLOCK_TRACE_SERVICE_NAME = "slock-server"
+  SLOCK_DISABLE_MIGRATION_NUDGE_PIGGYBACK = "true"
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 6
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 10000
+    soft_limit = 8000
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "8s"
+    grace_period = "60s"
+    method = "GET"
+    path = "/health"
+
+[metrics]
+  port = 9091
+  path = "/metrics"
+
+[[vm]]
+  size = "performance-2x"
+  memory = "4gb"
+  processes = ["app"]

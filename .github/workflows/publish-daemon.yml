@@ -1,0 +1,96 @@
+name: Publish @slock-ai/daemon
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "daemon-v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          registry-url: https://registry.npmjs.org
+
+      - run: corepack enable
+
+      - run: corepack prepare pnpm@10.29.3 --activate
+
+      # Per @tygg + GH community discussion 173102: bumping npm to its
+      # latest version before the publish step has fixed similar
+      # auth-shaped failures elsewhere; trying it here on top of the
+      # provenance-removal fix.
+      - run: npm install -g npm@latest
+
+      - run: pnpm install
+
+      - name: Determine npm dist-tag
+        id: dist-tag
+        run: |
+          if [ "${{ github.ref_type }}" = "branch" ] && [ "${{ github.ref_name }}" = "staging" ]; then
+            echo "tag=staging" >> "$GITHUB_OUTPUT"
+          else
+            TAG="${GITHUB_REF#refs/tags/}"
+            if echo "$TAG" | grep -q "alpha"; then
+              echo "tag=alpha" >> "$GITHUB_OUTPUT"
+            else
+              echo "tag=latest" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      # For staging branch pushes, stamp a unique pre-release version so each
+      # commit publishes a distinct artifact without colliding with production.
+      - name: Set staging pre-release version
+        if: github.ref_name == 'staging'
+        run: |
+          STAMP=$(date -u +%Y%m%d%H%M%S)
+          cd packages/daemon
+          node -e "
+            const pkg = require('./package.json');
+            pkg.version = pkg.version.replace(/(-staging\.\d+)?$/, '') + '-staging.' + '$STAMP';
+            require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('Publishing version: ' + pkg.version);
+          "
+
+      # `botiverse/slock` is a private repo, and npm's sigstore provenance
+      # requires the source repo to be public ("Unsupported GitHub Actions
+      # source repository visibility: 'private'"). The daemon-v0.44.0 tag
+      # publish failed for that reason; the SOP also says manual publishes
+      # omit --provenance, so the workflow now matches.
+      - run: cd packages/daemon && pnpm run build && npm publish --tag ${{ steps.dist-tag.outputs.tag }}
+
+      # When we just published a stable `latest`, check whether the existing
+      # `alpha` dist-tag has fallen behind (e.g. latest=0.48.1, alpha=0.43.0
+      # because the alpha lane has been quiet). If so, retag alpha → latest's
+      # version so alpha consumers don't get stuck on a stale pre-release.
+      # tygg directive 2026-05-15, #proj-release msg=c816ae8b.
+      - name: Auto-promote stale alpha to latest
+        if: steps.dist-tag.outputs.tag == 'latest'
+        run: |
+          set -euo pipefail
+          DIST_TAGS=$(npm view @slock-ai/daemon dist-tags --json)
+          LATEST=$(echo "$DIST_TAGS" | node -e "console.log(JSON.parse(require('fs').readFileSync(0,'utf8')).latest||'')")
+          ALPHA=$(echo "$DIST_TAGS" | node -e "console.log(JSON.parse(require('fs').readFileSync(0,'utf8')).alpha||'')")
+          echo "Current dist-tags: latest=$LATEST alpha=$ALPHA"
+          if [ -z "$LATEST" ] || [ -z "$ALPHA" ]; then
+            echo "Missing latest or alpha dist-tag — skipping promotion."
+            exit 0
+          fi
+          if npx --yes semver "$LATEST" -r ">$ALPHA" >/dev/null 2>&1; then
+            echo "Alpha is behind ($ALPHA < $LATEST). Promoting alpha → $LATEST."
+            npm dist-tag add @slock-ai/daemon@"$LATEST" alpha || {
+              echo "::warning::Failed to promote alpha dist-tag; stable publish already completed."
+              exit 0
+            }
+          else
+            echo "Alpha ($ALPHA) is not behind latest ($LATEST). No action."
+          fi

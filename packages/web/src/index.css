@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 source scanning. These directives travel WITH this CSS
+ * file, so any package that imports `@slock-ai/web/src/index.css`
+ * (currently `@slock-ai/web`, `@slock-ai/ui-inventory`, future internal
+ * apps) automatically gets utility-class generation for the shared
+ * primitive surface — primitives that use `sr-only` / `ml-2` etc.
+ * keep working without each consumer re-declaring scan paths.
+ *
+ * Without this, an out-of-package consumer's Tailwind only scans its
+ * own src tree; primitives looked correct in the web app but rendered
+ * with raw `<input type=checkbox>` and zero-gap section headers in the
+ * inventory — stdrc #proj-theme:ac79cf20 msg=12665926.
+ */
+@source "./components";
+@source "./pages";
+@source "../../ui-inventory/src";
+
+
+@theme {
+  /* Soft pastel palette (stdrc 2026-04-28 #wg-theme) — base 5 from him +
+     3 derived by lowering saturation of the existing brutal-cyan/orange/lime. */
+  --color-brutal-yellow: #FFD440;   /* Soft Signal */
+  --color-brutal-pink: #FE7DA8;     /* Bubble Pink */
+  --color-brutal-lavender: #BBAFE6; /* Soft Haze */
+  --color-brutal-cream: #FFFAEF;    /* Cotton Core — sidebar bg per stdrc 2026-05-02 #proj-uiux:95e25b5b inversion: sidebar warm cream, main panel white. */
+  --color-brutal-black: #141111;    /* Slock Ink */
+  /* The 3 derived colors are aligned to the OKLCH average of Plan A's
+     3 figma-anchored colors (yellow / pink / lavender): L=80.5, C=0.134.
+     Only hue varies — gives perceptual equal-brightness + equal-saturation
+     across the derived trio (#proj-uiux:0e6befb8 stdrc 2026-05-03). */
+  --color-brutal-cyan: #27CCF3;     /* OKLCH(78.3%, 0.135, 219°) — locked to soft-haze (lavender)'s L per stdrc 17:50 "设到 lavender 同样值". Helmholtz–Kohlrausch consideration absorbed into the choice of anchor — lavender is the closest cool figma color, matches blue/cyan perceptually better than yellow does. */
+  --color-brutal-orange: #F8A16F;   /* OKLCH(78.5%, 0.123, 50°) — figma-avg L pulled down 2% per stdrc 17:01 "orange 要能再深一点点点" */
+  --color-brutal-lime: #A9D877;     /* OKLCH(82.6%, 0.135, 130°) — figma-avg L pulled up 2% per stdrc 17:01 "lime 在淡一点点点" */
+  /* Red sits OUTSIDE the figma-avg perceptual ring on purpose: a danger
+     color at L=80 reads coral/pink, not danger. Kept at L≈69 so it stays
+     distinct from brutal-pink and communicates "destructive". */
+  --color-brutal-red: #F97264;      /* OKLCH(71%, 0.168, 28°) — coral-red, distinct from brutal-pink. Sits OUTSIDE the figma L envelope on purpose: a danger color at L≥75 reads coral/pink. Tweaked from #F26C5E → #F97264 per stdrc 17:25 "red 其实可以再淡一点点" — same hue/chroma, L 69 → 71. */
+  /* Stone is the warm-neutral terminal-state color. Used for task statuses
+     that mean "stopped / archived / won't-do" (currently `closed`). Sits
+     between the saturated active-state ring (L≈80, C≈0.13) and `gray-400`
+     disabled grey: low chroma so it visually retreats, but warm-tinted
+     hue=55° so it stays inside the brand palette instead of reading "tech
+     grey". Reserved for non-active / exited semantic states — NOT for
+     destructive actions (those stay `brutal-red`). Joy/Bugen 2026-05-08
+     #proj-uiux task #145 (daily UI audit Finding 1). */
+  --color-brutal-stone: #C0B9B1;    /* OKLCH(76%, 0.010, 55°) — warm stone gray */
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  --shadow-brutal: 4px 4px 0px #141111;
+  --shadow-brutal-sm: 2px 2px 0px #141111;
+  --shadow-brutal-lg: 6px 6px 0px #141111;
+  --shadow-brutal-hover: 2px 2px 0px #141111;
+  --shadow-brutal-active: 1px 1px 0px #141111;
+  /* Soft popover shadow for tiny transient overlays (reaction picker,
+     tooltip, dropdown menu, hover popover). Exception to brutal hard
+     shadow — only valid on surfaces that auto-dismiss on click-outside.
+     See CLAUDE.md "Shadow Boundary — Hard vs Soft". */
+  --shadow-soft-popover: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  --border-width-3: 3px;
+}
+
+/* Panel header utility — canonical 62px column-top, shrinks to 48px on
+   short viewports. All panel headers (Sidebar / Chat / Thread / etc.)
+   use this so column tops stay aligned at every viewport.
+   stdrc 2026-05-02 #proj-uiux:648f8735 (task #93). */
+@utility h-panel-header {
+  height: 62px;
+}
+@media (max-height: 600px) {
+  .h-panel-header {
+    height: 48px;
+  }
+}
+
+/* Header icon-container utility — 36px square. Used for the icon slots
+   inside panel headers. The container size DOES NOT shrink on short
+   viewports per stdrc 2026-05-02 #proj-uiux:648f8735 f1966eb3
+   ("不是高度放回去，是 button 和 icon 放回去") — the rectangular
+   header rectangle gets shorter (48px) but the inner icon button
+   stays 36x36 so it doesn't lose visual weight. */
+@utility size-icon-header {
+  width: 36px;
+  height: 36px;
+}
+
+/* Sidebar list-item dense modifier — applies on short viewports where
+   vertical density matters (mobile landscape, ~390px height). Kept
+   alongside the existing `md:py-1` desktop denser path. */
+@media (max-height: 600px) {
+  .py-2-short-tight {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+}
+
+@layer base {
+  /* Remove iOS tap highlight for native-feeling touch interactions */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Cursor contract: Slock app chrome keeps the normal arrow cursor.
+     Clickability is communicated with hover/active/selected state, not
+     with the browser link-hand cursor. External anchors keep browser
+     defaults; pseudo anchors (`href="#"`) are app chrome. */
+  button, [role="button"], label, a[href="#"] {
+    cursor: default;
+  }
+
+  /* Prevent text selection on interactive elements (feels more app-like) */
+  button, [role="button"], a {
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+
+  /* On touch devices, prevent text selection during long-press on messages */
+  @media (hover: none) {
+    [id^="message-"] {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    [data-message-selectable="true"],
+    [data-message-selectable="true"] * {
+      -webkit-touch-callout: default;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+  }
+
+  html {
+    height: 100%;
+    overflow: hidden;
+    background-color: #FFFFFF;
+  }
+
+  /* Prevent rubber-band bounce on desktop; mobile needs it for native-feeling scroll */
+  @media (hover: hover) {
+    html, body {
+      overscroll-behavior: none;
+    }
+  }
+
+  body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FFFFFF;
+    color: #141111; /* Slock Ink */
+  }
+
+  /* #root is pinned to the visual viewport via --vv-height / --vv-offset-top
+     CSS variables set by trackVisualViewport() in main.tsx. The variables
+     are only set when the software keyboard is up — otherwise we fall back
+     to 100dvh, the dynamic viewport unit, which on iOS PWA standalone is
+     the *real* visible height (the previous use of visualViewport.height
+     reported a smaller value on real iPhones, leaving a cream gap below).
+     Two iOS-specific cases this handles:
+       (1) Mobile Safari translating position:fixed content upward when a
+           focused input needs to reach the visual viewport above the keyboard
+           — handled by the visualViewport override while the keyboard is up;
+       (2) PWA standalone mode where the layout viewport can be taller than
+           the visible webview — handled by 100dvh as the fallback. */
+  #root {
+    position: fixed;
+    top: var(--vv-offset-top, 0);
+    left: 0;
+    right: 0;
+    height: var(--vv-height, 100dvh);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+  }
+
+  /* Scrollbars: platform-native browser default (auto-show, OS-styled).
+     stdrc 2026-05-20 #proj-uiux:d7e5c75b (task #282): "桌面端还是加回来滚动时
+     显示进度条吧，移动端本身就会有进度条". Reverts the 5/11 desktop-hide
+     rule — desktop now shows native scrollbars again (macOS overlay auto-hide,
+     Windows/Linux always-visible per OS), touch devices keep platform overlay
+     indicator. Surfaces that need to opt out entirely (e.g. horizontal tab
+     strips) keep using the `.scrollbar-none` utility below. */
+}
+
+@layer components {
+  .safe-top { padding-top: env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-left { padding-left: env(safe-area-inset-left); }
+  .safe-right { padding-right: env(safe-area-inset-right); }
+
+  /* Tilted server-name / legacy badge box used by the sidebar and older callsites.
+     Combines the -2deg rotation with translateZ(0) so Safari composites the
+     element onto its own GPU layer — without this, Safari rasterizes the
+     rotated 2px black border with visible jagged/aliased edges. The
+     backface-visibility hint reinforces GPU compositing on older Safaris. */
+  .tilt-neg-2 {
+    transform: rotate(-2deg) translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes reaction-count-bump {
+    0% {
+      opacity: 0.7;
+      transform: translateY(1px) scale(0.92);
+    }
+    45% {
+      opacity: 1;
+      transform: translateY(-1px) scale(1.16);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .reaction-count-bump {
+    animation: reaction-count-bump 180ms cubic-bezier(0.2, 0, 0.2, 1);
+    display: inline-block;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reaction-count-bump {
+      animation: none;
+    }
+  }
+
+  .btn-brutal {
+    @apply border-2 border-black font-display font-bold shadow-brutal
+           transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-brutal-active;
+  }
+  .btn-brutal:hover {
+    @apply -translate-y-[1px] shadow-brutal-lg;
+  }
+
+  .btn-brutal-sm {
+    @apply border-2 border-black font-display font-bold shadow-brutal-sm
+           transition-all duration-100 active:translate-x-[1px] active:translate-y-[1px] active:shadow-brutal-active;
+  }
+  .btn-brutal-sm:hover {
+    @apply -translate-y-[1px] shadow-brutal;
+  }
+  /* Disabled state — canonical token across all .btn-brutal-sm callsites.
+     Faded over whatever bg the button carries (bg-white, bg-brutal-pink,
+     etc.) instead of hand-rolled bg-gray-200 text-black/40. Mirrors the
+     `.btn-flat-sm:disabled` shape (stdrc 2026-05-09). */
+  .btn-brutal-sm:disabled {
+    @apply pointer-events-none opacity-40 shadow-brutal-sm;
+    transform: none;
+  }
+  .btn-brutal:disabled {
+    @apply pointer-events-none opacity-40 shadow-brutal;
+    transform: none;
+  }
+
+  /* Flat icon button — the "non-card" variant of `.btn-brutal-sm`. Used
+     for *secondary* small actions in panel/section headers (Stop /
+     Settings / Leave / Reset / Restart / Message / mobile back / close).
+     Drops the 2px border + brutal shadow so the title and avatar stay
+     dominant; hover/active states are signalled by background fill +
+     ink shift. Reserve `.btn-brutal-sm` for primary CTAs that should
+     read as discrete cards (Send icon button in composer, Add buttons
+     etc.) and for buttons inside dialogs where the heavier brutal
+     chrome is intentional.
+
+     stdrc 2026-05-08 #proj-uiux task #130 ("section header 上的小按
+     钮，能不能换成非卡片按钮"). */
+  .btn-flat-sm {
+    @apply inline-flex items-center justify-center font-display font-bold text-black/70
+           transition-colors duration-100;
+  }
+  .btn-flat-sm:hover {
+    @apply bg-black/5 text-black;
+  }
+  .btn-flat-sm:active {
+    @apply bg-black/10;
+  }
+  /* Suppress the global *:focus-visible 2px outline (index.css:156) on
+     flat buttons — the whole point of .btn-flat-sm is "no chrome".
+     Keyboard focus still has a visible affordance via the bg-black/5 +
+     text-black state (same as hover). stdrc 2026-05-09
+     #proj-uiux:4454ed3c "Active 的时候好像没必要有边框吧". */
+  .btn-flat-sm:focus,
+  .btn-flat-sm:focus-visible {
+    @apply outline-none;
+  }
+  .btn-flat-sm:focus-visible {
+    @apply bg-black/5 text-black;
+  }
+  .btn-flat-sm:disabled {
+    @apply pointer-events-none opacity-40;
+  }
+
+  .card-brutal {
+    @apply border-2 border-black bg-white shadow-brutal;
+  }
+
+  .image-transparency-bg {
+    background-color: #fff;
+    background-image:
+      linear-gradient(45deg, rgba(20, 17, 17, 0.12) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(20, 17, 17, 0.12) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(20, 17, 17, 0.12) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(20, 17, 17, 0.12) 75%);
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    background-size: 16px 16px;
+  }
+
+  .image-gallery-bg {
+    background: #fff;
+  }
+
+  .input-brutal {
+    @apply border-2 border-black bg-white px-3 py-2 font-display shadow-brutal-sm
+           focus:outline-none focus:shadow-brutal;
+  }
+}

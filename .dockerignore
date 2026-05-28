@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+**/dist
+**/.git
+.claude
+*.db
+*.db-journal
+*.db-wal
+.env
+.env.*

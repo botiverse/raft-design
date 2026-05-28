@@ -1,0 +1,20 @@
+app = "slock-redis-staging"
+primary_region = "sin"
+
+[build]
+  image = "redis:7-alpine"
+
+[env]
+  # Redis config via command-line args (see [processes])
+
+[processes]
+  app = "sh -c 'redis-server --appendonly yes --requirepass $REDIS_PASSWORD --bind 0.0.0.0 :: --maxmemory 100mb --maxmemory-policy noeviction'"
+
+[mounts]
+  source = "redis_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+  processes = ["app"]

@@ -1,0 +1,42 @@
+{
+  "name": "@slock-ai/computer",
+  "version": "0.0.13",
+  "description": "Slock Computer — standalone human/local-machine control-plane CLI (login + attach). Distinct from the agent-facing @slock-ai/cli.",
+  "type": "module",
+  "bin": {
+    "slock-computer": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botiverse/slock.git",
+    "directory": "packages/computer"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "computer": "tsx src/index.ts",
+    "start": "tsx src/index.ts",
+    "build:deps": "pnpm --filter @slock-ai/daemon build",
+    "build": "pnpm run build:deps && tsup",
+    "test": "node --import tsx --test --test-force-exit 'src/**/*.test.ts'",
+    "typecheck": "tsc --noEmit",
+    "lint:boundaries": "node scripts/check-boundaries.mjs"
+  },
+  "dependencies": {
+    "@slock-ai/daemon": "workspace:*",
+    "commander": "^12.1.0",
+    "proper-lockfile": "^4.1.2",
+    "undici": "^7.24.7"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

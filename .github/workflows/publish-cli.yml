@@ -1,0 +1,63 @@
+name: Publish @slock-ai/cli
+
+# Agent-facing Slock CLI publish lane. This is intentionally independent from
+# @slock-ai/daemon: daemon packages still bundle packages/cli/dist for managed
+# runners, while this workflow publishes the explicit @slock-ai/cli package for
+# standalone agent-facing installs.
+#
+# Triggered by tags `cli-v*`. Tag-name segments drive the npm dist-tag
+# (`cli-v0.0.1` -> latest, `cli-v0.0.2-alpha.0` -> alpha,
+# `cli-v0.0.2-experimental.0` -> experimental). Like Computer, this is
+# tag-only; staging branch pushes do not publish CLI prereleases.
+#
+# Requires npm trusted-publisher configuration for @slock-ai/cli matching this
+# workflow and repository. Provenance is intentionally omitted because the
+# source repository is private, matching publish-daemon.yml / publish-computer.yml.
+
+on:
+  push:
+    tags:
+      - "cli-v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          registry-url: https://registry.npmjs.org
+
+      - run: npm install -g npm@latest
+
+      - run: pnpm install
+
+      - name: Determine npm dist-tag
+        id: dist-tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          if echo "$TAG" | grep -q "alpha"; then
+            echo "tag=alpha" >> "$GITHUB_OUTPUT"
+          elif echo "$TAG" | grep -q "experimental"; then
+            echo "tag=experimental" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate publish metadata
+        run: cd packages/cli && pnpm run lint:publish-package
+
+      # Use pnpm publish for consistency with Computer and to keep workspace
+      # protocol handling safe if the CLI ever gains a publish-time workspace
+      # dependency. Current @slock-ai/shared use is bundled from devDependencies;
+      # check-publish-package pins that no unpublished shared runtime dependency
+      # leaks into the npm package.
+      - run: cd packages/cli && pnpm run build && pnpm publish --tag ${{ steps.dist-tag.outputs.tag }} --no-git-checks --access public

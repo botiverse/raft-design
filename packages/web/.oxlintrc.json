@@ -1,0 +1,77 @@
+{
+  // Oxlint config — JSONC supported (// + /* */ + trailing commas).
+  // Reads .oxlintrc.json by default. ESLint v8 schema-compatible.
+  //
+  // Scope: packages/web only. Bootstrap PR — wires the linter as
+  // report-only (no CI gate) per xxchan #proj-frontend:4d5df538.
+  // Promotions / new rules land as follow-up PRs.
+
+  "jsPlugins": [
+    { "name": "react-doctor", "specifier": "oxlint-plugin-react-doctor" }
+  ],
+
+  "rules": {
+    // ───────────────────────── Tier-1 (error) ─────────────────────────
+    // These four rules guard regressions for issues already fixed on
+    // staging. They are kept at "error" so a re-introduction trips CI
+    // (once the gate is turned on in a later PR).
+
+    // PR #2194 — iframes in AttachmentMessage / docs sandbox.
+    "react-doctor/iframe-missing-sandbox": "error",
+
+    // PR #2194 — passive scroll listeners on hot paths.
+    "react-doctor/client-passive-event-listeners": "error",
+
+    // PR #2197 — ActionCard's local useState(metadata) mirror removed;
+    // prop is now source of truth. This rule blocks regressing back to
+    // a derived-from-prop useState.
+    "react-doctor/no-derived-useState": "error",
+
+    // PR #2198 — App.tsx hoist + AgentScopesPanel rename fixed the
+    // existing rules-of-hooks violations. Keep the rule on at error
+    // severity so any new early-return-before-hooks lands as a CI fail.
+    "react-doctor/rules-of-hooks": "error",
+
+    // ───────────────────────── DROP (off) ─────────────────────────
+    // Rules explicitly disabled with rationale. Revisit when the
+    // anchor reason changes; do not flip without a thread decision.
+
+    // Conflicts with the canonical React rules-of-hooks contract
+    // (cannot reorder hooks across an early return). Marked no-fix by
+    // react-doctor maintainers in their own review notes; not worth
+    // the manual sweep cost for the false-positive shape we see in
+    // slock callsites.
+    // Anchor: PR #2197 review #proj-frontend:b204aff6.
+    "react-doctor/rerender-memo-before-early-return": "off",
+
+    // Fires on Vite/React Fast Refresh boundaries that mix component
+    // exports with hook / util exports. The rule is a dev-time HMR
+    // hygiene check, not a runtime concern; the production bundle is
+    // unaffected. Fixing it requires splitting many small modules,
+    // which we don't want to absorb during the lint bootstrap.
+    // Revisit: if we ever see actual HMR breakage trace to this.
+    "react-doctor/only-export-components": "off",
+
+    // Mechanical "add type=button to every <button>" sweep. ESLint
+    // fix-on-save (in editors that wire it) handles this for free,
+    // and the rule otherwise produces a large noisy batch that adds
+    // no real safety beyond what default-button-as-submit-form already
+    // gives us inside <form> elements (slock has very few).
+    // Revisit: when we add an autofix pipeline.
+    "react-doctor/button-has-type": "off",
+
+    // 8/8 false positives in slock — every hit was a react-router
+    // `useLocation()` reference, NOT `window.location`. The rule
+    // treats `Location` type-name matches as mutable globals; the
+    // hook return value is router-managed and stable across renders.
+    // Anchor: PR #2198 readback thread #proj-frontend:fbd35ac3.
+    "react-doctor/no-mutable-in-deps": "off"
+
+    // ───────────────────────── Future tiers ─────────────────────────
+    // The remaining ~283 react-doctor rules are not enabled in this
+    // bootstrap PR. They will be promoted as batched sweep PRs land
+    // (tracked under #proj-routine-inspection — methodology v0.3).
+    // The "parked baseline ~325 conditions" lives in the
+    // react-doctor CLI scanner output, not in oxlint findings yet.
+  }
+}

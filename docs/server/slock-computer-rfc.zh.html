@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slock Computer RFC v0.1</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f1e8;
+      --paper: #fffaf0;
+      --ink: #1f2528;
+      --muted: #657174;
+      --line: #d8cdb9;
+      --machine: #1f6f68;
+      --agent: #9a4d16;
+      --human: #4b5f9f;
+      --substrate: #b79a35;
+      --warn: #a14b4b;
+      --ok: #2f7a4a;
+      --code: #102a33;
+      --code-bg: #edf3ef;
+      --shadow: 0 24px 80px rgba(58, 46, 25, 0.14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(31, 111, 104, 0.16), transparent 28rem),
+        radial-gradient(circle at 80% 12%, rgba(154, 77, 22, 0.12), transparent 22rem),
+        linear-gradient(180deg, #fbf6ed 0%, var(--bg) 100%);
+      color: var(--ink);
+      font-family: Charter, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif SC", serif;
+      line-height: 1.62;
+    }
+    main { width: min(1180px, calc(100vw - 36px)); margin: 38px auto 80px; }
+    header.hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 250, 240, 0.92);
+      box-shadow: var(--shadow);
+      padding: 42px;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -120px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: conic-gradient(from 210deg, rgba(31,111,104,.18), rgba(154,77,22,.16), rgba(75,95,159,.13), rgba(31,111,104,.18));
+      filter: blur(2px);
+    }
+    h1, h2, h3, h4 { line-height: 1.18; margin: 0; letter-spacing: -0.02em; }
+    h1 { max-width: 880px; font-size: clamp(2.2rem, 5vw, 4.5rem); }
+    h2 { margin-top: 50px; font-size: clamp(1.5rem, 3vw, 2.35rem); }
+    h3 { margin-top: 30px; font-size: 1.25rem; }
+    h4 { margin-top: 22px; font-size: 1.05rem; }
+    p { margin: 0.78rem 0 0; }
+    a { color: #205e7a; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .eyebrow {
+      display: inline-flex; gap: 10px; align-items: center; margin-bottom: 18px;
+      color: var(--muted); font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .pill {
+      display: inline-flex; align-items: center;
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 5px 11px; background: rgba(255,255,255,.62);
+    }
+    .lede {
+      max-width: 850px;
+      margin-top: 20px;
+      font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #334145;
+    }
+    .meta {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px; margin-top: 28px;
+      font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif; font-size: 0.88rem;
+    }
+    .meta div, .toc, .diagram, .table-wrap, pre:not(.mermaid) {
+      border: 1px solid var(--line);
+      background: rgba(255,250,240,.78);
+      box-shadow: 0 10px 32px rgba(58,46,25,.08);
+    }
+    .meta div { border-radius: 16px; padding: 14px; }
+    .meta b {
+      display: block; color: var(--muted); font-size: 0.76rem;
+      letter-spacing: 0.07em; text-transform: uppercase;
+    }
+    .toc {
+      margin-top: 24px;
+      border-radius: 22px;
+      padding: 20px 22px;
+      font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif;
+    }
+    .toc h2 { margin: 0 0 12px; font-size: 1rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    .toc ol { margin: 0; padding-left: 1.2rem; columns: 2; }
+    .toc li { break-inside: avoid; margin: .28rem 0; }
+    section {
+      margin-top: 26px;
+      padding: 28px;
+      border: 1px solid rgba(216,205,185,.82);
+      border-radius: 26px;
+      background: rgba(255,250,240,.56);
+    }
+    .diagram {
+      margin-top: 18px;
+      border-radius: 22px;
+      padding: 22px;
+      overflow-x: auto;
+    }
+    .diagram h3 { margin-top: 0; margin-bottom: 14px; }
+    .mermaid { min-width: 720px; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .table-wrap { margin-top: 16px; border-radius: 22px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif; font-size: .94rem; }
+    th, td { border-bottom: 1px solid var(--line); padding: 13px 12px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+    tr:last-child td { border-bottom: none; }
+    ul, ol { margin: .78rem 0 0; padding-left: 1.25rem; }
+    li { margin-top: .42rem; }
+    code, pre {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, ui-monospace, monospace;
+    }
+    code { border-radius: 6px; padding: .1rem .35rem; background: var(--code-bg); color: var(--code); }
+    pre:not(.mermaid) {
+      margin: 14px 0 0;
+      border-radius: 16px;
+      padding: 18px;
+      overflow-x: auto;
+      background: #102a33;
+      color: #e4f2ec;
+      font-size: .86rem;
+      line-height: 1.45;
+    }
+    pre:not(.mermaid) code { background: transparent; color: inherit; padding: 0; }
+    footer { margin-top: 30px; color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: .88rem; }
+    @media (max-width: 760px) {
+      header.hero { padding: 28px; border-radius: 22px; }
+      .meta { grid-template-columns: 1fr; }
+      .toc ol { columns: 1; }
+      section { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="eyebrow"><span class="pill">RFC v0.1</span><span>HTML + Mermaid</span></div>
+      <h1>Slock Computer RFC v0.1</h1>
+      <p class="lede">Computer-specific control-plane RFC：Computer 三层目标模型 / Provisioning flows（含 §4.4 upgrade contract）/ Computer surface §5.1 + §5.7–§5.11 / Migration plan / 首切 acceptance / 仍在 Computer 范围的 Hard non-goals。Credential / Server slug surface / Workspace ownership / Stable error-code framework / Credential-axis Hard non-goals 已抬到 <a href="slock-credential-rfc.zh.html">slock-credential-rfc.zh.html</a> base RFC v0.1，本文档不再维护对应 normative 正文。</p>
+      <div class="meta">
+        <div><b>Status</b>Draft</div>
+        <div><b>Discussion</b>#proj-runtime:7102d22d / #wg-slock-computer</div>
+        <div><b>Supersedes</b>slock-computer-agent-runner-rfc-v0.8.zh.html (retired in same PR)</div>
+        <div><b>Lift relationship</b>credential / slug / workspace ownership / stable error-code framework / credential-axis hard non-goals → slock-credential-rfc.zh.html (base RFC v0.1)</div>
+        <div><b>Generated</b>2026-05-25 (v0.1 split — Computer-specific subset of v8.3.3)</div>
+      </div>
+    </header>
+    <nav class="toc">
+      <h2>Contents</h2>
+      <ol><li><a href="#0-这份-rfc-要解决什么">0. 这份 RFC 要解决什么</a></li><li><a href="#1-当前模型的问题">1. 当前模型的问题</a></li><li><a href="#2-目标模型">2. 目标模型</a></li><li><a href="#3-credential-模型">3. Credential 模型</a> <span class="note">（cross-ref → <a href="slock-credential-rfc.zh.html#section-credential-model">base RFC §1</a>）</span></li><li><a href="#4-provisioning-flows">4. Provisioning flows</a> <span class="note">（§4.4 upgrade contract — v8.3）</span></li><li><a href="#5-api-surface">5. API surface</a> <span class="note">（§5.1 Computer surface 保留；§5.2–§5.5 + §5.6 cross-ref → <a href="slock-credential-rfc.zh.html#section-api-auth-surface">base RFC §2/§3</a>；§5.7 status observability、§5.8 default Computer name、§5.9 setup wizard、§5.10 device login URL、§5.11 legacy daemon adoption — v8.2 Computer-specific）</span></li><li><a href="#6-capability-model">6. Capability model</a></li><li><a href="#7-transport-and-catch-up">7. Transport and catch-up</a></li><li><a href="#8-workspace-ownership">8. Workspace ownership</a> <span class="note">（cross-ref → <a href="slock-credential-rfc.zh.html#section-workspace-ownership">base RFC §4</a>）</span></li><li><a href="#9-migration-plan">9. Migration plan</a></li><li><a href="#10-first-vertical-slice-acceptance">10. First vertical slice acceptance</a> <span class="note">（§10.8 slug acceptance — v8.1；§10.9–§10.13 v8.2 Computer surface acceptance；§10.14 upgrade contract acceptance — v8.3）</span></li><li><a href="#11-hard-non-goals">11. Hard non-goals</a> <span class="note">（credential 子集 cross-ref → <a href="slock-credential-rfc.zh.html#section-credential-hard-non-goals">base RFC §6</a>；条目 12 v8.3 in-flight turn + 13 v8.3.3 post-swap rollback 保留为 Computer-specific）</span></li><li><a href="#12-open-questions">12. Open questions</a></li><li><a href="#13-closed-decisions">13. Closed decisions</a></li><li><a href="#14-implementation-checklist-for-pr-review">14. Implementation checklist for PR review</a></li></ol>
+    </nav>
+    <section>
+<h1 id="slock-computer-rfc-v0-1">Slock Computer RFC v0.1</h1>
+<p>Status: Draft Discussion: #proj-runtime:7102d22d / #wg-slock-computer Supersedes: <code>slock-computer-agent-runner-rfc-v0.8.zh.html</code>（在同一 PR 中退场） Related: <a href="slock-credential-rfc.zh.html">slock-credential-rfc.zh.html</a>（base credential RFC v0.1，承接原 §3 / §5.2–§5.6 / §8 / §11 credential 子集）；PR #1735；task #164 Agent Lifecycle Event Model；task #177 lifecycle producer migration</p>
+<p><b>Lift relationship</b>：本 RFC 承接原 v0.8 中 Computer-specific 子集（§0/§1/§2/§4 含 §4.4 upgrade contract/§5.1/§5.7–§5.11/§6/§7/§9/§10/§11 v8.3 + v8.3.3 Computer-axis 子条/§12/§13/§14）。原 §3 credential 模型、§5.2–§5.5 generic auth surface、§5.6 server slug surface、§8 workspace ownership、§11 credential 子集（条目 1–11）已 verbatim 抬到 base credential RFC v0.1，本文档保留 cross-ref stub。<b>§4.4 (6) closed-set 10 token 字面量</b>（含 7 个 attempt outcome + 2 个 pre-condition + 1 个 informational）作为 dual-script contract 的 presence 半，<b>verbatim 保留</b>在本文档 §4.4 内。</p>
+<h2 id="0-这份-rfc-要解决什么">0. 这份 RFC 要解决什么</h2>
+<p>这不是一份只讨论 credential 命名的 RFC。它要重新定义 Slock 本机运行层的边界：大的 Computer control plane、每个 server attachment 对应的 thin server session worker、以及真正代表 agent 行动的 Agent Runner。</p>
+<p>目标态里只有两类非 human principal：Computer 和 Agent Runner。Server session worker 只是 Computer control plane 下的实现角色，不是独立 principal，也不是 ACL subject。</p>
+<div class="table-wrap"><table><thead><tr><th>主体</th><th>身份</th><th>作用</th></tr></thead><tbody><tr><td>Human</td><td>user JWT</td><td>人在 Web / API 里操作</td></tr><tr><td>Slock Computer</td><td><code>sk_computer_*</code>（按 server attachment 发放）</td><td>本机长期 control plane，管理安装、credential storage、多 server attachment、update、logs、diagnostics、runner supervision</td></tr><tr><td>Server Session Worker</td><td>无独立 principal</td><td>某个 server attachment 下的 thin worker，负责连接该 server、转发 control / lifecycle、启动和监管本 server 下的 runner</td></tr><tr><td>Agent Runner</td><td><code>sk_agent_*</code></td><td>一个 agent 的实际运行进程，负责 runtime、workspace、tool、message、task 等 agent 行为</td></tr></tbody></table></div>
+<p>之前的实现把这些边界混在一起：legacy daemon 既是机器连接，又替 agent 调 API，又启动 runtime，又管理 workspace。这个模型可以跑 demo，但不适合长期支持 managed runner、self-hosted runner、权限隔离、审计和一台 Computer 接入多个 Slock server。</p>
+<p>v0.8 的目标是把模型切清楚：</p>
+<ol><li>Computer 是本机 control plane，不是 agent。</li><li>Server session worker 是 per-server attachment 的 thin worker，不是 principal。</li><li>Runner 是 agent 的执行主体，不是 Computer 或 server session worker 的内部 helper。</li><li>managed runner 和 self-hosted runner 使用同一套 Agent Runner credential 和同一套 agent API。</li><li>server 是唯一 mint authority；Computer 只能请求 server 发 runner credential，不能本地 mint。</li><li>workspace、tool、message、task、reaction、reminder、profile、channel、thread、action-card 等 agent 行为都走 Runner 身份。</li></ol>
+<h2 id="1-当前模型的问题">1. 当前模型的问题</h2>
+<h3 id="1-1-legacy-daemon-现在承担了太多角色">1.1 legacy daemon 现在承担了太多角色</h3>
+<p><code>@slock-ai/daemon</code> 当前是一个长生命周期 machine worker。它用 <code>sk_machine_*</code> 连接 <code>/daemon/connect</code>，内部同时承担这些职责：</p>
+<ul><li>AgentProcessManager：启动和停止 runtime CLI 子进程。</li><li>runtime bridge：连接 Claude / Codex / Kimi 等 CLI。</li><li>MCP chat bridge：把 runtime 的工具调用转成 Slock 行为。</li><li>workspace 管理：准备 agent 工作目录。</li><li>system prompt builder：拼接 agent prompt。</li><li>active agent API 调用者：通过 <code>/internal/agent/:id/*</code> 以 machine 身份代 agent 行动。</li></ul>
+<p>这些职责放在一个进程里，会产生一个根本问题：机器身份和 agent 行为身份没有分开。server 审计看到的是 machine 在替 agent 做事，而不是 agent runner 自己在做事。</p>
+<p>这不要求立刻删除旧 daemon package。兼容期里 <code>@slock-ai/daemon</code> 可以继续作为 legacy entrypoint 存在，但它在新模型里只是启动 single-server Computer session 的 compatibility launcher。新代码不应该继续把 daemon 当作 principal 或目标架构中心。</p>
+<h3 id="1-2-slock-computer-当前只是-launcher-还不是完整-control-plane">1.2 slock-computer 当前只是 launcher，还不是完整 control plane</h3>
+<p><code>@slock-ai/computer</code> 现在更像一个 Play / demo / onboarding bridge：</p>
+<ul><li>通过 device-code attach。</li><li>创建或恢复 <code>machines</code> row，<code>clientType=computor</code>。</li><li>写入 <code>SLOCK_HOME/computers/computer-&lt;serverMachineId&gt;/state.json</code>。</li><li>mint <code>sk_machine_*</code> connection key。</li><li>启动 <code>@slock-ai/daemon@play</code>。</li></ul>
+<p>这条路径能把本机接进 server，但它还没有表达出 v0.8 需要的目标模型：Computer 是 runner 之外的本机 control plane，负责多 server attachment、credential storage、update、logs、diagnostics 和 runner supervision；真正的 agent 行为由 Agent Runner 持有 <code>sk_agent_*</code> 后完成。</p>
+<h3 id="1-3-external-agent-不能只是另一个-daemon-模式">1.3 External Agent 不能只是另一个 daemon 模式</h3>
+<p>External Agent 的核心要求不是“让外部机器也能跑 legacy daemon”。它要求：</p>
+<ul><li>self-hosted runner 不需要 human <code>slock login</code>。</li><li>self-hosted runner 使用 agent-scoped credential。</li><li>self-hosted runner 的 API 和 managed runner 完全一致。</li><li>server 审计能看到是哪个 agent runner 在行动。</li><li>未来 managed 和 self-hosted 的差异只来自部署方式，不来自权限模型。</li></ul>
+<p>如果继续让 Computer 或 server session worker 用 machine/computer key 代 agent 调用，就无法满足这个要求。</p>
+<h2 id="2-目标模型">2. 目标模型</h2>
+<div class="diagram"><h3>Server 是唯一身份 authority；Computer 和 Runner 是两个 principal，server session worker 不是 principal</h3><pre class="mermaid">flowchart TB
+  Server[&quot;Slock Server&lt;br/&gt;(identity authority · credential mint · audit log)&quot;]:::substrate
+  Server -- &quot;sk_computer_*&lt;br/&gt;per-server attachment&quot; --&gt; Computer[&quot;Slock Computer&lt;br/&gt;local control plane&lt;br/&gt;multi-server owner&quot;]:::machine
+  Computer --&gt; Session[&quot;Server Session Worker&lt;br/&gt;thin per-server adapter&lt;br/&gt;NO principal&quot;]:::session
+  Server -- &quot;sk_agent_*&lt;br/&gt;runner principal&quot; --&gt; Runner[&quot;Agent Runner&lt;br/&gt;per-agent process&quot;]:::agent
+  Session -- &quot;spawn / lifecycle&lt;br/&gt;no data-plane action&quot; --&gt; Runner
+  Runner -- &quot;owns&quot; --&gt; Workspace[&quot;Workspace&lt;br/&gt;runtime CLI&lt;br/&gt;tools&quot;]:::agent
+
+  classDef substrate fill:#fff8df,stroke:#b79a35,color:#3c3008;
+  classDef machine fill:#e6f3f0,stroke:#1f6f68,color:#103c38;
+  classDef session fill:#eef7f6,stroke:#6b8f8a,color:#274d49,stroke-dasharray: 4 3;
+  classDef agent fill:#fff0e3,stroke:#9a4d16,color:#4d2509;</pre></div>
+<div class="diagram"><h3>Runner wrapper 持有 agent key；runtime child 和 tool shell 不看 key</h3><pre class="mermaid">flowchart LR
+  Computer[&quot;Slock Computer&lt;br/&gt;control plane&quot;]:::machine
+  Session[&quot;Server Session Worker&lt;br/&gt;uses attachment sk_computer_*&lt;br/&gt;NO principal&quot;]:::session
+  Wrapper[&quot;Runner wrapper&lt;br/&gt;holds sk_agent_*&quot;]:::agent
+  Runtime[&quot;Runtime CLI child&lt;br/&gt;claude / codex / kimi&lt;br/&gt;NO KEY&quot;]:::scrubbed
+  Tools[&quot;Tool shells / workspace exec&lt;br/&gt;NO KEY&quot;]:::scrubbed
+  Server[(&quot;Slock Server&quot;)]:::substrate
+
+  Computer --&gt; Session
+  Session -- &quot;spawn wrapper&lt;br/&gt;private env&quot; --&gt; Wrapper
+  Wrapper -. &quot;spawn with SLOCK_* scrubbed&quot; .-&gt; Runtime
+  Wrapper -. &quot;spawn with SLOCK_* scrubbed&quot; .-&gt; Tools
+  Runtime &lt;-- &quot;stdio / loopback IPC&lt;br/&gt;no key on wire&quot; --&gt; Wrapper
+  Wrapper -- &quot;/internal/agent-api/*&quot; --&gt; Server
+
+  classDef substrate fill:#fff8df,stroke:#b79a35,color:#3c3008;
+  classDef machine fill:#e6f3f0,stroke:#1f6f68,color:#103c38;
+  classDef session fill:#eef7f6,stroke:#6b8f8a,color:#274d49,stroke-dasharray: 4 3;
+  classDef agent fill:#fff0e3,stroke:#9a4d16,color:#4d2509;
+  classDef scrubbed fill:#f3eef0,stroke:#a14b4b,color:#4d1414,stroke-dasharray: 5 4;</pre></div>
+<h3 id="2-1-三层架构">2.1 三层架构</h3>
+<h4 id="human">Human</h4>
+<p>Human 使用 user JWT 访问 <code>/api/*</code>。这是人类 UI 和普通用户 API 的身份，不参与 runner data plane。</p>
+<h4 id="slock-computer-computer-control-plane">Slock Computer / Computer control plane</h4>
+<p>Slock Computer 是本机长期 control plane。它是用户理解里的“一台 Slock Computer”，可以挂多个 Slock server attachment。</p>
+<p>每个 server attachment 使用一份 server-scoped <code>sk_computer_*</code>。所以 <code>sk_computer_*</code> 不是 account-level 或物理机器级全局 identity，而是“这台 Computer attach 到这个 server 的一段身份”。</p>
+<p>Computer 可以做：</p>
+<ul><li>attach / detach。</li><li>heartbeat。</li><li>上报 host capacity。</li><li>管理多 server attachment。</li><li>管理本机 credential storage boundary。</li><li>管理 update / logs / diagnostics。</li><li>启动和监管 server session worker。</li><li>接收 server 的 spawn / stop runner 请求。</li><li>向 server 请求某个 agent runner 的 credential。</li><li>监督本机 runner process 的生命周期。</li><li>上报 runner started / exited。</li></ul>
+<p>Computer 不可以做：</p>
+<ul><li>代表 agent 发送消息。</li><li>代表 agent 读 channel / thread / task。</li><li>代表 agent claim task / react / schedule reminder / update profile。</li><li>管理 agent workspace data plane。</li><li>持有 agent key 超过 handoff 所需的最短窗口。</li><li>本地生成 <code>sk_agent_*</code>。</li></ul>
+<p>Computer 是 host，不是 agent。</p>
+<h4 id="server-session-worker">Server Session Worker</h4>
+<p>Server session worker 是 Computer control plane 为某个 server attachment 启动或内嵌的 thin worker。它没有独立 principal，不 mint 自己的 key，也不成为 ACL subject。它使用该 attachment 的 Computer authority 做 control-plane 工作。</p>
+<p>Server session worker 可以做：</p>
+<ul><li>连接某个 Slock server。</li><li>维护该 server attachment 的 heartbeat / reconnect。</li><li>接收该 server 的 control message。</li><li>转发 lifecycle / runner supervision signal。</li><li>启动 / 停止该 server 下的 Agent Runner。</li></ul>
+<p>Server session worker 不可以做：</p>
+<ul><li>代表 agent 调 <code>/internal/agent-api/*</code>。</li><li>持有 <code>sk_agent_*</code> 超过 handoff 所需的最短窗口。</li><li>作为 lifecycle event producer 或 credential actor 出现在产品事件模型里。</li></ul>
+<p>兼容期内，现有 <code>@slock-ai/daemon</code> 可以实现这个 role；但 RFC 和新代码里应把它称为 server session worker，而不是继续把 daemon 当作目标态架构名词。</p>
+<h4 id="agent-runner">Agent Runner</h4>
+<p>Agent Runner 是一个 agent 的实际执行进程。它使用 <code>sk_agent_*</code>。</p>
+<p>Runner 拥有：</p>
+<ul><li>runtime CLI 子进程。</li><li>MCP chat bridge。</li><li>agent workspace。</li><li>tool execution boundary。</li><li>agent-facing system prompt。</li><li><code>/internal/agent-api/*</code> 调用权。</li><li>runner websocket 或 runner event stream。</li></ul>
+<p>Runner 是 agent 行为的 data-plane principal。server 审计 agent 行动时，应该看到 runner credential，而不是 Computer credential。</p>
+<h3 id="2-2-managed-runner-和-self-hosted-runner-是同一种东西">2.2 managed runner 和 self-hosted runner 是同一种东西</h3>
+<p>managed runner 和 self-hosted runner 的区别只在 provisioning。这里的 self-hosted 表示 runner 由用户或第三方部署和管理，不表示 self-hosted Slock server：</p>
+<div class="table-wrap"><table><thead><tr><th>类型</th><th>谁启动</th><th>credential 来源</th><th>API</th></tr></thead><tbody><tr><td>Managed Runner</td><td>Slock Computer 根据 server 指令启动</td><td>Computer 向 server 请求，server mint <code>sk_agent_*</code></td><td><code>/internal/agent-api/*</code></td></tr><tr><td>Self-hosted Runner</td><td>用户或第三方在外部环境启动</td><td>bootstrap / exchange 得到 <code>sk_agent_*</code></td><td><code>/internal/agent-api/*</code></td></tr></tbody></table></div>
+<p>两者不应该有两套 agent API。self-hosted runner 不是“用户脚本 + 特权 token”，managed runner 也不是“daemon 代 agent 调用”。它们都是 Agent Runner。</p>
+<h3 id="2-3-server-请求-runner-不请求-computer-兜底">2.3 server 请求 Runner，不请求 Computer 兜底</h3>
+<p>workspace 和 agent 行为属于 Runner。server 如果需要 workspace 能力，应该请求 Runner：</p>
+<ul><li>Runner 在线且支持能力：执行。</li><li>Runner 离线：返回 <code>runner_unavailable</code>。</li><li>Runner 在线但当前 active session 不支持能力：返回 <code>unsupported_capability</code>。</li><li>credential 本身没有被授权：返回 <code>capability_not_authorized</code>。</li></ul>
+<p>不能 fallback 到 Computer host。Computer host 没有 agent workspace authority。</p>
+<h3 id="2-4-legacy-daemon-entrypoint">2.4 legacy daemon entrypoint</h3>
+<p>为了不破坏现有安装、脚本、CI 和用户启动方式，旧 <code>@slock-ai/daemon</code> package / binary 可以保留一段时间。</p>
+<p>兼容规则：</p>
+<ul><li>旧 daemon entrypoint 只做 bootstrap：读取旧配置，创建或选择一个 server attachment，然后启动 Computer core 的 single-server session mode。</li><li>新能力进入 Computer control plane / server session worker / Agent Runner core，不继续长在 legacy daemon abstraction 上。</li><li>日志和 version 可以在兼容期继续显示 daemon 版本，但协议/RFC 不把 daemon 当 principal、producer 或目标架构层。</li><li>等 <code>slock/computer</code>、multi-server attachment、desktop shell、自更新稳定后，再决定 daemon package 是 thin wrapper 还是 deprecate。</li></ul>
+<p>也就是说：外部入口可以兼容旧 daemon，用法不马上断；内部依赖方向必须是 <code>computer -&gt; server session worker -&gt; agent runner</code>。</p>
+<h2 id="3-credential-模型">3. Credential 模型</h2>
+<p>本节正文已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-credential-model">slock-credential-rfc.zh.html §1 Credential 模型</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，cross-ref 进入 base RFC 子节：</p>
+<ul><li>§3.1 credential 类型 → <a href="slock-credential-rfc.zh.html#section-credential-types">base RFC §1.1</a></li><li>§3.2 server 是唯一 mint authority → <a href="slock-credential-rfc.zh.html#section-mint-authority">base RFC §1.2</a></li><li>§3.3 一个请求，一个 principal → <a href="slock-credential-rfc.zh.html#section-one-request-one-principal">base RFC §1.3</a></li><li>§3.4 runner key isolation → <a href="slock-credential-rfc.zh.html#section-credential-isolation">base RFC §1.4</a></li></ul>
+<p>本节锚点 <code>#3-credential-模型</code> 保留作为旧引用 redirect 入口；任何 normative 表述以 base RFC 为准。</p>
+<h2 id="4-provisioning-flows">4. Provisioning flows</h2>
+<div class="diagram"><h3>Managed Runner：server mint，Computer 只是授权请求者</h3><pre class="mermaid">sequenceDiagram
+  autonumber
+  actor Human
+  participant UI as Slock UI / API
+  participant Server
+  participant Computer as Computer control plane
+  participant Session as Server Session Worker (uses sk_computer_*)
+  participant Runner as Agent Runner
+
+  Human-&gt;&gt;UI: Add agent on Computer X
+  UI-&gt;&gt;Server: POST /api/agents
+  Server-&gt;&gt;Session: agent:start
+  Session-&gt;&gt;Server: POST /internal/computer/runners/:agentId/credentials
+  Server--&gt;&gt;Session: sk_agent_* (one-time plaintext)
+  Session-&gt;&gt;Runner: spawn wrapper with sk_agent_*
+  Session-&gt;&gt;Session: discard plaintext
+  Runner-&gt;&gt;Server: /internal/agent-api/* with sk_agent_*</pre></div>
+<div class="diagram"><h3>Self-hosted Runner：同一种 sk_agent_* 模型，CLI onboarding deferred</h3><pre class="mermaid">sequenceDiagram
+  autonumber
+  actor Human
+  participant UI as Slock UI / API
+  participant Server
+  participant Runner as Self-hosted Runner
+
+  Human-&gt;&gt;UI: Mint runner bootstrap token
+  UI-&gt;&gt;Server: POST /api/agents/:id/bootstrap-tokens (flag gated)
+  Server--&gt;&gt;UI: abtk_* (single-use)
+  UI--&gt;&gt;Human: future runner bootstrap instructions (deferred)
+  Human-&gt;&gt;Runner: configure runner host
+  Runner-&gt;&gt;Server: POST /api/agent/login (flag gated)
+  Server--&gt;&gt;Runner: sk_agent_*
+  Runner-&gt;&gt;Server: /internal/agent-api/*</pre></div>
+<h3 id="4-1-managed-runner-flow">4.1 managed runner flow</h3>
+<p>Managed flow:</p>
+<ol><li>Human 或 server 决定某个 Computer 上需要启动 agent A。</li><li>server 向该 Computer 的对应 server session worker 下发 spawn intent。</li><li>Server session worker 使用该 attachment 的 Computer credential 调 <code>/internal/computer/runners/:agentId/credentials</code> 请求 runner credential。</li><li>server 校验 Computer 是否有权在这个 server 上为 agent A 请求 runner credential。</li><li>server mint <code>sk_agent_*</code>，绑定 agent A、server、capability max set、expiry、audit metadata。</li><li>Computer / server session worker 启动 runner wrapper，只在 handoff 阶段把 credential 交给 wrapper。</li><li>wrapper 启动 chat bridge / runtime，并 scrub runtime child env。</li><li>Runner 通过 <code>/internal/agent-api/*</code> 行动。</li><li>Runner 上报 started / exited，server session worker 只转发 supervision signal，不进入 agent data plane。</li></ol>
+<h3 id="4-2-self-hosted-runner-flow">4.2 self-hosted runner flow</h3>
+<p>Self-hosted runner 的权限模型和代码路径要保留，但本 PR 不发布用户可见 CLI onboarding 命令；该入口不属于 #1836 release surface。</p>
+<ol><li><code>clientMode=self-hosted-runner</code> 仍表示外部 runner 直接持有 <code>sk_agent_*</code>，并使用同一套 <code>/internal/agent-api/*</code> surface。</li><li>bootstrap token issue / exchange primitive 可以保留为代码能力，但默认不在生产挂载；必须显式设置 <code>SLOCK_SELF_HOSTED_RUNNER_BOOTSTRAP_ENABLED=true</code> 才能启用 <code>POST /api/agents/:id/bootstrap-tokens</code> 和 <code>POST /api/agent/login</code>。</li><li>测试可以显式打开该 flag 验证 primitive；产品化 CLI / UI onboarding 文案后续再发。</li></ol>
+<p>未来启用时，server 通过 <code>POST /api/agent/login</code> exchange bootstrap token，mint <code>sk_agent_*</code>；runner 本地保存 agent-scoped credential，并使用 <code>/internal/agent-api/*</code> 发送消息、claim task、react、读事件、管理 reminder 等。</p>
+<p>Self-hosted runner 不应该走 human device auth，也不应该拿 user JWT。</p>
+<h3 id="4-3-lifecycle-events">4.3 lifecycle events</h3>
+<p>Credential lifecycle 事件沿用 v0.6 §13 Q4 的约定：</p>
+<ul><li><code>credential_issued</code></li><li><code>credential_revoked</code></li><li><code>credential_first_used</code> reserved but not active</li></ul>
+<p><code>credential_last_used_at</code> 是 audit metadata，不是 lifecycle event，也不应该出现在 Activity Log 里当作一条事件。</p>
+<p>Lifecycle event producer / actor 只认 principal，不认实现进程：</p>
+<ul><li><code>credential_issued</code> / <code>credential_revoked</code> 的 actor 是 Computer principal。</li><li>subject 是 Agent Runner principal。</li><li>server session worker 不是 producer，不是 actor，也不是 subject。</li><li>server session worker start / stop / heartbeat / supervision 属于 operational telemetry stream，不进入 lifecycle event schema。</li></ul>
+<h3 id="4-4-upgrade-contract">4.4 upgrade contract</h3>
+<p>v8.3 narrow append。本节锁定 <code>slock-computer upgrade</code>（CLI / web button / tray item 任一触发）的契约面，反转 PR-E narrow-v1 "只升 supervisor 不升 daemon" 的窄定义 —— 实测发现窄定义会让新 supervisor 期待新 daemon 协议、找到旧 daemon 时进入 skew，agent delivery wave 静默 reject（参考 #proj-daemon task #44 KIMI_RS field regression）。v8.3 将 upgrade target 锁回 atomic bundle。</p>
+
+<p><b>1. Atomic install — supervisor + bundled daemon</b>：upgrade target 是 <i>Computer service unit</i> = <code>@slock-ai/computer</code> supervisor + bundled <code>@slock-ai/daemon</code>，两个包作为<b>同一个原子事务</b>安装。</p>
+<ul><li>不允许 supervisor 已升级但 daemon 仍是旧版的 in-between 状态。</li><li>Pre-swap failure 不触碰 active layout（active Computer service version 仍 prior）；post-swap restart failure 留 active layout = new bundle 并标 Computer service unhealthy（无自动 reverse-swap，参见 §11 v8.3.3 hard non-goal）。</li><li>实现走 <code>pnpm deploy --legacy --config.node-linker=hoisted</code> 同 packaging path（与 daemon APP / Computer App 同一 deploy 模式）。</li></ul>
+<p><b>v0 install 路径（v8.3.3 cleanup — Hao msg=aee2822d / Adspectum msg=78a5382f / Cody msg=1bd65c54 / Jianwei msg=3e4418bf / tygg msg=6f83c613 一致 lock）</b>：v0 <b>不</b>支持 post-swap rollback。两概念拆分：</p>
+<ul><li><b>保留 staging fail-cleanup</b>（pre-swap 失败 = 不提交，不是 rollback）：stage / verify 阶段任何失败 → 不触碰 active layout（用户面 Computer service version 仍 prior，零 disruption）、emit error code（<code>UPGRADE_NETWORK_FAILED</code> / <code>UPGRADE_INTEGRITY_FAILED</code> / <code>UPGRADE_DEPS_CHANGED</code> 之一）。Staging artifact <b>保留</b>在 <code>upgrade-staging/&lt;version&gt;/</code> 供 operator 检查 forensic evidence；same-version retry fail-closed 直到 operator 手动 <code>rm -rf</code> 清理（与 PR #2080 paths.ts JSDoc 锁定 same-version retry semantics 一致）。</li><li><b>不允许 post-swap rollback / reverse-swap</b>：active layout swap 一旦发生 → upgrade 视为 <b>committed forward-only</b>。后续 restart / runner ready 失败 → emit unhealthy + actionable hint，<b>不</b>自动切回旧版本。用户面 Computer service version 已 new（已 committed），status 标 unhealthy 引导 user 跑 `restart` / 重跑 `upgrade` / 人工 inspect。</li></ul>
+<p>不允许 "先装 supervisor 再装 daemon 失败 npm uninstall" 非原子兜底（实质等同 PR-E narrow-v1 skew 风险换皮）。Install 路径由以下 3-step stage / atomic swap / restart 流程承载（all paths 由 <code>paths.ts::*</code> 函数派生，不允许 implementation 直接写 <code>~/.slock/computer/...</code> 字面量）：</p>
+<ol><li><b>Stage</b>：两个包 unpack/deploy 到 <code>~/.slock/computer/upgrade-staging/&lt;version&gt;/</code>（不动 active path）。Stage 失败 → emit error，active layout 未触碰，staging artifact <b>保留</b>供 forensic 检查（与上文 pre-swap fail-cleanup 段一致；与 PR #2080 paths.ts JSDoc same-version retry fail-closed 一致）；same-version retry 直到 operator 手动 <code>rm -rf</code> 清理才解锁。</li><li><b>Swap</b>：staging binary swap 到 active 路径，使用 <b>platform's same-volume atomic directory move primitive</b>（POSIX <code>rename(2)</code> / Windows <code>MoveFileEx</code> 等价），持有 <b>Computer upgrade lock</b> 屏蔽并发 upgrade。Lock 屏蔽规则：swap 期间，<b>任何 runner spawn / status version read 都不允许观察到半 swap / 缺失的 active layout</b>；如果 active path 在任意时刻不可用 → emit <code>UPGRADE_SWAP_FAILED</code>（active layout 未触碰，用户面 version 仍 prior，零 disruption）。Swap 完成 = upgrade <b>committed forward-only</b>。</li><li><b>Restart</b>：swap 后 bounded sequential restart agent runner（见 (2)）。任一 runner 在 timeout 内未上报 <code>running_idle</code> → emit <code>UPGRADE_RESTART_FAILED</code> + Computer service 标 unhealthy；<b>不</b> reverse-swap，<b>不</b> kill 已切到新 layout 的 runner。用户面 Computer service version = new（已 committed），actionable hint 引导 user 跑 `slock-computer restart` 或人工 inspect / 重跑 `upgrade`。</li></ol>
+<p><b>Forensic evidence</b>：staging dir 失败时保留供 operator 检查（不自动删，需手动 <code>rm -rf</code>，与 PR #2080 paths.ts JSDoc 锁定语义一致）；<code>upgrade.log</code> 记完整 outcome + errorCode。Pre-swap failure (<code>UPGRADE_NETWORK_FAILED</code> / <code>_INTEGRITY_FAILED</code> / <code>_DEPS_CHANGED</code> / <code>_SWAP_FAILED</code>) → 用户面 Computer service version 仍 prior；post-swap failure (<code>UPGRADE_RESTART_FAILED</code>) → 用户面 version 已 new but unhealthy。</p>
+<p>同时继承 PR-E 已 merge 的 <b>daemon-resolution invariant</b>（Computer package root anchored daemon resolution，head <code>fe992e4e</code> 已锁）：实现不允许回退到 <code>exports</code>-based / <code>require.resolve</code>-based daemon 入口解析路径；daemon binary 必须从已 swap 的 active <code>computer/</code> root 锚定，否则 staging 期间 supervisor 找到的是 prior daemon，atomicity 形同虚设。</p>
+
+<p><b>2. Bounded sequential restart of agent runners</b>（v8.3.3 rename — Cody msg=67e6c1ec + Hao msg=e30c87ae + Jianwei msg=78d26baf 三家锁；"rolling restart" 词隐含 substitutability / HA / zero-downtime guarantee（web pods 模型），但 daemon/runner 是 per-server/per-agent 不可替代，rolling 框架不成立 —— contract 意图是 blast-radius 控制 + 资源/诊断约束，<b>不是</b> HA/availability guarantee）：atomic swap 完成后，现有 agent runner subprocess 不允许同时全部 kill。</p>
+<ul><li>Bounded sequential restart（per-server bounded concurrency，v0 默认 1-at-a-time）。</li><li>每个 runner restart 必须等待 replacement 上报 <code>ready</code> 后才 kill 下一个。</li><li>目标：blast-radius 控制 + 资源/诊断约束（避免多 agent 同时 strand 入 <code>activityKind=starting</code> 死循环 / 同时 starting 会污染 supervisor 日志、争抢启动资源；参考 task #44 / task #50 真实 incident）。<b>不</b>承诺 user-visible availability / zero-downtime / failover —— managed runners 没有互相替代关系。</li><li>"两个 runner 不能同时 starting" invariant 保留，但解释为 blast-radius / 资源约束，不是 availability guarantee（旧 "rolling" framing 隐含的 substitutability 在 per-server/per-agent 模型不成立）。</li></ul>
+<p><b>"ready" 语义锁定</b>：supervisor 收到 replacement runner 的 <code>running_idle</code> lifecycle event（同 v8.3 lifecycle event schema），<b>不</b>是进程 spawn 成功，<b>不</b>是 runtime 首个任意 event。<code>READY_WAIT_TIMEOUT_MS = 30000</code>（v0 默认）。</p>
+<p><b>Timeout / hang 处理 — fail-loud no rollback</b>（v8.3.3 cleanup）：任一 runner 在 timeout 内未上报 <code>running_idle</code> → supervisor emit <code>UPGRADE_RESTART_FAILED</code> + Computer service 整体标 unhealthy。<b>不</b> reverse-swap、<b>不</b> kill 已 restart 跑在新 layout 的 runner、<b>不</b> 切回旧版本。active layout 已 committed forward-only 到新 bundle，user 面 Computer service version = new but status = unhealthy。actionable hint 引导 user 跑 `slock-computer restart` / 人工 inspect / 重跑 `upgrade`。Recovery 是 user 主动行为，不是 contract 自动事务保证。</p>
+<p><b>In-flight turn / tool call — explicit non-goal</b>：bounded sequential restart 会中断 runner 当前 turn / tool call；不承诺 live migration。中断的 agent 恢复机制是 Slock inbox replay + agent workspace MEMORY.md/notes，与 #proj-daemon PR #2068 runtime switch = session reset 模型同向（参考 §11 hard non-goals）。</p>
+
+<p><b>3. Single version display — Computer service bundle version is the user-facing primary surface</b>（v8.3.2 cleanup，tygg msg=038d5397 / msg=3b644969 + Cody msg=7cc027e4 + Jianwei msg=e2532e0a 一致 lock）：daemon 是 bundled/internal component，对用户无感知；UI 决策面、target comparison、"是否需要 upgrade" 判断都只用 Computer service bundle version。Bundled daemon version 仅作为 <b>forensic / debug evidence</b> 存在，不出现在 user-facing primary surface 上。</p>
+<ul><li><code>GET /api/computers/:id</code> response 包含 <code>computerVersion: string</code>（primary surface）+ <code>bundledDaemonVersion: string</code>（forensic only，可缺省）。</li><li>Web Computer 详情页 metadata block 渲染单行 <code>Computer service: 0.0.5</code>；不允许把 bundled daemon version 升到 primary 渲染面。</li><li>CLI <code>slock-computer status</code> text 输出单行 Computer service 版本号；<code>--json</code> 输出 forensic 字段 <code>bundledDaemonVersion</code> 可读但不属于 status human surface 必显内容。</li><li>tray menu status submenu 同步单行 Computer service 版本号。</li><li><code>upgrade.log</code> JSON-lines schema 保留 <code>bundledDaemonVersion</code> 作 forensic evidence（消费者不可误读为 UI contract）—— 字段名 <b>必须</b> 是 <code>bundledDaemonVersion</code>，<b>禁</b> 任何字段叫 <code>daemonVersion</code> primary。</li><li>upgrade target resolution（§4.4.5）只比较 Computer package + channel target；bundled daemon dep 变化是 atomic install (§4.4.1) 内部副作用，不单独产生 user-visible "daemon needs upgrade" 信号。</li></ul>
+
+<p><b>4. Upgrade trigger surfaces 收敛</b>：一份 upgrade RPC 契约，多种 trigger，不允许分叉实现。</p>
+<ul><li>CLI: <code>slock-computer upgrade [--channel &lt;ch&gt;] [--target-version &lt;ver&gt;]</code></li><li>Web: Computer 详情页 "Upgrade" 按钮（始终可见；up-to-date 时灰掉显 "Up to date"；click → <code>brutal-orange</code> confirm dialog → execute）。</li><li>Daemon APP tray: tray menu "Upgrade" 项，背后走同一 RPC。</li><li>三个 trigger surface 收敛到同一 backend upgrade RPC；不允许出现 "web-upgrade" / "cli-upgrade" 两条独立代码路径。</li><li>所有 trigger 记 <code>trigger ∈ {cli, web, tray}</code> 到 <code>upgrade.log</code>，便于事后归因。</li></ul>
+
+<p><b>5. Channel pinning + target version</b>：</p>
+<ul><li><code>slock-computer channel &lt;latest|alpha|pinned:&lt;semver&gt;&gt;</code> 控制 upgrade 拉取的 release channel。</li><li><code>--target-version &lt;ver&gt;</code> 单次 override，不持久化。</li><li>无效 pin（如 <code>pinned:notsemver</code> / <code>channel garbage</code>） → 立即拒绝，stable code <code>CHANNEL_INVALID</code>（与 v6 §11 既有 stable code 同 token，不引入 v8.3 新 code），channel state 不变。</li><li>Channel state 持久化在单文件 <code>~/.slock/computer/channel</code>（one-line text，沿用 v6 §6 现有 <code>channelPath()</code>），Computer service 重启后保留。</li></ul>
+
+<p><b>6. Failure modes — closed-set error codes</b>（v8.3.3 cleanup — 7-value SCREAMING_SNAKE_CASE，CLI-facing error token convention，与 v8.2 §10.13 既有 <code>LEGACY_DAEMON_RUNNING</code> / <code>LEGACY_KEY_OUTSIDE_ADOPT</code> / <code>NON_INTERACTIVE_SETUP_REQUIRES_FLAGS</code> 同 case）。v8.3.3 RFC bump 做了一次 delete + 2 add：删 <code>UPGRADE_ATOMIC_ROLLBACK</code>（post-swap rollback 不支持，参见 §11 hard non-goals）；加 <code>UPGRADE_SWAP_FAILED</code> + <code>UPGRADE_RESTART_FAILED</code> 拆分 pre-commit vs post-commit failure 语义（Adspectum msg=f22e7a60 lock）：</p>
+<ul><li><code>UPGRADE_DEPS_CHANGED</code> — pnpm-lock divergence 检测到（用户本地 lockfile 与目标 lockfile 不一致），fail-closed。不允许 silent overwrite lockfile。</li><li><code>UPGRADE_NETWORK_FAILED</code> — npm registry 不可达 / fetch failed (stage phase pre-commit)。active layout 未触碰，用户面 version 仍 prior。</li><li><code>UPGRADE_INTEGRITY_FAILED</code> — 下载包的 hash 校验 mismatch (stage phase pre-commit)。active layout 未触碰，用户面 version 仍 prior。</li><li><code>UPGRADE_SWAP_FAILED</code> — atomic swap 步骤失败（rename(2) / MoveFileEx error；pre-commit）。active layout 未触碰，用户面 version 仍 prior，零 disruption；actionable hint 引导 user 重试 upgrade。</li><li><code>UPGRADE_RESTART_FAILED</code> — swap 已 commit 但 bounded sequential restart 阶段 runner 在 <code>READY_WAIT_TIMEOUT_MS</code> 内未上报 <code>running_idle</code> (post-commit)。active layout 已切到 new bundle，<b>不</b> reverse-swap；用户面 version = new but unhealthy；actionable hint 引导 user 跑 <code>slock-computer restart</code> / 人工 inspect。</li><li><code>UPGRADE_NO_TARGET</code> — 当前 channel 无更新版本。</li><li><code>UPGRADE_ALREADY_RUNNING</code> — 并发 upgrade 尝试（lock 已被持有）。</li></ul>
+<p><b>Pre-commit vs post-commit boundary</b>：<code>UPGRADE_SWAP_FAILED</code> 之前（含 SWAP_FAILED 自身）= pre-commit，active layout 未触碰，rollback 等价于不做（不是 rollback，是 fail-cleanup）；<code>UPGRADE_RESTART_FAILED</code> = post-commit，active layout 已 new but unhealthy，无自动 reverse-swap。</p>
+<p><b>Closed-set discipline</b>：additive-only；现有 value rename 与 delete 同等禁止；v8.3.3 已通过 RFC bump 路径完成 ATOMIC_ROLLBACK delete + SWAP_FAILED/RESTART_FAILED add；后续新 failure mode 同样必须走 RFC bump（同 o11y RFC §7 3-part 标准 enum 演进规则）。</p>
+<p><b>边界 — 本节 7-value closed-set 限于 upgrade attempt outcomes</b>。doc 在别处 emit 但不在此 7-value 内的 codes 分属各自独立 closed-set，分别遵守自己的 RFC-bump discipline，不并入本集：</p>
+<ul><li>Pre-condition rejection codes：<code>UPGRADE_REQUIRES_ADOPTION</code>（§4.4.9）、<code>CHANNEL_INVALID</code>（§4.4.5，v6 §11 既有 stable code，非 v8.3 新增）</li><li>Informational codes：<code>LEGACY_DAEMON_INSTALL_DETECTED</code>（§4.4.8）</li></ul>
+
+<p><b>7. Logging + observability</b>：</p>
+<ul><li>每次 upgrade attempt 追加一行到 <code>~/.slock/computer/upgrade.log</code>，JSON-lines 格式（v8.3.2 cleanup — schema 顶层 `fromBundle` / `toBundle`，bundled daemon version 字段名 `bundledDaemonVersion` forensic-only，禁 `daemonVersion` primary）：<code>{ at, fromBundle: { computerVersion, bundledDaemonVersion? }, toBundle: { computerVersion, bundledDaemonVersion? }, channel, trigger, outcome: ok|err, errorCode? }</code>。</li><li>成功 upgrade 触发 server-side activity log system event "Computer upgraded from X.Y to A.B"（同 PR #935 <code>resolveOfflineLabel</code> activity event pattern），surface 在 Computer 详情页 activity tab 与 sidebar 事件流。</li><li>不允许 raw npm install stdout/stderr 直接进 <code>upgrade.log</code>；如需保留 npm 原始输出，单独 <code>upgrade-install-&lt;timestamp&gt;.log</code> per attempt。</li></ul>
+
+<p><b>8. Backward compat</b>：</p>
+<ul><li>pre-bundled-daemon Computer service（即 0.0.4 及更早，bundled daemon 还没 ship）→ 第一次 upgrade 安装两个包到新 Computer service layout，不动遗留 <code>~/.npm/_npx/.../@slock-ai/daemon</code> install path。</li><li>CLI <code>doctor</code> 检测到遗留 daemon install 时报 <code>LEGACY_DAEMON_INSTALL_DETECTED</code>（informational only，不 fail-closed），文案建议手动 cleanup。</li><li>legacy npm-installed daemon 不会被自动卸载（避免 user 自己 npm 装的别的 client 受影响）。</li></ul>
+
+<p><b>9. 与 v8.2 §5.11 / §10.13 legacy adoption 路径的边界</b>：</p>
+<ul><li>v8.2 adopt-legacy 处理的是 <i>v0 sk_machine_* legacy daemon</i> 迁移到 Computer service identity 的一次性步骤。</li><li>v8.3 upgrade 处理的是 <i>已经在 Computer service identity 下的</i> bundle 升级。</li><li>两条路径不重叠：adoption 完成后才进入 upgrade-eligible 状态；尚未 adopt 的 legacy daemon 调用 <code>slock-computer upgrade</code> → 立即返回 <code>UPGRADE_REQUIRES_ADOPTION</code> 提示先走 setup --adopt-legacy。</li></ul>
+
+<p><b>10. 新增 paths.ts 路径与所有权 scope</b>：本节引入的所有文件路径必须由 <code>paths.ts::*</code> 派生（同 v8.2 §10.9 / §10.13 模式），实现代码不允许直接写 <code>~/.slock/computer/...</code> 字面量。新增路径（3 个 —— v8.3.3 cleanup 删 <code>upgradeSnapshotPath</code>，因 no-rollback 后不需要 snapshot 状态文件）：</p>
+<ul><li><code>paths.ts::upgradeStagingDir(version)</code> → <code>$SLOCK_HOME/computer/upgrade-staging/&lt;version&gt;/</code>。Same-version retry 在 prior 失败 attempt 留下 staging dir 时 fail-closed —— operator 检查 forensic artifact 后手动 <code>rm -rf</code> 再重试（acceptable v0 行为）。</li><li><code>paths.ts::upgradeLogPath()</code> → <code>$SLOCK_HOME/computer/upgrade.log</code>（推荐权限 0o600，enforcement 在 write-side PR）。</li><li><code>paths.ts::upgradeInstallLogPath(timestamp)</code> → <code>$SLOCK_HOME/computer/upgrade-install-&lt;timestamp&gt;.log</code>（权限 0o600）。</li></ul>
+<p><b>v8.3.3 retire — <code>upgradeSnapshotPath()</code> + <code>upgrade-snapshot.json</code></b>：PR-E narrow-v1 era 的 snapshot 文件（rollback 状态持久化）随 post-swap rollback 一起 retire。Existing PR-E impl <code>snapshotPhase()</code> 在 PR-2c 实施 v8.3.3 时 retire，<code>paths.ts::upgradeSnapshotPath()</code> helper（PR #2080 landed）保留 export 一个 minor cycle 给消费者 grace migration，下一个 minor bump（v8.4）正式 delete。</p>
+<p><b>Channel state 复用现有 helper</b>：v8.3 不新增 <code>computerConfigPath()</code>，channel pinning state（item 5）沿用 v6 §6 既有 <code>paths.ts::channelPath()</code> → <code>$SLOCK_HOME/computer/channel</code>（one-line text file，<code>latest | alpha | pinned:&lt;semver&gt;</code>）。</p>
+<p><b>Ownership scope</b>：<code>upgrade-staging/</code> / <code>upgrade.log</code> / <code>upgrade-install-*.log</code> / <code>channel</code> 均为 <b>Computer-global</b> state，而非 per-server 隔离（与 <code>computer/servers/&lt;serverId&gt;/</code> 下的 per-attachment state 区分）—— upgrade 是 Computer service 自身生命周期事件，不归 server 管。</p>
+
+<h2 id="5-api-surface">5. API surface</h2>
+<div class="diagram"><h3>Route auth policy：principal / path 必须 fail-closed</h3><pre class="mermaid">flowchart TB
+  ReqC[&quot;Inbound request&lt;br/&gt;sk_computer_*&quot;]:::machine
+  ReqA[&quot;Inbound request&lt;br/&gt;sk_agent_*&quot;]:::agent
+  Registry{&quot;routeAuthPolicy&lt;br/&gt;fail-closed snapshot&quot;}:::substrate
+  ComputerRoutes[&quot;/internal/computer/*&lt;br/&gt;host lifecycle only&quot;]:::machine
+  AgentRoutes[&quot;/internal/agent-api/*&lt;br/&gt;agent data plane&quot;]:::agent
+  Deny[&quot;invalid_principal / cross_agent_act&quot;]:::deny
+
+  ReqC --&gt; Registry
+  ReqA --&gt; Registry
+  Registry -- &quot;computer principal + computer path&quot; --&gt; ComputerRoutes
+  Registry -- &quot;agent principal + agent path&quot; --&gt; AgentRoutes
+  Registry -- &quot;wrong principal / wrong agent&quot; --&gt; Deny
+
+  classDef substrate fill:#fff8df,stroke:#b79a35,color:#3c3008;
+  classDef machine fill:#e6f3f0,stroke:#1f6f68,color:#103c38;
+  classDef agent fill:#fff0e3,stroke:#9a4d16,color:#4d2509;
+  classDef deny fill:#fae8e8,stroke:#a14b4b,color:#4d1414;</pre></div>
+<h3 id="5-1-computer-surface">5.1 Computer surface</h3>
+<p>Canonical prefix:</p>
+<pre class="text"><code>/internal/computer/*</code></pre>
+<p>用途：</p>
+<ul><li>computer self / whoami。</li><li>heartbeat。</li><li>capacity。</li><li>server attachment session state。</li><li>runner spawn / stop / started / exited。</li><li>runner credential request。</li><li>runner list / state report。</li></ul>
+<p>Only <code>sk_computer_*</code> can call this surface（Phase 1 <code>sk_machine_*</code> Computer alias 见 §10.5）. Server session worker can call it only because it operates under a Computer attachment credential; it is not a separate principal.</p>
+<h3 id="5-2-agent-runner-surface">5.2 Agent Runner surface</h3>
+<p>本节正文已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-agent-runner-surface">slock-credential-rfc.zh.html §2.2 Agent Runner surface</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，normative 表述以 base RFC 为准。本节锚点 <code>#5-2-agent-runner-surface</code> 保留作为旧引用 redirect 入口。</p>
+<h3 id="5-3-legacy-machine-on-behalf-surface">5.3 Legacy machine-on-behalf surface</h3>
+<p>本节正文已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-legacy-machine-on-behalf-surface">slock-credential-rfc.zh.html §2.3 Legacy machine-on-behalf surface</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，normative 表述以 base RFC 为准。本节锚点 <code>#5-3-legacy-machine-on-behalf-surface</code> 保留作为旧引用 redirect 入口。</p>
+<h3 id="5-4-wrong-principal-semantics">5.4 wrong-principal semantics</h3>
+<p>本节正文（含错误码表）已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-wrong-principal-semantics">slock-credential-rfc.zh.html §2.4 wrong-principal semantics</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，normative 表述以 base RFC 为准。本节锚点 <code>#5-4-wrong-principal-semantics</code> 保留作为旧引用 redirect 入口。</p>
+<h3 id="5-5-server-route-auth-policy">5.5 server route auth policy</h3>
+<p>本节正文已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-route-auth-policy">slock-credential-rfc.zh.html §2.5 server route auth policy</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，normative 表述以 base RFC 为准。本节锚点 <code>#5-5-server-route-auth-policy</code> 保留作为旧引用 redirect 入口。</p>
+<h3 id="5-6-server-identifier-slug-surface">5.6 Server identifier (slug) surface</h3>
+<p>本节正文（含 §5.6.1–§5.6.5 canonical / shorthand / wire shape / bare-storage invariant / rename invariance / normalize 单点）已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-server-slug-surface">slock-credential-rfc.zh.html §3 Server identifier (slug) surface</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，normative 表述以 base RFC 为准。本节锚点 <code>#5-6-server-identifier-slug-surface</code> 保留作为旧引用 redirect 入口。</p>
+<h3 id="5-7-computer-status-observability">5.7 Computer status observability</h3>
+<p>v8.2 narrow append。<code>slock-computer status</code> 必须能让用户找到 supervisor 和 per-server daemon 的 log 文件，无需查文档或猜路径。</p>
+<p>JSON shape:</p>
+<ul><li><code>supervisor.logPath</code>：supervisor 进程的日志文件绝对路径。</li><li><code>servers[].daemonLogPath</code>：每个 attached server 对应 server session daemon 的日志文件绝对路径。</li><li><code>supervisor.pidPath</code> / <code>servers[].daemonPidPath</code> 可选附加；JSON 其他字段不变。</li></ul>
+<p>Text shape:</p>
+<ul><li>顶部 supervisor block 增加 <code>Supervisor log: &lt;path&gt;</code> 一行。</li><li>每个 attached server 行下方增加 <code>Daemon log: &lt;path&gt;</code> 次要行。</li><li>secret-free：<code>sk_computer_*</code>、<code>sk_machine_*</code>、<code>sk_agent_*</code>、API key、bootstrap token 永不出现。</li></ul>
+<p>Path source-of-truth:</p>
+<ul><li>所有路径必须经过 <code>paths.ts::supervisorLogPath()</code>、<code>serverDaemonLogPath(serverId)</code>、<code>supervisorPidPath()</code>、<code>serverDaemonPidPath(serverId)</code> 派生；status 实现不允许 hardcode <code>$SLOCK_HOME/computer/...</code> 字面量。</li><li>helper 的输入仍是 <code>serverId</code>（UUID），与 §5.6 bare-storage invariant 一致；显示层仍用 <code>formatServerSlugDisplay</code> 渲染 slug。</li></ul>
+<h3 id="5-8-default-computer-display-name">5.8 Default Computer display name</h3>
+<p>v8.2 narrow append。<code>slock-computer attach</code> 时未传 <code>--name</code> 的默认 Computer display name 必须来自本机 hostname，而不是字面量 <code>"slock-computer"</code>。多台机器接入同一 server 时默认不撞名。</p>
+<p>Derivation rules（single point at <code>paths.ts::deriveDefaultComputerName(hostname)</code>）:</p>
+<ul><li>输入：<code>os.hostname()</code>。</li><li>去尾缀（case-insensitive）：<code>.local</code>、<code>.lan</code>、<code>.home</code>、<code>.fritz.box</code>、<code>.localdomain</code>。</li><li>替换：whitespace / 单引号 / 双引号 → <code>-</code>。例：<code>August's MacBook</code> → <code>August-s-MacBook</code>。</li><li>trim 末尾 <code>-</code>。</li><li>结果为空 → fallback <code>slock-computer-&lt;short-hostname-hash&gt;</code>（hash 取 hostname 的 8 位 hex 派生），避免 default-name collision spike。</li></ul>
+<p>Override:</p>
+<ul><li><code>slock-computer attach --name &lt;name&gt;</code> 显式覆盖；server 接受任何合法 display name。</li><li>server canonical 字段：<code>computers.displayName</code>。</li></ul>
+<p>Identity tuple + collision policy (matches <code>computerCredentialService.ts::attachComputer</code>; current staging code returns only <code>ok | not_authorized</code>, no displayName-collision path):</p>
+<ul><li><b>Main path — resume/rotate</b>: re-attach 对同一 <code>(serverId, attachedByUserId, name)</code> 的现有 attachment（仍 live、未 revoked） → server 在原 <code>computers</code> row 上 <b>rotate credential</b>（hash 覆盖、旧 raw key 失效），CLI 收到 <code>resumed=true</code>。任务 #21 multi-attach 锁的就是这条：同一 user 用同一 name 重 attach 不创建第二行，也不当 collision。</li><li><b>Cross-user same displayName allowed</b>: 不同 <code>attachedByUserId</code> 把自己机器都叫 <code>"MacBook-Pro"</code> 接到同一 server 是合法的 — collision tuple 含 user，跨 user 不互锁。</li><li><b>No displayName-collision error in current contract</b>: same-user new-create with name conflict 在当前实现里不发生 — 同一 user 同一 name 命中走 resume/rotate（上面 main path），不走"create 新行 + collision"。<code>packages/computer/src/attach.ts</code> 含一段 defensive <code>COMPUTER_NAME_COLLISION</code> handler 作为未来产品演进的占位，但当前 server 不返回这个 code，validating tests / contract 不依赖它。任何引入 displayName-uniqueness 的未来变更必须在 v8.3+ 新轮 contract review 走流程，不能假设这条已经活着。</li></ul>
+<h3 id="5-9-setup-wizard-surface">5.9 Setup wizard surface</h3>
+<p>v8.2 narrow append。<code>slock-computer setup</code> 是用户视角的"一条命令把这台机器接上 Slock"入口；它本身不引入新 server-side 语义，只是把 <code>login</code> + <code>attach</code> + 可选 <code>--adopt-legacy</code> 包成 wizard。</p>
+<p>CLI shape:</p>
+<pre class="text"><code>slock-computer setup /&lt;slug&gt; [--name &lt;display-name&gt;] [--adopt-legacy [--legacy-api-key &lt;key&gt; | --legacy-api-key-file &lt;path&gt; | --legacy-api-key-stdin]]</code></pre>
+<p>TTY-detect:</p>
+<ul><li>stdin 与 stdout 都是 TTY → interactive prompt 给出 proposed defaults（slug、display name 派生自 §5.8、是否走 adopt-legacy）；用户回车接受 / 输入覆盖。</li><li>否则 → non-interactive fallback：不读 stdin，不假设 default-yes；打印一段"接下来请运行的命令"列表（包含所需 flag 的完整 invocation）并以 <code>NON_INTERACTIVE_SETUP_REQUIRES_FLAGS</code> 退出非零。</li></ul>
+<p>Stable error codes（与底层 primitives 对齐）:</p>
+<ul><li><code>NON_INTERACTIVE_SETUP_REQUIRES_FLAGS</code>：非 TTY 又没给齐 flag。</li><li><code>LEGACY_DAEMON_RUNNING</code>：legacy daemon pid 还在跑且未经 <code>--adopt-legacy</code> 显式接管（见 §5.11）。</li><li>其他 code 透传 <code>login</code> / <code>attach</code> / <code>adopt</code> 各自的 stable code，不被 wizard 重命名。</li></ul>
+<h3 id="5-10-device-login-url-surface">5.10 Device login URL surface</h3>
+<p>v8.2 narrow append。<code>POST /api/auth/device/authorize</code> 返回的 <code>verificationUri</code> / <code>verificationUriComplete</code> 必须是 web origin（用户浏览器能打开的页面），不是 API origin。Canonical web path 是 <code>/login/device</code>。</p>
+<p>Server invariants:</p>
+<ul><li><code>verificationUri</code> 形如 <code>https://&lt;APP_URL&gt;/login/device</code>；<code>verificationUriComplete</code> 同一 origin 加 <code>?user_code=&lt;USER_CODE&gt;</code>。</li><li><code>APP_URL</code> 未配置 / 空 / 不是 http(s) 绝对 URL → 路由 fail-closed 返回 503 <code>DEVICE_LOGIN_URL_UNAVAILABLE</code>，不返回 relative path、不返回 API origin。运维层错误，必须早暴露，不靠 CLI 兜底。</li><li>web <code>/login/device</code> 页面接受 <code>user_code</code> query 预填表单，approve 路径调 <code>POST /api/auth/device/approve</code>，与 §3 device-code grant 模型一致。</li></ul>
+<p>CLI invariants（<code>slock-computer login</code> / <code>setup</code>）:</p>
+<ul><li>展示 URL 时优先 <code>verificationUriComplete</code>，fallback <code>verificationUri</code> + 单独打印 <code>Enter code: &lt;user_code&gt;</code>。</li><li><b>永不</b>打印 API origin URL；server 返回 relative path 或不合法 URL 时 CLI 直接 fail-closed <code>DEVICE_LOGIN_URL_UNAVAILABLE</code>，不 silently 用 <code>baseUrl</code> 解析。</li></ul>
+<h3 id="5-11-legacy-daemon-adoption">5.11 Legacy daemon adoption</h3>
+<p>v8.2 narrow append。Legacy <code>@slock-ai/daemon</code> 在 v0.8 之前用 <code>--api-key &lt;key&gt;</code> argv 启动，本地不持久化 raw machine key。从 legacy daemon 迁移到 Computer + Runner 模型必须明确：</p>
+<ol><li>什么时候需要 adopt（而不是 fresh attach）。</li><li>用户怎么把旧 key 安全送进 adopt 流程。</li><li>server 端怎么处理旧 machine row 和旧 credential。</li><li>整个一次性事件怎么留 forensic 证据。</li></ol>
+<h4 id="5-11-1-input-channels">5.11.1 Adoption input channels</h4>
+<p>CLI 接受 4 条 secret channel，全部 <b>migration-only / deprecated</b>，且只允许在 <code>setup</code> / <code>adopt</code> 子命令的 <code>--adopt-legacy</code> 路径下使用：</p>
+<ul><li><code>--legacy-api-key &lt;key&gt;</code>：argv 形式。沿用 legacy daemon 既有命名（用户视角认知最低摩擦）。</li><li><code>--legacy-api-key-file &lt;path&gt;</code>：从文件读取。</li><li><code>--legacy-api-key-stdin</code>：从 stdin 读取（pipe / heredoc）。</li><li><code>SLOCK_LEGACY_API_KEY</code> env：从环境变量读取，CLI 读完立刻在 process-scope unset。</li></ul>
+<p>非 <code>--adopt-legacy</code> 路径下的处理（argv vs env 区分对待）：</p>
+<ul><li><b>argv flag</b> <code>--legacy-api-key</code> / <code>--legacy-api-key-file</code> / <code>--legacy-api-key-stdin</code> 出现在不带 <code>--adopt-legacy</code> 的命令（裸 <code>setup</code> / <code>attach</code> / <code>login</code>）上 → 立即 fail-closed <code>LEGACY_KEY_OUTSIDE_ADOPT</code>（非零 exit + structured error），不静默忽略。理由：argv 是用户 <b>主动 explicit input</b>，silent-ignore 会制造 "我传了 key 但其实没用" 的假成功感（与 PR-G <code>--target-version</code> Commander shadow footgun 同类）。</li><li><b>env</b> <code>SLOCK_LEGACY_API_KEY</code> 在不带 <code>--adopt-legacy</code> 的命令里继续保持非-ambient（被忽略），不报错。理由：env 可能来自 shell rc / systemd unit / <code>.envrc</code>，user 不一定知道存在，silent-ignore 是 safe-default；与 argv 主动输入性质不同。</li></ul>
+<p>统一原则：legacy-key path 只在明确 migration intent (<code>--adopt-legacy</code>) 下参与状态变更，绝不在旁路里悄悄变成 no-op 或 fresh attach。</p>
+<h4 id="5-11-2-server-side-semantics">5.11.2 Server-side semantics</h4>
+<p>Server <code>POST /api/computer/adopt-legacy</code>（USER-authenticated，与 device-code approve 同 trust boundary）接收 legacy key proof：</p>
+<ul><li><b>Legacy proof 命中</b>：resolve 出对应 <code>machines.id</code> → 创建 / 恢复 <code>computers</code> row 并 <code>computers.machineId = machines.id</code>。旧 <code>machines</code> 行 <b>保留</b>（agents 与 runtime profiles 仍指向它，Computer 把它当作 orchestrator backing identity）。</li><li><b>Credential 一次性 mark</b>：成功后 server 把旧 key 标记 <code>machines.legacyKeyMigratedAt = now()</code>。旧 <code>sk_machine_*</code> 之后对 <code>/daemon/connect</code> 和 <code>/internal/computer/*</code> 全部拒绝，返回 stable code <code>legacy_machine_key_migrated</code>（HTTP 409）。Contract 用语是 "revoke credential, not row"，<b>不是</b> "delete machine"。</li><li><b>Atomic adoption commit</b>：legacy key proof resolve + <code>machines.legacyKeyMigratedAt</code> mark + 新 <code>sk_computer_*</code> mint + <code>computers</code> row create/restore 必须在同一 transactional commit 内完成。Concurrent / repeated adoption attempt 同一 <code>machines.id</code> → 只有一次成功 mint，losers 一律返回 <code>legacy_machine_key_migrated</code>（409）或 <code>adoption_conflict</code>，不再 mint。Implementation 推荐 <code>UPDATE machines SET legacy_key_migrated_at = now() WHERE id = $1 AND legacy_key_migrated_at IS NULL RETURNING ...</code> + active-Computer-owner uniqueness guard，确保 single owner per legacy machine。</li><li><b>重复 adopt</b>：同一 key 第二次提交直接 <code>legacy_machine_key_migrated</code>（409），不再 mint。</li><li><b>Key 提供但 proof 失败</b>（typo / wrong server / malformed / unknown key）：fail-closed，stable code <code>legacy_key_invalid</code>（HTTP 401），server <b>不</b> mint 新 <code>sk_computer_*</code>、<b>不</b> 创建 <code>computers</code> row、CLI <b>不</b> 写 <code>attachment.json</code>。Adoption.log 仍记一行，<code>credential_bridge_mode=&lt;尝试过的 legacy_key_* channel&gt;</code> + <code>failure_reason=legacy_key_invalid</code>。避免用户以为 adoption 成功、旧 machine 实际被 strand。</li><li><b>无 key channel 提供</b>（用户 <code>--adopt-legacy</code> 但本地已经没旧 key，例如机器迁移过来只有 hostname）：明示 fallback 到普通 device-code login + 新 Computer attach。新 Computer 链接到新 <code>machines</code> 行；旧 <code>machines</code> 行 stranded / read-only。CLI 文案 "未找到旧 machine key，将以全新 Computer 身份注册"；adoption.log 记 <code>credential_bridge_mode=device_login</code>。Server-side cleanup of stranded legacy machine row 不在 v8.2 scope，单独 tracked。</li></ul>
+<p>Phase-1 兼容窗口（与 §10.5 一致）：<code>sk_machine_*</code> 仍可作为 <code>/internal/computer/*</code> alias，仅限 <b>未经 adoption</b> 的 machine。Adoption 之后 alias 立即按 <code>legacy_machine_key_migrated</code> 拒绝，不静默继续。</p>
+<h4 id="5-11-3-schema-and-implementation-requirements">5.11.3 Schema and implementation requirements</h4>
+<p>实现 PR（不在本 contract PR 范围）必须包含：</p>
+<ul><li><b>Schema field</b>：Drizzle / TS 模型字段 <code>machines.legacyKeyMigratedAt</code>；SQL column <code>machines.legacy_key_migrated_at timestamptz null</code>。Migration 脚本 + 本地 PostgreSQL 测试（与 team rule "DB schema changes require migration scripts + local testing" 一致）。</li><li>认证路径检查 <code>legacy_key_migrated_at IS NOT NULL</code> 时 fail-closed。</li><li><b>Auth cache invalidation</b>：server <code>findMachineByApiKey</code> in-memory auth cache 命中只返回 <code>{ machineId, serverId }</code>、不重查 DB；adoption 成功设置 <code>legacyKeyMigratedAt</code> 的同一动作必须立即 invalidate 该 legacy key 的 cache entry，或让 cache lookup 路径携带 <code>legacyKeyMigratedAt</code> check。Post-adoption alias rejection 必须覆盖 "same process, previously cached key" case，不允许靠 TTL 自然过期兜底。</li><li>Raw legacy key 在任何路径下都 <b>不</b> 写入 <code>attachment.json</code> / status JSON / adoption.log / 常规 log / process argv 长留 / DB 列。Adoption 成功后从 process memory 抹除。</li></ul>
+<p>Old-daemon-process invariant:</p>
+<ul><li><b>Implicit fail-closed</b>：<code>setup</code> / <code>attach</code> 检测到 legacy daemon pid 仍在跑（<code>~/.slock/daemon.{pid,json}</code>） → 返回 <code>LEGACY_DAEMON_RUNNING</code>，不静默 adopt。</li><li><b>Explicit adopt</b>：<code>slock-computer adopt</code> / <code>setup --adopt-legacy</code> 由 adopt flow 负责停 legacy pid 并 verify（pid 实际退出 + 新 supervisor 持有唯一 lock），整个 lifecycle event 写 §5.11.4 adoption.log。</li></ul>
+<h4 id="5-11-4-adoption-audit-log">5.11.4 Adoption audit log</h4>
+<p>每次 adopt（不管成功 / 失败 / fallback）必须在 <code>~/.slock/computer/adoption.log</code> 追加一行 forensic 记录：</p>
+<pre class="text"><code>2026-05-22T04:32:11Z legacy_pid=12345 legacy_pid_stopped_at=2026-05-22T04:32:08Z new_supervisor_pid=67890 new_supervisor_started_at=2026-05-22T04:32:10Z sk_computer_minted_at=2026-05-22T04:32:11Z credential_bridge_mode=legacy_key_file</code></pre>
+<p><code>credential_bridge_mode</code> 是 closed enum，byte-精确：</p>
+<pre class="text"><code>credential_bridge_mode ∈ {
+  device_login,
+  legacy_key_argv,
+  legacy_key_file,
+  legacy_key_stdin,
+  legacy_key_env
+}</code></pre>
+<p>语义对仗：<code>device_login</code> 是 "no legacy credential bridge; fresh sk_computer_ minted from device-code login"；其余 4 个 <code>legacy_key_*</code> 都是 migration-only / deprecated channel。Aggregation 查询 "所有 legacy bridge" 用 <code>LIKE 'legacy_key_%'</code>。</p>
+<p>Raw key 不进入 audit log；最多记录 redacted prefix（前 8 字符）或 HMAC surrogate <code>mch_&lt;hex&gt;</code>（与 PR #1329 raw-ID hygiene 一致：未来 trace surface carry 旧 machine 标识也只能用 surrogate）。</p>
+<p>Attribute name lock：<code>credential_bridge_mode</code> 既是 audit-log 字段名，也是未来 lifecycle trace event（task #164 / §13 Q4 reserved credential lifecycle enum activation 时）的 trace attr 名。不允许 audit-log 用一个名、trace event 用另一个名。</p>
+<h4 id="5-11-5-web-add-this-computer-command">5.11.5 Web "Add this Computer" command</h4>
+<p>Server 的 web UI 在生成"添加新机器"复制命令时区分两种 case：</p>
+<ul><li><b>New machine</b>：<code>npx @slock-ai/computer setup /&lt;slug&gt;</code>，不带 legacy flag。</li><li><b>Old machine</b>（用户在 web 上勾选 "从老 daemon 迁移"）：可生成 <code>npx @slock-ai/computer setup /&lt;slug&gt; --adopt-legacy --legacy-api-key &lt;key&gt;</code> 一行迁移命令。UI <b>必须</b>明示 "this is a one-time migration command; after running, the old key will be invalidated"，且这条命令在迁移完成后失效 / 不重新生成。</li></ul>
+<p>Rationale（与 wg 决议一致）：legacy daemon 既有 contract 就是 <code>--api-key</code> argv，迁移日 shell history / process list 上这条 leak surface 已经存在，强行禁 argv 不能消除历史风险；务实边界是 "argv 不能成为长期 credential surface"，via §5.11.2 server 一次性 mark migrated + §5.11.4 audit log 收掉风险。User 偏好更安全 channel 时 file / stdin / env 三档随时可用。</p>
+<h2 id="6-capability-model">6. Capability model</h2>
+<p>Runner capability 有两层：</p>
+<pre class="text"><code>authorized = credential.max_capabilities ∩ session.active_capabilities</code></pre>
+<p>含义：</p>
+<ul><li><code>max_capabilities</code> 是 server mint credential 时给的上限。</li><li><code>active_capabilities</code> 是当前 runner session 实际支持 / 开启的能力。</li></ul>
+<p>错误语义：</p>
+<div class="table-wrap"><table><thead><tr><th>情况</th><th>错误</th></tr></thead><tbody><tr><td>capability 不在 credential max set</td><td>403 <code>capability_not_authorized</code></td></tr><tr><td>capability 在 max set，但当前 session 没有 active</td><td>501 <code>unsupported_capability</code></td></tr><tr><td>runner 离线</td><td><code>runner_unavailable</code></td></tr></tbody></table></div>
+<p>不能因为 runner 不支持某项能力就 fallback 到 Computer。</p>
+<p>实现上不能只把 scopes 塞到 <code>req.agentCredentialScopes</code> 后不检查。每个 handler 或统一 middleware 必须真的 enforce capability。</p>
+<h2 id="7-transport-and-catch-up">7. Transport and catch-up</h2>
+<div class="diagram"><h3>Push 和 pull 是 transport 差异；envelope / ordering / projection 必须等价</h3><pre class="mermaid">flowchart LR
+  Server[(&quot;Slock Server&lt;br/&gt;canonical event projection&quot;)]:::substrate
+  Managed[&quot;Managed Runner&lt;br/&gt;websocket push&quot;]:::agent
+  Free[&quot;Self-hosted Runner&lt;br/&gt;HTTP poll /events&quot;]:::agent
+  Envelope[&quot;Same envelope schema&lt;br/&gt;Same ordering invariants&lt;br/&gt;Same projection semantics&quot;]:::substrate
+  Latency[&quot;Latency may differ&lt;br/&gt;product capability, not correctness bug&quot;]:::note
+
+  Server --&gt; Managed
+  Server --&gt; Free
+  Managed --&gt; Envelope
+  Free --&gt; Envelope
+  Envelope --&gt; Latency
+
+  classDef substrate fill:#fff8df,stroke:#b79a35,color:#3c3008;
+  classDef agent fill:#fff0e3,stroke:#9a4d16,color:#4d2509;
+  classDef note fill:#eef3ff,stroke:#4b5f9f,color:#22325f;</pre></div>
+<h3 id="7-1-runner-transport">7.1 Runner transport</h3>
+<p>每个 Runner 应该有自己的 runner websocket / event stream。Computer 不能 multiplex agent data plane。</p>
+<p>Computer / server session worker 可以报告 runner process 生命周期，但不能替 Runner 发送 agent event ack、read cursor、message send、task action。</p>
+<h3 id="7-2-catch-up-不走-send-response">7.2 catch-up 不走 send response</h3>
+<p>send response 不应该带 catch-up / recentUnread。</p>
+<p>正确 catch-up path：</p>
+<ul><li>Runner websocket resume / push。</li><li>或显式：</li></ul>
+<p>``<code>text GET /internal/agent-api/events?since=... </code>``</p>
+<p>不要把 send path 重新变成 inbox drain。send 是 action commit，不是收件箱同步。</p>
+<h3 id="7-3-managed-external-transport-equivalence">7.3 managed / external transport equivalence</h3>
+<p>managed runner 可以主要依赖 websocket push；self-hosted runner 可以主要依赖 HTTP poll：</p>
+<pre class="text"><code>GET /internal/agent-api/events?since=...</code></pre>
+<p>这两条 transport 在三个轴上必须等价：</p>
+<ul><li>envelope schema。</li><li>ordering invariants。</li><li>projection semantics。</li></ul>
+<p>Managed runner 通过 daemon-local proxy 暴露 <code>/internal/agent-api/events</code> 时，projection 必须先尊重 daemon Local Inbox：只要 Local Inbox 有 pending message，<code>events</code> / <code>slock message check</code> 必须从 Local Inbox 返回并消费该 batch。远端 server <code>/events</code> 只能作为 Local Inbox 为空后的 sync / repair / fill 来源；远端返回的数据如需进入模型可见面，也必须先经过 Local Inbox / visible-consume 等价路径。</p>
+<p>它们在 latency 上不要求等价。push 和 pull 的延迟差异是产品 capability 差异，不是 correctness bug。不能因为 self-hosted runner 用 HTTP poll，就给它另一套 wake envelope 或另一套 event semantics。</p>
+<h3 id="7-4-wake-envelope">7.4 wake envelope</h3>
+<p>本 RFC 定义 wake envelope 的 transport 位置，但不拥有 <code>wake_reason</code> enum。</p>
+<p><code>wake_reason</code> 属于 task #164 Agent Lifecycle Event Model。任何 placeholder enum 都不能在未对齐 #164 的情况下 merge。</p>
+<p>Wake envelope 里的 seen boundary 必须使用 model-seen 语义，和 0.50.0 send freshness gate 同源。不要用 delivery cursor / read cursor 代替 <code>last_seen_msgId</code>。delivery cursor 是 transport 实现细节；model-seen 才表达 agent model 实际覆盖到的上下文边界。</p>
+<h2 id="8-workspace-ownership">8. Workspace ownership</h2>
+<p>本节正文（含 <code>runner_unavailable</code> / <code>unsupported_capability</code> / <code>capability_not_authorized</code> 三 error code 互斥）已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-workspace-ownership">slock-credential-rfc.zh.html §4 Workspace ownership</a>（base RFC v0.1）。Computer RFC 不再维护对应正文，normative 表述以 base RFC 为准。本节锚点 <code>#8-workspace-ownership</code> 保留作为旧引用 redirect 入口。</p>
+<h2 id="9-migration-plan">9. Migration plan</h2>
+<div class="diagram"><h3>迁移顺序：先证明 data plane，再拆进程，最后退 legacy</h3><pre class="mermaid">flowchart LR
+  P1[&quot;Phase 1&lt;br/&gt;vertical slice&lt;br/&gt;sk_agent_* + /agent-api&quot;]:::phase
+  P1x[&quot;Phase 1.x&lt;br/&gt;complete routes&lt;br/&gt;capability surface&quot;]:::phase
+  P2[&quot;Phase 2&lt;br/&gt;Computer core&lt;br/&gt;server session worker&quot;]:::phase
+  P3[&quot;Phase 3&lt;br/&gt;extract Agent Runner&lt;br/&gt;process split&quot;]:::phase
+  P4[&quot;Phase 4&lt;br/&gt;remove /internal/agent/:id/*&lt;br/&gt;machine-on-behalf&quot;]:::phase
+  P5[&quot;Phase 5&lt;br/&gt;sk_machine_* -&gt; sk_computer_*&lt;br/&gt;alias retired&quot;]:::phase
+  P6[&quot;Phase 6&lt;br/&gt;daemon entrypoint&lt;br/&gt;wrapper/deprecated&quot;]:::phase
+
+  P1 --&gt; P1x --&gt; P2 --&gt; P3 --&gt; P4 --&gt; P5 --&gt; P6
+  classDef phase fill:#fff8e7,stroke:#3f2b1e,stroke-width:1.5px,color:#3f2b1e;</pre></div>
+<h3 id="phase-1-vertical-slice">Phase 1: vertical slice</h3>
+<p>目标是证明 Agent Runner credential 和 <code>/internal/agent-api/*</code> 可以跑通，不要求立刻完成 process split 或立刻删除 legacy daemon entrypoint。</p>
+<p>包含：</p>
+<ul><li>5 个核心 agent routes。</li><li>catch-up events。</li><li>whoami / server。</li><li>agent credential mint / exchange。</li><li>一个 Computer credential request endpoint。</li><li>legacy daemon entrypoint 可以临时启动 single-server session worker，并以 runner shim 方式运行：</li></ul>
+<p>``<code>text --agent-key-mode=sk_agent </code>``</p>
+<p>Phase 1 期间允许现有 <code>sk_machine_*</code> 作为 Computer principal alias 调 <code>/internal/computer/*</code>。这是迁移期事实，不是 daemon principal，也不是第二套长期 contract。</p>
+<p>部署顺序要求 server-first：server 舰队必须先全量带上 <code>/internal/computer/*</code> credential mint 端点，再发布新版 daemon。新版 daemon managed runner mint 失败时 hard-fail agent start，不在进程内降级到 legacy <code>/internal/agent/:id/*</code>；回滚新版 daemon 二进制是 release safety 手段。</p>
+<p>Phase 1 不允许：</p>
+<ul><li><code>sk_machine_*</code> 调 <code>/internal/agent-api/*</code>。</li><li>Computer 代 agent 调 data plane。</li><li>runtime child 看到 <code>sk_agent_*</code>。</li><li>send response 带 catch-up。</li></ul>
+<h3 id="phase-1-x-complete-api-surface">Phase 1.x: complete API surface</h3>
+<p>扩展到完整 28 个 <code>/internal/agent-api/*</code> capability routes。</p>
+<p>补齐 Computer surface：</p>
+<ul><li>heartbeat。</li><li>self。</li><li>server attachment session state。</li><li>runners list。</li><li>runner started。</li><li>runner exited。</li><li>credential request。</li></ul>
+<h3 id="phase-2-introduce-computer-core-and-server-session-worker">Phase 2: introduce Computer core and server session worker</h3>
+<p>新增 / 明确 <code>slock/computer</code> core 作为 runner 之外的本机 control plane：</p>
+<pre class="text"><code>Computer control plane
+  -&gt; server session worker(s)
+  -&gt; agent runner(s)</code></pre>
+<p>旧 <code>@slock-ai/daemon</code> package / command 保留为 compatibility launcher：内部启动 single-server Computer session，但不再承载新产品语义。</p>
+<h3 id="phase-3-process-split">Phase 3: process split</h3>
+<p>抽出真正的 <code>@slock-ai/agent-runner</code> 或等价 runner wrapper。</p>
+<p>Computer control plane 负责 multi-server attachment 和 supervision。Server session worker 负责 per-server connection / event routing。Runner 打开自己的 runner websocket，并用 <code>sk_agent_*</code> 调 <code>/internal/agent-api/*</code>。</p>
+<h3 id="phase-4-remove-legacy-machine-on-behalf">Phase 4: remove legacy machine-on-behalf</h3>
+<p>删除或关闭：</p>
+<pre class="text"><code>/internal/agent/:id/*</code></pre>
+<p>machine-on-behalf 不再是 agent data plane。</p>
+<h3 id="phase-5-credential-prefix-rename">Phase 5: credential prefix rename</h3>
+<p>把 <code>sk_machine_*</code> 迁移为：</p>
+<pre class="text"><code>sk_computer_*</code></pre>
+<p>迁移窗口内可以同时接受旧 prefix，但必须有结束策略。</p>
+<h3 id="phase-6-retire-legacy-daemon-entrypoint">Phase 6: retire legacy daemon entrypoint</h3>
+<p>等 <code>slock/computer</code>、multi-server attachment、desktop shell 和 self-update 路径稳定后，再把 legacy daemon package 变成 permanent thin wrapper 或正式 deprecate。</p>
+<h2 id="10-first-vertical-slice-acceptance">10. First vertical slice acceptance</h2>
+<h3 id="10-1-self-hosted-runner-acceptance">10.1 Self-hosted runner acceptance</h3>
+<p>#1918 发布 self-hosted runner 的 layer-1 credential/profile 入口；lifecycle / runtime integration 后续分层推进。WIP(self-hosted-runner-layer1)：此处只表示 credential/profile + agent-api client，不表示 runner lifecycle / runtime integration 已完成。当前 acceptance：</p>
+<ol><li><code>slock agent login --profile</code> 写入 profile credential，CLI 通过该 profile 进入 <code>clientMode=self-hosted-runner</code>。</li><li>self-hosted runner 和 managed runner 一样使用 <code>/internal/agent-api/*</code>，不会退回 legacy machine surface。</li><li>bootstrap issue / exchange primitive 默认 gated off，显式开启 <code>SLOCK_SELF_HOSTED_RUNNER_BOOTSTRAP_ENABLED=true</code> 后可测试，但不是本 PR 的发布入口。</li><li>runner 可以通过 <code>/internal/agent-api/*</code>：</li></ol>
+<ul><li>send message。</li><li>claim task。</li><li>react。</li><li>read catch-up events。</li></ul>
+<ol><li>audit log 显示 agent credential，而不是 human JWT 或 Computer credential。</li></ol>
+<h3 id="10-2-managed-runner-acceptance">10.2 Managed runner acceptance</h3>
+<p>managed path 在 single-server session worker / compatibility daemon mode：</p>
+<ol><li>Computer 用自己的 Computer credential 请求 runner credential。</li><li>server mint managed-runner <code>sk_agent_*</code>。</li><li>Computer / server session worker 在 daemon 进程内私有持有 key。</li><li>wrapper / CLI 只通过本地 proxy / IPC affordance 调用 Slock，不接触 raw bearer key。</li><li>mint 成功路径不再写入或注入 legacy machine token；mint 失败在 bounded retry 后 hard-fail agent start，并记录 <code>runner_credential_mint_failed</code> 类 trace/error，不写 legacy <code>SLOCK_AGENT_TOKEN_FILE</code>。</li><li>runtime CLI child、tool shell、workspace exec 看不到 raw key，也看不到可读 raw-key file pointer。</li><li>server session worker 在 runner stop/exit 时 unregister local proxy，并对 managed-runner credential 发起 best-effort revoke；revoke 失败必须 trace，launch-bound TTL / server reaper 作为后续自愈项。</li><li>chat bridge 通过 <code>/internal/agent-api/*</code> send / task / react。</li><li>audit log 显示 <code>sk_agent_*</code>。</li></ol>
+<p><code>SLOCK_EXPERIMENTAL_SURFACES_DISABLED</code> 是 v0.8 surface 的 hard-disable / kill switch：打开后新版 daemon managed runner startup 必须失败，运维应回滚 daemon 二进制，而不是期待 graceful legacy fallback。</p>
+<h3 id="10-3-key-isolation-acceptance">10.3 Key isolation acceptance</h3>
+<p>目标态必须有测试证明：</p>
+<ul><li>runtime child env 中没有 raw <code>sk_agent_*</code>。</li><li>runtime child env 中没有任何可读 raw-key file pointer。</li><li>mint success path 中 runtime child env / workspace 没有 <code>SLOCK_AGENT_TOKEN_FILE</code> 或 legacy machine-token 文件。</li><li>tool shell / workspace exec / additional MCP subprocess 读不到 raw <code>sk_agent_*</code> 或 legacy machine token。</li><li>CLI 如果需要 Slock 操作，走 wrapper local proxy affordance；proxy 无条件覆盖 active-capability header，不信任 caller 输入。</li><li>local proxy token 在 runner launch stop/exit 后失效。</li><li>managed-runner 底层 <code>sk_agent_*</code> 在 runner launch stop/exit 的成功 revoke 路径后，直打 <code>/internal/agent-api/*</code> 返回 401；revoke 失败路径必须 trace/audit，强自愈留给 TTL/reaper follow-up。</li></ul>
+<p>只证明“raw env 不存在”不够。如果 mint success path 仍然留下 legacy machine token，或 proxy/managed credential 不随 launch 失效，也算失败。</p>
+<h3 id="10-4-capability-acceptance">10.4 Capability acceptance</h3>
+<p>用两个 credentials 测：</p>
+<ul><li>read-only runner credential。</li><li>send-capable runner credential。</li></ul>
+<p>read-only credential 调 send / task mutation / reaction 必须被拒绝：</p>
+<pre class="text"><code>403 capability_not_authorized</code></pre>
+<p>如果 capability 在 max set 里但 runner session inactive：</p>
+<pre class="text"><code>501 unsupported_capability</code></pre>
+<h3 id="10-5-computer-alias-acceptance">10.5 Computer alias acceptance</h3>
+<p>Phase 1 中，现有 legacy daemon entrypoint / host config 仍然只有 <code>sk_machine_*</code>。如果 <code>/internal/computer/*</code> 只接受 <code>sk_computer_*</code>，managed path 会断。</p>
+<p>Phase 1 必须明确：</p>
+<ul><li><code>sk_machine_*</code> 可以作为 Computer alias 调 <code>/internal/computer/*</code>。</li><li>alias 只在迁移窗口内存在。</li><li>alias 不能调 <code>/internal/agent-api/*</code>。</li><li>alias 不代表 daemon principal；它只是 Computer attachment credential 的迁移输入。</li></ul>
+<h3 id="10-6-route-auth-acceptance">10.6 Route auth acceptance</h3>
+<p>必须证明：</p>
+<ul><li>route auth registry 实际 mounted。</li><li>未注册 internal route fail closed。</li><li>wrong principal 路径返回稳定错误。</li><li>direct middleware 和 registry 注释不漂移。</li></ul>
+<h3 id="10-7-server-response-shape">10.7 Server response shape</h3>
+<p><code>/internal/agent-api/server</code> 对 Agent Runner 返回时，machine / computer-only fields 应该为 null 或不出现。Agent Runner 不应该被鼓励认为自己是 machine。</p>
+<h3 id="10-8-server-identifier-acceptance">10.8 Server identifier (slug) acceptance</h3>
+<p>v8.1 narrow append。验收要求：</p>
+<ul><li><code>slock-computer attach /aa</code> 与 <code>slock-computer attach aa</code> resolve 到同一 attached server；<code>  /aa  </code> 等等价输入同样命中。</li><li>Slug rename 不变性：server admin 把 slug 从 <code>aa</code> 改成 <code>bb</code> 之后，本地 CLI 用 <code>aa</code> 触发 lookup miss，<code>refreshAttachmentSlug</code> 走 preflight 取回 <code>bb</code>，覆盖 <code>attachment.json#serverSlug</code>，retry 命中同一 <code>servers/&lt;serverId&gt;/</code> 目录。credential / pid / log 状态无变更。</li><li>所有 user-facing 字符串（<code>status</code>、<code>doctor</code>、<code>runners list</code>、<code>logs</code>、error / hint、help text、example）都通过 <code>formatServerSlugDisplay</code> 渲染 canonical <code>/&lt;slug&gt;</code>；storage / wire / DB 仍是 bare。<code>attachment.json#serverSlug</code> 不写 <code>/</code> 前缀。</li><li>UUID-shaped 输入返回 <code>NOT_ATTACHED</code>，错误文案不出现 “server id” / “UUID” / “valid id” 字样。</li><li><code>AMBIGUOUS_SERVER</code> 列出候选时用 canonical <code>/&lt;slug&gt;</code>；建议命令也用 <code>--server /&lt;slug&gt;</code> 占位形。</li><li>所有 selector entry point 走唯一 normalize helper <code>normalizeServerSlug</code>，不能在 caller 局部 strip。</li></ul>
+<h3 id="10-9-status-observability-acceptance">10.9 Status observability acceptance</h3>
+<p>v8.2 narrow append。<code>slock-computer status</code> 验收要求：</p>
+<ul><li><code>status --json</code> 输出包含 <code>supervisor.logPath</code> 字段（绝对路径字符串）；每个 attached server entry 包含 <code>servers[].daemonLogPath</code>。</li><li>text 输出在 supervisor block 多一行 <code>Supervisor log: &lt;path&gt;</code>；每个 server 行之后多一行 <code>Daemon log: &lt;path&gt;</code>。</li><li>所有 path 派生自 <code>paths.ts::supervisorLogPath()</code> / <code>serverDaemonLogPath(serverId)</code>；测试断言无 <code>$SLOCK_HOME/computer/</code> 字面量出现在 status 实现代码。</li><li>Secret hygiene：<code>sk_computer_*</code>、<code>sk_machine_*</code>、<code>sk_agent_*</code>、API key、bootstrap token、legacy api key 都不能出现在 status 任何输出 channel。</li></ul>
+<h3 id="10-10-default-computer-display-name-acceptance">10.10 Default Computer display name acceptance</h3>
+<p>v8.2 narrow append。<code>slock-computer attach /&lt;slug&gt;</code> 不传 <code>--name</code> 时，server 收到的 <code>displayName</code> 验收要求：</p>
+<ul><li><code>hostname=MacBook-Pro.local</code> → <code>MacBook-Pro</code>。</li><li><code>hostname=devbox.fritz.box</code> → <code>devbox</code>。</li><li><code>hostname=August's MacBook</code> → <code>August-s-MacBook</code>。</li><li>所有 suffix 全部剥光（<code>.local</code> 单独 hostname） → <code>slock-computer-&lt;short-hostname-hash&gt;</code>。</li><li><code>--name "My Computer"</code> 显式 override → server 收到 <code>"My Computer"</code> 原文。</li><li><b>Resume/rotate main path</b>：同一 <code>(serverId, attachedByUserId, name)</code> 命中已有 live attachment → server <b>不</b>返回 collision，而是 rotate credential（<code>resumed=true</code>）。task #21 multi-attach 锁的就是这条；测试在 <code>computerCredentialService.test.ts</code> 覆盖。</li><li><b>Cross-user same displayName allowed</b>：不同 <code>attachedByUserId</code> 用相同 displayName 接入同一 server → 允许新建，无 collision 行为。</li><li><b>No displayName-collision response in current contract</b>：当前 <code>attachComputer</code> 返回类型只有 <code>ok | not_authorized</code>，不存在 <code>COMPUTER_NAME_COLLISION</code> response code 路径。CLI 端 defensive handler 作为未来演进占位但当前 unreachable。Acceptance test 不要 assert collision response。</li><li>派生逻辑测试在 <code>paths.ts::deriveDefaultComputerName</code> 单元层覆盖，不在 integration 层验证 hostname-specific 行为。</li></ul>
+<h3 id="10-11-setup-wizard-acceptance">10.11 Setup wizard acceptance</h3>
+<p>v8.2 narrow append。<code>slock-computer setup /&lt;slug&gt;</code> 验收要求：</p>
+<ul><li>stdin + stdout 都是 TTY → interactive prompt 给出 proposed defaults（slug、display name、是否 adopt-legacy）。</li><li>非 TTY（CI / pipe） → 不读 stdin、不假设 default-yes；打印一段下一步命令列表，以 <code>NON_INTERACTIVE_SETUP_REQUIRES_FLAGS</code> 退出非零。</li><li>legacy daemon 仍在跑且未传 <code>--adopt-legacy</code> → <code>LEGACY_DAEMON_RUNNING</code>，setup 不静默 adopt。</li><li>error code 透传 underlying <code>login</code> / <code>attach</code> / <code>adopt</code> stable codes，不被 wizard 重命名。</li></ul>
+<h3 id="10-12-device-login-url-acceptance">10.12 Device login URL acceptance</h3>
+<p>v8.2 narrow append。<code>POST /api/auth/device/authorize</code> 与 CLI <code>slock-computer login</code> 验收要求：</p>
+<ul><li>正常配置下 <code>verificationUri</code> 形如 <code>https://&lt;APP_URL&gt;/login/device</code>，<code>verificationUriComplete</code> 形如 <code>https://&lt;APP_URL&gt;/login/device?user_code=&lt;USER_CODE&gt;</code>，origin 与 <code>APP_URL</code> 一致，<b>不</b>等于 API origin。</li><li><code>APP_URL</code> 缺失 / 不是 http(s) 绝对 URL → <code>/api/auth/device/authorize</code> 返回 503 <code>DEVICE_LOGIN_URL_UNAVAILABLE</code>，不返回 relative path、不返回 API origin。</li><li>CLI <code>slock-computer login</code> 优先打印 <code>verificationUriComplete</code>，无则打印 <code>verificationUri</code> + 单独 <code>Enter code:</code> 行；CLI <b>不</b>把 server 返回的 relative path 用 <code>baseUrl</code> 拼接，遇到非绝对 web URL 立即 fail-closed <code>DEVICE_LOGIN_URL_UNAVAILABLE</code>。</li><li>web <code>/login/device</code> 页面接受 <code>user_code</code> query 预填，approve 路径用 <code>POST /api/auth/device/approve</code>。</li></ul>
+<h3 id="10-13-legacy-daemon-adoption-acceptance">10.13 Legacy daemon adoption acceptance</h3>
+<p>v8.2 narrow append。Adoption 流程验收要求：</p>
+<ul><li><b>Happy path</b>：<code>slock-computer setup /&lt;slug&gt; --adopt-legacy --legacy-api-key &lt;key&gt;</code>（或 <code>--legacy-api-key-file</code> / <code>--legacy-api-key-stdin</code> / <code>SLOCK_LEGACY_API_KEY</code> env 任一）成功 → server 标记 <code>machines.legacyKeyMigratedAt = now()</code>，mint 新 <code>sk_computer_*</code>，CLI 写入 <code>attachment.json</code>。<code>~/.slock/computer/adoption.log</code> 追加一行含 <code>credential_bridge_mode=</code> 对应 enum 值的记录。</li><li><b>重复 adopt</b>：同一 legacy key 第二次提交（key 本身仍 valid，但 <code>legacyKeyMigratedAt</code> 已 set） → server 直接返回 <code>legacy_machine_key_migrated</code>（HTTP 409），不再 mint。adoption.log 记 <code>credential_bridge_mode=&lt;尝试过的 legacy_key_* channel&gt;</code> + <code>failure_reason=legacy_machine_key_migrated</code>。<b>不要</b>把这桶 collapse 进 <code>legacy_key_invalid</code>：repeat-adopt 表示用户已经迁过，再点是 cross-host reuse 或 client-side state 失同步；invalid-key 表示 typo / wrong server / 真错 key — 处置路径不同，observability 必须分流。</li><li><b>Post-adoption alias 拒绝</b>：被 mark migrated 的 <code>sk_machine_*</code> 调 <code>/daemon/connect</code> 或 <code>/internal/computer/*</code> → 返回 <code>legacy_machine_key_migrated</code>（401 / 403 / 409 视路径而定，文案稳定）；不静默继续 Phase-1 alias 行为。</li><li><b>Auth cache invalidation</b>：adoption 成功设置 <code>legacyKeyMigratedAt</code> 后，server 在同一动作内 invalidate <code>findMachineByApiKey</code> auth cache 中该 legacy key 的 entry（或让 cache lookup 携带 <code>legacyKeyMigratedAt</code> check）；同一 server process 在 adoption 后立刻用同一 cached legacy key 调 <code>/daemon/connect</code> / <code>/internal/computer/*</code> 必须立即返回 <code>legacy_machine_key_migrated</code>，不允许靠 cache TTL 自然过期兜底。</li><li><b>Implicit fail-closed</b>：legacy daemon pid 仍在跑而未传 <code>--adopt-legacy</code> → CLI 返回 <code>LEGACY_DAEMON_RUNNING</code>；不静默 adopt 也不静默 fresh attach。</li><li><b>Explicit adopt 终态</b>：<code>--adopt-legacy</code> 路径 verify 旧 pid 退出 + 新 supervisor 持有唯一 lock + sk_computer_ minted；任一缺失 → adoption 失败、不写 <code>attachment.json</code>、adoption.log 仍记一行带 failure reason。</li><li><b>Outcome A — no key channel provided</b>：<code>setup --adopt-legacy</code> 未传任何 <code>--legacy-api-key*</code> flag 也没 <code>SLOCK_LEGACY_API_KEY</code> env → CLI 明示降级走普通 device-code login + 新 Computer attach；CLI 文案 "未找到旧 machine key，将以全新 Computer 身份注册。旧 machine 记录在 server 端的处理由 server 决定。" adoption.log 记 <code>credential_bridge_mode=device_login</code>。</li><li><b>Outcome B — key provided but invalid</b>（typo / wrong-server / malformed / unknown）：server 返回 <code>legacy_key_invalid</code>（401），<b>不</b> mint 新 <code>sk_computer_*</code>、<b>不</b> 创建 <code>computers</code> row、CLI <b>不</b> 写 <code>attachment.json</code>。adoption.log 记 <code>credential_bridge_mode=&lt;尝试过的 legacy_key_* channel&gt;</code> + <code>failure_reason=legacy_key_invalid</code>。CLI 退出非零，文案明示 "legacy key 无效，未注册新 Computer"，绝不静默 fresh-attach。</li><li><b>Outcome C — concurrent adoption same legacy machine</b>：两个并发 <code>POST /api/computer/adopt-legacy</code> 同一 <code>machines.id</code> → 恰有一个 transaction commit 成功 mint，loser 一律返回 <code>legacy_machine_key_migrated</code>（409）或 <code>adoption_conflict</code>，绝不 double-mint、绝不出现两个 active Computer 同时绑定同一 <code>machines.id</code>。Loser 的 CLI 不写 <code>attachment.json</code>，adoption.log 仍记一行带 <code>failure_reason=adoption_conflict</code>。</li><li><b>Stray legacy flag rejection</b>：<code>--legacy-api-key*</code> flag 出现在非 <code>--adopt-legacy</code> 命令（如裸 <code>setup</code> / <code>attach</code> / <code>login</code>）→ CLI 立即以 <code>LEGACY_KEY_OUTSIDE_ADOPT</code> 报错退出，不静默忽略。<code>SLOCK_LEGACY_API_KEY</code> env 在非 <code>--adopt-legacy</code> 命令保持非-ambient（被忽略），不报错；ignored env value 不读入 process memory、不进任何 log / status / error / adoption.log 字段，保留 dotfile / shell rc / systemd unit / <code>.envrc</code> 残留兼容性。</li><li><b>Raw key hygiene</b>：raw legacy key 不出现在 <code>attachment.json</code> / status JSON / adoption.log / 常规 log / process argv 长留 / DB 列。adoption.log 最多记 redacted prefix（前 8 字符）或 HMAC surrogate <code>mch_&lt;hex&gt;</code>。</li><li><b>Schema migration</b>：实现 PR 包含 SQL column <code>machines.legacy_key_migrated_at timestamptz null</code>（Drizzle / TS 模型字段 <code>legacyKeyMigratedAt</code>）migration 脚本 + 本地 PostgreSQL 测试。</li><li><b>Enum byte-lock — <code>credential_bridge_mode</code></b>：严格 ∈ <code>{device_login, legacy_key_argv, legacy_key_file, legacy_key_stdin, legacy_key_env}</code>，5-value closed set，snake_case，无变体（如 <code>device-login</code> / <code>legacyKeyFile</code> 必须被 review 拒绝）。Audit-log 字段名与未来 trace attr 名同形。</li><li><b>Enum byte-lock — <code>failure_reason</code></b>：adoption.log 中 failure 行的 <code>failure_reason</code> 字段严格 ∈ <code>{legacy_key_invalid, legacy_machine_key_migrated, adoption_conflict}</code>，3-value closed set，snake_case，与 outcome 桶 1:1：<ul><li><code>legacy_key_invalid</code> ← Outcome B（typo / wrong server / malformed / unknown key — server auth fail）</li><li><code>legacy_machine_key_migrated</code> ← 重复 adopt（key valid 但 <code>legacyKeyMigratedAt</code> 已 set — cross-host reuse / 客户端状态失同步）。注意：与 server-side stable code 同名同形（HTTP 409），由 <code>adopt.ts</code> 的 <code>failureReason</code> 字段直接写入 adoption.log。</li><li><code>adoption_conflict</code> ← Outcome C（并发 race，loser）</li></ul>不允许把 invalid 和 migrated collapse 成一个常量；observability 必须能区分 user-typo / cross-host reuse / concurrent adopt 三条 path。Audit-log 字段名与未来 trace attr 名同形。</li></ul>
+<h3 id="10-14-upgrade-contract-acceptance">10.14 Upgrade contract acceptance</h3>
+<p>v8.3 narrow append。<code>slock-computer upgrade</code>（CLI / web / tray 任一触发）验收要求：</p>
+
+<ul><li><b>Atomic install (pre-commit)</b>（v8.3.3 cleanup — atomicity 限 stage→swap 边界内；post-commit no rollback）：upgrade 触发对一个 <code>computer@0.0.4 + daemon@0.52.0</code> 的 Computer service → swap committed 后到 <code>computer@0.0.5 + daemon@0.53.0</code> 是同一 atomic transaction；不允许观察到 <code>computer@0.0.5 + daemon@0.52.0</code> 的半 swap 中间态。Pre-swap 失败注入（network/integrity/swap） → active layout 仍 prior（详见后续 stage-fail / swap-fail acceptance items）。</li>
+
+<li><b>Bounded sequential restart (blast-radius)</b>（v8.3.3 rename，blast-radius framing 替代 rolling availability framing）：upgrade 在有 N≥2 active agent runner 的 Computer service 上运行 → restart 必须串行（v0 = 1-at-a-time）；每个 runner restart 等到 replacement 上报 <code>running_idle</code> lifecycle event 才 kill 下一个；<code>READY_WAIT_TIMEOUT_MS = 30000</code>。Synthetic test 断言：upgrade 期间任意时刻 <b>本 Computer service 管理的</b> agent runner 中不允许两个同时处于 <code>activityKind=starting</code>（scope = blast-radius / 资源约束限定于本 Computer service 管理面，不是 rolling availability guarantee；不跨 Computer 全局序列化）。</li>
+
+<li><b>Stage-fail cleanup (pre-swap)</b>（v8.3.3 cleanup — Hao 两概念拆分的"不提交"侧）：synthetic test 注入 stage phase 失败（network / integrity / deps_changed） → 验：(i) emit 对应 closed-set error（<code>UPGRADE_NETWORK_FAILED</code> / <code>_INTEGRITY_FAILED</code> / <code>_DEPS_CHANGED</code>）；(ii) active layout 未触碰；(iii) <code>GET /api/computers/:id</code> 的 <code>computerVersion</code> 仍 prior（forensic <code>bundledDaemonVersion</code> 也 prior）；(iv) <b>staging artifact 保留</b>在 <code>upgradeStagingDir(version)</code>（与 PR #2080 paths.ts same-version retry semantics 一致；不自动删，operator 检查 forensic 后手动 <code>rm -rf</code> 才解锁同 version retry）。所有 path 走 <code>paths.ts::upgradeStagingDir(version)</code>，实现代码 grep 不出字面量。</li>
+
+<li><b>Swap-fail (pre-commit, atomic rename failure)</b>（v8.3.3 cleanup）：synthetic test 注入 atomic swap 失败（rename(2) / MoveFileEx error） → 验 emit <code>UPGRADE_SWAP_FAILED</code> + active layout 未触碰（lock 屏蔽规则下，半 swap state 不可观察） + <code>computerVersion</code> 仍 prior + status human text 仍显 prior version；零 disruption。</li>
+
+<li><b>Restart-fail (post-commit, no reverse-swap)</b>（v8.3.3 cleanup — Hao + Adspectum + Cody lock no-rollback contract）：synthetic test 注入第 K 个 runner（1 ≤ K ≤ N）replacement 不上报 <code>running_idle</code> 至超时 → 验：(i) emit <code>UPGRADE_RESTART_FAILED</code>；(ii) <b>不</b> reverse-swap，<b>不</b> kill 已 restart 跑在新 layout 的 runner；(iii) <code>computerVersion</code> = <b>new</b>（已 committed forward-only）；(iv) Computer service status 标 <b>unhealthy</b>；(v) actionable hint emit 引导 `slock-computer restart` / 人工 inspect / 重跑 `upgrade`。<b>Post-commit no-rollback invariant</b>：任何 reverse-swap / `<binary>.prev` 恢复 / 已切 runner kill 行为 → fail；contract = "active layout 一旦 swap 即 committed forward-only"。</li>
+
+<li><b>In-flight turn / tool call 不保护</b>：bounded sequential restart 期间若 runner 正在 in-flight turn / tool call，supervisor 仍按 ready-wait timeout 推进，不为该 turn 留 grace；中断 agent 通过 Slock inbox replay + workspace MEMORY.md/notes 恢复。Synthetic test：runner 当前 turn 中向 chat-bridge 发送中 → restart 触发 → 验 turn 被中断但 agent 在 replacement runner 上从 inbox 看到原 wake event 并恢复处理（与 PR #2068 runtime switch reset-session 同 acceptance shape）。</li>
+
+<li><b>Single version display — API</b>（v8.3.2 cleanup）：<code>GET /api/computers/:id</code> response 包含 <code>computerVersion: string</code>（非空 primary surface）。Optional forensic field <code>bundledDaemonVersion: string</code> 可缺省；若 emit，字段名 <b>必须</b> 是 <code>bundledDaemonVersion</code>，<b>禁</b> 任何字段叫 <code>daemonVersion</code> primary（消费者会误读为 UI contract）。</li>
+
+<li><b>Single version display — CLI</b>（v8.3.2 cleanup）：<code>slock-computer status</code> human text 输出单行 <code>Computer service: &lt;ver&gt;</code>；<code>--json</code> 输出包含 <code>computerVersion</code> + forensic <code>bundledDaemonVersion</code>。Bundled daemon version <b>不出现</b>在 status human text 的必显内容里（debug field marker 允许）。</li>
+
+<li><b>Single version display — Web</b>（v8.3.2 cleanup）：Computer 详情页 metadata block 单行渲染 Computer service 版本号；不允许把 bundled daemon version 升到 primary 渲染面 → e2e fail。</li>
+
+<li><b>Bundled daemon version forensic-only invariant</b>（v8.3.2 cleanup）：上 3 个 surface 加 tray status submenu 共 4 个 user-facing surface 全部 grep <code>bundledDaemonVersion</code> 字段：仅 <code>--json</code> 输出 / <code>upgrade.log</code> 行 / `[forensic]` marker 内 context 可出现；任何在 human text / web metadata primary / tray menu primary 暴露 bundled daemon version 的 codepath → fail。</li>
+
+<li><b>upgrade target resolution single-axis</b>（v8.3.2 cleanup）：synthetic test 注入"Computer 0.0.6 已是 channel latest 但 bundled daemon dep 在内部 bumped 到 0.54.0" → 验 CLI 输出 "Already at 0.0.6 (channel latest). Nothing to do."，<b>不</b> 触发 "daemon needs upgrade" 信号；bundled daemon dep 变化必须靠新 Computer bundle ship 才传播，不单独构成 upgrade-available 状态。</li>
+
+<li><b>Trigger source convergence</b>：CLI <code>slock-computer upgrade</code>、web "Upgrade" 按钮 click、tray "Upgrade" 项 click 三种 trigger 触发同一 backend upgrade RPC；<code>upgrade.log</code> entry 字段除 <code>trigger ∈ {cli, web, tray}</code> 外完全相同。</li>
+
+<li><b>Channel pinning</b>：
+  <ul>
+    <li><code>slock-computer channel pinned:0.0.5</code> 后 <code>upgrade</code> → 即便 <code>latest</code> 更高，也只装 <code>0.0.5</code>。</li>
+    <li><code>slock-computer channel pinned:notsemver</code> 或 <code>channel garbage</code> → 立即返回 <code>CHANNEL_INVALID</code>（v6 §11 既有 stable code），channel state 不变。</li>
+    <li>Channel state 在 Computer service 重启后保留。</li>
+  </ul>
+</li>
+
+<li><b>Failure mode closed-set</b>（v8.3.3 cleanup — 7-value，delete `UPGRADE_ATOMIC_ROLLBACK` + add `UPGRADE_SWAP_FAILED` / `UPGRADE_RESTART_FAILED` via RFC bump per §4.4 (6)）：所有 7 个 error code（<code>UPGRADE_DEPS_CHANGED</code> / <code>UPGRADE_NETWORK_FAILED</code> / <code>UPGRADE_INTEGRITY_FAILED</code> / <code>UPGRADE_SWAP_FAILED</code> / <code>UPGRADE_RESTART_FAILED</code> / <code>UPGRADE_NO_TARGET</code> / <code>UPGRADE_ALREADY_RUNNING</code>）必须是稳定 SCREAMING_SNAKE_CASE 字符串字面量；CLI fail-path 各分支 emit 对应 code。Synthetic test 逐个注入故障 → 验 CLI 退出非零 + <code>upgrade.log</code> 记录正确 <code>errorCode</code>。<b>Pre-commit vs post-commit boundary</b>：前 4 code（DEPS / NETWORK / INTEGRITY / SWAP_FAILED）= pre-commit，active layout 未触碰、user 面 version 仍 prior；RESTART_FAILED = post-commit，active layout 已 new but unhealthy，无自动 reverse-swap。<b>Closed-set discipline</b>：additive-only；现有 value rename / delete 同等禁止；新增 8th value 必须 RFC bump。本 7-value 集限于 upgrade attempt outcomes —— pre-condition rejection codes（<code>UPGRADE_REQUIRES_ADOPTION</code> / <code>CHANNEL_INVALID</code>，后者沿用 v6 §11 既有 stable code，非 v8.3 新增）与 informational codes（<code>LEGACY_DAEMON_INSTALL_DETECTED</code>）是独立 closed-set，不并入本集。</li>
+
+<li><b>Concurrent upgrade</b>：两个 simultaneous <code>slock-computer upgrade</code> → 恰一个获 lock 继续，另一个立即返回 <code>UPGRADE_ALREADY_RUNNING</code>；不允许 double upgrade 或 race 安装到不一致版本。</li>
+
+<li><b>Web "Upgrade" button</b>：
+  <ul>
+    <li>始终可见。无更新可用（当前 channel 版本号 = latest）→ 按钮灰掉 + label "Up to date"。</li>
+    <li>有更新可用 → 按钮 active，click → <code>&lt;ConfirmDialog&gt;</code> with <code>brutal-orange</code> confirm；cancel → no-op。</li>
+    <li>Confirm → 调用同一 backend upgrade RPC，同步 stream progress 状态给前端（progress / done / err）。</li>
+  </ul>
+</li>
+
+<li><b>Web "Restart daemon" button</b>（与 Upgrade 同 surface，sibling primitive）：
+  <ul>
+    <li>始终可见，不带 confirm dialog。</li>
+    <li>Click → 立即 trigger restart；按钮转 <code>&lt;Spinner&gt;</code> loading 状态。</li>
+    <li>Restart 等 daemon reconnect 后清 loading；reconnect timeout → 露 error 状态。</li>
+    <li>Restart trigger 受 task #45 wakeability 修保护：active agent runner 不被 strand。</li>
+  </ul>
+</li>
+
+<li><b>Activity log integration</b>：成功 upgrade 在 Computer 详情页 activity tab 出现 system event "Computer upgraded from &lt;fromComputer&gt;/&lt;fromDaemon&gt; to &lt;toComputer&gt;/&lt;toDaemon&gt; via &lt;trigger&gt;"；失败 upgrade 出现 "Computer upgrade failed: &lt;errorCode&gt;"。</li>
+
+<li><b>Backward compat — pre-bundled</b>：Computer service 是 0.0.4 pre-bundled-daemon 形态 → 第一次 upgrade 安装两个包到新 layout，遗留 npm-installed daemon path 不动；<code>doctor</code> 报 <code>LEGACY_DAEMON_INSTALL_DETECTED</code> informational + cleanup hint。</li>
+
+<li><b>Adoption boundary</b>：未走 v8.2 §5.11 adopt-legacy 流程的 legacy daemon 调用 <code>slock-computer upgrade</code> → 立即 <code>UPGRADE_REQUIRES_ADOPTION</code>，不进入 install path。</li>
+
+<li><b>Secret hygiene</b>：<code>sk_computer_*</code> / <code>sk_machine_*</code> / <code>sk_agent_*</code> / API key / npm token 都不能出现在 <code>upgrade.log</code> 任何字段；npm 原始输出如需保留走单独 <code>upgrade-install-&lt;timestamp&gt;.log</code>，文件权限 0o600。</li>
+</ul>
+
+<h2 id="11-hard-non-goals">11. Hard non-goals</h2>
+<p>原 v0.8 §11 中 credential / auth / workspace / lifecycle producer 子集（条目 1–11）已 verbatim 抬到 <a href="slock-credential-rfc.zh.html#section-credential-hard-non-goals">slock-credential-rfc.zh.html §6 Hard non-goals (credential subset)</a>（base RFC v0.1），本文不再维护。</p>
+<p>Computer-specific 不在 v0.1 内、且不应该被实现成临时捷径的事项（编号沿用原 v0.8）：</p>
+<ol start="12"><li><b>(v8.3)</b> Upgrade bounded sequential restart 期间保护 in-flight turn / tool call。<b>不</b>承诺 live migration —— bounded sequential restart 会中断当前 turn，agent 通过 Slock inbox replay + workspace MEMORY.md/notes 恢复（与 #proj-daemon PR #2068 runtime switch = session reset 模型同向）。任何为 in-flight turn 引入 grace window / drain protocol / mid-turn handoff 都属于此非目标，实现 PR review 应直接拒绝。</li><li><b>(v8.3.3)</b> Post-swap automated rollback machinery。一旦 atomic swap commit 完成，active layout 是 <b>forward-only</b> committed 到新 bundle；后续 restart / runner ready 失败 = fail-loud + Computer service 标 unhealthy + actionable hint 引导 user 手动 recovery（<code>slock-computer restart</code> / 人工 inspect / 重跑 <code>upgrade</code>）。任何 reverse-swap / `<binary>.prev` 自动恢复 / snapshot 状态文件读 prior / 自动 kill 已切 runner 切回旧 layout 都属于此非目标，实现 PR review 应直接拒绝。Recovery 是 user 主动行为，不是 contract 自动事务保证。Hao msg=aee2822d 两概念拆分（保留 staging fail-cleanup pre-swap，删 post-swap rollback）一致 lock。</li></ol>
+<h2 id="12-open-questions">12. Open questions</h2>
+<p>这些问题不阻塞 Phase 1，但需要在后续 RFC 或 task 中落地：</p>
+<ol><li><code>wake_reason</code> enum 的最终集合，由 task #164 决定。</li><li><code>sk_machine_*</code> 到 <code>sk_computer_*</code> 的具体迁移窗口。</li><li>runner websocket 的 reconnect / resume 细节。</li><li>self-hosted runner credential 的默认 expiry 和 rotation policy。</li><li>managed-runner credential 的失败自愈策略：launch-bound TTL、server reaper，或两者组合。</li><li>workspace capability RPC 的最小第一批能力集合。</li><li>Computer attach 多 server 时的本地 state layout 最终命名。</li><li>legacy daemon entrypoint 的 deprecation / permanent-wrapper 策略。</li></ol>
+<h2 id="13-closed-decisions">13. Closed decisions</h2>
+<ol><li>Self-hosted Runner 和 Managed Runner 使用同一套 Agent Runner API。</li><li>Agent Runner API 是 <code>/internal/agent-api/*</code>，identity 来自 <code>sk_agent_*</code>，path 不带 <code>:id</code>。</li><li>Computer API 是 <code>/internal/computer/*</code>。</li><li>Server session worker 不是 principal，不进 lifecycle producer table。</li><li>Legacy daemon package / command 只作为 compatibility launcher。</li><li>Computer 不能本地 mint agent credential。</li><li>Computer / server session worker 不能代 agent 调 agent data plane。</li><li>Workspace belongs to Runner。</li><li>Capability enforcement 是 <code>max_capabilities ∩ active_capabilities</code>。</li><li>wrong principal 用 <code>invalid_principal</code>，cross-agent 用 <code>cross_agent_act</code>。</li><li>send response 不做 catch-up。</li><li>wake envelope <code>last_seen_msgId</code> 使用 model-seen 语义。</li><li>runner key isolation 是 release gate，不是 best effort。</li></ol>
+<h2 id="14-implementation-checklist-for-pr-review">14. Implementation checklist for PR review</h2>
+<p>PR 进入 review-ready 前，至少要逐项回答：</p>
+<ul><li>[ ] <code>/internal/agent-api/*</code> 是否只接受 <code>sk_agent_*</code>？</li><li>[ ] <code>/internal/computer/*</code> 是否只接受 <code>sk_computer_*</code> 或 Phase 1 alias <code>sk_machine_*</code>？</li><li>[ ] <code>sk_machine_*</code> 是否被禁止调用 <code>/internal/agent-api/*</code>？</li><li>[ ] agent A 是否不能 acting as agent B？</li><li>[ ] route auth registry 是否真的 mounted？</li><li>[ ] 未注册 internal route 是否 fail closed？</li><li>[ ] read-only agent credential 是否无法 send / mutate task / react？</li><li>[ ] inactive session capability 是否返回 <code>unsupported_capability</code>？</li><li>[ ] runtime child env 是否完全 scrub raw credential env？</li><li>[ ] runtime child 是否无法通过 raw-key file pointer 读到 <code>sk_agent_*</code>？</li><li>[ ] mint success path 是否不写入/注入 legacy machine token 或 <code>SLOCK_AGENT_TOKEN_FILE</code>？</li><li>[ ] mint failure 是否 bounded retry 后 hard-fail，且不写 legacy token / 不进入 <code>legacy-machine</code> clientMode？</li><li>[ ] proxy 是否无条件覆盖 active-capability header？</li><li>[ ] local proxy token 是否绑定 launch，并在 stop/exit 后 401？</li><li>[ ] managed-runner 底层 <code>sk_agent_*</code> 是否在 stop/exit 的成功 revoke 路径后 401，且 revoke 失败路径有 trace/audit hook？</li><li>[ ] managed runner 是否能在只有 legacy host credential 的 Phase 1 compatibility entrypoint 环境请求 runner credential，且 server-first / daemon rollback 是 release safety 机制？</li><li>[ ] server session worker 是否没有独立 principal / credential / lifecycle producer 语义？</li><li>[ ] self-hosted runner direct credential path 是否保留同一套 Agent Runner API，且 bootstrap/login 外部 surface 默认 gated off？</li><li>[ ] send response 是否没有 catch-up unread payload？</li><li>[ ] wake envelope 的 seen boundary 是否和 send freshness 一样是 model-seen？</li><li>[ ] <code>/internal/agent-api/server</code> 是否没有 machine identity leakage？</li></ul>
+<p>如果这些问题中任何一个答案是否定的，PR 还没有实现 v0.8 的最小安全边界。</p>
+    </section>
+    <footer>Slock Computer RFC v0.1 — extracted from slock-computer-agent-runner-rfc-v0.8.zh.html (retired in same PR). Credential / slug / workspace ownership / stable error-code framework / credential-axis hard non-goals lifted to <a href="slock-credential-rfc.zh.html">slock-credential-rfc.zh.html</a> (base RFC v0.1). Diagrams are embedded as Mermaid.</footer>
+  </main>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      themeVariables: {
+        background: "#fffaf0",
+        primaryColor: "#fff8df",
+        primaryTextColor: "#1f2528",
+        primaryBorderColor: "#b79a35",
+        lineColor: "#657174",
+        fontFamily: "ui-sans-serif, system-ui, sans-serif"
+      }
+    });
+  </script>
+</body>
+</html>

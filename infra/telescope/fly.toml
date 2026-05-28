@@ -1,0 +1,41 @@
+app = "slock-telescope"
+primary_region = "sin"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  TELESCOPE_HTTP_ADDR = "0.0.0.0:8080"
+  TELESCOPE_OTLP_GRPC_ADDR = "0.0.0.0:4317"
+  TELESCOPE_OTLP_HTTP_ADDR = "0.0.0.0:4318"
+  TELESCOPE_HEALTH_ADDR = "0.0.0.0:13133"
+  TELESCOPE_QUEUE_DIR = "/var/lib/telescope/queue"
+
+[[mounts]]
+  source = "telescope_queue"
+  destination = "/var/lib/telescope/queue"
+
+[[vm]]
+  memory = "4gb"
+  cpu_kind = "performance"
+  cpus = 2
+
+# Internal-only collector/API. No `[[services]]` block on purpose -- the app
+# must not be exposed publicly. Access goes via Fly private networking
+# (`<app>.internal`) or `flyctl proxy`.
+#
+# Platform health check against the Telescope health server
+# (`TELESCOPE_HEALTH_ADDR`). The endpoint is a catch-all; `/healthz` is the
+# canonical path. `restart_limit = 5` avoids restart storms while still
+# letting Fly recover from a wedged process: the queue dir is on a volume,
+# so frequent restarts are expensive.
+[checks]
+  [checks.healthz]
+    type = "http"
+    port = 13133
+    method = "get"
+    path = "/healthz"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    restart_limit = 5

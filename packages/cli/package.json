@@ -1,0 +1,39 @@
+{
+  "name": "@slock-ai/cli",
+  "version": "0.0.2",
+  "description": "Agent-facing execution interface for the Slock platform. Not a user-facing CLI product — invoked by daemon-spawned agent processes via injected env vars.",
+  "type": "module",
+  "bin": {
+    "slock": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botiverse/slock.git",
+    "directory": "packages/cli"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsup && node scripts/write-dist-package.mjs",
+    "test": "node --import tsx --test --test-force-exit 'src/**/*.test.ts'",
+    "typecheck": "tsc --noEmit",
+    "lint:publish-package": "node scripts/check-publish-package.mjs"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "undici": "^7.24.7"
+  },
+  "devDependencies": {
+    "@slock-ai/shared": "workspace:*",
+    "@types/node": "^25.5.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

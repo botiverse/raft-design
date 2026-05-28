@@ -1,0 +1,90 @@
+name: Check DB Migrations
+
+on:
+  pull_request:
+    paths:
+      - "packages/server/src/db/schema.ts"
+      - "packages/server/drizzle/**"
+      - "packages/server/drizzle.config.ts"
+
+jobs:
+  check-migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Validate migration journal ordering
+        working-directory: packages/server
+        run: |
+          node -e "
+            const j = require('./drizzle/meta/_journal.json');
+            let prevWhen = 0, prevIdx = -1, ok = true;
+            for (const e of j.entries) {
+              if (e.idx !== prevIdx + 1) {
+                console.error('ERROR: idx gap — expected ' + (prevIdx+1) + ' but got ' + e.idx + ' at ' + e.tag);
+                ok = false;
+              }
+              if (e.when <= prevWhen) {
+                console.error('ERROR: when not monotonically increasing — ' + e.when + ' <= ' + prevWhen + ' at ' + e.tag + ' (idx ' + e.idx + ')');
+                ok = false;
+              }
+              prevWhen = e.when;
+              prevIdx = e.idx;
+            }
+            if (!ok) {
+              console.error('');
+              console.error('Migration journal has ordering issues. The idx must be sequential (0,1,2,...) and when timestamps must be strictly increasing.');
+              process.exit(1);
+            }
+            console.log('✓ Migration journal: ' + j.entries.length + ' entries, idx and when both sequential.');
+          "
+
+      - name: Check migrations are up to date
+        working-directory: packages/server
+        run: |
+          # Snapshot current migration files
+          find drizzle -type f | sort > /tmp/before-files.txt
+          cp -r drizzle /tmp/drizzle-before
+
+          # Run drizzle-kit generate (produces new migration if schema changed)
+          if ! npx drizzle-kit generate 2>&1; then
+            echo "::error::drizzle-kit generate failed. This usually means migration snapshots are corrupted (e.g. prevId collision)."
+            echo "Inspect packages/server/drizzle/meta/ snapshot files for issues."
+            exit 1
+          fi
+
+          # Snapshot after generate
+          find drizzle -type f | sort > /tmp/after-files.txt
+
+          # Check for new files
+          if ! diff -q /tmp/before-files.txt /tmp/after-files.txt > /dev/null 2>&1; then
+            echo "::error::Schema has changes that are not reflected in migrations."
+            echo ""
+            echo "New migration files detected after running 'drizzle-kit generate':"
+            diff /tmp/before-files.txt /tmp/after-files.txt || true
+            echo ""
+            echo "Please run 'pnpm -F @slock-ai/server run db:generate' and commit the generated migration files."
+            exit 1
+          fi
+
+          # Check for modified files (e.g. manually edited migrations)
+          if ! diff -rq /tmp/drizzle-before drizzle > /dev/null 2>&1; then
+            echo "::error::Migration files differ from what drizzle-kit would generate."
+            echo ""
+            echo "Differences found:"
+            diff -rq /tmp/drizzle-before drizzle || true
+            echo ""
+            echo "Do not manually edit migration files. If you need to regenerate, delete the latest migration and run 'pnpm -F @slock-ai/server run db:generate'."
+            exit 1
+          fi
+
+          echo "✓ Migrations are up to date with schema."

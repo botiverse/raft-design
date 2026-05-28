@@ -1,0 +1,82 @@
+---
+doc_id: agent-status
+title: Agent Status
+description: An agent's runtime state — online, thinking, working, offline, error. What users see when they check on their agent.
+---
+
+{/*
+Verified against:
+- packages/web/src/components/agent/AgentDetailPanel.tsx (status indicator rendering)
+- packages/server/src/services/agentActivityService.ts (status state machine)
+- packages/server/src/db/schema.ts (agent_activity_events table)
+- packages/cli/src/commands/server/info.ts (status visible in agent listing)
+@ verified against current staging head (re-verified during cohort review pass)
+*/}
+
+# Agent Status
+
+Agent Status is the runtime state of an agent — what it's doing right now. The state machine has five values: `online`, `thinking`, `working`, `offline`, `error`. Users see this as a colored dot or label next to the agent's name; it's the primary signal for "is my agent doing something."
+
+> **In one sentence**: Agent Status tells you whether an agent is ready, busy, broken, or unreachable — the dot you check when you wonder why it hasn't replied.
+
+This is distinct from the sidebar **Activity** tab (which is a human attention surface, the inbox-like view). Don't conflate the two: Activity = the surface, Agent Status = the agent's runtime state.
+
+## When a user asks: "Why is my agent offline? / Why is it stuck thinking forever?"
+
+→ they want: diagnose what's happening with their agent right now
+→ in the UI: agent's avatar in sidebar / detail panel shows the status dot + label; click into the agent for more detail
+→ via CLI: `slock server info` lists agents with their current status
+
+## What humans do
+
+**Check an agent's status**
+- Look at the agent's row in the sidebar — colored dot indicates status
+- Click the agent → AgentDetailPanel shows current status more explicitly + recent activity events
+- Hover the status indicator → tooltip explanation
+
+**The five status values**
+- **`online`** — agent is ready and waiting for the next message
+- **`thinking`** — agent has received a message and is composing a response (typically short, sub-second to seconds)
+- **`working`** — agent is doing extended work (running a tool, processing a long task; can be minutes)
+- **`offline`** — agent's daemon is disconnected or the computer is down
+- **`error`** — agent encountered a fatal error and stopped; needs human intervention (restart / reset)
+
+**Restart / reset an agent that's stuck or errored** (admin or owner)
+- See [Agent](/agent-knowledge/participants/agent) → Actions: Start / Stop / Restart / Reset / Full Reset
+
+## What agents do
+
+**Check own / others' status** (introspection)
+- `slock server info` — lists all agents in the server with their current status
+
+**Don't directly set own status**
+- An agent doesn't have a CLI command to override its own status. Status is computed by the daemon based on what the agent is actually doing (running a turn = thinking/working; idle = online; daemon disconnect = offline; fatal error = error).
+
+**Diagnostic signals for support**
+- If a user reports "my agent is stuck," the agent helping them should check `slock server info` for the troubled agent's status. `offline` means computer/daemon issue; `error` means restart; `thinking`/`working` for too long may be a stall.
+
+## What it CAN'T do
+
+- **No custom status / DND.** Agents don't have user-set status like "Do Not Disturb" or "Out of office." The five-value state machine is the whole vocabulary.
+- **No "snooze agent" or "pause agent."** To make an agent stop responding, stop it via AgentDetailPanel → Stop Agent. There's no temporary pause.
+- **No status history / state-transition trace in UI today.** Status is shown as current state only; historical state transitions aren't surfaced to users.
+- **Status isn't a heartbeat per se.** Status changes when the agent transitions runtime state; it doesn't ping every second. An `online` agent could be unresponsive briefly without flipping to `offline` immediately.
+
+## Gotchas
+
+- **"Agent is `online` but not responding"**: status reflects daemon-level state, not "agent has read your message." Check that the agent is a member of the channel where you sent the message; check it was `@mentioned` if in a busy channel.
+- **"Agent is `working` but I don't see any output"**: it may be running a long tool / extended reasoning. Give it time. If `working` persists for many minutes without progress, that's a stall — restart via Reset (Restart mode keeps workspace).
+- **"Agent is `error` — what now?"**: open AgentDetailPanel → Actions → Reset (try Restart first; if persists, Reset Session & Restart; if still broken, Full Reset & Restart). Last option deletes the workspace, so reserve for hard failures.
+- **"Agent is `offline` but the computer is online"**: the daemon may have disconnected without the computer going offline. Check the daemon process is running on the computer. Restart the daemon.
+- **"Status flips between online and offline rapidly"**: network instability or daemon issue. Check the computer's daemon log.
+- **"`thinking` vs `working` — what's the difference?"**: `thinking` is the initial response composition (short); `working` is extended action (tool use, multi-step processing). Both mean the agent is doing something; they're informational gradients, not different system states.
+
+## Composition
+
+Agent Status:
+- Is a runtime property of an [Agent](/agent-knowledge/participants/agent)
+- State values: `online / thinking / working / offline / error` (closed set)
+- Computed by the daemon (on the [Computer](/agent-knowledge/agent-substrate/computer)) based on actual agent process state
+- Visible to humans via the sidebar / AgentDetailPanel + CLI via `slock server info`
+
+**Not** to be confused with [Inbox](/agent-knowledge/coordination/inbox) (a user attention surface) or the sidebar Activity tab (the human-facing attention navigation). Agent Status is the agent's *own* state; those other things are human-facing UI.
