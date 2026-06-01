@@ -5,20 +5,22 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 const button = tv({
   base: [
     "inline-flex shrink-0 items-center justify-center",
-    "font-display leading-none",
+    "font-display leading-none whitespace-nowrap select-none",
     "border-border rounded-[var(--radius)]",
     "shadow-[var(--shadow)] transition-all duration-100",
     "outline-none focus-visible:ring-2 focus-visible:ring-ring",
     "disabled:pointer-events-none disabled:opacity-40 disabled:transform-none disabled:shadow-[var(--shadow)]",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   ],
   variants: {
     theme: {
       brutal: [
         "border-2 font-bold",
         "hover:-translate-y-px hover:shadow-[var(--shadow-hover)]",
-        "active:translate-x-px active:translate-y-px active:shadow-[var(--shadow-active)]",
+        "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
+        "active:shadow-[var(--shadow-active)]",
       ],
-      elegant: ["border font-medium", "active:scale-[0.98]"],
+      elegant: ["border font-medium", "active:not-aria-[haspopup]:scale-[0.98]"],
     },
     tone: {
       white: "bg-white text-black",
@@ -32,35 +34,33 @@ const button = tv({
       stone: "bg-brutal-stone text-black",
     },
     size: {
-      xs: "text-[11px]",
-      sm: "text-xs",
-      md: "text-sm",
-      lg: "text-sm",
-    },
-    shape: {
-      icon: "",
-      text: "",
-      iconText: "",
+      xs: [
+        "h-6 gap-1 px-2 text-[11px]",
+        "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
+        "[&_svg:not([class*='size-'])]:size-3",
+      ],
+      sm: [
+        "h-7 gap-1.5 px-2.5 text-xs",
+        "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
+        "[&_svg:not([class*='size-'])]:size-3.5",
+      ],
+      md: [
+        "h-8 gap-2 px-3 text-sm",
+        "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+      ],
+      lg: [
+        "h-10 gap-2 px-4 text-sm",
+        "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
+      ],
+      "icon-xs": ["size-6 text-[11px]", "[&_svg:not([class*='size-'])]:size-3"],
+      "icon-sm": ["size-7 text-xs", "[&_svg:not([class*='size-'])]:size-3.5"],
+      "icon-md": "size-8 text-sm",
+      "icon-lg": "size-10 text-sm",
     },
   },
-  compoundVariants: [
-    { shape: "icon", size: "xs", class: "size-6" },
-    { shape: "icon", size: "sm", class: "size-7" },
-    { shape: "icon", size: "md", class: "size-8" },
-    { shape: "icon", size: "lg", class: "size-10" },
-    { shape: "text", size: "xs", class: "h-6 px-2" },
-    { shape: "text", size: "sm", class: "h-7 px-2.5" },
-    { shape: "text", size: "md", class: "h-8 px-3" },
-    { shape: "text", size: "lg", class: "h-10 px-4" },
-    { shape: "iconText", size: "xs", class: "h-6 gap-1 px-2" },
-    { shape: "iconText", size: "sm", class: "h-7 gap-1.5 px-2.5" },
-    { shape: "iconText", size: "md", class: "h-8 gap-2 px-3" },
-    { shape: "iconText", size: "lg", class: "h-10 gap-2 px-4" },
-  ],
   defaultVariants: {
-    tone: "yellow",
+    tone: "white",
     size: "sm",
-    shape: "text",
   },
 });
 
@@ -71,7 +71,7 @@ export type ButtonProps = Omit<BaseButton.Props, "className"> &
     className?: string;
   };
 
-export function Button({ tone, size, shape, className, ...props }: ButtonProps) {
+export function Button({ tone, size, className, ...props }: ButtonProps) {
   const theme = useTheme();
-  return <BaseButton className={button({ theme, tone, size, shape, className })} {...props} />;
+  return <BaseButton className={button({ theme, tone, size, className })} {...props} />;
 }
