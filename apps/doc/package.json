@@ -9,7 +9,9 @@
     "dev": "vp dev --port 5173",
     "build": "vp build",
     "preview": "vp preview",
-    "test": "vp test run"
+    "test": "vp test run",
+    "deploy": "vp build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@slock-ui/ui": "workspace:*",
@@ -36,10 +38,12 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
     "jsdom": "^28.1.0",
+    "nitro": "catalog:",
     "typescript": "^6.0.2",
     "vite": "catalog:",
     "vite-plus": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "wrangler": "catalog:"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
