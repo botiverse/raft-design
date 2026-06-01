@@ -30,9 +30,14 @@ const PROPS: readonly PropRow[] = [
     description: "Controls padding and font size.",
   },
   {
+    name: "render",
+    type: "ReactElement | (props, state) => ReactElement",
+    description: "Replace the rendered element or compose with another component (Base UI).",
+  },
+  {
     name: "...props",
-    type: "ButtonHTMLAttributes",
-    description: "All native button attributes (onClick, disabled, type, etc.).",
+    type: "Base UI Button.Props",
+    description: "All native button attributes (onClick, disabled, type, etc.) plus Base UI props.",
   },
 ];
 

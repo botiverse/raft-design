@@ -10,8 +10,8 @@ type DocPageProps = {
 
 export function DocPage({ title, description, toc, children }: DocPageProps) {
   return (
-    <div className="mx-auto flex max-w-5xl gap-12 px-8 py-12">
-      <article className="min-w-0 flex-1">
+    <>
+      <article className="mx-auto w-full min-w-0 max-w-160 px-8 py-12">
         <header className="mb-10">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
           {description ? <p className="mt-3 text-lg text-gray-600">{description}</p> : null}
@@ -19,6 +19,6 @@ export function DocPage({ title, description, toc, children }: DocPageProps) {
         {children}
       </article>
       <Toc items={toc} />
-    </div>
+    </>
   );
 }
