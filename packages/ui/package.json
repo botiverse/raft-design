@@ -9,7 +9,11 @@
   ],
   "type": "module",
   "exports": {
-    ".": "./dist/index.mjs",
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.mjs"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },

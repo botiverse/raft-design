@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Scan @slock-ui/ui so Tailwind generates the utility classes its tv() variants emit. */
+@source "../../../packages/ui/src";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}

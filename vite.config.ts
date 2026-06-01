@@ -4,8 +4,11 @@ export default defineConfig({
   staged: {
     "*": "vp check --fix",
   },
-  fmt: {},
-  lint: { options: { typeAware: true, typeCheck: true } },
+  fmt: { ignorePatterns: ["**/routeTree.gen.ts", "**/dist/**"] },
+  lint: {
+    ignorePatterns: ["**/routeTree.gen.ts", "**/dist/**"],
+    options: { typeAware: true, typeCheck: true },
+  },
   run: {
     cache: true,
   },
