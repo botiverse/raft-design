@@ -3,16 +3,17 @@ import { Button, type ButtonProps } from "@slock-ui/ui";
 import { Plus } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
+import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { ComponentPreview } from "#/components/component-preview.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-
-export const Route = createFileRoute("/components/button")({ component: ButtonDoc });
+import { highlightSnippets } from "#/lib/highlight.ts";
 
 const TOC = [
   { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
   { id: "tones", title: "Tones" },
   { id: "sizes", title: "Sizes" },
   { id: "icons", title: "Icons" },
@@ -35,6 +36,31 @@ const TONES = [
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
 
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
+
+const SNIPPETS = {
+  anatomy: `import { Button } from "@slock-ui/ui";
+
+<Button>Click me</Button>`,
+  tones: `<Button tone="yellow">Yellow</Button>
+<Button tone="pink">Pink</Button>
+<Button tone="cyan">Cyan</Button>`,
+  sizes: `<Button size="xs">Extra small</Button>
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`,
+  icons: `import { Plus } from "lucide-react";
+
+<Button size="icon-md" aria-label="Add">
+  <Plus />
+</Button>
+
+<Button>
+  <Plus data-icon="inline-start" />
+  New
+</Button>`,
+  states: `<Button>Default</Button>
+<Button disabled>Disabled</Button>`,
+} as const;
 
 type PlaygroundValues = {
   tone: NonNullable<ButtonProps["tone"]>;
@@ -75,7 +101,14 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+export const Route = createFileRoute("/components/button")({
+  component: ButtonDoc,
+  loader: () => highlightSnippets({ data: SNIPPETS }),
+});
+
 function ButtonDoc() {
+  const code = Route.useLoaderData();
+
   return (
     <DocPage title="Button" description="A clickable button with tone and size options." toc={TOC}>
       <DocSection id="preview" title="Preview">
@@ -95,15 +128,19 @@ function ButtonDoc() {
         />
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
+
       <DocSection id="tones" title="Tones">
         <div className="space-y-4">
-          <ComponentPreview>
+          <Example html={code.tones}>
             {TONES.map((tone) => (
               <Button key={tone} tone={tone}>
                 {tone}
               </Button>
             ))}
-          </ComponentPreview>
+          </Example>
           <Callout>
             Tones are fixed colors from the brutal palette, not semantic roles — a tone renders the
             same pastel under both the <code>brutal</code> and <code>elegant</code> themes. Pick a
@@ -114,17 +151,17 @@ function ButtonDoc() {
       </DocSection>
 
       <DocSection id="sizes" title="Sizes">
-        <ComponentPreview>
+        <Example html={code.sizes}>
           <Button size="xs">Extra small</Button>
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
           <Button size="lg">Large</Button>
-        </ComponentPreview>
+        </Example>
       </DocSection>
 
       <DocSection id="icons" title="Icons">
         <div className="space-y-4">
-          <ComponentPreview>
+          <Example html={code.icons}>
             {ICON_SIZES.map((size) => (
               <Button key={size} size={size} aria-label={size}>
                 <Plus />
@@ -134,7 +171,7 @@ function ButtonDoc() {
               <Plus data-icon="inline-start" />
               New
             </Button>
-          </ComponentPreview>
+          </Example>
           <Callout>
             For an icon-only button use an <code>icon-*</code> size (square, no label). When an icon
             sits beside text, add <code>data-icon="inline-start"</code> or <code>"inline-end"</code>{" "}
@@ -147,10 +184,10 @@ function ButtonDoc() {
       </DocSection>
 
       <DocSection id="states" title="States">
-        <ComponentPreview>
+        <Example html={code.states}>
           <Button>Default</Button>
           <Button disabled>Disabled</Button>
-        </ComponentPreview>
+        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
