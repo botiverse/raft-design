@@ -18,7 +18,11 @@
   --ring: oklch(0.18 0.006 25);
 
   --radius: 0px;
-  --shadow: 4px 4px 0px oklch(0.18 0.006 25);
+  /* Hard offset shadow, three interaction tiers (resting → raised → pressed).
+     Mirrors the brutal app's shadow-brutal-sm / -brutal / -brutal-active. */
+  --shadow: 2px 2px 0px oklch(0.18 0.006 25);
+  --shadow-hover: 4px 4px 0px oklch(0.18 0.006 25);
+  --shadow-active: 1px 1px 0px oklch(0.18 0.006 25);
 
   --display-font: "Space Grotesk", system-ui, sans-serif;
   --mono-font: "Space Mono", ui-monospace, monospace;

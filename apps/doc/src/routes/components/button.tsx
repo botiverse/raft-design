@@ -10,24 +10,43 @@ export const Route = createFileRoute("/components/button")({ component: ButtonDo
 
 const TOC = [
   { id: "preview", title: "Preview" },
-  { id: "variants", title: "Variants" },
+  { id: "tones", title: "Tones" },
   { id: "sizes", title: "Sizes" },
+  { id: "shapes", title: "Shapes" },
   { id: "states", title: "States" },
   { id: "api", title: "API" },
 ] as const;
 
+const TONES = [
+  "white",
+  "yellow",
+  "pink",
+  "cyan",
+  "lavender",
+  "orange",
+  "lime",
+  "red",
+  "stone",
+] as const;
+
 const PROPS: readonly PropRow[] = [
   {
-    name: "variant",
-    type: '"primary" | "secondary"',
-    default: '"primary"',
-    description: "Visual style of the button.",
+    name: "tone",
+    type: TONES.map((tone) => `"${tone}"`).join(" | "),
+    default: '"yellow"',
+    description: "Background color from the brutal palette. Text is always ink-black.",
   },
   {
     name: "size",
-    type: '"sm" | "md"',
-    default: '"md"',
-    description: "Controls padding and font size.",
+    type: '"xs" | "sm" | "md" | "lg"',
+    default: '"sm"',
+    description: "Controls height, padding, and font size.",
+  },
+  {
+    name: "shape",
+    type: '"icon" | "text" | "iconText"',
+    default: '"text"',
+    description: "Square icon-only, text-only, or icon-plus-text layout.",
   },
   {
     name: "render",
@@ -45,7 +64,7 @@ function ButtonDoc() {
   return (
     <DocPage
       title="Button"
-      description="A clickable button with variant and size options."
+      description="A clickable button with tone, size, and shape options."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
@@ -54,17 +73,35 @@ function ButtonDoc() {
         </ComponentPreview>
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="tones" title="Tones">
         <ComponentPreview>
-          <Button variant="primary">Primary</Button>
-          <Button variant="secondary">Secondary</Button>
+          {TONES.map((tone) => (
+            <Button key={tone} tone={tone}>
+              {tone}
+            </Button>
+          ))}
         </ComponentPreview>
       </DocSection>
 
       <DocSection id="sizes" title="Sizes">
         <ComponentPreview>
+          <Button size="xs">Extra small</Button>
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
+          <Button size="lg">Large</Button>
+        </ComponentPreview>
+      </DocSection>
+
+      <DocSection id="shapes" title="Shapes">
+        <ComponentPreview>
+          <Button shape="icon" aria-label="Add">
+            +
+          </Button>
+          <Button shape="text">Text</Button>
+          <Button shape="iconText">
+            <span aria-hidden>+</span>
+            Add
+          </Button>
         </ComponentPreview>
       </DocSection>
 

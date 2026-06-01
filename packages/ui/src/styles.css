@@ -27,6 +27,22 @@
 }
 
 /*
+ * Brutal tone palette — fixed pastels carried over from the brutal app, used by
+ * the Button `tone` variant (`bg-brutal-*`). Theme-neutral literals (not remapped
+ * per [data-theme]): a tone is an explicit color pick, not a semantic role.
+ */
+@theme {
+  --color-brutal-yellow: #ffd440;
+  --color-brutal-pink: #fe7da8;
+  --color-brutal-lavender: #bbafe6;
+  --color-brutal-cyan: #27ccf3;
+  --color-brutal-orange: #f8a16f;
+  --color-brutal-lime: #a9d877;
+  --color-brutal-red: #f97264;
+  --color-brutal-stone: #c0b9b1;
+}
+
+/*
  * Base UI portal support. Apply `isolation: isolate` to your app root so popups
  * (Dialog, Popover, etc.) stack above page content without z-index conflicts.
  */
