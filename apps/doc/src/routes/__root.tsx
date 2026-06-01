@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProvider, type Theme } from "@slock-ui/ui";
 
 import { Sidebar } from "#/components/sidebar.tsx";
+import { FamilyContext } from "#/components/family-context.ts";
+import { ThemeSwitcher } from "#/components/theme-switcher.tsx";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -30,16 +35,31 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // Family axis: drives `data-theme` on <html>. Mode axis (.dark) is owned by
+  // next-themes on the same element, so [data-theme=elegant].dark resolves.
+  const [family, setFamily] = useState<Theme>("brutal");
+
   return (
-    <html lang="en">
+    <html lang="en" data-theme={family} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="bg-white text-gray-900 antialiased">
-        <div className="mx-auto flex min-h-screen max-w-screen-2xl">
-          <Sidebar />
-          <main className="min-w-0 flex-1">{children}</main>
-        </div>
+        <NextThemesProvider attribute="class" enableSystem defaultTheme="system">
+          <ThemeProvider theme={family}>
+            <FamilyContext.Provider value={{ family, setFamily }}>
+              <div className="mx-auto flex min-h-screen max-w-screen-2xl isolate">
+                <Sidebar />
+                <main className="min-w-0 flex-1">{children}</main>
+              </div>
+              <div className="fixed inset-x-0 bottom-6 z-50 flex justify-center">
+                <div className="flex items-center gap-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-lg backdrop-blur">
+                  <ThemeSwitcher />
+                </div>
+              </div>
+            </FamilyContext.Provider>
+          </ThemeProvider>
+        </NextThemesProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",

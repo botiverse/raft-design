@@ -1,0 +1,25 @@
+/*
+ * Brutal theme tokens. Single fixed appearance — ignores the `.dark` class
+ * (no dark overrides defined). Also the default theme on `:root` (zero-specificity
+ * `:where` so any explicit [data-theme] wins regardless of import order), so
+ * unthemed usage renders brutal. Palette in oklch, carried over from the brutal app.
+ */
+:where(:root),
+[data-theme="brutal"] {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.18 0.006 25);
+
+  --primary: oklch(0.87 0.16 92); /* brutal-yellow */
+  --primary-foreground: oklch(0.18 0.006 25);
+  --secondary: oklch(1 0 0);
+  --secondary-foreground: oklch(0.18 0.006 25);
+
+  --border: oklch(0.18 0.006 25);
+  --ring: oklch(0.18 0.006 25);
+
+  --radius: 0px;
+  --shadow: 4px 4px 0px oklch(0.18 0.006 25);
+
+  --display-font: "Space Grotesk", system-ui, sans-serif;
+  --mono-font: "Space Mono", ui-monospace, monospace;
+}

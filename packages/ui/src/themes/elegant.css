@@ -1,0 +1,54 @@
+/*
+ * Elegant theme tokens. Refined neutral scale with light/dark.
+ * Light is the base; dark applies via OS preference (system default) or a
+ * `.dark` class (manual override) — the class adds specificity so it always
+ * beats the media-query rule. `data-theme` and `.dark` must sit on the same
+ * element (both go on <html>).
+ */
+[data-theme="elegant"] {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.21 0.006 285);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286);
+  --secondary-foreground: oklch(0.21 0.006 285);
+
+  --border: oklch(0.92 0.004 286);
+  --ring: oklch(0.21 0.006 285);
+
+  --radius: 0.5rem;
+  --shadow: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+
+  --display-font: "Inter", system-ui, sans-serif;
+  --mono-font: ui-monospace, monospace;
+}
+
+/* Dark values — shared by the system-preference and manual-override rules. */
+@media (prefers-color-scheme: dark) {
+  [data-theme="elegant"]:not(.light) {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.21 0.006 285);
+    --secondary: oklch(0.274 0.006 286);
+    --secondary-foreground: oklch(0.985 0 0);
+
+    --border: oklch(0.274 0.006 286);
+    --ring: oklch(0.708 0 0); /* light enough for ≥3:1 focus contrast on the dark surface */
+  }
+}
+
+[data-theme="elegant"].dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.21 0.006 285);
+  --secondary: oklch(0.274 0.006 286);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.274 0.006 286);
+  --ring: oklch(0.708 0 0); /* light enough for ≥3:1 focus contrast on the dark surface */
+}

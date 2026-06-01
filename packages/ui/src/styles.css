@@ -1,7 +1,30 @@
 @import "tailwindcss";
 
+/* Semantic theme tokens. Each file remaps the same token set per theme/mode. */
+@import "./themes/brutal.css";
+@import "./themes/elegant.css";
+
 /* Scan this library's components so consumers pick up the utility classes. */
 @source "./components";
+
+/*
+ * Register the semantic tokens with Tailwind so utilities (bg-primary,
+ * border-border, ring-ring, font-display, …) emit `var(--token)` references and
+ * resolve at runtime from the active [data-theme] / .dark.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --font-display: var(--display-font);
+  --font-mono: var(--mono-font);
+}
 
 /*
  * Base UI portal support. Apply `isolation: isolate` to your app root so popups

@@ -1,20 +1,30 @@
 import type { ButtonHTMLAttributes } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { useTheme } from "../theme/use-theme.ts";
 
 const button = tv({
   base: [
-    "inline-flex items-center justify-center",
-    "rounded-md text-sm font-medium",
-    "transition-colors disabled:opacity-50",
+    "inline-flex shrink-0 items-center justify-center",
+    "font-display border-border rounded-[var(--radius)] shadow-[var(--shadow)]",
+    "transition-all duration-100",
+    "outline-none focus-visible:ring-2 focus-visible:ring-ring",
+    "disabled:pointer-events-none disabled:opacity-50",
   ],
   variants: {
+    theme: {
+      brutal: [
+        "border-2 font-bold uppercase tracking-wide",
+        "active:translate-x-px active:translate-y-px",
+      ],
+      elegant: ["border font-medium", "active:scale-[0.98]"],
+    },
     variant: {
-      primary: ["bg-blue-600 hover:bg-blue-700", "text-white"],
-      secondary: ["bg-gray-100 hover:bg-gray-200", "text-gray-900"],
+      primary: "bg-primary text-primary-foreground",
+      secondary: "bg-secondary text-secondary-foreground",
     },
     size: {
-      sm: ["px-3 py-1.5", "text-xs"],
-      md: ["px-4 py-2", "text-sm"],
+      sm: ["h-7 gap-1.5 px-2.5", "text-xs"],
+      md: ["h-8 gap-2 px-3", "text-sm"],
     },
   },
   defaultVariants: {
@@ -23,8 +33,10 @@ const button = tv({
   },
 });
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<typeof button>;
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  Omit<VariantProps<typeof button>, "theme">;
 
 export function Button({ type = "button", variant, size, className, ...props }: ButtonProps) {
-  return <button type={type} className={button({ variant, size, className })} {...props} />;
+  const theme = useTheme();
+  return <button type={type} className={button({ theme, variant, size, className })} {...props} />;
 }
