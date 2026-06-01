@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
@@ -38,6 +38,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   // Family axis: drives `data-theme` on <html>. Mode axis (.dark) is owned by
   // next-themes on the same element, so [data-theme=elegant].dark resolves.
   const [family, setFamily] = useState<Theme>("brutal");
+  const familyValue = useMemo(() => ({ family, setFamily }), [family]);
 
   return (
     <html lang="en" data-theme={family} suppressHydrationWarning>
@@ -47,7 +48,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="bg-white text-gray-900 antialiased">
         <NextThemesProvider attribute="class" enableSystem defaultTheme="system">
           <ThemeProvider theme={family}>
-            <FamilyContext.Provider value={{ family, setFamily }}>
+            <FamilyContext.Provider value={familyValue}>
               <div className="isolate min-h-screen [--rail-w:16rem]">
                 <Sidebar />
                 <main className="min-h-screen pl-[var(--rail-w)] xl:pr-[var(--rail-w)]">

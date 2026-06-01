@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@slock-ui/ui";
+import { Button, type ButtonProps } from "@slock-ui/ui";
 import { Plus } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { ComponentPreview } from "#/components/component-preview.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -33,6 +34,15 @@ const TONES = [
 
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
 
+const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
+
+type PlaygroundValues = {
+  tone: NonNullable<ButtonProps["tone"]>;
+  size: NonNullable<ButtonProps["size"]>;
+  label: string;
+  disabled: boolean;
+};
+
 const PROPS: readonly PropRow[] = [
   {
     name: "tone",
@@ -42,7 +52,7 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "size",
-    type: '"xs" | "sm" | "md" | "lg" | "icon-xs" | "icon-sm" | "icon-md" | "icon-lg"',
+    type: SIZES.map((size) => `"${size}"`).join(" | "),
     default: '"sm"',
     description:
       "Text sizes scale height and padding; icon-* sizes render a square icon-only button.",
@@ -69,9 +79,20 @@ function ButtonDoc() {
   return (
     <DocPage title="Button" description="A clickable button with tone and size options." toc={TOC}>
       <DocSection id="preview" title="Preview">
-        <ComponentPreview>
-          <Button>Button</Button>
-        </ComponentPreview>
+        <ComponentPlayground<PlaygroundValues>
+          initial={{ tone: "white", size: "sm", label: "Button", disabled: false }}
+          controls={[
+            { name: "tone", label: "Tone", type: "select", options: TONES },
+            { name: "size", label: "Size", type: "select", options: SIZES },
+            { name: "label", label: "Label", type: "text" },
+            { name: "disabled", label: "Disabled", type: "boolean" },
+          ]}
+          render={(values) => (
+            <Button tone={values.tone} size={values.size} disabled={values.disabled}>
+              {values.size.startsWith("icon-") ? <Plus /> : values.label}
+            </Button>
+          )}
+        />
       </DocSection>
 
       <DocSection id="tones" title="Tones">
