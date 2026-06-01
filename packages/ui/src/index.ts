@@ -1,6 +1,6 @@
-export { Button } from "./components/button.tsx";
-export type { ButtonProps } from "./components/button.tsx";
+export { Button } from "./components/button/index.ts";
+export type { ButtonProps } from "./components/button/index.ts";
 
-export { ThemeProvider } from "./theme/theme-provider.tsx";
-export { useTheme } from "./theme/use-theme.ts";
-export type { Theme } from "./theme/theme-context.ts";
+export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
+export { useTheme } from "./lib/theme/use-theme.ts";
+export type { Theme } from "./lib/theme/theme-context.ts";

@@ -1,6 +1,6 @@
-import type { ButtonHTMLAttributes } from "react";
+import { Button as BaseButton } from "@base-ui/react/button";
 import { tv, type VariantProps } from "tailwind-variants";
-import { useTheme } from "../theme/use-theme.ts";
+import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const button = tv({
   base: [
@@ -33,10 +33,14 @@ const button = tv({
   },
 });
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
-  Omit<VariantProps<typeof button>, "theme">;
+// Base UI types `className` as `string | ((state) => string)`; narrow it to a
+// plain string so it can flow into the tv() recipe, which only accepts strings.
+export type ButtonProps = Omit<BaseButton.Props, "className"> &
+  Omit<VariantProps<typeof button>, "theme"> & {
+    className?: string;
+  };
 
-export function Button({ type = "button", variant, size, className, ...props }: ButtonProps) {
+export function Button({ variant, size, className, ...props }: ButtonProps) {
   const theme = useTheme();
-  return <button type={type} className={button({ theme, variant, size, className })} {...props} />;
+  return <BaseButton className={button({ theme, variant, size, className })} {...props} />;
 }
