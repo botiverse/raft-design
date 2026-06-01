@@ -2,3 +2,12 @@
 
 /* Scan this library's components so consumers pick up the utility classes. */
 @source "./components";
+
+/*
+ * Base UI portal support. Apply `isolation: isolate` to your app root so popups
+ * (Dialog, Popover, etc.) stack above page content without z-index conflicts.
+ */
+body {
+  /* Lets portal backdrops cover the viewport after scrolling on iOS 26+ Safari. */
+  position: relative;
+}

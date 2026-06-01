@@ -22,6 +22,11 @@
     "check": "vp check",
     "prepublishOnly": "vp run build"
   },
+  "dependencies": {
+    "@base-ui/react": "catalog:",
+    "tailwind-merge": "catalog:",
+    "tailwind-variants": "catalog:"
+  },
   "devDependencies": {
     "@types/node": "^25.6.2",
     "@types/react": "^19",
