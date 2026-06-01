@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["es2023"],
+    "lib": ["es2023", "dom", "dom.iterable"],
     "moduleDetection": "force",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
+    "jsx": "react-jsx",
     "types": ["node"],
     "strict": true,
     "noUnusedLocals": true,

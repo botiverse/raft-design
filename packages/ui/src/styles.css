@@ -1,0 +1,4 @@
+@import "tailwindcss";
+
+/* Scan this library's components so consumers pick up the utility classes. */
+@source "./components";
