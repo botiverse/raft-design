@@ -17,6 +17,7 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "tones", title: "Tones" },
   { id: "uppercase", title: "Uppercase" },
+  { id: "experimental", title: "Experimental" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -43,6 +44,7 @@ const SNIPPETS = {
 <Badge tone="cyan">Cyan</Badge>`,
   uppercase: `<Badge>In Progress</Badge>
 <Badge uppercase={false}>task #42 @bugen</Badge>`,
+  experimental: `<Badge.Experimental />`,
 } as const;
 
 type PlaygroundValues = {
@@ -94,7 +96,8 @@ function BadgeDoc() {
             </li>
           </ul>
           <p className="mt-2">
-            For a clickable chip use <code>BadgeButton</code>.
+            For a clickable chip use <code>BadgeButton</code>; for a fixed “Experimental” marker use
+            the <code>Badge.Experimental</code> preset.
           </p>
         </>
       }
@@ -150,6 +153,19 @@ function BadgeDoc() {
             Content stays Title Case; the brutal theme renders the visual uppercase. Set{" "}
             <code>uppercase={"{false}"}</code> when a badge sits next to case-sensitive identifiers
             (<code>@bugen</code> ≠ <code>@BUGEN</code>), e.g. status chips that include an assignee.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="experimental" title="Experimental">
+        <div className="space-y-4">
+          <Example html={code.experimental}>
+            <Badge.Experimental />
+          </Example>
+          <Callout>
+            <code>Badge.Experimental</code> is a fixed <code>lime</code> + “Experimental” preset, so
+            every experimental surface reads the same. It only takes positional props (className /
+            span attributes); for any other chip use <code>Badge</code> directly.
           </Callout>
         </div>
       </DocSection>

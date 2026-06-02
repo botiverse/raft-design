@@ -54,7 +54,7 @@ const NAV = [
       { label: "Badge", to: "/components/badge", status: "in-progress" },
       { label: "BadgeButton", to: "/components/badge-button", status: "in-progress" },
       { label: "CheckMarker", to: "/components/check-marker", status: "in-progress" },
-      { label: "ExperimentalBadge" },
+      { label: "ExperimentalBadge", status: "preset" },
       { label: "StatusDot" },
     ],
   },
@@ -87,6 +87,7 @@ const STATUS = {
   planned: { label: "Planned", className: "bg-gray-100 text-gray-500" },
   "in-progress": { label: "WIP", className: "bg-amber-100 text-amber-700" },
   review: { label: "Review", className: "bg-violet-100 text-violet-700" },
+  preset: { label: "Badge preset", className: "bg-lime-100 text-lime-700" },
 } as const;
 
 export function Sidebar() {

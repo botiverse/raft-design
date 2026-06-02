@@ -41,9 +41,23 @@ export const badge = tv({
 export type BadgeProps = HTMLAttributes<HTMLSpanElement> &
   Omit<VariantProps<typeof badge>, "theme">;
 
-export function Badge({ tone, uppercase, className, ...props }: BadgeProps) {
+function BadgeRoot({ tone, uppercase, className, ...props }: BadgeProps) {
   const theme = useTheme();
   return (
     <span data-slot="badge" className={badge({ theme, tone, uppercase, className })} {...props} />
   );
 }
+
+// Fixed lime "Experimental" preset. The visual identity lives in Badge, so every
+// experimental surface stays identical. Attached as a static (not a separate
+// component) because it only presets props — see BadgeButton for the structurally
+// distinct, standalone variant.
+function Experimental(props: HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <BadgeRoot tone="lime" {...props}>
+      Experimental
+    </BadgeRoot>
+  );
+}
+
+export const Badge = Object.assign(BadgeRoot, { Experimental });
