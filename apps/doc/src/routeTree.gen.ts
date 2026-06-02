@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
+import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
+import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
@@ -33,6 +35,16 @@ const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
 const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
   id: '/components/status-dot',
   path: '/components/status-dot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
+  id: '/components/input-group',
+  path: '/components/input-group',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsInputRoute = ComponentsInputRouteImport.update({
+  id: '/components/input',
+  path: '/components/input',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
@@ -80,6 +92,8 @@ export interface FileRoutesByFullPath {
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/input': typeof ComponentsInputRoute
+  '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/textarea': typeof ComponentsTextareaRoute
 }
@@ -92,6 +106,8 @@ export interface FileRoutesByTo {
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/input': typeof ComponentsInputRoute
+  '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/textarea': typeof ComponentsTextareaRoute
 }
@@ -105,6 +121,8 @@ export interface FileRoutesById {
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/input': typeof ComponentsInputRoute
+  '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/textarea': typeof ComponentsTextareaRoute
 }
@@ -119,6 +137,8 @@ export interface FileRouteTypes {
     | '/components/check-marker'
     | '/components/checkbox'
     | '/components/field'
+    | '/components/input'
+    | '/components/input-group'
     | '/components/status-dot'
     | '/components/textarea'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +151,8 @@ export interface FileRouteTypes {
     | '/components/check-marker'
     | '/components/checkbox'
     | '/components/field'
+    | '/components/input'
+    | '/components/input-group'
     | '/components/status-dot'
     | '/components/textarea'
   id:
@@ -143,6 +165,8 @@ export interface FileRouteTypes {
     | '/components/check-marker'
     | '/components/checkbox'
     | '/components/field'
+    | '/components/input'
+    | '/components/input-group'
     | '/components/status-dot'
     | '/components/textarea'
   fileRoutesById: FileRoutesById
@@ -156,6 +180,8 @@ export interface RootRouteChildren {
   ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
+  ComponentsInputRoute: typeof ComponentsInputRoute
+  ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
 }
@@ -181,6 +207,20 @@ declare module '@tanstack/react-router' {
       path: '/components/status-dot'
       fullPath: '/components/status-dot'
       preLoaderRoute: typeof ComponentsStatusDotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/input-group': {
+      id: '/components/input-group'
+      path: '/components/input-group'
+      fullPath: '/components/input-group'
+      preLoaderRoute: typeof ComponentsInputGroupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/input': {
+      id: '/components/input'
+      path: '/components/input'
+      fullPath: '/components/input'
+      preLoaderRoute: typeof ComponentsInputRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/field': {
@@ -244,6 +284,8 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
+  ComponentsInputRoute: ComponentsInputRoute,
+  ComponentsInputGroupRoute: ComponentsInputGroupRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
 }

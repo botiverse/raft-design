@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -38,8 +38,7 @@ export const badge = tv({
   },
 });
 
-export type BadgeProps = HTMLAttributes<HTMLSpanElement> &
-  Omit<VariantProps<typeof badge>, "theme">;
+export type BadgeProps = ComponentPropsWithRef<"span"> & Omit<VariantProps<typeof badge>, "theme">;
 
 function BadgeRoot({ tone, uppercase, className, ...props }: BadgeProps) {
   const theme = useTheme();
@@ -52,7 +51,7 @@ function BadgeRoot({ tone, uppercase, className, ...props }: BadgeProps) {
 // experimental surface stays identical. Attached as a static (not a separate
 // component) because it only presets props — see BadgeButton for the structurally
 // distinct, standalone variant.
-function Experimental(props: HTMLAttributes<HTMLSpanElement>) {
+function Experimental(props: ComponentPropsWithRef<"span">) {
   return (
     <BadgeRoot tone="lime" {...props}>
       Experimental

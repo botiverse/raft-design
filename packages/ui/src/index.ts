@@ -19,6 +19,16 @@ export type { AttentionDotProps } from "./components/attention-dot/index.ts";
 export { StatusDot } from "./components/status-dot/index.ts";
 export type { StatusDotProps } from "./components/status-dot/index.ts";
 
+export { Input } from "./components/input/index.ts";
+export type { InputProps } from "./components/input/index.ts";
+
+export { InputGroup, InputGroupAddon, InputGroupInput } from "./components/input-group/index.ts";
+export type {
+  InputGroupProps,
+  InputGroupAddonProps,
+  InputGroupInputProps,
+} from "./components/input-group/index.ts";
+
 export { Textarea } from "./components/textarea/index.ts";
 export type { TextareaProps, TextareaCounterProps } from "./components/textarea/index.ts";
 

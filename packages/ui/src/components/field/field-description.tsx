@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -13,7 +13,7 @@ const fieldDescription = tv({
   },
 });
 
-export type FieldDescriptionProps = HTMLAttributes<HTMLParagraphElement>;
+export type FieldDescriptionProps = ComponentPropsWithRef<"p">;
 
 export function FieldDescription({ className, ...props }: FieldDescriptionProps) {
   const theme = useTheme();

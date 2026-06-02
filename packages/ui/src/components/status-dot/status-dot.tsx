@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
@@ -30,7 +30,7 @@ const statusDot = tv({
   },
 });
 
-export type StatusDotProps = WithoutChildren<HTMLAttributes<HTMLSpanElement>> &
+export type StatusDotProps = WithoutChildren<ComponentPropsWithRef<"span">> &
   Omit<VariantProps<typeof statusDot>, "theme">;
 
 export function StatusDot({ size, pulse, className, ...props }: StatusDotProps) {

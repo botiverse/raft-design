@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
@@ -24,7 +24,7 @@ const attentionDot = tv({
   },
 });
 
-export type AttentionDotProps = WithoutChildren<HTMLAttributes<HTMLSpanElement>> &
+export type AttentionDotProps = WithoutChildren<ComponentPropsWithRef<"span">> &
   Omit<VariantProps<typeof attentionDot>, "theme">;
 
 export function AttentionDot({ size, className, ...props }: AttentionDotProps) {

@@ -1,4 +1,4 @@
-import type { HTMLAttributes, Ref, TextareaHTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
@@ -41,23 +41,14 @@ const textareaCounter = tv({
   },
 });
 
-export type TextareaProps = WithoutChildren<TextareaHTMLAttributes<HTMLTextAreaElement>> & {
-  ref?: Ref<HTMLTextAreaElement>;
-};
+export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">>;
 
-function TextareaRoot({ ref, className, ...props }: TextareaProps) {
+function TextareaRoot({ className, ...props }: TextareaProps) {
   const theme = useTheme();
-  return (
-    <textarea
-      ref={ref}
-      data-slot="textarea"
-      className={textarea({ theme, className })}
-      {...props}
-    />
-  );
+  return <textarea data-slot="textarea" className={textarea({ theme, className })} {...props} />;
 }
 
-export interface TextareaCounterProps extends WithoutChildren<HTMLAttributes<HTMLSpanElement>> {
+export interface TextareaCounterProps extends WithoutChildren<ComponentPropsWithRef<"span">> {
   /** Current text whose length is counted (ignored when `count` is set). */
   value?: string;
   /** Override the counted length directly (e.g. Unicode code points). */

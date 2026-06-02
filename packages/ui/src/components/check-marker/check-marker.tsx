@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -57,7 +57,7 @@ const checkMarker = tv({
   },
 });
 
-export type CheckMarkerProps = HTMLAttributes<HTMLSpanElement> &
+export type CheckMarkerProps = ComponentPropsWithRef<"span"> &
   Omit<VariantProps<typeof checkMarker>, "theme" | "checked"> & {
     checked: boolean;
   };

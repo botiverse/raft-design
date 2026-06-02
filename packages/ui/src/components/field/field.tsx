@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv } from "tailwind-variants";
 
 // Wrapper that stacks a label, control, and description/error. Set `data-invalid`
@@ -8,7 +8,7 @@ const field = tv({
   base: ["group/field flex flex-col gap-1"],
 });
 
-export type FieldProps = HTMLAttributes<HTMLDivElement>;
+export type FieldProps = ComponentPropsWithRef<"div">;
 
 export function Field({ className, ...props }: FieldProps) {
   return <div role="group" data-slot="field" className={field({ className })} {...props} />;

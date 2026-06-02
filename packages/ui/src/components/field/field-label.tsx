@@ -1,4 +1,4 @@
-import type { LabelHTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -30,7 +30,7 @@ type LabelMarker =
   | { requiredMark?: boolean; optional?: never }
   | { optional?: boolean; requiredMark?: never };
 
-export type FieldLabelProps = LabelHTMLAttributes<HTMLLabelElement> &
+export type FieldLabelProps = ComponentPropsWithRef<"label"> &
   Omit<VariantProps<typeof fieldLabel>, "theme"> &
   LabelMarker;
 

@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -13,7 +13,7 @@ const fieldError = tv({
   },
 });
 
-export type FieldErrorProps = HTMLAttributes<HTMLParagraphElement>;
+export type FieldErrorProps = ComponentPropsWithRef<"p">;
 
 export function FieldError({ className, ...props }: FieldErrorProps) {
   const theme = useTheme();

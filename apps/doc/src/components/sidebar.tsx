@@ -14,9 +14,9 @@ const NAV = [
     items: [
       { label: "Checkbox", to: "/components/checkbox", status: "in-progress" },
       { label: "Field", to: "/components/field", status: "in-progress" },
-      { label: "SearchInput" },
+      { label: "Input", to: "/components/input", status: "in-progress" },
+      { label: "InputGroup", to: "/components/input-group", status: "in-progress" },
       { label: "SegmentedControl" },
-      { label: "SlugInput" },
       { label: "Textarea", to: "/components/textarea", status: "in-progress" },
     ],
   },
