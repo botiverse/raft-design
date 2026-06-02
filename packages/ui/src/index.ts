@@ -13,6 +13,12 @@ export type { BadgeProps } from "./components/badge/index.ts";
 export { BadgeButton } from "./components/badge-button/index.ts";
 export type { BadgeButtonProps } from "./components/badge-button/index.ts";
 
+export { AttentionDot } from "./components/attention-dot/index.ts";
+export type { AttentionDotProps } from "./components/attention-dot/index.ts";
+
+export { StatusDot } from "./components/status-dot/index.ts";
+export type { StatusDotProps } from "./components/status-dot/index.ts";
+
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";
 export type { Theme } from "./lib/theme/theme-context.ts";

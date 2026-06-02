@@ -10,15 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBadgeButtonRouteImport } from './routes/components/badge-button'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
+import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
+  id: '/components/status-dot',
+  path: '/components/status-dot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
@@ -46,66 +53,85 @@ const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
   path: '/components/badge',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
+  id: '/components/attention-dot',
+  path: '/components/attention-dot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/status-dot': typeof ComponentsStatusDotRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/status-dot': typeof ComponentsStatusDotRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/status-dot': typeof ComponentsStatusDotRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/components/attention-dot'
     | '/components/badge'
     | '/components/badge-button'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/status-dot'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/components/attention-dot'
     | '/components/badge'
     | '/components/badge-button'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/status-dot'
   id:
     | '__root__'
     | '/'
+    | '/components/attention-dot'
     | '/components/badge'
     | '/components/badge-button'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/status-dot'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsBadgeButtonRoute: typeof ComponentsBadgeButtonRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
+  ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/status-dot': {
+      id: '/components/status-dot'
+      path: '/components/status-dot'
+      fullPath: '/components/status-dot'
+      preLoaderRoute: typeof ComponentsStatusDotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/checkbox': {
@@ -152,16 +185,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsBadgeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/attention-dot': {
+      id: '/components/attention-dot'
+      path: '/components/attention-dot'
+      fullPath: '/components/attention-dot'
+      preLoaderRoute: typeof ComponentsAttentionDotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsBadgeButtonRoute: ComponentsBadgeButtonRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
+  ComponentsStatusDotRoute: ComponentsStatusDotRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
