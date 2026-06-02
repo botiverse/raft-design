@@ -36,7 +36,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript/native-preview": "7.0.0-dev.20260509.2",
-    "bumpp": "^11.1.0",
     "react": "^19",
     "react-dom": "^19",
     "tailwindcss": "^4",

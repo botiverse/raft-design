@@ -59,13 +59,12 @@ function Group({ label, children }: { label: string; children: React.ReactNode }
   return (
     <div className="flex items-center gap-1.5">
       <span className="text-xs font-semibold text-gray-400">{label}</span>
-      <div
-        role="group"
+      <fieldset
         aria-label={label}
-        className="flex items-center gap-0.5 rounded-lg border border-gray-200 p-0.5"
+        className="flex min-w-0 items-center gap-0.5 rounded-lg border border-gray-200 p-0.5"
       >
         {children}
-      </div>
+      </fieldset>
     </div>
   );
 }

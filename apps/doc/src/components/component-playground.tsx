@@ -44,6 +44,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             input = (
               <select
                 id={control.name}
+                aria-label={control.label}
                 value={String(values[control.name])}
                 onChange={(event) => update(control.name, event.target.value)}
                 className="rounded border border-gray-200 bg-white px-2 py-1 font-mono text-xs text-gray-900"
@@ -59,6 +60,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             input = (
               <input
                 id={control.name}
+                aria-label={control.label}
                 type="checkbox"
                 checked={Boolean(values[control.name])}
                 onChange={(event) => update(control.name, event.target.checked)}
@@ -69,6 +71,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             input = (
               <input
                 id={control.name}
+                aria-label={control.label}
                 type="text"
                 value={String(values[control.name])}
                 onChange={(event) => update(control.name, event.target.value)}

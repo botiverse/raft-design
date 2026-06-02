@@ -142,7 +142,7 @@ function ButtonDoc() {
             ))}
           </Example>
           <Callout>
-            Tones are fixed colors from the brutal palette, not semantic roles — a tone renders the
+            Tones are fixed colors from the brutal palette, not semantic roles; a tone renders the
             same pastel under both the <code>brutal</code> and <code>elegant</code> themes. Pick a
             tone when you want a specific color; leave it at <code>white</code> for a neutral
             default.
@@ -175,8 +175,8 @@ function ButtonDoc() {
           <Callout>
             For an icon-only button use an <code>icon-*</code> size (square, no label). When an icon
             sits beside text, add <code>data-icon="inline-start"</code> or <code>"inline-end"</code>{" "}
-            to the icon so its side padding tightens — it is an opt-in convention, not enforced, so
-            a missing marker just leaves padding slightly looser. Child <code>&lt;svg&gt;</code>{" "}
+            to the icon so its side padding tightens. It is an opt-in convention, not enforced, so a
+            missing marker just leaves padding slightly looser. Child <code>&lt;svg&gt;</code>{" "}
             elements auto-size to the button; pass an explicit <code>size-*</code> class to
             override.
           </Callout>
