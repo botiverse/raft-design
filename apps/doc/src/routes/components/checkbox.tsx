@@ -4,6 +4,7 @@ import { Checkbox, type CheckboxProps } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -113,20 +114,15 @@ function CheckboxDoc() {
       title="Checkbox"
       description="A square toggle with checked and indeterminate states."
       overview={
-        <>
-          Built on Base UI&rsquo;s <code>Checkbox</code>, adding:
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>brutal family styling</li>
-            <li>
-              <code>sm</code> / <code>md</code> sizes
-            </li>
-            <li>black-fill check marker</li>
-          </ul>
-          <p className="mt-2">
-            Beyond the original component it also adds an <code>indeterminate</code> (dash) state
-            and a focus-visible ring — see <a href="#extensions">Extensions</a>.
-          </p>
-        </>
+        <Differences from="Checkbox">
+          <li>
+            built on Base UI&rsquo;s <code>Checkbox</code> (was an sr-only input + CheckMarker)
+          </li>
+          <li>
+            adds <code>indeterminate</code>, a focus-visible ring, an enlarged hit area, and a
+            disabled cursor — see <a href="#extensions">Extensions</a>
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

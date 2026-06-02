@@ -4,6 +4,7 @@ import { StatusDot, type StatusDotProps } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -79,14 +80,15 @@ function StatusDotDoc() {
       title="StatusDot"
       description="A colored bordered circle signalling presence / activity / binary state."
       overview={
-        <>
-          A pure styled <code>span</code> (no Base UI): a bordered circle with an optional pulse,
-          gray by default.
-          <p className="mt-2">
-            Distinct from <code>AttentionDot</code> (unread). Use StatusDot for online/offline,
-            waiting, and similar presence signals.
-          </p>
-        </>
+        <Differences from="StatusDot">
+          <li>
+            dropped the <code>activity</code> axis (app-domain color mapping) — pass the color via{" "}
+            <code>className</code> at the callsite
+          </li>
+          <li>
+            color is set via <code>className</code> instead of a <code>tone</code> prop
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

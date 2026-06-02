@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -89,15 +90,14 @@ function BadgeButtonDoc() {
       title="BadgeButton"
       description="A clickable badge chip — the Badge visual on an interactive button."
       overview={
-        <>
-          The <code>Badge</code> chip rendered on Base UI&rsquo;s <code>Button</code>, for filters,
-          toggles, and dismissable chips. It shares Badge&rsquo;s tone palette and{" "}
-          <code>uppercase</code> axis.
-          <p className="mt-2">
-            Unlike the original (a bare feedback-less <code>button</code>), it adds a brutal
-            hover/active press and a focus-visible ring — affordances expected of a real control.
-          </p>
-        </>
+        <Differences from="BadgeButton">
+          <li>
+            built on Base UI&rsquo;s <code>Button</code> (was a native <code>button</code>)
+          </li>
+          <li>
+            adds a brutal hover/active press and a focus-visible ring (the original had no feedback)
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

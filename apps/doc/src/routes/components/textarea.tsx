@@ -4,6 +4,7 @@ import { Field, FieldLabel, Textarea } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -93,14 +94,16 @@ function TextareaDoc() {
       title="Textarea"
       description="A brutal multi-line text field."
       overview={
-        <>
-          A native <code>textarea</code> in the brutal field style. It is just the control — compose
-          it inside <a href="/components/field">Field</a> for a label, description, and error
-          message. The error look is driven by <code>aria-invalid</code>.
-          <p className="mt-2">
-            <code>Textarea.Counter</code> renders a character counter you place beside the field.
-          </p>
-        </>
+        <Differences from="Textarea">
+          <li>
+            just the control — the built-in error message, hint, and counter are removed; use{" "}
+            <a href="/components/field">Field</a> / <code>FieldError</code> and{" "}
+            <code>Textarea.Counter</code>
+          </li>
+          <li>
+            error state via <code>aria-invalid</code> instead of an <code>error</code> prop
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

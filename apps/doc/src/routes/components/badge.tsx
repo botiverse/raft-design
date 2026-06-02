@@ -4,6 +4,7 @@ import { Badge, type BadgeProps } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -87,19 +88,17 @@ function BadgeDoc() {
       title="Badge"
       description="A small label chip in the brutal tone palette."
       overview={
-        <>
-          A pure styled <code>span</code> (no Base UI), with:
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>brutal-pastel tone palette (the badge owns the background)</li>
-            <li>
-              an <code>uppercase</code> transform that can be opted out of
-            </li>
-          </ul>
-          <p className="mt-2">
-            For a clickable chip use <code>BadgeButton</code>; for a fixed “Experimental” marker use
-            the <code>Badge.Experimental</code> preset.
-          </p>
-        </>
+        <Differences from="Badge">
+          <li>brutal styling reproduced 1:1 (tone palette, uppercase axis)</li>
+          <li>
+            the clickable variant is now a separate{" "}
+            <a href="/components/badge-button">BadgeButton</a>
+          </li>
+          <li>
+            the <code>ExperimentalBadge</code> helper is now the <code>Badge.Experimental</code>{" "}
+            preset
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

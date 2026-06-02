@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -118,17 +119,16 @@ function ButtonDoc() {
       title="Button"
       description="A clickable button with tone and size options."
       overview={
-        <>
-          Built on Base UI&rsquo;s <code>Button</code>, adding:
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>brutal-pastel tone palette</li>
-            <li>size scale plus icon-only sizes</li>
-            <li>brutal/elegant families with offset shadows and motion</li>
-            <li>
-              <code>data-icon</code> padding for inline icons
-            </li>
-          </ul>
-        </>
+        <Differences from="Button">
+          <li>
+            built on Base UI&rsquo;s <code>Button</code> (was a native <code>button</code>)
+          </li>
+          <li>
+            <code>icon-*</code> sizes and <code>data-icon</code> inline-icon padding replace the
+            original <code>shape</code> prop
+          </li>
+          <li>adds the elegant family (the original was brutal-only)</li>
+        </Differences>
       }
       toc={TOC}
     >

@@ -4,6 +4,7 @@ import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@sloc
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -15,7 +16,9 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "label", title: "Label" },
   { id: "invalid", title: "Invalid" },
+  { id: "complete", title: "Complete field" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -33,6 +36,19 @@ const SNIPPETS = {
   <FieldLabel htmlFor="msg">Message</FieldLabel>
   <Textarea id="msg" aria-invalid />
   <FieldError>Please enter a valid message.</FieldError>
+</Field>`,
+  label: `<FieldLabel>Email address</FieldLabel>
+<FieldLabel requiredMark>Email address</FieldLabel>
+<FieldLabel optional>Email address</FieldLabel>
+<FieldLabel size="sm">Email address</FieldLabel>
+<FieldLabel className="uppercase tracking-wide">Email address</FieldLabel>`,
+  complete: `<Field>
+  <FieldLabel htmlFor="bio" requiredMark>Bio</FieldLabel>
+  <Textarea id="bio" rows={3} maxLength={160} value={bio} onChange={(e) => setBio(e.target.value)} />
+  <div className="flex justify-between gap-3">
+    <FieldDescription>A short blurb for your profile.</FieldDescription>
+    <Textarea.Counter value={bio} limit={160} />
+  </div>
 </Field>`,
 } as const;
 
@@ -52,7 +68,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "FieldLabel",
     type: "label",
-    description: "Bold uppercase label; pass htmlFor to tie it to the control.",
+    description:
+      "Bold label (htmlFor ties it to the control). Props: requiredMark (* marker), optional ((optional) tag), size (sm | md). Uppercase via className.",
   },
   {
     name: "FieldDescription",
@@ -80,15 +97,20 @@ function FieldDoc() {
       title="Field"
       description="A composable form-field layout: label, control, description, and error."
       overview={
-        <>
-          A set of composable pieces — <code>Field</code>, <code>FieldLabel</code>,{" "}
-          <code>FieldDescription</code>, <code>FieldError</code> — that wrap any control (Textarea,
-          inputs, etc.) into a labelled row.
-          <p className="mt-2">
-            Mark <code>Field</code> with <code>data-invalid</code> (and the control with{" "}
-            <code>aria-invalid</code>) to flip the whole field to the error look.
-          </p>
-        </>
+        <Differences from="FormField">
+          <li>
+            composable pieces (<code>Field</code> / <code>FieldLabel</code> /{" "}
+            <code>FieldDescription</code> / <code>FieldError</code>) instead of one prop-based
+            component
+          </li>
+          <li>
+            <code>FieldLabel</code> is plain by default (was uppercase; opt in via{" "}
+            <code>className</code>)
+          </li>
+          <li>
+            size <code>sm</code> / <code>md</code> (was <code>default</code> / <code>compact</code>)
+          </li>
+        </Differences>
       }
       toc={TOC}
     >
@@ -122,6 +144,26 @@ function FieldDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
+      <DocSection id="label" title="Label">
+        <div className="space-y-4">
+          <Example html={code.label}>
+            <div className="flex w-full flex-col items-start gap-3">
+              <FieldLabel>Email address</FieldLabel>
+              <FieldLabel requiredMark>Email address</FieldLabel>
+              <FieldLabel optional>Email address</FieldLabel>
+              <FieldLabel size="sm">Email address</FieldLabel>
+              <FieldLabel className="uppercase tracking-wide">Email address</FieldLabel>
+            </div>
+          </Example>
+          <Callout>
+            Labels render as written. <code>requiredMark</code> adds a pink <code>*</code>;{" "}
+            <code>optional</code> appends a muted <code>(optional)</code>; <code>size="sm"</code>{" "}
+            dims and shrinks it for dense forms. For the brutal uppercase look, add{" "}
+            <code>className="uppercase tracking-wide"</code> (last row).
+          </Callout>
+        </div>
+      </DocSection>
+
       <DocSection id="invalid" title="Invalid">
         <div className="space-y-4">
           <Example html={code.invalid}>
@@ -135,6 +177,40 @@ function FieldDoc() {
             <code>data-invalid</code> on <code>Field</code> drives any <code>Textarea.Counter</code>{" "}
             to red via a <code>group</code> marker; <code>aria-invalid</code> on the control drives
             its border, and the message is a <code>FieldError</code>. Keep both flags in sync.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="complete" title="Complete field">
+        <div className="space-y-4">
+          <Example html={code.complete}>
+            <div className="flex w-80 flex-col gap-6">
+              <Field>
+                <FieldLabel htmlFor="bio" requiredMark>
+                  Bio
+                </FieldLabel>
+                <Textarea id="bio" rows={3} maxLength={160} defaultValue="Frontend engineer." />
+                <div className="flex justify-between gap-3">
+                  <FieldDescription>A short blurb for your profile.</FieldDescription>
+                  <Textarea.Counter value="Frontend engineer." limit={160} />
+                </div>
+              </Field>
+              <Field data-invalid>
+                <FieldLabel htmlFor="bio-err" requiredMark>
+                  Bio
+                </FieldLabel>
+                <Textarea id="bio-err" rows={3} aria-invalid maxLength={160} defaultValue="Hi." />
+                <div className="flex justify-between gap-3">
+                  <FieldError>Tell us a bit more about yourself.</FieldError>
+                  <Textarea.Counter value="Hi." limit={160} />
+                </div>
+              </Field>
+            </div>
+          </Example>
+          <Callout>
+            The second field is <code>data-invalid</code>: the control border, the{" "}
+            <code>FieldError</code>, and the <code>Textarea.Counter</code> all turn red — the
+            counter via the <code>group</code> marker, even though it is under the limit.
           </Callout>
         </div>
       </DocSection>

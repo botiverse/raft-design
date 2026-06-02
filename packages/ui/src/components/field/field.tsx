@@ -11,5 +11,5 @@ const field = tv({
 export type FieldProps = HTMLAttributes<HTMLDivElement>;
 
 export function Field({ className, ...props }: FieldProps) {
-  return <div data-slot="field" className={field({ className })} {...props} />;
+  return <div role="group" data-slot="field" className={field({ className })} {...props} />;
 }

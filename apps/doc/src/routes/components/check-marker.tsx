@@ -4,6 +4,7 @@ import { CheckMarker, type CheckMarkerProps } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -111,25 +112,15 @@ function CheckMarkerDoc() {
       title="CheckMarker"
       description="The shared tick visual — a square or circle marker used by checkboxes and selectable rows."
       overview={
-        <>
-          A pure styled <code>span</code> (no Base UI), with:
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>
-              <code>square</code> / <code>circle</code> shapes
-            </li>
-            <li>
-              <code>black-fill</code> / <code>yellow-fill</code> tones
-            </li>
-            <li>
-              <code>sm</code> / <code>md</code> / <code>lg</code> sizes
-            </li>
-          </ul>
-          <p className="mt-2">
-            It is <strong>decorative</strong> (<code>aria-hidden</code>) — for a real form control
-            use <code>Checkbox</code>. Reach for CheckMarker only for selection-only marks that
-            carry no form semantics.
-          </p>
-        </>
+        <Differences from="CheckMarker">
+          <li>
+            styling and API reproduced 1:1 (square/circle, black/yellow, <code>sm</code>/
+            <code>md</code>/<code>lg</code>, <code>previewOnHover</code>)
+          </li>
+          <li>
+            restructured onto a <code>tv()</code> recipe with a theme scaffold (elegant deferred)
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

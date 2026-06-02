@@ -4,6 +4,7 @@ import { AttentionDot, type AttentionDotProps } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -71,14 +72,15 @@ function AttentionDotDoc() {
       title="AttentionDot"
       description="A small filled circle that flags “something here needs attention” (unread, pending)."
       overview={
-        <>
-          A pure styled <code>span</code> (no Base UI): a bordered circle, brutal-pink by default.
-          <p className="mt-2">
-            Distinct from <code>StatusDot</code>, which signals presence/activity. AttentionDot
-            means &ldquo;there is unread here&rdquo; — a binary signal, so size reflects physical
-            fit, not priority.
-          </p>
-        </>
+        <Differences from="AttentionDot">
+          <li>
+            styling reproduced 1:1 (bordered circle, <code>sm</code>/<code>lg</code>, brutal-pink
+            default)
+          </li>
+          <li>
+            color is set via <code>className</code> instead of a <code>tone</code> prop
+          </li>
+        </Differences>
       }
       toc={TOC}
     >
