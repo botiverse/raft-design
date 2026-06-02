@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsBadgeButtonRouteImport } from './routes/components/badge-button'
+import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,15 +36,29 @@ const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   path: '/components/button',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsBadgeButtonRoute = ComponentsBadgeButtonRouteImport.update({
+  id: '/components/badge-button',
+  path: '/components/badge-button',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
+  id: '/components/badge',
+  path: '/components/badge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/components/badge': typeof ComponentsBadgeRoute
+  '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/components/badge': typeof ComponentsBadgeRoute
+  '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
@@ -50,6 +66,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/components/badge': typeof ComponentsBadgeRoute
+  '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
@@ -58,18 +76,24 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/components/badge'
+    | '/components/badge-button'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/components/badge'
+    | '/components/badge-button'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
   id:
     | '__root__'
     | '/'
+    | '/components/badge'
+    | '/components/badge-button'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
@@ -77,6 +101,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComponentsBadgeRoute: typeof ComponentsBadgeRoute
+  ComponentsBadgeButtonRoute: typeof ComponentsBadgeButtonRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
@@ -112,11 +138,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsButtonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/badge-button': {
+      id: '/components/badge-button'
+      path: '/components/badge-button'
+      fullPath: '/components/badge-button'
+      preLoaderRoute: typeof ComponentsBadgeButtonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/badge': {
+      id: '/components/badge'
+      path: '/components/badge'
+      fullPath: '/components/badge'
+      preLoaderRoute: typeof ComponentsBadgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComponentsBadgeRoute: ComponentsBadgeRoute,
+  ComponentsBadgeButtonRoute: ComponentsBadgeButtonRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
