@@ -19,6 +19,17 @@ export type { AttentionDotProps } from "./components/attention-dot/index.ts";
 export { StatusDot } from "./components/status-dot/index.ts";
 export type { StatusDotProps } from "./components/status-dot/index.ts";
 
+export { Textarea } from "./components/textarea/index.ts";
+export type { TextareaProps, TextareaCounterProps } from "./components/textarea/index.ts";
+
+export { Field, FieldLabel, FieldDescription, FieldError } from "./components/field/index.ts";
+export type {
+  FieldProps,
+  FieldLabelProps,
+  FieldDescriptionProps,
+  FieldErrorProps,
+} from "./components/field/index.ts";
+
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";
 export type { Theme } from "./lib/theme/theme-context.ts";

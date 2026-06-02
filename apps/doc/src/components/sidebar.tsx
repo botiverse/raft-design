@@ -13,11 +13,11 @@ const NAV = [
     title: "Inputs",
     items: [
       { label: "Checkbox", to: "/components/checkbox", status: "in-progress" },
-      { label: "FormField" },
+      { label: "Field", to: "/components/field", status: "in-progress" },
       { label: "SearchInput" },
       { label: "SegmentedControl" },
       { label: "SlugInput" },
-      { label: "Textarea" },
+      { label: "Textarea", to: "/components/textarea", status: "in-progress" },
     ],
   },
   {

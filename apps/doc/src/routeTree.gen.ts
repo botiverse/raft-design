@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
+import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
@@ -23,9 +25,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
+  id: '/components/textarea',
+  path: '/components/textarea',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
   id: '/components/status-dot',
   path: '/components/status-dot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
+  id: '/components/field',
+  path: '/components/field',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
@@ -67,7 +79,9 @@ export interface FileRoutesByFullPath {
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/field': typeof ComponentsFieldRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/textarea': typeof ComponentsTextareaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -77,7 +91,9 @@ export interface FileRoutesByTo {
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/field': typeof ComponentsFieldRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/textarea': typeof ComponentsTextareaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -88,7 +104,9 @@ export interface FileRoutesById {
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/field': typeof ComponentsFieldRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/textarea': typeof ComponentsTextareaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -100,7 +118,9 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/field'
     | '/components/status-dot'
+    | '/components/textarea'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -110,7 +130,9 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/field'
     | '/components/status-dot'
+    | '/components/textarea'
   id:
     | '__root__'
     | '/'
@@ -120,7 +142,9 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/field'
     | '/components/status-dot'
+    | '/components/textarea'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -131,7 +155,9 @@ export interface RootRouteChildren {
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
+  ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
+  ComponentsTextareaRoute: typeof ComponentsTextareaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,11 +169,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/textarea': {
+      id: '/components/textarea'
+      path: '/components/textarea'
+      fullPath: '/components/textarea'
+      preLoaderRoute: typeof ComponentsTextareaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/status-dot': {
       id: '/components/status-dot'
       path: '/components/status-dot'
       fullPath: '/components/status-dot'
       preLoaderRoute: typeof ComponentsStatusDotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/field': {
+      id: '/components/field'
+      path: '/components/field'
+      fullPath: '/components/field'
+      preLoaderRoute: typeof ComponentsFieldRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/checkbox': {
@@ -203,7 +243,9 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
+  ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
+  ComponentsTextareaRoute: ComponentsTextareaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
