@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
+import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   path: '/components/checkbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsCheckMarkerRoute = ComponentsCheckMarkerRouteImport.update({
+  id: '/components/check-marker',
+  path: '/components/check-marker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/components/button',
   path: '/components/button',
@@ -32,30 +38,47 @@ const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/components/button' | '/components/checkbox'
+  fullPaths:
+    | '/'
+    | '/components/button'
+    | '/components/check-marker'
+    | '/components/checkbox'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/components/button' | '/components/checkbox'
-  id: '__root__' | '/' | '/components/button' | '/components/checkbox'
+  to:
+    | '/'
+    | '/components/button'
+    | '/components/check-marker'
+    | '/components/checkbox'
+  id:
+    | '__root__'
+    | '/'
+    | '/components/button'
+    | '/components/check-marker'
+    | '/components/checkbox'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
 }
 
@@ -75,6 +98,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/check-marker': {
+      id: '/components/check-marker'
+      path: '/components/check-marker'
+      fullPath: '/components/check-marker'
+      preLoaderRoute: typeof ComponentsCheckMarkerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/button': {
       id: '/components/button'
       path: '/components/button'
@@ -88,6 +118,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
 }
 export const routeTree = rootRouteImport

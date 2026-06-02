@@ -24,7 +24,11 @@ const TOC = [
 
 const SIZES = ["sm", "md"] as const;
 
-const TODOS = ["Add elegant family styling", "Document Checkbox Group usage"] as const;
+const TODOS = [
+  "Add elegant family styling",
+  "Document Checkbox Group usage",
+  "Merge the inlined tick with CheckMarker (single shared visual)",
+] as const;
 
 const SNIPPETS = {
   anatomy: `import { Checkbox } from "@slock-ui/ui";

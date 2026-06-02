@@ -52,7 +52,7 @@ const NAV = [
     items: [
       { label: "AttentionDot" },
       { label: "Badge" },
-      { label: "CheckMarker" },
+      { label: "CheckMarker", to: "/components/check-marker", status: "in-progress" },
       { label: "ExperimentalBadge" },
       { label: "StatusDot" },
     ],
