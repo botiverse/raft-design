@@ -6,46 +6,87 @@ const NAV = [
     items: [{ label: "Introduction", to: "/" }],
   },
   {
-    title: "Components",
+    title: "Actions",
+    items: [{ label: "Button", to: "/components/button", status: "in-progress" }],
+  },
+  {
+    title: "Inputs",
     items: [
-      { label: "AttentionDot" },
-      { label: "AvatarListRow" },
-      { label: "AvatarSlot" },
-      { label: "Badge" },
-      { label: "Banner" },
-      { label: "BottomSheet" },
-      { label: "Button", to: "/components/button" },
       { label: "Checkbox" },
-      { label: "CheckMarker" },
-      { label: "ContextMenuDivider" },
-      { label: "ConversationPreviewCard" },
-      { label: "DismissBackdrop" },
-      { label: "EmptyState" },
-      { label: "ExperimentalBadge" },
       { label: "FormField" },
-      { label: "KeyValueRow" },
-      { label: "Lightbox" },
-      { label: "MenuItem" },
-      { label: "NotificationCenter" },
-      { label: "PanelHeader" },
-      { label: "PreviewShell" },
-      { label: "QuotedMessageCard" },
-      { label: "ReorderablePanelTabs" },
-      { label: "SandboxedPreviewFrame" },
       { label: "SearchInput" },
-      { label: "SectionEyebrow" },
-      { label: "SectionHeader" },
       { label: "SegmentedControl" },
-      { label: "SelectionPopover" },
-      { label: "ServerSwitcherMenu" },
       { label: "SlugInput" },
-      { label: "Spinner" },
-      { label: "StatusDot" },
-      { label: "SurfaceListItem" },
       { label: "Textarea" },
     ],
   },
+  {
+    title: "Navigation",
+    items: [
+      { label: "MenuItem" },
+      { label: "ReorderablePanelTabs" },
+      { label: "ServerSwitcherMenu" },
+    ],
+  },
+  {
+    title: "Overlays",
+    items: [
+      { label: "BottomSheet" },
+      { label: "ContextMenuDivider" },
+      { label: "DismissBackdrop" },
+      { label: "Lightbox" },
+      { label: "SelectionPopover" },
+    ],
+  },
+  {
+    title: "Feedback",
+    items: [
+      { label: "Banner" },
+      { label: "EmptyState" },
+      { label: "NotificationCenter" },
+      { label: "Spinner" },
+    ],
+  },
+  {
+    title: "Status & Indicators",
+    items: [
+      { label: "AttentionDot" },
+      { label: "Badge" },
+      { label: "CheckMarker" },
+      { label: "ExperimentalBadge" },
+      { label: "StatusDot" },
+    ],
+  },
+  {
+    title: "Data Display",
+    items: [
+      { label: "AvatarListRow" },
+      { label: "AvatarSlot" },
+      { label: "ConversationPreviewCard" },
+      { label: "KeyValueRow" },
+      { label: "QuotedMessageCard" },
+      { label: "SurfaceListItem" },
+    ],
+  },
+  {
+    title: "Layout",
+    items: [
+      { label: "PanelHeader" },
+      { label: "PreviewShell" },
+      { label: "SandboxedPreviewFrame" },
+      { label: "SectionEyebrow" },
+      { label: "SectionHeader" },
+    ],
+  },
 ] as const;
+
+// Progress badges. Unbuilt entries (no page) fall back to "planned"; a built page
+// keeps its explicit status until it drops the badge once done.
+const STATUS = {
+  planned: { label: "Planned", className: "bg-gray-100 text-gray-500" },
+  "in-progress": { label: "WIP", className: "bg-amber-100 text-amber-700" },
+  review: { label: "Review", className: "bg-violet-100 text-violet-700" },
+} as const;
 
 export function Sidebar() {
   return (
@@ -60,27 +101,37 @@ export function Sidebar() {
               {group.title}
             </p>
             <ul className="space-y-1">
-              {group.items.map((item) => (
-                <li key={item.label}>
-                  {"to" in item ? (
-                    <Link
-                      to={item.to}
-                      className="block truncate rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                      activeProps={{ className: "bg-gray-100 font-medium text-gray-900" }}
-                      activeOptions={{ exact: item.to === "/" }}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400">
-                      <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                      <span className="shrink-0 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-700">
-                        Todo
+              {group.items.map((item) => {
+                const key = "status" in item ? item.status : "to" in item ? null : "planned";
+                const badge = key ? (
+                  <span
+                    className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS[key].className}`}
+                  >
+                    {STATUS[key].label}
+                  </span>
+                ) : null;
+
+                return (
+                  <li key={item.label}>
+                    {"to" in item ? (
+                      <Link
+                        to={item.to}
+                        className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                        activeProps={{ className: "bg-gray-100 font-medium text-gray-900" }}
+                        activeOptions={{ exact: item.to === "/" }}
+                      >
+                        <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                        {badge}
+                      </Link>
+                    ) : (
+                      <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400">
+                        <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                        {badge}
                       </span>
-                    </span>
-                  )}
-                </li>
-              ))}
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}
