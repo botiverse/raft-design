@@ -12,7 +12,7 @@ const NAV = [
   {
     title: "Inputs",
     items: [
-      { label: "Checkbox" },
+      { label: "Checkbox", to: "/components/checkbox", status: "in-progress" },
       { label: "FormField" },
       { label: "SearchInput" },
       { label: "SegmentedControl" },

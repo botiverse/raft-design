@@ -9,6 +9,9 @@ catalogs:
     '@base-ui/react':
       specifier: ^1.5.0
       version: 1.5.0
+    lucide-react:
+      specifier: ^1.17.0
+      version: 1.17.0
     nitro:
       specifier: 3.0.260522-beta
       version: 3.0.260522-beta
@@ -61,8 +64,8 @@ importers:
         specifier: latest
         version: 1.168.18(@voidzero-dev/vite-plus-core@0.1.23(@types/node@22.19.19)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))(crossws@0.4.5(srvx@0.11.16))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       lucide-react:
-        specifier: ^0.545.0
-        version: 0.545.0(react@19.2.6)
+        specifier: 'catalog:'
+        version: 1.17.0(react@19.2.6)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -130,6 +133,9 @@ importers:
       '@base-ui/react':
         specifier: 'catalog:'
         version: 1.5.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      lucide-react:
+        specifier: 'catalog:'
+        version: 1.17.0(react@19.2.6)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.6.0
@@ -2345,8 +2351,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react@0.545.0:
-    resolution: {integrity: sha512-7r1/yUuflQDSt4f1bpn5ZAocyIxcTyVyBBChSVtBKn5M+392cPmI5YJMWOJKk/HUWGm5wg83chlAZtCcGbEZtw==}
+  lucide-react@1.17.0:
+    resolution: {integrity: sha512-9FA9evdox/JQL5PT57fdA1x/yg8T7knJ98+zjTL3UfKza6pflQUUh3XtaQIHKvnsJw1lmsEyHVlt5jchYxOQ5w==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -4783,7 +4789,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react@0.545.0(react@19.2.6):
+  lucide-react@1.17.0(react@19.2.6):
     dependencies:
       react: 19.2.6
 

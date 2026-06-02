@@ -1,5 +1,6 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { tv, type VariantProps } from "tailwind-variants";
+import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const button = tv({
@@ -64,12 +65,8 @@ const button = tv({
   },
 });
 
-// Base UI types `className` as `string | ((state) => string)`; narrow it to a
-// plain string so it can flow into the tv() recipe, which only accepts strings.
-export type ButtonProps = Omit<BaseButton.Props, "className"> &
-  Omit<VariantProps<typeof button>, "theme"> & {
-    className?: string;
-  };
+export type ButtonProps = StyledProps<BaseButton.Props> &
+  Omit<VariantProps<typeof button>, "theme">;
 
 export function Button({ tone, size, className, ...props }: ButtonProps) {
   const theme = useTheme();
