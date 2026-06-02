@@ -23,7 +23,10 @@ const TOC = [
 const SIZES = ["sm", "lg"] as const;
 const COLORS = ["bg-brutal-pink", "bg-brutal-orange", "bg-brutal-cyan", "bg-gray-400"] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const TODOS = [
+  "Add elegant family styling",
+  "Evaluate merging with StatusDot (shared bordered-circle base)",
+] as const;
 
 const SNIPPETS = {
   anatomy: `import { AttentionDot } from "@slock-ui/ui";
