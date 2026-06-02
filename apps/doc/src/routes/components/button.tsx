@@ -9,9 +9,11 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
 
 const TOC = [
+  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "tones", title: "Tones" },
@@ -34,6 +36,8 @@ const TONES = [
 ] as const;
 
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
+
+const TODOS = ["Add a loading state", "Add elegant family styling"] as const;
 
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
@@ -110,7 +114,28 @@ function ButtonDoc() {
   const code = Route.useLoaderData();
 
   return (
-    <DocPage title="Button" description="A clickable button with tone and size options." toc={TOC}>
+    <DocPage
+      title="Button"
+      description="A clickable button with tone and size options."
+      overview={
+        <>
+          Built on Base UI&rsquo;s <code>Button</code>, adding:
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li>brutal-pastel tone palette</li>
+            <li>size scale plus icon-only sizes</li>
+            <li>brutal/elegant families with offset shadows and motion</li>
+            <li>
+              <code>data-icon</code> padding for inline icons
+            </li>
+          </ul>
+        </>
+      }
+      toc={TOC}
+    >
+      <DocSection id="todo" title="Todo">
+        <TodoList items={TODOS} />
+      </DocSection>
+
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           initial={{ tone: "white", size: "sm", label: "Button", disabled: false }}
