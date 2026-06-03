@@ -1,0 +1,10 @@
+export { Avatar, type AvatarSize } from "./avatar.tsx";
+export type { AvatarProps } from "./avatar.tsx";
+export { AvatarImage } from "./avatar-image.tsx";
+export type { AvatarImageProps } from "./avatar-image.tsx";
+export { AvatarBadge } from "./avatar-badge.tsx";
+export type { AvatarBadgeProps } from "./avatar-badge.tsx";
+export { AvatarGroup } from "./avatar-group.tsx";
+export type { AvatarGroupProps } from "./avatar-group.tsx";
+export { AvatarGroupCount } from "./avatar-group-count.tsx";
+export type { AvatarGroupCountProps } from "./avatar-group-count.tsx";

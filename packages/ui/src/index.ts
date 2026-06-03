@@ -40,6 +40,17 @@ export type {
   FieldErrorProps,
 } from "./components/field/index.ts";
 
+export { Avatar, type AvatarSize } from "./components/avatar/index.ts";
+export type { AvatarProps } from "./components/avatar/index.ts";
+export { AvatarImage } from "./components/avatar/index.ts";
+export type { AvatarImageProps } from "./components/avatar/index.ts";
+export { AvatarBadge } from "./components/avatar/index.ts";
+export type { AvatarBadgeProps } from "./components/avatar/index.ts";
+export { AvatarGroup } from "./components/avatar/index.ts";
+export type { AvatarGroupProps } from "./components/avatar/index.ts";
+export { AvatarGroupCount } from "./components/avatar/index.ts";
+export type { AvatarGroupCountProps } from "./components/avatar/index.ts";
+
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";
 export type { Theme } from "./lib/theme/theme-context.ts";

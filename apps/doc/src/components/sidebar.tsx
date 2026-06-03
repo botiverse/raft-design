@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 
+import { StatusBadge, type StatusKey } from "#/components/status-badge.tsx";
+
 const SKILLS = {
   title: "Skills",
   items: [
@@ -87,8 +89,17 @@ const NAV = [
   {
     title: "Data Display",
     items: [
+      {
+        label: "Avatar",
+        to: "/components/avatar",
+        status: "in-progress",
+        children: [
+          { label: "AvatarImage", to: "/components/avatar", hash: "image", status: "in-progress" },
+          { label: "AvatarBadge", to: "/components/avatar", hash: "badge", status: "in-progress" },
+          { label: "AvatarGroup", to: "/components/avatar", hash: "group", status: "in-progress" },
+        ],
+      },
       { label: "AvatarListRow", to: "/components/avatar-list-row", status: "in-progress" },
-      { label: "AvatarSlot", to: "/components/avatar-slot", status: "in-progress" },
       {
         label: "ConversationPreviewCard",
         to: "/components/conversation-preview-card",
@@ -115,36 +126,27 @@ const NAV = [
   },
 ] as const;
 
-// Progress badges. An item carries its status until it drops the badge once done.
-const STATUS = {
-  "in-progress": { label: "WIP", className: "bg-amber-100 text-amber-700" },
-  review: { label: "Review", className: "bg-violet-100 text-violet-700" },
-} as const;
-
-type NavItem = { label: string; to: string; status?: keyof typeof STATUS; hash?: string };
+type NavItem = {
+  label: string;
+  to: string;
+  status?: StatusKey;
+  hash?: string;
+  children?: readonly NavItem[];
+};
 
 function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
   return (
     <Link
       to={to}
       hash={hash}
+      // Match the hash too, so anchor sub-links don't all light up on the same page.
+      activeOptions={{ includeHash: true }}
       className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
       activeProps={{ className: "bg-gray-100 font-medium text-gray-900" }}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
     </Link>
-  );
-}
-
-function StatusBadge({ status }: { status?: keyof typeof STATUS }) {
-  if (!status) return null;
-  return (
-    <span
-      className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS[status].className}`}
-    >
-      {STATUS[status].label}
-    </span>
   );
 }
 
@@ -156,6 +158,15 @@ function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }
         {items.map((item) => (
           <li key={item.label}>
             <NavLink {...item} badge={<StatusBadge status={item.status} />} />
+            {item.children ? (
+              <ul className="mt-1 space-y-1 pl-3">
+                {item.children.map((child) => (
+                  <li key={child.label}>
+                    <NavLink {...child} badge={<StatusBadge status={child.status} />} />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </li>
         ))}
       </ul>
