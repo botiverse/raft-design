@@ -69,6 +69,22 @@ export type {
   AvatarListRowAsideProps,
 } from "./components/avatar-list-row/index.ts";
 
+export {
+  Banner,
+  BannerIcon,
+  BannerBody,
+  BannerTitle,
+  BannerActions,
+} from "./components/banner/index.ts";
+export type {
+  BannerProps,
+  BannerStatus,
+  BannerIconProps,
+  BannerBodyProps,
+  BannerTitleProps,
+  BannerActionsProps,
+} from "./components/banner/index.ts";
+
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";
 export type { Theme } from "./lib/theme/theme-context.ts";
