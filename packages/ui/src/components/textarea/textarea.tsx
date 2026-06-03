@@ -7,33 +7,46 @@ import type { WithoutChildren } from "../../lib/without-children.ts";
 // state is driven by `aria-invalid` so the control styles itself while Field /
 // FieldError own the message.
 const textarea = tv({
-  base: ["w-full px-3 py-2 font-display"],
+  slots: {
+    root: ["w-full px-3 py-2 font-display"],
+  },
   variants: {
     theme: {
-      brutal: [
-        "border-2 border-black bg-white",
-        "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)] focus:outline-none",
-        "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
-      ],
+      brutal: {
+        root: [
+          "border-2 border-black bg-white",
+          "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)] focus:outline-none",
+          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+        ],
+      },
       // Elegant styling is deferred; see the component TODO.
-      elegant: [],
+      elegant: {},
     },
   },
 });
 
 const textareaCounter = tv({
-  base: ["font-mono text-xs tabular-nums"],
+  slots: {
+    root: ["font-mono text-xs tabular-nums"],
+  },
   variants: {
     theme: {
-      brutal: [
-        "text-black/50",
-        "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-brutal-red",
-      ],
-      elegant: [],
+      brutal: {
+        root: [
+          "text-black/50",
+          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-brutal-red",
+        ],
+      },
+      // Elegant styling is deferred; see the component TODO.
+      elegant: {},
     },
     overLimit: {
-      true: "font-bold text-brutal-red",
-      false: "",
+      true: {
+        root: "font-bold text-brutal-red",
+      },
+      false: {
+        root: "",
+      },
     },
   },
   defaultVariants: {
@@ -45,7 +58,8 @@ export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">>;
 
 function TextareaRoot({ className, ...props }: TextareaProps) {
   const theme = useTheme();
-  return <textarea data-slot="textarea" className={textarea({ theme, className })} {...props} />;
+  const { root } = textarea({ theme });
+  return <textarea data-slot="textarea" className={root({ className })} {...props} />;
 }
 
 export interface TextareaCounterProps extends WithoutChildren<ComponentPropsWithRef<"span">> {
@@ -66,12 +80,9 @@ function Counter({ value, count, limit, getLength, className, ...props }: Textar
   const length =
     count !== undefined ? count : getLength ? getLength(value ?? "") : (value ?? "").length;
   const overLimit = length > limit;
+  const { root } = textareaCounter({ theme, overLimit });
   return (
-    <span
-      data-slot="textarea-counter"
-      className={textareaCounter({ theme, overLimit, className })}
-      {...props}
-    >
+    <span data-slot="textarea-counter" className={root({ className })} {...props}>
       {length}/{limit}
     </span>
   );

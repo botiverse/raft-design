@@ -30,16 +30,25 @@
  * Brutal tone palette — fixed pastels carried over from the brutal app, used by
  * the Button `tone` variant (`bg-brutal-*`). Theme-neutral literals (not remapped
  * per [data-theme]): a tone is an explicit color pick, not a semantic role.
+ * Authored in oklch (exact conversions of the source hex, shown in comments).
  */
 @theme {
-  --color-brutal-yellow: #ffd440;
-  --color-brutal-pink: #fe7da8;
-  --color-brutal-lavender: #bbafe6;
-  --color-brutal-cyan: #27ccf3;
-  --color-brutal-orange: #f8a16f;
-  --color-brutal-lime: #a9d877;
-  --color-brutal-red: #f97264;
-  --color-brutal-stone: #c0b9b1;
+  /* Base neutrals as oklch (exact equivalents of #000 / #fff), so every
+     black/white utility — bg-black, text-white, border-black/30, bg-black/75 — and
+     consumers of this stylesheet resolve through oklch. */
+  --color-black: oklch(0 0 0);
+  --color-white: oklch(1 0 0);
+
+  --color-brutal-yellow: oklch(0.8829 0.1623 91.9); /* #ffd440 — Soft Signal */
+  --color-brutal-pink: oklch(0.7489 0.1623 0.7); /* #fe7da8 — Bubble Pink */
+  --color-brutal-lavender: oklch(0.783 0.0783 294.53); /* #bbafe6 — Soft Haze */
+  --color-brutal-cyan: oklch(0.7833 0.1353 219.21); /* #27ccf3 */
+  --color-brutal-orange: oklch(0.7855 0.1227 50.11); /* #f8a16f */
+  --color-brutal-lime: oklch(0.8272 0.1354 130.07); /* #a9d877 */
+  --color-brutal-red: oklch(0.711 0.1682 28.04); /* #f97264 — coral-red */
+  --color-brutal-stone: oklch(0.7892 0.0137 71.29); /* #c0b9b1 — warm stone gray */
+  /* Cotton Core — warm cream surface (NotificationCenter header, sidebar bg). */
+  --color-brutal-cream: oklch(0.986 0.0154 86.42); /* #fffaef */
 }
 
 /*

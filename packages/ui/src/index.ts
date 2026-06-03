@@ -32,6 +32,9 @@ export type {
 export { Textarea } from "./components/textarea/index.ts";
 export type { TextareaProps, TextareaCounterProps } from "./components/textarea/index.ts";
 
+export { Spinner } from "./components/spinner/index.ts";
+export type { SpinnerProps } from "./components/spinner/index.ts";
+
 export { Field, FieldLabel, FieldDescription, FieldError } from "./components/field/index.ts";
 export type {
   FieldProps,
@@ -39,6 +42,18 @@ export type {
   FieldDescriptionProps,
   FieldErrorProps,
 } from "./components/field/index.ts";
+
+export { SegmentedControl } from "./components/segmented-control/index.ts";
+export type {
+  SegmentedControlProps,
+  SegmentedControlOption,
+} from "./components/segmented-control/index.ts";
+
+export { PreviewShell } from "./components/preview-shell/index.ts";
+export type { PreviewShellProps } from "./components/preview-shell/index.ts";
+
+export { SandboxedPreviewFrame } from "./components/sandboxed-preview-frame/index.ts";
+export type { SandboxedPreviewFrameProps } from "./components/sandboxed-preview-frame/index.ts";
 
 export { Avatar, type AvatarSize } from "./components/avatar/index.ts";
 export type { AvatarProps } from "./components/avatar/index.ts";
@@ -52,6 +67,7 @@ export { AvatarGroup } from "./components/avatar/index.ts";
 export type { AvatarGroupProps } from "./components/avatar/index.ts";
 export { AvatarGroupCount } from "./components/avatar/index.ts";
 export type { AvatarGroupCountProps } from "./components/avatar/index.ts";
+
 export {
   AvatarListRow,
   AvatarListRowBody,
@@ -69,6 +85,15 @@ export type {
   AvatarListRowAsideProps,
 } from "./components/avatar-list-row/index.ts";
 
+export { PanelHeader } from "./components/panel-header/index.ts";
+export type { PanelHeaderProps } from "./components/panel-header/index.ts";
+
+export { QuotedMessageCard } from "./components/quoted-message-card/index.ts";
+export type { QuotedMessageCardProps } from "./components/quoted-message-card/index.ts";
+
+export { ConversationPreviewCard } from "./components/conversation-preview-card/index.ts";
+export type { ConversationPreviewCardProps } from "./components/conversation-preview-card/index.ts";
+
 export {
   Banner,
   BannerIcon,
@@ -84,6 +109,55 @@ export type {
   BannerTitleProps,
   BannerActionsProps,
 } from "./components/banner/index.ts";
+
+export {
+  EmptyState,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  EmptyStateDescription,
+  EmptyStateActions,
+} from "./components/empty-state/index.ts";
+export type {
+  EmptyStateProps,
+  EmptyStateIconProps,
+  EmptyStateTitleProps,
+  EmptyStateDescriptionProps,
+  EmptyStateActionsProps,
+} from "./components/empty-state/index.ts";
+
+export { MenuItem } from "./components/menu-item/index.ts";
+export type { MenuItemProps } from "./components/menu-item/index.ts";
+
+export { ContextMenuDivider } from "./components/context-menu-divider/index.ts";
+export type { ContextMenuDividerProps } from "./components/context-menu-divider/index.ts";
+
+export { SectionEyebrow } from "./components/section-eyebrow/index.ts";
+export type { SectionEyebrowProps } from "./components/section-eyebrow/index.ts";
+
+export { SectionHeader } from "./components/section-header/index.ts";
+export type { SectionHeaderProps } from "./components/section-header/index.ts";
+
+export { KeyValueRow } from "./components/key-value-row/index.ts";
+export type { KeyValueRowProps } from "./components/key-value-row/index.ts";
+
+export { SurfaceListItem } from "./components/surface-list-item/index.ts";
+export type { SurfaceListItemProps } from "./components/surface-list-item/index.ts";
+
+export { SelectionPopover } from "./components/selection-popover/index.ts";
+export type {
+  SelectionPopoverProps,
+  SelectionPopoverOption,
+} from "./components/selection-popover/index.ts";
+
+export { NotificationCenter } from "./components/notification-center/index.ts";
+export type {
+  NotificationCenterProps,
+  NotificationCenterEntry,
+  NotificationCenterAction,
+} from "./components/notification-center/index.ts";
+
+export { Lightbox } from "./components/lightbox/index.ts";
+export type { LightboxProps } from "./components/lightbox/index.ts";
 
 export {
   BottomSheet,
@@ -107,6 +181,25 @@ export type {
   BottomSheetTitleProps,
   BottomSheetDescriptionProps,
 } from "./components/bottom-sheet/index.ts";
+
+export { DismissBackdrop } from "./components/dismiss-backdrop/index.ts";
+export type { DismissBackdropProps } from "./components/dismiss-backdrop/index.ts";
+
+export { ServerSwitcherMenu } from "./components/server-switcher-menu/index.ts";
+export type {
+  ServerSwitcherMenuProps,
+  ServerSwitcherServer,
+  ServerSwitcherJoinOption,
+} from "./components/server-switcher-menu/index.ts";
+
+export {
+  ReorderablePanelTabs,
+  useOrderedPanelTabs,
+} from "./components/reorderable-panel-tabs/index.ts";
+export type {
+  ReorderablePanelTabsProps,
+  PanelTabItem,
+} from "./components/reorderable-panel-tabs/index.ts";
 
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";

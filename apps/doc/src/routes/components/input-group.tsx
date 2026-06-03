@@ -4,6 +4,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@slock-ui/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -115,13 +116,21 @@ function InputGroupDoc() {
       title="InputGroup"
       description="A brutal input shell that wraps a bare control with leading or trailing addons."
       overview={
-        <>
-          A composition primitive new to slock-ui (no upstream original). The shell — border,
-          shadow, focus lift, and invalid look — lives on the group; the inner{" "}
-          <code>InputGroupInput</code> renders bare. The old <code>SearchInput</code> and{" "}
-          <code>SlugInput</code> ship as the <code>InputGroupAddon.Search</code> /{" "}
-          <code>InputGroupAddon.Slug</code> presets, restored pixel-for-pixel.
-        </>
+        <Differences from="SearchInput / SlugInput">
+          <li>
+            new composition primitive: one <code>InputGroup</code> shell plus bare{" "}
+            <code>InputGroupInput</code>, so addons can sit on either edge
+          </li>
+          <li>
+            old <code>SearchInput</code> and <code>SlugInput</code> visuals are restored
+            pixel-for-pixel as <code>InputGroupAddon.Search</code> and{" "}
+            <code>InputGroupAddon.Slug</code>
+          </li>
+          <li>
+            invalid styling is an opt-in addition via <code>aria-invalid</code>; resting source
+            styling stays unchanged
+          </li>
+        </Differences>
       }
       toc={TOC}
     >

@@ -8,13 +8,19 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 // ring are an addition beyond the original (a bare, feedback-less button).
 const badgeButton = tv({
   extend: badge,
-  base: [
-    "cursor-pointer outline-none transition-transform",
-    "focus-visible:ring-2 focus-visible:ring-ring",
-  ],
+  slots: {
+    root: [
+      "cursor-pointer outline-none transition-transform",
+      "focus-visible:ring-2 focus-visible:ring-ring",
+    ],
+  },
   variants: {
     theme: {
-      brutal: ["hover:-translate-y-px active:translate-x-px active:translate-y-px"],
+      brutal: {
+        root: ["hover:-translate-y-px active:translate-x-px active:translate-y-px"],
+      },
+      // Elegant styling is deferred; see the component TODO.
+      elegant: {},
     },
   },
 });
@@ -24,11 +30,6 @@ export type BadgeButtonProps = StyledProps<BaseButton.Props> &
 
 export function BadgeButton({ tone, uppercase, className, ...props }: BadgeButtonProps) {
   const theme = useTheme();
-  return (
-    <BaseButton
-      data-slot="badge-button"
-      className={badgeButton({ theme, tone, uppercase, className })}
-      {...props}
-    />
-  );
+  const { root } = badgeButton({ theme, tone, uppercase });
+  return <BaseButton data-slot="badge-button" className={root({ className })} {...props} />;
 }

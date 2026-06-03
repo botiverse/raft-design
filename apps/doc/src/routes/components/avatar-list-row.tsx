@@ -143,6 +143,9 @@ function AvatarListRowDoc() {
           <li>
             composition-first: parts compose as children, the avatar stays a caller-supplied node
           </li>
+          <li>
+            clickable bodies are built on Base UI&rsquo;s <code>Button</code> via the render hook
+          </li>
         </Differences>
       }
       toc={TOC}

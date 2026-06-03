@@ -8,27 +8,35 @@ import type { WithoutChildren } from "../../lib/without-children.ts";
 // FieldError own the message. `unstyled` drops the shell so an InputGroup can own
 // the border/shadow/invalid look while the control stays bare.
 export const input = tv({
-  base: ["w-full px-3 py-2 font-display outline-none"],
+  slots: {
+    root: ["w-full px-3 py-2 font-display outline-none"],
+  },
   variants: {
     theme: {
-      brutal: [],
+      brutal: {},
       // Elegant styling is deferred; see the component TODO.
-      elegant: [],
+      elegant: {},
     },
     unstyled: {
-      true: "",
-      false: "",
+      true: {
+        root: "",
+      },
+      false: {
+        root: "",
+      },
     },
   },
   compoundVariants: [
     {
       theme: "brutal",
       unstyled: false,
-      class: [
-        "border-2 border-black bg-white",
-        "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
-        "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
-      ],
+      class: {
+        root: [
+          "border-2 border-black bg-white",
+          "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
+          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+        ],
+      },
     },
   ],
   defaultVariants: {
@@ -41,5 +49,6 @@ export type InputProps = WithoutChildren<ComponentPropsWithRef<"input">> &
 
 export function Input({ unstyled, className, ...props }: InputProps) {
   const theme = useTheme();
-  return <input data-slot="input" className={input({ theme, unstyled, className })} {...props} />;
+  const { root } = input({ theme, unstyled });
+  return <input data-slot="input" className={root({ className })} {...props} />;
 }

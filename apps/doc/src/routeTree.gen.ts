@@ -9,22 +9,88 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SetupRouteImport } from './routes/setup'
+import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
+import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
+import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
+import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
+import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
+import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
+import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
+import { Route as ComponentsServerSwitcherMenuRouteImport } from './routes/components/server-switcher-menu'
+import { Route as ComponentsSelectionPopoverRouteImport } from './routes/components/selection-popover'
+import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
+import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
+import { Route as ComponentsSectionEyebrowRouteImport } from './routes/components/section-eyebrow'
+import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
+import { Route as ComponentsReorderablePanelTabsRouteImport } from './routes/components/reorderable-panel-tabs'
+import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
+import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
+import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
+import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsMenuItemRouteImport } from './routes/components/menu-item'
+import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
+import { Route as ComponentsKeyValueRowRouteImport } from './routes/components/key-value-row'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
+import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
+import { Route as ComponentsDismissBackdropRouteImport } from './routes/components/dismiss-backdrop'
+import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
+import { Route as ComponentsContextMenuDividerRouteImport } from './routes/components/context-menu-divider'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
+import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
 import { Route as ComponentsBadgeButtonRouteImport } from './routes/components/badge-button'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
+import { Route as ComponentsAvatarListRowRouteImport } from './routes/components/avatar-list-row'
+import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
 import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
 
+const SetupRoute = SetupRouteImport.update({
+  id: '/setup',
+  path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaygroundRoute = PlaygroundRouteImport.update({
+  id: '/playground',
+  path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TokensTypographyRoute = TokensTypographyRouteImport.update({
+  id: '/tokens/typography',
+  path: '/tokens/typography',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TokensShadowsRoute = TokensShadowsRouteImport.update({
+  id: '/tokens/shadows',
+  path: '/tokens/shadows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TokensColorsRoute = TokensColorsRouteImport.update({
+  id: '/tokens/colors',
+  path: '/tokens/colors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsNewComponentRoute = SkillsNewComponentRouteImport.update({
+  id: '/skills/new-component',
+  path: '/skills/new-component',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
+  id: '/skills/migration',
+  path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
@@ -32,9 +98,98 @@ const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
   path: '/components/textarea',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsSurfaceListItemRoute =
+  ComponentsSurfaceListItemRouteImport.update({
+    id: '/components/surface-list-item',
+    path: '/components/surface-list-item',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
   id: '/components/status-dot',
   path: '/components/status-dot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
+  id: '/components/spinner',
+  path: '/components/spinner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsServerSwitcherMenuRoute =
+  ComponentsServerSwitcherMenuRouteImport.update({
+    id: '/components/server-switcher-menu',
+    path: '/components/server-switcher-menu',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsSelectionPopoverRoute =
+  ComponentsSelectionPopoverRouteImport.update({
+    id: '/components/selection-popover',
+    path: '/components/selection-popover',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsSegmentedControlRoute =
+  ComponentsSegmentedControlRouteImport.update({
+    id: '/components/segmented-control',
+    path: '/components/segmented-control',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsSectionHeaderRoute = ComponentsSectionHeaderRouteImport.update({
+  id: '/components/section-header',
+  path: '/components/section-header',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsSectionEyebrowRoute =
+  ComponentsSectionEyebrowRouteImport.update({
+    id: '/components/section-eyebrow',
+    path: '/components/section-eyebrow',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsSandboxedPreviewFrameRoute =
+  ComponentsSandboxedPreviewFrameRouteImport.update({
+    id: '/components/sandboxed-preview-frame',
+    path: '/components/sandboxed-preview-frame',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsReorderablePanelTabsRoute =
+  ComponentsReorderablePanelTabsRouteImport.update({
+    id: '/components/reorderable-panel-tabs',
+    path: '/components/reorderable-panel-tabs',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsQuotedMessageCardRoute =
+  ComponentsQuotedMessageCardRouteImport.update({
+    id: '/components/quoted-message-card',
+    path: '/components/quoted-message-card',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsPreviewShellRoute = ComponentsPreviewShellRouteImport.update({
+  id: '/components/preview-shell',
+  path: '/components/preview-shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsPanelHeaderRoute = ComponentsPanelHeaderRouteImport.update({
+  id: '/components/panel-header',
+  path: '/components/panel-header',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsNotificationCenterRoute =
+  ComponentsNotificationCenterRouteImport.update({
+    id: '/components/notification-center',
+    path: '/components/notification-center',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsMenuItemRoute = ComponentsMenuItemRouteImport.update({
+  id: '/components/menu-item',
+  path: '/components/menu-item',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
+  id: '/components/lightbox',
+  path: '/components/lightbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsKeyValueRowRoute = ComponentsKeyValueRowRouteImport.update({
+  id: '/components/key-value-row',
+  path: '/components/key-value-row',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
@@ -52,6 +207,29 @@ const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
   path: '/components/field',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
+  id: '/components/empty-state',
+  path: '/components/empty-state',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsDismissBackdropRoute =
+  ComponentsDismissBackdropRouteImport.update({
+    id: '/components/dismiss-backdrop',
+    path: '/components/dismiss-backdrop',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsConversationPreviewCardRoute =
+  ComponentsConversationPreviewCardRouteImport.update({
+    id: '/components/conversation-preview-card',
+    path: '/components/conversation-preview-card',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ComponentsContextMenuDividerRoute =
+  ComponentsContextMenuDividerRouteImport.update({
+    id: '/components/context-menu-divider',
+    path: '/components/context-menu-divider',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   id: '/components/checkbox',
   path: '/components/checkbox',
@@ -67,6 +245,16 @@ const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   path: '/components/button',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsBottomSheetRoute = ComponentsBottomSheetRouteImport.update({
+  id: '/components/bottom-sheet',
+  path: '/components/bottom-sheet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
+  id: '/components/banner',
+  path: '/components/banner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsBadgeButtonRoute = ComponentsBadgeButtonRouteImport.update({
   id: '/components/badge-button',
   path: '/components/badge-button',
@@ -77,6 +265,16 @@ const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
   path: '/components/badge',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsAvatarListRowRoute = ComponentsAvatarListRowRouteImport.update({
+  id: '/components/avatar-list-row',
+  path: '/components/avatar-list-row',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
+  id: '/components/avatar',
+  path: '/components/avatar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
   id: '/components/attention-dot',
   path: '/components/attention-dot',
@@ -85,114 +283,380 @@ const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/playground': typeof PlaygroundRoute
+  '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
+  '/components/avatar': typeof ComponentsAvatarRoute
+  '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/badge-button': typeof ComponentsBadgeButtonRoute
+  '/components/banner': typeof ComponentsBannerRoute
+  '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/context-menu-divider': typeof ComponentsContextMenuDividerRoute
+  '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
+  '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
+  '/components/key-value-row': typeof ComponentsKeyValueRowRoute
+  '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/menu-item': typeof ComponentsMenuItemRoute
+  '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel-header': typeof ComponentsPanelHeaderRoute
+  '/components/preview-shell': typeof ComponentsPreviewShellRoute
+  '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
+  '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
+  '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
+  '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
+  '/components/section-header': typeof ComponentsSectionHeaderRoute
+  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
+  '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
+  '/components/server-switcher-menu': typeof ComponentsServerSwitcherMenuRoute
+  '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/skills/migration': typeof SkillsMigrationRoute
+  '/skills/new-component': typeof SkillsNewComponentRoute
+  '/tokens/colors': typeof TokensColorsRoute
+  '/tokens/shadows': typeof TokensShadowsRoute
+  '/tokens/typography': typeof TokensTypographyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/playground': typeof PlaygroundRoute
+  '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
+  '/components/avatar': typeof ComponentsAvatarRoute
+  '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/badge-button': typeof ComponentsBadgeButtonRoute
+  '/components/banner': typeof ComponentsBannerRoute
+  '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/context-menu-divider': typeof ComponentsContextMenuDividerRoute
+  '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
+  '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
+  '/components/key-value-row': typeof ComponentsKeyValueRowRoute
+  '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/menu-item': typeof ComponentsMenuItemRoute
+  '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel-header': typeof ComponentsPanelHeaderRoute
+  '/components/preview-shell': typeof ComponentsPreviewShellRoute
+  '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
+  '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
+  '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
+  '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
+  '/components/section-header': typeof ComponentsSectionHeaderRoute
+  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
+  '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
+  '/components/server-switcher-menu': typeof ComponentsServerSwitcherMenuRoute
+  '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/skills/migration': typeof SkillsMigrationRoute
+  '/skills/new-component': typeof SkillsNewComponentRoute
+  '/tokens/colors': typeof TokensColorsRoute
+  '/tokens/shadows': typeof TokensShadowsRoute
+  '/tokens/typography': typeof TokensTypographyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/playground': typeof PlaygroundRoute
+  '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
+  '/components/avatar': typeof ComponentsAvatarRoute
+  '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/badge-button': typeof ComponentsBadgeButtonRoute
+  '/components/banner': typeof ComponentsBannerRoute
+  '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/context-menu-divider': typeof ComponentsContextMenuDividerRoute
+  '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
+  '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
+  '/components/key-value-row': typeof ComponentsKeyValueRowRoute
+  '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/menu-item': typeof ComponentsMenuItemRoute
+  '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel-header': typeof ComponentsPanelHeaderRoute
+  '/components/preview-shell': typeof ComponentsPreviewShellRoute
+  '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
+  '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
+  '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
+  '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
+  '/components/section-header': typeof ComponentsSectionHeaderRoute
+  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
+  '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
+  '/components/server-switcher-menu': typeof ComponentsServerSwitcherMenuRoute
+  '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/skills/migration': typeof SkillsMigrationRoute
+  '/skills/new-component': typeof SkillsNewComponentRoute
+  '/tokens/colors': typeof TokensColorsRoute
+  '/tokens/shadows': typeof TokensShadowsRoute
+  '/tokens/typography': typeof TokensTypographyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/playground'
+    | '/setup'
     | '/components/attention-dot'
+    | '/components/avatar'
+    | '/components/avatar-list-row'
     | '/components/badge'
     | '/components/badge-button'
+    | '/components/banner'
+    | '/components/bottom-sheet'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/context-menu-divider'
+    | '/components/conversation-preview-card'
+    | '/components/dismiss-backdrop'
+    | '/components/empty-state'
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
+    | '/components/key-value-row'
+    | '/components/lightbox'
+    | '/components/menu-item'
+    | '/components/notification-center'
+    | '/components/panel-header'
+    | '/components/preview-shell'
+    | '/components/quoted-message-card'
+    | '/components/reorderable-panel-tabs'
+    | '/components/sandboxed-preview-frame'
+    | '/components/section-eyebrow'
+    | '/components/section-header'
+    | '/components/segmented-control'
+    | '/components/selection-popover'
+    | '/components/server-switcher-menu'
+    | '/components/spinner'
     | '/components/status-dot'
+    | '/components/surface-list-item'
     | '/components/textarea'
+    | '/skills/migration'
+    | '/skills/new-component'
+    | '/tokens/colors'
+    | '/tokens/shadows'
+    | '/tokens/typography'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/playground'
+    | '/setup'
     | '/components/attention-dot'
+    | '/components/avatar'
+    | '/components/avatar-list-row'
     | '/components/badge'
     | '/components/badge-button'
+    | '/components/banner'
+    | '/components/bottom-sheet'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/context-menu-divider'
+    | '/components/conversation-preview-card'
+    | '/components/dismiss-backdrop'
+    | '/components/empty-state'
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
+    | '/components/key-value-row'
+    | '/components/lightbox'
+    | '/components/menu-item'
+    | '/components/notification-center'
+    | '/components/panel-header'
+    | '/components/preview-shell'
+    | '/components/quoted-message-card'
+    | '/components/reorderable-panel-tabs'
+    | '/components/sandboxed-preview-frame'
+    | '/components/section-eyebrow'
+    | '/components/section-header'
+    | '/components/segmented-control'
+    | '/components/selection-popover'
+    | '/components/server-switcher-menu'
+    | '/components/spinner'
     | '/components/status-dot'
+    | '/components/surface-list-item'
     | '/components/textarea'
+    | '/skills/migration'
+    | '/skills/new-component'
+    | '/tokens/colors'
+    | '/tokens/shadows'
+    | '/tokens/typography'
   id:
     | '__root__'
     | '/'
+    | '/playground'
+    | '/setup'
     | '/components/attention-dot'
+    | '/components/avatar'
+    | '/components/avatar-list-row'
     | '/components/badge'
     | '/components/badge-button'
+    | '/components/banner'
+    | '/components/bottom-sheet'
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
+    | '/components/context-menu-divider'
+    | '/components/conversation-preview-card'
+    | '/components/dismiss-backdrop'
+    | '/components/empty-state'
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
+    | '/components/key-value-row'
+    | '/components/lightbox'
+    | '/components/menu-item'
+    | '/components/notification-center'
+    | '/components/panel-header'
+    | '/components/preview-shell'
+    | '/components/quoted-message-card'
+    | '/components/reorderable-panel-tabs'
+    | '/components/sandboxed-preview-frame'
+    | '/components/section-eyebrow'
+    | '/components/section-header'
+    | '/components/segmented-control'
+    | '/components/selection-popover'
+    | '/components/server-switcher-menu'
+    | '/components/spinner'
     | '/components/status-dot'
+    | '/components/surface-list-item'
     | '/components/textarea'
+    | '/skills/migration'
+    | '/skills/new-component'
+    | '/tokens/colors'
+    | '/tokens/shadows'
+    | '/tokens/typography'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PlaygroundRoute: typeof PlaygroundRoute
+  SetupRoute: typeof SetupRoute
   ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
+  ComponentsAvatarRoute: typeof ComponentsAvatarRoute
+  ComponentsAvatarListRowRoute: typeof ComponentsAvatarListRowRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsBadgeButtonRoute: typeof ComponentsBadgeButtonRoute
+  ComponentsBannerRoute: typeof ComponentsBannerRoute
+  ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
+  ComponentsContextMenuDividerRoute: typeof ComponentsContextMenuDividerRoute
+  ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
+  ComponentsDismissBackdropRoute: typeof ComponentsDismissBackdropRoute
+  ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
+  ComponentsKeyValueRowRoute: typeof ComponentsKeyValueRowRoute
+  ComponentsLightboxRoute: typeof ComponentsLightboxRoute
+  ComponentsMenuItemRoute: typeof ComponentsMenuItemRoute
+  ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
+  ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
+  ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
+  ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
+  ComponentsReorderablePanelTabsRoute: typeof ComponentsReorderablePanelTabsRoute
+  ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
+  ComponentsSectionEyebrowRoute: typeof ComponentsSectionEyebrowRoute
+  ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
+  ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
+  ComponentsSelectionPopoverRoute: typeof ComponentsSelectionPopoverRoute
+  ComponentsServerSwitcherMenuRoute: typeof ComponentsServerSwitcherMenuRoute
+  ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
+  ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
+  SkillsMigrationRoute: typeof SkillsMigrationRoute
+  SkillsNewComponentRoute: typeof SkillsNewComponentRoute
+  TokensColorsRoute: typeof TokensColorsRoute
+  TokensShadowsRoute: typeof TokensShadowsRoute
+  TokensTypographyRoute: typeof TokensTypographyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/setup': {
+      id: '/setup'
+      path: '/setup'
+      fullPath: '/setup'
+      preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playground': {
+      id: '/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tokens/typography': {
+      id: '/tokens/typography'
+      path: '/tokens/typography'
+      fullPath: '/tokens/typography'
+      preLoaderRoute: typeof TokensTypographyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tokens/shadows': {
+      id: '/tokens/shadows'
+      path: '/tokens/shadows'
+      fullPath: '/tokens/shadows'
+      preLoaderRoute: typeof TokensShadowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tokens/colors': {
+      id: '/tokens/colors'
+      path: '/tokens/colors'
+      fullPath: '/tokens/colors'
+      preLoaderRoute: typeof TokensColorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/new-component': {
+      id: '/skills/new-component'
+      path: '/skills/new-component'
+      fullPath: '/skills/new-component'
+      preLoaderRoute: typeof SkillsNewComponentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/migration': {
+      id: '/skills/migration'
+      path: '/skills/migration'
+      fullPath: '/skills/migration'
+      preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/textarea': {
@@ -202,11 +666,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTextareaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/surface-list-item': {
+      id: '/components/surface-list-item'
+      path: '/components/surface-list-item'
+      fullPath: '/components/surface-list-item'
+      preLoaderRoute: typeof ComponentsSurfaceListItemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/status-dot': {
       id: '/components/status-dot'
       path: '/components/status-dot'
       fullPath: '/components/status-dot'
       preLoaderRoute: typeof ComponentsStatusDotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/spinner': {
+      id: '/components/spinner'
+      path: '/components/spinner'
+      fullPath: '/components/spinner'
+      preLoaderRoute: typeof ComponentsSpinnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/server-switcher-menu': {
+      id: '/components/server-switcher-menu'
+      path: '/components/server-switcher-menu'
+      fullPath: '/components/server-switcher-menu'
+      preLoaderRoute: typeof ComponentsServerSwitcherMenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/selection-popover': {
+      id: '/components/selection-popover'
+      path: '/components/selection-popover'
+      fullPath: '/components/selection-popover'
+      preLoaderRoute: typeof ComponentsSelectionPopoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/segmented-control': {
+      id: '/components/segmented-control'
+      path: '/components/segmented-control'
+      fullPath: '/components/segmented-control'
+      preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/section-header': {
+      id: '/components/section-header'
+      path: '/components/section-header'
+      fullPath: '/components/section-header'
+      preLoaderRoute: typeof ComponentsSectionHeaderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/section-eyebrow': {
+      id: '/components/section-eyebrow'
+      path: '/components/section-eyebrow'
+      fullPath: '/components/section-eyebrow'
+      preLoaderRoute: typeof ComponentsSectionEyebrowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/sandboxed-preview-frame': {
+      id: '/components/sandboxed-preview-frame'
+      path: '/components/sandboxed-preview-frame'
+      fullPath: '/components/sandboxed-preview-frame'
+      preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/reorderable-panel-tabs': {
+      id: '/components/reorderable-panel-tabs'
+      path: '/components/reorderable-panel-tabs'
+      fullPath: '/components/reorderable-panel-tabs'
+      preLoaderRoute: typeof ComponentsReorderablePanelTabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/quoted-message-card': {
+      id: '/components/quoted-message-card'
+      path: '/components/quoted-message-card'
+      fullPath: '/components/quoted-message-card'
+      preLoaderRoute: typeof ComponentsQuotedMessageCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/preview-shell': {
+      id: '/components/preview-shell'
+      path: '/components/preview-shell'
+      fullPath: '/components/preview-shell'
+      preLoaderRoute: typeof ComponentsPreviewShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/panel-header': {
+      id: '/components/panel-header'
+      path: '/components/panel-header'
+      fullPath: '/components/panel-header'
+      preLoaderRoute: typeof ComponentsPanelHeaderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/notification-center': {
+      id: '/components/notification-center'
+      path: '/components/notification-center'
+      fullPath: '/components/notification-center'
+      preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/menu-item': {
+      id: '/components/menu-item'
+      path: '/components/menu-item'
+      fullPath: '/components/menu-item'
+      preLoaderRoute: typeof ComponentsMenuItemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/lightbox': {
+      id: '/components/lightbox'
+      path: '/components/lightbox'
+      fullPath: '/components/lightbox'
+      preLoaderRoute: typeof ComponentsLightboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/key-value-row': {
+      id: '/components/key-value-row'
+      path: '/components/key-value-row'
+      fullPath: '/components/key-value-row'
+      preLoaderRoute: typeof ComponentsKeyValueRowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/input-group': {
@@ -230,6 +806,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsFieldRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/empty-state': {
+      id: '/components/empty-state'
+      path: '/components/empty-state'
+      fullPath: '/components/empty-state'
+      preLoaderRoute: typeof ComponentsEmptyStateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/dismiss-backdrop': {
+      id: '/components/dismiss-backdrop'
+      path: '/components/dismiss-backdrop'
+      fullPath: '/components/dismiss-backdrop'
+      preLoaderRoute: typeof ComponentsDismissBackdropRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/conversation-preview-card': {
+      id: '/components/conversation-preview-card'
+      path: '/components/conversation-preview-card'
+      fullPath: '/components/conversation-preview-card'
+      preLoaderRoute: typeof ComponentsConversationPreviewCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/context-menu-divider': {
+      id: '/components/context-menu-divider'
+      path: '/components/context-menu-divider'
+      fullPath: '/components/context-menu-divider'
+      preLoaderRoute: typeof ComponentsContextMenuDividerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/checkbox': {
       id: '/components/checkbox'
       path: '/components/checkbox'
@@ -251,6 +855,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsButtonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/bottom-sheet': {
+      id: '/components/bottom-sheet'
+      path: '/components/bottom-sheet'
+      fullPath: '/components/bottom-sheet'
+      preLoaderRoute: typeof ComponentsBottomSheetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/banner': {
+      id: '/components/banner'
+      path: '/components/banner'
+      fullPath: '/components/banner'
+      preLoaderRoute: typeof ComponentsBannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/badge-button': {
       id: '/components/badge-button'
       path: '/components/badge-button'
@@ -265,6 +883,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsBadgeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/avatar-list-row': {
+      id: '/components/avatar-list-row'
+      path: '/components/avatar-list-row'
+      fullPath: '/components/avatar-list-row'
+      preLoaderRoute: typeof ComponentsAvatarListRowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/avatar': {
+      id: '/components/avatar'
+      path: '/components/avatar'
+      fullPath: '/components/avatar'
+      preLoaderRoute: typeof ComponentsAvatarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/attention-dot': {
       id: '/components/attention-dot'
       path: '/components/attention-dot'
@@ -277,17 +909,49 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PlaygroundRoute: PlaygroundRoute,
+  SetupRoute: SetupRoute,
   ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
+  ComponentsAvatarRoute: ComponentsAvatarRoute,
+  ComponentsAvatarListRowRoute: ComponentsAvatarListRowRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsBadgeButtonRoute: ComponentsBadgeButtonRoute,
+  ComponentsBannerRoute: ComponentsBannerRoute,
+  ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
+  ComponentsContextMenuDividerRoute: ComponentsContextMenuDividerRoute,
+  ComponentsConversationPreviewCardRoute:
+    ComponentsConversationPreviewCardRoute,
+  ComponentsDismissBackdropRoute: ComponentsDismissBackdropRoute,
+  ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
+  ComponentsKeyValueRowRoute: ComponentsKeyValueRowRoute,
+  ComponentsLightboxRoute: ComponentsLightboxRoute,
+  ComponentsMenuItemRoute: ComponentsMenuItemRoute,
+  ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
+  ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
+  ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
+  ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
+  ComponentsReorderablePanelTabsRoute: ComponentsReorderablePanelTabsRoute,
+  ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
+  ComponentsSectionEyebrowRoute: ComponentsSectionEyebrowRoute,
+  ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
+  ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
+  ComponentsSelectionPopoverRoute: ComponentsSelectionPopoverRoute,
+  ComponentsServerSwitcherMenuRoute: ComponentsServerSwitcherMenuRoute,
+  ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
+  ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
+  SkillsMigrationRoute: SkillsMigrationRoute,
+  SkillsNewComponentRoute: SkillsNewComponentRoute,
+  TokensColorsRoute: TokensColorsRoute,
+  TokensShadowsRoute: TokensShadowsRoute,
+  TokensTypographyRoute: TokensTypographyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

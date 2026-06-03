@@ -5,31 +5,45 @@ import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const checkbox = tv({
-  base: [
-    "relative inline-flex shrink-0 items-center justify-center",
-    "outline-none transition-colors",
-    // Additions beyond the original: focus ring, disabled cursor, and an enlarged
-    // hit area (invisible ::after) so the small box stays easy to click/tap.
-    "focus-visible:ring-2 focus-visible:ring-ring",
-    "data-disabled:cursor-not-allowed",
-    "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
-    "[&_svg]:shrink-0",
-  ],
+  slots: {
+    root: [
+      "relative inline-flex shrink-0 items-center justify-center",
+      "outline-none transition-colors",
+      // Additions beyond the original: focus ring, disabled cursor, and an enlarged
+      // hit area (invisible ::after) so the small box stays easy to click/tap.
+      "focus-visible:ring-2 focus-visible:ring-ring",
+      "data-disabled:cursor-not-allowed",
+      "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
+      "[&_svg]:shrink-0",
+    ],
+    indicator: [
+      "flex items-center justify-center",
+      // Indeterminate (dash) is an addition beyond the original; swap the marker.
+      "[&[data-indeterminate]_[data-slot=check]]:hidden",
+      "[&:not([data-indeterminate])_[data-slot=indeterminate]]:hidden",
+    ],
+  },
   variants: {
     theme: {
-      brutal: [
-        "border-2 border-black bg-white",
-        // `data-indeterminate` fill is an addition beyond the original.
-        "data-checked:bg-black data-indeterminate:bg-black",
-        "data-checked:text-white data-indeterminate:text-white",
-        "data-disabled:opacity-50",
-      ],
+      brutal: {
+        root: [
+          "border-2 border-black bg-white",
+          // `data-indeterminate` fill is an addition beyond the original.
+          "data-checked:bg-black data-indeterminate:bg-black",
+          "data-checked:text-white data-indeterminate:text-white",
+          "data-disabled:opacity-50",
+        ],
+      },
       // Elegant styling is deferred; see the component TODO.
-      elegant: [],
+      elegant: {},
     },
     size: {
-      sm: ["size-3.5", "[&_svg]:size-2.5"],
-      md: ["size-4", "[&_svg]:size-3"],
+      sm: {
+        root: ["size-3.5", "[&_svg]:size-2.5"],
+      },
+      md: {
+        root: ["size-4", "[&_svg]:size-3"],
+      },
     },
   },
   defaultVariants: {
@@ -42,21 +56,10 @@ export type CheckboxProps = StyledProps<BaseCheckbox.Root.Props> &
 
 export function Checkbox({ size, className, ...props }: CheckboxProps) {
   const theme = useTheme();
+  const { root, indicator } = checkbox({ theme, size });
   return (
-    <BaseCheckbox.Root
-      data-slot="checkbox"
-      className={checkbox({ theme, size, className })}
-      {...props}
-    >
-      <BaseCheckbox.Indicator
-        data-slot="checkbox-indicator"
-        className={[
-          "flex items-center justify-center",
-          // Indeterminate (dash) is an addition beyond the original; swap the marker.
-          "[&[data-indeterminate]_[data-slot=check]]:hidden",
-          "[&:not([data-indeterminate])_[data-slot=indeterminate]]:hidden",
-        ].join(" ")}
-      >
+    <BaseCheckbox.Root data-slot="checkbox" className={root({ className })} {...props}>
+      <BaseCheckbox.Indicator data-slot="checkbox-indicator" className={indicator()}>
         <Check data-slot="check" strokeWidth={4} aria-hidden />
         <Minus data-slot="indeterminate" strokeWidth={4} aria-hidden />
       </BaseCheckbox.Indicator>

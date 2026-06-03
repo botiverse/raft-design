@@ -4,49 +4,79 @@ import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const checkMarker = tv({
-  base: [
-    "inline-flex shrink-0 items-center justify-center",
-    "transition-colors",
-    "[&_svg]:shrink-0",
-  ],
+  slots: {
+    root: [
+      "inline-flex shrink-0 items-center justify-center",
+      "transition-colors",
+      "[&_svg]:shrink-0",
+    ],
+  },
   variants: {
     theme: {
-      brutal: ["border-2 border-black"],
+      brutal: {
+        root: ["border-2 border-black"],
+      },
       // Elegant styling is deferred; see the component TODO.
-      elegant: [],
+      elegant: {},
     },
     shape: {
-      square: "",
-      circle: "rounded-full",
+      square: {
+        root: "",
+      },
+      circle: {
+        root: "rounded-full",
+      },
     },
     // Mark size and stroke (source's 10/12/13px, stroke 4/4/3) live on the icon via
     // CSS; `:not([class*='size-'])` lets a caller override the mark with its own size.
     size: {
-      sm: ["size-3.5", "[&_svg:not([class*='size-'])]:size-2.5 [&_svg]:[stroke-width:4]"],
-      md: ["size-4", "[&_svg:not([class*='size-'])]:size-3 [&_svg]:[stroke-width:4]"],
-      lg: ["size-5", "[&_svg:not([class*='size-'])]:size-[13px] [&_svg]:[stroke-width:3]"],
+      sm: {
+        root: ["size-3.5", "[&_svg:not([class*='size-'])]:size-2.5 [&_svg]:[stroke-width:4]"],
+      },
+      md: {
+        root: ["size-4", "[&_svg:not([class*='size-'])]:size-3 [&_svg]:[stroke-width:4]"],
+      },
+      lg: {
+        root: ["size-5", "[&_svg:not([class*='size-'])]:size-[13px] [&_svg]:[stroke-width:3]"],
+      },
     },
     tone: {
-      "black-fill": "",
-      "yellow-fill": "",
+      "black-fill": {
+        root: "",
+      },
+      "yellow-fill": {
+        root: "",
+      },
     },
     checked: {
-      true: "",
-      false: "bg-white text-transparent",
+      true: {
+        root: "",
+      },
+      false: {
+        root: "bg-white text-transparent",
+      },
     },
     disabled: {
-      true: "opacity-50",
-      false: "",
+      true: {
+        root: "opacity-50",
+      },
+      false: {
+        root: "",
+      },
     },
     previewOnHover: {
-      true: "",
-      false: "",
+      true: {
+        root: "",
+      },
+      false: {
+        root: "",
+      },
     },
   },
   compoundVariants: [
-    { checked: true, tone: "black-fill", class: "bg-black text-white" },
-    { checked: true, tone: "yellow-fill", class: "bg-brutal-yellow text-black" },
-    { checked: false, previewOnHover: true, class: "group-hover:text-black/20" },
+    { checked: true, tone: "black-fill", class: { root: "bg-black text-white" } },
+    { checked: true, tone: "yellow-fill", class: { root: "bg-brutal-yellow text-black" } },
+    { checked: false, previewOnHover: true, class: { root: "group-hover:text-black/20" } },
   ],
   defaultVariants: {
     shape: "square",
@@ -73,22 +103,18 @@ export function CheckMarker({
   ...props
 }: CheckMarkerProps) {
   const theme = useTheme();
+  const { root } = checkMarker({
+    theme,
+    shape,
+    size,
+    tone,
+    checked,
+    disabled,
+    previewOnHover,
+  });
+
   return (
-    <span
-      {...props}
-      data-slot="check-marker"
-      aria-hidden
-      className={checkMarker({
-        theme,
-        shape,
-        size,
-        tone,
-        checked,
-        disabled,
-        previewOnHover,
-        className,
-      })}
-    >
+    <span {...props} data-slot="check-marker" aria-hidden className={root({ className })}>
       {(checked || previewOnHover) && <Check />}
     </span>
   );

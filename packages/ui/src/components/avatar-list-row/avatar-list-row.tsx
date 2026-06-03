@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef } from "react";
+import { Button as BaseButton } from "@base-ui/react/button";
 import { useRender } from "@base-ui/react/use-render";
 import { cn, tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -104,7 +105,7 @@ export function AvatarListRowBody({
   const interactive = onClick !== undefined;
   const { body } = avatarRow({ interactive });
   return useRender({
-    render: render ?? (interactive ? <button type="button" /> : <div />),
+    render: render ?? (interactive ? <BaseButton type="button" /> : <div />),
     ref,
     props: {
       "data-slot": "avatar-list-row-body",

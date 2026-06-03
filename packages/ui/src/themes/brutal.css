@@ -23,6 +23,9 @@
   --shadow: 2px 2px 0px oklch(0.18 0.006 25);
   --shadow-hover: 4px 4px 0px oklch(0.18 0.006 25);
   --shadow-active: 1px 1px 0px oklch(0.18 0.006 25);
+  /* Largest offset tier (brutal app's shadow-brutal-lg) — used by raised
+     surfaces like the BottomSheet card. */
+  --shadow-lg: 6px 6px 0px oklch(0.18 0.006 25);
 
   --display-font: "Space Grotesk", system-ui, sans-serif;
   --mono-font: "Space Mono", ui-monospace, monospace;

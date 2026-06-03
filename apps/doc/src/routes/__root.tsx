@@ -29,7 +29,8 @@ export const Route = createRootRoute({
       },
       {
         name: "theme-color",
-        content: "#FFD700",
+        // oklch equivalent of #FFD700 (modern browsers; others skip the chrome tint).
+        content: "oklch(0.8868 0.1822 95.33)",
       },
     ],
     links: [
