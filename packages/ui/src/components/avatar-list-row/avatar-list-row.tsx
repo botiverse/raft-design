@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { cn, tv, type VariantProps } from "tailwind-variants";
 import {
   SurfaceListItem,
   type SurfaceListItemProps,
@@ -44,7 +44,7 @@ export function AvatarListRow({
       data-slot="avatar-list-row"
       selected={selected}
       interactive={interactive}
-      className={`group px-3 py-2${className ? ` ${className}` : ""}`}
+      className={cn("group px-3 py-2", className)}
     >
       <div data-align={align} className={avatarRow({ align })} {...props}>
         {children}
