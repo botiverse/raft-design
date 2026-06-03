@@ -1,12 +1,16 @@
-export { AvatarListRow } from "./avatar-list-row.tsx";
-export type { AvatarListRowProps } from "./avatar-list-row.tsx";
-export { AvatarListRowBody } from "./avatar-list-row-body.tsx";
-export type { AvatarListRowBodyProps } from "./avatar-list-row-body.tsx";
-export { AvatarListRowContent } from "./avatar-list-row-content.tsx";
-export type { AvatarListRowContentProps } from "./avatar-list-row-content.tsx";
-export { AvatarListRowName } from "./avatar-list-row-name.tsx";
-export type { AvatarListRowNameProps } from "./avatar-list-row-name.tsx";
-export { AvatarListRowSubtitle } from "./avatar-list-row-subtitle.tsx";
-export type { AvatarListRowSubtitleProps } from "./avatar-list-row-subtitle.tsx";
-export { AvatarListRowAside } from "./avatar-list-row-aside.tsx";
-export type { AvatarListRowAsideProps } from "./avatar-list-row-aside.tsx";
+export {
+  AvatarListRow,
+  AvatarListRowBody,
+  AvatarListRowContent,
+  AvatarListRowName,
+  AvatarListRowSubtitle,
+  AvatarListRowAside,
+} from "./avatar-list-row.tsx";
+export type {
+  AvatarListRowProps,
+  AvatarListRowBodyProps,
+  AvatarListRowContentProps,
+  AvatarListRowNameProps,
+  AvatarListRowSubtitleProps,
+  AvatarListRowAsideProps,
+} from "./avatar-list-row.tsx";
