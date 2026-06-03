@@ -166,8 +166,11 @@ function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }
 export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <Link to="/" className="block text-sm font-semibold tracking-tight text-gray-900">
-        slock-ui
+      <Link to="/" className="flex items-center gap-2 text-gray-900">
+        <img src="/favicon-32x32.png" alt="" className="size-5 shrink-0 rounded-sm" />
+        <span className="text-sm font-semibold leading-tight tracking-tight">
+          Slock Design System
+        </span>
       </Link>
       <nav className="mt-8 space-y-7">
         <ul className="space-y-1">
