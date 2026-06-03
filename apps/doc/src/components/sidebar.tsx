@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 
 import { StatusBadge, type StatusKey } from "#/components/status-badge.tsx";
@@ -42,11 +43,6 @@ const NAV = [
       {
         label: "ReorderablePanelTabs",
         to: "/components/reorderable-panel-tabs",
-        status: "in-progress",
-      },
-      {
-        label: "ServerSwitcherMenu",
-        to: "/components/server-switcher-menu",
         status: "in-progress",
       },
     ],
@@ -137,6 +133,12 @@ const MIGRATED = {
       target: "ContextMenuSeparator",
     },
     {
+      label: "ServerSwitcherMenu",
+      to: "/components/dropdown-menu",
+      hash: "migration",
+      target: "DropdownMenu + DropdownMenuActionItem",
+    },
+    {
       label: "ExperimentalBadge",
       to: "/components/badge",
       hash: "experimental",
@@ -177,19 +179,47 @@ function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
 }
 
 function MigratedLink({ to, label, hash, target }: MigratedItem) {
+  const [tooltip, setTooltip] = useState<{ left: number; top: number } | null>(null);
+
+  const showTooltip = (element: HTMLElement) => {
+    const rect = element.getBoundingClientRect();
+    setTooltip({
+      left: rect.right + 8,
+      top: rect.top + rect.height / 2,
+    });
+  };
+
   return (
-    <Link
-      to={to}
-      hash={hash}
-      title={`${label} migrated to ${target}`}
-      aria-label={`${label} migrated to ${target}`}
-      className="group relative flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 line-through decoration-gray-400 decoration-2 transition-colors hover:bg-gray-100 hover:text-gray-700"
-    >
-      <span className="min-w-0 flex-1 truncate">{label}</span>
-      <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700 no-underline shadow-lg group-hover:block">
-        Migrated to {target}
-      </span>
-    </Link>
+    <>
+      <Link
+        to={to}
+        hash={hash}
+        title={`${label} migrated to ${target}`}
+        aria-label={`${label} migrated to ${target}`}
+        onMouseEnter={(event) => showTooltip(event.currentTarget)}
+        onMouseMove={(event) => showTooltip(event.currentTarget)}
+        onMouseLeave={() => setTooltip(null)}
+        onPointerEnter={(event) => showTooltip(event.currentTarget)}
+        onPointerMove={(event) => showTooltip(event.currentTarget)}
+        onPointerLeave={() => setTooltip(null)}
+        onFocus={(event) => showTooltip(event.currentTarget)}
+        onBlur={() => setTooltip(null)}
+        className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 line-through decoration-gray-400 decoration-2 transition-colors hover:bg-gray-100 hover:text-gray-700"
+      >
+        <span className="min-w-0 flex-1 truncate">{label}</span>
+      </Link>
+      {tooltip
+        ? createPortal(
+            <span
+              className="pointer-events-none fixed z-50 -translate-y-1/2 whitespace-nowrap border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700 no-underline shadow-lg"
+              style={{ left: tooltip.left, top: tooltip.top }}
+            >
+              Migrated to {target}
+            </span>,
+            document.body,
+          )
+        : null}
+    </>
   );
 }
 

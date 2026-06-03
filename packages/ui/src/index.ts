@@ -217,13 +217,6 @@ export type {
 export { DismissBackdrop } from "./components/dismiss-backdrop/index.ts";
 export type { DismissBackdropProps } from "./components/dismiss-backdrop/index.ts";
 
-export { ServerSwitcherMenu } from "./components/server-switcher-menu/index.ts";
-export type {
-  ServerSwitcherMenuProps,
-  ServerSwitcherServer,
-  ServerSwitcherJoinOption,
-} from "./components/server-switcher-menu/index.ts";
-
 export {
   ReorderablePanelTabs,
   useOrderedPanelTabs,

@@ -90,8 +90,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                   {children}
                 </main>
               </div>
-              <div className="fixed inset-x-0 bottom-6 z-50 flex justify-center">
-                <div className="flex items-center gap-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-lg backdrop-blur">
+              <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center">
+                <div className="pointer-events-auto flex items-center gap-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-lg backdrop-blur">
                   <ThemeSwitcher />
                 </div>
               </div>

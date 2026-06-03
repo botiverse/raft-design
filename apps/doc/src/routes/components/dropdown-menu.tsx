@@ -25,6 +25,7 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "demo", title: "Demo" },
   { id: "opened", title: "Opened" },
+  { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -60,7 +61,7 @@ const SNIPPETS = {
     </DropdownMenuActionItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
-  opened: `<DropdownMenu open triggerId="opened-server-trigger">
+  opened: `<DropdownMenu open modal={false} triggerId="opened-server-trigger">
   <DropdownMenuTrigger id="opened-server-trigger" render={<Button size="md" />}>
     Switch server
   </DropdownMenuTrigger>
@@ -261,7 +262,7 @@ function DropdownMenuDoc() {
 
       <DocSection id="opened" title="Opened">
         <Example html={code.opened}>
-          <DropdownMenu open triggerId="opened-server-trigger">
+          <DropdownMenu open modal={false} triggerId="opened-server-trigger">
             <DropdownMenuTrigger id="opened-server-trigger" render={<Button size="md" />}>
               Switch server
             </DropdownMenuTrigger>
@@ -279,6 +280,29 @@ function DropdownMenuDoc() {
             </DropdownMenuContent>
           </DropdownMenu>
         </Example>
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="overflow-hidden rounded-md border border-gray-200 bg-white text-sm text-gray-700">
+          <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] border-b border-gray-200 bg-gray-50 font-medium text-gray-500">
+            <div className="px-3 py-2">Old source entry</div>
+            <div className="border-l border-gray-200 px-3 py-2">New composition</div>
+          </div>
+          <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+            <div className="px-3 py-2 text-gray-400 line-through decoration-gray-400 decoration-2">
+              ServerSwitcherMenu
+            </div>
+            <div className="border-l border-gray-200 px-3 py-2">
+              <code>DropdownMenu</code> + <code>DropdownMenuContent</code> +{" "}
+              <code>DropdownMenuItem</code> + <code>DropdownMenuActionItem</code> +{" "}
+              <code>DropdownMenuSeparator</code>
+            </div>
+          </div>
+          <div className="border-t border-gray-200 px-3 py-2 text-gray-500">
+            Source difference: server data, navigation, join flow, unread counts, and open state are
+            app-owned; this component only preserves the menu UI through composition.
+          </div>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

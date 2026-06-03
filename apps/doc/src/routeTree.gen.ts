@@ -21,7 +21,6 @@ import { Route as ComponentsTextareaRouteImport } from './routes/components/text
 import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
-import { Route as ComponentsServerSwitcherMenuRouteImport } from './routes/components/server-switcher-menu'
 import { Route as ComponentsSelectionPopoverRouteImport } from './routes/components/selection-popover'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
@@ -114,12 +113,6 @@ const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   path: '/components/spinner',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsServerSwitcherMenuRoute =
-  ComponentsServerSwitcherMenuRouteImport.update({
-    id: '/components/server-switcher-menu',
-    path: '/components/server-switcher-menu',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ComponentsSelectionPopoverRoute =
   ComponentsSelectionPopoverRouteImport.update({
     id: '/components/selection-popover',
@@ -314,7 +307,6 @@ export interface FileRoutesByFullPath {
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
-  '/components/server-switcher-menu': typeof ComponentsServerSwitcherMenuRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
@@ -359,7 +351,6 @@ export interface FileRoutesByTo {
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
-  '/components/server-switcher-menu': typeof ComponentsServerSwitcherMenuRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
@@ -405,7 +396,6 @@ export interface FileRoutesById {
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
-  '/components/server-switcher-menu': typeof ComponentsServerSwitcherMenuRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
@@ -452,7 +442,6 @@ export interface FileRouteTypes {
     | '/components/section-header'
     | '/components/segmented-control'
     | '/components/selection-popover'
-    | '/components/server-switcher-menu'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
@@ -497,7 +486,6 @@ export interface FileRouteTypes {
     | '/components/section-header'
     | '/components/segmented-control'
     | '/components/selection-popover'
-    | '/components/server-switcher-menu'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
@@ -542,7 +530,6 @@ export interface FileRouteTypes {
     | '/components/section-header'
     | '/components/segmented-control'
     | '/components/selection-popover'
-    | '/components/server-switcher-menu'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
@@ -588,7 +575,6 @@ export interface RootRouteChildren {
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectionPopoverRoute: typeof ComponentsSelectionPopoverRoute
-  ComponentsServerSwitcherMenuRoute: typeof ComponentsServerSwitcherMenuRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
@@ -684,13 +670,6 @@ declare module '@tanstack/react-router' {
       path: '/components/spinner'
       fullPath: '/components/spinner'
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/components/server-switcher-menu': {
-      id: '/components/server-switcher-menu'
-      path: '/components/server-switcher-menu'
-      fullPath: '/components/server-switcher-menu'
-      preLoaderRoute: typeof ComponentsServerSwitcherMenuRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/selection-popover': {
@@ -941,7 +920,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectionPopoverRoute: ComponentsSelectionPopoverRoute,
-  ComponentsServerSwitcherMenuRoute: ComponentsServerSwitcherMenuRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,
