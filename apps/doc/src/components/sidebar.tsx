@@ -1,10 +1,24 @@
+import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 
+const SKILLS = {
+  title: "Skills",
+  items: [
+    { label: "migration.md", to: "/skills/migration" },
+    { label: "new-component.md", to: "/skills/new-component" },
+  ],
+} as const;
+
+const TOKENS = {
+  title: "Tokens",
+  items: [
+    { label: "Colors", to: "/tokens/colors" },
+    { label: "Typography", to: "/tokens/typography" },
+    { label: "Shadows", to: "/tokens/shadows" },
+  ],
+} as const;
+
 const NAV = [
-  {
-    title: "Getting Started",
-    items: [{ label: "Introduction", to: "/" }],
-  },
   {
     title: "Actions",
     items: [{ label: "Button", to: "/components/button", status: "in-progress" }],
@@ -16,35 +30,47 @@ const NAV = [
       { label: "Field", to: "/components/field", status: "in-progress" },
       { label: "Input", to: "/components/input", status: "in-progress" },
       { label: "InputGroup", to: "/components/input-group", status: "in-progress" },
-      { label: "SegmentedControl" },
+      { label: "SegmentedControl", to: "/components/segmented-control", status: "in-progress" },
       { label: "Textarea", to: "/components/textarea", status: "in-progress" },
     ],
   },
   {
     title: "Navigation",
     items: [
-      { label: "MenuItem" },
-      { label: "ReorderablePanelTabs" },
-      { label: "ServerSwitcherMenu" },
+      { label: "MenuItem", to: "/components/menu-item", status: "in-progress" },
+      {
+        label: "ReorderablePanelTabs",
+        to: "/components/reorderable-panel-tabs",
+        status: "in-progress",
+      },
+      {
+        label: "ServerSwitcherMenu",
+        to: "/components/server-switcher-menu",
+        status: "in-progress",
+      },
     ],
   },
   {
     title: "Overlays",
     items: [
-      { label: "BottomSheet" },
-      { label: "ContextMenuDivider" },
-      { label: "DismissBackdrop" },
-      { label: "Lightbox" },
-      { label: "SelectionPopover" },
+      { label: "BottomSheet", to: "/components/bottom-sheet", status: "in-progress" },
+      {
+        label: "ContextMenuDivider",
+        to: "/components/context-menu-divider",
+        status: "in-progress",
+      },
+      { label: "DismissBackdrop", to: "/components/dismiss-backdrop", status: "in-progress" },
+      { label: "Lightbox", to: "/components/lightbox", status: "in-progress" },
+      { label: "SelectionPopover", to: "/components/selection-popover", status: "in-progress" },
     ],
   },
   {
     title: "Feedback",
     items: [
-      { label: "Banner" },
-      { label: "EmptyState" },
-      { label: "NotificationCenter" },
-      { label: "Spinner" },
+      { label: "Banner", to: "/components/banner", status: "in-progress" },
+      { label: "EmptyState", to: "/components/empty-state", status: "in-progress" },
+      { label: "NotificationCenter", to: "/components/notification-center", status: "in-progress" },
+      { label: "Spinner", to: "/components/spinner", status: "in-progress" },
     ],
   },
   {
@@ -54,88 +80,125 @@ const NAV = [
       { label: "Badge", to: "/components/badge", status: "in-progress" },
       { label: "BadgeButton", to: "/components/badge-button", status: "in-progress" },
       { label: "CheckMarker", to: "/components/check-marker", status: "in-progress" },
-      { label: "ExperimentalBadge", status: "preset" },
+      { label: "ExperimentalBadge", to: "/components/badge", hash: "experimental" },
       { label: "StatusDot", to: "/components/status-dot", status: "in-progress" },
     ],
   },
   {
     title: "Data Display",
     items: [
-      { label: "AvatarListRow" },
-      { label: "AvatarSlot" },
-      { label: "ConversationPreviewCard" },
-      { label: "KeyValueRow" },
-      { label: "QuotedMessageCard" },
-      { label: "SurfaceListItem" },
+      { label: "AvatarListRow", to: "/components/avatar-list-row", status: "in-progress" },
+      { label: "AvatarSlot", to: "/components/avatar-slot", status: "in-progress" },
+      {
+        label: "ConversationPreviewCard",
+        to: "/components/conversation-preview-card",
+        status: "in-progress",
+      },
+      { label: "KeyValueRow", to: "/components/key-value-row", status: "in-progress" },
+      { label: "QuotedMessageCard", to: "/components/quoted-message-card", status: "in-progress" },
+      { label: "SurfaceListItem", to: "/components/surface-list-item", status: "in-progress" },
     ],
   },
   {
     title: "Layout",
     items: [
-      { label: "PanelHeader" },
-      { label: "PreviewShell" },
-      { label: "SandboxedPreviewFrame" },
-      { label: "SectionEyebrow" },
-      { label: "SectionHeader" },
+      { label: "PanelHeader", to: "/components/panel-header", status: "in-progress" },
+      { label: "PreviewShell", to: "/components/preview-shell", status: "in-progress" },
+      {
+        label: "SandboxedPreviewFrame",
+        to: "/components/sandboxed-preview-frame",
+        status: "in-progress",
+      },
+      { label: "SectionEyebrow", to: "/components/section-eyebrow", status: "in-progress" },
+      { label: "SectionHeader", to: "/components/section-header", status: "in-progress" },
     ],
   },
 ] as const;
 
-// Progress badges. Unbuilt entries (no page) fall back to "planned"; a built page
-// keeps its explicit status until it drops the badge once done.
+// Progress badges. An item carries its status until it drops the badge once done.
 const STATUS = {
-  planned: { label: "Planned", className: "bg-gray-100 text-gray-500" },
   "in-progress": { label: "WIP", className: "bg-amber-100 text-amber-700" },
   review: { label: "Review", className: "bg-violet-100 text-violet-700" },
-  preset: { label: "Badge preset", className: "bg-lime-100 text-lime-700" },
 } as const;
+
+type NavItem = { label: string; to: string; status?: keyof typeof STATUS; hash?: string };
+
+function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
+  return (
+    <Link
+      to={to}
+      hash={hash}
+      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+      activeProps={{ className: "bg-gray-100 font-medium text-gray-900" }}
+    >
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {badge}
+    </Link>
+  );
+}
+
+function StatusBadge({ status }: { status?: keyof typeof STATUS }) {
+  if (!status) return null;
+  return (
+    <span
+      className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS[status].className}`}
+    >
+      {STATUS[status].label}
+    </span>
+  );
+}
+
+function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      <ul className="space-y-1">
+        {items.map((item) => (
+          <li key={item.label}>
+            <NavLink {...item} badge={<StatusBadge status={item.status} />} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6">
+    <aside className="fixed inset-y-0 left-0 z-30 h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <Link to="/" className="block text-sm font-semibold tracking-tight text-gray-900">
         slock-ui
       </Link>
       <nav className="mt-8 space-y-7">
-        {NAV.map((group) => (
-          <div key={group.title}>
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">
-              {group.title}
-            </p>
-            <ul className="space-y-1">
-              {group.items.map((item) => {
-                const key = "status" in item ? item.status : "to" in item ? null : "planned";
-                const badge = key ? (
-                  <span
-                    className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${STATUS[key].className}`}
-                  >
-                    {STATUS[key].label}
-                  </span>
-                ) : null;
-
-                return (
-                  <li key={item.label}>
-                    {"to" in item ? (
-                      <Link
-                        to={item.to}
-                        className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                        activeProps={{ className: "bg-gray-100 font-medium text-gray-900" }}
-                        activeOptions={{ exact: item.to === "/" }}
-                      >
-                        <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                        {badge}
-                      </Link>
-                    ) : (
-                      <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400">
-                        <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                        {badge}
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
+        <ul className="space-y-1">
+          <li>
+            <NavLink to="/setup" label="Setup" />
+          </li>
+          <li>
+            <span className="flex items-center rounded-md px-2 py-1.5 text-sm font-medium text-gray-900">
+              {SKILLS.title}
+            </span>
+            <ul className="mt-1 space-y-1 pl-3">
+              {SKILLS.items.map((item) => (
+                <li key={item.label}>
+                  <NavLink to={item.to} label={item.label} />
+                </li>
+              ))}
             </ul>
-          </div>
+          </li>
+          <li>
+            <NavLink to="/playground" label="Playground" />
+          </li>
+        </ul>
+
+        <hr className="border-gray-200" />
+
+        <NavGroup title={TOKENS.title} items={TOKENS.items} />
+
+        <hr className="border-gray-200" />
+
+        {NAV.map((group) => (
+          <NavGroup key={group.title} title={group.title} items={group.items} />
         ))}
       </nav>
     </aside>
