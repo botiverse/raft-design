@@ -85,6 +85,29 @@ export type {
   BannerActionsProps,
 } from "./components/banner/index.ts";
 
+export {
+  BottomSheet,
+  BottomSheetTrigger,
+  BottomSheetPortal,
+  BottomSheetContent,
+  BottomSheetClose,
+  BottomSheetHeader,
+  BottomSheetFooter,
+  BottomSheetTitle,
+  BottomSheetDescription,
+} from "./components/bottom-sheet/index.ts";
+export type {
+  BottomSheetProps,
+  BottomSheetTriggerProps,
+  BottomSheetPortalProps,
+  BottomSheetContentProps,
+  BottomSheetCloseProps,
+  BottomSheetHeaderProps,
+  BottomSheetFooterProps,
+  BottomSheetTitleProps,
+  BottomSheetDescriptionProps,
+} from "./components/bottom-sheet/index.ts";
+
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";
 export type { Theme } from "./lib/theme/theme-context.ts";
