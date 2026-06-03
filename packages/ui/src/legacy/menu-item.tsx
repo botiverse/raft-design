@@ -1,16 +1,9 @@
 import type { ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { tv } from "tailwind-variants";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import type { StyledProps } from "../lib/styled-props.ts";
+import { useTheme } from "../lib/theme/use-theme.ts";
 
-// Pure-action menu row: no checkmark, no selected fill. The hover token
-// (`bg-brutal-yellow/30`) matches the selection-family surfaces. The compact
-// `[@media(max-height:600px)]:py-1` density is applied unconditionally.
-//
-// Kept as a button (not base-ui `Menu.Item`) so it works standalone in hand-
-// rolled menus / popovers without requiring a Menu.Root ancestor — the original
-// contract. Base UI Button owns the native button foundation.
 const menuItem = tv({
   slots: {
     root: [
@@ -28,20 +21,17 @@ const menuItem = tv({
           "disabled:cursor-not-allowed disabled:text-black/30",
         ],
       },
-      // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
   },
 });
 
-export type MenuItemProps = StyledProps<BaseButton.Props> & {
-  /** Optional leading icon. Conventionally a lucide icon at `size={14}`. */
+export type LegacyMenuItemProps = StyledProps<BaseButton.Props> & {
   icon?: ReactNode;
-  /** Optional right-aligned slot (e.g. shortcut hint). */
   trailing?: ReactNode;
 };
 
-export function MenuItem({
+export function LegacyMenuItem({
   icon,
   trailing,
   type = "button",
@@ -49,7 +39,7 @@ export function MenuItem({
   className,
   children,
   ...props
-}: MenuItemProps) {
+}: LegacyMenuItemProps) {
   const theme = useTheme();
   const { root, content, trailing: trailingSlot } = menuItem({ theme });
   return (

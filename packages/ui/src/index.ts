@@ -125,11 +125,23 @@ export type {
   EmptyStateActionsProps,
 } from "./components/empty-state/index.ts";
 
-export { MenuItem } from "./components/menu-item/index.ts";
-export type { MenuItemProps } from "./components/menu-item/index.ts";
-
-export { ContextMenuDivider } from "./components/context-menu-divider/index.ts";
-export type { ContextMenuDividerProps } from "./components/context-menu-divider/index.ts";
+export {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuPortal,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+} from "./components/context-menu/index.ts";
+export type {
+  ContextMenuProps,
+  ContextMenuTriggerProps,
+  ContextMenuPortalProps,
+  ContextMenuContentProps,
+  ContextMenuSeparatorProps,
+  ContextMenuShortcutProps,
+} from "./components/context-menu/index.ts";
 
 export { SectionEyebrow } from "./components/section-eyebrow/index.ts";
 export type { SectionEyebrowProps } from "./components/section-eyebrow/index.ts";

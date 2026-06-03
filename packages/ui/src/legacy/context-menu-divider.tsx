@@ -1,8 +1,8 @@
 import { Separator as BaseSeparator } from "@base-ui/react/separator";
 import { tv } from "tailwind-variants";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
-import type { WithoutChildren } from "../../lib/without-children.ts";
+import type { StyledProps } from "../lib/styled-props.ts";
+import { useTheme } from "../lib/theme/use-theme.ts";
+import type { WithoutChildren } from "../lib/without-children.ts";
 
 const contextMenuDivider = tv({
   slots: {
@@ -13,15 +13,14 @@ const contextMenuDivider = tv({
       brutal: {
         root: ["border-black"],
       },
-      // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
   },
 });
 
-export type ContextMenuDividerProps = WithoutChildren<StyledProps<BaseSeparator.Props>>;
+export type LegacyContextMenuDividerProps = WithoutChildren<StyledProps<BaseSeparator.Props>>;
 
-export function ContextMenuDivider({ className, ...props }: ContextMenuDividerProps) {
+export function LegacyContextMenuDivider({ className, ...props }: LegacyContextMenuDividerProps) {
   const theme = useTheme();
   const { root } = contextMenuDivider({ theme });
   return (

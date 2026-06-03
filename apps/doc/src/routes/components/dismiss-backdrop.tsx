@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, DismissBackdrop, MenuItem } from "@slock-ui/ui";
+import { Button, DismissBackdrop } from "@slock-ui/ui";
 import { useState } from "react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -86,8 +86,20 @@ function DismissBackdropDoc() {
                 <>
                   <DismissBackdrop onDismiss={() => setOpen(false)} />
                   <div className="absolute left-0 top-[calc(100%+8px)] z-[51] w-48 border-2 border-black bg-white shadow-[var(--shadow-hover)]">
-                    <MenuItem onClick={() => setOpen(false)}>Rename</MenuItem>
-                    <MenuItem onClick={() => setOpen(false)}>Duplicate</MenuItem>
+                    <button
+                      type="button"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black transition-colors hover:bg-brutal-yellow/30"
+                      onClick={() => setOpen(false)}
+                    >
+                      Rename
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black transition-colors hover:bg-brutal-yellow/30"
+                      onClick={() => setOpen(false)}
+                    >
+                      Duplicate
+                    </button>
                   </div>
                 </>
               )}

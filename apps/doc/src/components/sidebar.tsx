@@ -39,7 +39,6 @@ const NAV = [
   {
     title: "Navigation",
     items: [
-      { label: "MenuItem", to: "/components/menu-item", status: "in-progress" },
       {
         label: "ReorderablePanelTabs",
         to: "/components/reorderable-panel-tabs",
@@ -56,11 +55,7 @@ const NAV = [
     title: "Overlays",
     items: [
       { label: "BottomSheet", to: "/components/bottom-sheet", status: "in-progress" },
-      {
-        label: "ContextMenuDivider",
-        to: "/components/context-menu-divider",
-        status: "in-progress",
-      },
+      { label: "ContextMenu", to: "/components/context-menu", status: "in-progress" },
       { label: "DismissBackdrop", to: "/components/dismiss-backdrop", status: "in-progress" },
       { label: "Lightbox", to: "/components/lightbox", status: "in-progress" },
       { label: "SelectionPopover", to: "/components/selection-popover", status: "in-progress" },
@@ -82,7 +77,6 @@ const NAV = [
       { label: "Badge", to: "/components/badge", status: "in-progress" },
       { label: "BadgeButton", to: "/components/badge-button", status: "in-progress" },
       { label: "CheckMarker", to: "/components/check-marker", status: "in-progress" },
-      { label: "ExperimentalBadge", to: "/components/badge", hash: "experimental" },
       { label: "StatusDot", to: "/components/status-dot", status: "in-progress" },
     ],
   },
@@ -126,12 +120,43 @@ const NAV = [
   },
 ] as const;
 
+const MIGRATED = {
+  title: "Migrated",
+  items: [
+    {
+      label: "MenuItem",
+      to: "/components/context-menu",
+      hash: "migration",
+      target: "ContextMenuItem",
+    },
+    {
+      label: "ContextMenuDivider",
+      to: "/components/context-menu",
+      hash: "migration",
+      target: "ContextMenuSeparator",
+    },
+    {
+      label: "ExperimentalBadge",
+      to: "/components/badge",
+      hash: "experimental",
+      target: "Badge.Experimental",
+    },
+  ],
+} as const;
+
 type NavItem = {
   label: string;
   to: string;
   status?: StatusKey;
   hash?: string;
   children?: readonly NavItem[];
+};
+
+type MigratedItem = {
+  label: string;
+  to: string;
+  hash: string;
+  target: string;
 };
 
 function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
@@ -146,6 +171,23 @@ function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
+    </Link>
+  );
+}
+
+function MigratedLink({ to, label, hash, target }: MigratedItem) {
+  return (
+    <Link
+      to={to}
+      hash={hash}
+      title={`${label} migrated to ${target}`}
+      aria-label={`${label} migrated to ${target}`}
+      className="group relative flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 line-through decoration-gray-400 decoration-2 transition-colors hover:bg-gray-100 hover:text-gray-700"
+    >
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      <span className="pointer-events-none absolute left-full top-1/2 z-50 ml-2 hidden -translate-y-1/2 whitespace-nowrap border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700 no-underline shadow-lg group-hover:block">
+        Migrated to {target}
+      </span>
     </Link>
   );
 }
@@ -167,6 +209,21 @@ function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }
                 ))}
               </ul>
             ) : null}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MigratedGroup({ title, items }: { title: string; items: readonly MigratedItem[] }) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      <ul className="space-y-1">
+        {items.map((item) => (
+          <li key={item.label}>
+            <MigratedLink {...item} />
           </li>
         ))}
       </ul>
@@ -214,6 +271,10 @@ export function Sidebar() {
         {NAV.map((group) => (
           <NavGroup key={group.title} title={group.title} items={group.items} />
         ))}
+
+        <hr className="border-gray-200" />
+
+        <MigratedGroup title={MIGRATED.title} items={MIGRATED.items} />
       </nav>
     </aside>
   );

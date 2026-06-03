@@ -32,7 +32,6 @@ import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/compon
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
 import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
-import { Route as ComponentsMenuItemRouteImport } from './routes/components/menu-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
 import { Route as ComponentsKeyValueRowRouteImport } from './routes/components/key-value-row'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
@@ -41,7 +40,7 @@ import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsDismissBackdropRouteImport } from './routes/components/dismiss-backdrop'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
-import { Route as ComponentsContextMenuDividerRouteImport } from './routes/components/context-menu-divider'
+import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
@@ -177,11 +176,6 @@ const ComponentsNotificationCenterRoute =
     path: '/components/notification-center',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ComponentsMenuItemRoute = ComponentsMenuItemRouteImport.update({
-  id: '/components/menu-item',
-  path: '/components/menu-item',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   id: '/components/lightbox',
   path: '/components/lightbox',
@@ -224,12 +218,11 @@ const ComponentsConversationPreviewCardRoute =
     path: '/components/conversation-preview-card',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ComponentsContextMenuDividerRoute =
-  ComponentsContextMenuDividerRouteImport.update({
-    id: '/components/context-menu-divider',
-    path: '/components/context-menu-divider',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
+  id: '/components/context-menu',
+  path: '/components/context-menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   id: '/components/checkbox',
   path: '/components/checkbox',
@@ -295,7 +288,7 @@ export interface FileRoutesByFullPath {
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
-  '/components/context-menu-divider': typeof ComponentsContextMenuDividerRoute
+  '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
@@ -304,7 +297,6 @@ export interface FileRoutesByFullPath {
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/menu-item': typeof ComponentsMenuItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
@@ -340,7 +332,7 @@ export interface FileRoutesByTo {
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
-  '/components/context-menu-divider': typeof ComponentsContextMenuDividerRoute
+  '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
@@ -349,7 +341,6 @@ export interface FileRoutesByTo {
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/menu-item': typeof ComponentsMenuItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
@@ -386,7 +377,7 @@ export interface FileRoutesById {
   '/components/button': typeof ComponentsButtonRoute
   '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
-  '/components/context-menu-divider': typeof ComponentsContextMenuDividerRoute
+  '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
@@ -395,7 +386,6 @@ export interface FileRoutesById {
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/menu-item': typeof ComponentsMenuItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
@@ -433,7 +423,7 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
-    | '/components/context-menu-divider'
+    | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/dismiss-backdrop'
     | '/components/empty-state'
@@ -442,7 +432,6 @@ export interface FileRouteTypes {
     | '/components/input-group'
     | '/components/key-value-row'
     | '/components/lightbox'
-    | '/components/menu-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/preview-shell'
@@ -478,7 +467,7 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
-    | '/components/context-menu-divider'
+    | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/dismiss-backdrop'
     | '/components/empty-state'
@@ -487,7 +476,6 @@ export interface FileRouteTypes {
     | '/components/input-group'
     | '/components/key-value-row'
     | '/components/lightbox'
-    | '/components/menu-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/preview-shell'
@@ -523,7 +511,7 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/check-marker'
     | '/components/checkbox'
-    | '/components/context-menu-divider'
+    | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/dismiss-backdrop'
     | '/components/empty-state'
@@ -532,7 +520,6 @@ export interface FileRouteTypes {
     | '/components/input-group'
     | '/components/key-value-row'
     | '/components/lightbox'
-    | '/components/menu-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/preview-shell'
@@ -569,7 +556,7 @@ export interface RootRouteChildren {
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
-  ComponentsContextMenuDividerRoute: typeof ComponentsContextMenuDividerRoute
+  ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
   ComponentsDismissBackdropRoute: typeof ComponentsDismissBackdropRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
@@ -578,7 +565,6 @@ export interface RootRouteChildren {
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
   ComponentsKeyValueRowRoute: typeof ComponentsKeyValueRowRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
-  ComponentsMenuItemRoute: typeof ComponentsMenuItemRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
@@ -764,13 +750,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/menu-item': {
-      id: '/components/menu-item'
-      path: '/components/menu-item'
-      fullPath: '/components/menu-item'
-      preLoaderRoute: typeof ComponentsMenuItemRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components/lightbox': {
       id: '/components/lightbox'
       path: '/components/lightbox'
@@ -827,11 +806,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsConversationPreviewCardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/context-menu-divider': {
-      id: '/components/context-menu-divider'
-      path: '/components/context-menu-divider'
-      fullPath: '/components/context-menu-divider'
-      preLoaderRoute: typeof ComponentsContextMenuDividerRouteImport
+    '/components/context-menu': {
+      id: '/components/context-menu'
+      path: '/components/context-menu'
+      fullPath: '/components/context-menu'
+      preLoaderRoute: typeof ComponentsContextMenuRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/checkbox': {
@@ -921,7 +900,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
-  ComponentsContextMenuDividerRoute: ComponentsContextMenuDividerRoute,
+  ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
   ComponentsDismissBackdropRoute: ComponentsDismissBackdropRoute,
@@ -931,7 +910,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
   ComponentsKeyValueRowRoute: ComponentsKeyValueRowRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
-  ComponentsMenuItemRoute: ComponentsMenuItemRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
