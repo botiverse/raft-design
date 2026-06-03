@@ -38,6 +38,7 @@ import { Route as ComponentsInputGroupRouteImport } from './routes/components/in
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
+import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
 import { Route as ComponentsDismissBackdropRouteImport } from './routes/components/dismiss-backdrop'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
@@ -206,6 +207,11 @@ const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
   path: '/components/empty-state',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
+  id: '/components/dropdown-menu',
+  path: '/components/dropdown-menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsDismissBackdropRoute =
   ComponentsDismissBackdropRouteImport.update({
     id: '/components/dismiss-backdrop',
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
+  '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
@@ -335,6 +342,7 @@ export interface FileRoutesByTo {
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
+  '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
@@ -380,6 +388,7 @@ export interface FileRoutesById {
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/dismiss-backdrop': typeof ComponentsDismissBackdropRoute
+  '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
@@ -426,6 +435,7 @@ export interface FileRouteTypes {
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/dismiss-backdrop'
+    | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
     | '/components/input'
@@ -470,6 +480,7 @@ export interface FileRouteTypes {
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/dismiss-backdrop'
+    | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
     | '/components/input'
@@ -514,6 +525,7 @@ export interface FileRouteTypes {
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/dismiss-backdrop'
+    | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
     | '/components/input'
@@ -559,6 +571,7 @@ export interface RootRouteChildren {
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
   ComponentsDismissBackdropRoute: typeof ComponentsDismissBackdropRoute
+  ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
@@ -792,6 +805,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsEmptyStateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/dropdown-menu': {
+      id: '/components/dropdown-menu'
+      path: '/components/dropdown-menu'
+      fullPath: '/components/dropdown-menu'
+      preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/dismiss-backdrop': {
       id: '/components/dismiss-backdrop'
       path: '/components/dismiss-backdrop'
@@ -904,6 +924,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
   ComponentsDismissBackdropRoute: ComponentsDismissBackdropRoute,
+  ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsInputRoute: ComponentsInputRoute,

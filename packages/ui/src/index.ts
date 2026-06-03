@@ -143,6 +143,26 @@ export type {
   ContextMenuShortcutProps,
 } from "./components/context-menu/index.ts";
 
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuPortal,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuActionItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "./components/dropdown-menu/index.ts";
+export type {
+  DropdownMenuProps,
+  DropdownMenuTriggerProps,
+  DropdownMenuPortalProps,
+  DropdownMenuContentProps,
+  DropdownMenuActionItemProps,
+  DropdownMenuSeparatorProps,
+  DropdownMenuShortcutProps,
+} from "./components/dropdown-menu/index.ts";
+
 export { SectionEyebrow } from "./components/section-eyebrow/index.ts";
 export type { SectionEyebrowProps } from "./components/section-eyebrow/index.ts";
 

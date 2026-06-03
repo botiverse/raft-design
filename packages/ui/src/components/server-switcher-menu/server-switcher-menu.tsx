@@ -2,7 +2,7 @@ import { useEffect, useRef, type ComponentPropsWithRef, type ReactNode } from "r
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check, Plus } from "lucide-react";
 import { tv } from "tailwind-variants";
-import { ContextMenuSeparator } from "../context-menu/context-menu.tsx";
+import { DropdownMenuSeparator } from "../dropdown-menu/dropdown-menu.tsx";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 // "Switch server" dropdown content: joined servers + join-community actions + a
@@ -174,7 +174,7 @@ export function ServerSwitcherMenu({
         })}
       </div>
 
-      <ContextMenuSeparator />
+      <DropdownMenuSeparator />
 
       {joinOptions.map((option) => (
         <BaseButton

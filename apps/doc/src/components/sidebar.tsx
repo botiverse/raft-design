@@ -57,6 +57,7 @@ const NAV = [
       { label: "BottomSheet", to: "/components/bottom-sheet", status: "in-progress" },
       { label: "ContextMenu", to: "/components/context-menu", status: "in-progress" },
       { label: "DismissBackdrop", to: "/components/dismiss-backdrop", status: "in-progress" },
+      { label: "DropdownMenu", to: "/components/dropdown-menu", status: "in-progress" },
       { label: "Lightbox", to: "/components/lightbox", status: "in-progress" },
       { label: "SelectionPopover", to: "/components/selection-popover", status: "in-progress" },
     ],
