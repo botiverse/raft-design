@@ -1,19 +1,17 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
-import { User } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
+import { AvatarFallback } from "./avatar-fallback.tsx";
 
 // Canonical avatar container — a black-bordered frame carrying a role-keyed bg
-// (`agent` → cyan, `human` → lavender). Built on Base UI's Avatar primitive so a
-// managed image (`<AvatarImage src>`) gracefully reveals the fallback while
-// loading or on error; the fallback is the role-tinted frame + placeholder `User`
-// icon, or a custom node via the `fallback` prop. `children` is reserved for
-// overlays composed inside the frame (e.g. `<AvatarBadge>`).
+// (`agent` → cyan, `human` → lavender). Built on Base UI's Avatar primitive:
+// compose `<AvatarImage>`, `<AvatarFallback>`, and `<AvatarBadge>` as children.
+// With no children a default `<AvatarFallback>` renders the role-tinted placeholder.
 //
 // The original's avatar fetching (`AgentAvatar` / `GravatarAvatar`, app domain)
-// is dropped: pass the resolved image element via `fallback`, or a URL via
-// `<AvatarImage src>`.
+// is dropped: pass a URL via `<AvatarImage src>` and a custom fallback node via
+// `<AvatarFallback>`.
 //
 // `size` is a t-shirt scale; each step maps to one of the original call-site
 // "contexts" (preserved here so existing usages keep their exact dimensions):
@@ -22,38 +20,31 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 //   xs  → creator-link (22) │ 2xs → compact-list (20) │ 3xs → sidebar-list (18)
 //   4xs → preview-mini (14)
 // Border weight follows size: ≥32px frames use `border-2`, smaller ones `border`.
-
-// Two slots: the `root` frame and the placeholder `icon`. The `size` variant
-// drives both — frame dimensions + border weight on `root`, the matching `<User>`
-// icon size on `icon` (the original's standalone `placeholderIcon` map, now a
-// slot). Exported so AvatarGroupCount can reuse the `root` frame (omitting `type`
-// for a neutral chip) without duplicating the scale.
+// Exported so AvatarGroupCount can reuse the frame (omitting `type` for a neutral
+// chip) without duplicating the scale.
 export const avatar = tv({
-  slots: {
-    root: ["group/avatar relative flex shrink-0 items-center justify-center overflow-hidden"],
-    icon: [],
-  },
+  base: ["group/avatar relative flex shrink-0 items-center justify-center overflow-hidden"],
   variants: {
     theme: {
-      brutal: { root: "border-black" },
+      brutal: "border-black",
       // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: "",
     },
     type: {
-      agent: { root: "bg-brutal-cyan" },
-      human: { root: "bg-brutal-lavender text-black" },
+      agent: "bg-brutal-cyan",
+      human: "bg-brutal-lavender text-black",
     },
     size: {
-      "3xl": { root: "size-16 border-2", icon: "size-8" },
-      "2xl": { root: "size-14 border-2", icon: "size-6" },
-      xl: { root: "size-12 border-2", icon: "size-6" },
-      lg: { root: "size-9 border-2", icon: "size-[18px]" },
-      md: { root: "size-8 border-2", icon: "size-4" },
-      sm: { root: "size-7 border", icon: "size-3.5" },
-      xs: { root: "size-[22px] border", icon: "size-3" },
-      "2xs": { root: "size-5 border", icon: "size-3" },
-      "3xs": { root: "size-[18px] border", icon: "size-2.5" },
-      "4xs": { root: "size-[14px] border", icon: "size-2.5" },
+      "3xl": "size-16 border-2",
+      "2xl": "size-14 border-2",
+      xl: "size-12 border-2",
+      lg: "size-9 border-2",
+      md: "size-8 border-2",
+      sm: "size-7 border",
+      xs: "size-[22px] border",
+      "2xs": "size-5 border",
+      "3xs": "size-[18px] border",
+      "4xs": "size-[14px] border",
     },
   },
 });
@@ -62,26 +53,20 @@ export type AvatarSize = NonNullable<VariantProps<typeof avatar>["size"]>;
 
 export type AvatarProps = Omit<ComponentPropsWithRef<"span">, "children"> &
   Required<Pick<VariantProps<typeof avatar>, "size" | "type">> & {
-    /** Custom fallback content shown when no image loads. Defaults to the role-tinted User placeholder. */
-    fallback?: ReactNode;
-    /** Overlays composed inside the frame, e.g. `<AvatarBadge>`. */
+    /** Compose `<AvatarImage>` / `<AvatarFallback>` / `<AvatarBadge>`. Defaults to a placeholder fallback when empty. */
     children?: ReactNode;
   };
 
-export function Avatar({ size, type, className, fallback, children, ...props }: AvatarProps) {
+export function Avatar({ size, type, className, children, ...props }: AvatarProps) {
   const theme = useTheme();
-  const { root, icon } = avatar({ theme, type, size });
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
       data-size={size}
-      className={root({ class: className })}
+      className={avatar({ theme, type, size, class: className })}
       {...props}
     >
-      {children}
-      <AvatarPrimitive.Fallback className="flex size-full items-center justify-center">
-        {fallback ?? <User className={icon()} />}
-      </AvatarPrimitive.Fallback>
+      {children ?? <AvatarFallback />}
     </AvatarPrimitive.Root>
   );
 }

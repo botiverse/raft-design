@@ -44,6 +44,8 @@ export { Avatar, type AvatarSize } from "./components/avatar/index.ts";
 export type { AvatarProps } from "./components/avatar/index.ts";
 export { AvatarImage } from "./components/avatar/index.ts";
 export type { AvatarImageProps } from "./components/avatar/index.ts";
+export { AvatarFallback } from "./components/avatar/index.ts";
+export type { AvatarFallbackProps } from "./components/avatar/index.ts";
 export { AvatarBadge } from "./components/avatar/index.ts";
 export type { AvatarBadgeProps } from "./components/avatar/index.ts";
 export { AvatarGroup } from "./components/avatar/index.ts";

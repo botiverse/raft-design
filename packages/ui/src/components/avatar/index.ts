@@ -2,6 +2,8 @@ export { Avatar, type AvatarSize } from "./avatar.tsx";
 export type { AvatarProps } from "./avatar.tsx";
 export { AvatarImage } from "./avatar-image.tsx";
 export type { AvatarImageProps } from "./avatar-image.tsx";
+export { AvatarFallback } from "./avatar-fallback.tsx";
+export type { AvatarFallbackProps } from "./avatar-fallback.tsx";
 export { AvatarBadge } from "./avatar-badge.tsx";
 export type { AvatarBadgeProps } from "./avatar-badge.tsx";
 export { AvatarGroup } from "./avatar-group.tsx";

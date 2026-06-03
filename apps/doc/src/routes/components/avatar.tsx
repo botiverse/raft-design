@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   Avatar,
   AvatarBadge,
+  AvatarFallback,
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
@@ -69,16 +70,18 @@ const SNIPPETS = {
   anatomy: `import { Avatar } from "@slock-ui/ui";
 
 <Avatar size="lg" type="agent" />`,
-  image: `import { Avatar, AvatarImage } from "@slock-ui/ui";
+  image: `import { Avatar, AvatarImage, AvatarFallback } from "@slock-ui/ui";
 
 // AvatarImage is managed by Base UI: while it loads or if it errors,
-// the role-tinted placeholder (or a custom \`fallback\`) shows instead.
+// the AvatarFallback shows instead (placeholder icon, or custom content).
 <Avatar size="lg" type="human">
   <AvatarImage src={url} alt="Atlas" />
+  <AvatarFallback />
 </Avatar>`,
-  badge: `import { Avatar, AvatarBadge } from "@slock-ui/ui";
+  badge: `import { Avatar, AvatarFallback, AvatarBadge } from "@slock-ui/ui";
 
 <Avatar size="lg" type="agent">
+  <AvatarFallback />
   <AvatarBadge className="bg-brutal-lime" />
 </Avatar>`,
   group: `import { Avatar, AvatarGroup, AvatarGroupCount } from "@slock-ui/ui";
@@ -109,14 +112,10 @@ const PROPS: readonly PropRow[] = [
       "Role-keyed bg: agent → cyan, human → lavender (+ text-black for the placeholder).",
   },
   {
-    name: "fallback",
-    type: "ReactNode",
-    description: "Shown when no image loads. Defaults to the role-tinted User placeholder.",
-  },
-  {
     name: "children",
     type: "ReactNode",
-    description: "Overlays composed inside the frame — AvatarImage and/or AvatarBadge.",
+    description:
+      "Composed parts: AvatarImage, AvatarFallback, AvatarBadge. Defaults to a placeholder AvatarFallback when empty.",
   },
   {
     name: "...props",
@@ -200,9 +199,11 @@ function AvatarDoc() {
             <div className="flex items-end gap-4">
               <Avatar size="3xl" type="human">
                 <AvatarImage src={SAMPLE_IMAGE} alt="Atlas" />
+                <AvatarFallback />
               </Avatar>
               <Avatar size="3xl" type="agent">
                 <AvatarImage src="/__broken.png" alt="" />
+                <AvatarFallback />
               </Avatar>
             </div>
           </Example>
@@ -219,9 +220,11 @@ function AvatarDoc() {
           <Example html={code.badge}>
             <div className="flex items-end gap-4">
               <Avatar size="3xl" type="agent">
+                <AvatarFallback />
                 <AvatarBadge className="bg-brutal-lime" />
               </Avatar>
               <Avatar size="3xl" type="human">
+                <AvatarFallback />
                 <AvatarBadge className="bg-brutal-cyan">
                   <Check />
                 </AvatarBadge>
@@ -237,6 +240,7 @@ function AvatarDoc() {
             <div className="flex items-end gap-4">
               {BADGE_SCALE_SIZES.map((size) => (
                 <Avatar key={size} size={size} type="agent">
+                  <AvatarFallback />
                   <AvatarBadge className="bg-brutal-lime" />
                 </Avatar>
               ))}
