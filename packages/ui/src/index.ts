@@ -50,6 +50,22 @@ export { AvatarGroup } from "./components/avatar/index.ts";
 export type { AvatarGroupProps } from "./components/avatar/index.ts";
 export { AvatarGroupCount } from "./components/avatar/index.ts";
 export type { AvatarGroupCountProps } from "./components/avatar/index.ts";
+export {
+  AvatarListRow,
+  AvatarListRowBody,
+  AvatarListRowContent,
+  AvatarListRowName,
+  AvatarListRowSubtitle,
+  AvatarListRowAside,
+} from "./components/avatar-list-row/index.ts";
+export type {
+  AvatarListRowProps,
+  AvatarListRowBodyProps,
+  AvatarListRowContentProps,
+  AvatarListRowNameProps,
+  AvatarListRowSubtitleProps,
+  AvatarListRowAsideProps,
+} from "./components/avatar-list-row/index.ts";
 
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";
