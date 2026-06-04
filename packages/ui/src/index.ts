@@ -10,9 +10,6 @@ export type { CheckMarkerProps } from "./components/check-marker/index.ts";
 export { Badge } from "./components/badge/index.ts";
 export type { BadgeProps } from "./components/badge/index.ts";
 
-export { BadgeButton } from "./components/badge-button/index.ts";
-export type { BadgeButtonProps } from "./components/badge-button/index.ts";
-
 export { AttentionDot } from "./components/attention-dot/index.ts";
 export type { AttentionDotProps } from "./components/attention-dot/index.ts";
 

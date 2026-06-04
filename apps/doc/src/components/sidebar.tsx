@@ -70,7 +70,6 @@ const NAV = [
     items: [
       { label: "AttentionDot", to: "/components/attention-dot" },
       { label: "Badge", to: "/components/badge", progress: { structure: "done" } },
-      { label: "BadgeButton", to: "/components/badge-button" },
       { label: "CheckMarker", to: "/components/check-marker" },
       { label: "StatusDot", to: "/components/status-dot" },
     ],
@@ -133,6 +132,12 @@ const MIGRATED = {
       to: "/components/badge",
       hash: "experimental",
       target: "Badge.Experimental",
+    },
+    {
+      label: "BadgeButton",
+      to: "/components/badge",
+      hash: "badge-button",
+      target: 'Badge render={<button type="button" />}',
     },
     {
       label: "SelectionPopover",

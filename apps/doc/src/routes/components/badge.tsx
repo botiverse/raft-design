@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, type BadgeProps } from "@slock-ui/ui";
+import { X } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -12,7 +13,9 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
-import LegacyBadge from "../../../../../packages/ui/src/legacy/Badge.tsx";
+import LegacyBadge, {
+  BadgeButton as LegacyBadgeButton,
+} from "../../../../../packages/ui/src/legacy/Badge.tsx";
 import LegacyExperimentalBadge from "../../../../../packages/ui/src/legacy/ExperimentalBadge.tsx";
 
 const TOC = [
@@ -21,6 +24,7 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "tones", title: "Tones" },
   { id: "uppercase", title: "Uppercase" },
+  { id: "badge-button", title: "BadgeButton migration" },
   { id: "experimental", title: "Experimental" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -49,6 +53,21 @@ const SNIPPETS = {
 <Badge tone="cyan">Cyan</Badge>`,
   uppercase: `<Badge>In Progress</Badge>
 <Badge uppercase={false}>task #42 @bugen</Badge>`,
+  badgeButton: `<Badge
+  render={<button type="button" aria-label="Open thread replies" />}
+  tone="cyan"
+  onClick={openThread}
+>
+  3 replies
+</Badge>
+
+<Badge
+  render={<button type="button" aria-label="Remove assignee filter" />}
+  tone="red"
+  uppercase={false}
+>
+  remove @bugen
+</Badge>`,
   experimental: `<Badge.Experimental />`,
   sourceDefault: `<Badge>In Progress</Badge>`,
   currentDefault: `<Badge>In Progress</Badge>`,
@@ -56,6 +75,8 @@ const SNIPPETS = {
   currentTone: `<Badge tone="lime">Experimental</Badge>`,
   sourceUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
   currentUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
+  sourceBadgeButton: `<BadgeButton tone="cyan">Filter</BadgeButton>`,
+  currentBadgeButton: `<Badge render={<button type="button" aria-label="Filter" />} tone="cyan">Filter</Badge>`,
   sourceExperimental: `<ExperimentalBadge />`,
   currentExperimental: `<Badge.Experimental />`,
 } as const;
@@ -81,9 +102,15 @@ const PROPS: readonly PropRow[] = [
       "Apply the brutal uppercase + tracking transform. Pass false next to case-sensitive identifiers.",
   },
   {
+    name: "render",
+    type: "ReactElement | (props, state) => ReactElement",
+    description:
+      'Swap the root element. Use render={<button type="button" />} for the old BadgeButton shape.',
+  },
+  {
     name: "...props",
-    type: "HTMLAttributes<HTMLSpanElement>",
-    description: "Native span attributes (the content is the badge label).",
+    type: "Base UI useRender span props",
+    description: "Native span attributes plus Base UI render composition props.",
   },
 ];
 
@@ -103,16 +130,12 @@ function BadgeDoc() {
         <Differences from="Badge">
           <li>brutal styling reproduced 1:1 (tone palette, uppercase axis)</li>
           <li>
-            the clickable variant is now a separate{" "}
-            <a href="/components/badge-button">BadgeButton</a>
+            source <code>BadgeButton</code> is no longer a standalone component; use{" "}
+            <code>Badge</code> with <code>render</code> to render a button root
           </li>
           <li>
             the <code>ExperimentalBadge</code> helper is now the <code>Badge.Experimental</code>{" "}
             preset
-          </li>
-          <li>
-            source <code>BadgeButton</code> moved to the separate <code>BadgeButton</code> component
-            because it is structurally interactive
           </li>
         </Differences>
       }
@@ -172,6 +195,34 @@ function BadgeDoc() {
         </div>
       </DocSection>
 
+      <DocSection id="badge-button" title="BadgeButton migration">
+        <div className="space-y-4">
+          <Example html={code.badgeButton}>
+            <Badge
+              render={<button type="button" aria-label="Open thread replies" />}
+              tone="cyan"
+              onClick={() => undefined}
+            >
+              3 replies
+            </Badge>
+            <Badge
+              render={<button type="button" aria-label="Remove assignee filter" />}
+              tone="red"
+              uppercase={false}
+            >
+              remove @bugen
+              <X className="size-3" />
+            </Badge>
+          </Example>
+          <Callout>
+            Source <code>BadgeButton</code> shared the exact same visual recipe as{" "}
+            <code>Badge</code>; the only difference was rendering a <code>button</code> instead of a{" "}
+            <code>span</code>. In this package, keep that as composition instead of a second
+            component.
+          </Callout>
+        </div>
+      </DocSection>
+
       <DocSection id="experimental" title="Experimental">
         <div className="space-y-4">
           <Example html={code.experimental}>
@@ -215,6 +266,19 @@ function BadgeDoc() {
               current: <Badge uppercase={false}>task #42 @bugen</Badge>,
               sourceCode: code.sourceUppercaseFalse,
               currentCode: code.currentUppercaseFalse,
+            },
+            {
+              label: "BadgeButton migration",
+              status: "difference",
+              note: "Source exported a separate BadgeButton that reused the same badge class. Current keeps one Badge component and renders the old button root through Base UI render composition.",
+              source: <LegacyBadgeButton tone="cyan">Filter</LegacyBadgeButton>,
+              current: (
+                <Badge render={<button type="button" aria-label="Filter" />} tone="cyan">
+                  Filter
+                </Badge>
+              ),
+              sourceCode: code.sourceBadgeButton,
+              currentCode: code.currentBadgeButton,
             },
             {
               label: "Experimental preset",

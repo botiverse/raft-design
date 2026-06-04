@@ -1,24 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BadgeButton, type BadgeButtonProps } from "@slock-ui/ui";
+import { Badge } from "@slock-ui/ui";
 import { X } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import { BadgeButton as LegacyBadgeButton } from "../../../../../packages/ui/src/legacy/Badge.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
-  { id: "preview", title: "Preview" },
+  { id: "migration", title: "Migration" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "tones", title: "Tones" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TONES = [
@@ -33,24 +32,27 @@ const TONES = [
   "stone",
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
-
 const SNIPPETS = {
-  anatomy: `import { BadgeButton } from "@slock-ui/ui";
+  anatomy: `import { Badge } from "@slock-ui/ui";
 
-<BadgeButton tone="lime" onClick={apply}>
+<Badge
+  render={<button type="button" aria-label="Apply filter" />}
+  tone="lime"
+  onClick={apply}
+>
   Filter
-</BadgeButton>`,
-  tones: `<BadgeButton tone="cyan">Filter</BadgeButton>
-<BadgeButton tone="red" uppercase={false}>remove @bugen</BadgeButton>`,
+</Badge>`,
+  sourceDefault: `<BadgeButton tone="lime">Filter</BadgeButton>`,
+  currentDefault: `<Badge render={<button type="button" aria-label="Filter" />} tone="lime">Filter</Badge>`,
+  sourceUppercaseFalse: `<BadgeButton tone="red" uppercase={false}>remove @bugen</BadgeButton>`,
+  currentUppercaseFalse: `<Badge
+  render={<button type="button" aria-label="Remove assignee filter" />}
+  tone="red"
+  uppercase={false}
+>
+  remove @bugen
+</Badge>`,
 } as const;
-
-type PlaygroundValues = {
-  tone: NonNullable<BadgeButtonProps["tone"]>;
-  uppercase: boolean;
-  label: string;
-  disabled: boolean;
-};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -68,12 +70,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "render",
     type: "ReactElement | (props, state) => ReactElement",
-    description: "Replace the rendered element or compose with another component (Base UI).",
+    description: "Render the badge as a button, link, or custom element through Base UI.",
   },
   {
     name: "...props",
-    type: "Base UI Button.Props",
-    description: "All native button attributes (onClick, disabled, type, etc.) plus Base UI props.",
+    type: "Badge props",
+    description:
+      "Badge props are forwarded to the rendered root. Put button-only attributes on the render element when needed.",
   },
 ];
 
@@ -88,62 +91,99 @@ function BadgeButtonDoc() {
   return (
     <DocPage
       title="BadgeButton"
-      description="A clickable badge chip — the Badge visual on an interactive button."
+      description="Migrated: use Badge with a button render instead of a separate BadgeButton component."
       overview={
         <Differences from="BadgeButton">
           <li>
-            built on Base UI&rsquo;s <code>Button</code> (was a native <code>button</code>)
+            source <code>BadgeButton</code> shared the exact same visual recipe as{" "}
+            <code>Badge</code>
           </li>
           <li>
-            adds a brutal hover/active press and a focus-visible ring (the original had no feedback)
+            current package keeps a single <code>Badge</code> component and changes the root with{" "}
+            <code>render</code>
           </li>
         </Differences>
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
-      <DocSection id="preview" title="Preview">
-        <ComponentPlayground<PlaygroundValues>
-          initial={{ tone: "lime", uppercase: true, label: "Filter", disabled: false }}
-          controls={[
-            { name: "tone", label: "Tone", type: "select", options: TONES },
-            { name: "uppercase", label: "Uppercase", type: "boolean" },
-            { name: "label", label: "Label", type: "text" },
-            { name: "disabled", label: "Disabled", type: "boolean" },
-          ]}
-          render={(values) => (
-            <BadgeButton tone={values.tone} uppercase={values.uppercase} disabled={values.disabled}>
-              {values.label}
-            </BadgeButton>
-          )}
-        />
+      <DocSection id="migration" title="Migration">
+        <Callout>
+          Replace <code>BadgeButton</code> with{" "}
+          <code>Badge render=&#123;&lt;button type=&quot;button&quot; /&gt;&#125;</code>. Source
+          added no default hover, active, or focus styling beyond the shared badge class.
+        </Callout>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="tones" title="Tones">
         <div className="space-y-4">
-          <Example html={code.tones}>
-            <BadgeButton tone="cyan">Filter</BadgeButton>
-            <BadgeButton tone="red" uppercase={false}>
+          <CodeBlock html={code.anatomy} />
+          <Example html={code.anatomy}>
+            <Badge
+              render={<button type="button" aria-label="Apply filter" />}
+              tone="lime"
+              onClick={() => undefined}
+            >
+              Filter
+            </Badge>
+            <Badge
+              render={<button type="button" aria-label="Remove assignee filter" />}
+              tone="red"
+              uppercase={false}
+            >
               remove @bugen
               <X className="size-3" />
-            </BadgeButton>
+            </Badge>
           </Example>
           <Callout>
-            Hover and press a chip to see the brutal motion and focus ring. The press and ring are
-            additions beyond the original, which rendered a plain button with no feedback.
+            Add callsite-specific hover classes only where the product needs them, just like the
+            source thread-replies badge did.
           </Callout>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Default",
+              status: "difference",
+              note: "Visual recipe matches source. Current removes the standalone component and renders Badge as a button through Base UI composition.",
+              source: <LegacyBadgeButton tone="lime">Filter</LegacyBadgeButton>,
+              current: (
+                <Badge render={<button type="button" aria-label="Filter" />} tone="lime">
+                  Filter
+                </Badge>
+              ),
+              sourceCode: code.sourceDefault,
+              currentCode: code.currentDefault,
+            },
+            {
+              label: "Uppercase opt-out",
+              status: "difference",
+              note: "Visual recipe and non-uppercase rendering match source. Current keeps the button root as Badge composition.",
+              source: (
+                <LegacyBadgeButton tone="red" uppercase={false}>
+                  remove @bugen
+                </LegacyBadgeButton>
+              ),
+              current: (
+                <Badge
+                  render={<button type="button" aria-label="Remove assignee filter" />}
+                  tone="red"
+                  uppercase={false}
+                >
+                  remove @bugen
+                </Badge>
+              ),
+              sourceCode: code.sourceUppercaseFalse,
+              currentCode: code.currentUppercaseFalse,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

@@ -1,4 +1,5 @@
-import type { ComponentPropsWithRef } from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -64,19 +65,37 @@ export const badge = tv({
   },
 });
 
-export type BadgeProps = ComponentPropsWithRef<"span"> & Omit<VariantProps<typeof badge>, "theme">;
+export type BadgeProps = useRender.ComponentProps<"span"> &
+  Omit<VariantProps<typeof badge>, "theme">;
 
-function BadgeRoot({ tone, uppercase, className, ...props }: BadgeProps) {
+function BadgeRoot({ tone, uppercase, className, render, ref, ...props }: BadgeProps) {
   const theme = useTheme();
   const { root } = badge({ theme, tone, uppercase });
-  return <span data-slot="badge" className={root({ className })} {...props} />;
+  const rootProps = mergeProps<"span">(
+    {
+      className: root({ className }),
+    },
+    props,
+  );
+  return useRender({
+    render: render ?? <span />,
+    ref,
+    props: {
+      ...rootProps,
+      "data-slot": "badge",
+    },
+    state: {
+      slot: "badge",
+      tone,
+      uppercase,
+    },
+  });
 }
 
 // Fixed lime "Experimental" preset. The visual identity lives in Badge, so every
-// experimental surface stays identical. Attached as a static (not a separate
-// component) because it only presets props — see BadgeButton for the structurally
-// distinct, standalone variant.
-function Experimental(props: ComponentPropsWithRef<"span">) {
+// experimental surface stays identical. Attached as a static because it only
+// presets props.
+function Experimental(props: Omit<BadgeProps, "tone" | "uppercase">) {
   return (
     <BadgeRoot tone="lime" {...props}>
       Experimental
