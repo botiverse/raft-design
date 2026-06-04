@@ -9,7 +9,7 @@ import {
   BottomSheetTitle,
   BottomSheetTrigger,
   Button,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { X } from "lucide-react";
 import { useState } from "react";
 
@@ -44,7 +44,7 @@ const SNIPPETS = {
   BottomSheetDescription,
   BottomSheetFooter,
   BottomSheetClose,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 <BottomSheet>
   <BottomSheetTrigger render={<Button tone="yellow" />}>Open sheet</BottomSheetTrigger>

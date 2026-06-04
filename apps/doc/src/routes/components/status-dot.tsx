@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { Status } from "@slock-ui/ui";
+import { Status } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -21,7 +21,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Status } from "@slock-ui/ui";
+  anatomy: `import { Status } from "@slock/ui";
 
 <Status fill="lime" />`,
   sourceDefault: `<StatusDot tone="bg-brutal-lime" />`,

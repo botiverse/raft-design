@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, type BadgeProps } from "@slock-ui/ui";
+import { Badge, type BadgeProps } from "@slock/ui";
 import { X } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -45,7 +45,7 @@ const TONES = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Badge } from "@slock-ui/ui";
+  anatomy: `import { Badge } from "@slock/ui";
 
 <Badge tone="yellow">In Progress</Badge>`,
   tones: `<Badge tone="yellow">Yellow</Badge>

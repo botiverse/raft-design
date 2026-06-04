@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Theme } from "@slock-ui/ui";
+import type { Theme } from "@slock/ui";
 
 export interface FamilyContextValue {
   family: Theme;

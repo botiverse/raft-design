@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SurfaceListItem } from "@slock-ui/ui";
+import { SurfaceListItem } from "@slock/ui";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -22,7 +22,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { SurfaceListItem } from "@slock-ui/ui";
+  anatomy: `import { SurfaceListItem } from "@slock/ui";
 
 <SurfaceListItem>general</SurfaceListItem>`,
   states: `<SurfaceListItem>Resting (interactive)</SurfaceListItem>

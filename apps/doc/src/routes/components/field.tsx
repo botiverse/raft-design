@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@slock-ui/ui";
+import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -31,7 +31,7 @@ const TODOS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Field, FieldLabel, FieldDescription, Textarea } from "@slock-ui/ui";
+  anatomy: `import { Field, FieldLabel, FieldDescription, Textarea } from "@slock/ui";
 
 <Field>
   <FieldLabel htmlFor="msg">Message</FieldLabel>

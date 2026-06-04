@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { NotificationCenter, type NotificationCenterEntry } from "@slock-ui/ui";
+import { NotificationCenter, type NotificationCenterEntry } from "@slock/ui";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -21,7 +21,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { NotificationCenter } from "@slock-ui/ui";
+  anatomy: `import { NotificationCenter } from "@slock/ui";
 
 <NotificationCenter viewport="desktop" entries={entries} />`,
 } as const;

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, SectionHeader } from "@slock-ui/ui";
+import { Button, SectionHeader } from "@slock/ui";
 import { Bell, Plus } from "lucide-react";
 
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -21,7 +21,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { SectionHeader } from "@slock-ui/ui";
+  anatomy: `import { SectionHeader } from "@slock/ui";
 
 <SectionHeader label="Members" count={12} />`,
   slots: `<SectionHeader label="Members" count={12} />

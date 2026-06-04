@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, FieldError, FieldLabel, Input } from "@slock-ui/ui";
+import { Field, FieldError, FieldLabel, Input } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -26,11 +26,11 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Input } from "@slock-ui/ui";
+  anatomy: `import { Input } from "@slock/ui";
 
 <Input placeholder="you@example.com" />`,
   invalid: `<Input aria-invalid defaultValue="oops" />`,
-  field: `import { Field, FieldError, FieldLabel, Input } from "@slock-ui/ui";
+  field: `import { Field, FieldError, FieldLabel, Input } from "@slock/ui";
 
 <Field invalid>
   <FieldLabel htmlFor="email">Email</FieldLabel>

@@ -6,7 +6,7 @@ import {
   BannerTitle,
   Button,
   type BannerProps,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { AlertTriangle, CheckCircle2, CircleAlert, Info, X } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -46,7 +46,7 @@ const STATUS_ICON = {
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Banner, BannerDescription } from "@slock-ui/ui";
+  anatomy: `import { Banner, BannerDescription } from "@slock/ui";
 
 <Banner status="warning">
   <BannerDescription>Heads up — this can't be undone.</BannerDescription>

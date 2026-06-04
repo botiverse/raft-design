@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SandboxedPreviewFrame } from "@slock-ui/ui";
+import { SandboxedPreviewFrame } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -21,7 +21,7 @@ const TOC = [
 const TODOS = ["No visual styling to theme — security primitive only"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { SandboxedPreviewFrame } from "@slock-ui/ui";
+  anatomy: `import { SandboxedPreviewFrame } from "@slock/ui";
 
 <SandboxedPreviewFrame
   title="Attachment preview"

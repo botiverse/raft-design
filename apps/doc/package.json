@@ -14,7 +14,7 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@slock-ui/ui": "workspace:*",
+    "@slock/ui": "workspace:*",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",

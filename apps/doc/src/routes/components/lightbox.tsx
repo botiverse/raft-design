@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Lightbox } from "@slock-ui/ui";
+import { Button, Lightbox } from "@slock/ui";
 import { useState } from "react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -22,7 +22,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling (if any beyond the dim backdrop)"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Lightbox } from "@slock-ui/ui";
+  anatomy: `import { Lightbox } from "@slock/ui";
 
 {open && (
   <Lightbox onClose={() => setOpen(false)} className="flex items-center justify-center">

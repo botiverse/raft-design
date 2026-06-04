@@ -7,7 +7,7 @@ import {
   AvatarGroupCount,
   AvatarImage,
   type AvatarProps,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { Check } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -67,10 +67,10 @@ const TODOS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Avatar } from "@slock-ui/ui";
+  anatomy: `import { Avatar } from "@slock/ui";
 
 <Avatar size="lg" type="agent" />`,
-  image: `import { Avatar, AvatarImage, AvatarFallback } from "@slock-ui/ui";
+  image: `import { Avatar, AvatarImage, AvatarFallback } from "@slock/ui";
 
 // AvatarImage is managed by Base UI: while it loads or if it errors,
 // the AvatarFallback shows instead (placeholder icon, or custom content).
@@ -78,13 +78,13 @@ const SNIPPETS = {
   <AvatarImage src={url} alt="Atlas" />
   <AvatarFallback />
 </Avatar>`,
-  badge: `import { Avatar, AvatarFallback, AvatarBadge } from "@slock-ui/ui";
+  badge: `import { Avatar, AvatarFallback, AvatarBadge } from "@slock/ui";
 
 <Avatar size="lg" type="agent">
   <AvatarFallback />
   <AvatarBadge className="bg-brutal-lime" />
 </Avatar>`,
-  group: `import { Avatar, AvatarGroup, AvatarGroupCount } from "@slock-ui/ui";
+  group: `import { Avatar, AvatarGroup, AvatarGroupCount } from "@slock/ui";
 
 <AvatarGroup>
   <Avatar size="md" type="agent" />

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckIndicator } from "@slock-ui/ui";
+import { CheckIndicator } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -20,7 +20,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { CheckIndicator } from "@slock-ui/ui";
+  anatomy: `import { CheckIndicator } from "@slock/ui";
 
 <CheckIndicator checked />`,
   sourceDefault: `<CheckMarker checked />`,

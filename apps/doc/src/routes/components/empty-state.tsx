@@ -6,7 +6,7 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { Inbox, Plus } from "lucide-react";
 
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -29,7 +29,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { EmptyState, EmptyStateIcon, EmptyStateTitle } from "@slock-ui/ui";
+  anatomy: `import { EmptyState, EmptyStateIcon, EmptyStateTitle } from "@slock/ui";
 import { Inbox } from "lucide-react";
 
 <EmptyState>

@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { useTheme as useMode } from "next-themes";
-import type { Theme } from "@slock-ui/ui";
+import type { Theme } from "@slock/ui";
 import { useFamily } from "#/components/use-family.ts";
 
 const FAMILIES: readonly Theme[] = ["brutal", "elegant"];

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, Badge, Button, PanelHeader, Status } from "@slock-ui/ui";
+import { Avatar, Badge, Button, PanelHeader, Status } from "@slock/ui";
 import { Bookmark, Settings } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -23,7 +23,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { PanelHeader } from "@slock-ui/ui";
+  anatomy: `import { PanelHeader } from "@slock/ui";
 
 <PanelHeader title="Settings" />`,
   icon: `<PanelHeader

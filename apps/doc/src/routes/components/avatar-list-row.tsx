@@ -9,7 +9,7 @@ import {
   Badge,
   Button,
   Status,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -39,7 +39,7 @@ const SNIPPETS = {
   AvatarListRowName,
   AvatarListRowSubtitle,
   AvatarListRowAside,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 <AvatarListRow>
   <AvatarListRowBody>

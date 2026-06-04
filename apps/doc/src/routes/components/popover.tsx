@@ -11,7 +11,7 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { Check, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -51,7 +51,7 @@ const SNIPPETS = {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 <Popover>
   <PopoverTrigger render={<Button />}>Filter</PopoverTrigger>

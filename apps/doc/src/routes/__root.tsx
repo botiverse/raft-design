@@ -3,7 +3,7 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { ThemeProvider, type Theme } from "@slock-ui/ui";
+import { ThemeProvider, type Theme } from "@slock/ui";
 
 import { Sidebar } from "#/components/sidebar.tsx";
 import { FamilyContext } from "#/components/family-context.ts";

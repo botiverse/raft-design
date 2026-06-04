@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ToggleGroup, ToggleGroupCount, ToggleGroupItem, ToggleGroupLabel } from "@slock-ui/ui";
+import { ToggleGroup, ToggleGroupCount, ToggleGroupItem, ToggleGroupLabel } from "@slock/ui";
 import { useState } from "react";
 
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -31,7 +31,7 @@ const SNIPPETS = {
   ToggleGroupItem,
   ToggleGroupLabel,
   ToggleGroup,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 <ToggleGroup
   ariaLabel="Filter"

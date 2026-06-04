@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PreviewShell } from "@slock-ui/ui";
+import { PreviewShell } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -21,7 +21,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { PreviewShell } from "@slock-ui/ui";
+  anatomy: `import { PreviewShell } from "@slock/ui";
 
 <PreviewShell className="p-3">Quoted message preview</PreviewShell>`,
   variants: `<PreviewShell className="p-3">Default surface</PreviewShell>

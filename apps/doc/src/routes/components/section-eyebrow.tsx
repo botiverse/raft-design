@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SectionEyebrow } from "@slock-ui/ui";
+import { SectionEyebrow } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -22,7 +22,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { SectionEyebrow } from "@slock-ui/ui";
+  anatomy: `import { SectionEyebrow } from "@slock/ui";
 
 <SectionEyebrow>Members</SectionEyebrow>`,
   elements: `<SectionEyebrow as="span">Span</SectionEyebrow>

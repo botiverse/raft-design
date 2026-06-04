@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Status, type StatusAttentionProps, type StatusProps } from "@slock-ui/ui";
+import { Status, type StatusAttentionProps, type StatusProps } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -37,7 +37,7 @@ const TODOS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Status } from "@slock-ui/ui";
+  anatomy: `import { Status } from "@slock/ui";
 
 <Status fill="lime" />
 <Status.Attention />`,

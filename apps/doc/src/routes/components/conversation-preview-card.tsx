@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, ConversationPreviewCard } from "@slock-ui/ui";
+import { Badge, ConversationPreviewCard } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -24,7 +24,7 @@ const TODOS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { ConversationPreviewCard } from "@slock-ui/ui";
+  anatomy: `import { ConversationPreviewCard } from "@slock/ui";
 
 <ConversationPreviewCard
   channelLabel="#general"

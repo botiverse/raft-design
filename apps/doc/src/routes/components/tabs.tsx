@@ -9,7 +9,7 @@ import {
   TabsTab,
   useOrderedTabs,
   type OrderedTabItem,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { Bell, Files, MessageSquare, Users, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -39,7 +39,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling", "Optimize border rendering"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Tabs, TabsLabel, TabsList, TabsPanel, TabsTab } from "@slock-ui/ui";
+  anatomy: `import { Tabs, TabsLabel, TabsList, TabsPanel, TabsTab } from "@slock/ui";
 
 <Tabs value={value} onValueChange={setValue}>
   <TabsList>
@@ -55,7 +55,7 @@ const SNIPPETS = {
   <TabsPanel value="chat">Chat content</TabsPanel>
   <TabsPanel value="files">Files content</TabsPanel>
 </Tabs>`,
-  reorderable: `import { SortableTabsList, SortableTabsTab, Tabs, TabsLabel, useOrderedTabs } from "@slock-ui/ui";
+  reorderable: `import { SortableTabsList, SortableTabsTab, Tabs, TabsLabel, useOrderedTabs } from "@slock/ui";
 
 const orderedTabs = useOrderedTabs(TABS, order);
 

@@ -41,7 +41,7 @@ function Home() {
 
       <DocSection id="installation" title="Installation">
         <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm">
-          <code className="font-mono text-gray-900">pnpm add @slock-ui/ui</code>
+          <code className="font-mono text-gray-900">pnpm add @slock/ui</code>
         </pre>
       </DocSection>
     </DocPage>

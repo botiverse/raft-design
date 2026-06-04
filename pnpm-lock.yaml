@@ -54,7 +54,7 @@ importers:
 
   apps/doc:
     dependencies:
-      '@slock-ui/ui':
+      '@slock/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@tailwindcss/vite':

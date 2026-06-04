@@ -6,7 +6,7 @@ import {
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { Archive, Pin, Trash2 } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -45,7 +45,7 @@ const SNIPPETS = {
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 <ContextMenu>
   <ContextMenuTrigger>Right click me</ContextMenuTrigger>

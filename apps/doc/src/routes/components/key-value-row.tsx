@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { KeyValueRow } from "@slock-ui/ui";
+import { KeyValueRow } from "@slock/ui";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -20,7 +20,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { KeyValueRow } from "@slock-ui/ui";
+  anatomy: `import { KeyValueRow } from "@slock/ui";
 
 <KeyValueRow label="Display name" value="Ada Lovelace" />`,
   variants: `<KeyValueRow label="Display name" value="Ada Lovelace" />

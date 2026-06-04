@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, type ButtonProps } from "@slock-ui/ui";
+import { Button, type ButtonProps } from "@slock/ui";
 import { Plus } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -50,7 +50,7 @@ const TODOS = [
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Button } from "@slock-ui/ui";
+  anatomy: `import { Button } from "@slock/ui";
 
 <Button>Click me</Button>`,
   tones: `<Button tone="yellow">Yellow</Button>

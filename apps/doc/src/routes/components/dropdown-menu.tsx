@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 import { Check, Plus } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -42,7 +42,7 @@ const SNIPPETS = {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@slock-ui/ui";
+} from "@slock/ui";
 
 <DropdownMenu>
   <DropdownMenuTrigger>Switch server</DropdownMenuTrigger>

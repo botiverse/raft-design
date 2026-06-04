@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckIndicator, type CheckIndicatorProps } from "@slock-ui/ui";
+import { CheckIndicator, type CheckIndicatorProps } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -34,7 +34,7 @@ const MARKS = ["check", "minus"] as const;
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { CheckIndicator } from "@slock-ui/ui";
+  anatomy: `import { CheckIndicator } from "@slock/ui";
 
 <CheckIndicator checked />`,
   shapes: `<CheckIndicator checked shape="square" />
