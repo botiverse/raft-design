@@ -56,7 +56,7 @@ const NAV = [
       { label: "BottomSheet", to: "/components/bottom-sheet", progress: { structure: "done" } },
       { label: "ContextMenu", to: "/components/context-menu", progress: { structure: "done" } },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { structure: "done" } },
-      { label: "Lightbox", to: "/components/lightbox" },
+      { label: "Lightbox", to: "/components/lightbox", progress: { structure: "done" } },
       { label: "Popover", to: "/components/popover", progress: { structure: "done" } },
     ],
   },
