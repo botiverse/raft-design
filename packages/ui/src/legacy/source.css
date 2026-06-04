@@ -24,6 +24,18 @@
   transform: none;
 }
 
+.shadow-brutal-sm {
+  box-shadow: var(--shadow);
+}
+
+.shadow-brutal {
+  box-shadow: var(--shadow-hover);
+}
+
+.focus-within\:shadow-brutal:focus-within {
+  box-shadow: var(--shadow-hover);
+}
+
 @layer components {
   .input-brutal {
     border: 2px solid var(--color-black);

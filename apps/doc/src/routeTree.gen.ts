@@ -17,11 +17,11 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
+import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
-import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSectionEyebrowRouteImport } from './routes/components/section-eyebrow'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
@@ -92,6 +92,11 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
+  id: '/components/toggle-group',
+  path: '/components/toggle-group',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
   id: '/components/textarea',
   path: '/components/textarea',
@@ -113,12 +118,6 @@ const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   path: '/components/spinner',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsSegmentedControlRoute =
-  ComponentsSegmentedControlRouteImport.update({
-    id: '/components/segmented-control',
-    path: '/components/segmented-control',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ComponentsSectionHeaderRoute = ComponentsSectionHeaderRouteImport.update({
   id: '/components/section-header',
   path: '/components/section-header',
@@ -305,11 +304,11 @@ export interface FileRoutesByFullPath {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
-  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -349,11 +348,11 @@ export interface FileRoutesByTo {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
-  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -394,11 +393,11 @@ export interface FileRoutesById {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
-  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -440,11 +439,11 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-eyebrow'
     | '/components/section-header'
-    | '/components/segmented-control'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
     | '/components/textarea'
+    | '/components/toggle-group'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -484,11 +483,11 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-eyebrow'
     | '/components/section-header'
-    | '/components/segmented-control'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
     | '/components/textarea'
+    | '/components/toggle-group'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -528,11 +527,11 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-eyebrow'
     | '/components/section-header'
-    | '/components/segmented-control'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
     | '/components/textarea'
+    | '/components/toggle-group'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -573,11 +572,11 @@ export interface RootRouteChildren {
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSectionEyebrowRoute: typeof ComponentsSectionEyebrowRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
-  ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
+  ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -643,6 +642,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/toggle-group': {
+      id: '/components/toggle-group'
+      path: '/components/toggle-group'
+      fullPath: '/components/toggle-group'
+      preLoaderRoute: typeof ComponentsToggleGroupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/textarea': {
       id: '/components/textarea'
       path: '/components/textarea'
@@ -669,13 +675,6 @@ declare module '@tanstack/react-router' {
       path: '/components/spinner'
       fullPath: '/components/spinner'
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/components/segmented-control': {
-      id: '/components/segmented-control'
-      path: '/components/segmented-control'
-      fullPath: '/components/segmented-control'
-      preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/section-header': {
@@ -918,11 +917,11 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSectionEyebrowRoute: ComponentsSectionEyebrowRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
-  ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
+  ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,

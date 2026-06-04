@@ -54,11 +54,18 @@ export type {
   FieldValidityProps,
 } from "./components/field/index.ts";
 
-export { SegmentedControl } from "./components/segmented-control/index.ts";
+export {
+  ToggleGroup,
+  ToggleGroupCount,
+  ToggleGroupItem,
+  ToggleGroupLabel,
+} from "./components/toggle-group/index.ts";
 export type {
-  SegmentedControlProps,
-  SegmentedControlOption,
-} from "./components/segmented-control/index.ts";
+  ToggleGroupCountProps,
+  ToggleGroupItemProps,
+  ToggleGroupLabelProps,
+  ToggleGroupProps,
+} from "./components/toggle-group/index.ts";
 
 export { PreviewShell } from "./components/preview-shell/index.ts";
 export type { PreviewShellProps } from "./components/preview-shell/index.ts";

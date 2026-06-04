@@ -31,8 +31,8 @@ const NAV = [
       { label: "Field", to: "/components/field", progress: { structure: "done" } },
       { label: "Input", to: "/components/input", progress: { structure: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { structure: "done" } },
-      { label: "SegmentedControl", to: "/components/segmented-control" },
       { label: "Textarea", to: "/components/textarea", progress: { structure: "done" } },
+      { label: "ToggleGroup", to: "/components/toggle-group", progress: { structure: "done" } },
     ],
   },
   {
@@ -138,6 +138,12 @@ const MIGRATED = {
       to: "/components/popover",
       hash: "migration",
       target: "Popover",
+    },
+    {
+      label: "SegmentedControl",
+      to: "/components/toggle-group",
+      hash: "source-comparison",
+      target: "ToggleGroup",
     },
     {
       label: "AvatarSlot",
