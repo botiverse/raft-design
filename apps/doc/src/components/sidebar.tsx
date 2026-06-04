@@ -2,8 +2,6 @@ import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 
-import { StatusBadge, type StatusKey } from "#/components/status-badge.tsx";
-
 const SKILLS = {
   title: "Skills",
   items: [
@@ -24,17 +22,17 @@ const TOKENS = {
 const NAV = [
   {
     title: "Actions",
-    items: [{ label: "Button", to: "/components/button", status: "in-progress" }],
+    items: [{ label: "Button", to: "/components/button" }],
   },
   {
     title: "Inputs",
     items: [
-      { label: "Checkbox", to: "/components/checkbox", status: "in-progress" },
-      { label: "Field", to: "/components/field", status: "in-progress" },
-      { label: "Input", to: "/components/input", status: "in-progress" },
-      { label: "InputGroup", to: "/components/input-group", status: "in-progress" },
-      { label: "SegmentedControl", to: "/components/segmented-control", status: "in-progress" },
-      { label: "Textarea", to: "/components/textarea", status: "in-progress" },
+      { label: "Checkbox", to: "/components/checkbox" },
+      { label: "Field", to: "/components/field" },
+      { label: "Input", to: "/components/input" },
+      { label: "InputGroup", to: "/components/input-group" },
+      { label: "SegmentedControl", to: "/components/segmented-control" },
+      { label: "Textarea", to: "/components/textarea" },
     ],
   },
   {
@@ -43,38 +41,37 @@ const NAV = [
       {
         label: "ReorderablePanelTabs",
         to: "/components/reorderable-panel-tabs",
-        status: "in-progress",
       },
     ],
   },
   {
     title: "Overlays",
     items: [
-      { label: "BottomSheet", to: "/components/bottom-sheet", status: "in-progress" },
-      { label: "ContextMenu", to: "/components/context-menu", status: "in-progress" },
-      { label: "DismissBackdrop", to: "/components/dismiss-backdrop", status: "in-progress" },
-      { label: "DropdownMenu", to: "/components/dropdown-menu", status: "in-progress" },
-      { label: "Lightbox", to: "/components/lightbox", status: "in-progress" },
-      { label: "Popover", to: "/components/popover", status: "in-progress" },
+      { label: "BottomSheet", to: "/components/bottom-sheet" },
+      { label: "ContextMenu", to: "/components/context-menu" },
+      { label: "DismissBackdrop", to: "/components/dismiss-backdrop" },
+      { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { structure: "done" } },
+      { label: "Lightbox", to: "/components/lightbox" },
+      { label: "Popover", to: "/components/popover", progress: { structure: "done" } },
     ],
   },
   {
     title: "Feedback",
     items: [
-      { label: "Banner", to: "/components/banner", status: "in-progress" },
-      { label: "EmptyState", to: "/components/empty-state", status: "in-progress" },
-      { label: "NotificationCenter", to: "/components/notification-center", status: "in-progress" },
-      { label: "Spinner", to: "/components/spinner", status: "in-progress" },
+      { label: "Banner", to: "/components/banner" },
+      { label: "EmptyState", to: "/components/empty-state" },
+      { label: "NotificationCenter", to: "/components/notification-center" },
+      { label: "Spinner", to: "/components/spinner" },
     ],
   },
   {
     title: "Status & Indicators",
     items: [
-      { label: "AttentionDot", to: "/components/attention-dot", status: "in-progress" },
-      { label: "Badge", to: "/components/badge", status: "in-progress" },
-      { label: "BadgeButton", to: "/components/badge-button", status: "in-progress" },
-      { label: "CheckMarker", to: "/components/check-marker", status: "in-progress" },
-      { label: "StatusDot", to: "/components/status-dot", status: "in-progress" },
+      { label: "AttentionDot", to: "/components/attention-dot" },
+      { label: "Badge", to: "/components/badge" },
+      { label: "BadgeButton", to: "/components/badge-button" },
+      { label: "CheckMarker", to: "/components/check-marker" },
+      { label: "StatusDot", to: "/components/status-dot" },
     ],
   },
   {
@@ -83,36 +80,28 @@ const NAV = [
       {
         label: "Avatar",
         to: "/components/avatar",
-        status: "in-progress",
-        children: [
-          { label: "AvatarImage", to: "/components/avatar", hash: "image", status: "in-progress" },
-          { label: "AvatarBadge", to: "/components/avatar", hash: "badge", status: "in-progress" },
-          { label: "AvatarGroup", to: "/components/avatar", hash: "group", status: "in-progress" },
-        ],
       },
-      { label: "AvatarListRow", to: "/components/avatar-list-row", status: "in-progress" },
+      { label: "AvatarListRow", to: "/components/avatar-list-row" },
       {
         label: "ConversationPreviewCard",
         to: "/components/conversation-preview-card",
-        status: "in-progress",
       },
-      { label: "KeyValueRow", to: "/components/key-value-row", status: "in-progress" },
-      { label: "QuotedMessageCard", to: "/components/quoted-message-card", status: "in-progress" },
-      { label: "SurfaceListItem", to: "/components/surface-list-item", status: "in-progress" },
+      { label: "KeyValueRow", to: "/components/key-value-row" },
+      { label: "QuotedMessageCard", to: "/components/quoted-message-card" },
+      { label: "SurfaceListItem", to: "/components/surface-list-item" },
     ],
   },
   {
     title: "Layout",
     items: [
-      { label: "PanelHeader", to: "/components/panel-header", status: "in-progress" },
-      { label: "PreviewShell", to: "/components/preview-shell", status: "in-progress" },
+      { label: "PanelHeader", to: "/components/panel-header" },
+      { label: "PreviewShell", to: "/components/preview-shell" },
       {
         label: "SandboxedPreviewFrame",
         to: "/components/sandboxed-preview-frame",
-        status: "in-progress",
       },
-      { label: "SectionEyebrow", to: "/components/section-eyebrow", status: "in-progress" },
-      { label: "SectionHeader", to: "/components/section-header", status: "in-progress" },
+      { label: "SectionEyebrow", to: "/components/section-eyebrow" },
+      { label: "SectionHeader", to: "/components/section-header" },
     ],
   },
 ] as const;
@@ -150,21 +139,58 @@ const MIGRATED = {
       hash: "migration",
       target: "Popover",
     },
+    {
+      label: "AvatarSlot",
+      to: "/components/avatar",
+      target: "Avatar",
+    },
+    {
+      label: "AgentAvatar",
+      to: "/components/avatar",
+      target: "AvatarImage + AvatarFallback",
+    },
+    {
+      label: "GravatarAvatar",
+      to: "/components/avatar",
+      target: "AvatarImage + AvatarFallback",
+    },
   ],
 } as const;
+
+type TaskKey = "migration" | "structure" | "elegant";
+type TaskStatus = "done" | "in-progress" | "todo";
+type Progress = Partial<Record<TaskKey, TaskStatus>>;
+
+const DEFAULT_PROGRESS = {
+  migration: "done",
+  structure: "in-progress",
+  elegant: "todo",
+} as const satisfies Record<TaskKey, TaskStatus>;
+
+const TASKS = {
+  migration: { short: "Mig", label: "Migration" },
+  structure: { short: "Struct", label: "Structure" },
+  elegant: { short: "Theme", label: "Elegant theme" },
+} as const satisfies Record<TaskKey, { short: string; label: string }>;
+
+const TASK_STATUS = {
+  done: { label: "Done", className: "border-emerald-200 bg-emerald-50 text-emerald-700" },
+  "in-progress": { label: "In progress", className: "border-amber-200 bg-amber-50 text-amber-700" },
+  todo: { label: "Todo", className: "border-gray-200 bg-gray-50 text-gray-400" },
+} as const satisfies Record<TaskStatus, { label: string; className: string }>;
 
 type NavItem = {
   label: string;
   to: string;
-  status?: StatusKey;
   hash?: string;
+  progress?: Progress;
   children?: readonly NavItem[];
 };
 
 type MigratedItem = {
   label: string;
   to: string;
-  hash: string;
+  hash?: string;
   target: string;
 };
 
@@ -181,6 +207,28 @@ function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
     </Link>
+  );
+}
+
+function ProgressBadges({ progress }: { progress?: Progress }) {
+  return (
+    <span className="ml-auto flex shrink-0 items-center gap-1" aria-label="Component status">
+      {(Object.keys(TASKS) as TaskKey[]).map((task) => {
+        const status = progress?.[task] ?? DEFAULT_PROGRESS[task];
+        const taskLabel = TASKS[task].label;
+        const statusLabel = TASK_STATUS[status].label;
+        return (
+          <span
+            key={task}
+            title={`${taskLabel}: ${statusLabel}`}
+            aria-label={`${taskLabel}: ${statusLabel}`}
+            className={`inline-flex h-4 min-w-9 items-center justify-center border px-1 text-[9px] font-bold leading-none ${TASK_STATUS[status].className}`}
+          >
+            {TASKS[task].short}
+          </span>
+        );
+      })}
+    </span>
   );
 }
 
@@ -236,12 +284,12 @@ function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }
       <ul className="space-y-1">
         {items.map((item) => (
           <li key={item.label}>
-            <NavLink {...item} badge={<StatusBadge status={item.status} />} />
+            <NavLink {...item} badge={<ProgressBadges progress={item.progress} />} />
             {item.children ? (
               <ul className="mt-1 space-y-1 pl-3">
                 {item.children.map((child) => (
                   <li key={child.label}>
-                    <NavLink {...child} badge={<StatusBadge status={child.status} />} />
+                    <NavLink {...child} badge={<ProgressBadges progress={child.progress} />} />
                   </li>
                 ))}
               </ul>
