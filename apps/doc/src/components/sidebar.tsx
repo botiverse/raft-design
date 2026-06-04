@@ -29,7 +29,7 @@ const NAV = [
     items: [
       { label: "Checkbox", to: "/components/checkbox", progress: { structure: "done" } },
       { label: "Field", to: "/components/field", progress: { structure: "done" } },
-      { label: "Input", to: "/components/input" },
+      { label: "Input", to: "/components/input", progress: { structure: "done" } },
       { label: "InputGroup", to: "/components/input-group" },
       { label: "SegmentedControl", to: "/components/segmented-control" },
       { label: "Textarea", to: "/components/textarea" },

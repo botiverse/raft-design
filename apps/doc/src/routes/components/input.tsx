@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, FieldLabel, Input } from "@slock-ui/ui";
+import { Field, FieldError, FieldLabel, Input } from "@slock-ui/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -9,6 +9,7 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
 
@@ -19,6 +20,7 @@ const TOC = [
   { id: "invalid", title: "Invalid" },
   { id: "field", title: "With Field" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -28,12 +30,20 @@ const SNIPPETS = {
 
 <Input placeholder="you@example.com" />`,
   invalid: `<Input aria-invalid defaultValue="oops" />`,
-  field: `import { Field, FieldLabel, Input } from "@slock-ui/ui";
+  field: `import { Field, FieldError, FieldLabel, Input } from "@slock-ui/ui";
 
-<Field>
+<Field invalid>
   <FieldLabel htmlFor="email">Email</FieldLabel>
-  <Input id="email" type="email" placeholder="you@example.com" />
+  <Input id="email" type="email" defaultValue="oops" />
+  <FieldError match>Email is required.</FieldError>
 </Field>`,
+  sourceShell: `<input className="input-brutal w-80" placeholder="you@example.com" />`,
+  currentShell: `<Input className="w-80" placeholder="you@example.com" />`,
+  sourceError: `<input
+  className="input-brutal w-80 !border-brutal-red ring-2 ring-brutal-red/60 bg-brutal-red/5"
+  defaultValue="oops"
+/>`,
+  currentError: `<Input className="w-80" aria-invalid defaultValue="oops" />`,
 } as const;
 
 type PlaygroundValues = {
@@ -45,7 +55,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "aria-invalid",
     type: "boolean",
-    description: "Flips the field to the red error look. Set it alongside Field's data-invalid.",
+    description:
+      "Standalone invalid styling. Inside Field, prefer Field invalid; Base UI passes invalid state to the control.",
+  },
+  {
+    name: "onValueChange",
+    type: "(value, eventDetails) => void",
+    description: "Base UI change callback for controlled composition.",
   },
   {
     name: "unstyled",
@@ -59,9 +75,14 @@ const PROPS: readonly PropRow[] = [
     description: "Forwarded to the underlying input (React 19 ref prop).",
   },
   {
+    name: "render",
+    type: "ReactElement | (props, state) => ReactElement",
+    description: "Replace the rendered element or compose with another component (Base UI).",
+  },
+  {
     name: "...props",
-    type: "InputHTMLAttributes",
-    description: "All native input attributes (value, onChange, type, placeholder, …).",
+    type: "Base UI Input.Props",
+    description: "All native input attributes (value, onChange, type, placeholder, etc.).",
   },
 ];
 
@@ -86,6 +107,10 @@ function InputDoc() {
           </li>
           <li>
             error state via <code>aria-invalid</code> instead of an <code>error</code> prop
+          </li>
+          <li>
+            built on Base UI&rsquo;s <code>Input</code> so it can inherit <code>Field</code> state
+            without extra wiring
           </li>
         </Differences>
       }
@@ -123,8 +148,9 @@ function InputDoc() {
           </Example>
           <Callout>
             The control styles its own red border/ring off <code>aria-invalid</code>; the error{" "}
-            <em>message</em> lives in <code>FieldError</code>. Set <code>data-invalid</code> on the
-            surrounding <code>Field</code> too so descendants turn red.
+            <em>message</em> lives in <code>FieldError</code>. When the input is inside{" "}
+            <code>Field</code>, set <code>invalid</code> on the surrounding field instead of
+            duplicating state by hand.
           </Callout>
         </div>
       </DocSection>
@@ -132,20 +158,61 @@ function InputDoc() {
       <DocSection id="field" title="With Field">
         <div className="space-y-4">
           <Example html={code.field}>
-            <Field className="w-80">
+            <Field className="w-80" invalid>
               <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input id="email" type="email" placeholder="you@example.com" />
+              <Input id="email" type="email" defaultValue="oops" />
+              <FieldError match>Email is required.</FieldError>
             </Field>
           </Example>
           <Callout>
-            Label, description, and error message come from <a href="/components/field">Field</a> —
-            Input stays a pure control.
+            Label and message come from <a href="/components/field">Field</a>. Input stays a pure
+            control, but Base UI lets it receive <code>data-invalid</code> /{" "}
+            <code>aria-invalid</code> from the field root.
           </Callout>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Brutal shell",
+              status: "match",
+              note: "Source used the global input-brutal CSS utility. Current Input moves that shell into a tv slot while preserving the same border, padding, display font, and shadow.",
+              source: (
+                <input
+                  aria-label="Email"
+                  className="input-brutal w-80"
+                  placeholder="you@example.com"
+                />
+              ),
+              current: <Input aria-label="Email" className="w-80" placeholder="you@example.com" />,
+              sourceCode: code.sourceShell,
+              currentCode: code.currentShell,
+            },
+            {
+              label: "Invalid state",
+              status: "match",
+              note: "Source callers added red border/ring classes ad hoc. Current Input centralizes the same red border, tinted background, and ring behind aria-invalid, or receives it automatically from Field invalid.",
+              source: (
+                <input
+                  aria-label="Email"
+                  className="input-brutal w-80 !border-brutal-red ring-2 ring-brutal-red/60 bg-brutal-red/5"
+                  defaultValue="oops"
+                />
+              ),
+              current: (
+                <Input aria-label="Email" className="w-80" aria-invalid defaultValue="oops" />
+              ),
+              sourceCode: code.sourceError,
+              currentCode: code.currentError,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

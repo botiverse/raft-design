@@ -23,3 +23,18 @@
   box-shadow: var(--shadow);
   transform: none;
 }
+
+@layer components {
+  .input-brutal {
+    border: 2px solid var(--color-black);
+    background-color: var(--color-white);
+    padding: 0.5rem 0.75rem;
+    font-family: var(--display-font);
+    box-shadow: var(--shadow);
+  }
+
+  .input-brutal:focus {
+    outline: none;
+    box-shadow: var(--shadow-hover);
+  }
+}
