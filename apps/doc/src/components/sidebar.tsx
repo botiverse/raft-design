@@ -39,8 +39,9 @@ const NAV = [
     title: "Navigation",
     items: [
       {
-        label: "ReorderablePanelTabs",
-        to: "/components/reorderable-panel-tabs",
+        label: "Tabs",
+        to: "/components/tabs",
+        progress: { structure: "done" },
       },
     ],
   },
@@ -144,6 +145,12 @@ const MIGRATED = {
       to: "/components/toggle-group",
       hash: "source-comparison",
       target: "ToggleGroup",
+    },
+    {
+      label: "ReorderablePanelTabs",
+      to: "/components/tabs",
+      hash: "source-comparison",
+      target: "Tabs + SortableTabsList",
     },
     {
       label: "AvatarSlot",

@@ -255,13 +255,27 @@ export { DismissBackdrop } from "./components/dismiss-backdrop/index.ts";
 export type { DismissBackdropProps } from "./components/dismiss-backdrop/index.ts";
 
 export {
-  ReorderablePanelTabs,
-  useOrderedPanelTabs,
-} from "./components/reorderable-panel-tabs/index.ts";
+  Tabs,
+  TabsIndicator,
+  TabsLabel,
+  TabsList,
+  TabsPanel,
+  TabsTab,
+  SortableTabsList,
+  SortableTabsTab,
+  useOrderedTabs,
+} from "./components/tabs/index.ts";
 export type {
-  ReorderablePanelTabsProps,
-  PanelTabItem,
-} from "./components/reorderable-panel-tabs/index.ts";
+  OrderedTabItem,
+  SortableTabsListProps,
+  SortableTabsTabProps,
+  TabsIndicatorProps,
+  TabsLabelProps,
+  TabsListProps,
+  TabsPanelProps,
+  TabsProps,
+  TabsTabProps,
+} from "./components/tabs/index.ts";
 
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export { useTheme } from "./lib/theme/use-theme.ts";

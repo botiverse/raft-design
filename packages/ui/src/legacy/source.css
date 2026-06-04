@@ -36,6 +36,14 @@
   box-shadow: var(--shadow-hover);
 }
 
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 @layer components {
   .input-brutal {
     border: 2px solid var(--color-black);

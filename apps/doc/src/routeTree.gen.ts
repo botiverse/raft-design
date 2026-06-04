@@ -19,13 +19,13 @@ import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-comp
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
+import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSectionEyebrowRouteImport } from './routes/components/section-eyebrow'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
-import { Route as ComponentsReorderablePanelTabsRouteImport } from './routes/components/reorderable-panel-tabs'
 import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
@@ -102,6 +102,11 @@ const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
   path: '/components/textarea',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
+  id: '/components/tabs',
+  path: '/components/tabs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsSurfaceListItemRoute =
   ComponentsSurfaceListItemRouteImport.update({
     id: '/components/surface-list-item',
@@ -133,12 +138,6 @@ const ComponentsSandboxedPreviewFrameRoute =
   ComponentsSandboxedPreviewFrameRouteImport.update({
     id: '/components/sandboxed-preview-frame',
     path: '/components/sandboxed-preview-frame',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ComponentsReorderablePanelTabsRoute =
-  ComponentsReorderablePanelTabsRouteImport.update({
-    id: '/components/reorderable-panel-tabs',
-    path: '/components/reorderable-panel-tabs',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ComponentsQuotedMessageCardRoute =
@@ -300,13 +299,13 @@ export interface FileRoutesByFullPath {
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
-  '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
+  '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/skills/migration': typeof SkillsMigrationRoute
@@ -344,13 +343,13 @@ export interface FileRoutesByTo {
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
-  '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
+  '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/skills/migration': typeof SkillsMigrationRoute
@@ -389,13 +388,13 @@ export interface FileRoutesById {
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
-  '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
+  '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/skills/migration': typeof SkillsMigrationRoute
@@ -435,13 +434,13 @@ export interface FileRouteTypes {
     | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
-    | '/components/reorderable-panel-tabs'
     | '/components/sandboxed-preview-frame'
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
+    | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
     | '/skills/migration'
@@ -479,13 +478,13 @@ export interface FileRouteTypes {
     | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
-    | '/components/reorderable-panel-tabs'
     | '/components/sandboxed-preview-frame'
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
+    | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
     | '/skills/migration'
@@ -523,13 +522,13 @@ export interface FileRouteTypes {
     | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
-    | '/components/reorderable-panel-tabs'
     | '/components/sandboxed-preview-frame'
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
+    | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
     | '/skills/migration'
@@ -568,13 +567,13 @@ export interface RootRouteChildren {
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
   ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
-  ComponentsReorderablePanelTabsRoute: typeof ComponentsReorderablePanelTabsRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSectionEyebrowRoute: typeof ComponentsSectionEyebrowRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
+  ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
@@ -656,6 +655,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTextareaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/tabs': {
+      id: '/components/tabs'
+      path: '/components/tabs'
+      fullPath: '/components/tabs'
+      preLoaderRoute: typeof ComponentsTabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/surface-list-item': {
       id: '/components/surface-list-item'
       path: '/components/surface-list-item'
@@ -696,13 +702,6 @@ declare module '@tanstack/react-router' {
       path: '/components/sandboxed-preview-frame'
       fullPath: '/components/sandboxed-preview-frame'
       preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/components/reorderable-panel-tabs': {
-      id: '/components/reorderable-panel-tabs'
-      path: '/components/reorderable-panel-tabs'
-      fullPath: '/components/reorderable-panel-tabs'
-      preLoaderRoute: typeof ComponentsReorderablePanelTabsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/quoted-message-card': {
@@ -913,13 +912,13 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
   ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
-  ComponentsReorderablePanelTabsRoute: ComponentsReorderablePanelTabsRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSectionEyebrowRoute: ComponentsSectionEyebrowRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,
+  ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
