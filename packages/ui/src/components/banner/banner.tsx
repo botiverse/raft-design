@@ -55,7 +55,7 @@ export type BannerProps = useRender.ComponentProps<"div"> &
     status: BannerStatus;
   };
 
-export function Banner({ status, size = "md", className, render, ref, ...props }: BannerProps) {
+export function Banner({ status, size = "md", className, render, ...props }: BannerProps) {
   const theme = useTheme();
   const { root } = banner({ theme, status, size });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -66,7 +66,6 @@ export function Banner({ status, size = "md", className, render, ref, ...props }
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner",
@@ -78,7 +77,7 @@ export function Banner({ status, size = "md", className, render, ref, ...props }
 
 export type BannerTitleProps = useRender.ComponentProps<"div">;
 
-export function BannerTitle({ render, className, ref, ...props }: BannerTitleProps) {
+export function BannerTitle({ render, className, ...props }: BannerTitleProps) {
   const theme = useTheme();
   const { title } = banner({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -88,7 +87,6 @@ export function BannerTitle({ render, className, ref, ...props }: BannerTitlePro
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner-title",
@@ -98,7 +96,7 @@ export function BannerTitle({ render, className, ref, ...props }: BannerTitlePro
 
 export type BannerDescriptionProps = useRender.ComponentProps<"div">;
 
-export function BannerDescription({ render, className, ref, ...props }: BannerDescriptionProps) {
+export function BannerDescription({ render, className, ...props }: BannerDescriptionProps) {
   const theme = useTheme();
   const { description } = banner({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -108,7 +106,6 @@ export function BannerDescription({ render, className, ref, ...props }: BannerDe
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner-description",
@@ -118,7 +115,7 @@ export function BannerDescription({ render, className, ref, ...props }: BannerDe
 
 export type BannerActionProps = useRender.ComponentProps<"div">;
 
-export function BannerAction({ render, className, ref, ...props }: BannerActionProps) {
+export function BannerAction({ render, className, ...props }: BannerActionProps) {
   const theme = useTheme();
   const { action } = banner({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -128,7 +125,6 @@ export function BannerAction({ render, className, ref, ...props }: BannerActionP
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner-action",

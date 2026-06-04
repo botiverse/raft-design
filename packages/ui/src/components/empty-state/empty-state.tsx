@@ -35,7 +35,7 @@ export type EmptyStateProps = useRender.ComponentProps<"div">;
 
 // Root: a centered, padded column. Compose `EmptyStateIcon` / `EmptyStateTitle`
 // / `EmptyStateDescription` / `EmptyStateActions` as children.
-export function EmptyState({ render, className, ref, ...props }: EmptyStateProps) {
+export function EmptyState({ render, className, ...props }: EmptyStateProps) {
   const { root } = emptyState();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
@@ -44,7 +44,6 @@ export function EmptyState({ render, className, ref, ...props }: EmptyStateProps
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "empty-state",
@@ -56,7 +55,7 @@ export type EmptyStateIconProps = useRender.ComponentProps<"div">;
 
 // Muted icon slot, conventionally a 36px glyph. Pass `render` to override the
 // wrapper element.
-export function EmptyStateIcon({ render, className, ref, ...props }: EmptyStateIconProps) {
+export function EmptyStateIcon({ render, className, ...props }: EmptyStateIconProps) {
   const theme = useTheme();
   const { icon } = emptyState({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -66,7 +65,6 @@ export function EmptyStateIcon({ render, className, ref, ...props }: EmptyStateI
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "empty-state-icon",
@@ -78,7 +76,7 @@ export type EmptyStateTitleProps = useRender.ComponentProps<"div">;
 
 // Muted, sentence-case title line. Pass `render` to override the element (e.g. a
 // real heading for landmark semantics).
-export function EmptyStateTitle({ render, className, ref, ...props }: EmptyStateTitleProps) {
+export function EmptyStateTitle({ render, className, ...props }: EmptyStateTitleProps) {
   const theme = useTheme();
   const { title } = emptyState({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -88,7 +86,6 @@ export function EmptyStateTitle({ render, className, ref, ...props }: EmptyState
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "empty-state-title",
@@ -100,12 +97,7 @@ export type EmptyStateDescriptionProps = useRender.ComponentProps<"div">;
 
 // Optional supporting copy, capped to ~32ch for a tidy measure. Pass `render` to
 // override the element.
-export function EmptyStateDescription({
-  render,
-  className,
-  ref,
-  ...props
-}: EmptyStateDescriptionProps) {
+export function EmptyStateDescription({ render, className, ...props }: EmptyStateDescriptionProps) {
   const theme = useTheme();
   const { description } = emptyState({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -115,7 +107,6 @@ export function EmptyStateDescription({
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "empty-state-description",
@@ -127,7 +118,7 @@ export type EmptyStateActionsProps = useRender.ComponentProps<"div">;
 
 // Optional action slot rendered below the copy. Pass `render` to override the
 // element.
-export function EmptyStateActions({ render, className, ref, ...props }: EmptyStateActionsProps) {
+export function EmptyStateActions({ render, className, ...props }: EmptyStateActionsProps) {
   const { actions } = emptyState();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actions({ className }),
@@ -136,7 +127,6 @@ export function EmptyStateActions({ render, className, ref, ...props }: EmptySta
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "empty-state-actions",

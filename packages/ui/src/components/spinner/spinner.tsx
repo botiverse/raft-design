@@ -100,7 +100,7 @@ const spinnerChildren = (
 export type SpinnerProps = WithoutChildren<useRender.ComponentProps<"span">> &
   Omit<VariantProps<typeof spinner>, "theme">;
 
-export function Spinner({ size = "sm", className, render, ref, ...props }: SpinnerProps) {
+export function Spinner({ size = "sm", className, render, ...props }: SpinnerProps) {
   const theme = useTheme();
   const { root } = spinner({ theme, size });
   const defaultProps: useRender.ElementProps<"span"> = {
@@ -113,7 +113,6 @@ export function Spinner({ size = "sm", className, render, ref, ...props }: Spinn
   return useRender({
     defaultTagName: "span",
     render,
-    ref,
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "spinner",

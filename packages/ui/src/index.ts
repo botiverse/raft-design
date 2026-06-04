@@ -213,8 +213,30 @@ export type {
   NotificationCenterAction,
 } from "./components/notification-center/index.ts";
 
-export { Lightbox } from "./components/lightbox/index.ts";
-export type { LightboxProps } from "./components/lightbox/index.ts";
+export {
+  Lightbox,
+  LightboxActions,
+  LightboxClose,
+  LightboxContent,
+  LightboxHeader,
+  LightboxMedia,
+  LightboxPortal,
+  LightboxStage,
+  LightboxTitle,
+  LightboxTrigger,
+} from "./components/lightbox/index.ts";
+export type {
+  LightboxActionsProps,
+  LightboxCloseProps,
+  LightboxContentProps,
+  LightboxHeaderProps,
+  LightboxMediaProps,
+  LightboxPortalProps,
+  LightboxProps,
+  LightboxStageProps,
+  LightboxTitleProps,
+  LightboxTriggerProps,
+} from "./components/lightbox/index.ts";
 
 export {
   BottomSheet,

@@ -88,7 +88,7 @@ export function BottomSheetClose(props: BottomSheetCloseProps) {
 export type BottomSheetHeaderProps = useRender.ComponentProps<"div">;
 
 // Stacks the title + description at the top of the sheet.
-export function BottomSheetHeader({ className, render, ref, ...props }: BottomSheetHeaderProps) {
+export function BottomSheetHeader({ className, render, ...props }: BottomSheetHeaderProps) {
   const theme = useTheme();
   const { header } = bottomSheet({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -98,7 +98,6 @@ export function BottomSheetHeader({ className, render, ref, ...props }: BottomSh
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "bottom-sheet-header",
@@ -109,7 +108,7 @@ export function BottomSheetHeader({ className, render, ref, ...props }: BottomSh
 export type BottomSheetFooterProps = useRender.ComponentProps<"div">;
 
 // Trailing action area, pushed to the bottom of the sheet.
-export function BottomSheetFooter({ className, render, ref, ...props }: BottomSheetFooterProps) {
+export function BottomSheetFooter({ className, render, ...props }: BottomSheetFooterProps) {
   const theme = useTheme();
   const { footer } = bottomSheet({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -119,7 +118,6 @@ export function BottomSheetFooter({ className, render, ref, ...props }: BottomSh
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "bottom-sheet-footer",

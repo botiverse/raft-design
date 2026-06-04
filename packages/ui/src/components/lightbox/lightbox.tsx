@@ -1,124 +1,245 @@
-import { useEffect, useRef, type ComponentPropsWithRef, type ReactNode } from "react";
-import { createPortal } from "react-dom";
+import { Dialog } from "@base-ui/react/dialog";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { useHotkey } from "@tanstack/react-hotkeys";
+import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
 import { tv } from "tailwind-variants";
+import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
-// Full-screen dark-backdrop overlay for lightboxes / bottom sheets. The source
-// uses a hand-rolled portal so it can intercept Escape and Cmd/Ctrl+W before the
-// browser closes the tab; those close and scroll-lock details are preserved here.
 const lightbox = tv({
   slots: {
-    popup: [],
+    backdrop: ["fixed inset-0 z-[70] bg-black/75 data-[closed]:hidden"],
+    content: ["pointer-events-none fixed inset-0 z-[71] data-[closed]:hidden"],
+    header: ["safe-top safe-left safe-right pointer-events-auto shrink-0"],
+    title: ["min-w-0 flex-1 truncate font-display text-sm font-bold"],
+    actions: ["flex shrink-0 items-center gap-1.5"],
+    stage: [
+      "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
+    ],
+    media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-2"],
+    close: [],
   },
   variants: {
     theme: {
-      brutal: {},
-      // Elegant styling is deferred; see the component TODO.
+      brutal: {
+        header: ["border-b-2 border-black bg-white"],
+        title: ["text-black"],
+        media: ["border-black bg-white shadow-[var(--shadow-lg)]"],
+      },
       elegant: {},
     },
   },
 });
 
-export type LightboxProps = Omit<
-  ComponentPropsWithRef<"div">,
-  "onClick" | "className" | "children"
+export type LightboxProps<Payload = unknown> = Omit<
+  Dialog.Root.Props<Payload>,
+  "actionsRef" | "children" | "handle"
 > & {
-  onClose: () => void;
-  children: ReactNode;
-  /** CSS z-index. Default 70 (above Modal's z-50/z-[60]). */
-  zIndex?: number;
-  /** Tailwind bg class for the dim. Default "bg-black/75". */
-  backdropClass?: string;
-  /** Click on the dim area closes. Default true. */
-  dismissOnBackdrop?: boolean;
-  /** Extra classes on the overlay (e.g. "flex flex-col"). */
-  className?: string;
-  /** Positioning class for the overlay. Default fixed viewport overlay. */
-  positionClass?: string;
-  /** Lock body scroll while mounted. Default true. */
-  lockBodyScroll?: boolean;
-  /** Scroll the overlay root into view after mount. Useful for document-flow overlays. */
-  scrollIntoViewOnMount?: boolean;
+  children?: ReactNode;
+  closeOnModW?: boolean;
 };
 
-export function Lightbox({
-  onClose,
+export function Lightbox<Payload = unknown>({
+  closeOnModW = true,
+  defaultOpen = false,
+  modal = true,
+  onOpenChange,
+  open,
   children,
-  zIndex = 70,
-  backdropClass = "bg-black/75",
-  dismissOnBackdrop = true,
-  className,
-  positionClass = "fixed inset-0",
-  lockBodyScroll = true,
-  scrollIntoViewOnMount = false,
-  ...rest
-}: LightboxProps) {
-  const theme = useTheme();
-  const { popup } = lightbox({ theme });
-  const rootRef = useRef<HTMLDivElement | null>(null);
+  ...props
+}: LightboxProps<Payload>) {
+  const dialogRef = useRef<Dialog.Root.Actions>(null);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const effectiveOpen = open ?? uncontrolledOpen;
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const closeShortcut =
-        event.key.toLowerCase() === "w" &&
-        (event.metaKey || event.ctrlKey) &&
-        !event.shiftKey &&
-        !event.altKey;
-      if (event.key !== "Escape" && !closeShortcut) return;
+  const handleOpenChange = useCallback<NonNullable<Dialog.Root.Props<Payload>["onOpenChange"]>>(
+    (nextOpen, eventDetails) => {
+      if (open === undefined) {
+        setUncontrolledOpen(nextOpen);
+      }
+      onOpenChange?.(nextOpen, eventDetails);
+    },
+    [onOpenChange, open],
+  );
+
+  const modWClose =
+    closeOnModW && effectiveOpen ? <LightboxModWClose dialogRef={dialogRef} /> : null;
+
+  return (
+    <Dialog.Root
+      actionsRef={dialogRef}
+      defaultOpen={defaultOpen}
+      modal={modal}
+      onOpenChange={handleOpenChange}
+      open={open}
+      {...props}
+    >
+      {modWClose}
+      {children}
+    </Dialog.Root>
+  );
+}
+
+type LightboxModWCloseProps = {
+  dialogRef: RefObject<Dialog.Root.Actions | null>;
+};
+
+function LightboxModWClose({ dialogRef }: LightboxModWCloseProps) {
+  useHotkey(
+    "Mod+W",
+    (event) => {
       event.preventDefault();
       event.stopPropagation();
-      onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevHtmlHeight = html.style.height;
-    const prevBodyOverflow = document.body.style.overflow;
-    const prevBodyHeight = document.body.style.height;
-
-    if (lockBodyScroll) {
-      document.body.style.overflow = "hidden";
-    } else {
-      html.style.overflow = "auto";
-      html.style.height = "auto";
-      document.body.style.overflow = "auto";
-      document.body.style.height = "auto";
-    }
-
-    return () => {
-      html.style.overflow = prevHtmlOverflow;
-      html.style.height = prevHtmlHeight;
-      document.body.style.overflow = prevBodyOverflow;
-      document.body.style.height = prevBodyHeight;
-    };
-  }, [lockBodyScroll]);
-
-  useEffect(() => {
-    if (!scrollIntoViewOnMount) return;
-    rootRef.current?.scrollIntoView({ block: "start" });
-  }, [scrollIntoViewOnMount]);
-
-  return createPortal(
-    <div
-      {...rest}
-      ref={rootRef}
-      data-slot="lightbox"
-      className={popup({ className: [positionClass, backdropClass, className] })}
-      style={{ zIndex }}
-      onClick={
-        dismissOnBackdrop
-          ? (event) => {
-              if (event.target === event.currentTarget) onClose();
-            }
-          : undefined
-      }
-    >
-      {children}
-    </div>,
-    document.body,
+      dialogRef.current?.close();
+    },
+    {
+      meta: {
+        name: "Close lightbox",
+        description: "Close the active lightbox before the browser closes the tab.",
+      },
+    },
   );
+
+  return null;
+}
+
+export type LightboxTriggerProps = Dialog.Trigger.Props;
+
+export function LightboxTrigger(props: LightboxTriggerProps) {
+  return <Dialog.Trigger data-slot="lightbox-trigger" {...props} />;
+}
+
+export type LightboxPortalProps = Dialog.Portal.Props;
+
+export function LightboxPortal(props: LightboxPortalProps) {
+  return <Dialog.Portal data-slot="lightbox-portal" {...props} />;
+}
+
+export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
+
+export function LightboxContent({
+  className,
+  initialFocus = false,
+  finalFocus = false,
+  ...props
+}: LightboxContentProps) {
+  const theme = useTheme();
+  const { backdrop, content } = lightbox({ theme });
+  return (
+    <LightboxPortal>
+      <Dialog.Backdrop data-slot="lightbox-backdrop" className={backdrop()} />
+      <Dialog.Popup
+        data-slot="lightbox-content"
+        initialFocus={initialFocus}
+        finalFocus={finalFocus}
+        className={content({ className })}
+        {...props}
+      />
+    </LightboxPortal>
+  );
+}
+
+export type LightboxHeaderProps = useRender.ComponentProps<"div">;
+
+export function LightboxHeader({ render, className, ...props }: LightboxHeaderProps) {
+  const theme = useTheme();
+  const { header } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: header({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-header",
+    },
+  });
+}
+
+export type LightboxTitleProps = useRender.ComponentProps<"div">;
+
+export function LightboxTitle({ render, className, ...props }: LightboxTitleProps) {
+  const theme = useTheme();
+  const { title } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: title({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-title",
+    },
+  });
+}
+
+export type LightboxActionsProps = useRender.ComponentProps<"div">;
+
+export function LightboxActions({ render, className, ...props }: LightboxActionsProps) {
+  const theme = useTheme();
+  const { actions } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: actions({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-actions",
+    },
+  });
+}
+
+export type LightboxStageProps = useRender.ComponentProps<"div">;
+
+export function LightboxStage({ render, className, ...props }: LightboxStageProps) {
+  const theme = useTheme();
+  const { stage } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: stage({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-stage",
+    },
+  });
+}
+
+export type LightboxMediaProps = useRender.ComponentProps<"div">;
+
+export function LightboxMedia({ render, className, ...props }: LightboxMediaProps) {
+  const theme = useTheme();
+  const { media } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: media({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-media",
+    },
+  });
+}
+
+export type LightboxCloseProps = StyledProps<Dialog.Close.Props>;
+
+export function LightboxClose({ className, ...props }: LightboxCloseProps) {
+  const theme = useTheme();
+  const { close } = lightbox({ theme });
+
+  return <Dialog.Close data-slot="lightbox-close" className={close({ className })} {...props} />;
 }

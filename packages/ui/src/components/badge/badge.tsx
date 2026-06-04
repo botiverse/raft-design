@@ -68,7 +68,7 @@ export const badge = tv({
 export type BadgeProps = useRender.ComponentProps<"span"> &
   Omit<VariantProps<typeof badge>, "theme">;
 
-function BadgeRoot({ tone, uppercase, className, render, ref, ...props }: BadgeProps) {
+function BadgeRoot({ tone, uppercase, className, render, ...props }: BadgeProps) {
   const theme = useTheme();
   const { root } = badge({ theme, tone, uppercase });
   const defaultProps: useRender.ElementProps<"span"> = {
@@ -78,7 +78,6 @@ function BadgeRoot({ tone, uppercase, className, render, ref, ...props }: BadgeP
   return useRender({
     defaultTagName: "span",
     render,
-    ref,
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "badge",
