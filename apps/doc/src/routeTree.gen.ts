@@ -47,7 +47,6 @@ import { Route as ComponentsCheckIndicatorRouteImport } from './routes/component
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
-import { Route as ComponentsBadgeButtonRouteImport } from './routes/components/badge-button'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsAvatarListRowRouteImport } from './routes/components/avatar-list-row'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
@@ -250,11 +249,6 @@ const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
   path: '/components/banner',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsBadgeButtonRoute = ComponentsBadgeButtonRouteImport.update({
-  id: '/components/badge-button',
-  path: '/components/badge-button',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
   id: '/components/badge',
   path: '/components/badge',
@@ -284,7 +278,6 @@ export interface FileRoutesByFullPath {
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
-  '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
@@ -329,7 +322,6 @@ export interface FileRoutesByTo {
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
-  '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
@@ -375,7 +367,6 @@ export interface FileRoutesById {
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
-  '/components/badge-button': typeof ComponentsBadgeButtonRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
@@ -422,7 +413,6 @@ export interface FileRouteTypes {
     | '/components/avatar'
     | '/components/avatar-list-row'
     | '/components/badge'
-    | '/components/badge-button'
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
@@ -467,7 +457,6 @@ export interface FileRouteTypes {
     | '/components/avatar'
     | '/components/avatar-list-row'
     | '/components/badge'
-    | '/components/badge-button'
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
@@ -512,7 +501,6 @@ export interface FileRouteTypes {
     | '/components/avatar'
     | '/components/avatar-list-row'
     | '/components/badge'
-    | '/components/badge-button'
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
@@ -558,7 +546,6 @@ export interface RootRouteChildren {
   ComponentsAvatarRoute: typeof ComponentsAvatarRoute
   ComponentsAvatarListRowRoute: typeof ComponentsAvatarListRowRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
-  ComponentsBadgeButtonRoute: typeof ComponentsBadgeButtonRoute
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
@@ -864,13 +851,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsBannerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/badge-button': {
-      id: '/components/badge-button'
-      path: '/components/badge-button'
-      fullPath: '/components/badge-button'
-      preLoaderRoute: typeof ComponentsBadgeButtonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components/badge': {
       id: '/components/badge'
       path: '/components/badge'
@@ -910,7 +890,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsAvatarRoute: ComponentsAvatarRoute,
   ComponentsAvatarListRowRoute: ComponentsAvatarListRowRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
-  ComponentsBadgeButtonRoute: ComponentsBadgeButtonRoute,
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
