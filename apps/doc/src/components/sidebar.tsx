@@ -69,7 +69,7 @@ const NAV = [
     title: "Status & Indicators",
     items: [
       { label: "AttentionDot", to: "/components/attention-dot" },
-      { label: "Badge", to: "/components/badge" },
+      { label: "Badge", to: "/components/badge", progress: { structure: "done" } },
       { label: "BadgeButton", to: "/components/badge-button" },
       { label: "CheckMarker", to: "/components/check-marker" },
       { label: "StatusDot", to: "/components/status-dot" },

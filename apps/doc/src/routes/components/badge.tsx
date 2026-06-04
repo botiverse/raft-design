@@ -9,8 +9,11 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyBadge from "../../../../../packages/ui/src/legacy/Badge.tsx";
+import LegacyExperimentalBadge from "../../../../../packages/ui/src/legacy/ExperimentalBadge.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -20,6 +23,7 @@ const TOC = [
   { id: "uppercase", title: "Uppercase" },
   { id: "experimental", title: "Experimental" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TONES = [
@@ -46,6 +50,14 @@ const SNIPPETS = {
   uppercase: `<Badge>In Progress</Badge>
 <Badge uppercase={false}>task #42 @bugen</Badge>`,
   experimental: `<Badge.Experimental />`,
+  sourceDefault: `<Badge>In Progress</Badge>`,
+  currentDefault: `<Badge>In Progress</Badge>`,
+  sourceTone: `<Badge tone="lime">Experimental</Badge>`,
+  currentTone: `<Badge tone="lime">Experimental</Badge>`,
+  sourceUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
+  currentUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
+  sourceExperimental: `<ExperimentalBadge />`,
+  currentExperimental: `<Badge.Experimental />`,
 } as const;
 
 type PlaygroundValues = {
@@ -97,6 +109,10 @@ function BadgeDoc() {
           <li>
             the <code>ExperimentalBadge</code> helper is now the <code>Badge.Experimental</code>{" "}
             preset
+          </li>
+          <li>
+            source <code>BadgeButton</code> moved to the separate <code>BadgeButton</code> component
+            because it is structurally interactive
           </li>
         </Differences>
       }
@@ -171,6 +187,46 @@ function BadgeDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Default",
+              status: "match",
+              source: <LegacyBadge>In Progress</LegacyBadge>,
+              current: <Badge>In Progress</Badge>,
+              sourceCode: code.sourceDefault,
+              currentCode: code.currentDefault,
+            },
+            {
+              label: "Tone",
+              status: "match",
+              source: <LegacyBadge tone="lime">Experimental</LegacyBadge>,
+              current: <Badge tone="lime">Experimental</Badge>,
+              sourceCode: code.sourceTone,
+              currentCode: code.currentTone,
+            },
+            {
+              label: "Uppercase opt-out",
+              status: "match",
+              source: <LegacyBadge uppercase={false}>task #42 @bugen</LegacyBadge>,
+              current: <Badge uppercase={false}>task #42 @bugen</Badge>,
+              sourceCode: code.sourceUppercaseFalse,
+              currentCode: code.currentUppercaseFalse,
+            },
+            {
+              label: "Experimental preset",
+              status: "match",
+              note: "Current keeps the source lime badge visual but moves the helper under Badge.Experimental instead of exporting a separate ExperimentalBadge component.",
+              source: <LegacyExperimentalBadge />,
+              current: <Badge.Experimental />,
+              sourceCode: code.sourceExperimental,
+              currentCode: code.currentExperimental,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );
