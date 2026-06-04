@@ -1,203 +1,117 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckMarker, type CheckMarkerProps } from "@slock-ui/ui";
+import { CheckIndicator } from "@slock-ui/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
-  { id: "preview", title: "Preview" },
+  { id: "migration", title: "Migration" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "shapes", title: "Shapes" },
-  { id: "tones", title: "Tones" },
-  { id: "sizes", title: "Sizes" },
-  { id: "states", title: "States" },
   { id: "api", title: "API" },
-] as const;
-
-const SHAPES = ["square", "circle"] as const;
-const TONES = ["black-fill", "yellow-fill"] as const;
-const SIZES = ["sm", "md", "lg"] as const;
-
-const TODOS = [
-  "Add elegant family styling",
-  "Merge with Checkbox's inlined tick (single shared visual)",
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { CheckMarker } from "@slock-ui/ui";
+  anatomy: `import { CheckIndicator } from "@slock-ui/ui";
 
-<CheckMarker checked />`,
-  shapes: `<CheckMarker checked shape="square" />
-<CheckMarker checked shape="circle" />`,
-  tones: `<CheckMarker checked tone="black-fill" />
-<CheckMarker checked tone="yellow-fill" />`,
-  sizes: `<CheckMarker checked size="sm" />
-<CheckMarker checked size="md" />
-<CheckMarker checked size="lg" />`,
-  states: `<CheckMarker checked={false} />
-<CheckMarker checked />
-<CheckMarker checked disabled />`,
+<CheckIndicator checked />`,
+  sourceDefault: `<CheckMarker checked />`,
+  currentDefault: `<CheckIndicator checked />`,
+  sourceSelection: `<CheckMarker checked shape="circle" size="lg" tone="yellow-fill" />`,
+  currentSelection: `<CheckIndicator checked shape="circle" size="lg" fill="yellow" />`,
 } as const;
-
-type PlaygroundValues = {
-  checked: boolean;
-  shape: NonNullable<CheckMarkerProps["shape"]>;
-  tone: NonNullable<CheckMarkerProps["tone"]>;
-  size: NonNullable<CheckMarkerProps["size"]>;
-  disabled: boolean;
-};
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "checked",
-    type: "boolean",
-    description: "Whether the tick is shown. Required.",
+    name: "CheckMarker",
+    type: "legacy component",
+    description: "Migrated to CheckIndicator. Source backup remains in src/legacy/CheckMarker.tsx.",
   },
   {
-    name: "shape",
-    type: SHAPES.map((shape) => `"${shape}"`).join(" | "),
-    default: '"square"',
-    description: "Square for checkboxes, circle for message/row selection.",
-  },
-  {
-    name: "tone",
-    type: TONES.map((tone) => `"${tone}"`).join(" | "),
-    default: '"black-fill"',
-    description: "Fill when checked: black (form) or brutal-yellow (selection).",
-  },
-  {
-    name: "size",
-    type: SIZES.map((size) => `"${size}"`).join(" | "),
-    default: '"sm"',
-    description: "Box size: sm (14px), md (16px), lg (20px).",
-  },
-  {
-    name: "disabled",
-    type: "boolean",
-    default: "false",
-    description: "Dims the marker.",
-  },
-  {
-    name: "previewOnHover",
-    type: "boolean",
-    default: "false",
-    description: "Render a faint tick on a parent .group hover, hinting the marker is selectable.",
-  },
-  {
-    name: "...props",
-    type: "HTMLAttributes<HTMLSpanElement>",
-    description: "Native span attributes. The marker is aria-hidden (decorative).",
+    name: "CheckIndicator",
+    type: "decorative indicator primitive",
+    description: "Use for Checkbox internals and selection-row visuals.",
   },
 ];
 
 export const Route = createFileRoute("/components/check-marker")({
-  component: CheckMarkerDoc,
+  component: CheckMarkerMigrationDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function CheckMarkerDoc() {
+function CheckMarkerMigrationDoc() {
   const code = Route.useLoaderData();
 
   return (
     <DocPage
       title="CheckMarker"
-      description="The shared tick visual — a square or circle marker used by checkboxes and selectable rows."
+      description="Migrated: use CheckIndicator instead of the old CheckMarker component."
       overview={
         <Differences from="CheckMarker">
           <li>
-            styling and API reproduced 1:1 (square/circle, black/yellow, <code>sm</code>/
-            <code>md</code>/<code>lg</code>, <code>previewOnHover</code>)
+            renamed to <code>CheckIndicator</code> to align with Base UI / shadcn indicator anatomy
           </li>
           <li>
-            restructured onto a <code>tv()</code> recipe with a theme scaffold (elegant deferred)
+            source visuals are preserved; only the public component name and Checkbox composition
+            changed
           </li>
         </Differences>
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
-      <DocSection id="preview" title="Preview">
-        <ComponentPlayground<PlaygroundValues>
-          initial={{
-            checked: true,
-            shape: "square",
-            tone: "black-fill",
-            size: "md",
-            disabled: false,
-          }}
-          controls={[
-            { name: "checked", label: "Checked", type: "boolean" },
-            { name: "shape", label: "Shape", type: "select", options: SHAPES },
-            { name: "tone", label: "Tone", type: "select", options: TONES },
-            { name: "size", label: "Size", type: "select", options: SIZES },
-            { name: "disabled", label: "Disabled", type: "boolean" },
-          ]}
-          render={(values) => (
-            <CheckMarker
-              checked={values.checked}
-              shape={values.shape}
-              tone={values.tone}
-              size={values.size}
-              disabled={values.disabled}
-            />
-          )}
-        />
+      <DocSection id="migration" title="Migration">
+        <Callout>
+          Replace <code>CheckMarker</code> with <code>CheckIndicator</code>. It is still decorative
+          and <code>aria-hidden</code>; place interaction on <code>Checkbox</code> or the containing
+          row button.
+        </Callout>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="shapes" title="Shapes">
-        <Example html={code.shapes}>
-          <CheckMarker checked shape="square" size="lg" />
-          <CheckMarker checked shape="circle" size="lg" />
-        </Example>
-      </DocSection>
-
-      <DocSection id="tones" title="Tones">
         <div className="space-y-4">
-          <Example html={code.tones}>
-            <CheckMarker checked tone="black-fill" size="lg" />
-            <CheckMarker checked tone="yellow-fill" size="lg" />
+          <CodeBlock html={code.anatomy} />
+          <Example html={code.anatomy}>
+            <CheckIndicator checked />
+            <CheckIndicator checked shape="circle" size="lg" fill="yellow" />
           </Example>
-          <Callout>
-            <code>black-fill</code> matches form checkboxes; <code>yellow-fill</code> (often paired
-            with <code>circle</code>) is for row/message selection.
-          </Callout>
         </div>
-      </DocSection>
-
-      <DocSection id="sizes" title="Sizes">
-        <Example html={code.sizes}>
-          <CheckMarker checked size="sm" />
-          <CheckMarker checked size="md" />
-          <CheckMarker checked size="lg" />
-        </Example>
-      </DocSection>
-
-      <DocSection id="states" title="States">
-        <Example html={code.states}>
-          <CheckMarker checked={false} size="lg" />
-          <CheckMarker checked size="lg" />
-          <CheckMarker checked disabled size="lg" />
-        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Default",
+              status: "difference",
+              note: "Visual output matches source. Current renames the component to CheckIndicator.",
+              source: <LegacyCheckMarker checked />,
+              current: <CheckIndicator checked />,
+              sourceCode: code.sourceDefault,
+              currentCode: code.currentDefault,
+            },
+            {
+              label: "Selection marker",
+              status: "difference",
+              note: 'The row-selection circle remains the same visual primitive under the new name. Source tone="yellow-fill" maps to current fill="yellow".',
+              source: <LegacyCheckMarker checked shape="circle" size="lg" tone="yellow-fill" />,
+              current: <CheckIndicator checked shape="circle" size="lg" fill="yellow" />,
+              sourceCode: code.sourceSelection,
+              currentCode: code.currentSelection,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

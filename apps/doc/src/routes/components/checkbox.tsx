@@ -31,7 +31,7 @@ const SIZES = ["sm", "md"] as const;
 const TODOS = [
   "Add elegant family styling",
   "Document Checkbox Group usage",
-  "Keep the Checkbox and CheckMarker visual contracts aligned",
+  "Keep the Checkbox and CheckIndicator visual contracts aligned",
 ] as const;
 
 const SNIPPETS = {
@@ -133,7 +133,11 @@ function CheckboxDoc() {
         <Differences from="Checkbox">
           <li>
             built on Base UI&rsquo;s <code>Checkbox.Root</code> / <code>Checkbox.Indicator</code>{" "}
-            (source was an sr-only input + CheckMarker)
+            (source was an sr-only input + CheckMarker, now migrated to CheckIndicator)
+          </li>
+          <li>
+            reuses <code>CheckIndicator</code> for the visible box so form checkboxes and selection
+            rows share one visual primitive
           </li>
           <li>
             adds <code>indeterminate</code>, a focus-visible ring, an enlarged hit area, and a

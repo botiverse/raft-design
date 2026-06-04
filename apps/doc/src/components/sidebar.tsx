@@ -28,6 +28,11 @@ const NAV = [
     title: "Inputs",
     items: [
       { label: "Checkbox", to: "/components/checkbox", progress: { structure: "done" } },
+      {
+        label: "CheckIndicator",
+        to: "/components/check-indicator",
+        progress: { structure: "done" },
+      },
       { label: "Field", to: "/components/field", progress: { structure: "done" } },
       { label: "Input", to: "/components/input", progress: { structure: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { structure: "done" } },
@@ -70,7 +75,6 @@ const NAV = [
     items: [
       { label: "AttentionDot", to: "/components/attention-dot" },
       { label: "Badge", to: "/components/badge", progress: { structure: "done" } },
-      { label: "CheckMarker", to: "/components/check-marker" },
       { label: "StatusDot", to: "/components/status-dot" },
     ],
   },
@@ -138,6 +142,12 @@ const MIGRATED = {
       to: "/components/badge",
       hash: "badge-button",
       target: 'Badge render={<button type="button" />}',
+    },
+    {
+      label: "CheckMarker",
+      to: "/components/check-indicator",
+      hash: "source-comparison",
+      target: "CheckIndicator",
     },
     {
       label: "SelectionPopover",

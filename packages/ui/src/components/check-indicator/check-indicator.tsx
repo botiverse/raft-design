@@ -1,9 +1,9 @@
-import { Check } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
-const checkMarker = tv({
+const checkIndicator = tv({
   slots: {
     root: [
       "inline-flex shrink-0 items-center justify-center",
@@ -40,11 +40,11 @@ const checkMarker = tv({
         root: ["size-5", "[&_svg:not([class*='size-'])]:size-[13px] [&_svg]:[stroke-width:3]"],
       },
     },
-    tone: {
-      "black-fill": {
+    fill: {
+      black: {
         root: "",
       },
-      "yellow-fill": {
+      yellow: {
         root: "",
       },
     },
@@ -74,48 +74,53 @@ const checkMarker = tv({
     },
   },
   compoundVariants: [
-    { checked: true, tone: "black-fill", class: { root: "bg-black text-white" } },
-    { checked: true, tone: "yellow-fill", class: { root: "bg-brutal-yellow text-black" } },
+    { checked: true, fill: "black", class: { root: "bg-black text-white" } },
+    { checked: true, fill: "yellow", class: { root: "bg-brutal-yellow text-black" } },
     { checked: false, previewOnHover: true, class: { root: "group-hover:text-black/20" } },
   ],
   defaultVariants: {
     shape: "square",
     size: "sm",
-    tone: "black-fill",
+    fill: "black",
     disabled: false,
     previewOnHover: false,
   },
 });
 
-export type CheckMarkerProps = ComponentPropsWithRef<"span"> &
-  Omit<VariantProps<typeof checkMarker>, "theme" | "checked"> & {
+type CheckIndicatorMark = "check" | "minus";
+
+export type CheckIndicatorProps = ComponentPropsWithRef<"span"> &
+  Omit<VariantProps<typeof checkIndicator>, "theme" | "checked"> & {
     checked: boolean;
+    mark?: CheckIndicatorMark;
   };
 
-export function CheckMarker({
+export function CheckIndicator({
   checked,
+  mark = "check",
   shape,
   size,
-  tone,
+  fill,
   disabled,
   previewOnHover,
   className,
   ...props
-}: CheckMarkerProps) {
+}: CheckIndicatorProps) {
   const theme = useTheme();
-  const { root } = checkMarker({
+  const { root } = checkIndicator({
     theme,
     shape,
     size,
-    tone,
+    fill,
     checked,
     disabled,
     previewOnHover,
   });
+  const Icon = mark === "minus" ? Minus : Check;
 
   return (
-    <span {...props} data-slot="check-marker" aria-hidden className={root({ className })}>
-      {(checked || previewOnHover) && <Check />}
+    <span {...props} data-slot="check-indicator" aria-hidden className={root({ className })}>
+      {(checked || previewOnHover) && <Icon />}
     </span>
   );
 }
