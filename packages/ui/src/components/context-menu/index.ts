@@ -9,6 +9,7 @@ export {
 } from "./context-menu.tsx";
 export type {
   ContextMenuContentProps,
+  ContextMenuItemProps,
   ContextMenuPortalProps,
   ContextMenuProps,
   ContextMenuSeparatorProps,

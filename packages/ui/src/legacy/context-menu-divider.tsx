@@ -1,29 +1,12 @@
-import { Separator as BaseSeparator } from "@base-ui/react/separator";
-import { tv } from "tailwind-variants";
-import type { StyledProps } from "../lib/styled-props.ts";
-import { useTheme } from "../lib/theme/use-theme.ts";
-import type { WithoutChildren } from "../lib/without-children.ts";
-
-const contextMenuDivider = tv({
-  slots: {
-    root: ["border-t-2"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        root: ["border-black"],
-      },
-      elegant: {},
-    },
-  },
-});
-
-export type LegacyContextMenuDividerProps = WithoutChildren<StyledProps<BaseSeparator.Props>>;
-
-export function LegacyContextMenuDivider({ className, ...props }: LegacyContextMenuDividerProps) {
-  const theme = useTheme();
-  const { root } = contextMenuDivider({ theme });
-  return (
-    <BaseSeparator data-slot="context-menu-divider" className={root({ className })} {...props} />
-  );
+/**
+ * Canonical divider between groups of context-menu items. Per CLAUDE.md
+ * "Menus & Dropdowns": `border-t-2 border-black` with no margin — spacing
+ * between items is controlled by item padding, not divider margins.
+ *
+ * Centralized so context menus (Sidebar channel / DM / agent menus today,
+ * future surfaces) don't re-roll the same `<div className="border-t-2
+ * border-black" />` literal. stdrc 2026-05-24 audit follow-up.
+ */
+export default function ContextMenuDivider() {
+  return <div className="border-t-2 border-black" />;
 }

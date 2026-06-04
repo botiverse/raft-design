@@ -157,6 +157,7 @@ export type {
   ContextMenuTriggerProps,
   ContextMenuPortalProps,
   ContextMenuContentProps,
+  ContextMenuItemProps,
   ContextMenuSeparatorProps,
   ContextMenuShortcutProps,
 } from "./components/context-menu/index.ts";

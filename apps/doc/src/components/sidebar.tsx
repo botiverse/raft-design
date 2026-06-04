@@ -49,7 +49,7 @@ const NAV = [
     title: "Overlays",
     items: [
       { label: "BottomSheet", to: "/components/bottom-sheet" },
-      { label: "ContextMenu", to: "/components/context-menu" },
+      { label: "ContextMenu", to: "/components/context-menu", progress: { structure: "done" } },
       { label: "DismissBackdrop", to: "/components/dismiss-backdrop" },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { structure: "done" } },
       { label: "Lightbox", to: "/components/lightbox" },

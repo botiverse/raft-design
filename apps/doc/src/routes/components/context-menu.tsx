@@ -16,8 +16,11 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyContextMenuDivider from "../../../../../packages/ui/src/legacy/context-menu-divider.tsx";
+import LegacyMenuItem from "../../../../../packages/ui/src/legacy/menu-item.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -26,6 +29,7 @@ const TOC = [
   { id: "opened", title: "Opened" },
   { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = [
@@ -47,37 +51,44 @@ const SNIPPETS = {
   <ContextMenuTrigger>Right click me</ContextMenuTrigger>
   <ContextMenuContent>
     <ContextMenuItem>
-      <Pin size={14} />
+      <Pin />
       <span className="min-w-0 flex-1 truncate">Pin</span>
     </ContextMenuItem>
     <ContextMenuItem>
-      <Archive size={14} />
+      <Archive />
       <span className="min-w-0 flex-1 truncate">Archive</span>
     </ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuItem>
-      <Trash2 size={14} />
+      <Trash2 />
       <span className="min-w-0 flex-1 truncate">Delete</span>
       <ContextMenuShortcut>⌫</ContextMenuShortcut>
     </ContextMenuItem>
   </ContextMenuContent>
 </ContextMenu>`,
-  opened: `<div data-slot="context-menu-content" className="min-w-48 overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]">
-  <div data-slot="context-menu-item" className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
+  opened: `<div className="min-w-48 overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]">
+  <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
     <Pin size={14} />
     <span className="min-w-0 flex-1 truncate">Pin</span>
   </div>
-  <div data-slot="context-menu-item" className="flex w-full items-center gap-2 bg-brutal-yellow/30 px-3 py-2 text-left text-sm font-medium text-black">
+  <div className="flex w-full items-center gap-2 bg-brutal-yellow/30 px-3 py-2 text-left text-sm font-medium text-black">
     <Archive size={14} />
     <span className="min-w-0 flex-1 truncate">Archive</span>
   </div>
-  <div data-slot="context-menu-separator" className="border-t-2 border-black" />
-  <div data-slot="context-menu-item" className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
+  <div className="border-t-2 border-black" />
+  <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
     <Trash2 size={14} />
     <span className="min-w-0 flex-1 truncate">Delete</span>
-    <span className="ml-auto shrink-0">⌫</span>
+    <span className="ml-auto shrink-0 text-black/60">⌫</span>
   </div>
 </div>`,
+  sourceItem: `<MenuItem icon={<Pin size={14} />}>Pin</MenuItem>`,
+  currentItem: `<ContextMenuItem>
+  <Pin />
+  <span className="min-w-0 flex-1 truncate">Pin</span>
+</ContextMenuItem>`,
+  sourceDivider: `<ContextMenuDivider />`,
+  currentDivider: `<ContextMenuSeparator />`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -114,6 +125,11 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+const PREVIEW_CONTENT_CLASS =
+  "w-full max-w-xs overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]";
+const PREVIEW_ITEM_CLASS =
+  "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1 text-left text-sm font-medium text-black transition-colors [&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0";
+const PREVIEW_SEPARATOR_CLASS = "border-t-2 border-black";
 export const Route = createFileRoute("/components/context-menu")({
   component: ContextMenuDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -147,7 +163,8 @@ function ContextMenuDoc() {
           </li>
           <li>
             difference from source: item and separator parts are meant to live inside a{" "}
-            <code>ContextMenu</code> tree; legacy standalone exports remain for compatibility
+            <code>ContextMenu</code> tree; legacy source files are kept only under{" "}
+            <code>src/legacy</code> for visual comparison
           </li>
         </Differences>
       }
@@ -170,16 +187,16 @@ function ContextMenuDoc() {
               </ContextMenuTrigger>
               <ContextMenuContent>
                 <ContextMenuItem>
-                  <Pin size={14} />
+                  <Pin />
                   <span className="min-w-0 flex-1 truncate">Pin</span>
                 </ContextMenuItem>
                 <ContextMenuItem>
-                  <Archive size={14} />
+                  <Archive />
                   <span className="min-w-0 flex-1 truncate">Archive</span>
                 </ContextMenuItem>
                 <ContextMenuSeparator />
                 <ContextMenuItem>
-                  <Trash2 size={14} />
+                  <Trash2 />
                   <span className="min-w-0 flex-1 truncate">Delete</span>
                   <ContextMenuShortcut>⌫</ContextMenuShortcut>
                 </ContextMenuItem>
@@ -195,20 +212,20 @@ function ContextMenuDoc() {
 
       <DocSection id="opened" title="Opened">
         <Example html={code.opened}>
-          <div className="min-w-48 overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]">
-            <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
-              <Pin size={14} />
+          <div className={PREVIEW_CONTENT_CLASS}>
+            <div className={PREVIEW_ITEM_CLASS}>
+              <Pin />
               <span className="min-w-0 flex-1 truncate">Pin</span>
             </div>
-            <div className="flex w-full items-center gap-2 bg-brutal-yellow/30 px-3 py-2 text-left text-sm font-medium text-black">
-              <Archive size={14} />
+            <div className={`${PREVIEW_ITEM_CLASS} bg-brutal-yellow/30`}>
+              <Archive />
               <span className="min-w-0 flex-1 truncate">Archive</span>
             </div>
-            <div className="border-t-2 border-black" />
-            <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
-              <Trash2 size={14} />
+            <div className={PREVIEW_SEPARATOR_CLASS} />
+            <div className={PREVIEW_ITEM_CLASS}>
+              <Trash2 />
               <span className="min-w-0 flex-1 truncate">Delete</span>
-              <span className="ml-auto shrink-0">⌫</span>
+              <span className="ml-auto shrink-0 text-black/60">⌫</span>
             </div>
           </div>
         </Example>
@@ -241,6 +258,50 @@ function ContextMenuDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Menu item row",
+              status: "match",
+              note: "Current keeps the same row density and yellow/30 hover, but moves icon and label to children composition.",
+              source: (
+                <div className="w-full max-w-xs">
+                  <LegacyMenuItem icon={<Pin size={14} />}>Pin</LegacyMenuItem>
+                </div>
+              ),
+              current: (
+                <div className="w-full max-w-xs">
+                  <div className={PREVIEW_ITEM_CLASS}>
+                    <Pin />
+                    <span className="min-w-0 flex-1 truncate">Pin</span>
+                  </div>
+                </div>
+              ),
+              sourceCode: code.sourceItem,
+              currentCode: code.currentItem,
+            },
+            {
+              label: "Divider",
+              status: "match",
+              note: "Current maps the source border-t-2 divider onto Base UI's separator part.",
+              source: (
+                <div className="w-full max-w-xs">
+                  <LegacyContextMenuDivider />
+                </div>
+              ),
+              current: (
+                <div className="w-full max-w-xs">
+                  <div className={PREVIEW_SEPARATOR_CLASS} />
+                </div>
+              ),
+              sourceCode: code.sourceDivider,
+              currentCode: code.currentDivider,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

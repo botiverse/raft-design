@@ -92,7 +92,7 @@ export function ContextMenuContent({
   );
 }
 
-type ContextMenuItemProps = StyledProps<BaseContextMenu.Item.Props>;
+export type ContextMenuItemProps = StyledProps<BaseContextMenu.Item.Props>;
 
 export function ContextMenuItem({ className, ...props }: ContextMenuItemProps) {
   const theme = useTheme();
