@@ -53,9 +53,8 @@ const NAV = [
   {
     title: "Overlays",
     items: [
-      { label: "BottomSheet", to: "/components/bottom-sheet" },
+      { label: "BottomSheet", to: "/components/bottom-sheet", progress: { structure: "done" } },
       { label: "ContextMenu", to: "/components/context-menu", progress: { structure: "done" } },
-      { label: "DismissBackdrop", to: "/components/dismiss-backdrop" },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { structure: "done" } },
       { label: "Lightbox", to: "/components/lightbox" },
       { label: "Popover", to: "/components/popover", progress: { structure: "done" } },
@@ -123,6 +122,12 @@ const MIGRATED = {
       to: "/components/context-menu",
       hash: "migration",
       target: "ContextMenuSeparator",
+    },
+    {
+      label: "DismissBackdrop",
+      to: "/components/bottom-sheet",
+      hash: "source-comparison",
+      target: "overlay-owned dismiss behavior",
     },
     {
       label: "ServerSwitcherMenu",

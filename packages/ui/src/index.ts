@@ -239,9 +239,6 @@ export type {
   BottomSheetDescriptionProps,
 } from "./components/bottom-sheet/index.ts";
 
-export { DismissBackdrop } from "./components/dismiss-backdrop/index.ts";
-export type { DismissBackdropProps } from "./components/dismiss-backdrop/index.ts";
-
 export {
   Tabs,
   TabsIndicator,

@@ -1,5 +1,6 @@
-import type { ComponentPropsWithRef } from "react";
 import { Dialog } from "@base-ui/react/dialog";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { tv } from "tailwind-variants";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -8,11 +9,11 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 // (`BottomSheetTrigger`, `BottomSheetContent`, `BottomSheetHeader`,
 // `BottomSheetFooter`, `BottomSheetTitle`, `BottomSheetDescription`,
 // `BottomSheetClose`). Dialog owns open state, the modal scroll-lock, ESC, and
-// native outside-press dismissal — so unlike Lightbox there's no dim layer and
+// native outside-press dismissal, so unlike Lightbox there's no dim layer and
 // no manual backdrop onClick: the sheet card carries the brutal frame itself.
 //
 // All styled parts share one `tv()` slots config so theme styling lives in a
-// single place — ready for the elegant family to add per-slot overrides under
+// single place, ready for the elegant family to add per-slot overrides under
 // `theme`. Each part resolves its own slot with the active theme, so they stay
 // independently composable. `shadow-brutal-lg` maps to the --shadow-lg token.
 const bottomSheet = tv({
@@ -53,7 +54,7 @@ export type BottomSheetPortalProps = Dialog.Portal.Props;
 
 // Portals the sheet to the document body. BottomSheetContent wraps this for you.
 export function BottomSheetPortal(props: BottomSheetPortalProps) {
-  return <Dialog.Portal {...props} />;
+  return <Dialog.Portal data-slot="bottom-sheet-portal" {...props} />;
 }
 
 export type BottomSheetContentProps = StyledProps<Dialog.Popup.Props>;
@@ -69,6 +70,7 @@ export function BottomSheetContent({ className, ...props }: BottomSheetContentPr
     <BottomSheetPortal>
       <Dialog.Popup
         data-slot="bottom-sheet-content"
+        data-side="bottom"
         className={content({ className })}
         {...props}
       />
@@ -83,22 +85,46 @@ export function BottomSheetClose(props: BottomSheetCloseProps) {
   return <Dialog.Close data-slot="bottom-sheet-close" {...props} />;
 }
 
-export type BottomSheetHeaderProps = ComponentPropsWithRef<"div">;
+export type BottomSheetHeaderProps = useRender.ComponentProps<"div">;
 
 // Stacks the title + description at the top of the sheet.
-export function BottomSheetHeader({ className, ...props }: BottomSheetHeaderProps) {
+export function BottomSheetHeader({ className, render, ref, ...props }: BottomSheetHeaderProps) {
   const theme = useTheme();
   const { header } = bottomSheet({ theme });
-  return <div data-slot="bottom-sheet-header" className={header({ className })} {...props} />;
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: header({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    ref,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "bottom-sheet-header",
+    },
+  });
 }
 
-export type BottomSheetFooterProps = ComponentPropsWithRef<"div">;
+export type BottomSheetFooterProps = useRender.ComponentProps<"div">;
 
 // Trailing action area, pushed to the bottom of the sheet.
-export function BottomSheetFooter({ className, ...props }: BottomSheetFooterProps) {
+export function BottomSheetFooter({ className, render, ref, ...props }: BottomSheetFooterProps) {
   const theme = useTheme();
   const { footer } = bottomSheet({ theme });
-  return <div data-slot="bottom-sheet-footer" className={footer({ className })} {...props} />;
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: footer({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    ref,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "bottom-sheet-footer",
+    },
+  });
 }
 
 export type BottomSheetTitleProps = StyledProps<Dialog.Title.Props>;
