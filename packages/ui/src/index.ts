@@ -106,20 +106,13 @@ export type { QuotedMessageCardProps } from "./components/quoted-message-card/in
 export { ConversationPreviewCard } from "./components/conversation-preview-card/index.ts";
 export type { ConversationPreviewCardProps } from "./components/conversation-preview-card/index.ts";
 
-export {
-  Banner,
-  BannerIcon,
-  BannerBody,
-  BannerTitle,
-  BannerActions,
-} from "./components/banner/index.ts";
+export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index.ts";
 export type {
+  BannerActionProps,
+  BannerDescriptionProps,
   BannerProps,
   BannerStatus,
-  BannerIconProps,
-  BannerBodyProps,
   BannerTitleProps,
-  BannerActionsProps,
 } from "./components/banner/index.ts";
 
 export {

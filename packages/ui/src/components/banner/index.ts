@@ -1,9 +1,8 @@
-export { Banner, BannerIcon, BannerBody, BannerTitle, BannerActions } from "./banner.tsx";
+export { Banner, BannerAction, BannerDescription, BannerTitle } from "./banner.tsx";
 export type {
+  BannerActionProps,
+  BannerDescriptionProps,
   BannerProps,
   BannerStatus,
-  BannerIconProps,
-  BannerBodyProps,
   BannerTitleProps,
-  BannerActionsProps,
 } from "./banner.tsx";
