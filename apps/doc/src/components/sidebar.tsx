@@ -73,9 +73,8 @@ const NAV = [
   {
     title: "Status & Indicators",
     items: [
-      { label: "AttentionDot", to: "/components/attention-dot" },
       { label: "Badge", to: "/components/badge", progress: { structure: "done" } },
-      { label: "StatusDot", to: "/components/status-dot" },
+      { label: "Status", to: "/components/status", progress: { structure: "done" } },
     ],
   },
   {
@@ -148,6 +147,18 @@ const MIGRATED = {
       to: "/components/check-indicator",
       hash: "source-comparison",
       target: "CheckIndicator",
+    },
+    {
+      label: "AttentionDot",
+      to: "/components/status",
+      hash: "attention",
+      target: "Status.Attention",
+    },
+    {
+      label: "StatusDot",
+      to: "/components/status",
+      hash: "source-comparison",
+      target: "Status",
     },
     {
       label: "SelectionPopover",

@@ -8,7 +8,7 @@ import {
   AvatarListRowSubtitle,
   Badge,
   Button,
-  StatusDot,
+  Status,
 } from "@slock-ui/ui";
 
 import { Callout } from "#/components/callout.tsx";
@@ -49,7 +49,7 @@ const SNIPPETS = {
       <AvatarListRowSubtitle>claude-opus</AvatarListRowSubtitle>
     </AvatarListRowContent>
     <AvatarListRowAside>
-      <StatusDot className="bg-brutal-lime" />
+      <Status fill="lime" />
     </AvatarListRowAside>
   </AvatarListRowBody>
 </AvatarListRow>`,
@@ -61,7 +61,7 @@ const SNIPPETS = {
       <AvatarListRowSubtitle>claude-opus</AvatarListRowSubtitle>
     </AvatarListRowContent>
     <AvatarListRowAside>
-      <StatusDot className="bg-brutal-lime" />
+      <Status fill="lime" />
     </AvatarListRowAside>
   </AvatarListRowBody>
 </AvatarListRow>`,
@@ -169,7 +169,7 @@ function AvatarListRowDoc() {
                   <AvatarListRowSubtitle>claude-opus</AvatarListRowSubtitle>
                 </AvatarListRowContent>
                 <AvatarListRowAside>
-                  <StatusDot className="bg-brutal-lime" />
+                  <Status fill="lime" />
                 </AvatarListRowAside>
               </AvatarListRowBody>
             </AvatarListRow>

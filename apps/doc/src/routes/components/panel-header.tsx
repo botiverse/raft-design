@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, Badge, Button, PanelHeader, StatusDot } from "@slock-ui/ui";
+import { Avatar, Badge, Button, PanelHeader, Status } from "@slock-ui/ui";
 import { Bookmark, Settings } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -36,7 +36,7 @@ const SNIPPETS = {
   iconSlot={<Avatar size="lg" type="agent" />}
   iconAlwaysVisible
   title="Atlas"
-  titleSuffix={<StatusDot className="bg-brutal-lime" />}
+  titleSuffix={<Status fill="lime" />}
   subtitle="claude-opus · online"
 />`,
 } as const;
@@ -155,7 +155,7 @@ function PanelHeaderDoc() {
                 iconSlot={<Avatar size="lg" type="agent" />}
                 iconAlwaysVisible
                 title="Atlas"
-                titleSuffix={<StatusDot className="bg-brutal-lime" />}
+                titleSuffix={<Status fill="lime" />}
                 subtitle="claude-opus · online"
                 actions={<Badge tone="lime">Experimental</Badge>}
               />

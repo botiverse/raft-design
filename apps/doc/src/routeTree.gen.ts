@@ -22,6 +22,7 @@ import { Route as ComponentsTextareaRouteImport } from './routes/components/text
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
+import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSectionEyebrowRouteImport } from './routes/components/section-eyebrow'
@@ -117,6 +118,11 @@ const ComponentsSurfaceListItemRoute =
 const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
   id: '/components/status-dot',
   path: '/components/status-dot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
+  id: '/components/status',
+  path: '/components/status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
@@ -311,6 +317,7 @@ export interface FileRoutesByFullPath {
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
+  '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -356,6 +363,7 @@ export interface FileRoutesByTo {
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
+  '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -402,6 +410,7 @@ export interface FileRoutesById {
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
+  '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -449,6 +458,7 @@ export interface FileRouteTypes {
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/spinner'
+    | '/components/status'
     | '/components/status-dot'
     | '/components/surface-list-item'
     | '/components/tabs'
@@ -494,6 +504,7 @@ export interface FileRouteTypes {
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/spinner'
+    | '/components/status'
     | '/components/status-dot'
     | '/components/surface-list-item'
     | '/components/tabs'
@@ -539,6 +550,7 @@ export interface FileRouteTypes {
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/spinner'
+    | '/components/status'
     | '/components/status-dot'
     | '/components/surface-list-item'
     | '/components/tabs'
@@ -585,6 +597,7 @@ export interface RootRouteChildren {
   ComponentsSectionEyebrowRoute: typeof ComponentsSectionEyebrowRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
+  ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
@@ -688,6 +701,13 @@ declare module '@tanstack/react-router' {
       path: '/components/status-dot'
       fullPath: '/components/status-dot'
       preLoaderRoute: typeof ComponentsStatusDotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/status': {
+      id: '/components/status'
+      path: '/components/status'
+      fullPath: '/components/status'
+      preLoaderRoute: typeof ComponentsStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/spinner': {
@@ -938,6 +958,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsSectionEyebrowRoute: ComponentsSectionEyebrowRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
+  ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,

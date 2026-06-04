@@ -10,11 +10,8 @@ export type { CheckIndicatorProps } from "./components/check-indicator/index.ts"
 export { Badge } from "./components/badge/index.ts";
 export type { BadgeProps } from "./components/badge/index.ts";
 
-export { AttentionDot } from "./components/attention-dot/index.ts";
-export type { AttentionDotProps } from "./components/attention-dot/index.ts";
-
-export { StatusDot } from "./components/status-dot/index.ts";
-export type { StatusDotProps } from "./components/status-dot/index.ts";
+export { Status } from "./components/status/index.ts";
+export type { StatusAttentionProps, StatusProps } from "./components/status/index.ts";
 
 export { Input } from "./components/input/index.ts";
 export type { InputProps } from "./components/input/index.ts";
