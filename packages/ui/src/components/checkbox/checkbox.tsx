@@ -16,12 +16,7 @@ const checkbox = tv({
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
       "[&_svg]:shrink-0",
     ],
-    indicator: [
-      "flex items-center justify-center",
-      // Indeterminate (dash) is an addition beyond the original; swap the marker.
-      "[&[data-indeterminate]_[data-slot=check]]:hidden",
-      "[&:not([data-indeterminate])_[data-slot=indeterminate]]:hidden",
-    ],
+    indicator: ["flex items-center justify-center"],
   },
   variants: {
     theme: {
@@ -59,10 +54,19 @@ export function Checkbox({ size, className, ...props }: CheckboxProps) {
   const { root, indicator } = checkbox({ theme, size });
   return (
     <BaseCheckbox.Root data-slot="checkbox" className={root({ className })} {...props}>
-      <BaseCheckbox.Indicator data-slot="checkbox-indicator" className={indicator()}>
-        <Check data-slot="check" strokeWidth={4} aria-hidden />
-        <Minus data-slot="indeterminate" strokeWidth={4} aria-hidden />
-      </BaseCheckbox.Indicator>
+      <BaseCheckbox.Indicator
+        data-slot="checkbox-indicator"
+        className={indicator()}
+        render={(indicatorProps, state) => (
+          <span {...indicatorProps}>
+            {state.indeterminate ? (
+              <Minus strokeWidth={4} aria-hidden />
+            ) : (
+              <Check strokeWidth={4} aria-hidden />
+            )}
+          </span>
+        )}
+      />
     </BaseCheckbox.Root>
   );
 }

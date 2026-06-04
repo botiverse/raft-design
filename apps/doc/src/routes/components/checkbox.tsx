@@ -9,8 +9,10 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -21,6 +23,7 @@ const TOC = [
   { id: "extensions", title: "Extensions" },
   { id: "label", title: "Label" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SIZES = ["sm", "md"] as const;
@@ -28,7 +31,7 @@ const SIZES = ["sm", "md"] as const;
 const TODOS = [
   "Add elegant family styling",
   "Document Checkbox Group usage",
-  "Merge the inlined tick with CheckMarker (single shared visual)",
+  "Keep the Checkbox and CheckMarker visual contracts aligned",
 ] as const;
 
 const SNIPPETS = {
@@ -45,6 +48,19 @@ const SNIPPETS = {
   <Checkbox defaultChecked />
   Accept terms
 </label>`,
+  sourceUnchecked: `<Checkbox />`,
+  currentUnchecked: `<Checkbox />`,
+  sourceChecked: `<Checkbox checked readOnly />`,
+  currentChecked: `<Checkbox checked readOnly />`,
+  sourceSizes: `<Checkbox size="sm" checked readOnly />
+<Checkbox size="md" checked readOnly />`,
+  currentSizes: `<Checkbox size="sm" checked readOnly />
+<Checkbox size="md" checked readOnly />`,
+  sourceDisabled: `<Checkbox checked disabled readOnly />`,
+  currentDisabled: `<Checkbox checked disabled readOnly />`,
+  sourceDefaultChecked: `<Checkbox defaultChecked />`,
+  currentDefaultChecked: `<Checkbox defaultChecked />`,
+  currentIndeterminate: `<Checkbox indeterminate />`,
 } as const;
 
 type PlaygroundValues = {
@@ -116,7 +132,8 @@ function CheckboxDoc() {
       overview={
         <Differences from="Checkbox">
           <li>
-            built on Base UI&rsquo;s <code>Checkbox</code> (was an sr-only input + CheckMarker)
+            built on Base UI&rsquo;s <code>Checkbox.Root</code> / <code>Checkbox.Indicator</code>{" "}
+            (source was an sr-only input + CheckMarker)
           </li>
           <li>
             adds <code>indeterminate</code>, a focus-visible ring, an enlarged hit area, and a
@@ -213,6 +230,72 @@ function CheckboxDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Unchecked",
+              status: "match",
+              source: <LegacyCheckbox />,
+              current: <Checkbox />,
+              sourceCode: code.sourceUnchecked,
+              currentCode: code.currentUnchecked,
+            },
+            {
+              label: "Checked",
+              status: "match",
+              source: <LegacyCheckbox checked readOnly />,
+              current: <Checkbox checked readOnly />,
+              sourceCode: code.sourceChecked,
+              currentCode: code.currentChecked,
+            },
+            {
+              label: "Sizes",
+              status: "match",
+              source: (
+                <>
+                  <LegacyCheckbox size="sm" checked readOnly />
+                  <LegacyCheckbox size="md" checked readOnly />
+                </>
+              ),
+              current: (
+                <>
+                  <Checkbox size="sm" checked readOnly />
+                  <Checkbox size="md" checked readOnly />
+                </>
+              ),
+              sourceCode: code.sourceSizes,
+              currentCode: code.currentSizes,
+            },
+            {
+              label: "Disabled",
+              status: "match",
+              source: <LegacyCheckbox checked disabled readOnly />,
+              current: <Checkbox checked disabled readOnly />,
+              sourceCode: code.sourceDisabled,
+              currentCode: code.currentDisabled,
+            },
+            {
+              label: "Default checked",
+              status: "difference",
+              note: "Source keeps the visual marker controlled by checked, so defaultChecked only reaches the hidden input. Current Base UI state makes uncontrolled defaultChecked visible.",
+              source: <LegacyCheckbox defaultChecked />,
+              current: <Checkbox defaultChecked />,
+              sourceCode: code.sourceDefaultChecked,
+              currentCode: code.currentDefaultChecked,
+            },
+            {
+              label: "Indeterminate",
+              status: "difference",
+              note: "Current adds Base UI's mixed state. Source had no equivalent visual state.",
+              source: <span className="text-xs text-gray-400">No source equivalent</span>,
+              current: <Checkbox indeterminate />,
+              currentCode: code.currentIndeterminate,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

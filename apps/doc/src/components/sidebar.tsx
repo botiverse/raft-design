@@ -22,12 +22,12 @@ const TOKENS = {
 const NAV = [
   {
     title: "Actions",
-    items: [{ label: "Button", to: "/components/button" }],
+    items: [{ label: "Button", to: "/components/button", progress: { structure: "done" } }],
   },
   {
     title: "Inputs",
     items: [
-      { label: "Checkbox", to: "/components/checkbox" },
+      { label: "Checkbox", to: "/components/checkbox", progress: { structure: "done" } },
       { label: "Field", to: "/components/field" },
       { label: "Input", to: "/components/input" },
       { label: "InputGroup", to: "/components/input-group" },
