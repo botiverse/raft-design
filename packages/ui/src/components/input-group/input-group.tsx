@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, MouseEvent } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { Search } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -19,7 +19,7 @@ const inputGroup = tv({
     root: ["group/input-group relative flex w-full min-w-0 items-center"],
     addon: [
       "flex shrink-0 items-center justify-center gap-2 px-3",
-      "cursor-text select-none",
+      "select-none",
       "[&>svg:not([class*='size-'])]:size-4",
     ],
     // Search preset adornment (theme-neutral layout): an 8px gap to the control
@@ -35,7 +35,7 @@ const inputGroup = tv({
       brutal: {
         root: [
           "border-2 border-black bg-white shadow-[var(--shadow)]",
-          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-brutal-red has-[[data-slot=input-group-control][aria-invalid=true]]:bg-brutal-red/5 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-brutal-red/60",
+          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-brutal-red has-[[data-slot=input-group-control][aria-invalid=true]]:bg-brutal-red/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-brutal-red/60",
         ],
         addon: ["text-black/50"],
         slugAddon: ["border-black bg-brutal-yellow/30 text-black/70"],
@@ -56,7 +56,9 @@ const inputGroup = tv({
     {
       theme: "brutal",
       lift: true,
-      class: { root: "has-[[data-slot=input-group-control]:focus]:shadow-[var(--shadow-hover)]" },
+      class: {
+        root: "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-[var(--shadow-hover)]",
+      },
     },
   ],
   defaultVariants: {
@@ -71,7 +73,7 @@ export type InputGroupProps = ComponentPropsWithRef<"div"> &
 export function InputGroup({ lift, className, ...props }: InputGroupProps) {
   const theme = useTheme();
   const { root } = inputGroup({ theme, lift });
-  return <div role="group" data-slot="input-group" className={root({ className })} {...props} />;
+  return <div data-slot="input-group" className={root({ className })} {...props} />;
 }
 
 export type InputGroupAddonProps = ComponentPropsWithRef<"div"> &
@@ -82,26 +84,15 @@ export type InputGroupAddonProps = ComponentPropsWithRef<"div"> &
 function InputGroupAddonRoot({
   align = "inline-start",
   className,
-  onClick,
   ...props
 }: InputGroupAddonProps) {
   const theme = useTheme();
   const { addon } = inputGroup({ theme, align });
   return (
     <div
-      role="group"
       data-slot="input-group-addon"
       data-align={align}
       className={addon({ className })}
-      // Clicking the addon focuses the control, except when an interactive child
-      // (e.g. a button) was the target.
-      onClick={(event: MouseEvent<HTMLDivElement>) => {
-        onClick?.(event);
-        if (event.target instanceof HTMLElement && event.target.closest("button")) return;
-        event.currentTarget.parentElement
-          ?.querySelector<HTMLInputElement>("[data-slot=input-group-control]")
-          ?.focus();
-      }}
       {...props}
     />
   );

@@ -9,8 +9,11 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
+import LegacySlugInput from "../../../../../packages/ui/src/legacy/SlugInput.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -21,6 +24,7 @@ const TOC = [
   { id: "custom", title: "Custom addon" },
   { id: "invalid", title: "Invalid" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -50,6 +54,31 @@ const SNIPPETS = {
   <InputGroupAddon.Search />
   <InputGroupInput aria-invalid defaultValue="oops" />
 </InputGroup>`,
+  sourceSearch: `<div className="w-80">
+  <SearchInput aria-label="Search" placeholder="Search…" />
+</div>`,
+  currentSearch: `<InputGroup lift={false} className="w-80">
+  <InputGroupAddon.Search />
+  <InputGroupInput aria-label="Search" placeholder="Search…" />
+</InputGroup>`,
+  sourceSlug: `<div className="w-80">
+  <SlugInput aria-label="Server slug" placeholder="my-server" />
+</div>`,
+  currentSlug: `<InputGroup className="w-80">
+  <InputGroupAddon.Slug />
+  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+</InputGroup>`,
+  sourceInvalid: `<div className="w-80">
+  <SearchInput
+    className="!border-brutal-red ring-2 ring-brutal-red/60 bg-brutal-red/5"
+    aria-label="Search"
+    defaultValue="oops"
+  />
+</div>`,
+  currentInvalid: `<InputGroup lift={false} className="w-80">
+  <InputGroupAddon.Search />
+  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
+</InputGroup>`,
 } as const;
 
 type PlaygroundValues = {
@@ -67,7 +96,7 @@ const GROUP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'ComponentProps<"div">',
-    description: 'Native div attributes. Renders role="group" with the brutal shell.',
+    description: "Native div attributes. Renders a composition shell with the brutal frame.",
   },
 ];
 
@@ -90,7 +119,7 @@ const ADDON_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'ComponentProps<"div">',
-    description: "Native div attributes. Clicking the addon focuses the control.",
+    description: "Native div attributes for non-editable addon content.",
   },
 ];
 
@@ -127,8 +156,8 @@ function InputGroupDoc() {
             <code>InputGroupAddon.Slug</code>
           </li>
           <li>
-            invalid styling is an opt-in addition via <code>aria-invalid</code>; resting source
-            styling stays unchanged
+            invalid styling moves from ad-hoc wrapper classes to <code>aria-invalid</code> on the
+            control; resting source styling stays unchanged
           </li>
         </Differences>
       }
@@ -201,7 +230,7 @@ function InputGroupDoc() {
           </Example>
           <Callout>
             A bare <code>InputGroupAddon</code> takes any content — text, icons, buttons — and{" "}
-            <code>align</code> picks the edge. Clicking it focuses the control.
+            <code>align</code> picks the edge.
           </Callout>
         </div>
       </DocSection>
@@ -216,8 +245,8 @@ function InputGroupDoc() {
           </Example>
           <Callout>
             Set <code>aria-invalid</code> on the control; the group reacts with the red
-            border/ring/tint via <code>has-*</code>. This is a capability beyond the old
-            SearchInput/SlugInput — it only shows when you opt in, so the resting look is unchanged.
+            border/ring/tint via <code>has-*</code>. The invalid look intentionally drops the brutal
+            black shadow, matching source ad-hoc invalid overrides.
           </Callout>
         </div>
       </DocSection>
@@ -237,6 +266,71 @@ function InputGroupDoc() {
             <PropsTable rows={INPUT_PROPS} />
           </div>
         </div>
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "SearchInput",
+              status: "match",
+              note: "Source SearchInput was a fixed input-brutal shell with a 15px magnifier and no focus lift. Current InputGroup restores it with the Search addon and lift={false}.",
+              source: (
+                <div className="w-80">
+                  <LegacySearchInput aria-label="Search" placeholder="Search…" />
+                </div>
+              ),
+              current: (
+                <InputGroup lift={false} className="w-80">
+                  <InputGroupAddon.Search />
+                  <InputGroupInput aria-label="Search" placeholder="Search…" />
+                </InputGroup>
+              ),
+              sourceCode: code.sourceSearch,
+              currentCode: code.currentSearch,
+            },
+            {
+              label: "SlugInput",
+              status: "match",
+              note: "Source SlugInput was an input-brutal shell with a full-height yellow slash prefix. Current InputGroup keeps the same prefix, divider, padding, and focus lift.",
+              source: (
+                <div className="w-80">
+                  <LegacySlugInput aria-label="Server slug" placeholder="my-server" />
+                </div>
+              ),
+              current: (
+                <InputGroup className="w-80">
+                  <InputGroupAddon.Slug />
+                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+                </InputGroup>
+              ),
+              sourceCode: code.sourceSlug,
+              currentCode: code.currentSlug,
+            },
+            {
+              label: "Invalid state",
+              status: "match",
+              note: "Source callers could add red border, red ring, and tinted background to the wrapper. Current InputGroup centralizes that same visual behind aria-invalid on the control.",
+              source: (
+                <div className="w-80">
+                  <LegacySearchInput
+                    className="!border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
+                    aria-label="Search"
+                    defaultValue="oops"
+                  />
+                </div>
+              ),
+              current: (
+                <InputGroup lift={false} className="w-80">
+                  <InputGroupAddon.Search />
+                  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
+                </InputGroup>
+              ),
+              sourceCode: code.sourceInvalid,
+              currentCode: code.currentInvalid,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );
