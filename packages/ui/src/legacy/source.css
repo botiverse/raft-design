@@ -1,0 +1,25 @@
+.btn-brutal-sm {
+  border: 2px solid var(--color-black);
+  font-family: var(--display-font);
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  transition-property: all;
+  transition-duration: 100ms;
+}
+
+.btn-brutal-sm:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-brutal-sm:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-brutal-sm:disabled {
+  pointer-events: none;
+  opacity: 0.4;
+  box-shadow: var(--shadow);
+  transform: none;
+}

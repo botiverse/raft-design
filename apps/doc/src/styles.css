@@ -2,6 +2,7 @@
 
 /* Pulls in Tailwind + the @slock-ui/ui semantic theme tokens (single Tailwind entry). */
 @import "@slock-ui/ui/styles.css";
+@import "../../../packages/ui/src/legacy/source.css";
 
 /* Scan @slock-ui/ui so Tailwind generates the utility classes its tv() variants emit. */
 @source "../../../packages/ui/src";

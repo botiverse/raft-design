@@ -10,8 +10,10 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyButton from "../../../../../packages/ui/src/legacy/button.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -22,6 +24,7 @@ const TOC = [
   { id: "icons", title: "Icons" },
   { id: "states", title: "States" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TONES = [
@@ -38,7 +41,11 @@ const TONES = [
 
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
 
-const TODOS = ["Add a loading state", "Add elegant family styling"] as const;
+const TODOS = [
+  "Adjust tone into a more semantic API shape",
+  "Add a loading state",
+  "Add elegant family styling",
+] as const;
 
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
@@ -65,6 +72,40 @@ const SNIPPETS = {
 </Button>`,
   states: `<Button>Default</Button>
 <Button disabled>Disabled</Button>`,
+  sourceDefault: `<Button>Button</Button>`,
+  currentDefault: `<Button>Button</Button>`,
+  sourceTone: `<Button tone="yellow">Yellow</Button>
+<Button tone="pink">Pink</Button>
+<Button tone="cyan">Cyan</Button>`,
+  currentTone: `<Button tone="yellow">Yellow</Button>
+<Button tone="pink">Pink</Button>
+<Button tone="cyan">Cyan</Button>`,
+  sourceSizes: `<Button size="xs">XS</Button>
+<Button size="sm">SM</Button>
+<Button size="md">MD</Button>
+<Button size="lg">LG</Button>`,
+  currentSizes: `<Button size="xs">XS</Button>
+<Button size="sm">SM</Button>
+<Button size="md">MD</Button>
+<Button size="lg">LG</Button>`,
+  sourceIcon: `<Button shape="icon" aria-label="Add">
+  <Plus size={14} />
+</Button>
+
+<Button shape="iconText">
+  <Plus size={14} />
+  New
+</Button>`,
+  currentIcon: `<Button size="icon-sm" aria-label="Add">
+  <Plus />
+</Button>
+
+<Button>
+  <Plus data-icon="inline-start" />
+  New
+</Button>`,
+  sourceDisabled: `<Button disabled>Disabled</Button>`,
+  currentDisabled: `<Button disabled>Disabled</Button>`,
 } as const;
 
 type PlaygroundValues = {
@@ -217,6 +258,105 @@ function ButtonDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Default",
+              status: "match",
+              source: <LegacyButton>Button</LegacyButton>,
+              current: <Button>Button</Button>,
+              sourceCode: code.sourceDefault,
+              currentCode: code.currentDefault,
+            },
+            {
+              label: "Tone",
+              status: "match",
+              source: (
+                <>
+                  <LegacyButton tone="yellow">Yellow</LegacyButton>
+                  <LegacyButton tone="pink">Pink</LegacyButton>
+                  <LegacyButton tone="cyan">Cyan</LegacyButton>
+                </>
+              ),
+              current: (
+                <>
+                  <Button tone="yellow">Yellow</Button>
+                  <Button tone="pink">Pink</Button>
+                  <Button tone="cyan">Cyan</Button>
+                </>
+              ),
+              sourceCode: code.sourceTone,
+              currentCode: code.currentTone,
+            },
+            {
+              label: "Sizes",
+              status: "match",
+              source: (
+                <>
+                  <LegacyButton size="xs">XS</LegacyButton>
+                  <LegacyButton size="sm">SM</LegacyButton>
+                  <LegacyButton size="md">MD</LegacyButton>
+                  <LegacyButton size="lg">LG</LegacyButton>
+                </>
+              ),
+              current: (
+                <>
+                  <Button size="xs">XS</Button>
+                  <Button size="sm">SM</Button>
+                  <Button size="md">MD</Button>
+                  <Button size="lg">LG</Button>
+                </>
+              ),
+              sourceCode: code.sourceSizes,
+              currentCode: code.currentSizes,
+            },
+            {
+              label: "Icon",
+              status: "difference",
+              note: (
+                <>
+                  Source uses <code>shape=&quot;icon&quot;</code>; current uses square{" "}
+                  <code>size=&quot;icon-*&quot;</code>.
+                </>
+              ),
+              source: (
+                <>
+                  <LegacyButton shape="icon">
+                    <Plus size={14} />
+                  </LegacyButton>
+                  <LegacyButton shape="iconText">
+                    <Plus size={14} />
+                    New
+                  </LegacyButton>
+                </>
+              ),
+              current: (
+                <>
+                  <Button size="icon-sm" aria-label="Add">
+                    <Plus />
+                  </Button>
+                  <Button>
+                    <Plus data-icon="inline-start" />
+                    New
+                  </Button>
+                </>
+              ),
+              sourceCode: code.sourceIcon,
+              currentCode: code.currentIcon,
+            },
+            {
+              label: "Disabled",
+              status: "match",
+              source: <LegacyButton disabled>Disabled</LegacyButton>,
+              current: <Button disabled>Disabled</Button>,
+              sourceCode: code.sourceDisabled,
+              currentCode: code.currentDisabled,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );
