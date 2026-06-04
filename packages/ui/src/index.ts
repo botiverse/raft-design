@@ -171,9 +171,9 @@ export {
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
-  PopoverPortal,
   PopoverTitle,
   PopoverTrigger,
+  PopoverViewport,
 } from "./components/popover/index.ts";
 export type {
   PopoverArrowProps,
@@ -182,10 +182,10 @@ export type {
   PopoverContentProps,
   PopoverDescriptionProps,
   PopoverHeaderProps,
-  PopoverPortalProps,
   PopoverProps,
   PopoverTitleProps,
   PopoverTriggerProps,
+  PopoverViewportProps,
 } from "./components/popover/index.ts";
 
 export { SectionEyebrow } from "./components/section-eyebrow/index.ts";

@@ -22,6 +22,7 @@ const popover = tv({
     ],
     arrow: ["size-2 rotate-45"],
     backdrop: ["fixed inset-0"],
+    viewport: ["block"],
   },
   variants: {
     theme: {
@@ -60,25 +61,36 @@ export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
   );
 }
 
-export type PopoverPortalProps = BasePopover.Portal.Props;
-
-export function PopoverPortal(props: PopoverPortalProps) {
-  return <BasePopover.Portal data-slot="popover-portal" {...props} />;
-}
-
 export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
   Pick<
     BasePopover.Positioner.Props,
-    "align" | "alignOffset" | "disableAnchorTracking" | "positionMethod" | "side" | "sideOffset"
+    | "align"
+    | "alignOffset"
+    | "anchor"
+    | "arrowPadding"
+    | "collisionAvoidance"
+    | "collisionBoundary"
+    | "collisionPadding"
+    | "disableAnchorTracking"
+    | "positionMethod"
+    | "side"
+    | "sideOffset"
+    | "sticky"
   >;
 
 export function PopoverContent({
   align = "start",
   alignOffset = 0,
+  anchor,
+  arrowPadding,
+  collisionAvoidance,
+  collisionBoundary,
+  collisionPadding,
   disableAnchorTracking = true,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset = 4,
+  sticky,
   className,
   ...props
 }: PopoverContentProps) {
@@ -89,10 +101,16 @@ export function PopoverContent({
       <BasePopover.Positioner
         align={align}
         alignOffset={alignOffset}
+        anchor={anchor}
+        arrowPadding={arrowPadding}
+        collisionAvoidance={collisionAvoidance}
+        collisionBoundary={collisionBoundary}
+        collisionPadding={collisionPadding}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
         sideOffset={sideOffset}
+        sticky={sticky}
         className={positioner()}
       >
         <BasePopover.Popup
@@ -102,6 +120,20 @@ export function PopoverContent({
         />
       </BasePopover.Positioner>
     </BasePopover.Portal>
+  );
+}
+
+export type PopoverViewportProps = StyledProps<BasePopover.Viewport.Props>;
+
+export function PopoverViewport({ className, ...props }: PopoverViewportProps) {
+  const theme = useTheme();
+  const { viewport } = popover({ theme });
+  return (
+    <BasePopover.Viewport
+      data-slot="popover-viewport"
+      className={viewport({ className })}
+      {...props}
+    />
   );
 }
 

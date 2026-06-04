@@ -1,9 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Button,
+  Field,
+  FieldLabel,
+  Input,
   Popover,
   PopoverClose,
   PopoverContent,
+  PopoverDescription,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
@@ -26,6 +30,8 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "demo", title: "Demo" },
   { id: "searchable", title: "Searchable" },
+  { id: "form", title: "Form" },
+  { id: "inline", title: "Inline" },
   { id: "opened", title: "Opened" },
   { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
@@ -85,6 +91,38 @@ const SNIPPETS = {
     </PopoverHeader>
   </PopoverContent>
 </Popover>`,
+  form: `<Popover>
+  <PopoverTrigger render={<Button />}>Invite</PopoverTrigger>
+  <PopoverContent className="w-72">
+    <PopoverHeader className="items-start">
+      <div>
+        <PopoverTitle>Invite member</PopoverTitle>
+        <PopoverDescription>Add a teammate by email.</PopoverDescription>
+      </div>
+      <PopoverClose>Close</PopoverClose>
+    </PopoverHeader>
+    <form className="space-y-3 p-3">
+      <Field>
+        <FieldLabel htmlFor="invite-email" size="sm" className="uppercase tracking-wide">
+          Email
+        </FieldLabel>
+        <Input id="invite-email" type="email" placeholder="you@example.com" />
+      </Field>
+      <Button type="button" size="sm" className="w-full">Send invite</Button>
+    </form>
+  </PopoverContent>
+</Popover>`,
+  inline: `<Popover>
+  <PopoverTrigger render={<Button />}>Open</PopoverTrigger>
+  <PopoverContent side="inline-end" align="start" className="w-56">
+    <PopoverHeader>
+      <PopoverTitle>Inline end</PopoverTitle>
+    </PopoverHeader>
+    <div className="p-3 text-xs leading-5 text-black/60">
+      Uses Base UI's logical inline side while keeping the same shell.
+    </div>
+  </PopoverContent>
+</Popover>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -101,7 +139,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "PopoverContent",
     type: "Base UI Popup + Positioner props",
-    description: "Portaled card shell. Defaults to side=bottom, align=start, sideOffset=4.",
+    description:
+      "Portaled card shell. Defaults to side=bottom, align=start, sideOffset=4, disableAnchorTracking=true, and forwards anchor/collision/sticky/inline-side positioning props.",
   },
   {
     name: "PopoverHeader",
@@ -122,6 +161,12 @@ const PROPS: readonly PropRow[] = [
     name: "PopoverClose",
     type: "Base UI Popover.Close.Props",
     description: "Closes the popover. Compose your own visual affordance with render/className.",
+  },
+  {
+    name: "PopoverViewport",
+    type: "Base UI Popover.Viewport.Props",
+    description:
+      "Optional transition viewport for one popover whose content changes between multiple triggers.",
   },
 ];
 
@@ -206,6 +251,50 @@ function SearchableSelectionPopover() {
   );
 }
 
+function FormPopover() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button size="md" />}>Invite</PopoverTrigger>
+      <PopoverContent className="w-72">
+        <PopoverHeader className="items-start">
+          <div>
+            <PopoverTitle>Invite member</PopoverTitle>
+            <PopoverDescription>Add a teammate by email.</PopoverDescription>
+          </div>
+          <PopoverClose>Close</PopoverClose>
+        </PopoverHeader>
+        <form className="space-y-3 p-3">
+          <Field>
+            <FieldLabel htmlFor="invite-email" size="sm" className="uppercase tracking-wide">
+              Email
+            </FieldLabel>
+            <Input id="invite-email" type="email" placeholder="you@example.com" />
+          </Field>
+          <Button type="button" size="sm" className="w-full">
+            Send invite
+          </Button>
+        </form>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function InlinePopover() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button size="md" />}>Open</PopoverTrigger>
+      <PopoverContent side="inline-end" align="start" className="w-56">
+        <PopoverHeader>
+          <PopoverTitle>Inline end</PopoverTitle>
+        </PopoverHeader>
+        <div className="p-3 text-xs leading-5 text-black/60">
+          Uses Base UI&apos;s logical inline side while keeping the same shell.
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function PopoverDoc() {
   const code = Route.useLoaderData();
   const [selected, setSelected] = useState("All");
@@ -223,6 +312,11 @@ function PopoverDoc() {
           <li>
             difference from source: open state, focus handoff, Escape, outside press, portal, and
             positioning are owned by Base UI Popover instead of being caller-positioned
+          </li>
+          <li>
+            difference from Base UI: <code>disableAnchorTracking</code> defaults to{" "}
+            <code>true</code> so the panel does not follow trigger hover/layout movement after it
+            opens; pass <code>false</code> to restore live anchor tracking
           </li>
           <li>
             difference from source: rows, filtering, Clear behavior, checked state, disabled rows,
@@ -267,6 +361,18 @@ function PopoverDoc() {
       <DocSection id="searchable" title="Searchable">
         <Example html={code.searchable}>
           <SearchableSelectionPopover />
+        </Example>
+      </DocSection>
+
+      <DocSection id="form" title="Form">
+        <Example html={code.form}>
+          <FormPopover />
+        </Example>
+      </DocSection>
+
+      <DocSection id="inline" title="Inline">
+        <Example html={code.inline}>
+          <InlinePopover />
         </Example>
       </DocSection>
 
