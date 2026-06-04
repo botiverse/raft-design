@@ -1,18 +1,12 @@
-import type { ComponentPropsWithRef } from "react";
+import { Field as BaseField } from "@base-ui/react/field";
 import { tv, type VariantProps } from "tailwind-variants";
+import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
-// Field family: a layout wrapper that stacks a label, control, and
-// description / error. All parts share one `tv()` slots config so theme / size
-// styling lives in a single place — ready for the elegant family to add
-// per-slot overrides under `theme`.
-//
-// Set `data-invalid` (alongside `aria-invalid` on the control) to flip
-// descendants to the error look via the `group/field` marker. The root slot is
-// pure layout, so it carries no theme.
 const field = tv({
   slots: {
     root: ["group/field flex flex-col gap-1"],
+    item: ["group/field-item flex items-start gap-2"],
     label: ["block font-bold"],
     description: ["text-xs"],
     error: ["text-xs font-bold"],
@@ -39,28 +33,31 @@ const field = tv({
   },
 });
 
-export type FieldProps = ComponentPropsWithRef<"div">;
+export type FieldProps = StyledProps<BaseField.Root.Props>;
 
 export function Field({ className, ...props }: FieldProps) {
   const { root } = field();
-  return <div role="group" data-slot="field" className={root({ className })} {...props} />;
+  return <BaseField.Root data-slot="field" className={root({ className })} {...props} />;
 }
 
-// A label can show one marker after its text, never both: `requiredMark` (pink `*`)
-// or `optional` (a muted `(optional)` tag).
-type LabelMarker =
-  | { requiredMark?: boolean; optional?: never }
-  | { optional?: boolean; requiredMark?: never };
+export type FieldItemProps = StyledProps<BaseField.Item.Props>;
 
-export type FieldLabelProps = ComponentPropsWithRef<"label"> &
+export function FieldItem({ className, ...props }: FieldItemProps) {
+  const { item } = field();
+  return <BaseField.Item data-slot="field-item" className={item({ className })} {...props} />;
+}
+
+type LabelMarker =
+  | { required?: boolean; optional?: never }
+  | { optional?: boolean; required?: never };
+
+export type FieldLabelProps = StyledProps<BaseField.Label.Props> &
   Omit<VariantProps<typeof field>, "theme"> &
   LabelMarker;
 
-// Labels render as written; add `className="uppercase tracking-wide"` for the
-// brutal uppercase look.
 export function FieldLabel({
   size,
-  requiredMark,
+  required,
   optional,
   className,
   children,
@@ -69,26 +66,51 @@ export function FieldLabel({
   const theme = useTheme();
   const { label } = field({ theme, size });
   return (
-    <label data-slot="field-label" className={label({ className })} {...props}>
+    <BaseField.Label data-slot="field-label" className={label({ className })} {...props}>
       {children}
-      {requiredMark ? <span className="ml-1 text-brutal-pink">*</span> : null}
+      {required ? <span className="ml-1 text-brutal-pink">*</span> : null}
       {optional ? <span className="ml-1 normal-case text-black/40">(optional)</span> : null}
-    </label>
+    </BaseField.Label>
   );
 }
 
-export type FieldDescriptionProps = ComponentPropsWithRef<"p">;
+export type FieldDescriptionProps = StyledProps<BaseField.Description.Props>;
 
 export function FieldDescription({ className, ...props }: FieldDescriptionProps) {
   const theme = useTheme();
   const { description } = field({ theme });
-  return <p data-slot="field-description" className={description({ className })} {...props} />;
+  return (
+    <BaseField.Description
+      data-slot="field-description"
+      className={description({ className })}
+      {...props}
+    />
+  );
 }
 
-export type FieldErrorProps = ComponentPropsWithRef<"p">;
+export type FieldErrorProps = StyledProps<BaseField.Error.Props>;
 
-export function FieldError({ className, ...props }: FieldErrorProps) {
+export function FieldError({ className, role = "alert", ...props }: FieldErrorProps) {
   const theme = useTheme();
   const { error } = field({ theme });
-  return <p data-slot="field-error" role="alert" className={error({ className })} {...props} />;
+  return (
+    <BaseField.Error
+      data-slot="field-error"
+      role={role}
+      className={error({ className })}
+      {...props}
+    />
+  );
+}
+
+export type FieldControlProps = BaseField.Control.Props;
+
+export function FieldControl(props: FieldControlProps) {
+  return <BaseField.Control data-slot="field-control" {...props} />;
+}
+
+export type FieldValidityProps = BaseField.Validity.Props;
+
+export function FieldValidity(props: FieldValidityProps) {
+  return <BaseField.Validity {...props} />;
 }

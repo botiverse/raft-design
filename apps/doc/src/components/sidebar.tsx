@@ -28,7 +28,7 @@ const NAV = [
     title: "Inputs",
     items: [
       { label: "Checkbox", to: "/components/checkbox", progress: { structure: "done" } },
-      { label: "Field", to: "/components/field" },
+      { label: "Field", to: "/components/field", progress: { structure: "done" } },
       { label: "Input", to: "/components/input" },
       { label: "InputGroup", to: "/components/input-group" },
       { label: "SegmentedControl", to: "/components/segmented-control" },

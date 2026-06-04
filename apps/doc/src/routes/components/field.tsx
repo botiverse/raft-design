@@ -9,8 +9,10 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -20,9 +22,13 @@ const TOC = [
   { id: "invalid", title: "Invalid" },
   { id: "complete", title: "Complete field" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const TODOS = [
+  "Add elegant family styling",
+  "Move Input/Textarea onto Field-aware controls",
+] as const;
 
 const SNIPPETS = {
   anatomy: `import { Field, FieldLabel, FieldDescription, Textarea } from "@slock-ui/ui";
@@ -32,23 +38,39 @@ const SNIPPETS = {
   <FieldDescription>Enter your message below.</FieldDescription>
   <Textarea id="msg" placeholder="Type your message here." />
 </Field>`,
-  invalid: `<Field data-invalid>
+  invalid: `<Field invalid>
   <FieldLabel htmlFor="msg">Message</FieldLabel>
   <Textarea id="msg" aria-invalid />
-  <FieldError>Please enter a valid message.</FieldError>
+  <FieldError match>Please enter a valid message.</FieldError>
 </Field>`,
-  label: `<FieldLabel>Email address</FieldLabel>
-<FieldLabel requiredMark>Email address</FieldLabel>
-<FieldLabel optional>Email address</FieldLabel>
-<FieldLabel size="sm">Email address</FieldLabel>
-<FieldLabel className="uppercase tracking-wide">Email address</FieldLabel>`,
+  label: `<Field><FieldLabel>Email address</FieldLabel></Field>
+<Field><FieldLabel required>Email address</FieldLabel></Field>
+<Field><FieldLabel optional>Email address</FieldLabel></Field>
+<Field><FieldLabel size="sm">Email address</FieldLabel></Field>
+<Field><FieldLabel className="uppercase tracking-wide">Email address</FieldLabel></Field>`,
   complete: `<Field>
-  <FieldLabel htmlFor="bio" requiredMark>Bio</FieldLabel>
+  <FieldLabel htmlFor="bio" required>Bio</FieldLabel>
   <Textarea id="bio" rows={3} maxLength={160} value={bio} onChange={(e) => setBio(e.target.value)} />
   <div className="flex justify-between gap-3">
     <FieldDescription>A short blurb for your profile.</FieldDescription>
     <Textarea.Counter value={bio} limit={160} />
   </div>
+</Field>`,
+  sourcePropWrapper: `<FormField label="Email" htmlFor="source-email" required hint="Use your work email.">
+  <input id="source-email" className="input-brutal" />
+</FormField>`,
+  currentComposition: `<Field>
+  <FieldLabel htmlFor="current-email" required>Email</FieldLabel>
+  <input id="current-email" className="input-brutal" />
+  <FieldDescription>Use your work email.</FieldDescription>
+</Field>`,
+  sourceError: `<FormField label="Email" htmlFor="source-email-error" error="Email is required.">
+  <input id="source-email-error" className="input-brutal" aria-invalid />
+</FormField>`,
+  currentError: `<Field invalid>
+  <FieldLabel htmlFor="current-email-error">Email</FieldLabel>
+  <input id="current-email-error" className="input-brutal" aria-invalid />
+  <FieldError match>Email is required.</FieldError>
 </Field>`,
 } as const;
 
@@ -61,26 +83,42 @@ type PlaygroundValues = {
 const PROPS: readonly PropRow[] = [
   {
     name: "Field",
-    type: "div",
+    type: "Base UI Field.Root",
     description:
-      "Wrapper that stacks label / control / message. Set data-invalid for the error look.",
+      "Wrapper that stacks label / control / message. Use invalid for externally controlled errors, or validate/validationMode for Base UI validation.",
   },
   {
     name: "FieldLabel",
-    type: "label",
+    type: "Base UI Field.Label",
     description:
-      "Bold label (htmlFor ties it to the control). Props: requiredMark (* marker), optional ((optional) tag), size (sm | md). Uppercase via className.",
+      "Bold label. Props: required (* marker), optional ((optional) tag), size (sm | md), nativeLabel. Uppercase via className.",
   },
   {
     name: "FieldDescription",
-    type: "p",
-    description: "Muted helper text below the control.",
+    type: "Base UI Field.Description",
+    description: "Muted helper text below the control. Registers itself for aria-describedby.",
   },
   {
     name: "FieldError",
-    type: "p (role=alert)",
+    type: "Base UI Field.Error",
     description:
-      "Red error message. Render in place of (or alongside) the description when invalid.",
+      "Red error message. By default follows Base UI validity; pass match={true} to force an externally controlled message.",
+  },
+  {
+    name: "FieldItem",
+    type: "Base UI Field.Item",
+    description: "Groups checkbox/radio items with a label and description.",
+  },
+  {
+    name: "FieldControl",
+    type: "Base UI Field.Control",
+    description:
+      "Optional Base UI native input control. Input/Textarea can still be composed manually.",
+  },
+  {
+    name: "FieldValidity",
+    type: "Base UI Field.Validity",
+    description: "Render-prop access to Base UI validity state.",
   },
 ];
 
@@ -102,6 +140,10 @@ function FieldDoc() {
             composable pieces (<code>Field</code> / <code>FieldLabel</code> /{" "}
             <code>FieldDescription</code> / <code>FieldError</code>) instead of one prop-based
             component
+          </li>
+          <li>
+            built on Base UI&rsquo;s <code>Field.Root</code> / <code>Label</code> /{" "}
+            <code>Description</code> / <code>Error</code> primitives
           </li>
           <li>
             <code>FieldLabel</code> is plain by default (was uppercase; opt in via{" "}
@@ -127,11 +169,11 @@ function FieldDoc() {
             { name: "description", label: "Description", type: "text" },
           ]}
           render={(values) => (
-            <Field className="w-80" data-invalid={values.invalid || undefined}>
+            <Field className="w-80" invalid={values.invalid}>
               <FieldLabel htmlFor="pg">{values.label}</FieldLabel>
               <Textarea id="pg" rows={4} aria-invalid={values.invalid || undefined} />
               {values.invalid ? (
-                <FieldError>Please enter a valid message.</FieldError>
+                <FieldError match>Please enter a valid message.</FieldError>
               ) : values.description ? (
                 <FieldDescription>{values.description}</FieldDescription>
               ) : null}
@@ -148,15 +190,25 @@ function FieldDoc() {
         <div className="space-y-4">
           <Example html={code.label}>
             <div className="flex w-full flex-col items-start gap-3">
-              <FieldLabel>Email address</FieldLabel>
-              <FieldLabel requiredMark>Email address</FieldLabel>
-              <FieldLabel optional>Email address</FieldLabel>
-              <FieldLabel size="sm">Email address</FieldLabel>
-              <FieldLabel className="uppercase tracking-wide">Email address</FieldLabel>
+              <Field>
+                <FieldLabel>Email address</FieldLabel>
+              </Field>
+              <Field>
+                <FieldLabel required>Email address</FieldLabel>
+              </Field>
+              <Field>
+                <FieldLabel optional>Email address</FieldLabel>
+              </Field>
+              <Field>
+                <FieldLabel size="sm">Email address</FieldLabel>
+              </Field>
+              <Field>
+                <FieldLabel className="uppercase tracking-wide">Email address</FieldLabel>
+              </Field>
             </div>
           </Example>
           <Callout>
-            Labels render as written. <code>requiredMark</code> adds a pink <code>*</code>;{" "}
+            Labels render as written. <code>required</code> adds a pink <code>*</code>;{" "}
             <code>optional</code> appends a muted <code>(optional)</code>; <code>size="sm"</code>{" "}
             dims and shrinks it for dense forms. For the brutal uppercase look, add{" "}
             <code>className="uppercase tracking-wide"</code> (last row).
@@ -167,16 +219,16 @@ function FieldDoc() {
       <DocSection id="invalid" title="Invalid">
         <div className="space-y-4">
           <Example html={code.invalid}>
-            <Field className="w-80" data-invalid>
+            <Field className="w-80" invalid>
               <FieldLabel htmlFor="invalid-msg">Message</FieldLabel>
               <Textarea id="invalid-msg" rows={4} aria-invalid defaultValue="oops" />
-              <FieldError>Please enter a valid message.</FieldError>
+              <FieldError match>Please enter a valid message.</FieldError>
             </Field>
           </Example>
           <Callout>
-            <code>data-invalid</code> on <code>Field</code> drives any <code>Textarea.Counter</code>{" "}
-            to red via a <code>group</code> marker; <code>aria-invalid</code> on the control drives
-            its border, and the message is a <code>FieldError</code>. Keep both flags in sync.
+            <code>invalid</code> on <code>Field</code> drives Base UI field state and any{" "}
+            <code>Textarea.Counter</code> through the emitted <code>data-invalid</code> marker;{" "}
+            <code>aria-invalid</code> on non-Base-UI controls still drives the control border.
           </Callout>
         </div>
       </DocSection>
@@ -186,7 +238,7 @@ function FieldDoc() {
           <Example html={code.complete}>
             <div className="flex w-80 flex-col gap-6">
               <Field>
-                <FieldLabel htmlFor="bio" requiredMark>
+                <FieldLabel htmlFor="bio" required>
                   Bio
                 </FieldLabel>
                 <Textarea id="bio" rows={3} maxLength={160} defaultValue="Frontend engineer." />
@@ -195,28 +247,103 @@ function FieldDoc() {
                   <Textarea.Counter value="Frontend engineer." limit={160} />
                 </div>
               </Field>
-              <Field data-invalid>
-                <FieldLabel htmlFor="bio-err" requiredMark>
+              <Field invalid>
+                <FieldLabel htmlFor="bio-err" required>
                   Bio
                 </FieldLabel>
                 <Textarea id="bio-err" rows={3} aria-invalid maxLength={160} defaultValue="Hi." />
                 <div className="flex justify-between gap-3">
-                  <FieldError>Tell us a bit more about yourself.</FieldError>
+                  <FieldError match>Tell us a bit more about yourself.</FieldError>
                   <Textarea.Counter value="Hi." limit={160} />
                 </div>
               </Field>
             </div>
           </Example>
           <Callout>
-            The second field is <code>data-invalid</code>: the control border, the{" "}
+            The second field is <code>invalid</code>: the control border, the{" "}
             <code>FieldError</code>, and the <code>Textarea.Counter</code> all turn red — the
-            counter via the <code>group</code> marker, even though it is under the limit.
+            counter via Base UI&rsquo;s emitted <code>data-invalid</code> marker, even though it is
+            under the limit.
           </Callout>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Prop wrapper to composition",
+              status: "difference",
+              note: "Source FormField owned label, required, hint, and error props. Current Field exposes Base UI parts so layout and messages are composed explicitly.",
+              source: (
+                <LegacyFormField
+                  label="Email"
+                  htmlFor="source-email"
+                  required
+                  hint="Use your work email."
+                >
+                  <input
+                    id="source-email"
+                    aria-label="Email"
+                    className="w-80 border-2 border-black bg-white px-3 py-2 font-display shadow-[var(--shadow)]"
+                  />
+                </LegacyFormField>
+              ),
+              current: (
+                <Field>
+                  <FieldLabel htmlFor="current-email" required>
+                    Email
+                  </FieldLabel>
+                  <input
+                    id="current-email"
+                    aria-label="Email"
+                    className="w-80 border-2 border-black bg-white px-3 py-2 font-display shadow-[var(--shadow)]"
+                  />
+                  <FieldDescription>Use your work email.</FieldDescription>
+                </Field>
+              ),
+              sourceCode: code.sourcePropWrapper,
+              currentCode: code.currentComposition,
+            },
+            {
+              label: "Error",
+              status: "difference",
+              note: "Source error prop always rendered the message. Current Field marks root invalid and FieldError opts into a forced external message with match.",
+              source: (
+                <LegacyFormField
+                  label="Email"
+                  htmlFor="source-email-error"
+                  error="Email is required."
+                >
+                  <input
+                    id="source-email-error"
+                    aria-label="Email"
+                    aria-invalid
+                    className="w-80 border-2 border-brutal-red bg-brutal-red/5 px-3 py-2 font-display shadow-[var(--shadow)] ring-2 ring-brutal-red/60"
+                  />
+                </LegacyFormField>
+              ),
+              current: (
+                <Field invalid>
+                  <FieldLabel htmlFor="current-email-error">Email</FieldLabel>
+                  <input
+                    id="current-email-error"
+                    aria-label="Email"
+                    aria-invalid
+                    className="w-80 border-2 border-brutal-red bg-brutal-red/5 px-3 py-2 font-display shadow-[var(--shadow)] ring-2 ring-brutal-red/60"
+                  />
+                  <FieldError match>Email is required.</FieldError>
+                </Field>
+              ),
+              sourceCode: code.sourceError,
+              currentCode: code.currentError,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

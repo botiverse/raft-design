@@ -35,12 +35,23 @@ export type { TextareaProps, TextareaCounterProps } from "./components/textarea/
 export { Spinner } from "./components/spinner/index.ts";
 export type { SpinnerProps } from "./components/spinner/index.ts";
 
-export { Field, FieldLabel, FieldDescription, FieldError } from "./components/field/index.ts";
+export {
+  Field,
+  FieldControl,
+  FieldDescription,
+  FieldError,
+  FieldItem,
+  FieldLabel,
+  FieldValidity,
+} from "./components/field/index.ts";
 export type {
+  FieldControlProps,
   FieldProps,
   FieldLabelProps,
   FieldDescriptionProps,
   FieldErrorProps,
+  FieldItemProps,
+  FieldValidityProps,
 } from "./components/field/index.ts";
 
 export { SegmentedControl } from "./components/segmented-control/index.ts";
