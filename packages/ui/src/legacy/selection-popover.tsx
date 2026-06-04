@@ -2,7 +2,7 @@ import type { KeyboardEvent, ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check } from "lucide-react";
 import { tv } from "tailwind-variants";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useTheme } from "../lib/theme/use-theme.ts";
 
 // Single-select popover content: a header, an optional search box, and a list of
 // checkable rows (the trailing ✓ is the selected indicator; hover is the shared
@@ -188,7 +188,7 @@ export function SelectionPopover(props: SelectionPopoverProps) {
           {/* Reuses the brutal field skin (input-brutal → --shadow / --shadow-hover). */}
           <input
             type="text"
-            autoFocus
+            aria-label={props.searchPlaceholder ?? title}
             value={props.search}
             onChange={(event) => props.onSearchChange(event.target.value)}
             onKeyDown={(event) => {

@@ -55,7 +55,7 @@ const NAV = [
       { label: "DismissBackdrop", to: "/components/dismiss-backdrop", status: "in-progress" },
       { label: "DropdownMenu", to: "/components/dropdown-menu", status: "in-progress" },
       { label: "Lightbox", to: "/components/lightbox", status: "in-progress" },
-      { label: "SelectionPopover", to: "/components/selection-popover", status: "in-progress" },
+      { label: "Popover", to: "/components/popover", status: "in-progress" },
     ],
   },
   {
@@ -143,6 +143,12 @@ const MIGRATED = {
       to: "/components/badge",
       hash: "experimental",
       target: "Badge.Experimental",
+    },
+    {
+      label: "SelectionPopover",
+      to: "/components/popover",
+      hash: "migration",
+      target: "Popover",
     },
   ],
 } as const;

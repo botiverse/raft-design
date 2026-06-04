@@ -1,0 +1,172 @@
+import type { ComponentPropsWithRef } from "react";
+import { Popover as BasePopover } from "@base-ui/react/popover";
+import { tv } from "tailwind-variants";
+import type { StyledProps } from "../../lib/styled-props.ts";
+import { useTheme } from "../../lib/theme/use-theme.ts";
+
+const popover = tv({
+  slots: {
+    trigger: ["select-none"],
+    positioner: ["isolate z-50 outline-none"],
+    content: [
+      "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-white",
+      "outline-none",
+    ],
+    header: ["flex items-center justify-between border-b px-3 py-2"],
+    title: ["text-[10px] font-bold uppercase tracking-wide"],
+    description: ["text-xs leading-5"],
+    close: [
+      "inline-flex items-center justify-center",
+      "text-[10px] font-bold uppercase tracking-wide",
+      "outline-none transition-colors",
+    ],
+    arrow: ["size-2 rotate-45"],
+    backdrop: ["fixed inset-0"],
+  },
+  variants: {
+    theme: {
+      brutal: {
+        content: ["border-2 border-black shadow-[var(--shadow-hover)]"],
+        header: ["border-black"],
+        title: ["text-black/60"],
+        description: ["text-black/50"],
+        close: ["text-black/50 hover:text-black"],
+        arrow: ["border-l-2 border-t-2 border-black bg-white"],
+        backdrop: ["bg-transparent"],
+      },
+      // Elegant styling is deferred; see the component TODO.
+      elegant: {},
+    },
+  },
+});
+
+export type PopoverProps = BasePopover.Root.Props;
+
+export function Popover(props: PopoverProps) {
+  return <BasePopover.Root {...props} />;
+}
+
+export type PopoverTriggerProps = StyledProps<BasePopover.Trigger.Props>;
+
+export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
+  const theme = useTheme();
+  const { trigger } = popover({ theme });
+  return (
+    <BasePopover.Trigger
+      data-slot="popover-trigger"
+      className={trigger({ className })}
+      {...props}
+    />
+  );
+}
+
+export type PopoverPortalProps = BasePopover.Portal.Props;
+
+export function PopoverPortal(props: PopoverPortalProps) {
+  return <BasePopover.Portal data-slot="popover-portal" {...props} />;
+}
+
+export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
+  Pick<
+    BasePopover.Positioner.Props,
+    "align" | "alignOffset" | "disableAnchorTracking" | "positionMethod" | "side" | "sideOffset"
+  >;
+
+export function PopoverContent({
+  align = "start",
+  alignOffset = 0,
+  disableAnchorTracking = true,
+  positionMethod = "fixed",
+  side = "bottom",
+  sideOffset = 4,
+  className,
+  ...props
+}: PopoverContentProps) {
+  const theme = useTheme();
+  const { positioner, content } = popover({ theme });
+  return (
+    <BasePopover.Portal>
+      <BasePopover.Positioner
+        align={align}
+        alignOffset={alignOffset}
+        disableAnchorTracking={disableAnchorTracking}
+        positionMethod={positionMethod}
+        side={side}
+        sideOffset={sideOffset}
+        className={positioner()}
+      >
+        <BasePopover.Popup
+          data-slot="popover-content"
+          className={content({ className })}
+          {...props}
+        />
+      </BasePopover.Positioner>
+    </BasePopover.Portal>
+  );
+}
+
+export type PopoverHeaderProps = ComponentPropsWithRef<"div">;
+
+export function PopoverHeader({ className, ...props }: PopoverHeaderProps) {
+  const theme = useTheme();
+  const { header } = popover({ theme });
+  return <div data-slot="popover-header" className={header({ className })} {...props} />;
+}
+
+export type PopoverTitleProps = StyledProps<BasePopover.Title.Props>;
+
+export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
+  const theme = useTheme();
+  const { title } = popover({ theme });
+  return (
+    <BasePopover.Title data-slot="popover-title" className={title({ className })} {...props} />
+  );
+}
+
+export type PopoverDescriptionProps = StyledProps<BasePopover.Description.Props>;
+
+export function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
+  const theme = useTheme();
+  const { description } = popover({ theme });
+  return (
+    <BasePopover.Description
+      data-slot="popover-description"
+      className={description({ className })}
+      {...props}
+    />
+  );
+}
+
+export type PopoverCloseProps = StyledProps<BasePopover.Close.Props>;
+
+export function PopoverClose({ className, ...props }: PopoverCloseProps) {
+  const theme = useTheme();
+  const { close } = popover({ theme });
+  return (
+    <BasePopover.Close data-slot="popover-close" className={close({ className })} {...props} />
+  );
+}
+
+export type PopoverArrowProps = StyledProps<BasePopover.Arrow.Props>;
+
+export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
+  const theme = useTheme();
+  const { arrow } = popover({ theme });
+  return (
+    <BasePopover.Arrow data-slot="popover-arrow" className={arrow({ className })} {...props} />
+  );
+}
+
+export type PopoverBackdropProps = StyledProps<BasePopover.Backdrop.Props>;
+
+export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
+  const theme = useTheme();
+  const { backdrop } = popover({ theme });
+  return (
+    <BasePopover.Backdrop
+      data-slot="popover-backdrop"
+      className={backdrop({ className })}
+      {...props}
+    />
+  );
+}

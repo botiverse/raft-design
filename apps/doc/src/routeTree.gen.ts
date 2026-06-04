@@ -21,7 +21,6 @@ import { Route as ComponentsTextareaRouteImport } from './routes/components/text
 import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
-import { Route as ComponentsSelectionPopoverRouteImport } from './routes/components/selection-popover'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSectionEyebrowRouteImport } from './routes/components/section-eyebrow'
@@ -29,6 +28,7 @@ import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/co
 import { Route as ComponentsReorderablePanelTabsRouteImport } from './routes/components/reorderable-panel-tabs'
 import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
+import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
@@ -113,12 +113,6 @@ const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   path: '/components/spinner',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsSelectionPopoverRoute =
-  ComponentsSelectionPopoverRouteImport.update({
-    id: '/components/selection-popover',
-    path: '/components/selection-popover',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ComponentsSegmentedControlRoute =
   ComponentsSegmentedControlRouteImport.update({
     id: '/components/segmented-control',
@@ -157,6 +151,11 @@ const ComponentsQuotedMessageCardRoute =
 const ComponentsPreviewShellRoute = ComponentsPreviewShellRouteImport.update({
   id: '/components/preview-shell',
   path: '/components/preview-shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
+  id: '/components/popover',
+  path: '/components/popover',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsPanelHeaderRoute = ComponentsPanelHeaderRouteImport.update({
@@ -299,6 +298,7 @@ export interface FileRoutesByFullPath {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
+  '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
@@ -306,7 +306,6 @@ export interface FileRoutesByFullPath {
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
-  '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
@@ -343,6 +342,7 @@ export interface FileRoutesByTo {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
+  '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
@@ -350,7 +350,6 @@ export interface FileRoutesByTo {
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
-  '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
@@ -388,6 +387,7 @@ export interface FileRoutesById {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
+  '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/reorderable-panel-tabs': typeof ComponentsReorderablePanelTabsRoute
@@ -395,7 +395,6 @@ export interface FileRoutesById {
   '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
-  '/components/selection-popover': typeof ComponentsSelectionPopoverRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
@@ -434,6 +433,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/notification-center'
     | '/components/panel-header'
+    | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
     | '/components/reorderable-panel-tabs'
@@ -441,7 +441,6 @@ export interface FileRouteTypes {
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/segmented-control'
-    | '/components/selection-popover'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
@@ -478,6 +477,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/notification-center'
     | '/components/panel-header'
+    | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
     | '/components/reorderable-panel-tabs'
@@ -485,7 +485,6 @@ export interface FileRouteTypes {
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/segmented-control'
-    | '/components/selection-popover'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
@@ -522,6 +521,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/notification-center'
     | '/components/panel-header'
+    | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
     | '/components/reorderable-panel-tabs'
@@ -529,7 +529,6 @@ export interface FileRouteTypes {
     | '/components/section-eyebrow'
     | '/components/section-header'
     | '/components/segmented-control'
-    | '/components/selection-popover'
     | '/components/spinner'
     | '/components/status-dot'
     | '/components/surface-list-item'
@@ -567,6 +566,7 @@ export interface RootRouteChildren {
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
+  ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
   ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
   ComponentsReorderablePanelTabsRoute: typeof ComponentsReorderablePanelTabsRoute
@@ -574,7 +574,6 @@ export interface RootRouteChildren {
   ComponentsSectionEyebrowRoute: typeof ComponentsSectionEyebrowRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
-  ComponentsSelectionPopoverRoute: typeof ComponentsSelectionPopoverRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
@@ -672,13 +671,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/selection-popover': {
-      id: '/components/selection-popover'
-      path: '/components/selection-popover'
-      fullPath: '/components/selection-popover'
-      preLoaderRoute: typeof ComponentsSelectionPopoverRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components/segmented-control': {
       id: '/components/segmented-control'
       path: '/components/segmented-control'
@@ -726,6 +718,13 @@ declare module '@tanstack/react-router' {
       path: '/components/preview-shell'
       fullPath: '/components/preview-shell'
       preLoaderRoute: typeof ComponentsPreviewShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/popover': {
+      id: '/components/popover'
+      path: '/components/popover'
+      fullPath: '/components/popover'
+      preLoaderRoute: typeof ComponentsPopoverRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/panel-header': {
@@ -912,6 +911,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
+  ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
   ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
   ComponentsReorderablePanelTabsRoute: ComponentsReorderablePanelTabsRoute,
@@ -919,7 +919,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsSectionEyebrowRoute: ComponentsSectionEyebrowRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
-  ComponentsSelectionPopoverRoute: ComponentsSelectionPopoverRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,

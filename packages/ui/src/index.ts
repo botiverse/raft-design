@@ -163,6 +163,31 @@ export type {
   DropdownMenuShortcutProps,
 } from "./components/dropdown-menu/index.ts";
 
+export {
+  Popover,
+  PopoverArrow,
+  PopoverBackdrop,
+  PopoverClose,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverPortal,
+  PopoverTitle,
+  PopoverTrigger,
+} from "./components/popover/index.ts";
+export type {
+  PopoverArrowProps,
+  PopoverBackdropProps,
+  PopoverCloseProps,
+  PopoverContentProps,
+  PopoverDescriptionProps,
+  PopoverHeaderProps,
+  PopoverPortalProps,
+  PopoverProps,
+  PopoverTitleProps,
+  PopoverTriggerProps,
+} from "./components/popover/index.ts";
+
 export { SectionEyebrow } from "./components/section-eyebrow/index.ts";
 export type { SectionEyebrowProps } from "./components/section-eyebrow/index.ts";
 
@@ -174,12 +199,6 @@ export type { KeyValueRowProps } from "./components/key-value-row/index.ts";
 
 export { SurfaceListItem } from "./components/surface-list-item/index.ts";
 export type { SurfaceListItemProps } from "./components/surface-list-item/index.ts";
-
-export { SelectionPopover } from "./components/selection-popover/index.ts";
-export type {
-  SelectionPopoverProps,
-  SelectionPopoverOption,
-} from "./components/selection-popover/index.ts";
 
 export { NotificationCenter } from "./components/notification-center/index.ts";
 export type {
