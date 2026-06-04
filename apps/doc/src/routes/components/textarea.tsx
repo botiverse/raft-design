@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, FieldLabel, Textarea } from "@slock-ui/ui";
+import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@slock-ui/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -9,8 +9,10 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyTextarea from "../../../../../packages/ui/src/legacy/Textarea.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -20,6 +22,7 @@ const TOC = [
   { id: "counter", title: "Counter" },
   { id: "field", title: "With Field" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -30,12 +33,46 @@ const SNIPPETS = {
 <Textarea rows={4} placeholder="Type your message here." />`,
   invalid: `<Textarea aria-invalid rows={4} defaultValue="oops" />`,
   counter: `<Textarea.Counter value={message} limit={120} />`,
-  field: `import { Field, FieldLabel, Textarea } from "@slock-ui/ui";
+  field: `import { Field, FieldError, FieldLabel, Textarea } from "@slock-ui/ui";
 
-<Field>
+<Field invalid>
   <FieldLabel htmlFor="msg">Message</FieldLabel>
-  <Textarea id="msg" rows={4} />
-  <Textarea.Counter value={message} limit={120} />
+  <Textarea id="msg" rows={4} defaultValue="oops" />
+  <div className="flex justify-between gap-3">
+    <FieldError match>Message is required.</FieldError>
+    <Textarea.Counter value="oops" limit={120} />
+  </div>
+</Field>`,
+  sourceWrapper: `<Textarea
+  className="w-80"
+  rows={4}
+  hint="Enter your message below."
+  showCounter
+  limit={120}
+  defaultValue="Hello world."
+/>`,
+  currentComposition: `<Field className="w-80">
+  <FieldLabel htmlFor="current-message">Message</FieldLabel>
+  <Textarea id="current-message" rows={4} defaultValue="Hello world." />
+  <div className="flex justify-between gap-3">
+    <FieldDescription>Enter your message below.</FieldDescription>
+    <Textarea.Counter value="Hello world." limit={120} />
+  </div>
+</Field>`,
+  sourceError: `<Textarea
+  className="w-80"
+  rows={4}
+  error="Message is required."
+  showCounter
+  limit={120}
+  defaultValue="oops"
+/>`,
+  currentError: `<Field className="w-80" invalid>
+  <Textarea rows={4} aria-invalid defaultValue="oops" />
+  <div className="flex justify-between gap-3">
+    <FieldError match>Message is required.</FieldError>
+    <Textarea.Counter value="oops" limit={120} />
+  </div>
 </Field>`,
 } as const;
 
@@ -48,7 +85,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "aria-invalid",
     type: "boolean",
-    description: "Flips the field to the red error look. Set it alongside Field's data-invalid.",
+    description:
+      "Standalone invalid styling. Inside Field, prefer Field invalid and keep aria-invalid for native textarea styling.",
   },
   {
     name: "ref",
@@ -59,7 +97,7 @@ const PROPS: readonly PropRow[] = [
     name: "...props",
     type: "TextareaHTMLAttributes",
     description:
-      "All native textarea attributes (value, onChange, rows, maxLength, placeholder, …).",
+      "All native textarea attributes (value, onChange, rows, maxLength, placeholder, etc.).",
   },
 ];
 
@@ -103,6 +141,10 @@ function TextareaDoc() {
           <li>
             error state via <code>aria-invalid</code> instead of an <code>error</code> prop
           </li>
+          <li>
+            counter and messages are composed with <code>Field</code> instead of being owned by
+            Textarea
+          </li>
         </Differences>
       }
       toc={TOC}
@@ -140,8 +182,9 @@ function TextareaDoc() {
           </Example>
           <Callout>
             The control styles its own red border/ring off <code>aria-invalid</code>; the error{" "}
-            <em>message</em> lives in <code>FieldError</code>. Set <code>data-invalid</code> on the
-            surrounding <code>Field</code> too so the counter turns red.
+            <em>message</em> lives in <code>FieldError</code>. When the textarea is inside{" "}
+            <code>Field</code>, set <code>invalid</code> on the surrounding field so companion parts
+            such as <code>Textarea.Counter</code> can follow the same state.
           </Callout>
         </div>
       </DocSection>
@@ -155,8 +198,8 @@ function TextareaDoc() {
           <Callout>
             <code>Textarea.Counter</code> is standalone — pass the current <code>value</code> (or a{" "}
             <code>count</code> / <code>getLength</code> for Unicode-correct counting) and a{" "}
-            <code>limit</code>. It turns red over the limit, or whenever its <code>Field</code> is{" "}
-            <code>data-invalid</code>.
+            <code>limit</code>. It turns red over the limit, or whenever its <code>Field</code> is
+            invalid.
           </Callout>
         </div>
       </DocSection>
@@ -164,15 +207,18 @@ function TextareaDoc() {
       <DocSection id="field" title="With Field">
         <div className="space-y-4">
           <Example html={code.field}>
-            <Field className="w-80">
+            <Field className="w-80" invalid>
               <FieldLabel htmlFor="msg">Message</FieldLabel>
-              <Textarea id="msg" rows={4} placeholder="Type your message here." />
-              <Textarea.Counter value="" limit={120} />
+              <Textarea id="msg" rows={4} defaultValue="oops" />
+              <div className="flex justify-between gap-3">
+                <FieldError match>Message is required.</FieldError>
+                <Textarea.Counter value="oops" limit={120} />
+              </div>
             </Field>
           </Example>
           <Callout>
-            Label, description, and error message come from <a href="/components/field">Field</a> —
-            Textarea stays a pure control.
+            Label and message come from <a href="/components/field">Field</a>. Textarea stays a pure
+            control; the counter is a composed companion part that reads the field state.
           </Callout>
         </div>
       </DocSection>
@@ -185,6 +231,68 @@ function TextareaDoc() {
             <PropsTable rows={COUNTER_PROPS} />
           </div>
         </div>
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Wrapper API to composition",
+              status: "difference",
+              note: "Source Textarea owned hint, error, and counter props. Current Textarea is only the native control skin; Field and Textarea.Counter own the surrounding form composition.",
+              source: (
+                <LegacyTextarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  hint="Enter your message below."
+                  showCounter
+                  limit={120}
+                  defaultValue="Hello world."
+                />
+              ),
+              current: (
+                <Field className="w-80">
+                  <FieldLabel htmlFor="current-message">Message</FieldLabel>
+                  <Textarea id="current-message" rows={4} defaultValue="Hello world." />
+                  <div className="flex justify-between gap-3">
+                    <FieldDescription>Enter your message below.</FieldDescription>
+                    <Textarea.Counter value="Hello world." limit={120} />
+                  </div>
+                </Field>
+              ),
+              sourceCode: code.sourceWrapper,
+              currentCode: code.currentComposition,
+            },
+            {
+              label: "Invalid state",
+              status: "match",
+              note: "Both versions use the same red border, tinted background, red ring, and no brutal black shadow while invalid. The current version moves the message and counter into composition.",
+              source: (
+                <LegacyTextarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  error="Message is required."
+                  showCounter
+                  limit={120}
+                  defaultValue="oops"
+                />
+              ),
+              current: (
+                <Field className="w-80" invalid>
+                  <Textarea rows={4} aria-label="Message" aria-invalid defaultValue="oops" />
+                  <div className="flex justify-between gap-3">
+                    <FieldError match>Message is required.</FieldError>
+                    <Textarea.Counter value="oops" limit={120} />
+                  </div>
+                </Field>
+              ),
+              sourceCode: code.sourceError,
+              currentCode: code.currentError,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

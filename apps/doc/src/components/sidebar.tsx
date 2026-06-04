@@ -32,7 +32,7 @@ const NAV = [
       { label: "Input", to: "/components/input", progress: { structure: "done" } },
       { label: "InputGroup", to: "/components/input-group" },
       { label: "SegmentedControl", to: "/components/segmented-control" },
-      { label: "Textarea", to: "/components/textarea" },
+      { label: "Textarea", to: "/components/textarea", progress: { structure: "done" } },
     ],
   },
   {

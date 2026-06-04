@@ -16,7 +16,7 @@ const textarea = tv({
         root: [
           "border-2 border-black bg-white",
           "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)] focus:outline-none",
-          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
         ],
       },
       // Elegant styling is deferred; see the component TODO.
@@ -74,7 +74,7 @@ export interface TextareaCounterProps extends WithoutChildren<ComponentPropsWith
 }
 
 // Standalone character counter — place it inside a Field next to the Textarea.
-// Turns red over the limit, or whenever its Field is `data-invalid`.
+// Turns red over the limit, or whenever its Field is invalid.
 function Counter({ value, count, limit, getLength, className, ...props }: TextareaCounterProps) {
   const theme = useTheme();
   const length =

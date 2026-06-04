@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
-import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
+import { Avatar as AvatarPrimitive } from "@base-ui/react";
 import { User } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
