@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "tailwind-variants";
 import { SectionEyebrow } from "../section-eyebrow/section-eyebrow.tsx";
@@ -53,28 +54,31 @@ export function SectionHeader({
   } = sectionHeader({
     theme,
   });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: root({ className }),
+    children: (
+      <>
+        <div className={labelWrap()}>
+          {icon ? <span className={iconSlot()}>{icon}</span> : null}
+          <SectionEyebrow as={htmlFor ? "label" : "div"} htmlFor={htmlFor}>
+            {label}
+            {typeof count === "number" && count >= 0 ? (
+              <span className={countSlot()}>{count}</span>
+            ) : null}
+          </SectionEyebrow>
+        </div>
+        {action ? <div className={actionSlot()}>{action}</div> : null}
+      </>
+    ),
+  };
 
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "section-header",
-      className: root({ className }),
-      children: (
-        <>
-          <div className={labelWrap()}>
-            {icon ? <span className={iconSlot()}>{icon}</span> : null}
-            <SectionEyebrow as={htmlFor ? "label" : "div"} htmlFor={htmlFor}>
-              {label}
-              {typeof count === "number" && count >= 0 ? (
-                <span className={countSlot()}>{count}</span>
-              ) : null}
-            </SectionEyebrow>
-          </div>
-          {action ? <div className={actionSlot()}>{action}</div> : null}
-        </>
-      ),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "section-header",
     },
   });
 }

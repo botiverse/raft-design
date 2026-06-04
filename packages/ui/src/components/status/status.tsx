@@ -108,20 +108,15 @@ export type StatusAttentionProps = Omit<useRender.ComponentProps<"span">, "child
 function StatusRoot({ size, fill, pulse, className, render, ref, ...props }: StatusProps) {
   const theme = useTheme();
   const { root } = status({ theme, size, fill, pulse });
-  const rootProps = mergeProps<"span">(
-    {
-      className: root({ className }),
-    },
-    props,
-  );
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: root({ className }),
+  };
 
   return useRender({
-    render: render ?? <span />,
+    defaultTagName: "span",
+    render,
     ref,
-    props: {
-      ...rootProps,
-      "data-slot": "status",
-    },
+    props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "status",
       fill,
@@ -134,20 +129,15 @@ function StatusRoot({ size, fill, pulse, className, render, ref, ...props }: Sta
 function Attention({ size, fill, className, render, ref, ...props }: StatusAttentionProps) {
   const theme = useTheme();
   const { root } = attention({ theme, size, fill });
-  const rootProps = mergeProps<"span">(
-    {
-      className: root({ className }),
-    },
-    props,
-  );
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: root({ className }),
+  };
 
   return useRender({
-    render: render ?? <span />,
+    defaultTagName: "span",
+    render,
     ref,
-    props: {
-      ...rootProps,
-      "data-slot": "status-attention",
-    },
+    props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "status-attention",
       fill,

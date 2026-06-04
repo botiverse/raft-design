@@ -40,15 +40,17 @@ export function SectionEyebrow({
 }: SectionEyebrowProps) {
   const theme = useTheme();
   const { root } = sectionEyebrow({ theme });
-  const render = as === "label" ? <label htmlFor={htmlFor} /> : as === "div" ? <div /> : <span />;
 
   return useRender({
-    render,
+    defaultTagName: as,
     ref,
     props: {
-      "data-slot": "section-eyebrow",
       className: root({ className }),
       children,
+      htmlFor: as === "label" ? htmlFor : undefined,
+    },
+    state: {
+      slot: "section-eyebrow",
     },
   });
 }

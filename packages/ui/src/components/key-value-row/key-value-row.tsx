@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -75,23 +76,26 @@ export function KeyValueRow({
     action: actionSlot,
     value: valueSlot,
   } = keyValueRow({ theme, mono, breakAll });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: root({ className }),
+    children: (
+      <>
+        <div className={header()}>
+          <div className={labelSlot()}>{label}</div>
+          {action ? <div className={actionSlot()}>{action}</div> : null}
+        </div>
+        <div className={valueSlot({ className: valueClassName })}>{value}</div>
+      </>
+    ),
+  };
 
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "key-value-row",
-      className: root({ className }),
-      children: (
-        <>
-          <div className={header()}>
-            <div className={labelSlot()}>{label}</div>
-            {action ? <div className={actionSlot()}>{action}</div> : null}
-          </div>
-          <div className={valueSlot({ className: valueClassName })}>{value}</div>
-        </>
-      ),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "key-value-row",
     },
   });
 }

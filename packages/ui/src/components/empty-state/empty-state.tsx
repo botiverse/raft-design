@@ -1,3 +1,4 @@
+import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -36,13 +37,17 @@ export type EmptyStateProps = useRender.ComponentProps<"div">;
 // / `EmptyStateDescription` / `EmptyStateActions` as children.
 export function EmptyState({ render, className, ref, ...props }: EmptyStateProps) {
   const { root } = emptyState();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: root({ className }),
+  };
+
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "empty-state",
-      className: root({ className }),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "empty-state",
     },
   });
 }
@@ -54,13 +59,17 @@ export type EmptyStateIconProps = useRender.ComponentProps<"div">;
 export function EmptyStateIcon({ render, className, ref, ...props }: EmptyStateIconProps) {
   const theme = useTheme();
   const { icon } = emptyState({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: icon({ className }),
+  };
+
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "empty-state-icon",
-      className: icon({ className }),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "empty-state-icon",
     },
   });
 }
@@ -72,13 +81,17 @@ export type EmptyStateTitleProps = useRender.ComponentProps<"div">;
 export function EmptyStateTitle({ render, className, ref, ...props }: EmptyStateTitleProps) {
   const theme = useTheme();
   const { title } = emptyState({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: title({ className }),
+  };
+
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "empty-state-title",
-      className: title({ className }),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "empty-state-title",
     },
   });
 }
@@ -95,13 +108,17 @@ export function EmptyStateDescription({
 }: EmptyStateDescriptionProps) {
   const theme = useTheme();
   const { description } = emptyState({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: description({ className }),
+  };
+
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "empty-state-description",
-      className: description({ className }),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "empty-state-description",
     },
   });
 }
@@ -112,13 +129,17 @@ export type EmptyStateActionsProps = useRender.ComponentProps<"div">;
 // element.
 export function EmptyStateActions({ render, className, ref, ...props }: EmptyStateActionsProps) {
   const { actions } = emptyState();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: actions({ className }),
+  };
+
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "empty-state-actions",
-      className: actions({ className }),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "empty-state-actions",
     },
   });
 }

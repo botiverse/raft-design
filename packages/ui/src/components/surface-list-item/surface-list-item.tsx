@@ -1,3 +1,4 @@
+import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -64,13 +65,17 @@ export function SurfaceListItem({
 }: SurfaceListItemProps) {
   const theme = useTheme();
   const { root } = surfaceListItem({ theme, selected, interactive });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: root({ className }),
+  };
+
   return useRender({
-    render: render ?? <div />,
+    defaultTagName: "div",
+    render,
     ref,
-    props: {
-      "data-slot": "surface-list-item",
-      className: root({ className }),
-      ...props,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "surface-list-item",
     },
   });
 }

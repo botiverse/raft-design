@@ -71,19 +71,15 @@ export type BadgeProps = useRender.ComponentProps<"span"> &
 function BadgeRoot({ tone, uppercase, className, render, ref, ...props }: BadgeProps) {
   const theme = useTheme();
   const { root } = badge({ theme, tone, uppercase });
-  const rootProps = mergeProps<"span">(
-    {
-      className: root({ className }),
-    },
-    props,
-  );
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: root({ className }),
+  };
+
   return useRender({
-    render: render ?? <span />,
+    defaultTagName: "span",
+    render,
     ref,
-    props: {
-      ...rootProps,
-      "data-slot": "badge",
-    },
+    props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "badge",
       tone,
