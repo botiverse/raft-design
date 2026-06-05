@@ -94,7 +94,7 @@ export function DropdownMenuContent({
   );
 }
 
-type DropdownMenuItemProps = StyledProps<BaseMenu.Item.Props>;
+export type DropdownMenuItemProps = StyledProps<BaseMenu.Item.Props>;
 
 export function DropdownMenuItem({ className, ...props }: DropdownMenuItemProps) {
   const theme = useTheme();

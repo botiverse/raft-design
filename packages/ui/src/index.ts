@@ -249,6 +249,7 @@ export type {
   DropdownMenuTriggerProps,
   DropdownMenuPortalProps,
   DropdownMenuContentProps,
+  DropdownMenuItemProps,
   DropdownMenuActionItemProps,
   DropdownMenuSeparatorProps,
   DropdownMenuShortcutProps,

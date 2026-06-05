@@ -9,8 +9,9 @@ export {
   DropdownMenuTrigger,
 } from "./dropdown-menu.tsx";
 export type {
-  DropdownMenuContentProps,
   DropdownMenuActionItemProps,
+  DropdownMenuContentProps,
+  DropdownMenuItemProps,
   DropdownMenuPortalProps,
   DropdownMenuProps,
   DropdownMenuSeparatorProps,
