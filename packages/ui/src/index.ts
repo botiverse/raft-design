@@ -206,11 +206,45 @@ export type { KeyValueRowProps } from "./components/key-value-row/index.ts";
 export { SurfaceListItem } from "./components/surface-list-item/index.ts";
 export type { SurfaceListItemProps } from "./components/surface-list-item/index.ts";
 
-export { NotificationCenter } from "./components/notification-center/index.ts";
 export type {
+  NotificationCenterActionButtonProps,
+  NotificationCenterCountProps,
+  NotificationCenterEmptyStateProps,
+  NotificationCenterHeaderProps,
+  NotificationCenterItemActionsProps,
+  NotificationCenterItemBodyProps,
+  NotificationCenterItemContentProps,
+  NotificationCenterItemIconProps,
+  NotificationCenterItemInnerProps,
+  NotificationCenterItemProps,
+  NotificationCenterItemTitleProps,
+  NotificationCenterListProps,
+  NotificationCenterPopupProps,
+  NotificationCenterPortalProps,
   NotificationCenterProps,
-  NotificationCenterEntry,
-  NotificationCenterAction,
+  NotificationCenterScrollerProps,
+  NotificationCenterTitleProps,
+  NotificationCenterTriggerProps,
+} from "./components/notification-center/index.ts";
+export {
+  NotificationCenter,
+  NotificationCenterActionButton,
+  NotificationCenterCount,
+  NotificationCenterEmptyState,
+  NotificationCenterHeader,
+  NotificationCenterItem,
+  NotificationCenterItemActions,
+  NotificationCenterItemBody,
+  NotificationCenterItemContent,
+  NotificationCenterItemIcon,
+  NotificationCenterItemInner,
+  NotificationCenterItemTitle,
+  NotificationCenterList,
+  NotificationCenterPopup,
+  NotificationCenterPortal,
+  NotificationCenterScroller,
+  NotificationCenterTitle,
+  NotificationCenterTrigger,
 } from "./components/notification-center/index.ts";
 
 export {

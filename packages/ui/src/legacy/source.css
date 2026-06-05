@@ -1,3 +1,34 @@
+.card-brutal {
+  border: 2px solid var(--color-black);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-brutal {
+  border: 2px solid var(--color-black);
+  font-family: var(--display-font);
+  font-weight: 700;
+  box-shadow: var(--shadow-hover);
+  transition-property: all;
+  transition-duration: 100ms;
+}
+
+.btn-brutal:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-brutal:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .btn-brutal-sm {
   border: 2px solid var(--color-black);
   font-family: var(--display-font);

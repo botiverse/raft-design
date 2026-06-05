@@ -64,8 +64,12 @@ const NAV = [
     title: "Feedback",
     items: [
       { label: "Banner", to: "/components/banner", progress: { structure: "done" } },
-      { label: "EmptyState", to: "/components/empty-state" },
-      { label: "NotificationCenter", to: "/components/notification-center" },
+      { label: "EmptyState", to: "/components/empty-state", progress: { structure: "done" } },
+      {
+        label: "NotificationCenter",
+        to: "/components/notification-center",
+        progress: { structure: "done" },
+      },
       { label: "Spinner", to: "/components/spinner", progress: { structure: "done" } },
     ],
   },
