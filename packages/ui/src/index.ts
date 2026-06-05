@@ -64,9 +64,6 @@ export type {
 export { PreviewShell } from "./components/preview-shell/index.ts";
 export type { PreviewShellProps } from "./components/preview-shell/index.ts";
 
-export { SandboxedPreviewFrame } from "./components/sandboxed-preview-frame/index.ts";
-export type { SandboxedPreviewFrameProps } from "./components/sandboxed-preview-frame/index.ts";
-
 export { Avatar, type AvatarSize } from "./components/avatar/index.ts";
 export type { AvatarProps } from "./components/avatar/index.ts";
 export { AvatarImage } from "./components/avatar/index.ts";

@@ -118,10 +118,6 @@ const NAV = [
     items: [
       { label: "PanelHeader", to: "/components/panel-header", progress: { structure: "done" } },
       { label: "PreviewShell", to: "/components/preview-shell", progress: { structure: "done" } },
-      {
-        label: "SandboxedPreviewFrame",
-        to: "/components/sandboxed-preview-frame",
-      },
       { label: "SectionLabel", to: "/components/section-label", progress: { structure: "done" } },
       {
         label: "SectionHeader",
@@ -310,6 +306,12 @@ const SOURCE_HOLDS = {
       status: "deferred",
       reason:
         "Potential shared surface layer for ListItem, PreviewShell, ConversationPreviewCard, and QuotedMessageCard; extract only the skin/state contract, not the content slots.",
+    },
+    {
+      label: "SandboxedPreviewFrame",
+      status: "skipped",
+      reason:
+        "Security utility, not a design-system component: keep it app-local with fixed iframe sandbox/referrer policy.",
     },
   ],
 } as const;
