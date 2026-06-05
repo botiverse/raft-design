@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
+import { ExternalLink } from "lucide-react";
 import { StatusBadge } from "./status-badge.tsx";
 
 const SKILLS = {
@@ -315,142 +316,170 @@ const BASE_UI_PARITY = {
     {
       label: "Tooltip",
       priority: "P0",
+      docsHref: "https://base-ui.com/react/components/tooltip",
       reason: "Replace hand-rolled tooltip positioning and cover icon/status hints.",
     },
     {
       label: "Select",
       priority: "P0",
+      docsHref: "https://base-ui.com/react/components/select",
       reason: "Formalize single-select flows with Base UI keyboard, portal, and field semantics.",
     },
     {
       label: "Dialog",
       priority: "P0",
+      docsHref: "https://base-ui.com/react/components/dialog",
       reason: "Expose the generic modal primitive behind several current overlay surfaces.",
     },
     {
       label: "AlertDialog",
       priority: "P0",
+      docsHref: "https://base-ui.com/react/components/alert-dialog",
       reason: "Use for destructive confirmations instead of app-specific confirm shells.",
     },
     {
       label: "Switch",
       priority: "P1",
+      docsHref: "https://base-ui.com/react/components/switch",
       reason: "Use for binary settings where Checkbox is the wrong semantic control.",
     },
     {
       label: "RadioGroup",
       priority: "P1",
+      docsHref: "https://base-ui.com/react/components/radio",
       reason:
         "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
     },
     {
       label: "Progress",
       priority: "P1",
+      docsHref: "https://base-ui.com/react/components/progress",
       reason: "Represent long-running task, upload, and generation progress.",
     },
     {
       label: "Separator",
       priority: "P1",
+      docsHref: "https://base-ui.com/react/components/separator",
       reason: "Centralize menu, list, and dialog dividers instead of border literals.",
     },
     {
       label: "Toast",
       priority: "P2",
+      docsHref: "https://base-ui.com/react/components/toast",
       reason: "Transient feedback only; keep it separate from NotificationCenter history.",
     },
     {
       label: "Collapsible",
       priority: "P2",
+      docsHref: "https://base-ui.com/react/components/collapsible",
       reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
     },
     {
       label: "Accordion",
       priority: "P2",
+      docsHref: "https://base-ui.com/react/components/accordion",
       reason: "Grouped disclosure pattern; build after Collapsible settles.",
     },
     {
       label: "Combobox",
       priority: "P2",
+      docsHref: "https://base-ui.com/react/components/combobox",
       reason: "Searchable selection for members, channels, and tags after Select is stable.",
     },
     {
       label: "Drawer",
       priority: "Later",
+      docsHref: "https://base-ui.com/react/components/drawer",
       reason: "Current BottomSheet covers mobile bottom panels; add when side panels need it.",
     },
     {
       label: "PreviewCard",
       priority: "Later",
+      docsHref: "https://base-ui.com/react/components/preview-card",
       reason: "Useful for hover user/link/message previews, but not a base form gap.",
     },
     {
       label: "NumberField",
       priority: "Later",
+      docsHref: "https://base-ui.com/react/components/number-field",
       reason: "Wait for real numeric settings with stepper behavior.",
     },
     {
       label: "Slider",
       priority: "Later",
+      docsHref: "https://base-ui.com/react/components/slider",
       reason: "Wait for range controls such as volume, threshold, or tuning parameters.",
     },
     {
       label: "Meter",
       priority: "Later",
+      docsHref: "https://base-ui.com/react/components/meter",
       reason: "Wait for bounded metric displays distinct from Progress.",
     },
     {
       label: "ScrollArea",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components/scroll-area",
       reason: "Prefer native scrolling until custom scrollbar behavior is required.",
     },
     {
       label: "Menubar",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components/menubar",
       reason: "Desktop menu-bar pattern is not part of the current product surface.",
     },
     {
       label: "NavigationMenu",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components/navigation-menu",
       reason: "Marketing/header navigation primitive; not useful for the current doc shell.",
     },
     {
       label: "Breadcrumb",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Wait for deeper routed information architecture.",
     },
     {
       label: "Pagination",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Wait for paged data surfaces.",
     },
     {
       label: "Table / DataGrid",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Likely app-specific; design from a real dense-data use case.",
     },
     {
       label: "Calendar / DatePicker",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Wait for a concrete date-picking workflow.",
     },
     {
       label: "Command",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components/autocomplete",
       reason: "Command palette behavior is product-specific and should be designed separately.",
     },
     {
       label: "Carousel",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Not relevant to the current product interface.",
     },
     {
       label: "Resizable",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Wait for explicit panel-resize requirements.",
     },
     {
       label: "Sidebar",
       priority: "Parked",
+      docsHref: "https://base-ui.com/react/components",
       reason: "Current sidebar is app shell, not a reusable UI primitive.",
     },
   ],
@@ -505,6 +534,7 @@ type PlannedPriority = "P0" | "P1" | "P2" | "Later" | "Parked";
 type PlannedItem = {
   label: string;
   priority: PlannedPriority;
+  docsHref: string;
   reason: string;
 };
 
@@ -654,25 +684,56 @@ function SourceHoldGroup({ title, items }: { title: string; items: readonly Sour
 }
 
 function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
+  const [tooltip, setTooltip] = useState<{ left: number; top: number } | null>(null);
   const statusLabel = status === "deferred" ? "Deferred" : "Skipped";
   const statusClassName =
     status === "deferred"
       ? "border-amber-200 bg-amber-50 text-amber-700"
       : "border-gray-200 bg-gray-50 text-gray-500";
 
+  const showTooltip = (element: HTMLElement) => {
+    if (status !== "skipped") return;
+    const rect = element.getBoundingClientRect();
+    setTooltip({
+      left: rect.right + 8,
+      top: rect.top + rect.height / 2,
+    });
+  };
+
   return (
-    <span
-      title={`${statusLabel}: ${reason}`}
-      aria-label={`${label}: ${statusLabel}. ${reason}`}
-      className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600"
-    >
-      <span className="min-w-0 flex-1 truncate">{label}</span>
+    <>
       <span
-        className={`inline-flex h-4 shrink-0 items-center justify-center border px-1 text-[9px] font-bold uppercase leading-none ${statusClassName}`}
+        title={status === "skipped" ? undefined : `${statusLabel}: ${reason}`}
+        aria-label={`${label}: ${statusLabel}. ${reason}`}
+        onMouseEnter={(event) => showTooltip(event.currentTarget)}
+        onMouseMove={(event) => showTooltip(event.currentTarget)}
+        onMouseLeave={() => setTooltip(null)}
+        onPointerEnter={(event) => showTooltip(event.currentTarget)}
+        onPointerMove={(event) => showTooltip(event.currentTarget)}
+        onPointerLeave={() => setTooltip(null)}
+        onFocus={(event) => showTooltip(event.currentTarget)}
+        onBlur={() => setTooltip(null)}
+        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600"
       >
-        {statusLabel}
+        <span className="min-w-0 flex-1 truncate">{label}</span>
+        <span
+          className={`inline-flex h-4 shrink-0 items-center justify-center border px-1 text-[9px] font-bold uppercase leading-none ${statusClassName}`}
+        >
+          {statusLabel}
+        </span>
       </span>
-    </span>
+      {tooltip
+        ? createPortal(
+            <span
+              className="pointer-events-none fixed z-50 max-w-72 -translate-y-1/2 border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700 shadow-lg"
+              style={{ left: tooltip.left, top: tooltip.top }}
+            >
+              {reason}
+            </span>,
+            document.body,
+          )
+        : null}
+    </>
   );
 }
 
@@ -691,16 +752,20 @@ function PlannedGroup({ title, items }: { title: string; items: readonly Planned
   );
 }
 
-function PlannedRow({ label, priority, reason }: PlannedItem) {
+function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
   return (
-    <span
+    <a
+      href={docsHref}
+      target="_blank"
+      rel="noreferrer"
       title={`${priority}: ${reason}`}
-      aria-label={`${label}: ${priority}. ${reason}`}
-      className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-800"
+      aria-label={`${label}: ${priority}. ${reason} Open Base UI docs.`}
+      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-800"
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
+      <ExternalLink className="size-3 shrink-0 opacity-50" aria-hidden="true" />
       <PriorityBadge priority={priority} />
-    </span>
+    </a>
   );
 }
 
