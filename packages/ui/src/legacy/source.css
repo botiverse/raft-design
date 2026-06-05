@@ -83,6 +83,15 @@
   display: none;
 }
 
+.h-panel-header {
+  height: 62px;
+}
+
+.size-icon-header {
+  width: 36px;
+  height: 36px;
+}
+
 @layer components {
   .input-brutal {
     border: 2px solid var(--color-black);

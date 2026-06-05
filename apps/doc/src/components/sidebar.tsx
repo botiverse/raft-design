@@ -116,7 +116,7 @@ const NAV = [
   {
     title: "Layout",
     items: [
-      { label: "PanelHeader", to: "/components/panel-header" },
+      { label: "PanelHeader", to: "/components/panel-header", progress: { structure: "done" } },
       { label: "PreviewShell", to: "/components/preview-shell" },
       {
         label: "SandboxedPreviewFrame",

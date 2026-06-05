@@ -101,8 +101,28 @@ export type {
   MediaListItemVisualProps,
 } from "./components/media-list-item/index.ts";
 
-export { PanelHeader } from "./components/panel-header/index.ts";
-export type { PanelHeaderProps } from "./components/panel-header/index.ts";
+export {
+  PanelHeader,
+  PanelHeaderActions,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeaderSubtitle,
+  PanelHeaderSuffix,
+  PanelHeaderTitle,
+  PanelHeaderTitleRow,
+  PanelHeaderVisual,
+} from "./components/panel-header/index.ts";
+export type {
+  PanelHeaderActionsProps,
+  PanelHeaderContentProps,
+  PanelHeaderIconProps,
+  PanelHeaderProps,
+  PanelHeaderSubtitleProps,
+  PanelHeaderSuffixProps,
+  PanelHeaderTitleProps,
+  PanelHeaderTitleRowProps,
+  PanelHeaderVisualProps,
+} from "./components/panel-header/index.ts";
 
 export {
   QuotedMessageCard,

@@ -1,99 +1,201 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, Badge, Button, PanelHeader, Status } from "@slock/ui";
-import { Bookmark, Settings } from "lucide-react";
+import {
+  Avatar,
+  Badge,
+  Button,
+  PanelHeader,
+  PanelHeaderActions,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeaderSubtitle,
+  PanelHeaderSuffix,
+  PanelHeaderTitle,
+  PanelHeaderTitleRow,
+  PanelHeaderVisual,
+  Status,
+} from "@slock/ui";
+import { ArrowLeft, Bookmark, Search, Settings, X } from "lucide-react";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyPanelHeader from "../../../../../packages/ui/src/legacy/PanelHeader.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "icon", title: "Icon + actions" },
-  { id: "identity", title: "Identity + subtitle" },
+  { id: "slots", title: "Slots" },
+  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { PanelHeader } from "@slock/ui";
+  anatomy: `import {
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeaderTitle,
+  PanelHeaderTitleRow,
+} from "@slock/ui";
 
-<PanelHeader title="Settings" />`,
-  icon: `<PanelHeader
+<PanelHeader>
+  <PanelHeaderContent>
+    <PanelHeaderTitleRow>
+      <PanelHeaderTitle>Settings</PanelHeaderTitle>
+    </PanelHeaderTitleRow>
+  </PanelHeaderContent>
+</PanelHeader>`,
+  slots: `<PanelHeader>
+  <Button size="icon-sm" className="md:hidden" aria-label="Back" onClick={goBack}>
+    <ArrowLeft />
+  </Button>
+  <PanelHeaderIcon className="flex bg-brutal-yellow">
+    <Bookmark />
+  </PanelHeaderIcon>
+  <PanelHeaderContent>
+    <PanelHeaderTitleRow>
+      <PanelHeaderTitle>Saved</PanelHeaderTitle>
+    </PanelHeaderTitleRow>
+    <PanelHeaderSubtitle>{saved.length} saved</PanelHeaderSubtitle>
+  </PanelHeaderContent>
+  <PanelHeaderActions>
+    <Button size="icon-sm" aria-label="Settings">
+      <Settings />
+    </Button>
+  </PanelHeaderActions>
+</PanelHeader>`,
+  sourceSaved: `<PanelHeader
   title="Saved"
+  subtitle={\`\${saved.length} saved\`}
   icon={<Bookmark size={18} />}
   iconBg="bg-brutal-yellow"
-  actions={<Button size="icon-sm" aria-label="Settings"><Settings /></Button>}
+  onMobileBack={onMobileBack}
 />`,
-  identity: `<PanelHeader
-  iconSlot={<Avatar size="lg" type="agent" />}
+  currentSaved: `<PanelHeader>
+  <Button size="icon-sm" className="md:hidden" aria-label="Back" onClick={onMobileBack}>
+    <ArrowLeft />
+  </Button>
+  <PanelHeaderIcon className="bg-brutal-yellow">
+    <Bookmark />
+  </PanelHeaderIcon>
+  <PanelHeaderContent>
+    <PanelHeaderTitleRow>
+      <PanelHeaderTitle>Saved</PanelHeaderTitle>
+    </PanelHeaderTitleRow>
+    <PanelHeaderSubtitle>{saved.length} saved</PanelHeaderSubtitle>
+  </PanelHeaderContent>
+</PanelHeader>`,
+  sourceIdentity: `<PanelHeader
+  iconSlot={<AvatarSlot context="panel-header" type="agent" />}
   iconAlwaysVisible
   title="Atlas"
-  titleSuffix={<Status fill="lime" />}
+  titleSuffix={<StatusDot tone="bg-brutal-lime" />}
   subtitle="claude-opus · online"
+  actions={<ExperimentalBadge />}
 />`,
+  currentIdentity: `<PanelHeader>
+  <PanelHeaderVisual className="flex">
+    <Avatar size="lg" type="agent" />
+  </PanelHeaderVisual>
+  <PanelHeaderContent>
+    <PanelHeaderTitleRow>
+      <PanelHeaderTitle>Atlas</PanelHeaderTitle>
+      <PanelHeaderSuffix>
+        <Status fill="lime" />
+      </PanelHeaderSuffix>
+    </PanelHeaderTitleRow>
+    <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>
+  </PanelHeaderContent>
+  <PanelHeaderActions>
+    <Badge.Experimental />
+  </PanelHeaderActions>
+</PanelHeader>`,
+  sourceSearch: `<PanelHeader
+  titleSlot={
+    <div className="flex items-center gap-3">
+      <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-brutal-yellow">
+        <Search size={18} />
+      </div>
+      <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">
+        <input value="design system" readOnly />
+        <button className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
+          <X size={12} />
+        </button>
+      </div>
+    </div>
+  }
+/>`,
+  currentSearch: `<PanelHeader>
+  <PanelHeaderContent>
+    <div className="flex items-center gap-3">
+      <PanelHeaderIcon className="flex bg-brutal-yellow">
+        <Search />
+      </PanelHeaderIcon>
+      <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">
+        <input value="design system" readOnly />
+        <button className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
+          <X size={12} />
+        </button>
+      </div>
+    </div>
+  </PanelHeaderContent>
+</PanelHeader>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
-  { name: "title", type: "ReactNode", description: "Primary title (wrapped in a truncating h2)." },
   {
-    name: "titleSlot",
-    type: "ReactNode",
-    description: "Replaces the whole title block (e.g. a search input).",
+    name: "PanelHeader",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Outer 62px panel header row.",
   },
   {
-    name: "titleSuffix",
-    type: "ReactNode",
-    description: "Inline node beside the title, outside the truncate envelope.",
+    name: "PanelHeaderIcon",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Framed 36px icon container. Pass the background token via className.",
   },
   {
-    name: "subtitle",
-    type: "ReactNode",
-    description: "Mono subtitle line (truncates unless subtitleMultiline).",
+    name: "PanelHeaderVisual",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Unframed visual slot for pre-wrapped avatars or identity marks.",
   },
   {
-    name: "subtitleMultiline",
-    type: "boolean",
-    default: "false",
-    description: "Allow the subtitle to wrap.",
+    name: "PanelHeaderContent",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Flexible title/search content area.",
   },
   {
-    name: "icon",
-    type: "ReactNode",
-    description: "Icon inside the bordered iconBg container (desktop-only).",
+    name: "PanelHeaderTitleRow",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Horizontal title line that keeps suffix content outside title truncation.",
   },
   {
-    name: "iconBg",
-    type: "string",
-    default: '"bg-brutal-yellow"',
-    description: "Icon container bg token.",
+    name: "PanelHeaderTitle",
+    type: 'useRender.ComponentProps<"h2">',
+    description: "Truncating panel title.",
   },
   {
-    name: "iconSlot",
-    type: "ReactNode",
-    description: "Pre-wrapped icon, bypasses the bordered wrapper.",
+    name: "PanelHeaderSuffix",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Inline title suffix such as a status dot or badge.",
   },
   {
-    name: "iconAlwaysVisible",
-    type: "boolean",
-    default: "false",
-    description: "Keep the icon visible on mobile (identity surfaces).",
+    name: "PanelHeaderSubtitle",
+    type: 'useRender.ComponentProps<"p">',
+    description: "Mono subtitle line. Truncates by default.",
   },
-  { name: "onMobileBack", type: "() => void", description: "Shows a mobile back chevron." },
   {
-    name: "mobileBreakpoint",
-    type: '"md" | "lg"',
-    default: '"md"',
-    description: "Where the back chevron hides.",
+    name: "PanelHeaderActions",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Right-aligned action cluster.",
   },
-  { name: "actions", type: "ReactNode", description: "Right-aligned action slot." },
 ];
 
 export const Route = createFileRoute("/components/panel-header")({
@@ -107,16 +209,19 @@ function PanelHeaderDoc() {
   return (
     <DocPage
       title="PanelHeader"
-      description="The canonical panel column header — icon, title / subtitle, and actions."
+      description="The canonical panel column header, now composed from explicit visual, title, subtitle, and action slots."
       overview={
         <Differences from="PanelHeader">
-          <li>brutal styling reproduced 1:1 (62px header, 36px icon container, border-b-2)</li>
           <li>
-            app utilities mapped to literals: <code>h-panel-header</code> → <code>h-[62px]</code>,{" "}
-            <code>size-icon-header</code> → <code>size-9</code>
+            source props (<code>title</code>, <code>icon</code>, <code>iconSlot</code>,{" "}
+            <code>titleSlot</code>, <code>actions</code>) are now explicit composition slots
           </li>
           <li>
-            the mobile back button uses the migrated Button&rsquo;s <code>size="icon-sm"</code>
+            source utilities (<code>h-panel-header</code>, <code>size-icon-header</code>) are
+            preserved visually as literal slot styles
+          </li>
+          <li>
+            brutal height, padding, icon sizing, mobile back behavior, and action spacing match
           </li>
         </Differences>
       }
@@ -126,51 +231,181 @@ function PanelHeaderDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="icon" title="Icon + actions">
-        <Example html={code.icon}>
+      <DocSection id="preview" title="Preview">
+        <Example html={code.slots}>
           <div className="w-full max-w-md border-2 border-black">
-            <PanelHeader
-              title="Saved"
-              icon={<Bookmark size={18} />}
-              iconAlwaysVisible
-              actions={
-                <Button size="icon-sm" aria-label="Settings">
-                  <Settings />
-                </Button>
-              }
-            />
+            <CurrentSavedPanelHeader showAction />
           </div>
         </Example>
       </DocSection>
 
-      <DocSection id="identity" title="Identity + subtitle">
-        <div className="space-y-4">
-          <Example html={code.identity}>
-            <div className="w-full max-w-md border-2 border-black">
-              <PanelHeader
-                iconSlot={<Avatar size="lg" type="agent" />}
-                iconAlwaysVisible
-                title="Atlas"
-                titleSuffix={<Status fill="lime" />}
-                subtitle="claude-opus · online"
-                actions={<Badge tone="lime">Experimental</Badge>}
-              />
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
+
+      <DocSection id="slots" title="Slots">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Example html={code.currentIdentity}>
+            <div className="border-2 border-black">
+              <CurrentIdentityPanelHeader />
             </div>
           </Example>
-          <Callout>
-            <code>titleSuffix</code> lives outside the truncate envelope so a status dot never gets
-            clipped with the title text. Set <code>iconAlwaysVisible</code> on identity surfaces.
-          </Callout>
+          <Example html={code.currentSearch}>
+            <div className="border-2 border-black">
+              <CurrentSearchPanelHeader />
+            </div>
+          </Example>
         </div>
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Saved panel",
+              status: "difference",
+              note: "Source packed title, subtitle, icon, and back behavior into props. Current composes the same layout with explicit slots.",
+              source: (
+                <LegacyPanelHeader
+                  title="Saved"
+                  subtitle="3 saved"
+                  icon={<Bookmark size={18} />}
+                  iconBg="bg-brutal-yellow"
+                  onMobileBack={() => {}}
+                />
+              ),
+              current: <CurrentSavedPanelHeader />,
+              sourceCode: code.sourceSaved,
+              currentCode: code.currentSaved,
+            },
+            {
+              label: "Identity panel",
+              status: "difference",
+              note: "Source used iconSlot and titleSuffix props for identity panels. Current exposes visual, suffix, and actions as normal children.",
+              source: (
+                <LegacyPanelHeader
+                  iconSlot={<Avatar size="lg" type="agent" />}
+                  iconAlwaysVisible
+                  title="Atlas"
+                  titleSuffix={<Status fill="lime" />}
+                  subtitle="claude-opus · online"
+                  actions={<Badge.Experimental />}
+                />
+              ),
+              current: <CurrentIdentityPanelHeader />,
+              sourceCode: code.sourceIdentity,
+              currentCode: code.currentIdentity,
+            },
+            {
+              label: "Search title slot",
+              status: "difference",
+              note: "Source used titleSlot as a full replacement escape hatch. Current keeps the same freedom by composing arbitrary content inside PanelHeaderContent.",
+              source: <LegacySearchPanelHeader />,
+              current: <CurrentSearchPanelHeader />,
+              sourceCode: code.sourceSearch,
+              currentCode: code.currentSearch,
+            },
+          ]}
+        />
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
+  );
+}
+
+function CurrentSavedPanelHeader({ showAction = false }: { showAction?: boolean }) {
+  return (
+    <PanelHeader>
+      <Button size="icon-sm" className="md:hidden" aria-label="Back" onClick={() => {}}>
+        <ArrowLeft />
+      </Button>
+      <PanelHeaderIcon className="bg-brutal-yellow">
+        <Bookmark />
+      </PanelHeaderIcon>
+      <PanelHeaderContent>
+        <PanelHeaderTitleRow>
+          <PanelHeaderTitle>Saved</PanelHeaderTitle>
+        </PanelHeaderTitleRow>
+        <PanelHeaderSubtitle>3 saved</PanelHeaderSubtitle>
+      </PanelHeaderContent>
+      {showAction ? (
+        <PanelHeaderActions>
+          <Button size="icon-sm" aria-label="Settings">
+            <Settings />
+          </Button>
+        </PanelHeaderActions>
+      ) : null}
+    </PanelHeader>
+  );
+}
+
+function CurrentIdentityPanelHeader() {
+  return (
+    <PanelHeader>
+      <PanelHeaderVisual className="flex">
+        <Avatar size="lg" type="agent" />
+      </PanelHeaderVisual>
+      <PanelHeaderContent>
+        <PanelHeaderTitleRow>
+          <PanelHeaderTitle>Atlas</PanelHeaderTitle>
+          <PanelHeaderSuffix>
+            <Status fill="lime" />
+          </PanelHeaderSuffix>
+        </PanelHeaderTitleRow>
+        <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>
+      </PanelHeaderContent>
+      <PanelHeaderActions>
+        <Badge.Experimental />
+      </PanelHeaderActions>
+    </PanelHeader>
+  );
+}
+
+function LegacySearchPanelHeader() {
+  return (
+    <LegacyPanelHeader
+      titleSlot={
+        <div className="flex items-center gap-3">
+          <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-brutal-yellow">
+            <Search size={18} />
+          </div>
+          <SearchInputCluster />
+        </div>
+      }
+    />
+  );
+}
+
+function CurrentSearchPanelHeader() {
+  return (
+    <PanelHeader>
+      <PanelHeaderContent>
+        <div className="flex items-center gap-3">
+          <PanelHeaderIcon className="flex bg-brutal-yellow">
+            <Search />
+          </PanelHeaderIcon>
+          <SearchInputCluster />
+        </div>
+      </PanelHeaderContent>
+    </PanelHeader>
+  );
+}
+
+function SearchInputCluster() {
+  return (
+    <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">
+      <input
+        aria-label="Search messages"
+        className="min-w-0 flex-1 bg-transparent font-display text-sm font-medium outline-none"
+        value="design system"
+        readOnly
+      />
+      <button type="button" className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
+        <X size={12} />
+      </button>
+    </div>
   );
 }
