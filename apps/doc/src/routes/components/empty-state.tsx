@@ -15,8 +15,10 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyEmptyState from "../../../../../packages/ui/src/legacy/EmptyState.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -24,6 +26,7 @@ const TOC = [
   { id: "basic", title: "Basic" },
   { id: "with-action", title: "With action" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -56,6 +59,22 @@ import { Inbox } from "lucide-react";
       <Plus />
       New channel
     </Button>
+  </EmptyStateActions>
+</EmptyState>`,
+  sourceApi: `<EmptyState
+  icon={<Inbox size={36} />}
+  title="No messages yet"
+  description="Conversations you start will show up here."
+  action={<Button tone="yellow" size="sm">New channel</Button>}
+/>`,
+  currentApi: `<EmptyState>
+  <EmptyStateIcon>
+    <Inbox size={36} />
+  </EmptyStateIcon>
+  <EmptyStateTitle>No messages yet</EmptyStateTitle>
+  <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
+  <EmptyStateActions>
+    <Button tone="yellow" size="sm">New channel</Button>
   </EmptyStateActions>
 </EmptyState>`,
 } as const;
@@ -159,6 +178,56 @@ function EmptyStateDoc() {
         <PropsTable rows={PROPS} />
         <PropsTable rows={PART_PROPS} />
       </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "API shape",
+              status: "difference",
+              note: "Source accepted icon, title, description, and action props. Current keeps the visual contract but exposes those areas as compound parts so callers own composition and semantics.",
+              source: <LegacyEmptyStatePreview />,
+              current: <EmptyStatePreview />,
+              sourceCode: code.sourceApi,
+              currentCode: code.currentApi,
+            },
+          ]}
+        />
+      </DocSection>
     </DocPage>
+  );
+}
+
+function EmptyStatePreview() {
+  return (
+    <EmptyState>
+      <EmptyStateIcon>
+        <Inbox size={36} />
+      </EmptyStateIcon>
+      <EmptyStateTitle>No messages yet</EmptyStateTitle>
+      <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
+      <EmptyStateActions>
+        <Button tone="yellow" size="sm">
+          <Plus />
+          New channel
+        </Button>
+      </EmptyStateActions>
+    </EmptyState>
+  );
+}
+
+function LegacyEmptyStatePreview() {
+  return (
+    <LegacyEmptyState
+      icon={<Inbox size={36} />}
+      title="No messages yet"
+      description="Conversations you start will show up here."
+      action={
+        <Button tone="yellow" size="sm">
+          <Plus />
+          New channel
+        </Button>
+      }
+    />
   );
 }
