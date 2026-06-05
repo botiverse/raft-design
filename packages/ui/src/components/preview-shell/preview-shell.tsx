@@ -1,12 +1,8 @@
-import type { ReactNode } from "react";
-import { Button as BaseButton } from "@base-ui/react/button";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
-// The canonical "subtle preview surface" skin: a 1px black/15 border, white bg,
-// no shadow, hover deepens the border and adds a faint bg. `muted` is the
-// unavailable variant. Layout is caller-supplied via `className`. No `active`
-// token — press inherits hover. shadow-brutal-sm maps to the brutal --shadow token.
 const previewShell = tv({
   slots: {
     root: [],
@@ -31,44 +27,25 @@ const previewShell = tv({
   },
 });
 
-export type PreviewShellProps = Omit<VariantProps<typeof previewShell>, "theme"> & {
-  /** When provided, the root renders as a polymorphic `<button>`; otherwise a `<div>`. */
-  onClick?: () => void;
-  className?: string;
-  title?: string;
-  "data-testid"?: string;
-  "aria-busy"?: "true" | "false";
-  children: ReactNode;
-};
+export type PreviewShellProps = useRender.ComponentProps<"div"> &
+  Omit<VariantProps<typeof previewShell>, "theme"> & {
+    "data-testid"?: string;
+  };
 
-export function PreviewShell({
-  variant,
-  onClick,
-  className,
-  title,
-  children,
-  ...rest
-}: PreviewShellProps) {
+export function PreviewShell({ variant, className, render, ...props }: PreviewShellProps) {
   const theme = useTheme();
   const { root } = previewShell({ theme, variant });
-  const cls = root({ className });
-  if (onClick) {
-    return (
-      <BaseButton
-        type="button"
-        onClick={onClick}
-        title={title}
-        data-slot="preview-shell"
-        className={cls}
-        {...rest}
-      >
-        {children}
-      </BaseButton>
-    );
-  }
-  return (
-    <div title={title} data-slot="preview-shell" className={cls} {...rest}>
-      {children}
-    </div>
-  );
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: root({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "preview-shell",
+      variant,
+    },
+  });
 }

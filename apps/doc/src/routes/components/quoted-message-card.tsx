@@ -61,7 +61,9 @@ const SNIPPETS = {
 } from "@slock/ui";
 import { Hash } from "lucide-react";
 
-<QuotedMessageCard onClick={() => jumpToMessage()}>
+<QuotedMessageCard
+  render={<button type="button" aria-label="Open quoted message" onClick={() => jumpToMessage()} />}
+>
   <QuotedMessageCardBody>
     <QuotedMessageCardHeader>
       <QuotedMessageCardMeta>
@@ -87,7 +89,9 @@ import { Hash } from "lucide-react";
     </QuotedMessageCardContentWrap>
   </QuotedMessageCardBody>
 </QuotedMessageCard>`,
-  states: `<QuotedMessageCard onClick={() => jumpToMessage()}>
+  states: `<QuotedMessageCard
+  render={<button type="button" aria-label="Open quoted message" onClick={() => jumpToMessage()} />}
+>
   <QuotedMessageCardBody>
     <QuotedMessageCardHeader>
       <QuotedMessageCardMeta>
@@ -117,7 +121,10 @@ import { Hash } from "lucide-react";
   </QuotedMessageCardBody>
 </QuotedMessageCard>
 
-<QuotedMessageCard variant="muted" onClick={() => jumpToMessage()}>
+<QuotedMessageCard
+  variant="muted"
+  render={<button type="button" aria-label="Open unavailable quoted message" onClick={() => jumpToMessage()} />}
+>
   <QuotedMessageCardBody>
     <QuotedMessageCardUnavailable>Message unavailable</QuotedMessageCardUnavailable>
   </QuotedMessageCardBody>
@@ -129,7 +136,9 @@ import { Hash } from "lucide-react";
   content="Shipped the migration — take a look when you can."
   onClick={() => onOpen(permalink)}
 />`,
-  currentDefault: `<QuotedMessageCard onClick={() => onOpen(permalink)}>
+  currentDefault: `<QuotedMessageCard
+  render={<button type="button" aria-label="Open quoted message" onClick={() => onOpen(permalink)} />}
+>
   <QuotedMessageCardBody>
     <QuotedMessageCardHeader>
       <QuotedMessageCardMeta>
@@ -206,7 +215,10 @@ import { Hash } from "lucide-react";
   author={{ name: "", kind: "user" }}
   content=""
 />`,
-  currentUnavailable: `<QuotedMessageCard variant="muted" onClick={() => onOpen(permalink)}>
+  currentUnavailable: `<QuotedMessageCard
+  variant="muted"
+  render={<button type="button" aria-label="Open unavailable quoted message" onClick={() => onOpen(permalink)} />}
+>
   <QuotedMessageCardBody>
     <QuotedMessageCardUnavailable>Message unavailable</QuotedMessageCardUnavailable>
   </QuotedMessageCardBody>
@@ -309,7 +321,16 @@ function QuotedMessageCardDoc() {
               channelName="design"
               timestamp="Yesterday"
             />
-            <QuotedMessageCard variant="muted" onClick={() => {}}>
+            <QuotedMessageCard
+              variant="muted"
+              render={
+                <button
+                  type="button"
+                  aria-label="Open unavailable quoted message"
+                  onClick={() => {}}
+                />
+              }
+            >
               <QuotedMessageCardBody>
                 <QuotedMessageCardUnavailable>Message unavailable</QuotedMessageCardUnavailable>
               </QuotedMessageCardBody>
@@ -380,7 +401,16 @@ function QuotedMessageCardDoc() {
                 />
               ),
               current: (
-                <QuotedMessageCard variant="muted" onClick={() => {}}>
+                <QuotedMessageCard
+                  variant="muted"
+                  render={
+                    <button
+                      type="button"
+                      aria-label="Open unavailable quoted message"
+                      onClick={() => {}}
+                    />
+                  }
+                >
                   <QuotedMessageCardBody>
                     <QuotedMessageCardUnavailable>Message unavailable</QuotedMessageCardUnavailable>
                   </QuotedMessageCardBody>
@@ -414,7 +444,9 @@ function CurrentQuotedMessage({
   timestamp?: string;
 }) {
   return (
-    <QuotedMessageCard onClick={() => {}}>
+    <QuotedMessageCard
+      render={<button type="button" aria-label="Open quoted message" onClick={() => {}} />}
+    >
       <QuotedMessageCardBody>
         <QuotedMessageCardHeader>
           <QuotedMessageCardMeta>
