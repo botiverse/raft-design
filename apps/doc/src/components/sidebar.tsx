@@ -97,6 +97,7 @@ const NAV = [
       {
         label: "ConversationPreviewCard",
         to: "/components/conversation-preview-card",
+        progress: { structure: "done" },
       },
       { label: "KeyValueRow", to: "/components/key-value-row" },
       { label: "ListItem", to: "/components/list-item", progress: { structure: "done" } },

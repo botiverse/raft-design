@@ -1,2 +1,32 @@
-export { ConversationPreviewCard } from "./conversation-preview-card.tsx";
-export type { ConversationPreviewCardProps } from "./conversation-preview-card.tsx";
+export {
+  ConversationPreviewCard,
+  ConversationPreviewCardAction,
+  ConversationPreviewCardAuthor,
+  ConversationPreviewCardAuthorName,
+  ConversationPreviewCardAuthorSubtitle,
+  ConversationPreviewCardChannel,
+  ConversationPreviewCardContent,
+  ConversationPreviewCardFooter,
+  ConversationPreviewCardMeta,
+  ConversationPreviewCardPreview,
+  ConversationPreviewCardPreviewAuthor,
+  ConversationPreviewCardPreviewLeading,
+  ConversationPreviewCardSecondaryPreview,
+  ConversationPreviewCardTimestamp,
+} from "./conversation-preview-card.tsx";
+export type {
+  ConversationPreviewCardActionProps,
+  ConversationPreviewCardAuthorNameProps,
+  ConversationPreviewCardAuthorProps,
+  ConversationPreviewCardAuthorSubtitleProps,
+  ConversationPreviewCardChannelProps,
+  ConversationPreviewCardContentProps,
+  ConversationPreviewCardFooterProps,
+  ConversationPreviewCardMetaProps,
+  ConversationPreviewCardPreviewAuthorProps,
+  ConversationPreviewCardPreviewLeadingProps,
+  ConversationPreviewCardPreviewProps,
+  ConversationPreviewCardProps,
+  ConversationPreviewCardSecondaryPreviewProps,
+  ConversationPreviewCardTimestampProps,
+} from "./conversation-preview-card.tsx";

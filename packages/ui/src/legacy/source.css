@@ -59,6 +59,14 @@
   box-shadow: var(--shadow);
 }
 
+.hover\:shadow-brutal-sm:hover {
+  box-shadow: var(--shadow);
+}
+
+.active\:shadow-brutal-sm:active {
+  box-shadow: var(--shadow);
+}
+
 .shadow-brutal {
   box-shadow: var(--shadow-hover);
 }

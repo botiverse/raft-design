@@ -107,8 +107,38 @@ export type { PanelHeaderProps } from "./components/panel-header/index.ts";
 export { QuotedMessageCard } from "./components/quoted-message-card/index.ts";
 export type { QuotedMessageCardProps } from "./components/quoted-message-card/index.ts";
 
-export { ConversationPreviewCard } from "./components/conversation-preview-card/index.ts";
-export type { ConversationPreviewCardProps } from "./components/conversation-preview-card/index.ts";
+export {
+  ConversationPreviewCard,
+  ConversationPreviewCardAction,
+  ConversationPreviewCardAuthor,
+  ConversationPreviewCardAuthorName,
+  ConversationPreviewCardAuthorSubtitle,
+  ConversationPreviewCardChannel,
+  ConversationPreviewCardContent,
+  ConversationPreviewCardFooter,
+  ConversationPreviewCardMeta,
+  ConversationPreviewCardPreview,
+  ConversationPreviewCardPreviewAuthor,
+  ConversationPreviewCardPreviewLeading,
+  ConversationPreviewCardSecondaryPreview,
+  ConversationPreviewCardTimestamp,
+} from "./components/conversation-preview-card/index.ts";
+export type {
+  ConversationPreviewCardActionProps,
+  ConversationPreviewCardAuthorNameProps,
+  ConversationPreviewCardAuthorProps,
+  ConversationPreviewCardAuthorSubtitleProps,
+  ConversationPreviewCardChannelProps,
+  ConversationPreviewCardContentProps,
+  ConversationPreviewCardFooterProps,
+  ConversationPreviewCardMetaProps,
+  ConversationPreviewCardPreviewAuthorProps,
+  ConversationPreviewCardPreviewLeadingProps,
+  ConversationPreviewCardPreviewProps,
+  ConversationPreviewCardProps,
+  ConversationPreviewCardSecondaryPreviewProps,
+  ConversationPreviewCardTimestampProps,
+} from "./components/conversation-preview-card/index.ts";
 
 export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index.ts";
 export type {

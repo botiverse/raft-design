@@ -74,7 +74,7 @@ export function MediaListItem({
       selected={selected}
       interactive={interactive ?? false}
       className={cn(
-        "group px-3 py-2 has-[[data-interactive=true]]:hover:border-black has-[[data-interactive=true]]:hover:shadow-brutal-sm",
+        "group px-3 py-2 has-[[data-interactive=true]]:hover:border-black has-[[data-interactive=true]]:hover:[box-shadow:var(--shadow)]",
         className,
       )}
     >

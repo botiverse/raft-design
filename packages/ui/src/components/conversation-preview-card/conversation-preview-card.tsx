@@ -1,28 +1,22 @@
-import type { ComponentPropsWithRef, MouseEvent, ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
+import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "tailwind-variants";
-import { Avatar } from "../avatar/avatar.tsx";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
-// Conversation list-row preview card. Layout reproduced 1:1. App-domain bits are
-// slotted: the author avatar is a caller-supplied node and `preview` is a
-// ReactNode (the original rendered markdown via `InlineMarkdownPreview`).
-//
-// Shadow tokens: shadow-brutal-sm → --shadow (2px), shadow-brutal → --shadow-hover (4px).
 const conversationPreviewCard = tv({
   slots: {
     root: ["relative flex w-full items-start gap-3 border-2 p-3 text-left transition-colors"],
     content: ["min-w-0 flex-1"],
     meta: ["mb-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs leading-4"],
-    channel: ["font-bold text-black/50"],
-    author: ["inline-flex min-w-0 items-center gap-1 font-bold text-black"],
+    channel: ["font-bold"],
+    author: ["inline-flex min-w-0 items-center gap-1 font-bold"],
     authorName: ["truncate"],
-    authorSubtitle: ["font-mono text-[10px] text-black/40"],
-    timestamp: ["font-mono text-xs leading-4 text-black/40"],
+    authorSubtitle: ["font-mono text-[10px]"],
+    timestamp: ["font-mono text-xs leading-4"],
     preview: ["text-sm"],
-    previewLeading: ["mr-1 inline-flex align-[-1px]"],
-    previewAuthor: ["font-bold text-black/70"],
+    previewLeading: ["mr-1 inline-flex align-[-1px]", "[&_svg]:size-[13px] [&_svg]:shrink-0"],
+    previewAuthor: ["font-bold"],
     secondaryPreview: ["mt-1 line-clamp-1 text-xs"],
     footer: ["mt-1 flex items-center gap-3"],
     action: ["shrink-0"],
@@ -30,176 +24,313 @@ const conversationPreviewCard = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["hover:border-black hover:shadow-[var(--shadow)]"],
+        root: [
+          "border-black/30 bg-white hover:border-black hover:shadow-brutal-sm",
+          "data-[state=active]:border-black data-[state=active]:bg-white data-[state=active]:[box-shadow:var(--shadow)]",
+          "data-[highlighted=true]:border-black data-[highlighted=true]:bg-brutal-cyan/25 data-[highlighted=true]:[box-shadow:var(--shadow-hover)]",
+        ],
+        channel: "text-black/50",
+        author: "text-black",
+        authorSubtitle: "text-black/40",
+        timestamp: "text-black/40",
+        previewAuthor: "text-black/70",
+        secondaryPreview: "text-black/45",
       },
-      // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
     interactive: {
       true: {
-        root: "active:border-black active:shadow-[var(--shadow)]",
+        root: "active:border-black active:shadow-brutal-sm",
       },
       false: {
         root: "cursor-default",
       },
     },
-    state: {
-      focused: {
-        root: "border-black bg-brutal-cyan/25 shadow-[var(--shadow-hover)]",
-      },
-      active: {
-        root: "border-black bg-white shadow-[var(--shadow)]",
-      },
-      default: {
-        root: "border-black/30 bg-white",
-      },
-    },
-    emphasized: {
-      true: {
-        preview: "font-bold",
-      },
-      false: {
-        preview: "",
-      },
-    },
   },
   defaultVariants: {
     interactive: false,
-    state: "default",
-    emphasized: false,
   },
 });
 
-type ConversationAuthor = {
-  kind: "agent" | "user";
-  name: string;
-  subtitle?: string | null;
-  /** Resolved avatar element; placeholder frame renders when omitted. */
-  avatar?: ReactNode;
+export type ConversationPreviewCardProps = useRender.ComponentProps<"button"> & {
+  testId?: string;
 };
 
-export type ConversationPreviewCardProps = {
-  channelLabel: string;
-  author?: ConversationAuthor | null;
-  timestamp?: string | null;
-  /** Message preview. The app passes a pre-rendered markdown preview. */
-  preview: ReactNode;
-  previewAuthor?: string | null;
-  previewLeading?: ReactNode;
-  previewLineClampClassName?: "line-clamp-2" | "line-clamp-3";
-  previewClassName?: string;
-  secondaryPreview?: ReactNode;
-  secondaryPreviewClassName?: string;
-  ariaLabel?: string;
-  title?: string;
-  testId?: string;
-  marker?: ReactNode;
-  footer?: ReactNode;
-  action?: ReactNode;
-  emphasized?: boolean;
-  /** One-shot focus highlight (transient flash). */
-  focused?: boolean;
-  /** Sticky "currently-open conversation" highlight. */
-  active?: boolean;
-  onClick?: () => void;
-  onContextMenu?: (event: MouseEvent) => void;
-} & Pick<useRender.ComponentProps<"button">, "render"> &
-  Pick<ComponentPropsWithRef<"button">, "ref">;
-
 export function ConversationPreviewCard({
-  channelLabel,
-  author,
-  timestamp,
-  preview,
-  previewAuthor,
-  previewLeading,
-  previewLineClampClassName = "line-clamp-3",
-  previewClassName,
-  secondaryPreview,
-  secondaryPreviewClassName,
-  ariaLabel,
-  title,
-  testId,
-  marker,
-  footer,
-  action,
-  emphasized = false,
-  focused = false,
-  active = false,
   onClick,
-  onContextMenu,
+  className,
   render,
-  ref,
+  testId,
+  ...props
 }: ConversationPreviewCardProps) {
   const theme = useTheme();
-  const interactive = Boolean(onClick || onContextMenu);
-  const state = focused ? "focused" : active ? "active" : "default";
-  const {
-    root,
-    content: contentSlot,
-    meta,
-    channel,
-    author: authorSlot,
-    authorName,
-    authorSubtitle,
-    timestamp: timestampSlot,
-    preview: previewSlot,
-    previewLeading: previewLeadingSlot,
-    previewAuthor: previewAuthorSlot,
-    secondaryPreview: secondaryPreviewSlot,
-    footer: footerSlot,
-    action: actionSlot,
-  } = conversationPreviewCard({ theme, interactive, state, emphasized });
-  const content = (
-    <>
-      <div className={contentSlot()}>
-        <div className={meta()}>
-          <span className={channel()}>{channelLabel}</span>
-          {author && !previewAuthor ? (
-            <span className={authorSlot()}>
-              <Avatar size="4xs" type={author.kind === "agent" ? "agent" : "human"}>
-                {author.avatar}
-              </Avatar>
-              <span className={authorName()}>{author.name}</span>
-              {author.subtitle ? <span className={authorSubtitle()}>{author.subtitle}</span> : null}
-            </span>
-          ) : null}
-          {marker}
-          {timestamp ? <span className={timestampSlot()}>{timestamp}</span> : null}
-        </div>
-        <p className={previewSlot({ className: [previewLineClampClassName, previewClassName] })}>
-          {previewLeading ? <span className={previewLeadingSlot()}>{previewLeading}</span> : null}
-          {previewAuthor ? <span className={previewAuthorSlot()}>{previewAuthor}: </span> : null}
-          {preview}
-        </p>
-        {secondaryPreview ? (
-          <p
-            className={secondaryPreviewSlot({
-              className: secondaryPreviewClassName ?? "text-black/45",
-            })}
-          >
-            {secondaryPreview}
-          </p>
-        ) : null}
-        {footer ? <div className={footerSlot()}>{footer}</div> : null}
-      </div>
-      {action ? <div className={actionSlot()}>{action}</div> : null}
-    </>
-  );
+  const interactive = Boolean(onClick);
+  const { root } = conversationPreviewCard({ theme, interactive });
+  const defaultProps: useRender.ElementProps<"button"> & {
+    "data-slot": string;
+    "data-testid"?: string;
+  } = {
+    onClick,
+    "data-slot": "conversation-preview-card",
+    "data-testid": testId,
+    className: root({ className }),
+  };
 
   return useRender({
     render: render ?? (interactive ? <BaseButton type="button" /> : <div />),
-    ref,
-    props: {
-      onClick,
-      onContextMenu,
-      "aria-label": ariaLabel,
-      title,
-      "data-testid": testId,
-      "data-slot": "conversation-preview-card",
-      "data-focused": focused ? "true" : undefined,
-      className: root(),
-      children: content,
-    },
+    props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardContentProps = useRender.ComponentProps<"div">;
+
+export function ConversationPreviewCardContent({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardContentProps) {
+  const { content } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: content({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardMetaProps = useRender.ComponentProps<"div">;
+
+export function ConversationPreviewCardMeta({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardMetaProps) {
+  const { meta } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: meta({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardChannelProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardChannel({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardChannelProps) {
+  const theme = useTheme();
+  const { channel } = conversationPreviewCard({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: channel({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardAuthorProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardAuthor({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardAuthorProps) {
+  const theme = useTheme();
+  const { author } = conversationPreviewCard({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: author({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardAuthorNameProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardAuthorName({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardAuthorNameProps) {
+  const { authorName } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: authorName({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardAuthorSubtitleProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardAuthorSubtitle({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardAuthorSubtitleProps) {
+  const theme = useTheme();
+  const { authorSubtitle } = conversationPreviewCard({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: authorSubtitle({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardTimestampProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardTimestamp({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardTimestampProps) {
+  const theme = useTheme();
+  const { timestamp } = conversationPreviewCard({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: timestamp({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardPreviewProps = useRender.ComponentProps<"p">;
+
+export function ConversationPreviewCardPreview({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardPreviewProps) {
+  const { preview } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"p"> = {
+    className: preview({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "p",
+    render,
+    props: mergeProps<"p">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardPreviewLeadingProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardPreviewLeading({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardPreviewLeadingProps) {
+  const { previewLeading } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: previewLeading({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardPreviewAuthorProps = useRender.ComponentProps<"span">;
+
+export function ConversationPreviewCardPreviewAuthor({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardPreviewAuthorProps) {
+  const theme = useTheme();
+  const { previewAuthor } = conversationPreviewCard({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: previewAuthor({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardSecondaryPreviewProps = useRender.ComponentProps<"p">;
+
+export function ConversationPreviewCardSecondaryPreview({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardSecondaryPreviewProps) {
+  const theme = useTheme();
+  const { secondaryPreview } = conversationPreviewCard({ theme });
+  const defaultProps: useRender.ElementProps<"p"> = {
+    className: secondaryPreview({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "p",
+    render,
+    props: mergeProps<"p">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardFooterProps = useRender.ComponentProps<"div">;
+
+export function ConversationPreviewCardFooter({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardFooterProps) {
+  const { footer } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: footer({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ConversationPreviewCardActionProps = useRender.ComponentProps<"div">;
+
+export function ConversationPreviewCardAction({
+  className,
+  render,
+  ...props
+}: ConversationPreviewCardActionProps) {
+  const { action } = conversationPreviewCard();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: action({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
