@@ -75,7 +75,9 @@ export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
     | "side"
     | "sideOffset"
     | "sticky"
-  >;
+  > & {
+    portalProps?: ContextMenuPortalProps;
+  };
 
 export function ContextMenuContent({
   align = "start",
@@ -90,13 +92,14 @@ export function ContextMenuContent({
   side = "right",
   sideOffset = 0,
   sticky,
+  portalProps,
   className,
   ...props
 }: ContextMenuContentProps) {
   const theme = useTheme();
   const { positioner, content } = contextMenu({ theme });
   return (
-    <BaseContextMenu.Portal>
+    <BaseContextMenu.Portal {...portalProps}>
       <BaseContextMenu.Positioner
         align={align}
         alignOffset={alignOffset}

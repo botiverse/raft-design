@@ -77,7 +77,9 @@ export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &
     | "side"
     | "sideOffset"
     | "sticky"
-  >;
+  > & {
+    portalProps?: DropdownMenuPortalProps;
+  };
 
 export function DropdownMenuContent({
   align = "start",
@@ -92,13 +94,14 @@ export function DropdownMenuContent({
   side = "bottom",
   sideOffset = 4,
   sticky,
+  portalProps,
   className,
   ...props
 }: DropdownMenuContentProps) {
   const theme = useTheme();
   const { positioner, content } = dropdownMenu({ theme });
   return (
-    <BaseMenu.Portal>
+    <BaseMenu.Portal {...portalProps}>
       <BaseMenu.Positioner
         align={align}
         alignOffset={alignOffset}

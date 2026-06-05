@@ -8,6 +8,7 @@ import {
   ContextMenuTrigger,
 } from "@slock/ui";
 import { Archive, Pin, Trash2 } from "lucide-react";
+import { useMemo, useRef } from "react";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -129,12 +130,51 @@ const PROPS: readonly PropRow[] = [
 const PREVIEW_CONTENT_CLASS =
   "w-full max-w-xs overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]";
 const PREVIEW_ITEM_CLASS =
-  "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1 text-left text-sm font-medium text-black transition-colors [&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0";
+  "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1 text-left text-sm font-medium text-black transition-colors hover:bg-brutal-yellow/30 [&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0";
 const PREVIEW_SEPARATOR_CLASS = "border-t-2 border-black";
 export const Route = createFileRoute("/components/context-menu")({
   component: ContextMenuDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
+
+function CurrentMenuItemComparison() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const anchor = useMemo(
+    () => ({
+      getBoundingClientRect() {
+        const rect = containerRef.current?.getBoundingClientRect();
+        return DOMRect.fromRect({
+          x: rect?.left ?? 0,
+          y: rect?.top ?? 0,
+          width: 0,
+          height: 0,
+        });
+      },
+    }),
+    [],
+  );
+
+  return (
+    <div ref={containerRef} className="relative h-9 w-full max-w-xs">
+      <ContextMenu open>
+        <ContextMenuContent
+          anchor={anchor}
+          side="bottom"
+          align="start"
+          sideOffset={0}
+          alignOffset={0}
+          className="w-80 min-w-0 border-0 shadow-none"
+          portalProps={{ container: containerRef }}
+        >
+          <ContextMenuItem>
+            <Pin />
+            <span className="min-w-0 flex-1 truncate">Pin</span>
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  );
+}
 
 function ContextMenuDoc() {
   const code = Route.useLoaderData();
@@ -274,10 +314,7 @@ function ContextMenuDoc() {
               ),
               current: (
                 <div className="w-full max-w-xs">
-                  <div className={PREVIEW_ITEM_CLASS}>
-                    <Pin />
-                    <span className="min-w-0 flex-1 truncate">Pin</span>
-                  </div>
+                  <CurrentMenuItemComparison />
                 </div>
               ),
               sourceCode: code.sourceItem,
@@ -294,7 +331,7 @@ function ContextMenuDoc() {
               ),
               current: (
                 <div className="w-full max-w-xs">
-                  <div className={PREVIEW_SEPARATOR_CLASS} />
+                  <ContextMenuSeparator />
                 </div>
               ),
               sourceCode: code.sourceDivider,

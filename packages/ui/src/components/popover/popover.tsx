@@ -61,6 +61,12 @@ export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
   );
 }
 
+export type PopoverPortalProps = BasePopover.Portal.Props;
+
+export function PopoverPortal(props: PopoverPortalProps) {
+  return <BasePopover.Portal data-slot="popover-portal" {...props} />;
+}
+
 export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
   Pick<
     BasePopover.Positioner.Props,
@@ -76,7 +82,9 @@ export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
     | "side"
     | "sideOffset"
     | "sticky"
-  >;
+  > & {
+    portalProps?: PopoverPortalProps;
+  };
 
 export function PopoverContent({
   align = "start",
@@ -91,13 +99,14 @@ export function PopoverContent({
   side = "bottom",
   sideOffset = 4,
   sticky,
+  portalProps,
   className,
   ...props
 }: PopoverContentProps) {
   const theme = useTheme();
   const { positioner, content } = popover({ theme });
   return (
-    <BasePopover.Portal>
+    <BasePopover.Portal {...portalProps}>
       <BasePopover.Positioner
         align={align}
         alignOffset={alignOffset}

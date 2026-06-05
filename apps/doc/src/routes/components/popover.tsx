@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from "@slock/ui";
 import { Check, SlidersHorizontal } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -25,6 +25,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -322,44 +323,78 @@ function InlinePopover() {
   );
 }
 
-function StaticSelectionPopoverPreview() {
+const COMPARISON_SELECTION_OPTIONS = [
+  {
+    key: "unread",
+    checked: true,
+    label: "Unread",
+    onClick: () => {},
+  },
+  {
+    key: "mentions",
+    checked: false,
+    label: "Mentions",
+    onClick: () => {},
+  },
+] as const;
+
+function CurrentSelectionPopoverComparison() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const anchor = useMemo(
+    () => ({
+      getBoundingClientRect() {
+        const rect = containerRef.current?.getBoundingClientRect();
+        return DOMRect.fromRect({
+          x: rect?.left ?? 0,
+          y: rect?.top ?? 0,
+          width: 0,
+          height: 0,
+        });
+      },
+    }),
+    [],
+  );
+
   return (
-    <div className="min-w-[220px] border-2 border-black bg-white shadow-[var(--shadow-hover)]">
-      <div className="flex min-h-10 items-center justify-between gap-3 border-b border-black px-3 py-2">
-        <div className="font-display text-xs font-bold uppercase tracking-[0.16em] text-black">
+    <div ref={containerRef} className="relative h-[156px] min-w-[220px]">
+      <Popover open modal={false} triggerId="comparison-selection-popover-trigger">
+        <PopoverTrigger id="comparison-selection-popover-trigger" className="sr-only">
           Channels
-        </div>
-        <button
-          type="button"
-          className="text-[10px] font-bold uppercase tracking-wide text-black/50"
+        </PopoverTrigger>
+        <PopoverContent
+          anchor={anchor}
+          side="bottom"
+          align="start"
+          sideOffset={0}
+          alignOffset={0}
+          className="min-w-[220px]"
+          portalProps={{ container: containerRef }}
         >
-          Clear
-        </button>
-      </div>
-      <div className="border-b border-black p-2">
-        <input
-          type="text"
-          aria-label="Search channels preview"
-          value="un"
-          readOnly
-          className="w-full border-2 border-black bg-white px-2 py-1 font-mono text-xs shadow-[var(--shadow)] outline-none"
-        />
-      </div>
-      <div className="max-h-64 overflow-y-auto">
-        <button
-          type="button"
-          className="flex h-9 w-full items-center justify-between gap-2 overflow-hidden border-b border-black/10 bg-white px-3 text-left text-xs font-bold"
-        >
-          <span className="truncate leading-6">Unread</span>
-          <Check size={12} className="shrink-0" />
-        </button>
-        <button
-          type="button"
-          className="flex h-9 w-full items-center justify-between gap-2 overflow-hidden bg-brutal-yellow/30 px-3 text-left text-xs font-bold"
-        >
-          <span className="truncate leading-6">Mentions</span>
-        </button>
-      </div>
+          <PopoverHeader>
+            <PopoverTitle>Channels</PopoverTitle>
+            <button
+              type="button"
+              className="text-[10px] font-bold uppercase tracking-wide text-black/50 hover:text-black"
+            >
+              Clear
+            </button>
+          </PopoverHeader>
+          <div className="border-b border-black p-2">
+            <input
+              type="text"
+              aria-label="Search channels preview"
+              value="un"
+              readOnly
+              className="w-full border-2 border-black bg-white px-2 py-1 font-mono text-xs shadow-[var(--shadow)] outline-none"
+            />
+          </div>
+          <OptionRows
+            options={["Unread", "Mentions"]}
+            selected="Unread"
+            onSelect={() => undefined}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
@@ -495,8 +530,18 @@ function PopoverDoc() {
               label: "Selection popover",
               status: "difference",
               note: "Source accepted options, search, selection, and clear behavior as props. Current keeps the same shell, field, rows, and checked visual but exposes the parts through Popover composition.",
-              source: <StaticSelectionPopoverPreview />,
-              current: <StaticSelectionPopoverPreview />,
+              source: (
+                <LegacySelectionPopover
+                  title="Channels"
+                  searchable
+                  search="un"
+                  onSearchChange={() => {}}
+                  showClear
+                  onClear={() => {}}
+                  options={[...COMPARISON_SELECTION_OPTIONS]}
+                />
+              ),
+              current: <CurrentSelectionPopoverComparison />,
               sourceCode: code.sourceSelectionPopover,
               currentCode: code.currentSelectionPopover,
             },

@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@slock/ui";
 import { Check, Plus } from "lucide-react";
+import { useMemo, useRef } from "react";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -20,6 +21,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import { ServerSwitcherMenu as LegacyServerSwitcherMenu } from "../../../../../packages/ui/src/legacy/server-switcher-menu.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -121,48 +123,6 @@ const SNIPPETS = {
 </DropdownMenu>`,
 } as const;
 
-const STATIC_ITEM_CLASS =
-  "flex h-auto min-h-10 w-full items-center gap-2 overflow-hidden bg-white px-3 py-2 text-left text-xs font-medium text-black outline-none";
-
-const STATIC_ACTION_CLASS = `${STATIC_ITEM_CLASS} font-bold hover:bg-brutal-pink`;
-
-const STATIC_SEPARATOR_CLASS = "border-t-2 border-black";
-
-function StaticServerSwitcherMenuPreview() {
-  return (
-    <div className="flex w-64 flex-col border-2 border-black bg-white shadow-[var(--shadow-hover)]">
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className={`${STATIC_ITEM_CLASS} font-bold`}>
-          <Check />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Slock</div>
-            <div className="truncate font-mono text-xs text-black/40">/slock</div>
-          </div>
-        </div>
-        <div className={`${STATIC_ITEM_CLASS} bg-brutal-yellow`}>
-          <Check className="opacity-0" />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Design Guild</div>
-            <div className="truncate font-mono text-xs text-black/40">/design</div>
-          </div>
-          <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
-            4
-          </span>
-        </div>
-      </div>
-      <div className={STATIC_SEPARATOR_CLASS} />
-      <div className={STATIC_ACTION_CLASS}>
-        <Plus />
-        <span className="min-w-0 flex-1 text-left">Join Community</span>
-      </div>
-      <div className={`${STATIC_ACTION_CLASS} bg-brutal-pink`}>
-        <Plus />
-        <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
-      </div>
-    </div>
-  );
-}
-
 const OPENED_ROW_PREVIEW = (
   <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
     <DropdownMenuItem className="font-bold">
@@ -194,6 +154,17 @@ const OPENED_ROW_PREVIEW = (
     </DropdownMenuItem>
   </div>
 );
+
+const COMPARISON_SERVERS = [
+  { id: "slock", name: "Slock", slug: "slock" },
+  { id: "design", name: "Design Guild", slug: "design" },
+  { id: "oss", name: "Open Source", slug: "oss" },
+] as const;
+
+const COMPARISON_UNREAD_COUNTS = {
+  design: 4,
+  oss: 12,
+} as const;
 
 const PROPS: readonly PropRow[] = [
   {
@@ -279,6 +250,42 @@ function ServerRows() {
         <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
       </DropdownMenuActionItem>
     </>
+  );
+}
+
+function CurrentServerSwitcherMenuComparison() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const anchor = useMemo(
+    () => ({
+      getBoundingClientRect() {
+        const rect = containerRef.current?.getBoundingClientRect();
+        return DOMRect.fromRect({
+          x: rect?.left ?? 0,
+          y: rect?.top ?? 0,
+          width: 0,
+          height: 0,
+        });
+      },
+    }),
+    [],
+  );
+
+  return (
+    <div ref={containerRef} className="relative h-[218px] w-64">
+      <DropdownMenu open modal={false}>
+        <DropdownMenuContent
+          anchor={anchor}
+          side="bottom"
+          align="start"
+          sideOffset={0}
+          alignOffset={0}
+          className="flex w-64 flex-col"
+          portalProps={{ container: containerRef }}
+        >
+          <ServerRows />
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
 
@@ -387,8 +394,19 @@ function DropdownMenuDoc() {
               label: "Server switcher menu",
               status: "difference",
               note: "Source exposed one business-shaped ServerSwitcherMenu. Current keeps the same row, separator, badge, and action visuals but moves the API to a generic Base UI menu composition.",
-              source: <StaticServerSwitcherMenuPreview />,
-              current: <StaticServerSwitcherMenuPreview />,
+              source: (
+                <LegacyServerSwitcherMenu
+                  servers={[...COMPARISON_SERVERS]}
+                  currentServerId="slock"
+                  serverUnreadCounts={COMPARISON_UNREAD_COUNTS}
+                  joinOptions={[{ slug: "community", label: "Join Community" }]}
+                  className="w-64"
+                  onSelectServer={() => {}}
+                  onJoinCommunity={() => {}}
+                  onSwitchOrCreate={() => {}}
+                />
+              ),
+              current: <CurrentServerSwitcherMenuComparison />,
               sourceCode: code.sourceServerSwitcher,
               currentCode: code.currentServerSwitcher,
             },
