@@ -20,7 +20,6 @@ import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
-import { Route as ComponentsSurfaceListItemRouteImport } from './routes/components/surface-list-item'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
@@ -32,6 +31,8 @@ import { Route as ComponentsPreviewShellRouteImport } from './routes/components/
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsMediaListItemRouteImport } from './routes/components/media-list-item'
+import { Route as ComponentsListItemRouteImport } from './routes/components/list-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
 import { Route as ComponentsKeyValueRowRouteImport } from './routes/components/key-value-row'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
@@ -48,7 +49,6 @@ import { Route as ComponentsButtonRouteImport } from './routes/components/button
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
-import { Route as ComponentsAvatarListRowRouteImport } from './routes/components/avatar-list-row'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
 import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
 
@@ -107,12 +107,6 @@ const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
   path: '/components/tabs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsSurfaceListItemRoute =
-  ComponentsSurfaceListItemRouteImport.update({
-    id: '/components/surface-list-item',
-    path: '/components/surface-list-item',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
   id: '/components/status-dot',
   path: '/components/status-dot',
@@ -172,6 +166,16 @@ const ComponentsNotificationCenterRoute =
     path: '/components/notification-center',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ComponentsMediaListItemRoute = ComponentsMediaListItemRouteImport.update({
+  id: '/components/media-list-item',
+  path: '/components/media-list-item',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsListItemRoute = ComponentsListItemRouteImport.update({
+  id: '/components/list-item',
+  path: '/components/list-item',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   id: '/components/lightbox',
   path: '/components/lightbox',
@@ -254,11 +258,6 @@ const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
   path: '/components/badge',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsAvatarListRowRoute = ComponentsAvatarListRowRouteImport.update({
-  id: '/components/avatar-list-row',
-  path: '/components/avatar-list-row',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
   id: '/components/avatar',
   path: '/components/avatar',
@@ -276,7 +275,6 @@ export interface FileRoutesByFullPath {
   '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
-  '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
@@ -293,6 +291,8 @@ export interface FileRoutesByFullPath {
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/list-item': typeof ComponentsListItemRoute
+  '/components/media-list-item': typeof ComponentsMediaListItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -304,7 +304,6 @@ export interface FileRoutesByFullPath {
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
-  '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
@@ -320,7 +319,6 @@ export interface FileRoutesByTo {
   '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
-  '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
@@ -337,6 +335,8 @@ export interface FileRoutesByTo {
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/list-item': typeof ComponentsListItemRoute
+  '/components/media-list-item': typeof ComponentsMediaListItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -348,7 +348,6 @@ export interface FileRoutesByTo {
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
-  '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
@@ -365,7 +364,6 @@ export interface FileRoutesById {
   '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
-  '/components/avatar-list-row': typeof ComponentsAvatarListRowRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
@@ -382,6 +380,8 @@ export interface FileRoutesById {
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/list-item': typeof ComponentsListItemRoute
+  '/components/media-list-item': typeof ComponentsMediaListItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -393,7 +393,6 @@ export interface FileRoutesById {
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
-  '/components/surface-list-item': typeof ComponentsSurfaceListItemRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
@@ -411,7 +410,6 @@ export interface FileRouteTypes {
     | '/setup'
     | '/components/attention-dot'
     | '/components/avatar'
-    | '/components/avatar-list-row'
     | '/components/badge'
     | '/components/banner'
     | '/components/bottom-sheet'
@@ -428,6 +426,8 @@ export interface FileRouteTypes {
     | '/components/input-group'
     | '/components/key-value-row'
     | '/components/lightbox'
+    | '/components/list-item'
+    | '/components/media-list-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
@@ -439,7 +439,6 @@ export interface FileRouteTypes {
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
-    | '/components/surface-list-item'
     | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
@@ -455,7 +454,6 @@ export interface FileRouteTypes {
     | '/setup'
     | '/components/attention-dot'
     | '/components/avatar'
-    | '/components/avatar-list-row'
     | '/components/badge'
     | '/components/banner'
     | '/components/bottom-sheet'
@@ -472,6 +470,8 @@ export interface FileRouteTypes {
     | '/components/input-group'
     | '/components/key-value-row'
     | '/components/lightbox'
+    | '/components/list-item'
+    | '/components/media-list-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
@@ -483,7 +483,6 @@ export interface FileRouteTypes {
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
-    | '/components/surface-list-item'
     | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
@@ -499,7 +498,6 @@ export interface FileRouteTypes {
     | '/setup'
     | '/components/attention-dot'
     | '/components/avatar'
-    | '/components/avatar-list-row'
     | '/components/badge'
     | '/components/banner'
     | '/components/bottom-sheet'
@@ -516,6 +514,8 @@ export interface FileRouteTypes {
     | '/components/input-group'
     | '/components/key-value-row'
     | '/components/lightbox'
+    | '/components/list-item'
+    | '/components/media-list-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
@@ -527,7 +527,6 @@ export interface FileRouteTypes {
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
-    | '/components/surface-list-item'
     | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
@@ -544,7 +543,6 @@ export interface RootRouteChildren {
   SetupRoute: typeof SetupRoute
   ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
   ComponentsAvatarRoute: typeof ComponentsAvatarRoute
-  ComponentsAvatarListRowRoute: typeof ComponentsAvatarListRowRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
@@ -561,6 +559,8 @@ export interface RootRouteChildren {
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
   ComponentsKeyValueRowRoute: typeof ComponentsKeyValueRowRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
+  ComponentsListItemRoute: typeof ComponentsListItemRoute
+  ComponentsMediaListItemRoute: typeof ComponentsMediaListItemRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
@@ -572,7 +572,6 @@ export interface RootRouteChildren {
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
-  ComponentsSurfaceListItemRoute: typeof ComponentsSurfaceListItemRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
@@ -662,13 +661,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTabsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/surface-list-item': {
-      id: '/components/surface-list-item'
-      path: '/components/surface-list-item'
-      fullPath: '/components/surface-list-item'
-      preLoaderRoute: typeof ComponentsSurfaceListItemRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components/status-dot': {
       id: '/components/status-dot'
       path: '/components/status-dot'
@@ -744,6 +736,20 @@ declare module '@tanstack/react-router' {
       path: '/components/notification-center'
       fullPath: '/components/notification-center'
       preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/media-list-item': {
+      id: '/components/media-list-item'
+      path: '/components/media-list-item'
+      fullPath: '/components/media-list-item'
+      preLoaderRoute: typeof ComponentsMediaListItemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/list-item': {
+      id: '/components/list-item'
+      path: '/components/list-item'
+      fullPath: '/components/list-item'
+      preLoaderRoute: typeof ComponentsListItemRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/lightbox': {
@@ -858,13 +864,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsBadgeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/avatar-list-row': {
-      id: '/components/avatar-list-row'
-      path: '/components/avatar-list-row'
-      fullPath: '/components/avatar-list-row'
-      preLoaderRoute: typeof ComponentsAvatarListRowRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components/avatar': {
       id: '/components/avatar'
       path: '/components/avatar'
@@ -888,7 +887,6 @@ const rootRouteChildren: RootRouteChildren = {
   SetupRoute: SetupRoute,
   ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
   ComponentsAvatarRoute: ComponentsAvatarRoute,
-  ComponentsAvatarListRowRoute: ComponentsAvatarListRowRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
@@ -906,6 +904,8 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
   ComponentsKeyValueRowRoute: ComponentsKeyValueRowRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
+  ComponentsListItemRoute: ComponentsListItemRoute,
+  ComponentsMediaListItemRoute: ComponentsMediaListItemRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
@@ -917,7 +917,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
-  ComponentsSurfaceListItemRoute: ComponentsSurfaceListItemRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,

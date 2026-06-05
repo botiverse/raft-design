@@ -81,21 +81,25 @@ export { AvatarGroupCount } from "./components/avatar/index.ts";
 export type { AvatarGroupCountProps } from "./components/avatar/index.ts";
 
 export {
-  AvatarListRow,
-  AvatarListRowBody,
-  AvatarListRowContent,
-  AvatarListRowName,
-  AvatarListRowSubtitle,
-  AvatarListRowAside,
-} from "./components/avatar-list-row/index.ts";
+  MediaListItem,
+  MediaListItemActionGroup,
+  MediaListItemBody,
+  MediaListItemText,
+  MediaListItemTitle,
+  MediaListItemSubtitle,
+  MediaListItemAside,
+  MediaListItemVisual,
+} from "./components/media-list-item/index.ts";
 export type {
-  AvatarListRowProps,
-  AvatarListRowBodyProps,
-  AvatarListRowContentProps,
-  AvatarListRowNameProps,
-  AvatarListRowSubtitleProps,
-  AvatarListRowAsideProps,
-} from "./components/avatar-list-row/index.ts";
+  MediaListItemProps,
+  MediaListItemActionGroupProps,
+  MediaListItemBodyProps,
+  MediaListItemTextProps,
+  MediaListItemTitleProps,
+  MediaListItemSubtitleProps,
+  MediaListItemAsideProps,
+  MediaListItemVisualProps,
+} from "./components/media-list-item/index.ts";
 
 export { PanelHeader } from "./components/panel-header/index.ts";
 export type { PanelHeaderProps } from "./components/panel-header/index.ts";
@@ -203,8 +207,24 @@ export type { SectionHeaderProps } from "./components/section-header/index.ts";
 export { KeyValueRow } from "./components/key-value-row/index.ts";
 export type { KeyValueRowProps } from "./components/key-value-row/index.ts";
 
-export { SurfaceListItem } from "./components/surface-list-item/index.ts";
-export type { SurfaceListItemProps } from "./components/surface-list-item/index.ts";
+export {
+  ListItem,
+  ListItemActionGroup,
+  ListItemBody,
+  ListItemDescription,
+  ListItemRow,
+  ListItemMeta,
+  ListItemTitle,
+} from "./components/list-item/index.ts";
+export type {
+  ListItemActionGroupProps,
+  ListItemBodyProps,
+  ListItemDescriptionProps,
+  ListItemRowProps,
+  ListItemMetaProps,
+  ListItemProps,
+  ListItemTitleProps,
+} from "./components/list-item/index.ts";
 
 export type {
   NotificationCenterActionButtonProps,

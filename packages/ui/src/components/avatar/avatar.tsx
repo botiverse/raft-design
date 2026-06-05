@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
 import { User } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
@@ -95,11 +95,8 @@ const avatar = tv({
 
 export type AvatarSize = NonNullable<VariantProps<typeof avatar>["size"]>;
 
-export type AvatarProps = Omit<ComponentPropsWithRef<"span">, "children"> &
-  Required<Pick<VariantProps<typeof avatar>, "size" | "type">> & {
-    /** Compose `<AvatarImage>` / `<AvatarFallback>` / `<AvatarBadge>`. Defaults to a placeholder fallback when empty. */
-    children?: ReactNode;
-  };
+export type AvatarProps = StyledProps<AvatarPrimitive.Root.Props> &
+  Required<Pick<VariantProps<typeof avatar>, "size" | "type">>;
 
 export function Avatar({ size, type, className, children, ...props }: AvatarProps) {
   const theme = useTheme();

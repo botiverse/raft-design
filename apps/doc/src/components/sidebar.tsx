@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
+import { StatusBadge } from "./status-badge.tsx";
 
 const SKILLS = {
   title: "Skills",
@@ -13,9 +14,9 @@ const SKILLS = {
 const TOKENS = {
   title: "Tokens",
   items: [
-    { label: "Colors", to: "/tokens/colors" },
-    { label: "Typography", to: "/tokens/typography" },
-    { label: "Shadows", to: "/tokens/shadows" },
+    { label: "Colors", to: "/tokens/colors", status: "wip" },
+    { label: "Typography", to: "/tokens/typography", status: "wip" },
+    { label: "Shadows", to: "/tokens/shadows", status: "wip" },
   ],
 } as const;
 
@@ -86,15 +87,20 @@ const NAV = [
       {
         label: "Avatar",
         to: "/components/avatar",
+        progress: { structure: "done" },
       },
-      { label: "AvatarListRow", to: "/components/avatar-list-row" },
+      {
+        label: "MediaListItem",
+        to: "/components/media-list-item",
+        progress: { structure: "done" },
+      },
       {
         label: "ConversationPreviewCard",
         to: "/components/conversation-preview-card",
       },
       { label: "KeyValueRow", to: "/components/key-value-row" },
+      { label: "ListItem", to: "/components/list-item", progress: { structure: "done" } },
       { label: "QuotedMessageCard", to: "/components/quoted-message-card" },
-      { label: "SurfaceListItem", to: "/components/surface-list-item" },
     ],
   },
   {
@@ -202,6 +208,18 @@ const MIGRATED = {
       to: "/components/avatar",
       target: "AvatarImage + AvatarFallback",
     },
+    {
+      label: "AvatarListRow",
+      to: "/components/media-list-item",
+      hash: "source-comparison",
+      target: "MediaListItem",
+    },
+    {
+      label: "SurfaceListItem",
+      to: "/components/list-item",
+      hash: "source-comparison",
+      target: "ListItem",
+    },
   ],
 } as const;
 
@@ -232,6 +250,7 @@ type NavItem = {
   to: string;
   hash?: string;
   progress?: Progress;
+  status?: "wip";
   children?: readonly NavItem[];
 };
 
@@ -278,6 +297,14 @@ function ProgressBadges({ progress }: { progress?: Progress }) {
       })}
     </span>
   );
+}
+
+function NavItemBadge({ item }: { item: NavItem }) {
+  if (item.status === "wip") {
+    return <StatusBadge status="in-progress" />;
+  }
+
+  return <ProgressBadges progress={item.progress} />;
 }
 
 function MigratedLink({ to, label, hash, target }: MigratedItem) {
@@ -332,12 +359,12 @@ function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }
       <ul className="space-y-1">
         {items.map((item) => (
           <li key={item.label}>
-            <NavLink {...item} badge={<ProgressBadges progress={item.progress} />} />
+            <NavLink {...item} badge={<NavItemBadge item={item} />} />
             {item.children ? (
               <ul className="mt-1 space-y-1 pl-3">
                 {item.children.map((child) => (
                   <li key={child.label}>
-                    <NavLink {...child} badge={<ProgressBadges progress={child.progress} />} />
+                    <NavLink {...child} badge={<NavItemBadge item={child} />} />
                   </li>
                 ))}
               </ul>
