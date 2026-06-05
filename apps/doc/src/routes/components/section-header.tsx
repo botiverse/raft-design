@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, SectionHeader } from "@slock/ui";
-import { Bell, Plus } from "lucide-react";
+import {
+  Button,
+  SectionHeader,
+  SectionHeaderActions,
+  SectionHeaderContent,
+  SectionHeaderCount,
+  SectionHeaderIcon,
+  SectionHeaderTitle,
+} from "@slock/ui";
+import { BellRing, Plus, User } from "lucide-react";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -8,48 +16,125 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacySectionHeader from "../../../../../packages/ui/src/legacy/SectionHeader.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
   { id: "anatomy", title: "Anatomy" },
   { id: "slots", title: "Slots" },
+  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { SectionHeader } from "@slock/ui";
+  anatomy: `import {
+  SectionHeader,
+  SectionHeaderContent,
+  SectionHeaderCount,
+  SectionHeaderTitle,
+} from "@slock/ui";
 
-<SectionHeader label="Members" count={12} />`,
-  slots: `<SectionHeader label="Members" count={12} />
-<SectionHeader
-  label="Reminders"
-  icon={<Bell size={16} />}
-  action={<Button size="icon-xs" aria-label="Add"><Plus /></Button>}
+<SectionHeader>
+  <SectionHeaderContent>
+    <SectionHeaderTitle>Members</SectionHeaderTitle>
+    <SectionHeaderCount>12</SectionHeaderCount>
+  </SectionHeaderContent>
+</SectionHeader>`,
+  slots: `<SectionHeader>
+  <SectionHeaderContent>
+    <SectionHeaderIcon>
+      <BellRing />
+    </SectionHeaderIcon>
+    <SectionHeaderTitle>Pending Reminders</SectionHeaderTitle>
+    <SectionHeaderCount>{reminders.length}</SectionHeaderCount>
+  </SectionHeaderContent>
+
+  <SectionHeaderActions>
+    <Button size="icon-xs" aria-label="Add">
+      <Plus />
+    </Button>
+  </SectionHeaderActions>
+</SectionHeader>`,
+  sourceCreatedAgents: `<SectionHeader
+  className="mb-3"
+  label="Created Agents"
+  count={createdAgents.length}
 />`,
+  currentCreatedAgents: `<SectionHeader className="mb-3">
+  <SectionHeaderContent>
+    <SectionHeaderTitle>Created Agents</SectionHeaderTitle>
+    <SectionHeaderCount>{createdAgents.length}</SectionHeaderCount>
+  </SectionHeaderContent>
+</SectionHeader>`,
+  sourcePendingReminders: `<SectionHeader
+  className="mb-3"
+  icon={<BellRing size={14} className="text-black/50" />}
+  label="Pending Reminders"
+  count={reminders.length}
+  action={loading ? <span className="text-xs font-bold text-black/50">Loading...</span> : null}
+/>`,
+  currentPendingReminders: `<SectionHeader className="mb-3">
+  <SectionHeaderContent>
+    <SectionHeaderIcon>
+      <BellRing />
+    </SectionHeaderIcon>
+    <SectionHeaderTitle>Pending Reminders</SectionHeaderTitle>
+    <SectionHeaderCount>{reminders.length}</SectionHeaderCount>
+  </SectionHeaderContent>
+  <SectionHeaderActions>
+    {loading ? <span className="text-xs font-bold text-black/50">Loading...</span> : null}
+  </SectionHeaderActions>
+</SectionHeader>`,
+  sourceAccount: `<SectionHeader
+  className="mb-3"
+  icon={<User size={16} />}
+  label="Account"
+/>`,
+  currentAccount: `<SectionHeader className="mb-3">
+  <SectionHeaderContent>
+    <SectionHeaderIcon>
+      <User />
+    </SectionHeaderIcon>
+    <SectionHeaderTitle>Account</SectionHeaderTitle>
+  </SectionHeaderContent>
+</SectionHeader>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
-  { name: "label", type: "ReactNode", description: "The eyebrow text." },
-  { name: "icon", type: "ReactNode", description: "Optional leading icon (text-black/60)." },
   {
-    name: "count",
-    type: "number | null",
-    description: "Optional count badge after the label (font-mono, rendered when ≥ 0).",
-  },
-  { name: "action", type: "ReactNode", description: "Optional right-aligned action node." },
-  {
-    name: "htmlFor",
-    type: "string",
-    description: "When set, the eyebrow becomes a <label htmlFor> for the region's control.",
+    name: "SectionHeader",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Outer row. Keeps the left content and right actions apart.",
   },
   {
-    name: "...props",
-    type: "HTMLAttributes<HTMLDivElement>",
-    description: "Native div attributes on the outer wrapper (e.g. mb-2, border-b-2).",
+    name: "SectionHeaderContent",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Left cluster for icon, title, and count.",
+  },
+  {
+    name: "SectionHeaderIcon",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Icon wrapper with muted color and CSS-controlled svg size.",
+  },
+  {
+    name: "SectionHeaderTitle",
+    type: "SectionLabelProps",
+    description: "Title token. Internally reuses SectionLabel and defaults to a div.",
+  },
+  {
+    name: "SectionHeaderCount",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Inline muted monospace count.",
+  },
+  {
+    name: "SectionHeaderActions",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Right-aligned action cluster.",
   },
 ];
 
@@ -64,13 +149,18 @@ function SectionHeaderDoc() {
   return (
     <DocPage
       title="SectionHeader"
-      description="An eyebrow label with an optional count badge and trailing action."
+      description="A section heading row composed from SectionLabel plus optional icon, count, and actions."
       overview={
         <Differences from="SectionHeader">
-          <li>brutal styling reproduced 1:1 (composes SectionEyebrow, font-mono count)</li>
           <li>
-            the <code>default</code> export is now a named <code>SectionHeader</code> export
+            source props (<code>label</code>, <code>icon</code>, <code>count</code>,{" "}
+            <code>action</code>, <code>htmlFor</code>) are now explicit slots
           </li>
+          <li>
+            <code>SectionHeaderTitle</code> reuses <code>SectionLabel</code>; the old{" "}
+            <code>SectionEyebrow</code> name moved to legacy
+          </li>
+          <li>brutal layout and typography are preserved 1:1</li>
         </Differences>
       }
       toc={TOC}
@@ -85,24 +175,107 @@ function SectionHeaderDoc() {
 
       <DocSection id="slots" title="Slots">
         <Example html={code.slots}>
-          <div className="flex w-72 flex-col gap-4">
-            <SectionHeader label="Members" count={12} />
-            <SectionHeader
-              label="Reminders"
-              icon={<Bell size={16} />}
-              action={
-                <Button size="icon-xs" aria-label="Add">
-                  <Plus />
-                </Button>
-              }
-            />
+          <div className="flex w-96 flex-col gap-4">
+            <CurrentCreatedAgentsHeader />
+            <CurrentPendingRemindersHeader showAddAction />
+            <CurrentAccountHeader />
           </div>
         </Example>
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Created agents",
+              status: "difference",
+              note: "Source packed label and count into props. Current composes the title and count slots explicitly.",
+              source: <LegacySectionHeader className="mb-3" label="Created Agents" count={3} />,
+              current: <CurrentCreatedAgentsHeader />,
+              sourceCode: code.sourceCreatedAgents,
+              currentCode: code.currentCreatedAgents,
+            },
+            {
+              label: "Pending reminders",
+              status: "difference",
+              note: "Source accepted icon/count/action props. Current preserves the same row but exposes each part as a slot.",
+              source: (
+                <LegacySectionHeader
+                  className="mb-3"
+                  icon={<BellRing size={14} className="text-black/50" />}
+                  label="Pending Reminders"
+                  count={8}
+                  action={<span className="text-xs font-bold text-black/50">Loading...</span>}
+                />
+              ),
+              current: <CurrentPendingRemindersHeader />,
+              sourceCode: code.sourcePendingReminders,
+              currentCode: code.currentPendingReminders,
+            },
+            {
+              label: "Settings section",
+              status: "difference",
+              note: "Source used icon and label props in settings panels. Current keeps the exact visual layout with content and icon slots.",
+              source: (
+                <LegacySectionHeader className="mb-3" icon={<User size={16} />} label="Account" />
+              ),
+              current: <CurrentAccountHeader />,
+              sourceCode: code.sourceAccount,
+              currentCode: code.currentAccount,
+            },
+          ]}
+        />
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
+  );
+}
+
+function CurrentCreatedAgentsHeader() {
+  return (
+    <SectionHeader className="mb-3">
+      <SectionHeaderContent>
+        <SectionHeaderTitle>Created Agents</SectionHeaderTitle>
+        <SectionHeaderCount>3</SectionHeaderCount>
+      </SectionHeaderContent>
+    </SectionHeader>
+  );
+}
+
+function CurrentPendingRemindersHeader({ showAddAction = false }: { showAddAction?: boolean }) {
+  return (
+    <SectionHeader className="mb-3">
+      <SectionHeaderContent>
+        <SectionHeaderIcon>
+          <BellRing />
+        </SectionHeaderIcon>
+        <SectionHeaderTitle>Pending Reminders</SectionHeaderTitle>
+        <SectionHeaderCount>8</SectionHeaderCount>
+      </SectionHeaderContent>
+      <SectionHeaderActions>
+        <span className="text-xs font-bold text-black/50">Loading...</span>
+        {showAddAction ? (
+          <Button size="icon-xs" aria-label="Add">
+            <Plus />
+          </Button>
+        ) : null}
+      </SectionHeaderActions>
+    </SectionHeader>
+  );
+}
+
+function CurrentAccountHeader() {
+  return (
+    <SectionHeader className="mb-3">
+      <SectionHeaderContent>
+        <SectionHeaderIcon>
+          <User />
+        </SectionHeaderIcon>
+        <SectionHeaderTitle>Account</SectionHeaderTitle>
+      </SectionHeaderContent>
+    </SectionHeader>
   );
 }

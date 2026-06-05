@@ -1,19 +1,15 @@
-import type { ReactNode } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "tailwind-variants";
-import { SectionEyebrow } from "../section-eyebrow/section-eyebrow.tsx";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { SectionLabel, type SectionLabelProps } from "../section-label/section-label.tsx";
 
-// Eyebrow label + optional count badge + optional trailing action. Pure layout
-// that composes SectionEyebrow so the eyebrow token stays canonical.
 const sectionHeader = tv({
   slots: {
     root: ["flex items-center justify-between gap-2"],
-    labelWrap: ["flex min-w-0 items-center gap-2"],
-    icon: ["shrink-0 text-black/60"],
+    content: ["flex min-w-0 items-center gap-2"],
+    icon: ["shrink-0 text-black/60", "[&_svg]:size-4 [&_svg]:shrink-0"],
     count: ["ml-2 font-mono text-black/40"],
-    action: ["shrink-0"],
+    actions: ["flex shrink-0 items-center gap-1.5"],
   },
   variants: {
     theme: {
@@ -24,61 +20,98 @@ const sectionHeader = tv({
   },
 });
 
-export type SectionHeaderProps = Omit<useRender.ComponentProps<"div">, "children"> & {
-  label: ReactNode;
-  icon?: ReactNode;
-  count?: number | null;
-  action?: ReactNode;
-  /** When set, the eyebrow becomes a `<label htmlFor>` for the region's control. */
-  htmlFor?: string;
-};
+export type SectionHeaderProps = useRender.ComponentProps<"div">;
 
-export function SectionHeader({
-  label,
-  icon,
-  count,
-  action,
-  htmlFor,
-  className,
-  render,
-  ref,
-  ...props
-}: SectionHeaderProps) {
-  const theme = useTheme();
-  const {
-    root,
-    labelWrap,
-    icon: iconSlot,
-    count: countSlot,
-    action: actionSlot,
-  } = sectionHeader({
-    theme,
-  });
+export function SectionHeader({ className, render, ...props }: SectionHeaderProps) {
+  const { root } = sectionHeader();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
-    children: (
-      <>
-        <div className={labelWrap()}>
-          {icon ? <span className={iconSlot()}>{icon}</span> : null}
-          <SectionEyebrow as={htmlFor ? "label" : "div"} htmlFor={htmlFor}>
-            {label}
-            {typeof count === "number" && count >= 0 ? (
-              <span className={countSlot()}>{count}</span>
-            ) : null}
-          </SectionEyebrow>
-        </div>
-        {action ? <div className={actionSlot()}>{action}</div> : null}
-      </>
-    ),
   };
 
   return useRender({
     defaultTagName: "div",
     render,
-    ref,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "section-header",
+    },
+  });
+}
+
+export type SectionHeaderContentProps = useRender.ComponentProps<"div">;
+
+export function SectionHeaderContent({ className, render, ...props }: SectionHeaderContentProps) {
+  const { content } = sectionHeader();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: content({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "section-header-content",
+    },
+  });
+}
+
+export type SectionHeaderIconProps = useRender.ComponentProps<"span">;
+
+export function SectionHeaderIcon({ className, render, ...props }: SectionHeaderIconProps) {
+  const { icon } = sectionHeader();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: icon({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "section-header-icon",
+    },
+  });
+}
+
+export type SectionHeaderTitleProps = SectionLabelProps;
+
+export function SectionHeaderTitle({ render, ...props }: SectionHeaderTitleProps) {
+  return <SectionLabel render={render ?? <div />} {...props} data-slot="section-header-title" />;
+}
+
+export type SectionHeaderCountProps = useRender.ComponentProps<"span">;
+
+export function SectionHeaderCount({ className, render, ...props }: SectionHeaderCountProps) {
+  const { count } = sectionHeader();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: count({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "section-header-count",
+    },
+  });
+}
+
+export type SectionHeaderActionsProps = useRender.ComponentProps<"div">;
+
+export function SectionHeaderActions({ className, render, ...props }: SectionHeaderActionsProps) {
+  const { actions } = sectionHeader();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: actions({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "section-header-actions",
     },
   });
 }

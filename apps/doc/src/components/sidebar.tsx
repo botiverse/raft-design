@@ -99,9 +99,17 @@ const NAV = [
         to: "/components/conversation-preview-card",
         progress: { structure: "done" },
       },
-      { label: "KeyValueRow", to: "/components/key-value-row" },
+      {
+        label: "DescriptionList",
+        to: "/components/description-list",
+        progress: { structure: "done" },
+      },
       { label: "ListItem", to: "/components/list-item", progress: { structure: "done" } },
-      { label: "QuotedMessageCard", to: "/components/quoted-message-card" },
+      {
+        label: "QuotedMessageCard",
+        to: "/components/quoted-message-card",
+        progress: { structure: "done" },
+      },
     ],
   },
   {
@@ -113,7 +121,7 @@ const NAV = [
         label: "SandboxedPreviewFrame",
         to: "/components/sandboxed-preview-frame",
       },
-      { label: "SectionEyebrow", to: "/components/section-eyebrow" },
+      { label: "SectionLabel", to: "/components/section-label" },
       { label: "SectionHeader", to: "/components/section-header" },
     ],
   },
@@ -239,6 +247,18 @@ const MIGRATED = {
       hash: "source-comparison",
       target: "ListItem",
     },
+    {
+      label: "KeyValueRow",
+      to: "/components/description-list",
+      hash: "source-comparison",
+      target: "DescriptionList",
+    },
+    {
+      label: "SectionEyebrow",
+      to: "/components/section-label",
+      hash: "source-comparison",
+      target: "SectionLabel",
+    },
   ],
 } as const;
 
@@ -279,6 +299,12 @@ const SOURCE_HOLDS = {
       label: "MessageItem",
       status: "deferred",
       reason: "Large app surface with router, stores, reactions, and mobile overlays.",
+    },
+    {
+      label: "CardSurface",
+      status: "deferred",
+      reason:
+        "Potential shared surface layer for ListItem, PreviewShell, ConversationPreviewCard, and QuotedMessageCard; extract only the skin/state contract, not the content slots.",
     },
   ],
 } as const;

@@ -23,8 +23,8 @@ import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
+import { Route as ComponentsSectionLabelRouteImport } from './routes/components/section-label'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
-import { Route as ComponentsSectionEyebrowRouteImport } from './routes/components/section-eyebrow'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
@@ -34,12 +34,12 @@ import { Route as ComponentsNotificationCenterRouteImport } from './routes/compo
 import { Route as ComponentsMediaListItemRouteImport } from './routes/components/media-list-item'
 import { Route as ComponentsListItemRouteImport } from './routes/components/list-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
-import { Route as ComponentsKeyValueRowRouteImport } from './routes/components/key-value-row'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
+import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
@@ -122,17 +122,16 @@ const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   path: '/components/spinner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsSectionLabelRoute = ComponentsSectionLabelRouteImport.update({
+  id: '/components/section-label',
+  path: '/components/section-label',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsSectionHeaderRoute = ComponentsSectionHeaderRouteImport.update({
   id: '/components/section-header',
   path: '/components/section-header',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsSectionEyebrowRoute =
-  ComponentsSectionEyebrowRouteImport.update({
-    id: '/components/section-eyebrow',
-    path: '/components/section-eyebrow',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ComponentsSandboxedPreviewFrameRoute =
   ComponentsSandboxedPreviewFrameRouteImport.update({
     id: '/components/sandboxed-preview-frame',
@@ -181,11 +180,6 @@ const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   path: '/components/lightbox',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsKeyValueRowRoute = ComponentsKeyValueRowRouteImport.update({
-  id: '/components/key-value-row',
-  path: '/components/key-value-row',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
   id: '/components/input-group',
   path: '/components/input-group',
@@ -211,6 +205,12 @@ const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
   path: '/components/dropdown-menu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsDescriptionListRoute =
+  ComponentsDescriptionListRouteImport.update({
+    id: '/components/description-list',
+    path: '/components/description-list',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ComponentsConversationPreviewCardRoute =
   ComponentsConversationPreviewCardRouteImport.update({
     id: '/components/conversation-preview-card',
@@ -284,12 +284,12 @@ export interface FileRoutesByFullPath {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
-  '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -299,8 +299,8 @@ export interface FileRoutesByFullPath {
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
-  '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
+  '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -328,12 +328,12 @@ export interface FileRoutesByTo {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
-  '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -343,8 +343,8 @@ export interface FileRoutesByTo {
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
-  '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
+  '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -373,12 +373,12 @@ export interface FileRoutesById {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
-  '/components/key-value-row': typeof ComponentsKeyValueRowRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -388,8 +388,8 @@ export interface FileRoutesById {
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
-  '/components/section-eyebrow': typeof ComponentsSectionEyebrowRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
+  '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -419,12 +419,12 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
+    | '/components/description-list'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
-    | '/components/key-value-row'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -434,8 +434,8 @@ export interface FileRouteTypes {
     | '/components/preview-shell'
     | '/components/quoted-message-card'
     | '/components/sandboxed-preview-frame'
-    | '/components/section-eyebrow'
     | '/components/section-header'
+    | '/components/section-label'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -463,12 +463,12 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
+    | '/components/description-list'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
-    | '/components/key-value-row'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -478,8 +478,8 @@ export interface FileRouteTypes {
     | '/components/preview-shell'
     | '/components/quoted-message-card'
     | '/components/sandboxed-preview-frame'
-    | '/components/section-eyebrow'
     | '/components/section-header'
+    | '/components/section-label'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -507,12 +507,12 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
+    | '/components/description-list'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
-    | '/components/key-value-row'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -522,8 +522,8 @@ export interface FileRouteTypes {
     | '/components/preview-shell'
     | '/components/quoted-message-card'
     | '/components/sandboxed-preview-frame'
-    | '/components/section-eyebrow'
     | '/components/section-header'
+    | '/components/section-label'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -552,12 +552,12 @@ export interface RootRouteChildren {
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
+  ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
   ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
-  ComponentsKeyValueRowRoute: typeof ComponentsKeyValueRowRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsListItemRoute: typeof ComponentsListItemRoute
   ComponentsMediaListItemRoute: typeof ComponentsMediaListItemRoute
@@ -567,8 +567,8 @@ export interface RootRouteChildren {
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
   ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
-  ComponentsSectionEyebrowRoute: typeof ComponentsSectionEyebrowRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
+  ComponentsSectionLabelRoute: typeof ComponentsSectionLabelRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
@@ -682,18 +682,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/section-label': {
+      id: '/components/section-label'
+      path: '/components/section-label'
+      fullPath: '/components/section-label'
+      preLoaderRoute: typeof ComponentsSectionLabelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/section-header': {
       id: '/components/section-header'
       path: '/components/section-header'
       fullPath: '/components/section-header'
       preLoaderRoute: typeof ComponentsSectionHeaderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/components/section-eyebrow': {
-      id: '/components/section-eyebrow'
-      path: '/components/section-eyebrow'
-      fullPath: '/components/section-eyebrow'
-      preLoaderRoute: typeof ComponentsSectionEyebrowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/sandboxed-preview-frame': {
@@ -759,13 +759,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsLightboxRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/key-value-row': {
-      id: '/components/key-value-row'
-      path: '/components/key-value-row'
-      fullPath: '/components/key-value-row'
-      preLoaderRoute: typeof ComponentsKeyValueRowRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/components/input-group': {
       id: '/components/input-group'
       path: '/components/input-group'
@@ -799,6 +792,13 @@ declare module '@tanstack/react-router' {
       path: '/components/dropdown-menu'
       fullPath: '/components/dropdown-menu'
       preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/components/description-list': {
+      id: '/components/description-list'
+      path: '/components/description-list'
+      fullPath: '/components/description-list'
+      preLoaderRoute: typeof ComponentsDescriptionListRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/conversation-preview-card': {
@@ -897,12 +897,12 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
+  ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
   ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
-  ComponentsKeyValueRowRoute: ComponentsKeyValueRowRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsListItemRoute: ComponentsListItemRoute,
   ComponentsMediaListItemRoute: ComponentsMediaListItemRoute,
@@ -912,8 +912,8 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
   ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
-  ComponentsSectionEyebrowRoute: ComponentsSectionEyebrowRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
+  ComponentsSectionLabelRoute: ComponentsSectionLabelRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,

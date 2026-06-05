@@ -1,2 +1,36 @@
-export { QuotedMessageCard } from "./quoted-message-card.tsx";
-export type { QuotedMessageCardProps } from "./quoted-message-card.tsx";
+export {
+  QuotedMessageCard,
+  QuotedMessageCardAttachments,
+  QuotedMessageCardAuthor,
+  QuotedMessageCardAuthorName,
+  QuotedMessageCardAuthorSubtitle,
+  QuotedMessageCardBody,
+  QuotedMessageCardChannel,
+  QuotedMessageCardContent,
+  QuotedMessageCardContentWrap,
+  QuotedMessageCardHeader,
+  QuotedMessageCardMeta,
+  QuotedMessageCardSeparator,
+  QuotedMessageCardTag,
+  QuotedMessageCardThread,
+  QuotedMessageCardTimestamp,
+  QuotedMessageCardUnavailable,
+} from "./quoted-message-card.tsx";
+export type {
+  QuotedMessageCardAttachmentsProps,
+  QuotedMessageCardAuthorNameProps,
+  QuotedMessageCardAuthorProps,
+  QuotedMessageCardAuthorSubtitleProps,
+  QuotedMessageCardBodyProps,
+  QuotedMessageCardChannelProps,
+  QuotedMessageCardContentProps,
+  QuotedMessageCardContentWrapProps,
+  QuotedMessageCardHeaderProps,
+  QuotedMessageCardMetaProps,
+  QuotedMessageCardProps,
+  QuotedMessageCardSeparatorProps,
+  QuotedMessageCardTagProps,
+  QuotedMessageCardThreadProps,
+  QuotedMessageCardTimestampProps,
+  QuotedMessageCardUnavailableProps,
+} from "./quoted-message-card.tsx";

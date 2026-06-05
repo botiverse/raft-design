@@ -104,8 +104,42 @@ export type {
 export { PanelHeader } from "./components/panel-header/index.ts";
 export type { PanelHeaderProps } from "./components/panel-header/index.ts";
 
-export { QuotedMessageCard } from "./components/quoted-message-card/index.ts";
-export type { QuotedMessageCardProps } from "./components/quoted-message-card/index.ts";
+export {
+  QuotedMessageCard,
+  QuotedMessageCardAttachments,
+  QuotedMessageCardAuthor,
+  QuotedMessageCardAuthorName,
+  QuotedMessageCardAuthorSubtitle,
+  QuotedMessageCardBody,
+  QuotedMessageCardChannel,
+  QuotedMessageCardContent,
+  QuotedMessageCardContentWrap,
+  QuotedMessageCardHeader,
+  QuotedMessageCardMeta,
+  QuotedMessageCardSeparator,
+  QuotedMessageCardTag,
+  QuotedMessageCardThread,
+  QuotedMessageCardTimestamp,
+  QuotedMessageCardUnavailable,
+} from "./components/quoted-message-card/index.ts";
+export type {
+  QuotedMessageCardAttachmentsProps,
+  QuotedMessageCardAuthorNameProps,
+  QuotedMessageCardAuthorProps,
+  QuotedMessageCardAuthorSubtitleProps,
+  QuotedMessageCardBodyProps,
+  QuotedMessageCardChannelProps,
+  QuotedMessageCardContentProps,
+  QuotedMessageCardContentWrapProps,
+  QuotedMessageCardHeaderProps,
+  QuotedMessageCardMetaProps,
+  QuotedMessageCardProps,
+  QuotedMessageCardSeparatorProps,
+  QuotedMessageCardTagProps,
+  QuotedMessageCardThreadProps,
+  QuotedMessageCardTimestampProps,
+  QuotedMessageCardUnavailableProps,
+} from "./components/quoted-message-card/index.ts";
 
 export {
   ConversationPreviewCard,
@@ -228,14 +262,40 @@ export type {
   PopoverViewportProps,
 } from "./components/popover/index.ts";
 
-export { SectionEyebrow } from "./components/section-eyebrow/index.ts";
-export type { SectionEyebrowProps } from "./components/section-eyebrow/index.ts";
+export { SectionLabel } from "./components/section-label/index.ts";
+export type { SectionLabelProps } from "./components/section-label/index.ts";
 
-export { SectionHeader } from "./components/section-header/index.ts";
-export type { SectionHeaderProps } from "./components/section-header/index.ts";
+export {
+  SectionHeader,
+  SectionHeaderActions,
+  SectionHeaderContent,
+  SectionHeaderCount,
+  SectionHeaderIcon,
+  SectionHeaderTitle,
+} from "./components/section-header/index.ts";
+export type {
+  SectionHeaderActionsProps,
+  SectionHeaderContentProps,
+  SectionHeaderCountProps,
+  SectionHeaderIconProps,
+  SectionHeaderProps,
+  SectionHeaderTitleProps,
+} from "./components/section-header/index.ts";
 
-export { KeyValueRow } from "./components/key-value-row/index.ts";
-export type { KeyValueRowProps } from "./components/key-value-row/index.ts";
+export {
+  DescriptionAction,
+  DescriptionDetails,
+  DescriptionItem,
+  DescriptionList,
+  DescriptionTerm,
+} from "./components/description-list/index.ts";
+export type {
+  DescriptionActionProps,
+  DescriptionDetailsProps,
+  DescriptionItemProps,
+  DescriptionListProps,
+  DescriptionTermProps,
+} from "./components/description-list/index.ts";
 
 export {
   ListItem,
