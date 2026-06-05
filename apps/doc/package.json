@@ -9,7 +9,7 @@
     "dev": "vp dev --port 5173",
     "build": "vp build",
     "preview": "vp preview",
-    "test": "vp test run",
+    "test": "vp test run --config vitest.config.ts",
     "deploy": "vp build && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
@@ -28,6 +28,7 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "catalog:",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "latest",
     "@testing-library/dom": "^10.4.1",
@@ -37,7 +38,6 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
     "jsdom": "^28.1.0",
-    "nitro": "catalog:",
     "typescript": "^6.0.2",
     "vite": "catalog:",
     "vite-plus": "catalog:",

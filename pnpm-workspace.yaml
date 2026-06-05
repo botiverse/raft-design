@@ -19,10 +19,10 @@ catalog:
   "@dnd-kit/utilities": ^3.2.2
   lucide-react: ^1.17.0
   tailwind-merge: ^3.6.0
-  wrangler: ^4.95.0
-  nitro: 3.0.260522-beta
+  wrangler: ^4.98.0
   shiki: ^4.1.0
   "@tanstack/react-hotkeys": ^0.10.0
+  "@cloudflare/vite-plugin": ^1.40.0
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
@@ -38,3 +38,7 @@ allowBuilds:
   esbuild: true
   sharp: false
   workerd: true
+minimumReleaseAgeExclude:
+  - "@cloudflare/vite-plugin@1.40.0"
+  - miniflare@4.20260603.0
+  - wrangler@4.98.0
