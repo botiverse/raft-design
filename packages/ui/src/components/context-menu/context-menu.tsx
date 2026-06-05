@@ -61,13 +61,35 @@ export function ContextMenuPortal(props: ContextMenuPortalProps) {
 }
 
 export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
-  Pick<BaseContextMenu.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">;
+  Pick<
+    BaseContextMenu.Positioner.Props,
+    | "align"
+    | "alignOffset"
+    | "anchor"
+    | "arrowPadding"
+    | "collisionAvoidance"
+    | "collisionBoundary"
+    | "collisionPadding"
+    | "disableAnchorTracking"
+    | "positionMethod"
+    | "side"
+    | "sideOffset"
+    | "sticky"
+  >;
 
 export function ContextMenuContent({
   align = "start",
   alignOffset = 4,
+  anchor,
+  arrowPadding,
+  collisionAvoidance,
+  collisionBoundary,
+  collisionPadding,
+  disableAnchorTracking = true,
+  positionMethod = "fixed",
   side = "right",
   sideOffset = 0,
+  sticky,
   className,
   ...props
 }: ContextMenuContentProps) {
@@ -78,8 +100,16 @@ export function ContextMenuContent({
       <BaseContextMenu.Positioner
         align={align}
         alignOffset={alignOffset}
+        anchor={anchor}
+        arrowPadding={arrowPadding}
+        collisionAvoidance={collisionAvoidance}
+        collisionBoundary={collisionBoundary}
+        collisionPadding={collisionPadding}
+        disableAnchorTracking={disableAnchorTracking}
+        positionMethod={positionMethod}
         side={side}
         sideOffset={sideOffset}
+        sticky={sticky}
         className={positioner()}
       >
         <BaseContextMenu.Popup

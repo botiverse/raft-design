@@ -63,13 +63,35 @@ export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
 }
 
 export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &
-  Pick<BaseMenu.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">;
+  Pick<
+    BaseMenu.Positioner.Props,
+    | "align"
+    | "alignOffset"
+    | "anchor"
+    | "arrowPadding"
+    | "collisionAvoidance"
+    | "collisionBoundary"
+    | "collisionPadding"
+    | "disableAnchorTracking"
+    | "positionMethod"
+    | "side"
+    | "sideOffset"
+    | "sticky"
+  >;
 
 export function DropdownMenuContent({
   align = "start",
   alignOffset = 0,
+  anchor,
+  arrowPadding,
+  collisionAvoidance,
+  collisionBoundary,
+  collisionPadding,
+  disableAnchorTracking = true,
+  positionMethod = "fixed",
   side = "bottom",
   sideOffset = 4,
+  sticky,
   className,
   ...props
 }: DropdownMenuContentProps) {
@@ -80,8 +102,16 @@ export function DropdownMenuContent({
       <BaseMenu.Positioner
         align={align}
         alignOffset={alignOffset}
+        anchor={anchor}
+        arrowPadding={arrowPadding}
+        collisionAvoidance={collisionAvoidance}
+        collisionBoundary={collisionBoundary}
+        collisionPadding={collisionPadding}
+        disableAnchorTracking={disableAnchorTracking}
+        positionMethod={positionMethod}
         side={side}
         sideOffset={sideOffset}
+        sticky={sticky}
         className={positioner()}
       >
         <BaseMenu.Popup

@@ -105,7 +105,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ContextMenuContent",
     type: "Base UI Popup + Positioner props",
-    description: "Portaled card shell. Defaults to side=right, align=start, alignOffset=4.",
+    description:
+      "Portaled card shell. Defaults to side=right, align=start, alignOffset=4, disableAnchorTracking=true, and positionMethod=fixed.",
   },
   {
     name: "ContextMenuItem",
