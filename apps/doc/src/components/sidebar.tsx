@@ -122,8 +122,12 @@ const NAV = [
         label: "SandboxedPreviewFrame",
         to: "/components/sandboxed-preview-frame",
       },
-      { label: "SectionLabel", to: "/components/section-label" },
-      { label: "SectionHeader", to: "/components/section-header" },
+      { label: "SectionLabel", to: "/components/section-label", progress: { structure: "done" } },
+      {
+        label: "SectionHeader",
+        to: "/components/section-header",
+        progress: { structure: "done" },
+      },
     ],
   },
 ] as const;
