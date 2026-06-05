@@ -18,8 +18,8 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "variants", title: "Variants" },
-  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -155,6 +155,10 @@ function PreviewShellDoc() {
         </Example>
       </DocSection>
 
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
           items={[
@@ -214,10 +218,6 @@ function PreviewShellDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

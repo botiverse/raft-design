@@ -26,8 +26,8 @@ import { highlightSnippets } from "#/lib/highlight.ts";
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "demo", title: "Demo" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -177,11 +177,7 @@ function BottomSheetDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="demo" title="Demo">
+      <DocSection id="preview" title="Preview">
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <BottomSheet open={open} onOpenChange={setOpen}>
@@ -219,6 +215,9 @@ function BottomSheetDoc() {
         </div>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>

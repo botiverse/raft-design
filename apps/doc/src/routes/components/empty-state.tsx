@@ -22,8 +22,8 @@ import LegacyEmptyState from "../../../../../packages/ui/src/legacy/EmptyState.t
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "basic", title: "Basic" },
   { id: "with-action", title: "With action" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -138,11 +138,7 @@ function EmptyStateDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="basic" title="Basic">
+      <DocSection id="preview" title="Preview">
         <Example html={code.basic}>
           <EmptyState>
             <EmptyStateIcon>
@@ -156,6 +152,9 @@ function EmptyStateDoc() {
         </Example>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="with-action" title="With action">
         <Example html={code.withAction}>
           <EmptyState>

@@ -22,19 +22,21 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "demo", title: "Demo" },
   { id: "searchable", title: "Searchable" },
   { id: "form", title: "Form" },
   { id: "inline", title: "Inline" },
   { id: "opened", title: "Opened" },
   { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = [
@@ -121,6 +123,31 @@ const SNIPPETS = {
     <div className="p-3 text-xs leading-5 text-black/60">
       Uses Base UI's logical inline side while keeping the same shell.
     </div>
+  </PopoverContent>
+</Popover>`,
+  sourceSelectionPopover: `<SelectionPopover
+  title="Channels"
+  options={options}
+  selectedValue={selected}
+  searchValue={search}
+  onSearchChange={setSearch}
+  onSelect={setSelected}
+  onClear={clearSelection}
+/>`,
+  currentSelectionPopover: `<Popover>
+  <PopoverTrigger render={<Button />}>Channels</PopoverTrigger>
+  <PopoverContent className="min-w-[220px]">
+    <PopoverHeader>
+      <PopoverTitle>Channels</PopoverTitle>
+      <button type="button">Clear</button>
+    </PopoverHeader>
+    <div className="border-b border-black p-2">
+      <input className="w-full border-2 border-black bg-white px-2 py-1 font-mono text-xs shadow-[var(--shadow)]" />
+    </div>
+    <button className="flex h-9 w-full items-center justify-between gap-2 border-b border-black/10 px-3 text-left text-xs font-bold hover:bg-brutal-yellow/30">
+      All
+      <Check />
+    </button>
   </PopoverContent>
 </Popover>`,
 } as const;
@@ -295,6 +322,48 @@ function InlinePopover() {
   );
 }
 
+function StaticSelectionPopoverPreview() {
+  return (
+    <div className="min-w-[220px] border-2 border-black bg-white shadow-[var(--shadow-hover)]">
+      <div className="flex min-h-10 items-center justify-between gap-3 border-b border-black px-3 py-2">
+        <div className="font-display text-xs font-bold uppercase tracking-[0.16em] text-black">
+          Channels
+        </div>
+        <button
+          type="button"
+          className="text-[10px] font-bold uppercase tracking-wide text-black/50"
+        >
+          Clear
+        </button>
+      </div>
+      <div className="border-b border-black p-2">
+        <input
+          type="text"
+          aria-label="Search channels preview"
+          value="un"
+          readOnly
+          className="w-full border-2 border-black bg-white px-2 py-1 font-mono text-xs shadow-[var(--shadow)] outline-none"
+        />
+      </div>
+      <div className="max-h-64 overflow-y-auto">
+        <button
+          type="button"
+          className="flex h-9 w-full items-center justify-between gap-2 overflow-hidden border-b border-black/10 bg-white px-3 text-left text-xs font-bold"
+        >
+          <span className="truncate leading-6">Unread</span>
+          <Check size={12} className="shrink-0" />
+        </button>
+        <button
+          type="button"
+          className="flex h-9 w-full items-center justify-between gap-2 overflow-hidden bg-brutal-yellow/30 px-3 text-left text-xs font-bold"
+        >
+          <span className="truncate leading-6">Mentions</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function PopoverDoc() {
   const code = Route.useLoaderData();
   const [selected, setSelected] = useState("All");
@@ -331,11 +400,7 @@ function PopoverDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="demo" title="Demo">
+      <DocSection id="preview" title="Preview">
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <Popover>
@@ -358,6 +423,9 @@ function PopoverDoc() {
         </div>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="searchable" title="Searchable">
         <Example html={code.searchable}>
           <SearchableSelectionPopover />
@@ -418,6 +486,22 @@ function PopoverDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          items={[
+            {
+              label: "Selection popover",
+              status: "difference",
+              note: "Source accepted options, search, selection, and clear behavior as props. Current keeps the same shell, field, rows, and checked visual but exposes the parts through Popover composition.",
+              source: <StaticSelectionPopoverPreview />,
+              current: <StaticSelectionPopoverPreview />,
+              sourceCode: code.sourceSelectionPopover,
+              currentCode: code.currentSelectionPopover,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

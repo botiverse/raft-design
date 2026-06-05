@@ -27,8 +27,8 @@ import { highlightSnippets } from "#/lib/highlight.ts";
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "demo", title: "Demo" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -399,11 +399,7 @@ function LightboxDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="demo" title="Demo">
+      <DocSection id="preview" title="Preview">
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
@@ -496,6 +492,9 @@ function LightboxDoc() {
         </div>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="api" title="API">
         <div className="space-y-6">
           <div>

@@ -21,10 +21,10 @@ import LegacyKeyValueRow from "../../../../../packages/ui/src/legacy/KeyValueRow
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "examples", title: "Examples" },
-  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -167,11 +167,7 @@ function DescriptionListDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="examples" title="Examples">
+      <DocSection id="preview" title="Preview">
         <Example html={code.examples}>
           <DescriptionList className="flex w-full max-w-xl flex-wrap gap-x-8 gap-y-3">
             <DescriptionItem>
@@ -199,6 +195,13 @@ function DescriptionListDoc() {
             </DescriptionItem>
           </DescriptionList>
         </Example>
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
@@ -280,10 +283,6 @@ function DescriptionListDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

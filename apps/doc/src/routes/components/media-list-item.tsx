@@ -28,8 +28,8 @@ import LegacyAvatarListRow from "../../../../../packages/ui/src/legacy/AvatarLis
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "interactive", title: "Interactive" },
   { id: "align", title: "Align" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -270,11 +270,7 @@ function MediaListItemDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="interactive" title="Interactive">
+      <DocSection id="preview" title="Preview">
         <Example html={code.interactive}>
           <div className="flex w-80 flex-col gap-3">
             <MediaListItem>
@@ -311,6 +307,9 @@ function MediaListItemDoc() {
         </Example>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="align" title="Align">
         <div className="space-y-4">
           <Example html={code.align}>

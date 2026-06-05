@@ -15,11 +15,12 @@ import LegacySectionEyebrow from "../../../../../packages/ui/src/legacy/SectionE
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "render", title: "Render" },
   { id: "color", title: "Color" },
-  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -92,6 +93,12 @@ function SectionLabelDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
+      <DocSection id="preview" title="Preview">
+        <Example html={code.anatomy}>
+          <SectionLabel>Members</SectionLabel>
+        </Example>
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <CodeBlock html={code.anatomy} />
       </DocSection>
@@ -119,6 +126,10 @@ function SectionLabelDoc() {
             for fully black labels used in dense control rows.
           </Callout>
         </div>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
@@ -156,10 +167,6 @@ function SectionLabelDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

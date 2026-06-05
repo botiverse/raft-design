@@ -34,10 +34,11 @@ import LegacyQuotedMessageCard from "../../../../../packages/ui/src/legacy/Quote
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "states", title: "States" },
-  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -306,6 +307,14 @@ function QuotedMessageCardDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
+      <DocSection id="preview" title="Preview">
+        <Example html={code.anatomy}>
+          <div className="w-96">
+            <CurrentQuotedMessage />
+          </div>
+        </Example>
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <CodeBlock html={code.anatomy} />
       </DocSection>
@@ -337,6 +346,10 @@ function QuotedMessageCardDoc() {
             </QuotedMessageCard>
           </div>
         </Example>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
@@ -421,10 +434,6 @@ function QuotedMessageCardDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

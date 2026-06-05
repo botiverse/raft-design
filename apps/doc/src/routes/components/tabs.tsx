@@ -29,8 +29,8 @@ import LegacyReorderablePanelTabs, {
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "basic", title: "Basic" },
   { id: "reorderable", title: "Reorderable" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -178,11 +178,7 @@ function TabsDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="basic" title="Basic">
+      <DocSection id="preview" title="Preview">
         <Example html={code.anatomy}>
           <Tabs value={basicValue} onValueChange={setBasicValue}>
             <TabsList className="max-w-md">
@@ -206,6 +202,9 @@ function TabsDoc() {
         </Example>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="reorderable" title="Reorderable">
         <div className="space-y-4">
           <Example html={code.reorderable}>

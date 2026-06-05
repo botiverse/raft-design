@@ -32,6 +32,7 @@ import LegacyConversationPreviewCard from "../../../../../packages/ui/src/legacy
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "states", title: "States" },
   { id: "api", title: "API" },
@@ -284,6 +285,14 @@ function ConversationPreviewCardDoc() {
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
+      </DocSection>
+
+      <DocSection id="preview" title="Preview">
+        <Example html={code.anatomy}>
+          <div className="w-96">
+            <GeneralPreview />
+          </div>
+        </Example>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

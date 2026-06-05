@@ -16,8 +16,8 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
-  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = [
@@ -230,6 +230,10 @@ function SandboxedPreviewFrameDoc() {
         </Example>
       </DocSection>
 
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
           items={[
@@ -324,10 +328,6 @@ function SandboxedPreviewFrameDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

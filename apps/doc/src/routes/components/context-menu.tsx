@@ -24,8 +24,8 @@ import LegacyMenuItem from "../../../../../packages/ui/src/legacy/menu-item.tsx"
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "demo", title: "Demo" },
   { id: "opened", title: "Opened" },
   { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
@@ -174,11 +174,7 @@ function ContextMenuDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
-      </DocSection>
-
-      <DocSection id="demo" title="Demo">
+      <DocSection id="preview" title="Preview">
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <ContextMenu>
@@ -210,6 +206,9 @@ function ContextMenuDoc() {
         </div>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <CodeBlock html={code.anatomy} />
+      </DocSection>
       <DocSection id="opened" title="Opened">
         <Example html={code.opened}>
           <div className={PREVIEW_CONTENT_CLASS}>

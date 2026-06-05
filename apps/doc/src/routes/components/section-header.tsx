@@ -23,10 +23,11 @@ import LegacySectionHeader from "../../../../../packages/ui/src/legacy/SectionHe
 
 const TOC = [
   { id: "todo", title: "Todo" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "slots", title: "Slots" },
-  { id: "source-comparison", title: "Source comparison" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -169,6 +170,14 @@ function SectionHeaderDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
+      <DocSection id="preview" title="Preview">
+        <Example html={code.anatomy}>
+          <div className="w-96">
+            <CurrentCreatedAgentsHeader />
+          </div>
+        </Example>
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <CodeBlock html={code.anatomy} />
       </DocSection>
@@ -181,6 +190,10 @@ function SectionHeaderDoc() {
             <CurrentAccountHeader />
           </div>
         </Example>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
@@ -225,10 +238,6 @@ function SectionHeaderDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );
