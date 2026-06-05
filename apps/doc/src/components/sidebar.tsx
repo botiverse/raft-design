@@ -159,6 +159,24 @@ const MIGRATED = {
       target: 'Badge render={<button type="button" />}',
     },
     {
+      label: "SearchInput",
+      to: "/components/input-group",
+      hash: "source-comparison",
+      target: "InputGroupAddon.Search",
+    },
+    {
+      label: "SlugInput",
+      to: "/components/input-group",
+      hash: "source-comparison",
+      target: "InputGroupAddon.Slug",
+    },
+    {
+      label: "FormField",
+      to: "/components/field",
+      hash: "source-comparison",
+      target: "Field + FieldControl + FieldValidity",
+    },
+    {
       label: "CheckMarker",
       to: "/components/check-indicator",
       hash: "source-comparison",
@@ -224,6 +242,194 @@ const MIGRATED = {
   ],
 } as const;
 
+const SOURCE_HOLDS = {
+  title: "Deferred",
+  items: [
+    {
+      label: "floatingOverlayPosition",
+      status: "skipped",
+      reason: "Covered by Base UI Positioner; revisit only for pointer-anchored overlays.",
+    },
+    {
+      label: "useFloatingOverlayPosition",
+      status: "skipped",
+      reason: "Covered by Base UI Positioner; avoid a second overlay positioning layer.",
+    },
+    {
+      label: "TaskCard",
+      status: "deferred",
+      reason: "Store, auth, permissions, and thread-panel coupled; extract visual subparts first.",
+    },
+    {
+      label: "TaskItem",
+      status: "deferred",
+      reason: "Store, auth, permissions, and thread-panel coupled; extract visual subparts first.",
+    },
+    {
+      label: "TaskBoard",
+      status: "deferred",
+      reason: "Task store and view-state coupled; not a reusable UI primitive yet.",
+    },
+    {
+      label: "ActionCard",
+      status: "deferred",
+      reason: "Action metadata, dialogs, stores, and side effects are app-bound.",
+    },
+    {
+      label: "MessageItem",
+      status: "deferred",
+      reason: "Large app surface with router, stores, reactions, and mobile overlays.",
+    },
+  ],
+} as const;
+
+const BASE_UI_PARITY = {
+  title: "Base UI Parity",
+  items: [
+    {
+      label: "Tooltip",
+      priority: "P0",
+      reason: "Replace hand-rolled tooltip positioning and cover icon/status hints.",
+    },
+    {
+      label: "Select",
+      priority: "P0",
+      reason: "Formalize single-select flows with Base UI keyboard, portal, and field semantics.",
+    },
+    {
+      label: "Dialog",
+      priority: "P0",
+      reason: "Expose the generic modal primitive behind several current overlay surfaces.",
+    },
+    {
+      label: "AlertDialog",
+      priority: "P0",
+      reason: "Use for destructive confirmations instead of app-specific confirm shells.",
+    },
+    {
+      label: "Switch",
+      priority: "P1",
+      reason: "Use for binary settings where Checkbox is the wrong semantic control.",
+    },
+    {
+      label: "RadioGroup",
+      priority: "P1",
+      reason:
+        "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
+    },
+    {
+      label: "Progress",
+      priority: "P1",
+      reason: "Represent long-running task, upload, and generation progress.",
+    },
+    {
+      label: "Separator",
+      priority: "P1",
+      reason: "Centralize menu, list, and dialog dividers instead of border literals.",
+    },
+    {
+      label: "Toast",
+      priority: "P2",
+      reason: "Transient feedback only; keep it separate from NotificationCenter history.",
+    },
+    {
+      label: "Collapsible",
+      priority: "P2",
+      reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
+    },
+    {
+      label: "Accordion",
+      priority: "P2",
+      reason: "Grouped disclosure pattern; build after Collapsible settles.",
+    },
+    {
+      label: "Combobox",
+      priority: "P2",
+      reason: "Searchable selection for members, channels, and tags after Select is stable.",
+    },
+    {
+      label: "Drawer",
+      priority: "Later",
+      reason: "Current BottomSheet covers mobile bottom panels; add when side panels need it.",
+    },
+    {
+      label: "PreviewCard",
+      priority: "Later",
+      reason: "Useful for hover user/link/message previews, but not a base form gap.",
+    },
+    {
+      label: "NumberField",
+      priority: "Later",
+      reason: "Wait for real numeric settings with stepper behavior.",
+    },
+    {
+      label: "Slider",
+      priority: "Later",
+      reason: "Wait for range controls such as volume, threshold, or tuning parameters.",
+    },
+    {
+      label: "Meter",
+      priority: "Later",
+      reason: "Wait for bounded metric displays distinct from Progress.",
+    },
+    {
+      label: "ScrollArea",
+      priority: "Parked",
+      reason: "Prefer native scrolling until custom scrollbar behavior is required.",
+    },
+    {
+      label: "Menubar",
+      priority: "Parked",
+      reason: "Desktop menu-bar pattern is not part of the current product surface.",
+    },
+    {
+      label: "NavigationMenu",
+      priority: "Parked",
+      reason: "Marketing/header navigation primitive; not useful for the current doc shell.",
+    },
+    {
+      label: "Breadcrumb",
+      priority: "Parked",
+      reason: "Wait for deeper routed information architecture.",
+    },
+    {
+      label: "Pagination",
+      priority: "Parked",
+      reason: "Wait for paged data surfaces.",
+    },
+    {
+      label: "Table / DataGrid",
+      priority: "Parked",
+      reason: "Likely app-specific; design from a real dense-data use case.",
+    },
+    {
+      label: "Calendar / DatePicker",
+      priority: "Parked",
+      reason: "Wait for a concrete date-picking workflow.",
+    },
+    {
+      label: "Command",
+      priority: "Parked",
+      reason: "Command palette behavior is product-specific and should be designed separately.",
+    },
+    {
+      label: "Carousel",
+      priority: "Parked",
+      reason: "Not relevant to the current product interface.",
+    },
+    {
+      label: "Resizable",
+      priority: "Parked",
+      reason: "Wait for explicit panel-resize requirements.",
+    },
+    {
+      label: "Sidebar",
+      priority: "Parked",
+      reason: "Current sidebar is app shell, not a reusable UI primitive.",
+    },
+  ],
+} as const;
+
 type TaskKey = "migration" | "structure" | "elegant";
 type TaskStatus = "done" | "in-progress" | "todo";
 type Progress = Partial<Record<TaskKey, TaskStatus>>;
@@ -260,6 +466,20 @@ type MigratedItem = {
   to: string;
   hash?: string;
   target: string;
+};
+
+type SourceHoldItem = {
+  label: string;
+  status: "deferred" | "skipped";
+  reason: string;
+};
+
+type PlannedPriority = "P0" | "P1" | "P2" | "Later" | "Parked";
+
+type PlannedItem = {
+  label: string;
+  priority: PlannedPriority;
+  reason: string;
 };
 
 function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
@@ -392,6 +612,90 @@ function MigratedGroup({ title, items }: { title: string; items: readonly Migrat
   );
 }
 
+function SourceHoldGroup({ title, items }: { title: string; items: readonly SourceHoldItem[] }) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      <ul className="space-y-1">
+        {items.map((item) => (
+          <li key={item.label}>
+            <SourceHoldRow {...item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
+  const statusLabel = status === "deferred" ? "Deferred" : "Skipped";
+  const statusClassName =
+    status === "deferred"
+      ? "border-amber-200 bg-amber-50 text-amber-700"
+      : "border-gray-200 bg-gray-50 text-gray-500";
+
+  return (
+    <span
+      title={`${statusLabel}: ${reason}`}
+      aria-label={`${label}: ${statusLabel}. ${reason}`}
+      className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600"
+    >
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      <span
+        className={`inline-flex h-4 shrink-0 items-center justify-center border px-1 text-[9px] font-bold uppercase leading-none ${statusClassName}`}
+      >
+        {statusLabel}
+      </span>
+    </span>
+  );
+}
+
+function PlannedGroup({ title, items }: { title: string; items: readonly PlannedItem[] }) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      <ul className="space-y-1">
+        {items.map((item) => (
+          <li key={item.label}>
+            <PlannedRow {...item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function PlannedRow({ label, priority, reason }: PlannedItem) {
+  return (
+    <span
+      title={`${priority}: ${reason}`}
+      aria-label={`${label}: ${priority}. ${reason}`}
+      className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-800"
+    >
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      <PriorityBadge priority={priority} />
+    </span>
+  );
+}
+
+function PriorityBadge({ priority }: { priority: PlannedPriority }) {
+  const className = {
+    P0: "border-red-200 bg-red-50 text-red-700",
+    P1: "border-amber-200 bg-amber-50 text-amber-700",
+    P2: "border-sky-200 bg-sky-50 text-sky-700",
+    Later: "border-violet-200 bg-violet-50 text-violet-700",
+    Parked: "border-gray-200 bg-gray-50 text-gray-500",
+  }[priority];
+
+  return (
+    <span
+      className={`inline-flex h-4 shrink-0 items-center justify-center border px-1 text-[9px] font-bold uppercase leading-none ${className}`}
+    >
+      {priority}
+    </span>
+  );
+}
+
 export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -436,6 +740,14 @@ export function Sidebar() {
         <hr className="border-gray-200" />
 
         <MigratedGroup title={MIGRATED.title} items={MIGRATED.items} />
+
+        <hr className="border-gray-200" />
+
+        <SourceHoldGroup title={SOURCE_HOLDS.title} items={SOURCE_HOLDS.items} />
+
+        <hr className="border-gray-200" />
+
+        <PlannedGroup title={BASE_UI_PARITY.title} items={BASE_UI_PARITY.items} />
       </nav>
     </aside>
   );
