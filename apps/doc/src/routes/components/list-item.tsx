@@ -295,7 +295,7 @@ function ListItemDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ selected: false, interactive: true }}
+          defaultValues={{ selected: false, interactive: true }}
           controls={[
             { name: "selected", label: "Selected", type: "boolean" },
             { name: "interactive", label: "Interactive", type: "boolean" },

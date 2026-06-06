@@ -153,7 +153,7 @@ function CheckboxDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ size: "sm", checked: true, indeterminate: false, disabled: false }}
+          defaultValues={{ size: "sm", checked: true, indeterminate: false, disabled: false }}
           controls={[
             { name: "size", label: "Size", type: "select", options: SIZES },
             { name: "checked", label: "Checked", type: "boolean" },
@@ -218,8 +218,11 @@ function CheckboxDoc() {
       <DocSection id="label" title="Label">
         <div className="space-y-4">
           <Example html={code.label}>
-            <label className="inline-flex items-center gap-2 text-sm">
-              <Checkbox defaultChecked />
+            <label
+              htmlFor="checkbox-label-example"
+              className="inline-flex items-center gap-2 text-sm"
+            >
+              <Checkbox id="checkbox-label-example" defaultChecked />
               Accept terms
             </label>
           </Example>

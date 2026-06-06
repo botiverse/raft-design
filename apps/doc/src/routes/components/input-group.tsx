@@ -169,7 +169,7 @@ function InputGroupDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ invalid: false, placeholder: "Search…" }}
+          defaultValues={{ invalid: false, placeholder: "Search…" }}
           controls={[
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },

@@ -1,7 +1,7 @@
 import {
   createContext,
+  use,
   useCallback,
-  useContext,
   useMemo,
   type ComponentPropsWithRef,
   type CSSProperties,
@@ -160,7 +160,7 @@ export function SortableTabsTab<T extends string = string>({
   value,
   ...props
 }: SortableTabsTabProps<T>) {
-  const reorder = useContext(TabsReorderContext);
+  const reorder = use(TabsReorderContext);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: value,
     disabled: !reorder.enabled,

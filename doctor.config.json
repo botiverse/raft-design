@@ -1,0 +1,35 @@
+{
+  "ignore": {
+    "files": ["src/legacy/**", "packages/ui/src/legacy/**"],
+    "overrides": [
+      {
+        "files": ["apps/doc/src/routes/**", "src/routes/**"],
+        "rules": [
+          "react-doctor/jsx-no-jsx-as-prop",
+          "react-doctor/no-multi-comp",
+          "react-doctor/only-export-components",
+          "react-doctor/prefer-useReducer"
+        ]
+      },
+      {
+        "files": ["packages/ui/src/components/**", "src/components/**"],
+        "rules": ["react-doctor/only-export-components", "deslop/unused-export"]
+      },
+      {
+        "files": ["apps/doc/src/components/code-block.tsx", "src/components/code-block.tsx"],
+        "rules": ["react-doctor/no-danger"]
+      },
+      {
+        "files": [
+          "apps/doc/src/routes/components/section-label.tsx",
+          "src/routes/components/section-label.tsx"
+        ],
+        "rules": ["react-doctor/label-has-associated-control"]
+      },
+      {
+        "files": ["package.json"],
+        "rules": ["deslop/unused-dev-dependency"]
+      }
+    ]
+  }
+}

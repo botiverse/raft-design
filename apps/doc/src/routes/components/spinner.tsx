@@ -136,7 +136,7 @@ function SpinnerDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ size: "sm", color: "black" }}
+          defaultValues={{ size: "sm", color: "black" }}
           controls={[
             { name: "size", label: "Size", type: "select", options: SIZES },
             {

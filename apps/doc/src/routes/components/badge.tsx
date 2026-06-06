@@ -147,7 +147,7 @@ function BadgeDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ tone: "yellow", uppercase: true, label: "In Progress" }}
+          defaultValues={{ tone: "yellow", uppercase: true, label: "In Progress" }}
           controls={[
             { name: "tone", label: "Tone", type: "select", options: TONES },
             { name: "uppercase", label: "Uppercase", type: "boolean" },

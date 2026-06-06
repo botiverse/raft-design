@@ -207,7 +207,7 @@ function AvatarDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ size: "lg", type: "agent" }}
+          defaultValues={{ size: "lg", type: "agent" }}
           controls={[
             { name: "size", label: "Size", type: "select", options: SIZE_OPTIONS },
             { name: "type", label: "Type", type: "select", options: TYPES },

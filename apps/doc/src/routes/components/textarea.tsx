@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
@@ -135,7 +135,7 @@ function TextareaDoc() {
         <Differences from="Textarea">
           <li>
             just the control — the built-in error message, hint, and counter are removed; use{" "}
-            <a href="/components/field">Field</a> / <code>FieldError</code> and{" "}
+            <Link to="/components/field">Field</Link> / <code>FieldError</code> and{" "}
             <code>Textarea.Counter</code>
           </li>
           <li>
@@ -155,7 +155,7 @@ function TextareaDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ invalid: false, placeholder: "Type your message here." }}
+          defaultValues={{ invalid: false, placeholder: "Type your message here." }}
           controls={[
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },
@@ -217,8 +217,8 @@ function TextareaDoc() {
             </Field>
           </Example>
           <Callout>
-            Label and message come from <a href="/components/field">Field</a>. Textarea stays a pure
-            control; the counter is a composed companion part that reads the field state.
+            Label and message come from <Link to="/components/field">Field</Link>. Textarea stays a
+            pure control; the counter is a composed companion part that reads the field state.
           </Callout>
         </div>
       </DocSection>

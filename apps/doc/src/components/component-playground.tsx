@@ -9,7 +9,7 @@ type Control<T> = {
 } & ({ type: "select"; options: readonly string[] } | { type: "boolean" } | { type: "text" });
 
 type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
-  initial: T;
+  defaultValues: T;
   controls: readonly Control<T>[];
   render: (values: T) => ReactNode;
 };
@@ -20,11 +20,11 @@ type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
  * `render` maps the current values to the element under test.
  */
 export function ComponentPlayground<T extends Record<string, ControlValue>>({
-  initial,
+  defaultValues,
   controls,
   render,
 }: ComponentPlaygroundProps<T>) {
-  const [values, setValues] = useState<T>(initial);
+  const [values, setValues] = useState<T>(defaultValues);
 
   // DOM inputs surface their value as string | boolean; narrow it back into the
   // generic value slot T[keyof T] — unavoidable at the framework boundary.

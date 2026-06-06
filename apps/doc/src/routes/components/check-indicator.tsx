@@ -154,7 +154,7 @@ function CheckIndicatorDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{
+          defaultValues={{
             checked: true,
             shape: "square",
             fill: "black",

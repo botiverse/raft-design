@@ -176,7 +176,7 @@ function StatusDoc() {
       <DocSection id="preview" title="Preview">
         <div className="grid gap-4 lg:grid-cols-2">
           <ComponentPlayground<PlaygroundValues>
-            initial={{ size: "md", fill: "lime", pulse: false }}
+            defaultValues={{ size: "md", fill: "lime", pulse: false }}
             controls={[
               { name: "size", label: "Size", type: "select", options: STATUS_SIZES },
               { name: "fill", label: "Fill", type: "select", options: FILLS },
@@ -187,7 +187,7 @@ function StatusDoc() {
             )}
           />
           <ComponentPlayground<AttentionPlaygroundValues>
-            initial={{ size: "lg", fill: "pink" }}
+            defaultValues={{ size: "lg", fill: "pink" }}
             controls={[
               { name: "size", label: "Attention size", type: "select", options: ATTENTION_SIZES },
               { name: "fill", label: "Attention fill", type: "select", options: FILLS },

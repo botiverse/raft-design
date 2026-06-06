@@ -215,7 +215,7 @@ function BannerDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{
+          defaultValues={{
             status: "warning",
             size: "md",
             withIcon: true,

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Field, FieldError, FieldLabel, Input } from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
@@ -102,7 +102,7 @@ function InputDoc() {
         <Differences from="input-brutal">
           <li>
             just the control — the label, hint, and error message are removed; use{" "}
-            <a href="/components/field">Field</a> / <code>FieldLabel</code> /{" "}
+            <Link to="/components/field">Field</Link> / <code>FieldLabel</code> /{" "}
             <code>FieldError</code>
           </li>
           <li>
@@ -122,7 +122,7 @@ function InputDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ invalid: false, placeholder: "you@example.com" }}
+          defaultValues={{ invalid: false, placeholder: "you@example.com" }}
           controls={[
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },
@@ -165,8 +165,8 @@ function InputDoc() {
             </Field>
           </Example>
           <Callout>
-            Label and message come from <a href="/components/field">Field</a>. Input stays a pure
-            control, but Base UI lets it receive <code>data-invalid</code> /{" "}
+            Label and message come from <Link to="/components/field">Field</Link>. Input stays a
+            pure control, but Base UI lets it receive <code>data-invalid</code> /{" "}
             <code>aria-invalid</code> from the field root.
           </Callout>
         </div>

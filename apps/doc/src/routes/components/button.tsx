@@ -179,7 +179,7 @@ function ButtonDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ tone: "white", size: "sm", label: "Button", disabled: false }}
+          defaultValues={{ tone: "white", size: "sm", label: "Button", disabled: false }}
           controls={[
             { name: "tone", label: "Tone", type: "select", options: TONES },
             { name: "size", label: "Size", type: "select", options: SIZES },

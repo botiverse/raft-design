@@ -162,7 +162,11 @@ function FieldDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          initial={{ invalid: false, label: "Message", description: "Enter your message below." }}
+          defaultValues={{
+            invalid: false,
+            label: "Message",
+            description: "Enter your message below.",
+          }}
           controls={[
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "label", label: "Label", type: "text" },
