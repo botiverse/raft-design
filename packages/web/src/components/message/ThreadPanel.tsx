@@ -507,8 +507,12 @@ export default function ThreadPanel({ presentation = "side" }: { presentation?: 
     socket.on("connect", handleReconnect);
 
     const INITIAL_LIMIT = 50;
+    // The focused reply lives in the thread channel; pass channelId so the
+    // server resolves joint-channel thread projections to their canonical
+    // store (without it, /messages/context 404s for joint thread replies and
+    // the panel renders an empty "No replies yet" despite a non-zero count).
     const loadPromise = initialFocusId
-      ? api.get(`/messages/context/${initialFocusId}`)
+      ? api.get(`/messages/context/${initialFocusId}`, { params: { channelId: threadChannelId } })
       : api.get(`/messages/channel/${threadChannelId}?limit=${INITIAL_LIMIT}`);
 
     loadPromise
@@ -516,7 +520,9 @@ export default function ThreadPanel({ presentation = "side" }: { presentation?: 
         if (cancelled) return;
         const msgs = onlyThreadMessages(threadChannelId, data.messages ?? data);
         if (initialFocusId && !msgs.some((msg) => msg.id === initialFocusId)) {
-          void loadLatestThreadMessages(threadChannelId);
+          void loadLatestThreadMessages(threadChannelId).catch(() => {
+            if (!cancelled) setLoading(false);
+          });
           return;
         }
         mergeIntoThread(msgs);
@@ -532,7 +538,17 @@ export default function ThreadPanel({ presentation = "side" }: { presentation?: 
         setLoading(false);
       })
       .catch(() => {
-        if (!cancelled) setLoading(false);
+        if (cancelled) return;
+        // A focused-context load can fail (e.g. transient error) — fall back to
+        // loading the thread's latest messages instead of leaving the panel
+        // blank, mirroring the success-but-focus-missing path above.
+        if (initialFocusId) {
+          void loadLatestThreadMessages(threadChannelId).catch(() => {
+            if (!cancelled) setLoading(false);
+          });
+        } else {
+          setLoading(false);
+        }
       });
 
     return () => {
@@ -570,7 +586,10 @@ export default function ThreadPanel({ presentation = "side" }: { presentation?: 
     if (!parentMessageId || !parentChannelId) return;
 
     let cancelled = false;
-    api.get(`/messages/context/${parentMessageId}`)
+    // Pass the parent's channelId so joint-channel parents resolve via their
+    // canonical store; without it /messages/context 404s and the thread header
+    // loses its parent preview.
+    api.get(`/messages/context/${parentMessageId}`, { params: { channelId: parentChannelId } })
       .then(({ data }) => {
         if (cancelled) return;
         const msgs: Message[] = data.messages ?? [];
