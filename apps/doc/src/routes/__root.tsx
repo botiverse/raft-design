@@ -84,11 +84,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <NextThemesProvider attribute="class" enableSystem defaultTheme="system">
           <ThemeProvider theme={family}>
             <FamilyContext.Provider value={familyValue}>
-              <div className="isolate min-h-screen [--rail-w:20rem]">
+              <div className="isolate min-h-screen [--rail-w:0rem] lg:[--rail-w:20rem]">
                 <Sidebar />
-                <main className="min-h-screen pl-[var(--rail-w)] xl:pr-[var(--rail-w)]">
-                  {children}
-                </main>
+                <main className="min-h-screen pl-[var(--rail-w)]">{children}</main>
               </div>
               <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center">
                 <div className="pointer-events-auto flex items-center gap-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-lg backdrop-blur">
