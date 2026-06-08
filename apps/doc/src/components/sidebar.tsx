@@ -41,6 +41,51 @@ const NAV = [
       { label: "Textarea", to: "/components/textarea", progress: { structure: "done" } },
       { label: "ToggleGroup", to: "/components/toggle-group", progress: { structure: "done" } },
     ],
+    planned: [
+      {
+        label: "Select",
+        priority: "P0",
+        docsHref: "https://base-ui.com/react/components/select",
+        reason: "Formalize single-select flows with Base UI keyboard, portal, and field semantics.",
+      },
+      {
+        label: "Switch",
+        priority: "P1",
+        docsHref: "https://base-ui.com/react/components/switch",
+        reason: "Use for binary settings where Checkbox is the wrong semantic control.",
+      },
+      {
+        label: "RadioGroup",
+        priority: "P1",
+        docsHref: "https://base-ui.com/react/components/radio",
+        reason:
+          "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
+      },
+      {
+        label: "Combobox",
+        priority: "P2",
+        docsHref: "https://base-ui.com/react/components/combobox",
+        reason: "Searchable selection for members, channels, and tags after Select is stable.",
+      },
+      {
+        label: "NumberField",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/number-field",
+        reason: "Wait for real numeric settings with stepper behavior.",
+      },
+      {
+        label: "Slider",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/slider",
+        reason: "Wait for range controls such as volume, threshold, or tuning parameters.",
+      },
+      {
+        label: "Calendar / DatePicker",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Wait for a concrete date-picking workflow.",
+      },
+    ],
   },
   {
     title: "Navigation",
@@ -49,6 +94,38 @@ const NAV = [
         label: "Tabs",
         to: "/components/tabs",
         progress: { structure: "done" },
+      },
+    ],
+    planned: [
+      {
+        label: "Menubar",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components/menubar",
+        reason: "Desktop menu-bar pattern is not part of the current product surface.",
+      },
+      {
+        label: "NavigationMenu",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components/navigation-menu",
+        reason: "Marketing/header navigation primitive; not useful for the current doc shell.",
+      },
+      {
+        label: "Breadcrumb",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Wait for deeper routed information architecture.",
+      },
+      {
+        label: "Pagination",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Wait for paged data surfaces.",
+      },
+      {
+        label: "Command",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components/autocomplete",
+        reason: "Command palette behavior is product-specific and should be designed separately.",
       },
     ],
   },
@@ -60,6 +137,38 @@ const NAV = [
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { structure: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { structure: "done" } },
       { label: "Popover", to: "/components/popover", progress: { structure: "done" } },
+    ],
+    planned: [
+      {
+        label: "Tooltip",
+        priority: "P0",
+        docsHref: "https://base-ui.com/react/components/tooltip",
+        reason: "Replace hand-rolled tooltip positioning and cover icon/status hints.",
+      },
+      {
+        label: "Dialog",
+        priority: "P0",
+        docsHref: "https://base-ui.com/react/components/dialog",
+        reason: "Expose the generic modal primitive behind several current overlay surfaces.",
+      },
+      {
+        label: "AlertDialog",
+        priority: "P0",
+        docsHref: "https://base-ui.com/react/components/alert-dialog",
+        reason: "Use for destructive confirmations instead of app-specific confirm shells.",
+      },
+      {
+        label: "Drawer",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/drawer",
+        reason: "Current BottomSheet covers mobile bottom panels; add when side panels need it.",
+      },
+      {
+        label: "PreviewCard",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/preview-card",
+        reason: "Useful for hover user/link/message previews, but not a base form gap.",
+      },
     ],
   },
   {
@@ -74,6 +183,20 @@ const NAV = [
       },
       { label: "Spinner", to: "/components/spinner", progress: { structure: "done" } },
     ],
+    planned: [
+      {
+        label: "Progress",
+        priority: "P1",
+        docsHref: "https://base-ui.com/react/components/progress",
+        reason: "Represent long-running task, upload, and generation progress.",
+      },
+      {
+        label: "Toast",
+        priority: "P2",
+        docsHref: "https://base-ui.com/react/components/toast",
+        reason: "Transient feedback only; keep it separate from NotificationCenter history.",
+      },
+    ],
   },
   {
     title: "Status & Indicators",
@@ -81,6 +204,14 @@ const NAV = [
       { label: "Badge", to: "/components/badge", progress: { structure: "done" } },
       { label: "Kbd", to: "/components/kbd", progress: { structure: "done" } },
       { label: "Status", to: "/components/status", progress: { structure: "done" } },
+    ],
+    planned: [
+      {
+        label: "Meter",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/meter",
+        reason: "Wait for bounded metric displays distinct from Progress.",
+      },
     ],
   },
   {
@@ -113,6 +244,20 @@ const NAV = [
         progress: { structure: "done" },
       },
     ],
+    planned: [
+      {
+        label: "Table / DataGrid",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Likely app-specific; design from a real dense-data use case.",
+      },
+      {
+        label: "Carousel",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Not relevant to the current product interface.",
+      },
+    ],
   },
   {
     title: "Layout",
@@ -124,6 +269,44 @@ const NAV = [
         label: "SectionHeader",
         to: "/components/section-header",
         progress: { structure: "done" },
+      },
+    ],
+    planned: [
+      {
+        label: "Separator",
+        priority: "P1",
+        docsHref: "https://base-ui.com/react/components/separator",
+        reason: "Centralize menu, list, and dialog dividers instead of border literals.",
+      },
+      {
+        label: "Collapsible",
+        priority: "P2",
+        docsHref: "https://base-ui.com/react/components/collapsible",
+        reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
+      },
+      {
+        label: "Accordion",
+        priority: "P2",
+        docsHref: "https://base-ui.com/react/components/accordion",
+        reason: "Grouped disclosure pattern; build after Collapsible settles.",
+      },
+      {
+        label: "ScrollArea",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components/scroll-area",
+        reason: "Prefer native scrolling until custom scrollbar behavior is required.",
+      },
+      {
+        label: "Resizable",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Wait for explicit panel-resize requirements.",
+      },
+      {
+        label: "Sidebar",
+        priority: "Parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Current sidebar is app shell, not a reusable UI primitive.",
       },
     ],
   },
@@ -317,181 +500,6 @@ const SOURCE_HOLDS = {
   ],
 } as const;
 
-const BASE_UI_PARITY = {
-  title: "Base UI Parity",
-  items: [
-    {
-      label: "Tooltip",
-      priority: "P0",
-      docsHref: "https://base-ui.com/react/components/tooltip",
-      reason: "Replace hand-rolled tooltip positioning and cover icon/status hints.",
-    },
-    {
-      label: "Select",
-      priority: "P0",
-      docsHref: "https://base-ui.com/react/components/select",
-      reason: "Formalize single-select flows with Base UI keyboard, portal, and field semantics.",
-    },
-    {
-      label: "Dialog",
-      priority: "P0",
-      docsHref: "https://base-ui.com/react/components/dialog",
-      reason: "Expose the generic modal primitive behind several current overlay surfaces.",
-    },
-    {
-      label: "AlertDialog",
-      priority: "P0",
-      docsHref: "https://base-ui.com/react/components/alert-dialog",
-      reason: "Use for destructive confirmations instead of app-specific confirm shells.",
-    },
-    {
-      label: "Switch",
-      priority: "P1",
-      docsHref: "https://base-ui.com/react/components/switch",
-      reason: "Use for binary settings where Checkbox is the wrong semantic control.",
-    },
-    {
-      label: "RadioGroup",
-      priority: "P1",
-      docsHref: "https://base-ui.com/react/components/radio",
-      reason:
-        "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
-    },
-    {
-      label: "Progress",
-      priority: "P1",
-      docsHref: "https://base-ui.com/react/components/progress",
-      reason: "Represent long-running task, upload, and generation progress.",
-    },
-    {
-      label: "Separator",
-      priority: "P1",
-      docsHref: "https://base-ui.com/react/components/separator",
-      reason: "Centralize menu, list, and dialog dividers instead of border literals.",
-    },
-    {
-      label: "Toast",
-      priority: "P2",
-      docsHref: "https://base-ui.com/react/components/toast",
-      reason: "Transient feedback only; keep it separate from NotificationCenter history.",
-    },
-    {
-      label: "Collapsible",
-      priority: "P2",
-      docsHref: "https://base-ui.com/react/components/collapsible",
-      reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
-    },
-    {
-      label: "Accordion",
-      priority: "P2",
-      docsHref: "https://base-ui.com/react/components/accordion",
-      reason: "Grouped disclosure pattern; build after Collapsible settles.",
-    },
-    {
-      label: "Combobox",
-      priority: "P2",
-      docsHref: "https://base-ui.com/react/components/combobox",
-      reason: "Searchable selection for members, channels, and tags after Select is stable.",
-    },
-    {
-      label: "Drawer",
-      priority: "Later",
-      docsHref: "https://base-ui.com/react/components/drawer",
-      reason: "Current BottomSheet covers mobile bottom panels; add when side panels need it.",
-    },
-    {
-      label: "PreviewCard",
-      priority: "Later",
-      docsHref: "https://base-ui.com/react/components/preview-card",
-      reason: "Useful for hover user/link/message previews, but not a base form gap.",
-    },
-    {
-      label: "NumberField",
-      priority: "Later",
-      docsHref: "https://base-ui.com/react/components/number-field",
-      reason: "Wait for real numeric settings with stepper behavior.",
-    },
-    {
-      label: "Slider",
-      priority: "Later",
-      docsHref: "https://base-ui.com/react/components/slider",
-      reason: "Wait for range controls such as volume, threshold, or tuning parameters.",
-    },
-    {
-      label: "Meter",
-      priority: "Later",
-      docsHref: "https://base-ui.com/react/components/meter",
-      reason: "Wait for bounded metric displays distinct from Progress.",
-    },
-    {
-      label: "ScrollArea",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components/scroll-area",
-      reason: "Prefer native scrolling until custom scrollbar behavior is required.",
-    },
-    {
-      label: "Menubar",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components/menubar",
-      reason: "Desktop menu-bar pattern is not part of the current product surface.",
-    },
-    {
-      label: "NavigationMenu",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components/navigation-menu",
-      reason: "Marketing/header navigation primitive; not useful for the current doc shell.",
-    },
-    {
-      label: "Breadcrumb",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Wait for deeper routed information architecture.",
-    },
-    {
-      label: "Pagination",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Wait for paged data surfaces.",
-    },
-    {
-      label: "Table / DataGrid",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Likely app-specific; design from a real dense-data use case.",
-    },
-    {
-      label: "Calendar / DatePicker",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Wait for a concrete date-picking workflow.",
-    },
-    {
-      label: "Command",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components/autocomplete",
-      reason: "Command palette behavior is product-specific and should be designed separately.",
-    },
-    {
-      label: "Carousel",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Not relevant to the current product interface.",
-    },
-    {
-      label: "Resizable",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Wait for explicit panel-resize requirements.",
-    },
-    {
-      label: "Sidebar",
-      priority: "Parked",
-      docsHref: "https://base-ui.com/react/components",
-      reason: "Current sidebar is app shell, not a reusable UI primitive.",
-    },
-  ],
-} as const;
-
 type TaskKey = "migration" | "structure" | "elegant";
 type TaskStatus = "done" | "in-progress" | "todo";
 type Progress = Partial<Record<TaskKey, TaskStatus>>;
@@ -507,6 +515,7 @@ const TASKS = {
   structure: { short: "Struct", label: "Structure" },
   elegant: { short: "Theme", label: "Elegant theme" },
 } as const satisfies Record<TaskKey, { short: string; label: string }>;
+const VISIBLE_TASKS = ["elegant"] as const satisfies readonly TaskKey[];
 
 const TASK_STATUS = {
   done: { label: "Done", className: "border-emerald-200 bg-emerald-50 text-emerald-700" },
@@ -567,7 +576,7 @@ function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
 function ProgressBadges({ progress }: { progress?: Progress }) {
   return (
     <span className="ml-auto flex shrink-0 items-center gap-1" aria-label="Component status">
-      {(Object.keys(TASKS) as TaskKey[]).map((task) => {
+      {VISIBLE_TASKS.map((task) => {
         const status = progress?.[task] ?? DEFAULT_PROGRESS[task];
         const taskLabel = TASKS[task].label;
         const statusLabel = TASK_STATUS[status].label;
@@ -644,7 +653,15 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
   );
 }
 
-function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }) {
+function NavGroup({
+  title,
+  items,
+  planned,
+}: {
+  title: string;
+  items: readonly NavItem[];
+  planned?: readonly PlannedItem[];
+}) {
   return (
     <div>
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
@@ -661,6 +678,11 @@ function NavGroup({ title, items }: { title: string; items: readonly NavItem[] }
                 ))}
               </ul>
             ) : null}
+          </li>
+        ))}
+        {planned?.map((item) => (
+          <li key={item.label}>
+            <PlannedRow {...item} />
           </li>
         ))}
       </ul>
@@ -752,21 +774,6 @@ function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
   );
 }
 
-function PlannedGroup({ title, items }: { title: string; items: readonly PlannedItem[] }) {
-  return (
-    <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
-      <ul className="space-y-1">
-        {items.map((item) => (
-          <li key={item.label}>
-            <PlannedRow {...item} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
   return (
     <a
@@ -840,7 +847,7 @@ export function Sidebar() {
         <hr className="border-gray-200" />
 
         {NAV.map((group) => (
-          <NavGroup key={group.title} title={group.title} items={group.items} />
+          <NavGroup key={group.title} {...group} />
         ))}
 
         <hr className="border-gray-200" />
@@ -850,10 +857,6 @@ export function Sidebar() {
         <hr className="border-gray-200" />
 
         <SourceHoldGroup title={SOURCE_HOLDS.title} items={SOURCE_HOLDS.items} />
-
-        <hr className="border-gray-200" />
-
-        <PlannedGroup title={BASE_UI_PARITY.title} items={BASE_UI_PARITY.items} />
       </nav>
     </aside>
   );

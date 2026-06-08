@@ -16,40 +16,38 @@ export const badge = tv({
       brutal: {
         root: ["border border-black"],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
-    },
-    tone: {
-      white: {
-        root: "bg-white text-black",
-      },
-      yellow: {
-        root: "bg-brutal-yellow text-black",
-      },
-      pink: {
-        root: "bg-brutal-pink text-black",
-      },
-      cyan: {
-        root: "bg-brutal-cyan text-black",
-      },
-      lavender: {
-        root: "bg-brutal-lavender text-black",
-      },
-      orange: {
-        root: "bg-brutal-orange text-black",
-      },
-      lime: {
-        root: "bg-brutal-lime text-black",
-      },
-      red: {
-        root: "bg-brutal-red text-black",
-      },
-      stone: {
-        root: "bg-brutal-stone text-black",
+      elegant: {
+        root: ["border border-border"],
       },
     },
-    // Brutal renders the visual uppercase; content stays Title Case. Status badges
-    // sitting next to case-sensitive identifiers (@assignee) opt out via `false`.
+    variant: {
+      default: {
+        root: "bg-neutral text-neutral-foreground",
+      },
+      primary: {
+        root: "bg-primary text-primary-foreground",
+      },
+      information: {
+        root: "bg-information text-information-foreground",
+      },
+      muted: {
+        root: "bg-muted text-muted-foreground",
+      },
+      accent: {
+        root: "bg-accent text-accent-foreground",
+      },
+      success: {
+        root: "bg-success text-success-foreground",
+      },
+      warning: {
+        root: "bg-warning text-warning-foreground",
+      },
+      destructive: {
+        root: "bg-destructive text-destructive-foreground",
+      },
+    },
+    // Enables the old brutal casing recipe when a badge should read as a compact
+    // label. It defaults off so case-sensitive content stays intact.
     uppercase: {
       true: {
         root: "uppercase tracking-wide",
@@ -60,17 +58,18 @@ export const badge = tv({
     },
   },
   defaultVariants: {
-    tone: "white",
-    uppercase: true,
+    variant: "default",
+    uppercase: false,
   },
 });
 
 export type BadgeProps = useRender.ComponentProps<"span"> &
   Omit<VariantProps<typeof badge>, "theme">;
 
-function BadgeRoot({ tone, uppercase, className, render, ...props }: BadgeProps) {
+function BadgeRoot({ variant, uppercase, className, render, ...props }: BadgeProps) {
   const theme = useTheme();
-  const { root } = badge({ theme, tone, uppercase });
+  const resolvedUppercase = uppercase ?? false;
+  const { root } = badge({ theme, variant, uppercase: resolvedUppercase });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
   };
@@ -81,18 +80,18 @@ function BadgeRoot({ tone, uppercase, className, render, ...props }: BadgeProps)
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "badge",
-      tone,
-      uppercase,
+      variant,
+      uppercase: resolvedUppercase,
     },
   });
 }
 
-// Fixed lime "Experimental" preset. The visual identity lives in Badge, so every
-// experimental surface stays identical. Attached as a static because it only
-// presets props.
-function Experimental(props: Omit<BadgeProps, "tone" | "uppercase">) {
+// Fixed success + uppercase "Experimental" preset. The visual identity lives in
+// Badge, so every experimental surface stays identical. Attached as a static
+// because it only presets props.
+function Experimental(props: Omit<BadgeProps, "variant" | "uppercase">) {
   return (
-    <BadgeRoot tone="lime" {...props}>
+    <BadgeRoot variant="success" uppercase {...props}>
       Experimental
     </BadgeRoot>
   );

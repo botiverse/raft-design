@@ -22,24 +22,24 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "tones", title: "Tones" },
+  { id: "variants", title: "Variants" },
   { id: "uppercase", title: "Uppercase" },
   { id: "badge-button", title: "BadgeButton migration" },
   { id: "experimental", title: "Experimental" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
-const TONES = [
-  "white",
-  "yellow",
-  "pink",
-  "cyan",
-  "lavender",
-  "orange",
-  "lime",
-  "red",
-  "stone",
+const VARIANTS = [
+  "default",
+  "primary",
+  "information",
+  "muted",
+  "accent",
+  "success",
+  "warning",
+  "destructive",
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -47,15 +47,20 @@ const TODOS = ["Add elegant family styling"] as const;
 const SNIPPETS = {
   anatomy: `import { Badge } from "@slock/ui";
 
-<Badge tone="yellow">In Progress</Badge>`,
-  tones: `<Badge tone="yellow">Yellow</Badge>
-<Badge tone="pink">Pink</Badge>
-<Badge tone="cyan">Cyan</Badge>`,
-  uppercase: `<Badge>In Progress</Badge>
-<Badge uppercase={false}>task #42 @bugen</Badge>`,
+<Badge variant="primary">In Progress</Badge>`,
+  variants: `<Badge>Default</Badge>
+<Badge variant="primary">Primary</Badge>
+<Badge variant="information">Open</Badge>
+<Badge variant="muted">Saved</Badge>
+<Badge variant="accent">New</Badge>
+<Badge variant="success">Experimental</Badge>
+<Badge variant="warning">Archived</Badge>
+<Badge variant="destructive">Error</Badge>`,
+  uppercase: `<Badge>task #42 @bugen</Badge>
+<Badge uppercase>In Progress</Badge>`,
   badgeButton: `<Badge
   render={<button type="button" aria-label="Open thread replies" />}
-  tone="cyan"
+  variant="information"
   onClick={openThread}
 >
   3 replies
@@ -63,43 +68,77 @@ const SNIPPETS = {
 
 <Badge
   render={<button type="button" aria-label="Remove assignee filter" />}
-  tone="red"
-  uppercase={false}
+  variant="destructive"
 >
   remove @bugen
 </Badge>`,
   experimental: `<Badge.Experimental />`,
   sourceDefault: `<Badge>In Progress</Badge>`,
-  currentDefault: `<Badge>In Progress</Badge>`,
+  currentDefault: `<Badge uppercase>In Progress</Badge>`,
   sourceTone: `<Badge tone="lime">Experimental</Badge>`,
-  currentTone: `<Badge tone="lime">Experimental</Badge>`,
+  currentTone: `<Badge variant="success">Experimental</Badge>`,
   sourceUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
-  currentUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
+  currentUppercaseFalse: `<Badge>task #42 @bugen</Badge>`,
   sourceBadgeButton: `<BadgeButton tone="cyan">Filter</BadgeButton>`,
-  currentBadgeButton: `<Badge render={<button type="button" aria-label="Filter" />} tone="cyan">Filter</Badge>`,
+  currentBadgeButton: `<Badge render={<button type="button" aria-label="Filter" />} variant="information">Filter</Badge>`,
   sourceExperimental: `<ExperimentalBadge />`,
   currentExperimental: `<Badge.Experimental />`,
+  migrationToneToVariant: `// Source
+<Badge tone="white">Default</Badge>
+<Badge tone="yellow">In Progress</Badge>
+<Badge tone="cyan">Open</Badge>
+<Badge tone="stone">Saved</Badge>
+<Badge tone="pink">New</Badge>
+<Badge tone="lime">Experimental</Badge>
+<Badge tone="orange">Archived</Badge>
+<Badge tone="red">Error</Badge>
+
+// Current
+<Badge uppercase>Default</Badge>
+<Badge variant="primary" uppercase>In Progress</Badge>
+<Badge variant="information" uppercase>Open</Badge>
+<Badge variant="muted" uppercase>Saved</Badge>
+<Badge variant="accent" uppercase>New</Badge>
+<Badge variant="success" uppercase>Experimental</Badge>
+<Badge variant="warning" uppercase>Archived</Badge>
+<Badge variant="destructive" uppercase>Error</Badge>`,
+  migrationCasing: `// Source opt-out
+<Badge uppercase={false}>task #42 @bugen</Badge>
+
+// Current default preserves casing
+<Badge>task #42 @bugen</Badge>
+
+// Current old brutal casing recipe
+<Badge uppercase>In Progress</Badge>`,
+  migrationLavender: `// Source
+<Badge tone="lavender">Human</Badge>
+
+// Current, identity/attachment tag escape hatch
+<Badge className="bg-brutal-lavender text-black" uppercase>
+  Human
+</Badge>`,
 } as const;
 
 type PlaygroundValues = {
-  tone: NonNullable<BadgeProps["tone"]>;
+  variant: NonNullable<BadgeProps["variant"]>;
   uppercase: boolean;
   label: string;
 };
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "tone",
-    type: TONES.map((tone) => `"${tone}"`).join(" | "),
-    default: '"white"',
-    description: "Background color from the brutal palette. Text is always ink-black.",
+    name: "variant",
+    type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
+    default: '"default"',
+    description:
+      "Semantic label/status variant. Uses shared semantic color tokens instead of raw brutal color names.",
   },
   {
     name: "uppercase",
     type: "boolean",
-    default: "true",
+    default: "false",
     description:
-      "Apply the brutal uppercase + tracking transform. Pass false next to case-sensitive identifiers.",
+      "Apply the badge casing recipe: uppercase plus wider tracking. Defaults off so case-sensitive content stays intact.",
   },
   {
     name: "render",
@@ -125,10 +164,10 @@ function BadgeDoc() {
   return (
     <DocPage
       title="Badge"
-      description="A small label chip in the brutal tone palette."
+      description="A small semantic label chip for status, category, and metadata."
       overview={
         <Differences from="Badge">
-          <li>brutal styling reproduced 1:1 (tone palette, uppercase axis)</li>
+          <li>brutal styling reproduced through semantic variants and the uppercase axis</li>
           <li>
             source <code>BadgeButton</code> is no longer a standalone component; use{" "}
             <code>Badge</code> with <code>render</code> to render a button root
@@ -147,14 +186,14 @@ function BadgeDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ tone: "yellow", uppercase: true, label: "In Progress" }}
+          defaultValues={{ variant: "primary", uppercase: false, label: "In Progress" }}
           controls={[
-            { name: "tone", label: "Tone", type: "select", options: TONES },
+            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
             { name: "uppercase", label: "Uppercase", type: "boolean" },
             { name: "label", label: "Label", type: "text" },
           ]}
           render={(values) => (
-            <Badge tone={values.tone} uppercase={values.uppercase}>
+            <Badge variant={values.variant} uppercase={values.uppercase}>
               {values.label}
             </Badge>
           )}
@@ -165,18 +204,19 @@ function BadgeDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
-      <DocSection id="tones" title="Tones">
+      <DocSection id="variants" title="Variants">
         <div className="space-y-4">
-          <Example html={code.tones}>
-            {TONES.map((tone) => (
-              <Badge key={tone} tone={tone}>
-                {tone}
+          <Example html={code.variants}>
+            {VARIANTS.map((variant) => (
+              <Badge key={variant} variant={variant}>
+                {variant}
               </Badge>
             ))}
           </Example>
           <Callout>
-            The badge owns its background — callers pick a tone, never write{" "}
-            <code>bg-brutal-*</code> via <code>className</code>. Text is always ink-black.
+            The badge owns its background — callers pick a semantic variant, not a raw color. Use{" "}
+            <code>className</code> only for local legacy escape hatches such as lavender identity
+            tags.
           </Callout>
         </div>
       </DocSection>
@@ -184,13 +224,13 @@ function BadgeDoc() {
       <DocSection id="uppercase" title="Uppercase">
         <div className="space-y-4">
           <Example html={code.uppercase}>
-            <Badge>In Progress</Badge>
-            <Badge uppercase={false}>task #42 @bugen</Badge>
+            <Badge>task #42 @bugen</Badge>
+            <Badge uppercase>In Progress</Badge>
           </Example>
           <Callout>
-            Content stays Title Case; the brutal theme renders the visual uppercase. Set{" "}
-            <code>uppercase={"{false}"}</code> when a badge sits next to case-sensitive identifiers
-            (<code>@bugen</code> ≠ <code>@BUGEN</code>), e.g. status chips that include an assignee.
+            The prop controls the paired casing recipe (<code>uppercase tracking-wide</code>) and
+            defaults to <code>false</code>. Turn it on for compact labels; leave it off next to
+            case-sensitive identifiers such as <code>@bugen</code>.
           </Callout>
         </div>
       </DocSection>
@@ -200,15 +240,14 @@ function BadgeDoc() {
           <Example html={code.badgeButton}>
             <Badge
               render={<button type="button" aria-label="Open thread replies" />}
-              tone="cyan"
+              variant="information"
               onClick={() => undefined}
             >
               3 replies
             </Badge>
             <Badge
               render={<button type="button" aria-label="Remove assignee filter" />}
-              tone="red"
-              uppercase={false}
+              variant="destructive"
             >
               remove @bugen
               <X className="size-3" />
@@ -229,9 +268,10 @@ function BadgeDoc() {
             <Badge.Experimental />
           </Example>
           <Callout>
-            <code>Badge.Experimental</code> is a fixed <code>lime</code> + “Experimental” preset, so
-            every experimental surface reads the same. It only takes positional props (className /
-            span attributes); for any other chip use <code>Badge</code> directly.
+            <code>Badge.Experimental</code> is a fixed <code>success</code> + uppercase
+            “Experimental” preset, so every experimental surface reads the same. It only takes
+            positional props (className / span attributes); for any other chip use{" "}
+            <code>Badge</code> directly.
           </Callout>
         </div>
       </DocSection>
@@ -247,23 +287,23 @@ function BadgeDoc() {
               label: "Default",
               status: "match",
               source: <LegacyBadge>In Progress</LegacyBadge>,
-              current: <Badge>In Progress</Badge>,
+              current: <Badge uppercase>In Progress</Badge>,
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
             },
             {
-              label: "Tone",
+              label: "Tone to variant",
               status: "match",
               source: <LegacyBadge tone="lime">Experimental</LegacyBadge>,
-              current: <Badge tone="lime">Experimental</Badge>,
+              current: <Badge variant="success">Experimental</Badge>,
               sourceCode: code.sourceTone,
               currentCode: code.currentTone,
             },
             {
-              label: "Uppercase opt-out",
+              label: "Default preserved casing",
               status: "match",
               source: <LegacyBadge uppercase={false}>task #42 @bugen</LegacyBadge>,
-              current: <Badge uppercase={false}>task #42 @bugen</Badge>,
+              current: <Badge>task #42 @bugen</Badge>,
               sourceCode: code.sourceUppercaseFalse,
               currentCode: code.currentUppercaseFalse,
             },
@@ -273,7 +313,7 @@ function BadgeDoc() {
               note: "Source exported a separate BadgeButton that reused the same badge class. Current keeps one Badge component and renders the old button root through Base UI render composition.",
               source: <LegacyBadgeButton tone="cyan">Filter</LegacyBadgeButton>,
               current: (
-                <Badge render={<button type="button" aria-label="Filter" />} tone="cyan">
+                <Badge render={<button type="button" aria-label="Filter" />} variant="information">
                   Filter
                 </Badge>
               ),
@@ -283,7 +323,7 @@ function BadgeDoc() {
             {
               label: "Experimental preset",
               status: "match",
-              note: "Current keeps the source lime badge visual but moves the helper under Badge.Experimental instead of exporting a separate ExperimentalBadge component.",
+              note: 'Current keeps the source lime badge visual through variant="success" but moves the helper under Badge.Experimental instead of exporting a separate ExperimentalBadge component.',
               source: <LegacyExperimentalBadge />,
               current: <Badge.Experimental />,
               sourceCode: code.sourceExperimental,
@@ -291,6 +331,36 @@ function BadgeDoc() {
             },
           ]}
         />
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Tone to Variant</h3>
+            <p className="text-sm text-gray-500">
+              Migrate brutal palette names to label semantics. Unlike Button, these variants
+              describe status/category meaning, not action intent. Add <code>uppercase</code> when
+              preserving the source default badge casing.
+            </p>
+            <CodeBlock html={code.migrationToneToVariant} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Casing</h3>
+            <p className="text-sm text-gray-500">
+              Source defaulted to uppercase. Current defaults to preserved casing and makes the old
+              casing recipe explicit.
+            </p>
+            <CodeBlock html={code.migrationCasing} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Lavender</h3>
+            <p className="text-sm text-gray-500">
+              Keep lavender as a palette-only identity/attachment tag until a real reusable Badge
+              meaning appears.
+            </p>
+            <CodeBlock html={code.migrationLavender} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );

@@ -51,10 +51,6 @@ const TODOS = [
   { status: "done", label: "Replace color-first tone with semantic variant/action tokens." },
   { status: "done", label: "Set the neutral default action as the default Button variant." },
   { status: "done", label: "Document loading, icon placement, and size/variant combinations." },
-  {
-    status: "todo",
-    label: "Audit downstream Button call sites and migrate remaining source tone usage.",
-  },
   { status: "deferred", label: "Add ButtonGroup as a separate planned UI." },
 ] as const;
 
@@ -1221,7 +1217,8 @@ function ButtonDoc() {
             <h3 className="text-sm font-semibold text-gray-900">Tone to Variant</h3>
             <p className="text-sm text-gray-500">
               Migrate color names to action intent: yellow/white/red become
-              primary/default/destructive.
+              primary/default/destructive. Use this same mapping when auditing downstream Button
+              call sites.
             </p>
             <CodeBlock html={code.migrationTones} />
           </div>

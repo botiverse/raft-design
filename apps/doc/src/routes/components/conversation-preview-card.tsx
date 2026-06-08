@@ -28,6 +28,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.ts";
+import LegacyBadge from "../../../../../packages/ui/src/legacy/Badge.tsx";
 import LegacyConversationPreviewCard from "../../../../../packages/ui/src/legacy/ConversationPreviewCard.tsx";
 
 const TOC = [
@@ -89,7 +90,7 @@ const SNIPPETS = {
     <ConversationPreviewCardPreview>Search result preview...</ConversationPreviewCardPreview>
   </ConversationPreviewCardContent>
   <ConversationPreviewCardAction>
-    <Badge tone="stone">Saved</Badge>
+    <Badge variant="muted">Saved</Badge>
   </ConversationPreviewCardAction>
 </ConversationPreviewCard>`,
   sourceThread: `<ConversationPreviewCard
@@ -392,7 +393,7 @@ function OpenPreview() {
             <MiniAvatar tone="human" />
             <ConversationPreviewCardAuthorName>Ada</ConversationPreviewCardAuthorName>
           </ConversationPreviewCardAuthor>
-          <Badge tone="cyan">Open</Badge>
+          <Badge variant="information">Open</Badge>
           <ConversationPreviewCardTimestamp>1:02 PM</ConversationPreviewCardTimestamp>
         </ConversationPreviewCardMeta>
         <ConversationPreviewCardPreview>
@@ -429,7 +430,7 @@ function LegacySearchPreview() {
       <LegacyConversationPreviewCard
         channelLabel="#proj-theme"
         preview="Search result preview..."
-        action={<Badge tone="stone">Saved</Badge>}
+        action={<LegacyBadge tone="stone">Saved</LegacyBadge>}
       />
     </div>
   );
@@ -446,7 +447,7 @@ function CurrentSearchPreview() {
           <ConversationPreviewCardPreview>Search result preview...</ConversationPreviewCardPreview>
         </ConversationPreviewCardContent>
         <ConversationPreviewCardAction>
-          <Badge tone="stone">Saved</Badge>
+          <Badge variant="muted">Saved</Badge>
         </ConversationPreviewCardAction>
       </ConversationPreviewCard>
     </div>

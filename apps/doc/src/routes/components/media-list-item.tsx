@@ -297,9 +297,7 @@ function MediaListItemDoc() {
                   <MediaListItemSubtitle>ada@example.com</MediaListItemSubtitle>
                 </MediaListItemText>
                 <MediaListItemAside>
-                  <Badge tone="stone" uppercase={false}>
-                    admin
-                  </Badge>
+                  <Badge variant="muted">admin</Badge>
                 </MediaListItemAside>
               </MediaListItemBody>
             </MediaListItem>
