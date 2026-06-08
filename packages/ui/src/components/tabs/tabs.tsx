@@ -1,15 +1,20 @@
 import {
+  Children,
   createContext,
+  isValidElement,
   use,
   useCallback,
   useMemo,
+  useState,
   type ComponentPropsWithRef,
   type CSSProperties,
+  type ReactNode,
 } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import {
   closestCenter,
   DndContext,
+  DragOverlay,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -31,11 +36,11 @@ const tabs = tv({
   slots: {
     root: ["w-full"],
     list: [
-      "flex w-full overflow-x-auto border-b-2 bg-white",
+      "flex w-max max-w-full overflow-x-auto border-l-2 border-t-2 border-b-2 bg-white",
       "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
     ],
     tab: [
-      "flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap px-4 py-1.5",
+      "relative flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap px-4 py-1.5",
       "border-r-2 text-xs font-bold transition-colors",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3",
     ],
@@ -51,6 +56,8 @@ const tabs = tv({
           "border-black bg-white hover:bg-black/5",
           "data-[active]:bg-brutal-yellow data-[active]:hover:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
+          "data-[dragging-source=true]:opacity-0",
+          "data-[overlay=true]:z-20 data-[overlay=true]:cursor-grabbing data-[overlay=true]:[outline:2px_solid_oklch(0_0_0)] data-[overlay=true]:[outline-offset:-2px]",
         ],
       },
       // Elegant styling is deferred; see the component TODO.
@@ -64,6 +71,7 @@ type TabsReorderContextValue = {
 };
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
+const TabsValueContext = createContext<string | undefined>(undefined);
 
 const REORDER_ENABLED_CONTEXT = { enabled: true } as const satisfies TabsReorderContextValue;
 
@@ -83,20 +91,26 @@ export function Tabs<T extends string = string>({
   className,
   ...props
 }: TabsProps<T>) {
+  const [uncontrolledValue, setUncontrolledValue] = useState<T | undefined>(defaultValue);
+  const resolvedValue = value ?? uncontrolledValue;
   const { root } = tabs();
 
   return (
-    <BaseTabs.Root
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={(nextValue, eventDetails) => {
-        if (nextValue == null) return;
-        onValueChange?.(String(nextValue) as T, eventDetails);
-      }}
-      data-slot="tabs"
-      className={root({ className })}
-      {...props}
-    />
+    <TabsValueContext.Provider value={resolvedValue == null ? undefined : String(resolvedValue)}>
+      <BaseTabs.Root
+        value={value}
+        defaultValue={defaultValue}
+        onValueChange={(nextValue, eventDetails) => {
+          if (nextValue == null) return;
+          const typedValue = String(nextValue) as T;
+          if (value === undefined) setUncontrolledValue(typedValue);
+          onValueChange?.(typedValue, eventDetails);
+        }}
+        data-slot="tabs"
+        className={root({ className })}
+        {...props}
+      />
+    </TabsValueContext.Provider>
   );
 }
 
@@ -119,13 +133,20 @@ export function SortableTabsList<T extends string = string>({
   children,
   ...props
 }: SortableTabsListProps<T>) {
+  const activeValue = use(TabsValueContext);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
   );
   const tabIds = useMemo(() => value.map(String), [value]);
+  const overlayTab = useMemo(
+    () => getSortableTabOverlayItem(children, activeId, activeValue),
+    [activeId, activeValue, children],
+  );
   const handleDragEnd = useCallback(
     ({ active, over }: DragEndEvent) => {
+      setActiveId(null);
       if (!over || active.id === over.id) return;
       const oldIndex = tabIds.indexOf(String(active.id));
       const newIndex = tabIds.indexOf(String(over.id));
@@ -136,12 +157,25 @@ export function SortableTabsList<T extends string = string>({
   );
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={({ active }) => setActiveId(String(active.id))}
+      onDragCancel={() => setActiveId(null)}
+      onDragEnd={handleDragEnd}
+    >
       <SortableContext items={tabIds} strategy={horizontalListSortingStrategy}>
         <TabsReorderContext.Provider value={REORDER_ENABLED_CONTEXT}>
           <TabsList {...props}>{children}</TabsList>
         </TabsReorderContext.Provider>
       </SortableContext>
+      <DragOverlay adjustScale={false} dropAnimation={null}>
+        {overlayTab ? (
+          <TabsTabVisual active={overlayTab.active} className={overlayTab.className} overlay>
+            {overlayTab.children}
+          </TabsTabVisual>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }
@@ -184,6 +218,7 @@ export function SortableTabsTab<T extends string = string>({
     <TabsTabButton
       value={value}
       sortableRef={setNodeRef}
+      data-dragging-source={isDragging ? "true" : undefined}
       style={style}
       {...props}
       {...sortableAttributes}
@@ -209,6 +244,57 @@ function TabsTabButton<T extends string = string>({
         sortableRef?.(node);
       }}
       value={value}
+      data-slot="tabs-tab"
+      className={tab({ className })}
+      {...props}
+    />
+  );
+}
+
+type SortableTabOverlayItem = {
+  active: boolean;
+  children: ReactNode;
+  className?: string;
+};
+
+function getSortableTabOverlayItem(
+  children: ReactNode,
+  activeId: string | null,
+  activeValue: string | undefined,
+): SortableTabOverlayItem | null {
+  if (activeId == null) return null;
+
+  for (const child of Children.toArray(children)) {
+    if (!isValidElement<{ children?: ReactNode; className?: string; value?: unknown }>(child)) {
+      continue;
+    }
+
+    if (String(child.props.value) !== activeId) continue;
+
+    return {
+      active: activeValue === activeId,
+      children: child.props.children,
+      className: child.props.className,
+    };
+  }
+
+  return null;
+}
+
+type TabsTabVisualProps = ComponentPropsWithRef<"button"> & {
+  active?: boolean;
+  overlay?: boolean;
+};
+
+function TabsTabVisual({ active, className, overlay, ...props }: TabsTabVisualProps) {
+  const theme = useTheme();
+  const { tab } = tabs({ theme });
+
+  return (
+    <button
+      type="button"
+      data-active={active ? "" : undefined}
+      data-overlay={overlay ? "true" : undefined}
       data-slot="tabs-tab"
       className={tab({ className })}
       {...props}

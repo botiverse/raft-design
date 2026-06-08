@@ -36,7 +36,7 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const TODOS = ["Add elegant family styling", "Optimize border rendering"] as const;
+const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
   anatomy: `import { Tabs, TabsLabel, TabsList, TabsPanel, TabsTab } from "@slock/ui";
@@ -167,8 +167,12 @@ function TabsDoc() {
             use <code>SortableTabsTab</code>
           </li>
           <li>
-            brutal source styling is reproduced on the list/tab slots; svg size is controlled by CSS
-            on <code>TabsTab</code>
+            current closes the tab strip frame with left/top borders and content-fit width; svg size
+            is controlled by CSS on <code>TabsTab</code>
+          </li>
+          <li>
+            sortable drag feedback uses <code>DragOverlay</code>, so the dragged tab is not
+            transformed inside the bordered strip
           </li>
         </Differences>
       }
@@ -235,8 +239,8 @@ function TabsDoc() {
           items={[
             {
               label: "Reorderable",
-              status: "match",
-              note: "Source always mounted dnd-kit inside ReorderablePanelTabs. Current keeps the same yellow active tab, border dividers, hidden scrollbar, sensors, and horizontal transforms, but exposes the behavior through SortableTabsList and SortableTabsTab.",
+              status: "difference",
+              note: "Source always mounted dnd-kit inside ReorderablePanelTabs and only drew the list bottom border plus tab right dividers. Current keeps the same yellow active tab, hidden scrollbar, sensors, and horizontal transforms, but closes the tab strip with left/top borders, content-fit width, and a DragOverlay preview to avoid transform distortion.",
               source: (
                 <LegacyReorderablePanelTabs
                   tabs={sourceTabs}
