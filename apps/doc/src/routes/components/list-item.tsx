@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  Badge,
   ListItem,
   ListItemActionGroup,
   ListItemBody,
@@ -36,6 +37,7 @@ const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
   anatomy: `import {
+  Badge,
   ListItem,
   ListItemActionGroup,
   ListItemBody,
@@ -49,9 +51,7 @@ const SNIPPETS = {
   <ListItemBody>
     <ListItemRow>
       <ListItemTitle>Web Search</ListItemTitle>
-      <span className="inline-block border border-black bg-brutal-lime px-1.5 py-0 text-[10px] font-bold uppercase">
-        /web
-      </span>
+      <Badge variant="success" uppercase className="inline-block h-auto py-0 leading-normal tracking-normal">/web</Badge>
     </ListItemRow>
     <ListItemDescription>Search the web from a running agent.</ListItemDescription>
     <ListItemMeta>Global skill</ListItemMeta>
@@ -63,14 +63,14 @@ const SNIPPETS = {
 <ListItem interactive={false}>Static</ListItem>`,
   sourceApi: `import SurfaceListItem from "../ui/SurfaceListItem";
 
-<SurfaceListItem selected interactive={false}>
-  # general
-</SurfaceListItem>`,
+<SurfaceListItem>Resting (interactive)</SurfaceListItem>
+<SurfaceListItem selected>Selected</SurfaceListItem>
+<SurfaceListItem interactive={false}>Static</SurfaceListItem>`,
   currentApi: `import { ListItem } from "@slock/ui";
 
-<ListItem selected interactive={false}>
-  # general
-</ListItem>`,
+<ListItem>Resting (interactive)</ListItem>
+<ListItem selected>Selected</ListItem>
+<ListItem interactive={false}>Static</ListItem>`,
   sourceSkill: `<SurfaceListItem>
   <div className="flex items-center gap-2">
     <span className="font-bold text-sm text-black">{skill.displayName}</span>
@@ -88,9 +88,7 @@ const SNIPPETS = {
   <ListItemBody>
     <ListItemRow>
       <ListItemTitle>Web Search</ListItemTitle>
-      <span className="inline-block border border-black bg-brutal-lime px-1.5 py-0 text-[10px] font-bold uppercase">
-        /web
-      </span>
+      <Badge variant="success" uppercase className="inline-block h-auto py-0 leading-normal tracking-normal">/web</Badge>
     </ListItemRow>
     <ListItemDescription className="line-clamp-2">
       Search the web from a running agent.
@@ -122,11 +120,17 @@ const SNIPPETS = {
         tomorrow
       </span>
       <span className="font-mono">Jun 6, 09:00</span>
-      <span className="inline-flex items-center gap-1 border border-black bg-brutal-lavender/30 px-1.5 py-0.5 font-mono text-[11px] text-black">
+      <Badge variant="accent" className="h-auto bg-brutal-lavender/30 py-0.5 font-mono text-[11px] font-normal text-black [&_svg]:size-[11px] [&_svg]:shrink-0">
         <Repeat />
         every weekday
-      </span>
+      </Badge>
     </ListItemMeta>
+    <ListItemActionGroup>
+      <Badge variant="default" className="h-auto max-w-full py-0.5 font-mono text-[11px] font-normal leading-normal text-black/70 [&_svg]:size-[11px] [&_svg]:shrink-0">
+        <Link2 />
+        <span className="truncate">#ops/deploys/42</span>
+      </Badge>
+    </ListItemActionGroup>
   </ListItemBody>
 </ListItem>`,
   sourceConnectedApp: `<SurfaceListItem key={item.id} className="space-y-2" interactive={false}>
@@ -149,9 +153,7 @@ const SNIPPETS = {
       <ListItemTitle className="text-base">Linear</ListItemTitle>
       <ListItemDescription>Jun 5, 09:14</ListItemDescription>
     </ListItemBody>
-    <span className="inline-flex border border-black bg-brutal-lime px-1.5 py-0.5 text-[10px] font-bold uppercase">
-      Active
-    </span>
+    <Badge variant="success" uppercase>Active</Badge>
   </ListItemRow>
   <ListItemDescription className="text-sm text-black/70">
     Create and update issues from the agent.
@@ -306,9 +308,13 @@ function ListItemDoc() {
               <ListItemBody>
                 <ListItemRow>
                   <ListItemTitle>Web Search</ListItemTitle>
-                  <span className="inline-block border border-black bg-brutal-lime px-1.5 py-0 text-[10px] font-bold uppercase">
+                  <Badge
+                    variant="success"
+                    uppercase
+                    className="inline-block h-auto py-0 leading-normal tracking-normal"
+                  >
                     /web
-                  </span>
+                  </Badge>
                 </ListItemRow>
                 <ListItemDescription>Search the web from a running agent.</ListItemDescription>
               </ListItemBody>
@@ -377,7 +383,7 @@ function ListItemDoc() {
             {
               label: "Selected action bar",
               status: "match",
-              note: "Source MachineDetailPanel reused SurfaceListItem as a selected bulk-action bar. Current keeps selected/interactive as root states and uses ListItemActionGroup for the action group.",
+              note: "Source MachineDetailPanel reused SurfaceListItem as a selected bulk-action bar, then overrode its fill and density with bg-gray-100 px-3 py-2. Current keeps selected/interactive as root states and uses ListItemActionGroup for the actions.",
               source: <LegacyBulkSelectionPreview />,
               current: <ListItemBulkSelectionPreview />,
               sourceCode: code.sourceBulkSelection,
@@ -432,9 +438,13 @@ function ListItemSkillCardPreview() {
       <ListItemBody>
         <ListItemRow>
           <ListItemTitle>Web Search</ListItemTitle>
-          <span className="inline-block border border-black bg-brutal-lime px-1.5 py-0 text-[10px] font-bold uppercase">
+          <Badge
+            variant="success"
+            uppercase
+            className="inline-block h-auto py-0 leading-normal tracking-normal"
+          >
             /web
-          </span>
+          </Badge>
         </ListItemRow>
         <ListItemDescription className="line-clamp-2">
           Search the web from a running agent.
@@ -482,16 +492,22 @@ function ListItemReminderCardPreview() {
             tomorrow
           </span>
           <span className="font-mono">Jun 6, 09:00</span>
-          <span className="inline-flex items-center gap-1 border border-black bg-brutal-lavender/30 px-1.5 py-0.5 font-mono text-[11px] text-black">
+          <Badge
+            variant="accent"
+            className="h-auto bg-brutal-lavender/30 py-0.5 font-mono text-[11px] font-normal text-black [&_svg]:size-[11px] [&_svg]:shrink-0"
+          >
             <Repeat />
             every weekday
-          </span>
+          </Badge>
         </ListItemMeta>
         <ListItemActionGroup>
-          <span className="inline-flex max-w-full items-center gap-1 truncate border border-black bg-white px-1.5 py-0.5 font-mono text-[11px] text-black/70">
-            <Link2 size={11} className="shrink-0" />
+          <Badge
+            variant="default"
+            className="h-auto max-w-full py-0.5 font-mono text-[11px] font-normal leading-normal text-black/70 [&_svg]:size-[11px] [&_svg]:shrink-0"
+          >
+            <Link2 />
             <span className="truncate">#ops/deploys/42</span>
-          </span>
+          </Badge>
         </ListItemActionGroup>
       </ListItemBody>
     </ListItem>
@@ -512,9 +528,9 @@ function LegacyConnectedAppPreview() {
       </div>
       <div className="text-sm text-black/70">Create and update issues from the agent.</div>
       <div className="flex flex-wrap gap-1">
-        <ScopeChip>read</ScopeChip>
-        <ScopeChip>write</ScopeChip>
-        <ScopeChip>issues</ScopeChip>
+        <LegacyScopeChip>read</LegacyScopeChip>
+        <LegacyScopeChip>write</LegacyScopeChip>
+        <LegacyScopeChip>issues</LegacyScopeChip>
       </div>
       <div className="flex flex-wrap gap-2">
         <button type="button" className="btn-brutal bg-white px-3 py-1.5 text-xs">
@@ -539,9 +555,9 @@ function ListItemConnectedAppPreview() {
           <ListItemTitle className="text-base">Linear</ListItemTitle>
           <ListItemDescription>Jun 5, 09:14</ListItemDescription>
         </ListItemBody>
-        <span className="inline-flex border border-black bg-brutal-lime px-1.5 py-0.5 text-[10px] font-bold uppercase">
+        <Badge variant="success" uppercase>
           Active
-        </span>
+        </Badge>
       </ListItemRow>
       <ListItemDescription className="text-sm text-black/70">
         Create and update issues from the agent.
@@ -632,6 +648,14 @@ function ListItemBulkSelectionPreview() {
 }
 
 function ScopeChip({ children }: { children: string }) {
+  return (
+    <Badge variant="default" uppercase>
+      {children}
+    </Badge>
+  );
+}
+
+function LegacyScopeChip({ children }: { children: string }) {
   return (
     <span className="inline-flex border border-black bg-white px-1.5 py-0.5 text-[10px] font-bold uppercase">
       {children}

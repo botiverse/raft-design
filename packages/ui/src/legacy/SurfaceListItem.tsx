@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
+import { cnMerge } from "tailwind-variants";
 
 export default function SurfaceListItem({
   children,
@@ -13,7 +14,7 @@ export default function SurfaceListItem({
 }) {
   return (
     <div
-      className={[
+      className={cnMerge(
         "border-2 px-4 py-3 transition-colors",
         selected
           ? "border-black bg-brutal-cyan/15 shadow-brutal-sm"
@@ -22,7 +23,7 @@ export default function SurfaceListItem({
               interactive ? "hover:border-black hover:shadow-brutal-sm" : "",
             ].join(" "),
         className,
-      ].join(" ")}
+      )()}
       {...props}
     >
       {children}

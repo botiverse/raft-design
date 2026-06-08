@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cnMerge, tv, type VariantProps } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const listItem = tv({
@@ -46,7 +46,9 @@ const listItem = tv({
     {
       theme: "brutal",
       selected: true,
-      class: { root: "border-surface-border bg-information-default/15 shadow-surface-sm" },
+      class: {
+        root: "border-surface-border bg-information-default/15 [box-shadow:var(--surface-shadow-sm)]",
+      },
     },
     { theme: "brutal", selected: false, class: { root: "border-surface-border/30 bg-surface" } },
     {
@@ -69,7 +71,7 @@ export function ListItem({ selected, interactive, className, render, ...props }:
   const theme = useTheme();
   const { root } = listItem({ theme, selected, interactive });
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: cnMerge(root(), className)({ twMerge: false }),
+    className: root({ className }),
   };
 
   return useRender({
