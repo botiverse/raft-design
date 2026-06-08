@@ -79,6 +79,7 @@ const NAV = [
     title: "Status & Indicators",
     items: [
       { label: "Badge", to: "/components/badge", progress: { structure: "done" } },
+      { label: "Kbd", to: "/components/kbd", progress: { structure: "done" } },
       { label: "Status", to: "/components/status", progress: { structure: "done" } },
     ],
   },

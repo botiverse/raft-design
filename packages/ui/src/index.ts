@@ -1,6 +1,9 @@
 export { Button } from "./components/button/index.ts";
 export type { ButtonProps } from "./components/button/index.ts";
 
+export { Kbd, KbdGroup } from "./components/kbd/index.ts";
+export type { KbdGroupProps, KbdProps } from "./components/kbd/index.ts";
+
 export { Checkbox } from "./components/checkbox/index.ts";
 export type { CheckboxProps } from "./components/checkbox/index.ts";
 

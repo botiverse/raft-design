@@ -1,6 +1,6 @@
-import type { ComponentPropsWithRef } from "react";
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import { tv } from "tailwind-variants";
+import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -13,7 +13,7 @@ const contextMenu = tv({
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
       "text-left text-sm outline-none transition-colors",
     ],
-    shortcut: ["ml-auto shrink-0"],
+    shortcut: ["ml-auto"],
     separator: ["border-t-2"],
   },
   variants: {
@@ -25,7 +25,7 @@ const contextMenu = tv({
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
         ],
-        shortcut: ["text-black/60"],
+        shortcut: [],
         separator: ["border-black"],
       },
       // Elegant styling is deferred; see the component TODO.
@@ -139,12 +139,12 @@ export function ContextMenuItem({ className, ...props }: ContextMenuItemProps) {
   );
 }
 
-export type ContextMenuShortcutProps = ComponentPropsWithRef<"span">;
+export type ContextMenuShortcutProps = KbdProps;
 
 export function ContextMenuShortcut({ className, ...props }: ContextMenuShortcutProps) {
   const theme = useTheme();
   const { shortcut } = contextMenu({ theme });
-  return <span data-slot="context-menu-shortcut" className={shortcut({ className })} {...props} />;
+  return <Kbd data-slot="context-menu-shortcut" className={shortcut({ className })} {...props} />;
 }
 
 export type ContextMenuSeparatorProps = StyledProps<BaseContextMenu.Separator.Props>;

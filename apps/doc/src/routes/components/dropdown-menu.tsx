@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@slock/ui";
 import { Check, Plus } from "lucide-react";
@@ -45,6 +46,7 @@ const SNIPPETS = {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@slock/ui";
 
@@ -62,6 +64,7 @@ const SNIPPETS = {
     <DropdownMenuActionItem>
       <Plus />
       <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
+      <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
     </DropdownMenuActionItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
@@ -91,6 +94,7 @@ const SNIPPETS = {
     <DropdownMenuActionItem>
       <Plus />
       <span className="min-w-0 flex-1 text-left">Join Community</span>
+      <DropdownMenuShortcut>J</DropdownMenuShortcut>
     </DropdownMenuActionItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
@@ -118,6 +122,7 @@ const SNIPPETS = {
     <DropdownMenuActionItem>
       <Plus />
       <span className="min-w-0 flex-1 text-left">Join Community</span>
+      <DropdownMenuShortcut>J</DropdownMenuShortcut>
     </DropdownMenuActionItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
@@ -195,6 +200,11 @@ const PROPS: readonly PropRow[] = [
     description: "Source server-switcher action row styling: bold text and pink highlight.",
   },
   {
+    name: "DropdownMenuShortcut",
+    type: "Kbd props",
+    description: "Right-aligned keyboard hint composed inside DropdownMenuItem.",
+  },
+  {
     name: "DropdownMenuSeparator",
     type: "Base UI Separator.Props",
     description: "Source server-switcher divider styling as the separator part.",
@@ -244,10 +254,12 @@ function ServerRows() {
       <DropdownMenuActionItem>
         <Plus />
         <span className="min-w-0 flex-1 text-left">Join Community</span>
+        <DropdownMenuShortcut>J</DropdownMenuShortcut>
       </DropdownMenuActionItem>
       <DropdownMenuActionItem>
         <Plus />
         <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
+        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
       </DropdownMenuActionItem>
     </>
   );

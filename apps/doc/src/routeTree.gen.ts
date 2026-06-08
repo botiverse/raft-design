@@ -34,6 +34,7 @@ import { Route as ComponentsNotificationCenterRouteImport } from './routes/compo
 import { Route as ComponentsMediaListItemRouteImport } from './routes/components/media-list-item'
 import { Route as ComponentsListItemRouteImport } from './routes/components/list-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
+import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
@@ -180,6 +181,11 @@ const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   path: '/components/lightbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
+  id: '/components/kbd',
+  path: '/components/kbd',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
   id: '/components/input-group',
   path: '/components/input-group',
@@ -290,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
+  '/components/kbd': typeof ComponentsKbdRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -334,6 +341,7 @@ export interface FileRoutesByTo {
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
+  '/components/kbd': typeof ComponentsKbdRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -379,6 +387,7 @@ export interface FileRoutesById {
   '/components/field': typeof ComponentsFieldRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
+  '/components/kbd': typeof ComponentsKbdRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -425,6 +434,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
+    | '/components/kbd'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -469,6 +479,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
+    | '/components/kbd'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -513,6 +524,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/input'
     | '/components/input-group'
+    | '/components/kbd'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -558,6 +570,7 @@ export interface RootRouteChildren {
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
+  ComponentsKbdRoute: typeof ComponentsKbdRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsListItemRoute: typeof ComponentsListItemRoute
   ComponentsMediaListItemRoute: typeof ComponentsMediaListItemRoute
@@ -759,6 +772,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsLightboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components/kbd': {
+      id: '/components/kbd'
+      path: '/components/kbd'
+      fullPath: '/components/kbd'
+      preLoaderRoute: typeof ComponentsKbdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components/input-group': {
       id: '/components/input-group'
       path: '/components/input-group'
@@ -903,6 +923,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
+  ComponentsKbdRoute: ComponentsKbdRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsListItemRoute: ComponentsListItemRoute,
   ComponentsMediaListItemRoute: ComponentsMediaListItemRoute,

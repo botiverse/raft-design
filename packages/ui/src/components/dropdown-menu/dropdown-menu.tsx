@@ -1,6 +1,6 @@
-import type { ComponentPropsWithRef } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { tv } from "tailwind-variants";
+import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -14,7 +14,7 @@ const dropdownMenu = tv({
       "text-left text-sm outline-none transition-colors",
     ],
     actionItem: ["font-bold"],
-    shortcut: ["ml-auto shrink-0"],
+    shortcut: ["ml-auto"],
     separator: ["border-t-2"],
   },
   variants: {
@@ -27,7 +27,7 @@ const dropdownMenu = tv({
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         actionItem: ["hover:bg-brutal-pink data-[highlighted]:bg-brutal-pink"],
-        shortcut: ["text-black/60"],
+        shortcut: [],
         separator: ["border-black"],
       },
       // Elegant styling is deferred; see the component TODO.
@@ -145,12 +145,12 @@ export function DropdownMenuActionItem({ className, ...props }: DropdownMenuActi
   return <DropdownMenuItem className={actionItem({ className })} {...props} />;
 }
 
-export type DropdownMenuShortcutProps = ComponentPropsWithRef<"span">;
+export type DropdownMenuShortcutProps = KbdProps;
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
   const theme = useTheme();
   const { shortcut } = dropdownMenu({ theme });
-  return <span data-slot="dropdown-menu-shortcut" className={shortcut({ className })} {...props} />;
+  return <Kbd data-slot="dropdown-menu-shortcut" className={shortcut({ className })} {...props} />;
 }
 
 export type DropdownMenuSeparatorProps = StyledProps<BaseMenu.Separator.Props>;

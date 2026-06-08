@@ -35,7 +35,7 @@ const TOC = [
 
 const TODOS = [
   "Add elegant family styling",
-  "Add checkbox, radio, label, shortcut, and submenu parts when a source callsite needs them",
+  "Add checkbox, radio, label, and submenu parts when a source callsite needs them",
 ] as const;
 
 const SNIPPETS = {
@@ -80,7 +80,7 @@ const SNIPPETS = {
   <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
     <Trash2 size={14} />
     <span className="min-w-0 flex-1 truncate">Delete</span>
-    <span className="ml-auto shrink-0 text-black/60">⌫</span>
+    <kbd className="pointer-events-none ml-auto inline-flex w-fit shrink-0 items-center justify-center gap-1 font-sans text-sm font-medium leading-none whitespace-nowrap text-black/60 select-none">⌫</kbd>
   </div>
 </div>`,
   sourceItem: `<MenuItem icon={<Pin size={14} />}>Pin</MenuItem>`,
@@ -117,8 +117,8 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ContextMenuShortcut",
-    type: "HTML span attributes",
-    description: "Right-aligned shortcut slot composed inside ContextMenuItem.",
+    type: "Kbd props",
+    description: "Right-aligned keyboard hint composed inside ContextMenuItem.",
   },
   {
     name: "ContextMenuSeparator",
@@ -265,7 +265,7 @@ function ContextMenuDoc() {
             <div className={PREVIEW_ITEM_CLASS}>
               <Trash2 />
               <span className="min-w-0 flex-1 truncate">Delete</span>
-              <span className="ml-auto shrink-0 text-black/60">⌫</span>
+              <ContextMenuShortcut>⌫</ContextMenuShortcut>
             </div>
           </div>
         </Example>
