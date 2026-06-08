@@ -47,11 +47,11 @@ const SNIPPETS = {
 } from "@slock/ui";
 
 <BottomSheet>
-  <BottomSheetTrigger render={<Button tone="yellow" />}>Open sheet</BottomSheetTrigger>
+  <BottomSheetTrigger render={<Button variant="primary" />}>Open sheet</BottomSheetTrigger>
   <BottomSheetContent>
     <BottomSheetClose
       render={
-        <Button tone="white" size="icon-sm" aria-label="Close" className="absolute top-3 right-3" />
+        <Button variant="default" size="icon-sm" aria-label="Close" className="absolute top-3 right-3" />
       }
     >
       <X />
@@ -63,8 +63,8 @@ const SNIPPETS = {
       </BottomSheetDescription>
     </BottomSheetHeader>
     <BottomSheetFooter>
-      <BottomSheetClose render={<Button tone="red" />}>Leave</BottomSheetClose>
-      <BottomSheetClose render={<Button tone="white" />}>Cancel</BottomSheetClose>
+      <BottomSheetClose render={<Button variant="destructive" />}>Leave</BottomSheetClose>
+      <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
     </BottomSheetFooter>
   </BottomSheetContent>
 </BottomSheet>`,
@@ -76,8 +76,8 @@ const SNIPPETS = {
     </BottomSheetDescription>
   </BottomSheetHeader>
   <BottomSheetFooter>
-    <Button tone="red">Leave</Button>
-    <Button tone="white">Cancel</Button>
+    <Button variant="destructive">Leave</Button>
+    <Button variant="default">Cancel</Button>
   </BottomSheetFooter>
 </BottomSheetContent>`,
   currentBottom: `<BottomSheetContent>
@@ -88,8 +88,8 @@ const SNIPPETS = {
     </BottomSheetDescription>
   </BottomSheetHeader>
   <BottomSheetFooter>
-    <BottomSheetClose render={<Button tone="red" />}>Leave</BottomSheetClose>
-    <BottomSheetClose render={<Button tone="white" />}>Cancel</BottomSheetClose>
+    <BottomSheetClose render={<Button variant="destructive" />}>Leave</BottomSheetClose>
+    <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
   </BottomSheetFooter>
 </BottomSheetContent>`,
 } as const;
@@ -129,8 +129,8 @@ function BottomSheetSurfacePreview() {
             <div className="text-sm text-black/60">You can rejoin anytime from the directory.</div>
           </div>
           <div className="mt-auto flex flex-col gap-2 p-4">
-            <Button tone="red">Leave</Button>
-            <Button tone="white">Cancel</Button>
+            <Button variant="destructive">Leave</Button>
+            <Button variant="default">Cancel</Button>
           </div>
         </div>
       </div>
@@ -181,12 +181,14 @@ function BottomSheetDoc() {
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <BottomSheet open={open} onOpenChange={setOpen}>
-              <BottomSheetTrigger render={<Button tone="yellow" />}>Open sheet</BottomSheetTrigger>
+              <BottomSheetTrigger render={<Button variant="primary" />}>
+                Open sheet
+              </BottomSheetTrigger>
               <BottomSheetContent>
                 <BottomSheetClose
                   render={
                     <Button
-                      tone="white"
+                      variant="default"
                       size="icon-sm"
                       aria-label="Close"
                       className="absolute top-3 right-3"
@@ -202,8 +204,10 @@ function BottomSheetDoc() {
                   </BottomSheetDescription>
                 </BottomSheetHeader>
                 <BottomSheetFooter>
-                  <BottomSheetClose render={<Button tone="red" />}>Leave</BottomSheetClose>
-                  <BottomSheetClose render={<Button tone="white" />}>Cancel</BottomSheetClose>
+                  <BottomSheetClose render={<Button variant="destructive" />}>
+                    Leave
+                  </BottomSheetClose>
+                  <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
                 </BottomSheetFooter>
               </BottomSheetContent>
             </BottomSheet>

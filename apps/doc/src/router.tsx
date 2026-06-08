@@ -6,7 +6,8 @@ export function getRouter() {
     routeTree,
     scrollRestoration: true,
     defaultPreload: "intent",
-    defaultPreloadStaleTime: 0,
+    defaultStaleTime: Number.POSITIVE_INFINITY,
+    defaultPreloadStaleTime: Number.POSITIVE_INFINITY,
   });
 
   return router;

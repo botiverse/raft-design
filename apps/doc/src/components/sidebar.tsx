@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { StatusBadge } from "./status-badge.tsx";
 
@@ -546,18 +546,21 @@ type PlannedItem = {
 };
 
 function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
+  const location = useLocation();
+  const href = `${to}${hash ? `#${hash}` : ""}`;
+  const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
+
   return (
-    <Link
-      to={to}
-      hash={hash}
-      // Match the hash too, so anchor sub-links don't all light up on the same page.
-      activeOptions={{ includeHash: true }}
-      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
-      activeProps={{ className: "bg-gray-100 font-medium text-gray-900" }}
+    <a
+      href={href}
+      aria-current={isActive ? "page" : undefined}
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-gray-100 hover:text-gray-900 ${
+        isActive ? "bg-gray-100 font-medium text-gray-900" : "text-gray-600"
+      }`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
-    </Link>
+    </a>
   );
 }
 
@@ -592,7 +595,10 @@ function NavItemBadge({ item }: { item: NavItem }) {
 }
 
 function MigratedLink({ to, label, hash, target }: MigratedItem) {
+  const location = useLocation();
   const [tooltip, setTooltip] = useState<{ left: number; top: number } | null>(null);
+  const href = `${to}${hash ? `#${hash}` : ""}`;
+  const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
 
   const showTooltip = (element: HTMLElement) => {
     const rect = element.getBoundingClientRect();
@@ -604,11 +610,11 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
 
   return (
     <>
-      <Link
-        to={to}
-        hash={hash}
+      <a
+        href={href}
         title={`${label} migrated to ${target}`}
         aria-label={`${label} migrated to ${target}`}
+        aria-current={isActive ? "page" : undefined}
         onMouseEnter={(event) => showTooltip(event.currentTarget)}
         onMouseMove={(event) => showTooltip(event.currentTarget)}
         onMouseLeave={() => setTooltip(null)}
@@ -617,10 +623,12 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 line-through decoration-gray-400 decoration-2 transition-colors hover:bg-gray-100 hover:text-gray-700"
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm line-through decoration-gray-400 decoration-2 transition-colors hover:bg-gray-100 hover:text-gray-700 ${
+          isActive ? "bg-gray-100 font-medium text-gray-700" : "text-gray-400"
+        }`}
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
-      </Link>
+      </a>
       {tooltip
         ? createPortal(
             <span
@@ -797,12 +805,12 @@ function PriorityBadge({ priority }: { priority: PlannedPriority }) {
 export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <Link to="/" className="flex items-center gap-2 text-gray-900">
+      <a href="/" className="flex items-center gap-2 text-gray-900">
         <img src="/favicon-32x32.png" alt="" className="size-5 shrink-0 rounded-sm" />
         <span className="text-sm font-semibold leading-tight tracking-tight">
           Slock Design System
         </span>
-      </Link>
+      </a>
       <nav className="mt-8 space-y-7">
         <ul className="space-y-1">
           <li>

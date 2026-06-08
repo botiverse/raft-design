@@ -69,7 +69,7 @@ const SNIPPETS = {
 } from "@slock/ui";
 
 <Lightbox>
-  <LightboxTrigger render={<Button tone="cyan" />}>Open lightbox</LightboxTrigger>
+  <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
   <LightboxContent className="flex flex-col">
     <LightboxHeader>
       <div className="flex h-14 items-center gap-3 px-4">
@@ -403,7 +403,7 @@ function LightboxDoc() {
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
-              <LightboxTrigger render={<Button tone="cyan" />}>Open lightbox</LightboxTrigger>
+              <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
               <LightboxContent className="flex flex-col" data-testid="lightbox-demo">
                 <LightboxHeader>
                   <div className="flex h-14 items-center gap-3 px-4">

@@ -19,6 +19,75 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-information: var(--information-default);
+  --color-information-default: var(--information-default);
+  --color-information-soft: var(--information-soft);
+  --color-information-foreground: var(--information-foreground);
+  --color-information-border: var(--information-border);
+  --color-muted: var(--muted-default);
+  --color-muted-default: var(--muted-default);
+  --color-muted-soft: var(--muted-soft);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted-border: var(--muted-border);
+  --color-success: var(--success-default);
+  --color-success-default: var(--success-default);
+  --color-success-soft: var(--success-soft);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-border: var(--success-border);
+  --color-warning: var(--warning-default);
+  --color-warning-default: var(--warning-default);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-border: var(--warning-border);
+  --color-destructive: var(--destructive-default);
+  --color-destructive-default: var(--destructive-default);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-border: var(--destructive-border);
+  --color-accent: var(--accent-default);
+  --color-accent-default: var(--accent-default);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-border: var(--accent-border);
+  --color-neutral: var(--neutral-default);
+  --color-neutral-default: var(--neutral-default);
+  --color-neutral-soft: var(--neutral-soft);
+  --color-neutral-foreground: var(--neutral-foreground);
+  --color-neutral-border: var(--neutral-border);
+  --color-action-primary: var(--action-primary-default);
+  --color-action-primary-hover: var(--action-primary-hover);
+  --color-action-primary-foreground: var(--action-primary-foreground);
+  --color-action-primary-border: var(--action-primary-border);
+  --color-action-default: var(--action-default-default);
+  --color-action-default-hover: var(--action-default-hover);
+  --color-action-default-foreground: var(--action-default-foreground);
+  --color-action-default-border: var(--action-default-border);
+  --color-action-neutral-hover: var(--action-neutral-hover);
+  --color-action-information: var(--action-information-default);
+  --color-action-information-hover: var(--action-information-hover);
+  --color-action-information-foreground: var(--action-information-foreground);
+  --color-action-information-border: var(--action-information-border);
+  --color-action-muted: var(--action-muted-default);
+  --color-action-muted-hover: var(--action-muted-hover);
+  --color-action-muted-foreground: var(--action-muted-foreground);
+  --color-action-muted-border: var(--action-muted-border);
+  --color-action-accent: var(--action-accent-default);
+  --color-action-accent-hover: var(--action-accent-hover);
+  --color-action-accent-foreground: var(--action-accent-foreground);
+  --color-action-accent-border: var(--action-accent-border);
+  --color-action-success: var(--action-success-default);
+  --color-action-success-hover: var(--action-success-hover);
+  --color-action-success-foreground: var(--action-success-foreground);
+  --color-action-success-border: var(--action-success-border);
+  --color-action-warning: var(--action-warning-default);
+  --color-action-warning-hover: var(--action-warning-hover);
+  --color-action-warning-foreground: var(--action-warning-foreground);
+  --color-action-warning-border: var(--action-warning-border);
+  --color-action-destructive: var(--action-destructive-default);
+  --color-action-destructive-hover: var(--action-destructive-hover);
+  --color-action-destructive-foreground: var(--action-destructive-foreground);
+  --color-action-destructive-border: var(--action-destructive-border);
+  --color-action-link: var(--action-link);
   --color-border: var(--border);
   --color-ring: var(--ring);
 
@@ -27,10 +96,10 @@
 }
 
 /*
- * Brutal tone palette — fixed pastels carried over from the brutal app, used by
- * the Button `tone` variant (`bg-brutal-*`). Theme-neutral literals (not remapped
- * per [data-theme]): a tone is an explicit color pick, not a semantic role.
- * Authored in oklch (exact conversions of the source hex, shown in comments).
+ * Primitive brutal palette — fixed pastels carried over from the brutal app.
+ * Theme files map these raw colors onto semantic tone/action roles. Component
+ * recipes should prefer semantic utilities such as bg-action-primary or
+ * bg-information-soft; bg-brutal-* remains available for legacy and demos.
  */
 @theme {
   /* Base neutrals as oklch (exact equivalents of #000 / #fff), so every

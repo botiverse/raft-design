@@ -17,16 +17,15 @@ const TOC = [
 ] as const;
 
 const TODOS = [
-  "Refactor the color token model so Elegant can fully redefine the visual language without changing component code.",
+  "Migrate Badge, Banner, Status, and form validation styling from raw brutal utilities to semantic tone utilities.",
+  "Audit remaining component recipes for direct bg-brutal-* usage after each component has a semantic API.",
 ] as const;
 
-const EXECUTION_PLAN = [
-  "Use shadcn's semantic token organization as a reference, but optimize for slock-ui's two very different visual families rather than copying the full shadcn token list.",
-  "Keep primitive palettes separate from component semantics: brutal tones remain explicit color picks, and Elegant can introduce a completely different neutral or brand palette.",
-  "Define the core surface hierarchy first: background/foreground, surface/surface-foreground, panel/panel-foreground, and overlay/overlay-foreground.",
-  "Define action and state roles next: primary/primary-foreground, secondary/secondary-foreground, muted/muted-foreground, accent/accent-foreground, destructive/destructive-foreground, border, input, and ring.",
-  "Add component aliases only when a component needs a dedicated role: card can alias to surface, popover can alias to overlay, and sidebar or chart tokens should wait for app-shell or chart components.",
-  "Expose approved semantic roles through @theme inline as --color-* utilities after the role names are agreed, so component code consumes semantic roles instead of brutal or elegant primitives.",
+const TOKEN_MODEL = [
+  "Primitive palette: fixed color ingredients such as --color-brutal-yellow and --color-brutal-pink.",
+  "Semantic tones: reusable state roles such as --information-default, --success-soft, and --destructive-border.",
+  "Action tokens: button-specific roles such as --action-primary-default and --action-destructive-hover.",
+  "Component variants consume semantic or action utilities; raw brutal utilities are reserved for legacy, demos, and unfinished migrations.",
 ] as const;
 
 const THEME_CONTEXTS = [
@@ -58,6 +57,9 @@ const THEME_TOKENS = [
   { label: "foreground", token: "--foreground" },
   { label: "primary", token: "--primary" },
   { label: "secondary", token: "--secondary" },
+  { label: "information", token: "--information-default" },
+  { label: "destructive", token: "--destructive-default" },
+  { label: "action primary", token: "--action-primary-default" },
   { label: "border", token: "--border" },
   { label: "ring", token: "--ring" },
 ] as const;
@@ -100,6 +102,48 @@ const SEMANTIC_COLORS = [
     description: "Text and icon color intended to sit on secondary.",
   },
   {
+    name: "information default",
+    token: "--information-default",
+    utility: "bg-information-default",
+    description: "Informational emphasis. Brutal maps this to yellow; Elegant maps it to blue.",
+  },
+  {
+    name: "information soft",
+    token: "--information-soft",
+    utility: "bg-information-soft",
+    description: "Soft informational surface for banners, selected rows, and low-emphasis hints.",
+  },
+  {
+    name: "success default",
+    token: "--success-default",
+    utility: "bg-success-default",
+    description: "Successful or healthy state. Brutal maps this to lime.",
+  },
+  {
+    name: "warning default",
+    token: "--warning-default",
+    utility: "bg-warning-default",
+    description: "Warning state. Brutal maps this to orange to match existing Banner usage.",
+  },
+  {
+    name: "destructive default",
+    token: "--destructive-default",
+    utility: "bg-destructive-default",
+    description: "Dangerous or destructive state. Also feeds destructive Button variants.",
+  },
+  {
+    name: "action primary",
+    token: "--action-primary-default",
+    utility: "bg-action-primary",
+    description: "Primary Button fill. It maps through semantic tones instead of raw color names.",
+  },
+  {
+    name: "action default",
+    token: "--action-default-default",
+    utility: "bg-action-default",
+    description: "Default Button fill for neutral actions and cancel controls.",
+  },
+  {
     name: "border",
     token: "--border",
     utility: "border-border",
@@ -131,15 +175,23 @@ const SNIPPETS = {
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
+  --color-information-default: var(--information-default);
+  --color-information-soft: var(--information-soft);
+  --color-success-default: var(--success-default);
+  --color-warning-default: var(--warning-default);
+  --color-destructive-default: var(--destructive-default);
+  --color-action-primary: var(--action-primary-default);
+  --color-action-default: var(--action-default-default);
   --color-border: var(--border);
   --color-ring: var(--ring);
 }`,
   usage: `<div className="border border-border bg-background text-foreground">
-  <button className="bg-primary text-primary-foreground ring-ring">
+  <button className="bg-action-primary text-action-primary-foreground ring-ring">
     Confirm
   </button>
+  <div className="bg-information-soft text-information-foreground">
+    Informational hint
+  </div>
 </div>`,
 } as const;
 
@@ -157,9 +209,9 @@ function ColorsDoc() {
         <div className="space-y-5">
           <TodoList items={TODOS} />
           <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm font-semibold text-gray-900">Execution plan</p>
+            <p className="text-sm font-semibold text-gray-900">Token model</p>
             <ol className="mt-3 space-y-2 text-sm leading-relaxed text-gray-600">
-              {EXECUTION_PLAN.map((item, index) => (
+              {TOKEN_MODEL.map((item, index) => (
                 <li key={item} className="flex gap-3">
                   <span className="font-mono text-xs text-gray-400">{index + 1}</span>
                   <span>{item}</span>
@@ -168,9 +220,9 @@ function ColorsDoc() {
             </ol>
           </div>
           <Callout>
-            This is documentation-only for now. The goal is theme independence: Brutal and Elegant
-            can map the same semantic roles to completely different palettes while components keep
-            the same class names.
+            The first pass is wired into the theme files and Tailwind utilities. The next work is
+            component migration: Button consumes action tokens now, while status-style components
+            still need to move off raw brutal utilities.
           </Callout>
         </div>
       </DocSection>
@@ -207,8 +259,9 @@ function ColorsDoc() {
             ))}
           </div>
           <Callout>
-            Brutal tones are fixed palette colors, not semantic roles. Components such as{" "}
-            <code>Button</code> and <code>Badge</code> expose them through a <code>tone</code> prop.
+            Brutal tones are fixed palette colors, not semantic roles. New component recipes should
+            consume semantic utilities. Button keeps <code>tone</code> only as a deprecated
+            migration escape hatch.
           </Callout>
         </div>
       </DocSection>

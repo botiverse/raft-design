@@ -55,7 +55,7 @@ import { Inbox } from "lucide-react";
   <EmptyStateTitle>No channels yet</EmptyStateTitle>
   <EmptyStateDescription>Create your first channel to get started.</EmptyStateDescription>
   <EmptyStateActions>
-    <Button tone="yellow" size="sm">
+    <Button variant="primary" size="sm">
       <Plus />
       New channel
     </Button>
@@ -65,7 +65,7 @@ import { Inbox } from "lucide-react";
   icon={<Inbox size={36} />}
   title="No messages yet"
   description="Conversations you start will show up here."
-  action={<Button tone="yellow" size="sm">New channel</Button>}
+  action={<Button variant="primary" size="sm">New channel</Button>}
 />`,
   currentApi: `<EmptyState>
   <EmptyStateIcon>
@@ -74,7 +74,7 @@ import { Inbox } from "lucide-react";
   <EmptyStateTitle>No messages yet</EmptyStateTitle>
   <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
   <EmptyStateActions>
-    <Button tone="yellow" size="sm">New channel</Button>
+    <Button variant="primary" size="sm">New channel</Button>
   </EmptyStateActions>
 </EmptyState>`,
 } as const;
@@ -164,7 +164,7 @@ function EmptyStateDoc() {
             <EmptyStateTitle>No channels yet</EmptyStateTitle>
             <EmptyStateDescription>Create your first channel to get started.</EmptyStateDescription>
             <EmptyStateActions>
-              <Button tone="yellow" size="sm">
+              <Button variant="primary" size="sm">
                 <Plus />
                 New channel
               </Button>
@@ -206,7 +206,7 @@ function EmptyStatePreview() {
       <EmptyStateTitle>No messages yet</EmptyStateTitle>
       <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
       <EmptyStateActions>
-        <Button tone="yellow" size="sm">
+        <Button variant="primary" size="sm">
           <Plus />
           New channel
         </Button>
@@ -222,7 +222,7 @@ function LegacyEmptyStatePreview() {
       title="No messages yet"
       description="Conversations you start will show up here."
       action={
-        <Button tone="yellow" size="sm">
+        <Button variant="primary" size="sm">
           <Plus />
           New channel
         </Button>

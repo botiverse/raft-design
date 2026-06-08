@@ -6,7 +6,8 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vp dev --port 5173",
+    "dev": "portless run --name slock-ui vp dev",
+    "dev:app": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
     "test": "vp test run --config vitest.config.ts",
@@ -38,6 +39,7 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
     "jsdom": "^28.1.0",
+    "portless": "catalog:",
     "typescript": "^6.0.2",
     "vite": "catalog:",
     "vite-plus": "catalog:",
@@ -49,5 +51,9 @@
       "esbuild",
       "lightningcss"
     ]
+  },
+  "portless": {
+    "name": "slock-ui",
+    "script": "dev:app"
   }
 }

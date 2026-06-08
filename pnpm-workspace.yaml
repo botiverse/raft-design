@@ -23,6 +23,7 @@ catalog:
   shiki: ^4.1.0
   "@tanstack/react-hotkeys": ^0.10.0
   "@cloudflare/vite-plugin": ^1.40.0
+  portless: ^0.14.0
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
