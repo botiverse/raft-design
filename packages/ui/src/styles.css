@@ -54,6 +54,13 @@
   --color-neutral-soft: var(--neutral-soft);
   --color-neutral-foreground: var(--neutral-foreground);
   --color-neutral-border: var(--neutral-border);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-surface-muted-foreground: var(--surface-muted-foreground);
+  --color-surface-border: var(--surface-border);
+  --color-surface-border-subtle: var(--surface-border-subtle);
   --color-action-primary: var(--action-primary-default);
   --color-action-primary-hover: var(--action-primary-hover);
   --color-action-primary-foreground: var(--action-primary-foreground);
@@ -90,6 +97,10 @@
   --color-action-link: var(--action-link);
   --color-border: var(--border);
   --color-ring: var(--ring);
+
+  --shadow-surface-sm: var(--surface-shadow-sm);
+  --shadow-surface-md: var(--surface-shadow-md);
+  --shadow-surface-lg: var(--surface-shadow-lg);
 
   --font-display: var(--display-font);
   --font-mono: var(--mono-font);

@@ -43,6 +43,14 @@
   --neutral-foreground: oklch(0.21 0.006 285);
   --neutral-border: oklch(0.92 0.004 286);
 
+  --surface: var(--background);
+  --surface-muted: var(--neutral-soft);
+  --surface-elevated: var(--background);
+  --surface-foreground: var(--foreground);
+  --surface-muted-foreground: var(--muted-foreground);
+  --surface-border: var(--border);
+  --surface-border-subtle: var(--border);
+
   --action-primary-default: var(--primary);
   --action-primary-hover: oklch(0.27 0.006 285);
   --action-primary-foreground: var(--primary-foreground);
@@ -83,6 +91,9 @@
 
   --radius: 0.5rem;
   --shadow: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+  --surface-shadow-sm: var(--shadow);
+  --surface-shadow-md: 0 4px 12px -4px oklch(0 0 0 / 0.12);
+  --surface-shadow-lg: 0 10px 24px -12px oklch(0 0 0 / 0.18);
 
   --display-font: "Inter", system-ui, sans-serif;
   --mono-font: ui-monospace, monospace;

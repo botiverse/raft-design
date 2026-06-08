@@ -25,9 +25,9 @@ const conversationPreviewCard = tv({
     theme: {
       brutal: {
         root: [
-          "border-black/30 bg-white hover:border-black hover:shadow-brutal-sm",
-          "data-[state=active]:border-black data-[state=active]:bg-white data-[state=active]:[box-shadow:var(--shadow)]",
-          "data-[highlighted=true]:border-black data-[highlighted=true]:bg-brutal-cyan/25 data-[highlighted=true]:[box-shadow:var(--shadow-hover)]",
+          "border-surface-border/30 bg-surface hover:border-surface-border hover:[box-shadow:var(--surface-shadow-sm)]",
+          "data-[state=active]:border-surface-border data-[state=active]:bg-surface data-[state=active]:[box-shadow:var(--surface-shadow-sm)]",
+          "data-[highlighted=true]:border-surface-border data-[highlighted=true]:bg-information-default/25 data-[highlighted=true]:[box-shadow:var(--surface-shadow-md)]",
         ],
         channel: "text-black/50",
         author: "text-black",
@@ -40,7 +40,7 @@ const conversationPreviewCard = tv({
     },
     interactive: {
       true: {
-        root: "active:border-black active:shadow-brutal-sm",
+        root: "active:border-surface-border active:[box-shadow:var(--surface-shadow-sm)]",
       },
       false: {
         root: "cursor-default",

@@ -46,14 +46,14 @@ const listItem = tv({
     {
       theme: "brutal",
       selected: true,
-      class: { root: "border-black bg-brutal-cyan/15 shadow-[var(--shadow)]" },
+      class: { root: "border-surface-border bg-information-default/15 shadow-surface-sm" },
     },
-    { theme: "brutal", selected: false, class: { root: "border-black/30 bg-white" } },
+    { theme: "brutal", selected: false, class: { root: "border-surface-border/30 bg-surface" } },
     {
       theme: "brutal",
       selected: false,
       interactive: true,
-      class: { root: "hover:border-black hover:shadow-[var(--shadow)]" },
+      class: { root: "hover:border-surface-border hover:[box-shadow:var(--surface-shadow-sm)]" },
     },
   ],
   defaultVariants: {

@@ -11,20 +11,21 @@ import { highlightSnippets } from "#/lib/highlight.ts";
 const TOC = [
   { id: "todo", title: "Todo" },
   { id: "themes", title: "Theme elevation" },
-  { id: "brutal", title: "Levels" },
+  { id: "surface", title: "Surface elevation" },
+  { id: "scale", title: "Brutal scale" },
   { id: "radius", title: "Radius" },
   { id: "usage", title: "Usage" },
 ] as const;
 
 const TODOS = [
-  "Rename shadow tokens into a two-layer semantic scale without changing behavior.",
+  "Audit component recipes and migrate eligible container surfaces from raw shadow variables to semantic surface elevation tokens.",
 ] as const;
 
 const EXECUTION_PLAN = [
-  "Define raw elevation scale tokens first, following shadcn-style organization: shadow-xs, shadow-sm, shadow-md, shadow-lg, shadow-xl.",
-  "Define semantic alias tokens second: shadow-card, shadow-hover, shadow-active, shadow-panel, and similar component or state roles.",
-  "Map the semantic aliases to the raw scale tokens per theme so brutal and elegant can share names but resolve to different physical styles.",
-  "Update component usage to reference semantic aliases, keeping raw scale tokens available for low-level composition.",
+  "Keep the brutal source shadow scale stable: --shadow, --shadow-hover, --shadow-active, and --shadow-lg.",
+  "Use surface elevation tokens for reusable container primitives: --surface-shadow-sm, --surface-shadow-md, and --surface-shadow-lg.",
+  "Map surface elevation per theme so brutal and elegant can share names but resolve to different physical styles.",
+  "Keep the source scale available for low-level composition and legacy comparisons.",
 ] as const;
 
 const THEME_ELEVATION = [
@@ -33,7 +34,7 @@ const THEME_ELEVATION = [
     theme: "brutal",
     mode: undefined,
     status: undefined,
-    token: "--shadow",
+    token: "--surface-shadow-sm",
     radius: "0px",
     description: "Hard offset shadow and square corners make elevation graphic and tactile.",
   },
@@ -42,7 +43,7 @@ const THEME_ELEVATION = [
     theme: "elegant",
     mode: undefined,
     status: "in-progress",
-    token: "--shadow",
+    token: "--surface-shadow-sm",
     radius: "0.5rem",
     description: "A quiet hairline lift supports low-noise product surfaces.",
   },
@@ -51,13 +52,13 @@ const THEME_ELEVATION = [
     theme: "elegant",
     mode: "dark",
     status: "in-progress",
-    token: "--shadow",
+    token: "--surface-shadow-sm",
     radius: "0.5rem",
     description: "Dark elegant keeps the same soft geometry and relies more on border contrast.",
   },
 ] as const;
 
-const BRUTAL_SHADOWS = [
+const BRUTAL_SHADOW_SCALE = [
   {
     name: "resting",
     token: "--shadow",
@@ -65,22 +66,43 @@ const BRUTAL_SHADOWS = [
     description: "Default hard offset shadow for controls and cards.",
   },
   {
-    name: "hover",
+    name: "raised",
     token: "--shadow-hover",
     value: "4px 4px 0px oklch(0.18 0.006 25)",
-    description: "Raised interaction tier for hover or expanded emphasis.",
+    description: "Raised source tier. Historically exposed as the hover shadow.",
   },
   {
-    name: "active",
+    name: "pressed",
     token: "--shadow-active",
     value: "1px 1px 0px oklch(0.18 0.006 25)",
-    description: "Pressed tier for active states.",
+    description: "Pressed source tier. Historically exposed as the active shadow.",
   },
   {
-    name: "large",
+    name: "elevated",
     token: "--shadow-lg",
     value: "6px 6px 0px oklch(0.18 0.006 25)",
-    description: "Largest offset tier for raised panels such as BottomSheet.",
+    description: "Largest source tier for sheets and prominent panels.",
+  },
+] as const;
+
+const SURFACE_ELEVATION = [
+  {
+    name: "sm",
+    token: "--surface-shadow-sm",
+    utility: "shadow-surface-sm",
+    description: "Subtle container elevation for resting cards and framed content.",
+  },
+  {
+    name: "md",
+    token: "--surface-shadow-md",
+    utility: "shadow-surface-md",
+    description: "Raised container elevation for hover, expanded, or emphasized states.",
+  },
+  {
+    name: "lg",
+    token: "--surface-shadow-lg",
+    utility: "shadow-surface-lg",
+    description: "Largest reusable container elevation for sheets and prominent panels.",
   },
 ] as const;
 
@@ -102,15 +124,9 @@ const RADIUS_TOKENS = [
 ] as const;
 
 const SNIPPETS = {
-  usage: `<div
-  className="border border-border bg-background"
-  style={{ borderRadius: "var(--radius)", boxShadow: "var(--shadow)" }}
-/>
+  usage: `<div className="rounded-md border border-surface-border bg-surface shadow-surface-sm" />
 
-<button
-  className="border border-border bg-primary text-primary-foreground"
-  style={{ boxShadow: "var(--shadow-hover)" }}
->
+<button className="rounded-md border border-surface-border bg-primary text-primary-foreground shadow-surface-sm hover:shadow-surface-md active:shadow-none">
   Raised
 </button>`,
 } as const;
@@ -140,9 +156,9 @@ function ShadowsDoc() {
             </ol>
           </div>
           <Callout>
-            This is documentation-only for now. Do not rename <code>--shadow</code>,{" "}
-            <code>--shadow-hover</code>, <code>--shadow-active</code>, or <code>--shadow-lg</code>{" "}
-            until the scale and alias layer are agreed.
+            Surface elevation is now wired into theme files and Tailwind utilities. Keep the brutal
+            source scale stable for legacy parity; use surface elevation for new reusable
+            containers.
           </Callout>
         </div>
       </DocSection>
@@ -155,15 +171,24 @@ function ShadowsDoc() {
             ))}
           </div>
           <Callout>
-            <code>--shadow</code> is a semantic elevation token. The same component can keep one
-            class or style hook while brutal and elegant render very different physical behavior.
+            <code>--surface-shadow-sm/md/lg</code> are reusable container elevation tokens. The same
+            component can keep one class while brutal and elegant render different physical
+            behavior.
           </Callout>
         </div>
       </DocSection>
 
-      <DocSection id="brutal" title="Levels">
+      <DocSection id="surface" title="Surface elevation">
         <div className="grid gap-4 sm:grid-cols-2">
-          {BRUTAL_SHADOWS.map((shadow) => (
+          {SURFACE_ELEVATION.map((shadow) => (
+            <SurfaceElevationCard key={shadow.token} shadow={shadow} />
+          ))}
+        </div>
+      </DocSection>
+
+      <DocSection id="scale" title="Brutal shadow scale">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {BRUTAL_SHADOW_SCALE.map((shadow) => (
             <ShadowCard key={shadow.token} theme="brutal" shadow={shadow} />
           ))}
         </div>
@@ -219,11 +244,11 @@ function ElevationThemeCard({ theme }: { theme: (typeof THEME_ELEVATION)[number]
           <div
             className="flex h-20 w-32 items-center justify-center border text-sm font-semibold"
             style={{
-              background: "var(--secondary)",
-              borderColor: "var(--border)",
+              background: "var(--surface)",
+              borderColor: "var(--surface-border-subtle)",
               borderRadius: "var(--radius)",
-              boxShadow: "var(--shadow)",
-              color: "var(--secondary-foreground)",
+              boxShadow: "var(--surface-shadow-sm)",
+              color: "var(--surface-foreground)",
             }}
           >
             surface
@@ -239,7 +264,43 @@ function ElevationThemeCard({ theme }: { theme: (typeof THEME_ELEVATION)[number]
   );
 }
 
-type ShadowToken = (typeof BRUTAL_SHADOWS)[number];
+type ShadowToken = (typeof BRUTAL_SHADOW_SCALE)[number];
+
+function SurfaceElevationCard({ shadow }: { shadow: (typeof SURFACE_ELEVATION)[number] }) {
+  return (
+    <div className="rounded-lg border border-gray-200 bg-white p-4">
+      <div className="grid gap-4 lg:grid-cols-3">
+        {THEME_ELEVATION.map((theme) => (
+          <div
+            key={theme.label}
+            data-theme={theme.theme}
+            className={theme.mode === "dark" ? "dark" : undefined}
+          >
+            <div className="flex h-24 items-center justify-center rounded-md bg-gray-50">
+              <div
+                className="flex h-14 w-24 items-center justify-center border text-xs font-semibold"
+                style={{
+                  background: "var(--surface)",
+                  borderColor: "var(--surface-border-subtle)",
+                  borderRadius: "var(--radius)",
+                  boxShadow: `var(${shadow.token})`,
+                  color: "var(--surface-foreground)",
+                  fontFamily: "var(--display-font)",
+                }}
+              >
+                {theme.label}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-sm font-semibold text-gray-900">{shadow.name}</p>
+      <p className="mt-1 font-mono text-xs text-gray-500">{shadow.token}</p>
+      <p className="mt-1 font-mono text-xs text-gray-500">{shadow.utility}</p>
+      <p className="mt-3 text-sm leading-relaxed text-gray-600">{shadow.description}</p>
+    </div>
+  );
+}
 
 function ShadowCard({ theme, shadow }: { theme: "brutal" | "elegant"; shadow: ShadowToken }) {
   return (

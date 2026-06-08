@@ -279,7 +279,8 @@ function ListItemDoc() {
           </li>
           <li>brutal styling reproduced 1:1 (selected cyan fill, hover border + shadow)</li>
           <li>
-            source <code>shadow-brutal-sm</code> maps to the brutal <code>--shadow</code> token
+            current surface frame uses <code>--surface</code>, <code>--surface-border</code>, and{" "}
+            <code>--surface-shadow-sm</code> without changing the brutal source values
           </li>
           <li>
             current implementation exposes compound slots instead of adding business props for

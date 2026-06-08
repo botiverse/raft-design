@@ -43,6 +43,14 @@
   --neutral-foreground: oklch(0.18 0.006 25);
   --neutral-border: oklch(0.18 0.006 25);
 
+  --surface: oklch(1 0 0);
+  --surface-muted: oklab(0 0 0 / 0.05);
+  --surface-elevated: oklch(1 0 0);
+  --surface-foreground: var(--foreground);
+  --surface-muted-foreground: oklch(0.18 0.006 25 / 0.5);
+  --surface-border: oklch(0 0 0);
+  --surface-border-subtle: oklch(0.18 0.006 25 / 0.15);
+
   --action-primary-default: var(--primary);
   --action-primary-hover: var(--action-primary-default);
   --action-primary-foreground: var(--primary-foreground);
@@ -90,6 +98,9 @@
   /* Largest offset tier (brutal app's shadow-brutal-lg) — used by raised
      surfaces like the BottomSheet card. */
   --shadow-lg: 6px 6px 0px oklch(0.18 0.006 25);
+  --surface-shadow-sm: var(--shadow);
+  --surface-shadow-md: var(--shadow-hover);
+  --surface-shadow-lg: var(--shadow-lg);
 
   --display-font: "Space Grotesk", system-ui, sans-serif;
   --mono-font: "Space Mono", ui-monospace, monospace;

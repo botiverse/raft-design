@@ -12,6 +12,7 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "themes", title: "Theme matrix" },
   { id: "semantic", title: "Semantic roles" },
+  { id: "surface", title: "Surface roles" },
   { id: "tones", title: "Brutal tones" },
   { id: "usage", title: "Usage" },
 ] as const;
@@ -25,7 +26,8 @@ const TOKEN_MODEL = [
   "Primitive palette: fixed color ingredients such as --color-brutal-yellow and --color-brutal-pink.",
   "Semantic tones: reusable state roles such as --information-default, --success-soft, and --destructive-border.",
   "Action tokens: button-specific roles such as --action-primary-default and --action-destructive-hover.",
-  "Component variants consume semantic or action utilities; raw brutal utilities are reserved for legacy, demos, and unfinished migrations.",
+  "Surface roles: reusable container colors such as --surface, --surface-muted, and --surface-elevated.",
+  "Component variants consume semantic, action, or surface utilities; raw brutal utilities are reserved for legacy, demos, and unfinished migrations.",
 ] as const;
 
 const THEME_CONTEXTS = [
@@ -60,11 +62,20 @@ const THEME_TOKENS = [
   { label: "information", token: "--information-default" },
   { label: "destructive", token: "--destructive-default" },
   { label: "action primary", token: "--action-primary-default" },
+  { label: "surface", token: "--surface" },
+  { label: "elevated surface", token: "--surface-elevated" },
   { label: "border", token: "--border" },
   { label: "ring", token: "--ring" },
 ] as const;
 
-const SEMANTIC_COLORS = [
+type ColorDocToken = {
+  name: string;
+  token: string;
+  utility: string;
+  description: string;
+};
+
+const SEMANTIC_COLORS: readonly ColorDocToken[] = [
   {
     name: "background",
     token: "--background",
@@ -157,6 +168,51 @@ const SEMANTIC_COLORS = [
   },
 ] as const;
 
+const SURFACE_COLORS: readonly ColorDocToken[] = [
+  {
+    name: "surface",
+    token: "--surface",
+    utility: "bg-surface",
+    description: "Default content container fill.",
+  },
+  {
+    name: "surface muted",
+    token: "--surface-muted",
+    utility: "bg-surface-muted",
+    description: "Low-emphasis container fill for unavailable, nested, or quiet surfaces.",
+  },
+  {
+    name: "surface elevated",
+    token: "--surface-elevated",
+    utility: "bg-surface-elevated",
+    description: "Raised container fill for floating or layered content.",
+  },
+  {
+    name: "surface foreground",
+    token: "--surface-foreground",
+    utility: "text-surface-foreground",
+    description: "Readable text on default surface fills.",
+  },
+  {
+    name: "surface muted foreground",
+    token: "--surface-muted-foreground",
+    utility: "text-surface-muted-foreground",
+    description: "Secondary text on surface primitives.",
+  },
+  {
+    name: "surface border",
+    token: "--surface-border",
+    utility: "border-surface-border",
+    description: "Strong surface frame. Brutal maps this to black ink.",
+  },
+  {
+    name: "surface border subtle",
+    token: "--surface-border-subtle",
+    utility: "border-surface-border-subtle",
+    description: "Quiet preview frame, matching the current PreviewShell resting border.",
+  },
+] as const;
+
 const BRUTAL_TONES = [
   { name: "yellow", token: "--color-brutal-yellow", value: "oklch(0.8829 0.1623 91.9)" },
   { name: "pink", token: "--color-brutal-pink", value: "oklch(0.7489 0.1623 0.7)" },
@@ -182,9 +238,19 @@ const SNIPPETS = {
   --color-destructive-default: var(--destructive-default);
   --color-action-primary: var(--action-primary-default);
   --color-action-default: var(--action-default-default);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-border-subtle: var(--surface-border-subtle);
   --color-border: var(--border);
   --color-ring: var(--ring);
 }`,
+  surface: `<div className="border border-surface-border bg-surface text-surface-foreground">
+  <div className="border border-surface-border-subtle bg-surface-muted text-surface-muted-foreground">
+    Muted nested surface
+  </div>
+  <div className="border border-surface-border bg-surface-elevated">Elevated surface</div>
+</div>`,
   usage: `<div className="border border-border bg-background text-foreground">
   <button className="bg-action-primary text-action-primary-foreground ring-ring">
     Confirm
@@ -247,6 +313,22 @@ function ColorsDoc() {
             Semantic color utilities emit <code>var(--token)</code> references, so one component can
             move between <code>brutal</code>, <code>elegant</code>, and elegant dark mode without
             changing class names.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="surface" title="Surface roles">
+        <div className="space-y-5">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {SURFACE_COLORS.map((color) => (
+              <ColorTokenCard key={color.token} color={color} />
+            ))}
+          </div>
+          <CodeBlock html={code.surface} />
+          <Callout>
+            Surface tokens describe reusable container fills and borders. Interaction states such as
+            selected, highlighted, hover, and active stay in component recipes and semantic intent
+            tokens.
           </Callout>
         </div>
       </DocSection>
@@ -328,7 +410,7 @@ function ThemeMatrixCard({ theme }: { theme: (typeof THEME_CONTEXTS)[number] }) 
   );
 }
 
-function ColorTokenCard({ color }: { color: (typeof SEMANTIC_COLORS)[number] }) {
+function ColorTokenCard({ color }: { color: ColorDocToken }) {
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
       <div className="flex items-start gap-3 p-4">

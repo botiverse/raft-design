@@ -270,7 +270,8 @@ function ConversationPreviewCardDoc() {
       overview={
         <Differences from="ConversationPreviewCard">
           <li>
-            source styling is preserved, including hover, active, and focused shadow utilities
+            source styling is preserved while the frame now maps through surface and information
+            tokens
           </li>
           <li>
             app-domain markdown and avatar resolution move to callers; the component exposes slots
