@@ -17,7 +17,11 @@ export const badge = tv({
         root: ["border border-black"],
       },
       elegant: {
-        root: ["border border-border"],
+        root: [
+          "gap-1.5 rounded-full border-transparent px-3 py-0.5",
+          "[&:has(svg)]:px-2.5",
+          "text-[11px] font-medium leading-3 tracking-[0.22px]",
+        ],
       },
     },
     variant: {
@@ -61,6 +65,48 @@ export const badge = tv({
     variant: "default",
     uppercase: false,
   },
+  compoundVariants: [
+    {
+      theme: "elegant",
+      variant: "default",
+      class: { root: "bg-[var(--badge-default)] text-[var(--badge-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "muted",
+      class: { root: "bg-[var(--badge-default)] text-[var(--badge-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "primary",
+      class: { root: "bg-[var(--badge-primary)] text-[var(--badge-primary-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "information",
+      class: { root: "bg-[var(--badge-information)] text-[var(--badge-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "accent",
+      class: { root: "bg-[var(--badge-accent)] text-[var(--badge-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "warning",
+      class: { root: "bg-[var(--badge-warning)] text-[var(--badge-warning-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "success",
+      class: { root: "bg-[var(--badge-success)] text-[var(--badge-foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: "destructive",
+      class: { root: "bg-[var(--badge-destructive)] text-[var(--badge-foreground)]" },
+    },
+  ],
 });
 
 export type BadgeProps = useRender.ComponentProps<"span"> &

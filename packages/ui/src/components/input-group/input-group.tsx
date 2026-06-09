@@ -40,8 +40,26 @@ const inputGroup = tv({
         addon: ["text-black/50"],
         slugAddon: ["border-black bg-brutal-yellow/30 text-black/70"],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        root: [
+          "overflow-hidden rounded-[10px] border border-[var(--input-border)] bg-[var(--input-background)]",
+          "text-[var(--input-foreground)] transition duration-200 ease-out",
+          "hover:border-transparent hover:bg-[var(--input-hover-background)]",
+          "has-[[data-slot=input-group-control]:focus]:border-[var(--input-focus-border)] has-[[data-slot=input-group-control]:focus]:bg-[var(--input-background)]",
+          "has-[[data-slot=input-group-control]:disabled]:border-transparent has-[[data-slot=input-group-control]:disabled]:bg-[var(--input-disabled-background)]",
+        ],
+        addon: [
+          "text-[var(--input-icon)] transition duration-200 ease-out",
+          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-[var(--input-foreground)]",
+          "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-[var(--input-disabled-foreground)]",
+        ],
+        control: [
+          "h-10 min-w-0 bg-transparent px-0 text-sm outline-none",
+          "text-[var(--input-foreground)] placeholder:text-[var(--input-placeholder)]",
+          "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
+          "disabled:text-[var(--input-disabled-foreground)] disabled:placeholder:text-[var(--input-disabled-foreground)]",
+        ],
+      },
     },
     lift: {
       true: {},
@@ -131,7 +149,8 @@ export const InputGroupAddon = Object.assign(InputGroupAddonRoot, {
 export type InputGroupInputProps = Omit<InputProps, "unstyled">;
 
 export function InputGroupInput({ className, ...props }: InputGroupInputProps) {
-  const { control } = inputGroup();
+  const theme = useTheme();
+  const { control } = inputGroup({ theme });
   return (
     <Input unstyled data-slot="input-group-control" className={control({ className })} {...props} />
   );

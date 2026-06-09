@@ -15,7 +15,6 @@ const input = tv({
   variants: {
     theme: {
       brutal: {},
-      // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
     unstyled: {
@@ -36,6 +35,20 @@ const input = tv({
           "border-2 border-black bg-white",
           "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
           "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      unstyled: false,
+      class: {
+        root: [
+          "h-10 rounded-[10px] border border-[var(--input-border)] bg-[var(--input-background)]",
+          "px-3 text-sm text-[var(--input-foreground)] transition duration-200 ease-out",
+          "placeholder:text-[var(--input-placeholder)]",
+          "hover:border-transparent hover:bg-[var(--input-hover-background)]",
+          "focus:border-[var(--input-focus-border)] focus:bg-[var(--input-background)]",
+          "disabled:border-transparent disabled:bg-[var(--input-disabled-background)] disabled:text-[var(--input-disabled-foreground)] disabled:placeholder:text-[var(--input-disabled-foreground)]",
         ],
       },
     },

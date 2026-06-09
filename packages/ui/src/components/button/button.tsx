@@ -26,7 +26,11 @@ export const buttonVariants = tv({
         root: ["border-2 font-bold"],
       },
       elegant: {
-        root: ["border font-medium", "active:not-aria-[haspopup]:scale-[0.98]"],
+        root: [
+          "rounded-[4px] border font-medium shadow-none",
+          "disabled:shadow-none",
+          "active:not-aria-[haspopup]:scale-[0.98]",
+        ],
       },
     },
     variant: {
@@ -145,6 +149,43 @@ export const buttonVariants = tv({
     size: "sm",
   },
   compoundVariants: [
+    {
+      theme: "elegant",
+      variant: "default",
+      class: {
+        root: [
+          "border-[var(--button-default-border)] bg-[var(--button-default-default)] text-[var(--button-default-foreground)]",
+          "hover:border-[var(--button-default-hover)] hover:bg-[var(--button-default-hover)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "ghost",
+      class: {
+        root: [
+          "text-[var(--button-ghost-foreground)]",
+          "hover:border-transparent hover:bg-[var(--button-ghost-hover)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "outline",
+      class: {
+        root: [
+          "hover:border-[var(--button-outline-hover-border)]",
+          "hover:bg-[var(--button-outline-hover)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "destructive",
+      class: {
+        root: "border-transparent hover:border-transparent",
+      },
+    },
     {
       theme: "brutal",
       variant: [

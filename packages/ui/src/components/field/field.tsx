@@ -18,8 +18,12 @@ const field = tv({
         description: ["text-black/50"],
         error: ["text-brutal-red"],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        root: ["gap-2"],
+        label: ["font-medium text-[var(--input-foreground)]"],
+        description: ["tracking-[0.01em] text-[var(--input-placeholder)]"],
+        error: ["font-medium text-destructive"],
+      },
     },
     size: {
       sm: { label: "text-xs" },
@@ -36,14 +40,16 @@ const field = tv({
 export type FieldProps = StyledProps<BaseField.Root.Props>;
 
 export function Field({ className, ...props }: FieldProps) {
-  const { root } = field();
+  const theme = useTheme();
+  const { root } = field({ theme });
   return <BaseField.Root data-slot="field" className={root({ className })} {...props} />;
 }
 
 export type FieldItemProps = StyledProps<BaseField.Item.Props>;
 
 export function FieldItem({ className, ...props }: FieldItemProps) {
-  const { item } = field();
+  const theme = useTheme();
+  const { item } = field({ theme });
   return <BaseField.Item data-slot="field-item" className={item({ className })} {...props} />;
 }
 
@@ -68,8 +74,8 @@ export function FieldLabel({
   return (
     <BaseField.Label data-slot="field-label" className={label({ className })} {...props}>
       {children}
-      {required ? <span className="ml-1 text-brutal-pink">*</span> : null}
-      {optional ? <span className="ml-1 normal-case text-black/40">(optional)</span> : null}
+      {required ? <span className="ml-1 text-accent">*</span> : null}
+      {optional ? <span className="ml-1 normal-case text-muted-foreground">(optional)</span> : null}
     </BaseField.Label>
   );
 }

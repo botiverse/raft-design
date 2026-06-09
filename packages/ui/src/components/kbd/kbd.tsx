@@ -17,7 +17,10 @@ const kbd = tv({
         root: ["text-black/60"],
       },
       elegant: {
-        root: ["text-secondary-foreground/60"],
+        root: [
+          "h-5 rounded bg-[var(--kbd-background)] px-1.5 text-[10px]",
+          "font-medium text-[var(--kbd-foreground)] ring-1 ring-inset ring-[var(--kbd-border)]",
+        ],
       },
     },
   },

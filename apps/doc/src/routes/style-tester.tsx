@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, CheckCircle, FileText, Inbox, Plus, Settings, TriangleAlert } from "lucide-react";
+import { Check, CheckCircle, FileText, Inbox, Plus, Settings, X } from "lucide-react";
 import {
   Badge,
   Banner,
@@ -132,6 +132,19 @@ const STYLE_SHADE_SCALES = {
       "#881337",
       "#4c0519",
     ],
+    accent: [
+      "#fdf2f8",
+      "#fce7f3",
+      "#fbcfe8",
+      "#f9a8d4",
+      "#f472b6",
+      "#fe7da8",
+      "#db2777",
+      "#be185d",
+      "#9d174d",
+      "#831843",
+      "#500724",
+    ],
   },
   elegant: {
     primary: [
@@ -211,6 +224,19 @@ const STYLE_SHADE_SCALES = {
       "#991b1b",
       "#7f1d1d",
       "#450a0a",
+    ],
+    accent: [
+      "#fdf2f8",
+      "#fce7f3",
+      "#fbcfe8",
+      "#f9a8d4",
+      "#f472b6",
+      "#fe7da8",
+      "#db2777",
+      "#be185d",
+      "#9d174d",
+      "#831843",
+      "#500724",
     ],
   },
   "elegant-dark": {
@@ -292,6 +318,19 @@ const STYLE_SHADE_SCALES = {
       "#fee2e2",
       "#fef2f2",
     ],
+    accent: [
+      "#500724",
+      "#831843",
+      "#9d174d",
+      "#be185d",
+      "#db2777",
+      "#fe7da8",
+      "#f472b6",
+      "#f9a8d4",
+      "#fbcfe8",
+      "#fce7f3",
+      "#fdf2f8",
+    ],
   },
 } as const;
 
@@ -302,6 +341,7 @@ const PALETTE_ROLES = [
   { key: "information", label: "Information" },
   { key: "warning", label: "Warning" },
   { key: "error", label: "Error" },
+  { key: "accent", label: "Accent" },
 ] as const;
 
 const STYLES = [
@@ -517,15 +557,24 @@ function TypographyCard({ style }: { style: StyleSpec }) {
 function ButtonCard() {
   return (
     <TesterTile className="flex items-center justify-center">
-      <div className="grid gap-3 text-center">
-        <Button size="lg" variant="primary">
+      <div className="grid grid-cols-3 gap-3 text-center">
+        <Button size="md" variant="default">
+          Default
+        </Button>
+        <Button size="md" variant="primary">
           Primary
         </Button>
-        <Button size="lg" variant="default">
-          Secondary
+        <Button size="md" variant="outline">
+          Outline
         </Button>
-        <Button size="lg" variant="ghost">
+        <Button size="md" variant="ghost">
           Ghost
+        </Button>
+        <Button size="md" variant="destructive">
+          Destructive
+        </Button>
+        <Button size="md" variant="destructive-outline">
+          Destructive
         </Button>
       </div>
     </TesterTile>
@@ -537,7 +586,7 @@ function SearchCard() {
     <TesterTile className="flex items-center justify-center">
       <InputGroup className="max-w-72">
         <InputGroupAddon.Search />
-        <InputGroupInput placeholder="Search" />
+        <InputGroupInput placeholder="Search..." />
         <InputGroupAddon align="inline-end">
           <Kbd>⌘S</Kbd>
         </InputGroupAddon>
@@ -613,14 +662,15 @@ function BadgesCard() {
   return (
     <TesterTile className="flex items-center justify-center">
       <div className="grid justify-items-center gap-2">
+        <Badge>Default</Badge>
         <Badge variant="accent">queued</Badge>
         <Badge variant="warning">Pending</Badge>
         <Badge variant="success">
-          <Check className="size-3" aria-hidden="true" />
+          <Check className="size-2.5" aria-hidden="true" />
           Success
         </Badge>
         <Badge variant="destructive">
-          <TriangleAlert className="size-3" aria-hidden="true" />
+          <X className="size-2.5" aria-hidden="true" />
           Failed
         </Badge>
         <Badge variant="information">Passed</Badge>
