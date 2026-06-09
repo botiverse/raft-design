@@ -862,8 +862,11 @@ function SelectionCard() {
         <Status size="lg" fill="lime" />
         <Status.Attention />
         <Checkbox size="md" aria-label="Unchecked" />
-        <Checkbox size="md" defaultChecked aria-label="Checked" />
-        <Checkbox size="md" defaultChecked disabled aria-label="Disabled checked" />
+        <Checkbox size="md" color="default" defaultChecked aria-label="Checked default" />
+        <Checkbox size="md" color="primary" defaultChecked aria-label="Checked primary" />
+        <Checkbox size="md" indeterminate aria-label="Indeterminate" />
+        <Checkbox size="md" variant="outline" aria-label="Outline unchecked" />
+        <Checkbox size="md" variant="outline" defaultChecked aria-label="Outline checked" />
       </div>
     </TesterTile>
   );

@@ -55,7 +55,7 @@ export const buttonVariants = tv({
       muted: {
         root: [
           "border-action-muted-border bg-action-muted text-action-muted-foreground",
-          "hover:bg-action-muted-hover",
+          "hover:border-action-muted-hover hover:bg-action-muted-hover",
         ],
       },
       accent: {

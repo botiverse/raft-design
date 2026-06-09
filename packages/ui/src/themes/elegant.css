@@ -112,6 +112,20 @@
   --banner-dismiss-hover: oklch(0.25 0.006 285 / 0.64);
   --banner-radius: 4px;
 
+  --checkbox-unchecked: oklch(0.94 0.004 286);
+  --checkbox-unchecked-hover: oklch(0.88 0.004 286);
+  --checkbox-highlight: oklch(1 0 0);
+  --checkbox-checked-default: oklch(0.25 0.006 285);
+  --checkbox-checked-default-hover: oklch(0.21 0.006 285);
+  --checkbox-checked-primary: var(--action-primary-default);
+  --checkbox-checked-primary-hover: var(--action-primary-hover);
+  --checkbox-mark-default: oklch(1 0 0);
+  --checkbox-mark-primary: var(--action-primary-foreground);
+  --checkbox-disabled: oklch(0.94 0.004 286);
+  --checkbox-outline-background: transparent;
+  --checkbox-outline-border: oklch(0.76 0.006 285);
+  --checkbox-outline-hover-border: oklch(0.62 0.006 285);
+
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
   --action-primary-foreground: #422006;
@@ -133,10 +147,10 @@
   --action-information-hover: oklch(0.5 0.15 245);
   --action-information-foreground: oklch(0.985 0 0);
   --action-information-border: var(--information-default);
-  --action-muted-default: oklch(0.967 0.001 286);
-  --action-muted-hover: oklch(0.94 0.002 286);
-  --action-muted-foreground: oklch(0.36 0.006 285);
-  --action-muted-border: var(--muted-border);
+  --action-muted-default: oklch(0.98 0.001 286);
+  --action-muted-hover: oklch(0.965 0.002 286);
+  --action-muted-foreground: oklch(0.52 0.006 285);
+  --action-muted-border: var(--action-muted-default);
   --action-accent-default: var(--accent-default);
   --action-accent-hover: oklch(0.78 0.14 350);
   --action-accent-foreground: oklch(0.985 0 0);
@@ -264,6 +278,20 @@
     --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
     --banner-radius: 4px;
 
+    --checkbox-unchecked: oklch(0.32 0.006 286);
+    --checkbox-unchecked-hover: oklch(0.38 0.006 286);
+    --checkbox-highlight: oklch(0.24 0.006 286);
+    --checkbox-checked-default: oklch(0.95 0 0);
+    --checkbox-checked-default-hover: oklch(1 0 0);
+    --checkbox-checked-primary: var(--action-primary-default);
+    --checkbox-checked-primary-hover: var(--action-primary-hover);
+    --checkbox-mark-default: oklch(0.21 0.006 285);
+    --checkbox-mark-primary: var(--action-primary-foreground);
+    --checkbox-disabled: oklch(0.32 0.006 286);
+    --checkbox-outline-background: transparent;
+    --checkbox-outline-border: oklch(0.52 0.006 286);
+    --checkbox-outline-hover-border: oklch(0.65 0.006 286);
+
     --action-primary-default: #facc15;
     --action-primary-hover: #eab308;
     --action-primary-foreground: #422006;
@@ -285,10 +313,10 @@
     --action-information-hover: oklch(0.66 0.13 245);
     --action-information-foreground: oklch(0.145 0 0);
     --action-information-border: var(--information-border);
-    --action-muted-default: oklch(0.32 0.006 286);
-    --action-muted-hover: oklch(0.38 0.006 286);
-    --action-muted-foreground: oklch(0.82 0 0);
-    --action-muted-border: var(--muted-border);
+    --action-muted-default: oklch(0.34 0.006 286);
+    --action-muted-hover: oklch(0.4 0.006 286);
+    --action-muted-foreground: oklch(0.7 0.006 286);
+    --action-muted-border: var(--action-muted-default);
     --action-accent-default: var(--accent-default);
     --action-accent-hover: oklch(0.78 0.14 350);
     --action-accent-foreground: oklch(0.145 0 0);
@@ -403,6 +431,20 @@
   --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
   --banner-radius: 4px;
 
+  --checkbox-unchecked: oklch(0.32 0.006 286);
+  --checkbox-unchecked-hover: oklch(0.38 0.006 286);
+  --checkbox-highlight: oklch(0.24 0.006 286);
+  --checkbox-checked-default: oklch(0.95 0 0);
+  --checkbox-checked-default-hover: oklch(1 0 0);
+  --checkbox-checked-primary: var(--action-primary-default);
+  --checkbox-checked-primary-hover: var(--action-primary-hover);
+  --checkbox-mark-default: oklch(0.21 0.006 285);
+  --checkbox-mark-primary: var(--action-primary-foreground);
+  --checkbox-disabled: oklch(0.32 0.006 286);
+  --checkbox-outline-background: transparent;
+  --checkbox-outline-border: oklch(0.52 0.006 286);
+  --checkbox-outline-hover-border: oklch(0.65 0.006 286);
+
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
   --action-primary-foreground: #422006;
@@ -424,10 +466,10 @@
   --action-information-hover: oklch(0.66 0.13 245);
   --action-information-foreground: oklch(0.145 0 0);
   --action-information-border: var(--information-border);
-  --action-muted-default: oklch(0.32 0.006 286);
-  --action-muted-hover: oklch(0.38 0.006 286);
-  --action-muted-foreground: oklch(0.82 0 0);
-  --action-muted-border: var(--muted-border);
+  --action-muted-default: oklch(0.34 0.006 286);
+  --action-muted-hover: oklch(0.4 0.006 286);
+  --action-muted-foreground: oklch(0.7 0.006 286);
+  --action-muted-border: var(--action-muted-default);
   --action-accent-default: var(--accent-default);
   --action-accent-hover: oklch(0.78 0.14 350);
   --action-accent-foreground: oklch(0.145 0 0);
