@@ -358,6 +358,7 @@ function StyleTesterDoc() {
 
 function StyleBoard({ style }: { style: StyleSpec }) {
   const isDarkSection = style.id === "elegant-dark";
+  const isElegantBoard = style.theme === "elegant";
 
   return (
     <ThemeProvider theme={style.theme}>
@@ -366,6 +367,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
         className={[
           style.className,
           "min-w-0 py-[240px] text-foreground",
+          isElegantBoard ? "[--radius:0.125rem] [&_[data-tester-surface]]:!shadow-none" : "",
           isDarkSection ? "-mx-8 bg-black px-8 text-white" : "",
         ].join(" ")}
         style={{ fontFamily: "var(--display-font)" }}
@@ -415,8 +417,8 @@ function PaletteCard({
 
   return (
     <div
-      className="grid h-36 overflow-hidden border border-border bg-surface shadow-[var(--surface-shadow-sm)]"
-      style={{ borderRadius: "var(--radius)" }}
+      data-tester-surface
+      className="grid h-36 overflow-hidden rounded-none border border-border bg-surface shadow-[var(--surface-shadow-sm)]"
     >
       <div
         className="flex items-start px-4 py-4 text-lg font-semibold"
@@ -447,6 +449,7 @@ function TesterTile({
 }) {
   return (
     <div
+      data-tester-surface
       className={`min-w-0 border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] ${className}`}
       style={{ borderRadius: "var(--radius)" }}
     >
@@ -661,6 +664,7 @@ function DropdownMenuCard() {
 
   return (
     <div
+      data-tester-surface
       className="relative min-w-0 overflow-hidden border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] lg:col-span-2"
       ref={setContainerElement}
       style={{ borderRadius: "var(--radius)" }}
