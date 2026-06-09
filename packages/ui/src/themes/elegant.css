@@ -72,6 +72,29 @@
   --kbd-background: var(--surface);
   --kbd-foreground: var(--muted-foreground);
   --kbd-border: var(--surface-border-subtle);
+  --dropdown-background: var(--background);
+  --dropdown-foreground: oklch(0.36 0.006 285);
+  --dropdown-foreground-hover: oklch(0.25 0.006 285);
+  --dropdown-muted-foreground: oklch(0.58 0.006 285);
+  --dropdown-icon: oklch(0.52 0.006 285);
+  --dropdown-icon-hover: oklch(0.32 0.006 285);
+  --dropdown-hover: oklch(25.42% 0 89.37 / 0.06);
+  --dropdown-separator: var(--dropdown-elevation-ink-4);
+  --dropdown-elevation-ink-4: oklch(25.42% 0 89.37 / 0.04);
+  --dropdown-elevation-ink-8: oklch(25.42% 0 89.37 / 0.08);
+  --surface-shadow-elevation-medium:
+    0 24px 40px -12px var(--dropdown-elevation-ink-8),
+    0 16px 28px -8px var(--dropdown-elevation-ink-4),
+    0 4px 6px -2px var(--dropdown-elevation-ink-4), 0 0 2px 0 var(--dropdown-elevation-ink-4),
+    0 0 0 1px var(--dropdown-elevation-ink-4);
+  --dropdown-shadow: var(--surface-shadow-elevation-medium);
+  --dropdown-shortcut-background: oklch(0.94 0.004 286);
+  --dropdown-shortcut-foreground: oklch(0.58 0.006 285);
+  --dropdown-count-background: oklch(25.42% 0 89.37 / 0.06);
+  --dropdown-count-foreground: oklch(0.52 0.006 285);
+  --dropdown-padding: 0.25rem;
+  --dropdown-outer-radius: var(--radius);
+  --dropdown-item-radius: calc(var(--dropdown-outer-radius) - var(--dropdown-padding));
 
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
@@ -121,6 +144,9 @@
 
   --radius: 0.5rem;
   --shadow: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+  --surface-shadow-xs:
+    0 2px 4px hsla(0, 0%, 3.9%, 0.015), 0 1px 2px hsla(0, 0%, 3.9%, 0.01),
+    0 0 0 0.75px hsla(0, 0%, 3.9%, 0.04);
   --surface-shadow-sm: var(--shadow);
   --surface-shadow-md: 0 4px 12px -4px oklch(0 0 0 / 0.12);
   --surface-shadow-lg: 0 10px 24px -12px oklch(0 0 0 / 0.18);
@@ -190,6 +216,21 @@
     --kbd-background: var(--surface);
     --kbd-foreground: var(--muted-foreground);
     --kbd-border: var(--surface-border-subtle);
+    --dropdown-background: var(--background);
+    --dropdown-foreground: oklch(0.82 0 0);
+    --dropdown-foreground-hover: oklch(0.95 0 0);
+    --dropdown-muted-foreground: oklch(0.65 0.006 286);
+    --dropdown-icon: oklch(0.65 0.006 286);
+    --dropdown-icon-hover: oklch(0.82 0 0);
+    --dropdown-hover: oklch(96% 0 89.37 / 0.06);
+    --dropdown-separator: var(--dropdown-elevation-ink-4);
+    --dropdown-elevation-ink-4: oklch(96% 0 89.37 / 0.04);
+    --dropdown-elevation-ink-8: oklch(96% 0 89.37 / 0.08);
+    --dropdown-shadow: var(--surface-shadow-elevation-medium);
+    --dropdown-shortcut-background: oklch(0.28 0.006 286);
+    --dropdown-shortcut-foreground: oklch(0.65 0.006 286);
+    --dropdown-count-background: oklch(96% 0 89.37 / 0.08);
+    --dropdown-count-foreground: oklch(0.65 0.006 286);
 
     --action-primary-default: #facc15;
     --action-primary-hover: #eab308;
@@ -298,6 +339,21 @@
   --kbd-background: var(--surface);
   --kbd-foreground: var(--muted-foreground);
   --kbd-border: var(--surface-border-subtle);
+  --dropdown-background: var(--background);
+  --dropdown-foreground: oklch(0.82 0 0);
+  --dropdown-foreground-hover: oklch(0.95 0 0);
+  --dropdown-muted-foreground: oklch(0.65 0.006 286);
+  --dropdown-icon: oklch(0.65 0.006 286);
+  --dropdown-icon-hover: oklch(0.82 0 0);
+  --dropdown-hover: oklch(96% 0 89.37 / 0.06);
+  --dropdown-elevation-ink-4: oklch(96% 0 89.37 / 0.04);
+  --dropdown-elevation-ink-8: oklch(96% 0 89.37 / 0.08);
+  --dropdown-separator: var(--dropdown-elevation-ink-4);
+  --dropdown-shadow: var(--surface-shadow-elevation-medium);
+  --dropdown-shortcut-background: oklch(0.28 0.006 286);
+  --dropdown-shortcut-foreground: oklch(0.65 0.006 286);
+  --dropdown-count-background: oklch(96% 0 89.37 / 0.08);
+  --dropdown-count-foreground: oklch(0.65 0.006 286);
 
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;

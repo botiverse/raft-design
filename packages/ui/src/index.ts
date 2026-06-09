@@ -243,7 +243,9 @@ export {
   DropdownMenuPortal,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuActionItem,
+  DropdownMenuItemCount,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
 } from "./components/dropdown-menu/index.ts";
@@ -253,6 +255,8 @@ export type {
   DropdownMenuPortalProps,
   DropdownMenuContentProps,
   DropdownMenuItemProps,
+  DropdownMenuItemCountProps,
+  DropdownMenuLabelProps,
   DropdownMenuActionItemProps,
   DropdownMenuSeparatorProps,
   DropdownMenuShortcutProps,

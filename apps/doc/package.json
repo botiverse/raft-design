@@ -23,6 +23,8 @@
     "@tanstack/react-start": "latest",
     "lucide-react": "catalog:",
     "next-themes": "^0.4.6",
+    "nucleo-ui-fill-18": "catalog:",
+    "nucleo-ui-outline-18": "catalog:",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "shiki": "catalog:",

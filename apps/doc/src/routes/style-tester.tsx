@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, CheckCircle, FileText, Inbox, Plus, Settings, X } from "lucide-react";
+import { Bookmark, Check, CheckCircle, FileText, Inbox, Plus, Settings, X } from "lucide-react";
+import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { IconPlusOutline18, IconUsersOutline18 } from "nucleo-ui-outline-18";
 import {
   Badge,
   Banner,
@@ -12,6 +14,8 @@ import {
   DropdownMenuActionItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuItemCount,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
@@ -23,6 +27,13 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Kbd,
+  PanelHeader,
+  PanelHeaderActions,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeaderSubtitle,
+  PanelHeaderTitle,
+  PanelHeaderTitleRow,
   Status,
   Tabs,
   TabsLabel,
@@ -30,9 +41,6 @@ import {
   TabsPanel,
   TabsTab,
   ThemeProvider,
-  ToggleGroup,
-  ToggleGroupItem,
-  ToggleGroupLabel,
 } from "@slock/ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -432,7 +440,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
               <TypographyCard style={style} />
               <ButtonCard />
               <SearchCard />
-              <ToggleCard />
+              <PanelHeaderCard />
               <FieldCard />
             </div>
             <div
@@ -441,7 +449,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
                 isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
               ].join(" ")}
             >
-              <DropdownMenuCard />
+              <DropdownMenuCard style={style} />
               <TabsCard />
               <BadgesCard />
               <SelectionCard />
@@ -654,27 +662,25 @@ function FieldCard() {
   );
 }
 
-function ToggleCard() {
-  const [value, setValue] = useState("color");
-
+function PanelHeaderCard() {
   return (
     <TesterTile className="flex items-center justify-center">
-      <ToggleGroup
-        ariaLabel="Style tester sample group"
-        value={value}
-        onValueChange={setValue}
-        className="max-w-72"
-      >
-        <ToggleGroupItem value="color">
-          <ToggleGroupLabel>Color</ToggleGroupLabel>
-        </ToggleGroupItem>
-        <ToggleGroupItem value="type">
-          <ToggleGroupLabel>Type</ToggleGroupLabel>
-        </ToggleGroupItem>
-        <ToggleGroupItem value="state">
-          <ToggleGroupLabel>State</ToggleGroupLabel>
-        </ToggleGroupItem>
-      </ToggleGroup>
+      <PanelHeader className="w-full max-w-sm border border-border bg-surface px-4">
+        <PanelHeaderIcon className="flex border-border bg-surface-muted">
+          <Bookmark />
+        </PanelHeaderIcon>
+        <PanelHeaderContent>
+          <PanelHeaderTitleRow>
+            <PanelHeaderTitle>Saved</PanelHeaderTitle>
+          </PanelHeaderTitleRow>
+          <PanelHeaderSubtitle>12 saved</PanelHeaderSubtitle>
+        </PanelHeaderContent>
+        <PanelHeaderActions>
+          <Button size="icon-sm" aria-label="Settings">
+            <Settings />
+          </Button>
+        </PanelHeaderActions>
+      </PanelHeader>
     </TesterTile>
   );
 }
@@ -760,22 +766,24 @@ function SelectionCard() {
   );
 }
 
-function DropdownMenuCard() {
+function DropdownMenuCard({ style }: { style: StyleSpec }) {
+  const isElegant = style.theme === "elegant";
+  const serverTriggerId = `opened-server-trigger-${style.id}`;
   const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
   const anchor = useMemo(
     () => ({
       getBoundingClientRect() {
-        const rect = containerElement?.getBoundingClientRect();
-        const contentWidth = 256;
+        const trigger = containerElement?.querySelector<HTMLElement>(`#${serverTriggerId}`);
+        const rect = trigger?.getBoundingClientRect();
         return DOMRect.fromRect({
-          x: (rect?.left ?? 0) + Math.max(24, ((rect?.width ?? contentWidth) - contentWidth) / 2),
-          y: (rect?.top ?? 0) + 82,
-          width: 0,
+          x: rect?.left ?? 0,
+          y: rect?.bottom ?? 0,
+          width: rect?.width ?? 0,
           height: 0,
         });
       },
     }),
-    [containerElement],
+    [containerElement, serverTriggerId],
   );
 
   return (
@@ -790,46 +798,96 @@ function DropdownMenuCard() {
       }}
     >
       {containerElement ? (
-        <DropdownMenu open modal={false}>
+        <DropdownMenu open modal={false} triggerId={serverTriggerId}>
           <DropdownMenuTrigger
+            id={serverTriggerId}
             render={
               <Button
-                size="sm"
-                variant="outline"
+                size={isElegant ? "md" : "sm"}
+                variant={isElegant ? "default" : "outline"}
                 className="absolute top-10 left-1/2 -translate-x-1/2"
               />
             }
           >
-            Options
+            {isElegant ? "Switch server" : "Options"}
           </DropdownMenuTrigger>
           <DropdownMenuContent
             anchor={anchor}
             side="bottom"
-            align="start"
-            sideOffset={8}
-            className="flex w-64 flex-col"
+            align={isElegant ? "center" : "start"}
+            sideOffset={4}
+            className={isElegant ? "flex w-64 flex-col" : "w-64"}
             portalProps={{ container: containerElement }}
           >
-            <DropdownMenuItem className="font-bold">
-              <Check />
-              <div className="min-w-0 flex-1 text-left">
-                <div className="truncate">Default view</div>
-                <div className="truncate font-mono text-xs text-black/40">Current setting</div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Check className="opacity-0" />
-              <div className="min-w-0 flex-1 text-left">
-                <div className="truncate">Compact view</div>
-                <div className="truncate font-mono text-xs text-black/40">Reduced spacing</div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuActionItem>
-              <Plus />
-              <span className="min-w-0 flex-1 text-left">Create preset</span>
-              <DropdownMenuShortcut>N</DropdownMenuShortcut>
-            </DropdownMenuActionItem>
+            {isElegant ? (
+              <>
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+                  <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+                    <IconCircleCheckFill18 />
+                    <span className="flex h-6 min-w-0 flex-1 items-center truncate font-medium text-left">
+                      Slock
+                    </span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+                    <IconCircleCheckFill18 className="opacity-0" />
+                    <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">
+                      Design Guild
+                    </span>
+                    <DropdownMenuItemCount>4</DropdownMenuItemCount>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+                    <IconCircleCheckFill18 className="opacity-0" />
+                    <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">
+                      Open Source
+                    </span>
+                    <DropdownMenuItemCount>12</DropdownMenuItemCount>
+                  </DropdownMenuItem>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuActionItem>
+                  <IconUsersOutline18 strokeWidth={1.5} />
+                  <span className="flex h-6 min-w-0 flex-1 items-center text-left">
+                    Join Community
+                  </span>
+                  <DropdownMenuShortcut>J</DropdownMenuShortcut>
+                </DropdownMenuActionItem>
+                <DropdownMenuActionItem>
+                  <IconPlusOutline18 strokeWidth={1.5} />
+                  <span className="flex h-6 min-w-0 flex-1 items-center text-left">
+                    Switch or Create Server
+                  </span>
+                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                </DropdownMenuActionItem>
+              </>
+            ) : (
+              <>
+                <DropdownMenuLabel>View</DropdownMenuLabel>
+                <DropdownMenuItem className="font-bold">
+                  <Check />
+                  <div className="min-w-0 flex-1 text-left">
+                    <div className="truncate">Default view</div>
+                    <div className="truncate font-mono text-xs text-[var(--dropdown-muted-foreground)]">
+                      Current setting
+                    </div>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Check className="opacity-0" />
+                  <div className="min-w-0 flex-1 text-left">
+                    <div className="truncate">Compact view</div>
+                    <div className="truncate font-mono text-xs text-[var(--dropdown-muted-foreground)]">
+                      Reduced spacing
+                    </div>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuActionItem>
+                  <Plus />
+                  <span className="min-w-0 flex-1 text-left">Create preset</span>
+                  <DropdownMenuShortcut>N</DropdownMenuShortcut>
+                </DropdownMenuActionItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       ) : null}

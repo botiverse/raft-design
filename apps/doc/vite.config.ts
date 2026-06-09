@@ -9,6 +9,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  ssr: {
+    noExternal: ["nucleo-ui-fill-18", "nucleo-ui-outline-18"],
+  },
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: "ssr" } }),

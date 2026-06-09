@@ -1,3 +1,4 @@
+import type { ComponentPropsWithRef } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { tv } from "tailwind-variants";
 import { Kbd, type KbdProps } from "../kbd/index.ts";
@@ -14,7 +15,9 @@ const dropdownMenu = tv({
       "text-left text-sm outline-none transition-colors",
     ],
     actionItem: ["font-bold"],
+    label: ["px-3 py-1 text-xs font-bold uppercase"],
     shortcut: ["ml-auto"],
+    itemCount: ["ml-auto h-4 min-w-4 shrink-0 px-1.5 text-[0.6875rem] tabular-nums"],
     separator: ["border-t-2"],
   },
   variants: {
@@ -27,11 +30,45 @@ const dropdownMenu = tv({
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         actionItem: ["hover:bg-brutal-pink data-[highlighted]:bg-brutal-pink"],
+        label: ["text-black/50"],
         shortcut: [],
+        itemCount: [
+          "rounded border border-black bg-brutal-pink",
+          "font-bold leading-none text-white",
+        ],
         separator: ["border-black"],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        content: [
+          "rounded-[var(--dropdown-outer-radius)] bg-[var(--dropdown-background)] p-1",
+          "shadow-[var(--dropdown-shadow)] outline-none",
+          "flex flex-col",
+        ],
+        item: [
+          "gap-1 rounded-[var(--dropdown-item-radius)] px-2 py-1 text-[0.812rem] tracking-[-0.005em]",
+          "text-[var(--dropdown-foreground)]",
+          "transition-[background-color,color] duration-150",
+          "hover:bg-[var(--dropdown-hover)] hover:text-[var(--dropdown-foreground-hover)]",
+          "data-[highlighted]:bg-[var(--dropdown-hover)] data-[highlighted]:text-[var(--dropdown-foreground-hover)]",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-[var(--input-disabled-foreground)]",
+          "[&>svg]:pointer-events-none [&>svg]:size-6 [&>svg]:shrink-0 [&>svg]:stroke-1 [&>svg]:p-1",
+          "[&>svg]:text-[var(--dropdown-icon)]",
+          "hover:[&>svg]:text-[var(--dropdown-icon-hover)]",
+          "data-[highlighted]:[&>svg]:text-[var(--dropdown-icon-hover)]",
+        ],
+        actionItem: ["items-center gap-1 py-2 pl-3.5 font-medium", "[&>svg]:stroke-[1.5]"],
+        label: [
+          "px-2 py-2 pl-3.5 text-[0.75rem] font-medium tracking-[-0.005em]",
+          "text-[var(--dropdown-muted-foreground)]",
+        ],
+        shortcut: ["text-[var(--dropdown-muted-foreground)]"],
+        itemCount: [
+          "inline-flex items-center justify-center rounded-full border-0",
+          "bg-[var(--dropdown-count-background)] font-medium leading-none",
+          "text-[var(--dropdown-count-foreground)]",
+        ],
+        separator: ["my-1 -mx-1 h-px border-0 bg-[var(--dropdown-separator)]"],
+      },
     },
   },
 });
@@ -145,12 +182,30 @@ export function DropdownMenuActionItem({ className, ...props }: DropdownMenuActi
   return <DropdownMenuItem className={actionItem({ className })} {...props} />;
 }
 
+export type DropdownMenuLabelProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+export function DropdownMenuLabel({ className, ...props }: DropdownMenuLabelProps) {
+  const theme = useTheme();
+  const { label } = dropdownMenu({ theme });
+  return <div data-slot="dropdown-menu-label" className={label({ className })} {...props} />;
+}
+
 export type DropdownMenuShortcutProps = KbdProps;
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
   const theme = useTheme();
   const { shortcut } = dropdownMenu({ theme });
   return <Kbd data-slot="dropdown-menu-shortcut" className={shortcut({ className })} {...props} />;
+}
+
+export type DropdownMenuItemCountProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+export function DropdownMenuItemCount({ className, ...props }: DropdownMenuItemCountProps) {
+  const theme = useTheme();
+  const { itemCount } = dropdownMenu({ theme });
+  return (
+    <span data-slot="dropdown-menu-item-count" className={itemCount({ className })} {...props} />
+  );
 }
 
 export type DropdownMenuSeparatorProps = StyledProps<BaseMenu.Separator.Props>;

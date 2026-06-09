@@ -5,11 +5,13 @@ import {
   DropdownMenuActionItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuItemCount,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@slock/ui";
-import { Check, Plus } from "lucide-react";
+import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { IconPlusOutline18, IconUsersOutline18 } from "nucleo-ui-outline-18";
 import { useMemo, useRef } from "react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -39,33 +41,73 @@ const TODOS = [
   "Add label, group, checkbox, radio, and submenu parts when a source callsite needs them",
 ] as const;
 
+const SERVER_ROW_SNIPPET = `    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+        <IconCircleCheckFill18 />
+        <span className="flex h-6 min-w-0 flex-1 items-center truncate font-medium text-left">Slock</span>
+      </DropdownMenuItem>
+      <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+        <IconCircleCheckFill18 className="opacity-0" />
+        <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">Design Guild</span>
+        <DropdownMenuItemCount>4</DropdownMenuItemCount>
+      </DropdownMenuItem>
+      <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+        <IconCircleCheckFill18 className="opacity-0" />
+        <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">Open Source</span>
+        <DropdownMenuItemCount>12</DropdownMenuItemCount>
+      </DropdownMenuItem>
+    </div>
+    <DropdownMenuSeparator />
+    <DropdownMenuActionItem>
+      <IconUsersOutline18 strokeWidth={1.5} />
+      <span className="flex h-6 min-w-0 flex-1 items-center text-left">Join Community</span>
+      <DropdownMenuShortcut>J</DropdownMenuShortcut>
+    </DropdownMenuActionItem>
+    <DropdownMenuActionItem>
+      <IconPlusOutline18 strokeWidth={1.5} />
+      <span className="flex h-6 min-w-0 flex-1 items-center text-left">Switch or Create Server</span>
+      <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+    </DropdownMenuActionItem>`;
+
+const OPENED_SERVER_ROW_SNIPPET = `    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+      <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+        <IconCircleCheckFill18 />
+        <span className="flex h-6 min-w-0 flex-1 items-center truncate font-medium text-left">Slock</span>
+      </DropdownMenuItem>
+      <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+        <IconCircleCheckFill18 className="opacity-0" />
+        <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">Design Guild</span>
+        <DropdownMenuItemCount>4</DropdownMenuItemCount>
+      </DropdownMenuItem>
+    </div>
+    <DropdownMenuSeparator />
+    <DropdownMenuActionItem>
+      <IconUsersOutline18 strokeWidth={1.5} />
+      <span className="flex h-6 min-w-0 flex-1 items-center text-left">Join Community</span>
+      <DropdownMenuShortcut>J</DropdownMenuShortcut>
+    </DropdownMenuActionItem>`;
+
 const SNIPPETS = {
   anatomy: `import {
+  Button,
   DropdownMenu,
   DropdownMenuActionItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuItemCount,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@slock/ui";
+import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { IconPlusOutline18, IconUsersOutline18 } from "nucleo-ui-outline-18";
 
 <DropdownMenu>
-  <DropdownMenuTrigger>Switch server</DropdownMenuTrigger>
-  <DropdownMenuContent className="w-64">
-    <DropdownMenuItem>
-      <Check />
-      <div className="min-w-0 flex-1 text-left">
-        <div className="truncate">Slock</div>
-        <div className="truncate font-mono text-xs text-black/40">/slock</div>
-      </div>
-    </DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuActionItem>
-      <Plus />
-      <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
-      <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-    </DropdownMenuActionItem>
+  <DropdownMenuTrigger render={<Button size="md" />}>
+    Switch server
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex w-64 flex-col">
+${SERVER_ROW_SNIPPET}
   </DropdownMenuContent>
 </DropdownMenu>`,
   opened: `<DropdownMenu open modal={false} triggerId="opened-server-trigger">
@@ -73,29 +115,7 @@ const SNIPPETS = {
     Switch server
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
-    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-      <DropdownMenuItem className="font-bold">
-        <Check />
-        <div className="min-w-0 flex-1 text-left">
-          <div className="truncate">Slock</div>
-          <div className="truncate font-mono text-xs text-black/40">/slock</div>
-        </div>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Check className="opacity-0" />
-        <div className="min-w-0 flex-1 text-left">
-          <div className="truncate">Design Guild</div>
-          <div className="truncate font-mono text-xs text-black/40">/design</div>
-        </div>
-        <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">4</span>
-      </DropdownMenuItem>
-    </div>
-    <DropdownMenuSeparator />
-    <DropdownMenuActionItem>
-      <Plus />
-      <span className="min-w-0 flex-1 text-left">Join Community</span>
-      <DropdownMenuShortcut>J</DropdownMenuShortcut>
-    </DropdownMenuActionItem>
+${OPENED_SERVER_ROW_SNIPPET}
   </DropdownMenuContent>
 </DropdownMenu>`,
   sourceServerSwitcher: `<ServerSwitcherMenu
@@ -106,59 +126,55 @@ const SNIPPETS = {
   onJoinCommunity={joinCommunity}
   onCreateServer={createServer}
 />`,
-  currentServerSwitcher: `<DropdownMenu>
-  <DropdownMenuTrigger render={<Button size="md" />}>
-    Switch server
-  </DropdownMenuTrigger>
+  currentServerSwitcher: `<DropdownMenu open modal={false}>
   <DropdownMenuContent className="flex w-64 flex-col">
-    <DropdownMenuItem className="font-bold">
-      <Check />
-      <div className="min-w-0 flex-1 text-left">
-        <div className="truncate">Slock</div>
-        <div className="truncate font-mono text-xs text-black/40">/slock</div>
-      </div>
-    </DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuActionItem>
-      <Plus />
-      <span className="min-w-0 flex-1 text-left">Join Community</span>
-      <DropdownMenuShortcut>J</DropdownMenuShortcut>
-    </DropdownMenuActionItem>
+${SERVER_ROW_SNIPPET}
   </DropdownMenuContent>
 </DropdownMenu>`,
 } as const;
 
-const OPENED_ROW_PREVIEW = (
-  <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-    <DropdownMenuItem className="font-bold">
-      <Check />
-      <div className="min-w-0 flex-1 text-left">
-        <div className="truncate">Slock</div>
-        <div className="truncate font-mono text-xs text-black/40">/slock</div>
-      </div>
-    </DropdownMenuItem>
-    <DropdownMenuItem className="bg-brutal-yellow">
-      <Check className="opacity-0" />
-      <div className="min-w-0 flex-1 text-left">
-        <div className="truncate">Design Guild</div>
-        <div className="truncate font-mono text-xs text-black/40">/design</div>
-      </div>
-      <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
-        4
+function ServerRow({
+  name,
+  selected = false,
+  unreadCount,
+}: {
+  name: string;
+  selected?: boolean;
+  unreadCount?: number;
+}) {
+  return (
+    <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+      <IconCircleCheckFill18 className={selected ? undefined : "opacity-0"} />
+      <span
+        className={
+          selected
+            ? "flex h-6 min-w-0 flex-1 items-center truncate font-medium text-left"
+            : "flex h-6 min-w-0 flex-1 items-center truncate text-left"
+        }
+      >
+        {name}
       </span>
+      {unreadCount ? <DropdownMenuItemCount>{unreadCount}</DropdownMenuItemCount> : null}
     </DropdownMenuItem>
-    <DropdownMenuItem>
-      <Check className="opacity-0" />
-      <div className="min-w-0 flex-1 text-left">
-        <div className="truncate">Open Source</div>
-        <div className="truncate font-mono text-xs text-black/40">/oss</div>
+  );
+}
+
+function OpenedServerRows() {
+  return (
+    <>
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <ServerRow name="Slock" selected />
+        <ServerRow name="Design Guild" unreadCount={4} />
       </div>
-      <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
-        12
-      </span>
-    </DropdownMenuItem>
-  </div>
-);
+      <DropdownMenuSeparator />
+      <DropdownMenuActionItem>
+        <IconUsersOutline18 strokeWidth={1.5} />
+        <span className="flex h-6 min-w-0 flex-1 items-center text-left">Join Community</span>
+        <DropdownMenuShortcut>J</DropdownMenuShortcut>
+      </DropdownMenuActionItem>
+    </>
+  );
+}
 
 const COMPARISON_SERVERS = [
   { id: "slock", name: "Slock", slug: "slock" },
@@ -205,6 +221,12 @@ const PROPS: readonly PropRow[] = [
     description: "Right-aligned keyboard hint composed inside DropdownMenuItem.",
   },
   {
+    name: "DropdownMenuItemCount",
+    type: "span props",
+    description:
+      "Right-aligned unread/count chip composed inside DropdownMenuItem. Elegant uses a light-gray chip with dark-gray text.",
+  },
+  {
     name: "DropdownMenuSeparator",
     type: "Base UI Separator.Props",
     description: "Source server-switcher divider styling as the separator part.",
@@ -220,45 +242,23 @@ function ServerRows() {
   return (
     <>
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <DropdownMenuItem className="font-bold">
-          <Check />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Slock</div>
-            <div className="truncate font-mono text-xs text-black/40">/slock</div>
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Check className="opacity-0" />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Design Guild</div>
-            <div className="truncate font-mono text-xs text-black/40">/design</div>
-          </div>
-          <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
-            4
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Check className="opacity-0" />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Open Source</div>
-            <div className="truncate font-mono text-xs text-black/40">/oss</div>
-          </div>
-          <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
-            12
-          </span>
-        </DropdownMenuItem>
+        <ServerRow name="Slock" selected />
+        <ServerRow name="Design Guild" unreadCount={4} />
+        <ServerRow name="Open Source" unreadCount={12} />
       </div>
 
       <DropdownMenuSeparator />
 
       <DropdownMenuActionItem>
-        <Plus />
-        <span className="min-w-0 flex-1 text-left">Join Community</span>
+        <IconUsersOutline18 strokeWidth={1.5} />
+        <span className="flex h-6 min-w-0 flex-1 items-center text-left">Join Community</span>
         <DropdownMenuShortcut>J</DropdownMenuShortcut>
       </DropdownMenuActionItem>
       <DropdownMenuActionItem>
-        <Plus />
-        <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
+        <IconPlusOutline18 strokeWidth={1.5} />
+        <span className="flex h-6 min-w-0 flex-1 items-center text-left">
+          Switch or Create Server
+        </span>
         <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
       </DropdownMenuActionItem>
     </>
@@ -357,16 +357,7 @@ function DropdownMenuDoc() {
               Switch server
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex w-64 flex-col">
-              {OPENED_ROW_PREVIEW}
-              <DropdownMenuSeparator />
-              <DropdownMenuActionItem>
-                <Plus />
-                <span className="min-w-0 flex-1 text-left">Join Community</span>
-              </DropdownMenuActionItem>
-              <DropdownMenuActionItem className="bg-brutal-pink">
-                <Plus />
-                <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
-              </DropdownMenuActionItem>
+              <OpenedServerRows />
             </DropdownMenuContent>
           </DropdownMenu>
         </Example>

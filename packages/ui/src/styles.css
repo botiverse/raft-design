@@ -98,6 +98,8 @@
   --color-border: var(--border);
   --color-ring: var(--ring);
 
+  --shadow-surface-xs: var(--surface-shadow-xs);
+  --shadow-surface-elevation-medium: var(--surface-shadow-elevation-medium);
   --shadow-surface-sm: var(--surface-shadow-sm);
   --shadow-surface-md: var(--surface-shadow-md);
   --shadow-surface-lg: var(--surface-shadow-lg);
