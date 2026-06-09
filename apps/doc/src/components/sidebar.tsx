@@ -838,6 +838,9 @@ export function Sidebar() {
           <li>
             <NavLink to="/playground" label="Playground" />
           </li>
+          <li>
+            <NavLink to="/style-tester" label="Style Tester" />
+          </li>
         </ul>
 
         <hr className="border-gray-200" />
