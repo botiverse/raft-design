@@ -5,47 +5,132 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const banner = tv({
   slots: {
-    root: [
-      "group/banner grid grid-cols-[0_minmax(0,1fr)] items-start border-2",
-      "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
-      "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
-      "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
-      "[&>svg]:col-start-1 [&>svg]:row-span-2 [&>svg]:mt-0.5",
-      "[&>svg]:size-[18px] [&>svg]:shrink-0 [&>svg]:text-black",
-    ],
-    title: [
-      "col-start-2 mb-0.5 text-sm font-bold text-black",
-      "group-data-[size=sm]/banner:text-xs",
-    ],
-    description: ["col-start-2 min-w-0 text-sm text-black", "group-data-[size=sm]/banner:text-xs"],
-    action: ["col-start-3 row-span-2 row-start-1 shrink-0"],
+    root: [""],
+    title: [""],
+    description: [""],
+    action: [""],
   },
   variants: {
     theme: {
-      brutal: { root: ["border-black"] },
-      elegant: {},
+      brutal: {
+        root: [
+          "group/banner grid grid-cols-[0_minmax(0,1fr)] items-start border-2 border-black",
+          "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
+          "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
+          "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
+          "[&>svg]:col-start-1 [&>svg]:row-span-2 [&>svg]:mt-0.5",
+          "[&>svg]:size-[18px] [&>svg]:shrink-0 [&>svg]:text-black",
+        ],
+        title: [
+          "col-start-2 mb-0.5 text-sm font-bold text-black",
+          "group-data-[size=sm]/banner:text-xs",
+        ],
+        description: [
+          "col-start-2 min-w-0 text-sm text-black",
+          "group-data-[size=sm]/banner:text-xs",
+        ],
+        action: ["col-start-3 row-span-2 row-start-1 shrink-0"],
+      },
+      elegant: {
+        root: [
+          "group/banner grid w-full items-center gap-x-2 gap-y-0 rounded-[var(--banner-radius)] border-0",
+          "text-[0.8125rem] leading-5 tracking-[-0.005em] text-[var(--banner-foreground)]",
+          "grid-cols-[minmax(0,1fr)]",
+          "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
+          "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
+          "has-[>svg]:has-[>[data-slot=banner-action]]:grid-cols-[auto_minmax(0,1fr)_auto]",
+          "has-[>[data-slot=banner-description]]:items-start has-[>[data-slot=banner-description]]:grid-rows-[auto_auto]",
+          "has-[>[data-slot=banner-description]]:gap-y-1",
+          "[&>svg]:col-start-1 [&>svg]:row-start-1 [&>svg]:size-5 [&>svg]:shrink-0",
+          "has-[>[data-slot=banner-description]]:[&>svg]:row-span-2 has-[>[data-slot=banner-description]]:[&>svg]:self-start",
+        ],
+        title: [
+          "col-start-2 row-start-1 flex h-5 min-w-0 items-center text-sm font-medium leading-5 text-[var(--banner-foreground)]",
+        ],
+        description: [
+          "col-start-2 row-start-2 min-w-0 font-normal leading-4 text-[var(--banner-description)]",
+        ],
+        action: [
+          "col-start-3 row-start-1 flex h-5 shrink-0 items-center gap-2 self-start",
+          "[&>button:last-child]:size-5 [&>button:last-child]:min-h-5 [&>button:last-child]:min-w-5",
+          "[&>button:last-child]:border-transparent [&>button:last-child]:bg-transparent [&>button:last-child]:shadow-none",
+          "[&>button:last-child]:text-[var(--banner-dismiss)]",
+          "[&>button:last-child]:transition-colors [&>button:last-child]:duration-200",
+          "[&>button:last-child]:hover:border-transparent [&>button:last-child]:hover:bg-transparent",
+          "[&>button:last-child]:hover:text-[var(--banner-dismiss-hover)]",
+          "[&>button:last-child>svg]:size-4",
+        ],
+      },
     },
     status: {
-      destructive: { root: "bg-brutal-red/20" },
-      warning: { root: "bg-brutal-orange/20" },
-      info: { root: "bg-brutal-yellow/30" },
-      success: { root: "bg-brutal-lime/20" },
+      destructive: {},
+      warning: {},
+      info: {},
+      success: {},
     },
     size: {
-      sm: {
-        root: "gap-y-0 p-2 has-[>svg]:gap-x-2 has-[>[data-slot=banner-action]]:gap-x-2",
-      },
-      md: {
-        root: "gap-y-0 p-3 has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3",
-      },
-      lg: {
-        root: "gap-y-0 p-4 shadow-[var(--shadow)] has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3",
-      },
+      sm: {},
+      md: {},
+      lg: {},
     },
   },
   defaultVariants: {
     size: "md",
   },
+  compoundVariants: [
+    { theme: "brutal", status: "destructive", class: { root: "bg-brutal-red/20" } },
+    { theme: "brutal", status: "warning", class: { root: "bg-brutal-orange/20" } },
+    { theme: "brutal", status: "info", class: { root: "bg-brutal-yellow/30" } },
+    { theme: "brutal", status: "success", class: { root: "bg-brutal-lime/20" } },
+    {
+      theme: "brutal",
+      size: "sm",
+      class: { root: "gap-y-0 p-2 has-[>svg]:gap-x-2 has-[>[data-slot=banner-action]]:gap-x-2" },
+    },
+    {
+      theme: "brutal",
+      size: "md",
+      class: { root: "gap-y-0 p-3 has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3" },
+    },
+    {
+      theme: "brutal",
+      size: "lg",
+      class: {
+        root: "gap-y-0 p-4 shadow-[var(--shadow)] has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3",
+      },
+    },
+    {
+      theme: "elegant",
+      status: "success",
+      class: {
+        root: "bg-[var(--success-soft)] [&>svg]:text-[var(--badge-success)]",
+      },
+    },
+    {
+      theme: "elegant",
+      status: "warning",
+      class: {
+        root: "bg-[var(--warning-soft)] [&>svg]:text-[var(--warning-default)]",
+      },
+    },
+    {
+      theme: "elegant",
+      status: "info",
+      class: {
+        root: "bg-[var(--information-soft)] [&>svg]:text-[var(--information-default)]",
+      },
+    },
+    {
+      theme: "elegant",
+      status: "destructive",
+      class: {
+        root: "bg-[var(--destructive-soft)] [&>svg]:text-[var(--destructive-default)]",
+      },
+    },
+    { theme: "elegant", size: "sm", class: { root: "px-2 py-1.5" } },
+    { theme: "elegant", size: "md", class: { root: "px-2.5 py-2.5" } },
+    { theme: "elegant", size: "lg", class: { root: "px-3 py-2.5" } },
+  ],
 });
 
 export type BannerStatus = NonNullable<VariantProps<typeof banner>["status"]>;

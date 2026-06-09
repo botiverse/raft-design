@@ -22,10 +22,12 @@ import {
   IconHouseOutline18,
   IconPlusOutline18,
   IconUsersOutline18,
+  IconXmarkOutline18,
 } from "nucleo-ui-outline-18";
 import {
   Badge,
   Banner,
+  BannerAction,
   BannerDescription,
   BannerTitle,
   Button,
@@ -473,7 +475,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
               <TabsCard style={style} />
               <BadgesCard />
               <SelectionCard />
-              <FeedbackCard />
+              <FeedbackCard style={style} />
             </div>
           </div>
         </div>
@@ -996,7 +998,9 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
   );
 }
 
-function FeedbackCard() {
+function FeedbackCard({ style }: { style: StyleSpec }) {
+  const isElegant = style.theme === "elegant";
+
   return (
     <TesterTile
       className="flex items-center justify-center lg:col-span-2"
@@ -1007,9 +1011,16 @@ function FeedbackCard() {
       }}
     >
       <Banner status="success" className="w-full max-w-md">
-        <CheckCircle />
+        {isElegant ? <IconCircleCheckFill18 className="size-5 shrink-0" /> : <CheckCircle />}
         <BannerTitle>Changes saved</BannerTitle>
         <BannerDescription>Your preferences are up to date.</BannerDescription>
+        {isElegant ? (
+          <BannerAction>
+            <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
+              <IconXmarkOutline18 strokeWidth={1} />
+            </Button>
+          </BannerAction>
+        ) : null}
       </Banner>
     </TesterTile>
   );

@@ -106,6 +106,12 @@
   --tabs-indicator: var(--tabs-foreground-active);
   --tabs-accent: var(--action-primary-default);
 
+  --banner-foreground: oklch(0.25 0.006 285);
+  --banner-description: oklch(0.42 0.006 285);
+  --banner-dismiss: oklch(0.25 0.006 285 / 0.4);
+  --banner-dismiss-hover: oklch(0.25 0.006 285 / 0.64);
+  --banner-radius: 4px;
+
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
   --action-primary-foreground: #422006;
@@ -252,6 +258,12 @@
     --tabs-indicator: var(--tabs-foreground-active);
     --tabs-accent: var(--action-primary-default);
 
+    --banner-foreground: oklch(0.95 0 0);
+    --banner-description: oklch(0.72 0.006 286);
+    --banner-dismiss: oklch(0.95 0 0 / 0.4);
+    --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
+    --banner-radius: 4px;
+
     --action-primary-default: #facc15;
     --action-primary-hover: #eab308;
     --action-primary-foreground: #422006;
@@ -384,6 +396,12 @@
   --tabs-icon-active: var(--tabs-icon);
   --tabs-indicator: var(--tabs-foreground-active);
   --tabs-accent: var(--action-primary-default);
+
+  --banner-foreground: oklch(0.95 0 0);
+  --banner-description: oklch(0.72 0.006 286);
+  --banner-dismiss: oklch(0.95 0 0 / 0.4);
+  --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
+  --banner-radius: 4px;
 
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
