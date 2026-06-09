@@ -830,19 +830,19 @@ function BadgesCard() {
         borderBottomRightRadius: 0,
       }}
     >
-      <div className="grid justify-items-center gap-2">
-        <Badge>Default</Badge>
-        <Badge variant="accent">queued</Badge>
+      <div className="grid grid-cols-3 justify-items-center gap-x-3 gap-y-2">
+        <Badge>Public</Badge>
+        <Badge variant="accent">Pro</Badge>
         <Badge variant="warning">Pending</Badge>
         <Badge variant="success">
           <Check className="size-2.5" aria-hidden="true" />
-          Success
+          Active
         </Badge>
         <Badge variant="destructive">
           <X className="size-2.5" aria-hidden="true" />
-          Failed
+          Banned
         </Badge>
-        <Badge variant="information">Passed</Badge>
+        <Badge variant="information">Unread</Badge>
       </div>
     </TesterTile>
   );

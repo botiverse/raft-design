@@ -69,7 +69,9 @@ export const badge = tv({
     {
       theme: "elegant",
       variant: "default",
-      class: { root: "bg-[var(--badge-default)] text-[var(--badge-foreground)]" },
+      class: {
+        root: "bg-[var(--dropdown-count-background)] text-[var(--dropdown-count-foreground)]",
+      },
     },
     {
       theme: "elegant",
