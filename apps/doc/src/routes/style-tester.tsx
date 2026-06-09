@@ -576,6 +576,15 @@ function ButtonCard() {
         <Button size="md" variant="destructive-outline">
           Destructive
         </Button>
+        <Button size="md" variant="accent">
+          Accent
+        </Button>
+        <Button size="md" variant="link">
+          Link
+        </Button>
+        <Button size="md" variant="muted">
+          Muted
+        </Button>
       </div>
     </TesterTile>
   );

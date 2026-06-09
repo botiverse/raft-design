@@ -38,7 +38,7 @@
   --accent-soft: oklch(0.96 0.03 350);
   --accent-foreground: oklch(0.28 0.08 350);
   --accent-border: oklch(0.84 0.08 350);
-  --badge-default: #7b7b7b;
+  --badge-default: oklch(0.7 0.006 286);
   --badge-primary: var(--action-primary-default);
   --badge-primary-foreground: #422006;
   --badge-information: #47c2ff;
@@ -94,12 +94,12 @@
   --action-information-hover: oklch(0.5 0.15 245);
   --action-information-foreground: oklch(0.985 0 0);
   --action-information-border: var(--information-default);
-  --action-muted-default: var(--muted-default);
-  --action-muted-hover: oklch(0.88 0.004 286);
-  --action-muted-foreground: var(--neutral-foreground);
+  --action-muted-default: oklch(0.967 0.001 286);
+  --action-muted-hover: oklch(0.94 0.002 286);
+  --action-muted-foreground: oklch(0.36 0.006 285);
   --action-muted-border: var(--muted-border);
   --action-accent-default: var(--accent-default);
-  --action-accent-hover: oklch(0.54 0.18 340);
+  --action-accent-hover: oklch(0.78 0.14 350);
   --action-accent-foreground: oklch(0.985 0 0);
   --action-accent-border: var(--accent-default);
   --action-success-default: var(--success-default);
@@ -114,7 +114,7 @@
   --action-destructive-hover: oklch(0.62 0.22 22.8);
   --action-destructive-foreground: var(--destructive-foreground);
   --action-destructive-border: var(--destructive-border);
-  --action-link: var(--primary);
+  --action-link: oklch(0.42 0.006 286);
 
   --border: oklch(0.92 0.004 286);
   --ring: oklch(0.21 0.006 285);
@@ -164,7 +164,7 @@
     --accent-soft: oklch(0.36 0.07 350 / 0.45);
     --accent-foreground: oklch(0.88 0.08 350);
     --accent-border: oklch(0.52 0.1 350);
-    --badge-default: #7b7b7b;
+    --badge-default: oklch(0.7 0.006 286);
     --badge-primary: var(--action-primary-default);
     --badge-primary-foreground: #422006;
     --badge-information: #47c2ff;
@@ -212,12 +212,12 @@
     --action-information-hover: oklch(0.66 0.13 245);
     --action-information-foreground: oklch(0.145 0 0);
     --action-information-border: var(--information-border);
-    --action-muted-default: var(--muted-default);
+    --action-muted-default: oklch(0.32 0.006 286);
     --action-muted-hover: oklch(0.38 0.006 286);
-    --action-muted-foreground: var(--muted-foreground);
+    --action-muted-foreground: oklch(0.82 0 0);
     --action-muted-border: var(--muted-border);
     --action-accent-default: var(--accent-default);
-    --action-accent-hover: oklch(0.68 0.14 340);
+    --action-accent-hover: oklch(0.78 0.14 350);
     --action-accent-foreground: oklch(0.145 0 0);
     --action-accent-border: var(--accent-border);
     --action-success-default: var(--success-default);
@@ -232,7 +232,7 @@
     --action-destructive-hover: oklch(0.62 0.22 22.8);
     --action-destructive-foreground: var(--destructive-foreground);
     --action-destructive-border: var(--destructive-border);
-    --action-link: var(--primary);
+    --action-link: oklch(0.82 0 0);
 
     --border: oklch(0.274 0.006 286);
     --ring: oklch(0.708 0 0); /* light enough for ≥3:1 focus contrast on the dark surface */
@@ -272,7 +272,7 @@
   --accent-soft: oklch(0.36 0.07 350 / 0.45);
   --accent-foreground: oklch(0.88 0.08 350);
   --accent-border: oklch(0.52 0.1 350);
-  --badge-default: #7b7b7b;
+  --badge-default: oklch(0.7 0.006 286);
   --badge-primary: var(--action-primary-default);
   --badge-primary-foreground: #422006;
   --badge-information: #47c2ff;
@@ -320,12 +320,12 @@
   --action-information-hover: oklch(0.66 0.13 245);
   --action-information-foreground: oklch(0.145 0 0);
   --action-information-border: var(--information-border);
-  --action-muted-default: var(--muted-default);
+  --action-muted-default: oklch(0.32 0.006 286);
   --action-muted-hover: oklch(0.38 0.006 286);
-  --action-muted-foreground: var(--muted-foreground);
+  --action-muted-foreground: oklch(0.82 0 0);
   --action-muted-border: var(--muted-border);
   --action-accent-default: var(--accent-default);
-  --action-accent-hover: oklch(0.68 0.14 340);
+  --action-accent-hover: oklch(0.78 0.14 350);
   --action-accent-foreground: oklch(0.145 0 0);
   --action-accent-border: var(--accent-border);
   --action-success-default: var(--success-default);
@@ -340,7 +340,7 @@
   --action-destructive-hover: oklch(0.62 0.22 22.8);
   --action-destructive-foreground: var(--destructive-foreground);
   --action-destructive-border: var(--destructive-border);
-  --action-link: var(--primary);
+  --action-link: oklch(0.82 0 0);
 
   --border: oklch(0.274 0.006 286);
   --ring: oklch(0.708 0 0); /* light enough for ≥3:1 focus contrast on the dark surface */
