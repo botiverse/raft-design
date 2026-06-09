@@ -407,7 +407,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
         className={[
           style.className,
           "min-w-0 py-[240px] text-foreground",
-          isElegantBoard ? "[--radius:0.125rem] [&_[data-tester-surface]]:!shadow-none" : "",
+          isElegantBoard ? "[--radius:0px] [&_[data-tester-surface]]:!shadow-none" : "",
           isDarkSection ? "-mx-8 bg-black px-8 text-white" : "",
         ].join(" ")}
         style={{ fontFamily: "var(--display-font)" }}
@@ -422,15 +422,25 @@ function StyleBoard({ style }: { style: StyleSpec }) {
               <PaletteCard key={role.key} role={role} styleId={style.id} />
             ))}
           </div>
-          <div className="space-y-4">
-            <div className="grid auto-rows-[13rem] gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+          <div className={isElegantBoard ? "" : "space-y-4"}>
+            <div
+              className={[
+                "grid auto-rows-[13rem] lg:grid-cols-2 2xl:grid-cols-3",
+                isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
+              ].join(" ")}
+            >
               <TypographyCard style={style} />
               <ButtonCard />
               <SearchCard />
               <ToggleCard />
               <FieldCard />
             </div>
-            <div className="grid auto-rows-[18rem] gap-4 lg:grid-cols-4">
+            <div
+              className={[
+                "grid auto-rows-[18rem] lg:grid-cols-4",
+                isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
+              ].join(" ")}
+            >
               <DropdownMenuCard />
               <TabsCard />
               <BadgesCard />
@@ -483,15 +493,17 @@ function PaletteCard({
 function TesterTile({
   children,
   className = "",
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   return (
     <div
       data-tester-surface
       className={`min-w-0 border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] ${className}`}
-      style={{ borderRadius: "var(--radius)" }}
+      style={{ borderRadius: "var(--radius)", ...style }}
     >
       {children}
     </div>
@@ -522,7 +534,14 @@ function TypographyCard({ style }: { style: StyleSpec }) {
 
   return (
     <div className="row-span-2 min-w-0 lg:col-span-2 2xl:col-span-1">
-      <TesterTile className="grid h-full content-between gap-4">
+      <TesterTile
+        className="grid h-full content-between gap-4"
+        style={{
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          borderBottomLeftRadius: 0,
+        }}
+      >
         {samples.map((sample) => (
           <div
             key={sample.title}
@@ -556,7 +575,13 @@ function TypographyCard({ style }: { style: StyleSpec }) {
 
 function ButtonCard() {
   return (
-    <TesterTile className="flex items-center justify-center">
+    <TesterTile
+      className="flex items-center justify-center"
+      style={{
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+      }}
+    >
       <div className="grid grid-cols-3 gap-3 text-center">
         <Button size="md" variant="default">
           Default
@@ -592,7 +617,14 @@ function ButtonCard() {
 
 function SearchCard() {
   return (
-    <TesterTile className="flex items-center justify-center">
+    <TesterTile
+      className="flex items-center justify-center"
+      style={{
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
       <InputGroup className="max-w-72">
         <InputGroupAddon.Search />
         <InputGroupInput placeholder="Search..." />
@@ -606,7 +638,13 @@ function SearchCard() {
 
 function FieldCard() {
   return (
-    <TesterTile className="flex items-center justify-center">
+    <TesterTile
+      className="flex items-center justify-center"
+      style={{
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
       <Field className="w-full max-w-72">
         <FieldLabel required>Email</FieldLabel>
         <Input type="email" defaultValue="name@example.com" aria-label="Email" />
@@ -643,7 +681,13 @@ function ToggleCard() {
 
 function TabsCard() {
   return (
-    <TesterTile className="flex items-center justify-center lg:col-span-2">
+    <TesterTile
+      className="flex items-center justify-center lg:col-span-2"
+      style={{
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
       <Tabs defaultValue="tab-1" className="max-w-72">
         <TabsList>
           <TabsTab value="tab-1">
@@ -669,7 +713,14 @@ function TabsCard() {
 
 function BadgesCard() {
   return (
-    <TesterTile className="flex items-center justify-center">
+    <TesterTile
+      className="flex items-center justify-center"
+      style={{
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
       <div className="grid justify-items-center gap-2">
         <Badge>Default</Badge>
         <Badge variant="accent">queued</Badge>
@@ -690,7 +741,13 @@ function BadgesCard() {
 
 function SelectionCard() {
   return (
-    <TesterTile className="grid place-items-center">
+    <TesterTile
+      className="grid place-items-center"
+      style={{
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
       <div className="grid grid-cols-3 items-center gap-x-10 gap-y-7">
         <Status size="lg" fill="gray" />
         <Status size="lg" fill="lime" />
@@ -726,7 +783,11 @@ function DropdownMenuCard() {
       data-tester-surface
       className="relative min-w-0 overflow-hidden border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] lg:col-span-2"
       ref={setContainerElement}
-      style={{ borderRadius: "var(--radius)" }}
+      style={{
+        borderRadius: "var(--radius)",
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+      }}
     >
       {containerElement ? (
         <DropdownMenu open modal={false}>
@@ -778,7 +839,14 @@ function DropdownMenuCard() {
 
 function FeedbackCard() {
   return (
-    <TesterTile className="flex items-center justify-center lg:col-span-2">
+    <TesterTile
+      className="flex items-center justify-center lg:col-span-2"
+      style={{
+        borderTopRightRadius: 0,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    >
       <Banner status="success" className="w-full max-w-md">
         <CheckCircle />
         <BannerTitle>Changes saved</BannerTitle>
