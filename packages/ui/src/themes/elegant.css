@@ -105,6 +105,11 @@
   --tabs-icon-active: var(--tabs-icon);
   --tabs-indicator: var(--tabs-foreground-active);
   --tabs-accent: var(--action-primary-default);
+  --tabs-chip-radius: 4px;
+  --tabs-chip-active-background: #ffffff;
+  --tabs-chip-active-shadow:
+    0 0 0 1px oklch(0 0 0 / 0.1), 0 1px 1px -1px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.03);
+  --tabs-chip-foreground: oklch(0.38 0.006 285);
 
   --banner-foreground: oklch(0.25 0.006 285);
   --banner-description: oklch(0.42 0.006 285);
@@ -283,6 +288,11 @@
     --tabs-icon-active: var(--tabs-icon);
     --tabs-indicator: var(--tabs-foreground-active);
     --tabs-accent: var(--action-primary-default);
+    --tabs-chip-radius: 4px;
+    --tabs-chip-active-background: oklch(0.28 0.006 286);
+    --tabs-chip-active-shadow:
+      0 0 0 1px oklch(1 0 0 / 0.1), 0 1px 1px -1px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.1);
+    --tabs-chip-foreground: oklch(0.65 0.006 286);
 
     --banner-foreground: oklch(0.95 0 0);
     --banner-description: oklch(0.72 0.006 286);
@@ -446,6 +456,11 @@
   --tabs-icon-active: var(--tabs-icon);
   --tabs-indicator: var(--tabs-foreground-active);
   --tabs-accent: var(--action-primary-default);
+  --tabs-chip-radius: 4px;
+  --tabs-chip-active-background: oklch(0.28 0.006 286);
+  --tabs-chip-active-shadow:
+    0 0 0 1px oklch(1 0 0 / 0.1), 0 1px 1px -1px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.1);
+  --tabs-chip-foreground: oklch(0.65 0.006 286);
 
   --banner-foreground: oklch(0.95 0 0);
   --banner-description: oklch(0.72 0.006 286);

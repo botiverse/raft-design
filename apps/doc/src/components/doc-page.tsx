@@ -8,6 +8,7 @@ type DocPageProps = {
   overview?: ReactNode;
   toc: readonly TocItem[];
   showToc?: boolean;
+  showHeader?: boolean;
   children: ReactNode;
 };
 
@@ -17,6 +18,7 @@ export function DocPage({
   overview,
   toc,
   showToc = true,
+  showHeader = true,
   children,
 }: DocPageProps) {
   const contentInset = showToc ? "xl:pr-[var(--rail-w)]" : "";
@@ -26,15 +28,17 @@ export function DocPage({
     <>
       <div className={contentInset}>
         <article className={`w-full min-w-0 px-8 py-12 ${articleWidth}`}>
-          <header className="mb-10">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
-            {description ? <p className="mt-3 text-lg text-gray-600">{description}</p> : null}
-            {overview ? (
-              <div className="mt-4 border-l-2 border-gray-200 pl-4 text-sm leading-relaxed text-gray-500">
-                {overview}
-              </div>
-            ) : null}
-          </header>
+          {showHeader ? (
+            <header className="mb-10">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
+              {description ? <p className="mt-3 text-lg text-gray-600">{description}</p> : null}
+              {overview ? (
+                <div className="mt-4 border-l-2 border-gray-200 pl-4 text-sm leading-relaxed text-gray-500">
+                  {overview}
+                </div>
+              ) : null}
+            </header>
+          ) : null}
           {children}
         </article>
       </div>

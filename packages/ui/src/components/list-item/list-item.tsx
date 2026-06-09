@@ -6,8 +6,22 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 const listItem = tv({
   slots: {
     root: ["px-4 py-3 transition-colors"],
-    body: ["min-w-0"],
-    row: ["flex min-w-0 flex-wrap items-center gap-2", "[&_svg]:size-3 [&_svg]:shrink-0"],
+    body: [
+      "min-w-0",
+      "grid grid-cols-[minmax(0,1fr)]",
+      "has-[>[data-slot=list-item-icon]]:grid-cols-[auto_minmax(0,1fr)]",
+      "has-[>[data-slot=list-item-icon]]:items-start",
+      "has-[>[data-slot=list-item-icon]]:gap-x-2",
+      "has-[>[data-slot=list-item-icon]]:[&>[data-slot=list-item-icon]]:col-start-1",
+      "has-[>[data-slot=list-item-icon]]:[&>[data-slot=list-item-icon]]:row-start-1",
+      "has-[>[data-slot=list-item-icon]]:has-[>[data-slot=list-item-description]]:[&>[data-slot=list-item-icon]]:row-span-2",
+      "has-[>[data-slot=list-item-icon]]:[&>[data-slot=list-item-row]]:col-start-2",
+      "has-[>[data-slot=list-item-icon]]:[&>[data-slot=list-item-description]]:col-start-2",
+      "has-[>[data-slot=list-item-icon]]:[&>[data-slot=list-item-meta]]:col-start-2",
+      "has-[>[data-slot=list-item-icon]]:[&>[data-slot=list-item-action-group]]:col-start-2",
+    ],
+    icon: ["shrink-0 self-start", "[&_svg]:size-3.5 [&_svg]:shrink-0"],
+    row: ["flex min-w-0 flex-wrap items-center gap-2", "[&_svg]:size-3.5 [&_svg]:shrink-0"],
     title: ["break-words text-sm font-bold"],
     description: ["mt-1 text-xs"],
     meta: [
@@ -20,6 +34,7 @@ const listItem = tv({
     theme: {
       brutal: {
         root: ["border-2"],
+        icon: ["mt-0.5 text-black/50"],
         title: "text-black",
         description: "text-black/60",
         meta: "text-black/50",
@@ -32,6 +47,7 @@ const listItem = tv({
           "transition-[background-color,border-color] duration-150",
           "focus-visible:ring-2 focus-visible:ring-ring",
         ],
+        icon: ["mt-0.5 text-[var(--list-item-meta)]"],
         row: ["items-center gap-2"],
         title: [
           "text-sm font-medium leading-snug tracking-[-0.005em]",
@@ -136,6 +152,25 @@ export function ListItemBody({ className, render, ...props }: ListItemBodyProps)
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "list-item-body",
+    },
+  });
+}
+
+export type ListItemIconProps = useRender.ComponentProps<"div">;
+
+export function ListItemIcon({ className, render, ...props }: ListItemIconProps) {
+  const theme = useTheme();
+  const { icon } = listItem({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: icon({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "list-item-icon",
     },
   });
 }

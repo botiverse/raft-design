@@ -16,6 +16,7 @@ import {
   IconBellOutline18,
   IconChatBubbleOutline18,
   IconCreditCardOutline18,
+  IconEarthSearchOutline18,
   IconFilesOutline18,
   IconGearOutline18,
   IconHouseOutline18,
@@ -50,6 +51,7 @@ import {
   ListItem,
   ListItemBody,
   ListItemDescription,
+  ListItemIcon,
   ListItemRow,
   ListItemTitle,
   Tabs,
@@ -96,20 +98,17 @@ const STYLES = [
   },
 ] as const;
 
+const ACTIVE_STYLES = STYLES.filter((style) => style.id === "elegant");
+
 type StyleSpec = (typeof STYLES)[number];
 
 export const Route = createFileRoute("/style-tester")({ component: StyleTesterDoc });
 
 function StyleTesterDoc() {
   return (
-    <DocPage
-      title="Style Tester"
-      description="Standalone visual tester for @slock/ui component rendering across brutal, elegant, and elegant dark."
-      toc={TOC}
-      showToc={false}
-    >
+    <DocPage title="Style Tester" toc={TOC} showToc={false} showHeader={false}>
       <div className="pb-16">
-        {STYLES.map((style) => (
+        {ACTIVE_STYLES.map((style) => (
           <StyleBoard key={style.id} style={style} />
         ))}
       </div>
@@ -133,10 +132,6 @@ function StyleBoard({ style }: { style: StyleSpec }) {
         ].join(" ")}
         style={{ fontFamily: "var(--display-font)" }}
       >
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold">{style.label}</h2>
-        </div>
-
         <div className={isElegantBoard ? "" : "space-y-4"}>
           <div
             className={[
@@ -367,6 +362,9 @@ function ListItemCard() {
     <TesterTile label="List Item" className="flex items-center justify-center">
       <ListItem className="w-full max-w-sm">
         <ListItemBody>
+          <ListItemIcon>
+            <IconEarthSearchOutline18 aria-hidden />
+          </ListItemIcon>
           <ListItemRow>
             <ListItemTitle>Web Search</ListItemTitle>
             <Badge
@@ -443,18 +441,21 @@ const STYLE_TESTER_ACCOUNT_TABS: StyleTesterTabItem[] = [
 
 function StyleTesterTabs({
   elegant,
-  activeAccent = false,
+  variant = "underline",
   items,
   defaultValue,
 }: {
   elegant: boolean;
-  activeAccent?: boolean;
+  variant?: "underline" | "chip";
   defaultValue: string;
   items: StyleTesterTabItem[];
 }) {
   return (
-    <Tabs defaultValue={defaultValue} className={elegant ? "w-full max-w-xl" : "max-w-72"}>
-      <TabsList activeAccent={activeAccent}>
+    <Tabs
+      defaultValue={defaultValue}
+      className={elegant ? "w-full max-w-xl overflow-visible" : "max-w-72"}
+    >
+      <TabsList variant={elegant ? variant : "underline"}>
         {items.map((tab) => (
           <TabsTab key={tab.value} value={tab.value}>
             {elegant ? tab.elegantIcon : tab.brutalIcon}
@@ -475,22 +476,23 @@ function TabsCard({ style }: { style: StyleSpec }) {
   return (
     <TesterTile
       label="Tabs"
-      className="flex items-center justify-center lg:col-span-2"
+      className="flex items-center justify-center overflow-visible lg:col-span-2"
       style={{
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
       }}
     >
-      <div className="flex w-full flex-col items-center gap-10">
+      <div className="flex w-full flex-col items-center gap-10 overflow-visible px-1">
         <StyleTesterTabs
           elegant={isElegant}
+          variant="underline"
           defaultValue="chat"
           items={STYLE_TESTER_WORKSPACE_TABS}
         />
         {isElegant ? (
           <StyleTesterTabs
             elegant
-            activeAccent
+            variant="chip"
             defaultValue="overview"
             items={STYLE_TESTER_ACCOUNT_TABS}
           />

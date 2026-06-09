@@ -60,7 +60,21 @@ const tabs = tv({
           "data-[overlay=true]:z-20 data-[overlay=true]:cursor-grabbing data-[overlay=true]:[outline:2px_solid_oklch(0_0_0)] data-[overlay=true]:[outline-offset:-2px]",
         ],
       },
-      elegant: {
+      elegant: {},
+    },
+    variant: {
+      underline: {},
+      chip: {},
+    },
+  },
+  defaultVariants: {
+    variant: "underline",
+  },
+  compoundVariants: [
+    {
+      theme: "elegant",
+      variant: "underline",
+      class: {
         list: [
           "group/tabs-list relative flex h-12 w-max max-w-full items-center gap-6 px-4",
           "overflow-x-auto overflow-y-hidden overscroll-contain whitespace-nowrap",
@@ -90,7 +104,41 @@ const tabs = tv({
         ],
       },
     },
-  },
+    {
+      theme: "elegant",
+      variant: "chip",
+      class: {
+        list: [
+          "group/tabs-list relative flex h-auto w-max max-w-full items-center gap-1",
+          "overflow-x-auto overflow-y-visible overscroll-contain whitespace-nowrap",
+          "px-2 py-1.5",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        ],
+        tab: [
+          "group/tabs-tab h-auto justify-center gap-1 rounded-[var(--tabs-chip-radius)] px-3 py-2",
+          "text-sm font-medium tracking-[-0.005em] text-[var(--tabs-foreground)]",
+          "transition-[background-color,box-shadow,color] duration-150 ease-out",
+          "hover:text-[var(--tabs-foreground-hover)]",
+          "data-[active]:bg-[var(--tabs-chip-active-background)]",
+          "data-[active]:px-2.5 data-[active]:py-1.5",
+          "data-[active]:shadow-[var(--tabs-chip-active-shadow)]",
+          "data-[active]:text-[var(--tabs-chip-foreground)]",
+          "data-[active]:hover:text-[var(--tabs-chip-foreground)]",
+          "data-[active]:[&_[data-slot=tabs-label]]:font-mono",
+          "data-[active]:[&_[data-slot=tabs-label]]:text-sm",
+          "data-[active]:[&_[data-slot=tabs-label]]:leading-[1.333]",
+          "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-1",
+          "[&_svg]:text-[var(--tabs-icon)] [&_svg]:transition-colors [&_svg]:duration-150 [&_svg]:ease-out",
+          "hover:[&_svg]:text-[var(--tabs-icon-hover)]",
+          "data-[active]:[&_svg]:text-[var(--tabs-chip-foreground)]",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
+          "data-[dragging-source=true]:opacity-0",
+          "data-[overlay=true]:z-20 data-[overlay=true]:cursor-grabbing data-[overlay=true]:bg-[var(--tabs-chip-active-background)] data-[overlay=true]:shadow-[var(--tabs-chip-active-shadow)]",
+        ],
+        indicator: ["hidden"],
+      },
+    },
+  ],
 });
 
 type TabsReorderContextValue = {
@@ -99,6 +147,7 @@ type TabsReorderContextValue = {
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
 const TabsValueContext = createContext<string | undefined>(undefined);
+const TabsListVariantContext = createContext<"underline" | "chip">("underline");
 const REORDER_ENABLED_CONTEXT = { enabled: true } as const satisfies TabsReorderContextValue;
 
 export type TabsProps<T extends string = string> = StyledProps<
@@ -141,40 +190,26 @@ export function Tabs<T extends string = string>({
 }
 
 export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
-  activeAccent?: boolean;
+  variant?: "underline" | "chip";
 };
 
-const ACTIVE_ACCENT_STYLE = {
-  "--tabs-icon-active": "var(--tabs-accent)",
-  "--tabs-indicator": "var(--tabs-accent)",
-} as CSSProperties;
-
-export function TabsList({
-  className,
-  children,
-  activeAccent = false,
-  style,
-  ...props
-}: TabsListProps) {
+export function TabsList({ className, children, variant = "underline", ...props }: TabsListProps) {
   const theme = useTheme();
-  const { list } = tabs({ theme });
-  const resolvedStyle =
-    typeof style === "function"
-      ? style
-      : activeAccent
-        ? { ...ACTIVE_ACCENT_STYLE, ...style }
-        : style;
+  const resolvedVariant = theme === "elegant" ? variant : "underline";
+  const { list } = tabs({ theme, variant: resolvedVariant });
 
   return (
-    <BaseTabs.List
-      data-slot="tabs-list"
-      className={list({ className })}
-      style={resolvedStyle}
-      {...props}
-    >
-      {children}
-      {theme === "elegant" ? <TabsIndicator /> : null}
-    </BaseTabs.List>
+    <TabsListVariantContext.Provider value={resolvedVariant}>
+      <BaseTabs.List
+        data-slot="tabs-list"
+        data-variant={resolvedVariant}
+        className={list({ className })}
+        {...props}
+      >
+        {children}
+        {theme === "elegant" && resolvedVariant === "underline" ? <TabsIndicator /> : null}
+      </BaseTabs.List>
+    </TabsListVariantContext.Provider>
   );
 }
 
@@ -292,7 +327,8 @@ function TabsTabButton<T extends string = string>({
   sortableRef?: (node: HTMLElement | null) => void;
 }) {
   const theme = useTheme();
-  const { tab } = tabs({ theme });
+  const variant = use(TabsListVariantContext);
+  const { tab } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
 
   return (
     <BaseTabs.Tab
@@ -344,7 +380,8 @@ type TabsTabVisualProps = ComponentPropsWithRef<"button"> & {
 
 function TabsTabVisual({ active, className, overlay, ...props }: TabsTabVisualProps) {
   const theme = useTheme();
-  const { tab } = tabs({ theme });
+  const variant = use(TabsListVariantContext);
+  const { tab } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
 
   return (
     <button
@@ -376,7 +413,8 @@ export type TabsIndicatorProps = StyledProps<BaseTabs.Indicator.Props>;
 
 export function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
   const theme = useTheme();
-  const { indicator } = tabs({ theme });
+  const variant = use(TabsListVariantContext);
+  const { indicator } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
   return (
     <BaseTabs.Indicator
       data-slot="tabs-indicator"
