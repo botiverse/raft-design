@@ -36,7 +36,7 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const TODOS = [] as const;
 
 const SNIPPETS = {
   anatomy: `import { Tabs, TabsLabel, TabsList, TabsPanel, TabsTab } from "@slock/ui";

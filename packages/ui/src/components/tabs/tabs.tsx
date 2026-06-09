@@ -35,14 +35,9 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 const tabs = tv({
   slots: {
     root: ["w-full"],
-    list: [
-      "flex w-max max-w-full overflow-x-auto border-l-2 border-t-2 border-b-2 bg-white",
-      "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-    ],
+    list: [""],
     tab: [
-      "relative flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap px-4 py-1.5",
-      "border-r-2 text-xs font-bold transition-colors",
-      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3",
+      "relative flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap outline-none",
     ],
     label: [""],
     panel: ["outline-none"],
@@ -51,17 +46,49 @@ const tabs = tv({
   variants: {
     theme: {
       brutal: {
-        list: ["border-black"],
+        list: [
+          "flex w-max max-w-full overflow-x-auto border-l-2 border-t-2 border-b-2 border-black bg-white",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        ],
         tab: [
-          "border-black bg-white hover:bg-black/5",
+          "border-r-2 border-black bg-white px-4 py-1.5 text-xs font-bold transition-colors",
+          "hover:bg-black/5",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3",
           "data-[active]:bg-brutal-yellow data-[active]:hover:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
           "data-[dragging-source=true]:opacity-0",
           "data-[overlay=true]:z-20 data-[overlay=true]:cursor-grabbing data-[overlay=true]:[outline:2px_solid_oklch(0_0_0)] data-[overlay=true]:[outline-offset:-2px]",
         ],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        list: [
+          "group/tabs-list relative flex h-12 w-max max-w-full items-center gap-6 px-4",
+          "overflow-x-auto overflow-y-hidden overscroll-contain whitespace-nowrap",
+          "border-y border-[var(--tabs-border)]",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        ],
+        tab: [
+          "group/tabs-tab h-12 justify-center px-3 py-3.5",
+          "text-[0.8125rem] font-medium tracking-[-0.005em] text-[var(--tabs-foreground)]",
+          "transition-colors duration-200 ease-out",
+          "hover:text-[var(--tabs-foreground-hover)]",
+          "data-[active]:text-[var(--tabs-foreground-active)]",
+          "data-[active]:hover:text-[var(--tabs-foreground-active)]",
+          "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-1",
+          "[&_svg]:text-[var(--tabs-icon)] [&_svg]:transition-colors [&_svg]:duration-200 [&_svg]:ease-out",
+          "hover:[&_svg]:text-[var(--tabs-icon-hover)]",
+          "data-[active]:[&_svg]:text-[var(--tabs-icon-active)]",
+          "data-[active]:hover:[&_svg]:text-[var(--tabs-icon-active)]",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
+          "data-[dragging-source=true]:opacity-0",
+          "data-[overlay=true]:z-20 data-[overlay=true]:cursor-grabbing data-[overlay=true]:bg-surface data-[overlay=true]:shadow-sm",
+        ],
+        indicator: [
+          "absolute bottom-0 left-[var(--active-tab-left)] z-10 h-0.5",
+          "w-[var(--active-tab-width)] bg-[var(--tabs-indicator)]",
+          "transition-[left,width] duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
+        ],
+      },
     },
   },
 });
@@ -72,7 +99,6 @@ type TabsReorderContextValue = {
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
 const TabsValueContext = createContext<string | undefined>(undefined);
-
 const REORDER_ENABLED_CONTEXT = { enabled: true } as const satisfies TabsReorderContextValue;
 
 export type TabsProps<T extends string = string> = StyledProps<
@@ -114,12 +140,42 @@ export function Tabs<T extends string = string>({
   );
 }
 
-export type TabsListProps = StyledProps<BaseTabs.List.Props>;
+export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
+  activeAccent?: boolean;
+};
 
-export function TabsList({ className, ...props }: TabsListProps) {
+const ACTIVE_ACCENT_STYLE = {
+  "--tabs-icon-active": "var(--tabs-accent)",
+  "--tabs-indicator": "var(--tabs-accent)",
+} as CSSProperties;
+
+export function TabsList({
+  className,
+  children,
+  activeAccent = false,
+  style,
+  ...props
+}: TabsListProps) {
   const theme = useTheme();
   const { list } = tabs({ theme });
-  return <BaseTabs.List data-slot="tabs-list" className={list({ className })} {...props} />;
+  const resolvedStyle =
+    typeof style === "function"
+      ? style
+      : activeAccent
+        ? { ...ACTIVE_ACCENT_STYLE, ...style }
+        : style;
+
+  return (
+    <BaseTabs.List
+      data-slot="tabs-list"
+      className={list({ className })}
+      style={resolvedStyle}
+      {...props}
+    >
+      {children}
+      {theme === "elegant" ? <TabsIndicator /> : null}
+    </BaseTabs.List>
+  );
 }
 
 export type SortableTabsListProps<T extends string = string> = TabsListProps & {
@@ -319,7 +375,8 @@ export function TabsPanel({ className, ...props }: TabsPanelProps) {
 export type TabsIndicatorProps = StyledProps<BaseTabs.Indicator.Props>;
 
 export function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
-  const { indicator } = tabs();
+  const theme = useTheme();
+  const { indicator } = tabs({ theme });
   return (
     <BaseTabs.Indicator
       data-slot="tabs-indicator"

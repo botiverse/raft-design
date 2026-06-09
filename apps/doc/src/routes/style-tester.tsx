@@ -1,8 +1,28 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Bookmark, Check, CheckCircle, FileText, Inbox, Plus, Settings, X } from "lucide-react";
+import {
+  Bell,
+  Bookmark,
+  Check,
+  CheckCircle,
+  Files,
+  MessageSquare,
+  Plus,
+  Settings,
+  Users,
+  X,
+} from "lucide-react";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { IconPlusOutline18, IconUsersOutline18 } from "nucleo-ui-outline-18";
+import {
+  IconBellOutline18,
+  IconChatBubbleOutline18,
+  IconCreditCardOutline18,
+  IconFilesOutline18,
+  IconGearOutline18,
+  IconHouseOutline18,
+  IconPlusOutline18,
+  IconUsersOutline18,
+} from "nucleo-ui-outline-18";
 import {
   Badge,
   Banner,
@@ -450,7 +470,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
               ].join(" ")}
             >
               <DropdownMenuCard style={style} />
-              <TabsCard />
+              <TabsCard style={style} />
               <BadgesCard />
               <SelectionCard />
               <FeedbackCard />
@@ -685,7 +705,92 @@ function PanelHeaderCard() {
   );
 }
 
-function TabsCard() {
+type StyleTesterTabItem = {
+  brutalIcon: ReactNode;
+  elegantIcon: ReactNode;
+  label: string;
+  value: string;
+};
+
+const STYLE_TESTER_WORKSPACE_TABS: StyleTesterTabItem[] = [
+  {
+    value: "chat",
+    label: "Chat",
+    elegantIcon: <IconChatBubbleOutline18 strokeWidth={1} />,
+    brutalIcon: <MessageSquare />,
+  },
+  {
+    value: "files",
+    label: "Files",
+    elegantIcon: <IconFilesOutline18 strokeWidth={1} />,
+    brutalIcon: <Files />,
+  },
+  {
+    value: "members",
+    label: "Members",
+    elegantIcon: <IconUsersOutline18 strokeWidth={1} />,
+    brutalIcon: <Users />,
+  },
+  {
+    value: "alerts",
+    label: "Alerts",
+    elegantIcon: <IconBellOutline18 strokeWidth={1} />,
+    brutalIcon: <Bell />,
+  },
+];
+
+const STYLE_TESTER_ACCOUNT_TABS: StyleTesterTabItem[] = [
+  {
+    value: "overview",
+    label: "Overview",
+    elegantIcon: <IconHouseOutline18 strokeWidth={1} />,
+    brutalIcon: <Settings />,
+  },
+  {
+    value: "billing",
+    label: "Billing",
+    elegantIcon: <IconCreditCardOutline18 strokeWidth={1} />,
+    brutalIcon: <Settings />,
+  },
+  {
+    value: "settings",
+    label: "Settings",
+    elegantIcon: <IconGearOutline18 strokeWidth={1} />,
+    brutalIcon: <Settings />,
+  },
+];
+
+function StyleTesterTabs({
+  elegant,
+  activeAccent = false,
+  items,
+  defaultValue,
+}: {
+  elegant: boolean;
+  activeAccent?: boolean;
+  defaultValue: string;
+  items: StyleTesterTabItem[];
+}) {
+  return (
+    <Tabs defaultValue={defaultValue} className={elegant ? "w-full max-w-xl" : "max-w-72"}>
+      <TabsList activeAccent={activeAccent}>
+        {items.map((tab) => (
+          <TabsTab key={tab.value} value={tab.value}>
+            {elegant ? tab.elegantIcon : tab.brutalIcon}
+            <TabsLabel>{tab.label}</TabsLabel>
+          </TabsTab>
+        ))}
+      </TabsList>
+      <TabsPanel value={defaultValue} className="sr-only">
+        {items.find((tab) => tab.value === defaultValue)?.label ?? defaultValue}
+      </TabsPanel>
+    </Tabs>
+  );
+}
+
+function TabsCard({ style }: { style: StyleSpec }) {
+  const isElegant = style.theme === "elegant";
+
   return (
     <TesterTile
       className="flex items-center justify-center lg:col-span-2"
@@ -694,25 +799,21 @@ function TabsCard() {
         borderBottomRightRadius: 0,
       }}
     >
-      <Tabs defaultValue="tab-1" className="max-w-72">
-        <TabsList>
-          <TabsTab value="tab-1">
-            <Inbox />
-            <TabsLabel>Tab</TabsLabel>
-          </TabsTab>
-          <TabsTab value="tab-2">
-            <FileText />
-            <TabsLabel>Tab</TabsLabel>
-          </TabsTab>
-          <TabsTab value="tab-3">
-            <Settings />
-            <TabsLabel>Tab</TabsLabel>
-          </TabsTab>
-        </TabsList>
-        <TabsPanel value="tab-1" className="sr-only">
-          Tab 1
-        </TabsPanel>
-      </Tabs>
+      <div className="flex w-full flex-col items-center gap-10">
+        <StyleTesterTabs
+          elegant={isElegant}
+          defaultValue="chat"
+          items={STYLE_TESTER_WORKSPACE_TABS}
+        />
+        {isElegant ? (
+          <StyleTesterTabs
+            elegant
+            activeAccent
+            defaultValue="overview"
+            items={STYLE_TESTER_ACCOUNT_TABS}
+          />
+        ) : null}
+      </div>
     </TesterTile>
   );
 }

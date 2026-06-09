@@ -96,6 +96,16 @@
   --dropdown-outer-radius: var(--radius);
   --dropdown-item-radius: calc(var(--dropdown-outer-radius) - var(--dropdown-padding));
 
+  --tabs-border: oklch(25.42% 0 89.37 / 0.08);
+  --tabs-foreground: oklch(0.58 0.006 285);
+  --tabs-foreground-hover: oklch(0.42 0.006 285);
+  --tabs-foreground-active: oklch(0.25 0.006 285);
+  --tabs-icon: oklch(0.58 0.006 285);
+  --tabs-icon-hover: oklch(0.42 0.006 285);
+  --tabs-icon-active: var(--tabs-icon);
+  --tabs-indicator: var(--tabs-foreground-active);
+  --tabs-accent: var(--action-primary-default);
+
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
   --action-primary-foreground: #422006;
@@ -232,6 +242,16 @@
     --dropdown-count-background: oklch(96% 0 89.37 / 0.08);
     --dropdown-count-foreground: oklch(0.65 0.006 286);
 
+    --tabs-border: oklch(96% 0 89.37 / 0.08);
+    --tabs-foreground: oklch(0.65 0.006 286);
+    --tabs-foreground-hover: oklch(0.82 0.006 286);
+    --tabs-foreground-active: oklch(0.95 0 0);
+    --tabs-icon: oklch(0.65 0.006 286);
+    --tabs-icon-hover: oklch(0.82 0.006 286);
+    --tabs-icon-active: var(--tabs-icon);
+    --tabs-indicator: var(--tabs-foreground-active);
+    --tabs-accent: var(--action-primary-default);
+
     --action-primary-default: #facc15;
     --action-primary-hover: #eab308;
     --action-primary-foreground: #422006;
@@ -354,6 +374,16 @@
   --dropdown-shortcut-foreground: oklch(0.65 0.006 286);
   --dropdown-count-background: oklch(96% 0 89.37 / 0.08);
   --dropdown-count-foreground: oklch(0.65 0.006 286);
+
+  --tabs-border: oklch(96% 0 89.37 / 0.08);
+  --tabs-foreground: oklch(0.65 0.006 286);
+  --tabs-foreground-hover: oklch(0.82 0.006 286);
+  --tabs-foreground-active: oklch(0.95 0 0);
+  --tabs-icon: oklch(0.65 0.006 286);
+  --tabs-icon-hover: oklch(0.82 0.006 286);
+  --tabs-icon-active: var(--tabs-icon);
+  --tabs-indicator: var(--tabs-foreground-active);
+  --tabs-accent: var(--action-primary-default);
 
   --action-primary-default: #facc15;
   --action-primary-hover: #eab308;
