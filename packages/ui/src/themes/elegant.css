@@ -6,7 +6,7 @@
  * element (both go on <html>).
  */
 [data-theme="elegant"] {
-  --background: oklch(1 0 0);
+  --background: #fafafa;
   --foreground: oklch(0.145 0 0);
 
   --primary: oklch(0.21 0.006 285);
@@ -55,12 +55,12 @@
 
   --surface: var(--background);
   --surface-muted: var(--neutral-soft);
-  --surface-elevated: var(--background);
+  --surface-elevated: #ffffff;
   --surface-foreground: var(--foreground);
   --surface-muted-foreground: var(--muted-foreground);
   --surface-border: var(--border);
   --surface-border-subtle: var(--border);
-  --input-background: var(--surface);
+  --input-background: var(--surface-elevated);
   --input-hover-background: oklch(0.985 0 0);
   --input-disabled-background: var(--surface-muted);
   --input-foreground: var(--foreground);
@@ -69,10 +69,10 @@
   --input-icon: var(--muted-foreground);
   --input-border: var(--surface-border-subtle);
   --input-focus-border: oklch(0.62 0.006 285);
-  --kbd-background: var(--surface);
+  --kbd-background: var(--surface-elevated);
   --kbd-foreground: var(--muted-foreground);
   --kbd-border: var(--surface-border-subtle);
-  --dropdown-background: var(--background);
+  --dropdown-background: var(--surface-elevated);
   --dropdown-foreground: oklch(0.36 0.006 285);
   --dropdown-foreground-hover: oklch(0.25 0.006 285);
   --dropdown-muted-foreground: oklch(0.58 0.006 285);
@@ -118,7 +118,7 @@
   --banner-radius: 4px;
 
   --list-item-radius: 0.5rem;
-  --list-item-background: var(--background);
+  --list-item-background: var(--surface-elevated);
   --list-item-border: oklch(25.42% 0 89.37 / 0.08);
   --list-item-foreground: oklch(0.25 0.006 285);
   --list-item-description: oklch(0.42 0.006 285);
@@ -145,8 +145,8 @@
   --action-primary-hover: #eab308;
   --action-primary-foreground: #422006;
   --action-primary-border: var(--action-primary-default);
-  --action-default-default: #fafafa;
-  --action-default-hover: oklch(1 0 0);
+  --action-default-default: #ffffff;
+  --action-default-hover: oklch(0.98 0.001 286);
   --action-default-foreground: var(--secondary-foreground);
   --action-default-border: var(--border);
   --action-neutral-hover: oklch(0.94 0.002 286);

@@ -78,11 +78,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const isStandalonePage = location.pathname === "/style-tester";
 
   return (
-    <html lang="en" data-theme={family} suppressHydrationWarning>
+    <html lang="en" data-theme={isStandalonePage ? "elegant" : family} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body className="bg-white text-gray-900 antialiased">
+      <body className="bg-background text-foreground antialiased">
         <NextThemesProvider attribute="class" enableSystem defaultTheme="system">
           <ThemeProvider theme={family}>
             <FamilyContext.Provider value={familyValue}>
