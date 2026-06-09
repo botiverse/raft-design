@@ -42,7 +42,7 @@ const inputGroup = tv({
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-[10px] border border-[var(--input-border)] bg-[var(--input-background)]",
+          "overflow-hidden rounded-[var(--list-item-radius)] border border-[var(--input-border)] bg-[var(--input-background)]",
           "text-[var(--input-foreground)] transition duration-200 ease-out",
           "hover:border-transparent hover:bg-[var(--input-hover-background)]",
           "has-[[data-slot=input-group-control]:focus]:border-[var(--input-focus-border)] has-[[data-slot=input-group-control]:focus]:bg-[var(--input-background)]",

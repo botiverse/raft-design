@@ -5,7 +5,7 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const listItem = tv({
   slots: {
-    root: ["border-2 px-4 py-3 transition-colors"],
+    root: ["px-4 py-3 transition-colors"],
     body: ["min-w-0"],
     row: ["flex min-w-0 flex-wrap items-center gap-2", "[&_svg]:size-3 [&_svg]:shrink-0"],
     title: ["break-words text-sm font-bold"],
@@ -19,11 +19,31 @@ const listItem = tv({
   variants: {
     theme: {
       brutal: {
+        root: ["border-2"],
         title: "text-black",
         description: "text-black/60",
         meta: "text-black/50",
       },
-      elegant: {},
+      elegant: {
+        root: [
+          "rounded-[var(--list-item-radius)] border",
+          "border-[var(--list-item-border)] bg-[var(--list-item-background)]",
+          "outline-none",
+          "transition-[background-color,border-color] duration-150",
+          "focus-visible:ring-2 focus-visible:ring-ring",
+        ],
+        row: ["items-center gap-2"],
+        title: [
+          "text-sm font-medium leading-snug tracking-[-0.005em]",
+          "text-[var(--list-item-foreground)]",
+        ],
+        description: [
+          "mt-1 text-[0.8125rem] font-normal leading-normal",
+          "text-[var(--list-item-description)]",
+        ],
+        meta: ["text-[var(--list-item-meta)]"],
+        actionGroup: ["mt-2 gap-2"],
+      },
     },
     selected: {
       true: {
@@ -56,6 +76,24 @@ const listItem = tv({
       selected: false,
       interactive: true,
       class: { root: "hover:border-surface-border hover:[box-shadow:var(--surface-shadow-sm)]" },
+    },
+    {
+      theme: "elegant",
+      selected: true,
+      class: {
+        root: [
+          "border-[var(--list-item-selected-border)]",
+          "bg-[var(--list-item-selected-background)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      selected: false,
+      interactive: true,
+      class: {
+        root: "hover:bg-[var(--list-item-hover)]",
+      },
     },
   ],
   defaultVariants: {
@@ -105,7 +143,8 @@ export function ListItemBody({ className, render, ...props }: ListItemBodyProps)
 export type ListItemRowProps = useRender.ComponentProps<"div">;
 
 export function ListItemRow({ className, render, ...props }: ListItemRowProps) {
-  const { row } = listItem();
+  const theme = useTheme();
+  const { row } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: row({ className }),
   };
@@ -180,7 +219,8 @@ export function ListItemMeta({ className, render, ...props }: ListItemMetaProps)
 export type ListItemActionGroupProps = useRender.ComponentProps<"div">;
 
 export function ListItemActionGroup({ className, render, ...props }: ListItemActionGroupProps) {
-  const { actionGroup } = listItem();
+  const theme = useTheme();
+  const { actionGroup } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actionGroup({ className }),
   };

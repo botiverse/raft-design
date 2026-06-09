@@ -43,8 +43,8 @@
   --badge-primary-foreground: #422006;
   --badge-information: #47c2ff;
   --badge-accent: var(--accent-default);
-  --badge-warning: #f6b51e;
-  --badge-warning-foreground: #422006;
+  --badge-warning: var(--checkbox-checked-primary);
+  --badge-warning-foreground: var(--checkbox-mark-primary);
   --badge-success: #1fc16b;
   --badge-destructive: #fb3748;
   --badge-foreground: oklch(1 0 0);
@@ -93,7 +93,7 @@
   --dropdown-count-background: oklch(25.42% 0 89.37 / 0.06);
   --dropdown-count-foreground: oklch(0.52 0.006 285);
   --dropdown-padding: 0.25rem;
-  --dropdown-outer-radius: var(--radius);
+  --dropdown-outer-radius: var(--list-item-radius);
   --dropdown-item-radius: calc(var(--dropdown-outer-radius) - var(--dropdown-padding));
 
   --tabs-border: oklch(25.42% 0 89.37 / 0.08);
@@ -111,6 +111,16 @@
   --banner-dismiss: oklch(0.25 0.006 285 / 0.4);
   --banner-dismiss-hover: oklch(0.25 0.006 285 / 0.64);
   --banner-radius: 4px;
+
+  --list-item-radius: 0.5rem;
+  --list-item-background: var(--background);
+  --list-item-border: oklch(25.42% 0 89.37 / 0.08);
+  --list-item-foreground: oklch(0.25 0.006 285);
+  --list-item-description: oklch(0.42 0.006 285);
+  --list-item-meta: oklch(0.58 0.006 285);
+  --list-item-hover: var(--dropdown-hover);
+  --list-item-selected-background: var(--information-soft);
+  --list-item-selected-border: var(--information-border);
 
   --checkbox-unchecked: oklch(0.94 0.004 286);
   --checkbox-unchecked-hover: oklch(0.88 0.004 286);
@@ -163,10 +173,10 @@
   --action-warning-hover: oklch(0.6 0.15 75);
   --action-warning-foreground: oklch(0.145 0 0);
   --action-warning-border: var(--warning-default);
-  --action-destructive-default: oklch(0.67 0.21 22.8);
-  --action-destructive-hover: oklch(0.62 0.22 22.8);
-  --action-destructive-foreground: var(--destructive-foreground);
-  --action-destructive-border: var(--destructive-border);
+  --action-destructive-default: var(--destructive-soft);
+  --action-destructive-hover: oklch(0.94 0.045 25);
+  --action-destructive-foreground: var(--destructive-default);
+  --action-destructive-border: var(--action-destructive-default);
   --action-link: oklch(0.42 0.006 286);
 
   --border: oklch(0.92 0.004 286);
@@ -182,6 +192,8 @@
   --surface-shadow-lg: 0 10px 24px -12px oklch(0 0 0 / 0.18);
 
   --display-font: "Geist", system-ui, sans-serif;
+  --heading-font: "Inter", system-ui, sans-serif;
+  --heading-font-variation: "opsz" 32;
   --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
@@ -225,8 +237,8 @@
     --badge-primary-foreground: #422006;
     --badge-information: #47c2ff;
     --badge-accent: var(--accent-default);
-    --badge-warning: #f6b51e;
-    --badge-warning-foreground: #422006;
+    --badge-warning: var(--checkbox-checked-primary);
+    --badge-warning-foreground: var(--checkbox-mark-primary);
     --badge-success: #1fc16b;
     --badge-destructive: #fb3748;
     --badge-foreground: oklch(1 0 0);
@@ -277,6 +289,16 @@
     --banner-dismiss: oklch(0.95 0 0 / 0.4);
     --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
     --banner-radius: 4px;
+
+    --list-item-radius: 0.5rem;
+    --list-item-background: var(--background);
+    --list-item-border: oklch(96% 0 89.37 / 0.08);
+    --list-item-foreground: oklch(0.95 0 0);
+    --list-item-description: oklch(0.72 0.006 286);
+    --list-item-meta: oklch(0.65 0.006 286);
+    --list-item-hover: var(--dropdown-hover);
+    --list-item-selected-background: var(--information-soft);
+    --list-item-selected-border: var(--information-border);
 
     --checkbox-unchecked: oklch(0.32 0.006 286);
     --checkbox-unchecked-hover: oklch(0.38 0.006 286);
@@ -329,10 +351,10 @@
     --action-warning-hover: oklch(0.72 0.15 80);
     --action-warning-foreground: oklch(0.145 0 0);
     --action-warning-border: var(--warning-border);
-    --action-destructive-default: oklch(0.67 0.21 22.8);
-    --action-destructive-hover: oklch(0.62 0.22 22.8);
-    --action-destructive-foreground: var(--destructive-foreground);
-    --action-destructive-border: var(--destructive-border);
+    --action-destructive-default: var(--destructive-soft);
+    --action-destructive-hover: oklch(0.4 0.09 25 / 0.55);
+    --action-destructive-foreground: var(--destructive-default);
+    --action-destructive-border: var(--action-destructive-default);
     --action-link: oklch(0.82 0 0);
 
     --border: oklch(0.274 0.006 286);
@@ -378,8 +400,8 @@
   --badge-primary-foreground: #422006;
   --badge-information: #47c2ff;
   --badge-accent: var(--accent-default);
-  --badge-warning: #f6b51e;
-  --badge-warning-foreground: #422006;
+  --badge-warning: var(--checkbox-checked-primary);
+  --badge-warning-foreground: var(--checkbox-mark-primary);
   --badge-success: #1fc16b;
   --badge-destructive: #fb3748;
   --badge-foreground: oklch(1 0 0);
@@ -430,6 +452,16 @@
   --banner-dismiss: oklch(0.95 0 0 / 0.4);
   --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
   --banner-radius: 4px;
+
+  --list-item-radius: 0.5rem;
+  --list-item-background: var(--background);
+  --list-item-border: oklch(96% 0 89.37 / 0.08);
+  --list-item-foreground: oklch(0.95 0 0);
+  --list-item-description: oklch(0.72 0.006 286);
+  --list-item-meta: oklch(0.65 0.006 286);
+  --list-item-hover: var(--dropdown-hover);
+  --list-item-selected-background: var(--information-soft);
+  --list-item-selected-border: var(--information-border);
 
   --checkbox-unchecked: oklch(0.32 0.006 286);
   --checkbox-unchecked-hover: oklch(0.38 0.006 286);
@@ -482,10 +514,10 @@
   --action-warning-hover: oklch(0.72 0.15 80);
   --action-warning-foreground: oklch(0.145 0 0);
   --action-warning-border: var(--warning-border);
-  --action-destructive-default: oklch(0.67 0.21 22.8);
-  --action-destructive-hover: oklch(0.62 0.22 22.8);
-  --action-destructive-foreground: var(--destructive-foreground);
-  --action-destructive-border: var(--destructive-border);
+  --action-destructive-default: var(--destructive-soft);
+  --action-destructive-hover: oklch(0.4 0.09 25 / 0.55);
+  --action-destructive-foreground: var(--destructive-default);
+  --action-destructive-border: var(--action-destructive-default);
   --action-link: oklch(0.82 0 0);
 
   --border: oklch(0.274 0.006 286);

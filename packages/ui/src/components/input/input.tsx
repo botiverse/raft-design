@@ -43,7 +43,7 @@ const input = tv({
       unstyled: false,
       class: {
         root: [
-          "h-10 rounded-[10px] border border-[var(--input-border)] bg-[var(--input-background)]",
+          "h-10 rounded-[var(--list-item-radius)] border border-[var(--input-border)] bg-[var(--input-background)]",
           "px-3 text-sm text-[var(--input-foreground)] transition duration-200 ease-out",
           "placeholder:text-[var(--input-placeholder)]",
           "hover:border-transparent hover:bg-[var(--input-hover-background)]",

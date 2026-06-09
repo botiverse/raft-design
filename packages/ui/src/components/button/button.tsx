@@ -100,7 +100,7 @@ export const buttonVariants = tv({
       destructive: {
         root: [
           "border-action-destructive-border bg-action-destructive text-action-destructive-foreground",
-          "hover:bg-action-destructive-hover",
+          "hover:border-action-destructive-hover hover:bg-action-destructive-hover",
         ],
       },
       "destructive-outline": {
@@ -183,7 +183,7 @@ export const buttonVariants = tv({
       theme: "elegant",
       variant: "destructive",
       class: {
-        root: "border-transparent hover:border-transparent",
+        root: "hover:border-action-destructive-hover",
       },
     },
     {

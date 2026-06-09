@@ -45,7 +45,7 @@ const dropdownMenu = tv({
           "flex flex-col",
         ],
         item: [
-          "gap-1 rounded-[var(--dropdown-item-radius)] px-2 py-1 text-[0.812rem] tracking-[-0.005em]",
+          "gap-1 rounded-[var(--dropdown-item-radius)] px-2 py-1 text-[0.812rem] font-medium tracking-[-0.005em]",
           "text-[var(--dropdown-foreground)]",
           "transition-[background-color,color] duration-150",
           "hover:bg-[var(--dropdown-hover)] hover:text-[var(--dropdown-foreground-hover)]",

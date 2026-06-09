@@ -1,8 +1,7 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { forwardRef, useMemo, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Bell,
-  Bookmark,
   Check,
   CheckCircle,
   Files,
@@ -40,7 +39,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuTrigger,
   Field,
   FieldDescription,
   FieldLabel,
@@ -49,14 +47,11 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Kbd,
-  PanelHeader,
-  PanelHeaderActions,
-  PanelHeaderContent,
-  PanelHeaderIcon,
-  PanelHeaderSubtitle,
-  PanelHeaderTitle,
-  PanelHeaderTitleRow,
-  Status,
+  ListItem,
+  ListItemBody,
+  ListItemDescription,
+  ListItemRow,
+  ListItemTitle,
   Tabs,
   TabsLabel,
   TabsList,
@@ -68,311 +63,6 @@ import {
 import { DocPage } from "#/components/doc-page.tsx";
 
 const TOC = [] as const;
-const SHADE_STEPS = [
-  "50",
-  "100",
-  "200",
-  "300",
-  "400",
-  "500",
-  "600",
-  "700",
-  "800",
-  "900",
-  "950",
-] as const;
-
-const STYLE_SHADE_SCALES = {
-  brutal: {
-    primary: [
-      "#fefce8",
-      "#fef9c3",
-      "#fef08a",
-      "#fde047",
-      "#facc15",
-      "#eab308",
-      "#ca8a04",
-      "#a16207",
-      "#854d0e",
-      "#713f12",
-      "#422006",
-    ],
-    secondary: [
-      "#fafafa",
-      "#f5f5f5",
-      "#e5e5e5",
-      "#d4d4d4",
-      "#a3a3a3",
-      "#737373",
-      "#525252",
-      "#404040",
-      "#262626",
-      "#171717",
-      "#0a0a0a",
-    ],
-    success: [
-      "#f7fee7",
-      "#ecfccb",
-      "#d9f99d",
-      "#bef264",
-      "#a3e635",
-      "#84cc16",
-      "#65a30d",
-      "#4d7c0f",
-      "#3f6212",
-      "#365314",
-      "#1a2e05",
-    ],
-    information: [
-      "#eff6ff",
-      "#dbeafe",
-      "#bfdbfe",
-      "#93c5fd",
-      "#60a5fa",
-      "#3b82f6",
-      "#2563eb",
-      "#1d4ed8",
-      "#1e40af",
-      "#1e3a8a",
-      "#172554",
-    ],
-    warning: [
-      "#fff7ed",
-      "#ffedd5",
-      "#fed7aa",
-      "#fdba74",
-      "#fb923c",
-      "#f97316",
-      "#ea580c",
-      "#c2410c",
-      "#9a3412",
-      "#7c2d12",
-      "#431407",
-    ],
-    error: [
-      "#fff1f2",
-      "#ffe4e6",
-      "#fecdd3",
-      "#fda4af",
-      "#fb7185",
-      "#f43f5e",
-      "#e11d48",
-      "#be123c",
-      "#9f1239",
-      "#881337",
-      "#4c0519",
-    ],
-    accent: [
-      "#fdf2f8",
-      "#fce7f3",
-      "#fbcfe8",
-      "#f9a8d4",
-      "#f472b6",
-      "#fe7da8",
-      "#db2777",
-      "#be185d",
-      "#9d174d",
-      "#831843",
-      "#500724",
-    ],
-  },
-  elegant: {
-    primary: [
-      "#fefce8",
-      "#fef9c3",
-      "#fef08a",
-      "#fde047",
-      "#facc15",
-      "#eab308",
-      "#ca8a04",
-      "#a16207",
-      "#854d0e",
-      "#713f12",
-      "#422006",
-    ],
-    secondary: [
-      "#fafafa",
-      "#f4f4f5",
-      "#e4e4e7",
-      "#d4d4d8",
-      "#a1a1aa",
-      "#71717a",
-      "#52525b",
-      "#3f3f46",
-      "#27272a",
-      "#18181b",
-      "#09090b",
-    ],
-    success: [
-      "#f0fdf4",
-      "#dcfce7",
-      "#bbf7d0",
-      "#86efac",
-      "#4ade80",
-      "#22c55e",
-      "#16a34a",
-      "#15803d",
-      "#166534",
-      "#14532d",
-      "#052e16",
-    ],
-    information: [
-      "#f0f9ff",
-      "#e0f2fe",
-      "#bae6fd",
-      "#7dd3fc",
-      "#38bdf8",
-      "#0ea5e9",
-      "#0284c7",
-      "#0369a1",
-      "#075985",
-      "#0c4a6e",
-      "#082f49",
-    ],
-    warning: [
-      "#fffbeb",
-      "#fef3c7",
-      "#fde68a",
-      "#fcd34d",
-      "#fbbf24",
-      "#f59e0b",
-      "#d97706",
-      "#b45309",
-      "#92400e",
-      "#78350f",
-      "#451a03",
-    ],
-    error: [
-      "#fef2f2",
-      "#fee2e2",
-      "#fecaca",
-      "#fca5a5",
-      "#f87171",
-      "#ef4444",
-      "#dc2626",
-      "#b91c1c",
-      "#991b1b",
-      "#7f1d1d",
-      "#450a0a",
-    ],
-    accent: [
-      "#fdf2f8",
-      "#fce7f3",
-      "#fbcfe8",
-      "#f9a8d4",
-      "#f472b6",
-      "#fe7da8",
-      "#db2777",
-      "#be185d",
-      "#9d174d",
-      "#831843",
-      "#500724",
-    ],
-  },
-  "elegant-dark": {
-    primary: [
-      "#422006",
-      "#713f12",
-      "#854d0e",
-      "#a16207",
-      "#ca8a04",
-      "#eab308",
-      "#facc15",
-      "#fde047",
-      "#fef08a",
-      "#fef9c3",
-      "#fefce8",
-    ],
-    secondary: [
-      "#09090b",
-      "#18181b",
-      "#27272a",
-      "#3f3f46",
-      "#52525b",
-      "#71717a",
-      "#a1a1aa",
-      "#d4d4d8",
-      "#e4e4e7",
-      "#f4f4f5",
-      "#fafafa",
-    ],
-    success: [
-      "#052e16",
-      "#14532d",
-      "#166534",
-      "#15803d",
-      "#16a34a",
-      "#22c55e",
-      "#4ade80",
-      "#86efac",
-      "#bbf7d0",
-      "#dcfce7",
-      "#f0fdf4",
-    ],
-    information: [
-      "#082f49",
-      "#0c4a6e",
-      "#075985",
-      "#0369a1",
-      "#0284c7",
-      "#0ea5e9",
-      "#38bdf8",
-      "#7dd3fc",
-      "#bae6fd",
-      "#e0f2fe",
-      "#f0f9ff",
-    ],
-    warning: [
-      "#451a03",
-      "#78350f",
-      "#92400e",
-      "#b45309",
-      "#d97706",
-      "#f59e0b",
-      "#fbbf24",
-      "#fcd34d",
-      "#fde68a",
-      "#fef3c7",
-      "#fffbeb",
-    ],
-    error: [
-      "#450a0a",
-      "#7f1d1d",
-      "#991b1b",
-      "#b91c1c",
-      "#dc2626",
-      "#ef4444",
-      "#f87171",
-      "#fca5a5",
-      "#fecaca",
-      "#fee2e2",
-      "#fef2f2",
-    ],
-    accent: [
-      "#500724",
-      "#831843",
-      "#9d174d",
-      "#be185d",
-      "#db2777",
-      "#fe7da8",
-      "#f472b6",
-      "#f9a8d4",
-      "#fbcfe8",
-      "#fce7f3",
-      "#fdf2f8",
-    ],
-  },
-} as const;
-
-const PALETTE_ROLES = [
-  { key: "primary", label: "Primary" },
-  { key: "secondary", label: "Secondary" },
-  { key: "success", label: "Success" },
-  { key: "information", label: "Information" },
-  { key: "warning", label: "Warning" },
-  { key: "error", label: "Error" },
-  { key: "accent", label: "Accent" },
-] as const;
 
 const STYLES = [
   {
@@ -380,7 +70,8 @@ const STYLES = [
     label: "Elegant",
     theme: "elegant",
     className: "light",
-    headingFont: "Georgia, serif",
+    headingFont: "var(--heading-font)",
+    headingFontVariation: "var(--heading-font-variation)",
     bodyFont: "var(--display-font)",
     labelFont: "var(--mono-font)",
   },
@@ -389,7 +80,8 @@ const STYLES = [
     label: "Elegant dark",
     theme: "elegant",
     className: "dark",
-    headingFont: "Georgia, serif",
+    headingFont: "var(--heading-font)",
+    headingFontVariation: "var(--heading-font-variation)",
     bodyFont: "var(--display-font)",
     labelFont: "var(--mono-font)",
   },
@@ -405,7 +97,6 @@ const STYLES = [
 ] as const;
 
 type StyleSpec = (typeof STYLES)[number];
-type PaletteRole = (typeof PALETTE_ROLES)[number];
 
 export const Route = createFileRoute("/style-tester")({ component: StyleTesterDoc });
 
@@ -413,7 +104,7 @@ function StyleTesterDoc() {
   return (
     <DocPage
       title="Style Tester"
-      description="Standalone visual tester for shade scales and real @slock/ui component rendering across brutal, elegant, and elegant dark."
+      description="Standalone visual tester for @slock/ui component rendering across brutal, elegant, and elegant dark."
       toc={TOC}
       showToc={false}
     >
@@ -446,37 +137,30 @@ function StyleBoard({ style }: { style: StyleSpec }) {
           <h2 className="text-xl font-semibold">{style.label}</h2>
         </div>
 
-        <div className="grid items-start gap-4 xl:grid-cols-[24rem_minmax(0,1fr)]">
-          <div className="grid content-start gap-4 self-start sm:grid-cols-2 xl:grid-cols-1">
-            {PALETTE_ROLES.map((role) => (
-              <PaletteCard key={role.key} role={role} styleId={style.id} />
-            ))}
+        <div className={isElegantBoard ? "" : "space-y-4"}>
+          <div
+            className={[
+              "grid auto-rows-[13rem] lg:grid-cols-2 2xl:grid-cols-3",
+              isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
+            ].join(" ")}
+          >
+            <TypographyCard style={style} />
+            <ButtonCard />
+            <SearchCard />
+            <ListItemCard />
+            <FieldCard />
           </div>
-          <div className={isElegantBoard ? "" : "space-y-4"}>
-            <div
-              className={[
-                "grid auto-rows-[13rem] lg:grid-cols-2 2xl:grid-cols-3",
-                isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
-              ].join(" ")}
-            >
-              <TypographyCard style={style} />
-              <ButtonCard />
-              <SearchCard />
-              <PanelHeaderCard />
-              <FieldCard />
-            </div>
-            <div
-              className={[
-                "grid auto-rows-[18rem] lg:grid-cols-4",
-                isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
-              ].join(" ")}
-            >
-              <DropdownMenuCard style={style} />
-              <TabsCard style={style} />
-              <BadgesCard />
-              <SelectionCard />
-              <FeedbackCard style={style} />
-            </div>
+          <div
+            className={[
+              "grid auto-rows-[18rem] lg:grid-cols-4",
+              isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
+            ].join(" ")}
+          >
+            <DropdownMenuCard style={style} />
+            <TabsCard style={style} />
+            <BadgesCard />
+            <SelectionCard />
+            <FeedbackCard style={style} />
           </div>
         </div>
       </section>
@@ -484,80 +168,65 @@ function StyleBoard({ style }: { style: StyleSpec }) {
   );
 }
 
-function PaletteCard({
-  role,
-  styleId,
-}: {
-  role: PaletteRole;
-  styleId: keyof typeof STYLE_SHADE_SCALES;
-}) {
-  const shades = STYLE_SHADE_SCALES[styleId][role.key];
-  const heroBackground = shades[5];
-  const heroText = shades[0];
-
+const TesterTile = forwardRef<
+  HTMLDivElement,
+  {
+    children: React.ReactNode;
+    className?: string;
+    label?: string;
+    style?: React.CSSProperties;
+  }
+>(function TesterTile({ children, className = "", label, style }, ref) {
   return (
     <div
+      ref={ref}
       data-tester-surface
-      className="grid h-36 overflow-hidden rounded-none border border-border bg-surface shadow-[var(--surface-shadow-sm)]"
-    >
-      <div
-        className="flex items-start px-4 py-4 text-lg font-semibold"
-        style={{ background: heroBackground, color: heroText }}
-      >
-        {role.label}
-      </div>
-      <div className="grid grid-cols-11">
-        {shades.map((color, index) => (
-          <div
-            key={`${role.key}-${SHADE_STEPS[index]}`}
-            title={`${role.label} ${SHADE_STEPS[index]} ${color}`}
-            aria-label={`${role.label} ${SHADE_STEPS[index]}`}
-            style={{ background: color }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TesterTile({
-  children,
-  className = "",
-  style,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      data-tester-surface
-      className={`min-w-0 border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] ${className}`}
+      className={`relative min-w-0 border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] ${className}`}
       style={{ borderRadius: "var(--radius)", ...style }}
     >
+      {label ? (
+        <span className="pointer-events-none absolute top-6 left-6 font-mono text-[0.6875rem] font-medium uppercase tracking-wide text-[color:var(--surface-muted-foreground)]/45">
+          {label}
+        </span>
+      ) : null}
       {children}
     </div>
   );
-}
+});
 
 function TypographyCard({ style }: { style: StyleSpec }) {
+  const headingFontVariation =
+    "headingFontVariation" in style ? style.headingFontVariation : undefined;
+
   const samples = [
     {
       title: "Headline",
       fontFamily: style.headingFont,
-      className: "text-[4.75rem] sm:text-[5.5rem]",
+      fontVariationSettings: headingFontVariation,
+      labelFontFamily: style.bodyFont,
+      labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
+      sampleClassName:
+        "truncate text-[1.75rem] font-medium leading-[1.15] tracking-[-0.04em] text-foreground sm:text-[2rem]",
+      specimenClassName:
+        "text-[4.75rem] font-medium leading-none tracking-[-0.05em] sm:text-[5.5rem]",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
     {
       title: "Body",
       fontFamily: style.bodyFont,
-      className: "text-[4.25rem] sm:text-[5rem]",
+      labelFontFamily: style.bodyFont,
+      labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
+      sampleClassName: "truncate text-sm text-[color:var(--surface-muted-foreground)]",
+      specimenClassName: "text-[4.25rem] leading-none sm:text-[5rem]",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
     {
       title: "Mono",
       fontFamily: style.labelFont,
-      className: "text-[3.25rem] sm:text-[4rem]",
+      labelFontFamily: style.bodyFont,
+      labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
+      sampleClassName: "truncate text-sm text-[color:var(--surface-muted-foreground)]",
+      specimenClassName: "text-[3.25rem] leading-none sm:text-[4rem]",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
   ];
@@ -578,20 +247,26 @@ function TypographyCard({ style }: { style: StyleSpec }) {
             className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-stretch gap-4"
           >
             <div className="grid min-w-0 content-between">
-              <p className="text-sm font-medium text-[color:var(--surface-muted-foreground)]">
+              <p className={sample.labelClassName} style={{ fontFamily: sample.labelFontFamily }}>
                 {sample.title}
               </p>
               <p
-                className="truncate text-sm text-[color:var(--surface-muted-foreground)]"
-                style={{ fontFamily: sample.fontFamily }}
+                className={sample.sampleClassName}
+                style={{
+                  fontFamily: sample.fontFamily,
+                  fontVariationSettings: sample.fontVariationSettings,
+                }}
               >
                 {sample.sample}
               </p>
             </div>
             <div className="flex items-end">
               <div
-                className={`${sample.className} leading-none`}
-                style={{ fontFamily: sample.fontFamily }}
+                className={sample.specimenClassName}
+                style={{
+                  fontFamily: sample.fontFamily,
+                  fontVariationSettings: sample.fontVariationSettings,
+                }}
               >
                 Aa
               </div>
@@ -606,6 +281,7 @@ function TypographyCard({ style }: { style: StyleSpec }) {
 function ButtonCard() {
   return (
     <TesterTile
+      label="Button"
       className="flex items-center justify-center"
       style={{
         borderTopLeftRadius: 0,
@@ -648,6 +324,7 @@ function ButtonCard() {
 function SearchCard() {
   return (
     <TesterTile
+      label="Input Group"
       className="flex items-center justify-center"
       style={{
         borderTopLeftRadius: 0,
@@ -669,6 +346,7 @@ function SearchCard() {
 function FieldCard() {
   return (
     <TesterTile
+      label="Field"
       className="flex items-center justify-center"
       style={{
         borderTopRightRadius: 0,
@@ -684,25 +362,26 @@ function FieldCard() {
   );
 }
 
-function PanelHeaderCard() {
+function ListItemCard() {
   return (
-    <TesterTile className="flex items-center justify-center">
-      <PanelHeader className="w-full max-w-sm border border-border bg-surface px-4">
-        <PanelHeaderIcon className="flex border-border bg-surface-muted">
-          <Bookmark />
-        </PanelHeaderIcon>
-        <PanelHeaderContent>
-          <PanelHeaderTitleRow>
-            <PanelHeaderTitle>Saved</PanelHeaderTitle>
-          </PanelHeaderTitleRow>
-          <PanelHeaderSubtitle>12 saved</PanelHeaderSubtitle>
-        </PanelHeaderContent>
-        <PanelHeaderActions>
-          <Button size="icon-sm" aria-label="Settings">
-            <Settings />
-          </Button>
-        </PanelHeaderActions>
-      </PanelHeader>
+    <TesterTile label="List Item" className="flex items-center justify-center">
+      <ListItem className="w-full max-w-sm">
+        <ListItemBody>
+          <ListItemRow>
+            <ListItemTitle>Web Search</ListItemTitle>
+            <Badge
+              variant="success"
+              uppercase
+              className="inline-block h-auto py-0 leading-normal tracking-normal"
+            >
+              /web
+            </Badge>
+          </ListItemRow>
+          <ListItemDescription className="line-clamp-2">
+            Search the web from a running agent.
+          </ListItemDescription>
+        </ListItemBody>
+      </ListItem>
     </TesterTile>
   );
 }
@@ -795,6 +474,7 @@ function TabsCard({ style }: { style: StyleSpec }) {
 
   return (
     <TesterTile
+      label="Tabs"
       className="flex items-center justify-center lg:col-span-2"
       style={{
         borderTopRightRadius: 0,
@@ -823,6 +503,7 @@ function TabsCard({ style }: { style: StyleSpec }) {
 function BadgesCard() {
   return (
     <TesterTile
+      label="Badge"
       className="flex items-center justify-center"
       style={{
         borderTopLeftRadius: 0,
@@ -851,6 +532,7 @@ function BadgesCard() {
 function SelectionCard() {
   return (
     <TesterTile
+      label="Checkbox"
       className="grid place-items-center"
       style={{
         borderBottomLeftRadius: 0,
@@ -858,9 +540,6 @@ function SelectionCard() {
       }}
     >
       <div className="grid grid-cols-3 items-center gap-x-10 gap-y-7">
-        <Status size="lg" fill="gray" />
-        <Status size="lg" fill="lime" />
-        <Status.Attention />
         <Checkbox size="md" aria-label="Unchecked" />
         <Checkbox size="md" color="default" defaultChecked aria-label="Checked default" />
         <Checkbox size="md" color="primary" defaultChecked aria-label="Checked primary" />
@@ -874,54 +553,40 @@ function SelectionCard() {
 
 function DropdownMenuCard({ style }: { style: StyleSpec }) {
   const isElegant = style.theme === "elegant";
-  const serverTriggerId = `opened-server-trigger-${style.id}`;
   const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
   const anchor = useMemo(
     () => ({
       getBoundingClientRect() {
-        const trigger = containerElement?.querySelector<HTMLElement>(`#${serverTriggerId}`);
-        const rect = trigger?.getBoundingClientRect();
+        const rect = containerElement?.getBoundingClientRect();
+        const inset = 24;
         return DOMRect.fromRect({
-          x: rect?.left ?? 0,
-          y: rect?.bottom ?? 0,
-          width: rect?.width ?? 0,
+          x: (rect?.left ?? 0) + (rect?.width ?? 0) / 2,
+          y: (rect?.top ?? 0) + inset,
+          width: 0,
           height: 0,
         });
       },
     }),
-    [containerElement, serverTriggerId],
+    [containerElement],
   );
 
   return (
-    <div
-      data-tester-surface
-      className="relative min-w-0 overflow-hidden border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] lg:col-span-2"
+    <TesterTile
+      label="Dropdown Menu"
+      className="overflow-hidden lg:col-span-2"
       ref={setContainerElement}
       style={{
-        borderRadius: "var(--radius)",
         borderTopLeftRadius: 0,
         borderBottomLeftRadius: 0,
       }}
     >
       {containerElement ? (
-        <DropdownMenu open modal={false} triggerId={serverTriggerId}>
-          <DropdownMenuTrigger
-            id={serverTriggerId}
-            render={
-              <Button
-                size={isElegant ? "md" : "sm"}
-                variant={isElegant ? "default" : "outline"}
-                className="absolute top-10 left-1/2 -translate-x-1/2"
-              />
-            }
-          >
-            {isElegant ? "Switch server" : "Options"}
-          </DropdownMenuTrigger>
+        <DropdownMenu open modal={false}>
           <DropdownMenuContent
             anchor={anchor}
             side="bottom"
-            align={isElegant ? "center" : "start"}
-            sideOffset={4}
+            align="center"
+            sideOffset={0}
             className={isElegant ? "flex w-64 flex-col" : "w-64"}
             portalProps={{ container: containerElement }}
           >
@@ -930,7 +595,7 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
                 <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
                   <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
                     <IconCircleCheckFill18 />
-                    <span className="flex h-6 min-w-0 flex-1 items-center truncate font-medium text-left">
+                    <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">
                       Slock
                     </span>
                   </DropdownMenuItem>
@@ -997,7 +662,7 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : null}
-    </div>
+    </TesterTile>
   );
 }
 
@@ -1006,6 +671,7 @@ function FeedbackCard({ style }: { style: StyleSpec }) {
 
   return (
     <TesterTile
+      label="Banner"
       className="flex items-center justify-center lg:col-span-2"
       style={{
         borderTopRightRadius: 0,
