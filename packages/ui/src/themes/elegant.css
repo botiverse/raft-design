@@ -95,8 +95,8 @@
   --surface-shadow-md: 0 4px 12px -4px oklch(0 0 0 / 0.12);
   --surface-shadow-lg: 0 10px 24px -12px oklch(0 0 0 / 0.18);
 
-  --display-font: "Inter", system-ui, sans-serif;
-  --mono-font: ui-monospace, monospace;
+  --display-font: "Geist", system-ui, sans-serif;
+  --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
 /* Dark values — shared by the system-preference and manual-override rules. */

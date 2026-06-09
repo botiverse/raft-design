@@ -23,7 +23,7 @@ const TODOS = [
 const EXECUTION_PLAN = [
   "Replace the current display naming with a primary UI font token such as font-sans or font-ui.",
   "Keep font-mono as the monospace token, and reserve font-display for a future large heading or brand display face if needed.",
-  "Map each theme to the same semantic names: brutal can resolve font-sans/font-ui to Space Grotesk, elegant can resolve it to Inter.",
+  "Map each theme to the same semantic names: brutal can resolve font-sans/font-ui to Space Grotesk, elegant can resolve it to Geist.",
   "Update component usage after the token name is agreed, rather than renaming --display-font or font-display immediately.",
 ] as const;
 
@@ -40,8 +40,8 @@ const FAMILIES = [
     theme: "Elegant",
     themeId: "elegant",
     status: "in-progress",
-    display: "Inter",
-    mono: "ui-monospace",
+    display: "Geist",
+    mono: "Geist Mono",
     description: "Neutral system-doc typography for quiet product surfaces.",
   },
 ] as const;

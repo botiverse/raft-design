@@ -461,35 +461,53 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       title: "Headline",
       fontFamily: style.headingFont,
       className: "text-[4.75rem] sm:text-[5.5rem]",
+      sample: "The quick brown fox jumps over the lazy dog.",
     },
     {
       title: "Body",
       fontFamily: style.bodyFont,
       className: "text-[4.25rem] sm:text-[5rem]",
+      sample: "The quick brown fox jumps over the lazy dog.",
     },
     {
-      title: "Label",
+      title: "Mono",
       fontFamily: style.labelFont,
       className: "text-[3.25rem] sm:text-[4rem]",
+      sample: "The quick brown fox jumps over the lazy dog.",
     },
   ];
 
   return (
-    <TesterTile className="row-span-2 grid content-between gap-4 lg:col-span-2 2xl:col-span-1">
-      {samples.map((sample) => (
-        <div key={sample.title} className="flex min-w-0 items-end justify-between gap-4">
-          <p className="text-sm font-medium text-[color:var(--surface-muted-foreground)]">
-            {sample.title}
-          </p>
+    <div className="row-span-2 min-w-0 lg:col-span-2 2xl:col-span-1">
+      <TesterTile className="grid h-full content-between gap-4">
+        {samples.map((sample) => (
           <div
-            className={`${sample.className} leading-none`}
-            style={{ fontFamily: sample.fontFamily }}
+            key={sample.title}
+            className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-stretch gap-4"
           >
-            Aa
+            <div className="grid min-w-0 content-between">
+              <p className="text-sm font-medium text-[color:var(--surface-muted-foreground)]">
+                {sample.title}
+              </p>
+              <p
+                className="truncate text-sm text-[color:var(--surface-muted-foreground)]"
+                style={{ fontFamily: sample.fontFamily }}
+              >
+                {sample.sample}
+              </p>
+            </div>
+            <div className="flex items-end">
+              <div
+                className={`${sample.className} leading-none`}
+                style={{ fontFamily: sample.fontFamily }}
+              >
+                Aa
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
-    </TesterTile>
+        ))}
+      </TesterTile>
+    </div>
   );
 }
 
