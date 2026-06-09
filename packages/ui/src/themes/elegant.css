@@ -123,7 +123,7 @@
   --list-item-foreground: oklch(0.25 0.006 285);
   --list-item-description: oklch(0.42 0.006 285);
   --list-item-meta: oklch(0.58 0.006 285);
-  --list-item-hover: var(--dropdown-hover);
+  --list-item-hover: oklch(25.42% 0 89.37 / 0.03);
   --list-item-selected-background: var(--information-soft);
   --list-item-selected-border: var(--information-border);
 
@@ -306,7 +306,7 @@
     --list-item-foreground: oklch(0.95 0 0);
     --list-item-description: oklch(0.72 0.006 286);
     --list-item-meta: oklch(0.65 0.006 286);
-    --list-item-hover: var(--dropdown-hover);
+    --list-item-hover: oklch(96% 0 89.37 / 0.03);
     --list-item-selected-background: var(--information-soft);
     --list-item-selected-border: var(--information-border);
 
@@ -474,7 +474,7 @@
   --list-item-foreground: oklch(0.95 0 0);
   --list-item-description: oklch(0.72 0.006 286);
   --list-item-meta: oklch(0.65 0.006 286);
-  --list-item-hover: var(--dropdown-hover);
+  --list-item-hover: oklch(96% 0 89.37 / 0.03);
   --list-item-selected-background: var(--information-soft);
   --list-item-selected-border: var(--information-border);
 
