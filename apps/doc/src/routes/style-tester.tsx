@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useState, type ReactNode } from "react";
+import { forwardRef, useRef, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Bell,
@@ -560,21 +560,7 @@ function SelectionCard() {
 function DropdownMenuCard({ style }: { style: StyleSpec }) {
   const isElegant = style.theme === "elegant";
   const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
-  const anchor = useMemo(
-    () => ({
-      getBoundingClientRect() {
-        const rect = containerElement?.getBoundingClientRect();
-        const inset = 24;
-        return DOMRect.fromRect({
-          x: (rect?.left ?? 0) + (rect?.width ?? 0) / 2,
-          y: (rect?.top ?? 0) + inset,
-          width: 0,
-          height: 0,
-        });
-      },
-    }),
-    [containerElement],
-  );
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   return (
     <TesterTile
@@ -586,13 +572,20 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
         borderBottomLeftRadius: 0,
       }}
     >
+      <div
+        ref={anchorRef}
+        aria-hidden
+        className="pointer-events-none absolute top-6 left-1/2 h-0 w-0 -translate-x-1/2"
+      />
       {containerElement ? (
         <DropdownMenu open modal={false}>
           <DropdownMenuContent
-            anchor={anchor}
+            anchor={anchorRef}
             side="bottom"
             align="center"
             sideOffset={0}
+            positionMethod="absolute"
+            disableAnchorTracking={false}
             className={isElegant ? "flex w-64 flex-col" : "w-64"}
             portalProps={{ container: containerElement }}
           >
