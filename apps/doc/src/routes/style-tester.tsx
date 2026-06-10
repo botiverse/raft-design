@@ -599,20 +599,20 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
             {isElegant ? (
               <>
                 <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-                  <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+                  <DropdownMenuItem className="items-center gap-1 py-1.5 pl-3.5">
                     <IconCircleCheckFill18 />
                     <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">
                       Slock
                     </span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+                  <DropdownMenuItem className="items-center gap-1 py-1.5 pl-3.5">
                     <IconCircleCheckFill18 className="opacity-0" />
                     <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">
                       Design Guild
                     </span>
                     <DropdownMenuItemCount>4</DropdownMenuItemCount>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="items-center gap-1 py-2 pl-3.5">
+                  <DropdownMenuItem className="items-center gap-1 py-1.5 pl-3.5">
                     <IconCircleCheckFill18 className="opacity-0" />
                     <span className="flex h-6 min-w-0 flex-1 items-center truncate text-left">
                       Open Source

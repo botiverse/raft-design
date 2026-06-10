@@ -87,7 +87,8 @@
     0 16px 28px -8px var(--dropdown-elevation-ink-4),
     0 4px 6px -2px var(--dropdown-elevation-ink-4), 0 0 2px 0 var(--dropdown-elevation-ink-4),
     0 0 0 1px var(--dropdown-elevation-ink-4);
-  --dropdown-shadow: var(--surface-shadow-elevation-medium);
+  --dropdown-shadow:
+    0 0 0 1px oklch(0 0 0 / 0.09), 0 1px 1px -1px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.03);
   --dropdown-shortcut-background: oklch(0.94 0.004 286);
   --dropdown-shortcut-foreground: oklch(0.58 0.006 285);
   --dropdown-count-background: oklch(25.42% 0 89.37 / 0.06);
@@ -273,7 +274,9 @@
     --dropdown-separator: var(--dropdown-elevation-ink-4);
     --dropdown-elevation-ink-4: oklch(96% 0 89.37 / 0.04);
     --dropdown-elevation-ink-8: oklch(96% 0 89.37 / 0.08);
-    --dropdown-shadow: var(--surface-shadow-elevation-medium);
+    --dropdown-shadow:
+      0 0 0 1px oklch(1 0 0 / 0.09), 0 1px 1px -1px oklch(0 0 0 / 0.12),
+      0 1px 2px oklch(0 0 0 / 0.1);
     --dropdown-shortcut-background: oklch(0.28 0.006 286);
     --dropdown-shortcut-foreground: oklch(0.65 0.006 286);
     --dropdown-count-background: oklch(96% 0 89.37 / 0.08);
@@ -441,7 +444,8 @@
   --dropdown-elevation-ink-4: oklch(96% 0 89.37 / 0.04);
   --dropdown-elevation-ink-8: oklch(96% 0 89.37 / 0.08);
   --dropdown-separator: var(--dropdown-elevation-ink-4);
-  --dropdown-shadow: var(--surface-shadow-elevation-medium);
+  --dropdown-shadow:
+    0 0 0 1px oklch(1 0 0 / 0.09), 0 1px 1px -1px oklch(0 0 0 / 0.12), 0 1px 2px oklch(0 0 0 / 0.1);
   --dropdown-shortcut-background: oklch(0.28 0.006 286);
   --dropdown-shortcut-foreground: oklch(0.65 0.006 286);
   --dropdown-count-background: oklch(96% 0 89.37 / 0.08);
