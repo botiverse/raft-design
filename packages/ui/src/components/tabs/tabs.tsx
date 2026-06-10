@@ -124,7 +124,6 @@ const tabs = tv({
           "data-[active]:shadow-[var(--tabs-chip-active-shadow)]",
           "data-[active]:text-[var(--tabs-chip-foreground)]",
           "data-[active]:hover:text-[var(--tabs-chip-foreground)]",
-          "data-[active]:[&_[data-slot=tabs-label]]:font-mono",
           "data-[active]:[&_[data-slot=tabs-label]]:text-sm",
           "data-[active]:[&_[data-slot=tabs-label]]:leading-[1.333]",
           "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-1",
