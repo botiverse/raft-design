@@ -73,7 +73,6 @@ const STYLES = [
     theme: "elegant",
     className: "light",
     headingFont: "var(--heading-font)",
-    headingFontVariation: "var(--heading-font-variation)",
     bodyFont: "var(--display-font)",
     labelFont: "var(--mono-font)",
   },
@@ -83,7 +82,6 @@ const STYLES = [
     theme: "elegant",
     className: "dark",
     headingFont: "var(--heading-font)",
-    headingFontVariation: "var(--heading-font-variation)",
     bodyFont: "var(--display-font)",
     labelFont: "var(--mono-font)",
   },
@@ -195,14 +193,10 @@ const TesterTile = forwardRef<
 });
 
 function TypographyCard({ style }: { style: StyleSpec }) {
-  const headingFontVariation =
-    "headingFontVariation" in style ? style.headingFontVariation : undefined;
-
   const samples = [
     {
       title: "Headline",
       fontFamily: style.headingFont,
-      fontVariationSettings: headingFontVariation,
       labelFontFamily: style.bodyFont,
       labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
       sampleClassName:
@@ -249,24 +243,12 @@ function TypographyCard({ style }: { style: StyleSpec }) {
               <p className={sample.labelClassName} style={{ fontFamily: sample.labelFontFamily }}>
                 {sample.title}
               </p>
-              <p
-                className={sample.sampleClassName}
-                style={{
-                  fontFamily: sample.fontFamily,
-                  fontVariationSettings: sample.fontVariationSettings,
-                }}
-              >
+              <p className={sample.sampleClassName} style={{ fontFamily: sample.fontFamily }}>
                 {sample.sample}
               </p>
             </div>
             <div className="flex items-end">
-              <div
-                className={sample.specimenClassName}
-                style={{
-                  fontFamily: sample.fontFamily,
-                  fontVariationSettings: sample.fontVariationSettings,
-                }}
-              >
+              <div className={sample.specimenClassName} style={{ fontFamily: sample.fontFamily }}>
                 Aa
               </div>
             </div>

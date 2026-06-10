@@ -198,8 +198,7 @@
   --surface-shadow-lg: 0 10px 24px -12px oklch(0 0 0 / 0.18);
 
   --display-font: "Geist", system-ui, sans-serif;
-  --heading-font: "Inter", system-ui, sans-serif;
-  --heading-font-variation: "opsz" 32;
+  --heading-font: "Instrument Sans", system-ui, sans-serif;
   --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
