@@ -131,7 +131,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
         data-theme={style.theme}
         className={[
           style.className,
-          "py-[240px] text-foreground",
+          "pb-[240px] text-foreground",
           isElegantBoard ? "[--radius:0px] [&_[data-tester-surface]]:!shadow-none" : "",
           isDarkSection ? "-mx-8 bg-black px-8 text-white" : "",
         ].join(" ")}
