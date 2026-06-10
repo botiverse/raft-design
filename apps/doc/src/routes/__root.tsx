@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { HeadContent, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
+import { HeadContent, Scripts, createRootRoute, useMatches } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
@@ -74,8 +74,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   // next-themes on the same element, so [data-theme=elegant].dark resolves.
   const [family, setFamily] = useState<Theme>("brutal");
   const familyValue = useMemo(() => ({ family, setFamily }), [family]);
-  const location = useLocation();
-  const isStandalonePage = location.pathname === "/style-tester";
+  const isStandalonePage = useMatches({
+    select: (matches) => matches.some((match) => match.staticData?.standalone === true),
+  });
 
   return (
     <html lang="en" data-theme={isStandalonePage ? "elegant" : family} suppressHydrationWarning>

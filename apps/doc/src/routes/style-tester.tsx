@@ -102,7 +102,10 @@ const ACTIVE_STYLES = STYLES.filter((style) => style.id === "elegant");
 
 type StyleSpec = (typeof STYLES)[number];
 
-export const Route = createFileRoute("/style-tester")({ component: StyleTesterDoc });
+export const Route = createFileRoute("/style-tester")({
+  staticData: { standalone: true },
+  component: StyleTesterDoc,
+});
 
 function StyleTesterDoc() {
   return (
