@@ -118,7 +118,7 @@
   --banner-dismiss-hover: oklch(0.25 0.006 285 / 0.64);
   --banner-radius: 4px;
 
-  --list-item-radius: 0.5rem;
+  --list-item-radius: var(--banner-radius);
   --list-item-background: var(--surface-elevated);
   --list-item-border: oklch(25.42% 0 89.37 / 0.08);
   --list-item-foreground: oklch(0.25 0.006 285);
@@ -303,7 +303,7 @@
     --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
     --banner-radius: 4px;
 
-    --list-item-radius: 0.5rem;
+    --list-item-radius: var(--banner-radius);
     --list-item-background: var(--background);
     --list-item-border: oklch(96% 0 89.37 / 0.08);
     --list-item-foreground: oklch(0.95 0 0);
@@ -472,7 +472,7 @@
   --banner-dismiss-hover: oklch(0.95 0 0 / 0.64);
   --banner-radius: 4px;
 
-  --list-item-radius: 0.5rem;
+  --list-item-radius: var(--banner-radius);
   --list-item-background: var(--background);
   --list-item-border: oklch(96% 0 89.37 / 0.08);
   --list-item-foreground: oklch(0.95 0 0);
