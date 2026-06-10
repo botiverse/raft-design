@@ -107,10 +107,12 @@ export const Route = createFileRoute("/style-tester")({ component: StyleTesterDo
 function StyleTesterDoc() {
   return (
     <DocPage title="Style Tester" toc={TOC} showToc={false} showHeader={false}>
-      <div className="pb-16">
-        {ACTIVE_STYLES.map((style) => (
-          <StyleBoard key={style.id} style={style} />
-        ))}
+      <div className="overflow-x-auto">
+        <div className="min-w-[80rem] pb-16">
+          {ACTIVE_STYLES.map((style) => (
+            <StyleBoard key={style.id} style={style} />
+          ))}
+        </div>
       </div>
     </DocPage>
   );
@@ -126,7 +128,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
         data-theme={style.theme}
         className={[
           style.className,
-          "min-w-0 py-[240px] text-foreground",
+          "py-[240px] text-foreground",
           isElegantBoard ? "[--radius:0px] [&_[data-tester-surface]]:!shadow-none" : "",
           isDarkSection ? "-mx-8 bg-black px-8 text-white" : "",
         ].join(" ")}
@@ -135,8 +137,8 @@ function StyleBoard({ style }: { style: StyleSpec }) {
         <div className={isElegantBoard ? "" : "space-y-4"}>
           <div
             className={[
-              "grid auto-rows-[13rem] lg:grid-cols-2 2xl:grid-cols-3",
-              isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
+              "grid auto-rows-[13rem] grid-cols-3",
+              isElegantBoard ? "gap-0 pt-px pl-px [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
             ].join(" ")}
           >
             <TypographyCard style={style} />
@@ -147,8 +149,8 @@ function StyleBoard({ style }: { style: StyleSpec }) {
           </div>
           <div
             className={[
-              "grid auto-rows-[18rem] lg:grid-cols-4",
-              isElegantBoard ? "gap-0 [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
+              "grid auto-rows-[18rem] grid-cols-4",
+              isElegantBoard ? "gap-0 pl-px [&>*]:-mt-px [&>*]:-ml-px" : "gap-4",
             ].join(" ")}
           >
             <DropdownMenuCard style={style} />
@@ -201,9 +203,8 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       labelFontFamily: style.bodyFont,
       labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
       sampleClassName:
-        "truncate text-[1.75rem] font-medium leading-[1.15] tracking-[-0.04em] text-foreground sm:text-[2rem]",
-      specimenClassName:
-        "text-[4.75rem] font-medium leading-none tracking-[-0.05em] sm:text-[5.5rem]",
+        "truncate text-[2rem] font-medium leading-[1.15] tracking-[-0.04em] text-foreground",
+      specimenClassName: "text-[5.5rem] font-medium leading-none tracking-[-0.05em]",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
     {
@@ -212,7 +213,7 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       labelFontFamily: style.bodyFont,
       labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
       sampleClassName: "truncate text-sm text-[color:var(--surface-muted-foreground)]",
-      specimenClassName: "text-[4.25rem] leading-none sm:text-[5rem]",
+      specimenClassName: "text-[5rem] leading-none",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
     {
@@ -221,13 +222,13 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       labelFontFamily: style.bodyFont,
       labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
       sampleClassName: "truncate text-sm text-[color:var(--surface-muted-foreground)]",
-      specimenClassName: "text-[3.25rem] leading-none sm:text-[4rem]",
+      specimenClassName: "text-[4rem] leading-none",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
   ];
 
   return (
-    <div className="row-span-2 min-w-0 lg:col-span-2 2xl:col-span-1">
+    <div className="col-span-1 row-span-2 min-w-0">
       <TesterTile
         className="grid h-full content-between gap-4"
         style={{
@@ -476,7 +477,7 @@ function TabsCard({ style }: { style: StyleSpec }) {
   return (
     <TesterTile
       label="Tabs"
-      className="flex items-center justify-center overflow-visible lg:col-span-2"
+      className="col-span-2 flex items-center justify-center overflow-visible"
       style={{
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
@@ -575,7 +576,7 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
   return (
     <TesterTile
       label="Dropdown Menu"
-      className="overflow-hidden lg:col-span-2"
+      className="col-span-2 overflow-hidden"
       ref={setContainerElement}
       style={{
         borderTopLeftRadius: 0,
@@ -674,7 +675,7 @@ function FeedbackCard({ style }: { style: StyleSpec }) {
   return (
     <TesterTile
       label="Banner"
-      className="flex items-center justify-center lg:col-span-2"
+      className="col-span-2 flex items-center justify-center"
       style={{
         borderTopRightRadius: 0,
         borderBottomLeftRadius: 0,
