@@ -18,8 +18,8 @@ export const badge = tv({
       },
       elegant: {
         root: [
-          "gap-1.5 rounded-full border-transparent px-3 py-0.5",
-          "[&:has(svg)]:px-2.5",
+          "gap-1.5 rounded-full border-transparent px-2.5 py-0.5",
+          "[&:has(svg)]:px-2",
           "text-[11px] font-medium leading-3 tracking-[0.22px]",
         ],
       },
