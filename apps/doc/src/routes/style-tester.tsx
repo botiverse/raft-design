@@ -182,7 +182,7 @@ const TesterTile = forwardRef<
       style={{ borderRadius: "var(--radius)", ...style }}
     >
       {label ? (
-        <span className="pointer-events-none absolute top-6 left-6 font-mono text-[0.6875rem] font-medium uppercase tracking-wide text-[color:var(--surface-muted-foreground)]/45">
+        <span className="pointer-events-none absolute top-4 left-4 font-mono text-[0.6875rem] font-medium uppercase tracking-wide text-[color:var(--surface-muted-foreground)]/45">
           {label}
         </span>
       ) : null}
