@@ -61,14 +61,14 @@
   --surface-border: var(--border);
   --surface-border-subtle: var(--border);
   --input-background: var(--surface-elevated);
-  --input-hover-background: oklch(0.97 0 0);
+  --input-hover-background: oklch(0.98 0 0);
   --input-disabled-background: var(--surface-muted);
   --input-foreground: var(--foreground);
   --input-placeholder: oklch(0.58 0.006 285);
   --input-disabled-foreground: var(--muted-foreground);
   --input-icon: var(--muted-foreground);
   --input-border: var(--surface-border-subtle);
-  --input-focus-border: oklch(0.62 0.006 285);
+  --input-focus-border: oklch(0.84 0.006 285);
   --kbd-background: var(--surface-elevated);
   --kbd-foreground: var(--muted-foreground);
   --kbd-border: var(--surface-border-subtle);

@@ -46,7 +46,7 @@ const input = tv({
           "h-10 rounded-[var(--list-item-radius)] border border-[var(--input-border)] bg-[var(--input-background)]",
           "px-3 text-sm text-[var(--input-foreground)] transition duration-200 ease-out",
           "placeholder:text-[var(--input-placeholder)]",
-          "hover:border-transparent hover:bg-[var(--input-hover-background)]",
+          "hover:bg-[var(--input-hover-background)]",
           "focus:border-[var(--input-focus-border)] focus:bg-[var(--input-background)]",
           "disabled:border-transparent disabled:bg-[var(--input-disabled-background)] disabled:text-[var(--input-disabled-foreground)] disabled:placeholder:text-[var(--input-disabled-foreground)]",
         ],
