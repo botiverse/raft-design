@@ -136,7 +136,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "soft",
       variant: "primary",
-      class: { root: "border-transparent bg-primary-100 text-primary-950" },
+      class: { root: "border-transparent bg-primary-200 text-primary-950" },
     },
     {
       theme: "elegant",

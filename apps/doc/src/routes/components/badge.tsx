@@ -78,7 +78,7 @@ const SNIPPETS = {
   sourceTone: `<Badge tone="lime">Experimental</Badge>`,
   currentTone: `<Badge variant="success">Experimental</Badge>`,
   sourceUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
-  currentUppercaseFalse: `<Badge>task #42 @bugen</Badge>`,
+  currentUppercaseFalse: `<Badge appearance="outline">task #42 @bugen</Badge>`,
   sourceBadgeButton: `<BadgeButton tone="cyan">Filter</BadgeButton>`,
   currentBadgeButton: `<Badge render={<button type="button" aria-label="Filter" />} variant="information">Filter</Badge>`,
   sourceExperimental: `<ExperimentalBadge />`,
@@ -104,7 +104,7 @@ const SNIPPETS = {
 <Badge uppercase={false}>task #42 @bugen</Badge>
 
 // Current default preserves casing
-<Badge>task #42 @bugen</Badge>
+<Badge appearance="outline">task #42 @bugen</Badge>
 
 // Current old brutal casing recipe
 <Badge appearance="outline" uppercase>In Progress</Badge>`,
@@ -340,7 +340,7 @@ function BadgeDoc() {
               label: "Default preserved casing",
               status: "match",
               source: <LegacyBadge uppercase={false}>task #42 @bugen</LegacyBadge>,
-              current: <Badge>task #42 @bugen</Badge>,
+              current: <Badge appearance="outline">task #42 @bugen</Badge>,
               sourceCode: code.sourceUppercaseFalse,
               currentCode: code.currentUppercaseFalse,
             },
@@ -386,9 +386,10 @@ function BadgeDoc() {
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Casing</h3>
             <p className="text-sm text-gray-500">
-              Source defaulted to uppercase. Current defaults to preserved casing and makes the old
-              casing recipe explicit. For the old source default badge, keep that recipe on the
-              default outline appearance.
+              Source used <code>tone="white"</code> plus uppercase by default. Current splits those
+              concerns: use <code>appearance="outline"</code> for the old default white badge
+              treatment, then add <code>uppercase</code> only when you need the old compact label
+              casing.
             </p>
             <CodeBlock html={code.migrationCasing} />
           </div>
