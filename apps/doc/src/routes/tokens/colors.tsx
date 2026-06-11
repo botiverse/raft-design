@@ -226,86 +226,74 @@ const STATES = [
       {
         label: "dark",
         token: "--state-info-dark",
-        primitive: "--color-brutal-cyan-800",
         value: PALETTE_VALUES.cyan["800"],
       },
       {
         label: "base",
         token: "--state-info-base",
-        primitive: "--color-brutal-cyan",
         value: PALETTE_VALUES.cyan["400"],
       },
       {
         label: "light",
         token: "--state-info-light",
-        primitive: "--color-brutal-cyan-200",
         value: PALETTE_VALUES.cyan["200"],
       },
       {
         label: "lighter",
         token: "--state-info-lighter",
-        primitive: "--color-brutal-cyan-100",
         value: PALETTE_VALUES.cyan["100"],
       },
     ],
   },
   {
     role: "success",
-    scale: "lime",
+    scale: "green",
     tones: [
       {
         label: "dark",
         token: "--state-success-dark",
-        primitive: "--color-brutal-lime-800",
-        value: PALETTE_VALUES.lime["800"],
+        value: "oklch(0.366 0.09 153.079)",
       },
       {
         label: "base",
         token: "--state-success-base",
-        primitive: "--color-brutal-lime",
-        value: PALETTE_VALUES.lime["400"],
+        value: "oklch(0.714 0.176 153.079)",
       },
       {
         label: "light",
         token: "--state-success-light",
-        primitive: "--color-brutal-lime-200",
-        value: PALETTE_VALUES.lime["200"],
+        value: "oklch(0.91 0.149 153.079)",
       },
       {
         label: "lighter",
         token: "--state-success-lighter",
-        primitive: "--color-brutal-lime-100",
-        value: PALETTE_VALUES.lime["100"],
+        value: "oklch(0.949 0.079 153.079)",
       },
     ],
   },
   {
     role: "warning",
-    scale: "orange",
+    scale: "yellow",
     tones: [
       {
         label: "dark",
         token: "--state-warning-dark",
-        primitive: "--color-brutal-orange-800",
-        value: PALETTE_VALUES.orange["800"],
+        value: PALETTE_VALUES.yellow["900"],
       },
       {
         label: "base",
         token: "--state-warning-base",
-        primitive: "--color-brutal-orange",
-        value: PALETTE_VALUES.orange["400"],
+        value: PALETTE_VALUES.yellow["400"],
       },
       {
         label: "light",
         token: "--state-warning-light",
-        primitive: "--color-brutal-orange-200",
-        value: PALETTE_VALUES.orange["200"],
+        value: PALETTE_VALUES.yellow["200"],
       },
       {
         label: "lighter",
         token: "--state-warning-lighter",
-        primitive: "--color-brutal-orange-100",
-        value: PALETTE_VALUES.orange["100"],
+        value: PALETTE_VALUES.yellow["100"],
       },
     ],
   },
@@ -316,25 +304,21 @@ const STATES = [
       {
         label: "dark",
         token: "--state-danger-dark",
-        primitive: "--color-brutal-red-800",
         value: PALETTE_VALUES.red["800"],
       },
       {
         label: "base",
         token: "--state-danger-base",
-        primitive: "--color-brutal-red",
-        value: PALETTE_VALUES.red["400"],
+        value: "oklch(0.616 0.249 26.758)",
       },
       {
         label: "light",
         token: "--state-danger-light",
-        primitive: "--color-brutal-red-200",
         value: PALETTE_VALUES.red["200"],
       },
       {
         label: "lighter",
         token: "--state-danger-lighter",
-        primitive: "--color-brutal-red-100",
         value: PALETTE_VALUES.red["100"],
       },
     ],
@@ -573,7 +557,7 @@ function StateCard({ state }: { state: (typeof STATES)[number] }) {
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm font-semibold capitalize text-gray-950">{state.role}</p>
-          <p className="mt-1 font-mono text-xs text-gray-500">brutal {state.scale}</p>
+          <p className="mt-1 font-mono text-xs text-gray-500">{state.scale}</p>
         </div>
         <span
           className="border px-2 py-1 font-mono text-xs"
@@ -592,7 +576,7 @@ function StateCard({ state }: { state: (typeof STATES)[number] }) {
             <div
               className="h-12 border-b border-gray-200"
               style={{ background: tone.value }}
-              title={`${tone.token}: ${tone.primitive}`}
+              title={`${tone.token}: ${tone.value}`}
             />
             <div className="min-h-11 bg-white px-1 py-1.5">
               <p className="text-center text-[10px] font-semibold text-gray-600">{tone.label}</p>

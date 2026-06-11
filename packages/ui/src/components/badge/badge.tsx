@@ -70,7 +70,7 @@ export const badge = tv({
       theme: "elegant",
       variant: "default",
       class: {
-        root: "bg-layer-muted text-foreground-muted",
+        root: "bg-line-muted text-foreground-muted",
       },
     },
     {

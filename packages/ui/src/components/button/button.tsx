@@ -129,6 +129,96 @@ export const buttonVariants = tv({
   },
   compoundVariants: [
     {
+      theme: "elegant",
+      variant: "default",
+      class: {
+        root: [
+          "border-line-strong bg-foreground-strong text-foreground-inverse",
+          "hover:border-foreground hover:bg-foreground",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "primary",
+      class: {
+        root: [
+          "border-primary-400 bg-primary-400 text-warning-dark",
+          "hover:border-[oklch(0.85_0.162_91.89)] hover:bg-[oklch(0.85_0.162_91.89)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "outline",
+      class: {
+        root: [
+          "border-line-subtle bg-transparent text-foreground-strong",
+          "hover:border-line hover:bg-transparent",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "ghost",
+      class: {
+        root: [
+          "border-transparent bg-transparent text-foreground-muted",
+          "hover:border-transparent hover:bg-line-muted",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "danger",
+      class: {
+        root: [
+          "border-danger-lighter bg-danger-lighter text-[oklch(0.595_0.241_26.758)]",
+          "hover:border-[oklch(0.9_0.045_20.05)] hover:bg-[oklch(0.9_0.045_20.05)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "danger-outline",
+      class: {
+        root: [
+          "border-danger-lighter bg-transparent text-danger-base",
+          "hover:border-[oklch(0.86_0.06_20.05)] hover:bg-transparent",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "accent",
+      class: {
+        root: [
+          "border-accent-400 bg-accent-400 text-foreground-inverse",
+          "hover:border-[oklch(0.735_0.15_0.71)] hover:bg-[oklch(0.735_0.15_0.71)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "link",
+      class: {
+        root: [
+          "border-transparent bg-transparent text-foreground-muted",
+          "hover:border-transparent hover:bg-transparent hover:text-foreground-muted",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "muted",
+      class: {
+        root: [
+          "border-layer-muted bg-layer-muted text-foreground-placeholder",
+          "hover:border-line-subtle hover:bg-line-subtle",
+        ],
+      },
+    },
+    {
       theme: "brutal",
       variant: [
         "primary",

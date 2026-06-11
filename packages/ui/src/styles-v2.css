@@ -282,18 +282,18 @@
   --state-info-light: var(--color-brutal-cyan-200);
   --state-info-lighter: var(--color-brutal-cyan-100);
 
-  --state-success-dark: var(--color-brutal-lime-800);
-  --state-success-base: var(--color-brutal-lime);
-  --state-success-light: var(--color-brutal-lime-200);
-  --state-success-lighter: var(--color-brutal-lime-100);
+  --state-success-dark: oklch(0.366 0.09 153.079);
+  --state-success-base: oklch(0.714 0.176 153.079);
+  --state-success-light: oklch(0.91 0.149 153.079);
+  --state-success-lighter: oklch(0.949 0.079 153.079);
 
-  --state-warning-dark: var(--color-brutal-orange-800);
-  --state-warning-base: var(--color-brutal-orange);
-  --state-warning-light: var(--color-brutal-orange-200);
-  --state-warning-lighter: var(--color-brutal-orange-100);
+  --state-warning-dark: var(--color-brutal-yellow-900);
+  --state-warning-base: var(--color-brutal-yellow);
+  --state-warning-light: var(--color-brutal-yellow-200);
+  --state-warning-lighter: var(--color-brutal-yellow-100);
 
   --state-danger-dark: var(--color-brutal-red-800);
-  --state-danger-base: var(--color-brutal-red);
+  --state-danger-base: oklch(0.616 0.249 26.758);
   --state-danger-light: var(--color-brutal-red-200);
   --state-danger-lighter: var(--color-brutal-red-100);
 
@@ -317,7 +317,7 @@
   --foreground-muted: oklch(0.36 0.006 285);
   --foreground-placeholder: oklch(0.58 0.006 285);
   --foreground-disabled: oklch(0.7 0.006 286);
-  --foreground-inverse: oklch(0.985 0 0);
+  --foreground-inverse: oklch(1 0 0);
 
   --layer-panel: oklch(1 0 0);
   --layer-muted: oklch(0.967 0.001 286);
@@ -372,18 +372,18 @@
   --state-info-light: var(--color-brutal-cyan-200);
   --state-info-lighter: var(--color-brutal-cyan-100);
 
-  --state-success-dark: var(--color-brutal-lime-800);
-  --state-success-base: var(--color-brutal-lime);
-  --state-success-light: var(--color-brutal-lime-200);
-  --state-success-lighter: var(--color-brutal-lime-100);
+  --state-success-dark: oklch(0.366 0.09 153.079);
+  --state-success-base: oklch(0.714 0.176 153.079);
+  --state-success-light: oklch(0.91 0.149 153.079);
+  --state-success-lighter: oklch(0.949 0.079 153.079);
 
-  --state-warning-dark: var(--color-brutal-orange-800);
-  --state-warning-base: var(--color-brutal-orange);
-  --state-warning-light: var(--color-brutal-orange-200);
-  --state-warning-lighter: var(--color-brutal-orange-100);
+  --state-warning-dark: var(--color-brutal-yellow-900);
+  --state-warning-base: var(--color-brutal-yellow);
+  --state-warning-light: var(--color-brutal-yellow-200);
+  --state-warning-lighter: var(--color-brutal-yellow-100);
 
   --state-danger-dark: var(--color-brutal-red-800);
-  --state-danger-base: var(--color-brutal-red);
+  --state-danger-base: oklch(0.616 0.249 26.758);
   --state-danger-light: var(--color-brutal-red-200);
   --state-danger-lighter: var(--color-brutal-red-100);
 

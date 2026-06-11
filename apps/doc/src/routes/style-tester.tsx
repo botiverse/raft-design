@@ -283,10 +283,10 @@ function ButtonCard() {
           Ghost
         </Button>
         <Button size="md" variant="danger">
-          Destructive
+          Danger
         </Button>
         <Button size="md" variant="danger-outline">
-          Destructive
+          Danger
         </Button>
         <Button size="md" variant="accent">
           Accent
