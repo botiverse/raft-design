@@ -34,8 +34,8 @@ const mediaItem = tv({
   variants: {
     theme: {
       brutal: {
-        title: "text-black",
-        subtitle: "text-black/50",
+        title: "text-foreground-strong",
+        subtitle: "text-foreground/50",
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},
@@ -74,7 +74,7 @@ export function MediaListItem({
       selected={selected}
       interactive={interactive ?? false}
       className={cn(
-        "group px-3 py-2 has-[[data-interactive=true]]:hover:border-surface-border has-[[data-interactive=true]]:hover:[box-shadow:var(--surface-shadow-sm)]",
+        "group px-3 py-2 has-[[data-interactive=true]]:hover:border-line-strong has-[[data-interactive=true]]:hover:shadow-sm",
         className,
       )}
     >

@@ -15,6 +15,7 @@
       "default": "./dist/index.mjs"
     },
     "./styles.css": "./src/styles.css",
+    "./styles-v2.css": "./src/styles-v2.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {

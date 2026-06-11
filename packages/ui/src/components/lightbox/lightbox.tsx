@@ -9,7 +9,7 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const lightbox = tv({
   slots: {
-    backdrop: ["fixed inset-0 z-[70] bg-black/75 data-[closed]:hidden"],
+    backdrop: ["fixed inset-0 z-[70] bg-layer-backdrop data-[closed]:hidden"],
     content: ["pointer-events-none fixed inset-0 z-[71] data-[closed]:hidden"],
     header: ["safe-top safe-left safe-right pointer-events-auto shrink-0"],
     title: ["min-w-0 flex-1 truncate font-display text-sm font-bold"],
@@ -23,9 +23,9 @@ const lightbox = tv({
   variants: {
     theme: {
       brutal: {
-        header: ["border-b-2 border-black bg-white"],
-        title: ["text-black"],
-        media: ["border-black bg-white shadow-[var(--shadow-lg)]"],
+        header: ["border-b-2 border-line-strong bg-layer-panel"],
+        title: ["text-foreground-strong"],
+        media: ["border-line-strong bg-layer-panel shadow-xl"],
       },
       elegant: {},
     },

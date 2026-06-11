@@ -10,7 +10,7 @@ const dot = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border border-black",
+        root: "border border-line-strong",
       },
       elegant: {},
     },
@@ -19,25 +19,25 @@ const dot = tv({
         root: "bg-gray-400",
       },
       lime: {
-        root: "bg-brutal-lime",
+        root: "bg-success-base",
       },
       yellow: {
-        root: "bg-brutal-yellow",
+        root: "bg-primary-400",
       },
       orange: {
-        root: "bg-brutal-orange",
+        root: "bg-warning-base",
       },
       pink: {
-        root: "bg-brutal-pink",
+        root: "bg-accent-400",
       },
       cyan: {
-        root: "bg-brutal-cyan",
+        root: "bg-info-base",
       },
       red: {
-        root: "bg-brutal-red",
+        root: "bg-danger-base",
       },
       stone: {
-        root: "bg-brutal-stone",
+        root: "bg-secondary-400",
       },
     },
   },

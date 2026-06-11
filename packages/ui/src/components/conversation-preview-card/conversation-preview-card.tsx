@@ -25,22 +25,22 @@ const conversationPreviewCard = tv({
     theme: {
       brutal: {
         root: [
-          "border-surface-border/30 bg-surface hover:border-surface-border hover:[box-shadow:var(--surface-shadow-sm)]",
-          "data-[state=active]:border-surface-border data-[state=active]:bg-surface data-[state=active]:[box-shadow:var(--surface-shadow-sm)]",
-          "data-[highlighted=true]:border-surface-border data-[highlighted=true]:bg-information-default/25 data-[highlighted=true]:[box-shadow:var(--surface-shadow-md)]",
+          "border-line-subtle bg-layer-panel hover:border-line-strong hover:shadow-sm",
+          "data-[state=active]:border-line-strong data-[state=active]:bg-layer-panel data-[state=active]:shadow-sm",
+          "data-[highlighted=true]:border-line-strong data-[highlighted=true]:bg-info-base/25 data-[highlighted=true]:shadow-md",
         ],
-        channel: "text-black/50",
-        author: "text-black",
-        authorSubtitle: "text-black/40",
-        timestamp: "text-black/40",
-        previewAuthor: "text-black/70",
-        secondaryPreview: "text-black/45",
+        channel: "text-foreground/50",
+        author: "text-foreground-strong",
+        authorSubtitle: "text-foreground/40",
+        timestamp: "text-foreground/40",
+        previewAuthor: "text-foreground/70",
+        secondaryPreview: "text-foreground/45",
       },
       elegant: {},
     },
     interactive: {
       true: {
-        root: "active:border-surface-border active:[box-shadow:var(--surface-shadow-sm)]",
+        root: "active:border-line-strong active:shadow-sm",
       },
       false: {
         root: "cursor-default",

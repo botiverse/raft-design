@@ -7,8 +7,8 @@ const sectionHeader = tv({
   slots: {
     root: ["flex items-center justify-between gap-2"],
     content: ["flex min-w-0 items-center gap-2"],
-    icon: ["shrink-0 text-black/60", "[&_svg]:size-4 [&_svg]:shrink-0"],
-    count: ["ml-2 font-mono text-black/40"],
+    icon: ["shrink-0 text-foreground/60", "[&_svg]:size-4 [&_svg]:shrink-0"],
+    count: ["ml-2 font-mono text-foreground/40"],
     actions: ["flex shrink-0 items-center gap-1.5"],
   },
   variants: {

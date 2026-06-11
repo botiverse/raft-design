@@ -9,7 +9,7 @@ const popover = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-white",
+      "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
     header: ["flex items-center justify-between border-b px-3 py-2"],
@@ -27,12 +27,12 @@ const popover = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-black shadow-[var(--shadow-hover)]"],
-        header: ["border-black"],
-        title: ["text-black/60"],
-        description: ["text-black/50"],
-        close: ["text-black/50 hover:text-black"],
-        arrow: ["border-l-2 border-t-2 border-black bg-white"],
+        content: ["border-2 border-line-strong shadow-md"],
+        header: ["border-line-strong"],
+        title: ["text-foreground/60"],
+        description: ["text-foreground/50"],
+        close: ["text-foreground/50 hover:text-foreground-strong"],
+        arrow: ["border-l-2 border-t-2 border-line-strong bg-layer-panel"],
         backdrop: ["bg-transparent"],
       },
       // Elegant styling is deferred; see the component TODO.

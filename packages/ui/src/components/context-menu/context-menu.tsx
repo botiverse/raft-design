@@ -8,7 +8,10 @@ const contextMenu = tv({
   slots: {
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
-    content: ["max-h-[var(--available-height)] min-w-48 overflow-hidden bg-white", "outline-none"],
+    content: [
+      "max-h-[var(--available-height)] min-w-48 overflow-hidden bg-layer-panel",
+      "outline-none",
+    ],
     item: [
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
       "text-left text-sm outline-none transition-colors",
@@ -19,14 +22,14 @@ const contextMenu = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-black shadow-[var(--shadow-hover)]"],
+        content: ["border-2 border-line-strong shadow-md"],
         item: [
-          "font-medium text-black hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "font-medium text-foreground-strong hover:bg-primary-400/30 data-[highlighted]:bg-primary-400/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         shortcut: [],
-        separator: ["border-black"],
+        separator: ["border-line-strong"],
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

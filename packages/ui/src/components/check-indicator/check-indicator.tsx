@@ -14,7 +14,7 @@ const checkIndicator = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 border-black"],
+        root: ["border-2 border-line-strong"],
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},
@@ -53,7 +53,7 @@ const checkIndicator = tv({
         root: "",
       },
       false: {
-        root: "bg-white text-transparent",
+        root: "bg-layer-panel text-transparent",
       },
     },
     disabled: {
@@ -74,9 +74,9 @@ const checkIndicator = tv({
     },
   },
   compoundVariants: [
-    { checked: true, fill: "black", class: { root: "bg-black text-white" } },
-    { checked: true, fill: "yellow", class: { root: "bg-brutal-yellow text-black" } },
-    { checked: false, previewOnHover: true, class: { root: "group-hover:text-black/20" } },
+    { checked: true, fill: "black", class: { root: "bg-line-strong text-foreground-inverse" } },
+    { checked: true, fill: "yellow", class: { root: "bg-primary-400 text-foreground-strong" } },
+    { checked: false, previewOnHover: true, class: { root: "group-hover:text-foreground/20" } },
   ],
   defaultVariants: {
     shape: "square",

@@ -10,7 +10,7 @@ const sectionLabel = tv({
   variants: {
     theme: {
       brutal: {
-        root: "text-black/60",
+        root: "text-foreground/60",
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

@@ -36,8 +36,8 @@ const VARIANTS = [
   "accent",
   "success",
   "warning",
-  "destructive",
-  "destructive-outline",
+  "danger",
+  "danger-outline",
   "outline",
   "ghost",
   "link",
@@ -48,7 +48,7 @@ const ICON_POSITIONS = ["left", "right", "only"] as const;
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
 const TODOS = [
-  { status: "done", label: "Replace color-first tone with semantic variant/action tokens." },
+  { status: "done", label: "Replace color-first tone with semantic v2 variant utilities." },
   { status: "done", label: "Set the neutral default action as the default Button variant." },
   { status: "done", label: "Document loading, icon placement, and size/variant combinations." },
   { status: "deferred", label: "Add ButtonGroup as a separate planned UI." },
@@ -65,8 +65,8 @@ const SNIPPETS = {
 <Button variant="accent">Accent</Button>
 <Button variant="success">Success</Button>
 <Button variant="warning">Warning</Button>
-<Button variant="destructive">Delete</Button>
-<Button variant="destructive-outline">Remove</Button>
+<Button variant="danger">Delete</Button>
+<Button variant="danger-outline">Remove</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
@@ -94,51 +94,48 @@ const SNIPPETS = {
   <Plus />
 </Button>
 
-<Button variant="destructive" size="icon-sm" aria-label="Delete">
+<Button variant="danger" size="icon-sm" aria-label="Delete">
   <Trash2 />
 </Button>`,
   loading: `<Button loading>Saving</Button>
-<Button variant="destructive" loading loadingLabel="Deleting">
+<Button variant="danger" loading loadingLabel="Deleting">
   Delete
 </Button>`,
   tokens: `primitive palette
-  -> semantic tone
-    -> action token
-      -> Button variant
+  -> v2 tone utility
+    -> Button variant
 
---color-brutal-yellow
-  -> --primary
-    -> --action-primary-default
-      -> variant="primary"
+brutal yellow
+  -> bg-primary-400 text-primary-950
+    -> variant="primary"
 
---neutral-default
-  -> --action-default-default
+brutal white
+  -> bg-layer-panel text-foreground-strong
     -> variant="default"
 
---color-brutal-cyan
-  -> --information-default
-    -> --action-information-default
-      -> variant="information"
+brutal cyan
+  -> bg-info-base text-info-dark
+    -> variant="information"
 
---color-brutal-stone
-  -> --muted-default
-    -> --action-muted-default
-      -> variant="muted"
+brutal stone
+  -> bg-secondary-400 text-secondary-950
+    -> variant="muted"
 
---color-brutal-pink
-  -> --accent-default
-    -> --action-accent-default
-      -> variant="accent"
+brutal pink
+  -> bg-accent-400 text-accent-950
+    -> variant="accent"
 
---color-brutal-lime
-  -> --success-default
-    -> --action-success-default
-      -> variant="success"
+brutal lime
+  -> bg-success-base text-success-dark
+    -> variant="success"
 
---color-brutal-orange
-  -> --warning-default
-    -> --action-warning-default
-      -> variant="warning"`,
+brutal orange
+  -> bg-warning-base text-warning-dark
+    -> variant="warning"
+
+brutal red
+  -> bg-danger-base text-danger-dark
+    -> variant="danger"`,
   migrationDefault: `// Source
 <Button>Button</Button>
 
@@ -152,7 +149,7 @@ const SNIPPETS = {
 // Current
 <Button variant="primary">Save</Button>
 <Button variant="default">Cancel</Button>
-<Button variant="destructive">
+<Button variant="danger">
   <Trash2 data-icon="inline-start" />
   Delete
 </Button>`,
@@ -231,8 +228,8 @@ const SNIPPETS = {
 <Button variant="accent">Accent</Button>
 <Button variant="success">Success</Button>
 <Button variant="warning">Warning</Button>
-<Button variant="destructive">Delete</Button>
-<Button variant="destructive-outline">Remove</Button>
+<Button variant="danger">Delete</Button>
+<Button variant="danger-outline">Remove</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
@@ -303,10 +300,10 @@ const SNIPPETS = {
 <Button variant="outline" size="sm">O SM</Button>
 <Button variant="outline" size="md">O MD</Button>
 <Button variant="outline" size="lg">O LG</Button>
-<Button variant="destructive" size="xs">D XS</Button>
-<Button variant="destructive" size="sm">D SM</Button>
-<Button variant="destructive" size="md">D MD</Button>
-<Button variant="destructive" size="lg">D LG</Button>`,
+<Button variant="danger" size="xs">D XS</Button>
+<Button variant="danger" size="sm">D SM</Button>
+<Button variant="danger" size="md">D MD</Button>
+<Button variant="danger" size="lg">D LG</Button>`,
   sourceIcon: `<Button tone="yellow" shape="icon" aria-label="Add primary">
   <Plus size={14} />
 </Button>
@@ -358,7 +355,7 @@ const SNIPPETS = {
 <Button variant="ghost" size="icon-sm" aria-label="Add ghost">
   <Plus />
 </Button>
-<Button variant="destructive" size="icon-sm" aria-label="Delete">
+<Button variant="danger" size="icon-sm" aria-label="Delete">
   <Trash2 />
 </Button>`,
   sourceInlineIcon: `<Button tone="yellow" shape="iconText">
@@ -425,7 +422,7 @@ const SNIPPETS = {
   <Plus data-icon="inline-start" />
   More
 </Button>
-<Button variant="destructive">
+<Button variant="danger">
   <Trash2 data-icon="inline-start" />
   Delete
 </Button>`,
@@ -476,8 +473,7 @@ const PROPS: readonly PropRow[] = [
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
-    description:
-      "Action semantics. Variants consume action tokens, which each theme maps to its own palette.",
+    description: "Action semantics. Variants consume the v2 layer/tone utilities.",
   },
   {
     name: "size",
@@ -527,7 +523,7 @@ function ButtonDoc() {
   return (
     <DocPage
       title="Button"
-      description="A clickable action control backed by semantic variant and action tokens."
+      description="A clickable action control backed by semantic variants and v2 tone utilities."
       toc={TOC}
     >
       <DocSection id="todo" title="Todo">
@@ -578,11 +574,11 @@ function ButtonDoc() {
             <Button variant="accent">Accent</Button>
             <Button variant="success">Success</Button>
             <Button variant="warning">Warning</Button>
-            <Button variant="destructive">
+            <Button variant="danger">
               <Trash2 data-icon="inline-start" />
               Delete
             </Button>
-            <Button variant="destructive-outline">Remove</Button>
+            <Button variant="danger-outline">Remove</Button>
             <Button variant="outline">Outline</Button>
             <Button variant="ghost">Ghost</Button>
             <Button variant="link">Link</Button>
@@ -590,7 +586,7 @@ function ButtonDoc() {
           <Callout>
             Variants describe action intent. Brutal maps the semantic actions back to source colors:
             primary/yellow, information/cyan, muted/stone, accent/pink, success/lime,
-            warning/orange, destructive/red, and default/white.
+            warning/orange, danger/red, and default/white.
           </Callout>
         </div>
       </DocSection>
@@ -646,7 +642,7 @@ function ButtonDoc() {
             <Button variant="information" size="icon-sm" aria-label="Show information">
               <Plus />
             </Button>
-            <Button variant="destructive" size="icon-sm" aria-label="Delete">
+            <Button variant="danger" size="icon-sm" aria-label="Delete">
               <Trash2 />
             </Button>
           </Example>
@@ -690,7 +686,7 @@ function ButtonDoc() {
         <div className="space-y-4">
           <Example html={code.loading}>
             <Button loading>Saving</Button>
-            <Button variant="destructive" loading loadingLabel="Deleting">
+            <Button variant="danger" loading loadingLabel="Deleting">
               Delete
             </Button>
           </Example>
@@ -705,8 +701,8 @@ function ButtonDoc() {
         <div className="space-y-4">
           <CodeBlock html={code.tokens} />
           <Callout>
-            Button consumes action tokens. Theme files decide how those action tokens map onto the
-            shared semantic tone layer.
+            Button consumes the v2 public token contract directly. Theme values decide how those
+            layer, line, foreground, and tone utilities resolve.
           </Callout>
         </div>
       </DocSection>
@@ -756,8 +752,8 @@ function ButtonDoc() {
                   <Button variant="accent">Accent</Button>
                   <Button variant="success">Success</Button>
                   <Button variant="warning">Warning</Button>
-                  <Button variant="destructive">Delete</Button>
-                  <Button variant="destructive-outline">Remove</Button>
+                  <Button variant="danger">Delete</Button>
+                  <Button variant="danger-outline">Remove</Button>
                   <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
                   <Button variant="link">Link</Button>
@@ -783,7 +779,7 @@ function ButtonDoc() {
             {
               label: "Sizes across variants",
               status: "review",
-              note: "Size is orthogonal to variant. Source supported size across tones; current keeps that behavior across raised, flat, and destructive variants.",
+              note: "Size is orthogonal to variant. Source supported size across tones; current keeps that behavior across raised, flat, and danger variants.",
               source: (
                 <>
                   <LegacyButton tone="yellow" size="xs">
@@ -982,16 +978,16 @@ function ButtonDoc() {
                   <Button variant="outline" size="lg">
                     O LG
                   </Button>
-                  <Button variant="destructive" size="xs">
+                  <Button variant="danger" size="xs">
                     D XS
                   </Button>
-                  <Button variant="destructive" size="sm">
+                  <Button variant="danger" size="sm">
                     D SM
                   </Button>
-                  <Button variant="destructive" size="md">
+                  <Button variant="danger" size="md">
                     D MD
                   </Button>
-                  <Button variant="destructive" size="lg">
+                  <Button variant="danger" size="lg">
                     D LG
                   </Button>
                 </>
@@ -1060,7 +1056,7 @@ function ButtonDoc() {
                   <Button variant="ghost" size="icon-sm" aria-label="Add ghost">
                     <Plus />
                   </Button>
-                  <Button variant="destructive" size="icon-sm" aria-label="Delete">
+                  <Button variant="danger" size="icon-sm" aria-label="Delete">
                     <Trash2 />
                   </Button>
                 </>
@@ -1142,7 +1138,7 @@ function ButtonDoc() {
                     <Plus data-icon="inline-start" />
                     More
                   </Button>
-                  <Button variant="destructive">
+                  <Button variant="danger">
                     <Trash2 data-icon="inline-start" />
                     Delete
                   </Button>
@@ -1216,9 +1212,8 @@ function ButtonDoc() {
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Tone to Variant</h3>
             <p className="text-sm text-gray-500">
-              Migrate color names to action intent: yellow/white/red become
-              primary/default/destructive. Use this same mapping when auditing downstream Button
-              call sites.
+              Migrate color names to action intent: yellow/white/red become primary/default/danger.
+              Use this same mapping when auditing downstream Button call sites.
             </p>
             <CodeBlock html={code.migrationTones} />
           </div>

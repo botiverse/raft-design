@@ -14,27 +14,27 @@ const banner = tv({
     theme: {
       brutal: {
         root: [
-          "group/banner grid grid-cols-[0_minmax(0,1fr)] items-start border-2 border-black",
+          "group/banner grid grid-cols-[0_minmax(0,1fr)] items-start border-2 border-line-strong",
           "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
           "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
           "[&>svg]:col-start-1 [&>svg]:row-span-2 [&>svg]:mt-0.5",
-          "[&>svg]:size-[18px] [&>svg]:shrink-0 [&>svg]:text-black",
+          "[&>svg]:size-[18px] [&>svg]:shrink-0 [&>svg]:text-foreground-strong",
         ],
         title: [
-          "col-start-2 mb-0.5 text-sm font-bold text-black",
+          "col-start-2 mb-0.5 text-sm font-bold text-foreground-strong",
           "group-data-[size=sm]/banner:text-xs",
         ],
         description: [
-          "col-start-2 min-w-0 text-sm text-black",
+          "col-start-2 min-w-0 text-sm text-foreground-strong",
           "group-data-[size=sm]/banner:text-xs",
         ],
         action: ["col-start-3 row-span-2 row-start-1 shrink-0"],
       },
       elegant: {
         root: [
-          "group/banner grid w-full items-center gap-x-2 gap-y-0 rounded-[var(--banner-radius)] border-0",
-          "text-[0.8125rem] leading-5 tracking-[-0.005em] text-[var(--banner-foreground)]",
+          "group/banner grid w-full items-center gap-x-2 gap-y-0 rounded-sm border-0",
+          "text-[0.8125rem] leading-5 tracking-[-0.005em] text-foreground-strong",
           "grid-cols-[minmax(0,1fr)]",
           "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
@@ -45,19 +45,19 @@ const banner = tv({
           "has-[>[data-slot=banner-description]]:[&>svg]:row-span-2 has-[>[data-slot=banner-description]]:[&>svg]:self-start",
         ],
         title: [
-          "col-start-2 row-start-1 flex h-5 min-w-0 items-center text-sm font-medium leading-5 text-[var(--banner-foreground)]",
+          "col-start-2 row-start-1 flex h-5 min-w-0 items-center text-sm font-medium leading-5 text-foreground-strong",
         ],
         description: [
-          "col-start-2 row-start-2 min-w-0 font-normal leading-4 text-[var(--banner-description)]",
+          "col-start-2 row-start-2 min-w-0 font-normal leading-4 text-foreground-muted",
         ],
         action: [
           "col-start-3 row-start-1 flex h-5 shrink-0 items-center gap-2 self-start",
           "[&>button:last-child]:size-5 [&>button:last-child]:min-h-5 [&>button:last-child]:min-w-5",
           "[&>button:last-child]:border-transparent [&>button:last-child]:bg-transparent [&>button:last-child]:shadow-none",
-          "[&>button:last-child]:text-[var(--banner-dismiss)]",
+          "[&>button:last-child]:text-foreground/40",
           "[&>button:last-child]:transition-colors [&>button:last-child]:duration-200",
           "[&>button:last-child]:hover:border-transparent [&>button:last-child]:hover:bg-transparent",
-          "[&>button:last-child]:hover:text-[var(--banner-dismiss-hover)]",
+          "[&>button:last-child]:hover:text-foreground/65",
           "[&>button:last-child>svg]:size-4",
         ],
       },
@@ -78,10 +78,10 @@ const banner = tv({
     size: "md",
   },
   compoundVariants: [
-    { theme: "brutal", status: "destructive", class: { root: "bg-brutal-red/20" } },
-    { theme: "brutal", status: "warning", class: { root: "bg-brutal-orange/20" } },
-    { theme: "brutal", status: "info", class: { root: "bg-brutal-yellow/30" } },
-    { theme: "brutal", status: "success", class: { root: "bg-brutal-lime/20" } },
+    { theme: "brutal", status: "destructive", class: { root: "bg-danger-base/20" } },
+    { theme: "brutal", status: "warning", class: { root: "bg-warning-base/20" } },
+    { theme: "brutal", status: "info", class: { root: "bg-primary-400/30" } },
+    { theme: "brutal", status: "success", class: { root: "bg-success-base/20" } },
     {
       theme: "brutal",
       size: "sm",
@@ -96,35 +96,35 @@ const banner = tv({
       theme: "brutal",
       size: "lg",
       class: {
-        root: "gap-y-0 p-4 shadow-[var(--shadow)] has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3",
+        root: "gap-y-0 p-4 shadow-sm has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3",
       },
     },
     {
       theme: "elegant",
       status: "success",
       class: {
-        root: "bg-[var(--success-soft)] [&>svg]:text-[var(--badge-success)]",
+        root: "bg-success-lighter [&>svg]:text-success-base",
       },
     },
     {
       theme: "elegant",
       status: "warning",
       class: {
-        root: "bg-[var(--warning-soft)] [&>svg]:text-[var(--warning-default)]",
+        root: "bg-warning-lighter [&>svg]:text-warning-base",
       },
     },
     {
       theme: "elegant",
       status: "info",
       class: {
-        root: "bg-[var(--information-soft)] [&>svg]:text-[var(--information-default)]",
+        root: "bg-info-lighter [&>svg]:text-info-base",
       },
     },
     {
       theme: "elegant",
       status: "destructive",
       class: {
-        root: "bg-[var(--destructive-soft)] [&>svg]:text-[var(--destructive-default)]",
+        root: "bg-danger-lighter [&>svg]:text-danger-base",
       },
     },
     { theme: "elegant", size: "sm", class: { root: "px-2 py-1.5" } },

@@ -34,30 +34,30 @@ const inputGroup = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-black bg-white shadow-[var(--shadow)]",
-          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-brutal-red has-[[data-slot=input-group-control][aria-invalid=true]]:bg-brutal-red/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-brutal-red/60",
+          "border-2 border-line-strong bg-layer-panel shadow-sm",
+          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base has-[[data-slot=input-group-control][aria-invalid=true]]:bg-danger-base/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-danger-base/60",
         ],
-        addon: ["text-black/50"],
-        slugAddon: ["border-black bg-brutal-yellow/30 text-black/70"],
+        addon: ["text-foreground/50"],
+        slugAddon: ["border-line-strong bg-primary-400/30 text-foreground/70"],
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-[var(--list-item-radius)] border border-[var(--input-border)] bg-[var(--input-background)]",
-          "text-[var(--input-foreground)] transition duration-200 ease-out",
-          "hover:bg-[var(--input-hover-background)]",
-          "has-[[data-slot=input-group-control]:focus]:border-[var(--input-focus-border)] has-[[data-slot=input-group-control]:focus]:bg-[var(--input-background)]",
-          "has-[[data-slot=input-group-control]:disabled]:border-transparent has-[[data-slot=input-group-control]:disabled]:bg-[var(--input-disabled-background)]",
+          "overflow-hidden rounded-sm border border-line-subtle bg-layer-field",
+          "text-foreground transition duration-200 ease-out",
+          "hover:bg-layer-muted",
+          "has-[[data-slot=input-group-control]:focus]:border-line-focus has-[[data-slot=input-group-control]:focus]:bg-layer-field",
+          "has-[[data-slot=input-group-control]:disabled]:border-transparent has-[[data-slot=input-group-control]:disabled]:bg-layer-muted",
         ],
         addon: [
-          "text-[var(--input-icon)] transition duration-200 ease-out",
-          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-[var(--input-foreground)]",
-          "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-[var(--input-disabled-foreground)]",
+          "text-foreground-muted transition duration-200 ease-out",
+          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground",
+          "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
         control: [
           "h-10 min-w-0 bg-transparent px-0 text-sm outline-none",
-          "text-[var(--input-foreground)] placeholder:text-[var(--input-placeholder)]",
+          "text-foreground placeholder:text-foreground-placeholder",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
-          "disabled:text-[var(--input-disabled-foreground)] disabled:placeholder:text-[var(--input-disabled-foreground)]",
+          "disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
       },
     },
@@ -75,7 +75,7 @@ const inputGroup = tv({
       theme: "brutal",
       lift: true,
       class: {
-        root: "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-[var(--shadow-hover)]",
+        root: "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-md",
       },
     },
   ],

@@ -21,9 +21,9 @@ const emptyState = tv({
   variants: {
     theme: {
       brutal: {
-        icon: "text-black/40",
-        title: "text-black/60",
-        description: "text-black/60",
+        icon: "text-foreground/40",
+        title: "text-foreground/60",
+        description: "text-foreground/60",
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

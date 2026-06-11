@@ -32,9 +32,9 @@ const input = tv({
       unstyled: false,
       class: {
         root: [
-          "border-2 border-black bg-white",
-          "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
-          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+          "border-2 border-line-strong bg-layer-panel",
+          "shadow-sm focus:shadow-md",
+          "aria-invalid:border-danger-base aria-invalid:bg-danger-base/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-danger-base/60",
         ],
       },
     },
@@ -43,12 +43,12 @@ const input = tv({
       unstyled: false,
       class: {
         root: [
-          "h-10 rounded-[var(--list-item-radius)] border border-[var(--input-border)] bg-[var(--input-background)]",
-          "px-3 text-sm text-[var(--input-foreground)] transition duration-200 ease-out",
-          "placeholder:text-[var(--input-placeholder)]",
-          "hover:bg-[var(--input-hover-background)]",
-          "focus:border-[var(--input-focus-border)] focus:bg-[var(--input-background)]",
-          "disabled:border-transparent disabled:bg-[var(--input-disabled-background)] disabled:text-[var(--input-disabled-foreground)] disabled:placeholder:text-[var(--input-disabled-foreground)]",
+          "h-10 rounded-sm border border-line-subtle bg-layer-field",
+          "px-3 text-sm text-foreground transition duration-200 ease-out",
+          "placeholder:text-foreground-placeholder",
+          "hover:bg-layer-muted",
+          "focus:border-line-focus focus:bg-layer-field",
+          "disabled:border-transparent disabled:bg-layer-muted disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
       },
     },

@@ -10,20 +10,20 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const notificationCenter = tv({
   slots: {
-    popup: ["flex flex-col overflow-hidden bg-white"],
-    header: ["flex items-center gap-2 border-b-2 border-black bg-brutal-cream px-3 py-2"],
+    popup: ["flex flex-col overflow-hidden bg-layer-panel"],
+    header: ["flex items-center gap-2 border-b-2 border-line-strong bg-primary-50 px-3 py-2"],
     title: ["text-xs font-bold uppercase tracking-widest"],
-    count: ["ml-auto font-mono text-xs text-black/40"],
+    count: ["ml-auto font-mono text-xs text-foreground/40"],
     scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],
-    list: ["divide-y-2 divide-black"],
+    list: ["divide-y-2 divide-line-strong"],
     item: ["px-3 py-3"],
     itemInner: ["flex items-start gap-2"],
     itemIcon: [
-      "mt-0.5 flex size-6 shrink-0 items-center justify-center border-2 border-black",
-      "[&_svg]:size-4 [&_svg]:text-black",
+      "mt-0.5 flex size-6 shrink-0 items-center justify-center border-2 border-line-strong",
+      "[&_svg]:size-4 [&_svg]:text-foreground-strong",
     ],
     itemContent: ["min-w-0 flex-1"],
-    itemTitle: ["break-words text-sm font-bold text-black"],
+    itemTitle: ["break-words text-sm font-bold text-foreground-strong"],
     itemBody: ["mt-0.5 break-words text-sm"],
     itemActions: ["mt-2 flex flex-wrap items-center gap-2"],
     actionButton: ["px-3 py-1.5 font-display text-xs font-bold transition-all duration-100"],
@@ -31,12 +31,12 @@ const notificationCenter = tv({
   variants: {
     theme: {
       brutal: {
-        popup: ["border-2 border-black shadow-[var(--shadow-hover)]"],
-        title: ["text-black/60"],
+        popup: ["border-2 border-line-strong shadow-md"],
+        title: ["text-foreground/60"],
         actionButton: [
-          "border-2 border-black shadow-[var(--shadow-hover)]",
-          "hover:-translate-y-px hover:shadow-[var(--shadow-lg)]",
-          "active:translate-x-[2px] active:translate-y-[2px] active:shadow-[var(--shadow-active)]",
+          "border-2 border-line-strong shadow-md",
+          "hover:-translate-y-px hover:shadow-xl",
+          "active:translate-x-[2px] active:translate-y-[2px] active:shadow-2xs",
           "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
         ],
       },
@@ -65,16 +65,16 @@ const notificationCenter = tv({
     },
     status: {
       error: {
-        itemIcon: "bg-brutal-orange",
+        itemIcon: "bg-warning-base",
       },
       warning: {
-        itemIcon: "bg-brutal-orange",
+        itemIcon: "bg-warning-base",
       },
       info: {
-        itemIcon: "bg-brutal-yellow",
+        itemIcon: "bg-primary-400",
       },
       success: {
-        itemIcon: "bg-brutal-lime",
+        itemIcon: "bg-success-base",
       },
     },
     actionVariant: {
@@ -93,8 +93,8 @@ const notificationCenter = tv({
     { viewport: "mobile", size: "sm", class: { popup: "max-h-[min(64dvh,224px)]" } },
     { viewport: "mobile", size: "md", class: { popup: "max-h-[min(72dvh,288px)]" } },
     { viewport: "mobile", size: "lg", class: { popup: "max-h-[min(80dvh,384px)]" } },
-    { theme: "brutal", actionVariant: "primary", class: { actionButton: "bg-brutal-pink" } },
-    { theme: "brutal", actionVariant: "secondary", class: { actionButton: "bg-white" } },
+    { theme: "brutal", actionVariant: "primary", class: { actionButton: "bg-accent-400" } },
+    { theme: "brutal", actionVariant: "secondary", class: { actionButton: "bg-layer-panel" } },
   ],
   defaultVariants: {
     viewport: "desktop",

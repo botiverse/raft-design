@@ -179,11 +179,11 @@ const TesterTile = forwardRef<
     <div
       ref={ref}
       data-tester-surface
-      className={`relative min-w-0 border border-border bg-surface p-6 shadow-[var(--surface-shadow-sm)] ${className}`}
+      className={`relative min-w-0 border border-line bg-layer-panel p-6 shadow-sm ${className}`}
       style={{ borderRadius: "var(--radius)", ...style }}
     >
       {label ? (
-        <span className="pointer-events-none absolute top-4 left-4 font-mono text-[0.6875rem] font-medium uppercase tracking-wide text-[color:var(--surface-muted-foreground)]/45">
+        <span className="pointer-events-none absolute top-4 left-4 font-mono text-[0.6875rem] font-medium uppercase tracking-wide text-foreground-muted/45">
           {label}
         </span>
       ) : null}
@@ -198,7 +198,7 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       title: "Headline",
       fontFamily: style.headingFont,
       labelFontFamily: style.bodyFont,
-      labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
+      labelClassName: "text-sm font-medium text-foreground-muted",
       sampleClassName:
         "truncate text-[2rem] font-medium leading-[1.15] tracking-[-0.04em] text-foreground",
       specimenClassName: "text-[5.5rem] font-medium leading-none tracking-[-0.05em]",
@@ -208,8 +208,8 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       title: "Body",
       fontFamily: style.bodyFont,
       labelFontFamily: style.bodyFont,
-      labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
-      sampleClassName: "truncate text-sm text-[color:var(--surface-muted-foreground)]",
+      labelClassName: "text-sm font-medium text-foreground-muted",
+      sampleClassName: "truncate text-sm text-foreground-muted",
       specimenClassName: "text-[5rem] leading-none",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
@@ -217,8 +217,8 @@ function TypographyCard({ style }: { style: StyleSpec }) {
       title: "Mono",
       fontFamily: style.labelFont,
       labelFontFamily: style.bodyFont,
-      labelClassName: "text-sm font-medium text-[color:var(--surface-muted-foreground)]",
-      sampleClassName: "truncate text-sm text-[color:var(--surface-muted-foreground)]",
+      labelClassName: "text-sm font-medium text-foreground-muted",
+      sampleClassName: "truncate text-sm text-foreground-muted",
       specimenClassName: "text-[4rem] leading-none",
       sample: "The quick brown fox jumps over the lazy dog.",
     },
@@ -282,10 +282,10 @@ function ButtonCard() {
         <Button size="md" variant="ghost">
           Ghost
         </Button>
-        <Button size="md" variant="destructive">
+        <Button size="md" variant="danger">
           Destructive
         </Button>
-        <Button size="md" variant="destructive-outline">
+        <Button size="md" variant="danger-outline">
           Destructive
         </Button>
         <Button size="md" variant="accent">
@@ -618,7 +618,7 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
                   <Check />
                   <div className="min-w-0 flex-1 text-left">
                     <div className="truncate">Default view</div>
-                    <div className="truncate font-mono text-xs text-[var(--dropdown-muted-foreground)]">
+                    <div className="truncate font-mono text-xs text-foreground-muted">
                       Current setting
                     </div>
                   </div>
@@ -627,7 +627,7 @@ function DropdownMenuCard({ style }: { style: StyleSpec }) {
                   <Check className="opacity-0" />
                   <div className="min-w-0 flex-1 text-left">
                     <div className="truncate">Compact view</div>
-                    <div className="truncate font-mono text-xs text-[var(--dropdown-muted-foreground)]">
+                    <div className="truncate font-mono text-xs text-foreground-muted">
                       Reduced spacing
                     </div>
                   </div>

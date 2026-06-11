@@ -61,22 +61,22 @@ const avatar = tv({
     ],
     group: [
       "group/avatar-group flex items-center -space-x-1.5",
-      "*:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-brutal-cream",
-      "*:data-[slot=avatar-group-count]:ring-2 *:data-[slot=avatar-group-count]:ring-brutal-cream",
+      "*:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-primary-50",
+      "*:data-[slot=avatar-group-count]:ring-2 *:data-[slot=avatar-group-count]:ring-primary-50",
     ],
   },
   variants: {
     theme: {
       brutal: {
-        root: "border-black",
-        badge: ["border-black bg-brutal-lime text-black"],
+        root: "border-line-strong",
+        badge: ["border-line-strong bg-success-base text-foreground-strong"],
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
     type: {
-      agent: { root: "bg-brutal-cyan" },
-      human: { root: "bg-brutal-lavender text-black" },
+      agent: { root: "bg-info-base" },
+      human: { root: "bg-accent-300 text-foreground-strong" },
     },
     size: {
       "3xl": { root: "size-16 border-2" },
@@ -179,7 +179,7 @@ export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCount
       data-slot="avatar-group-count"
       className={root({
         class: [
-          "bg-brutal-stone font-bold text-xs leading-none tabular-nums text-black",
+          "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground-strong",
           className,
         ],
       })}

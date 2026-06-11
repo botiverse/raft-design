@@ -35,30 +35,24 @@ const listItem = tv({
     theme: {
       brutal: {
         root: ["border-2"],
-        icon: ["mt-0.5 text-black/50"],
-        title: "text-black",
-        description: "text-black/60",
-        meta: "text-black/50",
+        icon: ["mt-0.5 text-foreground/50"],
+        title: "text-foreground-strong",
+        description: "text-foreground/60",
+        meta: "text-foreground/50",
       },
       elegant: {
         root: [
-          "rounded-[var(--list-item-radius)] border",
-          "border-[var(--list-item-border)] bg-[var(--list-item-background)]",
+          "rounded-sm border",
+          "border-line-muted bg-layer-panel",
           "outline-none",
           "transition-[background-color,border-color] duration-150",
-          "focus-visible:ring-2 focus-visible:ring-ring",
+          "focus-visible:ring-2 focus-visible:ring-line-focus",
         ],
-        icon: ["mt-0.5 text-[var(--list-item-meta)]"],
+        icon: ["mt-0.5 text-foreground-muted"],
         row: ["items-center gap-2"],
-        title: [
-          "text-sm font-medium leading-snug tracking-[-0.005em]",
-          "text-[var(--list-item-foreground)]",
-        ],
-        description: [
-          "mt-1 text-[0.8125rem] font-normal leading-normal",
-          "text-[var(--list-item-description)]",
-        ],
-        meta: ["text-[var(--list-item-meta)]"],
+        title: ["text-sm font-medium leading-snug tracking-[-0.005em]", "text-foreground-strong"],
+        description: ["mt-1 text-[0.8125rem] font-normal leading-normal", "text-foreground-muted"],
+        meta: ["text-foreground-muted"],
         actionGroup: ["mt-2 gap-2"],
       },
     },
@@ -84,24 +78,21 @@ const listItem = tv({
       theme: "brutal",
       selected: true,
       class: {
-        root: "border-surface-border bg-information-default/15 [box-shadow:var(--surface-shadow-sm)]",
+        root: "border-line-strong bg-info-base/15 shadow-sm",
       },
     },
-    { theme: "brutal", selected: false, class: { root: "border-surface-border/30 bg-surface" } },
+    { theme: "brutal", selected: false, class: { root: "border-line-subtle bg-layer-panel" } },
     {
       theme: "brutal",
       selected: false,
       interactive: true,
-      class: { root: "hover:border-surface-border hover:[box-shadow:var(--surface-shadow-sm)]" },
+      class: { root: "hover:border-line-strong hover:shadow-sm" },
     },
     {
       theme: "elegant",
       selected: true,
       class: {
-        root: [
-          "border-[var(--list-item-selected-border)]",
-          "bg-[var(--list-item-selected-background)]",
-        ],
+        root: ["border-info-light", "bg-info-lighter"],
       },
     },
     {
@@ -109,7 +100,7 @@ const listItem = tv({
       selected: false,
       interactive: true,
       class: {
-        root: "hover:bg-[var(--list-item-hover)]",
+        root: "hover:bg-layer-muted",
       },
     },
   ],

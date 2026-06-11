@@ -23,12 +23,12 @@ const bottomSheet = tv({
     ],
     header: ["flex flex-col gap-1 p-4"],
     footer: ["mt-auto flex flex-col gap-2 p-4"],
-    title: ["text-base font-bold text-black"],
-    description: ["text-sm text-black/60"],
+    title: ["text-base font-bold text-foreground-strong"],
+    description: ["text-sm text-foreground/60"],
   },
   variants: {
     theme: {
-      brutal: { content: ["border-2 border-black bg-white shadow-[var(--shadow-lg)]"] },
+      brutal: { content: ["border-2 border-line-strong bg-layer-panel shadow-xl"] },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },

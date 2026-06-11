@@ -14,8 +14,8 @@ const descriptionList = tv({
   variants: {
     theme: {
       brutal: {
-        term: "text-black/50",
-        details: "text-black",
+        term: "text-foreground/50",
+        details: "text-foreground-strong",
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

@@ -14,12 +14,12 @@ const kbd = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["text-black/60"],
+        root: ["text-foreground/60"],
       },
       elegant: {
         root: [
-          "h-5 rounded bg-[var(--kbd-background)] px-1.5 text-[10px]",
-          "font-medium text-[var(--kbd-foreground)] ring-1 ring-inset ring-[var(--kbd-border)]",
+          "h-5 rounded bg-layer-panel px-1.5 text-[10px]",
+          "font-medium text-foreground-muted ring-1 ring-inset ring-line-muted",
         ],
       },
     },

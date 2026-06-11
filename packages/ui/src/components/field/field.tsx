@@ -14,15 +14,15 @@ const field = tv({
   variants: {
     theme: {
       brutal: {
-        label: ["text-black"],
-        description: ["text-black/50"],
-        error: ["text-brutal-red"],
+        label: ["text-foreground-strong"],
+        description: ["text-foreground/50"],
+        error: ["text-danger-base"],
       },
       elegant: {
         root: ["gap-2"],
-        label: ["font-medium text-[var(--input-foreground)]"],
-        description: ["tracking-[0.01em] text-[var(--input-placeholder)]"],
-        error: ["font-medium text-destructive"],
+        label: ["font-medium text-foreground"],
+        description: ["tracking-[0.01em] text-foreground-placeholder"],
+        error: ["font-medium text-danger-base"],
       },
     },
     size: {
@@ -31,7 +31,7 @@ const field = tv({
     },
   },
   // The small/dense label is also dimmed; only meaningful under brutal.
-  compoundVariants: [{ theme: "brutal", size: "sm", class: { label: "text-black/60" } }],
+  compoundVariants: [{ theme: "brutal", size: "sm", class: { label: "text-foreground/60" } }],
   defaultVariants: {
     size: "md",
   },
@@ -74,8 +74,8 @@ export function FieldLabel({
   return (
     <BaseField.Label data-slot="field-label" className={label({ className })} {...props}>
       {children}
-      {required ? <span className="ml-1 text-accent">*</span> : null}
-      {optional ? <span className="ml-1 normal-case text-muted-foreground">(optional)</span> : null}
+      {required ? <span className="ml-1 text-accent-400">*</span> : null}
+      {optional ? <span className="ml-1 normal-case text-foreground-muted">(optional)</span> : null}
     </BaseField.Label>
   );
 }

@@ -9,12 +9,12 @@ export const buttonVariants = tv({
     root: [
       "relative inline-flex shrink-0 items-center justify-center",
       "font-display leading-none whitespace-nowrap select-none",
-      "border-border rounded-[var(--radius)]",
-      "shadow-[var(--shadow)] transition-all duration-100",
-      "outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "border-line rounded-none",
+      "shadow-sm transition-all duration-100",
+      "outline-none focus-visible:ring-2 focus-visible:ring-line-focus",
       "data-[loading=true]:cursor-wait",
       "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
-      "disabled:transform-none disabled:shadow-[var(--shadow)]",
+      "disabled:transform-none disabled:shadow-sm",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     ],
     content: "inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
@@ -35,78 +35,57 @@ export const buttonVariants = tv({
     },
     variant: {
       primary: {
-        root: [
-          "border-action-primary-border bg-action-primary text-action-primary-foreground",
-          "hover:bg-action-primary-hover",
-        ],
+        root: ["border-line-strong bg-primary-400 text-primary-950", "hover:bg-primary-500"],
       },
       default: {
-        root: [
-          "border-action-default-border bg-action-default text-action-default-foreground",
-          "hover:bg-action-default-hover",
-        ],
+        root: ["border-line-strong bg-layer-panel text-foreground-strong", "hover:bg-layer-panel"],
       },
       information: {
-        root: [
-          "border-action-information-border bg-action-information text-action-information-foreground",
-          "hover:bg-action-information-hover",
-        ],
+        root: ["border-line-strong bg-info-base text-info-dark", "hover:bg-info-base"],
       },
       muted: {
         root: [
-          "border-action-muted-border bg-action-muted text-action-muted-foreground",
-          "hover:border-action-muted-hover hover:bg-action-muted-hover",
+          "border-line-strong bg-secondary-400 text-secondary-950",
+          "hover:border-line-strong hover:bg-secondary-400",
         ],
       },
       accent: {
-        root: [
-          "border-action-accent-border bg-action-accent text-action-accent-foreground",
-          "hover:bg-action-accent-hover",
-        ],
+        root: ["border-line-strong bg-accent-400 text-accent-950", "hover:bg-accent-500"],
       },
       success: {
-        root: [
-          "border-action-success-border bg-action-success text-action-success-foreground",
-          "hover:bg-action-success-hover",
-        ],
+        root: ["border-line-strong bg-success-base text-success-dark", "hover:bg-success-base"],
       },
       warning: {
-        root: [
-          "border-action-warning-border bg-action-warning text-action-warning-foreground",
-          "hover:bg-action-warning-hover",
-        ],
+        root: ["border-line-strong bg-warning-base text-warning-dark", "hover:bg-warning-base"],
       },
       outline: {
         root: [
-          "border-action-default-border bg-transparent text-action-default-foreground",
-          "hover:bg-action-neutral-hover",
+          "border-line-strong bg-transparent text-foreground-strong",
+          "hover:bg-layer-muted",
           "shadow-none disabled:shadow-none",
         ],
       },
       ghost: {
         root: [
           "border-transparent bg-transparent text-foreground shadow-none",
-          "hover:border-action-default-border",
+          "hover:border-line-strong hover:bg-layer-muted",
           "disabled:shadow-none",
         ],
       },
       link: {
         root: [
-          "border-transparent bg-transparent text-action-link shadow-none underline-offset-4",
+          "border-transparent bg-transparent text-foreground-strong shadow-none underline-offset-4",
           "hover:underline",
           "disabled:shadow-none",
         ],
       },
-      destructive: {
-        root: [
-          "border-action-destructive-border bg-action-destructive text-action-destructive-foreground",
-          "hover:border-action-destructive-hover hover:bg-action-destructive-hover",
-        ],
+      danger: {
+        root: ["border-line-strong bg-danger-base text-danger-dark", "hover:bg-danger-base"],
       },
-      "destructive-outline": {
+      "danger-outline": {
         root: [
-          "border-action-destructive-border bg-transparent text-destructive",
-          "hover:bg-destructive-soft",
+          "border-danger-base bg-transparent text-danger-base",
+          "hover:bg-danger-lighter",
           "shadow-none disabled:shadow-none",
         ],
       },
@@ -150,43 +129,6 @@ export const buttonVariants = tv({
   },
   compoundVariants: [
     {
-      theme: "elegant",
-      variant: "default",
-      class: {
-        root: [
-          "border-[var(--button-default-border)] bg-[var(--button-default-default)] text-[var(--button-default-foreground)]",
-          "hover:border-[var(--button-default-hover)] hover:bg-[var(--button-default-hover)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "ghost",
-      class: {
-        root: [
-          "text-[var(--button-ghost-foreground)]",
-          "hover:border-transparent hover:bg-[var(--button-ghost-hover)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "outline",
-      class: {
-        root: [
-          "hover:border-[var(--button-outline-hover-border)]",
-          "hover:bg-[var(--button-outline-hover)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "destructive",
-      class: {
-        root: "hover:border-action-destructive-hover",
-      },
-    },
-    {
       theme: "brutal",
       variant: [
         "primary",
@@ -196,13 +138,13 @@ export const buttonVariants = tv({
         "accent",
         "success",
         "warning",
-        "destructive",
+        "danger",
       ],
       class: {
         root: [
-          "hover:-translate-y-px hover:shadow-[var(--shadow-hover)]",
+          "hover:-translate-y-px hover:shadow-md",
           "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
-          "active:shadow-[var(--shadow-active)]",
+          "active:shadow-2xs",
         ],
       },
     },

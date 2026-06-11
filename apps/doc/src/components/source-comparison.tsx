@@ -37,7 +37,10 @@ function ComparisonPreview({
   code?: string;
 }) {
   return (
-    <div className="min-w-0 rounded-md border border-gray-200 bg-white">
+    <div
+      data-source-comparison-pane={label.toLowerCase()}
+      className="min-w-0 rounded-md border border-gray-200 bg-white"
+    >
       <div className="border-b border-gray-100 px-3 py-1.5 text-[11px] font-medium uppercase text-gray-400">
         {label}
       </div>
@@ -53,11 +56,16 @@ function ComparisonPreview({
 
 export function SourceComparison({ items }: SourceComparisonProps) {
   return (
-    <div className="space-y-4">
+    <div data-source-comparison className="space-y-4">
       {items.map((item) => {
         const status = item.status ?? "review";
         return (
-          <section key={item.label} className="rounded-md border border-gray-200 bg-gray-50 p-3">
+          <section
+            key={item.label}
+            data-source-comparison-item={item.label}
+            data-source-comparison-status={status}
+            className="rounded-md border border-gray-200 bg-gray-50 p-3"
+          >
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <h3 className="text-sm font-semibold text-gray-900">{item.label}</h3>
               <span

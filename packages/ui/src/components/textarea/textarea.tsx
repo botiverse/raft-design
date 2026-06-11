@@ -14,9 +14,9 @@ const textarea = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-black bg-white",
-          "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)] focus:outline-none",
-          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+          "border-2 border-line-strong bg-layer-panel",
+          "shadow-sm focus:shadow-md focus:outline-none",
+          "aria-invalid:border-danger-base aria-invalid:bg-danger-base/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-danger-base/60",
         ],
       },
       // Elegant styling is deferred; see the component TODO.
@@ -33,8 +33,8 @@ const textareaCounter = tv({
     theme: {
       brutal: {
         root: [
-          "text-black/50",
-          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-brutal-red",
+          "text-foreground/50",
+          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger-base",
         ],
       },
       // Elegant styling is deferred; see the component TODO.
@@ -42,7 +42,7 @@ const textareaCounter = tv({
     },
     overLimit: {
       true: {
-        root: "font-bold text-brutal-red",
+        root: "font-bold text-danger-base",
       },
       false: {
         root: "",

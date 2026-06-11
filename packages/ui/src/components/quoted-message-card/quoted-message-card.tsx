@@ -17,13 +17,13 @@ const quotedMessageCard = tv({
     header: ["mb-1 flex items-start gap-2 sm:mb-1.5"],
     meta: ["flex min-w-0 flex-1 flex-wrap items-center gap-x-1.5 gap-y-1 text-xs leading-none"],
     channel: ["inline-flex items-center gap-1 font-bold", "[&_svg]:size-[11px] [&_svg]:shrink-0"],
-    separator: ["text-black/30"],
+    separator: ["text-foreground/30"],
     author: ["inline-flex min-w-0 items-center gap-1.5"],
     authorName: ["truncate font-bold"],
     authorSubtitle: ["truncate font-mono text-[10px]"],
     thread: ["inline-flex items-center gap-1 font-bold", "[&_svg]:size-2.5 [&_svg]:shrink-0"],
     tag: [
-      "inline-flex items-center gap-1 border-[1.5px] border-black px-1.5 py-0.5",
+      "inline-flex items-center gap-1 border-[1.5px] border-line-strong px-1.5 py-0.5",
       "text-[11px] font-bold leading-none",
     ],
     timestamp: ["shrink-0 font-mono text-[10px]"],
@@ -34,12 +34,12 @@ const quotedMessageCard = tv({
   variants: {
     theme: {
       brutal: {
-        channel: "text-black/70",
-        authorName: "text-black/70",
-        authorSubtitle: "text-black/40",
-        thread: "text-brutal-pink",
-        timestamp: "text-black/40",
-        content: "text-black",
+        channel: "text-foreground/70",
+        authorName: "text-foreground/70",
+        authorSubtitle: "text-foreground/40",
+        thread: "text-accent-400",
+        timestamp: "text-foreground/40",
+        content: "text-foreground-strong",
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

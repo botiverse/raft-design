@@ -15,10 +15,10 @@ const previewShell = tv({
     },
     variant: {
       default: {
-        root: "border border-surface-border/15 bg-surface hover:border-surface-border/30 hover:bg-surface-muted",
+        root: "border border-line-muted bg-layer-panel hover:border-line-subtle hover:bg-layer-muted",
       },
       muted: {
-        root: "border-2 border-surface-border/30 bg-surface-muted italic text-black/40 hover:[box-shadow:var(--surface-shadow-sm)]",
+        root: "border-2 border-line-subtle bg-layer-muted italic text-foreground/40 hover:shadow-sm",
       },
     },
   },

@@ -63,7 +63,7 @@ const SNIPPETS = {
       </BottomSheetDescription>
     </BottomSheetHeader>
     <BottomSheetFooter>
-      <BottomSheetClose render={<Button variant="destructive" />}>Leave</BottomSheetClose>
+      <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
       <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
     </BottomSheetFooter>
   </BottomSheetContent>
@@ -76,7 +76,7 @@ const SNIPPETS = {
     </BottomSheetDescription>
   </BottomSheetHeader>
   <BottomSheetFooter>
-    <Button variant="destructive">Leave</Button>
+    <Button variant="danger">Leave</Button>
     <Button variant="default">Cancel</Button>
   </BottomSheetFooter>
 </BottomSheetContent>`,
@@ -88,7 +88,7 @@ const SNIPPETS = {
     </BottomSheetDescription>
   </BottomSheetHeader>
   <BottomSheetFooter>
-    <BottomSheetClose render={<Button variant="destructive" />}>Leave</BottomSheetClose>
+    <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
     <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
   </BottomSheetFooter>
 </BottomSheetContent>`,
@@ -129,7 +129,7 @@ function BottomSheetSurfacePreview() {
             <div className="text-sm text-black/60">You can rejoin anytime from the directory.</div>
           </div>
           <div className="mt-auto flex flex-col gap-2 p-4">
-            <Button variant="destructive">Leave</Button>
+            <Button variant="danger">Leave</Button>
             <Button variant="default">Cancel</Button>
           </div>
         </div>
@@ -204,9 +204,7 @@ function BottomSheetDoc() {
                   </BottomSheetDescription>
                 </BottomSheetHeader>
                 <BottomSheetFooter>
-                  <BottomSheetClose render={<Button variant="destructive" />}>
-                    Leave
-                  </BottomSheetClose>
+                  <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
                   <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
                 </BottomSheetFooter>
               </BottomSheetContent>

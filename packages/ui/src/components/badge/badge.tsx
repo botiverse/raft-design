@@ -14,7 +14,7 @@ export const badge = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border border-black"],
+        root: ["border border-line-strong"],
       },
       elegant: {
         root: [
@@ -26,28 +26,28 @@ export const badge = tv({
     },
     variant: {
       default: {
-        root: "bg-neutral text-neutral-foreground",
+        root: "bg-layer-panel text-foreground-strong",
       },
       primary: {
-        root: "bg-primary text-primary-foreground",
+        root: "bg-primary-400 text-primary-950",
       },
       information: {
-        root: "bg-information text-information-foreground",
+        root: "bg-info-base text-info-dark",
       },
       muted: {
-        root: "bg-muted text-muted-foreground",
+        root: "bg-secondary-400 text-foreground-strong",
       },
       accent: {
-        root: "bg-accent text-accent-foreground",
+        root: "bg-accent-400 text-accent-950",
       },
       success: {
-        root: "bg-success text-success-foreground",
+        root: "bg-success-base text-success-dark",
       },
       warning: {
-        root: "bg-warning text-warning-foreground",
+        root: "bg-warning-base text-warning-dark",
       },
       destructive: {
-        root: "bg-destructive text-destructive-foreground",
+        root: "bg-danger-base text-danger-dark",
       },
     },
     // Enables the old brutal casing recipe when a badge should read as a compact
@@ -70,43 +70,43 @@ export const badge = tv({
       theme: "elegant",
       variant: "default",
       class: {
-        root: "bg-[var(--dropdown-count-background)] text-[var(--dropdown-count-foreground)]",
+        root: "bg-layer-muted text-foreground-muted",
       },
     },
     {
       theme: "elegant",
       variant: "muted",
-      class: { root: "bg-[var(--badge-default)] text-[var(--badge-foreground)]" },
+      class: { root: "bg-secondary-400 text-foreground-inverse" },
     },
     {
       theme: "elegant",
       variant: "primary",
-      class: { root: "bg-[var(--badge-primary)] text-[var(--badge-primary-foreground)]" },
+      class: { root: "bg-primary-400 text-primary-950" },
     },
     {
       theme: "elegant",
       variant: "information",
-      class: { root: "bg-[var(--badge-information)] text-[var(--badge-foreground)]" },
+      class: { root: "bg-info-base text-info-dark" },
     },
     {
       theme: "elegant",
       variant: "accent",
-      class: { root: "bg-[var(--badge-accent)] text-[var(--badge-foreground)]" },
+      class: { root: "bg-accent-400 text-accent-950" },
     },
     {
       theme: "elegant",
       variant: "warning",
-      class: { root: "bg-[var(--badge-warning)] text-[var(--badge-warning-foreground)]" },
+      class: { root: "bg-warning-base text-warning-dark" },
     },
     {
       theme: "elegant",
       variant: "success",
-      class: { root: "bg-[var(--badge-success)] text-[var(--badge-foreground)]" },
+      class: { root: "bg-success-base text-success-dark" },
     },
     {
       theme: "elegant",
       variant: "destructive",
-      class: { root: "bg-[var(--badge-destructive)] text-[var(--badge-foreground)]" },
+      class: { root: "bg-danger-base text-danger-dark" },
     },
   ],
 });
