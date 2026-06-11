@@ -9,7 +9,7 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { highlightSnippets } from "#/lib/highlight.ts";
+import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker.tsx";
 
 const TOC = [

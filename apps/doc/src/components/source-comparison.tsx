@@ -1,12 +1,15 @@
 import type { ReactNode } from "react";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { CodeBlock } from "./code-block.tsx";
+
+type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type SourceComparisonItem = {
   label: string;
   source: ReactNode;
   current: ReactNode;
-  sourceCode?: string;
-  currentCode?: string;
+  sourceCode?: CodeContent;
+  currentCode?: CodeContent;
   status?: "match" | "difference" | "review";
   note?: ReactNode;
 };
@@ -34,7 +37,7 @@ function ComparisonPreview({
 }: {
   label: string;
   children: ReactNode;
-  code?: string;
+  code?: CodeContent;
 }) {
   return (
     <div

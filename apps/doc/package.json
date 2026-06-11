@@ -15,6 +15,7 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@base-ui/utils": "catalog:",
     "@slock/ui": "workspace:*",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
@@ -40,6 +41,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitejs/plugin-rsc": "catalog:",
     "jsdom": "^28.1.0",
     "portless": "catalog:",
     "typescript": "^6.0.2",

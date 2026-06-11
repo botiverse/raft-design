@@ -21,7 +21,7 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
-import { highlightSnippets } from "#/lib/highlight.ts";
+import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.tsx";
 
 const TOC = [

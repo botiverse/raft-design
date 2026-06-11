@@ -14,6 +14,7 @@ catalog:
   tailwind-variants: ^3.2.2
   "@base-ui-components/react": 1.0.0-rc.0
   "@base-ui/react": ^1.5.0
+  "@base-ui/utils": ^0.2.9
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
@@ -26,6 +27,7 @@ catalog:
   wrangler: ^4.98.0
   shiki: ^4.1.0
   "@tanstack/react-hotkeys": ^0.10.0
+  "@vitejs/plugin-rsc": ^0.5.27
   "@cloudflare/vite-plugin": ^1.40.0
   portless: ^0.14.0
 overrides:
