@@ -1,5 +1,4 @@
 # ast-grep rules for component token migration audit.
-# Run: node packages/ui/docs/ast-grep/generate-component-token-audit.mjs
 
 id: migration-token-string
 language: Tsx
