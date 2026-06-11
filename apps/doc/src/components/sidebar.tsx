@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Badge } from "@slock/ui";
 import { IconExternalLinkOutline18 } from "nucleo-ui-outline-18";
 
@@ -588,6 +588,8 @@ type BadgeVariant =
   | "danger";
 
 const sectionTitleClassName = "mb-2.5 text-[13px] font-medium text-foreground-strong";
+const sidebarItemFocusClassName =
+  "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
 
 function NavLink({
   to,
@@ -597,26 +599,26 @@ function NavLink({
   depth = 0,
 }: NavItem & { to: string; badge?: ReactNode; depth?: 0 | 1 }) {
   const location = useLocation();
-  const href = `${to}${hash ? `#${hash}` : ""}`;
   const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
 
   return (
-    <a
-      href={href}
+    <Link
+      to={to}
+      hash={hash}
       aria-current={isActive ? "page" : undefined}
-      className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-layer-muted hover:text-foreground-strong ${
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
         depth === 1 ? "text-xs" : "text-[13px]"
-      } ${isActive ? "bg-layer-muted font-medium text-foreground-strong" : "text-neutral-500"}`}
+      } ${isActive ? "bg-layer-muted text-foreground-strong" : "text-neutral-500"} ${sidebarItemFocusClassName}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
-    </a>
+    </Link>
   );
 }
 
 function NavGroupLabel({ label, badge }: { label: string; badge?: ReactNode }) {
   return (
-    <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500">
+    <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] font-medium text-foreground-strong">
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
     </span>
@@ -675,7 +677,6 @@ function NavItemBadge({ item }: { item: NavItem }) {
 function MigratedLink({ to, label, hash, target }: MigratedItem) {
   const location = useLocation();
   const [tooltip, setTooltip] = useState<{ left: number; top: number } | null>(null);
-  const href = `${to}${hash ? `#${hash}` : ""}`;
   const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
 
   const showTooltip = (element: HTMLElement) => {
@@ -688,8 +689,9 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
 
   return (
     <>
-      <a
-        href={href}
+      <Link
+        to={to}
+        hash={hash}
         title={`${label} migrated to ${target}`}
         aria-label={`${label} migrated to ${target}`}
         aria-current={isActive ? "page" : undefined}
@@ -701,12 +703,12 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-gray-400 decoration-2 transition-colors hover:bg-layer-muted hover:text-foreground ${
-          isActive ? "bg-layer-muted font-medium text-foreground" : "text-neutral-500"
-        }`}
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-gray-400 decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground ${
+          isActive ? "bg-layer-muted text-foreground" : "text-neutral-500"
+        } ${sidebarItemFocusClassName}`}
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
-      </a>
+      </Link>
       {tooltip
         ? createPortal(
             <span
@@ -829,7 +831,7 @@ function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted hover:text-foreground"
+        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted/80 hover:text-foreground"
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
         <Badge
@@ -864,7 +866,7 @@ function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
       rel="noreferrer"
       title={`${priority}: ${reason}`}
       aria-label={`${label}: ${priority}. ${reason} Open Base UI docs.`}
-      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted hover:text-foreground"
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted/80 hover:text-foreground ${sidebarItemFocusClassName}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       <IconExternalLinkOutline18
@@ -897,12 +899,12 @@ function PriorityBadge({ priority }: { priority: PlannedPriority }) {
 export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
-      <a href="/" className="flex items-center gap-2 text-gray-900">
+      <Link to="/" className="flex items-center gap-2 text-gray-900">
         <img src="/favicon-32x32.png" alt="" className="size-5 shrink-0 rounded-sm" />
         <span className="text-sm font-semibold leading-tight tracking-tight">
           Slock Design System
         </span>
-      </a>
+      </Link>
       <nav className="mt-8 space-y-7">
         <ul className="space-y-1">
           <li>

@@ -30,8 +30,10 @@ export function DocPage({
         <article className={`w-full min-w-0 px-8 py-12 ${articleWidth}`}>
           {showHeader ? (
             <header className="mb-10">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
-              {description ? <p className="mt-3 text-lg text-gray-600">{description}</p> : null}
+              <h1 className="font-display text-3xl font-medium tracking-tight text-foreground-strong">
+                {title}
+              </h1>
+              {description ? <p className="mt-3 text-sm text-neutral-500">{description}</p> : null}
               {overview ? (
                 <div className="mt-4 border-l-2 border-gray-200 pl-4 text-sm leading-relaxed text-gray-500">
                   {overview}

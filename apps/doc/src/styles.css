@@ -21,3 +21,8 @@ body {
   margin: 0;
   overflow-y: auto;
 }
+
+::selection {
+  background: var(--primary-400);
+  color: var(--primary-950);
+}
