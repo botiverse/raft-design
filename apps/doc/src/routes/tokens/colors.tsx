@@ -129,7 +129,7 @@ const PALETTE_VALUES = {
     "950": "oklch(0.187 0.003 67.68)",
   },
   cream: {
-    "50": "#ffffff",
+    "50": "oklch(1 0 0)",
     "100": "oklch(0.991 0.01 87.41)",
     "200": "oklch(0.986 0.015 86.39)",
     "300": "oklch(0.878 0.18 95.13)",
@@ -238,8 +238,8 @@ const ALIASES = [
     role: "cream surface",
     scale: "cream",
     baseShade: "200",
-    utilities: "bg-brutal-cream-200",
-    note: "Not a semantic alias yet. NotificationCenter header uses this to preserve the v1 cotton surface.",
+    utilities: "bg-brutal-cream",
+    note: "Cream's unsuffixed base resolves to cream-200 for warm brutal cotton surfaces.",
   },
 ] as const;
 
@@ -257,7 +257,7 @@ const STATES = [
       {
         label: "base",
         token: "--state-info-base",
-        primitive: "--color-brutal-cyan-400",
+        primitive: "--color-brutal-cyan",
         value: PALETTE_VALUES.cyan["400"],
       },
       {
@@ -287,7 +287,7 @@ const STATES = [
       {
         label: "base",
         token: "--state-success-base",
-        primitive: "--color-brutal-lime-400",
+        primitive: "--color-brutal-lime",
         value: PALETTE_VALUES.lime["400"],
       },
       {
@@ -317,7 +317,7 @@ const STATES = [
       {
         label: "base",
         token: "--state-warning-base",
-        primitive: "--color-brutal-orange-400",
+        primitive: "--color-brutal-orange",
         value: PALETTE_VALUES.orange["400"],
       },
       {
@@ -347,7 +347,7 @@ const STATES = [
       {
         label: "base",
         token: "--state-danger-base",
-        primitive: "--color-brutal-red-400",
+        primitive: "--color-brutal-red",
         value: PALETTE_VALUES.red["400"],
       },
       {
@@ -456,14 +456,14 @@ const SNIPPETS = {
   --color-brutal-cream: var(--color-brutal-cream-200);
 }`,
   aliases: `[data-theme="brutal"] {
-  --primary-400: var(--color-brutal-yellow-400);
-  --accent-400: var(--color-brutal-pink-400);
-  --secondary-400: var(--color-brutal-stone-400);
+  --primary-400: var(--color-brutal-yellow);
+  --accent-400: var(--color-brutal-pink);
+  --secondary-400: var(--color-brutal-stone);
 
-  --state-info-base: var(--color-brutal-cyan-400);
-  --state-success-base: var(--color-brutal-lime-400);
-  --state-warning-base: var(--color-brutal-orange-400);
-  --state-danger-base: var(--color-brutal-red-400);
+  --state-info-base: var(--color-brutal-cyan);
+  --state-success-base: var(--color-brutal-lime);
+  --state-warning-base: var(--color-brutal-orange);
+  --state-danger-base: var(--color-brutal-red);
 }`,
   usage: `<Button variant="primary">Confirm</Button>
 
@@ -471,7 +471,7 @@ const SNIPPETS = {
 
 <Avatar type="human" />
 
-<div className="border-line-strong bg-brutal-cream-200 text-foreground-strong">
+<div className="border-line-strong bg-brutal-cream text-foreground-strong">
   Notification header
 </div>`,
 } as const;
@@ -500,8 +500,8 @@ function ColorsDoc() {
             ))}
           </div>
           <Callout>
-            This page documents <code>styles-v2.css</code>. It intentionally does not describe the
-            pre-v2 token contract from <code>styles.css</code>.
+            This page documents the v2 contract exported by <code>styles.css</code>.{" "}
+            <code>styles-v2.css</code> remains the explicit v2 alias.
           </Callout>
         </div>
       </DocSection>
@@ -561,8 +561,7 @@ function ColorsDoc() {
           <CodeBlock html={code.usage} />
           <Callout>
             Prefer semantic aliases for reusable component recipes. Use raw brutal palette utilities
-            only for primitive-tone contracts such as <code>Avatar type=&quot;human&quot;</code> or
-            the cream cotton surface.
+            only when the component contract is intentionally tied to a brutal palette family.
           </Callout>
         </div>
       </DocSection>

@@ -76,7 +76,7 @@ const avatar = tv({
     },
     type: {
       agent: { root: "bg-info-base" },
-      human: { root: "bg-brutal-purple-400 text-foreground-strong" },
+      human: { root: "bg-brutal-purple text-foreground-strong" },
     },
     size: {
       "3xl": { root: "size-16 border-2" },

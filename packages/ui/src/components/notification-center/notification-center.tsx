@@ -32,7 +32,7 @@ const notificationCenter = tv({
     theme: {
       brutal: {
         popup: ["border-2 border-line-strong shadow-md"],
-        header: ["bg-brutal-cream-200"],
+        header: ["bg-brutal-cream"],
         title: ["text-foreground/60"],
         actionButton: [
           "border-2 border-line-strong shadow-md",

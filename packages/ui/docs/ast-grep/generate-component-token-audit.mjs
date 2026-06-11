@@ -14,8 +14,8 @@ const SCOPES = [
     extensions: [".tsx"],
   },
   {
-    title: "packages/ui/src/styles-v2.css",
-    paths: [path.join(UI_ROOT, "src/styles-v2.css")],
+    title: "packages/ui/src/style entrypoints",
+    paths: [path.join(UI_ROOT, "src/styles.css"), path.join(UI_ROOT, "src/styles-v2.css")],
     extensions: [".css"],
   },
 ];
@@ -119,7 +119,7 @@ let md = `# Component Token Usage Audit
 
 Generated with [ast-grep](https://ast-grep.github.io/) from current source. This is the v2 completion gate for the migration plan in [token-theme-architecture.md](./token-theme-architecture.md).
 
-**Scope:** \`packages/ui/src/components\` and \`packages/ui/src/styles-v2.css\` only. \`packages/ui/src/legacy\`, \`packages/ui/src/styles.css\`, and \`packages/ui/src/themes\` are intentionally excluded because v2 is a new parallel entrypoint, not a legacy bridge.
+**Scope:** \`packages/ui/src/components\`, \`packages/ui/src/styles.css\`, and \`packages/ui/src/styles-v2.css\` only. \`packages/ui/src/legacy\` and \`packages/ui/src/themes\` are intentionally excluded because \`styles.css\` is now the official v2 entrypoint and \`styles-v2.css\` is the explicit v2 alias.
 
 **Rules:** \`packages/ui/docs/ast-grep/token-migration-audit.yml\`
 
@@ -161,8 +161,8 @@ for (const row of scopeRows) {
 md += `| **Total** | ${total.files} | ${total.withHits} | ${total.hits} |\n\n`;
 
 md += `### Hit categories\n\n`;
-md += `- **Hardcoded brutal utilities** (\`border-black\`, \`text-black\`, \`bg-white\`, \`bg-black/*\`, \`bg-brutal-*\`): replace with \`line-*\`, \`foreground-*\`, \`layer-*\`, \`primary/accent/secondary-*\`, or \`info/success/warning/danger-*\` utilities.\n`;
-md += `- **Legacy semantic Tailwind aliases** (\`surface-*\`, \`action-*\`, \`information-*\`, \`destructive-*\`, \`neutral-*\`, \`muted-foreground\`, \`border-border\`): not allowed in v2 components or \`styles-v2.css\`.\n`;
+md += `- **Hardcoded brutal shade utilities** (\`border-black\`, \`text-black\`, \`bg-white\`, \`bg-black/*\`, \`bg-brutal-*-400\`, etc.): replace with \`line-*\`, \`foreground-*\`, \`layer-*\`, \`primary/accent/secondary-*\`, \`info/success/warning/danger-*\`, or unsuffixed brutal base aliases where the component contract is intentionally palette-specific.\n`;
+md += `- **Legacy semantic Tailwind aliases** (\`surface-*\`, \`action-*\`, \`information-*\`, \`destructive-*\`, \`neutral-*\`, \`muted-foreground\`, \`border-border\`): not allowed in v2 components or style entrypoints.\n`;
 md += `- **Component-scoped CSS variables** (\`--input-*\`, \`--dropdown-*\`, \`--tabs-*\`, \`--badge-*\`, \`--checkbox-*\`, \`--button-*\`, \`--list-item-*\`, \`--kbd-*\`, \`--banner-*\`): not allowed in v2 components.\n`;
 md += `- **Arbitrary shadow bridges** (\`shadow-[var(--shadow*)]\`, \`[box-shadow:var(--surface-shadow*)]\`): replace with unified \`shadow-*\` scale.\n`;
 md += `- **Non-OKLCH authored colors** (hex and \`hsl/hsla\`): remove from v2 CSS and component recipes.\n\n`;
@@ -170,11 +170,11 @@ md += `- **Non-OKLCH authored colors** (hex and \`hsl/hsla\`): remove from v2 CS
 md += `### Completeness status\n\n`;
 md +=
   total.hits === 0
-    ? `This audit currently has **0 hits** in the v2 migration scope. Static old-token usage is clean for \`styles-v2.css\` and current component recipes.\n\n`
+    ? `This audit currently has **0 hits** in the v2 migration scope. Static old-token usage is clean for \`styles.css\`, \`styles-v2.css\`, and current component recipes.\n\n`
     : `This audit is **not clean enough to declare the v2 migration done**. Resolve every hit in this file, then rerun the generator.\n\n`;
 md += `What this file proves:\n\n`;
 md += `- Every listed hit is a v2 migration blocker in the scanned scope.\n`;
-md += `- A zero-hit result means component recipes and \`styles-v2.css\` no longer depend on old alias utilities or component-scoped token variables.\n\n`;
+md += `- A zero-hit result means component recipes and v2 style entrypoints no longer depend on old alias utilities or component-scoped token variables.\n\n`;
 md += `What this file does **not** prove by itself:\n\n`;
 md += `- It does not prove brutal visual parity by itself; Browser source comparison is still required.\n`;
 md += `- It does not prove every variant/state is represented in docs.\n`;
@@ -199,13 +199,14 @@ md += `- Elegant dark-mode regressions should be documented if not fixed in the 
 md += `### Suggested migration order (components only)\n\n`;
 md += `1. **Phase 1** — create \`styles-v2.css\` as the pure v2 token contract.\n`;
 md += `2. **Phase 2** — migrate component recipes to v2 utilities.\n`;
-md += `3. **Phase 3** — switch docs to \`@slock/ui/styles-v2.css\` for Browser comparison.\n`;
-md += `4. **Phase 4** — run Browser source/current checks for brutal component pages.\n\n`;
+md += `3. **Phase 3** — switch docs to the v2 contract for Browser comparison.\n`;
+md += `4. **Phase 4** — promote \`@slock/ui/styles.css\` to the v2 entrypoint.\n`;
+md += `5. **Phase 5** — run Browser source/current checks for brutal component pages.\n\n`;
 
 md += `### Post-migration verification (ast-grep)\n\n`;
 md += `\`\`\`sh\n`;
-md += `sg scan --rule packages/ui/docs/ast-grep/token-migration-audit.yml packages/ui/src/components packages/ui/src/styles-v2.css\n`;
-md += `rg -n "surface-|action-|information-|destructive-|muted-foreground|neutral-|border-border|ring-ring|shadow-\\\\[var\\\\(--|\\\\[box-shadow:var\\\\(--" packages/ui/src/components packages/ui/src/styles-v2.css\n`;
+md += `sg scan --rule packages/ui/docs/ast-grep/token-migration-audit.yml packages/ui/src/components packages/ui/src/styles.css packages/ui/src/styles-v2.css\n`;
+md += `rg -n "surface-|action-|information-|destructive-|muted-foreground|neutral-|border-border|ring-ring|shadow-\\\\[var\\\\(--|\\\\[box-shadow:var\\\\(--" packages/ui/src/components packages/ui/src/styles.css packages/ui/src/styles-v2.css\n`;
 md += `\`\`\`\n`;
 
 fs.writeFileSync(OUTPUT, md);
