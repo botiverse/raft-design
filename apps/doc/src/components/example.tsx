@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPreview } from "#/components/component-preview.tsx";
 
 type ExampleProps = {
-  html: string;
+  html: ReactNode | AnyRenderableServerComponent;
   children: ReactNode;
 };
 

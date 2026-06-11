@@ -1,10 +1,11 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
-import { highlightSnippets } from "#/lib/highlight.ts";
+import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
   { id: "scale", title: "Theme scale" },
@@ -104,7 +105,13 @@ function TokenOutlet() {
   return <Outlet />;
 }
 
-export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Record<string, string> }) {
+export function ShadowsDoc({
+  theme,
+  code,
+}: {
+  theme: ShadowTheme;
+  code: Record<string, AnyRenderableServerComponent>;
+}) {
   const previews = THEME_PREVIEWS.filter((preview) => preview.theme === theme);
   const title = `${THEME_LABELS[theme]} shadows`;
 
