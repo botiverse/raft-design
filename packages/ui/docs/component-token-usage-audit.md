@@ -1,8 +1,8 @@
 # Component Token Usage Audit
 
-Generated with [ast-grep](https://ast-grep.github.io/) from current source. This is the v2 completion gate for the migration plan in [token-theme-architecture.md](./token-theme-architecture.md).
+Generated with [ast-grep](https://ast-grep.github.io/) from current source. This is the completion gate for the migration plan in [token-theme-architecture.md](./token-theme-architecture.md).
 
-**Scope:** `packages/ui/src/components`, `packages/ui/src/styles.css`, and `packages/ui/src/styles-v2.css` only. `packages/ui/src/legacy` and `packages/ui/src/themes` are intentionally excluded because `styles.css` is now the official v2 entrypoint and `styles-v2.css` is the explicit v2 alias.
+**Scope:** `packages/ui/src/components`, `packages/ui/src/styles.css`, and `packages/ui/src/styles-v2.css` only. `packages/ui/src/legacy` and `packages/ui/src/themes` are intentionally excluded because `styles.css` is now the official entrypoint and `styles-v2.css` remains an explicit alias.
 
 **Rules:** `packages/ui/docs/ast-grep/token-migration-audit.yml`
 
@@ -161,19 +161,19 @@ node packages/ui/docs/ast-grep/generate-component-token-audit.mjs
 ### Hit categories
 
 - **Hardcoded brutal shade utilities** (`border-black`, `text-black`, `bg-white`, `bg-black/*`, `bg-brutal-*-400`, etc.): replace with `line-*`, `foreground-*`, `layer-*`, `primary/accent/secondary-*`, `info/success/warning/danger-*`, or unsuffixed brutal base aliases where the component contract is intentionally palette-specific.
-- **Legacy semantic Tailwind aliases** (`surface-*`, `action-*`, `information-*`, `destructive-*`, `neutral-*`, `muted-foreground`, `border-border`): not allowed in v2 components or style entrypoints.
-- **Component-scoped CSS variables** (`--input-*`, `--dropdown-*`, `--tabs-*`, `--badge-*`, `--checkbox-*`, `--button-*`, `--list-item-*`, `--kbd-*`, `--banner-*`): not allowed in v2 components.
+- **Legacy semantic Tailwind aliases** (`surface-*`, `action-*`, `information-*`, `destructive-*`, `neutral-*`, `muted-foreground`, `border-border`): not allowed in components or style entrypoints.
+- **Component-scoped CSS variables** (`--input-*`, `--dropdown-*`, `--tabs-*`, `--badge-*`, `--checkbox-*`, `--button-*`, `--list-item-*`, `--kbd-*`, `--banner-*`): not allowed in components.
 - **Arbitrary shadow bridges** (`shadow-[var(--shadow*)]`, `[box-shadow:var(--surface-shadow*)]`): replace with unified `shadow-*` scale.
-- **Non-OKLCH authored colors** (hex and `hsl/hsla`): remove from v2 CSS and component recipes.
+- **Non-OKLCH authored colors** (hex and `hsl/hsla`): remove from CSS and component recipes.
 
 ### Completeness status
 
-This audit currently has **0 hits** in the v2 migration scope. Static old-token usage is clean for `styles.css`, `styles-v2.css`, and current component recipes.
+This audit currently has **0 hits** in the migration scope. Static old-token usage is clean for `styles.css`, `styles-v2.css`, and current component recipes.
 
 What this file proves:
 
-- Every listed hit is a v2 migration blocker in the scanned scope.
-- A zero-hit result means component recipes and v2 style entrypoints no longer depend on old alias utilities or component-scoped token variables.
+- Every listed hit is a migration blocker in the scanned scope.
+- A zero-hit result means component recipes and style entrypoints no longer depend on old alias utilities or component-scoped token variables.
 
 What this file does **not** prove by itself:
 
@@ -203,10 +203,10 @@ Elegant can lag behind brutal, but its gaps must be explicit:
 
 ### Suggested migration order (components only)
 
-1. **Phase 1** — create `styles-v2.css` as the pure v2 token contract.
-2. **Phase 2** — migrate component recipes to v2 utilities.
-3. **Phase 3** — switch docs to the v2 contract for Browser comparison.
-4. **Phase 4** — promote `@slock/ui/styles.css` to the v2 entrypoint.
+1. **Phase 1** — create `styles-v2.css` as the pure token contract.
+2. **Phase 2** — migrate component recipes to token utilities.
+3. **Phase 3** — switch docs to the token contract for Browser comparison.
+4. **Phase 4** — promote `@slock/ui/styles.css` to the official entrypoint.
 5. **Phase 5** — run Browser source/current checks for brutal component pages.
 
 ### Post-migration verification (ast-grep)

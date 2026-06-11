@@ -72,27 +72,27 @@ const STYLES = [
     label: "Elegant",
     theme: "elegant",
     className: "light",
-    headingFont: "var(--heading-font)",
-    bodyFont: "var(--display-font)",
-    labelFont: "var(--mono-font)",
+    displayFont: "var(--display-font)",
+    sansFont: "var(--sans-font)",
+    monoFont: "var(--mono-font)",
   },
   {
     id: "elegant-dark",
     label: "Elegant dark",
     theme: "elegant",
     className: "dark",
-    headingFont: "var(--heading-font)",
-    bodyFont: "var(--display-font)",
-    labelFont: "var(--mono-font)",
+    displayFont: "var(--display-font)",
+    sansFont: "var(--sans-font)",
+    monoFont: "var(--mono-font)",
   },
   {
     id: "brutal",
     label: "Brutal",
     theme: "brutal",
     className: "",
-    headingFont: "Georgia, serif",
-    bodyFont: "var(--display-font)",
-    labelFont: "var(--mono-font)",
+    displayFont: "var(--display-font)",
+    sansFont: "var(--sans-font)",
+    monoFont: "var(--mono-font)",
   },
 ] as const;
 
@@ -133,7 +133,7 @@ function StyleBoard({ style }: { style: StyleSpec }) {
           isElegantBoard ? "[--radius:0px] [&_[data-tester-surface]]:!shadow-none" : "",
           isDarkSection ? "-mx-8 bg-black px-8 text-white" : "",
         ].join(" ")}
-        style={{ fontFamily: "var(--display-font)" }}
+        style={{ fontFamily: "var(--sans-font)" }}
       >
         <div className={isElegantBoard ? "" : "space-y-4"}>
           <div
@@ -196,8 +196,8 @@ function TypographyCard({ style }: { style: StyleSpec }) {
   const samples = [
     {
       title: "Headline",
-      fontFamily: style.headingFont,
-      labelFontFamily: style.bodyFont,
+      fontFamily: style.displayFont,
+      metaFontFamily: style.sansFont,
       labelClassName: "text-sm font-medium text-foreground-muted",
       sampleClassName:
         "truncate text-[2rem] font-medium leading-[1.15] tracking-[-0.04em] text-foreground",
@@ -206,8 +206,8 @@ function TypographyCard({ style }: { style: StyleSpec }) {
     },
     {
       title: "Body",
-      fontFamily: style.bodyFont,
-      labelFontFamily: style.bodyFont,
+      fontFamily: style.sansFont,
+      metaFontFamily: style.sansFont,
       labelClassName: "text-sm font-medium text-foreground-muted",
       sampleClassName: "truncate text-sm text-foreground-muted",
       specimenClassName: "text-[5rem] leading-none",
@@ -215,8 +215,8 @@ function TypographyCard({ style }: { style: StyleSpec }) {
     },
     {
       title: "Mono",
-      fontFamily: style.labelFont,
-      labelFontFamily: style.bodyFont,
+      fontFamily: style.monoFont,
+      metaFontFamily: style.sansFont,
       labelClassName: "text-sm font-medium text-foreground-muted",
       sampleClassName: "truncate text-sm text-foreground-muted",
       specimenClassName: "text-[4rem] leading-none",
@@ -240,7 +240,7 @@ function TypographyCard({ style }: { style: StyleSpec }) {
             className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-stretch gap-4"
           >
             <div className="grid min-w-0 content-between">
-              <p className={sample.labelClassName} style={{ fontFamily: sample.labelFontFamily }}>
+              <p className={sample.labelClassName} style={{ fontFamily: sample.metaFontFamily }}>
                 {sample.title}
               </p>
               <p className={sample.sampleClassName} style={{ fontFamily: sample.fontFamily }}>

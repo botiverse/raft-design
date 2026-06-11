@@ -1,31 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 
-import { Callout } from "#/components/callout.tsx";
-import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
-import { StatusBadge } from "#/components/status-badge.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
-import { highlightSnippets } from "#/lib/highlight.ts";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
-  { id: "families", title: "Theme systems" },
+  { id: "specimens", title: "Theme specimens" },
   { id: "scale", title: "Type scale" },
   { id: "weights", title: "Weights" },
-  { id: "usage", title: "Usage" },
 ] as const;
 
-const TODOS = [
-  "Rename font-display to a token name that represents the theme's default UI font.",
-] as const;
+export type TypographyTheme = "brutal" | "elegant";
 
-const EXECUTION_PLAN = [
-  "Replace the current display naming with a primary UI font token such as font-sans or font-ui.",
-  "Keep font-mono as the monospace token, and reserve font-display for a future large heading or brand display face if needed.",
-  "Map each theme to the same semantic names: brutal can resolve font-sans/font-ui to Space Grotesk, elegant can resolve it to Geist.",
-  "Update component usage after the token name is agreed, rather than renaming --display-font or font-display immediately.",
-] as const;
+const THEME_LABELS = {
+  brutal: "Brutal",
+  elegant: "Elegant",
+} as const satisfies Record<TypographyTheme, string>;
 
 const FAMILIES = [
   {
@@ -33,27 +23,83 @@ const FAMILIES = [
     themeId: "brutal",
     status: undefined,
     display: "Space Grotesk",
+    sans: "Space Grotesk",
     mono: "Space Mono",
-    description: "Bold, compact, and intentionally graphic. Good for expressive component chrome.",
+    samples: [
+      {
+        title: "Headline",
+        family: "Space Grotesk",
+        utility: "font-display",
+        px: "36px",
+        className:
+          "truncate font-display text-4xl font-semibold leading-[1.24] text-[var(--foreground-strong)]",
+        specimenClassName: "font-display text-[5.5rem] font-semibold leading-none",
+      },
+      {
+        title: "Body",
+        family: "Space Grotesk",
+        utility: "font-sans",
+        px: "14px",
+        className: "truncate font-sans text-sm leading-5 text-[var(--foreground-muted)]",
+        specimenClassName: "font-sans text-[4.75rem] leading-none",
+      },
+      {
+        title: "Mono",
+        family: "Space Mono",
+        utility: "font-mono",
+        px: "14px",
+        className: "truncate font-mono text-sm leading-5 text-[var(--foreground-muted)]",
+        specimenClassName: "font-mono text-[4.25rem] leading-none",
+      },
+    ],
   },
   {
     theme: "Elegant",
     themeId: "elegant",
     status: "in-progress",
-    display: "Geist",
+    display: "Instrument Sans",
+    sans: "Geist",
     mono: "Geist Mono",
-    description: "Neutral system-doc typography for quiet product surfaces.",
+    samples: [
+      {
+        title: "Headline",
+        family: "Instrument Sans",
+        utility: "font-display",
+        px: "36px",
+        className:
+          "truncate font-display text-4xl font-medium leading-[1.24] text-[var(--foreground-strong)]",
+        specimenClassName: "font-display text-[5.5rem] font-medium leading-none",
+      },
+      {
+        title: "Body",
+        family: "Geist",
+        utility: "font-sans",
+        px: "14px",
+        className: "truncate font-sans text-sm leading-5 text-[var(--foreground-muted)]",
+        specimenClassName: "font-sans text-[4.75rem] leading-none",
+      },
+      {
+        title: "Mono",
+        family: "Geist Mono",
+        utility: "font-mono",
+        px: "14px",
+        className: "truncate font-mono text-sm leading-5 text-[var(--foreground-muted)]",
+        specimenClassName: "font-mono text-[4.25rem] leading-none",
+      },
+    ],
   },
 ] as const;
 
+const SAMPLE_TEXT = "Where humans and AI agents build together.";
+
 const TYPE_SCALE = [
-  { name: "xs", className: "text-xs", size: "0.75rem", lineHeight: "1rem" },
-  { name: "sm", className: "text-sm", size: "0.875rem", lineHeight: "1.25rem" },
-  { name: "base", className: "text-base", size: "1rem", lineHeight: "1.5rem" },
-  { name: "lg", className: "text-lg", size: "1.125rem", lineHeight: "1.75rem" },
-  { name: "xl", className: "text-xl", size: "1.25rem", lineHeight: "1.75rem" },
-  { name: "2xl", className: "text-2xl", size: "1.5rem", lineHeight: "2rem" },
-  { name: "3xl", className: "text-3xl", size: "1.875rem", lineHeight: "2.25rem" },
+  { className: "text-xs", px: "12px" },
+  { className: "text-sm", px: "14px" },
+  { className: "text-base", px: "16px" },
+  { className: "text-lg", px: "18px" },
+  { className: "text-xl", px: "20px" },
+  { className: "text-2xl", px: "24px" },
+  { className: "text-3xl", px: "30px" },
 ] as const;
 
 const WEIGHTS = [
@@ -63,161 +109,125 @@ const WEIGHTS = [
   { name: "bold", className: "font-bold", value: 700 },
 ] as const;
 
-const SNIPPETS = {
-  families: `@theme inline {
-  --font-display: var(--display-font);
-  --font-mono: var(--mono-font);
-}`,
-  usage: `<h1 className="font-display text-3xl font-bold text-foreground">
-  Component title
-</h1>
-
-<code className="font-mono text-sm text-gray-500">
-  --color-primary
-</code>`,
-} as const;
-
 export const Route = createFileRoute("/tokens/typography")({
-  component: TypographyDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  beforeLoad: ({ location }) => {
+    if (location.pathname === "/tokens/typography") {
+      throw redirect({ to: "/tokens/typography/brutal" });
+    }
+  },
+  component: TokenOutlet,
 });
 
-function TypographyDoc() {
-  const code = Route.useLoaderData();
+function TokenOutlet() {
+  return <Outlet />;
+}
+
+export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
+  const families = FAMILIES.filter((family) => family.themeId === theme);
+  const title = `${THEME_LABELS[theme]} typography`;
 
   return (
-    <DocPage title="Typography" description="Font families, sizes, and weight scale." toc={TOC}>
-      <DocSection id="todo" title="Todo">
-        <div className="space-y-5">
-          <TodoList items={TODOS} />
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm font-semibold text-gray-900">Execution plan</p>
-            <ol className="mt-3 space-y-2 text-sm leading-relaxed text-gray-600">
-              {EXECUTION_PLAN.map((item, index) => (
-                <li key={item} className="flex gap-3">
-                  <span className="font-mono text-xs text-gray-400">{index + 1}</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <Callout>
-            This is documentation-only for now. Do not rename <code>--display-font</code>,{" "}
-            <code>font-display</code>, or component usages until the replacement token name is
-            agreed.
-          </Callout>
-        </div>
-      </DocSection>
-
-      <DocSection id="families" title="Theme type systems">
-        <div className="space-y-5">
-          <div className="grid gap-4 lg:grid-cols-2">
-            {FAMILIES.map((family) => (
-              <FamilyCard key={family.theme} family={family} />
+    <TokenThemeScope theme={theme}>
+      <DocPage title={title} description="The font contract and type scale." toc={TOC}>
+        <DocSection id="specimens" title="Theme specimens">
+          <div className="grid gap-4">
+            {families.map((family) => (
+              <SpecimenCard key={family.theme} family={family} />
             ))}
           </div>
-          <CodeBlock html={code.families} />
-          <Callout>
-            Components should use <code>font-display</code> and <code>font-mono</code> instead of
-            naming the font directly. Theme files decide which actual family those utilities resolve
-            to.
-          </Callout>
-        </div>
-      </DocSection>
+        </DocSection>
 
-      <DocSection id="scale" title="Type scale">
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-          {TYPE_SCALE.map((item) => (
-            <div
-              key={item.name}
-              className="grid gap-3 border-t border-gray-100 p-4 first:border-t-0 sm:grid-cols-[7rem_1fr_10rem]"
-            >
-              <div>
-                <p className="font-mono text-xs text-gray-500">{item.className}</p>
-                <p className="mt-1 text-xs text-gray-400">
-                  {item.size} / {item.lineHeight}
+        <DocSection id="scale" title="Type scale">
+          <div className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-line-subtle">
+            {TYPE_SCALE.map((item) => (
+              <div
+                key={item.className}
+                className="grid items-end gap-x-10 gap-y-4 px-8 pt-5 pb-2.5 sm:grid-cols-[9rem_minmax(0,1fr)]"
+              >
+                <div className="grid content-end gap-1 pb-1">
+                  <p className="font-mono text-[0.6875rem] text-foreground-muted/60">
+                    {item.className}
+                  </p>
+                  <p className="font-mono text-[0.6875rem] text-foreground-muted/60">{item.px}</p>
+                </div>
+                <p className={`${item.className} truncate font-sans font-semibold text-gray-950`}>
+                  {SAMPLE_TEXT}
                 </p>
               </div>
-              <p className={`${item.className} font-display font-semibold text-gray-900`}>
-                The quick brown fox jumps over the lazy dog.
-              </p>
-              <p className="self-center text-sm text-gray-500">{item.name}</p>
-            </div>
-          ))}
-        </div>
-      </DocSection>
+            ))}
+          </div>
+        </DocSection>
 
-      <DocSection id="weights" title="Weights">
-        <div className="grid gap-3 sm:grid-cols-2">
-          {WEIGHTS.map((weight) => (
-            <div key={weight.name} className="rounded-lg border border-gray-200 bg-white p-4">
-              <p className={`${weight.className} font-display text-2xl text-gray-900`}>
-                {weight.name}
-              </p>
-              <p className="mt-2 font-mono text-xs text-gray-500">
-                {weight.className} / {weight.value}
-              </p>
-            </div>
-          ))}
-        </div>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage">
-        <CodeBlock html={code.usage} />
-      </DocSection>
-    </DocPage>
+        <DocSection id="weights" title="Weights">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {WEIGHTS.map((weight) => (
+              <div key={weight.name} className="rounded-lg border border-gray-200 bg-white p-4">
+                <p className={`${weight.className} font-sans text-2xl text-gray-950`}>
+                  {weight.name}
+                </p>
+                <p className="mt-2 font-mono text-xs text-gray-500">
+                  {weight.className} / {weight.value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </DocSection>
+      </DocPage>
+    </TokenThemeScope>
   );
 }
 
-function FamilyCard({ family }: { family: (typeof FAMILIES)[number] }) {
+function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children: ReactNode }) {
+  return (
+    <div
+      data-token-theme-scope={theme}
+      data-theme={theme}
+      className="light min-h-screen font-sans [&_article_header_h1]:font-display [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section_h2]:font-display"
+      style={{
+        background: "var(--layer-page)",
+        color: "var(--foreground)",
+        fontFamily: "var(--sans-font)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function SpecimenCard({ family }: { family: (typeof FAMILIES)[number] }) {
   return (
     <div
       data-theme={family.themeId}
-      className="border p-5"
+      className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-line-subtle"
       style={{
-        background: "var(--background)",
-        borderColor: "var(--border)",
-        borderRadius: "var(--radius)",
         color: "var(--foreground)",
-        fontFamily: "var(--display-font)",
+        fontFamily: "var(--sans-font)",
       }}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold opacity-60">{family.theme}</p>
-            <StatusBadge status={family.status} />
-          </div>
-          <p className="mt-3 text-3xl font-bold">{family.display}</p>
-        </div>
-        <span
-          className="inline-flex h-12 w-12 shrink-0 items-center justify-center border text-2xl font-bold"
-          style={{
-            background: "var(--primary)",
-            borderColor: "var(--border)",
-            borderRadius: "calc(var(--radius) * 0.75)",
-            color: "var(--primary-foreground)",
-          }}
+      {family.samples.map((sample) => (
+        <div
+          key={sample.title}
+          className="grid min-w-0 items-end gap-x-10 gap-y-6 px-8 pt-7 pb-3.5 md:grid-cols-[9rem_minmax(0,1fr)_9rem]"
         >
-          Aa
-        </span>
-      </div>
-      <p className="mt-3 text-sm leading-relaxed opacity-70">{family.description}</p>
-      <div
-        className="mt-5 border p-3 text-sm"
-        style={{
-          background: "var(--secondary)",
-          borderColor: "var(--border)",
-          borderRadius: "calc(var(--radius) * 0.75)",
-          color: "var(--secondary-foreground)",
-          fontFamily: "var(--mono-font)",
-        }}
-      >
-        <div className="flex items-center justify-between gap-3">
-          <span>{family.mono}</span>
-          <span className="opacity-60">font-mono</span>
+          <div className="grid min-w-0 content-end gap-1 pb-1">
+            <p className="text-sm font-medium text-[var(--foreground-strong)]">{sample.title}</p>
+            <p className="text-xs text-[var(--foreground-muted)]">{sample.family}</p>
+          </div>
+          <div className="grid min-w-0 content-end pb-1">
+            <p className={sample.className}>{SAMPLE_TEXT}</p>
+          </div>
+          <div className="flex items-end justify-start md:justify-end">
+            <div
+              className={sample.specimenClassName}
+              style={{
+                color: "var(--foreground-strong)",
+              }}
+            >
+              Aa
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }

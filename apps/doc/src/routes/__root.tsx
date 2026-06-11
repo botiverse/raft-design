@@ -7,7 +7,6 @@ import { ThemeProvider, type Theme } from "@slock/ui";
 
 import { Sidebar } from "#/components/sidebar.tsx";
 import { FamilyContext } from "#/components/family-context.ts";
-import { ThemeSwitcher } from "#/components/theme-switcher.tsx";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -97,13 +96,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 {isStandalonePage ? null : <Sidebar />}
                 <main className="min-h-screen pl-[var(--rail-w)]">{children}</main>
               </div>
-              {isStandalonePage ? null : (
-                <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center">
-                  <div className="pointer-events-auto flex items-center gap-4 rounded-full border border-gray-200 bg-white/90 px-4 py-2 shadow-lg backdrop-blur">
-                    <ThemeSwitcher />
-                  </div>
-                </div>
-              )}
             </FamilyContext.Provider>
           </ThemeProvider>
         </NextThemesProvider>

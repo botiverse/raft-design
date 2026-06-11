@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
 
-/* Pulls in Tailwind + the @slock/ui v2 semantic theme tokens (single Tailwind entry). */
+/* Pulls in Tailwind + the @slock/ui semantic theme tokens (single Tailwind entry). */
 @import "@slock/ui/styles.css";
 @import "../../../packages/ui/src/legacy/source.css";
 

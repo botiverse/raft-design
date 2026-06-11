@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Pure v2 token contract. No legacy action/surface/destructive/component aliases. */
+/* Pure token contract. No legacy action/surface/destructive/component aliases. */
 
 @source "./components";
 
@@ -215,6 +215,7 @@
   --shadow-2xl: var(--theme-shadow-2xl);
 
   --font-display: var(--display-font);
+  --font-sans: var(--sans-font);
   --font-mono: var(--mono-font);
 }
 
@@ -305,6 +306,7 @@
   --theme-shadow-2xl: 6px 6px 0px var(--line-strong);
 
   --display-font: "Space Grotesk", system-ui, sans-serif;
+  --sans-font: "Space Grotesk", system-ui, sans-serif;
   --mono-font: "Space Mono", ui-monospace, monospace;
 }
 
@@ -395,7 +397,8 @@
   --theme-shadow-xl: 0 10px 24px -12px oklch(0 0 0 / 0.18);
   --theme-shadow-2xl: 0 24px 48px -20px oklch(0 0 0 / 0.28);
 
-  --display-font: "Geist", system-ui, sans-serif;
+  --display-font: "Instrument Sans", system-ui, sans-serif;
+  --sans-font: "Geist", system-ui, sans-serif;
   --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 

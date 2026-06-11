@@ -48,7 +48,7 @@ const ICON_POSITIONS = ["left", "right", "only"] as const;
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
 const TODOS = [
-  { status: "done", label: "Replace color-first tone with semantic v2 variant utilities." },
+  { status: "done", label: "Replace color-first tone with semantic variant utilities." },
   { status: "done", label: "Set the neutral default action as the default Button variant." },
   { status: "done", label: "Document loading, icon placement, and size/variant combinations." },
   { status: "deferred", label: "Add ButtonGroup as a separate planned UI." },
@@ -102,7 +102,7 @@ const SNIPPETS = {
   Delete
 </Button>`,
   tokens: `primitive palette
-  -> v2 tone utility
+  -> tone utility
     -> Button variant
 
 brutal yellow
@@ -473,7 +473,7 @@ const PROPS: readonly PropRow[] = [
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
-    description: "Action semantics. Variants consume the v2 layer/tone utilities.",
+    description: "Action semantics. Variants consume semantic layer and tone utilities.",
   },
   {
     name: "size",
@@ -523,7 +523,7 @@ function ButtonDoc() {
   return (
     <DocPage
       title="Button"
-      description="A clickable action control backed by semantic variants and v2 tone utilities."
+      description="A clickable action control backed by semantic variants and tone utilities."
       toc={TOC}
     >
       <DocSection id="todo" title="Todo">
@@ -701,8 +701,8 @@ function ButtonDoc() {
         <div className="space-y-4">
           <CodeBlock html={code.tokens} />
           <Callout>
-            Button consumes the v2 public token contract directly. Theme values decide how those
-            layer, line, foreground, and tone utilities resolve.
+            Button consumes the public token contract directly. Theme values decide how those layer,
+            line, foreground, and tone utilities resolve.
           </Callout>
         </div>
       </DocSection>

@@ -1,11 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 
-import { Callout } from "#/components/callout.tsx";
-import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
-import { highlightSnippets } from "#/lib/highlight.ts";
 
 const SHADES = [
   "50",
@@ -144,33 +142,10 @@ const PALETTE_VALUES = {
 } as const satisfies Record<string, Record<Shade, string>>;
 
 const TOC = [
-  { id: "contract", title: "Contract" },
   { id: "primitive", title: "Primitive palette" },
   { id: "aliases", title: "Theme aliases" },
   { id: "states", title: "State tones" },
   { id: "theme", title: "Theme tokens" },
-  { id: "usage", title: "Usage" },
-] as const;
-
-const CONTRACT = [
-  {
-    label: "Primitive scales",
-    value: "brutal-*",
-    detail:
-      "Raw color ingredients live under --color-brutal-{name}-{shade}. Components may use them only when the tone itself is part of the component contract.",
-  },
-  {
-    label: "Base shade",
-    value: "400",
-    detail:
-      "Every saturated brutal family uses 400 as its tints.dev locked base. Cream is the only exception: cream-200 is the cotton surface base.",
-  },
-  {
-    label: "Theme aliases",
-    value: "runtime",
-    detail:
-      "primary, accent, secondary, and state roles resolve through CSS variables so brutal and elegant share class names.",
-  },
 ] as const;
 
 const PALETTES = [
@@ -392,6 +367,13 @@ const THEME_CONTEXTS = [
   },
 ] as const;
 
+export type TokenTheme = "brutal" | "elegant";
+
+const THEME_LABELS = {
+  brutal: "Brutal",
+  elegant: "Elegant",
+} as const satisfies Record<TokenTheme, string>;
+
 const THEME_TOKEN_GROUPS = [
   {
     label: "Layer",
@@ -426,147 +408,92 @@ const THEME_TOKEN_GROUPS = [
   },
 ] as const;
 
-const SNIPPETS = {
-  palette: `@theme {
-  --color-brutal-yellow-400: oklch(0.883 0.162 91.89);
-  --color-brutal-yellow: var(--color-brutal-yellow-400);
-
-  --color-brutal-pink-400: oklch(0.749 0.162 0.71);
-  --color-brutal-pink: var(--color-brutal-pink-400);
-
-  --color-brutal-purple-400: oklch(0.783 0.078 294.55);
-  --color-brutal-purple: var(--color-brutal-purple-400);
-
-  --color-brutal-cyan-400: oklch(0.783 0.135 219.2);
-  --color-brutal-cyan: var(--color-brutal-cyan-400);
-
-  --color-brutal-orange-400: oklch(0.785 0.123 50.11);
-  --color-brutal-orange: var(--color-brutal-orange-400);
-
-  --color-brutal-lime-400: oklch(0.827 0.135 130.07);
-  --color-brutal-lime: var(--color-brutal-lime-400);
-
-  --color-brutal-red-400: oklch(0.711 0.168 28.04);
-  --color-brutal-red: var(--color-brutal-red-400);
-
-  --color-brutal-stone-400: oklch(0.789 0.014 71.29);
-  --color-brutal-stone: var(--color-brutal-stone-400);
-
-  --color-brutal-cream-200: oklch(0.986 0.015 86.39);
-  --color-brutal-cream: var(--color-brutal-cream-200);
-}`,
-  aliases: `[data-theme="brutal"] {
-  --primary-400: var(--color-brutal-yellow);
-  --accent-400: var(--color-brutal-pink);
-  --secondary-400: var(--color-brutal-stone);
-
-  --state-info-base: var(--color-brutal-cyan);
-  --state-success-base: var(--color-brutal-lime);
-  --state-warning-base: var(--color-brutal-orange);
-  --state-danger-base: var(--color-brutal-red);
-}`,
-  usage: `<Button variant="primary">Confirm</Button>
-
-<Badge variant="success">Active</Badge>
-
-<Avatar type="human" />
-
-<div className="border-line-strong bg-brutal-cream text-foreground-strong">
-  Notification header
-</div>`,
-} as const;
-
 export const Route = createFileRoute("/tokens/colors")({
-  component: ColorsDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  beforeLoad: ({ location }) => {
+    if (location.pathname === "/tokens/colors") {
+      throw redirect({ to: "/tokens/colors/brutal" });
+    }
+  },
+  component: TokenOutlet,
 });
 
-function ColorsDoc() {
-  const code = Route.useLoaderData();
+function TokenOutlet() {
+  return <Outlet />;
+}
+
+export function ColorsDoc({ theme }: { theme: TokenTheme }) {
+  const contexts = getThemeContexts(theme);
+  const title = `${THEME_LABELS[theme]} colors`;
 
   return (
-    <DocPage title="Colors" description="The v2 color token contract." toc={TOC}>
-      <DocSection id="contract" title="Contract">
-        <div className="space-y-5">
-          <div className="grid gap-3 lg:grid-cols-3">
-            {CONTRACT.map((item) => (
-              <div key={item.label} className="rounded-lg border border-gray-200 bg-white p-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  {item.label}
-                </p>
-                <p className="mt-2 font-mono text-lg font-semibold text-gray-950">{item.value}</p>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">{item.detail}</p>
-              </div>
-            ))}
+    <TokenThemeScope theme={theme}>
+      <DocPage title={title} description="The color token contract." toc={TOC}>
+        <DocSection id="primitive" title="Primitive palette">
+          <div className="space-y-5">
+            <div className="grid gap-4">
+              {PALETTES.map((palette) => (
+                <PaletteRow key={palette.name} palette={palette} />
+              ))}
+            </div>
           </div>
-          <Callout>
-            This page documents the v2 contract exported by <code>styles.css</code>.{" "}
-            <code>styles-v2.css</code> remains the explicit v2 alias.
-          </Callout>
-        </div>
-      </DocSection>
+        </DocSection>
 
-      <DocSection id="primitive" title="Primitive palette">
-        <div className="space-y-5">
-          <div className="grid gap-4">
-            {PALETTES.map((palette) => (
-              <PaletteRow key={palette.name} palette={palette} />
-            ))}
+        <DocSection id="aliases" title="Theme aliases">
+          <div className="space-y-5">
+            <div className="grid gap-3 lg:grid-cols-2">
+              {ALIASES.map((alias) => (
+                <AliasCard key={alias.role} alias={alias} />
+              ))}
+            </div>
           </div>
-          <CodeBlock html={code.palette} />
-        </div>
-      </DocSection>
+        </DocSection>
 
-      <DocSection id="aliases" title="Theme aliases">
-        <div className="space-y-5">
+        <DocSection id="states" title="State tones">
           <div className="grid gap-3 lg:grid-cols-2">
-            {ALIASES.map((alias) => (
-              <AliasCard key={alias.role} alias={alias} />
+            {STATES.map((state) => (
+              <StateCard key={state.role} state={state} />
             ))}
           </div>
-          <CodeBlock html={code.aliases} />
-          <Callout>
-            <code>primary</code>, <code>accent</code>, and <code>secondary</code> are theme aliases.
-            They are not separate palettes. Elegant currently references the same brutal palette
-            scales; its visual polish can lag without changing component class names.
-          </Callout>
-        </div>
-      </DocSection>
+        </DocSection>
 
-      <DocSection id="states" title="State tones">
-        <div className="grid gap-3 lg:grid-cols-2">
-          {STATES.map((state) => (
-            <StateCard key={state.role} state={state} />
-          ))}
-        </div>
-      </DocSection>
-
-      <DocSection id="theme" title="Theme tokens">
-        <div className="space-y-5">
-          <div className="grid gap-4 lg:grid-cols-3">
-            {THEME_CONTEXTS.map((theme) => (
-              <ThemePreview key={theme.label} theme={theme} />
-            ))}
+        <DocSection id="theme" title="Theme tokens">
+          <div className="space-y-5">
+            <div className="grid gap-4 lg:grid-cols-2">
+              {contexts.map((context) => (
+                <ThemePreview key={context.label} theme={context} />
+              ))}
+            </div>
+            <div className="grid gap-4 lg:grid-cols-3">
+              {THEME_TOKEN_GROUPS.map((group) => (
+                <ThemeTokenGroup key={group.label} group={group} contexts={contexts} />
+              ))}
+            </div>
           </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {THEME_TOKEN_GROUPS.map((group) => (
-              <ThemeTokenGroup key={group.label} group={group} />
-            ))}
-          </div>
-        </div>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage">
-        <div className="space-y-5">
-          <CodeBlock html={code.usage} />
-          <Callout>
-            Prefer semantic aliases for reusable component recipes. Use raw brutal palette utilities
-            only when the component contract is intentionally tied to a brutal palette family.
-          </Callout>
-        </div>
-      </DocSection>
-    </DocPage>
+        </DocSection>
+      </DocPage>
+    </TokenThemeScope>
   );
+}
+
+function TokenThemeScope({ theme, children }: { theme: TokenTheme; children: ReactNode }) {
+  return (
+    <div
+      data-token-theme-scope={theme}
+      data-theme={theme}
+      className="light min-h-screen"
+      style={{
+        background: "var(--layer-page)",
+        color: "var(--foreground)",
+        fontFamily: "var(--sans-font)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function getThemeContexts(theme: TokenTheme) {
+  return THEME_CONTEXTS.filter((context) => context.theme === theme);
 }
 
 function PaletteRow({ palette }: { palette: (typeof PALETTES)[number] }) {
@@ -728,7 +655,13 @@ function ThemePreview({ theme }: { theme: (typeof THEME_CONTEXTS)[number] }) {
   );
 }
 
-function ThemeTokenGroup({ group }: { group: (typeof THEME_TOKEN_GROUPS)[number] }) {
+function ThemeTokenGroup({
+  group,
+  contexts,
+}: {
+  group: (typeof THEME_TOKEN_GROUPS)[number];
+  contexts: ReturnType<typeof getThemeContexts>;
+}) {
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-4">
       <p className="text-sm font-semibold text-gray-950">{group.label}</p>
@@ -736,7 +669,7 @@ function ThemeTokenGroup({ group }: { group: (typeof THEME_TOKEN_GROUPS)[number]
         {group.tokens.map(([label, token]) => (
           <div key={token} className="flex items-center gap-2">
             <div className="grid grid-cols-3 gap-1">
-              {THEME_CONTEXTS.map((theme) => (
+              {contexts.map((theme) => (
                 <span
                   key={theme.label}
                   data-theme={theme.theme}

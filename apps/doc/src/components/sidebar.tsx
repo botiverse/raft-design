@@ -15,9 +15,27 @@ const SKILLS = {
 const TOKENS = {
   title: "Tokens",
   items: [
-    { label: "Colors", to: "/tokens/colors", status: "wip" },
-    { label: "Typography", to: "/tokens/typography", status: "wip" },
-    { label: "Shadows", to: "/tokens/shadows", status: "wip" },
+    {
+      label: "Colors",
+      children: [
+        { label: "Brutal", to: "/tokens/colors/brutal" },
+        { label: "Elegant", to: "/tokens/colors/elegant", status: "wip" },
+      ],
+    },
+    {
+      label: "Typography",
+      children: [
+        { label: "Brutal", to: "/tokens/typography/brutal" },
+        { label: "Elegant", to: "/tokens/typography/elegant", status: "wip" },
+      ],
+    },
+    {
+      label: "Shadows",
+      children: [
+        { label: "Brutal", to: "/tokens/shadows/brutal" },
+        { label: "Elegant", to: "/tokens/shadows/elegant", status: "wip" },
+      ],
+    },
   ],
 } as const;
 
@@ -525,7 +543,7 @@ const TASK_STATUS = {
 
 type NavItem = {
   label: string;
-  to: string;
+  to?: string;
   hash?: string;
   progress?: Progress;
   status?: "wip";
@@ -554,7 +572,13 @@ type PlannedItem = {
   reason: string;
 };
 
-function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
+function NavLink({
+  to,
+  label,
+  hash,
+  badge,
+  depth = 0,
+}: NavItem & { to: string; badge?: ReactNode; depth?: 0 | 1 }) {
   const location = useLocation();
   const href = `${to}${hash ? `#${hash}` : ""}`;
   const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
@@ -563,13 +587,22 @@ function NavLink({ to, label, hash, badge }: NavItem & { badge?: ReactNode }) {
     <a
       href={href}
       aria-current={isActive ? "page" : undefined}
-      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-gray-100 hover:text-gray-900 ${
-        isActive ? "bg-gray-100 font-medium text-gray-900" : "text-gray-600"
-      }`}
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-gray-100 hover:text-gray-900 ${
+        depth === 1 ? "text-xs" : "text-sm"
+      } ${isActive ? "bg-gray-100 font-medium text-gray-900" : "text-gray-600"}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
     </a>
+  );
+}
+
+function NavGroupLabel({ label, badge }: { label: string; badge?: ReactNode }) {
+  return (
+    <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-gray-700">
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {badge}
+    </span>
   );
 }
 
@@ -598,6 +631,10 @@ function ProgressBadges({ progress }: { progress?: Progress }) {
 function NavItemBadge({ item }: { item: NavItem }) {
   if (item.status === "wip") {
     return <StatusBadge status="in-progress" />;
+  }
+
+  if (!item.progress) {
+    return null;
   }
 
   return <ProgressBadges progress={item.progress} />;
@@ -668,12 +705,25 @@ function NavGroup({
       <ul className="space-y-1">
         {items.map((item) => (
           <li key={item.label}>
-            <NavLink {...item} badge={<NavItemBadge item={item} />} />
+            {item.to ? (
+              <NavLink {...item} to={item.to} badge={<NavItemBadge item={item} />} />
+            ) : (
+              <NavGroupLabel label={item.label} badge={<NavItemBadge item={item} />} />
+            )}
             {item.children ? (
               <ul className="mt-1 space-y-1 pl-3">
                 {item.children.map((child) => (
                   <li key={child.label}>
-                    <NavLink {...child} badge={<NavItemBadge item={child} />} />
+                    {child.to ? (
+                      <NavLink
+                        {...child}
+                        to={child.to}
+                        depth={1}
+                        badge={<NavItemBadge item={child} />}
+                      />
+                    ) : (
+                      <NavGroupLabel label={child.label} badge={<NavItemBadge item={child} />} />
+                    )}
                   </li>
                 ))}
               </ul>
