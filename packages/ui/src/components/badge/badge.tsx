@@ -56,7 +56,7 @@ export const badge = tv({
         root: "bg-success-base text-success-dark",
       },
       danger: {
-        root: "bg-danger-base text-danger-dark",
+        root: "bg-[oklch(0.66_0.19_31)] text-foreground-strong",
       },
     },
     // Enables the old brutal casing recipe when a badge should read as a compact
@@ -76,6 +76,90 @@ export const badge = tv({
     uppercase: false,
   },
   compoundVariants: [
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "default",
+      class: { root: "bg-layer-muted text-foreground-strong" },
+    },
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "muted",
+      class: { root: "bg-secondary-100 text-secondary-900" },
+    },
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "primary",
+      class: { root: "bg-primary-200 text-primary-950" },
+    },
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "information",
+      class: { root: "bg-info-lighter text-info-dark" },
+    },
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "accent",
+      class: { root: "bg-accent-100 text-accent-950" },
+    },
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "success",
+      class: { root: "bg-success-lighter text-success-dark" },
+    },
+    {
+      theme: "brutal",
+      appearance: "soft",
+      variant: "danger",
+      class: { root: "bg-danger-lighter text-danger-dark" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "default",
+      class: { root: "bg-transparent text-foreground-strong" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "muted",
+      class: { root: "bg-transparent text-secondary-900" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "primary",
+      class: { root: "bg-transparent text-primary-700" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "information",
+      class: { root: "bg-transparent text-info-dark" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "accent",
+      class: { root: "bg-transparent text-accent-700" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "success",
+      class: { root: "bg-transparent text-[oklch(0.48_0.12_153.079)]" },
+    },
+    {
+      theme: "brutal",
+      appearance: "outline",
+      variant: "danger",
+      class: { root: "bg-transparent text-[oklch(0.54_0.19_31)]" },
+    },
     {
       theme: "elegant",
       appearance: "solid",
@@ -178,19 +262,19 @@ export const badge = tv({
       theme: "elegant",
       appearance: "outline",
       variant: "primary",
-      class: { root: "border-primary-500 bg-transparent text-primary-950" },
+      class: { root: "border-primary-500 bg-transparent text-primary-800" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "information",
-      class: { root: "border-info-base bg-transparent text-info-dark" },
+      class: { root: "border-info-base bg-transparent text-[oklch(0.48_0.09_219.2)]" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "accent",
-      class: { root: "border-accent-500 bg-transparent text-accent-950" },
+      class: { root: "border-accent-500 bg-transparent text-accent-800" },
     },
     {
       theme: "elegant",

@@ -2,10 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Badge, type BadgeProps } from "@slock/ui";
 import { X } from "lucide-react";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -171,19 +169,6 @@ function BadgeDoc() {
     <DocPage
       title="Badge"
       description="A small semantic label chip for status, category, and metadata."
-      overview={
-        <Differences from="Badge">
-          <li>brutal styling reproduced through semantic variants and the uppercase axis</li>
-          <li>
-            source <code>BadgeButton</code> is no longer a standalone component; use{" "}
-            <code>Badge</code> with <code>render</code> to render a button root
-          </li>
-          <li>
-            the <code>ExperimentalBadge</code> helper is now the <code>Badge.Experimental</code>{" "}
-            preset
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
@@ -217,96 +202,59 @@ function BadgeDoc() {
       </DocSection>
 
       <DocSection id="variants" title="Variants">
-        <div className="space-y-4">
-          <Example html={code.variants}>
-            {VARIANTS.map((variant) => (
-              <Badge key={variant} variant={variant}>
-                {variant}
-              </Badge>
-            ))}
-          </Example>
-          <Callout>
-            The badge owns its background — callers pick a semantic variant, not a raw color. Use{" "}
-            <code>className</code> only for local legacy escape hatches such as lavender identity
-            tags.
-          </Callout>
-        </div>
+        <Example html={code.variants}>
+          {VARIANTS.map((variant) => (
+            <Badge key={variant} variant={variant}>
+              {variant}
+            </Badge>
+          ))}
+        </Example>
       </DocSection>
 
       <DocSection id="appearance" title="Appearance">
-        <div className="space-y-4">
-          <Example html={code.appearance}>
-            {APPEARANCES.map((appearance) => (
-              <div key={appearance} className="flex w-full flex-wrap items-center gap-2">
-                {VARIANTS.map((variant) => (
-                  <Badge key={variant} appearance={appearance} variant={variant}>
-                    {variant}
-                  </Badge>
-                ))}
-              </div>
-            ))}
-          </Example>
-          <Callout>
-            Use <code>appearance</code> for visual strength: <code>solid</code> is the default
-            filled chip, <code>soft</code> is the lighter status surface, and <code>outline</code>{" "}
-            is transparent with a semantic border.
-          </Callout>
-        </div>
+        <Example html={code.appearance}>
+          {APPEARANCES.map((appearance) => (
+            <div key={appearance} className="flex w-full flex-wrap items-center gap-2">
+              {VARIANTS.map((variant) => (
+                <Badge key={variant} appearance={appearance} variant={variant}>
+                  {variant}
+                </Badge>
+              ))}
+            </div>
+          ))}
+        </Example>
       </DocSection>
 
       <DocSection id="uppercase" title="Uppercase">
-        <div className="space-y-4">
-          <Example html={code.uppercase}>
-            <Badge>task #42 @bugen</Badge>
-            <Badge uppercase>In Progress</Badge>
-          </Example>
-          <Callout>
-            The prop controls the paired casing recipe (<code>uppercase tracking-wide</code>) and
-            defaults to <code>false</code>. Turn it on for compact labels; leave it off next to
-            case-sensitive identifiers such as <code>@bugen</code>.
-          </Callout>
-        </div>
+        <Example html={code.uppercase}>
+          <Badge>task #42 @bugen</Badge>
+          <Badge uppercase>In Progress</Badge>
+        </Example>
       </DocSection>
 
       <DocSection id="badge-button" title="BadgeButton migration">
-        <div className="space-y-4">
-          <Example html={code.badgeButton}>
-            <Badge
-              render={<button type="button" aria-label="Open thread replies" />}
-              variant="information"
-              onClick={() => undefined}
-            >
-              3 replies
-            </Badge>
-            <Badge
-              render={<button type="button" aria-label="Remove assignee filter" />}
-              variant="danger"
-            >
-              remove @bugen
-              <X className="size-3" />
-            </Badge>
-          </Example>
-          <Callout>
-            Source <code>BadgeButton</code> shared the exact same visual recipe as{" "}
-            <code>Badge</code>; the only difference was rendering a <code>button</code> instead of a{" "}
-            <code>span</code>. In this package, keep that as composition instead of a second
-            component.
-          </Callout>
-        </div>
+        <Example html={code.badgeButton}>
+          <Badge
+            render={<button type="button" aria-label="Open thread replies" />}
+            variant="information"
+            onClick={() => undefined}
+          >
+            3 replies
+          </Badge>
+          <Badge
+            render={<button type="button" aria-label="Remove assignee filter" />}
+            variant="danger"
+          >
+            remove @bugen
+            <X className="size-3" />
+          </Badge>
+        </Example>
       </DocSection>
 
       <DocSection id="experimental" title="Experimental">
-        <div className="space-y-4">
-          <Example html={code.experimental}>
-            <Badge.Experimental />
-          </Example>
-          <Callout>
-            <code>Badge.Experimental</code> is a fixed <code>success</code> + uppercase
-            “Experimental” preset, so every experimental surface reads the same. It only takes
-            positional props (className / span attributes); for any other chip use{" "}
-            <code>Badge</code> directly.
-          </Callout>
-        </div>
+        <Example html={code.experimental}>
+          <Badge.Experimental />
+        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
@@ -347,7 +295,6 @@ function BadgeDoc() {
             {
               label: "BadgeButton migration",
               status: "difference",
-              note: "Source exported a separate BadgeButton that reused the same badge class. Current keeps one Badge component and renders the old button root through Base UI render composition.",
               source: <LegacyBadgeButton tone="cyan">Filter</LegacyBadgeButton>,
               current: (
                 <Badge render={<button type="button" aria-label="Filter" />} variant="information">
@@ -360,7 +307,6 @@ function BadgeDoc() {
             {
               label: "Experimental preset",
               status: "match",
-              note: 'Current keeps the source lime badge visual through variant="success" but moves the helper under Badge.Experimental instead of exporting a separate ExperimentalBadge component.',
               source: <LegacyExperimentalBadge />,
               current: <Badge.Experimental />,
               sourceCode: code.sourceExperimental,
@@ -374,31 +320,14 @@ function BadgeDoc() {
         <div className="space-y-4">
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Tone to Variant</h3>
-            <p className="text-sm text-gray-500">
-              Migrate brutal palette names to label semantics. Unlike Button, these variants
-              describe status/category meaning, not action intent. Add <code>uppercase</code> when
-              preserving the source default badge casing, and map source <code>white</code> badges
-              to the default <code>outline</code> appearance. Source <code>orange</code> is not
-              mapped because there is no current Badge scenario for it.
-            </p>
             <CodeBlock html={code.migrationToneToVariant} />
           </div>
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Casing</h3>
-            <p className="text-sm text-gray-500">
-              Source used <code>tone="white"</code> plus uppercase by default. Current splits those
-              concerns: use <code>appearance="outline"</code> for the old default white badge
-              treatment, then add <code>uppercase</code> only when you need the old compact label
-              casing.
-            </p>
             <CodeBlock html={code.migrationCasing} />
           </div>
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Lavender</h3>
-            <p className="text-sm text-gray-500">
-              Keep lavender as a palette-only identity/attachment tag until a real reusable Badge
-              meaning appears.
-            </p>
             <CodeBlock html={code.migrationLavender} />
           </div>
         </div>
