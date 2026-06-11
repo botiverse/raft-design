@@ -466,6 +466,13 @@
   --line-focus: oklch(0.95 0 0);
 }
 
+*,
+::before,
+::after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   position: relative;
 }

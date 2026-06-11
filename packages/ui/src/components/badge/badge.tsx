@@ -92,7 +92,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "soft",
       variant: "primary",
-      class: { root: "bg-primary-200 text-primary-950" },
+      class: { root: "bg-[oklch(0.958_0.047_86)] text-primary-950" },
     },
     {
       theme: "brutal",
@@ -220,7 +220,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "soft",
       variant: "primary",
-      class: { root: "border-transparent bg-primary-200 text-primary-950" },
+      class: { root: "border-transparent bg-[oklch(0.958_0.047_86)] text-primary-950" },
     },
     {
       theme: "elegant",
