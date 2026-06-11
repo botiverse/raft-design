@@ -911,18 +911,6 @@ export function Sidebar() {
             <NavLink to="/setup" label="Setup" />
           </li>
           <li>
-            <span className="flex items-center rounded-md px-2 py-1.5 text-[13px] font-medium text-foreground-strong">
-              {SKILLS.title}
-            </span>
-            <ul className="mt-1 space-y-1 pl-3">
-              {SKILLS.items.map((item) => (
-                <li key={item.label}>
-                  <NavLink to={item.to} label={item.label} />
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li>
             <NavLink to="/playground" label="Playground" />
           </li>
           <li>
@@ -932,7 +920,13 @@ export function Sidebar() {
 
         <hr className="border-gray-200" />
 
-        <NavGroup items={TOKENS.items} />
+        <NavGroup title={SKILLS.title} items={SKILLS.items} />
+
+        <hr className="border-gray-200" />
+
+        {TOKENS.items.map((group) => (
+          <NavGroup key={group.label} title={group.label} items={group.children} />
+        ))}
 
         <hr className="border-gray-200" />
 
