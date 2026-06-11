@@ -417,7 +417,7 @@
     oklch(0.145 0.002 286.131 / 0.047) 0px 16px 16px -8px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 6px 8px -4px;
 
-  --display-font: "Instrument Sans", system-ui, sans-serif;
+  --display-font: "Inter", system-ui, sans-serif;
   --sans-font: "Geist", system-ui, sans-serif;
   --mono-font: "Geist Mono", ui-monospace, monospace;
 }

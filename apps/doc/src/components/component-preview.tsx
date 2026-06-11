@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 
 type ComponentPreviewProps = {
   label?: string;
@@ -13,9 +14,9 @@ export function ComponentPreview({ label, children }: ComponentPreviewProps) {
           {label}
         </div>
       ) : null}
-      <div className="flex flex-wrap items-center gap-4 bg-background p-8 text-foreground">
+      <PreviewThemeScope className="flex flex-wrap items-center gap-4 bg-background p-8 text-foreground">
         {children}
-      </div>
+      </PreviewThemeScope>
     </div>
   );
 }

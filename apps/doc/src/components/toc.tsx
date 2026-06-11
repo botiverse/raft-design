@@ -4,15 +4,13 @@ export function Toc({ items }: { items: readonly TocItem[] }) {
   return (
     <aside className="pointer-events-none fixed inset-y-0 right-0 z-30 hidden h-screen w-[var(--rail-w)] border-l border-gray-200 px-5 py-6 xl:block">
       <nav className="pointer-events-auto max-h-full overflow-y-auto">
-        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400">
-          On this page
-        </p>
-        <ul className="space-y-2 text-sm">
+        <p className="mb-4 text-[13px] font-medium text-foreground-strong">On this page</p>
+        <ul className="space-y-3 text-xs">
           {items.map((item) => (
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className="block text-gray-500 transition-colors hover:text-gray-900"
+                className="block text-foreground-muted transition-colors hover:text-gray-950"
               >
                 {item.title}
               </a>

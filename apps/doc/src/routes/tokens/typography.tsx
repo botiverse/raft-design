@@ -57,13 +57,13 @@ const FAMILIES = [
     theme: "Elegant",
     themeId: "elegant",
     status: "in-progress",
-    display: "Instrument Sans",
+    display: "Inter",
     sans: "Geist",
     mono: "Geist Mono",
     samples: [
       {
         title: "Headline",
-        family: "Instrument Sans",
+        family: "Inter",
         utility: "font-display",
         px: "36px",
         className:
@@ -181,7 +181,7 @@ function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children
   return (
     <div
       data-token-theme-scope={theme}
-      data-theme={theme}
+      data-theme="elegant"
       className="light min-h-screen font-sans [&_article_header_h1]:font-display [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section_h2]:font-display"
       style={{
         background: "var(--layer-page)",

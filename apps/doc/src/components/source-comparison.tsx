@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { CodeBlock } from "./code-block.tsx";
+import { PreviewThemeScope } from "./preview-theme.tsx";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -47,7 +48,9 @@ function ComparisonPreview({
       <div className="border-b border-gray-100 px-3 py-1.5 text-[11px] font-medium uppercase text-gray-400">
         {label}
       </div>
-      <div className="flex min-h-24 flex-wrap items-center gap-3 p-4">{children}</div>
+      <PreviewThemeScope className="flex min-h-24 flex-wrap items-center gap-3 bg-background p-4 text-foreground">
+        {children}
+      </PreviewThemeScope>
       {code ? (
         <div className="border-t border-gray-100 [&>div]:rounded-none [&>div]:border-0">
           <CodeBlock html={code} />

@@ -463,7 +463,7 @@ function TokenThemeScope({ theme, children }: { theme: TokenTheme; children: Rea
   return (
     <div
       data-token-theme-scope={theme}
-      data-theme={theme}
+      data-theme="elegant"
       className="light min-h-screen"
       style={{
         background: "var(--layer-page)",

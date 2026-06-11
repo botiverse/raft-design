@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
-import { StatusBadge } from "./status-badge.tsx";
+import { Badge } from "@slock/ui";
+import { IconExternalLinkOutline18 } from "nucleo-ui-outline-18";
 
 const SKILLS = {
   title: "Skills",
@@ -542,10 +542,10 @@ const TASKS = {
 const VISIBLE_TASKS = ["elegant"] as const satisfies readonly TaskKey[];
 
 const TASK_STATUS = {
-  done: { label: "Done", className: "border-emerald-200 bg-emerald-50 text-emerald-700" },
-  "in-progress": { label: "In progress", className: "border-amber-200 bg-amber-50 text-amber-700" },
-  todo: { label: "Todo", className: "border-gray-200 bg-gray-50 text-gray-400" },
-} as const satisfies Record<TaskStatus, { label: string; className: string }>;
+  done: { label: "Done" },
+  "in-progress": { label: "In progress" },
+  todo: { label: "Todo" },
+} as const satisfies Record<TaskStatus, { label: string }>;
 
 type NavItem = {
   label: string;
@@ -578,6 +578,17 @@ type PlannedItem = {
   reason: string;
 };
 
+type BadgeVariant =
+  | "default"
+  | "primary"
+  | "information"
+  | "muted"
+  | "accent"
+  | "success"
+  | "danger";
+
+const sectionTitleClassName = "mb-2.5 text-[13px] font-medium text-foreground-strong";
+
 function NavLink({
   to,
   label,
@@ -593,9 +604,9 @@ function NavLink({
     <a
       href={href}
       aria-current={isActive ? "page" : undefined}
-      className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-gray-100 hover:text-gray-900 ${
-        depth === 1 ? "text-xs" : "text-sm"
-      } ${isActive ? "bg-gray-100 font-medium text-gray-900" : "text-gray-600"}`}
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-layer-muted hover:text-foreground-strong ${
+        depth === 1 ? "text-xs" : "text-[13px]"
+      } ${isActive ? "bg-layer-muted font-medium text-foreground-strong" : "text-neutral-500"}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
@@ -605,7 +616,7 @@ function NavLink({
 
 function NavGroupLabel({ label, badge }: { label: string; badge?: ReactNode }) {
   return (
-    <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-gray-700">
+    <span className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500">
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
     </span>
@@ -629,14 +640,16 @@ function ProgressBadges({ progress }: { progress?: Progress }) {
         const taskLabel = TASKS[task].label;
         const statusLabel = TASK_STATUS[status].label;
         return (
-          <span
+          <Badge
             key={task}
+            appearance="soft"
+            variant="muted"
             title={`${taskLabel}: ${statusLabel}`}
             aria-label={`${taskLabel}: ${statusLabel}`}
-            className={`inline-flex h-4 min-w-9 items-center justify-center border px-1 text-[9px] font-bold leading-none ${TASK_STATUS[status].className}`}
+            className="h-4 min-w-9 justify-center px-1 text-[9px]"
           >
             {TASKS[task].short}
-          </span>
+          </Badge>
         );
       })}
     </span>
@@ -645,7 +658,11 @@ function ProgressBadges({ progress }: { progress?: Progress }) {
 
 function NavItemBadge({ item }: { item: NavItem }) {
   if (item.status === "wip") {
-    return <StatusBadge status="in-progress" />;
+    return (
+      <Badge appearance="solid" variant="primary" uppercase className="h-4 px-1.5 text-[9px]">
+        WIP
+      </Badge>
+    );
   }
 
   if (!item.progress) {
@@ -684,8 +701,8 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm line-through decoration-gray-400 decoration-2 transition-colors hover:bg-gray-100 hover:text-gray-700 ${
-          isActive ? "bg-gray-100 font-medium text-gray-700" : "text-gray-400"
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-gray-400 decoration-2 transition-colors hover:bg-layer-muted hover:text-foreground ${
+          isActive ? "bg-layer-muted font-medium text-foreground" : "text-neutral-500"
         }`}
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
@@ -710,13 +727,13 @@ function NavGroup({
   items,
   planned,
 }: {
-  title: string;
+  title?: string;
   items: readonly NavItem[];
   planned?: readonly PlannedItem[];
 }) {
   return (
     <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      {title ? <p className={sectionTitleClassName}>{title}</p> : null}
       <ul className="space-y-1">
         {items.map((item) => (
           <li key={item.label}>
@@ -758,7 +775,7 @@ function NavGroup({
 function MigratedGroup({ title, items }: { title: string; items: readonly MigratedItem[] }) {
   return (
     <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      <p className={sectionTitleClassName}>{title}</p>
       <ul className="space-y-1">
         {items.map((item) => (
           <li key={item.label}>
@@ -773,7 +790,7 @@ function MigratedGroup({ title, items }: { title: string; items: readonly Migrat
 function SourceHoldGroup({ title, items }: { title: string; items: readonly SourceHoldItem[] }) {
   return (
     <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">{title}</p>
+      <p className={sectionTitleClassName}>{title}</p>
       <ul className="space-y-1">
         {items.map((item) => (
           <li key={item.label}>
@@ -788,10 +805,7 @@ function SourceHoldGroup({ title, items }: { title: string; items: readonly Sour
 function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
   const [tooltip, setTooltip] = useState<{ left: number; top: number } | null>(null);
   const statusLabel = status === "deferred" ? "Deferred" : "Skipped";
-  const statusClassName =
-    status === "deferred"
-      ? "border-amber-200 bg-amber-50 text-amber-700"
-      : "border-gray-200 bg-gray-50 text-gray-500";
+  const statusVariant = status === "deferred" ? "primary" : "muted";
 
   const showTooltip = (element: HTMLElement) => {
     if (status !== "skipped") return;
@@ -815,14 +829,17 @@ function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600"
+        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted hover:text-foreground"
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
-        <span
-          className={`inline-flex h-4 shrink-0 items-center justify-center border px-1 text-[9px] font-bold uppercase leading-none ${statusClassName}`}
+        <Badge
+          appearance="soft"
+          variant={statusVariant}
+          uppercase
+          className="h-4 shrink-0 px-1 text-[9px]"
         >
           {statusLabel}
-        </span>
+        </Badge>
       </span>
       {tooltip
         ? createPortal(
@@ -847,30 +864,33 @@ function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
       rel="noreferrer"
       title={`${priority}: ${reason}`}
       aria-label={`${label}: ${priority}. ${reason} Open Base UI docs.`}
-      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-800"
+      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted hover:text-foreground"
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
-      <ExternalLink className="size-3 shrink-0 opacity-50" aria-hidden="true" />
+      <IconExternalLinkOutline18
+        className="size-3 shrink-0 opacity-50"
+        strokeWidth={1.5}
+        aria-hidden
+      />
       <PriorityBadge priority={priority} />
     </a>
   );
 }
 
 function PriorityBadge({ priority }: { priority: PlannedPriority }) {
-  const className = {
-    P0: "border-red-200 bg-red-50 text-red-700",
-    P1: "border-amber-200 bg-amber-50 text-amber-700",
-    P2: "border-sky-200 bg-sky-50 text-sky-700",
-    Later: "border-violet-200 bg-violet-50 text-violet-700",
-    Parked: "border-gray-200 bg-gray-50 text-gray-500",
-  }[priority];
+  const variants = {
+    P0: "danger",
+    P1: "primary",
+    P2: "information",
+    Later: "accent",
+    Parked: "muted",
+  } satisfies Record<PlannedPriority, BadgeVariant>;
+  const variant = variants[priority];
 
   return (
-    <span
-      className={`inline-flex h-4 shrink-0 items-center justify-center border px-1 text-[9px] font-bold uppercase leading-none ${className}`}
-    >
+    <Badge appearance="soft" variant={variant} uppercase className="h-4 shrink-0 px-1 text-[9px]">
       {priority}
-    </span>
+    </Badge>
   );
 }
 
@@ -889,7 +909,7 @@ export function Sidebar() {
             <NavLink to="/setup" label="Setup" />
           </li>
           <li>
-            <span className="flex items-center rounded-md px-2 py-1.5 text-sm font-medium text-gray-900">
+            <span className="flex items-center rounded-md px-2 py-1.5 text-[13px] font-medium text-foreground-strong">
               {SKILLS.title}
             </span>
             <ul className="mt-1 space-y-1 pl-3">
@@ -910,7 +930,7 @@ export function Sidebar() {
 
         <hr className="border-gray-200" />
 
-        <NavGroup title={TOKENS.title} items={TOKENS.items} />
+        <NavGroup items={TOKENS.items} />
 
         <hr className="border-gray-200" />
 

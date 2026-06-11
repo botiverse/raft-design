@@ -1,12 +1,10 @@
-import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { HeadContent, Scripts, createRootRoute, useMatches } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { ThemeProvider, type Theme } from "@slock/ui";
+import { ThemeProvider } from "@slock/ui";
 
 import { Sidebar } from "#/components/sidebar.tsx";
-import { FamilyContext } from "#/components/family-context.ts";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -68,38 +66,29 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 });
 
-function RootDocument({ children }: { children: React.ReactNode }) {
-  // Family axis: drives `data-theme` on <html>. Mode axis (.dark) is owned by
-  // next-themes on the same element, so [data-theme=elegant].dark resolves.
-  const [family, setFamily] = useState<Theme>("brutal");
+function RootDocument({ children }: { children: ReactNode }) {
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
-  const effectiveFamily = isStandalonePage ? "elegant" : family;
-  const familyValue = useMemo(() => ({ family: effectiveFamily, setFamily }), [effectiveFamily]);
 
   return (
-    <html lang="en" data-theme={effectiveFamily} suppressHydrationWarning>
+    <html lang="en" data-theme="elegant">
       <head>
         <HeadContent />
       </head>
       <body className="bg-background text-foreground antialiased">
-        <NextThemesProvider attribute="class" enableSystem defaultTheme="system">
-          <ThemeProvider theme={effectiveFamily}>
-            <FamilyContext.Provider value={familyValue}>
-              <div
-                className={
-                  isStandalonePage
-                    ? "isolate min-h-screen [--rail-w:0rem]"
-                    : "isolate min-h-screen [--rail-w:0rem] lg:[--rail-w:20rem]"
-                }
-              >
-                {isStandalonePage ? null : <Sidebar />}
-                <main className="min-h-screen pl-[var(--rail-w)]">{children}</main>
-              </div>
-            </FamilyContext.Provider>
-          </ThemeProvider>
-        </NextThemesProvider>
+        <ThemeProvider theme="elegant">
+          <div
+            className={
+              isStandalonePage
+                ? "isolate min-h-screen [--rail-w:0rem]"
+                : "isolate min-h-screen [--rail-w:0rem] lg:[--rail-w:20rem]"
+            }
+          >
+            {isStandalonePage ? null : <Sidebar />}
+            <main className="min-h-screen pl-[var(--rail-w)]">{children}</main>
+          </div>
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",
