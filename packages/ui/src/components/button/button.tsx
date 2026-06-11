@@ -134,7 +134,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "border-line-strong bg-foreground-strong text-foreground-inverse",
-          "hover:border-foreground hover:bg-foreground",
+          "hover:border-[oklch(0.31_0.006_285)] hover:bg-[oklch(0.31_0.006_285)]",
         ],
       },
     },
