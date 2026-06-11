@@ -42,7 +42,13 @@ const TOKENS = {
 const NAV = [
   {
     title: "Actions",
-    items: [{ label: "Button", to: "/components/button", progress: { structure: "done" } }],
+    items: [
+      {
+        label: "Button",
+        to: "/components/button",
+        progress: { structure: "done", elegant: "done" },
+      },
+    ],
   },
   {
     title: "Inputs",
@@ -607,9 +613,18 @@ function NavGroupLabel({ label, badge }: { label: string; badge?: ReactNode }) {
 }
 
 function ProgressBadges({ progress }: { progress?: Progress }) {
+  const visibleTasks = VISIBLE_TASKS.filter((task) => {
+    const status = progress?.[task] ?? DEFAULT_PROGRESS[task];
+    return status !== "done";
+  });
+
+  if (visibleTasks.length === 0) {
+    return null;
+  }
+
   return (
     <span className="ml-auto flex shrink-0 items-center gap-1" aria-label="Component status">
-      {VISIBLE_TASKS.map((task) => {
+      {visibleTasks.map((task) => {
         const status = progress?.[task] ?? DEFAULT_PROGRESS[task];
         const taskLabel = TASKS[task].label;
         const statusLabel = TASK_STATUS[status].label;
