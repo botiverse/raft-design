@@ -11,7 +11,6 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyBadge, {
   BadgeButton as LegacyBadgeButton,
@@ -19,10 +18,10 @@ import LegacyBadge, {
 import LegacyExperimentalBadge from "../../../../../packages/ui/src/legacy/ExperimentalBadge.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "variants", title: "Variants" },
+  { id: "appearance", title: "Appearance" },
   { id: "uppercase", title: "Uppercase" },
   { id: "badge-button", title: "BadgeButton migration" },
   { id: "experimental", title: "Experimental" },
@@ -38,11 +37,10 @@ const VARIANTS = [
   "muted",
   "accent",
   "success",
-  "warning",
-  "destructive",
+  "danger",
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const APPEARANCES = ["solid", "soft", "outline"] as const;
 
 const SNIPPETS = {
   anatomy: `import { Badge } from "@slock/ui";
@@ -54,8 +52,10 @@ const SNIPPETS = {
 <Badge variant="muted">Saved</Badge>
 <Badge variant="accent">New</Badge>
 <Badge variant="success">Experimental</Badge>
-<Badge variant="warning">Archived</Badge>
-<Badge variant="destructive">Error</Badge>`,
+<Badge variant="danger">Error</Badge>`,
+  appearance: `<Badge appearance="solid" variant="primary">Solid</Badge>
+<Badge appearance="soft" variant="primary">Soft</Badge>
+<Badge appearance="outline" variant="primary">Outline</Badge>`,
   uppercase: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
   badgeButton: `<Badge
@@ -68,13 +68,13 @@ const SNIPPETS = {
 
 <Badge
   render={<button type="button" aria-label="Remove assignee filter" />}
-  variant="destructive"
+  variant="danger"
 >
   remove @bugen
 </Badge>`,
   experimental: `<Badge.Experimental />`,
   sourceDefault: `<Badge>In Progress</Badge>`,
-  currentDefault: `<Badge uppercase>In Progress</Badge>`,
+  currentDefault: `<Badge appearance="outline" uppercase>In Progress</Badge>`,
   sourceTone: `<Badge tone="lime">Experimental</Badge>`,
   currentTone: `<Badge variant="success">Experimental</Badge>`,
   sourceUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
@@ -90,18 +90,16 @@ const SNIPPETS = {
 <Badge tone="stone">Saved</Badge>
 <Badge tone="pink">New</Badge>
 <Badge tone="lime">Experimental</Badge>
-<Badge tone="orange">Archived</Badge>
 <Badge tone="red">Error</Badge>
 
 // Current
-<Badge uppercase>Default</Badge>
+<Badge appearance="outline" uppercase>Default</Badge>
 <Badge variant="primary" uppercase>In Progress</Badge>
 <Badge variant="information" uppercase>Open</Badge>
 <Badge variant="muted" uppercase>Saved</Badge>
 <Badge variant="accent" uppercase>New</Badge>
 <Badge variant="success" uppercase>Experimental</Badge>
-<Badge variant="warning" uppercase>Archived</Badge>
-<Badge variant="destructive" uppercase>Error</Badge>`,
+<Badge variant="danger" uppercase>Error</Badge>`,
   migrationCasing: `// Source opt-out
 <Badge uppercase={false}>task #42 @bugen</Badge>
 
@@ -109,7 +107,7 @@ const SNIPPETS = {
 <Badge>task #42 @bugen</Badge>
 
 // Current old brutal casing recipe
-<Badge uppercase>In Progress</Badge>`,
+<Badge appearance="outline" uppercase>In Progress</Badge>`,
   migrationLavender: `// Source
 <Badge tone="lavender">Human</Badge>
 
@@ -120,12 +118,20 @@ const SNIPPETS = {
 } as const;
 
 type PlaygroundValues = {
+  appearance: NonNullable<BadgeProps["appearance"]>;
   variant: NonNullable<BadgeProps["variant"]>;
   uppercase: boolean;
   label: string;
 };
 
 const PROPS: readonly PropRow[] = [
+  {
+    name: "appearance",
+    type: APPEARANCES.map((appearance) => `"${appearance}"`).join(" | "),
+    default: '"solid"',
+    description:
+      "Visual treatment. Solid keeps the current filled badge, soft uses the lighter token ramp, and outline uses a transparent fill with a semantic border.",
+  },
   {
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
@@ -180,20 +186,26 @@ function BadgeDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ variant: "primary", uppercase: false, label: "In Progress" }}
+          defaultValues={{
+            appearance: "solid",
+            variant: "primary",
+            uppercase: false,
+            label: "In Progress",
+          }}
           controls={[
+            { name: "appearance", label: "Appearance", type: "select", options: APPEARANCES },
             { name: "variant", label: "Variant", type: "select", options: VARIANTS },
             { name: "uppercase", label: "Uppercase", type: "boolean" },
             { name: "label", label: "Label", type: "text" },
           ]}
           render={(values) => (
-            <Badge variant={values.variant} uppercase={values.uppercase}>
+            <Badge
+              appearance={values.appearance}
+              variant={values.variant}
+              uppercase={values.uppercase}
+            >
               {values.label}
             </Badge>
           )}
@@ -217,6 +229,27 @@ function BadgeDoc() {
             The badge owns its background — callers pick a semantic variant, not a raw color. Use{" "}
             <code>className</code> only for local legacy escape hatches such as lavender identity
             tags.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="appearance" title="Appearance">
+        <div className="space-y-4">
+          <Example html={code.appearance}>
+            {APPEARANCES.map((appearance) => (
+              <div key={appearance} className="flex w-full flex-wrap items-center gap-2">
+                {VARIANTS.map((variant) => (
+                  <Badge key={variant} appearance={appearance} variant={variant}>
+                    {variant}
+                  </Badge>
+                ))}
+              </div>
+            ))}
+          </Example>
+          <Callout>
+            Use <code>appearance</code> for visual strength: <code>solid</code> is the default
+            filled chip, <code>soft</code> is the lighter status surface, and <code>outline</code>{" "}
+            is transparent with a semantic border.
           </Callout>
         </div>
       </DocSection>
@@ -247,7 +280,7 @@ function BadgeDoc() {
             </Badge>
             <Badge
               render={<button type="button" aria-label="Remove assignee filter" />}
-              variant="destructive"
+              variant="danger"
             >
               remove @bugen
               <X className="size-3" />
@@ -287,7 +320,11 @@ function BadgeDoc() {
               label: "Default",
               status: "match",
               source: <LegacyBadge>In Progress</LegacyBadge>,
-              current: <Badge uppercase>In Progress</Badge>,
+              current: (
+                <Badge appearance="outline" uppercase>
+                  In Progress
+                </Badge>
+              ),
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
             },
@@ -340,7 +377,9 @@ function BadgeDoc() {
             <p className="text-sm text-gray-500">
               Migrate brutal palette names to label semantics. Unlike Button, these variants
               describe status/category meaning, not action intent. Add <code>uppercase</code> when
-              preserving the source default badge casing.
+              preserving the source default badge casing, and map source <code>white</code> badges
+              to the default <code>outline</code> appearance. Source <code>orange</code> is not
+              mapped because there is no current Badge scenario for it.
             </p>
             <CodeBlock html={code.migrationToneToVariant} />
           </div>
@@ -348,7 +387,8 @@ function BadgeDoc() {
             <h3 className="text-sm font-semibold text-gray-900">Casing</h3>
             <p className="text-sm text-gray-500">
               Source defaulted to uppercase. Current defaults to preserved casing and makes the old
-              casing recipe explicit.
+              casing recipe explicit. For the old source default badge, keep that recipe on the
+              default outline appearance.
             </p>
             <CodeBlock html={code.migrationCasing} />
           </div>

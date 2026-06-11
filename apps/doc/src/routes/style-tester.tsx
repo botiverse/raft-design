@@ -502,12 +502,12 @@ function BadgesCard() {
       <div className="grid grid-cols-3 justify-items-center gap-x-3 gap-y-2">
         <Badge>Public</Badge>
         <Badge variant="accent">Pro</Badge>
-        <Badge variant="warning">Pending</Badge>
+        <Badge variant="primary">Pending</Badge>
         <Badge variant="success">
           <Check className="size-2.5" aria-hidden="true" />
           Active
         </Badge>
-        <Badge variant="destructive">
+        <Badge variant="danger">
           <X className="size-2.5" aria-hidden="true" />
           Banned
         </Badge>

@@ -18,10 +18,22 @@ export const badge = tv({
       },
       elegant: {
         root: [
-          "gap-1.5 rounded-full border-transparent px-2.5 py-0.5",
+          "gap-1.5 rounded-full border border-transparent px-2.5 py-0.5",
           "[&:has(svg)]:px-2",
+          "[&_svg]:shrink-0 [&_svg]:translate-y-[0.5px]",
           "text-[11px] font-medium leading-3 tracking-[0.22px]",
         ],
+      },
+    },
+    appearance: {
+      solid: {
+        root: "",
+      },
+      soft: {
+        root: "",
+      },
+      outline: {
+        root: "",
       },
     },
     variant: {
@@ -43,10 +55,7 @@ export const badge = tv({
       success: {
         root: "bg-success-base text-success-dark",
       },
-      warning: {
-        root: "bg-warning-base text-warning-dark",
-      },
-      destructive: {
+      danger: {
         root: "bg-danger-base text-danger-dark",
       },
     },
@@ -62,12 +71,14 @@ export const badge = tv({
     },
   },
   defaultVariants: {
+    appearance: "solid",
     variant: "default",
     uppercase: false,
   },
   compoundVariants: [
     {
       theme: "elegant",
+      appearance: "solid",
       variant: "default",
       class: {
         root: "bg-line-muted text-foreground-muted",
@@ -75,38 +86,123 @@ export const badge = tv({
     },
     {
       theme: "elegant",
+      appearance: "solid",
       variant: "muted",
-      class: { root: "bg-secondary-400 text-foreground-inverse" },
+      class: { root: "bg-secondary-400 text-foreground-strong" },
     },
     {
       theme: "elegant",
+      appearance: "solid",
       variant: "primary",
       class: { root: "bg-primary-400 text-primary-950" },
     },
     {
       theme: "elegant",
+      appearance: "solid",
       variant: "information",
-      class: { root: "bg-info-base text-foreground-inverse" },
+      class: { root: "bg-info-base text-info-dark" },
     },
     {
       theme: "elegant",
+      appearance: "solid",
       variant: "accent",
-      class: { root: "bg-accent-400 text-foreground-inverse" },
+      class: { root: "bg-accent-400 text-foreground-strong" },
     },
     {
       theme: "elegant",
-      variant: "warning",
-      class: { root: "bg-warning-base text-warning-dark" },
-    },
-    {
-      theme: "elegant",
+      appearance: "solid",
       variant: "success",
       class: { root: "bg-success-base text-foreground-inverse" },
     },
     {
       theme: "elegant",
-      variant: "destructive",
-      class: { root: "bg-danger-base text-foreground-inverse" },
+      appearance: "solid",
+      variant: "danger",
+      class: { root: "bg-[oklch(0.68_0.22_26.758)] text-foreground-inverse" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "default",
+      class: { root: "border-transparent bg-layer-muted text-foreground-strong" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "muted",
+      class: { root: "border-transparent bg-secondary-100 text-secondary-900" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "primary",
+      class: { root: "border-transparent bg-primary-100 text-primary-950" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "information",
+      class: { root: "border-transparent bg-info-lighter text-info-dark" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "accent",
+      class: { root: "border-transparent bg-accent-100 text-accent-950" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "success",
+      class: { root: "border-transparent bg-success-lighter text-success-dark" },
+    },
+    {
+      theme: "elegant",
+      appearance: "soft",
+      variant: "danger",
+      class: { root: "border-transparent bg-danger-lighter text-danger-dark" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "default",
+      class: { root: "border-line-subtle bg-transparent text-foreground-strong" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "muted",
+      class: { root: "border-secondary-500 bg-transparent text-secondary-900" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "primary",
+      class: { root: "border-primary-500 bg-transparent text-primary-950" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "information",
+      class: { root: "border-info-base bg-transparent text-info-dark" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "accent",
+      class: { root: "border-accent-500 bg-transparent text-accent-950" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "success",
+      class: { root: "border-success-base bg-transparent text-success-dark" },
+    },
+    {
+      theme: "elegant",
+      appearance: "outline",
+      variant: "danger",
+      class: { root: "border-danger-base bg-transparent text-danger-dark" },
     },
   ],
 });
@@ -114,10 +210,16 @@ export const badge = tv({
 export type BadgeProps = useRender.ComponentProps<"span"> &
   Omit<VariantProps<typeof badge>, "theme">;
 
-function BadgeRoot({ variant, uppercase, className, render, ...props }: BadgeProps) {
+function BadgeRoot({ appearance, variant, uppercase, className, render, ...props }: BadgeProps) {
   const theme = useTheme();
+  const resolvedAppearance = appearance ?? "solid";
   const resolvedUppercase = uppercase ?? false;
-  const { root } = badge({ theme, variant, uppercase: resolvedUppercase });
+  const { root } = badge({
+    theme,
+    appearance: resolvedAppearance,
+    variant,
+    uppercase: resolvedUppercase,
+  });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
   };
@@ -128,6 +230,7 @@ function BadgeRoot({ variant, uppercase, className, render, ...props }: BadgePro
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "badge",
+      appearance: resolvedAppearance,
       variant,
       uppercase: resolvedUppercase,
     },
@@ -137,7 +240,7 @@ function BadgeRoot({ variant, uppercase, className, render, ...props }: BadgePro
 // Fixed success + uppercase "Experimental" preset. The visual identity lives in
 // Badge, so every experimental surface stays identical. Attached as a static
 // because it only presets props.
-function Experimental(props: Omit<BadgeProps, "variant" | "uppercase">) {
+function Experimental(props: Omit<BadgeProps, "appearance" | "variant" | "uppercase">) {
   return (
     <BadgeRoot variant="success" uppercase {...props}>
       Experimental
