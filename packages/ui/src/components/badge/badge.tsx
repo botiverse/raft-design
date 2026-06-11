@@ -86,12 +86,12 @@ export const badge = tv({
     {
       theme: "elegant",
       variant: "information",
-      class: { root: "bg-info-base text-info-dark" },
+      class: { root: "bg-info-base text-foreground-inverse" },
     },
     {
       theme: "elegant",
       variant: "accent",
-      class: { root: "bg-accent-400 text-accent-950" },
+      class: { root: "bg-accent-400 text-foreground-inverse" },
     },
     {
       theme: "elegant",
@@ -101,12 +101,12 @@ export const badge = tv({
     {
       theme: "elegant",
       variant: "success",
-      class: { root: "bg-success-base text-success-dark" },
+      class: { root: "bg-success-base text-foreground-inverse" },
     },
     {
       theme: "elegant",
       variant: "destructive",
-      class: { root: "bg-danger-base text-danger-dark" },
+      class: { root: "bg-danger-base text-foreground-inverse" },
     },
   ],
 });

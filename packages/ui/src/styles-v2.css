@@ -50,7 +50,7 @@
   --color-brutal-cyan-100: oklch(0.93 0.055 219.21);
   --color-brutal-cyan-200: oklch(0.88 0.08 219.21);
   --color-brutal-cyan-300: oklch(0.83 0.105 219.21);
-  --color-brutal-cyan-400: oklch(0.7833 0.1353 219.21);
+  --color-brutal-cyan-400: oklch(0.7717 0.1376 234.45);
   --color-brutal-cyan-500: oklch(0.7 0.13 219.21);
   --color-brutal-cyan-600: oklch(0.6 0.115 219.21);
   --color-brutal-cyan-700: oklch(0.5 0.095 219.21);
@@ -74,7 +74,7 @@
   --color-brutal-lime-100: oklch(0.94 0.05 130.07);
   --color-brutal-lime-200: oklch(0.89 0.08 130.07);
   --color-brutal-lime-300: oklch(0.86 0.105 130.07);
-  --color-brutal-lime-400: oklch(0.8272 0.1354 130.07);
+  --color-brutal-lime-400: oklch(0.7139 0.1762 153.08);
   --color-brutal-lime-500: oklch(0.74 0.13 130.07);
   --color-brutal-lime-600: oklch(0.63 0.11 130.07);
   --color-brutal-lime-700: oklch(0.52 0.09 130.07);
@@ -86,7 +86,7 @@
   --color-brutal-red-100: oklch(0.92 0.055 28.04);
   --color-brutal-red-200: oklch(0.84 0.09 28.04);
   --color-brutal-red-300: oklch(0.77 0.13 28.04);
-  --color-brutal-red-400: oklch(0.711 0.1682 28.04);
+  --color-brutal-red-400: oklch(0.6471 0.2288 22.47);
   --color-brutal-red-500: oklch(0.63 0.16 28.04);
   --color-brutal-red-600: oklch(0.54 0.14 28.04);
   --color-brutal-red-700: oklch(0.45 0.115 28.04);
@@ -269,23 +269,23 @@
 
   --state-info-dark: var(--foreground);
   --state-info-base: var(--color-brutal-cyan-400);
-  --state-info-light: oklch(0.7833 0.1353 219.21 / 0.35);
-  --state-info-lighter: oklch(0.7833 0.1353 219.21 / 0.2);
+  --state-info-light: color-mix(in oklch, var(--state-info-base) 35%, transparent);
+  --state-info-lighter: color-mix(in oklch, var(--state-info-base) 20%, transparent);
 
   --state-success-dark: var(--foreground);
   --state-success-base: var(--color-brutal-lime-400);
-  --state-success-light: oklch(0.8272 0.1354 130.07 / 0.35);
-  --state-success-lighter: oklch(0.8272 0.1354 130.07 / 0.2);
+  --state-success-light: color-mix(in oklch, var(--state-success-base) 35%, transparent);
+  --state-success-lighter: color-mix(in oklch, var(--state-success-base) 20%, transparent);
 
-  --state-warning-dark: var(--foreground);
-  --state-warning-base: var(--color-brutal-orange-400);
-  --state-warning-light: oklch(0.7855 0.1227 50.11 / 0.35);
-  --state-warning-lighter: oklch(0.7855 0.1227 50.11 / 0.2);
+  --state-warning-dark: var(--color-brutal-orange-900);
+  --state-warning-base: var(--color-brutal-yellow-400);
+  --state-warning-light: color-mix(in oklch, var(--state-warning-base) 35%, transparent);
+  --state-warning-lighter: color-mix(in oklch, var(--state-warning-base) 20%, transparent);
 
   --state-danger-dark: var(--foreground);
   --state-danger-base: var(--color-brutal-red-400);
-  --state-danger-light: oklch(0.711 0.1682 28.04 / 0.35);
-  --state-danger-lighter: oklch(0.711 0.1682 28.04 / 0.2);
+  --state-danger-light: color-mix(in oklch, var(--state-danger-base) 35%, transparent);
+  --state-danger-lighter: color-mix(in oklch, var(--state-danger-base) 20%, transparent);
 
   --theme-shadow-2xs: 1px 1px 0px var(--line-strong);
   --theme-shadow-xs: 1px 1px 0px var(--line-strong);
@@ -358,23 +358,23 @@
 
   --state-info-dark: var(--foreground-strong);
   --state-info-base: var(--color-brutal-cyan-400);
-  --state-info-light: color-mix(in oklch, var(--color-brutal-cyan-400) 35%, transparent);
-  --state-info-lighter: color-mix(in oklch, var(--color-brutal-cyan-400) 20%, transparent);
+  --state-info-light: color-mix(in oklch, var(--state-info-base) 35%, transparent);
+  --state-info-lighter: color-mix(in oklch, var(--state-info-base) 20%, transparent);
 
   --state-success-dark: var(--foreground-strong);
   --state-success-base: var(--color-brutal-lime-400);
-  --state-success-light: color-mix(in oklch, var(--color-brutal-lime-400) 35%, transparent);
-  --state-success-lighter: color-mix(in oklch, var(--color-brutal-lime-400) 20%, transparent);
+  --state-success-light: color-mix(in oklch, var(--state-success-base) 35%, transparent);
+  --state-success-lighter: color-mix(in oklch, var(--state-success-base) 20%, transparent);
 
-  --state-warning-dark: var(--foreground-strong);
-  --state-warning-base: var(--color-brutal-orange-400);
-  --state-warning-light: color-mix(in oklch, var(--color-brutal-orange-400) 35%, transparent);
-  --state-warning-lighter: color-mix(in oklch, var(--color-brutal-orange-400) 20%, transparent);
+  --state-warning-dark: var(--color-brutal-orange-900);
+  --state-warning-base: var(--color-brutal-yellow-400);
+  --state-warning-light: color-mix(in oklch, var(--state-warning-base) 35%, transparent);
+  --state-warning-lighter: color-mix(in oklch, var(--state-warning-base) 20%, transparent);
 
   --state-danger-dark: var(--foreground-strong);
   --state-danger-base: var(--color-brutal-red-400);
-  --state-danger-light: color-mix(in oklch, var(--color-brutal-red-400) 35%, transparent);
-  --state-danger-lighter: color-mix(in oklch, var(--color-brutal-red-400) 20%, transparent);
+  --state-danger-light: color-mix(in oklch, var(--state-danger-base) 35%, transparent);
+  --state-danger-lighter: color-mix(in oklch, var(--state-danger-base) 20%, transparent);
 
   --theme-shadow-2xs: none;
   --theme-shadow-xs:
