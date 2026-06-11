@@ -195,7 +195,7 @@ export const buttonVariants = tv({
           "bg-danger-base text-foreground-inverse",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0.616_0.249_26.758_/_0.16),0_4px_4px_-2px_oklch(0.616_0.249_26.758_/_0.24),0_0_0_1px_var(--state-danger-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_20%)_0%,oklab(0%_0_0_/_0%)_100%)]",
-          "hover:bg-danger-base",
+          "hover:bg-[oklch(0.56_0.23_26.758)]",
           "[&_[data-slot=button-content]]:drop-shadow-[0_1px_2px_oklch(0_0_0_/_0.2)]",
         ],
       },
