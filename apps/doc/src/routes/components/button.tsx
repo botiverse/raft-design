@@ -72,7 +72,16 @@ const SNIPPETS = {
 <Button size="lg">Large</Button>`,
   icons: `import { Plus, Trash2 } from "lucide-react";
 
-<Button size="icon-md" aria-label="Add">
+<Button size="icon-xs" aria-label="icon-xs">
+  <Plus />
+</Button>
+<Button size="icon-sm" aria-label="icon-sm">
+  <Plus />
+</Button>
+<Button size="icon-md" aria-label="icon-md">
+  <Plus />
+</Button>
+<Button size="icon-lg" aria-label="icon-lg">
   <Plus />
 </Button>
 
@@ -337,7 +346,7 @@ const SNIPPETS = {
   <Trash2 data-icon="inline-start" />
   Delete
 </Button>`,
-  sourceShapeMigration: `<Button shape="icon" aria-label="Add">
+  sourceShapeMigration: `<Button shape="icon">
   <Plus size={14} />
 </Button>
 
