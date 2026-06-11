@@ -11,7 +11,7 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 const notificationCenter = tv({
   slots: {
     popup: ["flex flex-col overflow-hidden bg-layer-panel"],
-    header: ["flex items-center gap-2 border-b-2 border-line-strong bg-primary-50 px-3 py-2"],
+    header: ["flex items-center gap-2 border-b-2 border-line-strong px-3 py-2"],
     title: ["text-xs font-bold uppercase tracking-widest"],
     count: ["ml-auto font-mono text-xs text-foreground/40"],
     scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],
@@ -32,6 +32,7 @@ const notificationCenter = tv({
     theme: {
       brutal: {
         popup: ["border-2 border-line-strong shadow-md"],
+        header: ["bg-brutal-cream-200"],
         title: ["text-foreground/60"],
         actionButton: [
           "border-2 border-line-strong shadow-md",
