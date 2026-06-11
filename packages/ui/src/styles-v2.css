@@ -246,7 +246,7 @@
   --accent-50: var(--color-brutal-pink-50);
   --accent-100: var(--color-brutal-pink-100);
   --accent-200: var(--color-brutal-pink-200);
-  --accent-300: var(--color-brutal-purple-300);
+  --accent-300: var(--color-brutal-pink-300);
   --accent-400: var(--color-brutal-pink-400);
   --accent-500: var(--color-brutal-pink-500);
   --accent-600: var(--color-brutal-pink-600);
@@ -267,25 +267,25 @@
   --secondary-900: var(--color-brutal-stone-900);
   --secondary-950: var(--color-brutal-stone-950);
 
-  --state-info-dark: var(--foreground);
+  --state-info-dark: var(--color-brutal-cyan-800);
   --state-info-base: var(--color-brutal-cyan-400);
-  --state-info-light: color-mix(in oklch, var(--state-info-base) 35%, transparent);
-  --state-info-lighter: color-mix(in oklch, var(--state-info-base) 20%, transparent);
+  --state-info-light: var(--color-brutal-cyan-200);
+  --state-info-lighter: var(--color-brutal-cyan-100);
 
-  --state-success-dark: var(--foreground);
+  --state-success-dark: var(--color-brutal-lime-800);
   --state-success-base: var(--color-brutal-lime-400);
-  --state-success-light: color-mix(in oklch, var(--state-success-base) 35%, transparent);
-  --state-success-lighter: color-mix(in oklch, var(--state-success-base) 20%, transparent);
+  --state-success-light: var(--color-brutal-lime-200);
+  --state-success-lighter: var(--color-brutal-lime-100);
 
-  --state-warning-dark: var(--color-brutal-orange-900);
+  --state-warning-dark: var(--color-brutal-orange-800);
   --state-warning-base: var(--color-brutal-yellow-400);
-  --state-warning-light: color-mix(in oklch, var(--state-warning-base) 35%, transparent);
-  --state-warning-lighter: color-mix(in oklch, var(--state-warning-base) 20%, transparent);
+  --state-warning-light: var(--color-brutal-yellow-200);
+  --state-warning-lighter: var(--color-brutal-yellow-100);
 
-  --state-danger-dark: var(--foreground);
+  --state-danger-dark: var(--color-brutal-red-800);
   --state-danger-base: var(--color-brutal-red-400);
-  --state-danger-light: color-mix(in oklch, var(--state-danger-base) 35%, transparent);
-  --state-danger-lighter: color-mix(in oklch, var(--state-danger-base) 20%, transparent);
+  --state-danger-light: var(--color-brutal-red-200);
+  --state-danger-lighter: var(--color-brutal-red-100);
 
   --theme-shadow-2xs: 1px 1px 0px var(--line-strong);
   --theme-shadow-xs: 1px 1px 0px var(--line-strong);
@@ -335,7 +335,7 @@
   --accent-50: var(--color-brutal-pink-50);
   --accent-100: var(--color-brutal-pink-100);
   --accent-200: var(--color-brutal-pink-200);
-  --accent-300: var(--color-brutal-purple-300);
+  --accent-300: var(--color-brutal-pink-300);
   --accent-400: var(--color-brutal-pink-400);
   --accent-500: var(--color-brutal-pink-500);
   --accent-600: var(--color-brutal-pink-600);
@@ -356,25 +356,25 @@
   --secondary-900: var(--color-brutal-stone-900);
   --secondary-950: var(--color-brutal-stone-950);
 
-  --state-info-dark: var(--foreground-strong);
+  --state-info-dark: var(--color-brutal-cyan-800);
   --state-info-base: var(--color-brutal-cyan-400);
-  --state-info-light: color-mix(in oklch, var(--state-info-base) 35%, transparent);
-  --state-info-lighter: color-mix(in oklch, var(--state-info-base) 20%, transparent);
+  --state-info-light: var(--color-brutal-cyan-200);
+  --state-info-lighter: var(--color-brutal-cyan-100);
 
-  --state-success-dark: var(--foreground-strong);
+  --state-success-dark: var(--color-brutal-lime-800);
   --state-success-base: var(--color-brutal-lime-400);
-  --state-success-light: color-mix(in oklch, var(--state-success-base) 35%, transparent);
-  --state-success-lighter: color-mix(in oklch, var(--state-success-base) 20%, transparent);
+  --state-success-light: var(--color-brutal-lime-200);
+  --state-success-lighter: var(--color-brutal-lime-100);
 
-  --state-warning-dark: var(--color-brutal-orange-900);
+  --state-warning-dark: var(--color-brutal-orange-800);
   --state-warning-base: var(--color-brutal-yellow-400);
-  --state-warning-light: color-mix(in oklch, var(--state-warning-base) 35%, transparent);
-  --state-warning-lighter: color-mix(in oklch, var(--state-warning-base) 20%, transparent);
+  --state-warning-light: var(--color-brutal-yellow-200);
+  --state-warning-lighter: var(--color-brutal-yellow-100);
 
-  --state-danger-dark: var(--foreground-strong);
+  --state-danger-dark: var(--color-brutal-red-800);
   --state-danger-base: var(--color-brutal-red-400);
-  --state-danger-light: color-mix(in oklch, var(--state-danger-base) 35%, transparent);
-  --state-danger-lighter: color-mix(in oklch, var(--state-danger-base) 20%, transparent);
+  --state-danger-light: var(--color-brutal-red-200);
+  --state-danger-lighter: var(--color-brutal-red-100);
 
   --theme-shadow-2xs: none;
   --theme-shadow-xs:
