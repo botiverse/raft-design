@@ -244,7 +244,7 @@ export const buttonVariants = tv({
       variant: "accent",
       class: {
         root: [
-          "bg-accent-400 text-foreground",
+          "bg-accent-400 text-white",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0.78_0.16_0.71_/_0.16),0_4px_4px_-2px_oklch(0.78_0.16_0.71_/_0.2),0_0_0_1px_var(--accent-400)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.72_0.15_0.71)]",
