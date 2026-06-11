@@ -17,8 +17,9 @@ export const buttonVariants = tv({
       "disabled:transform-none disabled:shadow-sm",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     ],
-    content: "inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
-    loadingIndicator: "absolute",
+    content:
+      "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
+    loadingIndicator: "absolute z-10",
   },
   variants: {
     theme: {
@@ -27,9 +28,12 @@ export const buttonVariants = tv({
       },
       elegant: {
         root: [
-          "rounded-[4px] border font-medium shadow-none",
-          "disabled:shadow-none",
-          "active:not-aria-[haspopup]:scale-[0.98]",
+          "overflow-clip rounded-md border-0 font-sans font-medium antialiased",
+          "[--button-highlight:#ffffff0d] [--button-ring:var(--line-subtle)] [--button-shadow-far:#00000008] [--button-shadow-near:#0000000c]",
+          "shadow-[inset_0_1px_0.5px_var(--button-highlight),0_2px_2px_-1px_var(--button-shadow-near),0_4px_4px_-2px_var(--button-shadow-far),0_0_0_1px_var(--button-ring)]",
+          "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
+          "disabled:shadow-none disabled:before:hidden",
+          "active:not-aria-[haspopup]:scale-[0.985]",
         ],
       },
     },
@@ -133,8 +137,11 @@ export const buttonVariants = tv({
       variant: "default",
       class: {
         root: [
-          "border-line-strong bg-foreground-strong text-foreground-inverse",
-          "hover:border-[oklch(0.31_0.006_285)] hover:bg-[oklch(0.31_0.006_285)]",
+          "bg-foreground-strong text-foreground-inverse",
+          "[--button-highlight:#ffffff1f] [--button-ring:oklch(0.21_0.006_285)] [--button-shadow-far:#00000024] [--button-shadow-near:#0000001f]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_16%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-[oklch(0.31_0.006_285)]",
+          "[&_[data-slot=button-content]]:drop-shadow-[0_1px_2px_#00000033]",
         ],
       },
     },
@@ -143,8 +150,10 @@ export const buttonVariants = tv({
       variant: "primary",
       class: {
         root: [
-          "border-primary-400 bg-primary-400 text-warning-dark",
-          "hover:border-[oklch(0.85_0.162_91.89)] hover:bg-[oklch(0.85_0.162_91.89)]",
+          "bg-primary-400 text-primary-950",
+          "[--button-highlight:#ffffff40] [--button-ring:oklch(0.83_0.14_91.89_/_0.7)] [--button-shadow-far:oklch(0.85_0.162_91.89_/_0.08)] [--button-shadow-near:oklch(0.85_0.162_91.89_/_0.12)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_28%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-primary-500",
         ],
       },
     },
@@ -153,8 +162,11 @@ export const buttonVariants = tv({
       variant: "outline",
       class: {
         root: [
-          "border-line-subtle bg-transparent text-foreground-strong",
-          "hover:border-line hover:bg-transparent",
+          "bg-white text-foreground-strong",
+          "[--button-ring:var(--line-subtle)] [--button-shadow-far:#00000006] [--button-shadow-near:#0000000a]",
+          "shadow-[inset_0_1px_0.5px_var(--button-highlight),0_2px_2px_-1px_var(--button-shadow-near),0_4px_4px_-2px_var(--button-shadow-far),0_0_0_1px_var(--button-ring)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_2%)_100%)]",
+          "hover:bg-[#fafafa]",
         ],
       },
     },
@@ -163,8 +175,8 @@ export const buttonVariants = tv({
       variant: "ghost",
       class: {
         root: [
-          "border-transparent bg-transparent text-foreground-muted",
-          "hover:border-transparent hover:bg-line-muted",
+          "bg-transparent text-foreground-muted shadow-none",
+          "before:bg-transparent hover:bg-line-muted",
         ],
       },
     },
@@ -173,8 +185,10 @@ export const buttonVariants = tv({
       variant: "danger-secondary",
       class: {
         root: [
-          "border-danger-lighter bg-danger-lighter text-[oklch(0.595_0.241_26.758)]",
-          "hover:border-[oklch(0.9_0.045_20.05)] hover:bg-[oklch(0.9_0.045_20.05)]",
+          "bg-[#fee2e2] text-[#c82121]",
+          "[--button-ring:#f7b4b4] [--button-shadow-far:#f73d3d1a] [--button-shadow-near:#f73d3d14]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_18%)_0%,oklab(0%_0_0_/_2%)_100%)]",
+          "hover:bg-[#fbd4d4]",
         ],
       },
     },
@@ -183,8 +197,11 @@ export const buttonVariants = tv({
       variant: "danger",
       class: {
         root: [
-          "border-[oklch(0.645_0.24_27.311)] bg-[oklch(0.645_0.24_27.311)] text-foreground-inverse",
-          "hover:border-[oklch(0.595_0.241_26.758)] hover:bg-[oklch(0.595_0.241_26.758)]",
+          "bg-[#e02e2e] text-white",
+          "[--button-highlight:#ffffff1f] [--button-ring:#f73d3d] [--button-shadow-far:#f73d3d3d] [--button-shadow-near:#f73d3d29]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_20%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-[#cf2626]",
+          "[&_[data-slot=button-content]]:drop-shadow-[0_1px_2px_#00000033]",
         ],
       },
     },
@@ -221,8 +238,11 @@ export const buttonVariants = tv({
       variant: "danger-outline",
       class: {
         root: [
-          "border-line-subtle bg-transparent text-danger-base",
-          "hover:border-line hover:bg-transparent",
+          "bg-white text-danger-base",
+          "[--button-ring:#f7b4b4] [--button-shadow-far:#f73d3d10] [--button-shadow-near:#f73d3d0f]",
+          "shadow-[inset_0_1px_0.5px_var(--button-highlight),0_2px_2px_-1px_var(--button-shadow-near),0_4px_4px_-2px_var(--button-shadow-far),0_0_0_1px_var(--button-ring)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_2%)_100%)]",
+          "hover:bg-[#fff7f7]",
         ],
       },
     },
@@ -231,8 +251,10 @@ export const buttonVariants = tv({
       variant: "accent",
       class: {
         root: [
-          "border-accent-400 bg-accent-400 text-foreground",
-          "hover:border-[oklch(0.735_0.15_0.71)] hover:bg-[oklch(0.735_0.15_0.71)]",
+          "bg-accent-400 text-foreground",
+          "[--button-highlight:#ffffff1f] [--button-ring:oklch(0.78_0.16_0.71)] [--button-shadow-far:oklch(0.78_0.16_0.71_/_0.2)] [--button-shadow-near:oklch(0.78_0.16_0.71_/_0.16)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_16%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-[oklch(0.735_0.15_0.71)]",
         ],
       },
     },
@@ -241,8 +263,8 @@ export const buttonVariants = tv({
       variant: "link",
       class: {
         root: [
-          "border-transparent bg-transparent text-foreground-muted",
-          "hover:border-transparent hover:bg-transparent hover:text-foreground-muted",
+          "bg-transparent text-foreground-muted shadow-none",
+          "before:bg-transparent hover:bg-transparent hover:text-foreground-muted",
         ],
       },
     },
@@ -251,8 +273,10 @@ export const buttonVariants = tv({
       variant: "information",
       class: {
         root: [
-          "border-info-base bg-info-base text-info-dark",
-          "hover:border-info-base hover:bg-info-base",
+          "bg-info-base text-info-dark",
+          "[--button-highlight:#ffffff1f] [--button-ring:var(--state-info-base)] [--button-shadow-far:oklch(0.78_0.145_215_/_0.2)] [--button-shadow-near:oklch(0.78_0.145_215_/_0.16)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_16%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-info-base",
         ],
       },
     },
@@ -261,8 +285,10 @@ export const buttonVariants = tv({
       variant: "muted",
       class: {
         root: [
-          "border-layer-muted bg-layer-muted text-foreground-placeholder",
-          "hover:border-line-subtle hover:bg-line-subtle",
+          "bg-layer-muted text-foreground-placeholder",
+          "[--button-ring:var(--line-subtle)] [--button-shadow-far:#00000004] [--button-shadow-near:#00000008]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_2%)_100%)]",
+          "hover:bg-line-subtle",
         ],
       },
     },

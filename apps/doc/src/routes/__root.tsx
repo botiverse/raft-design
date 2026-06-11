@@ -72,19 +72,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   // Family axis: drives `data-theme` on <html>. Mode axis (.dark) is owned by
   // next-themes on the same element, so [data-theme=elegant].dark resolves.
   const [family, setFamily] = useState<Theme>("brutal");
-  const familyValue = useMemo(() => ({ family, setFamily }), [family]);
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
+  const effectiveFamily = isStandalonePage ? "elegant" : family;
+  const familyValue = useMemo(() => ({ family: effectiveFamily, setFamily }), [effectiveFamily]);
 
   return (
-    <html lang="en" data-theme={isStandalonePage ? "elegant" : family} suppressHydrationWarning>
+    <html lang="en" data-theme={effectiveFamily} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="bg-background text-foreground antialiased">
         <NextThemesProvider attribute="class" enableSystem defaultTheme="system">
-          <ThemeProvider theme={family}>
+          <ThemeProvider theme={effectiveFamily}>
             <FamilyContext.Provider value={familyValue}>
               <div
                 className={

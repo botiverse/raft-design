@@ -462,7 +462,7 @@ function ButtonDoc() {
       <DocSection id="variants" title="Variants">
         <div className="space-y-4">
           <Example html={code.variants}>
-            <div className="grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto">
+            <div className="-m-1 grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto p-1">
               <Button variant="default">Default</Button>
               <Button variant="primary">Primary</Button>
               <Button variant="outline">Outline</Button>
