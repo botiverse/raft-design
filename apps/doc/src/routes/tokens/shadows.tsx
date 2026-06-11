@@ -26,7 +26,7 @@ const SHADOW_TOKENS = [
     themeToken: "--shadow-2xs",
     sourceToken: "--theme-shadow-2xs",
     brutal: "1px 1px 0px var(--line-strong)",
-    elegant: "none",
+    elegant: "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px",
   },
   {
     name: "xs",
@@ -35,7 +35,7 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-xs",
     brutal: "1px 1px 0px var(--line-strong)",
     elegant:
-      "0 2px 4px oklch(0 0 0 / 0.015), 0 1px 2px oklch(0 0 0 / 0.01), 0 0 0 0.75px oklch(0 0 0 / 0.04)",
+      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px",
   },
   {
     name: "sm",
@@ -43,7 +43,8 @@ const SHADOW_TOKENS = [
     themeToken: "--shadow-sm",
     sourceToken: "--theme-shadow-sm",
     brutal: "2px 2px 0px var(--line-strong)",
-    elegant: "0 1px 2px 0 oklch(0 0 0 / 0.05)",
+    elegant:
+      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.012) 0px 5px 4px -2px, oklch(0.145 0.002 286.131 / 0.02) 0px 3px 3px -1px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px",
   },
   {
     name: "md",
@@ -51,7 +52,8 @@ const SHADOW_TOKENS = [
     themeToken: "--shadow-md",
     sourceToken: "--theme-shadow-md",
     brutal: "4px 4px 0px var(--line-strong)",
-    elegant: "0 4px 12px -4px oklch(0 0 0 / 0.12)",
+    elegant:
+      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.02) 0px 8px 8px -4px, oklch(0.145 0.002 286.131 / 0.027) 0px 5px 5px -2px, oklch(0.145 0.002 286.131 / 0.039) 0px 2px 3px -1px",
   },
   {
     name: "lg",
@@ -60,7 +62,7 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-lg",
     brutal: "4px 4px 0px var(--line-strong)",
     elegant:
-      "0 0 0 1px oklch(0 0 0 / 0.09), 0 1px 1px -1px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.03)",
+      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.024) 0px 12px 16px -8px, oklch(0.145 0.002 286.131 / 0.031) 0px 8px 8px -4px, oklch(0.145 0.002 286.131 / 0.039) 0px 3px 4px -2px",
   },
   {
     name: "xl",
@@ -68,7 +70,8 @@ const SHADOW_TOKENS = [
     themeToken: "--shadow-xl",
     sourceToken: "--theme-shadow-xl",
     brutal: "6px 6px 0px var(--line-strong)",
-    elegant: "0 10px 24px -12px oklch(0 0 0 / 0.18)",
+    elegant:
+      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 286.131 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 286.131 / 0.039) 0px 4px 6px -3px",
   },
   {
     name: "2xl",
@@ -76,7 +79,8 @@ const SHADOW_TOKENS = [
     themeToken: "--shadow-2xl",
     sourceToken: "--theme-shadow-2xl",
     brutal: "6px 6px 0px var(--line-strong)",
-    elegant: "0 24px 48px -20px oklch(0 0 0 / 0.28)",
+    elegant:
+      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 24px 32px -16px, oklch(0.145 0.002 286.131 / 0.047) 0px 16px 16px -8px, oklch(0.145 0.002 286.131 / 0.039) 0px 6px 8px -4px",
   },
 ] as const;
 
@@ -161,6 +165,8 @@ function TokenThemeScope({ theme, children }: { theme: ShadowTheme; children: Re
 }
 
 function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
+  const isBrutal = theme.theme === "brutal";
+
   return (
     <div
       data-theme={theme.theme}
@@ -175,12 +181,12 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
         {SHADOW_TOKENS.map((shadow) => (
           <div key={shadow.sourceToken} className="flex h-28 items-center justify-center">
             <div
-              className="flex h-16 w-24 items-center justify-center border text-xs font-semibold"
+              className="flex h-16 w-24 items-center justify-center rounded text-xs font-normal"
               style={{
-                background: "var(--layer-panel)",
-                borderColor: "var(--line-strong)",
+                background: isBrutal ? "var(--layer-panel)" : "var(--layer-muted)",
                 boxShadow: `var(${shadow.sourceToken})`,
                 color: "var(--foreground-strong)",
+                fontFamily: "var(--sans-font)",
               }}
             >
               {shadow.name}

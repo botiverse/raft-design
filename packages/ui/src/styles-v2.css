@@ -387,15 +387,35 @@
   --state-danger-light: var(--color-brutal-red-200);
   --state-danger-lighter: var(--color-brutal-red-100);
 
-  --theme-shadow-2xs: none;
+  --theme-shadow-2xs: oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px;
   --theme-shadow-xs:
-    0 2px 4px oklch(0 0 0 / 0.015), 0 1px 2px oklch(0 0 0 / 0.01), 0 0 0 0.75px oklch(0 0 0 / 0.04);
-  --theme-shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.05);
-  --theme-shadow-md: 0 4px 12px -4px oklch(0 0 0 / 0.12);
+    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px;
+  --theme-shadow-sm:
+    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
+    oklch(0.145 0.002 286.131 / 0.012) 0px 5px 4px -2px,
+    oklch(0.145 0.002 286.131 / 0.02) 0px 3px 3px -1px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px;
+  --theme-shadow-md:
+    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
+    oklch(0.145 0.002 286.131 / 0.02) 0px 8px 8px -4px,
+    oklch(0.145 0.002 286.131 / 0.027) 0px 5px 5px -2px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 2px 3px -1px;
   --theme-shadow-lg:
-    0 0 0 1px oklch(0 0 0 / 0.09), 0 1px 1px -1px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.03);
-  --theme-shadow-xl: 0 10px 24px -12px oklch(0 0 0 / 0.18);
-  --theme-shadow-2xl: 0 24px 48px -20px oklch(0 0 0 / 0.28);
+    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
+    oklch(0.145 0.002 286.131 / 0.024) 0px 12px 16px -8px,
+    oklch(0.145 0.002 286.131 / 0.031) 0px 8px 8px -4px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 3px 4px -2px;
+  --theme-shadow-xl:
+    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
+    oklch(0.145 0.002 286.131 / 0.031) 0px 18px 24px -12px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 12px 12px -6px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 4px 6px -3px;
+  --theme-shadow-2xl:
+    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 24px 32px -16px,
+    oklch(0.145 0.002 286.131 / 0.047) 0px 16px 16px -8px,
+    oklch(0.145 0.002 286.131 / 0.039) 0px 6px 8px -4px;
 
   --display-font: "Instrument Sans", system-ui, sans-serif;
   --sans-font: "Geist", system-ui, sans-serif;

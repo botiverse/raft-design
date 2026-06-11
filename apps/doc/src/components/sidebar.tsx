@@ -33,7 +33,7 @@ const TOKENS = {
       label: "Shadows",
       children: [
         { label: "Brutal", to: "/tokens/shadows/brutal" },
-        { label: "Elegant", to: "/tokens/shadows/elegant", status: "wip" },
+        { label: "Elegant", to: "/tokens/shadows/elegant" },
       ],
     },
   ],
