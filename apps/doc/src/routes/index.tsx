@@ -450,8 +450,6 @@ function ButtonShowcase({ className }: { className?: string }) {
       </Button>
       <Button variant="default">Default</Button>
       <Button variant="information">Info</Button>
-      <Button variant="success">Success</Button>
-      <Button variant="warning">Warning</Button>
       <Button variant="danger">Delete</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost" size="icon-sm" aria-label="Settings">

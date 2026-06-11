@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, type ButtonProps } from "@slock/ui";
 import { Plus, Trash2 } from "lucide-react";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -22,29 +21,27 @@ const TOC = [
   { id: "sizes", title: "Sizes" },
   { id: "icons", title: "Icons" },
   { id: "loading", title: "Loading" },
-  { id: "tokens", title: "Tokens" },
+  { id: "disabled", title: "Disabled" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
   { id: "migration", title: "Migration" },
 ] as const;
 
 const VARIANTS = [
-  "primary",
   "default",
+  "primary",
+  "outline",
   "information",
   "muted",
   "accent",
-  "success",
-  "warning",
   "danger",
+  "danger-secondary",
   "danger-outline",
-  "outline",
   "ghost",
   "link",
 ] as const;
 
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
-const ICON_POSITIONS = ["left", "right", "only"] as const;
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
 const TODOS = [
@@ -58,16 +55,15 @@ const SNIPPETS = {
   anatomy: `import { Button } from "@slock/ui";
 
 <Button>Button</Button>`,
-  variants: `<Button variant="primary">Primary</Button>
-<Button variant="default">Default</Button>
+  variants: `<Button variant="default">Default</Button>
+<Button variant="primary">Primary</Button>
+<Button variant="outline">Outline</Button>
 <Button variant="information">Information</Button>
 <Button variant="muted">Muted</Button>
 <Button variant="accent">Accent</Button>
-<Button variant="success">Success</Button>
-<Button variant="warning">Warning</Button>
-<Button variant="danger">Delete</Button>
+<Button variant="danger">Danger</Button>
+<Button variant="danger-secondary">Delete</Button>
 <Button variant="danger-outline">Remove</Button>
-<Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
   sizes: `<Button size="xs">Extra small</Button>
@@ -90,10 +86,6 @@ const SNIPPETS = {
   <Plus data-icon="inline-end" />
 </Button>
 
-<Button variant="information" size="icon-sm" aria-label="Show information">
-  <Plus />
-</Button>
-
 <Button variant="danger" size="icon-sm" aria-label="Delete">
   <Trash2 />
 </Button>`,
@@ -101,41 +93,13 @@ const SNIPPETS = {
 <Button variant="danger" loading loadingLabel="Deleting">
   Delete
 </Button>`,
-  tokens: `primitive palette
-  -> tone utility
-    -> Button variant
-
-brutal yellow
-  -> bg-primary-400 text-primary-950
-    -> variant="primary"
-
-brutal white
-  -> bg-layer-panel text-foreground-strong
-    -> variant="default"
-
-brutal cyan
-  -> bg-info-base text-info-dark
-    -> variant="information"
-
-brutal stone
-  -> bg-secondary-400 text-secondary-950
-    -> variant="muted"
-
-brutal pink
-  -> bg-accent-400 text-accent-950
-    -> variant="accent"
-
-brutal lime
-  -> bg-success-base text-success-dark
-    -> variant="success"
-
-brutal orange
-  -> bg-warning-base text-warning-dark
-    -> variant="warning"
-
-brutal red
-  -> bg-danger-base text-danger-dark
-    -> variant="danger"`,
+  disabled: `<Button disabled>Disabled</Button>
+<Button variant="primary" disabled>
+  Primary
+</Button>
+<Button variant="danger" disabled>
+  Danger
+</Button>`,
   migrationDefault: `// Source
 <Button>Button</Button>
 
@@ -149,23 +113,16 @@ brutal red
 // Current
 <Button variant="primary">Save</Button>
 <Button variant="default">Cancel</Button>
-<Button variant="danger">
-  <Trash2 data-icon="inline-start" />
-  Delete
-</Button>`,
-  migrationStatusTones: `// Source
+<Button variant="danger">Delete</Button>`,
+  migrationSupportingTones: `// Source
 <Button tone="cyan">Details</Button>
 <Button tone="stone">Muted</Button>
 <Button tone="pink">Notify</Button>
-<Button tone="lime">Online</Button>
-<Button tone="orange">Warn</Button>
 
 // Current
 <Button variant="information">Details</Button>
 <Button variant="muted">Muted</Button>
-<Button variant="accent">Notify</Button>
-<Button variant="success">Online</Button>
-<Button variant="warning">Warn</Button>`,
+<Button variant="accent">Notify</Button>`,
   migrationLavender: `// Source
 <Button tone="lavender">Human</Button>
 
@@ -209,28 +166,26 @@ brutal red
 </Button>`,
   sourceDefault: `<Button>Button</Button>`,
   currentDefault: `<Button>Button</Button>`,
-  sourceVariantCoverage: `<Button tone="yellow">Primary</Button>
-<Button tone="white">Default</Button>
+  sourceVariantCoverage: `<Button tone="white">Default</Button>
+<Button tone="yellow">Primary</Button>
+<Button tone="white">Outline</Button>
 <Button tone="cyan">Information</Button>
 <Button tone="stone">Muted</Button>
 <Button tone="pink">Accent</Button>
-<Button tone="lime">Success</Button>
-<Button tone="orange">Warning</Button>
+<Button tone="red">Danger</Button>
 <Button tone="red">Delete</Button>
 <Button tone="red">Remove</Button>
-<Button tone="white">Outline</Button>
 <Button tone="white">Ghost</Button>
 <Button tone="white">Link</Button>`,
-  currentVariantCoverage: `<Button variant="primary">Primary</Button>
-<Button variant="default">Default</Button>
+  currentVariantCoverage: `<Button variant="default">Default</Button>
+<Button variant="primary">Primary</Button>
+<Button variant="outline">Outline</Button>
 <Button variant="information">Information</Button>
 <Button variant="muted">Muted</Button>
 <Button variant="accent">Accent</Button>
-<Button variant="success">Success</Button>
-<Button variant="warning">Warning</Button>
+<Button variant="danger">Danger</Button>
 <Button variant="danger">Delete</Button>
 <Button variant="danger-outline">Remove</Button>
-<Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
   sourcePaletteOnly: `<Button tone="lavender">lavender</Button>`,
@@ -256,14 +211,6 @@ brutal red
 <Button tone="pink" size="sm">A SM</Button>
 <Button tone="pink" size="md">A MD</Button>
 <Button tone="pink" size="lg">A LG</Button>
-<Button tone="lime" size="xs">OK XS</Button>
-<Button tone="lime" size="sm">OK SM</Button>
-<Button tone="lime" size="md">OK MD</Button>
-<Button tone="lime" size="lg">OK LG</Button>
-<Button tone="orange" size="xs">W XS</Button>
-<Button tone="orange" size="sm">W SM</Button>
-<Button tone="orange" size="md">W MD</Button>
-<Button tone="orange" size="lg">W LG</Button>
 <Button tone="red" size="xs">D XS</Button>
 <Button tone="red" size="sm">D SM</Button>
 <Button tone="red" size="md">D MD</Button>
@@ -288,14 +235,6 @@ brutal red
 <Button variant="accent" size="sm">A SM</Button>
 <Button variant="accent" size="md">A MD</Button>
 <Button variant="accent" size="lg">A LG</Button>
-<Button variant="success" size="xs">OK XS</Button>
-<Button variant="success" size="sm">OK SM</Button>
-<Button variant="success" size="md">OK MD</Button>
-<Button variant="success" size="lg">OK LG</Button>
-<Button variant="warning" size="xs">W XS</Button>
-<Button variant="warning" size="sm">W SM</Button>
-<Button variant="warning" size="md">W MD</Button>
-<Button variant="warning" size="lg">W LG</Button>
 <Button variant="outline" size="xs">O XS</Button>
 <Button variant="outline" size="sm">O SM</Button>
 <Button variant="outline" size="md">O MD</Button>
@@ -319,12 +258,6 @@ brutal red
 <Button tone="pink" shape="icon" aria-label="Mark important">
   <Plus size={14} />
 </Button>
-<Button tone="lime" shape="icon" aria-label="Confirm">
-  <Plus size={14} />
-</Button>
-<Button tone="orange" shape="icon" aria-label="Warn">
-  <Plus size={14} />
-</Button>
 <Button tone="red" shape="icon" aria-label="Delete">
   <Trash2 size={14} />
 </Button>`,
@@ -341,12 +274,6 @@ brutal red
   <Plus />
 </Button>
 <Button variant="accent" size="icon-sm" aria-label="Mark important">
-  <Plus />
-</Button>
-<Button variant="success" size="icon-sm" aria-label="Confirm">
-  <Plus />
-</Button>
-<Button variant="warning" size="icon-sm" aria-label="Warn">
   <Plus />
 </Button>
 <Button variant="outline" size="icon-sm" aria-label="Add outline">
@@ -378,14 +305,6 @@ brutal red
   <Plus size={14} />
   Notify
 </Button>
-<Button tone="lime" shape="iconText">
-  <Plus size={14} />
-  Online
-</Button>
-<Button tone="orange" shape="iconText">
-  <Plus size={14} />
-  Warning
-</Button>
 <Button tone="red" shape="iconText">
   <Trash2 size={14} />
   Delete
@@ -409,14 +328,6 @@ brutal red
 <Button variant="accent">
   <Plus data-icon="inline-start" />
   Notify
-</Button>
-<Button variant="success">
-  <Plus data-icon="inline-start" />
-  Online
-</Button>
-<Button variant="warning">
-  <Plus data-icon="inline-start" />
-  Warning
 </Button>
 <Button variant="outline">
   <Plus data-icon="inline-start" />
@@ -442,9 +353,6 @@ brutal red
   <Plus data-icon="inline-start" />
   New
 </Button>`,
-  sourceDisabled: `<Button disabled>Disabled</Button>`,
-  currentDisabled: `<Button disabled>Disabled</Button>
-<Button loading>Loading</Button>`,
 } as const;
 
 type PlaygroundValues = {
@@ -453,19 +361,6 @@ type PlaygroundValues = {
   label: string;
   disabled: boolean;
   loading: boolean;
-};
-
-type SizePlaygroundValues = {
-  variant: NonNullable<ButtonProps["variant"]>;
-  size: NonNullable<ButtonProps["size"]>;
-  label: string;
-};
-
-type IconPlaygroundValues = {
-  variant: NonNullable<ButtonProps["variant"]>;
-  size: NonNullable<ButtonProps["size"]>;
-  iconPosition: (typeof ICON_POSITIONS)[number];
-  label: string;
 };
 
 const PROPS: readonly PropRow[] = [
@@ -567,27 +462,20 @@ function ButtonDoc() {
       <DocSection id="variants" title="Variants">
         <div className="space-y-4">
           <Example html={code.variants}>
-            <Button variant="primary">Primary</Button>
-            <Button variant="default">Default</Button>
-            <Button variant="information">Information</Button>
-            <Button variant="muted">Muted</Button>
-            <Button variant="accent">Accent</Button>
-            <Button variant="success">Success</Button>
-            <Button variant="warning">Warning</Button>
-            <Button variant="danger">
-              <Trash2 data-icon="inline-start" />
-              Delete
-            </Button>
-            <Button variant="danger-outline">Remove</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="link">Link</Button>
+            <div className="grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto">
+              <Button variant="default">Default</Button>
+              <Button variant="primary">Primary</Button>
+              <Button variant="outline">Outline</Button>
+              <Button variant="information">Information</Button>
+              <Button variant="muted">Muted</Button>
+              <Button variant="accent">Accent</Button>
+              <Button variant="danger">Danger</Button>
+              <Button variant="danger-secondary">Delete</Button>
+              <Button variant="danger-outline">Remove</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="link">Link</Button>
+            </div>
           </Example>
-          <Callout>
-            Variants describe action intent. Brutal maps the semantic actions back to source colors:
-            primary/yellow, information/cyan, muted/stone, accent/pink, success/lime,
-            warning/orange, danger/red, and default/white.
-          </Callout>
         </div>
       </DocSection>
 
@@ -599,27 +487,6 @@ function ButtonDoc() {
             <Button size="md">Medium</Button>
             <Button size="lg">Large</Button>
           </Example>
-          <ComponentPlayground<SizePlaygroundValues>
-            defaultValues={{
-              variant: "default",
-              size: "md",
-              label: "Button",
-            }}
-            controls={[
-              { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-              { name: "size", label: "Size", type: "select", options: SIZES },
-              { name: "label", label: "Label", type: "text" },
-            ]}
-            render={(values) => (
-              <Button
-                variant={values.variant}
-                size={values.size}
-                aria-label={values.size.startsWith("icon-") ? values.label : undefined}
-              >
-                {values.size.startsWith("icon-") ? <Plus /> : values.label}
-              </Button>
-            )}
-          />
         </div>
       </DocSection>
 
@@ -639,46 +506,10 @@ function ButtonDoc() {
               Next
               <Plus data-icon="inline-end" />
             </Button>
-            <Button variant="information" size="icon-sm" aria-label="Show information">
-              <Plus />
-            </Button>
             <Button variant="danger" size="icon-sm" aria-label="Delete">
               <Trash2 />
             </Button>
           </Example>
-          <ComponentPlayground<IconPlaygroundValues>
-            defaultValues={{
-              variant: "default",
-              size: "sm",
-              iconPosition: "right",
-              label: "Next",
-            }}
-            controls={[
-              { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-              { name: "size", label: "Size", type: "select", options: SIZES },
-              { name: "iconPosition", label: "Icon", type: "select", options: ICON_POSITIONS },
-              { name: "label", label: "Label", type: "text" },
-            ]}
-            render={(values) => {
-              if (values.iconPosition === "only" || values.size.startsWith("icon-")) {
-                const iconOnlySize = values.size.startsWith("icon-") ? values.size : "icon-sm";
-
-                return (
-                  <Button variant={values.variant} size={iconOnlySize} aria-label={values.label}>
-                    <Plus />
-                  </Button>
-                );
-              }
-
-              return (
-                <Button variant={values.variant} size={values.size}>
-                  {values.iconPosition === "left" ? <Plus data-icon="inline-start" /> : null}
-                  {values.label}
-                  {values.iconPosition === "right" ? <Plus data-icon="inline-end" /> : null}
-                </Button>
-              );
-            }}
-          />
         </div>
       </DocSection>
 
@@ -690,20 +521,20 @@ function ButtonDoc() {
               Delete
             </Button>
           </Example>
-          <Callout>
-            Loading keeps the original content in layout invisibly, disables interaction, and shows
-            the Spinner in the center.
-          </Callout>
         </div>
       </DocSection>
 
-      <DocSection id="tokens" title="Tokens">
+      <DocSection id="disabled" title="Disabled">
         <div className="space-y-4">
-          <CodeBlock html={code.tokens} />
-          <Callout>
-            Button consumes the public token contract directly. Theme values decide how those layer,
-            line, foreground, and tone utilities resolve.
-          </Callout>
+          <Example html={code.disabled}>
+            <Button disabled>Disabled</Button>
+            <Button variant="primary" disabled>
+              Primary
+            </Button>
+            <Button variant="danger" disabled>
+              Danger
+            </Button>
+          </Example>
         </div>
       </DocSection>
 
@@ -726,35 +557,33 @@ function ButtonDoc() {
             {
               label: "Tone to variant coverage",
               status: "difference",
-              note: "Source chose fixed brutal colors through tone. Current maps white, yellow, cyan, stone, pink, lime, orange, and red into semantic action variants.",
+              note: "Source chose fixed brutal colors through tone. Current maps white, yellow, cyan, stone, pink, and red into semantic action variants.",
               source: (
                 <>
-                  <LegacyButton tone="yellow">Primary</LegacyButton>
                   <LegacyButton tone="white">Default</LegacyButton>
+                  <LegacyButton tone="yellow">Primary</LegacyButton>
+                  <LegacyButton tone="white">Outline</LegacyButton>
                   <LegacyButton tone="cyan">Information</LegacyButton>
                   <LegacyButton tone="stone">Muted</LegacyButton>
                   <LegacyButton tone="pink">Accent</LegacyButton>
-                  <LegacyButton tone="lime">Success</LegacyButton>
-                  <LegacyButton tone="orange">Warning</LegacyButton>
+                  <LegacyButton tone="red">Danger</LegacyButton>
                   <LegacyButton tone="red">Delete</LegacyButton>
                   <LegacyButton tone="red">Remove</LegacyButton>
-                  <LegacyButton tone="white">Outline</LegacyButton>
                   <LegacyButton tone="white">Ghost</LegacyButton>
                   <LegacyButton tone="white">Link</LegacyButton>
                 </>
               ),
               current: (
                 <>
-                  <Button variant="primary">Primary</Button>
                   <Button variant="default">Default</Button>
+                  <Button variant="primary">Primary</Button>
+                  <Button variant="outline">Outline</Button>
                   <Button variant="information">Information</Button>
                   <Button variant="muted">Muted</Button>
                   <Button variant="accent">Accent</Button>
-                  <Button variant="success">Success</Button>
-                  <Button variant="warning">Warning</Button>
+                  <Button variant="danger">Danger</Button>
                   <Button variant="danger">Delete</Button>
                   <Button variant="danger-outline">Remove</Button>
-                  <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
                   <Button variant="link">Link</Button>
                 </>
@@ -842,30 +671,6 @@ function ButtonDoc() {
                   <LegacyButton tone="pink" size="lg">
                     A LG
                   </LegacyButton>
-                  <LegacyButton tone="lime" size="xs">
-                    OK XS
-                  </LegacyButton>
-                  <LegacyButton tone="lime" size="sm">
-                    OK SM
-                  </LegacyButton>
-                  <LegacyButton tone="lime" size="md">
-                    OK MD
-                  </LegacyButton>
-                  <LegacyButton tone="lime" size="lg">
-                    OK LG
-                  </LegacyButton>
-                  <LegacyButton tone="orange" size="xs">
-                    W XS
-                  </LegacyButton>
-                  <LegacyButton tone="orange" size="sm">
-                    W SM
-                  </LegacyButton>
-                  <LegacyButton tone="orange" size="md">
-                    W MD
-                  </LegacyButton>
-                  <LegacyButton tone="orange" size="lg">
-                    W LG
-                  </LegacyButton>
                   <LegacyButton tone="red" size="xs">
                     D XS
                   </LegacyButton>
@@ -942,30 +747,6 @@ function ButtonDoc() {
                   <Button variant="accent" size="lg">
                     A LG
                   </Button>
-                  <Button variant="success" size="xs">
-                    OK XS
-                  </Button>
-                  <Button variant="success" size="sm">
-                    OK SM
-                  </Button>
-                  <Button variant="success" size="md">
-                    OK MD
-                  </Button>
-                  <Button variant="success" size="lg">
-                    OK LG
-                  </Button>
-                  <Button variant="warning" size="xs">
-                    W XS
-                  </Button>
-                  <Button variant="warning" size="sm">
-                    W SM
-                  </Button>
-                  <Button variant="warning" size="md">
-                    W MD
-                  </Button>
-                  <Button variant="warning" size="lg">
-                    W LG
-                  </Button>
                   <Button variant="outline" size="xs">
                     O XS
                   </Button>
@@ -1016,12 +797,6 @@ function ButtonDoc() {
                   <LegacyButton tone="pink" shape="icon" aria-label="Mark important">
                     <Plus size={14} />
                   </LegacyButton>
-                  <LegacyButton tone="lime" shape="icon" aria-label="Confirm">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton tone="orange" shape="icon" aria-label="Warn">
-                    <Plus size={14} />
-                  </LegacyButton>
                   <LegacyButton tone="red" shape="icon" aria-label="Delete">
                     <Trash2 size={14} />
                   </LegacyButton>
@@ -1042,12 +817,6 @@ function ButtonDoc() {
                     <Plus />
                   </Button>
                   <Button variant="accent" size="icon-sm" aria-label="Mark important">
-                    <Plus />
-                  </Button>
-                  <Button variant="success" size="icon-sm" aria-label="Confirm">
-                    <Plus />
-                  </Button>
-                  <Button variant="warning" size="icon-sm" aria-label="Warn">
                     <Plus />
                   </Button>
                   <Button variant="outline" size="icon-sm" aria-label="Add outline">
@@ -1090,14 +859,6 @@ function ButtonDoc() {
                     <Plus size={14} />
                     Notify
                   </LegacyButton>
-                  <LegacyButton tone="lime" shape="iconText">
-                    <Plus size={14} />
-                    Online
-                  </LegacyButton>
-                  <LegacyButton tone="orange" shape="iconText">
-                    <Plus size={14} />
-                    Warning
-                  </LegacyButton>
                   <LegacyButton tone="red" shape="iconText">
                     <Trash2 size={14} />
                     Delete
@@ -1125,14 +886,6 @@ function ButtonDoc() {
                   <Button variant="accent">
                     <Plus data-icon="inline-start" />
                     Notify
-                  </Button>
-                  <Button variant="success">
-                    <Plus data-icon="inline-start" />
-                    Online
-                  </Button>
-                  <Button variant="warning">
-                    <Plus data-icon="inline-start" />
-                    Warning
                   </Button>
                   <Button variant="outline">
                     <Plus data-icon="inline-start" />
@@ -1182,20 +935,6 @@ function ButtonDoc() {
               sourceCode: code.sourceShapeMigration,
               currentCode: code.currentShapeMigration,
             },
-            {
-              label: "Disabled and loading",
-              status: "difference",
-              note: "Disabled still matches source behavior; loading is new and keeps the button width stable.",
-              source: <LegacyButton disabled>Disabled</LegacyButton>,
-              current: (
-                <>
-                  <Button disabled>Disabled</Button>
-                  <Button loading>Loading</Button>
-                </>
-              ),
-              sourceCode: code.sourceDisabled,
-              currentCode: code.currentDisabled,
-            },
           ]}
         />
       </DocSection>
@@ -1218,11 +957,12 @@ function ButtonDoc() {
             <CodeBlock html={code.migrationTones} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Status Tones</h3>
+            <h3 className="text-sm font-semibold text-gray-900">Supporting Tones</h3>
             <p className="text-sm text-gray-500">
-              Cyan, stone, pink, lime, and orange become semantic action variants.
+              Cyan, stone, and pink become semantic action variants. Lime and orange are not Button
+              variants.
             </p>
-            <CodeBlock html={code.migrationStatusTones} />
+            <CodeBlock html={code.migrationSupportingTones} />
           </div>
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Lavender</h3>

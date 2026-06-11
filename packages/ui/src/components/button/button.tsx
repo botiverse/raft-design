@@ -52,12 +52,6 @@ export const buttonVariants = tv({
       accent: {
         root: ["border-line-strong bg-accent-400 text-accent-950", "hover:bg-accent-500"],
       },
-      success: {
-        root: ["border-line-strong bg-success-base text-success-dark", "hover:bg-success-base"],
-      },
-      warning: {
-        root: ["border-line-strong bg-warning-base text-warning-dark", "hover:bg-warning-base"],
-      },
       outline: {
         root: [
           "border-line-strong bg-transparent text-foreground-strong",
@@ -79,13 +73,19 @@ export const buttonVariants = tv({
           "disabled:shadow-none",
         ],
       },
+      "danger-secondary": {
+        root: ["border-line-strong bg-danger-lighter text-danger-base", "hover:bg-danger-lighter"],
+      },
       danger: {
-        root: ["border-line-strong bg-danger-base text-danger-dark", "hover:bg-danger-base"],
+        root: [
+          "border-line-strong bg-danger-base text-foreground-inverse",
+          "hover:border-[oklch(0.595_0.241_26.758)] hover:bg-[oklch(0.595_0.241_26.758)]",
+        ],
       },
       "danger-outline": {
         root: [
-          "border-danger-base bg-transparent text-danger-base",
-          "hover:bg-danger-lighter",
+          "border-line-strong bg-transparent text-danger-base",
+          "hover:bg-layer-muted",
           "shadow-none disabled:shadow-none",
         ],
       },
@@ -93,34 +93,34 @@ export const buttonVariants = tv({
     size: {
       xs: {
         root: [
-          "h-6 gap-1 px-2 text-[11px]",
+          "gap-1 px-2 py-[5px] text-[11px]",
           "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
           "[&_svg:not([class*='size-'])]:size-3",
         ],
       },
       sm: {
         root: [
-          "h-7 gap-1.5 px-2.5 text-xs",
+          "gap-1.5 px-2.5 py-[6px] text-xs",
           "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
           "[&_svg:not([class*='size-'])]:size-3.5",
         ],
       },
       md: {
         root: [
-          "h-8 gap-2 px-3 text-sm",
+          "gap-2 px-3 py-2 text-sm",
           "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
         ],
       },
       lg: {
         root: [
-          "h-10 gap-2 px-4 text-sm",
+          "gap-2 px-4 py-3 text-sm",
           "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
         ],
       },
-      "icon-xs": { root: ["size-6 text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
-      "icon-sm": { root: ["size-7 text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
-      "icon-md": { root: "size-8 text-sm" },
-      "icon-lg": { root: "size-10 text-sm" },
+      "icon-xs": { root: ["p-[5px] text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
+      "icon-sm": { root: ["p-[6px] text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
+      "icon-md": { root: ["p-2 text-sm", "[&_svg:not([class*='size-'])]:size-4"] },
+      "icon-lg": { root: ["p-3 text-sm", "[&_svg:not([class*='size-'])]:size-4"] },
     },
   },
   defaultVariants: {
@@ -170,7 +170,7 @@ export const buttonVariants = tv({
     },
     {
       theme: "elegant",
-      variant: "danger",
+      variant: "danger-secondary",
       class: {
         root: [
           "border-danger-lighter bg-danger-lighter text-[oklch(0.595_0.241_26.758)]",
@@ -180,11 +180,49 @@ export const buttonVariants = tv({
     },
     {
       theme: "elegant",
+      variant: "danger",
+      class: {
+        root: [
+          "border-[oklch(0.645_0.24_27.311)] bg-[oklch(0.645_0.24_27.311)] text-foreground-inverse",
+          "hover:border-[oklch(0.595_0.241_26.758)] hover:bg-[oklch(0.595_0.241_26.758)]",
+        ],
+      },
+    },
+    {
+      theme: "brutal",
+      variant: "danger",
+      class: {
+        root: [
+          "border-line-strong bg-danger-base text-foreground-inverse",
+          "shadow-sm",
+          "hover:border-line-strong hover:bg-danger-base",
+          "hover:-translate-y-px hover:shadow-md",
+          "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
+          "active:shadow-2xs",
+        ],
+      },
+    },
+    {
+      theme: "brutal",
+      variant: "danger-secondary",
+      class: {
+        root: [
+          "border-line-strong bg-danger-lighter text-danger-base",
+          "shadow-sm",
+          "hover:border-line-strong hover:bg-danger-lighter",
+          "hover:-translate-y-px hover:shadow-md",
+          "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
+          "active:shadow-2xs",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
       variant: "danger-outline",
       class: {
         root: [
-          "border-danger-lighter bg-transparent text-danger-base",
-          "hover:border-[oklch(0.86_0.06_20.05)] hover:bg-transparent",
+          "border-line-subtle bg-transparent text-danger-base",
+          "hover:border-line hover:bg-transparent",
         ],
       },
     },
@@ -193,7 +231,7 @@ export const buttonVariants = tv({
       variant: "accent",
       class: {
         root: [
-          "border-accent-400 bg-accent-400 text-foreground-inverse",
+          "border-accent-400 bg-accent-400 text-foreground",
           "hover:border-[oklch(0.735_0.15_0.71)] hover:bg-[oklch(0.735_0.15_0.71)]",
         ],
       },
@@ -210,6 +248,16 @@ export const buttonVariants = tv({
     },
     {
       theme: "elegant",
+      variant: "information",
+      class: {
+        root: [
+          "border-info-base bg-info-base text-info-dark",
+          "hover:border-info-base hover:bg-info-base",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
       variant: "muted",
       class: {
         root: [
@@ -220,16 +268,7 @@ export const buttonVariants = tv({
     },
     {
       theme: "brutal",
-      variant: [
-        "primary",
-        "default",
-        "information",
-        "muted",
-        "accent",
-        "success",
-        "warning",
-        "danger",
-      ],
+      variant: ["primary", "default", "information", "muted", "accent"],
       class: {
         root: [
           "hover:-translate-y-px hover:shadow-md",
