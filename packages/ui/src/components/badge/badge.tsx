@@ -78,6 +78,18 @@ export const badge = tv({
   compoundVariants: [
     {
       theme: "brutal",
+      appearance: "solid",
+      variant: "success",
+      class: { root: "bg-brutal-lime text-black" },
+    },
+    {
+      theme: "brutal",
+      appearance: "solid",
+      variant: "danger",
+      class: { root: "bg-brutal-red text-black" },
+    },
+    {
+      theme: "brutal",
       appearance: "soft",
       variant: "default",
       class: { root: "bg-layer-muted text-foreground-strong" },

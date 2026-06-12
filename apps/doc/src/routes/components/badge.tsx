@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, Status, type BadgeProps } from "@slock/ui";
-import { Check, X } from "lucide-react";
+import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -20,10 +21,9 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "variants", title: "Variants" },
   { id: "appearance", title: "Appearance" },
-  { id: "uppercase", title: "Uppercase" },
+  { id: "casing", title: "Casing" },
+  { id: "icons", title: "Icons" },
   { id: "composition", title: "Composition" },
-  { id: "badge-button", title: "BadgeButton migration" },
-  { id: "experimental", title: "Experimental" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
   { id: "migration", title: "Migration" },
@@ -45,23 +45,23 @@ const SNIPPETS = {
   anatomy: `import { Badge } from "@slock/ui";
 
 <Badge variant="primary">In Progress</Badge>`,
-  variants: `<Badge>Default</Badge>
-<Badge variant="primary">Primary</Badge>
+  variants: `<Badge appearance="outline" uppercase>Default</Badge>
+<Badge variant="primary" uppercase>Pending</Badge>
 <Badge variant="information">Open</Badge>
 <Badge variant="muted">Saved</Badge>
 <Badge variant="accent">New</Badge>
-<Badge variant="success">Experimental</Badge>
-<Badge variant="danger">Error</Badge>`,
+<Badge variant="success">Live</Badge>
+<Badge variant="danger">Failed</Badge>`,
   appearance: `<Badge appearance="solid" variant="primary">Solid</Badge>
 <Badge appearance="soft" variant="primary">Soft</Badge>
 <Badge appearance="outline" variant="primary">Outline</Badge>`,
-  uppercase: `<Badge>task #42 @bugen</Badge>
+  casing: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
-  composition: `import { Badge, Status } from "@slock/ui";
-import { Check } from "lucide-react";
+  icons: `import { Badge, Status } from "@slock/ui";
+import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 
 <Badge variant="primary">
-  <Check className="size-3" />
+  <IconCircleCheckFill18 className="size-3" />
   Approved
 </Badge>
 
@@ -74,7 +74,12 @@ import { Check } from "lucide-react";
   <Status size="xs" variant="success" />
   Available
 </Badge>`,
-  badgeButton: `<Badge
+  composition: `import { Badge } from "@slock/ui";
+import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
+
+<Badge.Experimental />
+
+<Badge
   render={<button type="button" aria-label="Open thread replies" />}
   variant="information"
   onClick={openThread}
@@ -86,19 +91,9 @@ import { Check } from "lucide-react";
   render={<button type="button" aria-label="Remove assignee filter" />}
   variant="danger"
 >
-  remove @bugen
+  @bugen
+  <IconXmarkOutline18 className="size-3" />
 </Badge>`,
-  experimental: `<Badge.Experimental />`,
-  sourceDefault: `<Badge>In Progress</Badge>`,
-  currentDefault: `<Badge appearance="outline" uppercase>In Progress</Badge>`,
-  sourceTone: `<Badge tone="lime">Experimental</Badge>`,
-  currentTone: `<Badge variant="success">Experimental</Badge>`,
-  sourceUppercaseFalse: `<Badge uppercase={false}>task #42 @bugen</Badge>`,
-  currentUppercaseFalse: `<Badge appearance="outline">task #42 @bugen</Badge>`,
-  sourceBadgeButton: `<BadgeButton tone="cyan">Filter</BadgeButton>`,
-  currentBadgeButton: `<Badge render={<button type="button" aria-label="Filter" />} variant="information">Filter</Badge>`,
-  sourceExperimental: `<ExperimentalBadge />`,
-  currentExperimental: `<Badge.Experimental />`,
   migrationToneToVariant: `// Source
 <Badge tone="white">Default</Badge>
 <Badge tone="yellow">In Progress</Badge>
@@ -175,6 +170,14 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+function MissingSource() {
+  return (
+    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
+      Missing
+    </span>
+  );
+}
+
 export const Route = createFileRoute("/components/badge")({
   component: BadgeDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -222,11 +225,17 @@ function BadgeDoc() {
 
       <DocSection id="variants" title="Variants">
         <Example html={code.variants}>
-          {VARIANTS.map((variant) => (
-            <Badge key={variant} variant={variant}>
-              {variant}
-            </Badge>
-          ))}
+          <Badge appearance="outline" uppercase>
+            Default
+          </Badge>
+          <Badge variant="primary" uppercase>
+            Pending
+          </Badge>
+          <Badge variant="information">Open</Badge>
+          <Badge variant="muted">Saved</Badge>
+          <Badge variant="accent">New</Badge>
+          <Badge variant="success">Live</Badge>
+          <Badge variant="danger">Failed</Badge>
         </Example>
       </DocSection>
 
@@ -244,17 +253,17 @@ function BadgeDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="uppercase" title="Uppercase">
-        <Example html={code.uppercase}>
+      <DocSection id="casing" title="Casing">
+        <Example html={code.casing}>
           <Badge>task #42 @bugen</Badge>
           <Badge uppercase>In Progress</Badge>
         </Example>
       </DocSection>
 
-      <DocSection id="composition" title="Composition">
-        <Example html={code.composition}>
+      <DocSection id="icons" title="Icons">
+        <Example html={code.icons}>
           <Badge variant="primary">
-            <Check className="size-3" />
+            <IconCircleCheckFill18 className="size-3" />
             Approved
           </Badge>
           <Badge appearance="outline" variant="success">
@@ -268,8 +277,9 @@ function BadgeDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="badge-button" title="BadgeButton migration">
-        <Example html={code.badgeButton}>
+      <DocSection id="composition" title="Composition">
+        <Example html={code.composition}>
+          <Badge.Experimental />
           <Badge
             render={<button type="button" aria-label="Open thread replies" />}
             variant="information"
@@ -281,15 +291,9 @@ function BadgeDoc() {
             render={<button type="button" aria-label="Remove assignee filter" />}
             variant="danger"
           >
-            remove @bugen
-            <X className="size-3" />
+            @bugen
+            <IconXmarkOutline18 className="size-3" />
           </Badge>
-        </Example>
-      </DocSection>
-
-      <DocSection id="experimental" title="Experimental">
-        <Example html={code.experimental}>
-          <Badge.Experimental />
         </Example>
       </DocSection>
 
@@ -304,49 +308,154 @@ function BadgeDoc() {
               label: "Default",
               status: "match",
               source: <LegacyBadge>In Progress</LegacyBadge>,
-              current: (
+              brutal: (
                 <Badge appearance="outline" uppercase>
                   In Progress
                 </Badge>
               ),
-              sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
+              elegant: (
+                <Badge appearance="outline" uppercase>
+                  In Progress
+                </Badge>
+              ),
+              elegantDark: (
+                <Badge appearance="outline" uppercase>
+                  In Progress
+                </Badge>
+              ),
             },
             {
-              label: "Tone to variant",
+              label: "Primary",
               status: "match",
-              source: <LegacyBadge tone="lime">Experimental</LegacyBadge>,
-              current: <Badge variant="success">Experimental</Badge>,
-              sourceCode: code.sourceTone,
-              currentCode: code.currentTone,
+              source: <LegacyBadge tone="yellow">Pending</LegacyBadge>,
+              brutal: <Badge variant="primary">Pending</Badge>,
+              elegant: <Badge variant="primary">Pending</Badge>,
+              elegantDark: <Badge variant="primary">Pending</Badge>,
+            },
+            {
+              label: "Information",
+              status: "match",
+              source: <LegacyBadge tone="cyan">Open</LegacyBadge>,
+              brutal: <Badge variant="information">Open</Badge>,
+              elegant: <Badge variant="information">Open</Badge>,
+              elegantDark: <Badge variant="information">Open</Badge>,
+            },
+            {
+              label: "Muted",
+              status: "match",
+              source: <LegacyBadge tone="stone">Saved</LegacyBadge>,
+              brutal: <Badge variant="muted">Saved</Badge>,
+              elegant: <Badge variant="muted">Saved</Badge>,
+              elegantDark: <Badge variant="muted">Saved</Badge>,
+            },
+            {
+              label: "Accent",
+              status: "match",
+              source: <LegacyBadge tone="pink">New</LegacyBadge>,
+              brutal: <Badge variant="accent">New</Badge>,
+              elegant: <Badge variant="accent">New</Badge>,
+              elegantDark: <Badge variant="accent">New</Badge>,
+            },
+            {
+              label: "Success",
+              status: "match",
+              source: <LegacyBadge tone="lime">Live</LegacyBadge>,
+              brutal: <Badge variant="success">Live</Badge>,
+              elegant: <Badge variant="success">Live</Badge>,
+              elegantDark: <Badge variant="success">Live</Badge>,
+            },
+            {
+              label: "Danger",
+              status: "match",
+              source: <LegacyBadge tone="red">Failed</LegacyBadge>,
+              brutal: <Badge variant="danger">Failed</Badge>,
+              elegant: <Badge variant="danger">Failed</Badge>,
+              elegantDark: <Badge variant="danger">Failed</Badge>,
+            },
+            {
+              label: "Soft appearance",
+              status: "new",
+              source: <MissingSource />,
+              brutal: (
+                <Badge appearance="soft" variant="primary">
+                  Pending
+                </Badge>
+              ),
+              elegant: (
+                <Badge appearance="soft" variant="primary">
+                  Pending
+                </Badge>
+              ),
+              elegantDark: (
+                <Badge appearance="soft" variant="primary">
+                  Pending
+                </Badge>
+              ),
+            },
+            {
+              label: "Outline appearance",
+              status: "new",
+              source: <MissingSource />,
+              brutal: (
+                <Badge appearance="outline" variant="primary">
+                  Pending
+                </Badge>
+              ),
+              elegant: (
+                <Badge appearance="outline" variant="primary">
+                  Pending
+                </Badge>
+              ),
+              elegantDark: (
+                <Badge appearance="outline" variant="primary">
+                  Pending
+                </Badge>
+              ),
             },
             {
               label: "Default preserved casing",
               status: "match",
               source: <LegacyBadge uppercase={false}>task #42 @bugen</LegacyBadge>,
-              current: <Badge appearance="outline">task #42 @bugen</Badge>,
-              sourceCode: code.sourceUppercaseFalse,
-              currentCode: code.currentUppercaseFalse,
+              brutal: <Badge appearance="outline">task #42 @bugen</Badge>,
+              elegant: <Badge appearance="outline">task #42 @bugen</Badge>,
+              elegantDark: <Badge appearance="outline">task #42 @bugen</Badge>,
             },
             {
-              label: "BadgeButton migration",
+              label: "Button render",
               status: "difference",
-              source: <LegacyBadgeButton tone="cyan">Filter</LegacyBadgeButton>,
-              current: (
-                <Badge render={<button type="button" aria-label="Filter" />} variant="information">
-                  Filter
+              source: <LegacyBadgeButton tone="cyan">3 replies</LegacyBadgeButton>,
+              brutal: (
+                <Badge
+                  render={<button type="button" aria-label="Open thread replies" />}
+                  variant="information"
+                >
+                  3 replies
                 </Badge>
               ),
-              sourceCode: code.sourceBadgeButton,
-              currentCode: code.currentBadgeButton,
+              elegant: (
+                <Badge
+                  render={<button type="button" aria-label="Open thread replies" />}
+                  variant="information"
+                >
+                  3 replies
+                </Badge>
+              ),
+              elegantDark: (
+                <Badge
+                  render={<button type="button" aria-label="Open thread replies" />}
+                  variant="information"
+                >
+                  3 replies
+                </Badge>
+              ),
             },
             {
               label: "Experimental preset",
               status: "match",
               source: <LegacyExperimentalBadge />,
-              current: <Badge.Experimental />,
-              sourceCode: code.sourceExperimental,
-              currentCode: code.currentExperimental,
+              brutal: <Badge.Experimental />,
+              elegant: <Badge.Experimental />,
+              elegantDark: <Badge.Experimental />,
             },
           ]}
         />
@@ -355,15 +464,15 @@ function BadgeDoc() {
       <DocSection id="migration" title="Migration">
         <div className="space-y-4">
           <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Tone to Variant</h3>
+            <h3 className="text-sm font-semibold text-foreground-strong">Tone to Variant</h3>
             <CodeBlock html={code.migrationToneToVariant} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Casing</h3>
+            <h3 className="text-sm font-semibold text-foreground-strong">Casing</h3>
             <CodeBlock html={code.migrationCasing} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Lavender</h3>
+            <h3 className="text-sm font-semibold text-foreground-strong">Lavender</h3>
             <CodeBlock html={code.migrationLavender} />
           </div>
         </div>
