@@ -39,30 +39,45 @@ const banner = tv({
           "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
           "has-[>svg]:has-[>[data-slot=banner-action]]:grid-cols-[auto_minmax(0,1fr)_auto]",
-          "has-[>[data-slot=banner-description]]:items-start has-[>[data-slot=banner-description]]:grid-rows-[auto_auto]",
-          "has-[>[data-slot=banner-description]]:gap-y-1",
-          "[&>svg]:col-start-1 [&>svg]:row-start-1 [&>svg]:size-5 [&>svg]:shrink-0",
-          "has-[>[data-slot=banner-description]]:[&>svg]:row-span-2 has-[>[data-slot=banner-description]]:[&>svg]:self-start",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:items-start",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:grid-rows-[auto_auto]",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:gap-y-1",
+          "[&>svg]:col-start-1 [&>svg]:row-start-1 [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:self-center",
         ],
         title: [
-          "col-start-2 row-start-1 flex h-5 min-w-0 items-center text-sm font-medium leading-5 text-foreground-strong",
+          "col-start-2 row-start-1 flex h-5 min-w-0 items-center text-[0.84375rem] font-medium leading-5 text-foreground-strong",
+          "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:text-[0.8125rem] group-data-[size=sm]/banner:leading-4",
+          "group-data-[size=lg]/banner:h-6 group-data-[size=lg]/banner:text-[0.90625rem] group-data-[size=lg]/banner:leading-6",
+          "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         description: [
-          "col-start-2 row-start-2 min-w-0 font-normal leading-4 text-foreground-muted",
+          "col-start-2 row-start-1 min-w-0 font-normal leading-4 text-foreground-muted",
+          "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
+          "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
+          "group-data-[size=lg]/banner:text-[0.875rem] group-data-[size=lg]/banner:leading-5",
+          "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         action: [
-          "col-start-3 row-start-1 flex h-5 shrink-0 items-center gap-2 self-start",
-          "[&>button:last-child]:size-5 [&>button:last-child]:min-h-5 [&>button:last-child]:min-w-5",
-          "[&>button:last-child]:border-transparent [&>button:last-child]:bg-transparent [&>button:last-child]:shadow-none",
-          "[&>button:last-child]:text-foreground/40",
-          "[&>button:last-child]:transition-colors [&>button:last-child]:duration-200",
-          "[&>button:last-child]:hover:border-transparent [&>button:last-child]:hover:bg-transparent",
-          "[&>button:last-child]:hover:text-foreground/65",
-          "[&>button:last-child>svg]:size-4",
+          "col-start-3 row-start-1 flex h-5 shrink-0 items-center gap-2",
+          "group-has-[>[data-slot=banner-title]]/banner:group-has-[>[data-slot=banner-description]]/banner:row-span-2",
+          "[&>button:has(svg):last-child]:size-5 [&>button:has(svg):last-child]:min-h-5 [&>button:has(svg):last-child]:min-w-5",
+          "[&>button:has(svg):last-child]:rounded-sm",
+          "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",
+          "[&>button:has(svg):last-child]:text-current/45",
+          "[&>button:has(svg):last-child]:transition-colors [&>button:has(svg):last-child]:duration-200",
+          "[&>button:has(svg):last-child]:hover:border-transparent [&>button:has(svg):last-child]:hover:bg-foreground/5",
+          "[&>button:has(svg):last-child]:hover:text-current/70",
+          "[&>button:has(svg):last-child>svg]:size-4",
+          "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:[&>button:has(svg):last-child]:size-4",
+          "group-data-[size=sm]/banner:[&>button:has(svg):last-child]:min-h-4 group-data-[size=sm]/banner:[&>button:has(svg):last-child]:min-w-4",
+          "group-data-[size=sm]/banner:[&>button:has(svg):last-child>svg]:size-3",
+          "group-data-[size=lg]/banner:h-6 group-data-[size=lg]/banner:[&>button:has(svg):last-child]:size-6",
+          "group-data-[size=lg]/banner:[&>button:has(svg):last-child]:min-h-6 group-data-[size=lg]/banner:[&>button:has(svg):last-child]:min-w-6",
         ],
       },
     },
     status: {
+      default: {},
       destructive: {},
       warning: {},
       info: {},
@@ -73,11 +88,17 @@ const banner = tv({
       md: {},
       lg: {},
     },
+    align: {
+      top: { action: "self-start" },
+      middle: { action: "self-center" },
+    },
   },
   defaultVariants: {
     size: "md",
+    align: "middle",
   },
   compoundVariants: [
+    { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
     { theme: "brutal", status: "destructive", class: { root: "bg-danger-base/20" } },
     { theme: "brutal", status: "warning", class: { root: "bg-warning-base/20" } },
     { theme: "brutal", status: "info", class: { root: "bg-primary-400/30" } },
@@ -101,23 +122,30 @@ const banner = tv({
     },
     {
       theme: "elegant",
+      status: "default",
+      class: {
+        root: "bg-layer-muted [&>svg]:text-foreground-muted",
+      },
+    },
+    {
+      theme: "elegant",
       status: "success",
       class: {
-        root: "bg-success-lighter [&>svg]:text-success-base",
+        root: "bg-[oklch(0.94_0.035_153.079)] [&>svg]:text-success-base",
       },
     },
     {
       theme: "elegant",
       status: "warning",
       class: {
-        root: "bg-warning-lighter [&>svg]:text-warning-base",
+        root: "bg-[oklch(0.973_0.071_103.193)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)]",
       },
     },
     {
       theme: "elegant",
       status: "info",
       class: {
-        root: "bg-info-lighter [&>svg]:text-info-base",
+        root: "bg-info-lighter [&>svg]:text-[oklch(0.55_0.11_220)]",
       },
     },
     {
@@ -127,16 +155,34 @@ const banner = tv({
         root: "bg-danger-lighter [&>svg]:text-danger-base",
       },
     },
-    { theme: "elegant", size: "sm", class: { root: "px-2 py-1.5" } },
-    { theme: "elegant", size: "md", class: { root: "px-2.5 py-2.5" } },
-    { theme: "elegant", size: "lg", class: { root: "px-3 py-2.5" } },
+    {
+      theme: "elegant",
+      size: "sm",
+      class: {
+        root: "py-2.5 pl-2.5 pr-2 text-xs leading-4 [&>svg]:size-3.5",
+      },
+    },
+    {
+      theme: "elegant",
+      size: "md",
+      class: {
+        root: "px-3 py-3",
+      },
+    },
+    {
+      theme: "elegant",
+      size: "lg",
+      class: {
+        root: "gap-x-2 px-3.5 py-3 text-sm leading-5 [&>svg]:size-[18px]",
+      },
+    },
   ],
 });
 
 export type BannerStatus = NonNullable<VariantProps<typeof banner>["status"]>;
 
 export type BannerProps = useRender.ComponentProps<"div"> &
-  Omit<VariantProps<typeof banner>, "theme"> & {
+  Omit<VariantProps<typeof banner>, "theme" | "align"> & {
     status: BannerStatus;
   };
 
@@ -198,11 +244,12 @@ export function BannerDescription({ render, className, ...props }: BannerDescrip
   });
 }
 
-export type BannerActionProps = useRender.ComponentProps<"div">;
+export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align"> &
+  Pick<VariantProps<typeof banner>, "align">;
 
-export function BannerAction({ render, className, ...props }: BannerActionProps) {
+export function BannerAction({ align = "middle", render, className, ...props }: BannerActionProps) {
   const theme = useTheme();
-  const { action } = banner({ theme });
+  const { action } = banner({ theme, align });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: action({ className }),
   };
@@ -213,6 +260,7 @@ export function BannerAction({ render, className, ...props }: BannerActionProps)
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner-action",
+      align,
     },
   });
 }

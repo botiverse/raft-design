@@ -5,9 +5,16 @@ import {
   BannerDescription,
   BannerTitle,
   Button,
+  type BannerActionProps,
   type BannerProps,
 } from "@slock/ui";
-import { AlertTriangle, CheckCircle2, CircleAlert, Info, X } from "lucide-react";
+import {
+  IconCircleCheckFill18,
+  IconCircleInfoFill18,
+  IconCircleWarningFill18,
+  IconCircleXmarkFill18,
+} from "nucleo-ui-fill-18";
+import { X } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -33,46 +40,86 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const STATUSES = ["destructive", "warning", "info", "success"] as const;
+const STATUSES = ["default", "destructive", "warning", "info", "success"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
+const ACTION_ALIGNS = ["top", "middle"] as const;
 
 const STATUS_ICON = {
-  destructive: AlertTriangle,
-  warning: CircleAlert,
-  info: Info,
-  success: CheckCircle2,
+  default: IconCircleInfoFill18,
+  destructive: IconCircleXmarkFill18,
+  warning: IconCircleWarningFill18,
+  info: IconCircleInfoFill18,
+  success: IconCircleCheckFill18,
 } as const;
 
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Banner, BannerDescription } from "@slock/ui";
+  anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@slock/ui";
+import { IconCircleWarningFill18 } from "nucleo-ui-fill-18";
+import { X } from "lucide-react";
 
 <Banner status="warning">
+  <IconCircleWarningFill18 />
+  <BannerTitle>Review required</BannerTitle>
   <BannerDescription>Heads up — this can't be undone.</BannerDescription>
+  <BannerAction align="top">
+    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
+  </BannerAction>
 </Banner>`,
-  statuses: `<Banner status="destructive">
-  <AlertTriangle />
-  <BannerDescription>Irreversible — the channel will be deleted.</BannerDescription>
+  statuses: `<Banner status="default">
+  <IconCircleInfoFill18 />
+  <BannerTitle>Settings synced</BannerTitle>
+  <BannerDescription>Rules now apply to every project.</BannerDescription>
+  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><X /></Button></BannerAction>
+</Banner>
+<Banner status="destructive">
+  <IconCircleXmarkFill18 />
+  <BannerTitle>Payment failed</BannerTitle>
+  <BannerDescription>Retry to keep automations running.</BannerDescription>
+  <BannerAction><Button variant="ghost" size="xs">Retry</Button></BannerAction>
 </Banner>
 <Banner status="warning">
-  <CircleAlert />
-  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
+  <IconCircleWarningFill18 />
+  <BannerTitle>Invoice details missing</BannerTitle>
+  <BannerDescription>Add billing email and tax ID.</BannerDescription>
+  <BannerAction><Button variant="outline" size="xs">Review</Button></BannerAction>
+</Banner>
+<Banner status="info">
+  <IconCircleInfoFill18 />
+  <BannerTitle>Trial ends soon</BannerTitle>
+  <BannerDescription>Upgrade to keep projects available.</BannerDescription>
+  <BannerAction><Button variant="outline" size="xs">Upgrade</Button></BannerAction>
+</Banner>
+<Banner status="success">
+  <IconCircleCheckFill18 />
+  <BannerTitle>Deployment live</BannerTitle>
+  <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
+  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><X /></Button></BannerAction>
 </Banner>`,
   sizes: `<Banner status="info" size="sm">
+  <IconCircleInfoFill18 />
+  <BannerTitle>Small banner</BannerTitle>
   <BannerDescription>Tight form-error banner.</BannerDescription>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="md">
+  <IconCircleInfoFill18 />
+  <BannerTitle>Medium banner</BannerTitle>
   <BannerDescription>Default banner.</BannerDescription>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="lg">
+  <IconCircleInfoFill18 />
+  <BannerTitle>Large banner</BannerTitle>
   <BannerDescription>Prominent surface banner.</BannerDescription>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>`,
   composition: `<Banner status="warning">
-  <CircleAlert />
+  <IconCircleWarningFill18 />
   <BannerTitle>Plan limit reached</BannerTitle>
   <BannerDescription>Remove an inactive machine before adding another.</BannerDescription>
-  <BannerAction>
+  <BannerAction align="top">
     <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
   </BannerAction>
 </Banner>`,
@@ -86,7 +133,7 @@ const SNIPPETS = {
   This can't be undone.
 </Banner>`,
   currentIcon: `<Banner status="destructive">
-  <AlertTriangle />
+  <IconCircleXmarkFill18 />
   <BannerTitle>Delete server</BannerTitle>
   <BannerDescription>This can't be undone.</BannerDescription>
 </Banner>`,
@@ -99,7 +146,7 @@ const SNIPPETS = {
   You're on the free plan.
 </Banner>`,
   currentActions: `<Banner status="info" size="lg">
-  <Info />
+  <IconCircleInfoFill18 />
   <BannerDescription>You're on the free plan.</BannerDescription>
   <BannerAction><button aria-label="Dismiss"><X /></button></BannerAction>
 </Banner>`,
@@ -108,6 +155,7 @@ const SNIPPETS = {
 type PlaygroundValues = {
   status: BannerProps["status"];
   size: NonNullable<BannerProps["size"]>;
+  actionAlign: NonNullable<BannerActionProps["align"]>;
   withIcon: boolean;
   withTitle: boolean;
   withActions: boolean;
@@ -117,14 +165,15 @@ const PROPS: readonly PropRow[] = [
   {
     name: "status",
     type: STATUSES.map((status) => `"${status}"`).join(" | "),
-    description: 'Drives the surface color. Source intent="..." maps to this prop.',
+    description:
+      'Drives the surface color. Source intent="..." maps to destructive / warning / info / success; default covers neutral banners.',
   },
   {
     name: "size",
     type: SIZES.map((size) => `"${size}"`).join(" | "),
     default: '"md"',
     description:
-      "sm (p-2, text-xs), md (p-3, text-sm), lg (p-4 + shadow). Source density maps to this prop.",
+      "Controls padding, icon size, title size, description size, and action affordance.",
   },
   {
     name: "render",
@@ -142,7 +191,7 @@ const PART_PROPS: readonly PropRow[] = [
   {
     name: "Icon",
     type: "ReactNode",
-    description: "Place a lucide icon as a direct Banner child. The root normalizes 18px SVGs.",
+    description: "Place an icon as a direct Banner child. The root normalizes SVG size.",
   },
   {
     name: "BannerTitle",
@@ -158,6 +207,12 @@ const PART_PROPS: readonly PropRow[] = [
     name: "BannerAction",
     type: "div props",
     description: "Trailing slot, pinned right.",
+  },
+  {
+    name: "BannerAction.align",
+    type: ACTION_ALIGNS.map((align) => `"${align}"`).join(" | "),
+    default: '"middle"',
+    description: "Aligns actions to the title row top or vertically centered across the banner.",
   },
 ];
 
@@ -218,6 +273,7 @@ function BannerDoc() {
           defaultValues={{
             status: "warning",
             size: "md",
+            actionAlign: "middle",
             withIcon: true,
             withTitle: false,
             withActions: false,
@@ -225,6 +281,7 @@ function BannerDoc() {
           controls={[
             { name: "status", label: "Status", type: "select", options: STATUSES },
             { name: "size", label: "Size", type: "select", options: SIZES },
+            { name: "actionAlign", label: "Action align", type: "select", options: ACTION_ALIGNS },
             { name: "withIcon", label: "With icon", type: "boolean" },
             { name: "withTitle", label: "With title", type: "boolean" },
             { name: "withActions", label: "With actions", type: "boolean" },
@@ -232,12 +289,12 @@ function BannerDoc() {
           render={(values) => {
             const Icon = STATUS_ICON[values.status];
             return (
-              <Banner status={values.status} size={values.size} className="w-80">
+              <Banner status={values.status} size={values.size} className="w-[28rem]">
                 {values.withIcon ? <Icon /> : null}
                 {values.withTitle ? <BannerTitle>Review required</BannerTitle> : null}
                 <BannerDescription>This action can&rsquo;t be undone.</BannerDescription>
                 {values.withActions ? (
-                  <BannerAction>
+                  <BannerAction align={values.actionAlign}>
                     <Button size="icon-xs" aria-label="Dismiss">
                       <X />
                     </Button>
@@ -255,22 +312,60 @@ function BannerDoc() {
 
       <DocSection id="statuses" title="Statuses">
         <Example html={code.statuses}>
-          <div className="flex w-80 flex-col gap-3">
+          <div className="flex w-[28rem] flex-col gap-3">
+            <Banner status="default">
+              <IconCircleInfoFill18 />
+              <BannerTitle>Settings synced</BannerTitle>
+              <BannerDescription>Rules now apply to every project.</BannerDescription>
+              <BannerAction align="top">
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  aria-label="Dismiss workspace settings notice"
+                >
+                  <X />
+                </Button>
+              </BannerAction>
+            </Banner>
             <Banner status="destructive">
-              <AlertTriangle />
-              <BannerDescription>Irreversible — the channel will be deleted.</BannerDescription>
+              <IconCircleXmarkFill18 />
+              <BannerTitle>Payment failed</BannerTitle>
+              <BannerDescription>Retry to keep automations running.</BannerDescription>
+              <BannerAction>
+                <Button variant="ghost" size="xs">
+                  Retry
+                </Button>
+              </BannerAction>
             </Banner>
             <Banner status="warning">
-              <CircleAlert />
-              <BannerDescription>Please fix the highlighted fields.</BannerDescription>
+              <IconCircleWarningFill18 />
+              <BannerTitle>Invoice details missing</BannerTitle>
+              <BannerDescription>Add billing email and tax ID.</BannerDescription>
+              <BannerAction>
+                <Button variant="outline" size="xs">
+                  Review
+                </Button>
+              </BannerAction>
             </Banner>
             <Banner status="info">
-              <Info />
-              <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
+              <IconCircleInfoFill18 />
+              <BannerTitle>Trial ends soon</BannerTitle>
+              <BannerDescription>Upgrade to keep projects available.</BannerDescription>
+              <BannerAction>
+                <Button variant="outline" size="xs">
+                  Upgrade
+                </Button>
+              </BannerAction>
             </Banner>
             <Banner status="success">
-              <CheckCircle2 />
-              <BannerDescription>Saved.</BannerDescription>
+              <IconCircleCheckFill18 />
+              <BannerTitle>Deployment live</BannerTitle>
+              <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
+              <BannerAction align="top">
+                <Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice">
+                  <X />
+                </Button>
+              </BannerAction>
             </Banner>
           </div>
         </Example>
@@ -279,15 +374,36 @@ function BannerDoc() {
       <DocSection id="sizes" title="Sizes">
         <div className="space-y-4">
           <Example html={code.sizes}>
-            <div className="flex w-80 flex-col gap-3">
+            <div className="flex w-[28rem] flex-col gap-3">
               <Banner status="info" size="sm">
+                <IconCircleInfoFill18 />
+                <BannerTitle>Small banner</BannerTitle>
                 <BannerDescription>Tight form-error banner.</BannerDescription>
+                <BannerAction>
+                  <Button size="icon-xs" aria-label="Dismiss">
+                    <X />
+                  </Button>
+                </BannerAction>
               </Banner>
               <Banner status="info" size="md">
+                <IconCircleInfoFill18 />
+                <BannerTitle>Medium banner</BannerTitle>
                 <BannerDescription>Default banner.</BannerDescription>
+                <BannerAction>
+                  <Button size="icon-xs" aria-label="Dismiss">
+                    <X />
+                  </Button>
+                </BannerAction>
               </Banner>
               <Banner status="info" size="lg">
+                <IconCircleInfoFill18 />
+                <BannerTitle>Large banner</BannerTitle>
                 <BannerDescription>Prominent surface banner.</BannerDescription>
+                <BannerAction>
+                  <Button size="icon-xs" aria-label="Dismiss">
+                    <X />
+                  </Button>
+                </BannerAction>
               </Banner>
             </div>
           </Example>
@@ -300,14 +416,14 @@ function BannerDoc() {
 
       <DocSection id="composition" title="Composition">
         <Example html={code.composition}>
-          <div className="w-96">
+          <div className="w-[28rem]">
             <Banner status="warning">
-              <CircleAlert />
+              <IconCircleWarningFill18 />
               <BannerTitle>Plan limit reached</BannerTitle>
               <BannerDescription>
                 Remove an inactive machine before adding another.
               </BannerDescription>
-              <BannerAction>
+              <BannerAction align="top">
                 <Button size="icon-xs" aria-label="Dismiss">
                   <X />
                 </Button>
@@ -353,7 +469,7 @@ function BannerDoc() {
               ),
               current: (
                 <Banner status="destructive">
-                  <AlertTriangle />
+                  <IconCircleXmarkFill18 />
                   <BannerTitle>Delete server</BannerTitle>
                   <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
                 </Banner>
@@ -372,7 +488,7 @@ function BannerDoc() {
               ),
               current: (
                 <Banner status="info" size="lg">
-                  <Info />
+                  <IconCircleInfoFill18 />
                   <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
                   <BannerAction>
                     <DismissIconButton />
