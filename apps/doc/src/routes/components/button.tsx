@@ -416,6 +416,14 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+function MissingSource() {
+  return (
+    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
+      Missing
+    </span>
+  );
+}
+
 export const Route = createFileRoute("/components/button")({
   component: ButtonDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -565,7 +573,7 @@ function ButtonDoc() {
             },
             {
               label: "Primary",
-              status: "difference",
+              status: "match",
               source: <LegacyButton tone="yellow">Primary</LegacyButton>,
               brutal: <Button variant="primary">Primary</Button>,
               elegant: <Button variant="primary">Primary</Button>,
@@ -573,7 +581,7 @@ function ButtonDoc() {
             },
             {
               label: "Outline",
-              status: "difference",
+              status: "match",
               source: <LegacyButton tone="white">Outline</LegacyButton>,
               brutal: <Button variant="outline">Outline</Button>,
               elegant: <Button variant="outline">Outline</Button>,
@@ -581,7 +589,7 @@ function ButtonDoc() {
             },
             {
               label: "Information",
-              status: "difference",
+              status: "match",
               source: <LegacyButton tone="cyan">Information</LegacyButton>,
               brutal: <Button variant="information">Information</Button>,
               elegant: <Button variant="information">Information</Button>,
@@ -589,7 +597,7 @@ function ButtonDoc() {
             },
             {
               label: "Muted",
-              status: "difference",
+              status: "match",
               source: <LegacyButton tone="stone">Muted</LegacyButton>,
               brutal: <Button variant="muted">Muted</Button>,
               elegant: <Button variant="muted">Muted</Button>,
@@ -597,7 +605,7 @@ function ButtonDoc() {
             },
             {
               label: "Accent",
-              status: "difference",
+              status: "match",
               source: <LegacyButton tone="pink">Accent</LegacyButton>,
               brutal: <Button variant="accent">Accent</Button>,
               elegant: <Button variant="accent">Accent</Button>,
@@ -613,39 +621,39 @@ function ButtonDoc() {
             },
             {
               label: "Danger secondary",
-              status: "difference",
-              source: <LegacyButton tone="red">Delete</LegacyButton>,
+              status: "new",
+              source: <MissingSource />,
               brutal: <Button variant="danger-secondary">Delete</Button>,
               elegant: <Button variant="danger-secondary">Delete</Button>,
               elegantDark: <Button variant="danger-secondary">Delete</Button>,
             },
             {
               label: "Danger outline",
-              status: "difference",
-              source: <LegacyButton tone="red">Remove</LegacyButton>,
+              status: "new",
+              source: <MissingSource />,
               brutal: <Button variant="danger-outline">Remove</Button>,
               elegant: <Button variant="danger-outline">Remove</Button>,
               elegantDark: <Button variant="danger-outline">Remove</Button>,
             },
             {
               label: "Ghost",
-              status: "difference",
-              source: <LegacyButton tone="white">Ghost</LegacyButton>,
+              status: "new",
+              source: <MissingSource />,
               brutal: <Button variant="ghost">Ghost</Button>,
               elegant: <Button variant="ghost">Ghost</Button>,
               elegantDark: <Button variant="ghost">Ghost</Button>,
             },
             {
               label: "Link",
-              status: "difference",
-              source: <LegacyButton tone="white">Link</LegacyButton>,
+              status: "new",
+              source: <MissingSource />,
               brutal: <Button variant="link">Link</Button>,
               elegant: <Button variant="link">Link</Button>,
               elegantDark: <Button variant="link">Link</Button>,
             },
             {
               label: "Sizes",
-              status: "review",
+              status: "match",
               source: (
                 <>
                   <LegacyButton tone="yellow" size="xs">
@@ -713,7 +721,7 @@ function ButtonDoc() {
             },
             {
               label: "Icon only",
-              status: "difference",
+              status: "match",
               source: (
                 <LegacyButton tone="yellow" shape="icon" aria-label="Add">
                   <Plus size={14} />
@@ -737,7 +745,7 @@ function ButtonDoc() {
             },
             {
               label: "Inline icon",
-              status: "difference",
+              status: "match",
               source: (
                 <LegacyButton tone="yellow" shape="iconText">
                   <Plus size={14} />

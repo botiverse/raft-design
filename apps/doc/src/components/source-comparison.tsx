@@ -18,7 +18,7 @@ type SourceComparisonItem = {
   elegantCode?: CodeContent;
   elegantDarkCode?: CodeContent;
   currentCode?: CodeContent;
-  status?: "match" | "difference" | "review";
+  status?: "match" | "difference" | "review" | "new";
   note?: ReactNode;
 };
 
@@ -38,12 +38,14 @@ const STATUS = {
   match: "Match",
   difference: "Intentional difference",
   review: "Review",
+  new: "New",
 } as const;
 
 const STATUS_VARIANT = {
   match: "success",
   difference: "information",
   review: "primary",
+  new: "accent",
 } as const;
 
 const frameClass =

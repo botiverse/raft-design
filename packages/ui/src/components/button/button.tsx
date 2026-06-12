@@ -130,6 +130,81 @@ export const buttonVariants = tv({
   },
   compoundVariants: [
     {
+      theme: "brutal",
+      variant: "primary",
+      class: { root: "bg-brutal-yellow text-black hover:bg-brutal-yellow" },
+    },
+    {
+      theme: "brutal",
+      variant: "default",
+      class: { root: "bg-white text-black hover:bg-white" },
+    },
+    {
+      theme: "brutal",
+      variant: "outline",
+      class: { root: "bg-white text-black shadow-sm hover:bg-white" },
+    },
+    {
+      theme: "brutal",
+      variant: "information",
+      class: { root: "bg-brutal-cyan text-black hover:bg-brutal-cyan" },
+    },
+    {
+      theme: "brutal",
+      variant: "muted",
+      class: { root: "bg-brutal-stone text-black hover:bg-brutal-stone" },
+    },
+    {
+      theme: "brutal",
+      variant: "accent",
+      class: { root: "bg-brutal-pink text-black hover:bg-brutal-pink" },
+    },
+    {
+      theme: "brutal",
+      variant: "danger",
+      class: { root: "bg-brutal-red text-black hover:bg-brutal-red" },
+    },
+    {
+      theme: "brutal",
+      size: "xs",
+      class: { root: "h-6 px-2 py-0 text-[11px]" },
+    },
+    {
+      theme: "brutal",
+      size: "sm",
+      class: { root: "h-7 px-2.5 py-0 text-xs" },
+    },
+    {
+      theme: "brutal",
+      size: "md",
+      class: { root: "h-8 px-3 py-0 text-sm" },
+    },
+    {
+      theme: "brutal",
+      size: "lg",
+      class: { root: "h-10 px-4 py-0 text-sm" },
+    },
+    {
+      theme: "brutal",
+      size: "icon-xs",
+      class: { root: "size-6 p-0 text-[11px]" },
+    },
+    {
+      theme: "brutal",
+      size: "icon-sm",
+      class: { root: "size-7 p-0 text-xs" },
+    },
+    {
+      theme: "brutal",
+      size: "icon-md",
+      class: { root: "size-8 p-0 text-sm" },
+    },
+    {
+      theme: "brutal",
+      size: "icon-lg",
+      class: { root: "size-10 p-0 text-sm" },
+    },
+    {
       theme: "elegant",
       variant: "default",
       class: {
@@ -204,9 +279,9 @@ export const buttonVariants = tv({
       variant: "danger",
       class: {
         root: [
-          "border-line-strong bg-danger-base text-foreground-inverse",
+          "border-line-strong bg-brutal-red text-black",
           "shadow-sm",
-          "hover:border-line-strong hover:bg-danger-base",
+          "hover:border-line-strong hover:bg-brutal-red",
           "hover:-translate-y-px hover:shadow-md",
           "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
           "active:shadow-2xs",
@@ -287,7 +362,7 @@ export const buttonVariants = tv({
     },
     {
       theme: "brutal",
-      variant: ["primary", "default", "information", "muted", "accent"],
+      variant: ["primary", "default", "information", "muted", "accent", "outline"],
       class: {
         root: [
           "hover:-translate-y-px hover:shadow-md",
