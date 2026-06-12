@@ -163,6 +163,14 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+function MissingSource() {
+  return (
+    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
+      Missing
+    </span>
+  );
+}
+
 export const Route = createFileRoute("/components/checkbox")({
   component: CheckboxDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -307,17 +315,33 @@ function CheckboxDoc() {
               label: "Unchecked",
               status: "match",
               source: <LegacyCheckbox />,
-              current: <Checkbox />,
-              sourceCode: code.sourceUnchecked,
-              currentCode: code.currentUnchecked,
+              brutal: <Checkbox />,
+              elegant: <Checkbox />,
+              elegantDark: <Checkbox />,
             },
             {
               label: "Checked",
               status: "match",
               source: <LegacyCheckbox checked readOnly />,
-              current: <Checkbox checked readOnly />,
-              sourceCode: code.sourceChecked,
-              currentCode: code.currentChecked,
+              brutal: <Checkbox checked readOnly />,
+              elegant: <Checkbox checked readOnly />,
+              elegantDark: <Checkbox checked readOnly />,
+            },
+            {
+              label: "Disabled",
+              status: "match",
+              source: <LegacyCheckbox checked disabled readOnly />,
+              brutal: <Checkbox checked disabled readOnly />,
+              elegant: <Checkbox checked disabled readOnly />,
+              elegantDark: <Checkbox checked disabled readOnly />,
+            },
+            {
+              label: "Default checked",
+              status: "difference",
+              source: <LegacyCheckbox defaultChecked />,
+              brutal: <Checkbox defaultChecked />,
+              elegant: <Checkbox defaultChecked />,
+              elegantDark: <Checkbox defaultChecked />,
             },
             {
               label: "Sizes",
@@ -328,57 +352,48 @@ function CheckboxDoc() {
                   <LegacyCheckbox size="md" checked readOnly />
                 </>
               ),
-              current: (
+              brutal: (
                 <>
                   <Checkbox size="sm" checked readOnly />
                   <Checkbox size="md" checked readOnly />
                 </>
               ),
-              sourceCode: code.sourceSizes,
-              currentCode: code.currentSizes,
+              elegant: (
+                <>
+                  <Checkbox size="sm" checked readOnly />
+                  <Checkbox size="md" checked readOnly />
+                </>
+              ),
+              elegantDark: (
+                <>
+                  <Checkbox size="sm" checked readOnly />
+                  <Checkbox size="md" checked readOnly />
+                </>
+              ),
             },
             {
-              label: "Disabled",
-              status: "match",
-              source: <LegacyCheckbox checked disabled readOnly />,
-              current: <Checkbox checked disabled readOnly />,
-              sourceCode: code.sourceDisabled,
-              currentCode: code.currentDisabled,
-            },
-            {
-              label: "Default checked",
-              status: "difference",
-              note: "Source keeps the visual marker controlled by checked, so defaultChecked only reaches the hidden input. Current Base UI state makes uncontrolled defaultChecked visible.",
-              source: <LegacyCheckbox defaultChecked />,
-              current: <Checkbox defaultChecked />,
-              sourceCode: code.sourceDefaultChecked,
-              currentCode: code.currentDefaultChecked,
+              label: "Primary checked",
+              status: "new",
+              source: <MissingSource />,
+              brutal: <Checkbox variant="primary" checked readOnly />,
+              elegant: <Checkbox variant="primary" checked readOnly />,
+              elegantDark: <Checkbox variant="primary" checked readOnly />,
             },
             {
               label: "Indeterminate",
-              status: "difference",
-              note: "Current adds Base UI's mixed state. Source had no equivalent visual state.",
-              source: <span className="text-xs text-gray-400">No source equivalent</span>,
-              current: <Checkbox indeterminate />,
-              currentCode: code.currentIndeterminate,
-            },
-            {
-              label: "Legacy CheckMarker",
-              status: "difference",
-              note: "Source exposed a decorative marker. Current keeps that graphic private and uses Checkbox for selectable rows.",
-              source: <LegacyCheckMarker checked />,
-              current: <Checkbox checked readOnly aria-label="Selected" />,
-              sourceCode: code.sourceMarker,
-              currentCode: code.currentMarker,
+              status: "new",
+              source: <MissingSource />,
+              brutal: <Checkbox indeterminate />,
+              elegant: <Checkbox indeterminate />,
+              elegantDark: <Checkbox indeterminate />,
             },
             {
               label: "Preview-on-hover marker",
               status: "difference",
-              note: "Source allowed a hover-only decorative check. Current selection rows keep hover styling on the row and selection state on Checkbox.",
               source: <LegacyCheckMarker checked={false} previewOnHover />,
-              current: <Checkbox aria-label="Select row" />,
-              sourceCode: code.sourceHoverMarker,
-              currentCode: code.currentRowSelection,
+              brutal: <Checkbox aria-label="Select row" />,
+              elegant: <Checkbox aria-label="Select row" />,
+              elegantDark: <Checkbox aria-label="Select row" />,
             },
           ]}
         />

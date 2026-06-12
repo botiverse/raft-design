@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { Badge, type BadgeProps, type Theme } from "@slock/ui";
+import { IconCircleCheckFill18, IconCircleWarningFill18 } from "nucleo-ui-fill-18";
+import { IconSearchContentOutline18, IconStarOutline18 } from "nucleo-ui-outline-18";
 import { CodeBlock } from "./code-block.tsx";
 import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
 
@@ -46,6 +48,13 @@ const STATUS_VARIANT = {
   difference: "information",
   review: "primary",
   new: "accent",
+} as const;
+
+const STATUS_ICON = {
+  match: IconCircleCheckFill18,
+  difference: IconCircleWarningFill18,
+  review: IconSearchContentOutline18,
+  new: IconStarOutline18,
 } as const;
 
 const frameClass =
@@ -125,6 +134,7 @@ export function SourceComparison({ items }: SourceComparisonProps) {
     <div data-source-comparison className="space-y-12">
       {items.map((item) => {
         const status = item.status ?? "review";
+        const StatusIcon = STATUS_ICON[status];
         const panes = getComparisonPanes(item);
         const columnClass =
           panes.length >= 4
@@ -142,6 +152,7 @@ export function SourceComparison({ items }: SourceComparisonProps) {
             <div className="flex flex-wrap items-center gap-2 px-1">
               <h3 className="text-sm font-medium text-foreground-strong">{item.label}</h3>
               <Badge appearance="soft" variant={STATUS_VARIANT[status] as BadgeProps["variant"]}>
+                <StatusIcon aria-hidden className="size-3" />
                 {STATUS[status]}
               </Badge>
               {item.note ? (
