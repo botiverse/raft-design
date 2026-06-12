@@ -84,6 +84,16 @@ const status = tv({
   compoundVariants: [
     {
       theme: "brutal",
+      variant: "success",
+      class: { root: "[--status-color:var(--color-brutal-lime)]" },
+    },
+    {
+      theme: "brutal",
+      variant: "warning",
+      class: { root: "[--status-color:var(--color-brutal-orange)]" },
+    },
+    {
+      theme: "brutal",
       pulse: true,
       class: { root: "animate-pulse" },
     },

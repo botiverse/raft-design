@@ -96,20 +96,6 @@ const SNIPPETS = {
 
 // Current
 <Status className="[--status-color:var(--color-brutal-purple-300)]" />`,
-  sourceStatusDefault: `<StatusDot />`,
-  currentStatusDefault: `<Status />`,
-  sourceStatusTone: `<StatusDot tone="bg-brutal-lime" />`,
-  currentStatusTone: `<Status variant="success" />`,
-  sourceStatusPulse: `<StatusDot tone="bg-brutal-yellow" pulse />`,
-  currentStatusPulse: `<Status variant="primary" pulse />`,
-  sourceStatusActivity: `<StatusDot activity="thinking" />`,
-  currentStatusActivity: `<Status variant="primary" pulse />`,
-  sourceAttentionDefault: `<AttentionDot />`,
-  currentAttentionDefault: `<Status variant="accent" />`,
-  sourceAttentionCompact: `<AttentionDot size="sm" />`,
-  currentAttentionCompact: `<Status variant="accent" size="xs" />`,
-  sourceAttentionTone: `<AttentionDot tone="bg-brutal-orange" />`,
-  currentAttentionTone: `<Status variant="warning" />`,
 } as const;
 
 type PlaygroundValues = {
@@ -227,67 +213,92 @@ function StatusDoc() {
         <SourceComparison
           items={[
             {
-              label: "Status default",
-              status: "difference",
-              note: "StatusDot -> Status.",
+              label: "Default",
+              status: "match",
               source: <LegacyStatusDot />,
-              current: <Status />,
-              sourceCode: code.sourceStatusDefault,
-              currentCode: code.currentStatusDefault,
+              brutal: <Status />,
+              elegant: <Status />,
+              elegantDark: <Status />,
             },
             {
-              label: "Status explicit color",
+              label: "Success",
               status: "difference",
-              note: 'tone="bg-brutal-lime" -> variant="success".',
               source: <LegacyStatusDot tone="bg-brutal-lime" />,
-              current: <Status variant="success" />,
-              sourceCode: code.sourceStatusTone,
-              currentCode: code.currentStatusTone,
+              brutal: <Status variant="success" />,
+              elegant: <Status variant="success" />,
+              elegantDark: <Status variant="success" />,
             },
             {
-              label: "Status pulse",
+              label: "Primary pulse",
               status: "difference",
-              note: 'tone="bg-brutal-yellow" pulse -> variant="primary" pulse.',
               source: <LegacyStatusDot tone="bg-brutal-yellow" pulse />,
-              current: <Status variant="primary" pulse />,
-              sourceCode: code.sourceStatusPulse,
-              currentCode: code.currentStatusPulse,
+              brutal: <Status variant="primary" pulse />,
+              elegant: <Status variant="primary" pulse />,
+              elegantDark: <Status variant="primary" pulse />,
             },
             {
-              label: "Activity migration",
+              label: "Pulse sizes",
               status: "difference",
-              note: 'activity="thinking" -> variant="primary" pulse.',
+              source: (
+                <>
+                  <LegacyStatusDot size="sm" tone="bg-brutal-yellow" pulse />
+                  <LegacyStatusDot size="md" tone="bg-brutal-yellow" pulse />
+                  <LegacyStatusDot size="lg" tone="bg-brutal-yellow" pulse />
+                </>
+              ),
+              brutal: (
+                <>
+                  <Status size="sm" variant="primary" pulse />
+                  <Status size="md" variant="primary" pulse />
+                  <Status size="lg" variant="primary" pulse />
+                </>
+              ),
+              elegant: (
+                <>
+                  <Status size="sm" variant="primary" pulse />
+                  <Status size="md" variant="primary" pulse />
+                  <Status size="lg" variant="primary" pulse />
+                </>
+              ),
+              elegantDark: (
+                <>
+                  <Status size="sm" variant="primary" pulse />
+                  <Status size="md" variant="primary" pulse />
+                  <Status size="lg" variant="primary" pulse />
+                </>
+              ),
+            },
+            {
+              label: "Activity thinking",
+              status: "difference",
               source: <LegacyStatusDot activity="thinking" />,
-              current: <Status variant="primary" pulse />,
-              sourceCode: code.sourceStatusActivity,
-              currentCode: code.currentStatusActivity,
+              brutal: <Status variant="primary" pulse />,
+              elegant: <Status variant="primary" pulse />,
+              elegantDark: <Status variant="primary" pulse />,
             },
             {
               label: "Attention default",
               status: "difference",
-              note: 'AttentionDot -> Status variant="accent".',
               source: <LegacyAttentionDot />,
-              current: <Status variant="accent" />,
-              sourceCode: code.sourceAttentionDefault,
-              currentCode: code.currentAttentionDefault,
+              brutal: <Status variant="accent" />,
+              elegant: <Status variant="accent" />,
+              elegantDark: <Status variant="accent" />,
             },
             {
               label: "Attention compact",
               status: "difference",
-              note: 'AttentionDot size="sm" -> Status size="xs".',
               source: <LegacyAttentionDot size="sm" />,
-              current: <Status variant="accent" size="xs" />,
-              sourceCode: code.sourceAttentionCompact,
-              currentCode: code.currentAttentionCompact,
+              brutal: <Status variant="accent" size="xs" />,
+              elegant: <Status variant="accent" size="xs" />,
+              elegantDark: <Status variant="accent" size="xs" />,
             },
             {
-              label: "Attention explicit color",
+              label: "Warning",
               status: "difference",
-              note: 'tone="bg-brutal-orange" -> variant="warning".',
               source: <LegacyAttentionDot tone="bg-brutal-orange" />,
-              current: <Status variant="warning" />,
-              sourceCode: code.sourceAttentionTone,
-              currentCode: code.currentAttentionTone,
+              brutal: <Status variant="warning" />,
+              elegant: <Status variant="warning" />,
+              elegantDark: <Status variant="warning" />,
             },
           ]}
         />
@@ -296,19 +307,19 @@ function StatusDoc() {
       <DocSection id="migration" title="Migration">
         <div className="space-y-6">
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-gray-900">Activity mapping</h3>
+            <h3 className="text-sm font-medium text-foreground-strong">Activity mapping</h3>
             <CodeBlock html={code.migrationActivity} />
           </div>
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-gray-900">Color mapping</h3>
+            <h3 className="text-sm font-medium text-foreground-strong">Color mapping</h3>
             <CodeBlock html={code.migrationToneToVariant} />
           </div>
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-gray-900">AttentionDot</h3>
+            <h3 className="text-sm font-medium text-foreground-strong">AttentionDot</h3>
             <CodeBlock html={code.migrationAttention} />
           </div>
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-gray-900">Custom color</h3>
+            <h3 className="text-sm font-medium text-foreground-strong">Custom color</h3>
             <CodeBlock html={code.migrationCustomTone} />
           </div>
         </div>
