@@ -58,6 +58,10 @@ import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadow
 import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
 import { Route as TokensColorsElegantRouteImport } from './routes/tokens/colors/elegant'
 import { Route as TokensColorsBrutalRouteImport } from './routes/tokens/colors/brutal'
+import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
+import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
+import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
+import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
 
 const StyleTesterRoute = StyleTesterRouteImport.update({
   id: '/style-tester',
@@ -309,6 +313,27 @@ const TokensColorsBrutalRoute = TokensColorsBrutalRouteImport.update({
   path: '/brutal',
   getParentRoute: () => TokensColorsRoute,
 } as any)
+const ComponentsStatusMatrixRoute = ComponentsStatusMatrixRouteImport.update({
+  id: '/status_/matrix',
+  path: '/status/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsCheckboxMatrixRoute =
+  ComponentsCheckboxMatrixRouteImport.update({
+    id: '/checkbox_/matrix',
+    path: '/checkbox/matrix',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsButtonMatrixRoute = ComponentsButtonMatrixRouteImport.update({
+  id: '/button_/matrix',
+  path: '/button/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsBadgeMatrixRoute = ComponentsBadgeMatrixRouteImport.update({
+  id: '/badge_/matrix',
+  path: '/badge/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -354,6 +379,10 @@ export interface FileRoutesByFullPath {
   '/tokens/colors': typeof TokensColorsRouteWithChildren
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
+  '/components/button/matrix': typeof ComponentsButtonMatrixRoute
+  '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
@@ -405,6 +434,10 @@ export interface FileRoutesByTo {
   '/tokens/colors': typeof TokensColorsRouteWithChildren
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
+  '/components/button/matrix': typeof ComponentsButtonMatrixRoute
+  '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
@@ -457,6 +490,10 @@ export interface FileRoutesById {
   '/tokens/colors': typeof TokensColorsRouteWithChildren
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
+  '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
+  '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
@@ -510,6 +547,10 @@ export interface FileRouteTypes {
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/components/badge/matrix'
+    | '/components/button/matrix'
+    | '/components/checkbox/matrix'
+    | '/components/status/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
@@ -561,6 +602,10 @@ export interface FileRouteTypes {
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/components/badge/matrix'
+    | '/components/button/matrix'
+    | '/components/checkbox/matrix'
+    | '/components/status/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
@@ -612,6 +657,10 @@ export interface FileRouteTypes {
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/components/badge_/matrix'
+    | '/components/button_/matrix'
+    | '/components/checkbox_/matrix'
+    | '/components/status_/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
@@ -978,6 +1027,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TokensColorsBrutalRouteImport
       parentRoute: typeof TokensColorsRoute
     }
+    '/components/status_/matrix': {
+      id: '/components/status_/matrix'
+      path: '/status/matrix'
+      fullPath: '/components/status/matrix'
+      preLoaderRoute: typeof ComponentsStatusMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/checkbox_/matrix': {
+      id: '/components/checkbox_/matrix'
+      path: '/checkbox/matrix'
+      fullPath: '/components/checkbox/matrix'
+      preLoaderRoute: typeof ComponentsCheckboxMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/button_/matrix': {
+      id: '/components/button_/matrix'
+      path: '/button/matrix'
+      fullPath: '/components/button/matrix'
+      preLoaderRoute: typeof ComponentsButtonMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/badge_/matrix': {
+      id: '/components/badge_/matrix'
+      path: '/badge/matrix'
+      fullPath: '/components/badge/matrix'
+      preLoaderRoute: typeof ComponentsBadgeMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
   }
 }
 
@@ -1015,6 +1092,10 @@ interface ComponentsRouteChildren {
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
+  ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
+  ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
+  ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
+  ComponentsStatusMatrixRoute: typeof ComponentsStatusMatrixRoute
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
@@ -1052,6 +1133,10 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
+  ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,
+  ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,
+  ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
+  ComponentsStatusMatrixRoute: ComponentsStatusMatrixRoute,
 }
 
 const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(

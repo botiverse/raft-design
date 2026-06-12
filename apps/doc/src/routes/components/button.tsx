@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import { Button, type ButtonProps } from "@slock/ui";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -436,6 +437,16 @@ function ButtonDoc() {
     <DocPage
       title="Button"
       description="A clickable action control backed by semantic variants and tone utilities."
+      headerAction={
+        <Button
+          render={<a href="/components/button/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >

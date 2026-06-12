@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Status, type BadgeProps } from "@slock/ui";
+import { Badge, Button, Status, type BadgeProps } from "@slock/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import { IconGridCircleOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -190,6 +190,16 @@ function BadgeDoc() {
     <DocPage
       title="Badge"
       description="A small semantic label chip for status, category, and metadata."
+      headerAction={
+        <Button
+          render={<a href="/components/badge/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >

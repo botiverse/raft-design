@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Checkbox, type CheckboxProps } from "@slock/ui";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
+import { Button, Checkbox, type CheckboxProps } from "@slock/ui";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -183,6 +184,16 @@ function CheckboxDoc() {
     <DocPage
       title="Checkbox"
       description="A square toggle with checked and indeterminate states."
+      headerAction={
+        <Button
+          render={<a href="/components/checkbox/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >

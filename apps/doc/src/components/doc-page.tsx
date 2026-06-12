@@ -4,6 +4,7 @@ import { Toc, type TocItem } from "./toc.tsx";
 type DocPageProps = {
   title: string;
   description?: string;
+  headerAction?: ReactNode;
   /** Quick summary of what this component changes versus its upstream original. */
   overview?: ReactNode;
   toc: readonly TocItem[];
@@ -16,6 +17,7 @@ type DocPageProps = {
 export function DocPage({
   title,
   description,
+  headerAction,
   overview,
   toc,
   showToc = true,
@@ -33,12 +35,17 @@ export function DocPage({
         <article className={`w-full min-w-0 px-8 py-12 ${articleWidth} ${sectionDividerClass}`}>
           {showHeader ? (
             <header className="mb-10">
-              <h1 className="font-display text-3xl font-medium tracking-tight text-foreground-strong">
-                {title}
-              </h1>
-              {description ? (
-                <p className="mt-3 text-sm text-foreground-muted">{description}</p>
-              ) : null}
+              <div className="flex items-start justify-between gap-6">
+                <div className="min-w-0">
+                  <h1 className="font-display text-3xl font-medium tracking-tight text-foreground-strong">
+                    {title}
+                  </h1>
+                  {description ? (
+                    <p className="mt-3 text-sm text-foreground-muted">{description}</p>
+                  ) : null}
+                </div>
+                {headerAction ? <div className="shrink-0 pt-1">{headerAction}</div> : null}
+              </div>
               {overview ? (
                 <div className="mt-4 border-l-2 border-line-subtle pl-4 text-sm leading-relaxed text-foreground-muted">
                   {overview}
