@@ -7,9 +7,6 @@ export type { KbdGroupProps, KbdProps } from "./components/kbd/index.ts";
 export { Checkbox } from "./components/checkbox/index.ts";
 export type { CheckboxProps } from "./components/checkbox/index.ts";
 
-export { CheckIndicator } from "./components/check-indicator/index.ts";
-export type { CheckIndicatorProps } from "./components/check-indicator/index.ts";
-
 export { Badge } from "./components/badge/index.ts";
 export type { BadgeProps } from "./components/badge/index.ts";
 

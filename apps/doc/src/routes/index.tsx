@@ -9,7 +9,6 @@ import {
   BannerDescription,
   BannerTitle,
   Button,
-  CheckIndicator,
   Checkbox,
   ConversationPreviewCard,
   ConversationPreviewCardAuthor,
@@ -204,7 +203,7 @@ function ComponentGallery() {
         <FieldLabel>Readiness</FieldLabel>
         <FieldItem>
           <Checkbox defaultChecked />
-          <CheckIndicator checked fill="yellow" size="lg" />
+          <Checkbox indeterminate aria-label="Readiness has mixed state" />
           <span className="text-sm font-bold text-black">Preview ready</span>
         </FieldItem>
         <div className="mt-3 flex items-center gap-3">

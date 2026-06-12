@@ -3,7 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
-const checkIndicator = tv({
+const checkboxIndicator = tv({
   slots: {
     root: [
       "inline-flex shrink-0 items-center justify-center",
@@ -16,7 +16,6 @@ const checkIndicator = tv({
       brutal: {
         root: ["border-2 border-line-strong"],
       },
-      // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
     shape: {
@@ -27,8 +26,6 @@ const checkIndicator = tv({
         root: "rounded-full",
       },
     },
-    // Mark size and stroke (source's 10/12/13px, stroke 4/4/3) live on the icon via
-    // CSS; `:not([class*='size-'])` lets a caller override the mark with its own size.
     size: {
       sm: {
         root: ["size-3.5", "[&_svg:not([class*='size-'])]:size-2.5 [&_svg]:[stroke-width:4]"],
@@ -87,15 +84,15 @@ const checkIndicator = tv({
   },
 });
 
-type CheckIndicatorMark = "check" | "minus";
+type CheckboxIndicatorMark = "check" | "minus";
 
-export type CheckIndicatorProps = ComponentPropsWithRef<"span"> &
-  Omit<VariantProps<typeof checkIndicator>, "theme" | "checked"> & {
+export type CheckboxIndicatorProps = ComponentPropsWithRef<"span"> &
+  Omit<VariantProps<typeof checkboxIndicator>, "theme" | "checked"> & {
     checked: boolean;
-    mark?: CheckIndicatorMark;
+    mark?: CheckboxIndicatorMark;
   };
 
-export function CheckIndicator({
+export function CheckboxIndicator({
   checked,
   mark = "check",
   shape,
@@ -105,9 +102,9 @@ export function CheckIndicator({
   previewOnHover,
   className,
   ...props
-}: CheckIndicatorProps) {
+}: CheckboxIndicatorProps) {
   const theme = useTheme();
-  const { root } = checkIndicator({
+  const { root } = checkboxIndicator({
     theme,
     shape,
     size,
@@ -119,7 +116,12 @@ export function CheckIndicator({
   const Icon = mark === "minus" ? Minus : Check;
 
   return (
-    <span {...props} data-slot="check-indicator" aria-hidden className={root({ className })}>
+    <span
+      {...props}
+      data-slot="checkbox-indicator-graphic"
+      aria-hidden
+      className={root({ className })}
+    >
       {(checked || previewOnHover) && <Icon />}
     </span>
   );

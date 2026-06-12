@@ -46,8 +46,6 @@ import { Route as ComponentsDescriptionListRouteImport } from './routes/componen
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
-import { Route as ComponentsCheckMarkerRouteImport } from './routes/components/check-marker'
-import { Route as ComponentsCheckIndicatorRouteImport } from './routes/components/check-indicator'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -251,17 +249,6 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   path: '/checkbox',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsCheckMarkerRoute = ComponentsCheckMarkerRouteImport.update({
-  id: '/check-marker',
-  path: '/check-marker',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsCheckIndicatorRoute =
-  ComponentsCheckIndicatorRouteImport.update({
-    id: '/check-indicator',
-    path: '/check-indicator',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
@@ -335,8 +322,6 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
-  '/components/check-indicator': typeof ComponentsCheckIndicatorRoute
-  '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
@@ -388,8 +373,6 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
-  '/components/check-indicator': typeof ComponentsCheckIndicatorRoute
-  '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
@@ -442,8 +425,6 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
-  '/components/check-indicator': typeof ComponentsCheckIndicatorRoute
-  '/components/check-marker': typeof ComponentsCheckMarkerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
@@ -497,8 +478,6 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
-    | '/components/check-indicator'
-    | '/components/check-marker'
     | '/components/checkbox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
@@ -550,8 +529,6 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
-    | '/components/check-indicator'
-    | '/components/check-marker'
     | '/components/checkbox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
@@ -603,8 +580,6 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
-    | '/components/check-indicator'
-    | '/components/check-marker'
     | '/components/checkbox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
@@ -919,20 +894,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/check-marker': {
-      id: '/components/check-marker'
-      path: '/check-marker'
-      fullPath: '/components/check-marker'
-      preLoaderRoute: typeof ComponentsCheckMarkerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/check-indicator': {
-      id: '/components/check-indicator'
-      path: '/check-indicator'
-      fullPath: '/components/check-indicator'
-      preLoaderRoute: typeof ComponentsCheckIndicatorRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/button': {
       id: '/components/button'
       path: '/button'
@@ -1027,8 +988,6 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
-  ComponentsCheckIndicatorRoute: typeof ComponentsCheckIndicatorRoute
-  ComponentsCheckMarkerRoute: typeof ComponentsCheckMarkerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
@@ -1065,8 +1024,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
-  ComponentsCheckIndicatorRoute: ComponentsCheckIndicatorRoute,
-  ComponentsCheckMarkerRoute: ComponentsCheckMarkerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPreviewCardRoute:

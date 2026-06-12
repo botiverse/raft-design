@@ -12,6 +12,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker.tsx";
 import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
 
 const TOC = [
@@ -22,17 +23,15 @@ const TOC = [
   { id: "states", title: "States" },
   { id: "extensions", title: "Extensions" },
   { id: "label", title: "Label" },
+  { id: "selection", title: "Selection" },
+  { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SIZES = ["sm", "md"] as const;
 
-const TODOS = [
-  "Add elegant family styling",
-  "Document Checkbox Group usage",
-  "Keep the Checkbox and CheckIndicator visual contracts aligned",
-] as const;
+const TODOS = ["Document Checkbox Group usage"] as const;
 
 const SNIPPETS = {
   anatomy: `import { Checkbox } from "@slock/ui";
@@ -41,13 +40,37 @@ const SNIPPETS = {
   sizes: `<Checkbox size="sm" defaultChecked />
 <Checkbox size="md" defaultChecked />`,
   states: `<Checkbox />
+<Checkbox disabled />
 <Checkbox defaultChecked />
-<Checkbox defaultChecked disabled />`,
+<Checkbox defaultChecked disabled />
+<Checkbox indeterminate />
+<Checkbox indeterminate disabled />`,
   extensions: `<Checkbox indeterminate />`,
   label: `<label className="inline-flex items-center gap-2 text-sm">
   <Checkbox defaultChecked />
   Accept terms
 </label>`,
+  selection: `<div className="grid gap-2">
+  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--shadow)]">
+    <Checkbox defaultChecked aria-label="Select conversation" />
+    <span className="text-sm font-bold">Customer handoff</span>
+  </label>
+  <label className="flex items-center gap-3 border-2 border-black bg-white p-3">
+    <Checkbox aria-label="Select message" />
+    <span className="text-sm">Message selection</span>
+  </label>
+</div>`,
+  bulk: `<div className="flex items-center gap-3">
+  <Checkbox indeterminate aria-label="Select all messages" />
+  <span className="text-sm font-bold">3 of 8 selected</span>
+</div>`,
+  migration: `// Source
+<CheckMarker checked />
+<CheckMarker checked={false} previewOnHover />
+
+// Current
+<Checkbox checked readOnly aria-label="Selected" />
+<Checkbox aria-label="Select row" />`,
   sourceUnchecked: `<Checkbox />`,
   currentUnchecked: `<Checkbox />`,
   sourceChecked: `<Checkbox checked readOnly />`,
@@ -61,6 +84,10 @@ const SNIPPETS = {
   sourceDefaultChecked: `<Checkbox defaultChecked />`,
   currentDefaultChecked: `<Checkbox defaultChecked />`,
   currentIndeterminate: `<Checkbox indeterminate />`,
+  sourceMarker: `<CheckMarker checked />`,
+  currentMarker: `<Checkbox checked readOnly aria-label="Selected" />`,
+  sourceHoverMarker: `<CheckMarker checked={false} previewOnHover />`,
+  currentRowSelection: `<Checkbox aria-label="Select row" />`,
 } as const;
 
 type PlaygroundValues = {
@@ -75,7 +102,8 @@ const PROPS: readonly PropRow[] = [
     name: "size",
     type: SIZES.map((size) => `"${size}"`).join(" | "),
     default: '"sm"',
-    description: "Visual size of the box: sm (14px) for inline rows, md (16px) for settings lists.",
+    description:
+      "Visual size of the box. Brutal renders sm/md as 14px/16px; Elegant renders them as 16px/18px.",
   },
   {
     name: "checked",
@@ -133,11 +161,11 @@ function CheckboxDoc() {
         <Differences from="Checkbox">
           <li>
             built on Base UI&rsquo;s <code>Checkbox.Root</code> / <code>Checkbox.Indicator</code>{" "}
-            (source was an sr-only input + CheckMarker, now migrated to CheckIndicator)
+            (source was an sr-only input + CheckMarker)
           </li>
           <li>
-            reuses <code>CheckIndicator</code> for the visible box so form checkboxes and selection
-            rows share one visual primitive
+            keeps the visible marker internal, matching Base UI, shadcn, coss-ui, and Kumo&rsquo;s
+            Checkbox surface
           </li>
           <li>
             adds <code>indeterminate</code>, a focus-visible ring, an enlarged hit area, and a
@@ -185,8 +213,11 @@ function CheckboxDoc() {
       <DocSection id="states" title="States">
         <Example html={code.states}>
           <Checkbox />
+          <Checkbox disabled />
           <Checkbox defaultChecked />
           <Checkbox defaultChecked disabled />
+          <Checkbox indeterminate />
+          <Checkbox indeterminate disabled />
         </Example>
       </DocSection>
 
@@ -229,8 +260,41 @@ function CheckboxDoc() {
           <Callout>
             The checkbox is a leaf control with no built-in label. Wrap it in a <code>label</code>{" "}
             so the surrounding text toggles it, and let the wrapper own hover, cursor, and row
-            layout — different consumers compose it into different rows (inline vs stacked, with or
-            without a description), so forcing one layout would just push complexity into props.
+            layout.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="selection" title="Selection">
+        <div className="space-y-4">
+          <Example html={code.selection}>
+            <div className="grid min-w-64 gap-2">
+              <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--shadow)]">
+                <Checkbox defaultChecked aria-label="Select conversation" />
+                <span className="text-sm font-bold">Customer handoff</span>
+              </label>
+              <label className="flex items-center gap-3 border-2 border-black bg-white p-3">
+                <Checkbox aria-label="Select message" />
+                <span className="text-sm">Message selection</span>
+              </label>
+            </div>
+          </Example>
+          <Example html={code.bulk}>
+            <div className="flex items-center gap-3">
+              <Checkbox indeterminate aria-label="Select all messages" />
+              <span className="text-sm font-bold">3 of 8 selected</span>
+            </div>
+          </Example>
+        </div>
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <CodeBlock html={code.migration} />
+          <Callout>
+            Direct <code>CheckMarker</code> usage now folds into <code>Checkbox</code>. If a row,
+            message, or bulk list can be selected, keep selection state on a checkbox or a row-owned
+            selection pattern.
           </Callout>
         </div>
       </DocSection>
@@ -300,6 +364,24 @@ function CheckboxDoc() {
               source: <span className="text-xs text-gray-400">No source equivalent</span>,
               current: <Checkbox indeterminate />,
               currentCode: code.currentIndeterminate,
+            },
+            {
+              label: "Legacy CheckMarker",
+              status: "difference",
+              note: "Source exposed a decorative marker. Current keeps that graphic private and uses Checkbox for selectable rows.",
+              source: <LegacyCheckMarker checked />,
+              current: <Checkbox checked readOnly aria-label="Selected" />,
+              sourceCode: code.sourceMarker,
+              currentCode: code.currentMarker,
+            },
+            {
+              label: "Preview-on-hover marker",
+              status: "difference",
+              note: "Source allowed a hover-only decorative check. Current selection rows keep hover styling on the row and selection state on Checkbox.",
+              source: <LegacyCheckMarker checked={false} previewOnHover />,
+              current: <Checkbox aria-label="Select row" />,
+              sourceCode: code.sourceHoverMarker,
+              currentCode: code.currentRowSelection,
             },
           ]}
         />

@@ -1,6 +1,6 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { tv, type VariantProps } from "tailwind-variants";
-import { CheckIndicator } from "../check-indicator/check-indicator.tsx";
+import { CheckboxIndicator } from "./checkbox-indicator.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -23,8 +23,12 @@ const checkbox = tv({
     theme: {
       brutal: {},
       elegant: {
-        root: ["group/checkbox focus:outline-none"],
-        graphic: ["absolute inset-0"],
+        root: [
+          "group/checkbox rounded-[3px] focus:outline-none",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "transition-[box-shadow,transform] duration-100",
+        ],
+        graphic: ["absolute inset-0 size-full"],
       },
     },
     variant: {
@@ -53,26 +57,38 @@ const checkbox = tv({
     {
       theme: "elegant",
       size: "md",
-      class: { root: "size-5" },
+      class: { root: "size-[18px]" },
     },
     {
       theme: "elegant",
       variant: "soft",
       color: "default",
       class: {
-        outerRect: [
-          "fill-layer-muted",
-          "group-hover/checkbox:fill-secondary-200",
-          "group-focus-visible/checkbox:fill-primary-950",
-          "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-900",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-900",
-          "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-primary-950",
-          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-primary-950",
-          "group-data-[checked]/checkbox:fill-primary-950",
-          "group-data-[indeterminate]/checkbox:fill-primary-950",
-          "group-data-[disabled]/checkbox:fill-layer-muted",
+        root: [
+          "data-[checked]:shadow-[0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02)]",
+          "data-[indeterminate]:shadow-[0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02)]",
+          "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
         ],
-        mark: ["text-foreground-inverse"],
+        outerRect: [
+          "fill-layer-panel",
+          "stroke-transparent",
+          "group-hover/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:fill-foreground-strong",
+          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.31_0.006_285)]",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.31_0.006_285)]",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-foreground-strong",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-foreground-strong",
+          "group-data-[checked]/checkbox:fill-foreground-strong",
+          "group-data-[indeterminate]/checkbox:fill-foreground-strong",
+          "group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+        ],
+        mark: ["text-foreground-inverse group-data-[disabled]/checkbox:text-line"],
       },
     },
     {
@@ -80,9 +96,15 @@ const checkbox = tv({
       variant: "soft",
       color: "primary",
       class: {
+        root: [
+          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
+          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
+          "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+        ],
         outerRect: [
-          "fill-layer-muted",
-          "group-hover/checkbox:fill-secondary-200",
+          "fill-layer-panel",
+          "stroke-transparent",
+          "group-hover/checkbox:fill-layer-muted",
           "group-focus-visible/checkbox:fill-primary-400",
           "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-500",
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-500",
@@ -91,8 +113,14 @@ const checkbox = tv({
           "group-data-[checked]/checkbox:fill-primary-400",
           "group-data-[indeterminate]/checkbox:fill-primary-400",
           "group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
         ],
-        mark: ["text-primary-950"],
+        mark: ["text-primary-950 group-data-[disabled]/checkbox:text-line"],
       },
     },
     {
@@ -100,20 +128,38 @@ const checkbox = tv({
       variant: "outline",
       color: "default",
       class: {
+        root: [
+          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.05),0_4px_4px_-2px_oklch(0_0_0_/_0.025),0_0_0_1px_var(--line-strong)]",
+          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.05),0_4px_4px_-2px_oklch(0_0_0_/_0.025),0_0_0_1px_var(--line-strong)]",
+          "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+        ],
         outerRect: [
-          "fill-transparent",
-          "stroke-line",
+          "fill-layer-panel",
+          "stroke-transparent",
           "stroke-[0.5px]",
+          "group-hover/checkbox:fill-layer-muted",
           "group-hover/checkbox:stroke-line-strong",
-          "group-focus-visible/checkbox:stroke-primary-950",
-          "group-data-[checked]/checkbox:stroke-primary-950",
-          "group-data-[indeterminate]/checkbox:stroke-primary-950",
-          "group-hover/checkbox:group-data-[checked]/checkbox:stroke-primary-900",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:stroke-primary-900",
+          "group-focus-visible/checkbox:stroke-line-strong",
+          "group-data-[checked]/checkbox:stroke-line-strong",
+          "group-data-[indeterminate]/checkbox:stroke-line-strong",
+          "group-hover/checkbox:group-data-[checked]/checkbox:stroke-line-strong",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:stroke-line-strong",
           "group-data-[disabled]/checkbox:fill-layer-muted",
           "group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
         ],
-        mark: ["text-primary-950"],
+        mark: ["text-foreground-strong group-data-[disabled]/checkbox:text-line"],
       },
     },
     {
@@ -121,10 +167,16 @@ const checkbox = tv({
       variant: "outline",
       color: "primary",
       class: {
+        root: [
+          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
+          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
+          "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+        ],
         outerRect: [
-          "fill-transparent",
-          "stroke-line",
+          "fill-layer-panel",
+          "stroke-transparent",
           "stroke-[0.5px]",
+          "group-hover/checkbox:fill-layer-muted",
           "group-hover/checkbox:stroke-line-strong",
           "group-focus-visible/checkbox:stroke-primary-400",
           "group-data-[checked]/checkbox:stroke-primary-400",
@@ -133,8 +185,20 @@ const checkbox = tv({
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:stroke-primary-500",
           "group-data-[disabled]/checkbox:fill-layer-muted",
           "group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
+          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
         ],
-        mark: ["text-primary-400"],
+        mark: ["text-primary-400 group-data-[disabled]/checkbox:text-line"],
       },
     },
   ],
@@ -193,15 +257,15 @@ type ElegantCheckboxGraphicProps = {
 function ElegantCheckboxGraphic({ classNames }: ElegantCheckboxGraphicProps) {
   return (
     <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
       className={classNames.graphic}
     >
-      <rect x="2" y="2" width="16" height="16" rx="4" className={classNames.outerRect} />
+      <rect width="16" height="16" rx="3" className={classNames.outerRect} />
     </svg>
   );
 }
@@ -270,7 +334,7 @@ export function Checkbox({
         data-slot="checkbox-indicator"
         className={indicator()}
         render={(indicatorProps, state) => (
-          <CheckIndicator
+          <CheckboxIndicator
             {...indicatorProps}
             checked={state.checked || state.indeterminate}
             disabled={state.disabled}

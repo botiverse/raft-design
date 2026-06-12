@@ -54,11 +54,6 @@ const NAV = [
     title: "Inputs",
     items: [
       { label: "Checkbox", to: "/components/checkbox", progress: { structure: "done" } },
-      {
-        label: "CheckIndicator",
-        to: "/components/check-indicator",
-        progress: { structure: "done" },
-      },
       { label: "Field", to: "/components/field", progress: { structure: "done" } },
       { label: "Input", to: "/components/input", progress: { structure: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { structure: "done" } },
@@ -399,9 +394,9 @@ const MIGRATED = {
     },
     {
       label: "CheckMarker",
-      to: "/components/check-indicator",
-      hash: "source-comparison",
-      target: "CheckIndicator",
+      to: "/components/checkbox",
+      hash: "migration",
+      target: "Checkbox",
     },
     {
       label: "AttentionDot",
