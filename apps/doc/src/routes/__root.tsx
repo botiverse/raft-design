@@ -18,7 +18,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "Slock Design System",
+        title: "RAFT Design System",
       },
       {
         name: "description",

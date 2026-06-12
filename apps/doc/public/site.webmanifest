@@ -1,6 +1,6 @@
 {
-  "name": "Slock",
-  "short_name": "Slock",
+  "name": "RAFT Design System",
+  "short_name": "RAFT",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

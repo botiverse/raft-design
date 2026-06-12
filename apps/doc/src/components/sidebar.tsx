@@ -882,10 +882,7 @@ export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
       <Link to="/" className="flex items-center gap-2 text-foreground-strong">
-        <img src="/favicon-32x32.png" alt="" className="size-5 shrink-0 rounded-sm" />
-        <span className="text-sm font-semibold leading-tight tracking-tight">
-          Slock Design System
-        </span>
+        <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
       </Link>
       <nav className="mt-8 space-y-8">
         <ul className="space-y-1">
