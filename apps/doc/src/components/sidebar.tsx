@@ -2,7 +2,7 @@ import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Badge } from "@slock/ui";
-import { IconExternalLinkOutline18 } from "nucleo-ui-outline-18";
+import { IconGlobe3Outline18 } from "nucleo-ui-outline-18";
 
 const SKILLS = {
   title: "Skills",
@@ -46,7 +46,7 @@ const NAV = [
       {
         label: "Button",
         to: "/components/button",
-        progress: { structure: "done", elegant: "done" },
+        progress: { theme: "done" },
       },
     ],
   },
@@ -56,13 +56,13 @@ const NAV = [
       {
         label: "Checkbox",
         to: "/components/checkbox",
-        progress: { structure: "done", elegant: "done" },
+        progress: { theme: "done" },
       },
-      { label: "Field", to: "/components/field", progress: { structure: "done" } },
-      { label: "Input", to: "/components/input", progress: { structure: "done" } },
-      { label: "InputGroup", to: "/components/input-group", progress: { structure: "done" } },
-      { label: "Textarea", to: "/components/textarea", progress: { structure: "done" } },
-      { label: "ToggleGroup", to: "/components/toggle-group", progress: { structure: "done" } },
+      { label: "Field", to: "/components/field", progress: { theme: "todo" } },
+      { label: "Input", to: "/components/input", progress: { theme: "todo" } },
+      { label: "InputGroup", to: "/components/input-group", progress: { theme: "todo" } },
+      { label: "Textarea", to: "/components/textarea", progress: { theme: "todo" } },
+      { label: "ToggleGroup", to: "/components/toggle-group", progress: { theme: "todo" } },
     ],
     planned: [
       {
@@ -116,7 +116,7 @@ const NAV = [
       {
         label: "Tabs",
         to: "/components/tabs",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
     ],
     planned: [
@@ -155,11 +155,11 @@ const NAV = [
   {
     title: "Overlays",
     items: [
-      { label: "BottomSheet", to: "/components/bottom-sheet", progress: { structure: "done" } },
-      { label: "ContextMenu", to: "/components/context-menu", progress: { structure: "done" } },
-      { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { structure: "done" } },
-      { label: "Lightbox", to: "/components/lightbox", progress: { structure: "done" } },
-      { label: "Popover", to: "/components/popover", progress: { structure: "done" } },
+      { label: "BottomSheet", to: "/components/bottom-sheet", progress: { theme: "todo" } },
+      { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "todo" } },
+      { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "todo" } },
+      { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
+      { label: "Popover", to: "/components/popover", progress: { theme: "todo" } },
     ],
     planned: [
       {
@@ -197,14 +197,14 @@ const NAV = [
   {
     title: "Feedback",
     items: [
-      { label: "Banner", to: "/components/banner", progress: { structure: "done" } },
-      { label: "EmptyState", to: "/components/empty-state", progress: { structure: "done" } },
+      { label: "Banner", to: "/components/banner", progress: { theme: "todo" } },
+      { label: "EmptyState", to: "/components/empty-state", progress: { theme: "todo" } },
       {
         label: "NotificationCenter",
         to: "/components/notification-center",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
-      { label: "Spinner", to: "/components/spinner", progress: { structure: "done" } },
+      { label: "Spinner", to: "/components/spinner", progress: { theme: "todo" } },
     ],
     planned: [
       {
@@ -224,12 +224,12 @@ const NAV = [
   {
     title: "Status & Indicators",
     items: [
-      { label: "Badge", to: "/components/badge", progress: { structure: "done", elegant: "done" } },
-      { label: "Kbd", to: "/components/kbd", progress: { structure: "done" } },
+      { label: "Badge", to: "/components/badge", progress: { theme: "done" } },
+      { label: "Kbd", to: "/components/kbd", progress: { theme: "todo" } },
       {
         label: "Status",
         to: "/components/status",
-        progress: { structure: "done", elegant: "done" },
+        progress: { theme: "done" },
       },
     ],
     planned: [
@@ -247,28 +247,28 @@ const NAV = [
       {
         label: "Avatar",
         to: "/components/avatar",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
       {
         label: "MediaListItem",
         to: "/components/media-list-item",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
       {
         label: "ConversationPreviewCard",
         to: "/components/conversation-preview-card",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
       {
         label: "DescriptionList",
         to: "/components/description-list",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
-      { label: "ListItem", to: "/components/list-item", progress: { structure: "done" } },
+      { label: "ListItem", to: "/components/list-item", progress: { theme: "todo" } },
       {
         label: "QuotedMessageCard",
         to: "/components/quoted-message-card",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
     ],
     planned: [
@@ -289,13 +289,13 @@ const NAV = [
   {
     title: "Layout",
     items: [
-      { label: "PanelHeader", to: "/components/panel-header", progress: { structure: "done" } },
-      { label: "PreviewShell", to: "/components/preview-shell", progress: { structure: "done" } },
-      { label: "SectionLabel", to: "/components/section-label", progress: { structure: "done" } },
+      { label: "PanelHeader", to: "/components/panel-header", progress: { theme: "todo" } },
+      { label: "PreviewShell", to: "/components/preview-shell", progress: { theme: "todo" } },
+      { label: "SectionLabel", to: "/components/section-label", progress: { theme: "todo" } },
       {
         label: "SectionHeader",
         to: "/components/section-header",
-        progress: { structure: "done" },
+        progress: { theme: "todo" },
       },
     ],
     planned: [
@@ -527,28 +527,20 @@ const SOURCE_HOLDS = {
   ],
 } as const;
 
-type TaskKey = "migration" | "structure" | "elegant";
 type TaskStatus = "done" | "in-progress" | "todo";
-type Progress = Partial<Record<TaskKey, TaskStatus>>;
+type Progress = {
+  theme?: TaskStatus;
+};
 
 const DEFAULT_PROGRESS = {
-  migration: "done",
-  structure: "in-progress",
-  elegant: "todo",
-} as const satisfies Record<TaskKey, TaskStatus>;
-
-const TASKS = {
-  migration: { short: "Mig", label: "Migration" },
-  structure: { short: "Struct", label: "Structure" },
-  elegant: { short: "Theme", label: "Elegant theme" },
-} as const satisfies Record<TaskKey, { short: string; label: string }>;
-const VISIBLE_TASKS = ["elegant"] as const satisfies readonly TaskKey[];
+  theme: "todo",
+} as const satisfies Progress;
 
 const TASK_STATUS = {
-  done: { label: "Done" },
-  "in-progress": { label: "In progress" },
-  todo: { label: "Todo" },
-} as const satisfies Record<TaskStatus, { label: string }>;
+  done: { label: "Done", short: "Done" },
+  "in-progress": { label: "In progress", short: "WIP" },
+  todo: { label: "Todo", short: "TODO" },
+} as const satisfies Record<TaskStatus, { label: string; short: string }>;
 
 type NavItem = {
   label: string;
@@ -611,7 +603,7 @@ function NavLink({
       aria-current={isActive ? "page" : undefined}
       className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
         depth === 1 ? "text-xs" : "text-[13px]"
-      } ${isActive ? "bg-layer-muted text-foreground-strong" : "text-neutral-500"} ${sidebarItemFocusClassName}`}
+      } ${isActive ? "bg-layer-muted text-foreground-strong" : "text-foreground-muted"} ${sidebarItemFocusClassName}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
@@ -628,36 +620,25 @@ function NavGroupLabel({ label, badge }: { label: string; badge?: ReactNode }) {
   );
 }
 
-function ProgressBadges({ progress }: { progress?: Progress }) {
-  const visibleTasks = VISIBLE_TASKS.filter((task) => {
-    const status = progress?.[task] ?? DEFAULT_PROGRESS[task];
-    return status !== "done";
-  });
+function ProgressBadge({ progress }: { progress?: Progress }) {
+  const status = progress?.theme ?? DEFAULT_PROGRESS.theme;
+  const variant = status === "todo" ? "default" : "primary";
 
-  if (visibleTasks.length === 0) {
+  if (status === "done") {
     return null;
   }
 
   return (
-    <span className="ml-auto flex shrink-0 items-center gap-1" aria-label="Component status">
-      {visibleTasks.map((task) => {
-        const status = progress?.[task] ?? DEFAULT_PROGRESS[task];
-        const taskLabel = TASKS[task].label;
-        const statusLabel = TASK_STATUS[status].label;
-        return (
-          <Badge
-            key={task}
-            appearance="soft"
-            variant="muted"
-            title={`${taskLabel}: ${statusLabel}`}
-            aria-label={`${taskLabel}: ${statusLabel}`}
-            className="h-4 min-w-9 justify-center px-1 text-[9px]"
-          >
-            {TASKS[task].short}
-          </Badge>
-        );
-      })}
-    </span>
+    <Badge
+      appearance="solid"
+      variant={variant}
+      title={`Theme: ${TASK_STATUS[status].label}`}
+      aria-label={`Theme: ${TASK_STATUS[status].label}`}
+      uppercase
+      className="h-4 min-w-9 shrink-0 justify-center px-1 text-[9px]"
+    >
+      {TASK_STATUS[status].short}
+    </Badge>
   );
 }
 
@@ -674,7 +655,7 @@ function NavItemBadge({ item }: { item: NavItem }) {
     return null;
   }
 
-  return <ProgressBadges progress={item.progress} />;
+  return <ProgressBadge progress={item.progress} />;
 }
 
 function MigratedLink({ to, label, hash, target }: MigratedItem) {
@@ -706,8 +687,8 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-foreground-placeholder decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground ${
-          isActive ? "bg-layer-muted text-foreground" : "text-foreground-muted"
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-foreground-placeholder decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
+          isActive ? "bg-layer-muted text-foreground-strong" : "text-foreground-muted"
         } ${sidebarItemFocusClassName}`}
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
@@ -834,11 +815,11 @@ function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-foreground-muted transition-colors hover:bg-layer-muted/80 hover:text-foreground"
+        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-foreground-muted transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong"
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
         <Badge
-          appearance="soft"
+          appearance="solid"
           variant={statusVariant}
           uppercase
           className="h-4 shrink-0 px-1 text-[9px]"
@@ -869,14 +850,12 @@ function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
       rel="noreferrer"
       title={`${priority}: ${reason}`}
       aria-label={`${label}: ${priority}. ${reason} Open Base UI docs.`}
-      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-foreground-muted transition-colors hover:bg-layer-muted/80 hover:text-foreground ${sidebarItemFocusClassName}`}
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-foreground-muted transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${sidebarItemFocusClassName}`}
     >
-      <span className="min-w-0 flex-1 truncate">{label}</span>
-      <IconExternalLinkOutline18
-        className="size-3 shrink-0 opacity-50"
-        strokeWidth={1.5}
-        aria-hidden
-      />
+      <span className="flex min-w-0 flex-1 items-center gap-1">
+        <span className="min-w-0 truncate">{label}</span>
+        <IconGlobe3Outline18 className="size-3 shrink-0 opacity-50" aria-hidden />
+      </span>
       <PriorityBadge priority={priority} />
     </a>
   );
@@ -888,12 +867,12 @@ function PriorityBadge({ priority }: { priority: PlannedPriority }) {
     P1: "primary",
     P2: "information",
     Later: "accent",
-    Parked: "muted",
+    Parked: "default",
   } satisfies Record<PlannedPriority, BadgeVariant>;
   const variant = variants[priority];
 
   return (
-    <Badge appearance="soft" variant={variant} uppercase className="h-4 shrink-0 px-1 text-[9px]">
+    <Badge appearance="solid" variant={variant} uppercase className="h-4 shrink-0 px-1 text-[9px]">
       {priority}
     </Badge>
   );
