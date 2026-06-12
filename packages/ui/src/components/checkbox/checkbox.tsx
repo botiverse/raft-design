@@ -8,22 +8,30 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 const checkbox = tv({
   slots: {
     root: [
-      "relative inline-flex shrink-0 items-center justify-center outline-none",
+      "relative inline-flex shrink-0 touch-manipulation items-center justify-center outline-none",
       "focus-visible:ring-2 focus-visible:ring-line-focus",
       "data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
     ],
     indicator: ["pointer-events-none"],
     graphic: ["pointer-events-none"],
-    outerRect: ["transition-[fill,stroke] duration-200 ease-out"],
+    outerRect: ["transition-[fill,stroke] duration-[160ms] ease-out motion-reduce:transition-none"],
     overlayRect: [
-      "pointer-events-none opacity-0 transition-opacity duration-200 ease-out",
+      "pointer-events-none opacity-0 transition-opacity duration-[160ms] ease-out motion-reduce:transition-none",
       "group-data-[disabled]/checkbox:opacity-0",
       "group-hover/checkbox:group-data-[disabled]/checkbox:opacity-0 group-focus-visible/checkbox:group-data-[disabled]/checkbox:opacity-0",
     ],
-    mark: ["absolute left-1/2 top-1/2 shrink-0 -translate-x-1/2 -translate-y-1/2"],
-    checkMark: ["opacity-0 transition-opacity duration-200 ease-out"],
-    indeterminateMark: ["invisible opacity-0 transition-opacity duration-200 ease-out"],
+    mark: ["absolute left-1/2 top-1/2 shrink-0 origin-center -translate-x-1/2 -translate-y-1/2"],
+    checkMark: [
+      "-rotate-6 scale-[0.82] opacity-0",
+      "transition-[opacity,transform] duration-[180ms] ease-out motion-reduce:transition-none",
+      "motion-reduce:rotate-0 motion-reduce:scale-100",
+    ],
+    indeterminateMark: [
+      "invisible scale-x-50 opacity-0",
+      "transition-[opacity,transform] duration-[160ms] ease-out motion-reduce:transition-none",
+      "motion-reduce:scale-x-100",
+    ],
   },
   variants: {
     theme: {
@@ -32,7 +40,8 @@ const checkbox = tv({
         root: [
           "group/checkbox rounded-[3px] focus:outline-none",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
-          "transition-[box-shadow,transform] duration-100",
+          "transition-[box-shadow,transform] duration-100 ease-out motion-reduce:transition-none",
+          "active:scale-[0.96] data-[disabled]:active:scale-100 motion-reduce:active:scale-100",
         ],
         graphic: ["absolute inset-0 size-full"],
       },
@@ -300,14 +309,15 @@ export function Checkbox({
               <CheckboxCheckIcon
                 className={mark({
                   className: checkMark({
-                    className: state.checked && !state.indeterminate ? "opacity-100" : "",
+                    className:
+                      state.checked && !state.indeterminate ? "rotate-0 scale-100 opacity-100" : "",
                   }),
                 })}
               />
               <CheckboxIndeterminateIcon
                 className={mark({
                   className: indeterminateMark({
-                    className: state.indeterminate ? "visible opacity-100" : "",
+                    className: state.indeterminate ? "visible scale-x-100 opacity-100" : "",
                   }),
                 })}
               />
