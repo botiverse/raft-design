@@ -532,8 +532,14 @@ function SelectionCard() {
         <Checkbox size="md" color="default" defaultChecked aria-label="Checked default" />
         <Checkbox size="md" color="primary" defaultChecked aria-label="Checked primary" />
         <Checkbox size="md" indeterminate aria-label="Indeterminate" />
-        <Checkbox size="md" variant="outline" aria-label="Outline unchecked" />
-        <Checkbox size="md" variant="outline" defaultChecked aria-label="Outline checked" />
+        <Checkbox size="md" variant="primary" indeterminate aria-label="Primary indeterminate" />
+        <Checkbox
+          size="md"
+          variant="primary"
+          disabled
+          defaultChecked
+          aria-label="Primary disabled"
+        />
       </div>
     </TesterTile>
   );

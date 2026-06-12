@@ -53,7 +53,11 @@ const NAV = [
   {
     title: "Inputs",
     items: [
-      { label: "Checkbox", to: "/components/checkbox", progress: { structure: "done" } },
+      {
+        label: "Checkbox",
+        to: "/components/checkbox",
+        progress: { structure: "done", elegant: "done" },
+      },
       { label: "Field", to: "/components/field", progress: { structure: "done" } },
       { label: "Input", to: "/components/input", progress: { structure: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { structure: "done" } },

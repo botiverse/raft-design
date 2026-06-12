@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { tv, type VariantProps } from "tailwind-variants";
 import { CheckboxIndicator } from "./checkbox-indicator.tsx";
@@ -15,6 +16,11 @@ const checkbox = tv({
     indicator: ["pointer-events-none"],
     graphic: ["pointer-events-none"],
     outerRect: ["transition-[fill,stroke] duration-200 ease-out"],
+    overlayRect: [
+      "pointer-events-none opacity-0 transition-opacity duration-200 ease-out",
+      "group-data-[disabled]/checkbox:opacity-0",
+      "group-hover/checkbox:group-data-[disabled]/checkbox:opacity-0 group-focus-visible/checkbox:group-data-[disabled]/checkbox:opacity-0",
+    ],
     mark: ["absolute left-1/2 top-1/2 shrink-0 -translate-x-1/2 -translate-y-1/2"],
     checkMark: ["opacity-0 transition-opacity duration-200 ease-out"],
     indeterminateMark: ["invisible opacity-0 transition-opacity duration-200 ease-out"],
@@ -32,8 +38,8 @@ const checkbox = tv({
       },
     },
     variant: {
-      soft: {},
-      outline: {},
+      default: {},
+      primary: {},
     },
     color: {
       default: {},
@@ -61,21 +67,23 @@ const checkbox = tv({
     },
     {
       theme: "elegant",
-      variant: "soft",
+      variant: "default",
       color: "default",
       class: {
         root: [
           "data-[checked]:shadow-[0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02)]",
           "data-[indeterminate]:shadow-[0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02)]",
           "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[indeterminate]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
         ],
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-layer-muted",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_286)]",
           "group-focus-visible/checkbox:fill-foreground-strong",
-          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.31_0.006_285)]",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.31_0.006_285)]",
+          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.38_0.006_285)]",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.38_0.006_285)]",
           "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-foreground-strong",
           "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-foreground-strong",
           "group-data-[checked]/checkbox:fill-foreground-strong",
@@ -93,21 +101,22 @@ const checkbox = tv({
     },
     {
       theme: "elegant",
-      variant: "soft",
-      color: "primary",
+      variant: "primary",
       class: {
         root: [
           "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
           "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
           "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[indeterminate]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
         ],
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-layer-muted",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_286)]",
           "group-focus-visible/checkbox:fill-primary-400",
-          "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-500",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-500",
+          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.86_0.15_91.89)]",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.86_0.15_91.89)]",
           "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-primary-400",
           "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-primary-400",
           "group-data-[checked]/checkbox:fill-primary-400",
@@ -120,92 +129,56 @@ const checkbox = tv({
           "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
           "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
         ],
+        overlayRect: [
+          "group-hover/checkbox:group-data-[checked]/checkbox:opacity-100 group-focus-visible/checkbox:group-data-[checked]/checkbox:opacity-100",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:opacity-100 group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:opacity-100",
+        ],
         mark: ["text-primary-950 group-data-[disabled]/checkbox:text-line"],
       },
     },
     {
       theme: "elegant",
-      variant: "outline",
-      color: "default",
-      class: {
-        root: [
-          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.05),0_4px_4px_-2px_oklch(0_0_0_/_0.025),0_0_0_1px_var(--line-strong)]",
-          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.05),0_4px_4px_-2px_oklch(0_0_0_/_0.025),0_0_0_1px_var(--line-strong)]",
-          "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
-        ],
-        outerRect: [
-          "fill-layer-panel",
-          "stroke-transparent",
-          "stroke-[0.5px]",
-          "group-hover/checkbox:fill-layer-muted",
-          "group-hover/checkbox:stroke-line-strong",
-          "group-focus-visible/checkbox:stroke-line-strong",
-          "group-data-[checked]/checkbox:stroke-line-strong",
-          "group-data-[indeterminate]/checkbox:stroke-line-strong",
-          "group-hover/checkbox:group-data-[checked]/checkbox:stroke-line-strong",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:stroke-line-strong",
-          "group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-        ],
-        mark: ["text-foreground-strong group-data-[disabled]/checkbox:text-line"],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "outline",
+      variant: "default",
       color: "primary",
       class: {
         root: [
           "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
           "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
           "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[indeterminate]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
         ],
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "stroke-[0.5px]",
-          "group-hover/checkbox:fill-layer-muted",
-          "group-hover/checkbox:stroke-line-strong",
-          "group-focus-visible/checkbox:stroke-primary-400",
-          "group-data-[checked]/checkbox:stroke-primary-400",
-          "group-data-[indeterminate]/checkbox:stroke-primary-400",
-          "group-hover/checkbox:group-data-[checked]/checkbox:stroke-primary-500",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:stroke-primary-500",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_286)]",
+          "group-focus-visible/checkbox:fill-primary-400",
+          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.86_0.15_91.89)]",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.86_0.15_91.89)]",
+          "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-primary-400",
+          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-primary-400",
+          "group-data-[checked]/checkbox:fill-primary-400",
+          "group-data-[indeterminate]/checkbox:fill-primary-400",
           "group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-data-[disabled]/checkbox:stroke-line-subtle",
           "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
           "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
           "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
           "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
           "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:fill-layer-muted",
-          "group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-hover/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-focus-visible/checkbox:group-data-[checked]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
-          "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:group-data-[disabled]/checkbox:stroke-line-subtle",
         ],
-        mark: ["text-primary-400 group-data-[disabled]/checkbox:text-line"],
+        overlayRect: [
+          "group-hover/checkbox:group-data-[checked]/checkbox:opacity-100 group-focus-visible/checkbox:group-data-[checked]/checkbox:opacity-100",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:opacity-100 group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:opacity-100",
+        ],
+        mark: ["text-primary-950 group-data-[disabled]/checkbox:text-line"],
       },
     },
   ],
   defaultVariants: {
     color: "default",
     size: "sm",
-    variant: "soft",
+    variant: "default",
   },
 });
 
@@ -251,10 +224,13 @@ type ElegantCheckboxGraphicProps = {
   classNames: {
     graphic: string;
     outerRect: string;
+    overlayRect: string;
   };
 };
 
 function ElegantCheckboxGraphic({ classNames }: ElegantCheckboxGraphicProps) {
+  const gradientId = `checkbox-hover-${useId().replace(/:/g, "")}`;
+
   return (
     <svg
       width="16"
@@ -265,7 +241,20 @@ function ElegantCheckboxGraphic({ classNames }: ElegantCheckboxGraphicProps) {
       aria-hidden
       className={classNames.graphic}
     >
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="oklab(100% 0 0 / 14%)" />
+          <stop offset="100%" stopColor="oklab(0% 0 0 / 3%)" />
+        </linearGradient>
+      </defs>
       <rect width="16" height="16" rx="3" className={classNames.outerRect} />
+      <rect
+        width="16"
+        height="16"
+        rx="3"
+        fill={`url(#${gradientId})`}
+        className={classNames.overlayRect}
+      />
     </svg>
   );
 }
@@ -276,17 +265,18 @@ export type CheckboxProps = StyledProps<BaseCheckbox.Root.Props> &
 export function Checkbox({
   size,
   color = "default",
-  variant = "soft",
+  variant = "default",
   className,
   ...props
 }: CheckboxProps) {
   const theme = useTheme();
-  const { root, indicator, graphic, outerRect, mark, checkMark, indeterminateMark } = checkbox({
-    theme,
-    size,
-    color,
-    variant,
-  });
+  const { root, indicator, graphic, outerRect, overlayRect, mark, checkMark, indeterminateMark } =
+    checkbox({
+      theme,
+      size,
+      color,
+      variant,
+    });
 
   if (theme === "elegant") {
     return (
@@ -295,6 +285,7 @@ export function Checkbox({
           classNames={{
             graphic: graphic(),
             outerRect: outerRect(),
+            overlayRect: overlayRect(),
           }}
         />
         <BaseCheckbox.Indicator
@@ -340,7 +331,7 @@ export function Checkbox({
             disabled={state.disabled}
             mark={state.indeterminate ? "minus" : "check"}
             size={size}
-            fill="black"
+            fill={variant === "primary" || color === "primary" ? "yellow" : "black"}
           />
         )}
       />

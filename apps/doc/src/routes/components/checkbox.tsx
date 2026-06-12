@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Checkbox, type CheckboxProps } from "@slock/ui";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -19,17 +17,18 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "variants", title: "Variants" },
   { id: "sizes", title: "Sizes" },
   { id: "states", title: "States" },
-  { id: "extensions", title: "Extensions" },
   { id: "label", title: "Label" },
   { id: "selection", title: "Selection" },
-  { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
 const SIZES = ["sm", "md"] as const;
+const VARIANTS = ["default", "primary"] as const;
 
 const TODOS = ["Document Checkbox Group usage"] as const;
 
@@ -39,13 +38,22 @@ const SNIPPETS = {
 <Checkbox defaultChecked />`,
   sizes: `<Checkbox size="sm" defaultChecked />
 <Checkbox size="md" defaultChecked />`,
+  variants: `<Checkbox defaultChecked />
+<Checkbox variant="primary" defaultChecked />`,
   states: `<Checkbox />
 <Checkbox disabled />
+<Checkbox variant="primary" />
+<Checkbox variant="primary" disabled />
+
 <Checkbox defaultChecked />
 <Checkbox defaultChecked disabled />
+<Checkbox variant="primary" defaultChecked />
+<Checkbox variant="primary" defaultChecked disabled />
+
 <Checkbox indeterminate />
-<Checkbox indeterminate disabled />`,
-  extensions: `<Checkbox indeterminate />`,
+<Checkbox indeterminate disabled />
+<Checkbox variant="primary" indeterminate />
+<Checkbox variant="primary" indeterminate disabled />`,
   label: `<label className="inline-flex items-center gap-2 text-sm">
   <Checkbox defaultChecked />
   Accept terms
@@ -64,12 +72,15 @@ const SNIPPETS = {
   <Checkbox indeterminate aria-label="Select all messages" />
   <span className="text-sm font-bold">3 of 8 selected</span>
 </div>`,
-  migration: `// Source
+  migrationMarker: `// Source
 <CheckMarker checked />
+
+// Current
+<Checkbox checked readOnly aria-label="Selected" />`,
+  migrationRowSelection: `// Source
 <CheckMarker checked={false} previewOnHover />
 
 // Current
-<Checkbox checked readOnly aria-label="Selected" />
 <Checkbox aria-label="Select row" />`,
   sourceUnchecked: `<Checkbox />`,
   currentUnchecked: `<Checkbox />`,
@@ -92,6 +103,7 @@ const SNIPPETS = {
 
 type PlaygroundValues = {
   size: NonNullable<CheckboxProps["size"]>;
+  variant: NonNullable<CheckboxProps["variant"]>;
   checked: boolean;
   indeterminate: boolean;
   disabled: boolean;
@@ -104,6 +116,12 @@ const PROPS: readonly PropRow[] = [
     default: '"sm"',
     description:
       "Visual size of the box. Brutal renders sm/md as 14px/16px; Elegant renders them as 16px/18px.",
+  },
+  {
+    name: "variant",
+    type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
+    default: '"default"',
+    description: "Visual treatment for the checked background.",
   },
   {
     name: "checked",
@@ -157,22 +175,6 @@ function CheckboxDoc() {
     <DocPage
       title="Checkbox"
       description="A square toggle with checked and indeterminate states."
-      overview={
-        <Differences from="Checkbox">
-          <li>
-            built on Base UI&rsquo;s <code>Checkbox.Root</code> / <code>Checkbox.Indicator</code>{" "}
-            (source was an sr-only input + CheckMarker)
-          </li>
-          <li>
-            keeps the visible marker internal, matching Base UI, shadcn, coss-ui, and Kumo&rsquo;s
-            Checkbox surface
-          </li>
-          <li>
-            adds <code>indeterminate</code>, a focus-visible ring, an enlarged hit area, and a
-            disabled cursor — see <a href="#extensions">Extensions</a>
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="todo" title="Todo">
@@ -181,9 +183,16 @@ function CheckboxDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ size: "sm", checked: true, indeterminate: false, disabled: false }}
+          defaultValues={{
+            size: "sm",
+            variant: "default",
+            checked: true,
+            indeterminate: false,
+            disabled: false,
+          }}
           controls={[
             { name: "size", label: "Size", type: "select", options: SIZES },
+            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
             { name: "checked", label: "Checked", type: "boolean" },
             { name: "indeterminate", label: "Indeterminate", type: "boolean" },
             { name: "disabled", label: "Disabled", type: "boolean" },
@@ -191,6 +200,7 @@ function CheckboxDoc() {
           render={(values) => (
             <Checkbox
               size={values.size}
+              variant={values.variant}
               checked={values.checked}
               indeterminate={values.indeterminate}
               disabled={values.disabled}
@@ -203,46 +213,48 @@ function CheckboxDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
+      <DocSection id="variants" title="Variants">
+        <div className="space-y-4">
+          <Example html={code.variants}>
+            <Checkbox defaultChecked />
+            <Checkbox variant="primary" defaultChecked />
+          </Example>
+        </div>
+      </DocSection>
+
       <DocSection id="sizes" title="Sizes">
-        <Example html={code.sizes}>
-          <Checkbox size="sm" defaultChecked />
-          <Checkbox size="md" defaultChecked />
-        </Example>
+        <div className="space-y-4">
+          <Example html={code.sizes}>
+            <Checkbox size="sm" defaultChecked />
+            <Checkbox size="md" defaultChecked />
+          </Example>
+        </div>
       </DocSection>
 
       <DocSection id="states" title="States">
-        <Example html={code.states}>
-          <Checkbox />
-          <Checkbox disabled />
-          <Checkbox defaultChecked />
-          <Checkbox defaultChecked disabled />
-          <Checkbox indeterminate />
-          <Checkbox indeterminate disabled />
-        </Example>
-      </DocSection>
-
-      <DocSection id="extensions" title="Extensions">
         <div className="space-y-4">
-          <Example html={code.extensions}>
-            <Checkbox indeterminate />
+          <Example html={code.states}>
+            <div className="grid w-full gap-4">
+              <div className="flex items-center gap-4">
+                <Checkbox />
+                <Checkbox disabled />
+                <Checkbox variant="primary" />
+                <Checkbox variant="primary" disabled />
+              </div>
+              <div className="flex items-center gap-4">
+                <Checkbox defaultChecked />
+                <Checkbox defaultChecked disabled />
+                <Checkbox variant="primary" defaultChecked />
+                <Checkbox variant="primary" defaultChecked disabled />
+              </div>
+              <div className="flex items-center gap-4">
+                <Checkbox indeterminate />
+                <Checkbox indeterminate disabled />
+                <Checkbox variant="primary" indeterminate />
+                <Checkbox variant="primary" indeterminate disabled />
+              </div>
+            </div>
           </Example>
-          <Callout>
-            These go beyond the original component, which only had checked / unchecked / disabled
-            states and no visible focus:
-            <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>
-                <code>indeterminate</code> renders a dash instead of a check.
-              </li>
-              <li>
-                a <code>focus-visible</code> ring is drawn on keyboard focus (the original held
-                focus on a hidden input, so the box itself showed none).
-              </li>
-              <li>
-                an invisible enlarged hit area keeps the small box easy to click and tap, and{" "}
-                <code>disabled</code> shows a not-allowed cursor.
-              </li>
-            </ul>
-          </Callout>
         </div>
       </DocSection>
 
@@ -257,11 +269,6 @@ function CheckboxDoc() {
               Accept terms
             </label>
           </Example>
-          <Callout>
-            The checkbox is a leaf control with no built-in label. Wrap it in a <code>label</code>{" "}
-            so the surrounding text toggles it, and let the wrapper own hover, cursor, and row
-            layout.
-          </Callout>
         </div>
       </DocSection>
 
@@ -285,17 +292,6 @@ function CheckboxDoc() {
               <span className="text-sm font-bold">3 of 8 selected</span>
             </div>
           </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <CodeBlock html={code.migration} />
-          <Callout>
-            Direct <code>CheckMarker</code> usage now folds into <code>Checkbox</code>. If a row,
-            message, or bulk list can be selected, keep selection state on a checkbox or a row-owned
-            selection pattern.
-          </Callout>
         </div>
       </DocSection>
 
@@ -385,6 +381,25 @@ function CheckboxDoc() {
             },
           ]}
         />
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">CheckMarker</h3>
+            <p className="text-sm text-gray-500">
+              Move decorative marker usage to a Checkbox-owned selected state.
+            </p>
+            <CodeBlock html={code.migrationMarker} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Row Selection</h3>
+            <p className="text-sm text-gray-500">
+              Keep row hover styling on the row and selection state on Checkbox.
+            </p>
+            <CodeBlock html={code.migrationRowSelection} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );
