@@ -1,138 +1,151 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Status, type StatusAttentionProps, type StatusProps } from "@slock/ui";
+import { Status, type StatusProps } from "@slock/ui";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyAttentionDot from "../../../../../packages/ui/src/legacy/AttentionDot.tsx";
 import LegacyStatusDot from "../../../../../packages/ui/src/legacy/StatusDot.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "status", title: "Status" },
-  { id: "attention", title: "Attention" },
-  { id: "fill", title: "Fill" },
-  { id: "activity", title: "Activity migration" },
+  { id: "variants", title: "Variants" },
+  { id: "sizes", title: "Sizes" },
+  { id: "pulse", title: "Pulse" },
+  { id: "customize", title: "Customize" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
-const STATUS_SIZES = ["sm", "md", "lg"] as const;
-const ATTENTION_SIZES = ["sm", "lg"] as const;
-const FILLS = ["gray", "lime", "yellow", "orange", "pink", "cyan", "red", "stone"] as const;
-
-const TODOS = [
-  "Add elegant family styling",
-  "Keep Status as the status family root and Status.Attention as the unread/pending member",
+const VARIANTS = [
+  "default",
+  "primary",
+  "information",
+  "muted",
+  "accent",
+  "success",
+  "warning",
+  "danger",
 ] as const;
+
+const SIZES = ["xs", "sm", "md", "lg"] as const;
 
 const SNIPPETS = {
   anatomy: `import { Status } from "@slock/ui";
 
-<Status fill="lime" />
-<Status.Attention />`,
-  status: `<Status size="sm" fill="lime" />
-<Status size="md" fill="lime" />
-<Status size="lg" fill="lime" />`,
-  attention: `<Status.Attention size="lg" />
-<Status.Attention size="sm" />
-<Status.Attention fill="orange" />`,
-  fill: `<Status fill="gray" />
-<Status fill="lime" />
-<Status fill="yellow" />
-<Status.Attention fill="pink" />
-<Status.Attention fill="orange" />`,
-  activity: `// activity -> fill/pulse is app domain; map it at the callsite:
-<Status fill={getActivityDotFill(activity)} pulse={isBusyActivity(activity)} />`,
+<Status variant="success" />`,
+  variants: `<Status />
+<Status variant="primary" />
+<Status variant="information" />
+<Status variant="muted" />
+<Status variant="accent" />
+<Status variant="success" />
+<Status variant="warning" />
+<Status variant="danger" />`,
+  sizes: `<Status size="xs" variant="success" />
+<Status size="sm" variant="success" />
+<Status size="md" variant="success" />
+<Status size="lg" variant="success" />`,
+  pulse: `<Status size="xs" variant="primary" pulse />
+<Status size="sm" variant="primary" pulse />
+<Status size="md" variant="primary" pulse />
+<Status size="lg" variant="primary" pulse />`,
+  customize: `<Status className="[--status-color:var(--color-brutal-purple-300)]" />
+<Status
+  pulse
+  className="[--status-color:var(--color-brutal-purple-300)]"
+/>`,
+  migrationActivity: `// Source
+<StatusDot activity="online" />
+<StatusDot activity="thinking" />
+<StatusDot activity="working" />
+<StatusDot activity="error" />
+<StatusDot activity="offline" />
+
+// Current
+<Status variant="success" />
+<Status variant="primary" pulse />
+<Status variant="primary" pulse />
+<Status variant="warning" />
+<Status />`,
+  migrationToneToVariant: `// Source
+<StatusDot tone="bg-brutal-lime" />
+<StatusDot tone="bg-brutal-yellow" pulse />
+<AttentionDot tone="bg-brutal-orange" />
+
+// Current
+<Status variant="success" />
+<Status variant="primary" pulse />
+<Status variant="warning" />`,
+  migrationAttention: `// Source
+<AttentionDot />
+<AttentionDot size="sm" />
+
+// Current
+<Status variant="accent" />
+<Status variant="accent" size="xs" />`,
+  migrationCustomTone: `// Source
+<StatusDot tone="bg-brutal-lavender" />
+
+// Current
+<Status className="[--status-color:var(--color-brutal-purple-300)]" />`,
   sourceStatusDefault: `<StatusDot />`,
   currentStatusDefault: `<Status />`,
   sourceStatusTone: `<StatusDot tone="bg-brutal-lime" />`,
-  currentStatusTone: `<Status fill="lime" />`,
+  currentStatusTone: `<Status variant="success" />`,
   sourceStatusPulse: `<StatusDot tone="bg-brutal-yellow" pulse />`,
-  currentStatusPulse: `<Status fill="yellow" pulse />`,
+  currentStatusPulse: `<Status variant="primary" pulse />`,
+  sourceStatusActivity: `<StatusDot activity="thinking" />`,
+  currentStatusActivity: `<Status variant="primary" pulse />`,
   sourceAttentionDefault: `<AttentionDot />`,
-  currentAttentionDefault: `<Status.Attention />`,
+  currentAttentionDefault: `<Status variant="accent" />`,
   sourceAttentionCompact: `<AttentionDot size="sm" />`,
-  currentAttentionCompact: `<Status.Attention size="sm" />`,
+  currentAttentionCompact: `<Status variant="accent" size="xs" />`,
   sourceAttentionTone: `<AttentionDot tone="bg-brutal-orange" />`,
-  currentAttentionTone: `<Status.Attention fill="orange" />`,
+  currentAttentionTone: `<Status variant="warning" />`,
 } as const;
 
 type PlaygroundValues = {
+  variant: NonNullable<StatusProps["variant"]>;
   size: NonNullable<StatusProps["size"]>;
-  fill: NonNullable<StatusProps["fill"]>;
   pulse: boolean;
 };
 
-type AttentionPlaygroundValues = {
-  size: NonNullable<StatusAttentionProps["size"]>;
-  fill: NonNullable<StatusAttentionProps["fill"]>;
-};
-
-const STATUS_PROPS: readonly PropRow[] = [
+const PROPS: readonly PropRow[] = [
   {
-    name: "size",
-    type: STATUS_SIZES.map((size) => `"${size}"`).join(" | "),
-    default: '"md"',
-    description: "md (10px) standard, sm (8px) inline text, lg (11px) avatar overlays.",
+    name: "variant",
+    type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
+    default: '"default"',
+    description: "Semantic status color.",
   },
   {
-    name: "fill",
-    type: FILLS.map((fill) => `"${fill}"`).join(" | "),
-    default: '"gray"',
-    description: 'Status color. Source StatusDot tone="bg-*" maps to this finite fill axis.',
+    name: "size",
+    type: SIZES.map((size) => `"${size}"`).join(" | "),
+    default: '"md"',
+    description: "Dot diameter. xs is the old compact AttentionDot size.",
   },
   {
     name: "pulse",
     type: "boolean",
     default: "false",
-    description: "Adds animate-pulse for waiting/thinking affordances.",
+    description: "Animated status marker.",
   },
   {
     name: "render",
     type: "ReactElement | (props, state) => ReactElement",
-    description: "Base UI render hook for changing the root element.",
+    description: "Change the root element.",
   },
   {
     name: "...props",
     type: "HTMLAttributes<HTMLSpanElement>",
-    description: "Native span attributes. Use className for positioning or rare custom colors.",
-  },
-];
-
-const ATTENTION_PROPS: readonly PropRow[] = [
-  {
-    name: "size",
-    type: ATTENTION_SIZES.map((size) => `"${size}"`).join(" | "),
-    default: '"lg"',
-    description:
-      "Physical fit, not priority. lg (10px) is canonical; sm (4px) only when too tight.",
-  },
-  {
-    name: "fill",
-    type: FILLS.map((fill) => `"${fill}"`).join(" | "),
-    default: '"pink"',
-    description: 'Attention color. Source AttentionDot tone="bg-*" maps to this finite fill axis.',
-  },
-  {
-    name: "render",
-    type: "ReactElement | (props, state) => ReactElement",
-    description: "Base UI render hook for changing the root element.",
-  },
-  {
-    name: "...props",
-    type: "HTMLAttributes<HTMLSpanElement>",
-    description: "Native span attributes. Use className for positioning or rare custom colors.",
+    description: "Native span attributes plus className. Set --status-color for custom colors.",
   },
 ];
 
@@ -147,116 +160,66 @@ function StatusDoc() {
   return (
     <DocPage
       title="Status"
-      description="A status indicator family for activity dots and unread / attention dots."
-      overview={
-        <Differences from="StatusDot / AttentionDot">
-          <li>
-            merges the public surface into <code>Status</code> and <code>Status.Attention</code>
-          </li>
-          <li>
-            keeps source semantics: <code>Status</code> is presence/activity;{" "}
-            <code>Status.Attention</code> is unread/pending/needs-attention
-          </li>
-          <li>
-            source <code>tone=&quot;bg-*&quot;</code> becomes a finite <code>fill</code> axis;{" "}
-            <code>className</code> stays for positioning/custom overrides
-          </li>
-          <li>
-            drops source <code>activity</code> from the primitive because it depends on app-domain
-            activity types
-          </li>
-        </Differences>
-      }
+      description="Presence, progress, unread, and compact status markers."
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
-        <div className="grid gap-4 lg:grid-cols-2">
-          <ComponentPlayground<PlaygroundValues>
-            defaultValues={{ size: "md", fill: "lime", pulse: false }}
-            controls={[
-              { name: "size", label: "Size", type: "select", options: STATUS_SIZES },
-              { name: "fill", label: "Fill", type: "select", options: FILLS },
-              { name: "pulse", label: "Pulse", type: "boolean" },
-            ]}
-            render={(values) => (
-              <Status size={values.size} fill={values.fill} pulse={values.pulse} />
-            )}
-          />
-          <ComponentPlayground<AttentionPlaygroundValues>
-            defaultValues={{ size: "lg", fill: "pink" }}
-            controls={[
-              { name: "size", label: "Attention size", type: "select", options: ATTENTION_SIZES },
-              { name: "fill", label: "Attention fill", type: "select", options: FILLS },
-            ]}
-            render={(values) => <Status.Attention size={values.size} fill={values.fill} />}
-          />
-        </div>
+        <ComponentPlayground<PlaygroundValues>
+          defaultValues={{
+            variant: "success",
+            size: "md",
+            pulse: false,
+          }}
+          controls={[
+            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
+            { name: "size", label: "Size", type: "select", options: SIZES },
+            { name: "pulse", label: "Pulse", type: "boolean" },
+          ]}
+          render={(values) => (
+            <Status variant={values.variant} size={values.size} pulse={values.pulse} />
+          )}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
-      <DocSection id="status" title="Status">
-        <Example html={code.status}>
-          <Status size="sm" fill="lime" />
-          <Status size="md" fill="lime" />
-          <Status size="lg" fill="lime" />
+      <DocSection id="variants" title="Variants">
+        <Example html={code.variants}>
+          {VARIANTS.map((variant) => (
+            <Status key={variant} variant={variant} />
+          ))}
         </Example>
       </DocSection>
 
-      <DocSection id="attention" title="Attention">
-        <div className="space-y-4">
-          <Example html={code.attention}>
-            <Status.Attention size="lg" />
-            <Status.Attention size="sm" />
-            <Status.Attention fill="orange" />
-          </Example>
-          <Callout>
-            <code>Status.Attention</code> preserves the old AttentionDot scale: canonical{" "}
-            <code>lg</code> is 10px, compact <code>sm</code> is 4px. Both keep the black border.
-          </Callout>
-        </div>
+      <DocSection id="sizes" title="Sizes">
+        <Example html={code.sizes}>
+          <Status size="xs" variant="success" />
+          <Status size="sm" variant="success" />
+          <Status size="md" variant="success" />
+          <Status size="lg" variant="success" />
+        </Example>
       </DocSection>
 
-      <DocSection id="fill" title="Fill">
-        <div className="space-y-4">
-          <Example html={code.fill}>
-            <Status fill="gray" />
-            <Status fill="lime" />
-            <Status fill="yellow" />
-            <Status.Attention fill="pink" />
-            <Status.Attention fill="orange" />
-          </Example>
-          <Callout>
-            Source accepted arbitrary Tailwind <code>tone=&quot;bg-*&quot;</code> strings. Current
-            makes the common brutal palette explicit with <code>fill</code>; use{" "}
-            <code>className</code> only for positioning or rare custom colors.
-          </Callout>
-        </div>
+      <DocSection id="pulse" title="Pulse">
+        <Example html={code.pulse}>
+          <Status size="xs" variant="primary" pulse />
+          <Status size="sm" variant="primary" pulse />
+          <Status size="md" variant="primary" pulse />
+          <Status size="lg" variant="primary" pulse />
+        </Example>
       </DocSection>
 
-      <DocSection id="activity" title="Activity migration">
-        <div className="space-y-4">
-          <CodeBlock html={code.activity} />
-          <Callout>
-            The source <code>StatusDot activity</code> prop mapped <code>@slock-ai/shared</code>{" "}
-            values like online/thinking/offline to classes. That is app logic, so the primitive
-            stays domain-free and the app maps activity to <code>fill</code> / <code>pulse</code> at
-            the callsite.
-          </Callout>
-        </div>
+      <DocSection id="customize" title="Customize">
+        <Example html={code.customize}>
+          <Status className="[--status-color:var(--color-brutal-purple-300)]" />
+          <Status pulse className="[--status-color:var(--color-brutal-purple-300)]" />
+        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="space-y-6">
-          <PropsTable rows={STATUS_PROPS} />
-          <PropsTable rows={ATTENTION_PROPS} />
-        </div>
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
@@ -265,7 +228,7 @@ function StatusDoc() {
             {
               label: "Status default",
               status: "difference",
-              note: "Visual output matches source. Current renames StatusDot to Status.",
+              note: "StatusDot -> Status.",
               source: <LegacyStatusDot />,
               current: <Status />,
               sourceCode: code.sourceStatusDefault,
@@ -274,50 +237,80 @@ function StatusDoc() {
             {
               label: "Status explicit color",
               status: "difference",
-              note: 'Visual output matches. Source tone="bg-brutal-lime" maps to current fill="lime".',
+              note: 'tone="bg-brutal-lime" -> variant="success".',
               source: <LegacyStatusDot tone="bg-brutal-lime" />,
-              current: <Status fill="lime" />,
+              current: <Status variant="success" />,
               sourceCode: code.sourceStatusTone,
               currentCode: code.currentStatusTone,
             },
             {
               label: "Status pulse",
               status: "difference",
-              note: "Pulse behavior matches. Current uses fill instead of source tone strings.",
+              note: 'tone="bg-brutal-yellow" pulse -> variant="primary" pulse.',
               source: <LegacyStatusDot tone="bg-brutal-yellow" pulse />,
-              current: <Status fill="yellow" pulse />,
+              current: <Status variant="primary" pulse />,
               sourceCode: code.sourceStatusPulse,
               currentCode: code.currentStatusPulse,
             },
             {
+              label: "Activity migration",
+              status: "difference",
+              note: 'activity="thinking" -> variant="primary" pulse.',
+              source: <LegacyStatusDot activity="thinking" />,
+              current: <Status variant="primary" pulse />,
+              sourceCode: code.sourceStatusActivity,
+              currentCode: code.currentStatusActivity,
+            },
+            {
               label: "Attention default",
               status: "difference",
-              note: "Visual output matches source. Current nests AttentionDot under Status.Attention.",
+              note: 'AttentionDot -> Status variant="accent".',
               source: <LegacyAttentionDot />,
-              current: <Status.Attention />,
+              current: <Status variant="accent" />,
               sourceCode: code.sourceAttentionDefault,
               currentCode: code.currentAttentionDefault,
             },
             {
               label: "Attention compact",
               status: "difference",
-              note: 'The 4px compact dot is preserved under Status.Attention size="sm".',
+              note: 'AttentionDot size="sm" -> Status size="xs".',
               source: <LegacyAttentionDot size="sm" />,
-              current: <Status.Attention size="sm" />,
+              current: <Status variant="accent" size="xs" />,
               sourceCode: code.sourceAttentionCompact,
               currentCode: code.currentAttentionCompact,
             },
             {
               label: "Attention explicit color",
               status: "difference",
-              note: 'Visual output matches. Source tone="bg-brutal-orange" maps to current fill="orange".',
+              note: 'tone="bg-brutal-orange" -> variant="warning".',
               source: <LegacyAttentionDot tone="bg-brutal-orange" />,
-              current: <Status.Attention fill="orange" />,
+              current: <Status variant="warning" />,
               sourceCode: code.sourceAttentionTone,
               currentCode: code.currentAttentionTone,
             },
           ]}
         />
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-900">Activity mapping</h3>
+            <CodeBlock html={code.migrationActivity} />
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-900">Color mapping</h3>
+            <CodeBlock html={code.migrationToneToVariant} />
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-900">AttentionDot</h3>
+            <CodeBlock html={code.migrationAttention} />
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-900">Custom color</h3>
+            <CodeBlock html={code.migrationCustomTone} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );

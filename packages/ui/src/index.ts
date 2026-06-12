@@ -14,7 +14,7 @@ export { Badge } from "./components/badge/index.ts";
 export type { BadgeProps } from "./components/badge/index.ts";
 
 export { Status } from "./components/status/index.ts";
-export type { StatusAttentionProps, StatusProps } from "./components/status/index.ts";
+export type { StatusProps } from "./components/status/index.ts";
 
 export { Input } from "./components/input/index.ts";
 export type { InputProps } from "./components/input/index.ts";

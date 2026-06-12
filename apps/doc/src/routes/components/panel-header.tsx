@@ -109,7 +109,7 @@ const SNIPPETS = {
     <PanelHeaderTitleRow>
       <PanelHeaderTitle>Atlas</PanelHeaderTitle>
       <PanelHeaderSuffix>
-        <Status fill="lime" />
+        <Status variant="success" />
       </PanelHeaderSuffix>
     </PanelHeaderTitleRow>
     <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>
@@ -291,7 +291,7 @@ function PanelHeaderDoc() {
                   iconSlot={<Avatar size="lg" type="agent" />}
                   iconAlwaysVisible
                   title="Atlas"
-                  titleSuffix={<Status fill="lime" />}
+                  titleSuffix={<Status variant="success" />}
                   subtitle="claude-opus · online"
                   actions={<Badge.Experimental />}
                 />
@@ -352,7 +352,7 @@ function CurrentIdentityPanelHeader() {
         <PanelHeaderTitleRow>
           <PanelHeaderTitle>Atlas</PanelHeaderTitle>
           <PanelHeaderSuffix>
-            <Status fill="lime" />
+            <Status variant="success" />
           </PanelHeaderSuffix>
         </PanelHeaderTitleRow>
         <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>

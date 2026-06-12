@@ -227,7 +227,11 @@ const NAV = [
     items: [
       { label: "Badge", to: "/components/badge", progress: { structure: "done", elegant: "done" } },
       { label: "Kbd", to: "/components/kbd", progress: { structure: "done" } },
-      { label: "Status", to: "/components/status", progress: { structure: "done" } },
+      {
+        label: "Status",
+        to: "/components/status",
+        progress: { structure: "done", elegant: "done" },
+      },
     ],
     planned: [
       {
@@ -402,8 +406,8 @@ const MIGRATED = {
     {
       label: "AttentionDot",
       to: "/components/status",
-      hash: "attention",
-      target: "Status.Attention",
+      hash: "migration",
+      target: 'Status variant="accent"',
     },
     {
       label: "StatusDot",

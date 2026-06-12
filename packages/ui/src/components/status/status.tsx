@@ -5,7 +5,7 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const dot = tv({
   slots: {
-    root: ["inline-block shrink-0 rounded-full"],
+    root: ["relative inline-block shrink-0 rounded-full", "[background-color:var(--status-color)]"],
   },
   variants: {
     theme: {
@@ -14,32 +14,35 @@ const dot = tv({
       },
       elegant: {},
     },
-    fill: {
-      gray: {
-        root: "bg-gray-400",
+    variant: {
+      default: {
+        root: "[--status-color:var(--color-gray-400)]",
       },
-      lime: {
-        root: "bg-success-base",
+      primary: {
+        root: "[--status-color:var(--color-primary-400)]",
       },
-      yellow: {
-        root: "bg-primary-400",
+      information: {
+        root: "[--status-color:var(--color-info-base)]",
       },
-      orange: {
-        root: "bg-warning-base",
+      muted: {
+        root: "[--status-color:var(--color-secondary-400)]",
       },
-      pink: {
-        root: "bg-accent-400",
+      accent: {
+        root: "[--status-color:var(--color-accent-400)]",
       },
-      cyan: {
-        root: "bg-info-base",
+      success: {
+        root: "[--status-color:var(--color-success-base)]",
       },
-      red: {
-        root: "bg-danger-base",
+      warning: {
+        root: "[--status-color:oklch(0.72_0.165_48)]",
       },
-      stone: {
-        root: "bg-secondary-400",
+      danger: {
+        root: "[--status-color:var(--color-danger-base)]",
       },
     },
+  },
+  defaultVariants: {
+    variant: "default",
   },
 });
 
@@ -51,6 +54,9 @@ const status = tv({
       elegant: {},
     },
     size: {
+      xs: {
+        root: "size-1",
+      },
       sm: {
         root: "size-2",
       },
@@ -63,7 +69,7 @@ const status = tv({
     },
     pulse: {
       true: {
-        root: "animate-pulse",
+        root: "",
       },
       false: {
         root: "",
@@ -72,42 +78,35 @@ const status = tv({
   },
   defaultVariants: {
     size: "md",
-    fill: "gray",
+    variant: "default",
     pulse: false,
   },
-});
-
-const attention = tv({
-  extend: dot,
-  variants: {
-    theme: {
-      brutal: {},
-      elegant: {},
+  compoundVariants: [
+    {
+      theme: "brutal",
+      pulse: true,
+      class: { root: "animate-pulse" },
     },
-    size: {
-      sm: {
-        root: "size-1",
-      },
-      lg: {
-        root: "size-2.5",
+    {
+      theme: "elegant",
+      pulse: true,
+      class: {
+        root: [
+          "before:pointer-events-none before:absolute before:-inset-0.5 before:rounded-full",
+          "before:border before:opacity-60 before:animate-ping before:content-['']",
+          "before:border-[color-mix(in_oklch,var(--status-color)_50%,transparent)]",
+        ],
       },
     },
-  },
-  defaultVariants: {
-    size: "lg",
-    fill: "pink",
-  },
+  ],
 });
 
 export type StatusProps = Omit<useRender.ComponentProps<"span">, "children"> &
   Omit<VariantProps<typeof status>, "theme">;
 
-export type StatusAttentionProps = Omit<useRender.ComponentProps<"span">, "children"> &
-  Omit<VariantProps<typeof attention>, "theme">;
-
-function StatusRoot({ size, fill, pulse, className, render, ...props }: StatusProps) {
+function StatusRoot({ size, variant, pulse, className, render, ...props }: StatusProps) {
   const theme = useTheme();
-  const { root } = status({ theme, size, fill, pulse });
+  const { root } = status({ theme, size, variant, pulse });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
   };
@@ -118,30 +117,11 @@ function StatusRoot({ size, fill, pulse, className, render, ...props }: StatusPr
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "status",
-      fill,
+      variant,
       pulse,
       size,
     },
   });
 }
 
-function Attention({ size, fill, className, render, ...props }: StatusAttentionProps) {
-  const theme = useTheme();
-  const { root } = attention({ theme, size, fill });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: root({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "status-attention",
-      fill,
-      size,
-    },
-  });
-}
-
-export const Status = Object.assign(StatusRoot, { Attention });
+export const Status = StatusRoot;

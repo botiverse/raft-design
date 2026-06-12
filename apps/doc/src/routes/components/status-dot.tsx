@@ -1,10 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
 import { Status } from "@slock/ui";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -21,25 +18,32 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
+  migration: `// Source
+<StatusDot tone="bg-brutal-lime" />
+<StatusDot tone="bg-brutal-yellow" pulse />
+
+// Current
+<Status variant="success" />
+<Status variant="primary" pulse />`,
   anatomy: `import { Status } from "@slock/ui";
 
-<Status fill="lime" />`,
+<Status variant="success" />`,
   sourceDefault: `<StatusDot tone="bg-brutal-lime" />`,
-  currentDefault: `<Status fill="lime" />`,
+  currentDefault: `<Status variant="success" />`,
   sourcePulse: `<StatusDot tone="bg-brutal-yellow" pulse />`,
-  currentPulse: `<Status fill="yellow" pulse />`,
+  currentPulse: `<Status variant="primary" pulse />`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
     name: "StatusDot",
     type: "legacy component",
-    description: "Migrated to Status. Source backup remains in src/legacy/StatusDot.tsx.",
+    description: "Migrated to Status.",
   },
   {
     name: "Status",
     type: "status indicator primitive",
-    description: "Use for presence/activity dots. Map app activity to fill/pulse at the callsite.",
+    description: "Use variant and pulse.",
   },
 ];
 
@@ -55,35 +59,18 @@ function StatusDotMigrationDoc() {
     <DocPage
       title="StatusDot"
       description="Migrated: use Status instead of the old StatusDot component."
-      overview={
-        <Differences from="StatusDot">
-          <li>
-            renamed to <code>Status</code> so attention dots can live in the same component family
-          </li>
-          <li>
-            source visuals are preserved; <code>tone=&quot;bg-*&quot;</code> maps to{" "}
-            <code>fill</code>
-          </li>
-          <li>
-            source <code>activity</code> was app-domain logic and should be mapped at the callsite
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="migration" title="Migration">
-        <Callout>
-          Replace <code>StatusDot</code> with <code>Status</code>. Use the main{" "}
-          <Link to="/components/status">Status docs</Link> for the full API and source comparison.
-        </Callout>
+        <CodeBlock html={code.migration} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
         <div className="space-y-4">
           <CodeBlock html={code.anatomy} />
           <Example html={code.anatomy}>
-            <Status fill="lime" />
-            <Status fill="yellow" pulse />
+            <Status variant="success" />
+            <Status variant="primary" pulse />
           </Example>
         </div>
       </DocSection>
@@ -98,18 +85,18 @@ function StatusDotMigrationDoc() {
             {
               label: "Explicit color",
               status: "difference",
-              note: 'Visual output matches. Source tone="bg-brutal-lime" maps to current fill="lime".',
+              note: 'tone="bg-brutal-lime" -> variant="success".',
               source: <LegacyStatusDot tone="bg-brutal-lime" />,
-              current: <Status fill="lime" />,
+              current: <Status variant="success" />,
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
             },
             {
               label: "Pulse",
               status: "difference",
-              note: "Pulse behavior matches. Current uses fill instead of source tone strings.",
+              note: 'tone="bg-brutal-yellow" pulse -> variant="primary" pulse.',
               source: <LegacyStatusDot tone="bg-brutal-yellow" pulse />,
-              current: <Status fill="yellow" pulse />,
+              current: <Status variant="primary" pulse />,
               sourceCode: code.sourcePulse,
               currentCode: code.currentPulse,
             },

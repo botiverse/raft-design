@@ -208,9 +208,9 @@ function ComponentGallery() {
           <span className="text-sm font-bold text-black">Preview ready</span>
         </FieldItem>
         <div className="mt-3 flex items-center gap-3">
-          <Status fill="lime" pulse aria-label="Online" />
-          <Status fill="yellow" aria-label="Queued" />
-          <Status.Attention aria-label="Unread" />
+          <Status variant="success" pulse aria-label="Online" />
+          <Status variant="primary" aria-label="Queued" />
+          <Status variant="accent" aria-label="Unread" />
         </div>
       </Field>
 
@@ -274,7 +274,7 @@ function ComponentGallery() {
           </MediaListItemText>
         </MediaListItemBody>
         <MediaListItemAside>
-          <Status fill="lime" aria-label="Available" />
+          <Status variant="success" aria-label="Available" />
         </MediaListItemAside>
       </MediaListItem>
 
@@ -288,7 +288,7 @@ function ComponentGallery() {
           <PanelHeaderTitleRow>
             <PanelHeaderTitle>Source audit queue</PanelHeaderTitle>
             <PanelHeaderSuffix>
-              <Status fill="lime" aria-label="Ready" />
+              <Status variant="success" aria-label="Ready" />
             </PanelHeaderSuffix>
           </PanelHeaderTitleRow>
           <PanelHeaderSubtitle>PanelHeader + indicators</PanelHeaderSubtitle>

@@ -59,7 +59,7 @@ const SNIPPETS = {
       <MediaListItemSubtitle>claude-opus</MediaListItemSubtitle>
     </MediaListItemText>
     <MediaListItemAside>
-      <Status fill="lime" />
+      <Status variant="success" />
     </MediaListItemAside>
   </MediaListItemBody>
 </MediaListItem>`,
@@ -73,7 +73,7 @@ const SNIPPETS = {
       <MediaListItemSubtitle>claude-opus</MediaListItemSubtitle>
     </MediaListItemText>
     <MediaListItemAside>
-      <Status fill="lime" />
+      <Status variant="success" />
     </MediaListItemAside>
   </MediaListItemBody>
 </MediaListItem>`,
@@ -110,7 +110,7 @@ const SNIPPETS = {
       <MediaListItemSubtitle>claude-opus</MediaListItemSubtitle>
     </MediaListItemText>
     <MediaListItemAside>
-      <Status fill="lime" />
+      <Status variant="success" />
     </MediaListItemAside>
   </MediaListItemBody>
 </MediaListItem>`,
@@ -283,7 +283,7 @@ function MediaListItemDoc() {
                   <MediaListItemSubtitle>claude-opus</MediaListItemSubtitle>
                 </MediaListItemText>
                 <MediaListItemAside>
-                  <Status fill="lime" />
+                  <Status variant="success" />
                 </MediaListItemAside>
               </MediaListItemBody>
             </MediaListItem>
@@ -389,7 +389,7 @@ function LegacyAgentRowPreview() {
         avatar={<Avatar />}
         name="Atlas"
         subtitle="claude-opus"
-        rightContent={<Status fill="lime" />}
+        rightContent={<Status variant="success" />}
         onClick={() => {}}
         selected={false}
         className="bg-gray-100 hover:bg-white"
@@ -411,7 +411,7 @@ function CurrentAgentRowPreview() {
             <MediaListItemSubtitle>claude-opus</MediaListItemSubtitle>
           </MediaListItemText>
           <MediaListItemAside>
-            <Status fill="lime" />
+            <Status variant="success" />
           </MediaListItemAside>
         </MediaListItemBody>
       </MediaListItem>

@@ -1,10 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
 import { Status } from "@slock/ui";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -21,28 +18,36 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
+  migration: `// Source
+<AttentionDot />
+<AttentionDot size="sm" />
+<AttentionDot tone="bg-brutal-orange" />
+
+// Current
+<Status variant="accent" />
+<Status variant="accent" size="xs" />
+<Status variant="warning" />`,
   anatomy: `import { Status } from "@slock/ui";
 
-<Status.Attention />`,
+<Status variant="accent" />`,
   sourceDefault: `<AttentionDot />`,
-  currentDefault: `<Status.Attention />`,
+  currentDefault: `<Status variant="accent" />`,
   sourceCompact: `<AttentionDot size="sm" />`,
-  currentCompact: `<Status.Attention size="sm" />`,
+  currentCompact: `<Status variant="accent" size="xs" />`,
   sourceTone: `<AttentionDot tone="bg-brutal-orange" />`,
-  currentTone: `<Status.Attention fill="orange" />`,
+  currentTone: `<Status variant="warning" />`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
     name: "AttentionDot",
     type: "legacy component",
-    description:
-      "Migrated to Status.Attention. Source backup remains in src/legacy/AttentionDot.tsx.",
+    description: "Migrated to Status.",
   },
   {
-    name: "Status.Attention",
-    type: "attention indicator primitive",
-    description: "Use for unread, pending, or needs-attention dots.",
+    name: "Status",
+    type: "status indicator primitive",
+    description: 'Use variant="accent".',
   },
 ];
 
@@ -57,40 +62,20 @@ function AttentionDotMigrationDoc() {
   return (
     <DocPage
       title="AttentionDot"
-      description="Migrated: use Status.Attention instead of the old AttentionDot component."
-      overview={
-        <Differences from="AttentionDot">
-          <li>
-            moved under <code>Status.Attention</code> so attention dots live in the Status family
-          </li>
-          <li>
-            source visuals are preserved; <code>tone=&quot;bg-*&quot;</code> maps to{" "}
-            <code>fill</code>
-          </li>
-          <li>
-            kept separate from <code>Status</code> as a namespaced component instead of a variant
-          </li>
-        </Differences>
-      }
+      description="Migrated: use Status instead of the old AttentionDot component."
       toc={TOC}
     >
       <DocSection id="migration" title="Migration">
-        <Callout>
-          Replace <code>AttentionDot</code> with <code>Status.Attention</code>. Use the main{" "}
-          <Link to="/components/status" hash="attention">
-            Status docs
-          </Link>{" "}
-          for the full API and source comparison.
-        </Callout>
+        <CodeBlock html={code.migration} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
         <div className="space-y-4">
           <CodeBlock html={code.anatomy} />
           <Example html={code.anatomy}>
-            <Status.Attention />
-            <Status.Attention size="sm" />
-            <Status.Attention fill="orange" />
+            <Status variant="accent" />
+            <Status variant="accent" size="xs" />
+            <Status variant="warning" />
           </Example>
         </div>
       </DocSection>
@@ -105,27 +90,27 @@ function AttentionDotMigrationDoc() {
             {
               label: "Default",
               status: "difference",
-              note: "Visual output matches source. Current nests AttentionDot under Status.Attention.",
+              note: 'AttentionDot -> Status variant="accent".',
               source: <LegacyAttentionDot />,
-              current: <Status.Attention />,
+              current: <Status variant="accent" />,
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
             },
             {
               label: "Compact",
               status: "difference",
-              note: 'The 4px compact dot is preserved under Status.Attention size="sm".',
+              note: 'AttentionDot size="sm" -> Status size="xs".',
               source: <LegacyAttentionDot size="sm" />,
-              current: <Status.Attention size="sm" />,
+              current: <Status variant="accent" size="xs" />,
               sourceCode: code.sourceCompact,
               currentCode: code.currentCompact,
             },
             {
               label: "Explicit color",
               status: "difference",
-              note: 'Visual output matches. Source tone="bg-brutal-orange" maps to current fill="orange".',
+              note: 'tone="bg-brutal-orange" -> variant="warning".',
               source: <LegacyAttentionDot tone="bg-brutal-orange" />,
-              current: <Status.Attention fill="orange" />,
+              current: <Status variant="warning" />,
               sourceCode: code.sourceTone,
               currentCode: code.currentTone,
             },
