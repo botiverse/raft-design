@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Checkbox, Input } from "@slock/ui";
-import { ComponentPreview } from "./component-preview.tsx";
+import { ComponentDemoFrame } from "./component-demo-frame.tsx";
 
 type ControlValue = string | boolean;
 
@@ -33,65 +33,71 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
     setValues((prev) => ({ ...prev, [name]: value as T[keyof T] }));
 
   return (
-    <div className="space-y-3">
-      <ComponentPreview>
-        {/* Stable canvas height so changing a size control doesn't reflow the page. */}
-        <div className="flex min-h-24 w-full items-center justify-center">{render(values)}</div>
-      </ComponentPreview>
-      <div className="divide-y divide-line-subtle overflow-hidden rounded-md border border-line-subtle bg-layer-panel">
-        {controls.map((control) => {
-          let input: ReactNode;
-          if (control.type === "select") {
-            input = (
-              <select
-                id={control.name}
-                aria-label={control.label}
-                value={String(values[control.name])}
-                onChange={(event) => update(control.name, event.target.value)}
-                className="h-8 rounded-sm border border-line-subtle bg-layer-field px-2 font-mono text-xs text-foreground outline-none transition duration-200 ease-out hover:bg-layer-muted focus:border-line-focus"
-              >
-                {control.options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            );
-          } else if (control.type === "boolean") {
-            input = (
-              <Checkbox
-                id={control.name}
-                aria-label={control.label}
-                checked={Boolean(values[control.name])}
-                onCheckedChange={(checked) => update(control.name, checked)}
-              />
-            );
-          } else {
-            input = (
-              <Input
-                id={control.name}
-                aria-label={control.label}
-                type="text"
-                value={String(values[control.name])}
-                onChange={(event) => update(control.name, event.target.value)}
-                className="h-8 w-48 px-2 py-1 text-sm"
-              />
-            );
-          }
+    <ComponentDemoFrame
+      layout="split"
+      footer={
+        <div className="grid gap-y-4">
+          <div className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
+            CONTROLS
+          </div>
+          {controls.map((control) => {
+            let input: ReactNode;
+            if (control.type === "select") {
+              input = (
+                <select
+                  id={control.name}
+                  aria-label={control.label}
+                  value={String(values[control.name])}
+                  onChange={(event) => update(control.name, event.target.value)}
+                  className="h-7 w-full rounded-sm border border-line-subtle bg-layer-field px-2 font-mono text-xs text-foreground outline-none transition duration-200 ease-out hover:bg-layer-muted focus:border-line-focus"
+                >
+                  {control.options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              );
+            } else if (control.type === "boolean") {
+              input = (
+                <Checkbox
+                  id={control.name}
+                  aria-label={control.label}
+                  checked={Boolean(values[control.name])}
+                  onCheckedChange={(checked) => update(control.name, checked)}
+                  size="sm"
+                />
+              );
+            } else {
+              input = (
+                <Input
+                  id={control.name}
+                  aria-label={control.label}
+                  type="text"
+                  value={String(values[control.name])}
+                  onChange={(event) => update(control.name, event.target.value)}
+                  className="h-7 w-full px-2 py-1 text-sm"
+                />
+              );
+            }
 
-          return (
-            <div key={control.name} className="flex items-center gap-4 px-4 py-2.5">
-              <label
-                htmlFor={control.name}
-                className="w-24 shrink-0 text-sm font-medium text-foreground-muted"
+            return (
+              <div
+                key={control.name}
+                className="grid grid-cols-[5rem_minmax(0,1fr)] items-center gap-2"
               >
-                {control.label}
-              </label>
-              {input}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+                <label htmlFor={control.name} className="text-xs font-medium text-foreground-muted">
+                  {control.label}
+                </label>
+                {input}
+              </div>
+            );
+          })}
+        </div>
+      }
+      footerClassName="pt-6"
+    >
+      {render(values)}
+    </ComponentDemoFrame>
   );
 }

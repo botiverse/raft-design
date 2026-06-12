@@ -55,11 +55,17 @@ function getSystemMode() {
 export function PreviewThemeScope({
   children,
   className,
+  family: familyOverride,
+  mode: modeOverride,
 }: {
   children: ReactNode;
   className?: string;
+  family?: Theme;
+  mode?: PreviewMode;
 }) {
-  const { family, mode } = usePreviewTheme();
+  const { family: selectedFamily, mode: selectedMode } = usePreviewTheme();
+  const family = familyOverride ?? selectedFamily;
+  const mode = modeOverride ?? selectedMode;
   const systemMode = useSyncExternalStore(subscribeSystemMode, getSystemMode, () => "light");
   const resolvedMode = mode === "system" ? systemMode : mode;
   const scopeClassName = [resolvedMode === "dark" ? "dark" : null, className]

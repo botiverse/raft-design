@@ -9,6 +9,7 @@ type DocPageProps = {
   toc: readonly TocItem[];
   showToc?: boolean;
   showHeader?: boolean;
+  sectionDividers?: boolean;
   children: ReactNode;
 };
 
@@ -19,15 +20,17 @@ export function DocPage({
   toc,
   showToc = true,
   showHeader = true,
+  sectionDividers = true,
   children,
 }: DocPageProps) {
   const contentInset = showToc ? "xl:pr-[var(--rail-w)]" : "";
   const articleWidth = showToc ? "mx-auto max-w-160 xl:max-w-4xl 2xl:max-w-6xl" : "max-w-none";
+  const sectionDividerClass = sectionDividers ? "" : "[&>section]:border-t-0";
 
   return (
     <>
       <div className={contentInset}>
-        <article className={`w-full min-w-0 px-8 py-12 ${articleWidth}`}>
+        <article className={`w-full min-w-0 px-8 py-12 ${articleWidth} ${sectionDividerClass}`}>
           {showHeader ? (
             <header className="mb-10">
               <h1 className="font-display text-3xl font-medium tracking-tight text-foreground-strong">

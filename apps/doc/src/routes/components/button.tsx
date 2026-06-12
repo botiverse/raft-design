@@ -429,6 +429,7 @@ function ButtonDoc() {
       title="Button"
       description="A clickable action control backed by semantic variants and tone utilities."
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
@@ -557,392 +558,210 @@ function ButtonDoc() {
             {
               label: "Default",
               status: "match",
-              note: 'Source defaulted to a neutral white tone. Current defaults to the neutral default variant; use variant="primary" for the prominent yellow action.',
-              source: <LegacyButton>Button</LegacyButton>,
-              current: <Button>Button</Button>,
-              sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
+              source: <LegacyButton>Default</LegacyButton>,
+              brutal: <Button>Default</Button>,
+              elegant: <Button>Default</Button>,
+              elegantDark: <Button>Default</Button>,
             },
             {
-              label: "Tone to variant coverage",
+              label: "Primary",
               status: "difference",
-              note: "Source chose fixed brutal colors through tone. Current maps white, yellow, cyan, stone, pink, and red into semantic action variants.",
-              source: (
-                <>
-                  <LegacyButton tone="white">Default</LegacyButton>
-                  <LegacyButton tone="yellow">Primary</LegacyButton>
-                  <LegacyButton tone="white">Outline</LegacyButton>
-                  <LegacyButton tone="cyan">Information</LegacyButton>
-                  <LegacyButton tone="stone">Muted</LegacyButton>
-                  <LegacyButton tone="pink">Accent</LegacyButton>
-                  <LegacyButton tone="red">Danger</LegacyButton>
-                  <LegacyButton tone="red">Delete</LegacyButton>
-                  <LegacyButton tone="red">Remove</LegacyButton>
-                  <LegacyButton tone="white">Ghost</LegacyButton>
-                  <LegacyButton tone="white">Link</LegacyButton>
-                </>
-              ),
-              current: (
-                <>
-                  <Button variant="default">Default</Button>
-                  <Button variant="primary">Primary</Button>
-                  <Button variant="outline">Outline</Button>
-                  <Button variant="information">Information</Button>
-                  <Button variant="muted">Muted</Button>
-                  <Button variant="accent">Accent</Button>
-                  <Button variant="danger">Danger</Button>
-                  <Button variant="danger">Delete</Button>
-                  <Button variant="danger-outline">Remove</Button>
-                  <Button variant="ghost">Ghost</Button>
-                  <Button variant="link">Link</Button>
-                </>
-              ),
-              sourceCode: code.sourceVariantCoverage,
-              currentCode: code.currentVariantCoverage,
+              source: <LegacyButton tone="yellow">Primary</LegacyButton>,
+              brutal: <Button variant="primary">Primary</Button>,
+              elegant: <Button variant="primary">Primary</Button>,
+              elegantDark: <Button variant="primary">Primary</Button>,
             },
             {
-              label: "Palette-only tones",
+              label: "Outline",
               status: "difference",
-              note: "Lavender existed as a legacy Button tone, but its source usage is human/avatar and attachment identity rather than action intent. Current does not expose a Button variant for it.",
-              source: <LegacyButton tone="lavender">lavender</LegacyButton>,
-              current: (
-                <div className="max-w-sm text-xs leading-relaxed text-gray-500">
-                  Use semantic components or palette tokens for human/avatar and attachment
-                  surfaces.
-                </div>
-              ),
-              sourceCode: code.sourcePaletteOnly,
-              currentCode: code.currentPaletteOnly,
+              source: <LegacyButton tone="white">Outline</LegacyButton>,
+              brutal: <Button variant="outline">Outline</Button>,
+              elegant: <Button variant="outline">Outline</Button>,
+              elegantDark: <Button variant="outline">Outline</Button>,
             },
             {
-              label: "Sizes across variants",
+              label: "Information",
+              status: "difference",
+              source: <LegacyButton tone="cyan">Information</LegacyButton>,
+              brutal: <Button variant="information">Information</Button>,
+              elegant: <Button variant="information">Information</Button>,
+              elegantDark: <Button variant="information">Information</Button>,
+            },
+            {
+              label: "Muted",
+              status: "difference",
+              source: <LegacyButton tone="stone">Muted</LegacyButton>,
+              brutal: <Button variant="muted">Muted</Button>,
+              elegant: <Button variant="muted">Muted</Button>,
+              elegantDark: <Button variant="muted">Muted</Button>,
+            },
+            {
+              label: "Accent",
+              status: "difference",
+              source: <LegacyButton tone="pink">Accent</LegacyButton>,
+              brutal: <Button variant="accent">Accent</Button>,
+              elegant: <Button variant="accent">Accent</Button>,
+              elegantDark: <Button variant="accent">Accent</Button>,
+            },
+            {
+              label: "Danger",
+              status: "match",
+              source: <LegacyButton tone="red">Danger</LegacyButton>,
+              brutal: <Button variant="danger">Danger</Button>,
+              elegant: <Button variant="danger">Danger</Button>,
+              elegantDark: <Button variant="danger">Danger</Button>,
+            },
+            {
+              label: "Danger secondary",
+              status: "difference",
+              source: <LegacyButton tone="red">Delete</LegacyButton>,
+              brutal: <Button variant="danger-secondary">Delete</Button>,
+              elegant: <Button variant="danger-secondary">Delete</Button>,
+              elegantDark: <Button variant="danger-secondary">Delete</Button>,
+            },
+            {
+              label: "Danger outline",
+              status: "difference",
+              source: <LegacyButton tone="red">Remove</LegacyButton>,
+              brutal: <Button variant="danger-outline">Remove</Button>,
+              elegant: <Button variant="danger-outline">Remove</Button>,
+              elegantDark: <Button variant="danger-outline">Remove</Button>,
+            },
+            {
+              label: "Ghost",
+              status: "difference",
+              source: <LegacyButton tone="white">Ghost</LegacyButton>,
+              brutal: <Button variant="ghost">Ghost</Button>,
+              elegant: <Button variant="ghost">Ghost</Button>,
+              elegantDark: <Button variant="ghost">Ghost</Button>,
+            },
+            {
+              label: "Link",
+              status: "difference",
+              source: <LegacyButton tone="white">Link</LegacyButton>,
+              brutal: <Button variant="link">Link</Button>,
+              elegant: <Button variant="link">Link</Button>,
+              elegantDark: <Button variant="link">Link</Button>,
+            },
+            {
+              label: "Sizes",
               status: "review",
-              note: "Size is orthogonal to variant. Source supported size across tones; current keeps that behavior across raised, flat, and danger variants.",
               source: (
                 <>
                   <LegacyButton tone="yellow" size="xs">
-                    P XS
+                    XS
                   </LegacyButton>
                   <LegacyButton tone="yellow" size="sm">
-                    P SM
+                    SM
                   </LegacyButton>
                   <LegacyButton tone="yellow" size="md">
-                    P MD
+                    MD
                   </LegacyButton>
                   <LegacyButton tone="yellow" size="lg">
-                    P LG
-                  </LegacyButton>
-                  <LegacyButton tone="white" size="xs">
-                    DF XS
-                  </LegacyButton>
-                  <LegacyButton tone="white" size="sm">
-                    DF SM
-                  </LegacyButton>
-                  <LegacyButton tone="white" size="md">
-                    DF MD
-                  </LegacyButton>
-                  <LegacyButton tone="white" size="lg">
-                    DF LG
-                  </LegacyButton>
-                  <LegacyButton tone="cyan" size="xs">
-                    I XS
-                  </LegacyButton>
-                  <LegacyButton tone="cyan" size="sm">
-                    I SM
-                  </LegacyButton>
-                  <LegacyButton tone="cyan" size="md">
-                    I MD
-                  </LegacyButton>
-                  <LegacyButton tone="cyan" size="lg">
-                    I LG
-                  </LegacyButton>
-                  <LegacyButton tone="stone" size="xs">
-                    M XS
-                  </LegacyButton>
-                  <LegacyButton tone="stone" size="sm">
-                    M SM
-                  </LegacyButton>
-                  <LegacyButton tone="stone" size="md">
-                    M MD
-                  </LegacyButton>
-                  <LegacyButton tone="stone" size="lg">
-                    M LG
-                  </LegacyButton>
-                  <LegacyButton tone="pink" size="xs">
-                    A XS
-                  </LegacyButton>
-                  <LegacyButton tone="pink" size="sm">
-                    A SM
-                  </LegacyButton>
-                  <LegacyButton tone="pink" size="md">
-                    A MD
-                  </LegacyButton>
-                  <LegacyButton tone="pink" size="lg">
-                    A LG
-                  </LegacyButton>
-                  <LegacyButton tone="red" size="xs">
-                    D XS
-                  </LegacyButton>
-                  <LegacyButton tone="red" size="sm">
-                    D SM
-                  </LegacyButton>
-                  <LegacyButton tone="red" size="md">
-                    D MD
-                  </LegacyButton>
-                  <LegacyButton tone="red" size="lg">
-                    D LG
+                    LG
                   </LegacyButton>
                 </>
               ),
-              current: (
+              brutal: (
                 <>
                   <Button variant="primary" size="xs">
-                    P XS
+                    XS
                   </Button>
                   <Button variant="primary" size="sm">
-                    P SM
+                    SM
                   </Button>
                   <Button variant="primary" size="md">
-                    P MD
+                    MD
                   </Button>
                   <Button variant="primary" size="lg">
-                    P LG
-                  </Button>
-                  <Button variant="default" size="xs">
-                    DF XS
-                  </Button>
-                  <Button variant="default" size="sm">
-                    DF SM
-                  </Button>
-                  <Button variant="default" size="md">
-                    DF MD
-                  </Button>
-                  <Button variant="default" size="lg">
-                    DF LG
-                  </Button>
-                  <Button variant="information" size="xs">
-                    I XS
-                  </Button>
-                  <Button variant="information" size="sm">
-                    I SM
-                  </Button>
-                  <Button variant="information" size="md">
-                    I MD
-                  </Button>
-                  <Button variant="information" size="lg">
-                    I LG
-                  </Button>
-                  <Button variant="muted" size="xs">
-                    M XS
-                  </Button>
-                  <Button variant="muted" size="sm">
-                    M SM
-                  </Button>
-                  <Button variant="muted" size="md">
-                    M MD
-                  </Button>
-                  <Button variant="muted" size="lg">
-                    M LG
-                  </Button>
-                  <Button variant="accent" size="xs">
-                    A XS
-                  </Button>
-                  <Button variant="accent" size="sm">
-                    A SM
-                  </Button>
-                  <Button variant="accent" size="md">
-                    A MD
-                  </Button>
-                  <Button variant="accent" size="lg">
-                    A LG
-                  </Button>
-                  <Button variant="outline" size="xs">
-                    O XS
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    O SM
-                  </Button>
-                  <Button variant="outline" size="md">
-                    O MD
-                  </Button>
-                  <Button variant="outline" size="lg">
-                    O LG
-                  </Button>
-                  <Button variant="danger" size="xs">
-                    D XS
-                  </Button>
-                  <Button variant="danger" size="sm">
-                    D SM
-                  </Button>
-                  <Button variant="danger" size="md">
-                    D MD
-                  </Button>
-                  <Button variant="danger" size="lg">
-                    D LG
+                    LG
                   </Button>
                 </>
               ),
-              sourceCode: code.sourceSizesByTone,
-              currentCode: code.currentSizesByVariant,
+              elegant: (
+                <>
+                  <Button variant="primary" size="xs">
+                    XS
+                  </Button>
+                  <Button variant="primary" size="sm">
+                    SM
+                  </Button>
+                  <Button variant="primary" size="md">
+                    MD
+                  </Button>
+                  <Button variant="primary" size="lg">
+                    LG
+                  </Button>
+                </>
+              ),
+              elegantDark: (
+                <>
+                  <Button variant="primary" size="xs">
+                    XS
+                  </Button>
+                  <Button variant="primary" size="sm">
+                    SM
+                  </Button>
+                  <Button variant="primary" size="md">
+                    MD
+                  </Button>
+                  <Button variant="primary" size="lg">
+                    LG
+                  </Button>
+                </>
+              ),
             },
             {
-              label: "Icon-only across variants",
+              label: "Icon only",
               status: "difference",
-              note: "Source combined icon-only shape with tone. Current combines icon-* size with the full variant axis, so icon-only controls are not primary-only.",
               source: (
-                <>
-                  <LegacyButton tone="yellow" shape="icon" aria-label="Add primary">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton tone="white" shape="icon" aria-label="Add neutral">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton tone="cyan" shape="icon" aria-label="Show information">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton tone="stone" shape="icon" aria-label="Muted action">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton tone="pink" shape="icon" aria-label="Mark important">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton tone="red" shape="icon" aria-label="Delete">
-                    <Trash2 size={14} />
-                  </LegacyButton>
-                </>
+                <LegacyButton tone="yellow" shape="icon" aria-label="Add">
+                  <Plus size={14} />
+                </LegacyButton>
               ),
-              current: (
-                <>
-                  <Button variant="primary" size="icon-sm" aria-label="Add primary">
-                    <Plus />
-                  </Button>
-                  <Button variant="default" size="icon-sm" aria-label="Add neutral">
-                    <Plus />
-                  </Button>
-                  <Button variant="information" size="icon-sm" aria-label="Show information">
-                    <Plus />
-                  </Button>
-                  <Button variant="muted" size="icon-sm" aria-label="Muted action">
-                    <Plus />
-                  </Button>
-                  <Button variant="accent" size="icon-sm" aria-label="Mark important">
-                    <Plus />
-                  </Button>
-                  <Button variant="outline" size="icon-sm" aria-label="Add outline">
-                    <Plus />
-                  </Button>
-                  <Button variant="ghost" size="icon-sm" aria-label="Add ghost">
-                    <Plus />
-                  </Button>
-                  <Button variant="danger" size="icon-sm" aria-label="Delete">
-                    <Trash2 />
-                  </Button>
-                </>
+              brutal: (
+                <Button variant="primary" size="icon-sm" aria-label="Add">
+                  <Plus />
+                </Button>
               ),
-              sourceCode: code.sourceIcon,
-              currentCode: code.currentIcon,
+              elegant: (
+                <Button variant="primary" size="icon-sm" aria-label="Add">
+                  <Plus />
+                </Button>
+              ),
+              elegantDark: (
+                <Button variant="primary" size="icon-sm" aria-label="Add">
+                  <Plus />
+                </Button>
+              ),
             },
             {
-              label: "Inline icon across variants",
+              label: "Inline icon",
               status: "difference",
-              note: 'Source used shape="iconText" with tones. Current uses normal text buttons plus data-icon padding across variants.',
               source: (
-                <>
-                  <LegacyButton tone="yellow" shape="iconText">
-                    <Plus size={14} />
-                    New
-                  </LegacyButton>
-                  <LegacyButton tone="white" shape="iconText">
-                    <Plus size={14} />
-                    Filter
-                  </LegacyButton>
-                  <LegacyButton tone="cyan" shape="iconText">
-                    <Plus size={14} />
-                    Info
-                  </LegacyButton>
-                  <LegacyButton tone="stone" shape="iconText">
-                    <Plus size={14} />
-                    Muted
-                  </LegacyButton>
-                  <LegacyButton tone="pink" shape="iconText">
-                    <Plus size={14} />
-                    Notify
-                  </LegacyButton>
-                  <LegacyButton tone="red" shape="iconText">
-                    <Trash2 size={14} />
-                    Delete
-                  </LegacyButton>
-                </>
+                <LegacyButton tone="yellow" shape="iconText">
+                  <Plus size={14} />
+                  New
+                </LegacyButton>
               ),
-              current: (
-                <>
-                  <Button variant="primary">
-                    <Plus data-icon="inline-start" />
-                    New
-                  </Button>
-                  <Button variant="default">
-                    <Plus data-icon="inline-start" />
-                    Filter
-                  </Button>
-                  <Button variant="information">
-                    <Plus data-icon="inline-start" />
-                    Info
-                  </Button>
-                  <Button variant="muted">
-                    <Plus data-icon="inline-start" />
-                    Muted
-                  </Button>
-                  <Button variant="accent">
-                    <Plus data-icon="inline-start" />
-                    Notify
-                  </Button>
-                  <Button variant="outline">
-                    <Plus data-icon="inline-start" />
-                    More
-                  </Button>
-                  <Button variant="danger">
-                    <Trash2 data-icon="inline-start" />
-                    Delete
-                  </Button>
-                </>
+              brutal: (
+                <Button variant="primary">
+                  <Plus data-icon="inline-start" />
+                  New
+                </Button>
               ),
-              sourceCode: code.sourceInlineIcon,
-              currentCode: code.currentInlineIcon,
-            },
-            {
-              label: "Shape migration",
-              status: "difference",
-              note: (
-                <>
-                  Source uses <code>shape=&quot;icon&quot;</code> and{" "}
-                  <code>shape=&quot;iconText&quot;</code>; current uses square{" "}
-                  <code>size=&quot;icon-*&quot;</code> plus inline icon markers.
-                </>
+              elegant: (
+                <Button variant="primary">
+                  <Plus data-icon="inline-start" />
+                  New
+                </Button>
               ),
-              source: (
-                <>
-                  <LegacyButton shape="icon">
-                    <Plus size={14} />
-                  </LegacyButton>
-                  <LegacyButton shape="iconText">
-                    <Plus size={14} />
-                    New
-                  </LegacyButton>
-                </>
+              elegantDark: (
+                <Button variant="primary">
+                  <Plus data-icon="inline-start" />
+                  New
+                </Button>
               ),
-              current: (
-                <>
-                  <Button size="icon-sm" aria-label="Add">
-                    <Plus />
-                  </Button>
-                  <Button>
-                    <Plus data-icon="inline-start" />
-                    New
-                  </Button>
-                </>
-              ),
-              sourceCode: code.sourceShapeMigration,
-              currentCode: code.currentShapeMigration,
             },
           ]}
         />

@@ -35,22 +35,20 @@ async function ServerCodeBlock({ code }: { code: string }) {
   const lines = (await highlighter).codeToTokensBase(code, { lang: "tsx", theme: "github-light" });
 
   return (
-    <div className="overflow-hidden rounded-md border border-line-subtle">
-      <pre className="overflow-x-auto bg-layer-muted p-4 font-mono text-sm leading-relaxed">
-        <code>
-          {lines.map((line, lineIndex) => (
-            <span key={lineIndex}>
-              {line.map((token, tokenIndex) => (
-                <span key={tokenIndex} style={tokenStyle(token)}>
-                  {token.content}
-                </span>
-              ))}
-              {lineIndex < lines.length - 1 ? "\n" : null}
-            </span>
-          ))}
-        </code>
-      </pre>
-    </div>
+    <pre>
+      <code>
+        {lines.map((line, lineIndex) => (
+          <span key={lineIndex}>
+            {line.map((token, tokenIndex) => (
+              <span key={tokenIndex} style={tokenStyle(token)}>
+                {token.content}
+              </span>
+            ))}
+            {lineIndex < lines.length - 1 ? "\n" : null}
+          </span>
+        ))}
+      </code>
+    </pre>
   );
 }
 

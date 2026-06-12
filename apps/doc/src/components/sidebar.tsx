@@ -901,14 +901,14 @@ function PriorityBadge({ priority }: { priority: PlannedPriority }) {
 
 export function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto border-r border-line-subtle px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
       <Link to="/" className="flex items-center gap-2 text-foreground-strong">
         <img src="/favicon-32x32.png" alt="" className="size-5 shrink-0 rounded-sm" />
         <span className="text-sm font-semibold leading-tight tracking-tight">
           Slock Design System
         </span>
       </Link>
-      <nav className="mt-8 space-y-7">
+      <nav className="mt-8 space-y-8">
         <ul className="space-y-1">
           <li>
             <NavLink to="/setup" label="Setup" />
@@ -921,27 +921,17 @@ export function Sidebar() {
           </li>
         </ul>
 
-        <hr className="border-line-subtle" />
-
         <NavGroup title={SKILLS.title} items={SKILLS.items} />
-
-        <hr className="border-line-subtle" />
 
         {TOKENS.items.map((group) => (
           <NavGroup key={group.label} title={group.label} items={group.children} />
         ))}
 
-        <hr className="border-line-subtle" />
-
         {NAV.map((group) => (
           <NavGroup key={group.title} {...group} />
         ))}
 
-        <hr className="border-line-subtle" />
-
         <MigratedGroup title={MIGRATED.title} items={MIGRATED.items} />
-
-        <hr className="border-line-subtle" />
 
         <SourceHoldGroup title={SOURCE_HOLDS.title} items={SOURCE_HOLDS.items} />
       </nav>

@@ -188,6 +188,7 @@ function BadgeDoc() {
       title="Badge"
       description="A small semantic label chip for status, category, and metadata."
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>

@@ -72,6 +72,9 @@ importers:
 
   apps/doc:
     dependencies:
+      '@base-ui/react':
+        specifier: 'catalog:'
+        version: 1.5.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@base-ui/utils':
         specifier: 'catalog:'
         version: 0.2.9(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)

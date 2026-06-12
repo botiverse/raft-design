@@ -176,6 +176,7 @@ function CheckboxDoc() {
       title="Checkbox"
       description="A square toggle with checked and indeterminate states."
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />

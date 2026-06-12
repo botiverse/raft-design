@@ -2,7 +2,7 @@ export type TocItem = { id: string; title: string };
 
 export function Toc({ items }: { items: readonly TocItem[] }) {
   return (
-    <aside className="pointer-events-none fixed inset-y-0 right-0 z-30 hidden h-screen w-[var(--rail-w)] border-l border-line-subtle px-5 py-6 xl:block">
+    <aside className="pointer-events-none fixed inset-y-0 right-0 z-30 hidden h-screen w-[var(--rail-w)] px-5 py-6 xl:block">
       <nav className="pointer-events-auto max-h-full overflow-y-auto">
         <p className="mb-4 text-[13px] font-medium text-foreground-strong">On this page</p>
         <ul className="space-y-3 text-xs">

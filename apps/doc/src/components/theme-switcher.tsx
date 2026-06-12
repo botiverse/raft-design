@@ -1,60 +1,46 @@
 import type { Theme } from "@slock/ui";
 import { usePreviewTheme, type PreviewMode } from "#/components/preview-theme.tsx";
 
-const FAMILIES: readonly Theme[] = ["brutal", "elegant"];
-const MODES: readonly PreviewMode[] = ["light", "dark", "system"];
+type PreviewThemePreset = {
+  label: string;
+  family: Theme;
+  mode: PreviewMode;
+};
 
-const segment = "rounded-sm px-2.5 py-1 text-xs font-medium capitalize transition-colors";
-const active = "bg-foreground-strong text-foreground-inverse";
-const idle = "text-foreground-muted hover:bg-layer-muted hover:text-foreground-strong";
+const PRESETS: readonly PreviewThemePreset[] = [
+  { label: "Brutal", family: "brutal", mode: "light" },
+  { label: "Elegant", family: "elegant", mode: "light" },
+  { label: "Elegant dark", family: "elegant", mode: "dark" },
+];
+
+const segment = "h-6 rounded-[3px] px-2 text-[11px] leading-none transition duration-200 ease-out";
+const active = "font-medium text-foreground-strong";
+const idle = "font-medium text-foreground-placeholder hover:text-foreground-muted";
 
 /** Docs control: switches the isolated component preview theme. */
 export function ThemeSwitcher() {
   const { family, setFamily, mode, setMode } = usePreviewTheme();
 
   return (
-    <div className="flex flex-wrap items-center gap-4">
-      <Group label="Family">
-        {FAMILIES.map((value) => (
-          <button
-            key={value}
-            type="button"
-            aria-pressed={family === value}
-            className={`${segment} ${family === value ? active : idle}`}
-            onClick={() => setFamily(value)}
-          >
-            {value}
-          </button>
-        ))}
-      </Group>
+    <fieldset aria-label="Preview theme" className="inline-flex items-center gap-0.5">
+      {PRESETS.map((preset) => {
+        const isActive = family === preset.family && mode === preset.mode;
 
-      <Group label="Mode">
-        {MODES.map((value) => (
+        return (
           <button
-            key={value}
+            key={`${preset.family}-${preset.mode}`}
             type="button"
-            aria-pressed={mode === value}
-            className={`${segment} ${mode === value ? active : idle}`}
-            onClick={() => setMode(value)}
+            aria-pressed={isActive}
+            className={`${segment} ${isActive ? active : idle}`}
+            onClick={() => {
+              setFamily(preset.family);
+              setMode(preset.mode);
+            }}
           >
-            {value}
+            {preset.label}
           </button>
-        ))}
-      </Group>
-    </div>
-  );
-}
-
-function Group({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-1.5">
-      <span className="text-xs font-semibold text-foreground-placeholder">{label}</span>
-      <fieldset
-        aria-label={label}
-        className="flex min-w-0 items-center gap-0.5 rounded-md border border-line-subtle bg-layer-panel p-0.5"
-      >
-        {children}
-      </fieldset>
-    </div>
+        );
+      })}
+    </fieldset>
   );
 }
