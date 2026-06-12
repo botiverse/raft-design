@@ -3,6 +3,18 @@ import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
+const STATUS_STYLE = `
+@keyframes slock-status-pulse-background {
+  0% {
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--status-color) 42%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px color-mix(in oklch, var(--status-color) 0%, transparent);
+  }
+}
+`;
+
 const dot = tv({
   slots: {
     root: ["relative inline-block shrink-0 rounded-full", "[background-color:var(--status-color)]"],
@@ -101,15 +113,17 @@ const status = tv({
       theme: "elegant",
       pulse: true,
       class: {
-        root: [
-          "before:pointer-events-none before:absolute before:-inset-0.5 before:rounded-full",
-          "before:border before:opacity-60 before:animate-ping before:content-['']",
-          "before:border-[color-mix(in_oklch,var(--status-color)_50%,transparent)]",
-        ],
+        root: "[animation:slock-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
       },
     },
   ],
 });
+
+const statusStyle = (
+  <style href="slock-ui-status" precedence="default">
+    {STATUS_STYLE}
+  </style>
+);
 
 export type StatusProps = Omit<useRender.ComponentProps<"span">, "children"> &
   Omit<VariantProps<typeof status>, "theme">;
@@ -119,6 +133,7 @@ function StatusRoot({ size, variant, pulse, className, render, ...props }: Statu
   const { root } = status({ theme, size, variant, pulse });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
+    children: statusStyle,
   };
 
   return useRender({
