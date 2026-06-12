@@ -37,6 +37,18 @@ const VARIANTS = [
 
 const SIZES = ["xs", "sm", "md", "lg"] as const;
 
+type LegacyStatusDotProps = Parameters<typeof LegacyStatusDot>[0];
+
+function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
+  return (
+    <LegacyStatusDot
+      {...props}
+      pulse
+      className={`animate-pulse [animation-duration:1.1s] ${className ?? ""}`}
+    />
+  );
+}
+
 const SNIPPETS = {
   anatomy: `import { Status } from "@slock/ui";
 
@@ -222,7 +234,7 @@ function StatusDoc() {
             },
             {
               label: "Success",
-              status: "difference",
+              status: "match",
               source: <LegacyStatusDot tone="bg-brutal-lime" />,
               brutal: <Status variant="success" />,
               elegant: <Status variant="success" />,
@@ -230,20 +242,20 @@ function StatusDoc() {
             },
             {
               label: "Primary pulse",
-              status: "difference",
-              source: <LegacyStatusDot tone="bg-brutal-yellow" pulse />,
+              status: "match",
+              source: <LegacyPulseStatusDot tone="bg-brutal-yellow" />,
               brutal: <Status variant="primary" pulse />,
               elegant: <Status variant="primary" pulse />,
               elegantDark: <Status variant="primary" pulse />,
             },
             {
               label: "Pulse sizes",
-              status: "difference",
+              status: "match",
               source: (
                 <>
-                  <LegacyStatusDot size="sm" tone="bg-brutal-yellow" pulse />
-                  <LegacyStatusDot size="md" tone="bg-brutal-yellow" pulse />
-                  <LegacyStatusDot size="lg" tone="bg-brutal-yellow" pulse />
+                  <LegacyPulseStatusDot size="sm" tone="bg-brutal-yellow" />
+                  <LegacyPulseStatusDot size="md" tone="bg-brutal-yellow" />
+                  <LegacyPulseStatusDot size="lg" tone="bg-brutal-yellow" />
                 </>
               ),
               brutal: (
@@ -270,15 +282,15 @@ function StatusDoc() {
             },
             {
               label: "Activity thinking",
-              status: "difference",
-              source: <LegacyStatusDot activity="thinking" />,
+              status: "match",
+              source: <LegacyPulseStatusDot activity="thinking" />,
               brutal: <Status variant="primary" pulse />,
               elegant: <Status variant="primary" pulse />,
               elegantDark: <Status variant="primary" pulse />,
             },
             {
               label: "Attention default",
-              status: "difference",
+              status: "match",
               source: <LegacyAttentionDot />,
               brutal: <Status variant="accent" />,
               elegant: <Status variant="accent" />,
@@ -286,7 +298,7 @@ function StatusDoc() {
             },
             {
               label: "Attention compact",
-              status: "difference",
+              status: "match",
               source: <LegacyAttentionDot size="sm" />,
               brutal: <Status variant="accent" size="xs" />,
               elegant: <Status variant="accent" size="xs" />,
@@ -294,7 +306,7 @@ function StatusDoc() {
             },
             {
               label: "Warning",
-              status: "difference",
+              status: "match",
               source: <LegacyAttentionDot tone="bg-brutal-orange" />,
               brutal: <Status variant="warning" />,
               elegant: <Status variant="warning" />,
