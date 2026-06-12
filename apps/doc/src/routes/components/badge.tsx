@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, type BadgeProps } from "@slock/ui";
-import { X } from "lucide-react";
+import { Badge, Status, type BadgeProps } from "@slock/ui";
+import { Check, X } from "lucide-react";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -21,6 +21,7 @@ const TOC = [
   { id: "variants", title: "Variants" },
   { id: "appearance", title: "Appearance" },
   { id: "uppercase", title: "Uppercase" },
+  { id: "composition", title: "Composition" },
   { id: "badge-button", title: "BadgeButton migration" },
   { id: "experimental", title: "Experimental" },
   { id: "api", title: "API" },
@@ -56,6 +57,23 @@ const SNIPPETS = {
 <Badge appearance="outline" variant="primary">Outline</Badge>`,
   uppercase: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
+  composition: `import { Badge, Status } from "@slock/ui";
+import { Check } from "lucide-react";
+
+<Badge variant="primary">
+  <Check className="size-3" />
+  Approved
+</Badge>
+
+<Badge appearance="outline" variant="success">
+  <Status size="xs" variant="success" />
+  Online
+</Badge>
+
+<Badge appearance="soft" variant="success">
+  <Status size="xs" variant="success" />
+  Available
+</Badge>`,
   badgeButton: `<Badge
   render={<button type="button" aria-label="Open thread replies" />}
   variant="information"
@@ -229,6 +247,23 @@ function BadgeDoc() {
         <Example html={code.uppercase}>
           <Badge>task #42 @bugen</Badge>
           <Badge uppercase>In Progress</Badge>
+        </Example>
+      </DocSection>
+
+      <DocSection id="composition" title="Composition">
+        <Example html={code.composition}>
+          <Badge variant="primary">
+            <Check className="size-3" />
+            Approved
+          </Badge>
+          <Badge appearance="outline" variant="success">
+            <Status size="xs" variant="success" />
+            Online
+          </Badge>
+          <Badge appearance="soft" variant="success">
+            <Status size="xs" variant="success" />
+            Available
+          </Badge>
         </Example>
       </DocSection>
 
