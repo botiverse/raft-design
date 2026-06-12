@@ -10,7 +10,7 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-gray-200 text-gray-500">
+          <tr className="border-b border-line-subtle text-foreground-muted">
             <th className="py-2 pr-6 font-medium">Prop</th>
             <th className="py-2 pr-6 font-medium">Type</th>
             <th className="py-2 pr-6 font-medium">Default</th>
@@ -19,15 +19,17 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.name} className="border-b border-gray-100 align-top">
+            <tr key={row.name} className="border-b border-line-subtle align-top">
               <td className="py-3 pr-6">
-                <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs text-gray-900">
+                <code className="rounded bg-layer-muted px-1.5 py-0.5 font-mono text-xs text-foreground-strong">
                   {row.name}
                 </code>
               </td>
-              <td className="py-3 pr-6 font-mono text-xs text-blue-700">{row.type}</td>
-              <td className="py-3 pr-6 font-mono text-xs text-gray-500">{row.default ?? "—"}</td>
-              <td className="py-3 text-gray-600">{row.description}</td>
+              <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.type}</td>
+              <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
+                {row.default ?? "—"}
+              </td>
+              <td className="py-3 text-foreground-muted">{row.description}</td>
             </tr>
           ))}
         </tbody>

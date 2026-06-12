@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
+import { Badge, type BadgeProps } from "@slock/ui";
 import { CodeBlock } from "./code-block.tsx";
 import { PreviewThemeScope } from "./preview-theme.tsx";
 
@@ -25,10 +26,10 @@ const STATUS = {
   review: "Review",
 } as const;
 
-const STATUS_CLASS = {
-  match: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  difference: "border-sky-200 bg-sky-50 text-sky-700",
-  review: "border-amber-200 bg-amber-50 text-amber-700",
+const STATUS_VARIANT = {
+  match: "success",
+  difference: "information",
+  review: "primary",
 } as const;
 
 function ComparisonPreview({
@@ -43,16 +44,16 @@ function ComparisonPreview({
   return (
     <div
       data-source-comparison-pane={label.toLowerCase()}
-      className="min-w-0 rounded-md border border-gray-200 bg-white"
+      className="min-w-0 rounded-md border border-line-subtle bg-layer-panel"
     >
-      <div className="border-b border-gray-100 px-3 py-1.5 text-[11px] font-medium uppercase text-gray-400">
+      <div className="border-b border-line-subtle bg-layer-muted px-3 py-1.5 text-[11px] font-medium uppercase text-foreground-muted">
         {label}
       </div>
       <PreviewThemeScope className="flex min-h-24 flex-wrap items-center gap-3 bg-background p-4 text-foreground">
         {children}
       </PreviewThemeScope>
       {code ? (
-        <div className="border-t border-gray-100 [&>div]:rounded-none [&>div]:border-0">
+        <div className="border-t border-line-subtle [&>div]:rounded-none [&>div]:border-0">
           <CodeBlock html={code} />
         </div>
       ) : null}
@@ -70,16 +71,20 @@ export function SourceComparison({ items }: SourceComparisonProps) {
             key={item.label}
             data-source-comparison-item={item.label}
             data-source-comparison-status={status}
-            className="rounded-md border border-gray-200 bg-gray-50 p-3"
+            className="rounded-md border border-line-subtle bg-layer-muted p-3"
           >
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <h3 className="text-sm font-semibold text-gray-900">{item.label}</h3>
-              <span
-                className={`inline-flex h-5 items-center border px-1.5 text-[10px] font-bold uppercase leading-none ${STATUS_CLASS[status]}`}
+              <h3 className="text-sm font-semibold text-foreground-strong">{item.label}</h3>
+              <Badge
+                appearance="soft"
+                variant={STATUS_VARIANT[status] as BadgeProps["variant"]}
+                uppercase
               >
                 {STATUS[status]}
-              </span>
-              {item.note ? <p className="w-full text-xs text-gray-500">{item.note}</p> : null}
+              </Badge>
+              {item.note ? (
+                <p className="w-full text-xs text-foreground-muted">{item.note}</p>
+              ) : null}
             </div>
             <div className="grid gap-3 md:grid-cols-2">
               <ComparisonPreview label="Source" code={item.sourceCode}>

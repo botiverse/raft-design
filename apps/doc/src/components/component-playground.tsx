@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { Checkbox, Input } from "@slock/ui";
 import { ComponentPreview } from "./component-preview.tsx";
 
 type ControlValue = string | boolean;
@@ -37,7 +38,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
         {/* Stable canvas height so changing a size control doesn't reflow the page. */}
         <div className="flex min-h-24 w-full items-center justify-center">{render(values)}</div>
       </ComponentPreview>
-      <div className="divide-y divide-gray-100 rounded-lg border border-gray-200">
+      <div className="divide-y divide-line-subtle overflow-hidden rounded-md border border-line-subtle bg-layer-panel">
         {controls.map((control) => {
           let input: ReactNode;
           if (control.type === "select") {
@@ -47,7 +48,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
                 aria-label={control.label}
                 value={String(values[control.name])}
                 onChange={(event) => update(control.name, event.target.value)}
-                className="rounded border border-gray-200 bg-white px-2 py-1 font-mono text-xs text-gray-900"
+                className="h-8 rounded-sm border border-line-subtle bg-layer-field px-2 font-mono text-xs text-foreground outline-none transition duration-200 ease-out hover:bg-layer-muted focus:border-line-focus"
               >
                 {control.options.map((option) => (
                   <option key={option} value={option}>
@@ -58,24 +59,22 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             );
           } else if (control.type === "boolean") {
             input = (
-              <input
+              <Checkbox
                 id={control.name}
                 aria-label={control.label}
-                type="checkbox"
                 checked={Boolean(values[control.name])}
-                onChange={(event) => update(control.name, event.target.checked)}
-                className="size-4 accent-gray-900"
+                onCheckedChange={(checked) => update(control.name, checked)}
               />
             );
           } else {
             input = (
-              <input
+              <Input
                 id={control.name}
                 aria-label={control.label}
                 type="text"
                 value={String(values[control.name])}
                 onChange={(event) => update(control.name, event.target.value)}
-                className="rounded border border-gray-200 bg-white px-2 py-1 text-sm text-gray-900"
+                className="h-8 w-48 px-2 py-1 text-sm"
               />
             );
           }
@@ -84,7 +83,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             <div key={control.name} className="flex items-center gap-4 px-4 py-2.5">
               <label
                 htmlFor={control.name}
-                className="w-24 shrink-0 text-sm font-medium text-gray-700"
+                className="w-24 shrink-0 text-sm font-medium text-foreground-muted"
               >
                 {control.label}
               </label>

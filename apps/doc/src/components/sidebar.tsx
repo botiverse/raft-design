@@ -706,8 +706,8 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-gray-400 decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground ${
-          isActive ? "bg-layer-muted text-foreground" : "text-neutral-500"
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-foreground-placeholder decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground ${
+          isActive ? "bg-layer-muted text-foreground" : "text-foreground-muted"
         } ${sidebarItemFocusClassName}`}
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
@@ -715,7 +715,7 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
       {tooltip
         ? createPortal(
             <span
-              className="pointer-events-none fixed z-50 -translate-y-1/2 whitespace-nowrap border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700 no-underline shadow-lg"
+              className="pointer-events-none fixed z-50 -translate-y-1/2 whitespace-nowrap border border-line-subtle bg-layer-panel px-2 py-1 text-xs font-medium text-foreground-muted no-underline shadow-lg"
               style={{ left: tooltip.left, top: tooltip.top }}
             >
               Migrated to {target}
@@ -834,7 +834,7 @@ function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted/80 hover:text-foreground"
+        className="flex cursor-default items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-foreground-muted transition-colors hover:bg-layer-muted/80 hover:text-foreground"
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
         <Badge
@@ -849,7 +849,7 @@ function SourceHoldRow({ label, status, reason }: SourceHoldItem) {
       {tooltip
         ? createPortal(
             <span
-              className="pointer-events-none fixed z-50 max-w-72 -translate-y-1/2 border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-700 shadow-lg"
+              className="pointer-events-none fixed z-50 max-w-72 -translate-y-1/2 border border-line-subtle bg-layer-panel px-2 py-1 text-xs font-medium text-foreground-muted shadow-lg"
               style={{ left: tooltip.left, top: tooltip.top }}
             >
               {reason}
@@ -869,7 +869,7 @@ function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
       rel="noreferrer"
       title={`${priority}: ${reason}`}
       aria-label={`${label}: ${priority}. ${reason} Open Base UI docs.`}
-      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-neutral-500 transition-colors hover:bg-layer-muted/80 hover:text-foreground ${sidebarItemFocusClassName}`}
+      className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] text-foreground-muted transition-colors hover:bg-layer-muted/80 hover:text-foreground ${sidebarItemFocusClassName}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       <IconExternalLinkOutline18
@@ -901,8 +901,8 @@ function PriorityBadge({ priority }: { priority: PlannedPriority }) {
 
 export function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto border-r border-gray-200 px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
-      <Link to="/" className="flex items-center gap-2 text-gray-900">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto border-r border-line-subtle px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
+      <Link to="/" className="flex items-center gap-2 text-foreground-strong">
         <img src="/favicon-32x32.png" alt="" className="size-5 shrink-0 rounded-sm" />
         <span className="text-sm font-semibold leading-tight tracking-tight">
           Slock Design System
@@ -921,27 +921,27 @@ export function Sidebar() {
           </li>
         </ul>
 
-        <hr className="border-gray-200" />
+        <hr className="border-line-subtle" />
 
         <NavGroup title={SKILLS.title} items={SKILLS.items} />
 
-        <hr className="border-gray-200" />
+        <hr className="border-line-subtle" />
 
         {TOKENS.items.map((group) => (
           <NavGroup key={group.label} title={group.label} items={group.children} />
         ))}
 
-        <hr className="border-gray-200" />
+        <hr className="border-line-subtle" />
 
         {NAV.map((group) => (
           <NavGroup key={group.title} {...group} />
         ))}
 
-        <hr className="border-gray-200" />
+        <hr className="border-line-subtle" />
 
         <MigratedGroup title={MIGRATED.title} items={MIGRATED.items} />
 
-        <hr className="border-gray-200" />
+        <hr className="border-line-subtle" />
 
         <SourceHoldGroup title={SOURCE_HOLDS.title} items={SOURCE_HOLDS.items} />
       </nav>

@@ -33,9 +33,11 @@ export function DocPage({
               <h1 className="font-display text-3xl font-medium tracking-tight text-foreground-strong">
                 {title}
               </h1>
-              {description ? <p className="mt-3 text-sm text-neutral-500">{description}</p> : null}
+              {description ? (
+                <p className="mt-3 text-sm text-foreground-muted">{description}</p>
+              ) : null}
               {overview ? (
-                <div className="mt-4 border-l-2 border-gray-200 pl-4 text-sm leading-relaxed text-gray-500">
+                <div className="mt-4 border-l-2 border-line-subtle pl-4 text-sm leading-relaxed text-foreground-muted">
                   {overview}
                 </div>
               ) : null}

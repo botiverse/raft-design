@@ -130,13 +130,13 @@ function Home() {
       showToc={false}
     >
       <DocSection id="introduction" title="Introduction">
-        <p className="text-gray-600">
+        <p className="text-foreground-muted">
           slock-ui provides accessible primitives from{" "}
-          <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-sm">
+          <code className="rounded-sm bg-layer-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
             @base-ui/react
           </code>{" "}
           composed with Tailwind utilities through{" "}
-          <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-sm">
+          <code className="rounded-sm bg-layer-muted px-1.5 py-0.5 font-mono text-sm text-foreground">
             tailwind-variants
           </code>
           . Browse the components in the sidebar to see their states and APIs.
@@ -144,7 +144,7 @@ function Home() {
         <p className="mt-4">
           <Link
             to="/components/button"
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            className="text-sm font-medium text-info-dark transition-colors hover:text-foreground"
           >
             View the Button component →
           </Link>
@@ -152,7 +152,7 @@ function Home() {
       </DocSection>
 
       <DocSection id="component-gallery" title="Component gallery">
-        <p className="mb-6 max-w-2xl text-sm leading-relaxed text-gray-600">
+        <p className="mb-6 max-w-2xl text-sm leading-relaxed text-foreground-muted">
           A compact sampler of current package exports. It is not a one-to-one theme builder; it is
           a quick way to scan how the existing primitives behave together across forms, navigation,
           feedback, and data surfaces.
@@ -161,8 +161,8 @@ function Home() {
       </DocSection>
 
       <DocSection id="installation" title="Installation">
-        <pre className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm">
-          <code className="font-mono text-gray-900">pnpm add @slock/ui</code>
+        <pre className="overflow-x-auto rounded-md border border-line-subtle bg-layer-muted p-4 text-sm">
+          <code className="font-mono text-foreground">pnpm add @slock/ui</code>
         </pre>
       </DocSection>
     </DocPage>
