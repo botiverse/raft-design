@@ -1,143 +1,244 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  Button,
+  Checkbox,
   Field,
   FieldDescription,
   FieldError,
+  FieldItem,
   FieldLabel,
+  InlineCode,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
   Textarea,
   TextareaCounter,
   TextareaGroup,
 } from "@slock/ui";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "label", title: "Label" },
-  { id: "invalid", title: "Invalid" },
-  { id: "complete", title: "Complete field" },
+  { id: "structure", title: "Structure" },
+  { id: "states", title: "States" },
+  { id: "controls", title: "Controls" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
-const TODOS = [
-  "Add elegant family styling",
-  "Move Input/Textarea onto Field-aware controls",
-] as const;
-
-const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
+const PREVIEW_TOP_CLASS = "!items-start !pt-16";
 
 const SNIPPETS = {
-  anatomy: `import { Field, FieldLabel, FieldDescription, Textarea } from "@slock/ui";
+  preview: `import { Field, FieldDescription, FieldError, FieldLabel, Input } from "@slock/ui";
+
+<Field invalid>
+  <FieldLabel htmlFor="email" required>Email</FieldLabel>
+  <Input id="email" type="email" aria-invalid defaultValue="oops" />
+  <FieldError match>Email is required.</FieldError>
+</Field>`,
+  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "@slock/ui";
 
 <Field>
-  <FieldLabel htmlFor="msg">Message</FieldLabel>
-  <FieldDescription>Enter your message below.</FieldDescription>
-  <Textarea id="msg" placeholder="Type your message here." />
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" type="email" placeholder="you@example.com" />
+  <FieldDescription>Use your work email.</FieldDescription>
 </Field>`,
-  invalid: `<Field invalid>
-  <FieldLabel htmlFor="msg">Message</FieldLabel>
-  <Textarea id="msg" aria-invalid />
-  <FieldError match>Please enter a valid message.</FieldError>
+  structure: `<Field>
+  <FieldLabel htmlFor="workspace" required>Workspace</FieldLabel>
+  <Input id="workspace" defaultValue="raft-design" />
+  <FieldDescription>Visible to everyone in this server.</FieldDescription>
+</Field>
+
+<Field>
+  <FieldLabel htmlFor="middle-name" optional>Middle name</FieldLabel>
+  <Input id="middle-name" placeholder="Alex" />
 </Field>`,
-  label: `<Field><FieldLabel>Email address</FieldLabel></Field>
-<Field><FieldLabel required>Email address</FieldLabel></Field>
-<Field><FieldLabel optional>Email address</FieldLabel></Field>
-<Field><FieldLabel size="sm">Email address</FieldLabel></Field>
-<Field><FieldLabel className="uppercase tracking-wide">Email address</FieldLabel></Field>`,
-  complete: `import {
+  states: `<Field>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" placeholder="you@example.com" />
+  <FieldDescription>Use your work email.</FieldDescription>
+</Field>
+
+<Field invalid>
+  <FieldLabel htmlFor="invalid-email">Email</FieldLabel>
+  <Input id="invalid-email" aria-invalid defaultValue="oops" />
+  <FieldError match>Email is required.</FieldError>
+</Field>
+
+<Field disabled>
+  <FieldLabel htmlFor="disabled-email">Email</FieldLabel>
+  <Input id="disabled-email" disabled placeholder="Disabled" />
+  <FieldDescription>This field is locked.</FieldDescription>
+</Field>`,
+  controls: `import {
+  Button,
+  Checkbox,
   Field,
   FieldDescription,
+  FieldError,
+  FieldItem,
   FieldLabel,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
   Textarea,
   TextareaCounter,
   TextareaGroup,
 } from "@slock/ui";
 
+<div className="grid gap-5 sm:grid-cols-2">
+  <Field>
+    <FieldLabel htmlFor="project-name" required>Project name</FieldLabel>
+    <Input id="project-name" defaultValue="RAFT" />
+    <FieldDescription>Visible in the project switcher.</FieldDescription>
+  </Field>
+
+  <Field invalid>
+    <FieldLabel htmlFor="project-slug">Slug</FieldLabel>
+    <InputGroup>
+      <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+      <InputGroupInput id="project-slug" aria-invalid defaultValue="Draft Space" />
+    </InputGroup>
+    <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
+  </Field>
+
+  <Field className="sm:col-span-2">
+    <FieldLabel htmlFor="release-notes" optional>Release notes</FieldLabel>
+    <TextareaGroup>
+      <Textarea id="release-notes" rows={4} placeholder="Write a note..." />
+      <TextareaCounter value="" limit={160} />
+    </TextareaGroup>
+    <FieldDescription>Markdown is supported.</FieldDescription>
+  </Field>
+
+  <Field disabled>
+    <FieldLabel htmlFor="owner">Owner</FieldLabel>
+    <Input id="owner" disabled defaultValue="Design systems" />
+    <FieldDescription>Managed by workspace settings.</FieldDescription>
+  </Field>
+
+  <Field>
+    <FieldItem>
+      <Checkbox id="notify" defaultChecked />
+      <div>
+        <FieldLabel htmlFor="notify">Notify teammates</FieldLabel>
+        <FieldDescription>Send an update when this changes.</FieldDescription>
+      </div>
+    </FieldItem>
+  </Field>
+
+  <div className="flex justify-end gap-2 sm:col-span-2">
+    <Button variant="outline">Cancel</Button>
+    <Button>Save changes</Button>
+  </div>
+</div>`,
+  migrationFormField: `// Source
+<FormField label="Email" htmlFor="email" required hint="Use your work email.">
+  <input id="email" className="input-brutal" />
+</FormField>
+
+// Current
 <Field>
-  <FieldLabel htmlFor="bio" required>Bio</FieldLabel>
-  <TextareaGroup>
-    <Textarea id="bio" rows={3} maxLength={160} value={bio} onChange={(e) => setBio(e.target.value)} />
-    <TextareaCounter value={bio} limit={160} />
-  </TextareaGroup>
-  <FieldDescription>A short blurb for your profile.</FieldDescription>
+  <FieldLabel htmlFor="email" required>Email</FieldLabel>
+  <Input id="email" type="email" />
+  <FieldDescription>Use your work email.</FieldDescription>
 </Field>`,
-  sourcePropWrapper: `<FormField label="Email" htmlFor="source-email" required hint="Use your work email.">
+  migrationError: `// Source
+<FormField label="Email" htmlFor="email" error="Email is required.">
+  <input id="email" className="input-brutal" aria-invalid />
+</FormField>
+
+// Current
+<Field invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldError match>Email is required.</FieldError>
+</Field>`,
+  sourceField: `<FormField label="Email" htmlFor="source-email" required hint="Use your work email.">
   <input id="source-email" className="input-brutal" />
 </FormField>`,
-  currentComposition: `<Field>
-  <FieldLabel htmlFor="current-email" required>Email</FieldLabel>
-  <input id="current-email" className="input-brutal" />
+  currentField: `<Field>
+  <FieldLabel htmlFor="email" required>Email</FieldLabel>
+  <Input id="email" type="email" />
   <FieldDescription>Use your work email.</FieldDescription>
 </Field>`,
   sourceError: `<FormField label="Email" htmlFor="source-email-error" error="Email is required.">
   <input id="source-email-error" className="input-brutal" aria-invalid />
 </FormField>`,
   currentError: `<Field invalid>
-  <FieldLabel htmlFor="current-email-error">Email</FieldLabel>
-  <input id="current-email-error" className="input-brutal" aria-invalid />
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
   <FieldError match>Email is required.</FieldError>
+</Field>`,
+  sourceCompact: `<FormField label="Display name" htmlFor="source-display-name" size="compact">
+  <input id="source-display-name" className="input-brutal" />
+</FormField>`,
+  currentCompact: `<Field>
+  <FieldLabel htmlFor="display-name" size="sm">Display name</FieldLabel>
+  <Input id="display-name" />
 </Field>`,
 } as const;
 
 type PlaygroundValues = {
   invalid: boolean;
+  required: boolean;
+  optional: boolean;
   label: string;
   description: string;
 };
 
-const PROPS: readonly PropRow[] = [
+const FIELD_PROPS: readonly PropRow[] = [
   {
     name: "Field",
     type: "Base UI Field.Root",
     description:
-      "Wrapper that stacks label / control / message. Use invalid for externally controlled errors, or validate/validationMode for Base UI validation.",
+      "Stacks label, control, helper text, and error. Pass invalid for externally controlled errors.",
   },
   {
     name: "FieldLabel",
     type: "Base UI Field.Label",
-    description:
-      "Bold label. Props: required (* marker), optional ((optional) tag), size (sm | md), nativeLabel. Uppercase via className.",
+    description: "Persistent field label. Supports required, optional, and size for dense labels.",
   },
   {
     name: "FieldDescription",
     type: "Base UI Field.Description",
-    description: "Muted helper text below the control. Registers itself for aria-describedby.",
+    description: "Helper text below the control. It participates in aria-describedby.",
   },
   {
     name: "FieldError",
     type: "Base UI Field.Error",
     description:
-      "Red error message. By default follows Base UI validity; pass match={true} to force an externally controlled message.",
+      "Inline validation message. Use match for Base UI validity states, or match={true} for external state.",
   },
   {
     name: "FieldItem",
     type: "Base UI Field.Item",
-    description: "Groups checkbox/radio items with a label and description.",
+    description: "Horizontal grouping for checkbox, radio, or switch rows inside a field.",
   },
   {
     name: "FieldControl",
     type: "Base UI Field.Control",
-    description:
-      "Optional Base UI native input control. Input/Textarea can still be composed manually.",
+    description: "Optional native control primitive when you do not need Input or Textarea.",
   },
   {
     name: "FieldValidity",
     type: "Base UI Field.Validity",
-    description: "Render-prop access to Base UI validity state.",
+    description: "Render-prop access to the current Base UI field validity state.",
   },
 ];
 
@@ -152,56 +253,63 @@ function FieldDoc() {
   return (
     <DocPage
       title="Field"
-      description="A composable form-field layout: label, control, description, and error."
-      overview={
-        <Differences from="FormField">
-          <li>
-            composable pieces (<code>Field</code> / <code>FieldLabel</code> /{" "}
-            <code>FieldDescription</code> / <code>FieldError</code>) instead of one prop-based
-            component
-          </li>
-          <li>
-            built on Base UI&rsquo;s <code>Field.Root</code> / <code>Label</code> /{" "}
-            <code>Description</code> / <code>Error</code> primitives
-          </li>
-          <li>
-            <code>FieldLabel</code> is plain by default (was uppercase; opt in via{" "}
-            <code>className</code>)
-          </li>
-          <li>
-            size <code>sm</code> / <code>md</code> (was <code>default</code> / <code>compact</code>)
-          </li>
-        </Differences>
+      description="A composable form field pattern for labels, controls, descriptions, and errors."
+      headerAction={
+        <Button
+          render={<a href="/components/field/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
       }
       toc={TOC}
+      sectionDividers={false}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             invalid: false,
-            label: "Message",
-            description: "Enter your message below.",
+            required: true,
+            optional: false,
+            label: "Email",
+            description: "Use your work email.",
           }}
           controls={[
             { name: "invalid", label: "Invalid", type: "boolean" },
+            { name: "required", label: "Required", type: "boolean" },
+            { name: "optional", label: "Optional", type: "boolean" },
             { name: "label", label: "Label", type: "text" },
             { name: "description", label: "Description", type: "text" },
           ]}
-          render={(values) => (
-            <Field className="w-80" invalid={values.invalid}>
-              <FieldLabel htmlFor="pg">{values.label}</FieldLabel>
-              <Textarea id="pg" rows={4} aria-invalid={values.invalid || undefined} />
-              {values.invalid ? (
-                <FieldError match>Please enter a valid message.</FieldError>
-              ) : values.description ? (
-                <FieldDescription>{values.description}</FieldDescription>
-              ) : null}
-            </Field>
-          )}
+          render={(values) => {
+            const markerProps = values.required
+              ? ({ required: true } as const)
+              : values.optional
+                ? ({ optional: true } as const)
+                : {};
+
+            return (
+              <Field className="w-80" invalid={values.invalid}>
+                <FieldLabel htmlFor="field-preview-email" {...markerProps}>
+                  {values.label}
+                </FieldLabel>
+                <Input
+                  id="field-preview-email"
+                  type="email"
+                  aria-invalid={values.invalid || undefined}
+                  defaultValue={values.invalid ? "oops" : undefined}
+                  placeholder="you@example.com"
+                />
+                {values.invalid ? (
+                  <FieldError match>Email is required.</FieldError>
+                ) : values.description ? (
+                  <FieldDescription>{values.description}</FieldDescription>
+                ) : null}
+              </Field>
+            );
+          }}
         />
       </DocSection>
 
@@ -209,165 +317,252 @@ function FieldDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
-      <DocSection id="label" title="Label">
+      <DocSection id="structure" title="Structure">
         <div className="space-y-4">
-          <Example html={code.label}>
-            <div className="flex w-full flex-col items-start gap-3">
+          <DocNote>
+            Field owns the form copy structure. Keep the control itself narrow: use{" "}
+            <Link to="/components/input">Input</Link>,{" "}
+            <Link to="/components/textarea">Textarea</Link>, or another control inside it.
+          </DocNote>
+          <Example html={code.structure} previewClassName={PREVIEW_TOP_CLASS}>
+            <div className="grid w-80 gap-6">
               <Field>
-                <FieldLabel>Email address</FieldLabel>
+                <FieldLabel htmlFor="field-workspace" required>
+                  Workspace
+                </FieldLabel>
+                <Input id="field-workspace" defaultValue="raft-design" />
+                <FieldDescription>Visible to everyone in this server.</FieldDescription>
               </Field>
               <Field>
-                <FieldLabel required>Email address</FieldLabel>
-              </Field>
-              <Field>
-                <FieldLabel optional>Email address</FieldLabel>
-              </Field>
-              <Field>
-                <FieldLabel size="sm">Email address</FieldLabel>
-              </Field>
-              <Field>
-                <FieldLabel className="uppercase tracking-wide">Email address</FieldLabel>
+                <FieldLabel htmlFor="field-middle-name" optional>
+                  Middle name
+                </FieldLabel>
+                <Input id="field-middle-name" placeholder="Alex" />
               </Field>
             </div>
           </Example>
-          <Callout>
-            Labels render as written. <code>required</code> adds a pink <code>*</code>;{" "}
-            <code>optional</code> appends a muted <code>(optional)</code>; <code>size="sm"</code>{" "}
-            dims and shrinks it for dense forms. For the brutal uppercase look, add{" "}
-            <code>className="uppercase tracking-wide"</code> (last row).
-          </Callout>
         </div>
       </DocSection>
 
-      <DocSection id="invalid" title="Invalid">
-        <div className="space-y-4">
-          <Example html={code.invalid} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-            <Field className="w-80" invalid>
-              <FieldLabel htmlFor="invalid-msg">Message</FieldLabel>
-              <Textarea id="invalid-msg" rows={4} aria-invalid defaultValue="oops" />
-              <FieldError match>Please enter a valid message.</FieldError>
+      <DocSection id="states" title="States">
+        <Example html={code.states} previewClassName={PREVIEW_TOP_CLASS}>
+          <div className="grid w-80 gap-6">
+            <Field>
+              <FieldLabel htmlFor="field-state-email">Email</FieldLabel>
+              <Input id="field-state-email" placeholder="you@example.com" />
+              <FieldDescription>Use your work email.</FieldDescription>
             </Field>
-          </Example>
-          <Callout>
-            <code>invalid</code> on <code>Field</code> drives Base UI field state and any{" "}
-            <code>TextareaCounter</code> through the emitted <code>data-invalid</code> marker;{" "}
-            <code>aria-invalid</code> on non-Base-UI controls still drives the control border.
-          </Callout>
-        </div>
+            <Field invalid>
+              <FieldLabel htmlFor="field-state-invalid-email">Email</FieldLabel>
+              <Input id="field-state-invalid-email" aria-invalid defaultValue="oops" />
+              <FieldError match>Email is required.</FieldError>
+            </Field>
+            <Field disabled>
+              <FieldLabel htmlFor="field-state-disabled-email">Email</FieldLabel>
+              <Input id="field-state-disabled-email" disabled placeholder="Disabled" />
+              <FieldDescription>This field is locked.</FieldDescription>
+            </Field>
+          </div>
+        </Example>
       </DocSection>
 
-      <DocSection id="complete" title="Complete field">
+      <DocSection id="controls" title="Controls">
         <div className="space-y-4">
-          <Example html={code.complete} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-            <div className="flex w-80 flex-col gap-6">
+          <DocNote>
+            Use <InlineCode>FieldItem</InlineCode> for choice controls where the label and helper
+            copy should sit beside the control instead of above it.
+          </DocNote>
+          <Example html={code.controls} previewClassName={PREVIEW_TOP_CLASS}>
+            <div className="grid w-[min(40rem,100%)] gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="bio" required>
-                  Bio
+                <FieldLabel htmlFor="field-project-name" required>
+                  Project name
                 </FieldLabel>
-                <TextareaGroup>
-                  <Textarea id="bio" rows={3} maxLength={160} defaultValue="Frontend engineer." />
-                  <TextareaCounter value="Frontend engineer." limit={160} />
-                </TextareaGroup>
-                <FieldDescription>A short blurb for your profile.</FieldDescription>
+                <Input id="field-project-name" defaultValue="RAFT" />
+                <FieldDescription>Visible in the project switcher.</FieldDescription>
               </Field>
               <Field invalid>
-                <FieldLabel htmlFor="bio-err" required>
-                  Bio
+                <FieldLabel htmlFor="field-project-slug">Slug</FieldLabel>
+                <InputGroup>
+                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                  <InputGroupInput
+                    id="field-project-slug"
+                    aria-invalid
+                    defaultValue="Draft Space"
+                  />
+                </InputGroup>
+                <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
+              </Field>
+              <Field className="sm:col-span-2">
+                <FieldLabel htmlFor="field-release-notes" optional>
+                  Release notes
                 </FieldLabel>
                 <TextareaGroup>
-                  <Textarea id="bio-err" rows={3} aria-invalid maxLength={160} defaultValue="Hi." />
-                  <TextareaCounter value="Hi." limit={160} />
+                  <Textarea id="field-release-notes" rows={4} placeholder="Write a note..." />
+                  <TextareaCounter value="" limit={160} />
                 </TextareaGroup>
-                <FieldError match>Tell us a bit more about yourself.</FieldError>
+                <FieldDescription>Markdown is supported.</FieldDescription>
               </Field>
+              <Field disabled>
+                <FieldLabel htmlFor="field-owner">Owner</FieldLabel>
+                <Input id="field-owner" disabled defaultValue="Design systems" />
+                <FieldDescription>Managed by workspace settings.</FieldDescription>
+              </Field>
+              <Field>
+                <FieldItem>
+                  <Checkbox id="field-notify" defaultChecked />
+                  <div>
+                    <FieldLabel htmlFor="field-notify">Notify teammates</FieldLabel>
+                    <FieldDescription>Send an update when this changes.</FieldDescription>
+                  </div>
+                </FieldItem>
+              </Field>
+              <div className="flex justify-end gap-2 sm:col-span-2">
+                <Button variant="outline">Cancel</Button>
+                <Button>Save changes</Button>
+              </div>
             </div>
           </Example>
-          <Callout>
-            The second field is <code>invalid</code>: the control border, the{" "}
-            <code>FieldError</code>, and the <code>TextareaCounter</code> all turn red — the counter
-            via Base UI&rsquo;s emitted <code>data-invalid</code> marker, even though it is under
-            the limit.
-          </Callout>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <PropsTable rows={FIELD_PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
-              label: "Prop wrapper to composition",
+              label: "Label, control, helper",
               status: "difference",
-              note: "Source FormField owned label, required, hint, and error props. Current Field exposes Base UI parts so layout and messages are composed explicitly.",
+              note: "Source FormField bundled label, control, and hint into one prop wrapper. Current keeps Field parts explicit.",
               source: (
                 <LegacyFormField
                   label="Email"
-                  htmlFor="source-email"
+                  htmlFor="source-field-email"
                   required
                   hint="Use your work email."
                 >
-                  <input
-                    id="source-email"
-                    aria-label="Email"
-                    className="w-80 border-2 border-black bg-white px-3 py-2 font-display shadow-[var(--shadow)]"
-                  />
+                  <input id="source-field-email" aria-label="Email" className="input-brutal w-72" />
                 </LegacyFormField>
               ),
-              current: (
-                <Field>
-                  <FieldLabel htmlFor="current-email" required>
-                    Email
-                  </FieldLabel>
-                  <input
-                    id="current-email"
-                    aria-label="Email"
-                    className="w-80 border-2 border-black bg-white px-3 py-2 font-display shadow-[var(--shadow)]"
-                  />
-                  <FieldDescription>Use your work email.</FieldDescription>
-                </Field>
-              ),
-              sourceCode: code.sourcePropWrapper,
-              currentCode: code.currentComposition,
+              brutal: <ComparisonField id="brutal-field-email" required />,
+              elegant: <ComparisonField id="elegant-field-email" required />,
+              elegantDark: <ComparisonField id="dark-field-email" required />,
+              sourceCode: code.sourceField,
+              brutalCode: code.currentField,
+              elegantCode: code.currentField,
+              elegantDarkCode: code.currentField,
             },
             {
               label: "Error",
               status: "difference",
-              note: "Source error prop always rendered the message. Current Field marks root invalid and FieldError opts into a forced external message with match.",
+              note: "Source error prop rendered a fixed message. Current marks the Field invalid and lets FieldError own the inline message.",
               source: (
                 <LegacyFormField
                   label="Email"
-                  htmlFor="source-email-error"
+                  htmlFor="source-field-error-email"
                   error="Email is required."
                 >
                   <input
-                    id="source-email-error"
+                    id="source-field-error-email"
                     aria-label="Email"
                     aria-invalid
-                    className="w-80 border-2 border-brutal-red bg-brutal-red/5 px-3 py-2 font-display shadow-[var(--shadow)] ring-2 ring-brutal-red/60"
+                    className="input-brutal w-72 border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
                   />
                 </LegacyFormField>
               ),
-              current: (
-                <Field invalid>
-                  <FieldLabel htmlFor="current-email-error">Email</FieldLabel>
-                  <input
-                    id="current-email-error"
-                    aria-label="Email"
-                    aria-invalid
-                    className="w-80 border-2 border-brutal-red bg-brutal-red/5 px-3 py-2 font-display shadow-[var(--shadow)] ring-2 ring-brutal-red/60"
-                  />
-                  <FieldError match>Email is required.</FieldError>
-                </Field>
-              ),
+              brutal: <ComparisonField id="brutal-field-error-email" invalid />,
+              elegant: <ComparisonField id="elegant-field-error-email" invalid />,
+              elegantDark: <ComparisonField id="dark-field-error-email" invalid />,
               sourceCode: code.sourceError,
-              currentCode: code.currentError,
+              brutalCode: code.currentError,
+              elegantCode: code.currentError,
+              elegantDarkCode: code.currentError,
+            },
+            {
+              label: "Compact label",
+              status: "difference",
+              note: 'Source used size="compact". Current keeps the Field wrapper unchanged and moves density to FieldLabel size.',
+              source: (
+                <LegacyFormField label="Display name" htmlFor="source-display-name" size="compact">
+                  <input
+                    id="source-display-name"
+                    aria-label="Display name"
+                    className="input-brutal w-72"
+                  />
+                </LegacyFormField>
+              ),
+              brutal: <ComparisonField id="brutal-display-name" label="Display name" size="sm" />,
+              elegant: <ComparisonField id="elegant-display-name" label="Display name" size="sm" />,
+              elegantDark: (
+                <ComparisonField id="dark-display-name" label="Display name" size="sm" />
+              ),
+              sourceCode: code.sourceCompact,
+              brutalCode: code.currentCompact,
+              elegantCode: code.currentCompact,
+              elegantDarkCode: code.currentCompact,
             },
           ]}
         />
       </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-foreground-strong">FormField wrapper</h3>
+            <p className="text-sm text-foreground-muted">
+              Move <InlineCode>label</InlineCode>, <InlineCode>required</InlineCode>, and{" "}
+              <InlineCode>hint</InlineCode> from wrapper props into explicit Field parts.
+            </p>
+            <CodeBlock html={code.migrationFormField} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-foreground-strong">Error prop</h3>
+            <p className="text-sm text-foreground-muted">
+              Replace <InlineCode>error</InlineCode> with <InlineCode>Field invalid</InlineCode>, an
+              invalid control state, and <InlineCode>FieldError</InlineCode>.
+            </p>
+            <CodeBlock html={code.migrationError} />
+          </div>
+        </div>
+      </DocSection>
     </DocPage>
+  );
+}
+
+function ComparisonField({
+  id,
+  label = "Email",
+  required,
+  invalid,
+  size,
+}: {
+  id: string;
+  label?: string;
+  required?: boolean;
+  invalid?: boolean;
+  size?: "sm" | "md";
+}) {
+  return (
+    <Field className="w-72" invalid={invalid}>
+      <FieldLabel htmlFor={id} required={required || undefined} size={size}>
+        {label}
+      </FieldLabel>
+      <Input
+        id={id}
+        type="email"
+        aria-invalid={invalid || undefined}
+        defaultValue={invalid ? "oops" : undefined}
+        placeholder="you@example.com"
+      />
+      {invalid ? (
+        <FieldError match>Email is required.</FieldError>
+      ) : (
+        <FieldDescription>Use your work email.</FieldDescription>
+      )}
+    </Field>
   );
 }

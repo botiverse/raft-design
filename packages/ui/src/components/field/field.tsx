@@ -6,24 +6,27 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const field = tv({
   slots: {
-    root: ["group/field flex flex-col gap-1"],
-    item: ["group/field-item flex items-start gap-2"],
-    label: ["block font-bold"],
-    description: ["text-xs"],
-    error: ["text-xs font-bold"],
+    root: ["group/field flex flex-col gap-1.5"],
+    item: ["group/field-item flex items-start gap-2", "[&>[data-slot=checkbox]]:mt-px"],
+    label: ["block leading-none", "group-data-[disabled]/field:text-foreground-disabled"],
+    description: ["text-xs leading-5", "group-data-[disabled]/field:text-foreground-disabled"],
+    error: ["text-xs leading-5", "group-data-[disabled]/field:text-foreground-disabled"],
   },
   variants: {
     theme: {
       brutal: {
-        label: ["text-foreground-strong"],
+        root: ["gap-1"],
+        label: ["font-bold text-foreground-strong"],
         description: ["text-foreground/50"],
         error: ["text-danger-base"],
       },
       elegant: {
-        root: ["gap-2"],
         label: ["font-medium text-foreground"],
-        description: ["tracking-[0.01em] text-foreground-placeholder"],
-        error: ["font-medium text-danger-base"],
+        description: [
+          "text-[13px] text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",
+          "group-data-[disabled]/field:text-foreground-disabled",
+        ],
+        error: ["text-[13px] text-danger-base"],
       },
     },
     size: {
@@ -31,7 +34,6 @@ const field = tv({
       md: { label: "text-sm" },
     },
   },
-  // The small/dense label is also dimmed; only meaningful under brutal.
   compoundVariants: [{ theme: "brutal", size: "sm", class: { label: "text-foreground/60" } }],
   defaultVariants: {
     size: "md",

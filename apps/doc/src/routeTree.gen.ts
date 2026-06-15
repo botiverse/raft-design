@@ -64,6 +64,7 @@ import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/
 import { Route as ComponentsLabelMatrixRouteImport } from './routes/components/label_.matrix'
 import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
 import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/components/input-group_.matrix'
+import { Route as ComponentsFieldMatrixRouteImport } from './routes/components/field_.matrix'
 import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
 import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
 import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
@@ -350,6 +351,11 @@ const ComponentsInputGroupMatrixRoute =
     path: '/input-group/matrix',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsFieldMatrixRoute = ComponentsFieldMatrixRouteImport.update({
+  id: '/field_/matrix',
+  path: '/field/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsCheckboxMatrixRoute =
   ComponentsCheckboxMatrixRouteImport.update({
     id: '/checkbox_/matrix',
@@ -415,6 +421,7 @@ export interface FileRoutesByFullPath {
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/field/matrix': typeof ComponentsFieldMatrixRoute
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/label/matrix': typeof ComponentsLabelMatrixRoute
@@ -475,6 +482,7 @@ export interface FileRoutesByTo {
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/field/matrix': typeof ComponentsFieldMatrixRoute
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/label/matrix': typeof ComponentsLabelMatrixRoute
@@ -536,6 +544,7 @@ export interface FileRoutesById {
   '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/field_/matrix': typeof ComponentsFieldMatrixRoute
   '/components/input-group_/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input_/matrix': typeof ComponentsInputMatrixRoute
   '/components/label_/matrix': typeof ComponentsLabelMatrixRoute
@@ -598,6 +607,7 @@ export interface FileRouteTypes {
     | '/components/badge/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
+    | '/components/field/matrix'
     | '/components/input-group/matrix'
     | '/components/input/matrix'
     | '/components/label/matrix'
@@ -658,6 +668,7 @@ export interface FileRouteTypes {
     | '/components/badge/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
+    | '/components/field/matrix'
     | '/components/input-group/matrix'
     | '/components/input/matrix'
     | '/components/label/matrix'
@@ -718,6 +729,7 @@ export interface FileRouteTypes {
     | '/components/badge_/matrix'
     | '/components/button_/matrix'
     | '/components/checkbox_/matrix'
+    | '/components/field_/matrix'
     | '/components/input-group_/matrix'
     | '/components/input_/matrix'
     | '/components/label_/matrix'
@@ -1130,6 +1142,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsInputGroupMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/field_/matrix': {
+      id: '/components/field_/matrix'
+      path: '/field/matrix'
+      fullPath: '/components/field/matrix'
+      preLoaderRoute: typeof ComponentsFieldMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/checkbox_/matrix': {
       id: '/components/checkbox_/matrix'
       path: '/checkbox/matrix'
@@ -1193,6 +1212,7 @@ interface ComponentsRouteChildren {
   ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
   ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
   ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
+  ComponentsFieldMatrixRoute: typeof ComponentsFieldMatrixRoute
   ComponentsInputGroupMatrixRoute: typeof ComponentsInputGroupMatrixRoute
   ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
   ComponentsLabelMatrixRoute: typeof ComponentsLabelMatrixRoute
@@ -1240,6 +1260,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,
   ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,
   ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
+  ComponentsFieldMatrixRoute: ComponentsFieldMatrixRoute,
   ComponentsInputGroupMatrixRoute: ComponentsInputGroupMatrixRoute,
   ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,
   ComponentsLabelMatrixRoute: ComponentsLabelMatrixRoute,

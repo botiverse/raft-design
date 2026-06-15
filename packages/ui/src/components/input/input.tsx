@@ -38,7 +38,7 @@ const input = tv({
           "hover:bg-layer-muted/35",
           "focus:border-line-strong/25 focus:bg-layer-field",
           "focus-visible:ring-2 focus-visible:ring-line-strong/8",
-          "aria-invalid:border-danger-base/45 aria-invalid:focus:border-danger-base/70 aria-invalid:focus-visible:ring-danger-base/12",
+          "aria-invalid:border-danger-base/45 aria-invalid:focus-visible:border-danger-base/75 aria-invalid:focus-visible:ring-3 aria-invalid:focus-visible:ring-danger-base/12",
           "disabled:cursor-not-allowed disabled:border-line-subtle/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
           "aria-invalid:disabled:border-line-subtle/60 aria-invalid:disabled:ring-0",
         ],
