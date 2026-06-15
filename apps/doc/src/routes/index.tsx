@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Badge, Button, Checkbox, Status, ThemeProvider, type Theme } from "@slock/ui";
+import { Badge, Button, Checkbox, Input, Status, ThemeProvider, type Theme } from "@slock/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/")({
 type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
+  | "/components/input"
   | "/components/badge"
   | "/components/status";
 
@@ -67,6 +68,17 @@ const COMPONENT_GRID = [
         <Checkbox aria-label="Unchecked checkbox" />
         <Checkbox indeterminate aria-label="Indeterminate checkbox" />
         <Checkbox defaultChecked variant="primary" aria-label="Primary checked checkbox" />
+      </div>
+    ),
+  },
+  {
+    label: "Input",
+    to: "/components/input",
+    preview: (
+      <div className="grid w-64 gap-2">
+        <Input aria-label="Email" placeholder="you@example.com" />
+        <Input aria-label="Workspace" defaultValue="raft-design" />
+        <Input aria-label="Invalid email" aria-invalid defaultValue="oops" />
       </div>
     ),
   },

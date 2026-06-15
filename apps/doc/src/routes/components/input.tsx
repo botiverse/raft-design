@@ -4,7 +4,6 @@ import { Field, FieldError, FieldLabel, Input } from "@slock/ui";
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -17,19 +16,45 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "invalid", title: "Invalid" },
+  { id: "types", title: "Types" },
+  { id: "states", title: "States" },
   { id: "field", title: "With Field" },
+  { id: "password-managers", title: "Password managers" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const TODOS = [
+  { status: "done", label: "Move the input-brutal shell into the Input recipe." },
+  { status: "done", label: "Add elegant hover, focus, invalid, and disabled states." },
+  { status: "done", label: "Document password-manager suppression for non-credential fields." },
+] as const;
 
 const SNIPPETS = {
   anatomy: `import { Input } from "@slock/ui";
 
-<Input placeholder="you@example.com" />`,
-  invalid: `<Input aria-invalid defaultValue="oops" />`,
+<Input aria-label="Email" placeholder="you@example.com" />`,
+  types: `<Input
+  aria-label="Email"
+  type="email"
+  name="email"
+  autoComplete="email"
+  spellCheck={false}
+  placeholder="you@example.com"
+/>
+
+<Input
+  aria-label="Verification code"
+  inputMode="numeric"
+  pattern="[0-9]*"
+  placeholder="123456"
+/>`,
+  states: `<Input aria-label="Email" placeholder="you@example.com" />
+<Input aria-label="Email" defaultValue="alex@example.com" />
+<Input aria-label="Email" aria-invalid defaultValue="oops" />
+<Input aria-label="Email" disabled placeholder="Disabled" />
+<Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />`,
   field: `import { Field, FieldError, FieldLabel, Input } from "@slock/ui";
 
 <Field invalid>
@@ -37,18 +62,42 @@ const SNIPPETS = {
   <Input id="email" type="email" defaultValue="oops" />
   <FieldError match>Email is required.</FieldError>
 </Field>`,
-  sourceShell: `<input className="input-brutal w-80" placeholder="you@example.com" />`,
-  currentShell: `<Input className="w-80" placeholder="you@example.com" />`,
-  sourceError: `<input
-  className="input-brutal w-80 !border-brutal-red ring-2 ring-brutal-red/60 bg-brutal-red/5"
-  defaultValue="oops"
+  passwordManagers: `<Input
+  aria-label="Search"
+  suppressPasswordManager
+  placeholder="Search customers..."
 />`,
-  currentError: `<Input className="w-80" aria-invalid defaultValue="oops" />`,
+  migrationShell: `// Source
+<input className="input-brutal" placeholder="you@example.com" />
+
+// Current
+<Input aria-label="Email" placeholder="you@example.com" />`,
+  migrationInvalid: `// Source
+<input
+  className="input-brutal !border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
+  defaultValue="oops"
+/>
+
+// Current
+<Input aria-label="Email" aria-invalid defaultValue="oops" />`,
+  migrationField: `// Source
+<FormField label="Email" error="Email is required.">
+  <input className="input-brutal" defaultValue="oops" />
+</FormField>
+
+// Current
+<Field invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" defaultValue="oops" />
+  <FieldError match>Email is required.</FieldError>
+</Field>`,
 } as const;
 
 type PlaygroundValues = {
+  disabled: boolean;
   invalid: boolean;
   placeholder: string;
+  suppressPasswordManager: boolean;
 };
 
 const PROPS: readonly PropRow[] = [
@@ -64,10 +113,11 @@ const PROPS: readonly PropRow[] = [
     description: "Base UI change callback for controlled composition.",
   },
   {
-    name: "unstyled",
+    name: "suppressPasswordManager",
     type: "boolean",
+    default: "false",
     description:
-      "Drops the brutal shell (border/shadow/invalid) so an InputGroup can own the look. Used by InputGroupInput.",
+      "Adds common password-manager ignore hints for non-credential fields where extension overlays would obscure custom UI.",
   },
   {
     name: "ref",
@@ -86,6 +136,14 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+function MissingSource() {
+  return (
+    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
+      Missing
+    </span>
+  );
+}
+
 export const Route = createFileRoute("/components/input")({
   component: InputDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -97,24 +155,9 @@ function InputDoc() {
   return (
     <DocPage
       title="Input"
-      description="A brutal single-line text field."
-      overview={
-        <Differences from="input-brutal">
-          <li>
-            just the control — the label, hint, and error message are removed; use{" "}
-            <Link to="/components/field">Field</Link> / <code>FieldLabel</code> /{" "}
-            <code>FieldError</code>
-          </li>
-          <li>
-            error state via <code>aria-invalid</code> instead of an <code>error</code> prop
-          </li>
-          <li>
-            built on Base UI&rsquo;s <code>Input</code> so it can inherit <code>Field</code> state
-            without extra wiring
-          </li>
-        </Differences>
-      }
+      description="A single-line text control with theme-aware focus, invalid, and disabled states."
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
@@ -122,16 +165,29 @@ function InputDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ invalid: false, placeholder: "you@example.com" }}
+          defaultValues={{
+            disabled: false,
+            invalid: false,
+            placeholder: "you@example.com",
+            suppressPasswordManager: false,
+          }}
           controls={[
+            { name: "disabled", label: "Disabled", type: "boolean" },
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },
+            {
+              name: "suppressPasswordManager",
+              label: "Suppress PM",
+              type: "boolean",
+            },
           ]}
           render={(values) => (
             <Input
               className="w-80"
               placeholder={values.placeholder}
+              disabled={values.disabled}
               aria-invalid={values.invalid || undefined}
+              suppressPasswordManager={values.suppressPasswordManager}
             />
           )}
         />
@@ -141,16 +197,43 @@ function InputDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
-      <DocSection id="invalid" title="Invalid">
+      <DocSection id="types" title="Types">
         <div className="space-y-4">
-          <Example html={code.invalid}>
-            <Input className="w-80" aria-invalid defaultValue="oops" />
+          <Example html={code.types}>
+            <Input
+              className="w-80"
+              aria-label="Email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              spellCheck={false}
+              placeholder="you@example.com"
+            />
+            <Input
+              className="w-80"
+              aria-label="Verification code"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              placeholder="123456"
+            />
+          </Example>
+        </div>
+      </DocSection>
+
+      <DocSection id="states" title="States">
+        <div className="space-y-4">
+          <Example html={code.states}>
+            <div className="grid w-full max-w-96 gap-3">
+              <Input aria-label="Email" placeholder="you@example.com" />
+              <Input aria-label="Email" defaultValue="alex@example.com" />
+              <Input aria-label="Email" aria-invalid defaultValue="oops" />
+              <Input aria-label="Email" disabled placeholder="Disabled" />
+              <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />
+            </div>
           </Example>
           <Callout>
-            The control styles its own red border/ring off <code>aria-invalid</code>; the error{" "}
-            <em>message</em> lives in <code>FieldError</code>. When the input is inside{" "}
-            <code>Field</code>, set <code>invalid</code> on the surrounding field instead of
-            duplicating state by hand.
+            <code>disabled</code> wins over <code>aria-invalid</code>. A disabled invalid input
+            keeps the disabled border and removes the invalid ring because the user cannot edit it.
           </Callout>
         </div>
       </DocSection>
@@ -166,8 +249,26 @@ function InputDoc() {
           </Example>
           <Callout>
             Label and message come from <Link to="/components/field">Field</Link>. Input stays a
-            pure control, but Base UI lets it receive <code>data-invalid</code> /{" "}
-            <code>aria-invalid</code> from the field root.
+            pure control; set <code>invalid</code> on the field when the message belongs to the same
+            validation state.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="password-managers" title="Password managers">
+        <div className="space-y-4">
+          <Example html={code.passwordManagers}>
+            <Input
+              className="w-80"
+              aria-label="Search"
+              suppressPasswordManager
+              placeholder="Search customers..."
+            />
+          </Example>
+          <Callout>
+            Use <code>suppressPasswordManager</code> only for non-credential fields where extension
+            overlays would cover custom UI. Credential fields should keep native browser and
+            password-manager help.
           </Callout>
         </div>
       </DocSection>
@@ -180,9 +281,9 @@ function InputDoc() {
         <SourceComparison
           items={[
             {
-              label: "Brutal shell",
+              label: "Default",
               status: "match",
-              note: "Source used the global input-brutal CSS utility. Current Input moves that shell into a tv slot while preserving the same border, padding, display font, and shadow.",
+              note: "Source used the global input-brutal utility. Brutal keeps the same shell; Elegant remaps the same control API to the quieter input surface.",
               source: (
                 <input
                   aria-label="Email"
@@ -190,29 +291,111 @@ function InputDoc() {
                   placeholder="you@example.com"
                 />
               ),
-              current: <Input aria-label="Email" className="w-80" placeholder="you@example.com" />,
-              sourceCode: code.sourceShell,
-              currentCode: code.currentShell,
+              brutal: <Input aria-label="Email" className="w-80" placeholder="you@example.com" />,
+              elegant: <Input aria-label="Email" className="w-80" placeholder="you@example.com" />,
             },
             {
               label: "Invalid state",
               status: "match",
-              note: "Source callers added red border/ring classes ad hoc. Current Input centralizes the same red border, tinted background, and ring behind aria-invalid, or receives it automatically from Field invalid.",
+              note: "Source callers added red border/ring classes ad hoc. Current Input centralizes invalid styling behind aria-invalid or Field invalid.",
               source: (
                 <input
                   aria-label="Email"
-                  className="input-brutal w-80 !border-brutal-red ring-2 ring-brutal-red/60 bg-brutal-red/5"
+                  className="input-brutal w-80 !border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
                   defaultValue="oops"
                 />
               ),
-              current: (
+              brutal: (
                 <Input aria-label="Email" className="w-80" aria-invalid defaultValue="oops" />
               ),
-              sourceCode: code.sourceError,
-              currentCode: code.currentError,
+              elegant: (
+                <Input aria-label="Email" className="w-80" aria-invalid defaultValue="oops" />
+              ),
+            },
+            {
+              label: "Disabled styling",
+              status: "new",
+              note: "Source input-brutal did not own a disabled visual state. Current Input adds one so unavailable fields remain readable without looking actionable.",
+              source: <MissingSource />,
+              brutal: <Input aria-label="Email" className="w-80" disabled placeholder="Disabled" />,
+              elegant: (
+                <Input aria-label="Email" className="w-80" disabled placeholder="Disabled" />
+              ),
+            },
+            {
+              label: "Invalid disabled priority",
+              status: "new",
+              note: "When invalid and disabled are both present, disabled wins because the user cannot edit the value in place.",
+              source: <MissingSource />,
+              brutal: (
+                <Input
+                  aria-label="Email"
+                  className="w-80"
+                  aria-invalid
+                  disabled
+                  defaultValue="Locked error"
+                />
+              ),
+              elegant: (
+                <Input
+                  aria-label="Email"
+                  className="w-80"
+                  aria-invalid
+                  disabled
+                  defaultValue="Locked error"
+                />
+              ),
+            },
+            {
+              label: "Password-manager suppression",
+              status: "new",
+              note: "A narrow escape hatch for non-credential fields where extension overlays obscure custom UI. It is intentionally opt-in.",
+              source: <MissingSource />,
+              brutal: (
+                <Input
+                  aria-label="Search"
+                  className="w-80"
+                  suppressPasswordManager
+                  placeholder="Search customers..."
+                />
+              ),
+              elegant: (
+                <Input
+                  aria-label="Search"
+                  className="w-80"
+                  suppressPasswordManager
+                  placeholder="Search customers..."
+                />
+              ),
             },
           ]}
         />
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Shell</h3>
+            <p className="text-sm text-gray-500">
+              Replace the global <code>input-brutal</code> class with the themed Input recipe.
+            </p>
+            <CodeBlock html={code.migrationShell} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Invalid</h3>
+            <p className="text-sm text-gray-500">
+              Move red border and ring overrides to <code>aria-invalid</code>.
+            </p>
+            <CodeBlock html={code.migrationInvalid} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Field</h3>
+            <p className="text-sm text-gray-500">
+              Move labels, descriptions, and errors to <Link to="/components/field">Field</Link>.
+            </p>
+            <CodeBlock html={code.migrationField} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );

@@ -77,6 +77,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
                   value={String(values[control.name])}
                   onChange={(event) => update(control.name, event.target.value)}
                   className="h-7 w-full px-2 py-1 text-sm"
+                  suppressPasswordManager
                 />
               );
             }

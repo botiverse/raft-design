@@ -1,9 +1,11 @@
 import type { ComponentPropsWithRef } from "react";
+import { Input as BaseInput } from "@base-ui/react/input";
 import { Search } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
-import { Input, type InputProps } from "../input/input.tsx";
+import { type InputBehaviorProps } from "../input/input.tsx";
 
 // InputGroup family: the brutal shell is lifted off the control onto the wrapper
 // so addons can sit inside the bordered box. All parts share one `tv()` slots
@@ -42,11 +44,15 @@ const inputGroup = tv({
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-sm border border-line-subtle bg-layer-field",
+          "overflow-hidden rounded-md border border-line-subtle/90 bg-layer-field",
           "text-foreground transition duration-200 ease-out",
-          "hover:bg-layer-muted",
-          "has-[[data-slot=input-group-control]:focus]:border-line-focus has-[[data-slot=input-group-control]:focus]:bg-layer-field",
-          "has-[[data-slot=input-group-control]:disabled]:border-transparent has-[[data-slot=input-group-control]:disabled]:bg-layer-muted",
+          "hover:bg-layer-muted/35",
+          "has-[[data-slot=input-group-control]:focus]:border-line-strong/25 has-[[data-slot=input-group-control]:focus]:bg-layer-field",
+          "has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-line-strong/8",
+          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base/45 has-[[data-slot=input-group-control][aria-invalid=true]:focus]:border-danger-base/70",
+          "has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-danger-base/12",
+          "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:bg-layer-muted/50",
+          "has-[[data-slot=input-group-control][aria-invalid=true]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control][aria-invalid=true]:disabled]:ring-0",
         ],
         addon: [
           "text-foreground-muted transition duration-200 ease-out",
@@ -54,10 +60,10 @@ const inputGroup = tv({
           "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
         control: [
-          "h-10 min-w-0 bg-transparent px-0 text-sm outline-none",
-          "text-foreground placeholder:text-foreground-placeholder",
+          "min-w-0 bg-transparent px-0 py-2 text-sm outline-none",
+          "text-foreground placeholder:text-foreground-placeholder/70",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
-          "disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+          "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
       },
     },
@@ -144,14 +150,27 @@ export const InputGroupAddon = Object.assign(InputGroupAddonRoot, {
   Slug: SlugAddon,
 });
 
-// The bare control inside an InputGroup — the group owns the border/shadow/invalid
-// look, so the input renders `unstyled` and just fills the row.
-export type InputGroupInputProps = Omit<InputProps, "unstyled">;
+// The bare control inside an InputGroup — the group owns the border/shadow/invalid look.
+export type InputGroupInputProps = WithoutChildren<StyledProps<BaseInput.Props>> &
+  InputBehaviorProps;
 
-export function InputGroupInput({ className, ...props }: InputGroupInputProps) {
+export function InputGroupInput({
+  className,
+  suppressPasswordManager,
+  ...props
+}: InputGroupInputProps) {
   const theme = useTheme();
   const { control } = inputGroup({ theme });
+
   return (
-    <Input unstyled data-slot="input-group-control" className={control({ className })} {...props} />
+    <BaseInput
+      data-slot="input-group-control"
+      className={control({ className: [suppressPasswordManager && "keeper-ignore", className] })}
+      data-1p-ignore={suppressPasswordManager ? "true" : undefined}
+      data-bwignore={suppressPasswordManager ? "true" : undefined}
+      data-form-type={suppressPasswordManager ? "other" : undefined}
+      data-lpignore={suppressPasswordManager ? "true" : undefined}
+      {...props}
+    />
   );
 }

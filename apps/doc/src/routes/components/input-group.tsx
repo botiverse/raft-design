@@ -82,6 +82,7 @@ const SNIPPETS = {
 } as const;
 
 type PlaygroundValues = {
+  disabled: boolean;
   invalid: boolean;
   placeholder: string;
 };
@@ -128,7 +129,7 @@ const INPUT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "InputProps",
     description:
-      "Same as Input (minus unstyled, which is forced on). Carries data-slot=input-group-control.",
+      "Same native input props as Input, including suppressPasswordManager. Carries data-slot=input-group-control.",
   },
 ];
 
@@ -169,8 +170,9 @@ function InputGroupDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ invalid: false, placeholder: "Search…" }}
+          defaultValues={{ disabled: false, invalid: false, placeholder: "Search…" }}
           controls={[
+            { name: "disabled", label: "Disabled", type: "boolean" },
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },
           ]}
@@ -179,6 +181,7 @@ function InputGroupDoc() {
               <InputGroupAddon.Search />
               <InputGroupInput
                 placeholder={values.placeholder}
+                disabled={values.disabled}
                 aria-invalid={values.invalid || undefined}
               />
             </InputGroup>
