@@ -202,7 +202,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "accent",
-      class: { root: "bg-accent-400 text-foreground-strong" },
+      class: { root: "bg-accent-400 text-foreground-inverse" },
     },
     {
       theme: "elegant",

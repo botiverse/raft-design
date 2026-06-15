@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   Input,
+  InlineCode,
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
@@ -29,6 +30,7 @@ type ComponentRoute =
   | "/components/input-group"
   | "/components/textarea"
   | "/components/badge"
+  | "/components/inline-code"
   | "/components/status";
 
 type ComponentGridItem = {
@@ -160,6 +162,19 @@ const COMPONENT_GRID = [
             task #42 @bugen
           </Badge>
         </div>
+      </div>
+    ),
+  },
+  {
+    label: "InlineCode",
+    to: "/components/inline-code",
+    preview: (
+      <div className="flex max-w-72 flex-wrap items-center justify-center gap-2 text-sm leading-6 text-foreground-muted">
+        <span>Set</span>
+        <InlineCode>aria-invalid</InlineCode>
+        <span>with</span>
+        <InlineCode>disabled</InlineCode>
+        <span>state.</span>
       </div>
     ),
   },

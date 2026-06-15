@@ -16,7 +16,7 @@ const inlineCode = tv({
       },
       elegant: {
         root: [
-          "border border-foreground/8 bg-foreground/[0.045] text-[oklch(0.42_0_0)] dark:text-[oklch(0.78_0_0)]",
+          "border border-foreground/8 bg-foreground/[0.045] text-[oklch(0.38_0_0)] dark:text-[oklch(0.78_0_0)]",
           "shadow-[0_0.5px_0.5px_-0.5px_oklch(0_0_0_/_0.08)]",
         ],
       },
