@@ -35,6 +35,7 @@ import { Route as ComponentsNotificationCenterRouteImport } from './routes/compo
 import { Route as ComponentsMediaListItemRouteImport } from './routes/components/media-list-item'
 import { Route as ComponentsListItemRouteImport } from './routes/components/list-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
+import { Route as ComponentsLabelRouteImport } from './routes/components/label'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
@@ -60,6 +61,7 @@ import { Route as TokensColorsElegantRouteImport } from './routes/tokens/colors/
 import { Route as TokensColorsBrutalRouteImport } from './routes/tokens/colors/brutal'
 import { Route as ComponentsTextareaMatrixRouteImport } from './routes/components/textarea_.matrix'
 import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
+import { Route as ComponentsLabelMatrixRouteImport } from './routes/components/label_.matrix'
 import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
 import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/components/input-group_.matrix'
 import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
@@ -199,6 +201,11 @@ const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   path: '/lightbox',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsLabelRoute = ComponentsLabelRouteImport.update({
+  id: '/label',
+  path: '/label',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
   id: '/kbd',
   path: '/kbd',
@@ -327,6 +334,11 @@ const ComponentsStatusMatrixRoute = ComponentsStatusMatrixRouteImport.update({
   path: '/status/matrix',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsLabelMatrixRoute = ComponentsLabelMatrixRouteImport.update({
+  id: '/label_/matrix',
+  path: '/label/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsInputMatrixRoute = ComponentsInputMatrixRouteImport.update({
   id: '/input_/matrix',
   path: '/input/matrix',
@@ -377,6 +389,7 @@ export interface FileRoutesByFullPath {
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/kbd': typeof ComponentsKbdRoute
+  '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -404,6 +417,7 @@ export interface FileRoutesByFullPath {
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
+  '/components/label/matrix': typeof ComponentsLabelMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
@@ -435,6 +449,7 @@ export interface FileRoutesByTo {
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/kbd': typeof ComponentsKbdRoute
+  '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -462,6 +477,7 @@ export interface FileRoutesByTo {
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
+  '/components/label/matrix': typeof ComponentsLabelMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
@@ -494,6 +510,7 @@ export interface FileRoutesById {
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/kbd': typeof ComponentsKbdRoute
+  '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
@@ -521,6 +538,7 @@ export interface FileRoutesById {
   '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
   '/components/input-group_/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input_/matrix': typeof ComponentsInputMatrixRoute
+  '/components/label_/matrix': typeof ComponentsLabelMatrixRoute
   '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
   '/components/textarea_/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
@@ -554,6 +572,7 @@ export interface FileRouteTypes {
     | '/components/input'
     | '/components/input-group'
     | '/components/kbd'
+    | '/components/label'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -581,6 +600,7 @@ export interface FileRouteTypes {
     | '/components/checkbox/matrix'
     | '/components/input-group/matrix'
     | '/components/input/matrix'
+    | '/components/label/matrix'
     | '/components/status/matrix'
     | '/components/textarea/matrix'
     | '/tokens/colors/brutal'
@@ -612,6 +632,7 @@ export interface FileRouteTypes {
     | '/components/input'
     | '/components/input-group'
     | '/components/kbd'
+    | '/components/label'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -639,6 +660,7 @@ export interface FileRouteTypes {
     | '/components/checkbox/matrix'
     | '/components/input-group/matrix'
     | '/components/input/matrix'
+    | '/components/label/matrix'
     | '/components/status/matrix'
     | '/components/textarea/matrix'
     | '/tokens/colors/brutal'
@@ -670,6 +692,7 @@ export interface FileRouteTypes {
     | '/components/input'
     | '/components/input-group'
     | '/components/kbd'
+    | '/components/label'
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
@@ -697,6 +720,7 @@ export interface FileRouteTypes {
     | '/components/checkbox_/matrix'
     | '/components/input-group_/matrix'
     | '/components/input_/matrix'
+    | '/components/label_/matrix'
     | '/components/status_/matrix'
     | '/components/textarea_/matrix'
     | '/tokens/colors/brutal'
@@ -903,6 +927,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsLightboxRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/label': {
+      id: '/components/label'
+      path: '/label'
+      fullPath: '/components/label'
+      preLoaderRoute: typeof ComponentsLabelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/kbd': {
       id: '/components/kbd'
       path: '/kbd'
@@ -1078,6 +1109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsStatusMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/label_/matrix': {
+      id: '/components/label_/matrix'
+      path: '/label/matrix'
+      fullPath: '/components/label/matrix'
+      preLoaderRoute: typeof ComponentsLabelMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/input_/matrix': {
       id: '/components/input_/matrix'
       path: '/input/matrix'
@@ -1134,6 +1172,7 @@ interface ComponentsRouteChildren {
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
   ComponentsKbdRoute: typeof ComponentsKbdRoute
+  ComponentsLabelRoute: typeof ComponentsLabelRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsListItemRoute: typeof ComponentsListItemRoute
   ComponentsMediaListItemRoute: typeof ComponentsMediaListItemRoute
@@ -1156,6 +1195,7 @@ interface ComponentsRouteChildren {
   ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
   ComponentsInputGroupMatrixRoute: typeof ComponentsInputGroupMatrixRoute
   ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
+  ComponentsLabelMatrixRoute: typeof ComponentsLabelMatrixRoute
   ComponentsStatusMatrixRoute: typeof ComponentsStatusMatrixRoute
   ComponentsTextareaMatrixRoute: typeof ComponentsTextareaMatrixRoute
 }
@@ -1179,6 +1219,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
   ComponentsKbdRoute: ComponentsKbdRoute,
+  ComponentsLabelRoute: ComponentsLabelRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsListItemRoute: ComponentsListItemRoute,
   ComponentsMediaListItemRoute: ComponentsMediaListItemRoute,
@@ -1201,6 +1242,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
   ComponentsInputGroupMatrixRoute: ComponentsInputGroupMatrixRoute,
   ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,
+  ComponentsLabelMatrixRoute: ComponentsLabelMatrixRoute,
   ComponentsStatusMatrixRoute: ComponentsStatusMatrixRoute,
   ComponentsTextareaMatrixRoute: ComponentsTextareaMatrixRoute,
 }

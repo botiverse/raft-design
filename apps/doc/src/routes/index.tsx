@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  Label,
   Status,
   Textarea,
   TextareaCounter,
@@ -16,7 +17,7 @@ import {
   ThemeProvider,
   type Theme,
 } from "@slock/ui";
-import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { IconCircleCheckFill18, IconCircleInfoFill18 } from "nucleo-ui-fill-18";
 import { Plus, Search, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/")({
 type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
+  | "/components/label"
   | "/components/input"
   | "/components/input-group"
   | "/components/textarea"
@@ -86,6 +88,27 @@ const COMPONENT_GRID = [
         <Checkbox aria-label="Unchecked checkbox" />
         <Checkbox indeterminate aria-label="Indeterminate checkbox" />
         <Checkbox defaultChecked variant="primary" aria-label="Primary checked checkbox" />
+      </div>
+    ),
+  },
+  {
+    label: "Label",
+    to: "/components/label",
+    preview: (
+      <div className="grid w-64 gap-3">
+        <Label htmlFor="home-label-email">Email address</Label>
+        <Label htmlFor="home-label-required">
+          Workspace
+          <Label.Asterisk />
+        </Label>
+        <Label htmlFor="home-label-optional">
+          Middle name
+          <Label.Sub>(optional)</Label.Sub>
+        </Label>
+        <Label htmlFor="home-label-project-url">
+          Project URL
+          <IconCircleInfoFill18 aria-hidden className="size-3.5 text-foreground/40" />
+        </Label>
       </div>
     ),
   },

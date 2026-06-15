@@ -37,6 +37,9 @@ export type {
 export { Spinner } from "./components/spinner/index.ts";
 export type { SpinnerProps } from "./components/spinner/index.ts";
 
+export { Label, LabelAsterisk, LabelSub } from "./components/label/index.ts";
+export type { LabelAsteriskProps, LabelProps, LabelSubProps } from "./components/label/index.ts";
+
 export {
   Field,
   FieldControl,
