@@ -3,4 +3,5 @@ export type {
   InputGroupProps,
   InputGroupAddonProps,
   InputGroupInputProps,
+  InputGroupAddonTextProps,
 } from "./input-group.tsx";

@@ -1,8 +1,19 @@
 import { useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Badge, Button, Checkbox, Input, Status, ThemeProvider, type Theme } from "@slock/ui";
+import {
+  Badge,
+  Button,
+  Checkbox,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Status,
+  ThemeProvider,
+  type Theme,
+} from "@slock/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Search, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -12,6 +23,7 @@ type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
   | "/components/input"
+  | "/components/input-group"
   | "/components/badge"
   | "/components/status";
 
@@ -79,6 +91,27 @@ const COMPONENT_GRID = [
         <Input aria-label="Email" placeholder="you@example.com" />
         <Input aria-label="Workspace" defaultValue="raft-design" />
         <Input aria-label="Invalid email" aria-invalid defaultValue="oops" />
+      </div>
+    ),
+  },
+  {
+    label: "InputGroup",
+    to: "/components/input-group",
+    preview: (
+      <div className="grid w-64 gap-2">
+        <InputGroup>
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupInput aria-label="Search" placeholder="Search..." />
+        </InputGroup>
+        <InputGroup>
+          <InputGroupAddon.Text variant="container">$</InputGroupAddon.Text>
+          <InputGroupInput aria-label="Amount" placeholder="0.00" inputMode="decimal" />
+          <InputGroupAddon.Text align="inline-end" variant="container">
+            USD
+          </InputGroupAddon.Text>
+        </InputGroup>
       </div>
     ),
   },

@@ -7,6 +7,7 @@ import {
   Files,
   MessageSquare,
   Plus,
+  Search,
   Settings,
   Users,
   X,
@@ -314,7 +315,9 @@ function SearchCard() {
       }}
     >
       <InputGroup className="max-w-72">
-        <InputGroupAddon.Search />
+        <InputGroupAddon>
+          <Search />
+        </InputGroupAddon>
         <InputGroupInput placeholder="Search..." />
         <InputGroupAddon align="inline-end">
           <Kbd>⌘S</Kbd>

@@ -1,10 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@slock/ui";
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Kbd,
+} from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -12,6 +20,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { Search, Upload } from "lucide-react";
 import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
 import LegacySlugInput from "../../../../../packages/ui/src/legacy/SlugInput.tsx";
 
@@ -19,69 +28,169 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "search", title: "Search" },
-  { id: "slug", title: "Slug" },
-  { id: "custom", title: "Custom addon" },
-  { id: "invalid", title: "Invalid" },
+  { id: "addons", title: "Addons" },
+  { id: "text-affixes", title: "Text affixes" },
+  { id: "addon-variants", title: "Addon variants" },
+  { id: "actions", title: "Actions" },
+  { id: "states", title: "States" },
+  { id: "field", title: "With Field" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const TODOS = [
+  { status: "done", label: "Move the input shell onto the group wrapper." },
+  { status: "done", label: "Add elegant hover, focus, invalid, and disabled states." },
+  { status: "done", label: "Document source SearchInput and SlugInput migration paths." },
+] as const;
+
+const SEARCH_NO_LIFT_CLASS = "has-[[data-slot=input-group-control]:focus]:!shadow-sm";
+const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
   anatomy: `import { InputGroup, InputGroupInput } from "@slock/ui";
 
 <InputGroup>
-  <InputGroupInput placeholder="you@example.com" />
+  <InputGroupInput aria-label="Email" placeholder="you@example.com" />
 </InputGroup>`,
-  search: `// Faithful drop-in for the old SearchInput.
-<InputGroup lift={false}>
-  <InputGroupAddon.Search />
-  <InputGroupInput placeholder="Search…" />
-</InputGroup>`,
-  slug: `// Faithful drop-in for the old SlugInput.
+  addons: `import { Search } from "lucide-react";
+
 <InputGroup>
-  <InputGroupAddon.Slug />
-  <InputGroupInput placeholder="my-server" />
-</InputGroup>`,
-  custom: `// Any content, either edge — here a trailing unit.
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Search" placeholder="Search..." />
+</InputGroup>
+
 <InputGroup>
-  <InputGroupInput placeholder="0.00" />
-  <InputGroupAddon align="inline-end">USD</InputGroupAddon>
-</InputGroup>`,
-  invalid: `<InputGroup lift={false}>
-  <InputGroupAddon.Search />
-  <InputGroupInput aria-invalid defaultValue="oops" />
-</InputGroup>`,
-  sourceSearch: `<div className="w-80">
-  <SearchInput aria-label="Search" placeholder="Search…" />
-</div>`,
-  currentSearch: `<InputGroup lift={false} className="w-80">
-  <InputGroupAddon.Search />
-  <InputGroupInput aria-label="Search" placeholder="Search…" />
-</InputGroup>`,
-  sourceSlug: `<div className="w-80">
-  <SlugInput aria-label="Server slug" placeholder="my-server" />
-</div>`,
-  currentSlug: `<InputGroup className="w-80">
-  <InputGroupAddon.Slug />
+  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
   <InputGroupInput aria-label="Server slug" placeholder="my-server" />
 </InputGroup>`,
-  sourceInvalid: `<div className="w-80">
-  <SearchInput
-    className="!border-brutal-red ring-2 ring-brutal-red/60 bg-brutal-red/5"
-    aria-label="Search"
-    defaultValue="oops"
-  />
-</div>`,
-  currentInvalid: `<InputGroup lift={false} className="w-80">
-  <InputGroupAddon.Search />
+  textAffixes: `<InputGroup>
+  <InputGroupAddon.Text>$</InputGroupAddon.Text>
+  <InputGroupInput aria-label="Amount" placeholder="0.00" inputMode="decimal" />
+  <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
+</InputGroup>
+
+<InputGroup>
+  <InputGroupInput aria-label="Email username" placeholder="alex" />
+  <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
+</InputGroup>`,
+  addonVariants: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@slock/ui";
+import { Upload } from "lucide-react";
+
+<InputGroup>
+  <InputGroupAddon variant="container">
+    <Upload />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Upload target" placeholder="Default" />
+</InputGroup>
+
+<InputGroup>
+  <InputGroupAddon.Text variant="container">https://</InputGroupAddon.Text>
+  <InputGroupInput aria-label="Domain" placeholder="Default" />
+  <InputGroupAddon.Text align="inline-end" variant="container">.com</InputGroupAddon.Text>
+</InputGroup>
+
+<InputGroup>
+  <InputGroupInput aria-label="Project slug" placeholder="Default" />
+  <InputGroupAddon variant="container" align="inline-end">
+    <Upload />
+  </InputGroupAddon>
+</InputGroup>`,
+  actions: `import { Search } from "lucide-react";
+
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Search" placeholder="Search projects..." />
+  <InputGroupAddon align="inline-end">
+    <Kbd>Cmd K</Kbd>
+  </InputGroupAddon>
+</InputGroup>
+
+<InputGroup>
+  <InputGroupInput aria-label="Invite email" placeholder="teammate@example.com" />
+  <InputGroupAddon align="inline-end" className="px-1">
+    <Button size="xs">Invite</Button>
+  </InputGroupAddon>
+</InputGroup>`,
+  states: `import { Search } from "lucide-react";
+
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Search" placeholder="Search..." />
+</InputGroup>
+
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Search" aria-invalid defaultValue="???" />
+</InputGroup>
+
+<InputGroup>
+  <InputGroupAddon.Text>$</InputGroupAddon.Text>
+  <InputGroupInput aria-label="Amount" disabled placeholder="0.00" />
+  <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
+</InputGroup>
+
+<InputGroup>
+  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+  <InputGroupInput aria-label="Server slug" aria-invalid defaultValue="Bad Slug" />
+</InputGroup>`,
+  field: `import { Field, FieldError, FieldLabel, InputGroup, InputGroupInput } from "@slock/ui";
+
+<Field invalid>
+  <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>
+  <InputGroup>
+    <InputGroupInput id="invite-email" type="email" defaultValue="oops" />
+  </InputGroup>
+  <FieldError match>Use a valid email.</FieldError>
+</Field>`,
+  migrationSearch: `import { Search } from "lucide-react";
+
+// Source
+<SearchInput aria-label="Search" placeholder="Search..." />
+
+// Current, preserving the old no-focus-lift shell
+<InputGroup className="has-[[data-slot=input-group-control]:focus]:!shadow-sm">
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Search" placeholder="Search..." />
+</InputGroup>`,
+  migrationSlug: `// Source
+<SlugInput aria-label="Server slug" placeholder="my-server" />
+
+// Current
+<InputGroup>
+  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+</InputGroup>`,
+  migrationInvalid: `import { Search } from "lucide-react";
+
+// Source
+<SearchInput
+  className="!border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
+  defaultValue="oops"
+/>
+
+// Current
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
   <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
 </InputGroup>`,
 } as const;
 
 type PlaygroundValues = {
+  addonVariant: "default" | "container";
   disabled: boolean;
   invalid: boolean;
   placeholder: string;
@@ -89,15 +198,10 @@ type PlaygroundValues = {
 
 const GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "lift",
-    type: "boolean",
-    description:
-      "Lift the shadow while the control is focused. Defaults to true; set false to match the old SearchInput.",
-  },
-  {
     name: "...props",
     type: 'ComponentProps<"div">',
-    description: "Native div attributes. Renders a composition shell with the brutal frame.",
+    description:
+      "Native div attributes. Renders the shell that owns border, background, focus, invalid, and disabled styling.",
   },
 ];
 
@@ -105,22 +209,41 @@ const ADDON_PROPS: readonly PropRow[] = [
   {
     name: "align",
     type: '"inline-start" | "inline-end"',
-    description: "Which edge the addon hugs. Defaults to inline-start.",
+    default: '"inline-start"',
+    description: "Which edge the addon hugs.",
   },
   {
-    name: "InputGroupAddon.Search",
-    type: "preset",
-    description: "Faithful SearchInput adornment — a 15px magnifier that trims the control inset.",
-  },
-  {
-    name: "InputGroupAddon.Slug",
-    type: "preset",
-    description: "Faithful SlugInput prefix — a full-height yellow `/` box with a right border.",
+    name: "variant",
+    type: '"default" | "container"',
+    default: '"default"',
+    description: "Use container for a muted addon box with an internal divider.",
   },
   {
     name: "...props",
     type: 'ComponentProps<"div">',
-    description: "Native div attributes for non-editable addon content.",
+    description:
+      "Native div attributes for icons, buttons, keyboard hints, or custom addon content.",
+  },
+];
+
+const TEXT_PROPS: readonly PropRow[] = [
+  {
+    name: "align",
+    type: '"inline-start" | "inline-end"',
+    default: '"inline-start"',
+    description: "Which edge the static text hugs.",
+  },
+  {
+    name: "variant",
+    type: '"default" | "container"',
+    default: '"default"',
+    description: "Use container for a muted text box with an internal divider.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentProps<"span">',
+    description:
+      "Native span attributes for non-interactive text affixes such as currency or unit.",
   },
 ];
 
@@ -144,25 +267,9 @@ function InputGroupDoc() {
   return (
     <DocPage
       title="InputGroup"
-      description="A brutal input shell that wraps a bare control with leading or trailing addons."
-      overview={
-        <Differences from="SearchInput / SlugInput">
-          <li>
-            new composition primitive: one <code>InputGroup</code> shell plus bare{" "}
-            <code>InputGroupInput</code>, so addons can sit on either edge
-          </li>
-          <li>
-            old <code>SearchInput</code> and <code>SlugInput</code> visuals are restored
-            pixel-for-pixel as <code>InputGroupAddon.Search</code> and{" "}
-            <code>InputGroupAddon.Slug</code>
-          </li>
-          <li>
-            invalid styling moves from ad-hoc wrapper classes to <code>aria-invalid</code> on the
-            control; resting source styling stays unchanged
-          </li>
-        </Differences>
-      }
+      description="A single-line input composition shell with leading or trailing addons."
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
@@ -170,20 +277,34 @@ function InputGroupDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ disabled: false, invalid: false, placeholder: "Search…" }}
+          defaultValues={{
+            addonVariant: "container",
+            disabled: false,
+            invalid: false,
+            placeholder: "Default",
+          }}
           controls={[
+            {
+              name: "addonVariant",
+              label: "Addon",
+              type: "select",
+              options: ["default", "container"],
+            },
             { name: "disabled", label: "Disabled", type: "boolean" },
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },
           ]}
           render={(values) => (
-            <InputGroup lift={false} className="w-80">
-              <InputGroupAddon.Search />
+            <InputGroup className="w-96">
+              <InputGroupAddon.Text variant={values.addonVariant}>https://</InputGroupAddon.Text>
               <InputGroupInput
                 placeholder={values.placeholder}
                 disabled={values.disabled}
                 aria-invalid={values.invalid || undefined}
               />
+              <InputGroupAddon.Text align="inline-end" variant={values.addonVariant}>
+                .com
+              </InputGroupAddon.Text>
             </InputGroup>
           )}
         />
@@ -193,65 +314,130 @@ function InputGroupDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
-      <DocSection id="search" title="Search">
-        <div className="space-y-4">
-          <Example html={code.search}>
-            <InputGroup lift={false} className="w-80">
-              <InputGroupAddon.Search />
-              <InputGroupInput placeholder="Search…" />
-            </InputGroup>
-          </Example>
-          <Callout>
-            <code>InputGroupAddon.Search</code> restores the old SearchInput exactly. Pair it with{" "}
-            <code>lift={"{false}"}</code> — the original never lifted on focus.
-          </Callout>
-        </div>
+      <DocSection id="addons" title="Addons">
+        <Example html={code.addons}>
+          <InputGroup className="w-80">
+            <InputGroupAddon>
+              <Search />
+            </InputGroupAddon>
+            <InputGroupInput aria-label="Search" placeholder="Search..." />
+          </InputGroup>
+          <InputGroup className="w-80">
+            <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+            <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+          </InputGroup>
+        </Example>
       </DocSection>
 
-      <DocSection id="slug" title="Slug">
+      <DocSection id="text-affixes" title="Text affixes">
+        <Example html={code.textAffixes}>
+          <InputGroup className="w-80">
+            <InputGroupAddon.Text>$</InputGroupAddon.Text>
+            <InputGroupInput aria-label="Amount" placeholder="0.00" inputMode="decimal" />
+            <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
+          </InputGroup>
+          <InputGroup className="w-80">
+            <InputGroupInput aria-label="Email username" placeholder="alex" />
+            <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
+          </InputGroup>
+        </Example>
+      </DocSection>
+
+      <DocSection id="addon-variants" title="Addon variants">
         <div className="space-y-4">
-          <Example html={code.slug}>
+          <Example html={code.addonVariants}>
             <InputGroup className="w-80">
-              <InputGroupAddon.Slug />
-              <InputGroupInput placeholder="my-server" />
+              <InputGroupAddon variant="container">
+                <Upload />
+              </InputGroupAddon>
+              <InputGroupInput aria-label="Upload target" placeholder="Default" />
             </InputGroup>
-          </Example>
-          <Callout>
-            <code>InputGroupAddon.Slug</code> restores the old SlugInput exactly — the full-height
-            yellow <code>/</code> box keeps the focus lift the original had.
-          </Callout>
-        </div>
-      </DocSection>
-
-      <DocSection id="custom" title="Custom addon">
-        <div className="space-y-4">
-          <Example html={code.custom}>
+            <InputGroup className="w-96">
+              <InputGroupAddon.Text variant="container">https://</InputGroupAddon.Text>
+              <InputGroupInput aria-label="Domain" placeholder="Default" />
+              <InputGroupAddon.Text align="inline-end" variant="container">
+                .com
+              </InputGroupAddon.Text>
+            </InputGroup>
             <InputGroup className="w-80">
-              <InputGroupInput placeholder="0.00" />
-              <InputGroupAddon align="inline-end">USD</InputGroupAddon>
+              <InputGroupInput aria-label="Project slug" placeholder="Default" />
+              <InputGroupAddon variant="container" align="inline-end">
+                <Upload />
+              </InputGroupAddon>
             </InputGroup>
           </Example>
           <Callout>
-            A bare <code>InputGroupAddon</code> takes any content — text, icons, buttons — and{" "}
-            <code>align</code> picks the edge.
+            Use <code>variant="default"</code> for light inline adornments such as search icons or
+            keyboard hints. Use <code>variant="container"</code> when the addon is part of the value
+            structure, like a protocol, domain suffix, unit, or icon box.
           </Callout>
         </div>
       </DocSection>
 
-      <DocSection id="invalid" title="Invalid">
+      <DocSection id="actions" title="Actions">
+        <Example html={code.actions}>
+          <InputGroup className="w-80">
+            <InputGroupAddon>
+              <Search />
+            </InputGroupAddon>
+            <InputGroupInput aria-label="Search" placeholder="Search projects..." />
+            <InputGroupAddon align="inline-end">
+              <Kbd>Cmd K</Kbd>
+            </InputGroupAddon>
+          </InputGroup>
+          <InputGroup className="w-80">
+            <InputGroupInput aria-label="Invite email" placeholder="teammate@example.com" />
+            <InputGroupAddon align="inline-end" className="px-1">
+              <Button size="xs">Invite</Button>
+            </InputGroupAddon>
+          </InputGroup>
+        </Example>
+      </DocSection>
+
+      <DocSection id="states" title="States">
         <div className="space-y-4">
-          <Example html={code.invalid}>
-            <InputGroup lift={false} className="w-80">
-              <InputGroupAddon.Search />
-              <InputGroupInput aria-invalid defaultValue="oops" />
-            </InputGroup>
+          <Example html={code.states}>
+            <div className="grid w-full max-w-96 gap-3">
+              <InputGroup>
+                <InputGroupAddon>
+                  <Search />
+                </InputGroupAddon>
+                <InputGroupInput aria-label="Search" placeholder="Search..." />
+              </InputGroup>
+              <InputGroup>
+                <InputGroupAddon>
+                  <Search />
+                </InputGroupAddon>
+                <InputGroupInput aria-label="Search" aria-invalid defaultValue="???" />
+              </InputGroup>
+              <InputGroup>
+                <InputGroupAddon.Text>$</InputGroupAddon.Text>
+                <InputGroupInput aria-label="Amount" disabled placeholder="0.00" />
+                <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
+              </InputGroup>
+              <InputGroup>
+                <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                <InputGroupInput aria-label="Server slug" aria-invalid defaultValue="Bad Slug" />
+              </InputGroup>
+            </div>
           </Example>
           <Callout>
-            Set <code>aria-invalid</code> on the control; the group reacts with the red
-            border/ring/tint via <code>has-*</code>. The invalid look intentionally drops the brutal
-            black shadow, matching source ad-hoc invalid overrides.
+            Put <code>aria-invalid</code> and <code>disabled</code> on <code>InputGroupInput</code>.
+            The wrapper owns the visible state through <code>has-*</code>.
           </Callout>
         </div>
+      </DocSection>
+
+      <DocSection id="field" title="With Field">
+        <Example html={code.field}>
+          <Field className="w-80" invalid>
+            <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>
+            <InputGroup>
+              <InputGroupInput id="invite-email" type="email" defaultValue="oops" />
+            </InputGroup>
+            <FieldError match>Use a valid email.</FieldError>
+          </Field>
+        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
@@ -265,6 +451,10 @@ function InputGroupDoc() {
             <PropsTable rows={ADDON_PROPS} />
           </div>
           <div>
+            <h3 className="mb-2 text-sm font-semibold text-gray-900">InputGroupAddon.Text</h3>
+            <PropsTable rows={TEXT_PROPS} />
+          </div>
+          <div>
             <h3 className="mb-2 text-sm font-semibold text-gray-900">InputGroupInput</h3>
             <PropsTable rows={INPUT_PROPS} />
           </div>
@@ -273,49 +463,73 @@ function InputGroupDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
               label: "SearchInput",
               status: "match",
-              note: "Source SearchInput was a fixed input-brutal shell with a 15px magnifier and no focus lift. Current InputGroup restores it with the Search addon and lift={false}.",
               source: (
-                <div className="w-80">
-                  <LegacySearchInput aria-label="Search" placeholder="Search…" />
+                <div className={COMPARISON_INPUT_CLASS}>
+                  <LegacySearchInput aria-label="Search" placeholder="Search..." />
                 </div>
               ),
-              current: (
-                <InputGroup lift={false} className="w-80">
-                  <InputGroupAddon.Search />
-                  <InputGroupInput aria-label="Search" placeholder="Search…" />
+              brutal: (
+                <InputGroup className={`${COMPARISON_INPUT_CLASS} ${SEARCH_NO_LIFT_CLASS}`}>
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" placeholder="Search..." />
                 </InputGroup>
               ),
-              sourceCode: code.sourceSearch,
-              currentCode: code.currentSearch,
+              elegant: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" placeholder="Search..." />
+                </InputGroup>
+              ),
+              elegantDark: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" placeholder="Search..." />
+                </InputGroup>
+              ),
             },
             {
               label: "SlugInput",
-              status: "match",
-              note: "Source SlugInput was an input-brutal shell with a full-height yellow slash prefix. Current InputGroup keeps the same prefix, divider, padding, and focus lift.",
+              status: "difference",
               source: (
-                <div className="w-80">
+                <div className={COMPARISON_INPUT_CLASS}>
                   <LegacySlugInput aria-label="Server slug" placeholder="my-server" />
                 </div>
               ),
-              current: (
-                <InputGroup className="w-80">
-                  <InputGroupAddon.Slug />
+              brutal: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
                   <InputGroupInput aria-label="Server slug" placeholder="my-server" />
                 </InputGroup>
               ),
-              sourceCode: code.sourceSlug,
-              currentCode: code.currentSlug,
+              elegant: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+                </InputGroup>
+              ),
+              elegantDark: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+                </InputGroup>
+              ),
             },
             {
               label: "Invalid state",
               status: "match",
-              note: "Source callers could add red border, red ring, and tinted background to the wrapper. Current InputGroup centralizes that same visual behind aria-invalid on the control.",
               source: (
-                <div className="w-80">
+                <div className={COMPARISON_INPUT_CLASS}>
                   <LegacySearchInput
                     className="!border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
                     aria-label="Search"
@@ -323,17 +537,62 @@ function InputGroupDoc() {
                   />
                 </div>
               ),
-              current: (
-                <InputGroup lift={false} className="w-80">
-                  <InputGroupAddon.Search />
+              brutal: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
                   <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
                 </InputGroup>
               ),
-              sourceCode: code.sourceInvalid,
-              currentCode: code.currentInvalid,
+              elegant: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
+                </InputGroup>
+              ),
+              elegantDark: (
+                <InputGroup className={COMPARISON_INPUT_CLASS}>
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
+                </InputGroup>
+              ),
             },
           ]}
         />
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">SearchInput</h3>
+            <p className="text-sm text-gray-500">
+              Replace the dedicated wrapper with a composed icon addon. Keep the no-focus-lift class
+              only when preserving the old source shell exactly.
+            </p>
+            <CodeBlock html={code.migrationSearch} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">SlugInput</h3>
+            <p className="text-sm text-gray-500">
+              Replace the slug preset with a text addon. Use the container variant when the prefix
+              is part of the value structure.
+            </p>
+            <CodeBlock html={code.migrationSlug} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Invalid wrapper classes</h3>
+            <p className="text-sm text-gray-500">
+              Move ad-hoc invalid border and ring classes to <code>aria-invalid</code> on the
+              control; the group shell owns the visible state.
+            </p>
+            <CodeBlock html={code.migrationInvalid} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );

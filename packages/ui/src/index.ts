@@ -21,6 +21,7 @@ export type {
   InputGroupProps,
   InputGroupAddonProps,
   InputGroupInputProps,
+  InputGroupAddonTextProps,
 } from "./components/input-group/index.ts";
 
 export { Textarea } from "./components/textarea/index.ts";

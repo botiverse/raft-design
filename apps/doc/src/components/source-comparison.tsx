@@ -26,6 +26,7 @@ type SourceComparisonItem = {
 
 type SourceComparisonProps = {
   items: readonly SourceComparisonItem[];
+  layout?: "auto" | "grid";
 };
 
 type ComparisonPane = {
@@ -67,12 +68,16 @@ function ComparisonPreview({
   code,
   family,
   mode,
+  labelPlacement = "header",
+  previewSize = "default",
 }: {
   label: string;
   children: ReactNode;
   code?: CodeContent;
   family?: Theme;
   mode?: PreviewMode;
+  labelPlacement?: "header" | "corner";
+  previewSize?: "default" | "tall";
 }) {
   return (
     <div
@@ -82,8 +87,15 @@ function ComparisonPreview({
       <PreviewThemeScope
         family={family}
         mode={mode}
-        className="flex min-h-28 flex-wrap items-center justify-center gap-3 bg-background px-5 py-6 text-foreground"
+        className={`relative flex ${
+          previewSize === "tall" ? "min-h-56" : "min-h-28"
+        } flex-wrap items-center justify-center gap-3 bg-background px-5 py-6 text-foreground`}
       >
+        {labelPlacement === "corner" ? (
+          <span className="pointer-events-none absolute top-4 left-4 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
+            {label}
+          </span>
+        ) : null}
         {children}
       </PreviewThemeScope>
       {code ? (
@@ -129,19 +141,24 @@ function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
   ].filter((pane) => pane.children);
 }
 
-export function SourceComparison({ items }: SourceComparisonProps) {
+export function SourceComparison({ items, layout = "auto" }: SourceComparisonProps) {
   return (
     <div data-source-comparison className="space-y-12">
       {items.map((item) => {
         const status = item.status ?? "review";
         const StatusIcon = STATUS_ICON[status];
         const panes = getComparisonPanes(item);
-        const columnClass =
-          panes.length >= 4
+        const isGridLayout = layout === "grid" && panes.length >= 4;
+        const columnClass = isGridLayout
+          ? "md:grid-cols-2"
+          : panes.length >= 4
             ? "xl:grid-cols-4"
             : panes.length === 3
               ? "xl:grid-cols-3"
               : "md:grid-cols-2";
+        const previewFrameClass = isGridLayout
+          ? `grid gap-px bg-[oklch(0_0_0_/_0.10)] ${columnClass} ${frameClass}`
+          : `grid divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
         return (
           <section
             key={item.label}
@@ -160,16 +177,16 @@ export function SourceComparison({ items }: SourceComparisonProps) {
               ) : null}
             </div>
             <div className="space-y-2">
-              <div
-                className={`ml-2 grid gap-y-2 px-1 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase ${columnClass}`}
-              >
-                {panes.map((pane) => (
-                  <div key={pane.label}>{pane.label}</div>
-                ))}
-              </div>
-              <div
-                className={`grid divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`}
-              >
+              {isGridLayout ? null : (
+                <div
+                  className={`ml-2 grid gap-y-2 px-1 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase ${columnClass}`}
+                >
+                  {panes.map((pane) => (
+                    <div key={pane.label}>{pane.label}</div>
+                  ))}
+                </div>
+              )}
+              <div className={previewFrameClass}>
                 {panes.map((pane) => (
                   <ComparisonPreview
                     key={pane.label}
@@ -177,6 +194,8 @@ export function SourceComparison({ items }: SourceComparisonProps) {
                     code={pane.code}
                     family={pane.family}
                     mode={pane.mode}
+                    labelPlacement={isGridLayout ? "corner" : "header"}
+                    previewSize={isGridLayout ? "tall" : "default"}
                   >
                     {pane.children}
                   </ComparisonPreview>

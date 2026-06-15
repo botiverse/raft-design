@@ -1,46 +1,39 @@
 import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
-import { Search } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 import { type InputBehaviorProps } from "../input/input.tsx";
 
-// InputGroup family: the brutal shell is lifted off the control onto the wrapper
-// so addons can sit inside the bordered box. All parts share one `tv()` slots
-// config so theme / lift / align styling lives in a single place — ready for the
-// elegant family to add per-slot overrides under `theme`.
-//
-// The invalid look is driven by the inner control (`data-slot=input-group-control`)
-// via `has-*`. `lift` toggles the focus shadow (off for a faithful SearchInput,
-// which never lifted). `align` (`inline-start` / `inline-end`) picks which edge an
-// addon hugs.
+// InputGroup moves the input shell onto the wrapper so addons can live inside the
+// bordered box. State styling is driven by the inner control via `has-*`.
 const inputGroup = tv({
   slots: {
-    root: ["group/input-group relative flex w-full min-w-0 items-center"],
+    root: [
+      "group/input-group relative flex w-full min-w-0 items-center",
+      "has-[[data-input-group-trim=inline-end]]:[&_[data-slot=input-group-control]]:pr-0",
+    ],
     addon: [
       "flex shrink-0 items-center justify-center gap-2 px-3",
       "select-none",
-      "[&>svg:not([class*='size-'])]:size-4",
+      "[&>svg:not([class*='size-'])]:size-3.5",
     ],
-    // Search preset adornment (theme-neutral layout): an 8px gap to the control
-    // plus a sibling rule that trims the control's left inset.
-    searchAddon: ["pr-2", "[&~[data-slot=input-group-control]]:pl-0"],
-    // Slug preset prefix: a full-height divider box carrying the brutal palette.
-    slugAddon: ["self-stretch border-r-2 font-display font-bold"],
+    text: ["flex shrink-0 items-center px-3 text-sm", "select-none whitespace-nowrap"],
     // The bare control fills the row; the group owns the border/shadow/invalid.
-    control: ["flex-1"],
+    control: ["min-w-0 flex-1 bg-transparent px-3 py-2 text-sm outline-none"],
   },
   variants: {
     theme: {
       brutal: {
         root: [
           "border-2 border-line-strong bg-layer-panel shadow-sm",
+          "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-md",
           "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base has-[[data-slot=input-group-control][aria-invalid=true]]:bg-danger-base/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-danger-base/60",
         ],
         addon: ["text-foreground/50"],
-        slugAddon: ["border-line-strong bg-primary-400/30 text-foreground/70"],
+        text: ["font-display text-foreground/50"],
+        control: ["font-display"],
       },
       elegant: {
         root: [
@@ -59,95 +52,120 @@ const inputGroup = tv({
           "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground",
           "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
+        text: [
+          "text-foreground-placeholder transition duration-200 ease-out",
+          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground-muted",
+          "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
+        ],
         control: [
-          "min-w-0 bg-transparent px-0 py-2 text-sm outline-none",
           "text-foreground placeholder:text-foreground-placeholder/70",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
           "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
       },
     },
-    lift: {
-      true: {},
-      false: {},
-    },
     align: {
-      "inline-start": { addon: "order-first" },
-      "inline-end": { addon: "order-last" },
+      "inline-start": { addon: "order-first", text: "order-first" },
+      "inline-end": { addon: "order-last", text: "order-last" },
+    },
+    variant: {
+      default: {},
+      container: {
+        addon: [
+          "self-stretch border-line-subtle/90 bg-layer-muted/35",
+          "text-foreground-placeholder",
+        ],
+        text: [
+          "self-stretch border-line-subtle/90 bg-layer-muted/35",
+          "text-foreground-placeholder",
+        ],
+      },
     },
   },
   compoundVariants: [
     {
-      theme: "brutal",
-      lift: true,
+      variant: "default",
+      align: "inline-start",
       class: {
-        root: "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-md",
+        addon: "[&~[data-slot=input-group-control]]:pl-0",
+        text: "[&~[data-slot=input-group-control]]:pl-0",
       },
+    },
+    {
+      variant: "container",
+      align: "inline-start",
+      class: { addon: "border-r", text: "border-r" },
+    },
+    {
+      variant: "container",
+      align: "inline-end",
+      class: { addon: "border-l", text: "border-l" },
     },
   ],
   defaultVariants: {
-    lift: true,
     align: "inline-start",
+    variant: "default",
   },
 });
 
-export type InputGroupProps = ComponentPropsWithRef<"div"> &
-  Pick<VariantProps<typeof inputGroup>, "lift">;
+export type InputGroupProps = ComponentPropsWithRef<"div">;
 
-export function InputGroup({ lift, className, ...props }: InputGroupProps) {
+export function InputGroup({ className, ...props }: InputGroupProps) {
   const theme = useTheme();
-  const { root } = inputGroup({ theme, lift });
+  const { root } = inputGroup({ theme });
   return <div data-slot="input-group" className={root({ className })} {...props} />;
 }
 
 export type InputGroupAddonProps = ComponentPropsWithRef<"div"> &
-  Pick<VariantProps<typeof inputGroup>, "align">;
+  Pick<VariantProps<typeof inputGroup>, "align" | "variant">;
 
 // A non-editable slot inside the group — a leading icon, a `/` prefix, a trailing
 // unit, etc.
 function InputGroupAddonRoot({
   align = "inline-start",
+  variant = "default",
   className,
   ...props
 }: InputGroupAddonProps) {
   const theme = useTheme();
-  const { addon } = inputGroup({ theme, align });
+  const { addon } = inputGroup({ theme, align, variant });
   return (
     <div
       data-slot="input-group-addon"
       data-align={align}
+      data-variant={variant}
+      data-input-group-trim={variant === "default" && align === "inline-end" ? align : undefined}
       className={addon({ className })}
       {...props}
     />
   );
 }
 
-// Faithful restoration of the old SearchInput's adornment: a 15px magnifier with
-// an 8px gap to the control (the sibling rule trims the control's left inset).
-function SearchAddon({ className, ...props }: WithoutChildren<InputGroupAddonProps>) {
-  const { searchAddon } = inputGroup();
-  return (
-    <InputGroupAddonRoot className={searchAddon({ className })} {...props}>
-      <Search className="size-[15px] shrink-0" />
-    </InputGroupAddonRoot>
-  );
-}
+export type InputGroupAddonTextProps = ComponentPropsWithRef<"span"> &
+  Pick<VariantProps<typeof inputGroup>, "align" | "variant">;
 
-// Faithful restoration of the old SlugInput's prefix: a full-height yellow `/`
-// box divided from the control by a right border.
-function SlugAddon({ className, ...props }: WithoutChildren<InputGroupAddonProps>) {
+function TextAddon({
+  align = "inline-start",
+  variant = "default",
+  className,
+  ...props
+}: InputGroupAddonTextProps) {
   const theme = useTheme();
-  const { slugAddon } = inputGroup({ theme });
+  const { text } = inputGroup({ theme, align, variant });
   return (
-    <InputGroupAddonRoot aria-hidden className={slugAddon({ className })} {...props}>
-      /
-    </InputGroupAddonRoot>
+    <span
+      data-slot="input-group-text"
+      data-align={align}
+      data-variant={variant}
+      data-input-group-trim={variant === "default" && align === "inline-end" ? align : undefined}
+      className={text({ className })}
+      {...props}
+    />
   );
 }
 
 export const InputGroupAddon = Object.assign(InputGroupAddonRoot, {
-  Search: SearchAddon,
-  Slug: SlugAddon,
+  Text: TextAddon,
 });
 
 // The bare control inside an InputGroup — the group owns the border/shadow/invalid look.
