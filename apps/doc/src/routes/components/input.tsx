@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Field, FieldError, FieldLabel, InlineCode, Input } from "@slock/ui";
+import { Button, Field, FieldError, FieldLabel, InlineCode, Input } from "@slock/ui";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -9,11 +10,9 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "types", title: "Types" },
@@ -23,12 +22,6 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
   { id: "migration", title: "Migration" },
-] as const;
-
-const TODOS = [
-  { status: "done", label: "Move the input-brutal shell into the Input recipe." },
-  { status: "done", label: "Add elegant hover, focus, invalid, and disabled states." },
-  { status: "done", label: "Document password-manager suppression for non-credential fields." },
 ] as const;
 
 const SNIPPETS = {
@@ -156,13 +149,19 @@ function InputDoc() {
     <DocPage
       title="Input"
       description="A single-line text control with theme-aware focus, invalid, and disabled states."
+      headerAction={
+        <Button
+          render={<a href="/components/input/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{

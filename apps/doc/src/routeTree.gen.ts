@@ -58,7 +58,10 @@ import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadow
 import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
 import { Route as TokensColorsElegantRouteImport } from './routes/tokens/colors/elegant'
 import { Route as TokensColorsBrutalRouteImport } from './routes/tokens/colors/brutal'
+import { Route as ComponentsTextareaMatrixRouteImport } from './routes/components/textarea_.matrix'
 import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
+import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
+import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/components/input-group_.matrix'
 import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
 import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
 import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
@@ -313,11 +316,28 @@ const TokensColorsBrutalRoute = TokensColorsBrutalRouteImport.update({
   path: '/brutal',
   getParentRoute: () => TokensColorsRoute,
 } as any)
+const ComponentsTextareaMatrixRoute =
+  ComponentsTextareaMatrixRouteImport.update({
+    id: '/textarea_/matrix',
+    path: '/textarea/matrix',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsStatusMatrixRoute = ComponentsStatusMatrixRouteImport.update({
   id: '/status_/matrix',
   path: '/status/matrix',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsInputMatrixRoute = ComponentsInputMatrixRouteImport.update({
+  id: '/input_/matrix',
+  path: '/input/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsInputGroupMatrixRoute =
+  ComponentsInputGroupMatrixRouteImport.update({
+    id: '/input-group_/matrix',
+    path: '/input-group/matrix',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsCheckboxMatrixRoute =
   ComponentsCheckboxMatrixRouteImport.update({
     id: '/checkbox_/matrix',
@@ -382,7 +402,10 @@ export interface FileRoutesByFullPath {
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
+  '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
+  '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
@@ -437,7 +460,10 @@ export interface FileRoutesByTo {
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
+  '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
+  '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
@@ -493,7 +519,10 @@ export interface FileRoutesById {
   '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/input-group_/matrix': typeof ComponentsInputGroupMatrixRoute
+  '/components/input_/matrix': typeof ComponentsInputMatrixRoute
   '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
+  '/components/textarea_/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
@@ -550,7 +579,10 @@ export interface FileRouteTypes {
     | '/components/badge/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
+    | '/components/input-group/matrix'
+    | '/components/input/matrix'
     | '/components/status/matrix'
+    | '/components/textarea/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
@@ -605,7 +637,10 @@ export interface FileRouteTypes {
     | '/components/badge/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
+    | '/components/input-group/matrix'
+    | '/components/input/matrix'
     | '/components/status/matrix'
+    | '/components/textarea/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
@@ -660,7 +695,10 @@ export interface FileRouteTypes {
     | '/components/badge_/matrix'
     | '/components/button_/matrix'
     | '/components/checkbox_/matrix'
+    | '/components/input-group_/matrix'
+    | '/components/input_/matrix'
     | '/components/status_/matrix'
+    | '/components/textarea_/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
@@ -1026,11 +1064,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TokensColorsBrutalRouteImport
       parentRoute: typeof TokensColorsRoute
     }
+    '/components/textarea_/matrix': {
+      id: '/components/textarea_/matrix'
+      path: '/textarea/matrix'
+      fullPath: '/components/textarea/matrix'
+      preLoaderRoute: typeof ComponentsTextareaMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/status_/matrix': {
       id: '/components/status_/matrix'
       path: '/status/matrix'
       fullPath: '/components/status/matrix'
       preLoaderRoute: typeof ComponentsStatusMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/input_/matrix': {
+      id: '/components/input_/matrix'
+      path: '/input/matrix'
+      fullPath: '/components/input/matrix'
+      preLoaderRoute: typeof ComponentsInputMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/input-group_/matrix': {
+      id: '/components/input-group_/matrix'
+      path: '/input-group/matrix'
+      fullPath: '/components/input-group/matrix'
+      preLoaderRoute: typeof ComponentsInputGroupMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/checkbox_/matrix': {
@@ -1095,7 +1154,10 @@ interface ComponentsRouteChildren {
   ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
   ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
   ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
+  ComponentsInputGroupMatrixRoute: typeof ComponentsInputGroupMatrixRoute
+  ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
   ComponentsStatusMatrixRoute: typeof ComponentsStatusMatrixRoute
+  ComponentsTextareaMatrixRoute: typeof ComponentsTextareaMatrixRoute
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
@@ -1137,7 +1199,10 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,
   ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,
   ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
+  ComponentsInputGroupMatrixRoute: ComponentsInputGroupMatrixRoute,
+  ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,
   ComponentsStatusMatrixRoute: ComponentsStatusMatrixRoute,
+  ComponentsTextareaMatrixRoute: ComponentsTextareaMatrixRoute,
 }
 
 const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(

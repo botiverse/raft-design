@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  Button,
   Field,
   FieldDescription,
   FieldError,
@@ -10,6 +11,7 @@ import {
   TextareaCounter,
   TextareaGroup,
 } from "@slock/ui";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -19,12 +21,10 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyTextarea from "../../../../../packages/ui/src/legacy/Textarea.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "states", title: "States" },
@@ -34,12 +34,6 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
   { id: "migration", title: "Migration" },
-] as const;
-
-const TODOS = [
-  { status: "done", label: "Move the input-brutal textarea shell into the recipe." },
-  { status: "done", label: "Add elegant hover, focus, invalid, and disabled states." },
-  { status: "done", label: "Document Field and Counter composition for source Textarea props." },
 ] as const;
 
 const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
@@ -226,13 +220,19 @@ function TextareaDoc() {
     <DocPage
       title="Textarea"
       description="A multi-line text control with theme-aware focus, invalid, and disabled states."
+      headerAction={
+        <Button
+          render={<a href="/components/textarea/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           previewClassName={TEXTAREA_PREVIEW_CLASS}

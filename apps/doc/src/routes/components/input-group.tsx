@@ -19,14 +19,13 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { Search, Upload } from "lucide-react";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
 import LegacySlugInput from "../../../../../packages/ui/src/legacy/SlugInput.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "addons", title: "Addons" },
@@ -38,12 +37,6 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
   { id: "migration", title: "Migration" },
-] as const;
-
-const TODOS = [
-  { status: "done", label: "Move the input shell onto the group wrapper." },
-  { status: "done", label: "Add elegant hover, focus, invalid, and disabled states." },
-  { status: "done", label: "Document source SearchInput and SlugInput migration paths." },
 ] as const;
 
 const SEARCH_NO_LIFT_CLASS = "has-[[data-slot=input-group-control]:focus]:!shadow-sm";
@@ -269,13 +262,19 @@ function InputGroupDoc() {
     <DocPage
       title="InputGroup"
       description="A single-line input composition shell with leading or trailing addons."
+      headerAction={
+        <Button
+          render={<a href="/components/input-group/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
