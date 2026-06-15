@@ -6,7 +6,7 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 export const badge = tv({
   slots: {
     root: [
-      "inline-flex h-5 w-fit min-w-0 max-w-full items-center gap-1 px-1.5",
+      "inline-flex h-5 w-fit shrink-0 min-w-0 max-w-full items-center gap-1 px-1.5",
       "overflow-hidden whitespace-nowrap",
       "text-[10px] font-bold leading-none",
     ],
