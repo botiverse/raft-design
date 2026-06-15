@@ -37,14 +37,15 @@ const inputGroup = tv({
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-md border border-line-subtle/90 bg-layer-field",
-          "text-foreground transition duration-200 ease-out",
-          "hover:bg-layer-muted/35",
+          "overflow-hidden rounded-md border border-[oklch(0.94_0_0)] bg-layer-field shadow-none",
+          "text-[oklch(0.205_0_0)] transition duration-200 ease-out dark:text-foreground",
+          "hover:border-[oklch(0.91_0_0)] hover:shadow-[oklch(0_0_0_/_0)_0px_0px_0px_0px,oklch(0_0_0_/_0)_0px_0px_0px_0px,oklch(0.159_0.016_266.594_/_0.03)_0px_1px_2px_0px]",
           "has-[[data-slot=input-group-control]:focus]:border-line-strong/25 has-[[data-slot=input-group-control]:focus]:bg-layer-field",
           "has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-line-strong/8",
-          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base/45 has-[[data-slot=input-group-control][aria-invalid=true]:focus]:border-danger-base/70",
-          "has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-danger-base/12",
+          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base/45 has-[[data-slot=input-group-control][aria-invalid=true]]:hover:border-danger-base/75 has-[[data-slot=input-group-control][aria-invalid=true]:focus]:border-danger-base/75",
+          "has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-3 has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-danger-base/12",
           "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:bg-layer-muted/50",
+          "has-[[data-slot=input-group-control]:disabled]:hover:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:hover:shadow-none",
           "has-[[data-slot=input-group-control][aria-invalid=true]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control][aria-invalid=true]:disabled]:ring-0",
         ],
         addon: [
@@ -58,7 +59,7 @@ const inputGroup = tv({
           "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
         control: [
-          "text-foreground placeholder:text-foreground-placeholder/70",
+          "text-[oklch(0.205_0_0)] placeholder:text-foreground-placeholder/70 dark:text-foreground",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
           "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
