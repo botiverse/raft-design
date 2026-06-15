@@ -3,24 +3,55 @@ import { tv } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 
-// The brutal field visual (formerly the app's `.input-brutal` class). The error
-// state is driven by `aria-invalid` so the control styles itself while Field /
-// FieldError own the message.
 const textarea = tv({
   slots: {
-    root: ["w-full px-3 py-2 font-display"],
+    root: ["w-full min-h-24 resize-y px-3 py-2 outline-none"],
   },
   variants: {
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-layer-panel",
-          "shadow-sm focus:shadow-md focus:outline-none",
-          "aria-invalid:border-danger-base aria-invalid:bg-danger-base/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-danger-base/60",
+          "border-2 border-line-strong bg-layer-panel font-display",
+          "shadow-sm focus:shadow-md",
+          "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
+          "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none",
         ],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        root: [
+          "rounded-md border border-line-subtle/90 bg-layer-field",
+          "text-sm text-foreground transition duration-200 ease-out",
+          "placeholder:text-foreground-placeholder/70",
+          "hover:bg-layer-muted/35",
+          "focus:border-line-strong/25 focus:bg-layer-field",
+          "focus-visible:ring-2 focus-visible:ring-line-strong/8",
+          "aria-invalid:border-danger-base/45 aria-invalid:focus:border-danger-base/70 aria-invalid:focus-visible:ring-danger-base/12",
+          "disabled:cursor-not-allowed disabled:border-line-subtle/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+          "aria-invalid:disabled:border-line-subtle/60 aria-invalid:disabled:ring-0",
+        ],
+      },
+    },
+  },
+});
+
+const textareaGroup = tv({
+  slots: {
+    root: ["w-full"],
+  },
+  variants: {
+    theme: {
+      brutal: {
+        root: "flex flex-col items-end gap-1",
+      },
+      elegant: {
+        root: [
+          "relative",
+          "has-[>[data-slot=textarea-counter]]:[&>[data-slot=textarea]]:pb-7",
+          "has-[>[data-slot=textarea-counter]]:[&>[data-slot=textarea]]:pr-16",
+          "[&>[data-slot=textarea-counter]]:pointer-events-none [&>[data-slot=textarea-counter]]:absolute",
+          "[&>[data-slot=textarea-counter]]:right-3 [&>[data-slot=textarea-counter]]:bottom-3 [&>[data-slot=textarea-counter]]:z-10",
+        ],
+      },
     },
   },
 });
@@ -37,12 +68,16 @@ const textareaCounter = tv({
           "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger-base",
         ],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        root: [
+          "text-[11px] leading-none text-foreground-placeholder/80 transition duration-200 ease-out",
+          "group-data-[invalid]/field:font-medium group-data-[invalid]/field:text-danger-base",
+        ],
+      },
     },
     overLimit: {
       true: {
-        root: "font-bold text-danger-base",
+        root: "text-danger-base",
       },
       false: {
         root: "",
@@ -56,29 +91,40 @@ const textareaCounter = tv({
 
 export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">>;
 
-function TextareaRoot({ className, ...props }: TextareaProps) {
+export type TextareaGroupProps = ComponentPropsWithRef<"div">;
+
+export function TextareaGroup({ className, ...props }: TextareaGroupProps) {
+  const theme = useTheme();
+  const { root } = textareaGroup({ theme });
+
+  return <div data-slot="textarea-group" className={root({ className })} {...props} />;
+}
+
+export function Textarea({ className, ...props }: TextareaProps) {
   const theme = useTheme();
   const { root } = textarea({ theme });
+
   return <textarea data-slot="textarea" className={root({ className })} {...props} />;
 }
 
 export interface TextareaCounterProps extends WithoutChildren<ComponentPropsWithRef<"span">> {
-  /** Current text whose length is counted (ignored when `count` is set). */
   value?: string;
-  /** Override the counted length directly (e.g. Unicode code points). */
   count?: number;
-  /** Limit shown after the slash; the counter turns red once length exceeds it. */
   limit: number;
-  /** Custom length function — defaults to `value.length`. */
   getLength?: (value: string) => number;
 }
 
-// Standalone character counter — place it inside a Field next to the Textarea.
-// Turns red over the limit, or whenever its Field is invalid.
-function Counter({ value, count, limit, getLength, className, ...props }: TextareaCounterProps) {
+export function TextareaCounter({
+  value,
+  count,
+  limit,
+  getLength,
+  className,
+  ...props
+}: TextareaCounterProps) {
   const theme = useTheme();
-  const length =
-    count !== undefined ? count : getLength ? getLength(value ?? "") : (value ?? "").length;
+  const text = value ?? "";
+  const length = count ?? getLength?.(text) ?? text.length;
   const overLimit = length > limit;
   const { root } = textareaCounter({ theme, overLimit });
   return (
@@ -87,5 +133,3 @@ function Counter({ value, count, limit, getLength, className, ...props }: Textar
     </span>
   );
 }
-
-export const Textarea = Object.assign(TextareaRoot, { Counter });

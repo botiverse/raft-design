@@ -24,8 +24,12 @@ export type {
   InputGroupAddonTextProps,
 } from "./components/input-group/index.ts";
 
-export { Textarea } from "./components/textarea/index.ts";
-export type { TextareaProps, TextareaCounterProps } from "./components/textarea/index.ts";
+export { Textarea, TextareaCounter, TextareaGroup } from "./components/textarea/index.ts";
+export type {
+  TextareaCounterProps,
+  TextareaGroupProps,
+  TextareaProps,
+} from "./components/textarea/index.ts";
 
 export { Spinner } from "./components/spinner/index.ts";
 export type { SpinnerProps } from "./components/spinner/index.ts";

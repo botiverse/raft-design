@@ -12,6 +12,7 @@ type Control<T> = {
 type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   defaultValues: T;
   controls: readonly Control<T>[];
+  previewClassName?: string;
   render: (values: T) => ReactNode;
 };
 
@@ -23,6 +24,7 @@ type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
 export function ComponentPlayground<T extends Record<string, ControlValue>>({
   defaultValues,
   controls,
+  previewClassName,
   render,
 }: ComponentPlaygroundProps<T>) {
   const [values, setValues] = useState<T>(defaultValues);
@@ -35,6 +37,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
   return (
     <ComponentDemoFrame
       layout="split"
+      previewClassName={previewClassName}
       footer={
         <div className="grid gap-y-4">
           <div className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">

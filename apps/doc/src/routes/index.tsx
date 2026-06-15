@@ -9,6 +9,9 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Status,
+  Textarea,
+  TextareaCounter,
+  TextareaGroup,
   ThemeProvider,
   type Theme,
 } from "@slock/ui";
@@ -24,6 +27,7 @@ type ComponentRoute =
   | "/components/checkbox"
   | "/components/input"
   | "/components/input-group"
+  | "/components/textarea"
   | "/components/badge"
   | "/components/status";
 
@@ -112,6 +116,23 @@ const COMPONENT_GRID = [
             USD
           </InputGroupAddon.Text>
         </InputGroup>
+      </div>
+    ),
+  },
+  {
+    label: "Textarea",
+    to: "/components/textarea",
+    preview: (
+      <div className="grid w-64 gap-2">
+        <TextareaGroup>
+          <Textarea
+            aria-label="Message"
+            rows={4}
+            defaultValue="Draft the release note."
+            className="resize-none"
+          />
+          <TextareaCounter value="Draft the release note." limit={120} />
+        </TextareaGroup>
       </div>
     ),
   },

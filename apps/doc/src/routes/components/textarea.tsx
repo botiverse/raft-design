@@ -1,10 +1,18 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@slock/ui";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  Textarea,
+  TextareaCounter,
+  TextareaGroup,
+} from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -18,65 +26,117 @@ const TOC = [
   { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "invalid", title: "Invalid" },
+  { id: "states", title: "States" },
   { id: "counter", title: "Counter" },
+  { id: "auto-grow", title: "Auto grow" },
   { id: "field", title: "With Field" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
+  { id: "migration", title: "Migration" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const TODOS = [
+  { status: "done", label: "Move the input-brutal textarea shell into the recipe." },
+  { status: "done", label: "Add elegant hover, focus, invalid, and disabled states." },
+  { status: "done", label: "Document Field and Counter composition for source Textarea props." },
+] as const;
+
+const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
 
 const SNIPPETS = {
   anatomy: `import { Textarea } from "@slock/ui";
 
-<Textarea rows={4} placeholder="Type your message here." />`,
-  invalid: `<Textarea aria-invalid rows={4} defaultValue="oops" />`,
-  counter: `<Textarea.Counter value={message} limit={120} />`,
-  field: `import { Field, FieldError, FieldLabel, Textarea } from "@slock/ui";
+<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />`,
+  states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
+<Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
+<Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
+<Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
+<Textarea aria-label="Message" rows={4} aria-invalid disabled defaultValue="Locked error" />`,
+  counter: `import { Textarea, TextareaCounter, TextareaGroup } from "@slock/ui";
+
+<TextareaGroup>
+  <Textarea
+    aria-label="Message"
+    rows={4}
+    value={message}
+    onChange={(event) => setMessage(event.currentTarget.value)}
+    placeholder="Type your message here."
+  />
+  <TextareaCounter value={message} limit={24} />
+</TextareaGroup>`,
+  autoGrow: `<Textarea
+  aria-label="Auto growing message"
+  className="field-sizing-content max-h-80 resize-none overflow-y-auto"
+  placeholder="Type a few lines..."
+/>`,
+  field: `import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  Textarea,
+  TextareaCounter,
+  TextareaGroup,
+} from "@slock/ui";
 
 <Field invalid>
   <FieldLabel htmlFor="msg">Message</FieldLabel>
-  <Textarea id="msg" rows={4} defaultValue="oops" />
-  <div className="flex justify-between gap-3">
-    <FieldError match>Message is required.</FieldError>
-    <Textarea.Counter value="oops" limit={120} />
-  </div>
+  <TextareaGroup>
+    <Textarea
+      id="msg"
+      rows={4}
+      maxLength={120}
+      value={message}
+      onChange={(event) => setMessage(event.currentTarget.value)}
+    />
+    <TextareaCounter value={message} limit={120} />
+  </TextareaGroup>
+  <FieldError match>Message is required.</FieldError>
 </Field>`,
-  sourceWrapper: `<Textarea
-  className="w-80"
+  migrationShell: `// Source
+<textarea className="input-brutal" rows={4} placeholder="Type your message here." />
+
+// Current
+<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />`,
+  migrationWrapper: `// Source
+<Textarea
   rows={4}
   hint="Enter your message below."
   showCounter
   limit={120}
   defaultValue="Hello world."
-/>`,
-  currentComposition: `<Field className="w-80">
-  <FieldLabel htmlFor="current-message">Message</FieldLabel>
-  <Textarea id="current-message" rows={4} defaultValue="Hello world." />
-  <div className="flex justify-between gap-3">
-    <FieldDescription>Enter your message below.</FieldDescription>
-    <Textarea.Counter value="Hello world." limit={120} />
-  </div>
+/>
+
+// Current
+<Field>
+  <FieldLabel htmlFor="message">Message</FieldLabel>
+  <TextareaGroup>
+    <Textarea id="message" rows={4} maxLength={120} defaultValue="Hello world." />
+    <TextareaCounter value="Hello world." limit={120} />
+  </TextareaGroup>
+  <FieldDescription>Enter your message below.</FieldDescription>
 </Field>`,
-  sourceError: `<Textarea
-  className="w-80"
+  migrationInvalid: `// Source
+<Textarea
   rows={4}
   error="Message is required."
   showCounter
   limit={120}
   defaultValue="oops"
-/>`,
-  currentError: `<Field className="w-80" invalid>
-  <Textarea rows={4} aria-invalid defaultValue="oops" />
-  <div className="flex justify-between gap-3">
-    <FieldError match>Message is required.</FieldError>
-    <Textarea.Counter value="oops" limit={120} />
-  </div>
+/>
+
+// Current
+<Field invalid>
+  <TextareaGroup>
+    <Textarea aria-label="Message" rows={4} aria-invalid maxLength={120} defaultValue="oops" />
+    <TextareaCounter value="oops" limit={120} />
+  </TextareaGroup>
+  <FieldError match>Message is required.</FieldError>
 </Field>`,
 } as const;
 
 type PlaygroundValues = {
+  disabled: boolean;
   invalid: boolean;
   placeholder: string;
 };
@@ -86,7 +146,7 @@ const PROPS: readonly PropRow[] = [
     name: "aria-invalid",
     type: "boolean",
     description:
-      "Standalone invalid styling. Inside Field, prefer Field invalid and keep aria-invalid for native textarea styling.",
+      "Standalone invalid styling. Inside Field, set Field invalid and keep aria-invalid on the control when native textarea state should match.",
   },
   {
     name: "ref",
@@ -97,7 +157,21 @@ const PROPS: readonly PropRow[] = [
     name: "...props",
     type: "TextareaHTMLAttributes",
     description:
-      "All native textarea attributes (value, onChange, rows, maxLength, placeholder, etc.).",
+      "All native textarea attributes (value, onChange, rows, maxLength, placeholder, disabled, etc.).",
+  },
+];
+
+const GROUP_PROPS: readonly PropRow[] = [
+  {
+    name: "children",
+    type: "ReactNode",
+    description:
+      "Place Textarea and TextareaCounter as direct children. Elegant positions the counter inside the textarea bottom-right; Brutal keeps it below the control.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentProps<"div">',
+    description: "Native div attributes for layout, width, and custom composition.",
   },
 ];
 
@@ -105,7 +179,12 @@ const COUNTER_PROPS: readonly PropRow[] = [
   {
     name: "value",
     type: "string",
-    description: "Text whose length is counted (ignored when count is set).",
+    description: "Text whose length is counted. Ignored when count is set.",
+  },
+  {
+    name: "count",
+    type: "number",
+    description: "Override the counted length directly.",
   },
   {
     name: "limit",
@@ -113,11 +192,24 @@ const COUNTER_PROPS: readonly PropRow[] = [
     description: "Shown after the slash; the counter turns red once length exceeds it.",
   },
   {
-    name: "count / getLength",
-    type: "number / (value: string) => number",
-    description: "Override the counted length (e.g. Unicode code points) instead of value.length.",
+    name: "getLength",
+    type: "(value: string) => number",
+    description: "Custom length function, for example Unicode code point counting.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentProps<"span">',
+    description: "Native span attributes for custom counter labeling or test hooks.",
   },
 ];
+
+function MissingSource() {
+  return (
+    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
+      Missing
+    </span>
+  );
+}
 
 export const Route = createFileRoute("/components/textarea")({
   component: TextareaDoc,
@@ -126,28 +218,15 @@ export const Route = createFileRoute("/components/textarea")({
 
 function TextareaDoc() {
   const code = Route.useLoaderData();
+  const [counterMessage, setCounterMessage] = useState("The quick brown fox.");
+  const [fieldMessage, setFieldMessage] = useState("oops");
 
   return (
     <DocPage
       title="Textarea"
-      description="A brutal multi-line text field."
-      overview={
-        <Differences from="Textarea">
-          <li>
-            just the control — the built-in error message, hint, and counter are removed; use{" "}
-            <Link to="/components/field">Field</Link> / <code>FieldError</code> and{" "}
-            <code>Textarea.Counter</code>
-          </li>
-          <li>
-            error state via <code>aria-invalid</code> instead of an <code>error</code> prop
-          </li>
-          <li>
-            counter and messages are composed with <code>Field</code> instead of being owned by
-            Textarea
-          </li>
-        </Differences>
-      }
+      description="A multi-line text control with theme-aware focus, invalid, and disabled states."
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
@@ -155,8 +234,14 @@ function TextareaDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ invalid: false, placeholder: "Type your message here." }}
+          previewClassName={TEXTAREA_PREVIEW_CLASS}
+          defaultValues={{
+            disabled: false,
+            invalid: false,
+            placeholder: "Type your message here.",
+          }}
           controls={[
+            { name: "disabled", label: "Disabled", type: "boolean" },
             { name: "invalid", label: "Invalid", type: "boolean" },
             { name: "placeholder", label: "Placeholder", type: "text" },
           ]}
@@ -165,6 +250,7 @@ function TextareaDoc() {
               className="w-80"
               rows={4}
               placeholder={values.placeholder}
+              disabled={values.disabled}
               aria-invalid={values.invalid || undefined}
             />
           )}
@@ -175,59 +261,110 @@ function TextareaDoc() {
         <CodeBlock html={code.anatomy} />
       </DocSection>
 
-      <DocSection id="invalid" title="Invalid">
+      <DocSection id="states" title="States">
         <div className="space-y-4">
-          <Example html={code.invalid}>
-            <Textarea className="w-80" aria-invalid rows={4} defaultValue="oops" />
+          <Example html={code.states} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+            <div className="grid w-full max-w-96 gap-3">
+              <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
+              <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
+              <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
+              <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
+              <Textarea
+                aria-label="Message"
+                rows={4}
+                aria-invalid
+                disabled
+                defaultValue="Locked error"
+              />
+            </div>
           </Example>
           <Callout>
-            The control styles its own red border/ring off <code>aria-invalid</code>; the error{" "}
-            <em>message</em> lives in <code>FieldError</code>. When the textarea is inside{" "}
-            <code>Field</code>, set <code>invalid</code> on the surrounding field so companion parts
-            such as <code>Textarea.Counter</code> can follow the same state.
+            <code>disabled</code> wins over <code>aria-invalid</code>. A disabled invalid textarea
+            keeps the disabled border and removes the invalid ring because the user cannot edit it.
           </Callout>
         </div>
       </DocSection>
 
       <DocSection id="counter" title="Counter">
         <div className="space-y-4">
-          <Example html={code.counter}>
-            <Textarea.Counter value="The quick brown fox." limit={120} />
-            <Textarea.Counter value={"x".repeat(130)} limit={120} />
+          <Example html={code.counter} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+            <div className="grid w-80 gap-4">
+              <TextareaGroup>
+                <Textarea
+                  aria-label="Message"
+                  rows={4}
+                  value={counterMessage}
+                  onChange={(event) => setCounterMessage(event.currentTarget.value)}
+                  placeholder="Type your message here."
+                />
+                <TextareaCounter value={counterMessage} limit={24} />
+              </TextareaGroup>
+            </div>
           </Example>
           <Callout>
-            <code>Textarea.Counter</code> is standalone — pass the current <code>value</code> (or a{" "}
-            <code>count</code> / <code>getLength</code> for Unicode-correct counting) and a{" "}
-            <code>limit</code>. It turns red over the limit, or whenever its <code>Field</code> is
-            invalid.
+            Place <code>TextareaCounter</code> inside <code>TextareaGroup</code> to position it in
+            the textarea. Pass the current <code>value</code> from your change handler and the
+            intended <code>limit</code> explicitly. Omit native <code>maxLength</code> when the
+            counter should show an over-limit state.
+          </Callout>
+        </div>
+      </DocSection>
+
+      <DocSection id="auto-grow" title="Auto grow">
+        <div className="space-y-4">
+          <Example html={code.autoGrow} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+            <Textarea
+              aria-label="Auto growing message"
+              className="w-80 field-sizing-content max-h-80 resize-none overflow-y-auto"
+              placeholder="Type a few lines..."
+            />
+          </Example>
+          <Callout>
+            Use <code>field-sizing-content</code> when the textarea should grow with its content.
+            The component still keeps its default minimum height; pair content sizing with a max
+            height for long drafts so the control scrolls instead of pushing the page indefinitely.
           </Callout>
         </div>
       </DocSection>
 
       <DocSection id="field" title="With Field">
         <div className="space-y-4">
-          <Example html={code.field}>
+          <Example html={code.field} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <Field className="w-80" invalid>
               <FieldLabel htmlFor="msg">Message</FieldLabel>
-              <Textarea id="msg" rows={4} defaultValue="oops" />
-              <div className="flex justify-between gap-3">
-                <FieldError match>Message is required.</FieldError>
-                <Textarea.Counter value="oops" limit={120} />
-              </div>
+              <TextareaGroup>
+                <Textarea
+                  id="msg"
+                  rows={4}
+                  maxLength={120}
+                  value={fieldMessage}
+                  onChange={(event) => setFieldMessage(event.currentTarget.value)}
+                />
+                <TextareaCounter value={fieldMessage} limit={120} />
+              </TextareaGroup>
+              <FieldError match>Message is required.</FieldError>
             </Field>
           </Example>
           <Callout>
-            Label and message come from <Link to="/components/field">Field</Link>. Textarea stays a
-            pure control; the counter is a composed companion part that reads the field state.
+            Label, description, and error copy come from <Link to="/components/field">Field</Link>.
+            Textarea stays a pure control; the counter is a composed companion part that follows the
+            field invalid state.
           </Callout>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <PropsTable rows={PROPS} />
           <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Textarea.Counter</h3>
+            <h3 className="mb-2 text-sm font-semibold text-gray-900">Textarea</h3>
+            <PropsTable rows={PROPS} />
+          </div>
+          <div>
+            <h3 className="mb-2 text-sm font-semibold text-gray-900">TextareaGroup</h3>
+            <PropsTable rows={GROUP_PROPS} />
+          </div>
+          <div>
+            <h3 className="mb-2 text-sm font-semibold text-gray-900">TextareaCounter</h3>
             <PropsTable rows={COUNTER_PROPS} />
           </div>
         </div>
@@ -237,9 +374,38 @@ function TextareaDoc() {
         <SourceComparison
           items={[
             {
+              label: "Default shell",
+              status: "match",
+              note: "Source used the input-brutal shell. Brutal keeps that shape; Elegant maps the same native textarea API to the quieter field surface.",
+              source: (
+                <LegacyTextarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  placeholder="Type your message here."
+                />
+              ),
+              brutal: (
+                <Textarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  placeholder="Type your message here."
+                />
+              ),
+              elegant: (
+                <Textarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  placeholder="Type your message here."
+                />
+              ),
+            },
+            {
               label: "Wrapper API to composition",
               status: "difference",
-              note: "Source Textarea owned hint, error, and counter props. Current Textarea is only the native control skin; Field and Textarea.Counter own the surrounding form composition.",
+              note: "Source Textarea owned hint, error, and counter props. Current Textarea keeps the control skin narrow while Field and TextareaCounter own surrounding form composition.",
               source: (
                 <LegacyTextarea
                   aria-label="Message"
@@ -251,23 +417,41 @@ function TextareaDoc() {
                   defaultValue="Hello world."
                 />
               ),
-              current: (
+              brutal: (
                 <Field className="w-80">
-                  <FieldLabel htmlFor="current-message">Message</FieldLabel>
-                  <Textarea id="current-message" rows={4} defaultValue="Hello world." />
-                  <div className="flex justify-between gap-3">
-                    <FieldDescription>Enter your message below.</FieldDescription>
-                    <Textarea.Counter value="Hello world." limit={120} />
-                  </div>
+                  <FieldLabel htmlFor="current-message-brutal">Message</FieldLabel>
+                  <TextareaGroup>
+                    <Textarea
+                      id="current-message-brutal"
+                      rows={4}
+                      maxLength={120}
+                      defaultValue="Hello world."
+                    />
+                    <TextareaCounter value="Hello world." limit={120} />
+                  </TextareaGroup>
+                  <FieldDescription>Enter your message below.</FieldDescription>
                 </Field>
               ),
-              sourceCode: code.sourceWrapper,
-              currentCode: code.currentComposition,
+              elegant: (
+                <Field className="w-80">
+                  <FieldLabel htmlFor="current-message-elegant">Message</FieldLabel>
+                  <TextareaGroup>
+                    <Textarea
+                      id="current-message-elegant"
+                      rows={4}
+                      maxLength={120}
+                      defaultValue="Hello world."
+                    />
+                    <TextareaCounter value="Hello world." limit={120} />
+                  </TextareaGroup>
+                  <FieldDescription>Enter your message below.</FieldDescription>
+                </Field>
+              ),
             },
             {
               label: "Invalid state",
               status: "match",
-              note: "Both versions use the same red border, tinted background, red ring, and no brutal black shadow while invalid. The current version moves the message and counter into composition.",
+              note: "Source used a red border, tinted background, red ring, and no brutal black shadow while invalid. Current Textarea centralizes the same control state behind aria-invalid.",
               source: (
                 <LegacyTextarea
                   aria-label="Message"
@@ -279,20 +463,91 @@ function TextareaDoc() {
                   defaultValue="oops"
                 />
               ),
-              current: (
+              brutal: (
                 <Field className="w-80" invalid>
-                  <Textarea rows={4} aria-label="Message" aria-invalid defaultValue="oops" />
-                  <div className="flex justify-between gap-3">
-                    <FieldError match>Message is required.</FieldError>
-                    <Textarea.Counter value="oops" limit={120} />
-                  </div>
+                  <TextareaGroup>
+                    <Textarea
+                      rows={4}
+                      aria-label="Message"
+                      aria-invalid
+                      maxLength={120}
+                      defaultValue="oops"
+                    />
+                    <TextareaCounter value="oops" limit={120} />
+                  </TextareaGroup>
+                  <FieldError match>Message is required.</FieldError>
                 </Field>
               ),
-              sourceCode: code.sourceError,
-              currentCode: code.currentError,
+              elegant: (
+                <Field className="w-80" invalid>
+                  <TextareaGroup>
+                    <Textarea
+                      rows={4}
+                      aria-label="Message"
+                      aria-invalid
+                      maxLength={120}
+                      defaultValue="oops"
+                    />
+                    <TextareaCounter value="oops" limit={120} />
+                  </TextareaGroup>
+                  <FieldError match>Message is required.</FieldError>
+                </Field>
+              ),
+            },
+            {
+              label: "Disabled styling",
+              status: "new",
+              note: "Source textarea did not own a disabled visual state. Current Textarea adds one so unavailable text areas remain readable without looking editable.",
+              source: <MissingSource />,
+              brutal: (
+                <Textarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  disabled
+                  placeholder="Disabled"
+                />
+              ),
+              elegant: (
+                <Textarea
+                  aria-label="Message"
+                  className="w-80"
+                  rows={4}
+                  disabled
+                  placeholder="Disabled"
+                />
+              ),
             },
           ]}
         />
+      </DocSection>
+
+      <DocSection id="migration" title="Migration">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Shell</h3>
+            <p className="text-sm text-gray-500">
+              Replace the global <code>input-brutal</code> class with the themed Textarea recipe.
+            </p>
+            <CodeBlock html={code.migrationShell} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Wrapper Props</h3>
+            <p className="text-sm text-gray-500">
+              Move <code>hint</code>, <code>showCounter</code>, and <code>limit</code> into Field
+              composition.
+            </p>
+            <CodeBlock html={code.migrationWrapper} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-900">Invalid</h3>
+            <p className="text-sm text-gray-500">
+              Move the <code>error</code> prop to <code>FieldError</code> and set{" "}
+              <code>aria-invalid</code> on the textarea.
+            </p>
+            <CodeBlock html={code.migrationInvalid} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );

@@ -9,12 +9,14 @@ import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 type ExampleProps = {
   html: ReactNode | AnyRenderableServerComponent;
   children: ReactNode;
+  previewClassName?: string;
 };
 
 /** A rendered demo above its Shiki-highlighted source. */
-export function Example({ html, children }: ExampleProps) {
+export function Example({ html, children, previewClassName }: ExampleProps) {
   return (
     <ComponentDemoFrame
+      previewClassName={previewClassName}
       footer={
         <Collapsible.Root className="grid grid-cols-[minmax(0,1fr)_max-content] items-start gap-4 pt-3.5 pb-3.5">
           <Button

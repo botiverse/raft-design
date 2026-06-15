@@ -1,5 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@slock/ui";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  Textarea,
+  TextareaCounter,
+  TextareaGroup,
+} from "@slock/ui";
 
 import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
@@ -30,6 +38,8 @@ const TODOS = [
   "Move Input/Textarea onto Field-aware controls",
 ] as const;
 
+const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
+
 const SNIPPETS = {
   anatomy: `import { Field, FieldLabel, FieldDescription, Textarea } from "@slock/ui";
 
@@ -48,13 +58,22 @@ const SNIPPETS = {
 <Field><FieldLabel optional>Email address</FieldLabel></Field>
 <Field><FieldLabel size="sm">Email address</FieldLabel></Field>
 <Field><FieldLabel className="uppercase tracking-wide">Email address</FieldLabel></Field>`,
-  complete: `<Field>
+  complete: `import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+  Textarea,
+  TextareaCounter,
+  TextareaGroup,
+} from "@slock/ui";
+
+<Field>
   <FieldLabel htmlFor="bio" required>Bio</FieldLabel>
-  <Textarea id="bio" rows={3} maxLength={160} value={bio} onChange={(e) => setBio(e.target.value)} />
-  <div className="flex justify-between gap-3">
-    <FieldDescription>A short blurb for your profile.</FieldDescription>
-    <Textarea.Counter value={bio} limit={160} />
-  </div>
+  <TextareaGroup>
+    <Textarea id="bio" rows={3} maxLength={160} value={bio} onChange={(e) => setBio(e.target.value)} />
+    <TextareaCounter value={bio} limit={160} />
+  </TextareaGroup>
+  <FieldDescription>A short blurb for your profile.</FieldDescription>
 </Field>`,
   sourcePropWrapper: `<FormField label="Email" htmlFor="source-email" required hint="Use your work email.">
   <input id="source-email" className="input-brutal" />
@@ -222,7 +241,7 @@ function FieldDoc() {
 
       <DocSection id="invalid" title="Invalid">
         <div className="space-y-4">
-          <Example html={code.invalid}>
+          <Example html={code.invalid} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <Field className="w-80" invalid>
               <FieldLabel htmlFor="invalid-msg">Message</FieldLabel>
               <Textarea id="invalid-msg" rows={4} aria-invalid defaultValue="oops" />
@@ -231,7 +250,7 @@ function FieldDoc() {
           </Example>
           <Callout>
             <code>invalid</code> on <code>Field</code> drives Base UI field state and any{" "}
-            <code>Textarea.Counter</code> through the emitted <code>data-invalid</code> marker;{" "}
+            <code>TextareaCounter</code> through the emitted <code>data-invalid</code> marker;{" "}
             <code>aria-invalid</code> on non-Base-UI controls still drives the control border.
           </Callout>
         </div>
@@ -239,35 +258,35 @@ function FieldDoc() {
 
       <DocSection id="complete" title="Complete field">
         <div className="space-y-4">
-          <Example html={code.complete}>
+          <Example html={code.complete} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <div className="flex w-80 flex-col gap-6">
               <Field>
                 <FieldLabel htmlFor="bio" required>
                   Bio
                 </FieldLabel>
-                <Textarea id="bio" rows={3} maxLength={160} defaultValue="Frontend engineer." />
-                <div className="flex justify-between gap-3">
-                  <FieldDescription>A short blurb for your profile.</FieldDescription>
-                  <Textarea.Counter value="Frontend engineer." limit={160} />
-                </div>
+                <TextareaGroup>
+                  <Textarea id="bio" rows={3} maxLength={160} defaultValue="Frontend engineer." />
+                  <TextareaCounter value="Frontend engineer." limit={160} />
+                </TextareaGroup>
+                <FieldDescription>A short blurb for your profile.</FieldDescription>
               </Field>
               <Field invalid>
                 <FieldLabel htmlFor="bio-err" required>
                   Bio
                 </FieldLabel>
-                <Textarea id="bio-err" rows={3} aria-invalid maxLength={160} defaultValue="Hi." />
-                <div className="flex justify-between gap-3">
-                  <FieldError match>Tell us a bit more about yourself.</FieldError>
-                  <Textarea.Counter value="Hi." limit={160} />
-                </div>
+                <TextareaGroup>
+                  <Textarea id="bio-err" rows={3} aria-invalid maxLength={160} defaultValue="Hi." />
+                  <TextareaCounter value="Hi." limit={160} />
+                </TextareaGroup>
+                <FieldError match>Tell us a bit more about yourself.</FieldError>
               </Field>
             </div>
           </Example>
           <Callout>
             The second field is <code>invalid</code>: the control border, the{" "}
-            <code>FieldError</code>, and the <code>Textarea.Counter</code> all turn red — the
-            counter via Base UI&rsquo;s emitted <code>data-invalid</code> marker, even though it is
-            under the limit.
+            <code>FieldError</code>, and the <code>TextareaCounter</code> all turn red — the counter
+            via Base UI&rsquo;s emitted <code>data-invalid</code> marker, even though it is under
+            the limit.
           </Callout>
         </div>
       </DocSection>
