@@ -252,7 +252,10 @@ function BadgeDoc() {
       <DocSection id="appearance" title="Appearance">
         <Example html={code.appearance}>
           {APPEARANCES.map((appearance) => (
-            <div key={appearance} className="flex w-full flex-wrap items-center gap-2">
+            <div
+              key={appearance}
+              className="flex w-full flex-wrap items-center justify-center gap-2"
+            >
               {VARIANTS.map((variant) => (
                 <Badge key={variant} appearance={appearance} variant={variant}>
                   {variant}

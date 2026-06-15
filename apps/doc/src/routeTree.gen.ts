@@ -38,6 +38,7 @@ import { Route as ComponentsLightboxRouteImport } from './routes/components/ligh
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
+import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
@@ -210,6 +211,11 @@ const ComponentsInputRoute = ComponentsInputRouteImport.update({
   path: '/input',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
+  id: '/inline-code',
+  path: '/inline-code',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
   id: '/field',
   path: '/field',
@@ -347,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/kbd': typeof ComponentsKbdRoute
@@ -401,6 +408,7 @@ export interface FileRoutesByTo {
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/kbd': typeof ComponentsKbdRoute
@@ -456,6 +464,7 @@ export interface FileRoutesById {
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
   '/components/kbd': typeof ComponentsKbdRoute
@@ -512,6 +521,7 @@ export interface FileRouteTypes {
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
+    | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
     | '/components/kbd'
@@ -566,6 +576,7 @@ export interface FileRouteTypes {
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
+    | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
     | '/components/kbd'
@@ -620,6 +631,7 @@ export interface FileRouteTypes {
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
+    | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
     | '/components/kbd'
@@ -874,6 +886,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsInputRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/inline-code': {
+      id: '/components/inline-code'
+      path: '/inline-code'
+      fullPath: '/components/inline-code'
+      preLoaderRoute: typeof ComponentsInlineCodeRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/field': {
       id: '/components/field'
       path: '/field'
@@ -1052,6 +1071,7 @@ interface ComponentsRouteChildren {
   ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
+  ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
   ComponentsKbdRoute: typeof ComponentsKbdRoute
@@ -1093,6 +1113,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
+  ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
   ComponentsKbdRoute: ComponentsKbdRoute,

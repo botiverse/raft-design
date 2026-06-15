@@ -5,14 +5,15 @@ import {
   FieldDescription,
   FieldError,
   FieldLabel,
+  InlineCode,
   Textarea,
   TextareaCounter,
   TextareaGroup,
 } from "@slock/ui";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -263,6 +264,11 @@ function TextareaDoc() {
 
       <DocSection id="states" title="States">
         <div className="space-y-4">
+          <DocNote>
+            <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
+            disabled invalid textarea keeps the disabled border and removes the invalid ring because
+            the user cannot edit it.
+          </DocNote>
           <Example html={code.states} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <div className="grid w-full max-w-96 gap-3">
               <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
@@ -278,15 +284,18 @@ function TextareaDoc() {
               />
             </div>
           </Example>
-          <Callout>
-            <code>disabled</code> wins over <code>aria-invalid</code>. A disabled invalid textarea
-            keeps the disabled border and removes the invalid ring because the user cannot edit it.
-          </Callout>
         </div>
       </DocSection>
 
       <DocSection id="counter" title="Counter">
         <div className="space-y-4">
+          <DocNote>
+            Place <InlineCode>TextareaCounter</InlineCode> inside{" "}
+            <InlineCode>TextareaGroup</InlineCode> to position it in the textarea. Pass the current{" "}
+            <InlineCode>value</InlineCode> from your change handler and the intended{" "}
+            <InlineCode>limit</InlineCode> explicitly. Omit native{" "}
+            <InlineCode>maxLength</InlineCode> when the counter should show an over-limit state.
+          </DocNote>
           <Example html={code.counter} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <div className="grid w-80 gap-4">
               <TextareaGroup>
@@ -301,17 +310,17 @@ function TextareaDoc() {
               </TextareaGroup>
             </div>
           </Example>
-          <Callout>
-            Place <code>TextareaCounter</code> inside <code>TextareaGroup</code> to position it in
-            the textarea. Pass the current <code>value</code> from your change handler and the
-            intended <code>limit</code> explicitly. Omit native <code>maxLength</code> when the
-            counter should show an over-limit state.
-          </Callout>
         </div>
       </DocSection>
 
       <DocSection id="auto-grow" title="Auto grow">
         <div className="space-y-4">
+          <DocNote>
+            Use <InlineCode>field-sizing-content</InlineCode> when the textarea should grow with its
+            content. The component still keeps its default minimum height; pair content sizing with
+            a max height for long drafts so the control scrolls instead of pushing the page
+            indefinitely.
+          </DocNote>
           <Example html={code.autoGrow} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <Textarea
               aria-label="Auto growing message"
@@ -319,16 +328,16 @@ function TextareaDoc() {
               placeholder="Type a few lines..."
             />
           </Example>
-          <Callout>
-            Use <code>field-sizing-content</code> when the textarea should grow with its content.
-            The component still keeps its default minimum height; pair content sizing with a max
-            height for long drafts so the control scrolls instead of pushing the page indefinitely.
-          </Callout>
         </div>
       </DocSection>
 
       <DocSection id="field" title="With Field">
         <div className="space-y-4">
+          <DocNote>
+            Label, description, and error copy come from <Link to="/components/field">Field</Link>.
+            Textarea stays a pure control; the counter is a composed companion part that follows the
+            field invalid state.
+          </DocNote>
           <Example html={code.field} previewClassName={TEXTAREA_PREVIEW_CLASS}>
             <Field className="w-80" invalid>
               <FieldLabel htmlFor="msg">Message</FieldLabel>
@@ -345,11 +354,6 @@ function TextareaDoc() {
               <FieldError match>Message is required.</FieldError>
             </Field>
           </Example>
-          <Callout>
-            Label, description, and error copy come from <Link to="/components/field">Field</Link>.
-            Textarea stays a pure control; the counter is a composed companion part that follows the
-            field invalid state.
-          </Callout>
         </div>
       </DocSection>
 
@@ -527,23 +531,24 @@ function TextareaDoc() {
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Shell</h3>
             <p className="text-sm text-gray-500">
-              Replace the global <code>input-brutal</code> class with the themed Textarea recipe.
+              Replace the global <InlineCode>input-brutal</InlineCode> class with the themed
+              Textarea recipe.
             </p>
             <CodeBlock html={code.migrationShell} />
           </div>
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Wrapper Props</h3>
             <p className="text-sm text-gray-500">
-              Move <code>hint</code>, <code>showCounter</code>, and <code>limit</code> into Field
-              composition.
+              Move <InlineCode>hint</InlineCode>, <InlineCode>showCounter</InlineCode>, and{" "}
+              <InlineCode>limit</InlineCode> into Field composition.
             </p>
             <CodeBlock html={code.migrationWrapper} />
           </div>
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Invalid</h3>
             <p className="text-sm text-gray-500">
-              Move the <code>error</code> prop to <code>FieldError</code> and set{" "}
-              <code>aria-invalid</code> on the textarea.
+              Move the <InlineCode>error</InlineCode> prop to <InlineCode>FieldError</InlineCode>{" "}
+              and set <InlineCode>aria-invalid</InlineCode> on the textarea.
             </p>
             <CodeBlock html={code.migrationInvalid} />
           </div>

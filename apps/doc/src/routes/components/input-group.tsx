@@ -7,12 +7,13 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  InlineCode,
   Kbd,
 } from "@slock/ui";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
@@ -345,6 +346,12 @@ function InputGroupDoc() {
 
       <DocSection id="addon-variants" title="Addon variants">
         <div className="space-y-4">
+          <DocNote>
+            Use <InlineCode>variant="default"</InlineCode> for light inline adornments such as
+            search icons or keyboard hints. Use <InlineCode>variant="container"</InlineCode> when
+            the addon is part of the value structure, like a protocol, domain suffix, unit, or icon
+            box.
+          </DocNote>
           <Example html={code.addonVariants}>
             <InputGroup className="w-80">
               <InputGroupAddon variant="container">
@@ -366,11 +373,6 @@ function InputGroupDoc() {
               </InputGroupAddon>
             </InputGroup>
           </Example>
-          <Callout>
-            Use <code>variant="default"</code> for light inline adornments such as search icons or
-            keyboard hints. Use <code>variant="container"</code> when the addon is part of the value
-            structure, like a protocol, domain suffix, unit, or icon box.
-          </Callout>
         </div>
       </DocSection>
 
@@ -396,6 +398,11 @@ function InputGroupDoc() {
 
       <DocSection id="states" title="States">
         <div className="space-y-4">
+          <DocNote>
+            Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on{" "}
+            <InlineCode>InputGroupInput</InlineCode>. The wrapper owns the visible state through{" "}
+            <InlineCode>has-*</InlineCode>.
+          </DocNote>
           <Example html={code.states}>
             <div className="grid w-full max-w-96 gap-3">
               <InputGroup>
@@ -421,10 +428,6 @@ function InputGroupDoc() {
               </InputGroup>
             </div>
           </Example>
-          <Callout>
-            Put <code>aria-invalid</code> and <code>disabled</code> on <code>InputGroupInput</code>.
-            The wrapper owns the visible state through <code>has-*</code>.
-          </Callout>
         </div>
       </DocSection>
 
@@ -587,8 +590,8 @@ function InputGroupDoc() {
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-gray-900">Invalid wrapper classes</h3>
             <p className="text-sm text-gray-500">
-              Move ad-hoc invalid border and ring classes to <code>aria-invalid</code> on the
-              control; the group shell owns the visible state.
+              Move ad-hoc invalid border and ring classes to <InlineCode>aria-invalid</InlineCode>{" "}
+              on the control; the group shell owns the visible state.
             </p>
             <CodeBlock html={code.migrationInvalid} />
           </div>

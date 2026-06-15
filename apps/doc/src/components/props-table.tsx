@@ -1,3 +1,5 @@
+import { InlineCode } from "@slock/ui";
+
 export type PropRow = {
   name: string;
   type: string;
@@ -21,9 +23,7 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
           {rows.map((row) => (
             <tr key={row.name} className="border-b border-line-subtle align-top">
               <td className="py-3 pr-6">
-                <code className="rounded bg-layer-muted px-1.5 py-0.5 font-mono text-xs text-foreground-strong">
-                  {row.name}
-                </code>
+                <InlineCode>{row.name}</InlineCode>
               </td>
               <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.type}</td>
               <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
