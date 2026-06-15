@@ -52,15 +52,15 @@ catalogs:
       specifier: ^3.2.2
       version: 3.2.2
     vite-plus:
-      specifier: latest
+      specifier: 0.1.24
       version: 0.1.24
     wrangler:
       specifier: ^4.100.0
       version: 4.100.0
 
 overrides:
-  vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
+  vite: npm:@voidzero-dev/vite-plus-core@0.1.24
+  vitest: npm:@voidzero-dev/vite-plus-test@0.1.24
 
 importers:
 
@@ -85,16 +85,16 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1(@voidzero-dev/vite-plus-core@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))
       '@tanstack/react-devtools':
-        specifier: latest
+        specifier: 0.10.5
         version: 0.10.5(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(csstype@3.2.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(solid-js@1.9.13)
       '@tanstack/react-router':
-        specifier: latest
+        specifier: 1.170.15
         version: 1.170.15(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tanstack/react-router-devtools':
-        specifier: latest
+        specifier: 1.167.0
         version: 1.167.0(@tanstack/react-router@1.170.15(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/router-core@1.171.13)(csstype@3.2.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tanstack/react-start':
-        specifier: latest
+        specifier: 1.168.25
         version: 1.168.25(@vitejs/plugin-rsc@0.5.27(@voidzero-dev/vite-plus-core@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@voidzero-dev/vite-plus-core@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       lucide-react:
         specifier: 'catalog:'
@@ -128,7 +128,7 @@ importers:
         specifier: ^0.5.20
         version: 0.5.20(tailwindcss@4.3.1)
       '@tanstack/devtools-vite':
-        specifier: latest
+        specifier: 0.7.0
         version: 0.7.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))
       '@testing-library/dom':
         specifier: ^10.4.1
@@ -161,13 +161,13 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       vite:
-        specifier: npm:@voidzero-dev/vite-plus-core@latest
+        specifier: npm:@voidzero-dev/vite-plus-core@0.1.24
         version: '@voidzero-dev/vite-plus-core@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3)'
       vite-plus:
         specifier: 'catalog:'
         version: 0.1.24(@types/node@25.9.3)(@voidzero-dev/vite-plus-core@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(typescript@6.0.3))(esbuild@0.27.3)(jiti@2.7.0)(jsdom@29.1.1)(typescript@6.0.3)
       vitest:
-        specifier: npm:@voidzero-dev/vite-plus-test@latest
+        specifier: npm:@voidzero-dev/vite-plus-test@0.1.24
         version: '@voidzero-dev/vite-plus-test@0.1.24(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0)(jsdom@29.1.1)(typescript@6.0.3)(vite@8.0.14(@types/node@25.9.3)(esbuild@0.27.3)(jiti@2.7.0))'
       wrangler:
         specifier: 'catalog:'

@@ -1,5 +1,11 @@
 import type { ReactNode } from "react";
-import { HeadContent, Scripts, createRootRoute, useMatches } from "@tanstack/react-router";
+import {
+  HeadContent,
+  Scripts,
+  createRootRoute,
+  useLocation,
+  useMatches,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider } from "@slock/ui";
@@ -16,9 +22,6 @@ export const Route = createRootRoute({
       {
         name: "viewport",
         content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: "RAFT Design System",
       },
       {
         name: "description",
@@ -67,13 +70,16 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: ReactNode }) {
+  const location = useLocation();
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
+  const documentTitle = getDocumentTitle(location.pathname);
 
   return (
     <html lang="en" data-theme="elegant">
       <head>
+        <title>{documentTitle}</title>
         <HeadContent />
       </head>
       <body className="bg-background text-foreground antialiased">
@@ -104,4 +110,22 @@ function RootDocument({ children }: { children: ReactNode }) {
       </body>
     </html>
   );
+}
+
+function getDocumentTitle(pathname: string) {
+  return getComponentTitle(pathname) ?? "RAFT Design System";
+}
+
+function getComponentTitle(pathname: string) {
+  const componentSlug = pathname.match(/^\/components\/([^/]+)/)?.[1]?.replace(/_$/, "");
+
+  if (!componentSlug) {
+    return null;
+  }
+
+  return componentSlug
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part[0]!.toUpperCase() + part.slice(1))
+    .join("");
 }
