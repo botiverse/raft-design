@@ -887,13 +887,13 @@ export function Sidebar() {
       <nav className="mt-8 space-y-8">
         <ul className="space-y-1">
           <li>
-            <NavLink to="/setup" label="Setup" />
+            <NavLink to="/" label="Home" />
+          </li>
+          <li>
+            <NavLink to="/setup" label="Installation" />
           </li>
           <li>
             <NavLink to="/playground" label="Playground" />
-          </li>
-          <li>
-            <NavLink to="/style-tester" label="Style Tester" />
           </li>
         </ul>
 

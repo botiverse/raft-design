@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as StyleTesterRouteImport } from './routes/style-tester'
 import { Route as SetupRouteImport } from './routes/setup'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as ComponentsRouteImport } from './routes/components'
@@ -63,11 +62,6 @@ import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/component
 import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
 import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
 
-const StyleTesterRoute = StyleTesterRouteImport.update({
-  id: '/style-tester',
-  path: '/style-tester',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
@@ -340,7 +334,6 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/setup': typeof SetupRoute
-  '/style-tester': typeof StyleTesterRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -395,7 +388,6 @@ export interface FileRoutesByTo {
   '/components': typeof ComponentsRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/setup': typeof SetupRoute
-  '/style-tester': typeof StyleTesterRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -451,7 +443,6 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/setup': typeof SetupRoute
-  '/style-tester': typeof StyleTesterRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -508,7 +499,6 @@ export interface FileRouteTypes {
     | '/components'
     | '/playground'
     | '/setup'
-    | '/style-tester'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -563,7 +553,6 @@ export interface FileRouteTypes {
     | '/components'
     | '/playground'
     | '/setup'
-    | '/style-tester'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -618,7 +607,6 @@ export interface FileRouteTypes {
     | '/components'
     | '/playground'
     | '/setup'
-    | '/style-tester'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -674,7 +662,6 @@ export interface RootRouteChildren {
   ComponentsRoute: typeof ComponentsRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRoute
   SetupRoute: typeof SetupRoute
-  StyleTesterRoute: typeof StyleTesterRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRouteWithChildren
@@ -684,13 +671,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/style-tester': {
-      id: '/style-tester'
-      path: '/style-tester'
-      fullPath: '/style-tester'
-      preLoaderRoute: typeof StyleTesterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/setup': {
       id: '/setup'
       path: '/setup'
@@ -1189,7 +1169,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsRoute: ComponentsRouteWithChildren,
   PlaygroundRoute: PlaygroundRoute,
   SetupRoute: SetupRoute,
-  StyleTesterRoute: StyleTesterRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRouteWithChildren,
