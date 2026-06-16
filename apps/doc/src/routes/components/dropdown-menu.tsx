@@ -20,12 +20,14 @@ import {
   IconBellOutline18,
   IconChevronRightOutline18,
   IconCreditCardOutline18,
+  IconGridCircleOutline18,
   IconMoonStarsOutline18,
   IconPersonDoorOutline18,
   IconPlusOutline18,
   IconProfileAnalyticsOutline18,
   IconTrashOutline18,
   IconUserOutline18,
+  IconUsersPlusOutline18,
 } from "nucleo-ui-outline-18";
 import type { ReactNode, RefObject } from "react";
 import { useId, useRef } from "react";
@@ -175,36 +177,30 @@ const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-tri
 </DropdownMenu>`;
 
 const SERVER_SWITCHER_MENU_CONTENT_SNIPPET = `    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-      <DropdownMenuItem className="font-bold">
-        <IconCircleCheckFill18 />
+      <DropdownMenuItem data-selected>
         <div className="min-w-0 flex-1 text-left">
           <div className="truncate">Slock</div>
-          <div className="truncate font-mono text-xs text-black/40">/slock</div>
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem className="font-medium">
-        <IconCircleCheckFill18 className="opacity-0" />
         <div className="min-w-0 flex-1 text-left">
           <div className="truncate">Design Guild</div>
-          <div className="truncate font-mono text-xs text-black/40">/design</div>
         </div>
         <DropdownMenuItemCount>4</DropdownMenuItemCount>
       </DropdownMenuItem>
       <DropdownMenuItem className="font-medium">
-        <IconCircleCheckFill18 className="opacity-0" />
         <div className="min-w-0 flex-1 text-left">
           <div className="truncate">Open Source</div>
-          <div className="truncate font-mono text-xs text-black/40">/oss</div>
         </div>
         <DropdownMenuItemCount>12</DropdownMenuItemCount>
       </DropdownMenuItem>
     </div>
     <DropdownMenuSeparator />
-    <DropdownMenuItem className="font-bold hover:bg-brutal-pink data-[highlighted]:bg-brutal-pink">
-      <IconPlusOutline18 />
+    <DropdownMenuItem>
+      <IconUsersPlusOutline18 />
       <span className="flex h-6 min-w-0 flex-1 items-center text-left">Join Community</span>
     </DropdownMenuItem>
-    <DropdownMenuItem className="font-bold hover:bg-brutal-pink data-[highlighted]:bg-brutal-pink">
+    <DropdownMenuItem>
       <IconPlusOutline18 />
       <span className="flex h-6 min-w-0 flex-1 items-center text-left">Switch or Create Server</span>
     </DropdownMenuItem>`;
@@ -587,26 +583,20 @@ function CurrentServerSwitcherMenuComparison({ className }: { className?: string
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
         >
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-            <DropdownMenuItem className="font-bold">
-              <IconCircleCheckFill18 />
+            <DropdownMenuItem data-selected>
               <div className="min-w-0 flex-1 text-left">
                 <div className="truncate">Slock</div>
-                <div className="truncate font-mono text-xs text-black/40">/slock</div>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem className="font-medium">
-              <IconCircleCheckFill18 className="opacity-0" />
               <div className="min-w-0 flex-1 text-left">
                 <div className="truncate">Design Guild</div>
-                <div className="truncate font-mono text-xs text-black/40">/design</div>
               </div>
               <DropdownMenuItemCount>4</DropdownMenuItemCount>
             </DropdownMenuItem>
             <DropdownMenuItem className="font-medium">
-              <IconCircleCheckFill18 className="opacity-0" />
               <div className="min-w-0 flex-1 text-left">
                 <div className="truncate">Open Source</div>
-                <div className="truncate font-mono text-xs text-black/40">/oss</div>
               </div>
               <DropdownMenuItemCount>12</DropdownMenuItemCount>
             </DropdownMenuItem>
@@ -614,11 +604,11 @@ function CurrentServerSwitcherMenuComparison({ className }: { className?: string
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="font-bold hover:bg-brutal-pink data-[highlighted]:bg-brutal-pink">
-            <IconPlusOutline18 />
+          <DropdownMenuItem>
+            <IconUsersPlusOutline18 />
             <span className="min-w-0 flex-1 text-left">Join Community</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="font-bold hover:bg-brutal-pink data-[highlighted]:bg-brutal-pink">
+          <DropdownMenuItem>
             <IconPlusOutline18 />
             <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
           </DropdownMenuItem>
@@ -654,6 +644,16 @@ function DropdownMenuDoc() {
     <DocPage
       title="DropdownMenu"
       description="A trigger-driven menu family built on Base UI Menu for account, action, and nested command surfaces."
+      headerAction={
+        <Button
+          render={<a href="/components/dropdown-menu/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >

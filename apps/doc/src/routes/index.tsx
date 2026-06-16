@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Badge,
@@ -8,6 +8,14 @@ import {
   BannerTitle,
   Button,
   Checkbox,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuItemCount,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
   Input,
   InlineCode,
   InputGroup,
@@ -37,6 +45,7 @@ import {
   IconCreditCardOutline18,
   IconGearOutline18,
   IconMessageOutline18,
+  IconUserOutline18,
 } from "nucleo-ui-outline-18";
 import { Plus, Search, Trash2 } from "lucide-react";
 
@@ -47,6 +56,7 @@ export const Route = createFileRoute("/")({
 type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
+  | "/components/dropdown-menu"
   | "/components/label"
   | "/components/input"
   | "/components/input-group"
@@ -112,6 +122,11 @@ const COMPONENT_GRID = [
         <Checkbox defaultChecked variant="primary" aria-label="Primary checked checkbox" />
       </div>
     ),
+  },
+  {
+    label: "DropdownMenu",
+    to: "/components/dropdown-menu",
+    preview: <DropdownMenuPreview />,
   },
   {
     label: "Label",
@@ -313,6 +328,70 @@ const COMPONENT_GRID = [
     ),
   },
 ] as const satisfies readonly ComponentGridItem[];
+
+function DropdownMenuPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const anchor = useMemo(
+    () => ({
+      getBoundingClientRect() {
+        const rect = portalRef.current?.getBoundingClientRect();
+        return DOMRect.fromRect({
+          x: (rect?.left ?? 0) + (rect?.width ?? 0) / 2,
+          y: (rect?.top ?? 0) + (rect?.height ?? 0) / 2 - 104,
+          width: 0,
+          height: 0,
+        });
+      },
+    }),
+    [],
+  );
+
+  return (
+    <div ref={portalRef} className="relative h-56 w-72">
+      <DropdownMenu open modal={false} triggerId="home-dropdown-menu-trigger">
+        <DropdownMenuTrigger
+          id="home-dropdown-menu-trigger"
+          render={
+            <button
+              type="button"
+              aria-label="Profile menu"
+              className="absolute top-1/2 left-1/2 size-px -translate-x-1/2 -translate-y-1/2 overflow-hidden p-0 opacity-0"
+            />
+          }
+        />
+        <DropdownMenuContent
+          anchor={anchor}
+          align="center"
+          sideOffset={0}
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="flex w-64 flex-col"
+        >
+          <DropdownMenuLabel>Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <IconUserOutline18 />
+            <span className="min-w-0 flex-1 truncate">Profile</span>
+            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconBellOutline18 />
+            <span className="min-w-0 flex-1 truncate">Notifications</span>
+            <DropdownMenuItemCount>3</DropdownMenuItemCount>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconCreditCardOutline18 />
+            <span className="min-w-0 flex-1 truncate">Billing</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <IconGearOutline18 />
+            <span className="min-w-0 flex-1 truncate">Settings</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
 
 function Home() {
   const [themePreset, setThemePreset] = useState<ThemePreset>(THEME_PRESETS[1]);

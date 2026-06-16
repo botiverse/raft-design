@@ -66,6 +66,7 @@ import { Route as ComponentsLabelMatrixRouteImport } from './routes/components/l
 import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
 import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/components/input-group_.matrix'
 import { Route as ComponentsFieldMatrixRouteImport } from './routes/components/field_.matrix'
+import { Route as ComponentsDropdownMenuMatrixRouteImport } from './routes/components/dropdown-menu_.matrix'
 import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
 import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
 import { Route as ComponentsBannerMatrixRouteImport } from './routes/components/banner_.matrix'
@@ -363,6 +364,12 @@ const ComponentsFieldMatrixRoute = ComponentsFieldMatrixRouteImport.update({
   path: '/field/matrix',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsDropdownMenuMatrixRoute =
+  ComponentsDropdownMenuMatrixRouteImport.update({
+    id: '/dropdown-menu_/matrix',
+    path: '/dropdown-menu/matrix',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsCheckboxMatrixRoute =
   ComponentsCheckboxMatrixRouteImport.update({
     id: '/checkbox_/matrix',
@@ -434,6 +441,7 @@ export interface FileRoutesByFullPath {
   '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/dropdown-menu/matrix': typeof ComponentsDropdownMenuMatrixRoute
   '/components/field/matrix': typeof ComponentsFieldMatrixRoute
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
@@ -497,6 +505,7 @@ export interface FileRoutesByTo {
   '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/dropdown-menu/matrix': typeof ComponentsDropdownMenuMatrixRoute
   '/components/field/matrix': typeof ComponentsFieldMatrixRoute
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
@@ -561,6 +570,7 @@ export interface FileRoutesById {
   '/components/banner_/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
+  '/components/dropdown-menu_/matrix': typeof ComponentsDropdownMenuMatrixRoute
   '/components/field_/matrix': typeof ComponentsFieldMatrixRoute
   '/components/input-group_/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input_/matrix': typeof ComponentsInputMatrixRoute
@@ -626,6 +636,7 @@ export interface FileRouteTypes {
     | '/components/banner/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
+    | '/components/dropdown-menu/matrix'
     | '/components/field/matrix'
     | '/components/input-group/matrix'
     | '/components/input/matrix'
@@ -689,6 +700,7 @@ export interface FileRouteTypes {
     | '/components/banner/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
+    | '/components/dropdown-menu/matrix'
     | '/components/field/matrix'
     | '/components/input-group/matrix'
     | '/components/input/matrix'
@@ -752,6 +764,7 @@ export interface FileRouteTypes {
     | '/components/banner_/matrix'
     | '/components/button_/matrix'
     | '/components/checkbox_/matrix'
+    | '/components/dropdown-menu_/matrix'
     | '/components/field_/matrix'
     | '/components/input-group_/matrix'
     | '/components/input_/matrix'
@@ -1180,6 +1193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsFieldMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/dropdown-menu_/matrix': {
+      id: '/components/dropdown-menu_/matrix'
+      path: '/dropdown-menu/matrix'
+      fullPath: '/components/dropdown-menu/matrix'
+      preLoaderRoute: typeof ComponentsDropdownMenuMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/checkbox_/matrix': {
       id: '/components/checkbox_/matrix'
       path: '/checkbox/matrix'
@@ -1251,6 +1271,7 @@ interface ComponentsRouteChildren {
   ComponentsBannerMatrixRoute: typeof ComponentsBannerMatrixRoute
   ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
   ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
+  ComponentsDropdownMenuMatrixRoute: typeof ComponentsDropdownMenuMatrixRoute
   ComponentsFieldMatrixRoute: typeof ComponentsFieldMatrixRoute
   ComponentsInputGroupMatrixRoute: typeof ComponentsInputGroupMatrixRoute
   ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
@@ -1301,6 +1322,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerMatrixRoute: ComponentsBannerMatrixRoute,
   ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,
   ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
+  ComponentsDropdownMenuMatrixRoute: ComponentsDropdownMenuMatrixRoute,
   ComponentsFieldMatrixRoute: ComponentsFieldMatrixRoute,
   ComponentsInputGroupMatrixRoute: ComponentsInputGroupMatrixRoute,
   ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,

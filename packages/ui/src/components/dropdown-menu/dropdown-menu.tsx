@@ -36,6 +36,7 @@ const dropdownMenu = tv({
         ],
         item: [
           "font-sans font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
+          "data-[selected]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
@@ -65,6 +66,7 @@ const dropdownMenu = tv({
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
           "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
+          "data-[selected]:bg-foreground/[0.04] data-[selected]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
           "[&>svg:last-child]:size-3",
