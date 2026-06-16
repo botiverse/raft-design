@@ -60,6 +60,7 @@ import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows
 import { Route as TokensColorsElegantRouteImport } from './routes/tokens/colors/elegant'
 import { Route as TokensColorsBrutalRouteImport } from './routes/tokens/colors/brutal'
 import { Route as ComponentsTextareaMatrixRouteImport } from './routes/components/textarea_.matrix'
+import { Route as ComponentsTabsMatrixRouteImport } from './routes/components/tabs_.matrix'
 import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
 import { Route as ComponentsLabelMatrixRouteImport } from './routes/components/label_.matrix'
 import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
@@ -330,6 +331,11 @@ const ComponentsTextareaMatrixRoute =
     path: '/textarea/matrix',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsTabsMatrixRoute = ComponentsTabsMatrixRouteImport.update({
+  id: '/tabs_/matrix',
+  path: '/tabs/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsStatusMatrixRoute = ComponentsStatusMatrixRouteImport.update({
   id: '/status_/matrix',
   path: '/status/matrix',
@@ -426,6 +432,7 @@ export interface FileRoutesByFullPath {
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/label/matrix': typeof ComponentsLabelMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
+  '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
@@ -487,6 +494,7 @@ export interface FileRoutesByTo {
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/label/matrix': typeof ComponentsLabelMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
+  '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
@@ -549,6 +557,7 @@ export interface FileRoutesById {
   '/components/input_/matrix': typeof ComponentsInputMatrixRoute
   '/components/label_/matrix': typeof ComponentsLabelMatrixRoute
   '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
+  '/components/tabs_/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea_/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
   '/tokens/colors/elegant': typeof TokensColorsElegantRoute
@@ -612,6 +621,7 @@ export interface FileRouteTypes {
     | '/components/input/matrix'
     | '/components/label/matrix'
     | '/components/status/matrix'
+    | '/components/tabs/matrix'
     | '/components/textarea/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
@@ -673,6 +683,7 @@ export interface FileRouteTypes {
     | '/components/input/matrix'
     | '/components/label/matrix'
     | '/components/status/matrix'
+    | '/components/tabs/matrix'
     | '/components/textarea/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
@@ -734,6 +745,7 @@ export interface FileRouteTypes {
     | '/components/input_/matrix'
     | '/components/label_/matrix'
     | '/components/status_/matrix'
+    | '/components/tabs_/matrix'
     | '/components/textarea_/matrix'
     | '/tokens/colors/brutal'
     | '/tokens/colors/elegant'
@@ -1114,6 +1126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTextareaMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/tabs_/matrix': {
+      id: '/components/tabs_/matrix'
+      path: '/tabs/matrix'
+      fullPath: '/components/tabs/matrix'
+      preLoaderRoute: typeof ComponentsTabsMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/status_/matrix': {
       id: '/components/status_/matrix'
       path: '/status/matrix'
@@ -1217,6 +1236,7 @@ interface ComponentsRouteChildren {
   ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
   ComponentsLabelMatrixRoute: typeof ComponentsLabelMatrixRoute
   ComponentsStatusMatrixRoute: typeof ComponentsStatusMatrixRoute
+  ComponentsTabsMatrixRoute: typeof ComponentsTabsMatrixRoute
   ComponentsTextareaMatrixRoute: typeof ComponentsTextareaMatrixRoute
 }
 
@@ -1265,6 +1285,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,
   ComponentsLabelMatrixRoute: ComponentsLabelMatrixRoute,
   ComponentsStatusMatrixRoute: ComponentsStatusMatrixRoute,
+  ComponentsTabsMatrixRoute: ComponentsTabsMatrixRoute,
   ComponentsTextareaMatrixRoute: ComponentsTextareaMatrixRoute,
 }
 

@@ -11,6 +11,12 @@ import {
   InputGroupInput,
   Label,
   Status,
+  Tabs,
+  TabsBackground,
+  TabsLabel,
+  TabsList,
+  TabsPanel,
+  TabsTab,
   Textarea,
   TextareaCounter,
   TextareaGroup,
@@ -18,6 +24,12 @@ import {
   type Theme,
 } from "@slock/ui";
 import { IconCircleCheckFill18, IconCircleInfoFill18 } from "nucleo-ui-fill-18";
+import {
+  IconBellOutline18,
+  IconCreditCardOutline18,
+  IconGearOutline18,
+  IconMessageOutline18,
+} from "nucleo-ui-outline-18";
 import { Plus, Search, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -33,7 +45,8 @@ type ComponentRoute =
   | "/components/textarea"
   | "/components/badge"
   | "/components/inline-code"
-  | "/components/status";
+  | "/components/status"
+  | "/components/tabs";
 
 type ComponentGridItem = {
   label: string;
@@ -209,6 +222,62 @@ const COMPONENT_GRID = [
         <Status variant="success" pulse aria-label="Online" />
         <Status variant="primary" aria-label="Queued" />
         <Status variant="accent" aria-label="Unread" />
+      </div>
+    ),
+  },
+  {
+    label: "Tabs",
+    to: "/components/tabs",
+    preview: (
+      <div className="grid justify-items-center gap-8">
+        <Tabs defaultValue="overview" className="flex justify-center overflow-visible">
+          <TabsList>
+            <TabsBackground />
+            <TabsTab value="overview">
+              <IconMessageOutline18 />
+              <TabsLabel>Overview</TabsLabel>
+            </TabsTab>
+            <TabsTab value="billing">
+              <IconCreditCardOutline18 />
+              <TabsLabel>Billing</TabsLabel>
+            </TabsTab>
+            <TabsTab value="settings">
+              <IconGearOutline18 />
+              <TabsLabel>Settings</TabsLabel>
+            </TabsTab>
+          </TabsList>
+          <TabsPanel value="overview" className="sr-only">
+            Overview
+          </TabsPanel>
+          <TabsPanel value="billing" className="sr-only">
+            Billing
+          </TabsPanel>
+          <TabsPanel value="settings" className="sr-only">
+            Settings
+          </TabsPanel>
+        </Tabs>
+        <Tabs defaultValue="messages" className="flex justify-center overflow-visible">
+          <TabsList variant="underline">
+            <TabsTab value="messages" aria-label="Messages">
+              <IconMessageOutline18 />
+            </TabsTab>
+            <TabsTab value="alerts" aria-label="Alerts">
+              <IconBellOutline18 />
+            </TabsTab>
+            <TabsTab value="settings" aria-label="Settings">
+              <IconGearOutline18 />
+            </TabsTab>
+          </TabsList>
+          <TabsPanel value="messages" className="sr-only">
+            Messages
+          </TabsPanel>
+          <TabsPanel value="alerts" className="sr-only">
+            Alerts
+          </TabsPanel>
+          <TabsPanel value="settings" className="sr-only">
+            Settings
+          </TabsPanel>
+        </Tabs>
       </div>
     ),
   },
