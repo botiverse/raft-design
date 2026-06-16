@@ -117,7 +117,7 @@ const NAV = [
       {
         label: "Tabs",
         to: "/components/tabs",
-        progress: { theme: "todo" },
+        progress: { theme: "done" },
       },
     ],
     planned: [
@@ -366,7 +366,7 @@ const MIGRATED = {
       label: "ServerSwitcherMenu",
       to: "/components/dropdown-menu",
       hash: "migration",
-      target: "DropdownMenu + DropdownMenuActionItem",
+      target: "DropdownMenu composition",
     },
     {
       label: "ExperimentalBadge",

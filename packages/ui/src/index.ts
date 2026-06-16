@@ -247,15 +247,21 @@ export type {
 
 export {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuPortal,
+  DropdownMenuCheckboxItem,
+  DropdownMenuCheckboxItemIndicator,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuActionItem,
   DropdownMenuItemCount,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuRadioItemIndicator,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSubmenu,
+  DropdownMenuSubmenuTrigger,
+  DropdownMenuTrigger,
 } from "./components/dropdown-menu/index.ts";
 export type {
   DropdownMenuProps,
@@ -265,9 +271,15 @@ export type {
   DropdownMenuItemProps,
   DropdownMenuItemCountProps,
   DropdownMenuLabelProps,
-  DropdownMenuActionItemProps,
   DropdownMenuSeparatorProps,
   DropdownMenuShortcutProps,
+  DropdownMenuSubmenuProps,
+  DropdownMenuSubmenuTriggerProps,
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuCheckboxItemIndicatorProps,
+  DropdownMenuRadioGroupProps,
+  DropdownMenuRadioItemProps,
+  DropdownMenuRadioItemIndicatorProps,
 } from "./components/dropdown-menu/index.ts";
 
 export {
