@@ -110,7 +110,13 @@ function ComparisonPreview({
 function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
   if (item.brutal || item.elegant || item.elegantDark) {
     return [
-      { label: "Source", children: item.source, code: item.sourceCode },
+      {
+        label: "Source",
+        children: item.source,
+        code: item.sourceCode,
+        family: "brutal" as Theme,
+        mode: "light" as PreviewMode,
+      },
       {
         label: "Brutal",
         children: item.brutal,
@@ -136,7 +142,13 @@ function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
   }
 
   return [
-    { label: "Source", children: item.source, code: item.sourceCode },
+    {
+      label: "Source",
+      children: item.source,
+      code: item.sourceCode,
+      family: "brutal" as Theme,
+      mode: "light" as PreviewMode,
+    },
     { label: "Current", children: item.current, code: item.currentCode },
   ].filter((pane) => pane.children);
 }

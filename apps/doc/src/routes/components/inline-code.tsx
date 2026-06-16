@@ -28,9 +28,9 @@ const SNIPPETS = {
   anatomy: `import { InlineCode } from "@slock/ui";
 
 <InlineCode>aria-invalid</InlineCode>`,
-  usage: `<DocNote>
+  usage: `<p>
   Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on the control.
-</DocNote>
+</p>
 
 <p>
   Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
@@ -40,11 +40,6 @@ const SNIPPETS = {
 
 // After
 <InlineCode>aria-invalid</InlineCode>`,
-  migrationImport: `// Before
-import { InlineCode } from "#/components/inline-code.tsx";
-
-// After
-import { InlineCode } from "@slock/ui";`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -59,14 +54,6 @@ const PROPS: readonly PropRow[] = [
     description: "Native code attributes. The root always renders a semantic code element.",
   },
 ];
-
-function MissingSource() {
-  return (
-    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
-      Missing
-    </span>
-  );
-}
 
 export const Route = createFileRoute("/components/inline-code")({
   component: InlineCodeDoc,
@@ -89,9 +76,8 @@ function InlineCodeDoc() {
             component parts.
           </DocNote>
           <Example html={code.preview}>
-            <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              Set <InlineCode>aria-invalid</InlineCode> on the control, then let the wrapper own the
-              visible state.
+            <p className="max-w-2xl text-sm leading-6 text-foreground">
+              Set <InlineCode>aria-invalid</InlineCode> on the control.
             </p>
           </Example>
         </div>
@@ -108,11 +94,11 @@ function InlineCodeDoc() {
             examples, or anything that needs syntax highlighting.
           </DocNote>
           <Example html={code.usage}>
-            <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground-muted">
-              <DocNote>
+            <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground">
+              <p>
                 Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on
                 the control.
-              </DocNote>
+              </p>
               <p>
                 Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
               </p>
@@ -130,9 +116,12 @@ function InlineCodeDoc() {
           items={[
             {
               label: "Inline prose token",
-              status: "new",
-              note: "Source did not have a reusable inline code primitive. Current adds one so docs prose, prop names, and migration copy share the same semantic code styling.",
-              source: <MissingSource />,
+              note: "Source rendered inline code inside MarkdownContent. Current turns the same brutal recipe into a reusable InlineCode primitive and adds elegant theme coverage.",
+              source: (
+                <code className="border border-black bg-brutal-yellow/40 px-1 text-sm font-mono [overflow-wrap:anywhere]">
+                  aria-invalid
+                </code>
+              ),
               brutal: <InlineCode>aria-invalid</InlineCode>,
               elegant: <InlineCode>aria-invalid</InlineCode>,
               elegantDark: <InlineCode>aria-invalid</InlineCode>,
@@ -149,13 +138,6 @@ function InlineCodeDoc() {
               Replace styled or unstyled native code tags in docs prose with InlineCode.
             </p>
             <CodeBlock html={code.migrationNative} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Docs Helper</h3>
-            <p className="text-sm text-gray-500">
-              Import InlineCode from the UI package instead of the docs app.
-            </p>
-            <CodeBlock html={code.migrationImport} />
           </div>
         </div>
       </DocSection>

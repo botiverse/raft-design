@@ -4,16 +4,18 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const inlineCode = tv({
   slots: {
-    root: ["inline-flex items-center rounded px-1.5 py-0.5", "font-mono text-xs font-medium"],
+    root: [],
   },
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 border-line-strong bg-layer-panel text-foreground-strong", "shadow-2xs"],
+        root: "border border-black bg-brutal-yellow/40 px-1 text-sm font-mono [overflow-wrap:anywhere]",
       },
       elegant: {
         root: [
-          "bg-foreground/[0.065] px-2 text-[oklch(0.38_0_0)] dark:text-[oklch(0.78_0_0)]",
+          "inline-flex items-center rounded px-2 py-0.5",
+          "font-mono text-xs font-medium",
+          "bg-foreground/[0.065] text-[oklch(0.38_0_0)] dark:text-[oklch(0.78_0_0)]",
           "shadow-[0_0.5px_0.5px_-0.5px_oklch(0_0_0_/_0.08)]",
         ],
       },
