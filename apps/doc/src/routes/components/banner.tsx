@@ -14,23 +14,22 @@ import {
   IconCircleWarningFill18,
   IconCircleXmarkFill18,
 } from "nucleo-ui-fill-18";
+import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import { X } from "lucide-react";
 
-import { Callout } from "#/components/callout.tsx";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyBanner from "../../../../../packages/ui/src/legacy/Banner.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "statuses", title: "Statuses" },
@@ -51,8 +50,6 @@ const STATUS_ICON = {
   info: IconCircleInfoFill18,
   success: IconCircleCheckFill18,
 } as const;
-
-const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
   anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@slock/ui";
@@ -240,6 +237,16 @@ function BannerDoc() {
     <DocPage
       title="Banner"
       description="An inline banner / callout / alert composed from a status-driven root and slot parts."
+      headerAction={
+        <Button
+          render={<a href="/components/banner/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       overview={
         <Differences from="Banner">
           <li>brutal styling reproduced 1:1 (status surface token, density padding, lg shadow)</li>
@@ -264,10 +271,6 @@ function BannerDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
@@ -407,10 +410,10 @@ function BannerDoc() {
               </Banner>
             </div>
           </Example>
-          <Callout>
+          <DocNote>
             Banners stay iconless by default, matching the dominant inline pattern. Compose a direct
             icon child for the heavier warning surfaces.
-          </Callout>
+          </DocNote>
         </div>
       </DocSection>
 
@@ -442,6 +445,7 @@ function BannerDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
               label: "Iconless warning",
@@ -450,13 +454,21 @@ function BannerDoc() {
               source: (
                 <LegacyBanner intent="warning">Please fix the highlighted fields.</LegacyBanner>
               ),
-              current: (
-                <Banner status="warning">
+              brutal: (
+                <Banner status="warning" className="w-fit max-w-full">
                   <BannerDescription>Please fix the highlighted fields.</BannerDescription>
                 </Banner>
               ),
-              sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
+              elegant: (
+                <Banner status="warning" className="w-fit max-w-full">
+                  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
+                </Banner>
+              ),
+              elegantDark: (
+                <Banner status="warning" className="w-fit max-w-full">
+                  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
+                </Banner>
+              ),
             },
             {
               label: "Icon + title",
@@ -467,15 +479,27 @@ function BannerDoc() {
                   This can&rsquo;t be undone.
                 </LegacyBanner>
               ),
-              current: (
-                <Banner status="destructive">
+              brutal: (
+                <Banner status="destructive" className="w-fit max-w-full">
                   <IconCircleXmarkFill18 />
                   <BannerTitle>Delete server</BannerTitle>
                   <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
                 </Banner>
               ),
-              sourceCode: code.sourceIcon,
-              currentCode: code.currentIcon,
+              elegant: (
+                <Banner status="destructive" className="w-fit max-w-full">
+                  <IconCircleXmarkFill18 />
+                  <BannerTitle>Delete server</BannerTitle>
+                  <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
+                </Banner>
+              ),
+              elegantDark: (
+                <Banner status="destructive" className="w-fit max-w-full">
+                  <IconCircleXmarkFill18 />
+                  <BannerTitle>Delete server</BannerTitle>
+                  <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
+                </Banner>
+              ),
             },
             {
               label: "Large + actions",
@@ -486,17 +510,39 @@ function BannerDoc() {
                   You&rsquo;re on the free plan.
                 </LegacyBanner>
               ),
-              current: (
-                <Banner status="info" size="lg">
+              brutal: (
+                <Banner status="info" size="lg" className="w-fit max-w-full">
                   <IconCircleInfoFill18 />
                   <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
                   <BannerAction>
-                    <DismissIconButton />
+                    <Button size="icon-xs" aria-label="Dismiss">
+                      <X />
+                    </Button>
                   </BannerAction>
                 </Banner>
               ),
-              sourceCode: code.sourceActions,
-              currentCode: code.currentActions,
+              elegant: (
+                <Banner status="info" size="lg" className="w-fit max-w-full">
+                  <IconCircleInfoFill18 />
+                  <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
+                  <BannerAction>
+                    <Button size="icon-xs" aria-label="Dismiss">
+                      <X />
+                    </Button>
+                  </BannerAction>
+                </Banner>
+              ),
+              elegantDark: (
+                <Banner status="info" size="lg" className="w-fit max-w-full">
+                  <IconCircleInfoFill18 />
+                  <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
+                  <BannerAction>
+                    <Button size="icon-xs" aria-label="Dismiss">
+                      <X />
+                    </Button>
+                  </BannerAction>
+                </Banner>
+              ),
             },
           ]}
         />

@@ -68,6 +68,7 @@ import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/compone
 import { Route as ComponentsFieldMatrixRouteImport } from './routes/components/field_.matrix'
 import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
 import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
+import { Route as ComponentsBannerMatrixRouteImport } from './routes/components/banner_.matrix'
 import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
 
 const SetupRoute = SetupRouteImport.update({
@@ -373,6 +374,11 @@ const ComponentsButtonMatrixRoute = ComponentsButtonMatrixRouteImport.update({
   path: '/button/matrix',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsBannerMatrixRoute = ComponentsBannerMatrixRouteImport.update({
+  id: '/banner_/matrix',
+  path: '/banner/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsBadgeMatrixRoute = ComponentsBadgeMatrixRouteImport.update({
   id: '/badge_/matrix',
   path: '/badge/matrix',
@@ -425,6 +431,7 @@ export interface FileRoutesByFullPath {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
+  '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
   '/components/field/matrix': typeof ComponentsFieldMatrixRoute
@@ -487,6 +494,7 @@ export interface FileRoutesByTo {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
+  '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
   '/components/field/matrix': typeof ComponentsFieldMatrixRoute
@@ -550,6 +558,7 @@ export interface FileRoutesById {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
+  '/components/banner_/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
   '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
   '/components/field_/matrix': typeof ComponentsFieldMatrixRoute
@@ -614,6 +623,7 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/components/badge/matrix'
+    | '/components/banner/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
     | '/components/field/matrix'
@@ -676,6 +686,7 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/components/badge/matrix'
+    | '/components/banner/matrix'
     | '/components/button/matrix'
     | '/components/checkbox/matrix'
     | '/components/field/matrix'
@@ -738,6 +749,7 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/components/badge_/matrix'
+    | '/components/banner_/matrix'
     | '/components/button_/matrix'
     | '/components/checkbox_/matrix'
     | '/components/field_/matrix'
@@ -1182,6 +1194,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsButtonMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/banner_/matrix': {
+      id: '/components/banner_/matrix'
+      path: '/banner/matrix'
+      fullPath: '/components/banner/matrix'
+      preLoaderRoute: typeof ComponentsBannerMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/badge_/matrix': {
       id: '/components/badge_/matrix'
       path: '/badge/matrix'
@@ -1229,6 +1248,7 @@ interface ComponentsRouteChildren {
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
+  ComponentsBannerMatrixRoute: typeof ComponentsBannerMatrixRoute
   ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
   ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
   ComponentsFieldMatrixRoute: typeof ComponentsFieldMatrixRoute
@@ -1278,6 +1298,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,
+  ComponentsBannerMatrixRoute: ComponentsBannerMatrixRoute,
   ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,
   ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
   ComponentsFieldMatrixRoute: ComponentsFieldMatrixRoute,

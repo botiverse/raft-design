@@ -198,7 +198,7 @@ const NAV = [
   {
     title: "Feedback",
     items: [
-      { label: "Banner", to: "/components/banner", progress: { theme: "todo" } },
+      { label: "Banner", to: "/components/banner", progress: { theme: "done" } },
       { label: "EmptyState", to: "/components/empty-state", progress: { theme: "todo" } },
       {
         label: "NotificationCenter",

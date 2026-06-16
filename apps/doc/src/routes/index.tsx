@@ -2,6 +2,10 @@ import { useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Badge,
+  Banner,
+  BannerAction,
+  BannerDescription,
+  BannerTitle,
   Button,
   Checkbox,
   Input,
@@ -23,7 +27,11 @@ import {
   ThemeProvider,
   type Theme,
 } from "@slock/ui";
-import { IconCircleCheckFill18, IconCircleInfoFill18 } from "nucleo-ui-fill-18";
+import {
+  IconCircleCheckFill18,
+  IconCircleInfoFill18,
+  IconCircleWarningFill18,
+} from "nucleo-ui-fill-18";
 import {
   IconBellOutline18,
   IconCreditCardOutline18,
@@ -46,7 +54,8 @@ type ComponentRoute =
   | "/components/badge"
   | "/components/inline-code"
   | "/components/status"
-  | "/components/tabs";
+  | "/components/tabs"
+  | "/components/banner";
 
 type ComponentGridItem = {
   label: string;
@@ -222,6 +231,28 @@ const COMPONENT_GRID = [
         <Status variant="success" pulse aria-label="Online" />
         <Status variant="primary" aria-label="Queued" />
         <Status variant="accent" aria-label="Unread" />
+      </div>
+    ),
+  },
+  {
+    label: "Banner",
+    to: "/components/banner",
+    preview: (
+      <div className="grid w-72 gap-3">
+        <Banner status="warning" size="sm">
+          <IconCircleWarningFill18 />
+          <BannerTitle>Review required</BannerTitle>
+          <BannerDescription>Check billing details.</BannerDescription>
+          <BannerAction>
+            <Button variant="outline" size="xs">
+              Review
+            </Button>
+          </BannerAction>
+        </Banner>
+        <Banner status="success" size="sm">
+          <IconCircleCheckFill18 />
+          <BannerDescription>Deployment is live.</BannerDescription>
+        </Banner>
       </div>
     ),
   },
