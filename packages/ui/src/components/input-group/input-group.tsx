@@ -29,7 +29,7 @@ const inputGroup = tv({
         root: [
           "border-2 border-line-strong bg-layer-panel shadow-sm",
           "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-md",
-          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base has-[[data-slot=input-group-control][aria-invalid=true]]:bg-danger-base/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-danger-base/60",
+          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-brutal-red has-[[data-slot=input-group-control][aria-invalid=true]]:bg-brutal-red/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-brutal-red/60",
         ],
         addon: ["text-foreground/50"],
         text: ["font-display text-foreground/50"],
@@ -85,6 +85,14 @@ const inputGroup = tv({
   },
   compoundVariants: [
     {
+      theme: "brutal",
+      variant: "container",
+      class: {
+        addon: "bg-brutal-yellow/30 font-bold text-black/70",
+        text: "bg-brutal-yellow/30 font-bold text-black/70",
+      },
+    },
+    {
       variant: "default",
       align: "inline-start",
       class: {
@@ -98,9 +106,21 @@ const inputGroup = tv({
       class: { addon: "border-r", text: "border-r" },
     },
     {
+      theme: "brutal",
+      variant: "container",
+      align: "inline-start",
+      class: { addon: "border-r-2 border-black", text: "border-r-2 border-black" },
+    },
+    {
       variant: "container",
       align: "inline-end",
       class: { addon: "border-l", text: "border-l" },
+    },
+    {
+      theme: "brutal",
+      variant: "container",
+      align: "inline-end",
+      class: { addon: "border-l-2 border-black", text: "border-l-2 border-black" },
     },
   ],
   defaultVariants: {

@@ -423,25 +423,25 @@ function TextareaDoc() {
               ),
               brutal: (
                 <Field className="w-80">
-                  <FieldLabel htmlFor="current-message-brutal">Message</FieldLabel>
-                  <TextareaGroup>
-                    <Textarea
-                      id="current-message-brutal"
-                      rows={4}
-                      maxLength={120}
-                      defaultValue="Hello world."
-                    />
+                  <Textarea
+                    aria-label="Message"
+                    rows={4}
+                    maxLength={120}
+                    defaultValue="Hello world."
+                  />
+                  <div className="flex items-start justify-between gap-3 text-xs">
+                    <FieldDescription className="min-w-0 flex-1">
+                      Enter your message below.
+                    </FieldDescription>
                     <TextareaCounter value="Hello world." limit={120} />
-                  </TextareaGroup>
-                  <FieldDescription>Enter your message below.</FieldDescription>
+                  </div>
                 </Field>
               ),
               elegant: (
                 <Field className="w-80">
-                  <FieldLabel htmlFor="current-message-elegant">Message</FieldLabel>
                   <TextareaGroup>
                     <Textarea
-                      id="current-message-elegant"
+                      aria-label="Message"
                       rows={4}
                       maxLength={120}
                       defaultValue="Hello world."
@@ -469,17 +469,23 @@ function TextareaDoc() {
               ),
               brutal: (
                 <Field className="w-80" invalid>
-                  <TextareaGroup>
-                    <Textarea
-                      rows={4}
-                      aria-label="Message"
-                      aria-invalid
-                      maxLength={120}
-                      defaultValue="oops"
+                  <Textarea
+                    rows={4}
+                    aria-label="Message"
+                    aria-invalid
+                    maxLength={120}
+                    defaultValue="oops"
+                  />
+                  <div className="flex items-start justify-between gap-3 text-xs">
+                    <FieldError match className="min-w-0 flex-1 font-bold text-brutal-red">
+                      Message is required.
+                    </FieldError>
+                    <TextareaCounter
+                      value="oops"
+                      limit={120}
+                      className="shrink-0 font-bold text-brutal-red"
                     />
-                    <TextareaCounter value="oops" limit={120} />
-                  </TextareaGroup>
-                  <FieldError match>Message is required.</FieldError>
+                  </div>
                 </Field>
               ),
               elegant: (

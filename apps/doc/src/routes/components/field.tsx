@@ -451,10 +451,6 @@ function FieldDoc() {
               brutal: <ComparisonField id="brutal-field-email" required />,
               elegant: <ComparisonField id="elegant-field-email" required />,
               elegantDark: <ComparisonField id="dark-field-email" required />,
-              sourceCode: code.sourceField,
-              brutalCode: code.currentField,
-              elegantCode: code.currentField,
-              elegantDarkCode: code.currentField,
             },
             {
               label: "Error",
@@ -477,10 +473,6 @@ function FieldDoc() {
               brutal: <ComparisonField id="brutal-field-error-email" invalid />,
               elegant: <ComparisonField id="elegant-field-error-email" invalid />,
               elegantDark: <ComparisonField id="dark-field-error-email" invalid />,
-              sourceCode: code.sourceError,
-              brutalCode: code.currentError,
-              elegantCode: code.currentError,
-              elegantDarkCode: code.currentError,
             },
             {
               label: "Compact label",
@@ -500,10 +492,6 @@ function FieldDoc() {
               elegantDark: (
                 <ComparisonField id="dark-display-name" label="Display name" size="sm" />
               ),
-              sourceCode: code.sourceCompact,
-              brutalCode: code.currentCompact,
-              elegantCode: code.currentCompact,
-              elegantDarkCode: code.currentCompact,
             },
           ]}
         />
