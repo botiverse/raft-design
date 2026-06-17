@@ -3,8 +3,8 @@ import { Collapsible } from "@base-ui/react";
 import { Button } from "@slock/ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { IconChevronDownOutline18 } from "nucleo-ui-outline-18";
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 
 type ExampleProps = {
   html: ReactNode | AnyRenderableServerComponent;
@@ -18,12 +18,12 @@ export function Example({ html, children, previewClassName }: ExampleProps) {
     <ComponentDemoFrame
       previewClassName={previewClassName}
       footer={
-        <Collapsible.Root className="grid grid-cols-[minmax(0,1fr)_max-content] items-start gap-4 pt-3.5 pb-3.5">
+        <Collapsible.Root className="relative min-h-10">
           <Button
             render={<Collapsible.Trigger />}
             variant="ghost"
             size="xs"
-            className="col-start-2 row-start-1 text-foreground-placeholder hover:text-foreground-muted focus-visible:ring-1 [&[data-panel-open]_svg]:rotate-180"
+            className="absolute top-1.5 right-6 z-10 text-foreground-placeholder hover:text-foreground-muted focus-visible:ring-1 [&[data-panel-open]_svg]:rotate-180"
           >
             <span className="order-1">Code</span>
             <IconChevronDownOutline18
@@ -32,15 +32,17 @@ export function Example({ html, children, previewClassName }: ExampleProps) {
               strokeWidth={1.5}
             />
           </Button>
-          <Collapsible.Panel className="col-start-1 row-start-1 min-w-0">
-            <div className="bg-[oklch(0.986_0_0)]">
-              <CodeBlock html={html} variant="embedded" />
-            </div>
+          <Collapsible.Panel className="min-w-0">
+            <DocsCodeBlock>
+              <DocsCodeBlock.Body showLineNumbers={false}>
+                <DocsCodeBlock.Content html={html} />
+              </DocsCodeBlock.Body>
+            </DocsCodeBlock>
           </Collapsible.Panel>
         </Collapsible.Root>
       }
       footerInset="flush"
-      footerClassName="border-t-transparent has-[[data-open]]:border-t-[oklch(0_0_0_/_0.10)] has-[[data-open]]:bg-[oklch(0.986_0_0)]"
+      footerClassName="!border-t-0 has-[[data-open]]:bg-[oklch(0.986_0_0)]"
       footerTone="white"
     >
       {children}

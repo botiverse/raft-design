@@ -15,6 +15,7 @@ import {
   DropdownMenuSubmenuTrigger,
   DropdownMenuSurface,
   DropdownMenuTrigger,
+  InlineCode,
 } from "@slock/ui";
 import { Check } from "lucide-react";
 import {
@@ -31,18 +32,18 @@ import {
 import type { ReactNode, RefObject } from "react";
 import { useId, useRef } from "react";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import serverSwitcherMenuCompositionSource from "#/compositions/server-switcher-menu-composition.tsx?raw";
 import {
   SERVER_SWITCHER_MENU_COMPOSITION_PATH,
-  SERVER_SWITCHER_MENU_CONTENT_SNIPPET,
   ServerSwitcherMenuComposition,
   ServerSwitcherMenuSourcePreview,
 } from "#/compositions/server-switcher-menu.tsx";
@@ -271,39 +272,6 @@ ${PROFILE_MENU_SNIPPET}
   plainPicker: PLAIN_PICKER_SNIPPET,
   headerlessPicker: HEADERLESS_PICKER_SNIPPET,
   optionsList: OPTIONS_LIST_SNIPPET,
-  sourceServerSwitcher: `<ServerSwitcherMenu
-  servers={servers}
-  selectedServerId={selectedServerId}
-  unreadCounts={unreadCounts}
-  onSelectServer={setSelectedServerId}
-  onJoinCommunity={joinCommunity}
-  onCreateServer={createServer}
-/>`,
-  currentServerSwitcher: `<DropdownMenu open modal={false} triggerId={triggerId}>
-  <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
-  <DropdownMenuSurface className="flex w-64 flex-col">
-${SERVER_SWITCHER_MENU_CONTENT_SNIPPET}
-  </DropdownMenuSurface>
-</DropdownMenu>`,
-  migrationServerSwitcher: `// Source
-<ServerSwitcherMenu
-  servers={servers}
-  selectedServerId={selectedServerId}
-  unreadCounts={unreadCounts}
-  onSelectServer={setSelectedServerId}
-  onJoinCommunity={joinCommunity}
-  onCreateServer={createServer}
-/>
-
-// Current
-<DropdownMenu open={isServerMenuOpen} onOpenChange={setIsServerMenuOpen}>
-  <DropdownMenuTrigger render={<Button variant="outline" size="md" />}>
-    Switch server
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="flex w-64 flex-col">
-${SERVER_SWITCHER_MENU_CONTENT_SNIPPET}
-  </DropdownMenuContent>
-</DropdownMenu>`,
   migrationPlainPicker: `// Source — MessageSearchPage.tsx
 <SelectionPopover
   title="Time"
@@ -809,7 +777,13 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/dropdown-menu")({
   component: DropdownMenuDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        serverSwitcherComposition: serverSwitcherMenuCompositionSource,
+      },
+    }),
 });
 
 function DropdownMenuDoc() {
@@ -857,7 +831,12 @@ function DropdownMenuDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="DropdownMenu.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="submenu" title="Submenu">
@@ -940,21 +919,34 @@ function DropdownMenuDoc() {
               id: "source-comparison-server-switcher",
               label: "Server switcher",
               status: "difference",
-              note: "Source exposed one business-shaped ServerSwitcherMenu. Current keeps the same row, separator, badge, and action structure but moves the API to a generic Base UI menu composition.",
+              note: (
+                <>
+                  Source exposed one business-shaped <InlineCode>ServerSwitcherMenu</InlineCode>.
+                  Current keeps the same row, separator, badge, and action structure but moves the
+                  API to a generic Base UI menu composition.
+                </>
+              ),
               source: <ServerSwitcherMenuSourcePreview />,
               brutal: <ServerSwitcherMenuComposition />,
               elegant: <ServerSwitcherMenuComposition />,
               elegantDark: <ServerSwitcherMenuComposition />,
-              compositionCode: code.migrationServerSwitcher,
+              compositionCode: code.serverSwitcherComposition,
               compositionPath: SERVER_SWITCHER_MENU_COMPOSITION_PATH,
-              compositionSource: SNIPPETS.migrationServerSwitcher,
+              compositionSource: serverSwitcherMenuCompositionSource,
               compositionShowLineNumbers: false,
             },
             {
               id: "source-comparison-time-filter",
               label: "Time filter",
               status: "difference",
-              note: "`MessageSearchPage.tsx`. Plain single-select list for search time ranges (`any`, `today`, `7d`, `30d`) with no search field. Menu semantics fit better than a popover shell.",
+              note: (
+                <>
+                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Plain single-select list for
+                  search time ranges (<InlineCode>any</InlineCode>, <InlineCode>today</InlineCode>,{" "}
+                  <InlineCode>7d</InlineCode>, <InlineCode>30d</InlineCode>) with no search field.
+                  Menu semantics fit better than a popover shell.
+                </>
+              ),
               source: <SourceMessageSearchTimeComparison />,
               brutal: <CurrentMessageSearchTimeComparison />,
               elegant: <CurrentMessageSearchTimeComparison />,
@@ -968,7 +960,13 @@ function DropdownMenuDoc() {
               id: "source-comparison-sort-menu",
               label: "Sort menu",
               status: "difference",
-              note: "`Sidebar.tsx`. Compact sort dropdown with `showHeader={false}` and a narrower `min-w-[136px]` shell aligned to the section icon button.",
+              note: (
+                <>
+                  <InlineCode>Sidebar.tsx</InlineCode>. Compact sort dropdown with{" "}
+                  <InlineCode>showHeader={false}</InlineCode> and a narrower{" "}
+                  <InlineCode>min-w-[136px]</InlineCode> shell aligned to the section icon button.
+                </>
+              ),
               source: <SourceSidebarSortComparison />,
               brutal: <CurrentSidebarSortComparison />,
               elegant: <CurrentSidebarSortComparison />,
@@ -982,7 +980,13 @@ function DropdownMenuDoc() {
               id: "source-comparison-options-list",
               label: "Options list",
               status: "difference",
-              note: "`Select.tsx`. Headerless options surface mounted under a brutal select trigger. Rows reserve the leading slot for baseline alignment even without avatars.",
+              note: (
+                <>
+                  <InlineCode>Select.tsx</InlineCode>. Headerless options surface mounted under a
+                  brutal select trigger. Rows reserve the leading slot for baseline alignment even
+                  without avatars.
+                </>
+              ),
               source: <SourceSelectComparison />,
               brutal: <CurrentSelectComparison />,
               elegant: <CurrentSelectComparison />,

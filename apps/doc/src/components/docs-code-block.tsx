@@ -9,6 +9,7 @@ import { tv } from "tailwind-variants";
 import { TextMorph } from "torph/react";
 
 import { CodeBlock } from "./code-block.tsx";
+import { IconSwap } from "./icon-swap.tsx";
 
 const docsCodeBlock = tv({
   slots: {
@@ -31,7 +32,6 @@ const docsCodeBlock = tv({
       "shrink-0 pr-0 !leading-snug text-foreground-muted",
       "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
     ],
-    copyIconSlot: "relative size-3 shrink-0",
   },
   variants: {
     railSide: {
@@ -45,20 +45,6 @@ const docsCodeBlock = tv({
     showLineNumbers: {
       true: { bodyRow: "gap-3", bodyContent: "pr-6" },
       false: { bodyContent: "px-6" },
-    },
-  },
-});
-
-const copyIcon = tv({
-  base: [
-    "absolute inset-0 size-3",
-    "transition-[opacity,transform] duration-200 ease-out",
-    "motion-reduce:transition-none motion-reduce:duration-0",
-  ],
-  variants: {
-    visible: {
-      true: "scale-100 opacity-100",
-      false: "scale-[0.92] opacity-0",
     },
   },
 });
@@ -178,13 +164,14 @@ function DocsCodeBlockPath({ children }: DocsCodeBlockPathProps) {
 }
 
 function CopyIconMorph({ copied }: { copied: boolean }) {
-  const styles = docsCodeBlock();
-
   return (
-    <span aria-hidden className={styles.copyIconSlot()}>
-      <Copy className={copyIcon({ visible: !copied })} strokeWidth={1.75} />
-      <Check className={copyIcon({ visible: copied })} strokeWidth={1.75} />
-    </span>
+    <IconSwap
+      state={copied ? "b" : "a"}
+      iconA={<Copy className="size-3" strokeWidth={1.75} />}
+      iconB={<Check className="size-3" strokeWidth={1.75} />}
+      className="shrink-0"
+      aria-hidden
+    />
   );
 }
 
