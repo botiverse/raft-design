@@ -5,48 +5,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuSurface,
   DropdownMenuTrigger,
-  useTheme,
 } from "@slock/ui";
 import { Check } from "lucide-react";
 import { IconPlusOutline18, IconUsersPlusOutline18 } from "nucleo-ui-outline-18";
 import { useId } from "react";
-
-function ServerSwitcherCheckSlot({ visible }: { visible: boolean }) {
-  return (
-    <span className="flex size-3.5 shrink-0 items-center justify-center">
-      <Check
-        size={14}
-        className={visible ? "shrink-0" : "shrink-0 opacity-0"}
-        aria-hidden={!visible}
-      />
-    </span>
-  );
-}
+import { cn } from "tailwind-variants";
 
 function ServerSwitcherMenuContent() {
-  const theme = useTheme();
-
   return (
     <>
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <DropdownMenuItem data-selected className={theme === "brutal" ? "font-bold" : undefined}>
-          <ServerSwitcherCheckSlot visible />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Slock</div>
-          </div>
+        <DropdownMenuItem data-selected className="[[data-theme=brutal]_&]:font-bold">
+          <Check aria-hidden />
+          <span className="min-w-0 flex-1 truncate text-left">Slock</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="font-medium">
-          <ServerSwitcherCheckSlot visible={false} />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Design Guild</div>
-          </div>
+          <Check aria-hidden className="opacity-0" />
+          <span className="min-w-0 flex-1 truncate text-left">Design Guild</span>
           <DropdownMenuItemCount>4</DropdownMenuItemCount>
         </DropdownMenuItem>
         <DropdownMenuItem className="font-medium">
-          <ServerSwitcherCheckSlot visible={false} />
-          <div className="min-w-0 flex-1 text-left">
-            <div className="truncate">Open Source</div>
-          </div>
+          <Check aria-hidden className="opacity-0" />
+          <span className="min-w-0 flex-1 truncate text-left">Open Source</span>
           <DropdownMenuItemCount>12</DropdownMenuItemCount>
         </DropdownMenuItem>
       </div>
@@ -69,11 +49,8 @@ export function ServerSwitcherMenuComposition({ className }: { className?: strin
   const triggerId = useId();
 
   return (
-    <div
-      className={["flex h-full min-h-56 w-full items-center justify-center", className]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    // Only centers and mounts the menu for SourceComparison. Product usage should use a real trigger and app layout instead.
+    <div className={cn("flex h-full min-h-56 w-full items-center justify-center", className)}>
       <DropdownMenu open modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
         <DropdownMenuSurface className="flex w-64 flex-col">
