@@ -7,6 +7,9 @@ export type { KbdGroupProps, KbdProps } from "./components/kbd/index.ts";
 export { InlineCode } from "./components/inline-code/index.ts";
 export type { InlineCodeProps } from "./components/inline-code/index.ts";
 
+export { Text, TextHeading, TextMono, TextSans } from "./components/text/index.ts";
+export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index.ts";
+
 export { Checkbox } from "./components/checkbox/index.ts";
 export type { CheckboxProps } from "./components/checkbox/index.ts";
 

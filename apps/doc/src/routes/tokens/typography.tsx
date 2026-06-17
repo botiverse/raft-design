@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
-import type { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { Text } from "@slock/ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -160,6 +161,20 @@ const HEADING_SCALE = [
     tracking: "0%",
   },
 ] as const;
+
+const SANS_SIZE_BY_TITLE = {
+  Large: "large",
+  Body: "body",
+  Small: "small",
+  Caption: "caption",
+} as const;
+
+const MONO_SIZE_BY_TITLE = {
+  Code: "code",
+  Meta: "meta",
+  Eyebrow: "eyebrow",
+  Tabular: "tabular",
+} as const;
 
 const THEME_TYPOGRAPHY = {
   brutal: {
@@ -410,23 +425,33 @@ export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
 
   const bodySpecs: TypographySpec[] = typography.body.map((item) => {
     const { title, ...rest } = item;
+    const size = SANS_SIZE_BY_TITLE[title as keyof typeof SANS_SIZE_BY_TITLE];
 
     return {
       category: "Sans",
       name: title,
       ...rest,
-      preview: <p className={`${item.className} whitespace-nowrap`}>{SAMPLE_TEXT}</p>,
+      preview: (
+        <Text.Sans size={size} className="whitespace-nowrap">
+          {SAMPLE_TEXT}
+        </Text.Sans>
+      ),
     };
   });
 
   const monoSpecs: TypographySpec[] = typography.mono.map((item) => {
     const { title, ...rest } = item;
+    const size = MONO_SIZE_BY_TITLE[title as keyof typeof MONO_SIZE_BY_TITLE];
 
     return {
       category: "Mono",
       name: title,
       ...rest,
-      preview: <p className={`${item.className} whitespace-nowrap`}>{SAMPLE_TEXT}</p>,
+      preview: (
+        <Text.Mono size={size} className="whitespace-nowrap">
+          {SAMPLE_TEXT}
+        </Text.Mono>
+      ),
     };
   });
 
@@ -464,16 +489,13 @@ export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
 }
 
 function createHeadingPreview(level: (typeof HEADING_LEVELS)[number]) {
-  const headings: Record<(typeof HEADING_LEVELS)[number], ReactElement> = {
-    h1: <h1 className="whitespace-nowrap">{SAMPLE_TEXT}</h1>,
-    h2: <h2 className="whitespace-nowrap">{SAMPLE_TEXT}</h2>,
-    h3: <h3 className="whitespace-nowrap">{SAMPLE_TEXT}</h3>,
-    h4: <h4 className="whitespace-nowrap">{SAMPLE_TEXT}</h4>,
-    h5: <h5 className="whitespace-nowrap">{SAMPLE_TEXT}</h5>,
-    h6: <h6 className="whitespace-nowrap">{SAMPLE_TEXT}</h6>,
-  };
+  const levelNumber = Number(level.slice(1)) as 1 | 2 | 3 | 4 | 5 | 6;
 
-  return headings[level];
+  return (
+    <Text.Heading level={levelNumber} className="whitespace-nowrap">
+      {SAMPLE_TEXT}
+    </Text.Heading>
+  );
 }
 
 function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children: ReactNode }) {
