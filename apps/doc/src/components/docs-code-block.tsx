@@ -20,7 +20,7 @@ const docsCodeBlock = tv({
     gutter: "w-6 shrink-0 self-stretch bg-[oklch(0.988_0.002_286)]",
     sectionInner: "min-w-0 flex-1",
     headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-2.5",
-    bodyRow: "flex min-w-0 flex-1 bg-white pt-3",
+    bodyRow: "flex min-w-0 flex-1 bg-white pt-3 pb-3",
     bodyContent: "min-w-0 flex-1",
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
@@ -40,7 +40,7 @@ const docsCodeBlock = tv({
     },
     sectionKind: {
       header: { section: "border-b border-[oklch(0_0_0_/_0.06)]" },
-      body: { section: "pb-3" },
+      body: {},
     },
     showLineNumbers: {
       true: { bodyRow: "gap-3", bodyContent: "pr-6" },
