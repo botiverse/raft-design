@@ -137,7 +137,7 @@ const SNIPPETS = {
 <Button tone="lavender">Human</Button>
 
 // Current
-<span className="inline-flex items-center rounded-[var(--radius)] border-2 border-black bg-brutal-lavender px-2 py-1 font-display text-xs font-bold text-black">
+<span className="inline-flex items-center rounded-[var(--radius)] border-2 border-black bg-brutal-lavender px-2 py-1 font-heading text-xs font-bold text-black">
   Human
 </span>
 

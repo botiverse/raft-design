@@ -16,7 +16,7 @@ export default function SearchInput({
       <Search size={15} className="shrink-0 text-black/50" />
       <input
         {...props}
-        className={`min-w-0 flex-1 bg-transparent font-display outline-none ${inputClassName}`.trim()}
+        className={`min-w-0 flex-1 bg-transparent font-heading outline-none ${inputClassName}`.trim()}
       />
     </div>
   );

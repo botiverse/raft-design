@@ -181,7 +181,7 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
       style={{
         background: "var(--layer-panel)",
         color: "var(--foreground)",
-        fontFamily: "var(--display-font)",
+        fontFamily: "var(--heading-font)",
       }}
     >
       <div className="grid grid-cols-2 gap-4">

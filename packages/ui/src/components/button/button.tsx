@@ -1,4 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
+import type { ReactElement } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -8,7 +9,7 @@ export const buttonVariants = tv({
   slots: {
     root: [
       "relative inline-flex shrink-0 items-center justify-center",
-      "font-display leading-none whitespace-nowrap select-none",
+      "font-heading leading-none whitespace-nowrap select-none",
       "border-line rounded-none",
       "shadow-sm transition-all duration-100",
       "outline-none focus-visible:ring-2 focus-visible:ring-line-focus",
@@ -380,6 +381,19 @@ export type ButtonProps = StyledProps<BaseButton.Props> &
     loadingLabel?: string;
   };
 
+function defaultNativeButton(render: BaseButton.Props["render"]): boolean | undefined {
+  if (!render || typeof render !== "object" || !("type" in render)) {
+    return undefined;
+  }
+
+  const element = render as ReactElement;
+  if (typeof element.type === "string") {
+    return element.type === "button";
+  }
+
+  return undefined;
+}
+
 export function Button({
   variant,
   size,
@@ -388,6 +402,8 @@ export function Button({
   disabled,
   className,
   children,
+  render,
+  nativeButton,
   ...props
 }: ButtonProps) {
   const theme = useTheme();
@@ -400,6 +416,8 @@ export function Button({
   return (
     <BaseButton
       {...props}
+      render={render}
+      nativeButton={nativeButton ?? defaultNativeButton(render)}
       data-slot="button"
       className={root({ className })}
       data-loading={loading ? "true" : undefined}

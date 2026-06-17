@@ -32,8 +32,8 @@ const inputGroup = tv({
           "has-[[data-slot=input-group-control][aria-invalid=true]]:border-brutal-red has-[[data-slot=input-group-control][aria-invalid=true]]:bg-brutal-red/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-brutal-red/60",
         ],
         addon: ["text-foreground/50"],
-        text: ["font-display text-foreground/50"],
-        control: ["font-display"],
+        text: ["font-heading text-foreground/50"],
+        control: ["font-heading"],
       },
       elegant: {
         root: [

@@ -51,7 +51,7 @@ export default function EmptyState({
   return (
     <div {...props} className={["px-6 py-12 text-center", className].filter(Boolean).join(" ")}>
       <div className="mb-4 inline-flex items-center justify-center text-black/40">{icon}</div>
-      <div className="mb-2 text-lg font-display font-semibold text-black/60">{title}</div>
+      <div className="mb-2 text-lg font-heading font-semibold text-black/60">{title}</div>
       {description ? (
         <div className="mx-auto max-w-[32ch] text-sm leading-relaxed text-black/60">
           {description}

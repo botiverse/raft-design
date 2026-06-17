@@ -14,7 +14,7 @@ const emptyState = tv({
   slots: {
     root: ["px-6 py-12 text-center"],
     icon: ["mb-4 inline-flex items-center justify-center"],
-    title: ["mb-2 font-display text-lg font-semibold"],
+    title: ["mb-2 font-heading text-lg font-semibold"],
     description: ["mx-auto max-w-[32ch] text-sm leading-relaxed"],
     actions: ["mt-5"],
   },

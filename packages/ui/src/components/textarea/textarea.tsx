@@ -11,7 +11,7 @@ const textarea = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-layer-panel font-display",
+          "border-2 border-line-strong bg-layer-panel font-heading",
           "shadow-sm focus:shadow-md",
           "aria-invalid:border-brutal-red aria-invalid:bg-brutal-red/5 aria-invalid:shadow-none aria-invalid:ring-2 aria-invalid:ring-brutal-red/60",
           "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none",

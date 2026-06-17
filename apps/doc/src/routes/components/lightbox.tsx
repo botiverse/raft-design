@@ -408,7 +408,7 @@ function LightboxDoc() {
                 <LightboxHeader>
                   <div className="flex h-14 items-center gap-3 px-4">
                     <LightboxTitle>{currentImage.filename}</LightboxTitle>
-                    <div className="shrink-0 border-2 border-black bg-brutal-yellow px-3 py-1 font-display text-xs font-bold text-black">
+                    <div className="shrink-0 border-2 border-black bg-brutal-yellow px-3 py-1 font-heading text-xs font-bold text-black">
                       {imageIndex + 1} / {DEMO_IMAGES.length}
                     </div>
                     <LightboxActions>
@@ -601,10 +601,10 @@ function LightboxShellPreview({ semantic = false }: { semantic?: boolean }) {
     >
       <div className="shrink-0 border-b-2 border-black bg-white">
         <div className="flex h-10 items-center gap-2 px-3">
-          <div className="min-w-0 flex-1 truncate font-display text-xs font-bold text-black">
+          <div className="min-w-0 flex-1 truncate font-heading text-xs font-bold text-black">
             product-shot.png
           </div>
-          <div className="border-2 border-black bg-brutal-yellow px-2 py-0.5 font-display text-[10px] font-bold text-black">
+          <div className="border-2 border-black bg-brutal-yellow px-2 py-0.5 font-heading text-[10px] font-bold text-black">
             1 / 3
           </div>
           <div className="flex gap-1">

@@ -9,7 +9,7 @@ import type { WithoutChildren } from "../../lib/without-children.ts";
 // FieldError own the message.
 const input = tv({
   slots: {
-    root: ["w-full px-3 py-2 font-display outline-none"],
+    root: ["w-full px-3 py-2 font-heading outline-none"],
   },
   variants: {
     theme: {

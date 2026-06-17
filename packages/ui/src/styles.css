@@ -215,9 +215,38 @@
   --shadow-xl: var(--theme-shadow-xl);
   --shadow-2xl: var(--theme-shadow-2xl);
 
-  --font-display: var(--display-font);
+  --font-heading: var(--heading-font);
   --font-sans: var(--sans-font);
   --font-mono: var(--mono-font);
+}
+
+:where(:root),
+[data-theme="brutal"],
+[data-theme="elegant"] {
+  --heading-1-size: 56px;
+  --heading-1-weight: 500;
+  --heading-1-tracking: -0.01em;
+  --heading-1-leading: 64px;
+  --heading-2-size: 48px;
+  --heading-2-weight: 500;
+  --heading-2-tracking: -0.01em;
+  --heading-2-leading: 56px;
+  --heading-3-size: 40px;
+  --heading-3-weight: 500;
+  --heading-3-tracking: -0.01em;
+  --heading-3-leading: 48px;
+  --heading-4-size: 32px;
+  --heading-4-weight: 500;
+  --heading-4-tracking: -0.005em;
+  --heading-4-leading: 40px;
+  --heading-5-size: 24px;
+  --heading-5-weight: 500;
+  --heading-5-tracking: 0em;
+  --heading-5-leading: 32px;
+  --heading-6-size: 20px;
+  --heading-6-weight: 500;
+  --heading-6-tracking: 0em;
+  --heading-6-leading: 28px;
 }
 
 :where(:root),
@@ -306,7 +335,7 @@
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
   --theme-shadow-2xl: 6px 6px 0px var(--line-strong);
 
-  --display-font: "FK Grotesk", system-ui, sans-serif;
+  --heading-font: "FK Grotesk", system-ui, sans-serif;
   --sans-font: "FK Grotesk", system-ui, sans-serif;
   --mono-font: "Berkeley Mono", ui-monospace, monospace;
 }
@@ -418,9 +447,9 @@
     oklch(0.145 0.002 286.131 / 0.047) 0px 16px 16px -8px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 6px 8px -4px;
 
-  --display-font: "Inter", system-ui, sans-serif;
+  --heading-font: "Inter", system-ui, sans-serif;
   --sans-font: "Geist", system-ui, sans-serif;
-  --mono-font: "Geist Mono", ui-monospace, monospace;
+  --mono-font: "Berkeley Mono", ui-monospace, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -476,4 +505,58 @@
 
 body {
   position: relative;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--heading-font);
+    color: var(--foreground-strong);
+  }
+
+  h1 {
+    font-size: var(--heading-1-size);
+    font-weight: var(--heading-1-weight);
+    letter-spacing: var(--heading-1-tracking);
+    line-height: var(--heading-1-leading);
+  }
+
+  h2 {
+    font-size: var(--heading-2-size);
+    font-weight: var(--heading-2-weight);
+    letter-spacing: var(--heading-2-tracking);
+    line-height: var(--heading-2-leading);
+  }
+
+  h3 {
+    font-size: var(--heading-3-size);
+    font-weight: var(--heading-3-weight);
+    letter-spacing: var(--heading-3-tracking);
+    line-height: var(--heading-3-leading);
+  }
+
+  h4 {
+    font-size: var(--heading-4-size);
+    font-weight: var(--heading-4-weight);
+    letter-spacing: var(--heading-4-tracking);
+    line-height: var(--heading-4-leading);
+  }
+
+  h5 {
+    font-size: var(--heading-5-size);
+    font-weight: var(--heading-5-weight);
+    letter-spacing: var(--heading-5-tracking);
+    line-height: var(--heading-5-leading);
+  }
+
+  h6 {
+    font-size: var(--heading-6-size);
+    font-weight: var(--heading-6-weight);
+    letter-spacing: var(--heading-6-tracking);
+    line-height: var(--heading-6-leading);
+  }
 }

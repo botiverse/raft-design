@@ -399,7 +399,7 @@ function SearchInputCluster() {
     <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">
       <input
         aria-label="Search messages"
-        className="min-w-0 flex-1 bg-transparent font-display text-sm font-medium outline-none"
+        className="min-w-0 flex-1 bg-transparent font-heading text-sm font-medium outline-none"
         value="design system"
         readOnly
       />

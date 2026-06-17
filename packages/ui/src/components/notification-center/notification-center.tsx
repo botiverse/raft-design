@@ -26,7 +26,7 @@ const notificationCenter = tv({
     itemTitle: ["break-words text-sm font-bold text-foreground-strong"],
     itemBody: ["mt-0.5 break-words text-sm"],
     itemActions: ["mt-2 flex flex-wrap items-center gap-2"],
-    actionButton: ["px-3 py-1.5 font-display text-xs font-bold transition-all duration-100"],
+    actionButton: ["px-3 py-1.5 font-heading text-xs font-bold transition-all duration-100"],
   },
   variants: {
     theme: {

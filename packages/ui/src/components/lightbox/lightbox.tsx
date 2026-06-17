@@ -12,7 +12,7 @@ const lightbox = tv({
     backdrop: ["fixed inset-0 z-[70] bg-layer-backdrop data-[closed]:hidden"],
     content: ["pointer-events-none fixed inset-0 z-[71] data-[closed]:hidden"],
     header: ["safe-top safe-left safe-right pointer-events-auto shrink-0"],
-    title: ["min-w-0 flex-1 truncate font-display text-sm font-bold"],
+    title: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
     actions: ["flex shrink-0 items-center gap-1.5"],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",

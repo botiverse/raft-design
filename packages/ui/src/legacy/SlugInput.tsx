@@ -16,13 +16,13 @@ export default function SlugInput({
     >
       <span
         aria-hidden="true"
-        className="flex shrink-0 items-center border-r-2 border-black bg-brutal-yellow/30 px-3 font-display font-bold text-black/70"
+        className="flex shrink-0 items-center border-r-2 border-black bg-brutal-yellow/30 px-3 font-heading font-bold text-black/70"
       >
         /
       </span>
       <input
         {...props}
-        className={`min-w-0 flex-1 bg-transparent px-3 py-2 font-display outline-none ${inputClassName}`.trim()}
+        className={`min-w-0 flex-1 bg-transparent px-3 py-2 font-heading outline-none ${inputClassName}`.trim()}
       />
     </div>
   );

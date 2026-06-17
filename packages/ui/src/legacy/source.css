@@ -16,7 +16,7 @@
 
 .btn-brutal {
   border: 2px solid var(--color-black);
-  font-family: var(--display-font);
+  font-family: var(--heading-font);
   font-weight: 700;
   box-shadow: var(--shadow-hover);
   transition-property: all;
@@ -41,7 +41,7 @@
 
 .btn-brutal-sm {
   border: 2px solid var(--color-black);
-  font-family: var(--display-font);
+  font-family: var(--heading-font);
   font-weight: 700;
   box-shadow: var(--shadow);
   transition-property: all;
@@ -111,7 +111,7 @@
     border: 2px solid var(--color-black);
     background-color: var(--color-white);
     padding: 0.5rem 0.75rem;
-    font-family: var(--display-font);
+    font-family: var(--heading-font);
     box-shadow: var(--shadow);
   }
 

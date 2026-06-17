@@ -219,7 +219,7 @@ function ContextMenuDoc() {
         <div className="space-y-4">
           <Example html={code.anatomy}>
             <ContextMenu>
-              <ContextMenuTrigger className="block w-full border-2 border-dashed border-black bg-brutal-cream px-4 py-8 text-center font-display text-sm font-bold text-black">
+              <ContextMenuTrigger className="block w-full border-2 border-dashed border-black bg-brutal-cream px-4 py-8 text-center font-heading text-sm font-bold text-black">
                 Right click this surface
               </ContextMenuTrigger>
               <ContextMenuContent>
