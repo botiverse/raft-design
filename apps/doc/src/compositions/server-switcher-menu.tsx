@@ -13,6 +13,9 @@ import { useId } from "react";
 
 import { ServerSwitcherMenu as LegacyServerSwitcherMenu } from "../../../../packages/ui/src/legacy/server-switcher-menu.tsx";
 
+export const SERVER_SWITCHER_MENU_COMPOSITION_PATH =
+  "apps/doc/src/compositions/server-switcher-menu.tsx" as const;
+
 export const SERVER_SWITCHER_DEMO_SERVERS = [
   { id: "slock", name: "Slock", slug: "slock" },
   { id: "design", name: "Design Guild", slug: "design" },

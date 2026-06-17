@@ -5,8 +5,10 @@ import type { CSSProperties } from "react";
 import { createHighlighter, createJavaScriptRegexEngine } from "shiki";
 import type { ThemedToken } from "shiki";
 
+const HIGHLIGHT_THEME = "vitesse-light";
+
 const highlighter = createHighlighter({
-  themes: ["github-light"],
+  themes: [HIGHLIGHT_THEME],
   langs: ["tsx"],
   engine: createJavaScriptRegexEngine(),
 });
@@ -32,7 +34,7 @@ function tokenStyle(token: ThemedToken): CSSProperties | undefined {
 }
 
 async function ServerCodeBlock({ code }: { code: string }) {
-  const lines = (await highlighter).codeToTokensBase(code, { lang: "tsx", theme: "github-light" });
+  const lines = (await highlighter).codeToTokensBase(code, { lang: "tsx", theme: HIGHLIGHT_THEME });
 
   return (
     <pre>

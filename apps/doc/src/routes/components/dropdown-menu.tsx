@@ -41,6 +41,7 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
+  SERVER_SWITCHER_MENU_COMPOSITION_PATH,
   SERVER_SWITCHER_MENU_CONTENT_SNIPPET,
   ServerSwitcherMenuComposition,
   ServerSwitcherMenuSourcePreview,
@@ -270,10 +271,11 @@ ${PROFILE_MENU_SNIPPET}
   onJoinCommunity={joinCommunity}
   onCreateServer={createServer}
 />`,
-  currentServerSwitcher: `<DropdownMenu open modal={false}>
-  <DropdownMenuContent className="flex w-64 flex-col">
+  currentServerSwitcher: `<DropdownMenu open modal={false} triggerId={triggerId}>
+  <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
+  <DropdownMenuSurface className="flex w-64 flex-col">
 ${SERVER_SWITCHER_MENU_CONTENT_SNIPPET}
-  </DropdownMenuContent>
+  </DropdownMenuSurface>
 </DropdownMenu>`,
   migrationServerSwitcher: `// Source
 <ServerSwitcherMenu
@@ -934,6 +936,10 @@ function DropdownMenuDoc() {
               brutal: <ServerSwitcherMenuComposition />,
               elegant: <ServerSwitcherMenuComposition />,
               elegantDark: <ServerSwitcherMenuComposition />,
+              compositionCode: code.currentServerSwitcher,
+              compositionPath: SERVER_SWITCHER_MENU_COMPOSITION_PATH,
+              compositionSource: SNIPPETS.currentServerSwitcher,
+              compositionShowLineNumbers: false,
             },
             {
               label: "Message search — time filter",

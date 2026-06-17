@@ -4,6 +4,7 @@ import { Badge, type BadgeProps, type Theme } from "@slock/ui";
 import { IconCircleCheckFill18, IconCircleWarningFill18 } from "nucleo-ui-fill-18";
 import { IconSearchContentOutline18, IconStarOutline18 } from "nucleo-ui-outline-18";
 import { CodeBlock } from "./code-block.tsx";
+import { DocsCodeBlock } from "./docs-code-block.tsx";
 import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
@@ -20,6 +21,11 @@ type SourceComparisonItem = {
   elegantCode?: CodeContent;
   elegantDarkCode?: CodeContent;
   currentCode?: CodeContent;
+  /** Full-width code shown once below the comparison grid (migrated composition). */
+  compositionCode?: CodeContent;
+  compositionPath?: string;
+  compositionSource?: string;
+  compositionShowLineNumbers?: boolean;
   status?: "match" | "difference" | "review" | "new";
   note?: ReactNode;
 };
@@ -214,6 +220,20 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
                 ))}
               </div>
             </div>
+            {item.compositionCode && item.compositionPath && item.compositionSource ? (
+              <DocsCodeBlock>
+                <DocsCodeBlock.Header>
+                  <DocsCodeBlock.Path>{item.compositionPath}</DocsCodeBlock.Path>
+                  <DocsCodeBlock.Copy source={item.compositionSource} />
+                </DocsCodeBlock.Header>
+                <DocsCodeBlock.Body
+                  showLineNumbers={item.compositionShowLineNumbers ?? true}
+                  source={item.compositionSource}
+                >
+                  <DocsCodeBlock.Content html={item.compositionCode} />
+                </DocsCodeBlock.Body>
+              </DocsCodeBlock>
+            ) : null}
           </section>
         );
       })}

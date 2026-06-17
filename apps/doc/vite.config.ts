@@ -59,7 +59,10 @@ const config = defineConfig({
     },
   },
   ssr: {
-    noExternal: ["nucleo-ui-fill-18", "nucleo-ui-outline-18"],
+    noExternal: ["foxact", "nucleo-ui-fill-18", "nucleo-ui-outline-18", "torph"],
+  },
+  optimizeDeps: {
+    include: ["foxact/use-clipboard", "torph/react"],
   },
   plugins: [
     devtools(),

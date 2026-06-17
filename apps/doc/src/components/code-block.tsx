@@ -3,8 +3,17 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 type CodeBlockProps = {
   html: ReactNode | AnyRenderableServerComponent;
-  variant?: "default" | "embedded";
+  variant?: "default" | "embedded" | "docs";
 };
+
+const defaultClassName =
+  "overflow-hidden rounded-lg bg-[oklch(0.986_0_0)] shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)] [&>pre]:overflow-x-auto [&>pre]:!bg-[oklch(0.986_0_0)] [&>pre]:p-4 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed";
+
+const embeddedClassName =
+  "overflow-hidden bg-[oklch(0.986_0_0)] [&>pre]:overflow-x-auto [&>pre]:!bg-[oklch(0.986_0_0)] [&>pre]:!px-0 [&>pre]:!py-0 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed";
+
+const docsClassName =
+  "min-w-0 flex-1 rounded-none bg-white [&>pre]:overflow-x-auto [&>pre]:!bg-white [&>pre]:!p-0 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed [&>pre>code>span]:block";
 
 /**
  * Renders either legacy Shiki HTML or an RSC-rendered code block from
@@ -13,8 +22,10 @@ type CodeBlockProps = {
 export function CodeBlock({ html, variant = "default" }: CodeBlockProps) {
   const className =
     variant === "embedded"
-      ? "overflow-hidden bg-[oklch(0.986_0_0)] [&>pre]:overflow-x-auto [&>pre]:!bg-[oklch(0.986_0_0)] [&>pre]:!px-0 [&>pre]:!py-0 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed"
-      : "overflow-hidden rounded-lg bg-[oklch(0.986_0_0)] shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)] [&>pre]:overflow-x-auto [&>pre]:!bg-[oklch(0.986_0_0)] [&>pre]:p-4 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed";
+      ? embeddedClassName
+      : variant === "docs"
+        ? docsClassName
+        : defaultClassName;
 
   if (typeof html !== "string") {
     return <div className={className}>{html as ReactNode}</div>;
