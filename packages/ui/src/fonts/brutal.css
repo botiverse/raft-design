@@ -1,22 +1,22 @@
 @font-face {
-  font-family: "FK Grotesk";
-  src: url("./brutal/fk-grotesk/FKGroteskTrial-Regular.otf") format("opentype");
+  font-family: "Fabric Grotesk";
+  src: url("./brutal/fabric-grotesk/FabricGrotesk_Trial-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "FK Grotesk";
-  src: url("./brutal/fk-grotesk/FKGroteskTrial-Medium.otf") format("opentype");
+  font-family: "Fabric Grotesk";
+  src: url("./brutal/fabric-grotesk/FabricGrotesk_Trial-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "FK Grotesk";
-  src: url("./brutal/fk-grotesk/FKGroteskTrial-Bold.otf") format("opentype");
+  font-family: "Fabric Grotesk";
+  src: url("./brutal/fabric-grotesk/FabricGrotesk_Trial-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;

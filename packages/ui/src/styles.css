@@ -306,8 +306,8 @@
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
   --theme-shadow-2xl: 6px 6px 0px var(--line-strong);
 
-  --heading-font: "FK Grotesk", system-ui, sans-serif;
-  --sans-font: "FK Grotesk", system-ui, sans-serif;
+  --heading-font: "Fabric Grotesk", system-ui, sans-serif;
+  --sans-font: "Fabric Grotesk", system-ui, sans-serif;
   --mono-font: "Berkeley Mono", ui-monospace, monospace;
 }
 

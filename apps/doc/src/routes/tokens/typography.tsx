@@ -19,13 +19,13 @@ const FAMILIES = [
     theme: "Brutal",
     themeId: "brutal",
     status: undefined,
-    heading: "FK Grotesk",
-    sans: "FK Grotesk",
+    heading: "Fabric Grotesk",
+    sans: "Fabric Grotesk",
     mono: "Berkeley Mono",
     samples: [
       {
         title: "Heading",
-        family: "FK Grotesk",
+        family: "Fabric Grotesk",
         utility: "font-heading",
         px: "24px",
         className:
@@ -34,7 +34,7 @@ const FAMILIES = [
       },
       {
         title: "Sans",
-        family: "FK Grotesk",
+        family: "Fabric Grotesk",
         utility: "font-sans",
         px: "14px",
         className: "font-sans text-sm leading-5 text-[var(--foreground-muted)]",
@@ -182,7 +182,7 @@ const THEME_TYPOGRAPHY = {
     body: [
       {
         title: "Large",
-        family: "FK Grotesk",
+        family: "Fabric Grotesk",
         utility: "font-sans text-lg",
         size: "1.125rem",
         px: "18px",
@@ -194,7 +194,7 @@ const THEME_TYPOGRAPHY = {
       },
       {
         title: "Body",
-        family: "FK Grotesk",
+        family: "Fabric Grotesk",
         utility: "font-sans text-base",
         size: "1rem",
         px: "16px",
@@ -206,7 +206,7 @@ const THEME_TYPOGRAPHY = {
       },
       {
         title: "Small",
-        family: "FK Grotesk",
+        family: "Fabric Grotesk",
         utility: "font-sans text-sm",
         size: "0.875rem",
         px: "14px",
@@ -218,7 +218,7 @@ const THEME_TYPOGRAPHY = {
       },
       {
         title: "Caption",
-        family: "FK Grotesk",
+        family: "Fabric Grotesk",
         utility: "font-sans text-xs",
         size: "0.75rem",
         px: "12px",
