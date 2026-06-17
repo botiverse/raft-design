@@ -18,17 +18,17 @@ const docsCodeBlock = tv({
     section: "flex items-stretch",
     gutter: "w-6 shrink-0 self-stretch bg-[oklch(0.988_0.002_286)]",
     sectionInner: "min-w-0 flex-1",
-    headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-2",
+    headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-2.5",
     bodyRow: "flex min-w-0 flex-1 bg-white pt-3",
     bodyContent: "min-w-0 flex-1",
-    path: ["min-w-0 flex-1 truncate font-mono text-xs leading-none", "text-foreground-muted"],
+    path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
       "shrink-0 select-none font-mono text-sm leading-relaxed",
       "text-[oklch(0.72_0.006_286)]",
     ],
     lineNumber: "text-left tabular-nums",
     copyButton: [
-      "shrink-0 pr-0 text-foreground-muted",
+      "shrink-0 pr-0 !leading-snug text-foreground-muted",
       "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
     ],
     copyIconSlot: "relative size-3 shrink-0",
@@ -97,6 +97,13 @@ type DocsCodeBlockLineNumbersProps = {
 
 type DocsCodeBlockCopyProps = {
   source: string;
+};
+
+type DocsCodeBlockPanelProps = {
+  path: string;
+  source: string;
+  html: ReactNode | AnyRenderableServerComponent;
+  showLineNumbers?: boolean;
 };
 
 function DocsCodeBlockRoot({ children }: DocsCodeBlockRootProps) {
@@ -210,6 +217,25 @@ function DocsCodeBlockContent({ html }: DocsCodeBlockContentProps) {
   return <CodeBlock html={html} variant="docs" />;
 }
 
+function DocsCodeBlockPanel({
+  path,
+  source,
+  html,
+  showLineNumbers = false,
+}: DocsCodeBlockPanelProps) {
+  return (
+    <DocsCodeBlock>
+      <DocsCodeBlock.Header>
+        <DocsCodeBlock.Path>{path}</DocsCodeBlock.Path>
+        <DocsCodeBlock.Copy source={source} />
+      </DocsCodeBlock.Header>
+      <DocsCodeBlock.Body showLineNumbers={showLineNumbers} source={source}>
+        <DocsCodeBlock.Content html={html} />
+      </DocsCodeBlock.Body>
+    </DocsCodeBlock>
+  );
+}
+
 export const DocsCodeBlock = Object.assign(DocsCodeBlockRoot, {
   Header: DocsCodeBlockHeader,
   Body: DocsCodeBlockBody,
@@ -217,4 +243,5 @@ export const DocsCodeBlock = Object.assign(DocsCodeBlockRoot, {
   Copy: DocsCodeBlockCopy,
   Content: DocsCodeBlockContent,
   LineNumbers: DocsCodeBlockLineNumbers,
+  Panel: DocsCodeBlockPanel,
 });

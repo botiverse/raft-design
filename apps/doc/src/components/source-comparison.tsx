@@ -10,6 +10,7 @@ import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type SourceComparisonItem = {
+  id?: string;
   label: string;
   source: ReactNode;
   brutal?: ReactNode;
@@ -64,8 +65,7 @@ const STATUS_ICON = {
   new: IconStarOutline18,
 } as const;
 
-const frameClass =
-  "overflow-clip rounded-md bg-[oklch(0.991_0_0)] shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.12)]";
+const frameClass = "overflow-clip bg-[oklch(0.991_0_0)] shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
 const horizontalDividerClass = "border-[oklch(0_0_0_/_0.06)]";
 
 function ComparisonPreview({
@@ -179,10 +179,11 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
           : `grid divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
         return (
           <section
-            key={item.label}
+            key={item.id ?? item.label}
+            id={item.id}
             data-source-comparison-item={item.label}
             data-source-comparison-status={status}
-            className="space-y-6"
+            className={`space-y-6${item.id ? " scroll-mt-8" : ""}`}
           >
             <div className="flex flex-wrap items-center gap-2 px-1">
               <h3 className="text-sm font-medium text-foreground-strong">{item.label}</h3>
@@ -221,18 +222,12 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
               </div>
             </div>
             {item.compositionCode && item.compositionPath && item.compositionSource ? (
-              <DocsCodeBlock>
-                <DocsCodeBlock.Header>
-                  <DocsCodeBlock.Path>{item.compositionPath}</DocsCodeBlock.Path>
-                  <DocsCodeBlock.Copy source={item.compositionSource} />
-                </DocsCodeBlock.Header>
-                <DocsCodeBlock.Body
-                  showLineNumbers={item.compositionShowLineNumbers ?? true}
-                  source={item.compositionSource}
-                >
-                  <DocsCodeBlock.Content html={item.compositionCode} />
-                </DocsCodeBlock.Body>
-              </DocsCodeBlock>
+              <DocsCodeBlock.Panel
+                path={item.compositionPath}
+                source={item.compositionSource}
+                html={item.compositionCode}
+                showLineNumbers={item.compositionShowLineNumbers ?? true}
+              />
             ) : null}
           </section>
         );

@@ -365,7 +365,7 @@ const MIGRATED = {
     {
       label: "ServerSwitcherMenu",
       to: "/components/dropdown-menu",
-      hash: "migration",
+      hash: "source-comparison",
       target: "DropdownMenu composition",
     },
     {
@@ -425,7 +425,7 @@ const MIGRATED = {
     {
       label: "SelectionPopover",
       to: "/components/dropdown-menu",
-      hash: "migration",
+      hash: "source-comparison",
       target: "DropdownMenu (plain pickers)",
     },
     {

@@ -60,8 +60,16 @@ const TOC = [
   { id: "checkboxes", title: "Checkboxes" },
   { id: "switch", title: "Switch" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
+  {
+    id: "source-comparison",
+    title: "Source comparison",
+    children: [
+      { id: "source-comparison-server-switcher", title: "Server switcher" },
+      { id: "source-comparison-time-filter", title: "Time filter" },
+      { id: "source-comparison-sort-menu", title: "Sort menu" },
+      { id: "source-comparison-options-list", title: "Options list" },
+    ],
+  },
 ] as const;
 
 const TODOS = ["Add group part when a source callsite needs it"] as const;
@@ -929,92 +937,63 @@ function DropdownMenuDoc() {
           layout="grid"
           items={[
             {
-              label: "Server switcher menu",
+              id: "source-comparison-server-switcher",
+              label: "Server switcher",
               status: "difference",
               note: "Source exposed one business-shaped ServerSwitcherMenu. Current keeps the same row, separator, badge, and action structure but moves the API to a generic Base UI menu composition.",
               source: <ServerSwitcherMenuSourcePreview />,
               brutal: <ServerSwitcherMenuComposition />,
               elegant: <ServerSwitcherMenuComposition />,
               elegantDark: <ServerSwitcherMenuComposition />,
-              compositionCode: code.currentServerSwitcher,
+              compositionCode: code.migrationServerSwitcher,
               compositionPath: SERVER_SWITCHER_MENU_COMPOSITION_PATH,
-              compositionSource: SNIPPETS.currentServerSwitcher,
+              compositionSource: SNIPPETS.migrationServerSwitcher,
               compositionShowLineNumbers: false,
             },
             {
-              label: "Message search — time filter",
+              id: "source-comparison-time-filter",
+              label: "Time filter",
               status: "difference",
               note: "`MessageSearchPage.tsx`. Plain single-select list for search time ranges (`any`, `today`, `7d`, `30d`) with no search field. Menu semantics fit better than a popover shell.",
               source: <SourceMessageSearchTimeComparison />,
               brutal: <CurrentMessageSearchTimeComparison />,
               elegant: <CurrentMessageSearchTimeComparison />,
               elegantDark: <CurrentMessageSearchTimeComparison />,
+              compositionCode: code.migrationPlainPicker,
+              compositionPath: "MessageSearchPage.tsx",
+              compositionSource: SNIPPETS.migrationPlainPicker,
+              compositionShowLineNumbers: false,
             },
             {
-              label: "Sidebar — sort menu",
+              id: "source-comparison-sort-menu",
+              label: "Sort menu",
               status: "difference",
               note: "`Sidebar.tsx`. Compact sort dropdown with `showHeader={false}` and a narrower `min-w-[136px]` shell aligned to the section icon button.",
               source: <SourceSidebarSortComparison />,
               brutal: <CurrentSidebarSortComparison />,
               elegant: <CurrentSidebarSortComparison />,
               elegantDark: <CurrentSidebarSortComparison />,
+              compositionCode: code.migrationHeaderlessPicker,
+              compositionPath: "Sidebar.tsx",
+              compositionSource: SNIPPETS.migrationHeaderlessPicker,
+              compositionShowLineNumbers: false,
             },
             {
-              label: "Select — options list",
+              id: "source-comparison-options-list",
+              label: "Options list",
               status: "difference",
               note: "`Select.tsx`. Headerless options surface mounted under a brutal select trigger. Rows reserve the leading slot for baseline alignment even without avatars.",
               source: <SourceSelectComparison />,
               brutal: <CurrentSelectComparison />,
               elegant: <CurrentSelectComparison />,
               elegantDark: <CurrentSelectComparison />,
+              compositionCode: code.migrationOptionsList,
+              compositionPath: "Select.tsx",
+              compositionSource: SNIPPETS.migrationOptionsList,
+              compositionShowLineNumbers: false,
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">
-              Server Switcher Composition
-            </h3>
-            <p className="text-sm text-foreground-muted">
-              Replace the business-shaped server switcher with a generic Base UI menu composition.
-              Server data, navigation, join flow, unread counts, and open state stay app-owned.
-            </p>
-            <CodeBlock html={code.migrationServerSwitcher} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">
-              Plain picker composition
-            </h3>
-            <p className="text-sm text-foreground-muted">
-              Replace headered SelectionPopover pickers with DropdownMenuLabel plus
-              DropdownMenuRadioGroup. Selection state and onChange stay app-owned.
-            </p>
-            <CodeBlock html={code.migrationPlainPicker} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">
-              Headerless picker composition
-            </h3>
-            <p className="text-sm text-foreground-muted">
-              Replace compact headerless SelectionPopover menus with a radio group only. Width and
-              trigger alignment stay app-owned.
-            </p>
-            <CodeBlock html={code.migrationHeaderlessPicker} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">
-              Options list composition
-            </h3>
-            <p className="text-sm text-foreground-muted">
-              Replace Select's headerless SelectionPopover options with DropdownMenuRadioGroup under
-              the select trigger. Value, labels, and reserved leading-slot alignment stay app-owned.
-            </p>
-            <CodeBlock html={code.migrationOptionsList} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );
