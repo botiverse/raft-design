@@ -2,11 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button, Field, FieldError, FieldLabel, InlineCode, Input } from "@slock/ui";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -21,7 +21,6 @@ const TOC = [
   { id: "password-managers", title: "Password managers" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const SNIPPETS = {
@@ -193,7 +192,13 @@ function InputDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="Input.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="types" title="Types">
@@ -370,33 +375,6 @@ function InputDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Shell</h3>
-            <p className="text-sm text-gray-500">
-              Replace the global <InlineCode>input-brutal</InlineCode> class with the themed Input
-              recipe.
-            </p>
-            <CodeBlock html={code.migrationShell} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Invalid</h3>
-            <p className="text-sm text-gray-500">
-              Move red border and ring overrides to <InlineCode>aria-invalid</InlineCode>.
-            </p>
-            <CodeBlock html={code.migrationInvalid} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Field</h3>
-            <p className="text-sm text-gray-500">
-              Move labels, descriptions, and errors to <Link to="/components/field">Field</Link>.
-            </p>
-            <CodeBlock html={code.migrationField} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

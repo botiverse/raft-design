@@ -11,10 +11,10 @@ import { Archive, Pin, Trash2 } from "lucide-react";
 import { useMemo, useRef } from "react";
 
 import { Callout } from "#/components/callout.tsx";
-import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -28,7 +28,6 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "opened", title: "Opened" },
-  { id: "migration", title: "Migration" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -248,7 +247,13 @@ function ContextMenuDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="ContextMenu.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
       <DocSection id="opened" title="Opened">
         <Example html={code.opened}>
@@ -269,31 +274,6 @@ function ContextMenuDoc() {
             </div>
           </div>
         </Example>
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="overflow-hidden rounded-md border border-gray-200 bg-white text-sm text-gray-700">
-          <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] border-b border-gray-200 bg-gray-50 font-medium text-gray-500">
-            <div className="px-3 py-2">Old source entry</div>
-            <div className="border-l border-gray-200 px-3 py-2">New composition part</div>
-          </div>
-          <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] border-b border-gray-200">
-            <div className="px-3 py-2 text-gray-400 line-through decoration-gray-400 decoration-2">
-              MenuItem
-            </div>
-            <div className="border-l border-gray-200 px-3 py-2">
-              <code>ContextMenuItem</code>
-            </div>
-          </div>
-          <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-            <div className="px-3 py-2 text-gray-400 line-through decoration-gray-400 decoration-2">
-              ContextMenuDivider
-            </div>
-            <div className="border-l border-gray-200 px-3 py-2">
-              <code>ContextMenuSeparator</code>
-            </div>
-          </div>
-        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

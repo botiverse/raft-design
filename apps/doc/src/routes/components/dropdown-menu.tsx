@@ -39,7 +39,7 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
-import { highlightSnippets, stripTopLevelImports } from "#/lib/highlight.tsx";
+import { highlightSnippets } from "#/lib/highlight.tsx";
 import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
 import {
   MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
@@ -599,15 +599,9 @@ export const Route = createFileRoute("/components/dropdown-menu")({
       data: {
         ...SNIPPETS,
         messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
-        messageSearchTimeFilterCompositionBody: stripTopLevelImports(
-          messageSearchTimeFilterCompositionSource,
-        ),
         selectOptionsListComposition: selectOptionsListCompositionSource,
-        selectOptionsListCompositionBody: stripTopLevelImports(selectOptionsListCompositionSource),
         serverSwitcherComposition: serverSwitcherMenuCompositionSource,
-        serverSwitcherCompositionBody: stripTopLevelImports(serverSwitcherMenuCompositionSource),
         sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
-        sidebarSortMenuCompositionBody: stripTopLevelImports(sidebarSortMenuCompositionSource),
       },
     }),
 });
@@ -661,6 +655,7 @@ function DropdownMenuDoc() {
           path="DropdownMenu.tsx"
           source={SNIPPETS.anatomy}
           html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
           showLineNumbers={false}
         />
       </DocSection>

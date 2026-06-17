@@ -3,10 +3,10 @@ import { Badge, Button, Status, type BadgeProps } from "@slock/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 import { IconGridCircleOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -26,7 +26,6 @@ const TOC = [
   { id: "composition", title: "Composition" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const VARIANTS = [
@@ -230,7 +229,13 @@ function BadgeDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="Badge.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="variants" title="Variants">
@@ -472,23 +477,6 @@ function BadgeDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">Tone to Variant</h3>
-            <CodeBlock html={code.migrationToneToVariant} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">Casing</h3>
-            <CodeBlock html={code.migrationCasing} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">Lavender</h3>
-            <CodeBlock html={code.migrationLavender} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

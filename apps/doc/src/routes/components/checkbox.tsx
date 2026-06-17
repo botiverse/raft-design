@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import { Button, Checkbox, type CheckboxProps } from "@slock/ui";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -25,7 +25,6 @@ const TOC = [
   { id: "selection", title: "Selection" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const SIZES = ["sm", "md"] as const;
@@ -230,7 +229,13 @@ function CheckboxDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="Checkbox.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="variants" title="Variants">
@@ -408,25 +413,6 @@ function CheckboxDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">CheckMarker</h3>
-            <p className="text-sm text-gray-500">
-              Move decorative marker usage to a Checkbox-owned selected state.
-            </p>
-            <CodeBlock html={code.migrationMarker} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Row Selection</h3>
-            <p className="text-sm text-gray-500">
-              Keep row hover styling on the row and selection state on Checkbox.
-            </p>
-            <CodeBlock html={code.migrationRowSelection} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "@slock/ui";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -16,7 +16,6 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const SNIPPETS = {
@@ -84,7 +83,13 @@ function InlineCodeDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="InlineCode.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="usage" title="Usage">
@@ -128,18 +133,6 @@ function InlineCodeDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Native Code</h3>
-            <p className="text-sm text-gray-500">
-              Replace styled or unstyled native code tags in docs prose with InlineCode.
-            </p>
-            <CodeBlock html={code.migrationNative} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Status } from "@slock/ui";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -11,7 +11,6 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import LegacyAttentionDot from "../../../../../packages/ui/src/legacy/AttentionDot.tsx";
 
 const TOC = [
-  { id: "migration", title: "Migration" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -65,13 +64,15 @@ function AttentionDotMigrationDoc() {
       description="Migrated: use Status instead of the old AttentionDot component."
       toc={TOC}
     >
-      <DocSection id="migration" title="Migration">
-        <CodeBlock html={code.migration} />
-      </DocSection>
-
       <DocSection id="anatomy" title="Anatomy">
         <div className="space-y-4">
-          <CodeBlock html={code.anatomy} />
+          <DocsCodeBlock.Panel
+            path="AttentionDot.tsx"
+            source={SNIPPETS.anatomy}
+            html={code.anatomy}
+            collapsedHtml={code.anatomyBody}
+            showLineNumbers={false}
+          />
           <Example html={code.anatomy}>
             <Status variant="accent" />
             <Status variant="accent" size="xs" />

@@ -98,10 +98,19 @@ export const highlightSnippets = createServerFn({ method: "POST" })
   .validator((snippets: Record<string, string>) => snippets)
   .handler(async ({ data }) => {
     const entries = await Promise.all(
-      Object.entries(data).map(async ([id, code]) => [
-        id,
-        await renderServerComponent(<ServerCodeBlock code={code} />),
-      ]),
+      Object.entries(data).flatMap(([id, code]) => {
+        const bodyCode = stripTopLevelImports(code);
+        const snippetEntries = [[id, code]];
+
+        if (bodyCode !== code && !id.endsWith("Body")) {
+          snippetEntries.push([`${id}Body`, bodyCode]);
+        }
+
+        return snippetEntries.map(async ([snippetId, snippetCode]) => [
+          snippetId,
+          await renderServerComponent(<ServerCodeBlock code={snippetCode} />),
+        ]);
+      }),
     );
     return Object.fromEntries(entries) as HighlightedSnippets;
   });

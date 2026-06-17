@@ -3,10 +3,10 @@ import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import { Button, type ButtonProps } from "@slock/ui";
 import { Plus, Trash2 } from "lucide-react";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -25,7 +25,6 @@ const TOC = [
   { id: "disabled", title: "Disabled" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const VARIANTS = [
@@ -485,7 +484,13 @@ function ButtonDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="Button.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="variants" title="Variants">
@@ -784,56 +789,6 @@ function ButtonDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Default</h3>
-            <p className="text-sm text-gray-500">
-              Source and current both render the neutral action without props.
-            </p>
-            <CodeBlock html={code.migrationDefault} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Tone to Variant</h3>
-            <p className="text-sm text-gray-500">
-              Migrate color names to action intent: yellow/white/red become primary/default/danger.
-              Use this same mapping when auditing downstream Button call sites.
-            </p>
-            <CodeBlock html={code.migrationTones} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Supporting Tones</h3>
-            <p className="text-sm text-gray-500">
-              Cyan, stone, and pink become semantic action variants. Lime and orange are not Button
-              variants.
-            </p>
-            <CodeBlock html={code.migrationSupportingTones} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Lavender</h3>
-            <p className="text-sm text-gray-500">
-              Keep lavender on identity or attachment surfaces; use a local Button override only as
-              a temporary source-visual fallback.
-            </p>
-            <CodeBlock html={code.migrationLavender} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Icon Only</h3>
-            <p className="text-sm text-gray-500">
-              Replace shape=&quot;icon&quot; with an icon-* size and keep the accessible label.
-            </p>
-            <CodeBlock html={code.migrationIconOnly} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Inline Icons</h3>
-            <p className="text-sm text-gray-500">
-              Replace shape=&quot;iconText&quot; with inline icon markers on normal text buttons.
-            </p>
-            <CodeBlock html={code.migrationInlineIcon} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

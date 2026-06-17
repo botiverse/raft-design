@@ -3,10 +3,10 @@ import { Button, Input, Label } from "@slock/ui";
 import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -20,7 +20,6 @@ const TOC = [
   { id: "states", title: "States" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const SNIPPETS = {
@@ -158,7 +157,13 @@ function LabelDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="Label.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="markers" title="Markers">
@@ -294,25 +299,6 @@ function LabelDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Inline labels</h3>
-            <p className="text-sm text-gray-500">
-              Replace repeated native label class strings with Label.
-            </p>
-            <CodeBlock html={code.migrationInline} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">FormField props</h3>
-            <p className="text-sm text-gray-500">
-              Move required and optional indicators from wrapper props into explicit marker parts.
-            </p>
-            <CodeBlock html={code.migrationFormField} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

@@ -11,11 +11,11 @@ import {
   Kbd,
 } from "@slock/ui";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -36,7 +36,6 @@ const TOC = [
   { id: "field", title: "With Field" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const SEARCH_NO_LIFT_CLASS = "has-[[data-slot=input-group-control]:focus]:!shadow-sm";
@@ -311,7 +310,13 @@ function InputGroupDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="InputGroup.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="addons" title="Addons">
@@ -566,35 +571,6 @@ function InputGroupDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">SearchInput</h3>
-            <p className="text-sm text-gray-500">
-              Replace the dedicated wrapper with a composed icon addon. Keep the no-focus-lift class
-              only when preserving the old source shell exactly.
-            </p>
-            <CodeBlock html={code.migrationSearch} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">SlugInput</h3>
-            <p className="text-sm text-gray-500">
-              Replace the slug preset with a text addon. Use the container variant when the prefix
-              is part of the value structure.
-            </p>
-            <CodeBlock html={code.migrationSlug} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-900">Invalid wrapper classes</h3>
-            <p className="text-sm text-gray-500">
-              Move ad-hoc invalid border and ring classes to <InlineCode>aria-invalid</InlineCode>{" "}
-              on the control; the group shell owns the visible state.
-            </p>
-            <CodeBlock html={code.migrationInvalid} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );

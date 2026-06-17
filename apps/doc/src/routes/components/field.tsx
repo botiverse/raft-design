@@ -18,11 +18,11 @@ import {
 } from "@slock/ui";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -37,7 +37,6 @@ const TOC = [
   { id: "controls", title: "Controls" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "migration", title: "Migration" },
 ] as const;
 
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
@@ -314,7 +313,13 @@ function FieldDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <CodeBlock html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="Field.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+          showLineNumbers={false}
+        />
       </DocSection>
 
       <DocSection id="structure" title="Structure">
@@ -495,27 +500,6 @@ function FieldDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="migration" title="Migration">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">FormField wrapper</h3>
-            <p className="text-sm text-foreground-muted">
-              Move <InlineCode>label</InlineCode>, <InlineCode>required</InlineCode>, and{" "}
-              <InlineCode>hint</InlineCode> from wrapper props into explicit Field parts.
-            </p>
-            <CodeBlock html={code.migrationFormField} />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-foreground-strong">Error prop</h3>
-            <p className="text-sm text-foreground-muted">
-              Replace <InlineCode>error</InlineCode> with <InlineCode>Field invalid</InlineCode>, an
-              invalid control state, and <InlineCode>FieldError</InlineCode>.
-            </p>
-            <CodeBlock html={code.migrationError} />
-          </div>
-        </div>
       </DocSection>
     </DocPage>
   );
