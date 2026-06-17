@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts/brutal.css";
 
 /* Pure token contract. No legacy action/surface/destructive/component aliases. */
 
@@ -305,9 +306,9 @@
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
   --theme-shadow-2xl: 6px 6px 0px var(--line-strong);
 
-  --display-font: "Space Grotesk", system-ui, sans-serif;
-  --sans-font: "Space Grotesk", system-ui, sans-serif;
-  --mono-font: "Space Mono", ui-monospace, monospace;
+  --display-font: "FK Grotesk", system-ui, sans-serif;
+  --sans-font: "FK Grotesk", system-ui, sans-serif;
+  --mono-font: "Berkeley Mono", ui-monospace, monospace;
 }
 
 [data-theme="elegant"] {

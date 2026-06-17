@@ -22,13 +22,13 @@ const FAMILIES = [
     theme: "Brutal",
     themeId: "brutal",
     status: undefined,
-    display: "Space Grotesk",
-    sans: "Space Grotesk",
-    mono: "Space Mono",
+    display: "FK Grotesk",
+    sans: "FK Grotesk",
+    mono: "Berkeley Mono",
     samples: [
       {
         title: "Headline",
-        family: "Space Grotesk",
+        family: "FK Grotesk",
         utility: "font-display",
         px: "36px",
         className:
@@ -37,7 +37,7 @@ const FAMILIES = [
       },
       {
         title: "Body",
-        family: "Space Grotesk",
+        family: "FK Grotesk",
         utility: "font-sans",
         px: "14px",
         className: "truncate font-sans text-sm leading-5 text-[var(--foreground-muted)]",
@@ -45,7 +45,7 @@ const FAMILIES = [
       },
       {
         title: "Mono",
-        family: "Space Mono",
+        family: "Berkeley Mono",
         utility: "font-mono",
         px: "14px",
         className: "truncate font-mono text-sm leading-5 text-[var(--foreground-muted)]",
