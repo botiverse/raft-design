@@ -503,7 +503,7 @@ function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children
     <div
       data-token-theme-scope={theme}
       data-theme={theme}
-      className="light min-h-screen font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:pl-8 [&_section>h2]:font-heading"
+      className="light min-h-screen font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
       style={{
         background: "var(--layer-page)",
         color: "var(--foreground)",
@@ -582,7 +582,7 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
   const lineHeight = spec.leadingPx ?? toLeadingPx(spec.px, spec.leading);
 
   return (
-    <div className="px-8 py-11">
+    <div className="py-11">
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <p className="text-sm font-medium uppercase text-foreground-strong">
           {spec.category ? `${spec.category} / ${spec.name}` : spec.name}
@@ -609,7 +609,7 @@ function SpecimenCard({ family }: { family: (typeof FAMILIES)[number] }) {
       {family.samples.map((sample) => (
         <div
           key={sample.title}
-          className="grid min-w-0 items-end gap-x-10 gap-y-6 px-8 pt-7 pb-3.5 md:grid-cols-[9rem_minmax(0,1fr)_9rem]"
+          className="grid min-w-0 items-end gap-x-10 gap-y-6 pt-7 pb-3.5 md:grid-cols-[9rem_minmax(0,1fr)_9rem]"
         >
           <div className="grid min-w-0 content-end gap-1 pb-1">
             <p className="text-sm font-medium text-[var(--foreground-strong)]">{sample.title}</p>
