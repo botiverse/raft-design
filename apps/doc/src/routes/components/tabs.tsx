@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  Button,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
@@ -16,6 +17,7 @@ import {
   IconCreditCardOutline18,
   IconFilesOutline18,
   IconGearOutline18,
+  IconGridCircleOutline18,
   IconMessageOutline18,
   IconUsersOutline18,
 } from "nucleo-ui-outline-18";
@@ -427,6 +429,16 @@ function TabsDoc() {
     <DocPage
       title="Tabs"
       description="A Base UI Tabs family for switching related panels with default, underline, and opt-in sortable list treatments."
+      headerAction={
+        <Button
+          render={<a href="/components/tabs/matrix" target="_blank" rel="noreferrer" />}
+          variant="ghost"
+          size="sm"
+        >
+          Matrix
+          <IconGridCircleOutline18 data-icon="inline-end" />
+        </Button>
+      }
       toc={TOC}
       sectionDividers={false}
     >

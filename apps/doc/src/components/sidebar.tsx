@@ -772,7 +772,7 @@ function MigratedGroup({ title, items }: { title: string; items: readonly Migrat
       <p className={sectionTitleClassName}>{title}</p>
       <ul className="space-y-1">
         {items.map((item) => (
-          <li key={item.label}>
+          <li key={`${item.label}-${item.to}-${item.hash ?? ""}`}>
             <MigratedLink {...item} />
           </li>
         ))}

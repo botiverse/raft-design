@@ -38,6 +38,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
+import { StatusBadge } from "#/components/status-badge.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
@@ -720,7 +721,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="switch" title="Switch">
+      <DocSection id="switch" title="Switch" badge={<StatusBadge status="in-progress" />}>
         <Example html={code.switchMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
             <SwitchMenuRows />

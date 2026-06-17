@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Badge } from "@slock/ui";
+import { StatusBadge } from "./status-badge.tsx";
 
 type DocSectionProps = {
   id: string;
@@ -13,9 +13,7 @@ export function DocSection({ id, title, badge, children }: DocSectionProps) {
   const resolvedBadge =
     id === "api" ? (
       <>
-        <Badge appearance="soft" variant="information">
-          WIP
-        </Badge>
+        <StatusBadge status="in-progress" />
         {badge}
       </>
     ) : (
