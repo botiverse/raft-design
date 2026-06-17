@@ -26,7 +26,7 @@ const TOKENS = {
       label: "Typography",
       children: [
         { label: "Brutal", to: "/tokens/typography/brutal" },
-        { label: "Elegant", to: "/tokens/typography/elegant", status: "wip" },
+        { label: "Elegant", to: "/tokens/typography/elegant" },
       ],
     },
     {
@@ -158,7 +158,7 @@ const NAV = [
     items: [
       { label: "BottomSheet", to: "/components/bottom-sheet", progress: { theme: "todo" } },
       { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "todo" } },
-      { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "todo" } },
+      { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
       { label: "Popover", to: "/components/popover", progress: { theme: "todo" } },
     ],
@@ -420,7 +420,13 @@ const MIGRATED = {
       label: "SelectionPopover",
       to: "/components/popover",
       hash: "migration",
-      target: "Popover",
+      target: "Popover (searchable)",
+    },
+    {
+      label: "SelectionPopover",
+      to: "/components/dropdown-menu",
+      hash: "migration",
+      target: "DropdownMenu (plain pickers)",
     },
     {
       label: "SegmentedControl",

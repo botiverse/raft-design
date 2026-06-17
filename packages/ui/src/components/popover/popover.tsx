@@ -13,8 +13,8 @@ const popover = tv({
       "outline-none",
     ],
     header: ["flex items-center justify-between border-b px-3 py-2"],
-    title: ["text-[10px] font-bold uppercase tracking-wide"],
-    description: ["text-xs leading-5"],
+    title: ["m-0 text-[10px] font-bold uppercase leading-none tracking-wide"],
+    description: ["m-0 text-xs leading-5"],
     close: [
       "inline-flex items-center justify-center",
       "text-[10px] font-bold uppercase tracking-wide",
@@ -27,16 +27,31 @@ const popover = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-line-strong shadow-md"],
-        header: ["border-line-strong"],
-        title: ["text-foreground/60"],
-        description: ["text-foreground/50"],
-        close: ["text-foreground/50 hover:text-foreground-strong"],
-        arrow: ["border-l-2 border-t-2 border-line-strong bg-layer-panel"],
+        content: [
+          "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
+        ],
+        header: ["border-black"],
+        title: ["font-sans text-black/60"],
+        description: ["font-sans text-black/50"],
+        close: ["font-sans text-black/50 hover:text-black"],
+        arrow: ["border-l-2 border-t-2 border-black bg-white"],
         backdrop: ["bg-transparent"],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        content: [
+          "rounded-md bg-layer-popover",
+          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
+        ],
+        header: ["border-line-muted"],
+        title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground/45"],
+        description: ["text-xs leading-5 text-foreground-muted"],
+        close: [
+          "text-[11px] font-medium tracking-[-0.005em]",
+          "text-foreground-muted transition-colors duration-150 hover:text-foreground-strong",
+        ],
+        arrow: ["border-l border-t border-line-muted bg-layer-popover"],
+        backdrop: ["bg-black/20"],
+      },
     },
   },
 });
@@ -44,7 +59,7 @@ const popover = tv({
 export type PopoverProps = BasePopover.Root.Props;
 
 export function Popover(props: PopoverProps) {
-  return <BasePopover.Root {...props} />;
+  return <BasePopover.Root data-slot="popover" {...props} />;
 }
 
 export type PopoverTriggerProps = StyledProps<BasePopover.Trigger.Props>;
@@ -65,6 +80,14 @@ export type PopoverPortalProps = BasePopover.Portal.Props;
 
 export function PopoverPortal(props: PopoverPortalProps) {
   return <BasePopover.Portal data-slot="popover-portal" {...props} />;
+}
+
+export type PopoverSurfaceProps = ComponentPropsWithRef<"div">;
+
+export function PopoverSurface({ className, ...props }: PopoverSurfaceProps) {
+  const theme = useTheme();
+  const { content } = popover({ theme });
+  return <div data-slot="popover-content" className={content({ className })} {...props} />;
 }
 
 export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &

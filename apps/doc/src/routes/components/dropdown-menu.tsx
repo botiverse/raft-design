@@ -13,9 +13,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
+  DropdownMenuSurface,
   DropdownMenuTrigger,
+  useTheme,
 } from "@slock/ui";
-import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { Check } from "lucide-react";
 import {
   IconBellOutline18,
   IconChevronRightOutline18,
@@ -43,6 +45,7 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ServerSwitcherMenu as LegacyServerSwitcherMenu } from "../../../../../packages/ui/src/legacy/server-switcher-menu.tsx";
+import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -50,6 +53,9 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "submenu", title: "Submenu" },
   { id: "radio-group", title: "Radio group" },
+  { id: "plain-picker", title: "Plain picker" },
+  { id: "headerless-picker", title: "Headerless picker" },
+  { id: "options-list", title: "Options list" },
   { id: "checkboxes", title: "Checkboxes" },
   { id: "switch", title: "Switch" },
   { id: "api", title: "API" },
@@ -152,6 +158,45 @@ const RADIO_GROUP_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="ra
   </DropdownMenuContent>
 </DropdownMenu>`;
 
+const PLAIN_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="plain-picker-trigger">
+  <DropdownMenuTrigger id="plain-picker-trigger" render={<Button variant="outline" size="md" />}>
+    Time
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex min-w-[220px] flex-col">
+    <DropdownMenuLabel>Time</DropdownMenuLabel>
+    <DropdownMenuRadioGroup defaultValue="any">
+      <DropdownMenuRadioItem value="any">Any time</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="today">Today</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="7d">Last 7 days</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>`;
+
+const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="headerless-picker-trigger">
+  <DropdownMenuTrigger id="headerless-picker-trigger" render={<Button variant="outline" size="md" />}>
+    Sort
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex min-w-[136px] flex-col">
+    <DropdownMenuRadioGroup defaultValue="manual">
+      <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>`;
+
+const OPTIONS_LIST_SNIPPET = `<DropdownMenu open modal={false} triggerId="options-list-trigger">
+  <DropdownMenuTrigger id="options-list-trigger" render={<Button variant="outline" size="md" />}>
+    Options
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex min-w-[220px] flex-col">
+    <DropdownMenuRadioGroup defaultValue="relevance">
+      <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>`;
+
 const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-trigger">
   <DropdownMenuTrigger id="submenu-trigger" render={<Button variant="outline" size="md" />}>
     Submenu
@@ -178,17 +223,26 @@ const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-tri
 
 const SERVER_SWITCHER_MENU_CONTENT_SNIPPET = `    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
       <DropdownMenuItem data-selected>
+        <span className="flex size-3.5 shrink-0 items-center justify-center">
+          <Check size={14} />
+        </span>
         <div className="min-w-0 flex-1 text-left">
           <div className="truncate">Slock</div>
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem className="font-medium">
+        <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+          <Check size={14} className="opacity-0" />
+        </span>
         <div className="min-w-0 flex-1 text-left">
           <div className="truncate">Design Guild</div>
         </div>
         <DropdownMenuItemCount>4</DropdownMenuItemCount>
       </DropdownMenuItem>
       <DropdownMenuItem className="font-medium">
+        <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+          <Check size={14} className="opacity-0" />
+        </span>
         <div className="min-w-0 flex-1 text-left">
           <div className="truncate">Open Source</div>
         </div>
@@ -243,6 +297,9 @@ ${PROFILE_MENU_SNIPPET}
   switchMenu: SWITCH_MENU_SNIPPET,
   checkboxesMenu: CHECKBOXES_MENU_SNIPPET,
   radioGroupMenu: RADIO_GROUP_MENU_SNIPPET,
+  plainPicker: PLAIN_PICKER_SNIPPET,
+  headerlessPicker: HEADERLESS_PICKER_SNIPPET,
+  optionsList: OPTIONS_LIST_SNIPPET,
   sourceServerSwitcher: `<ServerSwitcherMenu
   servers={servers}
   selectedServerId={selectedServerId}
@@ -273,6 +330,75 @@ ${SERVER_SWITCHER_MENU_CONTENT_SNIPPET}
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
 ${SERVER_SWITCHER_MENU_CONTENT_SNIPPET}
+  </DropdownMenuContent>
+</DropdownMenu>`,
+  migrationPlainPicker: `// Source — MessageSearchPage.tsx
+<SelectionPopover
+  title="Time"
+  options={[
+    { key: "any", checked: true, label: "Any time", onClick: () => setTimeRange("any") },
+    { key: "today", checked: false, label: "Today", onClick: () => setTimeRange("today") },
+    { key: "7d", checked: false, label: "Last 7 days", onClick: () => setTimeRange("7d") },
+  ]}
+/>
+
+// Current
+<DropdownMenu open={timeMenuOpen} onOpenChange={setTimeMenuOpen}>
+  <DropdownMenuTrigger render={<FilterChip />}>Time</DropdownMenuTrigger>
+  <DropdownMenuContent className="flex min-w-[220px] flex-col">
+    <DropdownMenuLabel>Time</DropdownMenuLabel>
+    <DropdownMenuRadioGroup value={timeRange} onValueChange={setTimeRange}>
+      <DropdownMenuRadioItem value="any">Any time</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="today">Today</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="7d">Last 7 days</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+  migrationHeaderlessPicker: `// Source — Sidebar.tsx
+<SelectionPopover
+  title="Sort"
+  showHeader={false}
+  className="min-w-[136px]"
+  options={[
+    { key: "manual", checked: true, label: "Manual", onClick: () => setSort("manual") },
+    { key: "recent", checked: false, label: "Recent", onClick: () => setSort("recent") },
+    { key: "az", checked: false, label: "A-Z", onClick: () => setSort("az") },
+  ]}
+/>
+
+// Current
+<DropdownMenu open={sortMenuOpen} onOpenChange={setSortMenuOpen}>
+  <DropdownMenuTrigger render={<IconButton aria-label="Sort channels" />}>
+    <ArrowUpDown />
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex min-w-[136px] flex-col">
+    <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+      <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+  migrationOptionsList: `// Source — Select.tsx
+<SelectionPopover
+  title="Options"
+  showHeader={false}
+  options={[
+    { key: "relevance", checked: true, label: "Relevance", reserveLeadingSlot: true, onClick: () => setValue("relevance") },
+    { key: "recent", checked: false, label: "Most recent", reserveLeadingSlot: true, onClick: () => setValue("recent") },
+  ]}
+/>
+
+// Current
+<DropdownMenu open={optionsOpen} onOpenChange={setOptionsOpen}>
+  <DropdownMenuTrigger render={<SelectTrigger />}>
+    {selectedLabel}
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex min-w-[220px] flex-col">
+    <DropdownMenuRadioGroup value={value} onValueChange={setValue}>
+      <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
   </DropdownMenuContent>
 </DropdownMenu>`,
 } as const;
@@ -308,15 +434,21 @@ function ProfileMenuRows() {
           className="flex w-36 min-w-36 flex-col"
         >
           <DropdownMenuItem>
-            <IconCircleCheckFill18 />
+            <span className="flex size-3.5 shrink-0 items-center justify-center">
+              <Check size={14} />
+            </span>
             <span className="min-w-0 flex-1 truncate">System</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconCircleCheckFill18 className="opacity-0" />
+            <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+              <Check size={14} className="opacity-0" />
+            </span>
             <span className="min-w-0 flex-1 truncate">Light</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconCircleCheckFill18 className="opacity-0" />
+            <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+              <Check size={14} className="opacity-0" />
+            </span>
             <span className="min-w-0 flex-1 truncate">Dark</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -372,6 +504,168 @@ function RadioGroupMenuRows() {
   );
 }
 
+function PlainPickerRows() {
+  return (
+    <>
+      <DropdownMenuLabel>Time</DropdownMenuLabel>
+      <DropdownMenuRadioGroup defaultValue="any">
+        <DropdownMenuRadioItem value="any">Any time</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="today">Today</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="7d">Last 7 days</DropdownMenuRadioItem>
+      </DropdownMenuRadioGroup>
+    </>
+  );
+}
+
+function HeaderlessSortRows() {
+  return (
+    <DropdownMenuRadioGroup defaultValue="manual">
+      <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  );
+}
+
+function OptionsListRows() {
+  return (
+    <DropdownMenuRadioGroup defaultValue="relevance">
+      <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  );
+}
+
+const noop = () => {};
+
+function SourcePopoverMount({
+  contentClassName = "w-[220px]",
+  children,
+}: {
+  contentClassName?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex h-full min-h-56 w-full items-center justify-center">
+      <div
+        className={["relative shrink-0 [--shadow-hover:4px_4px_0px_oklch(0_0_0)]", contentClassName]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function ComparisonDropdownMount({
+  frameClassName = "w-[220px]",
+  contentClassName = "min-w-[220px]",
+  children,
+}: {
+  frameClassName?: string;
+  contentClassName?: string;
+  children: ReactNode;
+}) {
+  const triggerId = useId();
+
+  return (
+    <div className="flex h-full min-h-56 w-full items-center justify-center">
+      <DropdownMenu open modal={false} triggerId={triggerId}>
+        <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
+        <DropdownMenuSurface
+          className={[contentClassName, frameClassName].filter(Boolean).join(" ")}
+        >
+          {children}
+        </DropdownMenuSurface>
+      </DropdownMenu>
+    </div>
+  );
+}
+
+function SourceMessageSearchTimeComparison() {
+  return (
+    <SourcePopoverMount>
+      <LegacySelectionPopover
+        title="Time"
+        options={[
+          { key: "any", checked: true, label: "Any time", onClick: noop },
+          { key: "today", checked: false, label: "Today", onClick: noop },
+          { key: "7d", checked: false, label: "Last 7 days", onClick: noop },
+        ]}
+      />
+    </SourcePopoverMount>
+  );
+}
+
+function CurrentMessageSearchTimeComparison() {
+  return (
+    <ComparisonDropdownMount>
+      <PlainPickerRows />
+    </ComparisonDropdownMount>
+  );
+}
+
+function SourceSidebarSortComparison() {
+  return (
+    <SourcePopoverMount contentClassName="w-[136px]">
+      <LegacySelectionPopover
+        title="Sort"
+        showHeader={false}
+        className="min-w-[136px]"
+        options={[
+          { key: "manual", checked: true, label: "Manual", onClick: noop },
+          { key: "recent", checked: false, label: "Recent", onClick: noop },
+          { key: "az", checked: false, label: "A-Z", onClick: noop },
+        ]}
+      />
+    </SourcePopoverMount>
+  );
+}
+
+function CurrentSidebarSortComparison() {
+  return (
+    <ComparisonDropdownMount frameClassName="w-[136px]" contentClassName="min-w-[136px] w-[136px]">
+      <HeaderlessSortRows />
+    </ComparisonDropdownMount>
+  );
+}
+
+function SourceSelectComparison() {
+  return (
+    <SourcePopoverMount>
+      <LegacySelectionPopover
+        title="Options"
+        showHeader={false}
+        options={[
+          {
+            key: "relevance",
+            checked: true,
+            label: "Relevance",
+            reserveLeadingSlot: true,
+            onClick: noop,
+          },
+          {
+            key: "recent",
+            checked: false,
+            label: "Most recent",
+            reserveLeadingSlot: true,
+            onClick: noop,
+          },
+        ]}
+      />
+    </SourcePopoverMount>
+  );
+}
+
+function CurrentSelectComparison() {
+  return (
+    <ComparisonDropdownMount>
+      <OptionsListRows />
+    </ComparisonDropdownMount>
+  );
+}
+
 function SubmenuRows() {
   return (
     <>
@@ -404,10 +698,12 @@ function OpenMenuExample({
   triggerId,
   label,
   children,
+  contentClassName = "flex w-64 flex-col",
 }: {
   triggerId: string;
   label: string;
   children: ReactNode;
+  contentClassName?: string;
 }) {
   const portalRef = useRef<HTMLDivElement>(null);
 
@@ -420,7 +716,7 @@ function OpenMenuExample({
         <DropdownMenuContent
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="flex w-64 flex-col"
+          className={contentClassName}
         >
           {children}
         </DropdownMenuContent>
@@ -464,6 +760,18 @@ const COMPARISON_UNREAD_COUNTS = {
   design: 4,
   oss: 12,
 } as const;
+
+function ServerSwitcherCheckSlot({ visible }: { visible: boolean }) {
+  return (
+    <span className="flex size-3.5 shrink-0 items-center justify-center">
+      <Check
+        size={14}
+        className={visible ? "shrink-0" : "shrink-0 opacity-0"}
+        aria-hidden={!visible}
+      />
+    </span>
+  );
+}
 
 const PROPS: readonly PropRow[] = [
   {
@@ -558,6 +866,7 @@ export const Route = createFileRoute("/components/dropdown-menu")({
 function CurrentServerSwitcherMenuComparison({ className }: { className?: string }) {
   const portalRef = useRef<HTMLDivElement>(null);
   const triggerId = useId();
+  const theme = useTheme();
 
   return (
     <div ref={portalRef} className={["relative w-64", className].filter(Boolean).join(" ")}>
@@ -583,18 +892,24 @@ function CurrentServerSwitcherMenuComparison({ className }: { className?: string
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
         >
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-            <DropdownMenuItem data-selected>
+            <DropdownMenuItem
+              data-selected
+              className={theme === "brutal" ? "font-bold" : undefined}
+            >
+              <ServerSwitcherCheckSlot visible />
               <div className="min-w-0 flex-1 text-left">
                 <div className="truncate">Slock</div>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem className="font-medium">
+              <ServerSwitcherCheckSlot visible={false} />
               <div className="min-w-0 flex-1 text-left">
                 <div className="truncate">Design Guild</div>
               </div>
               <DropdownMenuItemCount>4</DropdownMenuItemCount>
             </DropdownMenuItem>
             <DropdownMenuItem className="font-medium">
+              <ServerSwitcherCheckSlot visible={false} />
               <div className="min-w-0 flex-1 text-left">
                 <div className="truncate">Open Source</div>
               </div>
@@ -701,6 +1016,42 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
+      <DocSection id="plain-picker" title="Plain picker">
+        <Example html={code.plainPicker} previewClassName="min-h-[18rem] items-start pt-28">
+          <OpenMenuExample
+            triggerId="plain-picker-trigger"
+            label="Time"
+            contentClassName="flex min-w-[220px] flex-col"
+          >
+            <PlainPickerRows />
+          </OpenMenuExample>
+        </Example>
+      </DocSection>
+
+      <DocSection id="headerless-picker" title="Headerless picker">
+        <Example html={code.headerlessPicker} previewClassName="min-h-[18rem] items-start pt-28">
+          <OpenMenuExample
+            triggerId="headerless-picker-trigger"
+            label="Sort"
+            contentClassName="flex min-w-[136px] flex-col"
+          >
+            <HeaderlessSortRows />
+          </OpenMenuExample>
+        </Example>
+      </DocSection>
+
+      <DocSection id="options-list" title="Options list">
+        <Example html={code.optionsList} previewClassName="min-h-[18rem] items-start pt-28">
+          <OpenMenuExample
+            triggerId="options-list-trigger"
+            label="Options"
+            contentClassName="flex min-w-[220px] flex-col"
+          >
+            <OptionsListRows />
+          </OpenMenuExample>
+        </Example>
+      </DocSection>
+
       <DocSection id="checkboxes" title="Checkboxes">
         <Example html={code.checkboxesMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
@@ -734,6 +1085,33 @@ function DropdownMenuDoc() {
               elegant: <CurrentServerSwitcherMenuComparison className="h-[251px]" />,
               elegantDark: <CurrentServerSwitcherMenuComparison className="h-[251px]" />,
             },
+            {
+              label: "Message search — time filter",
+              status: "difference",
+              note: "`MessageSearchPage.tsx`. Plain single-select list for search time ranges (`any`, `today`, `7d`, `30d`) with no search field. Menu semantics fit better than a popover shell.",
+              source: <SourceMessageSearchTimeComparison />,
+              brutal: <CurrentMessageSearchTimeComparison />,
+              elegant: <CurrentMessageSearchTimeComparison />,
+              elegantDark: <CurrentMessageSearchTimeComparison />,
+            },
+            {
+              label: "Sidebar — sort menu",
+              status: "difference",
+              note: "`Sidebar.tsx`. Compact sort dropdown with `showHeader={false}` and a narrower `min-w-[136px]` shell aligned to the section icon button.",
+              source: <SourceSidebarSortComparison />,
+              brutal: <CurrentSidebarSortComparison />,
+              elegant: <CurrentSidebarSortComparison />,
+              elegantDark: <CurrentSidebarSortComparison />,
+            },
+            {
+              label: "Select — options list",
+              status: "difference",
+              note: "`Select.tsx`. Headerless options surface mounted under a brutal select trigger. Rows reserve the leading slot for baseline alignment even without avatars.",
+              source: <SourceSelectComparison />,
+              brutal: <CurrentSelectComparison />,
+              elegant: <CurrentSelectComparison />,
+              elegantDark: <CurrentSelectComparison />,
+            },
           ]}
         />
       </DocSection>
@@ -749,6 +1127,36 @@ function DropdownMenuDoc() {
               Server data, navigation, join flow, unread counts, and open state stay app-owned.
             </p>
             <CodeBlock html={code.migrationServerSwitcher} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-foreground-strong">
+              Plain picker composition
+            </h3>
+            <p className="text-sm text-foreground-muted">
+              Replace headered SelectionPopover pickers with DropdownMenuLabel plus
+              DropdownMenuRadioGroup. Selection state and onChange stay app-owned.
+            </p>
+            <CodeBlock html={code.migrationPlainPicker} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-foreground-strong">
+              Headerless picker composition
+            </h3>
+            <p className="text-sm text-foreground-muted">
+              Replace compact headerless SelectionPopover menus with a radio group only. Width and
+              trigger alignment stay app-owned.
+            </p>
+            <CodeBlock html={code.migrationHeaderlessPicker} />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-foreground-strong">
+              Options list composition
+            </h3>
+            <p className="text-sm text-foreground-muted">
+              Replace Select's headerless SelectionPopover options with DropdownMenuRadioGroup under
+              the select trigger. Value, labels, and reserved leading-slot alignment stay app-owned.
+            </p>
+            <CodeBlock html={code.migrationOptionsList} />
           </div>
         </div>
       </DocSection>

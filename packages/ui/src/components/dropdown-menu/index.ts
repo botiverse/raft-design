@@ -14,6 +14,7 @@ export {
   DropdownMenuShortcut,
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
+  DropdownMenuSurface,
   DropdownMenuTrigger,
 } from "./dropdown-menu.tsx";
 export type {
@@ -32,5 +33,6 @@ export type {
   DropdownMenuShortcutProps,
   DropdownMenuSubmenuProps,
   DropdownMenuSubmenuTriggerProps,
+  DropdownMenuSurfaceProps,
   DropdownMenuTriggerProps,
 } from "./dropdown-menu.tsx";

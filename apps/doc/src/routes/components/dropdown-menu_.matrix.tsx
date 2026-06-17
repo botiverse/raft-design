@@ -1,11 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Check } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useId, useRef } from "react";
-import {
-  IconCircleCheckFill18,
-  IconCircleInfoFill18,
-  IconCircleWarningFill18,
-} from "nucleo-ui-fill-18";
+import { IconCircleInfoFill18, IconCircleWarningFill18 } from "nucleo-ui-fill-18";
 import {
   IconBellOutline18,
   IconChevronRightOutline18,
@@ -80,14 +77,22 @@ const CASES: readonly MatrixCase[] = [
     render: () => (
       <MatrixMenu label="Server">
         <DropdownMenuItem data-selected>
-          <IconCircleCheckFill18 />
+          <span className="flex size-3.5 shrink-0 items-center justify-center">
+            <Check size={14} />
+          </span>
           <span className="min-w-0 flex-1 truncate">Slock</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
+          <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+            <Check size={14} className="opacity-0" />
+          </span>
           <span className="min-w-0 flex-1 truncate">Design Guild</span>
           <DropdownMenuItemCount>4</DropdownMenuItemCount>
         </DropdownMenuItem>
         <DropdownMenuItem>
+          <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+            <Check size={14} className="opacity-0" />
+          </span>
           <span className="min-w-0 flex-1 truncate">Open Source</span>
           <DropdownMenuItemCount>12</DropdownMenuItemCount>
         </DropdownMenuItem>

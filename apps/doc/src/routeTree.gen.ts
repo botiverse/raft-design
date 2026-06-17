@@ -62,6 +62,7 @@ import { Route as TokensColorsBrutalRouteImport } from './routes/tokens/colors/b
 import { Route as ComponentsTextareaMatrixRouteImport } from './routes/components/textarea_.matrix'
 import { Route as ComponentsTabsMatrixRouteImport } from './routes/components/tabs_.matrix'
 import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
+import { Route as ComponentsPopoverMatrixRouteImport } from './routes/components/popover_.matrix'
 import { Route as ComponentsLabelMatrixRouteImport } from './routes/components/label_.matrix'
 import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
 import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/components/input-group_.matrix'
@@ -343,6 +344,11 @@ const ComponentsStatusMatrixRoute = ComponentsStatusMatrixRouteImport.update({
   path: '/status/matrix',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsPopoverMatrixRoute = ComponentsPopoverMatrixRouteImport.update({
+  id: '/popover_/matrix',
+  path: '/popover/matrix',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsLabelMatrixRoute = ComponentsLabelMatrixRouteImport.update({
   id: '/label_/matrix',
   path: '/label/matrix',
@@ -446,6 +452,7 @@ export interface FileRoutesByFullPath {
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/label/matrix': typeof ComponentsLabelMatrixRoute
+  '/components/popover/matrix': typeof ComponentsPopoverMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
@@ -510,6 +517,7 @@ export interface FileRoutesByTo {
   '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input/matrix': typeof ComponentsInputMatrixRoute
   '/components/label/matrix': typeof ComponentsLabelMatrixRoute
+  '/components/popover/matrix': typeof ComponentsPopoverMatrixRoute
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
@@ -575,6 +583,7 @@ export interface FileRoutesById {
   '/components/input-group_/matrix': typeof ComponentsInputGroupMatrixRoute
   '/components/input_/matrix': typeof ComponentsInputMatrixRoute
   '/components/label_/matrix': typeof ComponentsLabelMatrixRoute
+  '/components/popover_/matrix': typeof ComponentsPopoverMatrixRoute
   '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
   '/components/tabs_/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea_/matrix': typeof ComponentsTextareaMatrixRoute
@@ -641,6 +650,7 @@ export interface FileRouteTypes {
     | '/components/input-group/matrix'
     | '/components/input/matrix'
     | '/components/label/matrix'
+    | '/components/popover/matrix'
     | '/components/status/matrix'
     | '/components/tabs/matrix'
     | '/components/textarea/matrix'
@@ -705,6 +715,7 @@ export interface FileRouteTypes {
     | '/components/input-group/matrix'
     | '/components/input/matrix'
     | '/components/label/matrix'
+    | '/components/popover/matrix'
     | '/components/status/matrix'
     | '/components/tabs/matrix'
     | '/components/textarea/matrix'
@@ -769,6 +780,7 @@ export interface FileRouteTypes {
     | '/components/input-group_/matrix'
     | '/components/input_/matrix'
     | '/components/label_/matrix'
+    | '/components/popover_/matrix'
     | '/components/status_/matrix'
     | '/components/tabs_/matrix'
     | '/components/textarea_/matrix'
@@ -1165,6 +1177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsStatusMatrixRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/popover_/matrix': {
+      id: '/components/popover_/matrix'
+      path: '/popover/matrix'
+      fullPath: '/components/popover/matrix'
+      preLoaderRoute: typeof ComponentsPopoverMatrixRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/label_/matrix': {
       id: '/components/label_/matrix'
       path: '/label/matrix'
@@ -1276,6 +1295,7 @@ interface ComponentsRouteChildren {
   ComponentsInputGroupMatrixRoute: typeof ComponentsInputGroupMatrixRoute
   ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
   ComponentsLabelMatrixRoute: typeof ComponentsLabelMatrixRoute
+  ComponentsPopoverMatrixRoute: typeof ComponentsPopoverMatrixRoute
   ComponentsStatusMatrixRoute: typeof ComponentsStatusMatrixRoute
   ComponentsTabsMatrixRoute: typeof ComponentsTabsMatrixRoute
   ComponentsTextareaMatrixRoute: typeof ComponentsTextareaMatrixRoute
@@ -1327,6 +1347,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsInputGroupMatrixRoute: ComponentsInputGroupMatrixRoute,
   ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,
   ComponentsLabelMatrixRoute: ComponentsLabelMatrixRoute,
+  ComponentsPopoverMatrixRoute: ComponentsPopoverMatrixRoute,
   ComponentsStatusMatrixRoute: ComponentsStatusMatrixRoute,
   ComponentsTabsMatrixRoute: ComponentsTabsMatrixRoute,
   ComponentsTextareaMatrixRoute: ComponentsTextareaMatrixRoute,

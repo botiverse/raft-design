@@ -18,11 +18,15 @@ const dropdownMenu = tv({
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
       "text-left text-sm outline-none transition-colors",
     ],
+    radioItem: [
+      "flex w-full cursor-default select-none items-center justify-between gap-2 px-3",
+      "text-left outline-none transition-colors",
+    ],
     submenuTrigger: [
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
       "text-left text-sm outline-none transition-colors",
     ],
-    label: ["px-3 py-1 text-xs font-bold uppercase"],
+    label: [],
     shortcut: ["ml-auto"],
     itemCount: ["ml-auto tabular-nums"],
     separator: ["border-t-2"],
@@ -36,16 +40,25 @@ const dropdownMenu = tv({
         ],
         item: [
           "font-sans font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
-          "data-[selected]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
+        ],
+        radioItem: [
+          "h-9 overflow-hidden font-sans text-xs font-bold leading-6 text-black",
+          "border-b border-black/10 last:border-b-0",
+          "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
         ],
         submenuTrigger: [
           "font-sans font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
-        label: ["font-sans text-black/40"],
+        label: [
+          "border-b border-black px-3 py-2",
+          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
+        ],
         shortcut: ["font-sans"],
         itemCount: [
           "rounded border border-black bg-brutal-pink px-1.5 py-0.5",
@@ -66,7 +79,19 @@ const dropdownMenu = tv({
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
           "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
-          "data-[selected]:bg-foreground/[0.04] data-[selected]:text-foreground-strong",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
+          "[&>svg:last-child]:size-3",
+          "[&>svg]:text-foreground-muted",
+          "hover:[&>svg]:text-foreground-strong",
+          "data-[highlighted]:[&>svg]:text-foreground-strong",
+        ],
+        radioItem: [
+          "gap-2.5 rounded-sm px-3 py-2 text-sm font-medium tracking-[-0.005em]",
+          "text-foreground-muted",
+          "transition-[background-color,color] duration-150",
+          "hover:bg-foreground/[0.04] hover:text-foreground-strong",
+          "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
           "[&>svg:last-child]:size-3",
@@ -90,8 +115,8 @@ const dropdownMenu = tv({
           "data-[popup-open]:[&>svg]:text-foreground-strong",
         ],
         label: [
-          "px-2 py-2 pl-3.5 text-[11px] font-medium tracking-[-0.005em]",
-          "text-foreground/45",
+          "border-b border-line-muted px-3 py-2",
+          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
         ],
         shortcut: ["text-foreground-muted"],
         itemCount: [],
@@ -132,6 +157,14 @@ export type DropdownMenuPortalProps = BaseMenu.Portal.Props;
 
 export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
   return <BaseMenu.Portal data-slot="dropdown-menu-portal" {...props} />;
+}
+
+export type DropdownMenuSurfaceProps = ComponentPropsWithRef<"div">;
+
+export function DropdownMenuSurface({ className, ...props }: DropdownMenuSurfaceProps) {
+  const theme = useTheme();
+  const { content } = dropdownMenu({ theme });
+  return <div data-slot="dropdown-menu-content" className={content({ className })} {...props} />;
 }
 
 export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &
@@ -296,11 +329,11 @@ export function DropdownMenuRadioItem({
   ...props
 }: DropdownMenuRadioItemProps) {
   const theme = useTheme();
-  const { item, indicator } = dropdownMenu({ theme });
+  const { radioItem, indicator } = dropdownMenu({ theme });
   return (
     <BaseMenu.RadioItem
       data-slot="dropdown-menu-radio-item"
-      className={item({ className })}
+      className={radioItem({ className })}
       {...props}
     >
       {children}
