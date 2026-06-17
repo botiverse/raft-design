@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Badge } from "@slock/ui";
 
 type DocSectionProps = {
   id: string;
@@ -9,6 +10,18 @@ type DocSectionProps = {
 };
 
 export function DocSection({ id, title, badge, children }: DocSectionProps) {
+  const resolvedBadge =
+    id === "api" ? (
+      <>
+        <Badge appearance="soft" variant="information">
+          WIP
+        </Badge>
+        {badge}
+      </>
+    ) : (
+      badge
+    );
+
   return (
     <section
       id={id}
@@ -21,7 +34,7 @@ export function DocSection({ id, title, badge, children }: DocSectionProps) {
             #
           </span>
         </a>
-        {badge}
+        {resolvedBadge}
       </h2>
       <div className="mt-5">{children}</div>
     </section>
