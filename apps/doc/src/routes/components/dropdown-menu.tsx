@@ -15,7 +15,6 @@ import {
   DropdownMenuSubmenuTrigger,
   DropdownMenuSurface,
   DropdownMenuTrigger,
-  useTheme,
 } from "@slock/ui";
 import { Check } from "lucide-react";
 import {
@@ -25,11 +24,9 @@ import {
   IconGridCircleOutline18,
   IconMoonStarsOutline18,
   IconPersonDoorOutline18,
-  IconPlusOutline18,
   IconProfileAnalyticsOutline18,
   IconTrashOutline18,
   IconUserOutline18,
-  IconUsersPlusOutline18,
 } from "nucleo-ui-outline-18";
 import type { ReactNode, RefObject } from "react";
 import { useId, useRef } from "react";
@@ -39,12 +36,15 @@ import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { Example } from "#/components/example.tsx";
-import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { ServerSwitcherMenu as LegacyServerSwitcherMenu } from "../../../../../packages/ui/src/legacy/server-switcher-menu.tsx";
+import {
+  SERVER_SWITCHER_MENU_CONTENT_SNIPPET,
+  ServerSwitcherMenuComposition,
+  ServerSwitcherMenuSourcePreview,
+} from "#/compositions/server-switcher-menu.tsx";
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
@@ -220,44 +220,6 @@ const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-tri
     </DropdownMenuSubmenu>
   </DropdownMenuContent>
 </DropdownMenu>`;
-
-const SERVER_SWITCHER_MENU_CONTENT_SNIPPET = `    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-      <DropdownMenuItem data-selected>
-        <span className="flex size-3.5 shrink-0 items-center justify-center">
-          <Check size={14} />
-        </span>
-        <div className="min-w-0 flex-1 text-left">
-          <div className="truncate">Slock</div>
-        </div>
-      </DropdownMenuItem>
-      <DropdownMenuItem className="font-medium">
-        <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
-          <Check size={14} className="opacity-0" />
-        </span>
-        <div className="min-w-0 flex-1 text-left">
-          <div className="truncate">Design Guild</div>
-        </div>
-        <DropdownMenuItemCount>4</DropdownMenuItemCount>
-      </DropdownMenuItem>
-      <DropdownMenuItem className="font-medium">
-        <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
-          <Check size={14} className="opacity-0" />
-        </span>
-        <div className="min-w-0 flex-1 text-left">
-          <div className="truncate">Open Source</div>
-        </div>
-        <DropdownMenuItemCount>12</DropdownMenuItemCount>
-      </DropdownMenuItem>
-    </div>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>
-      <IconUsersPlusOutline18 />
-      <span className="flex h-6 min-w-0 flex-1 items-center text-left">Join Community</span>
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <IconPlusOutline18 />
-      <span className="flex h-6 min-w-0 flex-1 items-center text-left">Switch or Create Server</span>
-    </DropdownMenuItem>`;
 
 const SNIPPETS = {
   anatomy: `import {
@@ -750,29 +712,6 @@ function ProfilePreviewMenu({ open, label }: { open: boolean; label: string }) {
   );
 }
 
-const COMPARISON_SERVERS = [
-  { id: "slock", name: "Slock", slug: "slock" },
-  { id: "design", name: "Design Guild", slug: "design" },
-  { id: "oss", name: "Open Source", slug: "oss" },
-] as const;
-
-const COMPARISON_UNREAD_COUNTS = {
-  design: 4,
-  oss: 12,
-} as const;
-
-function ServerSwitcherCheckSlot({ visible }: { visible: boolean }) {
-  return (
-    <span className="flex size-3.5 shrink-0 items-center justify-center">
-      <Check
-        size={14}
-        className={visible ? "shrink-0" : "shrink-0 opacity-0"}
-        aria-hidden={!visible}
-      />
-    </span>
-  );
-}
-
 const PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenu",
@@ -862,95 +801,6 @@ export const Route = createFileRoute("/components/dropdown-menu")({
   component: DropdownMenuDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
-
-function CurrentServerSwitcherMenuComparison({ className }: { className?: string }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const triggerId = useId();
-  const theme = useTheme();
-
-  return (
-    <div ref={portalRef} className={["relative w-64", className].filter(Boolean).join(" ")}>
-      <DropdownMenu open modal={false} triggerId={triggerId}>
-        <DropdownMenuTrigger
-          id={triggerId}
-          render={
-            <button
-              type="button"
-              aria-label="Server switcher"
-              className="absolute top-0 left-0 size-px overflow-hidden p-0 opacity-0"
-            />
-          }
-        />
-        <DropdownMenuContent
-          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          positionMethod="absolute"
-          side="bottom"
-          align="start"
-          sideOffset={0}
-          alignOffset={0}
-          className="flex w-64 flex-col"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-        >
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-            <DropdownMenuItem
-              data-selected
-              className={theme === "brutal" ? "font-bold" : undefined}
-            >
-              <ServerSwitcherCheckSlot visible />
-              <div className="min-w-0 flex-1 text-left">
-                <div className="truncate">Slock</div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="font-medium">
-              <ServerSwitcherCheckSlot visible={false} />
-              <div className="min-w-0 flex-1 text-left">
-                <div className="truncate">Design Guild</div>
-              </div>
-              <DropdownMenuItemCount>4</DropdownMenuItemCount>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="font-medium">
-              <ServerSwitcherCheckSlot visible={false} />
-              <div className="min-w-0 flex-1 text-left">
-                <div className="truncate">Open Source</div>
-              </div>
-              <DropdownMenuItemCount>12</DropdownMenuItemCount>
-            </DropdownMenuItem>
-          </div>
-
-          <DropdownMenuSeparator />
-
-          <DropdownMenuItem>
-            <IconUsersPlusOutline18 />
-            <span className="min-w-0 flex-1 text-left">Join Community</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IconPlusOutline18 />
-            <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  );
-}
-
-function SourceServerSwitcherMenuComparison() {
-  return (
-    <PreviewThemeScope family="brutal" mode="light" className="contents">
-      <div className="relative h-[234px] w-64 [--shadow-hover:4px_4px_0px_oklch(0_0_0)]">
-        <LegacyServerSwitcherMenu
-          servers={[...COMPARISON_SERVERS]}
-          currentServerId="slock"
-          serverUnreadCounts={COMPARISON_UNREAD_COUNTS}
-          joinOptions={[{ slug: "community", label: "Join Community" }]}
-          className="w-64"
-          onSelectServer={() => {}}
-          onJoinCommunity={() => {}}
-          onSwitchOrCreate={() => {}}
-        />
-      </div>
-    </PreviewThemeScope>
-  );
-}
 
 function DropdownMenuDoc() {
   const code = Route.useLoaderData();
@@ -1080,10 +930,10 @@ function DropdownMenuDoc() {
               label: "Server switcher menu",
               status: "difference",
               note: "Source exposed one business-shaped ServerSwitcherMenu. Current keeps the same row, separator, badge, and action structure but moves the API to a generic Base UI menu composition.",
-              source: <SourceServerSwitcherMenuComparison />,
-              brutal: <CurrentServerSwitcherMenuComparison className="h-[234px]" />,
-              elegant: <CurrentServerSwitcherMenuComparison className="h-[251px]" />,
-              elegantDark: <CurrentServerSwitcherMenuComparison className="h-[251px]" />,
+              source: <ServerSwitcherMenuSourcePreview />,
+              brutal: <ServerSwitcherMenuComposition />,
+              elegant: <ServerSwitcherMenuComposition />,
+              elegantDark: <ServerSwitcherMenuComposition />,
             },
             {
               label: "Message search — time filter",
