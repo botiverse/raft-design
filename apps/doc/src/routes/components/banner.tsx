@@ -18,7 +18,6 @@ import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import { X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -247,29 +246,8 @@ function BannerDoc() {
           <IconGridCircleOutline18 data-icon="inline-end" />
         </Button>
       }
-      overview={
-        <Differences from="Banner">
-          <li>brutal styling reproduced 1:1 (status surface token, density padding, lg shadow)</li>
-          <li>
-            source <code>intent</code> is renamed to <code>status</code>; source{" "}
-            <code>density</code> is renamed to <code>size</code>
-          </li>
-          <li>
-            source <code>icon</code>, <code>withIcon</code>, <code>title</code>, and{" "}
-            <code>actions</code> props move to direct icon, title, description, and action
-            composition
-          </li>
-          <li>
-            aligned to shadcn Alert composition: icon is a direct child, followed by title,
-            description, and action slots
-          </li>
-          <li>
-            all slots use Base UI <code>useRender</code>, so the root and each part can swap the
-            rendered element without changing styling
-          </li>
-        </Differences>
-      }
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
@@ -382,6 +360,10 @@ function BannerDoc() {
 
       <DocSection id="sizes" title="Sizes">
         <div className="space-y-4">
+          <DocNote>
+            Banners stay iconless by default, matching the dominant inline pattern. Compose a direct
+            icon child for the heavier warning surfaces.
+          </DocNote>
           <Example html={code.sizes}>
             <div className="flex w-[28rem] flex-col gap-3">
               <Banner status="info" size="sm">
@@ -416,10 +398,6 @@ function BannerDoc() {
               </Banner>
             </div>
           </Example>
-          <DocNote>
-            Banners stay iconless by default, matching the dominant inline pattern. Compose a direct
-            icon child for the heavier warning surfaces.
-          </DocNote>
         </div>
       </DocSection>
 
