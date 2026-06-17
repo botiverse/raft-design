@@ -4,7 +4,7 @@ import { Button } from "@slock/ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
-import { useCallback, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { tv } from "tailwind-variants";
 import { TextMorph } from "torph/react";
 
@@ -75,6 +75,7 @@ type DocsCodeBlockPathProps = {
 
 type DocsCodeBlockContentProps = {
   html: ReactNode | AnyRenderableServerComponent;
+  collapsedHtml?: ReactNode | AnyRenderableServerComponent;
 };
 
 type DocsCodeBlockLineNumbersProps = {
@@ -89,6 +90,7 @@ type DocsCodeBlockPanelProps = {
   path: string;
   source: string;
   html: ReactNode | AnyRenderableServerComponent;
+  collapsedHtml?: ReactNode | AnyRenderableServerComponent;
   showLineNumbers?: boolean;
 };
 
@@ -200,7 +202,25 @@ function DocsCodeBlockCopy({ source }: DocsCodeBlockCopyProps) {
   );
 }
 
-function DocsCodeBlockContent({ html }: DocsCodeBlockContentProps) {
+function DocsCodeBlockContent({ html, collapsedHtml }: DocsCodeBlockContentProps) {
+  const [expanded, setExpanded] = useState(!collapsedHtml);
+
+  if (collapsedHtml && !expanded) {
+    return (
+      <div>
+        <button
+          type="button"
+          aria-expanded={expanded}
+          onClick={() => setExpanded(true)}
+          className="mb-[1.625em] block w-full cursor-pointer text-left font-mono text-sm leading-relaxed text-[oklch(0.50_0.02_286)] hover:text-foreground-muted"
+        >
+          {"<-- imports collapsed, click to expand -->"}
+        </button>
+        <CodeBlock html={collapsedHtml} variant="docs" />
+      </div>
+    );
+  }
+
   return <CodeBlock html={html} variant="docs" />;
 }
 
@@ -208,6 +228,7 @@ function DocsCodeBlockPanel({
   path,
   source,
   html,
+  collapsedHtml,
   showLineNumbers = false,
 }: DocsCodeBlockPanelProps) {
   return (
@@ -217,7 +238,7 @@ function DocsCodeBlockPanel({
         <DocsCodeBlock.Copy source={source} />
       </DocsCodeBlock.Header>
       <DocsCodeBlock.Body showLineNumbers={showLineNumbers} source={source}>
-        <DocsCodeBlock.Content html={html} />
+        <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
       </DocsCodeBlock.Body>
     </DocsCodeBlock>
   );

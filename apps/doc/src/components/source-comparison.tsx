@@ -24,6 +24,7 @@ type SourceComparisonItem = {
   currentCode?: CodeContent;
   /** Full-width code shown once below the comparison grid (migrated composition). */
   compositionCode?: CodeContent;
+  compositionCollapsedCode?: CodeContent;
   compositionPath?: string;
   compositionSource?: string;
   compositionShowLineNumbers?: boolean;
@@ -228,6 +229,7 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
                 path={item.compositionPath}
                 source={item.compositionSource}
                 html={item.compositionCode}
+                collapsedHtml={item.compositionCollapsedCode}
                 showLineNumbers={item.compositionShowLineNumbers ?? true}
               />
             ) : null}

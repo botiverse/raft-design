@@ -1,4 +1,4 @@
-import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
+import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import { tv } from "tailwind-variants";
 import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
@@ -64,20 +64,22 @@ export function ContextMenuPortal(props: ContextMenuPortalProps) {
 }
 
 export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
-  Pick<
-    BaseContextMenu.Positioner.Props,
-    | "align"
-    | "alignOffset"
-    | "anchor"
-    | "arrowPadding"
-    | "collisionAvoidance"
-    | "collisionBoundary"
-    | "collisionPadding"
-    | "disableAnchorTracking"
-    | "positionMethod"
-    | "side"
-    | "sideOffset"
-    | "sticky"
+  Partial<
+    Pick<
+      BaseContextMenu.Positioner.Props,
+      | "align"
+      | "alignOffset"
+      | "anchor"
+      | "arrowPadding"
+      | "collisionAvoidance"
+      | "collisionBoundary"
+      | "collisionPadding"
+      | "disableAnchorTracking"
+      | "positionMethod"
+      | "side"
+      | "sideOffset"
+      | "sticky"
+    >
   > & {
     portalProps?: ContextMenuPortalProps;
   };

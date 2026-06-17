@@ -15,6 +15,41 @@ const highlighter = createHighlighter({
 
 type HighlightedSnippets = Record<string, AnyRenderableServerComponent>;
 
+export function stripTopLevelImports(code: string) {
+  const lines = code.split("\n");
+  let index = 0;
+  let sawImport = false;
+
+  while (index < lines.length) {
+    const line = lines[index]?.trim() ?? "";
+
+    if (line === "") {
+      index += 1;
+      continue;
+    }
+
+    if (!line.startsWith("import ")) {
+      break;
+    }
+
+    sawImport = true;
+
+    do {
+      index += 1;
+    } while (index < lines.length && !lines[index - 1]?.trimEnd().endsWith(";"));
+  }
+
+  if (!sawImport) {
+    return code;
+  }
+
+  while (index < lines.length && lines[index]?.trim() === "") {
+    index += 1;
+  }
+
+  return lines.slice(index).join("\n");
+}
+
 function tokenStyle(token: ThemedToken): CSSProperties | undefined {
   if (token.htmlStyle) {
     return token.htmlStyle as CSSProperties;

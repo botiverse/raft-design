@@ -39,7 +39,7 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
-import { highlightSnippets } from "#/lib/highlight.tsx";
+import { highlightSnippets, stripTopLevelImports } from "#/lib/highlight.tsx";
 import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
 import {
   MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
@@ -599,9 +599,15 @@ export const Route = createFileRoute("/components/dropdown-menu")({
       data: {
         ...SNIPPETS,
         messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
+        messageSearchTimeFilterCompositionBody: stripTopLevelImports(
+          messageSearchTimeFilterCompositionSource,
+        ),
         selectOptionsListComposition: selectOptionsListCompositionSource,
+        selectOptionsListCompositionBody: stripTopLevelImports(selectOptionsListCompositionSource),
         serverSwitcherComposition: serverSwitcherMenuCompositionSource,
+        serverSwitcherCompositionBody: stripTopLevelImports(serverSwitcherMenuCompositionSource),
         sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
+        sidebarSortMenuCompositionBody: stripTopLevelImports(sidebarSortMenuCompositionSource),
       },
     }),
 });
@@ -751,6 +757,7 @@ function DropdownMenuDoc() {
               elegant: <ServerSwitcherMenuComposition />,
               elegantDark: <ServerSwitcherMenuComposition />,
               compositionCode: code.serverSwitcherComposition,
+              compositionCollapsedCode: code.serverSwitcherCompositionBody,
               compositionPath: SERVER_SWITCHER_MENU_COMPOSITION_PATH,
               compositionSource: serverSwitcherMenuCompositionSource,
               compositionShowLineNumbers: false,
@@ -773,6 +780,7 @@ function DropdownMenuDoc() {
               elegant: <MessageSearchTimeFilterComposition />,
               elegantDark: <MessageSearchTimeFilterComposition />,
               compositionCode: code.messageSearchTimeFilterComposition,
+              compositionCollapsedCode: code.messageSearchTimeFilterCompositionBody,
               compositionPath: MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
               compositionSource: messageSearchTimeFilterCompositionSource,
               compositionShowLineNumbers: false,
@@ -793,6 +801,7 @@ function DropdownMenuDoc() {
               elegant: <SidebarSortMenuComposition />,
               elegantDark: <SidebarSortMenuComposition />,
               compositionCode: code.sidebarSortMenuComposition,
+              compositionCollapsedCode: code.sidebarSortMenuCompositionBody,
               compositionPath: SIDEBAR_SORT_MENU_COMPOSITION_PATH,
               compositionSource: sidebarSortMenuCompositionSource,
               compositionShowLineNumbers: false,
@@ -813,6 +822,7 @@ function DropdownMenuDoc() {
               elegant: <SelectOptionsListComposition />,
               elegantDark: <SelectOptionsListComposition />,
               compositionCode: code.selectOptionsListComposition,
+              compositionCollapsedCode: code.selectOptionsListCompositionBody,
               compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
               compositionSource: selectOptionsListCompositionSource,
               compositionShowLineNumbers: false,
