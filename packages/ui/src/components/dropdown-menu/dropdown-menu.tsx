@@ -159,9 +159,9 @@ export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
   return <BaseMenu.Portal data-slot="dropdown-menu-portal" {...props} />;
 }
 
-export type DropdownMenuSurfaceProps = ComponentPropsWithRef<"div">;
+export type DropdownMenuPopupProps = ComponentPropsWithRef<"div">;
 
-export function DropdownMenuSurface({ className, ...props }: DropdownMenuSurfaceProps) {
+export function DropdownMenuPopup({ className, ...props }: DropdownMenuPopupProps) {
   const theme = useTheme();
   const { content } = dropdownMenu({ theme });
   return <div data-slot="dropdown-menu-content" className={content({ className })} {...props} />;

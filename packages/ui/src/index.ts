@@ -264,7 +264,7 @@ export {
   DropdownMenuShortcut,
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
-  DropdownMenuSurface,
+  DropdownMenuPopup,
   DropdownMenuTrigger,
 } from "./components/dropdown-menu/index.ts";
 export type {
@@ -279,7 +279,7 @@ export type {
   DropdownMenuShortcutProps,
   DropdownMenuSubmenuProps,
   DropdownMenuSubmenuTriggerProps,
-  DropdownMenuSurfaceProps,
+  DropdownMenuPopupProps,
   DropdownMenuCheckboxItemProps,
   DropdownMenuCheckboxItemIndicatorProps,
   DropdownMenuRadioGroupProps,

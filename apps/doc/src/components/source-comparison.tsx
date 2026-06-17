@@ -192,7 +192,9 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
                 {STATUS[status]}
               </Badge>
               {item.note ? (
-                <p className="w-full text-xs leading-relaxed text-foreground-muted">{item.note}</p>
+                <p className="mt-2 w-full text-sm leading-relaxed text-foreground-muted">
+                  {item.note}
+                </p>
               ) : null}
             </div>
             <div className="space-y-2">

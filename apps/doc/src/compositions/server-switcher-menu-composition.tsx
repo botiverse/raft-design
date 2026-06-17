@@ -2,8 +2,8 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuItemCount,
+  DropdownMenuPopup,
   DropdownMenuSeparator,
-  DropdownMenuSurface,
   DropdownMenuTrigger,
 } from "@slock/ui";
 import { Check } from "lucide-react";
@@ -45,6 +45,14 @@ function ServerSwitcherMenuContent() {
   );
 }
 
+function ServerSwitcherMenuPopup() {
+  return (
+    <DropdownMenuPopup className="flex w-64 flex-col">
+      <ServerSwitcherMenuContent />
+    </DropdownMenuPopup>
+  );
+}
+
 export function ServerSwitcherMenuComposition({ className }: { className?: string }) {
   const triggerId = useId();
 
@@ -53,9 +61,7 @@ export function ServerSwitcherMenuComposition({ className }: { className?: strin
     <div className={cn("flex h-full min-h-56 w-full items-center justify-center", className)}>
       <DropdownMenu open modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
-        <DropdownMenuSurface className="flex w-64 flex-col">
-          <ServerSwitcherMenuContent />
-        </DropdownMenuSurface>
+        <ServerSwitcherMenuPopup />
       </DropdownMenu>
     </div>
   );

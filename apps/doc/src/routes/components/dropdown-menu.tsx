@@ -13,7 +13,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
-  DropdownMenuSurface,
   DropdownMenuTrigger,
   InlineCode,
 } from "@slock/ui";
@@ -30,7 +29,7 @@ import {
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
 import type { ReactNode, RefObject } from "react";
-import { useId, useRef } from "react";
+import { useRef } from "react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -41,13 +40,30 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
+import {
+  MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
+  MessageSearchTimeFilterComposition,
+  MessageSearchTimeFilterSourcePreview,
+} from "#/compositions/message-search-time-filter.tsx";
+import selectOptionsListCompositionSource from "#/compositions/select-options-list-composition.tsx?raw";
+import {
+  SELECT_OPTIONS_LIST_COMPOSITION_PATH,
+  SelectOptionsListComposition,
+  SelectOptionsListSourcePreview,
+} from "#/compositions/select-options-list.tsx";
 import serverSwitcherMenuCompositionSource from "#/compositions/server-switcher-menu-composition.tsx?raw";
 import {
   SERVER_SWITCHER_MENU_COMPOSITION_PATH,
   ServerSwitcherMenuComposition,
   ServerSwitcherMenuSourcePreview,
 } from "#/compositions/server-switcher-menu.tsx";
-import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
+import sidebarSortMenuCompositionSource from "#/compositions/sidebar-sort-menu-composition.tsx?raw";
+import {
+  SIDEBAR_SORT_MENU_COMPOSITION_PATH,
+  SidebarSortMenuComposition,
+  SidebarSortMenuSourcePreview,
+} from "#/compositions/sidebar-sort-menu.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -272,75 +288,6 @@ ${PROFILE_MENU_SNIPPET}
   plainPicker: PLAIN_PICKER_SNIPPET,
   headerlessPicker: HEADERLESS_PICKER_SNIPPET,
   optionsList: OPTIONS_LIST_SNIPPET,
-  migrationPlainPicker: `// Source — MessageSearchPage.tsx
-<SelectionPopover
-  title="Time"
-  options={[
-    { key: "any", checked: true, label: "Any time", onClick: () => setTimeRange("any") },
-    { key: "today", checked: false, label: "Today", onClick: () => setTimeRange("today") },
-    { key: "7d", checked: false, label: "Last 7 days", onClick: () => setTimeRange("7d") },
-  ]}
-/>
-
-// Current
-<DropdownMenu open={timeMenuOpen} onOpenChange={setTimeMenuOpen}>
-  <DropdownMenuTrigger render={<FilterChip />}>Time</DropdownMenuTrigger>
-  <DropdownMenuContent className="flex min-w-[220px] flex-col">
-    <DropdownMenuLabel>Time</DropdownMenuLabel>
-    <DropdownMenuRadioGroup value={timeRange} onValueChange={setTimeRange}>
-      <DropdownMenuRadioItem value="any">Any time</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="today">Today</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="7d">Last 7 days</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
-  </DropdownMenuContent>
-</DropdownMenu>`,
-  migrationHeaderlessPicker: `// Source — Sidebar.tsx
-<SelectionPopover
-  title="Sort"
-  showHeader={false}
-  className="min-w-[136px]"
-  options={[
-    { key: "manual", checked: true, label: "Manual", onClick: () => setSort("manual") },
-    { key: "recent", checked: false, label: "Recent", onClick: () => setSort("recent") },
-    { key: "az", checked: false, label: "A-Z", onClick: () => setSort("az") },
-  ]}
-/>
-
-// Current
-<DropdownMenu open={sortMenuOpen} onOpenChange={setSortMenuOpen}>
-  <DropdownMenuTrigger render={<IconButton aria-label="Sort channels" />}>
-    <ArrowUpDown />
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="flex min-w-[136px] flex-col">
-    <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
-      <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
-  </DropdownMenuContent>
-</DropdownMenu>`,
-  migrationOptionsList: `// Source — Select.tsx
-<SelectionPopover
-  title="Options"
-  showHeader={false}
-  options={[
-    { key: "relevance", checked: true, label: "Relevance", reserveLeadingSlot: true, onClick: () => setValue("relevance") },
-    { key: "recent", checked: false, label: "Most recent", reserveLeadingSlot: true, onClick: () => setValue("recent") },
-  ]}
-/>
-
-// Current
-<DropdownMenu open={optionsOpen} onOpenChange={setOptionsOpen}>
-  <DropdownMenuTrigger render={<SelectTrigger />}>
-    {selectedLabel}
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="flex min-w-[220px] flex-col">
-    <DropdownMenuRadioGroup value={value} onValueChange={setValue}>
-      <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
-  </DropdownMenuContent>
-</DropdownMenu>`,
 } as const;
 
 function ProfileMenuRows() {
@@ -473,136 +420,6 @@ function OptionsListRows() {
       <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
-  );
-}
-
-const noop = () => {};
-
-function SourcePopoverMount({
-  contentClassName = "w-[220px]",
-  children,
-}: {
-  contentClassName?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex h-full min-h-56 w-full items-center justify-center">
-      <div
-        className={["relative shrink-0 [--shadow-hover:4px_4px_0px_oklch(0_0_0)]", contentClassName]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function ComparisonDropdownMount({
-  frameClassName = "w-[220px]",
-  contentClassName = "min-w-[220px]",
-  children,
-}: {
-  frameClassName?: string;
-  contentClassName?: string;
-  children: ReactNode;
-}) {
-  const triggerId = useId();
-
-  return (
-    <div className="flex h-full min-h-56 w-full items-center justify-center">
-      <DropdownMenu open modal={false} triggerId={triggerId}>
-        <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
-        <DropdownMenuSurface
-          className={[contentClassName, frameClassName].filter(Boolean).join(" ")}
-        >
-          {children}
-        </DropdownMenuSurface>
-      </DropdownMenu>
-    </div>
-  );
-}
-
-function SourceMessageSearchTimeComparison() {
-  return (
-    <SourcePopoverMount>
-      <LegacySelectionPopover
-        title="Time"
-        options={[
-          { key: "any", checked: true, label: "Any time", onClick: noop },
-          { key: "today", checked: false, label: "Today", onClick: noop },
-          { key: "7d", checked: false, label: "Last 7 days", onClick: noop },
-        ]}
-      />
-    </SourcePopoverMount>
-  );
-}
-
-function CurrentMessageSearchTimeComparison() {
-  return (
-    <ComparisonDropdownMount>
-      <PlainPickerRows />
-    </ComparisonDropdownMount>
-  );
-}
-
-function SourceSidebarSortComparison() {
-  return (
-    <SourcePopoverMount contentClassName="w-[136px]">
-      <LegacySelectionPopover
-        title="Sort"
-        showHeader={false}
-        className="min-w-[136px]"
-        options={[
-          { key: "manual", checked: true, label: "Manual", onClick: noop },
-          { key: "recent", checked: false, label: "Recent", onClick: noop },
-          { key: "az", checked: false, label: "A-Z", onClick: noop },
-        ]}
-      />
-    </SourcePopoverMount>
-  );
-}
-
-function CurrentSidebarSortComparison() {
-  return (
-    <ComparisonDropdownMount frameClassName="w-[136px]" contentClassName="min-w-[136px] w-[136px]">
-      <HeaderlessSortRows />
-    </ComparisonDropdownMount>
-  );
-}
-
-function SourceSelectComparison() {
-  return (
-    <SourcePopoverMount>
-      <LegacySelectionPopover
-        title="Options"
-        showHeader={false}
-        options={[
-          {
-            key: "relevance",
-            checked: true,
-            label: "Relevance",
-            reserveLeadingSlot: true,
-            onClick: noop,
-          },
-          {
-            key: "recent",
-            checked: false,
-            label: "Most recent",
-            reserveLeadingSlot: true,
-            onClick: noop,
-          },
-        ]}
-      />
-    </SourcePopoverMount>
-  );
-}
-
-function CurrentSelectComparison() {
-  return (
-    <ComparisonDropdownMount>
-      <OptionsListRows />
-    </ComparisonDropdownMount>
   );
 }
 
@@ -781,7 +598,10 @@ export const Route = createFileRoute("/components/dropdown-menu")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
+        messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
+        selectOptionsListComposition: selectOptionsListCompositionSource,
         serverSwitcherComposition: serverSwitcherMenuCompositionSource,
+        sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
       },
     }),
 });
@@ -941,19 +761,20 @@ function DropdownMenuDoc() {
               status: "difference",
               note: (
                 <>
-                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Plain single-select list for
-                  search time ranges (<InlineCode>any</InlineCode>, <InlineCode>today</InlineCode>,{" "}
-                  <InlineCode>7d</InlineCode>, <InlineCode>30d</InlineCode>) with no search field.
-                  Menu semantics fit better than a popover shell.
+                  Search time range filter from <InlineCode>MessageSearchPage.tsx</InlineCode>. The
+                  trigger opens one radio group (<InlineCode>any</InlineCode>,{" "}
+                  <InlineCode>today</InlineCode>, <InlineCode>7d</InlineCode>,{" "}
+                  <InlineCode>30d</InlineCode>) without search or rich content, so a menu maps more
+                  directly to the interaction than a popover shell.
                 </>
               ),
-              source: <SourceMessageSearchTimeComparison />,
-              brutal: <CurrentMessageSearchTimeComparison />,
-              elegant: <CurrentMessageSearchTimeComparison />,
-              elegantDark: <CurrentMessageSearchTimeComparison />,
-              compositionCode: code.migrationPlainPicker,
-              compositionPath: "MessageSearchPage.tsx",
-              compositionSource: SNIPPETS.migrationPlainPicker,
+              source: <MessageSearchTimeFilterSourcePreview />,
+              brutal: <MessageSearchTimeFilterComposition />,
+              elegant: <MessageSearchTimeFilterComposition />,
+              elegantDark: <MessageSearchTimeFilterComposition />,
+              compositionCode: code.messageSearchTimeFilterComposition,
+              compositionPath: MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
+              compositionSource: messageSearchTimeFilterCompositionSource,
               compositionShowLineNumbers: false,
             },
             {
@@ -967,13 +788,13 @@ function DropdownMenuDoc() {
                   <InlineCode>min-w-[136px]</InlineCode> shell aligned to the section icon button.
                 </>
               ),
-              source: <SourceSidebarSortComparison />,
-              brutal: <CurrentSidebarSortComparison />,
-              elegant: <CurrentSidebarSortComparison />,
-              elegantDark: <CurrentSidebarSortComparison />,
-              compositionCode: code.migrationHeaderlessPicker,
-              compositionPath: "Sidebar.tsx",
-              compositionSource: SNIPPETS.migrationHeaderlessPicker,
+              source: <SidebarSortMenuSourcePreview />,
+              brutal: <SidebarSortMenuComposition />,
+              elegant: <SidebarSortMenuComposition />,
+              elegantDark: <SidebarSortMenuComposition />,
+              compositionCode: code.sidebarSortMenuComposition,
+              compositionPath: SIDEBAR_SORT_MENU_COMPOSITION_PATH,
+              compositionSource: sidebarSortMenuCompositionSource,
               compositionShowLineNumbers: false,
             },
             {
@@ -987,13 +808,13 @@ function DropdownMenuDoc() {
                   without avatars.
                 </>
               ),
-              source: <SourceSelectComparison />,
-              brutal: <CurrentSelectComparison />,
-              elegant: <CurrentSelectComparison />,
-              elegantDark: <CurrentSelectComparison />,
-              compositionCode: code.migrationOptionsList,
-              compositionPath: "Select.tsx",
-              compositionSource: SNIPPETS.migrationOptionsList,
+              source: <SelectOptionsListSourcePreview />,
+              brutal: <SelectOptionsListComposition />,
+              elegant: <SelectOptionsListComposition />,
+              elegantDark: <SelectOptionsListComposition />,
+              compositionCode: code.selectOptionsListComposition,
+              compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
+              compositionSource: selectOptionsListCompositionSource,
               compositionShowLineNumbers: false,
             },
           ]}
