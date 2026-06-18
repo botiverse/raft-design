@@ -99,7 +99,7 @@ export function TasksIdentityFilterComposition() {
               <ComboboxItem key={identity.id} value={identity}>
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    {identity.tone === "sentinel" ? null : <Avatar size="4xs" type="human" />}
+                    {identity.tone === "sentinel" ? null : <Avatar size="2xs" type="human" />}
                   </span>
                   <span
                     className={cn(

@@ -19,21 +19,23 @@ export function Example({ html, collapsedHtml, children, previewClassName }: Exa
     <ComponentDemoFrame
       previewClassName={previewClassName}
       footer={
-        <Collapsible.Root className="relative min-h-10">
-          <Button
-            render={<Collapsible.Trigger />}
-            variant="ghost"
-            size="xs"
-            className="absolute top-1.5 right-6 z-10 text-foreground-placeholder hover:text-foreground-muted focus-visible:ring-1 [&[data-panel-open]_svg]:rotate-180"
-          >
-            <span className="order-1">Code</span>
-            <IconChevronDownOutline18
-              aria-hidden
-              className="order-2 size-3 transition duration-200 ease-out"
-              strokeWidth={1.5}
-            />
-          </Button>
-          <Collapsible.Panel className="min-w-0">
+        <Collapsible.Root className="min-w-0">
+          <div className="flex h-10 items-center justify-end px-6">
+            <Button
+              render={<Collapsible.Trigger />}
+              variant="ghost"
+              size="xs"
+              className="text-foreground-placeholder hover:text-foreground-muted focus-visible:ring-1 [&[data-panel-open]_svg]:rotate-180"
+            >
+              <span className="order-1">Code</span>
+              <IconChevronDownOutline18
+                aria-hidden
+                className="order-2 size-3 transition duration-200 ease-out"
+                strokeWidth={1.5}
+              />
+            </Button>
+          </div>
+          <Collapsible.Panel className="min-w-0 border-t border-[oklch(0_0_0_/_0.06)]">
             <DocsCodeBlock>
               <DocsCodeBlock.Body showLineNumbers={false}>
                 <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
@@ -43,7 +45,7 @@ export function Example({ html, collapsedHtml, children, previewClassName }: Exa
         </Collapsible.Root>
       }
       footerInset="flush"
-      footerClassName="!border-t-0 has-[[data-open]]:bg-[oklch(0.986_0_0)]"
+      footerClassName="has-[[data-open]]:bg-[oklch(0.986_0_0)]"
       footerTone="white"
     >
       {children}

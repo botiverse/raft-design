@@ -252,7 +252,6 @@ const NAV = [
       {
         label: "Avatar",
         to: "/components/avatar",
-        progress: { theme: "todo" },
       },
       {
         label: "MediaListItem",

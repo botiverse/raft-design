@@ -86,7 +86,7 @@ export function MessageSearchSenderFilterComposition() {
               <ComboboxItem key={sender.id} value={sender}>
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <Avatar size="4xs" type="human" />
+                    <Avatar size="2xs" type="human" />
                   </span>
                   <span className="truncate leading-6 [[data-theme=elegant]_&]:text-xs">
                     {sender.label}

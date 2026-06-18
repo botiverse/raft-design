@@ -1,6 +1,12 @@
 import { useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
   Badge,
   Banner,
   BannerAction,
@@ -61,6 +67,7 @@ type ComponentRoute =
   | "/components/input"
   | "/components/input-group"
   | "/components/textarea"
+  | "/components/avatar"
   | "/components/badge"
   | "/components/inline-code"
   | "/components/status"
@@ -87,6 +94,12 @@ const THEME_PRESETS = [
 
 const FLOAT_ACTIONS_SHADOW =
   "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px";
+
+const AVATAR_PHOTOS = [
+  "https://unsplash.com/photos/n4KewLKFOZw/download?force=true&w=160&h=160&fit=crop&crop=faces",
+  "https://unsplash.com/photos/H6FbE_vxaxQ/download?force=true&w=160&h=160&fit=crop&crop=faces",
+  "https://unsplash.com/photos/mxwcEIqJ63Y/download?force=true&w=160&h=160&fit=crop&crop=faces",
+] as const;
 
 const COMPONENT_GRID = [
   {
@@ -221,6 +234,34 @@ const COMPONENT_GRID = [
           <Badge appearance="outline" variant="information">
             task #42 @bugen
           </Badge>
+        </div>
+      </div>
+    ),
+  },
+  {
+    label: "Avatar",
+    to: "/components/avatar",
+    preview: (
+      <div className="grid justify-items-center gap-5">
+        <AvatarGroup>
+          {AVATAR_PHOTOS.map((src, index) => (
+            <Avatar key={src} size="sm" type={index === 1 ? "human" : "agent"}>
+              <AvatarImage src={src} alt="" />
+              <AvatarFallback />
+            </Avatar>
+          ))}
+          <AvatarGroupCount size="sm">+3</AvatarGroupCount>
+        </AvatarGroup>
+        <div className="flex items-end gap-4">
+          <Avatar size="lg" type="agent">
+            <AvatarImage src={AVATAR_PHOTOS[0]} alt="" />
+            <AvatarFallback />
+            <AvatarBadge />
+          </Avatar>
+          <Avatar size="lg" type="human">
+            <AvatarFallback />
+            <AvatarBadge className="bg-info-base" />
+          </Avatar>
         </div>
       </div>
     ),

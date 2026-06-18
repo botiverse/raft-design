@@ -52,7 +52,7 @@ const SNIPPETS = {
 <MediaListItem>
   <MediaListItemBody>
     <MediaListItemVisual>
-      <Avatar size="md" type="agent" />
+      <Avatar size="sm" type="agent" />
     </MediaListItemVisual>
     <MediaListItemText>
       <MediaListItemTitle>Atlas</MediaListItemTitle>
@@ -66,7 +66,7 @@ const SNIPPETS = {
   interactive: `<MediaListItem>
   <MediaListItemBody onClick={() => open(agent)}>
     <MediaListItemVisual>
-      <Avatar size="md" type="agent" />
+      <Avatar size="sm" type="agent" />
     </MediaListItemVisual>
     <MediaListItemText>
       <MediaListItemTitle>Atlas</MediaListItemTitle>

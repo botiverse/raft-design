@@ -103,7 +103,7 @@ const SNIPPETS = {
 />`,
   currentIdentity: `<PanelHeader>
   <PanelHeaderVisual className="flex">
-    <Avatar size="lg" type="agent" />
+    <Avatar size="md" type="agent" />
   </PanelHeaderVisual>
   <PanelHeaderContent>
     <PanelHeaderTitleRow>
@@ -293,7 +293,7 @@ function PanelHeaderDoc() {
               note: "Source used iconSlot and titleSuffix props for identity panels. Current exposes visual, suffix, and actions as normal children.",
               source: (
                 <LegacyPanelHeader
-                  iconSlot={<Avatar size="lg" type="agent" />}
+                  iconSlot={<Avatar size="md" type="agent" />}
                   iconAlwaysVisible
                   title="Atlas"
                   titleSuffix={<Status variant="success" />}
@@ -351,7 +351,7 @@ function CurrentIdentityPanelHeader() {
   return (
     <PanelHeader>
       <PanelHeaderVisual className="flex">
-        <Avatar size="lg" type="agent" />
+        <Avatar size="md" type="agent" />
       </PanelHeaderVisual>
       <PanelHeaderContent>
         <PanelHeaderTitleRow>

@@ -60,7 +60,7 @@ const SNIPPETS = {
     <ConversationPreviewCardMeta>
       <ConversationPreviewCardChannel>#general</ConversationPreviewCardChannel>
       <ConversationPreviewCardAuthor>
-        <Avatar size="4xs" type="agent" />
+        <Avatar size="2xs" type="agent" />
         <ConversationPreviewCardAuthorName>Atlas</ConversationPreviewCardAuthorName>
         <ConversationPreviewCardAuthorSubtitle>claude-opus</ConversationPreviewCardAuthorSubtitle>
       </ConversationPreviewCardAuthor>
@@ -156,7 +156,7 @@ const SNIPPETS = {
     <ConversationPreviewCardMeta>
       <ConversationPreviewCardChannel>Agent DM</ConversationPreviewCardChannel>
       <ConversationPreviewCardAuthor>
-        <Avatar size="4xs" type="agent" />
+        <Avatar size="2xs" type="agent" />
         <ConversationPreviewCardAuthorName>{displayName}</ConversationPreviewCardAuthorName>
         <ConversationPreviewCardAuthorSubtitle>@atlas</ConversationPreviewCardAuthorSubtitle>
       </ConversationPreviewCardAuthor>
