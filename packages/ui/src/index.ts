@@ -271,6 +271,7 @@ export {
   ComboboxRow,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
   ComboboxValue,
 } from "./components/combobox/index.ts";
 export type {
@@ -295,6 +296,7 @@ export type {
   ComboboxProps,
   ComboboxRowProps,
   ComboboxSeparatorProps,
+  ComboboxTriggerIndicatorProps,
   ComboboxTriggerProps,
   ComboboxValueProps,
 } from "./components/combobox/index.ts";

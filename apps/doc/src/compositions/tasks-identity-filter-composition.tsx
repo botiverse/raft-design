@@ -1,11 +1,10 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
 import { cn } from "tailwind-variants";
-import { User } from "lucide-react";
+import { IconChevronDownOutline18, IconUserOutline18 } from "nucleo-ui-outline-18";
 import {
   Avatar,
   Badge,
-  Button,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -18,6 +17,7 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
 
 type Identity = {
@@ -58,9 +58,9 @@ export function TasksIdentityFilterComposition() {
         }}
         onValueChange={setSelectedIdentities}
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          <User aria-hidden size={14} />
-          <span className="min-w-0 flex-1 truncate text-left">Assignee</span>
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <IconUserOutline18 aria-hidden />
+          <span className="min-w-0 truncate text-left">Assignee</span>
           {selectedIdentities.length > 0 && (
             <Badge
               appearance="outline"
@@ -69,6 +69,9 @@ export function TasksIdentityFilterComposition() {
               {selectedIdentities.length}
             </Badge>
           )}
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
@@ -94,8 +97,8 @@ export function TasksIdentityFilterComposition() {
           <ComboboxList>
             {(identity: Identity) => (
               <ComboboxItem key={identity.id} value={identity}>
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className="flex size-5 shrink-0 items-center justify-center">
+                <span className="flex min-w-0 items-center gap-1.5">
+                  <span className="flex size-4 shrink-0 items-center justify-center">
                     {identity.tone === "sentinel" ? null : <Avatar size="4xs" type="human" />}
                   </span>
                   <span

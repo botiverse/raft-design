@@ -44,7 +44,7 @@ export const badge = tv({
         root: "bg-primary-400 text-primary-950",
       },
       information: {
-        root: "bg-info-base text-info-dark",
+        root: "bg-info-base text-foreground-inverse",
       },
       muted: {
         root: "bg-secondary-400 text-foreground-strong",
@@ -196,7 +196,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info-base text-info-dark" },
+      class: { root: "bg-info-base text-foreground-inverse" },
     },
     {
       theme: "elegant",

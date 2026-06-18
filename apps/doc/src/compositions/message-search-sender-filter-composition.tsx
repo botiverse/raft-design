@@ -1,9 +1,8 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { UserCircle2 } from "lucide-react";
+import { IconChevronDownOutline18, IconCircleUserOutline18 } from "nucleo-ui-outline-18";
 import {
   Avatar,
-  Button,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -16,6 +15,7 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
 
 type Sender = {
@@ -53,11 +53,12 @@ export function MessageSearchSenderFilterComposition() {
         }}
         onValueChange={setSelectedSender}
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          <UserCircle2 aria-hidden size={14} />
-          <span className="min-w-0 flex-1 truncate text-left">
-            {selectedSender?.label ?? "From"}
-          </span>
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <IconCircleUserOutline18 aria-hidden />
+          <span className="min-w-0 truncate text-left">{selectedSender?.label ?? "From"}</span>
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
@@ -83,8 +84,8 @@ export function MessageSearchSenderFilterComposition() {
           <ComboboxList>
             {(sender: Sender) => (
               <ComboboxItem key={sender.id} value={sender}>
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className="flex size-5 shrink-0 items-center justify-center">
+                <span className="flex min-w-0 items-center gap-1.5">
+                  <span className="flex size-4 shrink-0 items-center justify-center">
                     <Avatar size="4xs" type="human" />
                   </span>
                   <span className="truncate leading-6 [[data-theme=elegant]_&]:text-xs">

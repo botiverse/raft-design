@@ -1,16 +1,22 @@
 import { createContext, use, useState, type ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { tv } from "tailwind-variants";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
+import { Button } from "../button/index.ts";
 
 const combobox = tv({
   slots: {
     trigger: [
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
+      "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
+      "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
+      "[&_[data-slot='combobox-trigger-content']_svg]:!size-3 [&_[data-slot='combobox-trigger-content']_svg]:shrink-0 [&_[data-slot='combobox-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='combobox-trigger-content']_svg_*]:!stroke-[1.5]",
+      "[&_[data-slot='combobox-trigger-indicator']]:!stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']_*]:!stroke-[1.5]",
     ],
+    triggerIndicator: ["ml-auto flex shrink-0 items-center justify-center opacity-60"],
     inputGroup: ["flex items-center gap-2 border-b px-2 py-2"],
     input: ["w-full outline-none"],
     positioner: ["isolate z-50 outline-none"],
@@ -94,12 +100,12 @@ const combobox = tv({
         separator: ["hidden bg-line-muted"],
         list: ["flex flex-col gap-0.5 px-1.5 py-1"],
         item: [
-          "rounded-sm bg-transparent text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "rounded-sm bg-transparent px-2 text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
           "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3.5",
         ],
         itemIndicator: ["text-foreground-strong"],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
@@ -221,18 +227,42 @@ export function ComboboxValue(props: ComboboxValueProps) {
 
 export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props>;
 
-export function ComboboxTrigger({ className, children, ...props }: ComboboxTriggerProps) {
+export function ComboboxTrigger({
+  className,
+  children,
+  render = <Button variant="outline" size="md" />,
+  ...props
+}: ComboboxTriggerProps) {
   const theme = useTheme();
   const { trigger } = combobox({ theme });
   return (
     <BaseCombobox.Trigger
       data-slot="combobox-trigger"
+      render={render}
       className={trigger({ className })}
       {...props}
     >
-      {children}
-      <ChevronDown aria-hidden className="size-3.5 shrink-0 opacity-60" />
+      <span
+        data-slot="combobox-trigger-content"
+        className="flex min-w-0 flex-1 items-center gap-1.5"
+      >
+        {children}
+      </span>
     </BaseCombobox.Trigger>
+  );
+}
+
+export type ComboboxTriggerIndicatorProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+export function ComboboxTriggerIndicator({ className, ...props }: ComboboxTriggerIndicatorProps) {
+  const theme = useTheme();
+  const { triggerIndicator } = combobox({ theme });
+  return (
+    <span
+      data-slot="combobox-trigger-indicator"
+      className={triggerIndicator({ className })}
+      {...props}
+    />
   );
 }
 
@@ -346,6 +376,8 @@ export function ComboboxContent({
   sticky,
   portalProps,
   className,
+  initialFocus = false,
+  finalFocus = false,
   ...props
 }: ComboboxContentProps) {
   const theme = useTheme();
@@ -370,6 +402,8 @@ export function ComboboxContent({
         <BaseCombobox.Popup
           data-slot="combobox-content"
           className={content({ className })}
+          initialFocus={initialFocus}
+          finalFocus={finalFocus}
           {...props}
         />
       </BaseCombobox.Positioner>

@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Button,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -14,9 +13,22 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
   InlineCode,
 } from "@slock/ui";
-import { Check, Hash, LoaderCircle } from "lucide-react";
+import {
+  IconCheckOutline18,
+  IconChevronDownOutline18,
+  IconCircleUserOutline18,
+  IconCodeBranchOutline18,
+  IconFolderOutline18,
+  IconHashtagOutline18,
+  IconMegaphoneOutline18,
+  IconMessagesOutline18,
+  IconLoaderOutline18,
+  IconAtSignOutline18,
+  IconCircleWarningOutline18,
+} from "nucleo-ui-outline-18";
 import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
@@ -27,8 +39,13 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  mockMutationOptions,
+  mockQueryOptions,
+  runMockMutation,
+  useMockQuery,
+} from "#/lib/mock-query.ts";
 import messageSearchChannelFilterCompositionSource from "#/compositions/message-search-channel-filter-composition.tsx?raw";
 import { MessageSearchChannelFilterComposition } from "#/compositions/message-search-channel-filter-composition.tsx";
 import messageSearchSenderFilterCompositionSource from "#/compositions/message-search-sender-filter-composition.tsx?raw";
@@ -41,8 +58,8 @@ import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.t
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
   {
     id: "async-examples",
     title: "Async examples",
@@ -52,7 +69,6 @@ const TOC = [
       { id: "async-select", title: "Async select" },
     ],
   },
-  { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   {
     id: "source-comparison",
@@ -66,13 +82,11 @@ const TOC = [
   },
 ] as const;
 
-const TODOS = [
-  "Add grouped rows only when a source callsite needs grouped search results",
-] as const;
-
 const channels = [
-  { id: "unread", label: "#unread" },
-  { id: "general", label: "#general" },
+  { id: "all", label: "All messages", Icon: IconMessagesOutline18 },
+  { id: "mentions", label: "Mentions", Icon: IconAtSignOutline18 },
+  { id: "incidents", label: "Incidents", Icon: IconCircleWarningOutline18 },
+  { id: "releases", label: "Releases", Icon: IconMegaphoneOutline18 },
 ] as const;
 
 type Channel = (typeof channels)[number];
@@ -118,54 +132,63 @@ const branches: readonly Branch[] = [
   { id: "docs-combobox", label: "docs/combobox", description: "Docs patch" },
 ];
 
-function wait(ms: number) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+const repositoryQuery = mockQueryOptions({
+  queryKey: ["combobox", "repositories"],
+  delayMs: 700,
+  shouldFail: false,
+  queryFn: () => repositories,
+});
 
-async function loadRepositories() {
-  await wait(700);
-  return repositories;
-}
+const peopleSearchQuery = mockQueryOptions({
+  queryKey: ["combobox", "people-search"],
+  delayMs: 450,
+  shouldFail: false,
+  queryFn: (query: string) => {
+    const normalizedQuery = query.trim().toLowerCase();
 
-async function searchPeople(query: string) {
-  await wait(450);
+    if (!normalizedQuery) {
+      return people.slice(0, 3);
+    }
 
-  const normalizedQuery = query.trim().toLowerCase();
+    return people.filter((person) =>
+      `${person.label} ${person.handle}`.toLowerCase().includes(normalizedQuery),
+    );
+  },
+});
 
-  if (!normalizedQuery) {
-    return people.slice(0, 3);
-  }
+const branchChangeMutation = mockMutationOptions({
+  mutationKey: ["combobox", "branch-change"],
+  delayMs: 750,
+  shouldFail: false,
+  mutationFn: () => undefined,
+});
 
-  return people.filter((person) =>
-    `${person.label} ${person.handle}`.toLowerCase().includes(normalizedQuery),
-  );
-}
-
-async function requestBranchChange() {
-  await wait(750);
+function requestBranchChange() {
+  return runMockMutation(branchChangeMutation);
 }
 
 const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
-    <ComboboxInput aria-label="Search channels" placeholder="Search..." suppressPasswordManager />
+    <ComboboxInput aria-label="Search scopes" placeholder="Search scope..." suppressPasswordManager />
   </ComboboxInputGroup>
   <ComboboxList>
-    {(channel) => (
-      <ComboboxItem key={channel.id} value={channel}>
-        <span className="flex min-w-0 items-center gap-2">
-          <Hash size={12} />
-          <span className="truncate leading-6">{channel.label}</span>
-        </span>
-        <ComboboxItemIndicator />
-      </ComboboxItem>
-    )}
+    {(channel) => {
+      const ChannelIcon = channel.Icon;
+
+      return (
+        <ComboboxItem key={channel.id} value={channel}>
+          <span className="flex min-w-0 items-center gap-1.5">
+            <ChannelIcon />
+            <span className="truncate leading-6">{channel.label}</span>
+          </span>
+          <ComboboxItemIndicator />
+        </ComboboxItem>
+      );
+    }}
   </ComboboxList>`;
 
 const SNIPPETS = {
   anatomy: `import { useState } from "react";
 import {
-  Button,
   Combobox,
   ComboboxContent,
   ComboboxHeader,
@@ -177,16 +200,25 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
-import { Hash } from "lucide-react";
+import {
+  IconAtSignOutline18,
+  IconChevronDownOutline18,
+  IconCircleWarningOutline18,
+  IconMegaphoneOutline18,
+  IconMessagesOutline18,
+} from "nucleo-ui-outline-18";
 
 const channels = [
-  { id: "unread", label: "#unread" },
-  { id: "general", label: "#general" },
+  { id: "all", label: "All messages", Icon: IconMessagesOutline18 },
+  { id: "mentions", label: "Mentions", Icon: IconAtSignOutline18 },
+  { id: "incidents", label: "Incidents", Icon: IconCircleWarningOutline18 },
+  { id: "releases", label: "Releases", Icon: IconMegaphoneOutline18 },
 ] as const;
 
 function ChannelCombobox() {
-  const [value, setValue] = useState<typeof channels[number] | null>(null);
+  const [value, setValue] = useState<typeof channels[number] | null>(channels[0]);
 
   return (
     <Combobox
@@ -196,15 +228,16 @@ function ChannelCombobox() {
       onValueChange={setValue}
       autoHighlight
     >
-      <ComboboxTrigger
-        render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}
-      >
-        <Hash size={14} />
+      <ComboboxTrigger className="h-8 w-36 py-0">
+        <IconMessagesOutline18 />
         {value?.label ?? "Channel"}
+        <ComboboxTriggerIndicator>
+          <IconChevronDownOutline18 aria-hidden />
+        </ComboboxTriggerIndicator>
       </ComboboxTrigger>
       <ComboboxContent className="w-[220px]">
         <ComboboxHeader>
-          <ComboboxLabel>Channels</ComboboxLabel>
+          <ComboboxLabel>Search scope</ComboboxLabel>
         </ComboboxHeader>
         <ComboboxSeparator />
 ${COMBOBOX_BODY_SNIPPET}
@@ -212,9 +245,8 @@ ${COMBOBOX_BODY_SNIPPET}
     </Combobox>
   );
 }`,
-  asyncOptions: `import { useEffect, useState } from "react";
+  asyncOptions: `import { useState } from "react";
 import {
-  Button,
   Combobox,
   ComboboxContent,
   ComboboxEmpty,
@@ -227,8 +259,14 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
-import { LoaderCircle } from "lucide-react";
+import {
+  IconChevronDownOutline18,
+  IconFolderOutline18,
+  IconLoaderOutline18,
+} from "nucleo-ui-outline-18";
+import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const repositories = [
   { id: "raft-ui", label: "raft-ui", description: "Design system" },
@@ -236,45 +274,73 @@ const repositories = [
   { id: "source", label: "source", description: "Reference repo" },
 ] as const;
 
-async function loadRepositories() {
-  await new Promise((resolve) => setTimeout(resolve, 700));
-  return repositories;
-}
+const repositoryQuery = mockQueryOptions({
+  queryKey: ["combobox", "repositories"],
+  delayMs: 700,
+  shouldFail: false,
+  queryFn: () => repositories,
+});
 
 function RepositoryPicker() {
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState<typeof repositories[number][]>([]);
+  const [open, setOpen] = useState(true);
   const [value, setValue] = useState<typeof repositories[number] | null>(null);
+  const { data: items = [], isLoading } = useMockQuery({
+    query: repositoryQuery,
+    enabled: open,
+    clearOnFetch: true,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
+  function renderRepositoryItems() {
+    if (isLoading) {
+      return (
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
+          <IconLoaderOutline18 aria-hidden className="size-3.5 animate-spin" />
+          Loading
+        </div>
+      );
+    }
 
-    void loadRepositories().then((nextItems) => {
-      if (!cancelled) {
-        setItems([...nextItems]);
-        setLoading(false);
-      }
-    });
+    if (items.length === 0) {
+      return <ComboboxEmpty>No repositories</ComboboxEmpty>;
+    }
 
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    return (
+      <ComboboxList>
+        {(repository: Repository) => (
+          <ComboboxItem key={repository.id} value={repository}>
+            <span className="flex min-w-0 items-center gap-1.5">
+              <span className="flex size-4 shrink-0 items-center justify-center">
+                <IconFolderOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+              </span>
+              <span className="truncate leading-6">{repository.label}</span>
+            </span>
+            <ComboboxItemIndicator />
+          </ComboboxItem>
+        )}
+      </ComboboxList>
+    );
+  }
 
   return (
     <Combobox
+      open={open}
       items={items}
       value={value}
       itemToStringLabel={(item) => item.label}
+      onOpenChange={setOpen}
       onValueChange={setValue}
       autoHighlight
     >
-      <ComboboxTrigger
-        render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}
-      >
-        {value?.label ?? "Repository"}
+      <ComboboxTrigger className="h-8 w-36 py-0">
+        <IconFolderOutline18 />
+        <span className="min-w-0 truncate text-left">
+          {value ? \`Repository: \${value.label}\` : "Choose repository"}
+        </span>
+        <ComboboxTriggerIndicator>
+          <IconChevronDownOutline18 aria-hidden />
+        </ComboboxTriggerIndicator>
       </ComboboxTrigger>
-      <ComboboxContent className="w-[240px]">
+      <ComboboxContent className="w-[220px]">
         <ComboboxHeader>
           <ComboboxLabel>Repository</ComboboxLabel>
         </ComboboxHeader>
@@ -282,35 +348,13 @@ function RepositoryPicker() {
         <ComboboxInputGroup>
           <ComboboxInput aria-label="Search repositories" placeholder="Search..." />
         </ComboboxInputGroup>
-        {loading ? (
-          <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
-            <LoaderCircle className="size-3.5 animate-spin" />
-            Loading
-          </div>
-        ) : items.length === 0 ? (
-          <ComboboxEmpty>No repositories</ComboboxEmpty>
-        ) : (
-          <ComboboxList>
-            {(item) => (
-              <ComboboxItem key={item.id} value={item}>
-                <span className="min-w-0">
-                  <span className="block truncate leading-5">{item.label}</span>
-                  <span className="block truncate text-xs text-foreground-muted">
-                    {item.description}
-                  </span>
-                </span>
-                <ComboboxItemIndicator />
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        )}
+        {renderRepositoryItems()}
       </ComboboxContent>
     </Combobox>
   );
 }`,
-  asyncSearch: `import { useEffect, useState } from "react";
+  asyncSearch: `import { useState } from "react";
 import {
-  Button,
   Combobox,
   ComboboxContent,
   ComboboxEmpty,
@@ -323,8 +367,14 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
-import { LoaderCircle } from "lucide-react";
+import {
+  IconChevronDownOutline18,
+  IconCircleUserOutline18,
+  IconLoaderOutline18,
+} from "nucleo-ui-outline-18";
+import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const people = [
   { id: "me", label: "Me", handle: "@me" },
@@ -333,40 +383,62 @@ const people = [
   { id: "mika", label: "Mika", handle: "@mika" },
 ] as const;
 
-async function searchPeople(query: string) {
-  await new Promise((resolve) => setTimeout(resolve, 450));
-  const normalizedQuery = query.trim().toLowerCase();
+const peopleSearchQuery = mockQueryOptions({
+  queryKey: ["combobox", "people-search"],
+  delayMs: 450,
+  shouldFail: false,
+  queryFn: (query: string) => {
+    const normalizedQuery = query.trim().toLowerCase();
 
-  if (!normalizedQuery) {
-    return people.slice(0, 3);
-  }
+    if (!normalizedQuery) {
+      return people.slice(0, 3);
+    }
 
-  return people.filter((person) =>
-    \`\${person.label} \${person.handle}\`.toLowerCase().includes(normalizedQuery),
-  );
-}
+    return people.filter((person) =>
+      \`\${person.label} \${person.handle}\`.toLowerCase().includes(normalizedQuery),
+    );
+  },
+});
 
 function AsyncSenderSearch() {
   const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState<typeof people[number][]>([]);
   const [value, setValue] = useState<typeof people[number] | null>(null);
+  const { data: items = [], isLoading } = useMockQuery({
+    query: peopleSearchQuery,
+    variables: query,
+    clearOnFetch: true,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
+  function renderSenderItems() {
+    if (isLoading) {
+      return (
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
+          <IconLoaderOutline18 className="size-3.5 animate-spin" />
+          Searching
+        </div>
+      );
+    }
 
-    setLoading(true);
-    void searchPeople(query).then((nextItems) => {
-      if (!cancelled) {
-        setItems([...nextItems]);
-        setLoading(false);
-      }
-    });
+    if (items.length === 0) {
+      return <ComboboxEmpty>No senders</ComboboxEmpty>;
+    }
 
-    return () => {
-      cancelled = true;
-    };
-  }, [query]);
+    return (
+      <ComboboxList>
+        {(person) => (
+          <ComboboxItem key={person.id} value={person}>
+            <span className="flex min-w-0 items-center gap-1.5">
+              <span className="flex size-4 shrink-0 items-center justify-center">
+                <IconCircleUserOutline18 />
+              </span>
+              <span className="truncate leading-6">{person.label}</span>
+            </span>
+            <ComboboxItemIndicator />
+          </ComboboxItem>
+        )}
+      </ComboboxList>
+    );
+  }
 
   return (
     <Combobox
@@ -383,12 +455,16 @@ function AsyncSenderSearch() {
       onValueChange={setValue}
       autoHighlight
     >
-      <ComboboxTrigger
-        render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}
-      >
-        {value?.label ?? "Sender"}
+      <ComboboxTrigger className="h-8 w-36 py-0">
+        <IconCircleUserOutline18 />
+        <span className="min-w-0 truncate text-left">
+          {value ? \`Sender: \${value.label}\` : "Choose sender"}
+        </span>
+        <ComboboxTriggerIndicator>
+          <IconChevronDownOutline18 aria-hidden />
+        </ComboboxTriggerIndicator>
       </ComboboxTrigger>
-      <ComboboxContent className="w-[240px]">
+      <ComboboxContent className="w-[220px]">
         <ComboboxHeader>
           <ComboboxLabel>Sender</ComboboxLabel>
         </ComboboxHeader>
@@ -396,35 +472,13 @@ function AsyncSenderSearch() {
         <ComboboxInputGroup>
           <ComboboxInput aria-label="Search senders" placeholder="Search..." />
         </ComboboxInputGroup>
-        {loading ? (
-          <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
-            <LoaderCircle className="size-3.5 animate-spin" />
-            Searching
-          </div>
-        ) : items.length === 0 ? (
-          <ComboboxEmpty>No senders</ComboboxEmpty>
-        ) : (
-          <ComboboxList>
-            {(person) => (
-              <ComboboxItem key={person.id} value={person}>
-                <span className="min-w-0">
-                  <span className="block truncate leading-5">{person.label}</span>
-                  <span className="block truncate text-xs text-foreground-muted">
-                    {person.handle}
-                  </span>
-                </span>
-                <ComboboxItemIndicator />
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        )}
+        {renderSenderItems()}
       </ComboboxContent>
     </Combobox>
   );
 }`,
   asyncSelect: `import { useEffect, useRef, useState } from "react";
 import {
-  Button,
   Combobox,
   ComboboxContent,
   ComboboxHeader,
@@ -436,8 +490,15 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
-import { Check, LoaderCircle } from "lucide-react";
+import {
+  IconCheckOutline18,
+  IconChevronDownOutline18,
+  IconCodeBranchOutline18,
+  IconLoaderOutline18,
+} from "nucleo-ui-outline-18";
+import { mockMutationOptions, runMockMutation } from "#/lib/mock-query.ts";
 
 const branches = [
   { id: "main", label: "main", description: "Production" },
@@ -445,8 +506,15 @@ const branches = [
   { id: "docs-combobox", label: "docs/combobox", description: "Docs patch" },
 ] as const;
 
-async function requestBranchChange() {
-  await new Promise((resolve) => setTimeout(resolve, 750));
+const branchChangeMutation = mockMutationOptions({
+  mutationKey: ["combobox", "branch-change"],
+  delayMs: 750,
+  shouldFail: false,
+  mutationFn: () => undefined,
+});
+
+function requestBranchChange() {
+  return runMockMutation(branchChangeMutation);
 }
 
 function AsyncBranchSelect() {
@@ -503,10 +571,16 @@ function AsyncBranchSelect() {
       onValueChange={handleValueChange}
       autoHighlight
     >
-      <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-        {value?.label ?? "Branch"}
+      <ComboboxTrigger className="h-8 w-36 py-0">
+        <IconCodeBranchOutline18 />
+        <span className="min-w-0 truncate text-left">
+          {value ? \`Branch: \${value.label}\` : "Choose branch"}
+        </span>
+        <ComboboxTriggerIndicator>
+          <IconChevronDownOutline18 aria-hidden />
+        </ComboboxTriggerIndicator>
       </ComboboxTrigger>
-      <ComboboxContent className="w-[240px]">
+      <ComboboxContent className="w-[220px]">
         <ComboboxHeader>
           <ComboboxLabel>Branch</ComboboxLabel>
         </ComboboxHeader>
@@ -521,16 +595,16 @@ function AsyncBranchSelect() {
               value={branch}
               disabled={pendingId !== null && pendingId !== branch.id}
             >
-              <span className="min-w-0">
-                <span className="block truncate leading-5">{branch.label}</span>
-                <span className="block truncate text-xs text-foreground-muted">
-                  {branch.description}
+              <span className="flex min-w-0 items-center gap-1.5">
+                <span className="flex size-4 shrink-0 items-center justify-center">
+                  <IconCodeBranchOutline18 />
                 </span>
+                <span className="truncate leading-6">{branch.label}</span>
               </span>
               {pendingId === branch.id ? (
-                <LoaderCircle className="ml-auto size-3.5 animate-spin" />
+                <IconLoaderOutline18 className="ml-auto size-3.5 animate-spin" />
               ) : confirmedId === branch.id ? (
-                <Check className="ml-auto size-3.5" />
+                <IconCheckOutline18 className="ml-auto size-3.5" />
               ) : (
                 <ComboboxItemIndicator />
               )}
@@ -553,7 +627,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComboboxTrigger",
     type: "Base UI Combobox.Trigger.Props",
-    description: "Optional trigger part for opening a picker from a button-like control.",
+    description: "Outline button trigger by default. Use render to substitute the trigger element.",
   },
   {
     name: "ComboboxInput",
@@ -605,7 +679,7 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const HASH_LEADING = <Hash size={12} className="text-black/50" />;
+const HASH_LEADING = <IconHashtagOutline18 className="text-black/50" />;
 
 const MESSAGE_SEARCH_CHANNEL_FILTER_COMPOSITION_PATH =
   "apps/doc/src/compositions/message-search-channel-filter-composition.tsx" as const;
@@ -788,32 +862,33 @@ function ComboboxBody() {
   return (
     <>
       <ComboboxHeader>
-        <ComboboxLabel>Channels</ComboboxLabel>
+        <ComboboxLabel>Search scope</ComboboxLabel>
         <ComboboxClear>Clear</ComboboxClear>
       </ComboboxHeader>
       <ComboboxSeparator />
       <ComboboxInputGroup>
         <ComboboxInput
-          aria-label="Search channels"
-          placeholder="Search..."
+          aria-label="Search scopes"
+          placeholder="Search scope..."
           suppressPasswordManager
         />
       </ComboboxInputGroup>
       <ComboboxList>
-        {(channel: Channel) => (
-          <ComboboxItem key={channel.id} value={channel}>
-            <span className="flex min-w-0 items-center gap-2">
-              <span className="flex size-5 shrink-0 items-center justify-center">
-                <Hash
-                  size={12}
-                  className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50"
-                />
+        {(channel: Channel) => {
+          const ChannelIcon = channel.Icon;
+
+          return (
+            <ComboboxItem key={channel.id} value={channel}>
+              <span className="flex min-w-0 items-center gap-1.5">
+                <span className="flex size-4 shrink-0 items-center justify-center">
+                  <ChannelIcon className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                </span>
+                <span className="truncate leading-6">{channel.label}</span>
               </span>
-              <span className="truncate leading-6">{channel.label}</span>
-            </span>
-            <ComboboxItemIndicator />
-          </ComboboxItem>
-        )}
+              <ComboboxItemIndicator />
+            </ComboboxItem>
+          );
+        }}
       </ComboboxList>
     </>
   );
@@ -822,6 +897,7 @@ function ComboboxBody() {
 function PreviewCombobox({ open }: PlaygroundValues) {
   const portalRef = useRef<HTMLDivElement>(null);
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(channels[0]);
+  const SelectedChannelIcon = selectedChannel?.Icon ?? IconMessagesOutline18;
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
@@ -833,9 +909,12 @@ function PreviewCombobox({ open }: PlaygroundValues) {
         onValueChange={setSelectedChannel}
         autoHighlight
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          <Hash aria-hidden size={14} />
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <SelectedChannelIcon aria-hidden />
           {selectedChannel?.label ?? "Channel"}
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
@@ -854,25 +933,43 @@ function PreviewCombobox({ open }: PlaygroundValues) {
 function AsyncOptionsCombobox() {
   const portalRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState<Repository[]>([]);
   const [value, setValue] = useState<Repository | null>(null);
+  const { data: items = [], isLoading } = useMockQuery({
+    query: repositoryQuery,
+    enabled: open,
+    clearOnFetch: true,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
+  function renderRepositoryItems() {
+    if (isLoading) {
+      return (
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
+          <IconLoaderOutline18 aria-hidden className="size-3.5 animate-spin" />
+          Loading
+        </div>
+      );
+    }
 
-    setLoading(true);
-    void loadRepositories().then((nextItems) => {
-      if (!cancelled) {
-        setItems([...nextItems]);
-        setLoading(false);
-      }
-    });
+    if (items.length === 0) {
+      return <ComboboxEmpty>No repositories</ComboboxEmpty>;
+    }
 
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    return (
+      <ComboboxList>
+        {(repository: Repository) => (
+          <ComboboxItem key={repository.id} value={repository}>
+            <span className="flex min-w-0 items-center gap-1.5">
+              <span className="flex size-4 shrink-0 items-center justify-center">
+                <IconFolderOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+              </span>
+              <span className="truncate leading-6">{repository.label}</span>
+            </span>
+            <ComboboxItemIndicator />
+          </ComboboxItem>
+        )}
+      </ComboboxList>
+    );
+  }
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
@@ -885,15 +982,21 @@ function AsyncOptionsCombobox() {
         onValueChange={setValue}
         autoHighlight
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          {value?.label ?? "Repository"}
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <IconFolderOutline18 aria-hidden />
+          <span className="min-w-0 truncate text-left">
+            {value ? `Repository: ${value.label}` : "Choose repository"}
+          </span>
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[240px]"
+          className="w-[220px]"
         >
           <ComboboxHeader>
             <ComboboxLabel>Repository</ComboboxLabel>
@@ -906,28 +1009,7 @@ function AsyncOptionsCombobox() {
               suppressPasswordManager
             />
           </ComboboxInputGroup>
-          {loading ? (
-            <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
-              <LoaderCircle aria-hidden className="size-3.5 animate-spin" />
-              Loading
-            </div>
-          ) : items.length === 0 ? (
-            <ComboboxEmpty>No repositories</ComboboxEmpty>
-          ) : (
-            <ComboboxList>
-              {(repository: Repository) => (
-                <ComboboxItem key={repository.id} value={repository}>
-                  <span className="min-w-0">
-                    <span className="block truncate leading-5">{repository.label}</span>
-                    <span className="block truncate text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/50">
-                      {repository.description}
-                    </span>
-                  </span>
-                  <ComboboxItemIndicator />
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          )}
+          {renderRepositoryItems()}
         </ComboboxContent>
       </Combobox>
     </div>
@@ -937,25 +1019,43 @@ function AsyncOptionsCombobox() {
 function AsyncSearchCombobox() {
   const portalRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState<Person[]>([]);
   const [value, setValue] = useState<Person | null>(null);
+  const { data: items = [], isLoading } = useMockQuery({
+    query: peopleSearchQuery,
+    variables: query,
+    clearOnFetch: true,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
+  function renderSenderItems() {
+    if (isLoading) {
+      return (
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
+          <IconLoaderOutline18 aria-hidden className="size-3.5 animate-spin" />
+          Searching
+        </div>
+      );
+    }
 
-    setLoading(true);
-    void searchPeople(query).then((nextItems) => {
-      if (!cancelled) {
-        setItems([...nextItems]);
-        setLoading(false);
-      }
-    });
+    if (items.length === 0) {
+      return <ComboboxEmpty>No senders</ComboboxEmpty>;
+    }
 
-    return () => {
-      cancelled = true;
-    };
-  }, [query]);
+    return (
+      <ComboboxList>
+        {(person: Person) => (
+          <ComboboxItem key={person.id} value={person}>
+            <span className="flex min-w-0 items-center gap-1.5">
+              <span className="flex size-4 shrink-0 items-center justify-center">
+                <IconCircleUserOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+              </span>
+              <span className="truncate leading-6">{person.label}</span>
+            </span>
+            <ComboboxItemIndicator />
+          </ComboboxItem>
+        )}
+      </ComboboxList>
+    );
+  }
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
@@ -973,15 +1073,21 @@ function AsyncSearchCombobox() {
         onValueChange={setValue}
         autoHighlight
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          {value?.label ?? "Sender"}
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <IconCircleUserOutline18 aria-hidden />
+          <span className="min-w-0 truncate text-left">
+            {value ? `Sender: ${value.label}` : "Choose sender"}
+          </span>
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[240px]"
+          className="w-[220px]"
         >
           <ComboboxHeader>
             <ComboboxLabel>Sender</ComboboxLabel>
@@ -994,28 +1100,7 @@ function AsyncSearchCombobox() {
               suppressPasswordManager
             />
           </ComboboxInputGroup>
-          {loading ? (
-            <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
-              <LoaderCircle aria-hidden className="size-3.5 animate-spin" />
-              Searching
-            </div>
-          ) : items.length === 0 ? (
-            <ComboboxEmpty>No senders</ComboboxEmpty>
-          ) : (
-            <ComboboxList>
-              {(person: Person) => (
-                <ComboboxItem key={person.id} value={person}>
-                  <span className="min-w-0">
-                    <span className="block truncate leading-5">{person.label}</span>
-                    <span className="block truncate text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/50">
-                      {person.handle}
-                    </span>
-                  </span>
-                  <ComboboxItemIndicator />
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          )}
+          {renderSenderItems()}
         </ComboboxContent>
       </Combobox>
     </div>
@@ -1078,15 +1163,21 @@ function AsyncSelectCombobox() {
         onValueChange={handleValueChange}
         autoHighlight
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          {value?.label ?? "Branch"}
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <IconCodeBranchOutline18 aria-hidden />
+          <span className="min-w-0 truncate text-left">
+            {value ? `Branch: ${value.label}` : "Choose branch"}
+          </span>
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[240px]"
+          className="w-[220px]"
         >
           <ComboboxHeader>
             <ComboboxLabel>Branch</ComboboxLabel>
@@ -1106,16 +1197,16 @@ function AsyncSelectCombobox() {
                 value={branch}
                 disabled={pendingId !== null && pendingId !== branch.id}
               >
-                <span className="min-w-0">
-                  <span className="block truncate leading-5">{branch.label}</span>
-                  <span className="block truncate text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/50">
-                    {branch.description}
+                <span className="flex min-w-0 items-center gap-1.5">
+                  <span className="flex size-4 shrink-0 items-center justify-center">
+                    <IconCodeBranchOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
                   </span>
+                  <span className="truncate leading-6">{branch.label}</span>
                 </span>
                 {pendingId === branch.id ? (
-                  <LoaderCircle aria-hidden className="ml-auto size-3.5 animate-spin" />
+                  <IconLoaderOutline18 aria-hidden className="ml-auto size-3.5 animate-spin" />
                 ) : confirmedId === branch.id ? (
-                  <Check aria-hidden className="ml-auto size-3.5 stroke-[1.5]" />
+                  <IconCheckOutline18 aria-hidden className="ml-auto size-3.5 stroke-[1.5]" />
                 ) : (
                   <ComboboxItemIndicator />
                 )}
@@ -1134,19 +1225,11 @@ function ComboboxDoc() {
   return (
     <DocPage
       title="Combobox"
-      description="A searchable selection primitive for typed option picking."
+      description="Use Combobox when the user searches, highlights, and selects structured options. Use Popover only for generic floating panels."
       toc={TOC}
       sectionDividers={false}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
-        <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
-          Use Combobox when the user searches, highlights, and selects structured options. Use
-          Popover only for generic floating panels.
-        </p>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             open: true,
@@ -1157,35 +1240,6 @@ function ComboboxDoc() {
         />
       </DocSection>
 
-      <DocSection id="async-examples" title="Async examples">
-        <div className="space-y-8">
-          <div className="space-y-3">
-            <h3 id="async-load-options" className="scroll-mt-24 text-sm font-medium">
-              Load options
-            </h3>
-            <Example html={code.asyncOptions} previewClassName="min-h-[22rem] items-start pt-24">
-              <AsyncOptionsCombobox />
-            </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 id="async-search" className="scroll-mt-24 text-sm font-medium">
-              Async search
-            </h3>
-            <Example html={code.asyncSearch} previewClassName="min-h-[20rem]">
-              <AsyncSearchCombobox />
-            </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 id="async-select" className="scroll-mt-24 text-sm font-medium">
-              Async select
-            </h3>
-            <Example html={code.asyncSelect} previewClassName="min-h-[22rem] items-start pt-24">
-              <AsyncSelectCombobox />
-            </Example>
-          </div>
-        </div>
-      </DocSection>
-
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock.Panel
           path="Combobox.tsx"
@@ -1194,6 +1248,47 @@ function ComboboxDoc() {
           collapsedHtml={code.anatomyBody}
           showLineNumbers={false}
         />
+      </DocSection>
+
+      <DocSection id="async-examples" title="Async examples">
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 id="async-load-options" className="scroll-mt-24 text-sm font-medium">
+              Load options
+            </h3>
+            <Example
+              html={code.asyncOptions}
+              collapsedHtml={code.asyncOptionsBody}
+              previewClassName="min-h-[22rem] items-start pt-24"
+            >
+              <AsyncOptionsCombobox />
+            </Example>
+          </div>
+          <div className="space-y-3">
+            <h3 id="async-search" className="scroll-mt-24 text-sm font-medium">
+              Async search
+            </h3>
+            <Example
+              html={code.asyncSearch}
+              collapsedHtml={code.asyncSearchBody}
+              previewClassName="min-h-[22rem] items-start pt-24"
+            >
+              <AsyncSearchCombobox />
+            </Example>
+          </div>
+          <div className="space-y-3">
+            <h3 id="async-select" className="scroll-mt-24 text-sm font-medium">
+              Async select
+            </h3>
+            <Example
+              html={code.asyncSelect}
+              collapsedHtml={code.asyncSelectBody}
+              previewClassName="min-h-[22rem] items-start pt-24"
+            >
+              <AsyncSelectCombobox />
+            </Example>
+          </div>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">
@@ -1211,8 +1306,8 @@ function ComboboxDoc() {
               status: "difference",
               note: (
                 <>
-                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Searchable channel picker. Hash
-                  rows. Enter selects the first match.
+                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Searchable channel picker.
+                  IconHashtagOutline18 rows. Enter selects the first match.
                 </>
               ),
               source: <SourceMessageSearchChannelComparison />,

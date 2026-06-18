@@ -8,12 +8,13 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 
 type ExampleProps = {
   html: ReactNode | AnyRenderableServerComponent;
+  collapsedHtml?: ReactNode | AnyRenderableServerComponent;
   children: ReactNode;
   previewClassName?: string;
 };
 
 /** A rendered demo above its Shiki-highlighted source. */
-export function Example({ html, children, previewClassName }: ExampleProps) {
+export function Example({ html, collapsedHtml, children, previewClassName }: ExampleProps) {
   return (
     <ComponentDemoFrame
       previewClassName={previewClassName}
@@ -35,7 +36,7 @@ export function Example({ html, children, previewClassName }: ExampleProps) {
           <Collapsible.Panel className="min-w-0">
             <DocsCodeBlock>
               <DocsCodeBlock.Body showLineNumbers={false}>
-                <DocsCodeBlock.Content html={html} />
+                <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
               </DocsCodeBlock.Body>
             </DocsCodeBlock>
           </Collapsible.Panel>

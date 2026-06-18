@@ -45,7 +45,7 @@ export const buttonVariants = tv({
         root: ["border-line-strong bg-layer-panel text-foreground-strong", "hover:bg-layer-panel"],
       },
       information: {
-        root: ["border-line-strong bg-info-base text-info-dark", "hover:bg-info-base"],
+        root: ["border-line-strong bg-info-base text-foreground-inverse", "hover:bg-info-base"],
       },
       muted: {
         root: [
@@ -342,7 +342,7 @@ export const buttonVariants = tv({
       variant: "information",
       class: {
         root: [
-          "bg-info-base text-info-dark",
+          "bg-info-base text-foreground-inverse",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0.78_0.145_215_/_0.16),0_4px_4px_-2px_oklch(0.78_0.145_215_/_0.2),0_0_0_1px_var(--state-info-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.74_0.13_219.2)]",

@@ -21,6 +21,7 @@ export {
   ComboboxRow,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
   ComboboxValue,
   type ComboboxChipProps,
   type ComboboxChipRemoveProps,
@@ -43,6 +44,7 @@ export {
   type ComboboxProps,
   type ComboboxRowProps,
   type ComboboxSeparatorProps,
+  type ComboboxTriggerIndicatorProps,
   type ComboboxTriggerProps,
   type ComboboxValueProps,
 } from "./combobox.tsx";

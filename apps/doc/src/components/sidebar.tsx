@@ -62,7 +62,7 @@ const NAV = [
       { label: "Field", to: "/components/field", progress: { theme: "done" } },
       { label: "Input", to: "/components/input", progress: { theme: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { theme: "done" } },
-      { label: "Combobox", to: "/components/combobox", progress: { theme: "todo" } },
+      { label: "Combobox", to: "/components/combobox", progress: { theme: "ready" } },
       { label: "Textarea", to: "/components/textarea", progress: { theme: "done" } },
       { label: "ToggleGroup", to: "/components/toggle-group", progress: { theme: "todo" } },
     ],

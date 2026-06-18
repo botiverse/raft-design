@@ -1,9 +1,8 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { Hash } from "lucide-react";
+import { IconChevronDownOutline18, IconHashtagOutline18 } from "nucleo-ui-outline-18";
 import {
   Badge,
-  Button,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -16,6 +15,7 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "@slock/ui";
 
 type Channel = {
@@ -47,9 +47,9 @@ export function TasksChannelFilterComposition() {
         value={selectedChannels}
         onValueChange={setSelectedChannels}
       >
-        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
-          <Hash aria-hidden size={14} />
-          <span className="min-w-0 flex-1 truncate text-left">Channels</span>
+        <ComboboxTrigger className="h-8 w-36 py-0">
+          <IconHashtagOutline18 aria-hidden />
+          <span className="min-w-0 truncate text-left">Channels</span>
           {selectedChannels.length > 0 && (
             <Badge
               appearance="outline"
@@ -58,6 +58,9 @@ export function TasksChannelFilterComposition() {
               {selectedChannels.length}
             </Badge>
           )}
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
           initialFocus={false}
@@ -83,12 +86,9 @@ export function TasksChannelFilterComposition() {
           <ComboboxList>
             {(channel: Channel) => (
               <ComboboxItem key={channel.id} value={channel}>
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className="flex size-5 shrink-0 items-center justify-center">
-                    <Hash
-                      size={12}
-                      className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50"
-                    />
+                <span className="flex min-w-0 items-center gap-1.5">
+                  <span className="flex size-4 shrink-0 items-center justify-center">
+                    <IconHashtagOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
                   </span>
                   <span className="truncate leading-6">{channel.label}</span>
                 </span>
