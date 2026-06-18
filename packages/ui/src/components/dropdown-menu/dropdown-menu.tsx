@@ -35,6 +35,10 @@ const dropdownMenu = tv({
   variants: {
     theme: {
       brutal: {
+        trigger: [
+          "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
+          "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
+        ],
         content: [
           "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],

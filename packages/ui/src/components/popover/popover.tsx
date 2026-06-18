@@ -12,7 +12,8 @@ const popover = tv({
       "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
-    header: ["flex items-center justify-between border-b px-3 py-2"],
+    header: ["flex items-center justify-between px-3 py-2"],
+    separator: ["border-t"],
     title: ["m-0 text-[10px] font-bold uppercase leading-none tracking-wide"],
     description: ["m-0 text-xs leading-5"],
     close: [
@@ -30,10 +31,10 @@ const popover = tv({
         content: [
           "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],
-        header: ["border-black"],
-        title: ["font-sans text-black/60"],
-        description: ["font-sans text-black/50"],
-        close: ["font-sans text-black/50 hover:text-black"],
+        separator: ["border-black"],
+        title: ["font-sans text-black"],
+        description: ["font-sans text-black"],
+        close: ["font-sans text-black hover:text-black"],
         arrow: ["border-l-2 border-t-2 border-black bg-white"],
         backdrop: ["bg-transparent"],
       },
@@ -42,7 +43,7 @@ const popover = tv({
           "rounded-md bg-layer-popover",
           "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
         ],
-        header: ["border-line-muted"],
+        separator: ["border-line-muted"],
         title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground/45"],
         description: ["text-xs leading-5 text-foreground-muted"],
         close: [
@@ -82,9 +83,9 @@ export function PopoverPortal(props: PopoverPortalProps) {
   return <BasePopover.Portal data-slot="popover-portal" {...props} />;
 }
 
-export type PopoverSurfaceProps = ComponentPropsWithRef<"div">;
+export type PopoverPopupProps = ComponentPropsWithRef<"div">;
 
-export function PopoverSurface({ className, ...props }: PopoverSurfaceProps) {
+export function PopoverPopup({ className, ...props }: PopoverPopupProps) {
   const theme = useTheme();
   const { content } = popover({ theme });
   return <div data-slot="popover-content" className={content({ className })} {...props} />;
@@ -175,6 +176,22 @@ export function PopoverHeader({ className, ...props }: PopoverHeaderProps) {
   const theme = useTheme();
   const { header } = popover({ theme });
   return <div data-slot="popover-header" className={header({ className })} {...props} />;
+}
+
+export type PopoverSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+export function PopoverSeparator({ className, ...props }: PopoverSeparatorProps) {
+  const theme = useTheme();
+  const { separator } = popover({ theme });
+  return (
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      data-slot="popover-separator"
+      className={separator({ className })}
+      {...props}
+    />
+  );
 }
 
 export type PopoverTitleProps = StyledProps<BasePopover.Title.Props>;

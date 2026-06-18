@@ -62,6 +62,7 @@ const NAV = [
       { label: "Field", to: "/components/field", progress: { theme: "done" } },
       { label: "Input", to: "/components/input", progress: { theme: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { theme: "done" } },
+      { label: "Combobox", to: "/components/combobox", progress: { theme: "todo" } },
       { label: "Textarea", to: "/components/textarea", progress: { theme: "done" } },
       { label: "ToggleGroup", to: "/components/toggle-group", progress: { theme: "todo" } },
     ],
@@ -84,12 +85,6 @@ const NAV = [
         docsHref: "https://base-ui.com/react/components/radio",
         reason:
           "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
-      },
-      {
-        label: "Combobox",
-        priority: "P2",
-        docsHref: "https://base-ui.com/react/components/combobox",
-        reason: "Searchable selection for members, channels, and tags after Select is stable.",
       },
       {
         label: "NumberField",
@@ -160,7 +155,7 @@ const NAV = [
       { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "todo" } },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
-      { label: "Popover", to: "/components/popover", progress: { theme: "todo" } },
+      { label: "Popover", to: "/components/popover", progress: { theme: "ready" } },
     ],
     planned: [
       {
@@ -535,7 +530,7 @@ const SOURCE_HOLDS = {
   ],
 } as const;
 
-type TaskStatus = "done" | "in-progress" | "todo";
+type TaskStatus = "done" | "in-progress" | "ready" | "todo";
 type Progress = {
   theme?: TaskStatus;
 };
@@ -547,6 +542,7 @@ const DEFAULT_PROGRESS = {
 const TASK_STATUS = {
   done: { label: "Done", short: "Done" },
   "in-progress": { label: "In progress", short: "WIP" },
+  ready: { label: "Ready", short: "READY" },
   todo: { label: "Todo", short: "TODO" },
 } as const satisfies Record<TaskStatus, { label: string; short: string }>;
 
@@ -630,7 +626,7 @@ function NavGroupLabel({ label, badge }: { label: string; badge?: ReactNode }) {
 
 function ProgressBadge({ progress }: { progress?: Progress }) {
   const status = progress?.theme ?? DEFAULT_PROGRESS.theme;
-  const variant = status === "todo" ? "default" : "primary";
+  const variant = status === "ready" ? "success" : status === "todo" ? "default" : "primary";
 
   if (status === "done") {
     return null;

@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
+  PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
   ThemeProvider,
@@ -130,6 +131,7 @@ function MatrixFilterPopover() {
       <PopoverHeader>
         <PopoverTitle>Filter</PopoverTitle>
       </PopoverHeader>
+      <PopoverSeparator />
       <MatrixOptionRows selected="Unread" />
     </MatrixPopoverShell>
   );
@@ -141,6 +143,7 @@ function MatrixFormPopover() {
       <PopoverHeader>
         <PopoverTitle>Edit profile</PopoverTitle>
       </PopoverHeader>
+      <PopoverSeparator />
       <div className="space-y-3 p-3">
         <Field>
           <FieldLabel>Name</FieldLabel>
@@ -162,6 +165,7 @@ function MatrixOpenedPopover() {
         <PopoverTitle>Details</PopoverTitle>
         <PopoverClose>Close</PopoverClose>
       </PopoverHeader>
+      <PopoverSeparator />
       <div className="space-y-1 px-3 py-3">
         <PopoverDescription>
           Popover shell styling is theme-owned; body content stays caller-composed.

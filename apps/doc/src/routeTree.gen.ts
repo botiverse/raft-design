@@ -46,6 +46,7 @@ import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
+import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
@@ -263,6 +264,11 @@ const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
   path: '/context-menu',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
+  id: '/combobox',
+  path: '/combobox',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   id: '/checkbox',
   path: '/checkbox',
@@ -410,6 +416,7 @@ export interface FileRoutesByFullPath {
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
@@ -475,6 +482,7 @@ export interface FileRoutesByTo {
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
@@ -541,6 +549,7 @@ export interface FileRoutesById {
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
@@ -608,6 +617,7 @@ export interface FileRouteTypes {
     | '/components/bottom-sheet'
     | '/components/button'
     | '/components/checkbox'
+    | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/description-list'
@@ -673,6 +683,7 @@ export interface FileRouteTypes {
     | '/components/bottom-sheet'
     | '/components/button'
     | '/components/checkbox'
+    | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/description-list'
@@ -738,6 +749,7 @@ export interface FileRouteTypes {
     | '/components/bottom-sheet'
     | '/components/button'
     | '/components/checkbox'
+    | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/description-list'
@@ -1065,6 +1077,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsContextMenuRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/combobox': {
+      id: '/components/combobox'
+      path: '/combobox'
+      fullPath: '/components/combobox'
+      preLoaderRoute: typeof ComponentsComboboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/checkbox': {
       id: '/components/checkbox'
       path: '/checkbox'
@@ -1258,6 +1277,7 @@ interface ComponentsRouteChildren {
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
+  ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
@@ -1309,6 +1329,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
+  ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
