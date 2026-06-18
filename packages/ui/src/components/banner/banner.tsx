@@ -62,7 +62,7 @@ const banner = tv({
         action: [
           "col-start-2 row-start-1 flex h-5 shrink-0 items-center gap-2",
           "group-has-[>svg]/banner:col-start-3",
-          "group-has-[>[data-slot=banner-title]]/banner:group-has-[>[data-slot=banner-description]]/banner:row-span-2",
+          "group-has-[>[data-slot=banner-title]+[data-slot=banner-description]]/banner:row-span-2",
           "[&>button:has(svg):last-child]:size-5 [&>button:has(svg):last-child]:min-h-5 [&>button:has(svg):last-child]:min-w-5",
           "[&>button:has(svg):last-child]:rounded-sm",
           "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",

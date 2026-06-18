@@ -1,6 +1,6 @@
 import { Banner, BannerAction, BannerDescription, Button } from "@slock/ui";
-import { X } from "lucide-react";
 import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
+import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -13,7 +13,7 @@ export function BannerContent() {
       <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
       <BannerAction>
         <Button size="icon-xs" aria-label="Dismiss">
-          <X />
+          <IconXmarkOutline18 />
         </Button>
       </BannerAction>
     </Banner>

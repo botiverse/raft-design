@@ -14,8 +14,7 @@ import {
   IconCircleWarningFill18,
   IconCircleXmarkFill18,
 } from "nucleo-ui-fill-18";
-import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
-import { X } from "lucide-react";
+import { IconGridCircleOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -83,21 +82,21 @@ type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 const SNIPPETS = {
   anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@slock/ui";
 import { IconCircleWarningFill18 } from "nucleo-ui-fill-18";
-import { X } from "lucide-react";
+import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 <Banner status="warning">
   <IconCircleWarningFill18 />
   <BannerTitle>Review required</BannerTitle>
   <BannerDescription>Heads up — this can't be undone.</BannerDescription>
   <BannerAction align="top">
-    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
+    <Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button>
   </BannerAction>
 </Banner>`,
   statuses: `<Banner status="default">
   <IconCircleInfoFill18 />
   <BannerTitle>Settings synced</BannerTitle>
   <BannerDescription>Rules now apply to every project.</BannerDescription>
-  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><X /></Button></BannerAction>
+  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><IconXmarkOutline18 /></Button></BannerAction>
 </Banner>
 <Banner status="destructive">
   <IconCircleXmarkFill18 />
@@ -121,32 +120,32 @@ import { X } from "lucide-react";
   <IconCircleCheckFill18 />
   <BannerTitle>Deployment live</BannerTitle>
   <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
-  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><X /></Button></BannerAction>
+  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><IconXmarkOutline18 /></Button></BannerAction>
 </Banner>`,
   sizes: `<Banner status="info" size="sm">
   <IconCircleInfoFill18 />
   <BannerTitle>Small banner</BannerTitle>
   <BannerDescription>Tight form-error banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="md">
   <IconCircleInfoFill18 />
   <BannerTitle>Medium banner</BannerTitle>
   <BannerDescription>Default banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="lg">
   <IconCircleInfoFill18 />
   <BannerTitle>Large banner</BannerTitle>
   <BannerDescription>Prominent surface banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button></BannerAction>
 </Banner>`,
   composition: `<Banner status="warning">
   <IconCircleWarningFill18 />
   <BannerTitle>Plan limit reached</BannerTitle>
   <BannerDescription>Remove an inactive machine before adding another.</BannerDescription>
   <BannerAction align="top">
-    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
+    <Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button>
   </BannerAction>
 </Banner>`,
   sourceDefault: `<Banner intent="warning">
@@ -167,14 +166,14 @@ import { X } from "lucide-react";
   intent="info"
   density="lg"
   withIcon
-  actions={<button aria-label="Dismiss"><X /></button>}
+  actions={<button aria-label="Dismiss"><IconXmarkOutline18 /></button>}
 >
   You're on the free plan.
 </Banner>`,
   currentActions: `<Banner status="info" size="lg">
   <IconCircleInfoFill18 />
   <BannerDescription>You're on the free plan.</BannerDescription>
-  <BannerAction><button aria-label="Dismiss"><X /></button></BannerAction>
+  <BannerAction><button aria-label="Dismiss"><IconXmarkOutline18 /></button></BannerAction>
 </Banner>`,
 } as const;
 
@@ -249,7 +248,7 @@ function DismissIconButton() {
       aria-label="Dismiss"
       className="inline-flex size-6 shrink-0 items-center justify-center border-2 border-black bg-white text-black transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-hover)] [&>svg]:size-3.5"
     >
-      <X />
+      <IconXmarkOutline18 />
     </button>
   );
 }
@@ -321,7 +320,7 @@ function BannerDoc() {
                 {values.withActions ? (
                   <BannerAction align={values.actionAlign}>
                     <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
+                      <IconXmarkOutline18 />
                     </Button>
                   </BannerAction>
                 ) : null}
@@ -353,7 +352,7 @@ function BannerDoc() {
                   size="icon-xs"
                   aria-label="Dismiss workspace settings notice"
                 >
-                  <X />
+                  <IconXmarkOutline18 />
                 </Button>
               </BannerAction>
             </Banner>
@@ -393,7 +392,7 @@ function BannerDoc() {
               <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
               <BannerAction align="top">
                 <Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice">
-                  <X />
+                  <IconXmarkOutline18 />
                 </Button>
               </BannerAction>
             </Banner>
@@ -415,7 +414,7 @@ function BannerDoc() {
                 <BannerDescription>Tight form-error banner.</BannerDescription>
                 <BannerAction>
                   <Button size="icon-xs" aria-label="Dismiss">
-                    <X />
+                    <IconXmarkOutline18 />
                   </Button>
                 </BannerAction>
               </Banner>
@@ -425,7 +424,7 @@ function BannerDoc() {
                 <BannerDescription>Default banner.</BannerDescription>
                 <BannerAction>
                   <Button size="icon-xs" aria-label="Dismiss">
-                    <X />
+                    <IconXmarkOutline18 />
                   </Button>
                 </BannerAction>
               </Banner>
@@ -435,7 +434,7 @@ function BannerDoc() {
                 <BannerDescription>Prominent surface banner.</BannerDescription>
                 <BannerAction>
                   <Button size="icon-xs" aria-label="Dismiss">
-                    <X />
+                    <IconXmarkOutline18 />
                   </Button>
                 </BannerAction>
               </Banner>
@@ -455,7 +454,7 @@ function BannerDoc() {
               </BannerDescription>
               <BannerAction align="top">
                 <Button size="icon-xs" aria-label="Dismiss">
-                  <X />
+                  <IconXmarkOutline18 />
                 </Button>
               </BannerAction>
             </Banner>
