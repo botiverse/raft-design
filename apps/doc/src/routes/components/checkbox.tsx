@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
-import { Button, Checkbox, type CheckboxProps } from "@slock/ui";
+import { Button, Checkbox, Label, type CheckboxProps } from "@slock/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -72,10 +72,10 @@ const SNIPPETS = {
 <Checkbox indeterminate disabled />
 <Checkbox variant="primary" indeterminate />
 <Checkbox variant="primary" indeterminate disabled />`,
-  label: `<label className="inline-flex items-center gap-2 text-sm">
+  label: `<Label>
   <Checkbox defaultChecked />
   Accept terms
-</label>`,
+</Label>`,
   selection: `<div className="grid gap-2">
   <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--shadow)]">
     <Checkbox defaultChecked aria-label="Select conversation" />
@@ -321,7 +321,7 @@ function CheckboxDoc() {
       <DocSection id="states" title="States">
         <div className="space-y-4">
           <Example html={code.states}>
-            <div className="grid w-full gap-4">
+            <div className="grid gap-4">
               <div className="flex items-center gap-4">
                 <Checkbox />
                 <Checkbox disabled />
@@ -348,13 +348,10 @@ function CheckboxDoc() {
       <DocSection id="label" title="Label">
         <div className="space-y-4">
           <Example html={code.label}>
-            <label
-              htmlFor="checkbox-label-example"
-              className="inline-flex items-center gap-2 text-sm"
-            >
+            <Label>
               <Checkbox id="checkbox-label-example" defaultChecked />
               Accept terms
-            </label>
+            </Label>
           </Example>
         </div>
       </DocSection>
