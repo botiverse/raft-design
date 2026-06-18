@@ -420,10 +420,22 @@ const MIGRATED = {
       target: "Status",
     },
     {
-      label: "SelectionPopover",
+      label: "MessageSearchPage filters",
+      to: "/components/combobox",
+      hash: "source-comparison",
+      target: "Combobox",
+    },
+    {
+      label: "TasksPanel filters",
+      to: "/components/combobox",
+      hash: "source-comparison",
+      target: "Combobox",
+    },
+    {
+      label: "NotificationTrigger",
       to: "/components/popover",
-      hash: "migration",
-      target: "Popover (searchable)",
+      hash: "source-comparison-notification-trigger",
+      target: "Popover",
     },
     {
       label: "SelectionPopover",
