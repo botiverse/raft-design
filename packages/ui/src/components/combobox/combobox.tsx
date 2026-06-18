@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef } from "react";
+import { createContext, use, useState, type ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, ChevronDown, X } from "lucide-react";
 import { tv } from "tailwind-variants";
@@ -18,14 +18,20 @@ const combobox = tv({
       "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
+    header: ["flex items-center justify-between px-3 py-2"],
+    separator: ["h-px shrink-0 border-0"],
     list: ["max-h-64 overflow-y-auto"],
     item: [
       "flex h-9 w-full cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3",
       "text-left outline-none transition-colors",
     ],
     itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
-    label: ["m-0"],
-    clear: ["outline-none transition-colors"],
+    label: ["m-0 font-medium"],
+    clear: [
+      "inline-flex h-5 min-w-8 items-center justify-center",
+      "pointer-events-none opacity-0 outline-none transition-colors",
+      "data-[visible]:pointer-events-auto data-[visible]:opacity-100",
+    ],
     empty: ["px-3 py-4 text-center text-sm"],
     groupLabel: ["px-3 py-2"],
     chips: ["flex min-h-9 flex-wrap items-center gap-1"],
@@ -48,18 +54,17 @@ const combobox = tv({
         content: [
           "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],
+        separator: ["bg-black"],
         item: [
           "border-b border-black/10 bg-white font-sans text-xs font-bold leading-6 text-black last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
         ],
-        itemIndicator: [],
-        label: [
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
-        ],
+        itemIndicator: ["text-black"],
+        label: ["font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black"],
         clear: [
-          "font-sans text-[10px] font-bold uppercase tracking-wide text-black/50 hover:text-black",
+          "font-sans text-[10px] font-bold uppercase tracking-wide text-black/60 hover:text-black",
         ],
         empty: ["font-sans text-xs font-bold text-black/50"],
         groupLabel: [
@@ -70,10 +75,13 @@ const combobox = tv({
         chipRemove: ["text-black/50 hover:text-black"],
       },
       elegant: {
-        trigger: ["text-sm font-medium tracking-[-0.005em] text-foreground-muted"],
-        inputGroup: ["border-line-muted bg-layer-popover"],
+        trigger: [
+          "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+        ],
+        inputGroup: ["border-line-muted bg-layer-popover px-1.5 pt-1 pb-2"],
         input: [
-          "rounded-md border border-line-subtle bg-layer-field px-2 py-1 text-sm",
+          "rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-sm",
           "text-foreground outline-none transition duration-150",
           "placeholder:text-foreground-placeholder/70",
           "focus:border-line-strong/25 focus-visible:ring-2 focus-visible:ring-line-strong/8",
@@ -82,17 +90,21 @@ const combobox = tv({
           "rounded-md bg-layer-popover",
           "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
         ],
+        header: ["pl-2 pr-1.5 pt-2.5 pb-0.5"],
+        separator: ["hidden bg-line-muted"],
+        list: ["flex flex-col gap-0.5 px-1.5 py-1"],
         item: [
-          "border-b border-line-muted bg-layer-popover text-sm font-medium tracking-[-0.005em] text-foreground-muted last:border-b-0",
+          "rounded-sm bg-transparent text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
           "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3",
         ],
-        itemIndicator: [],
-        label: ["text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45"],
+        itemIndicator: ["text-foreground-strong"],
+        label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
         clear: [
-          "text-[11px] font-medium tracking-[-0.005em] text-foreground-muted hover:text-foreground-strong",
+          "text-[11px] font-medium tracking-[-0.005em] text-foreground/45 hover:text-foreground-strong",
         ],
         empty: ["text-foreground-muted"],
         groupLabel: ["text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45"],
@@ -107,15 +119,88 @@ const combobox = tv({
   },
 });
 
+type ComboboxClearContextValue = {
+  visible: boolean;
+};
+
+const ComboboxClearContext = createContext<ComboboxClearContextValue>({ visible: false });
+
+function hasClearableValue(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  return value != null;
+}
+
+function hasClearableInputValue(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  if (typeof value === "string") {
+    return value.length > 0;
+  }
+
+  if (typeof value === "number") {
+    return true;
+  }
+
+  return value != null;
+}
+
 export type ComboboxProps<
   Value,
   Multiple extends boolean | undefined = false,
 > = BaseCombobox.Root.Props<Value, Multiple>;
 
-export function Combobox<Value, Multiple extends boolean | undefined = false>(
-  props: ComboboxProps<Value, Multiple>,
-) {
-  return <BaseCombobox.Root data-slot="combobox" {...props} />;
+export function Combobox<Value, Multiple extends boolean | undefined = false>({
+  defaultInputValue,
+  defaultValue,
+  inputValue,
+  onInputValueChange,
+  onValueChange,
+  value,
+  ...props
+}: ComboboxProps<Value, Multiple>) {
+  const [uncontrolledInputValue, setUncontrolledInputValue] = useState<unknown>(
+    defaultInputValue ?? "",
+  );
+  const [uncontrolledValue, setUncontrolledValue] = useState<unknown>(defaultValue);
+
+  const resolvedInputValue = inputValue === undefined ? uncontrolledInputValue : inputValue;
+  const resolvedValue = value === undefined ? uncontrolledValue : value;
+
+  return (
+    <ComboboxClearContext.Provider
+      value={{
+        visible: hasClearableValue(resolvedValue) || hasClearableInputValue(resolvedInputValue),
+      }}
+    >
+      <BaseCombobox.Root
+        data-slot="combobox"
+        defaultInputValue={defaultInputValue}
+        defaultValue={defaultValue}
+        inputValue={inputValue}
+        value={value}
+        onInputValueChange={(nextInputValue, eventDetails) => {
+          if (inputValue === undefined) {
+            setUncontrolledInputValue(nextInputValue);
+          }
+
+          onInputValueChange?.(nextInputValue, eventDetails);
+        }}
+        onValueChange={(nextValue, eventDetails) => {
+          if (value === undefined) {
+            setUncontrolledValue(nextValue);
+          }
+
+          onValueChange?.(nextValue, eventDetails);
+        }}
+        {...props}
+      />
+    </ComboboxClearContext.Provider>
+  );
 }
 
 export type ComboboxLabelProps = StyledProps<BaseCombobox.Label.Props>;
@@ -201,6 +286,30 @@ export function ComboboxPopup({ className, ...props }: ComboboxPopupProps) {
   const theme = useTheme();
   const { content } = combobox({ theme });
   return <div data-slot="combobox-content" className={content({ className })} {...props} />;
+}
+
+export type ComboboxHeaderProps = ComponentPropsWithRef<"div">;
+
+export function ComboboxHeader({ className, ...props }: ComboboxHeaderProps) {
+  const theme = useTheme();
+  const { header } = combobox({ theme });
+  return <div data-slot="combobox-header" className={header({ className })} {...props} />;
+}
+
+export type ComboboxSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+export function ComboboxSeparator({ className, ...props }: ComboboxSeparatorProps) {
+  const theme = useTheme();
+  const { separator } = combobox({ theme });
+  return (
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      data-slot="combobox-separator"
+      className={separator({ className })}
+      {...props}
+    />
+  );
 }
 
 export type ComboboxContentProps = StyledProps<BaseCombobox.Popup.Props> &
@@ -299,18 +408,31 @@ export function ComboboxItemIndicator({
       className={itemIndicator({ className })}
       {...props}
     >
-      {children ?? <Check aria-hidden className="size-3 shrink-0" />}
+      {children ?? <Check aria-hidden className="size-3.5 shrink-0 stroke-[1.5]" />}
     </BaseCombobox.ItemIndicator>
   );
 }
 
 export type ComboboxClearProps = StyledProps<BaseCombobox.Clear.Props>;
 
-export function ComboboxClear({ className, children, ...props }: ComboboxClearProps) {
+export function ComboboxClear({
+  className,
+  children,
+  keepMounted = true,
+  ...props
+}: ComboboxClearProps) {
   const theme = useTheme();
+  const { visible } = use(ComboboxClearContext);
   const { clear } = combobox({ theme });
   return (
-    <BaseCombobox.Clear data-slot="combobox-clear" className={clear({ className })} {...props}>
+    <BaseCombobox.Clear
+      data-slot="combobox-clear"
+      data-visible={visible ? "" : undefined}
+      aria-hidden={visible ? props["aria-hidden"] : true}
+      keepMounted={keepMounted}
+      className={clear({ className })}
+      {...props}
+    >
       {children ?? <X aria-hidden className="size-3 shrink-0" />}
     </BaseCombobox.Clear>
   );

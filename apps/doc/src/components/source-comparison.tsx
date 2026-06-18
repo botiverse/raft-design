@@ -35,6 +35,7 @@ type SourceComparisonItem = {
 type SourceComparisonProps = {
   items: readonly SourceComparisonItem[];
   layout?: "auto" | "grid";
+  previewSize?: "default" | "tall" | "popover";
 };
 
 type ComparisonPane = {
@@ -84,8 +85,14 @@ function ComparisonPreview({
   family?: Theme;
   mode?: PreviewMode;
   labelPlacement?: "header" | "corner";
-  previewSize?: "default" | "tall";
+  previewSize?: "default" | "tall" | "popover";
 }) {
+  const previewMinHeight = {
+    default: "min-h-28",
+    tall: "min-h-56",
+    popover: "min-h-80",
+  }[previewSize];
+
   return (
     <div
       data-source-comparison-pane={label.toLowerCase()}
@@ -94,9 +101,7 @@ function ComparisonPreview({
       <PreviewThemeScope
         family={family}
         mode={mode}
-        className={`relative flex h-full min-h-0 w-full ${
-          previewSize === "tall" ? "min-h-56" : "min-h-28"
-        } items-center justify-center bg-background px-5 py-6 text-foreground`}
+        className={`relative flex h-full min-h-0 w-full ${previewMinHeight} items-center justify-center bg-background px-5 py-6 text-foreground`}
       >
         {labelPlacement === "corner" ? (
           <span className="pointer-events-none absolute top-4 left-4 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
@@ -160,7 +165,7 @@ function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
   ].filter((pane) => pane.children);
 }
 
-export function SourceComparison({ items, layout = "auto" }: SourceComparisonProps) {
+export function SourceComparison({ items, layout = "auto", previewSize }: SourceComparisonProps) {
   return (
     <div data-source-comparison className="space-y-12">
       {items.map((item) => {
@@ -217,7 +222,7 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
                     family={pane.family}
                     mode={pane.mode}
                     labelPlacement={isGridLayout ? "corner" : "header"}
-                    previewSize={isGridLayout ? "tall" : "default"}
+                    previewSize={previewSize ?? (isGridLayout ? "tall" : "default")}
                   >
                     {pane.children}
                   </ComparisonPreview>

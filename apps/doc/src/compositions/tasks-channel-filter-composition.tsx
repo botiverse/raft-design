@@ -1,14 +1,21 @@
+import type { RefObject } from "react";
+import { useRef, useState } from "react";
 import { Hash } from "lucide-react";
 import {
+  Badge,
+  Button,
   Combobox,
   ComboboxClear,
+  ComboboxContent,
+  ComboboxHeader,
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
-  ComboboxPopup,
+  ComboboxSeparator,
+  ComboboxTrigger,
 } from "@slock/ui";
 
 type Channel = {
@@ -22,24 +29,56 @@ const channels: readonly Channel[] = [
 ];
 
 export function TasksChannelFilterComposition() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [selectedChannels, setSelectedChannels] = useState<Channel[]>([channels[0]]);
+
   return (
-    <div className="flex h-full min-h-56 w-full items-center justify-center">
+    <div
+      ref={portalRef}
+      className="relative flex h-full min-h-56 w-full items-start justify-center pt-8"
+    >
       <Combobox<Channel, true>
         open
         multiple
         autoHighlight
-        inputValue="des"
-        defaultValue={[channels[0]]}
         items={channels}
+        isItemEqualToValue={(item, value) => item.id === value.id}
         itemToStringLabel={(channel) => channel.label}
+        value={selectedChannels}
+        onValueChange={setSelectedChannels}
       >
-        <ComboboxPopup className="w-[220px]">
-          <div className="flex items-center justify-between border-b border-line-muted px-3 py-2 [[data-theme=brutal]_&]:border-black">
+        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
+          <Hash aria-hidden size={14} />
+          <span className="min-w-0 flex-1 truncate text-left">Channels</span>
+          {selectedChannels.length > 0 && (
+            <Badge
+              appearance="outline"
+              className="h-4 min-w-4 justify-center rounded-none px-1 font-mono text-[10px] leading-none [[data-theme=elegant]_&]:rounded-[3px]"
+            >
+              {selectedChannels.length}
+            </Badge>
+          )}
+        </ComboboxTrigger>
+        <ComboboxContent
+          initialFocus={false}
+          finalFocus={false}
+          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
+          positionMethod="absolute"
+          side="bottom"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[220px]"
+        >
+          <ComboboxHeader>
             <ComboboxLabel>Channels</ComboboxLabel>
             <ComboboxClear>Clear</ComboboxClear>
-          </div>
+          </ComboboxHeader>
+          <ComboboxSeparator />
           <ComboboxInputGroup>
-            <ComboboxInput aria-label="Search task channels" suppressPasswordManager />
+            <ComboboxInput
+              aria-label="Search task channels"
+              placeholder="Search..."
+              suppressPasswordManager
+            />
           </ComboboxInputGroup>
           <ComboboxList>
             {(channel: Channel) => (
@@ -57,7 +96,7 @@ export function TasksChannelFilterComposition() {
               </ComboboxItem>
             )}
           </ComboboxList>
-        </ComboboxPopup>
+        </ComboboxContent>
       </Combobox>
     </div>
   );

@@ -1,14 +1,21 @@
+import type { RefObject } from "react";
+import { useRef, useState } from "react";
+import { UserCircle2 } from "lucide-react";
 import {
   Avatar,
+  Button,
   Combobox,
   ComboboxClear,
+  ComboboxContent,
+  ComboboxHeader,
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
-  ComboboxPopup,
+  ComboboxSeparator,
+  ComboboxTrigger,
 } from "@slock/ui";
 
 type Sender = {
@@ -22,23 +29,56 @@ const senders: readonly Sender[] = [
 ];
 
 export function MessageSearchSenderFilterComposition() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("");
+  const [selectedSender, setSelectedSender] = useState<Sender | null>(senders[0]);
+
   return (
-    <div className="flex h-full min-h-56 w-full items-center justify-center">
+    <div
+      ref={portalRef}
+      className="relative flex h-full min-h-56 w-full items-start justify-center pt-8"
+    >
       <Combobox<Sender>
         open
         autoHighlight
-        inputValue="at"
-        defaultValue={senders[0]}
+        inputValue={query}
         items={senders}
+        isItemEqualToValue={(item, value) => item.id === value.id}
         itemToStringLabel={(sender) => sender.label}
+        value={selectedSender}
+        onInputValueChange={(nextQuery, eventDetails) => {
+          if (eventDetails.reason !== "item-press") {
+            setQuery(nextQuery);
+          }
+        }}
+        onValueChange={setSelectedSender}
       >
-        <ComboboxPopup className="w-[220px]">
-          <div className="flex items-center justify-between border-b border-line-muted px-3 py-2 [[data-theme=brutal]_&]:border-black">
+        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
+          <UserCircle2 aria-hidden size={14} />
+          <span className="min-w-0 flex-1 truncate text-left">
+            {selectedSender?.label ?? "From"}
+          </span>
+        </ComboboxTrigger>
+        <ComboboxContent
+          initialFocus={false}
+          finalFocus={false}
+          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
+          positionMethod="absolute"
+          side="bottom"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[220px]"
+        >
+          <ComboboxHeader>
             <ComboboxLabel>From</ComboboxLabel>
             <ComboboxClear>Clear</ComboboxClear>
-          </div>
+          </ComboboxHeader>
+          <ComboboxSeparator />
           <ComboboxInputGroup>
-            <ComboboxInput aria-label="Search senders" suppressPasswordManager />
+            <ComboboxInput
+              aria-label="Search senders"
+              placeholder="Search..."
+              suppressPasswordManager
+            />
           </ComboboxInputGroup>
           <ComboboxList>
             {(sender: Sender) => (
@@ -47,13 +87,15 @@ export function MessageSearchSenderFilterComposition() {
                   <span className="flex size-5 shrink-0 items-center justify-center">
                     <Avatar size="4xs" type="human" />
                   </span>
-                  <span className="truncate leading-6">{sender.label}</span>
+                  <span className="truncate leading-6 [[data-theme=elegant]_&]:text-xs">
+                    {sender.label}
+                  </span>
                 </span>
                 <ComboboxItemIndicator />
               </ComboboxItem>
             )}
           </ComboboxList>
-        </ComboboxPopup>
+        </ComboboxContent>
       </Combobox>
     </div>
   );

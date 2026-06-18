@@ -259,6 +259,7 @@ export {
   ComboboxEmpty,
   ComboboxGroup,
   ComboboxGroupLabel,
+  ComboboxHeader,
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItem,
@@ -268,6 +269,7 @@ export {
   ComboboxPortal,
   ComboboxPopup,
   ComboboxRow,
+  ComboboxSeparator,
   ComboboxTrigger,
   ComboboxValue,
 } from "./components/combobox/index.ts";
@@ -281,6 +283,7 @@ export type {
   ComboboxEmptyProps,
   ComboboxGroupLabelProps,
   ComboboxGroupProps,
+  ComboboxHeaderProps,
   ComboboxInputGroupProps,
   ComboboxInputProps,
   ComboboxItemIndicatorProps,
@@ -291,6 +294,7 @@ export type {
   ComboboxPortalProps,
   ComboboxProps,
   ComboboxRowProps,
+  ComboboxSeparatorProps,
   ComboboxTriggerProps,
   ComboboxValueProps,
 } from "./components/combobox/index.ts";

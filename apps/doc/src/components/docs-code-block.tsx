@@ -1,9 +1,10 @@
 "use client";
 
+import { Collapsible } from "@base-ui/react";
 import { Button } from "@slock/ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { useClipboard } from "foxact/use-clipboard";
-import { Check, Copy } from "lucide-react";
+import { Check, ChevronDown, Copy } from "lucide-react";
 import { useCallback, useState, type ReactNode } from "react";
 import { tv } from "tailwind-variants";
 import { TextMorph } from "torph/react";
@@ -31,6 +32,11 @@ const docsCodeBlock = tv({
     copyButton: [
       "shrink-0 pr-0 !leading-snug text-foreground-muted",
       "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
+    ],
+    collapseButton: [
+      "min-w-[4.625rem] shrink-0 gap-1 pr-0 !leading-snug text-foreground-muted",
+      "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
+      "[&[data-panel-open]_svg]:rotate-180",
     ],
   },
   variants: {
@@ -88,6 +94,10 @@ type DocsCodeBlockLineNumbersProps = {
 
 type DocsCodeBlockCopyProps = {
   source: string;
+};
+
+type DocsCodeBlockCollapseProps = {
+  open: boolean;
 };
 
 type DocsCodeBlockPanelProps = {
@@ -228,6 +238,26 @@ function DocsCodeBlockCopy({ source }: DocsCodeBlockCopyProps) {
   );
 }
 
+function DocsCodeBlockCollapse({ open }: DocsCodeBlockCollapseProps) {
+  const styles = docsCodeBlock();
+
+  return (
+    <Button
+      render={<Collapsible.Trigger />}
+      type="button"
+      variant="ghost"
+      size="xs"
+      aria-label={open ? "Collapse code" : "Expand code"}
+      className={styles.collapseButton()}
+    >
+      <ChevronDown aria-hidden className="size-3 shrink-0 transition duration-150 ease-out" />
+      <TextMorph duration={200} ease="cubic-bezier(0.19, 1, 0.22, 1)">
+        {open ? "Collapse" : "Expand"}
+      </TextMorph>
+    </Button>
+  );
+}
+
 function DocsCodeBlockContent({ html, collapsedHtml }: DocsCodeBlockContentProps) {
   const [expanded, setExpanded] = useState(!collapsedHtml);
 
@@ -257,15 +287,22 @@ function DocsCodeBlockPanel({
   collapsedHtml,
   showLineNumbers = false,
 }: DocsCodeBlockPanelProps) {
+  const [bodyOpen, setBodyOpen] = useState(true);
+
   return (
     <DocsCodeBlock showLineNumbers={showLineNumbers}>
-      <DocsCodeBlock.Header showLineNumbers={showLineNumbers}>
-        <DocsCodeBlock.Path>{path}</DocsCodeBlock.Path>
-        <DocsCodeBlock.Copy source={source} />
-      </DocsCodeBlock.Header>
-      <DocsCodeBlock.Body showLineNumbers={showLineNumbers} source={source}>
-        <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
-      </DocsCodeBlock.Body>
+      <Collapsible.Root open={bodyOpen} onOpenChange={setBodyOpen} className="contents">
+        <DocsCodeBlock.Header showLineNumbers={showLineNumbers}>
+          <DocsCodeBlock.Path>{path}</DocsCodeBlock.Path>
+          <DocsCodeBlock.Collapse open={bodyOpen} />
+          <DocsCodeBlock.Copy source={source} />
+        </DocsCodeBlock.Header>
+        <Collapsible.Panel className="contents">
+          <DocsCodeBlock.Body showLineNumbers={showLineNumbers} source={source}>
+            <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
+          </DocsCodeBlock.Body>
+        </Collapsible.Panel>
+      </Collapsible.Root>
     </DocsCodeBlock>
   );
 }
@@ -275,6 +312,7 @@ export const DocsCodeBlock = Object.assign(DocsCodeBlockRoot, {
   Body: DocsCodeBlockBody,
   Path: DocsCodeBlockPath,
   Copy: DocsCodeBlockCopy,
+  Collapse: DocsCodeBlockCollapse,
   Content: DocsCodeBlockContent,
   LineNumbers: DocsCodeBlockLineNumbers,
   Panel: DocsCodeBlockPanel,

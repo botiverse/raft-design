@@ -1,14 +1,23 @@
+import type { RefObject } from "react";
+import { useRef, useState } from "react";
+import { cn } from "tailwind-variants";
+import { User } from "lucide-react";
 import {
   Avatar,
+  Badge,
+  Button,
   Combobox,
   ComboboxClear,
+  ComboboxContent,
+  ComboboxHeader,
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
-  ComboboxPopup,
+  ComboboxSeparator,
+  ComboboxTrigger,
 } from "@slock/ui";
 
 type Identity = {
@@ -24,22 +33,63 @@ const identities: readonly Identity[] = [
 ];
 
 export function TasksIdentityFilterComposition() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("");
+  const [selectedIdentities, setSelectedIdentities] = useState<Identity[]>([identities[2]]);
+
   return (
-    <div className="flex h-full min-h-56 w-full items-center justify-center">
-      <Combobox<Identity>
+    <div
+      ref={portalRef}
+      className="relative flex h-full min-h-56 w-full items-start justify-center pt-8"
+    >
+      <Combobox<Identity, true>
         open
+        multiple
         autoHighlight
-        defaultValue={identities[2]}
+        inputValue={query}
         items={identities}
+        isItemEqualToValue={(item, value) => item.id === value.id}
         itemToStringLabel={(identity) => identity.label}
+        value={selectedIdentities}
+        onInputValueChange={(nextQuery, eventDetails) => {
+          if (eventDetails.reason !== "item-press") {
+            setQuery(nextQuery);
+          }
+        }}
+        onValueChange={setSelectedIdentities}
       >
-        <ComboboxPopup className="w-[220px]">
-          <div className="flex items-center justify-between border-b border-line-muted px-3 py-2 [[data-theme=brutal]_&]:border-black">
+        <ComboboxTrigger render={<Button variant="outline" size="md" className="h-8 w-36 py-0" />}>
+          <User aria-hidden size={14} />
+          <span className="min-w-0 flex-1 truncate text-left">Assignee</span>
+          {selectedIdentities.length > 0 && (
+            <Badge
+              appearance="outline"
+              className="h-4 min-w-4 justify-center rounded-none px-1 font-mono text-[10px] leading-none [[data-theme=elegant]_&]:rounded-[3px]"
+            >
+              {selectedIdentities.length}
+            </Badge>
+          )}
+        </ComboboxTrigger>
+        <ComboboxContent
+          initialFocus={false}
+          finalFocus={false}
+          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
+          positionMethod="absolute"
+          side="bottom"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[220px]"
+        >
+          <ComboboxHeader>
             <ComboboxLabel>Assignee</ComboboxLabel>
             <ComboboxClear>Clear</ComboboxClear>
-          </div>
+          </ComboboxHeader>
+          <ComboboxSeparator />
           <ComboboxInputGroup>
-            <ComboboxInput aria-label="Search assignees" suppressPasswordManager />
+            <ComboboxInput
+              aria-label="Search assignees"
+              placeholder="Search..."
+              suppressPasswordManager
+            />
           </ComboboxInputGroup>
           <ComboboxList>
             {(identity: Identity) => (
@@ -49,11 +99,11 @@ export function TasksIdentityFilterComposition() {
                     {identity.tone === "sentinel" ? null : <Avatar size="4xs" type="human" />}
                   </span>
                   <span
-                    className={
-                      identity.tone === "sentinel"
-                        ? "truncate leading-6 italic text-foreground-muted [[data-theme=brutal]_&]:text-black/70"
-                        : "truncate leading-6"
-                    }
+                    className={cn(
+                      "truncate leading-6 [[data-theme=elegant]_&]:text-xs [[data-theme=elegant]_&]:leading-5",
+                      identity.tone === "sentinel" &&
+                        "text-foreground-muted [[data-theme=brutal]_&]:text-black/70",
+                    )}
                   >
                     {identity.label}
                   </span>
@@ -62,7 +112,7 @@ export function TasksIdentityFilterComposition() {
               </ComboboxItem>
             )}
           </ComboboxList>
-        </ComboboxPopup>
+        </ComboboxContent>
       </Combobox>
     </div>
   );
