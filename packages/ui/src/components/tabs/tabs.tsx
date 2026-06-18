@@ -49,9 +49,9 @@ const tabs = tv({
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         ],
         tab: [
-          "border-r-2 border-line-strong bg-layer-panel px-4 py-1.5 text-xs font-bold transition-colors",
+          "border-r-2 border-line-strong bg-layer-panel px-4 py-1.5 text-xs font-semibold transition-colors",
           "hover:bg-layer-muted",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:[stroke-width:1.5] [&_svg:not([class*='size-'])]:size-3",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:[stroke-width:1.5] [&_svg:not([class*='size-'])]:size-3.5",
           "data-[active]:bg-primary-400 data-[active]:hover:bg-primary-400",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
           "data-[dragging-source=true]:cursor-grabbing",
