@@ -263,7 +263,6 @@ function TextareaDoc() {
           source={SNIPPETS.anatomy}
           html={code.anatomy}
           collapsedHtml={code.anatomyBody}
-          showLineNumbers={false}
         />
       </DocSection>
 

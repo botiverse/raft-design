@@ -158,7 +158,6 @@ function EmptyStateDoc() {
           source={SNIPPETS.anatomy}
           html={code.anatomy}
           collapsedHtml={code.anatomyBody}
-          showLineNumbers={false}
         />
       </DocSection>
       <DocSection id="with-action" title="With action">

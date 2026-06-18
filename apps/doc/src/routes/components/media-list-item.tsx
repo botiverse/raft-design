@@ -311,7 +311,6 @@ function MediaListItemDoc() {
           source={SNIPPETS.anatomy}
           html={code.anatomy}
           collapsedHtml={code.anatomyBody}
-          showLineNumbers={false}
         />
       </DocSection>
       <DocSection id="align" title="Align">

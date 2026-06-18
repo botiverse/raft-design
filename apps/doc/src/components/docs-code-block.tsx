@@ -17,17 +17,17 @@ const docsCodeBlock = tv({
     inner: "relative",
     rail: ["pointer-events-none absolute inset-y-0 w-0", "border-[oklch(0_0_0_/_0.12)]"],
     section: "flex items-stretch",
-    gutter: "w-6 shrink-0 self-stretch bg-[oklch(0.988_0.002_286)]",
+    gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_286)]",
     sectionInner: "min-w-0 flex-1",
     headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-2.5",
     bodyRow: "flex min-w-0 flex-1 bg-white pt-3 pb-3",
     bodyContent: "min-w-0 flex-1",
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
-      "shrink-0 select-none font-mono text-sm leading-relaxed",
+      "w-full select-none pt-3 pb-3 font-mono text-sm leading-relaxed",
       "text-[oklch(0.72_0.006_286)]",
     ],
-    lineNumber: "text-left tabular-nums",
+    lineNumber: "text-right tabular-nums",
     copyButton: [
       "shrink-0 pr-0 !leading-snug text-foreground-muted",
       "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
@@ -43,24 +43,28 @@ const docsCodeBlock = tv({
       body: {},
     },
     showLineNumbers: {
-      true: { bodyRow: "gap-3", bodyContent: "pr-6" },
-      false: { bodyContent: "px-6" },
+      true: { gutter: "w-10", bodyContent: "pr-10 pl-2.5" },
+      false: { bodyContent: "pr-6 pl-2.5" },
     },
   },
 });
 
 type DocsCodeBlockRootProps = {
   children: ReactNode;
+  showLineNumbers?: boolean;
 };
 
 type DocsCodeBlockSectionProps = {
   children: ReactNode;
   className?: string;
+  leftGutter?: ReactNode;
   sectionKind?: "header" | "body";
+  showLineNumbers?: boolean;
 };
 
 type DocsCodeBlockHeaderProps = {
   children: ReactNode;
+  showLineNumbers?: boolean;
 };
 
 type DocsCodeBlockBodyProps = {
@@ -94,37 +98,55 @@ type DocsCodeBlockPanelProps = {
   showLineNumbers?: boolean;
 };
 
-function DocsCodeBlockRoot({ children }: DocsCodeBlockRootProps) {
+function DocsCodeBlockRoot({ children, showLineNumbers = false }: DocsCodeBlockRootProps) {
   const styles = docsCodeBlock();
 
   return (
     <div className={styles.frame()}>
       <div className={styles.inner()}>
-        <div aria-hidden className={docsCodeBlock({ railSide: "left" }).rail()} />
-        <div aria-hidden className={docsCodeBlock({ railSide: "right" }).rail()} />
+        <div
+          aria-hidden
+          className={docsCodeBlock({ railSide: "left" }).rail({
+            className: showLineNumbers ? "left-10" : undefined,
+          })}
+        />
+        <div
+          aria-hidden
+          className={docsCodeBlock({ railSide: "right" }).rail({
+            className: showLineNumbers ? "right-10" : undefined,
+          })}
+        />
         {children}
       </div>
     </div>
   );
 }
 
-function DocsCodeBlockSection({ children, className, sectionKind }: DocsCodeBlockSectionProps) {
-  const styles = docsCodeBlock({ sectionKind });
+function DocsCodeBlockSection({
+  children,
+  className,
+  leftGutter,
+  sectionKind,
+  showLineNumbers,
+}: DocsCodeBlockSectionProps) {
+  const styles = docsCodeBlock({ sectionKind, showLineNumbers });
 
   return (
     <div className={styles.section({ className })}>
-      <div aria-hidden className={styles.gutter()} />
+      <div aria-hidden className={styles.gutter()}>
+        {leftGutter}
+      </div>
       <div className={styles.sectionInner()}>{children}</div>
       <div aria-hidden className={styles.gutter()} />
     </div>
   );
 }
 
-function DocsCodeBlockHeader({ children }: DocsCodeBlockHeaderProps) {
+function DocsCodeBlockHeader({ children, showLineNumbers }: DocsCodeBlockHeaderProps) {
   const styles = docsCodeBlock();
 
   return (
-    <DocsCodeBlockSection sectionKind="header">
+    <DocsCodeBlockSection sectionKind="header" showLineNumbers={showLineNumbers}>
       <div className={styles.headerBar()}>{children}</div>
     </DocsCodeBlockSection>
   );
@@ -132,10 +154,9 @@ function DocsCodeBlockHeader({ children }: DocsCodeBlockHeaderProps) {
 
 function DocsCodeBlockLineNumbers({ lineCount }: DocsCodeBlockLineNumbersProps) {
   const styles = docsCodeBlock();
-  const gutterWidth = `${Math.max(2, String(lineCount).length)}ch`;
 
   return (
-    <div aria-hidden className={styles.lineNumbers()} style={{ minWidth: gutterWidth }}>
+    <div className={styles.lineNumbers()}>
       {Array.from({ length: lineCount }, (_, index) => (
         <div key={index} className={styles.lineNumber()}>
           {index + 1}
@@ -150,9 +171,14 @@ function DocsCodeBlockBody({ children, showLineNumbers = false, source }: DocsCo
   const lineCount = source?.split("\n").length ?? 0;
 
   return (
-    <DocsCodeBlockSection sectionKind="body">
+    <DocsCodeBlockSection
+      sectionKind="body"
+      leftGutter={
+        showLineNumbers && source ? <DocsCodeBlockLineNumbers lineCount={lineCount} /> : null
+      }
+      showLineNumbers={showLineNumbers}
+    >
       <div className={styles.bodyRow()}>
-        {showLineNumbers && source ? <DocsCodeBlockLineNumbers lineCount={lineCount} /> : null}
         <div className={styles.bodyContent()}>{children}</div>
       </div>
     </DocsCodeBlockSection>
@@ -232,8 +258,8 @@ function DocsCodeBlockPanel({
   showLineNumbers = false,
 }: DocsCodeBlockPanelProps) {
   return (
-    <DocsCodeBlock>
-      <DocsCodeBlock.Header>
+    <DocsCodeBlock showLineNumbers={showLineNumbers}>
+      <DocsCodeBlock.Header showLineNumbers={showLineNumbers}>
         <DocsCodeBlock.Path>{path}</DocsCodeBlock.Path>
         <DocsCodeBlock.Copy source={source} />
       </DocsCodeBlock.Header>

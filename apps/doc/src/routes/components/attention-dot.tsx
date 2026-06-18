@@ -71,7 +71,6 @@ function AttentionDotMigrationDoc() {
             source={SNIPPETS.anatomy}
             html={code.anatomy}
             collapsedHtml={code.anatomyBody}
-            showLineNumbers={false}
           />
           <Example html={code.anatomy}>
             <Status variant="accent" />

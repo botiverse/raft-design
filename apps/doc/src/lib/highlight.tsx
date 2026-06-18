@@ -19,6 +19,7 @@ export function stripTopLevelImports(code: string) {
   const lines = code.split("\n");
   let index = 0;
   let sawImport = false;
+  let importLineCount = 0;
 
   while (index < lines.length) {
     const line = lines[index]?.trim() ?? "";
@@ -34,12 +35,16 @@ export function stripTopLevelImports(code: string) {
 
     sawImport = true;
 
+    const importStartIndex = index;
+
     do {
       index += 1;
     } while (index < lines.length && !lines[index - 1]?.trimEnd().endsWith(";"));
+
+    importLineCount += index - importStartIndex;
   }
 
-  if (!sawImport) {
+  if (!sawImport || importLineCount <= 1) {
     return code;
   }
 

@@ -230,7 +230,7 @@ export function SourceComparison({ items, layout = "auto" }: SourceComparisonPro
                 source={item.compositionSource}
                 html={item.compositionCode}
                 collapsedHtml={item.compositionCollapsedCode}
-                showLineNumbers={item.compositionShowLineNumbers ?? true}
+                showLineNumbers={item.compositionShowLineNumbers ?? false}
               />
             ) : null}
           </section>

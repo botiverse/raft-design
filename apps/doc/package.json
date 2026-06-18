@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "portless run --name raft-ui vp dev",
+    "dev": "node ./scripts/portless-dev.mjs",
     "dev:app": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
