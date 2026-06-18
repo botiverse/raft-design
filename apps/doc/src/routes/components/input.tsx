@@ -333,6 +333,7 @@ function InputDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
               label: "Default",
@@ -347,6 +348,7 @@ function InputDoc() {
               ),
               brutal: <InputCurrent.Default />,
               elegant: <InputCurrent.Default />,
+              elegantDark: <InputCurrent.Default />,
               ...inputComposition("Default"),
             },
             {
@@ -362,6 +364,7 @@ function InputDoc() {
               ),
               brutal: <InputCurrent.InvalidState />,
               elegant: <InputCurrent.InvalidState />,
+              elegantDark: <InputCurrent.InvalidState />,
               ...inputComposition("InvalidState"),
             },
             {
@@ -371,6 +374,7 @@ function InputDoc() {
               source: <MissingSource />,
               brutal: <InputCurrent.DisabledStyling />,
               elegant: <InputCurrent.DisabledStyling />,
+              elegantDark: <InputCurrent.DisabledStyling />,
               ...inputComposition("DisabledStyling"),
             },
             {
@@ -380,6 +384,7 @@ function InputDoc() {
               source: <MissingSource />,
               brutal: <InputCurrent.InvalidDisabledPriority />,
               elegant: <InputCurrent.InvalidDisabledPriority />,
+              elegantDark: <InputCurrent.InvalidDisabledPriority />,
               ...inputComposition("InvalidDisabledPriority"),
             },
             {
@@ -389,6 +394,7 @@ function InputDoc() {
               source: <MissingSource />,
               brutal: <InputCurrent.PasswordManagerSuppression />,
               elegant: <InputCurrent.PasswordManagerSuppression />,
+              elegantDark: <InputCurrent.PasswordManagerSuppression />,
               ...inputComposition("PasswordManagerSuppression"),
             },
           ]}

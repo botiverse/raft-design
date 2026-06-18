@@ -429,6 +429,7 @@ function TextareaDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
               label: "Default shell",
@@ -444,6 +445,7 @@ function TextareaDoc() {
               ),
               brutal: <TextareaCurrent.DefaultShell />,
               elegant: <TextareaCurrent.DefaultShell />,
+              elegantDark: <TextareaCurrent.DefaultShell />,
               ...textareaComposition("DefaultShell"),
             },
             {
@@ -463,6 +465,7 @@ function TextareaDoc() {
               ),
               brutal: <TextareaCurrent.WrapperApi />,
               elegant: <TextareaCurrent.WrapperApi />,
+              elegantDark: <TextareaCurrent.WrapperApi />,
               ...textareaComposition("WrapperApi"),
             },
             {
@@ -482,6 +485,7 @@ function TextareaDoc() {
               ),
               brutal: <TextareaCurrent.InvalidState />,
               elegant: <TextareaCurrent.InvalidState />,
+              elegantDark: <TextareaCurrent.InvalidState />,
               ...textareaComposition("InvalidState"),
             },
             {
@@ -491,6 +495,7 @@ function TextareaDoc() {
               source: <MissingSource />,
               brutal: <TextareaCurrent.DisabledStyling />,
               elegant: <TextareaCurrent.DisabledStyling />,
+              elegantDark: <TextareaCurrent.DisabledStyling />,
               ...textareaComposition("DisabledStyling"),
             },
           ]}
