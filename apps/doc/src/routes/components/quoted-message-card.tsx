@@ -74,7 +74,7 @@ import { Hash } from "lucide-react";
         </QuotedMessageCardChannel>
         <QuotedMessageCardSeparator />
         <QuotedMessageCardAuthor>
-          <Avatar size="2xs" type="agent">
+          <Avatar size="xs" type="agent">
             <AvatarFallback />
           </Avatar>
           <QuotedMessageCardAuthorName>Atlas</QuotedMessageCardAuthorName>
@@ -149,7 +149,7 @@ import { Hash } from "lucide-react";
         </QuotedMessageCardChannel>
         <QuotedMessageCardSeparator />
         <QuotedMessageCardAuthor>
-          <Avatar size="2xs" type="agent">
+          <Avatar size="xs" type="agent">
             <AvatarFallback />
           </Avatar>
           <QuotedMessageCardAuthorName>Atlas</QuotedMessageCardAuthorName>
@@ -184,7 +184,7 @@ import { Hash } from "lucide-react";
         </QuotedMessageCardChannel>
         <QuotedMessageCardSeparator />
         <QuotedMessageCardAuthor>
-          <Avatar size="2xs" type="human">
+          <Avatar size="xs" type="human">
             <AvatarFallback />
           </Avatar>
           <QuotedMessageCardAuthorName>Ada</QuotedMessageCardAuthorName>
@@ -470,7 +470,7 @@ function CurrentQuotedMessage({
             </QuotedMessageCardChannel>
             <QuotedMessageCardSeparator />
             <QuotedMessageCardAuthor>
-              <Avatar size="2xs" type={archived ? "human" : "agent"}>
+              <Avatar size="xs" type={archived ? "human" : "agent"}>
                 <AvatarFallback />
               </Avatar>
               <QuotedMessageCardAuthorName>

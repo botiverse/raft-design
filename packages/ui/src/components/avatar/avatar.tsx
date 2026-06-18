@@ -1,96 +1,168 @@
 import type { ComponentPropsWithRef } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
-import { User } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 
-// Avatar family: a black-bordered frame carrying a role-keyed bg (`agent` → cyan,
-// `human` → lavender), built on Base UI's Avatar primitive. Compose
-// `<AvatarImage>`, `<AvatarFallback>`, and `<AvatarBadge>` as children; with no
-// children a default `<AvatarFallback>` renders the role-tinted placeholder. All
-// parts share one `tv()` slots config so theme / type / size styling lives in a
-// single place — ready for the elegant family to add per-slot overrides under
-// `theme`.
+// Avatar family built on Base UI's Avatar primitive. Compose `<AvatarImage>`,
+// `<AvatarFallback>`, and `<AvatarBadge>` as children; with no children a
+// default `<AvatarFallback>` renders the placeholder. All parts share one
+// `tv()` slots config so theme / type / size styling lives in a single place.
 //
 // The original's avatar fetching (`AgentAvatar` / `GravatarAvatar`, app domain)
 // is dropped: pass a URL via `<AvatarImage src>` and a custom fallback node via
 // `<AvatarFallback>`.
 //
-// `size` is a t-shirt scale; each step maps to one of the original call-site
-// "contexts" (preserved here so existing usages keep their exact dimensions):
-//   3xl → profile-tile (64) │ 2xl → account-tile (56) │ xl  → mention-card (48)
-//   lg  → panel-header (36) │ md  → surface-list (32) │ sm  → members-row (28)
-//   xs  → creator-link (22) │ 2xs → compact-list (20) │ 3xs → sidebar-list (18)
-//   4xs → preview-mini (14)
-// Border weight follows size: ≥32px frames use `border-2`, smaller ones `border`.
-// `AvatarFallback` / `AvatarBadge` auto-scale to the parent via its `data-size` +
-// `group/avatar` hook; keep their per-step selectors in sync with the `size` scale.
+// `size` is a compact t-shirt scale distilled from the original call-site
+// contexts: xl profile/detail (64), lg mention/large identity (48), md panel
+// header (36), sm list rows (32), xs compact/sidebar rows (20), and 2xs inline
+// preview chips (14). One-off source contexts such as account-tile, members-row,
+// and creator-link no longer get public size names.
+// Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
+// `border`; elegant uses a pseudo-element hairline. `AvatarFallback` /
+// `AvatarBadge` auto-scale to the parent via its `data-size` + `group/avatar`
+// hook; keep their per-step selectors in sync with the `size` scale.
 const avatar = tv({
   slots: {
-    root: ["group/avatar relative flex shrink-0 items-center justify-center overflow-hidden"],
+    root: ["group/avatar relative flex shrink-0 items-center justify-center select-none"],
     image: ["size-full object-cover"],
     fallback: [
       "flex size-full items-center justify-center",
+      "text-foreground-placeholder",
       "[&>svg]:size-4",
-      "group-data-[size=3xl]/avatar:[&>svg]:size-8",
-      "group-data-[size=2xl]/avatar:[&>svg]:size-6",
       "group-data-[size=xl]/avatar:[&>svg]:size-6",
-      "group-data-[size=lg]/avatar:[&>svg]:size-[18px]",
-      "group-data-[size=md]/avatar:[&>svg]:size-4",
-      "group-data-[size=sm]/avatar:[&>svg]:size-3.5",
+      "group-data-[size=lg]/avatar:[&>svg]:size-6",
+      "group-data-[size=md]/avatar:[&>svg]:size-[18px]",
+      "group-data-[size=sm]/avatar:[&>svg]:size-4",
       "group-data-[size=xs]/avatar:[&>svg]:size-3",
-      "group-data-[size=2xs]/avatar:[&>svg]:size-3",
-      "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
-      "group-data-[size=4xs]/avatar:[&>svg]:size-2.5",
+      "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
     ],
     badge: [
-      "absolute right-0 bottom-0 z-10 select-none",
+      "absolute right-0 bottom-0 z-10 translate-x-1/4 translate-y-1/4 select-none",
       "inline-flex items-center justify-center rounded-full border-2",
-      "size-2.5 [&>svg]:size-2",
-      "group-data-[size=3xl]/avatar:size-5 group-data-[size=3xl]/avatar:[&>svg]:size-3",
-      "group-data-[size=2xl]/avatar:size-4 group-data-[size=2xl]/avatar:[&>svg]:size-2.5",
-      "group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2.5",
-      "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
-      "group-data-[size=md]/avatar:size-2.5 group-data-[size=md]/avatar:[&>svg]:size-2",
-      "group-data-[size=sm]/avatar:size-2.5 group-data-[size=sm]/avatar:[&>svg]:size-2",
-      "group-data-[size=xs]/avatar:size-2 group-data-[size=xs]/avatar:border group-data-[size=xs]/avatar:[&>svg]:hidden",
-      "group-data-[size=2xs]/avatar:size-2 group-data-[size=2xs]/avatar:border group-data-[size=2xs]/avatar:[&>svg]:hidden",
-      "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:border group-data-[size=3xs]/avatar:[&>svg]:hidden",
-      "group-data-[size=4xs]/avatar:size-1.5 group-data-[size=4xs]/avatar:border group-data-[size=4xs]/avatar:[&>svg]:hidden",
+      "size-2 [&>svg]:hidden",
+      "group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
+      "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
+      "group-data-[size=md]/avatar:size-2.5 group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
+      "group-data-[size=sm]/avatar:size-2",
+      "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:border",
+      "group-data-[size=2xs]/avatar:size-1.5 group-data-[size=2xs]/avatar:border",
     ],
-    group: [
-      "group/avatar-group flex items-center -space-x-1.5",
-      "*:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-primary-50",
-      "*:data-[slot=avatar-group-count]:ring-2 *:data-[slot=avatar-group-count]:ring-primary-50",
-    ],
+    group: ["group/avatar-group flex items-center"],
   },
   variants: {
     theme: {
       brutal: {
         root: "border-line-strong",
         badge: ["border-line-strong bg-success-base text-foreground-strong"],
+        group: [
+          "-space-x-1.5",
+          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
+          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-primary-50",
+        ],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        root: ["bg-layer-muted"],
+        image: ["rounded-full"],
+        fallback: [
+          "overflow-hidden bg-layer-muted text-sm",
+          "rounded-full",
+          "group-data-[size=xs]/avatar:text-xs",
+          "group-data-[size=2xs]/avatar:text-[10px]",
+        ],
+        badge: [
+          "translate-x-0 translate-y-0 border-0 bg-success-base text-foreground-inverse",
+          "right-0.5 bottom-0.5",
+          "group-data-[size=xl]/avatar:right-1 group-data-[size=xl]/avatar:bottom-1",
+          "group-data-[size=lg]/avatar:right-0.75 group-data-[size=lg]/avatar:bottom-0.75",
+        ],
+        group: [
+          "-space-x-2",
+          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-background",
+          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-background",
+        ],
+      },
     },
     type: {
-      agent: { root: "bg-info-base" },
-      human: { root: "bg-brutal-purple text-foreground-strong" },
+      agent: {},
+      human: {},
     },
     size: {
-      "3xl": { root: "size-16 border-2" },
-      "2xl": { root: "size-14 border-2" },
-      xl: { root: "size-12 border-2" },
-      lg: { root: "size-9 border-2" },
-      md: { root: "size-8 border-2" },
-      sm: { root: "size-7 border" },
-      xs: { root: "size-[22px] border" },
-      "2xs": { root: "size-5 border" },
-      "3xs": { root: "size-[18px] border" },
-      "4xs": { root: "size-[14px] border" },
+      xl: { root: "size-16" },
+      lg: { root: "size-12" },
+      md: { root: "size-9" },
+      sm: { root: "size-8" },
+      xs: { root: "size-5" },
+      "2xs": { root: "size-[14px]" },
     },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      size: ["xl", "lg", "md", "sm"],
+      class: { root: "border-2" },
+    },
+    {
+      theme: "brutal",
+      size: ["xs", "2xs"],
+      class: { root: "border" },
+    },
+    {
+      theme: "brutal",
+      type: "agent",
+      class: { root: "bg-info-base" },
+    },
+    {
+      theme: "brutal",
+      type: "human",
+      class: { root: "bg-brutal-purple text-foreground-strong" },
+    },
+    {
+      theme: "elegant",
+      size: "xl",
+      class: {
+        root: "rounded-full",
+      },
+    },
+    {
+      theme: "elegant",
+      size: "lg",
+      class: {
+        root: "rounded-full",
+      },
+    },
+    {
+      theme: "elegant",
+      size: ["md", "sm"],
+      class: {
+        root: "rounded-full",
+      },
+    },
+    {
+      theme: "elegant",
+      size: "xs",
+      class: {
+        root: "rounded-full",
+      },
+    },
+    {
+      theme: "elegant",
+      size: "2xs",
+      class: {
+        root: "rounded-full",
+      },
+    },
+    {
+      theme: "elegant",
+      type: "agent",
+      class: { root: "text-foreground-muted" },
+    },
+    {
+      theme: "elegant",
+      type: "human",
+      class: { root: "text-foreground-muted" },
+    },
+  ],
 });
 
 export type AvatarSize = NonNullable<VariantProps<typeof avatar>["size"]>;
@@ -118,7 +190,8 @@ export type AvatarImageProps = StyledProps<AvatarPrimitive.Image.Props>;
 // Managed avatar image. Base UI tracks its load state and hides it (revealing the
 // fallback) while loading or on error. Fills the frame edge-to-edge.
 export function AvatarImage({ className, ...props }: AvatarImageProps) {
-  const { image } = avatar();
+  const theme = useTheme();
+  const { image } = avatar({ theme });
   return (
     <AvatarPrimitive.Image data-slot="avatar-image" className={image({ className })} {...props} />
   );
@@ -126,27 +199,140 @@ export function AvatarImage({ className, ...props }: AvatarImageProps) {
 
 export type AvatarFallbackProps = StyledProps<AvatarPrimitive.Fallback.Props>;
 
-// Shown when no AvatarImage has loaded. Centers its content over the role-tinted
-// frame (transparent, so the role bg shows through). With no children it renders
-// the placeholder `User` icon, auto-scaled via the parent's `data-size` hook.
+function AvatarFallbackIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        stroke="currentColor"
+      >
+        <circle cx="9" cy="7.75" r="2" />
+        <path d="M9,16.25c1.407,0,2.716-.407,3.827-1.101-.481-1.67-2.003-2.899-3.827-2.899s-3.347,1.229-3.827,2.899c1.112,.694,2.42,1.101,3.827,1.101Z" />
+        <circle
+          cx="1.889"
+          cy="10.414"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="2.971"
+          cy="4.972"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="2.972"
+          cy="13.027"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle cx="1.89" cy="7.586" r=".75" fill="currentColor" data-stroke="none" stroke="none" />
+        <circle
+          cx="4.973"
+          cy="2.972"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="7.586"
+          cy="1.889"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="15.029"
+          cy="13.028"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="16.111"
+          cy="7.586"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="13.028"
+          cy="2.971"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="16.11"
+          cy="10.414"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="15.028"
+          cy="4.973"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+        <circle
+          cx="10.414"
+          cy="1.89"
+          r=".75"
+          fill="currentColor"
+          data-stroke="none"
+          stroke="none"
+        />
+      </g>
+    </svg>
+  );
+}
+
+// Shown when no AvatarImage has loaded. With no children it renders the
+// placeholder user icon, auto-scaled via the parent's `data-size` hook.
 export function AvatarFallback({ className, children, ...props }: AvatarFallbackProps) {
-  const { fallback } = avatar();
+  const theme = useTheme();
+  const { fallback } = avatar({ theme });
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
       className={fallback({ className })}
       {...props}
     >
-      {children ?? <User />}
+      {children ?? <AvatarFallbackIcon />}
     </AvatarPrimitive.Fallback>
   );
 }
 
 export type AvatarBadgeProps = ComponentPropsWithRef<"span">;
 
-// Presence/status badge overlaid in the avatar's bottom-right corner. Sits flush
-// inside the frame (not clipped by its `overflow-hidden`). Default fill is lime;
-// override with a `bg-*` class via className. Optionally wraps a small icon.
+// Presence/status badge overlaid in the avatar's bottom-right corner. The root
+// stays overflow-visible so the badge can sit on the frame edge. Default fill is
+// lime; override with a `bg-*` class via className. Optionally wraps a small icon.
 export function AvatarBadge({ className, ...props }: AvatarBadgeProps) {
   const theme = useTheme();
   const { badge } = avatar({ theme });
@@ -155,11 +341,11 @@ export function AvatarBadge({ className, ...props }: AvatarBadgeProps) {
 
 export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 
-// Overlapping stack of avatars (and an optional trailing AvatarGroupCount). Each
-// member gets a cream ring so the overlap reads as a clean gap; override the ring
-// color via className when the surface behind isn't cream.
+// Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
+// ring color follows the active theme's surface assumptions.
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
-  const { group } = avatar();
+  const theme = useTheme();
+  const { group } = avatar({ theme });
   return <div data-slot="avatar-group" className={group({ className })} {...props} />;
 }
 
@@ -168,20 +354,20 @@ export type AvatarGroupCountProps = ComponentPropsWithRef<"span"> & {
   size: AvatarSize;
 };
 
-// Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame (same
-// size + border per step) but omits `type`, swapping the role fill for a neutral
-// stone chip with centered tabular text.
+// Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame but
+// omits `type`, swapping the role fill for a neutral count chip.
 export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCountProps) {
   const theme = useTheme();
   const { root } = avatar({ theme, size });
+  const countClassName =
+    theme === "elegant"
+      ? "bg-layer-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
+      : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground-strong";
   return (
     <span
       data-slot="avatar-group-count"
       className={root({
-        class: [
-          "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground-strong",
-          className,
-        ],
+        class: [countClassName, className],
       })}
       {...props}
     />
