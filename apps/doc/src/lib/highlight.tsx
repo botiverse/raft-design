@@ -5,6 +5,8 @@ import type { CSSProperties } from "react";
 import { createHighlighter, createJavaScriptRegexEngine } from "shiki";
 import type { ThemedToken } from "shiki";
 
+import { stripSourceCodeBlocks, stripTopLevelImports } from "./source-code.ts";
+
 const HIGHLIGHT_THEME = "vitesse-light";
 
 const highlighter = createHighlighter({
@@ -14,46 +16,6 @@ const highlighter = createHighlighter({
 });
 
 type HighlightedSnippets = Record<string, AnyRenderableServerComponent>;
-
-export function stripTopLevelImports(code: string) {
-  const lines = code.split("\n");
-  let index = 0;
-  let sawImport = false;
-  let importLineCount = 0;
-
-  while (index < lines.length) {
-    const line = lines[index]?.trim() ?? "";
-
-    if (line === "") {
-      index += 1;
-      continue;
-    }
-
-    if (!line.startsWith("import ")) {
-      break;
-    }
-
-    sawImport = true;
-
-    const importStartIndex = index;
-
-    do {
-      index += 1;
-    } while (index < lines.length && !lines[index - 1]?.trimEnd().endsWith(";"));
-
-    importLineCount += index - importStartIndex;
-  }
-
-  if (!sawImport || importLineCount <= 1) {
-    return code;
-  }
-
-  while (index < lines.length && lines[index]?.trim() === "") {
-    index += 1;
-  }
-
-  return lines.slice(index).join("\n");
-}
 
 function tokenStyle(token: ThemedToken): CSSProperties | undefined {
   if (token.htmlStyle) {
@@ -104,8 +66,9 @@ export const highlightSnippets = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const entries = await Promise.all(
       Object.entries(data).flatMap(([id, code]) => {
-        const bodyCode = stripTopLevelImports(code);
-        const snippetEntries = [[id, code]];
+        const displayCode = stripSourceCodeBlocks(code);
+        const bodyCode = stripTopLevelImports(displayCode);
+        const snippetEntries = [[id, displayCode]];
 
         if (bodyCode !== code && !id.endsWith("Body")) {
           snippetEntries.push([`${id}Body`, bodyCode]);

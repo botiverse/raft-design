@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { stripTopLevelImports } from "./highlight.tsx";
+import { stripSourceCodeBlocks, stripTopLevelImports } from "./source-code.ts";
 
 describe("stripTopLevelImports", () => {
   it("keeps snippets with a single import line unchanged", () => {
@@ -41,5 +41,31 @@ import { Plus } from "lucide-react";
     const code = `<Button>Save</Button>`;
 
     expect(stripTopLevelImports(code)).toBe(code);
+  });
+});
+
+describe("stripSourceCodeBlocks", () => {
+  it("removes every docs-only source block wrapped in strip markers", () => {
+    const code = `export function ButtonContent() {
+  return <Button>Save</Button>;
+}
+
+// @docs-source-strip-start
+import { ButtonComparisonPreview } from "./preview.tsx";
+// @docs-source-strip-end
+
+// @docs-source-strip-start
+export function ButtonComposition() {
+  return (
+    <Preview>
+      <ButtonContent />
+    </Preview>
+  );
+}
+// @docs-source-strip-end`;
+
+    expect(stripSourceCodeBlocks(code)).toBe(`export function ButtonContent() {
+  return <Button>Save</Button>;
+}`);
   });
 });

@@ -294,7 +294,7 @@ export const buttonVariants = tv({
       variant: "danger-secondary",
       class: {
         root: [
-          "border-line-strong bg-danger-lighter text-danger-base",
+          "border-line-strong bg-danger-lighter text-[color-mix(in_oklab,var(--state-danger-base)_72%,transparent)]",
           "shadow-sm",
           "hover:border-line-strong hover:bg-danger-lighter",
           "hover:-translate-y-px hover:shadow-md",

@@ -49,6 +49,14 @@ const NAV = [
         progress: { theme: "done" },
       },
     ],
+    planned: [
+      {
+        label: "ButtonGroup",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/button",
+        reason: "Add after grouped action semantics and spacing rules are defined.",
+      },
+    ],
   },
   {
     title: "Inputs",
