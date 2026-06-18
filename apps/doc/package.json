@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "portless run --name slock-ui vp dev",
+    "dev": "portless run --name raft-ui vp dev",
     "dev:app": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
@@ -61,7 +61,7 @@
     ]
   },
   "portless": {
-    "name": "slock-ui",
+    "name": "raft-ui",
     "script": "dev:app"
   }
 }
