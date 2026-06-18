@@ -1,14 +1,12 @@
-import {
-  DropdownMenu,
-  DropdownMenuPopup,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@slock/ui";
+import { DropdownMenuPopup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@slock/ui";
+
+// @docs-source-strip-start
+import { DropdownMenu, DropdownMenuTrigger } from "@slock/ui";
 import { useId } from "react";
 import { cn } from "tailwind-variants";
+// @docs-source-strip-end
 
-function SidebarSortMenuPopup() {
+export function SidebarSortMenuContent() {
   return (
     <DropdownMenuPopup className="flex w-[136px] min-w-[136px] flex-col">
       <DropdownMenuRadioGroup defaultValue="manual">
@@ -20,6 +18,7 @@ function SidebarSortMenuPopup() {
   );
 }
 
+// @docs-source-strip-start
 export function SidebarSortMenuComposition({ className }: { className?: string }) {
   const triggerId = useId();
 
@@ -28,8 +27,9 @@ export function SidebarSortMenuComposition({ className }: { className?: string }
     <div className={cn("flex h-full min-h-56 w-full items-center justify-center", className)}>
       <DropdownMenu open modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
-        <SidebarSortMenuPopup />
+        <SidebarSortMenuContent />
       </DropdownMenu>
     </div>
   );
 }
+// @docs-source-strip-end

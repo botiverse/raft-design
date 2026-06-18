@@ -1,19 +1,21 @@
 import {
-  DropdownMenu,
   DropdownMenuItem,
   DropdownMenuItemCount,
   DropdownMenuPopup,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
 } from "@slock/ui";
 import { Check } from "lucide-react";
 import { IconPlusOutline18, IconUsersPlusOutline18 } from "nucleo-ui-outline-18";
+
+// @docs-source-strip-start
+import { DropdownMenu, DropdownMenuTrigger } from "@slock/ui";
 import { useId } from "react";
 import { cn } from "tailwind-variants";
+// @docs-source-strip-end
 
-function ServerSwitcherMenuContent() {
+export function ServerSwitcherMenuContent() {
   return (
-    <>
+    <DropdownMenuPopup className="flex w-64 flex-col">
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <DropdownMenuItem data-selected className="[[data-theme=brutal]_&]:font-bold">
           <Check aria-hidden />
@@ -41,10 +43,11 @@ function ServerSwitcherMenuContent() {
         <IconPlusOutline18 />
         <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
       </DropdownMenuItem>
-    </>
+    </DropdownMenuPopup>
   );
 }
 
+// @docs-source-strip-start
 export function ServerSwitcherMenuComposition({ className }: { className?: string }) {
   const triggerId = useId();
 
@@ -53,10 +56,9 @@ export function ServerSwitcherMenuComposition({ className }: { className?: strin
     <div className={cn("flex h-full min-h-56 w-full items-center justify-center", className)}>
       <DropdownMenu open modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
-        <DropdownMenuPopup className="flex w-64 flex-col">
-          <ServerSwitcherMenuContent />
-        </DropdownMenuPopup>
+        <ServerSwitcherMenuContent />
       </DropdownMenu>
     </div>
   );
 }
+// @docs-source-strip-end

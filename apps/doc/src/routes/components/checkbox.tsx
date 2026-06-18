@@ -9,8 +9,26 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
+import { StatusBadge } from "#/components/status-badge.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import checkboxCheckedCompositionSource from "#/compositions/checkbox/checked-composition.tsx?raw";
+import checkboxDefaultCheckedCompositionSource from "#/compositions/checkbox/default-checked-composition.tsx?raw";
+import checkboxDisabledCompositionSource from "#/compositions/checkbox/disabled-composition.tsx?raw";
+import checkboxIndeterminateCompositionSource from "#/compositions/checkbox/indeterminate-composition.tsx?raw";
+import checkboxPreviewOnHoverMarkerCompositionSource from "#/compositions/checkbox/preview-on-hover-marker-composition.tsx?raw";
+import checkboxPrimaryCheckedCompositionSource from "#/compositions/checkbox/primary-checked-composition.tsx?raw";
+import checkboxSizesCompositionSource from "#/compositions/checkbox/sizes-composition.tsx?raw";
+import checkboxUncheckedCompositionSource from "#/compositions/checkbox/unchecked-composition.tsx?raw";
+import {
+  CHECKBOX_SOURCE_COMPARISON_COMPOSITION,
+  CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/checkbox-source-comparison.tsx";
 import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker.tsx";
 import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
 
@@ -171,13 +189,58 @@ function MissingSource() {
   );
 }
 
+const CheckboxCurrent = CHECKBOX_SOURCE_COMPARISON_COMPOSITION;
+
+const CHECKBOX_COMPOSITION_RAW_SOURCES = {
+  Checked: checkboxCheckedCompositionSource,
+  DefaultChecked: checkboxDefaultCheckedCompositionSource,
+  Disabled: checkboxDisabledCompositionSource,
+  Indeterminate: checkboxIndeterminateCompositionSource,
+  PreviewOnHoverMarker: checkboxPreviewOnHoverMarkerCompositionSource,
+  PrimaryChecked: checkboxPrimaryCheckedCompositionSource,
+  Sizes: checkboxSizesCompositionSource,
+  Unchecked: checkboxUncheckedCompositionSource,
+} as const;
+
+const CHECKBOX_COMPOSITION_SOURCES = createCompositionSourceMap(CHECKBOX_COMPOSITION_RAW_SOURCES);
+
+const CHECKBOX_COMPOSITION_SNIPPET_IDS = {
+  Checked: "checkboxCheckedComposition",
+  DefaultChecked: "checkboxDefaultCheckedComposition",
+  Disabled: "checkboxDisabledComposition",
+  Indeterminate: "checkboxIndeterminateComposition",
+  PreviewOnHoverMarker: "checkboxPreviewOnHoverMarkerComposition",
+  PrimaryChecked: "checkboxPrimaryCheckedComposition",
+  Sizes: "checkboxSizesComposition",
+  Unchecked: "checkboxUncheckedComposition",
+} as const;
+
+type CheckboxCompositionKey = keyof typeof CHECKBOX_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/checkbox")({
   component: CheckboxDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(
+          CHECKBOX_COMPOSITION_SOURCES,
+          CHECKBOX_COMPOSITION_SNIPPET_IDS,
+        ),
+      },
+    }),
 });
 
 function CheckboxDoc() {
   const code = Route.useLoaderData();
+  const checkboxComposition = (key: CheckboxCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: CHECKBOX_COMPOSITION_SNIPPET_IDS,
+      sources: CHECKBOX_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -296,7 +359,7 @@ function CheckboxDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="selection" title="Selection">
+      <DocSection id="selection" title="Selection" badge={<StatusBadge status="in-progress" />}>
         <div className="space-y-4">
           <Example html={code.selection}>
             <div className="grid min-w-64 gap-2">
@@ -330,33 +393,37 @@ function CheckboxDoc() {
               label: "Unchecked",
               status: "match",
               source: <LegacyCheckbox />,
-              brutal: <Checkbox />,
-              elegant: <Checkbox />,
-              elegantDark: <Checkbox />,
+              brutal: <CheckboxCurrent.Unchecked />,
+              elegant: <CheckboxCurrent.Unchecked />,
+              elegantDark: <CheckboxCurrent.Unchecked />,
+              ...checkboxComposition("Unchecked"),
             },
             {
               label: "Checked",
               status: "match",
               source: <LegacyCheckbox checked readOnly />,
-              brutal: <Checkbox checked readOnly />,
-              elegant: <Checkbox checked readOnly />,
-              elegantDark: <Checkbox checked readOnly />,
+              brutal: <CheckboxCurrent.Checked />,
+              elegant: <CheckboxCurrent.Checked />,
+              elegantDark: <CheckboxCurrent.Checked />,
+              ...checkboxComposition("Checked"),
             },
             {
               label: "Disabled",
               status: "match",
               source: <LegacyCheckbox checked disabled readOnly />,
-              brutal: <Checkbox checked disabled readOnly />,
-              elegant: <Checkbox checked disabled readOnly />,
-              elegantDark: <Checkbox checked disabled readOnly />,
+              brutal: <CheckboxCurrent.Disabled />,
+              elegant: <CheckboxCurrent.Disabled />,
+              elegantDark: <CheckboxCurrent.Disabled />,
+              ...checkboxComposition("Disabled"),
             },
             {
               label: "Default checked",
               status: "difference",
               source: <LegacyCheckbox defaultChecked />,
-              brutal: <Checkbox defaultChecked />,
-              elegant: <Checkbox defaultChecked />,
-              elegantDark: <Checkbox defaultChecked />,
+              brutal: <CheckboxCurrent.DefaultChecked />,
+              elegant: <CheckboxCurrent.DefaultChecked />,
+              elegantDark: <CheckboxCurrent.DefaultChecked />,
+              ...checkboxComposition("DefaultChecked"),
             },
             {
               label: "Sizes",
@@ -367,48 +434,37 @@ function CheckboxDoc() {
                   <LegacyCheckbox size="md" checked readOnly />
                 </>
               ),
-              brutal: (
-                <>
-                  <Checkbox size="sm" checked readOnly />
-                  <Checkbox size="md" checked readOnly />
-                </>
-              ),
-              elegant: (
-                <>
-                  <Checkbox size="sm" checked readOnly />
-                  <Checkbox size="md" checked readOnly />
-                </>
-              ),
-              elegantDark: (
-                <>
-                  <Checkbox size="sm" checked readOnly />
-                  <Checkbox size="md" checked readOnly />
-                </>
-              ),
+              brutal: <CheckboxCurrent.Sizes />,
+              elegant: <CheckboxCurrent.Sizes />,
+              elegantDark: <CheckboxCurrent.Sizes />,
+              ...checkboxComposition("Sizes"),
             },
             {
               label: "Primary checked",
               status: "new",
               source: <MissingSource />,
-              brutal: <Checkbox variant="primary" checked readOnly />,
-              elegant: <Checkbox variant="primary" checked readOnly />,
-              elegantDark: <Checkbox variant="primary" checked readOnly />,
+              brutal: <CheckboxCurrent.PrimaryChecked />,
+              elegant: <CheckboxCurrent.PrimaryChecked />,
+              elegantDark: <CheckboxCurrent.PrimaryChecked />,
+              ...checkboxComposition("PrimaryChecked"),
             },
             {
               label: "Indeterminate",
               status: "new",
               source: <MissingSource />,
-              brutal: <Checkbox indeterminate />,
-              elegant: <Checkbox indeterminate />,
-              elegantDark: <Checkbox indeterminate />,
+              brutal: <CheckboxCurrent.Indeterminate />,
+              elegant: <CheckboxCurrent.Indeterminate />,
+              elegantDark: <CheckboxCurrent.Indeterminate />,
+              ...checkboxComposition("Indeterminate"),
             },
             {
               label: "Preview-on-hover marker",
               status: "difference",
               source: <LegacyCheckMarker checked={false} previewOnHover />,
-              brutal: <Checkbox aria-label="Select row" />,
-              elegant: <Checkbox aria-label="Select row" />,
-              elegantDark: <Checkbox aria-label="Select row" />,
+              brutal: <CheckboxCurrent.PreviewOnHoverMarker />,
+              elegant: <CheckboxCurrent.PreviewOnHoverMarker />,
+              elegantDark: <CheckboxCurrent.PreviewOnHoverMarker />,
+              ...checkboxComposition("PreviewOnHoverMarker"),
             },
           ]}
         />

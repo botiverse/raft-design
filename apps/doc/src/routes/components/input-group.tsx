@@ -20,6 +20,18 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import inputGroupInvalidStateCompositionSource from "#/compositions/input-group/invalid-state-composition.tsx?raw";
+import inputGroupSearchInputCompositionSource from "#/compositions/input-group/search-input-composition.tsx?raw";
+import inputGroupSlugInputCompositionSource from "#/compositions/input-group/slug-input-composition.tsx?raw";
+import {
+  INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION,
+  INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/input-group-source-comparison.tsx";
 import { Search, Upload } from "lucide-react";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
@@ -38,7 +50,6 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const SEARCH_NO_LIFT_CLASS = "has-[[data-slot=input-group-control]:focus]:!shadow-sm";
 const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
@@ -249,13 +260,50 @@ const INPUT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const InputGroupCurrent = INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION;
+
+const INPUT_GROUP_COMPOSITION_RAW_SOURCES = {
+  InvalidState: inputGroupInvalidStateCompositionSource,
+  SearchInput: inputGroupSearchInputCompositionSource,
+  SlugInput: inputGroupSlugInputCompositionSource,
+} as const;
+
+const INPUT_GROUP_COMPOSITION_SOURCES = createCompositionSourceMap(
+  INPUT_GROUP_COMPOSITION_RAW_SOURCES,
+);
+
+const INPUT_GROUP_COMPOSITION_SNIPPET_IDS = {
+  InvalidState: "inputGroupInvalidStateComposition",
+  SearchInput: "inputGroupSearchInputComposition",
+  SlugInput: "inputGroupSlugInputComposition",
+} as const;
+
+type InputGroupCompositionKey = keyof typeof INPUT_GROUP_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/input-group")({
   component: InputGroupDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(
+          INPUT_GROUP_COMPOSITION_SOURCES,
+          INPUT_GROUP_COMPOSITION_SNIPPET_IDS,
+        ),
+      },
+    }),
 });
 
 function InputGroupDoc() {
   const code = Route.useLoaderData();
+  const inputGroupComposition = (key: InputGroupCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: INPUT_GROUP_COMPOSITION_SNIPPET_IDS,
+      sources: INPUT_GROUP_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -479,30 +527,10 @@ function InputGroupDoc() {
                   <LegacySearchInput aria-label="Search" placeholder="Search..." />
                 </div>
               ),
-              brutal: (
-                <InputGroup className={`${COMPARISON_INPUT_CLASS} ${SEARCH_NO_LIFT_CLASS}`}>
-                  <InputGroupAddon>
-                    <Search />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Search" placeholder="Search..." />
-                </InputGroup>
-              ),
-              elegant: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon>
-                    <Search />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Search" placeholder="Search..." />
-                </InputGroup>
-              ),
-              elegantDark: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon>
-                    <Search />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Search" placeholder="Search..." />
-                </InputGroup>
-              ),
+              brutal: <InputGroupCurrent.SearchInput />,
+              elegant: <InputGroupCurrent.SearchInput />,
+              elegantDark: <InputGroupCurrent.SearchInput />,
+              ...inputGroupComposition("SearchInput"),
             },
             {
               label: "SlugInput",
@@ -512,24 +540,10 @@ function InputGroupDoc() {
                   <LegacySlugInput aria-label="Server slug" placeholder="my-server" />
                 </div>
               ),
-              brutal: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
-                </InputGroup>
-              ),
-              elegant: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
-                </InputGroup>
-              ),
-              elegantDark: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
-                </InputGroup>
-              ),
+              brutal: <InputGroupCurrent.SlugInput />,
+              elegant: <InputGroupCurrent.SlugInput />,
+              elegantDark: <InputGroupCurrent.SlugInput />,
+              ...inputGroupComposition("SlugInput"),
             },
             {
               label: "Invalid state",
@@ -543,30 +557,10 @@ function InputGroupDoc() {
                   />
                 </div>
               ),
-              brutal: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon>
-                    <Search />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
-                </InputGroup>
-              ),
-              elegant: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon>
-                    <Search />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
-                </InputGroup>
-              ),
-              elegantDark: (
-                <InputGroup className={COMPARISON_INPUT_CLASS}>
-                  <InputGroupAddon>
-                    <Search />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
-                </InputGroup>
-              ),
+              brutal: <InputGroupCurrent.InvalidState />,
+              elegant: <InputGroupCurrent.InvalidState />,
+              elegantDark: <InputGroupCurrent.InvalidState />,
+              ...inputGroupComposition("InvalidState"),
             },
           ]}
         />

@@ -9,6 +9,16 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import inlineCodeInlineProseTokenCompositionSource from "#/compositions/inline-code/inline-prose-token-composition.tsx?raw";
+import {
+  INLINE_CODE_SOURCE_COMPARISON_COMPOSITION,
+  INLINE_CODE_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/inline-code-source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -54,13 +64,46 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+const InlineCodeCurrent = INLINE_CODE_SOURCE_COMPARISON_COMPOSITION;
+
+const INLINE_CODE_COMPOSITION_RAW_SOURCES = {
+  InlineProseToken: inlineCodeInlineProseTokenCompositionSource,
+} as const;
+
+const INLINE_CODE_COMPOSITION_SOURCES = createCompositionSourceMap(
+  INLINE_CODE_COMPOSITION_RAW_SOURCES,
+);
+
+const INLINE_CODE_COMPOSITION_SNIPPET_IDS = {
+  InlineProseToken: "inlineCodeInlineProseTokenComposition",
+} as const;
+
+type InlineCodeCompositionKey = keyof typeof INLINE_CODE_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/inline-code")({
   component: InlineCodeDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(
+          INLINE_CODE_COMPOSITION_SOURCES,
+          INLINE_CODE_COMPOSITION_SNIPPET_IDS,
+        ),
+      },
+    }),
 });
 
 function InlineCodeDoc() {
   const code = Route.useLoaderData();
+  const inlineCodeComposition = (key: InlineCodeCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: INLINE_CODE_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: INLINE_CODE_COMPOSITION_SNIPPET_IDS,
+      sources: INLINE_CODE_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -126,9 +169,10 @@ function InlineCodeDoc() {
                   aria-invalid
                 </code>
               ),
-              brutal: <InlineCode>aria-invalid</InlineCode>,
-              elegant: <InlineCode>aria-invalid</InlineCode>,
-              elegantDark: <InlineCode>aria-invalid</InlineCode>,
+              brutal: <InlineCodeCurrent.InlineProseToken />,
+              elegant: <InlineCodeCurrent.InlineProseToken />,
+              elegantDark: <InlineCodeCurrent.InlineProseToken />,
+              ...inlineCodeComposition("InlineProseToken"),
             },
           ]}
         />

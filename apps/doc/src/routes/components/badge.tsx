@@ -11,6 +11,27 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import badgeAccentCompositionSource from "#/compositions/badge/accent-composition.tsx?raw";
+import badgeButtonRenderCompositionSource from "#/compositions/badge/button-render-composition.tsx?raw";
+import badgeDangerCompositionSource from "#/compositions/badge/danger-composition.tsx?raw";
+import badgeDefaultCompositionSource from "#/compositions/badge/default-composition.tsx?raw";
+import badgeDefaultPreservedCasingCompositionSource from "#/compositions/badge/default-preserved-casing-composition.tsx?raw";
+import badgeExperimentalPresetCompositionSource from "#/compositions/badge/experimental-preset-composition.tsx?raw";
+import badgeInformationCompositionSource from "#/compositions/badge/information-composition.tsx?raw";
+import badgeMutedCompositionSource from "#/compositions/badge/muted-composition.tsx?raw";
+import badgeOutlineAppearanceCompositionSource from "#/compositions/badge/outline-appearance-composition.tsx?raw";
+import badgePrimaryCompositionSource from "#/compositions/badge/primary-composition.tsx?raw";
+import badgeSoftAppearanceCompositionSource from "#/compositions/badge/soft-appearance-composition.tsx?raw";
+import badgeSuccessCompositionSource from "#/compositions/badge/success-composition.tsx?raw";
+import {
+  BADGE_SOURCE_COMPARISON_COMPOSITION,
+  BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/badge-source-comparison.tsx";
 import LegacyBadge, {
   BadgeButton as LegacyBadgeButton,
 } from "../../../../../packages/ui/src/legacy/Badge.tsx";
@@ -177,13 +198,63 @@ function MissingSource() {
   );
 }
 
+const BadgeCurrent = BADGE_SOURCE_COMPARISON_COMPOSITION;
+
+const BADGE_COMPOSITION_RAW_SOURCES = {
+  Accent: badgeAccentCompositionSource,
+  ButtonRender: badgeButtonRenderCompositionSource,
+  Danger: badgeDangerCompositionSource,
+  Default: badgeDefaultCompositionSource,
+  DefaultPreservedCasing: badgeDefaultPreservedCasingCompositionSource,
+  ExperimentalPreset: badgeExperimentalPresetCompositionSource,
+  Information: badgeInformationCompositionSource,
+  Muted: badgeMutedCompositionSource,
+  OutlineAppearance: badgeOutlineAppearanceCompositionSource,
+  Primary: badgePrimaryCompositionSource,
+  SoftAppearance: badgeSoftAppearanceCompositionSource,
+  Success: badgeSuccessCompositionSource,
+} as const;
+
+const BADGE_COMPOSITION_SOURCES = createCompositionSourceMap(BADGE_COMPOSITION_RAW_SOURCES);
+
+const BADGE_COMPOSITION_SNIPPET_IDS = {
+  Accent: "badgeAccentComposition",
+  ButtonRender: "badgeButtonRenderComposition",
+  Danger: "badgeDangerComposition",
+  Default: "badgeDefaultComposition",
+  DefaultPreservedCasing: "badgeDefaultPreservedCasingComposition",
+  ExperimentalPreset: "badgeExperimentalPresetComposition",
+  Information: "badgeInformationComposition",
+  Muted: "badgeMutedComposition",
+  OutlineAppearance: "badgeOutlineAppearanceComposition",
+  Primary: "badgePrimaryComposition",
+  SoftAppearance: "badgeSoftAppearanceComposition",
+  Success: "badgeSuccessComposition",
+} as const;
+
+type BadgeCompositionKey = keyof typeof BADGE_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/badge")({
   component: BadgeDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(BADGE_COMPOSITION_SOURCES, BADGE_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function BadgeDoc() {
   const code = Route.useLoaderData();
+  const badgeComposition = (key: BadgeCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: BADGE_COMPOSITION_SNIPPET_IDS,
+      sources: BADGE_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -325,154 +396,109 @@ function BadgeDoc() {
               label: "Default",
               status: "match",
               source: <LegacyBadge>In Progress</LegacyBadge>,
-              brutal: (
-                <Badge appearance="outline" uppercase>
-                  In Progress
-                </Badge>
-              ),
-              elegant: (
-                <Badge appearance="outline" uppercase>
-                  In Progress
-                </Badge>
-              ),
-              elegantDark: (
-                <Badge appearance="outline" uppercase>
-                  In Progress
-                </Badge>
-              ),
+              brutal: <BadgeCurrent.Default />,
+              elegant: <BadgeCurrent.Default />,
+              elegantDark: <BadgeCurrent.Default />,
+              ...badgeComposition("Default"),
             },
             {
               label: "Primary",
               status: "match",
               source: <LegacyBadge tone="yellow">Pending</LegacyBadge>,
-              brutal: <Badge variant="primary">Pending</Badge>,
-              elegant: <Badge variant="primary">Pending</Badge>,
-              elegantDark: <Badge variant="primary">Pending</Badge>,
+              brutal: <BadgeCurrent.Primary />,
+              elegant: <BadgeCurrent.Primary />,
+              elegantDark: <BadgeCurrent.Primary />,
+              ...badgeComposition("Primary"),
             },
             {
               label: "Information",
               status: "match",
               source: <LegacyBadge tone="cyan">Open</LegacyBadge>,
-              brutal: <Badge variant="information">Open</Badge>,
-              elegant: <Badge variant="information">Open</Badge>,
-              elegantDark: <Badge variant="information">Open</Badge>,
+              brutal: <BadgeCurrent.Information />,
+              elegant: <BadgeCurrent.Information />,
+              elegantDark: <BadgeCurrent.Information />,
+              ...badgeComposition("Information"),
             },
             {
               label: "Muted",
               status: "match",
               source: <LegacyBadge tone="stone">Saved</LegacyBadge>,
-              brutal: <Badge variant="muted">Saved</Badge>,
-              elegant: <Badge variant="muted">Saved</Badge>,
-              elegantDark: <Badge variant="muted">Saved</Badge>,
+              brutal: <BadgeCurrent.Muted />,
+              elegant: <BadgeCurrent.Muted />,
+              elegantDark: <BadgeCurrent.Muted />,
+              ...badgeComposition("Muted"),
             },
             {
               label: "Accent",
               status: "match",
               source: <LegacyBadge tone="pink">New</LegacyBadge>,
-              brutal: <Badge variant="accent">New</Badge>,
-              elegant: <Badge variant="accent">New</Badge>,
-              elegantDark: <Badge variant="accent">New</Badge>,
+              brutal: <BadgeCurrent.Accent />,
+              elegant: <BadgeCurrent.Accent />,
+              elegantDark: <BadgeCurrent.Accent />,
+              ...badgeComposition("Accent"),
             },
             {
               label: "Success",
               status: "match",
               source: <LegacyBadge tone="lime">Live</LegacyBadge>,
-              brutal: <Badge variant="success">Live</Badge>,
-              elegant: <Badge variant="success">Live</Badge>,
-              elegantDark: <Badge variant="success">Live</Badge>,
+              brutal: <BadgeCurrent.Success />,
+              elegant: <BadgeCurrent.Success />,
+              elegantDark: <BadgeCurrent.Success />,
+              ...badgeComposition("Success"),
             },
             {
               label: "Danger",
               status: "match",
               source: <LegacyBadge tone="red">Failed</LegacyBadge>,
-              brutal: <Badge variant="danger">Failed</Badge>,
-              elegant: <Badge variant="danger">Failed</Badge>,
-              elegantDark: <Badge variant="danger">Failed</Badge>,
+              brutal: <BadgeCurrent.Danger />,
+              elegant: <BadgeCurrent.Danger />,
+              elegantDark: <BadgeCurrent.Danger />,
+              ...badgeComposition("Danger"),
             },
             {
               label: "Soft appearance",
               status: "new",
               source: <MissingSource />,
-              brutal: (
-                <Badge appearance="soft" variant="primary">
-                  Pending
-                </Badge>
-              ),
-              elegant: (
-                <Badge appearance="soft" variant="primary">
-                  Pending
-                </Badge>
-              ),
-              elegantDark: (
-                <Badge appearance="soft" variant="primary">
-                  Pending
-                </Badge>
-              ),
+              brutal: <BadgeCurrent.SoftAppearance />,
+              elegant: <BadgeCurrent.SoftAppearance />,
+              elegantDark: <BadgeCurrent.SoftAppearance />,
+              ...badgeComposition("SoftAppearance"),
             },
             {
               label: "Outline appearance",
               status: "new",
               source: <MissingSource />,
-              brutal: (
-                <Badge appearance="outline" variant="primary">
-                  Pending
-                </Badge>
-              ),
-              elegant: (
-                <Badge appearance="outline" variant="primary">
-                  Pending
-                </Badge>
-              ),
-              elegantDark: (
-                <Badge appearance="outline" variant="primary">
-                  Pending
-                </Badge>
-              ),
+              brutal: <BadgeCurrent.OutlineAppearance />,
+              elegant: <BadgeCurrent.OutlineAppearance />,
+              elegantDark: <BadgeCurrent.OutlineAppearance />,
+              ...badgeComposition("OutlineAppearance"),
             },
             {
               label: "Default preserved casing",
               status: "match",
               source: <LegacyBadge uppercase={false}>task #42 @bugen</LegacyBadge>,
-              brutal: <Badge appearance="outline">task #42 @bugen</Badge>,
-              elegant: <Badge appearance="outline">task #42 @bugen</Badge>,
-              elegantDark: <Badge appearance="outline">task #42 @bugen</Badge>,
+              brutal: <BadgeCurrent.DefaultPreservedCasing />,
+              elegant: <BadgeCurrent.DefaultPreservedCasing />,
+              elegantDark: <BadgeCurrent.DefaultPreservedCasing />,
+              ...badgeComposition("DefaultPreservedCasing"),
             },
             {
               label: "Button render",
               status: "difference",
               source: <LegacyBadgeButton tone="cyan">3 replies</LegacyBadgeButton>,
-              brutal: (
-                <Badge
-                  render={<button type="button" aria-label="Open thread replies" />}
-                  variant="information"
-                >
-                  3 replies
-                </Badge>
-              ),
-              elegant: (
-                <Badge
-                  render={<button type="button" aria-label="Open thread replies" />}
-                  variant="information"
-                >
-                  3 replies
-                </Badge>
-              ),
-              elegantDark: (
-                <Badge
-                  render={<button type="button" aria-label="Open thread replies" />}
-                  variant="information"
-                >
-                  3 replies
-                </Badge>
-              ),
+              brutal: <BadgeCurrent.ButtonRender />,
+              elegant: <BadgeCurrent.ButtonRender />,
+              elegantDark: <BadgeCurrent.ButtonRender />,
+              ...badgeComposition("ButtonRender"),
             },
             {
               label: "Experimental preset",
               status: "match",
               source: <LegacyExperimentalBadge />,
-              brutal: <Badge.Experimental />,
-              elegant: <Badge.Experimental />,
-              elegantDark: <Badge.Experimental />,
+              brutal: <BadgeCurrent.ExperimentalPreset />,
+              elegant: <BadgeCurrent.ExperimentalPreset />,
+              elegantDark: <BadgeCurrent.ExperimentalPreset />,
+              ...badgeComposition("ExperimentalPreset"),
             },
           ]}
         />

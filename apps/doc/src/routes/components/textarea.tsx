@@ -3,7 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Button,
   Field,
-  FieldDescription,
   FieldError,
   FieldLabel,
   InlineCode,
@@ -22,6 +21,19 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import textareaDefaultShellCompositionSource from "#/compositions/textarea/default-shell-composition.tsx?raw";
+import textareaDisabledStylingCompositionSource from "#/compositions/textarea/disabled-styling-composition.tsx?raw";
+import textareaInvalidStateCompositionSource from "#/compositions/textarea/invalid-state-composition.tsx?raw";
+import textareaWrapperApiCompositionSource from "#/compositions/textarea/wrapper-api-composition.tsx?raw";
+import {
+  TEXTAREA_SOURCE_COMPARISON_COMPOSITION,
+  TEXTAREA_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/textarea-source-comparison.tsx";
 import LegacyTextarea from "../../../../../packages/ui/src/legacy/Textarea.tsx";
 
 const TOC = [
@@ -205,15 +217,52 @@ function MissingSource() {
   );
 }
 
+const TextareaCurrent = TEXTAREA_SOURCE_COMPARISON_COMPOSITION;
+
+const TEXTAREA_COMPOSITION_RAW_SOURCES = {
+  DefaultShell: textareaDefaultShellCompositionSource,
+  DisabledStyling: textareaDisabledStylingCompositionSource,
+  InvalidState: textareaInvalidStateCompositionSource,
+  WrapperApi: textareaWrapperApiCompositionSource,
+} as const;
+
+const TEXTAREA_COMPOSITION_SOURCES = createCompositionSourceMap(TEXTAREA_COMPOSITION_RAW_SOURCES);
+
+const TEXTAREA_COMPOSITION_SNIPPET_IDS = {
+  DefaultShell: "textareaDefaultShellComposition",
+  DisabledStyling: "textareaDisabledStylingComposition",
+  InvalidState: "textareaInvalidStateComposition",
+  WrapperApi: "textareaWrapperApiComposition",
+} as const;
+
+type TextareaCompositionKey = keyof typeof TEXTAREA_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/textarea")({
   component: TextareaDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(
+          TEXTAREA_COMPOSITION_SOURCES,
+          TEXTAREA_COMPOSITION_SNIPPET_IDS,
+        ),
+      },
+    }),
 });
 
 function TextareaDoc() {
   const code = Route.useLoaderData();
   const [counterMessage, setCounterMessage] = useState("The quick brown fox.");
   const [fieldMessage, setFieldMessage] = useState("oops");
+  const textareaComposition = (key: TextareaCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: TEXTAREA_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: TEXTAREA_COMPOSITION_SNIPPET_IDS,
+      sources: TEXTAREA_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -393,22 +442,9 @@ function TextareaDoc() {
                   placeholder="Type your message here."
                 />
               ),
-              brutal: (
-                <Textarea
-                  aria-label="Message"
-                  className="w-80"
-                  rows={4}
-                  placeholder="Type your message here."
-                />
-              ),
-              elegant: (
-                <Textarea
-                  aria-label="Message"
-                  className="w-80"
-                  rows={4}
-                  placeholder="Type your message here."
-                />
-              ),
+              brutal: <TextareaCurrent.DefaultShell />,
+              elegant: <TextareaCurrent.DefaultShell />,
+              ...textareaComposition("DefaultShell"),
             },
             {
               label: "Wrapper API to composition",
@@ -425,36 +461,9 @@ function TextareaDoc() {
                   defaultValue="Hello world."
                 />
               ),
-              brutal: (
-                <Field className="w-80">
-                  <Textarea
-                    aria-label="Message"
-                    rows={4}
-                    maxLength={120}
-                    defaultValue="Hello world."
-                  />
-                  <div className="flex items-start justify-between gap-3 text-xs">
-                    <FieldDescription className="min-w-0 flex-1">
-                      Enter your message below.
-                    </FieldDescription>
-                    <TextareaCounter value="Hello world." limit={120} />
-                  </div>
-                </Field>
-              ),
-              elegant: (
-                <Field className="w-80">
-                  <TextareaGroup>
-                    <Textarea
-                      aria-label="Message"
-                      rows={4}
-                      maxLength={120}
-                      defaultValue="Hello world."
-                    />
-                    <TextareaCounter value="Hello world." limit={120} />
-                  </TextareaGroup>
-                  <FieldDescription>Enter your message below.</FieldDescription>
-                </Field>
-              ),
+              brutal: <TextareaCurrent.WrapperApi />,
+              elegant: <TextareaCurrent.WrapperApi />,
+              ...textareaComposition("WrapperApi"),
             },
             {
               label: "Invalid state",
@@ -471,66 +480,18 @@ function TextareaDoc() {
                   defaultValue="oops"
                 />
               ),
-              brutal: (
-                <Field className="w-80" invalid>
-                  <Textarea
-                    rows={4}
-                    aria-label="Message"
-                    aria-invalid
-                    maxLength={120}
-                    defaultValue="oops"
-                  />
-                  <div className="flex items-start justify-between gap-3 text-xs">
-                    <FieldError match className="min-w-0 flex-1 font-bold text-brutal-red">
-                      Message is required.
-                    </FieldError>
-                    <TextareaCounter
-                      value="oops"
-                      limit={120}
-                      className="shrink-0 font-bold text-brutal-red"
-                    />
-                  </div>
-                </Field>
-              ),
-              elegant: (
-                <Field className="w-80" invalid>
-                  <TextareaGroup>
-                    <Textarea
-                      rows={4}
-                      aria-label="Message"
-                      aria-invalid
-                      maxLength={120}
-                      defaultValue="oops"
-                    />
-                    <TextareaCounter value="oops" limit={120} />
-                  </TextareaGroup>
-                  <FieldError match>Message is required.</FieldError>
-                </Field>
-              ),
+              brutal: <TextareaCurrent.InvalidState />,
+              elegant: <TextareaCurrent.InvalidState />,
+              ...textareaComposition("InvalidState"),
             },
             {
               label: "Disabled styling",
               status: "new",
               note: "Source textarea did not own a disabled visual state. Current Textarea adds one so unavailable text areas remain readable without looking editable.",
               source: <MissingSource />,
-              brutal: (
-                <Textarea
-                  aria-label="Message"
-                  className="w-80"
-                  rows={4}
-                  disabled
-                  placeholder="Disabled"
-                />
-              ),
-              elegant: (
-                <Textarea
-                  aria-label="Message"
-                  className="w-80"
-                  rows={4}
-                  disabled
-                  placeholder="Disabled"
-                />
-              ),
+              brutal: <TextareaCurrent.DisabledStyling />,
+              elegant: <TextareaCurrent.DisabledStyling />,
+              ...textareaComposition("DisabledStyling"),
             },
           ]}
         />

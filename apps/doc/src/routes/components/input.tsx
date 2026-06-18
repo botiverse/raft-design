@@ -11,6 +11,20 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import inputDefaultCompositionSource from "#/compositions/input/default-composition.tsx?raw";
+import inputDisabledStylingCompositionSource from "#/compositions/input/disabled-styling-composition.tsx?raw";
+import inputInvalidDisabledPriorityCompositionSource from "#/compositions/input/invalid-disabled-priority-composition.tsx?raw";
+import inputInvalidStateCompositionSource from "#/compositions/input/invalid-state-composition.tsx?raw";
+import inputPasswordManagerSuppressionCompositionSource from "#/compositions/input/password-manager-suppression-composition.tsx?raw";
+import {
+  INPUT_SOURCE_COMPARISON_COMPOSITION,
+  INPUT_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/input-source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -136,13 +150,49 @@ function MissingSource() {
   );
 }
 
+const InputCurrent = INPUT_SOURCE_COMPARISON_COMPOSITION;
+
+const INPUT_COMPOSITION_RAW_SOURCES = {
+  Default: inputDefaultCompositionSource,
+  DisabledStyling: inputDisabledStylingCompositionSource,
+  InvalidDisabledPriority: inputInvalidDisabledPriorityCompositionSource,
+  InvalidState: inputInvalidStateCompositionSource,
+  PasswordManagerSuppression: inputPasswordManagerSuppressionCompositionSource,
+} as const;
+
+const INPUT_COMPOSITION_SOURCES = createCompositionSourceMap(INPUT_COMPOSITION_RAW_SOURCES);
+
+const INPUT_COMPOSITION_SNIPPET_IDS = {
+  Default: "inputDefaultComposition",
+  DisabledStyling: "inputDisabledStylingComposition",
+  InvalidDisabledPriority: "inputInvalidDisabledPriorityComposition",
+  InvalidState: "inputInvalidStateComposition",
+  PasswordManagerSuppression: "inputPasswordManagerSuppressionComposition",
+} as const;
+
+type InputCompositionKey = keyof typeof INPUT_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/input")({
   component: InputDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(INPUT_COMPOSITION_SOURCES, INPUT_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function InputDoc() {
   const code = Route.useLoaderData();
+  const inputComposition = (key: InputCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: INPUT_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: INPUT_COMPOSITION_SNIPPET_IDS,
+      sources: INPUT_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -295,8 +345,9 @@ function InputDoc() {
                   placeholder="you@example.com"
                 />
               ),
-              brutal: <Input aria-label="Email" className="w-80" placeholder="you@example.com" />,
-              elegant: <Input aria-label="Email" className="w-80" placeholder="you@example.com" />,
+              brutal: <InputCurrent.Default />,
+              elegant: <InputCurrent.Default />,
+              ...inputComposition("Default"),
             },
             {
               label: "Invalid state",
@@ -309,68 +360,36 @@ function InputDoc() {
                   defaultValue="oops"
                 />
               ),
-              brutal: (
-                <Input aria-label="Email" className="w-80" aria-invalid defaultValue="oops" />
-              ),
-              elegant: (
-                <Input aria-label="Email" className="w-80" aria-invalid defaultValue="oops" />
-              ),
+              brutal: <InputCurrent.InvalidState />,
+              elegant: <InputCurrent.InvalidState />,
+              ...inputComposition("InvalidState"),
             },
             {
               label: "Disabled styling",
               status: "new",
               note: "Source input-brutal did not own a disabled visual state. Current Input adds one so unavailable fields remain readable without looking actionable.",
               source: <MissingSource />,
-              brutal: <Input aria-label="Email" className="w-80" disabled placeholder="Disabled" />,
-              elegant: (
-                <Input aria-label="Email" className="w-80" disabled placeholder="Disabled" />
-              ),
+              brutal: <InputCurrent.DisabledStyling />,
+              elegant: <InputCurrent.DisabledStyling />,
+              ...inputComposition("DisabledStyling"),
             },
             {
               label: "Invalid disabled priority",
               status: "new",
               note: "When invalid and disabled are both present, disabled wins because the user cannot edit the value in place.",
               source: <MissingSource />,
-              brutal: (
-                <Input
-                  aria-label="Email"
-                  className="w-80"
-                  aria-invalid
-                  disabled
-                  defaultValue="Locked error"
-                />
-              ),
-              elegant: (
-                <Input
-                  aria-label="Email"
-                  className="w-80"
-                  aria-invalid
-                  disabled
-                  defaultValue="Locked error"
-                />
-              ),
+              brutal: <InputCurrent.InvalidDisabledPriority />,
+              elegant: <InputCurrent.InvalidDisabledPriority />,
+              ...inputComposition("InvalidDisabledPriority"),
             },
             {
               label: "Password-manager suppression",
               status: "new",
               note: "A narrow escape hatch for non-credential fields where extension overlays obscure custom UI. It is intentionally opt-in.",
               source: <MissingSource />,
-              brutal: (
-                <Input
-                  aria-label="Search"
-                  className="w-80"
-                  suppressPasswordManager
-                  placeholder="Search customers..."
-                />
-              ),
-              elegant: (
-                <Input
-                  aria-label="Search"
-                  className="w-80"
-                  suppressPasswordManager
-                  placeholder="Search customers..."
-                />
-              ),
+              brutal: <InputCurrent.PasswordManagerSuppression />,
+              elegant: <InputCurrent.PasswordManagerSuppression />,
+              ...inputComposition("PasswordManagerSuppression"),
             },
           ]}
         />

@@ -10,6 +10,23 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import statusActivityThinkingCompositionSource from "#/compositions/status/activity-thinking-composition.tsx?raw";
+import statusAttentionCompactCompositionSource from "#/compositions/status/attention-compact-composition.tsx?raw";
+import statusAttentionDefaultCompositionSource from "#/compositions/status/attention-default-composition.tsx?raw";
+import statusDefaultCompositionSource from "#/compositions/status/default-composition.tsx?raw";
+import statusPrimaryPulseCompositionSource from "#/compositions/status/primary-pulse-composition.tsx?raw";
+import statusPulseSizesCompositionSource from "#/compositions/status/pulse-sizes-composition.tsx?raw";
+import statusSuccessCompositionSource from "#/compositions/status/success-composition.tsx?raw";
+import statusWarningCompositionSource from "#/compositions/status/warning-composition.tsx?raw";
+import {
+  STATUS_SOURCE_COMPARISON_COMPOSITION,
+  STATUS_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/status-source-comparison.tsx";
 import LegacyAttentionDot from "../../../../../packages/ui/src/legacy/AttentionDot.tsx";
 import LegacyStatusDot from "../../../../../packages/ui/src/legacy/StatusDot.tsx";
 
@@ -147,13 +164,55 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+const StatusCurrent = STATUS_SOURCE_COMPARISON_COMPOSITION;
+
+const STATUS_COMPOSITION_RAW_SOURCES = {
+  ActivityThinking: statusActivityThinkingCompositionSource,
+  AttentionCompact: statusAttentionCompactCompositionSource,
+  AttentionDefault: statusAttentionDefaultCompositionSource,
+  Default: statusDefaultCompositionSource,
+  PrimaryPulse: statusPrimaryPulseCompositionSource,
+  PulseSizes: statusPulseSizesCompositionSource,
+  Success: statusSuccessCompositionSource,
+  Warning: statusWarningCompositionSource,
+} as const;
+
+const STATUS_COMPOSITION_SOURCES = createCompositionSourceMap(STATUS_COMPOSITION_RAW_SOURCES);
+
+const STATUS_COMPOSITION_SNIPPET_IDS = {
+  ActivityThinking: "statusActivityThinkingComposition",
+  AttentionCompact: "statusAttentionCompactComposition",
+  AttentionDefault: "statusAttentionDefaultComposition",
+  Default: "statusDefaultComposition",
+  PrimaryPulse: "statusPrimaryPulseComposition",
+  PulseSizes: "statusPulseSizesComposition",
+  Success: "statusSuccessComposition",
+  Warning: "statusWarningComposition",
+} as const;
+
+type StatusCompositionKey = keyof typeof STATUS_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/status")({
   component: StatusDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(STATUS_COMPOSITION_SOURCES, STATUS_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function StatusDoc() {
   const code = Route.useLoaderData();
+  const statusComposition = (key: StatusCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: STATUS_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: STATUS_COMPOSITION_SNIPPET_IDS,
+      sources: STATUS_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -243,25 +302,28 @@ function StatusDoc() {
               label: "Default",
               status: "match",
               source: <LegacyStatusDot />,
-              brutal: <Status />,
-              elegant: <Status />,
-              elegantDark: <Status />,
+              brutal: <StatusCurrent.Default />,
+              elegant: <StatusCurrent.Default />,
+              elegantDark: <StatusCurrent.Default />,
+              ...statusComposition("Default"),
             },
             {
               label: "Success",
               status: "match",
               source: <LegacyStatusDot tone="bg-brutal-lime" />,
-              brutal: <Status variant="success" />,
-              elegant: <Status variant="success" />,
-              elegantDark: <Status variant="success" />,
+              brutal: <StatusCurrent.Success />,
+              elegant: <StatusCurrent.Success />,
+              elegantDark: <StatusCurrent.Success />,
+              ...statusComposition("Success"),
             },
             {
               label: "Primary pulse",
               status: "match",
               source: <LegacyPulseStatusDot tone="bg-brutal-yellow" />,
-              brutal: <Status variant="primary" pulse />,
-              elegant: <Status variant="primary" pulse />,
-              elegantDark: <Status variant="primary" pulse />,
+              brutal: <StatusCurrent.PrimaryPulse />,
+              elegant: <StatusCurrent.PrimaryPulse />,
+              elegantDark: <StatusCurrent.PrimaryPulse />,
+              ...statusComposition("PrimaryPulse"),
             },
             {
               label: "Pulse sizes",
@@ -273,59 +335,46 @@ function StatusDoc() {
                   <LegacyPulseStatusDot size="lg" tone="bg-brutal-yellow" />
                 </>
               ),
-              brutal: (
-                <>
-                  <Status size="sm" variant="primary" pulse />
-                  <Status size="md" variant="primary" pulse />
-                  <Status size="lg" variant="primary" pulse />
-                </>
-              ),
-              elegant: (
-                <>
-                  <Status size="sm" variant="primary" pulse />
-                  <Status size="md" variant="primary" pulse />
-                  <Status size="lg" variant="primary" pulse />
-                </>
-              ),
-              elegantDark: (
-                <>
-                  <Status size="sm" variant="primary" pulse />
-                  <Status size="md" variant="primary" pulse />
-                  <Status size="lg" variant="primary" pulse />
-                </>
-              ),
+              brutal: <StatusCurrent.PulseSizes />,
+              elegant: <StatusCurrent.PulseSizes />,
+              elegantDark: <StatusCurrent.PulseSizes />,
+              ...statusComposition("PulseSizes"),
             },
             {
               label: "Activity thinking",
               status: "match",
               source: <LegacyPulseStatusDot activity="thinking" />,
-              brutal: <Status variant="primary" pulse />,
-              elegant: <Status variant="primary" pulse />,
-              elegantDark: <Status variant="primary" pulse />,
+              brutal: <StatusCurrent.ActivityThinking />,
+              elegant: <StatusCurrent.ActivityThinking />,
+              elegantDark: <StatusCurrent.ActivityThinking />,
+              ...statusComposition("ActivityThinking"),
             },
             {
               label: "Attention default",
               status: "match",
               source: <LegacyAttentionDot />,
-              brutal: <Status variant="accent" />,
-              elegant: <Status variant="accent" />,
-              elegantDark: <Status variant="accent" />,
+              brutal: <StatusCurrent.AttentionDefault />,
+              elegant: <StatusCurrent.AttentionDefault />,
+              elegantDark: <StatusCurrent.AttentionDefault />,
+              ...statusComposition("AttentionDefault"),
             },
             {
               label: "Attention compact",
               status: "match",
               source: <LegacyAttentionDot size="sm" />,
-              brutal: <Status variant="accent" size="xs" />,
-              elegant: <Status variant="accent" size="xs" />,
-              elegantDark: <Status variant="accent" size="xs" />,
+              brutal: <StatusCurrent.AttentionCompact />,
+              elegant: <StatusCurrent.AttentionCompact />,
+              elegantDark: <StatusCurrent.AttentionCompact />,
+              ...statusComposition("AttentionCompact"),
             },
             {
               label: "Warning",
               status: "match",
               source: <LegacyAttentionDot tone="bg-brutal-orange" />,
-              brutal: <Status variant="warning" />,
-              elegant: <Status variant="warning" />,
-              elegantDark: <Status variant="warning" />,
+              brutal: <StatusCurrent.Warning />,
+              elegant: <StatusCurrent.Warning />,
+              elegantDark: <StatusCurrent.Warning />,
+              ...statusComposition("Warning"),
             },
           ]}
         />

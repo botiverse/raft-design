@@ -26,6 +26,18 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import bannerIconTitleCompositionSource from "#/compositions/banner/icon-title-composition.tsx?raw";
+import bannerIconlessWarningCompositionSource from "#/compositions/banner/iconless-warning-composition.tsx?raw";
+import bannerLargeActionsCompositionSource from "#/compositions/banner/large-actions-composition.tsx?raw";
+import {
+  BANNER_SOURCE_COMPARISON_COMPOSITION,
+  BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/banner-source-comparison.tsx";
 import LegacyBanner from "../../../../../packages/ui/src/legacy/Banner.tsx";
 
 const TOC = [
@@ -49,6 +61,24 @@ const STATUS_ICON = {
   info: IconCircleInfoFill18,
   success: IconCircleCheckFill18,
 } as const;
+
+const BannerCurrent = BANNER_SOURCE_COMPARISON_COMPOSITION;
+
+const BANNER_COMPOSITION_RAW_SOURCES = {
+  IconTitle: bannerIconTitleCompositionSource,
+  IconlessWarning: bannerIconlessWarningCompositionSource,
+  LargeActions: bannerLargeActionsCompositionSource,
+} as const;
+
+const BANNER_COMPOSITION_SOURCES = createCompositionSourceMap(BANNER_COMPOSITION_RAW_SOURCES);
+
+const BANNER_COMPOSITION_SNIPPET_IDS = {
+  IconTitle: "bannerIconTitleComposition",
+  IconlessWarning: "bannerIconlessWarningComposition",
+  LargeActions: "bannerLargeActionsComposition",
+} as const;
+
+type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 
 const SNIPPETS = {
   anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@slock/ui";
@@ -226,11 +256,25 @@ function DismissIconButton() {
 
 export const Route = createFileRoute("/components/banner")({
   component: BannerDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(BANNER_COMPOSITION_SOURCES, BANNER_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function BannerDoc() {
   const code = Route.useLoaderData();
+  const bannerComposition = (key: BannerCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: BANNER_COMPOSITION_SNIPPET_IDS,
+      sources: BANNER_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -437,21 +481,10 @@ function BannerDoc() {
               source: (
                 <LegacyBanner intent="warning">Please fix the highlighted fields.</LegacyBanner>
               ),
-              brutal: (
-                <Banner status="warning" className="w-fit max-w-full">
-                  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
-                </Banner>
-              ),
-              elegant: (
-                <Banner status="warning" className="w-fit max-w-full">
-                  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
-                </Banner>
-              ),
-              elegantDark: (
-                <Banner status="warning" className="w-fit max-w-full">
-                  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
-                </Banner>
-              ),
+              brutal: <BannerCurrent.IconlessWarning />,
+              elegant: <BannerCurrent.IconlessWarning />,
+              elegantDark: <BannerCurrent.IconlessWarning />,
+              ...bannerComposition("IconlessWarning"),
             },
             {
               label: "Icon + title",
@@ -462,27 +495,10 @@ function BannerDoc() {
                   This can&rsquo;t be undone.
                 </LegacyBanner>
               ),
-              brutal: (
-                <Banner status="destructive" className="w-fit max-w-full">
-                  <IconCircleXmarkFill18 />
-                  <BannerTitle>Delete server</BannerTitle>
-                  <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
-                </Banner>
-              ),
-              elegant: (
-                <Banner status="destructive" className="w-fit max-w-full">
-                  <IconCircleXmarkFill18 />
-                  <BannerTitle>Delete server</BannerTitle>
-                  <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
-                </Banner>
-              ),
-              elegantDark: (
-                <Banner status="destructive" className="w-fit max-w-full">
-                  <IconCircleXmarkFill18 />
-                  <BannerTitle>Delete server</BannerTitle>
-                  <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
-                </Banner>
-              ),
+              brutal: <BannerCurrent.IconTitle />,
+              elegant: <BannerCurrent.IconTitle />,
+              elegantDark: <BannerCurrent.IconTitle />,
+              ...bannerComposition("IconTitle"),
             },
             {
               label: "Large + actions",
@@ -493,39 +509,10 @@ function BannerDoc() {
                   You&rsquo;re on the free plan.
                 </LegacyBanner>
               ),
-              brutal: (
-                <Banner status="info" size="lg" className="w-fit max-w-full">
-                  <IconCircleInfoFill18 />
-                  <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
-                  <BannerAction>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-              ),
-              elegant: (
-                <Banner status="info" size="lg" className="w-fit max-w-full">
-                  <IconCircleInfoFill18 />
-                  <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
-                  <BannerAction>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-              ),
-              elegantDark: (
-                <Banner status="info" size="lg" className="w-fit max-w-full">
-                  <IconCircleInfoFill18 />
-                  <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
-                  <BannerAction>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-              ),
+              brutal: <BannerCurrent.LargeActions />,
+              elegant: <BannerCurrent.LargeActions />,
+              elegantDark: <BannerCurrent.LargeActions />,
+              ...bannerComposition("LargeActions"),
             },
           ]}
         />

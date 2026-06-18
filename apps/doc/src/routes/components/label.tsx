@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Input, Label } from "@slock/ui";
+import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "@slock/ui";
 import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
@@ -11,6 +11,19 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import labelInlineFormLabelCompositionSource from "#/compositions/label/inline-form-label-composition.tsx?raw";
+import labelOptionalMarkerCompositionSource from "#/compositions/label/optional-marker-composition.tsx?raw";
+import labelRequiredMarkerCompositionSource from "#/compositions/label/required-marker-composition.tsx?raw";
+import labelSecondaryTextCompositionSource from "#/compositions/label/secondary-text-composition.tsx?raw";
+import {
+  LABEL_SOURCE_COMPARISON_COMPOSITION,
+  LABEL_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/label-source-comparison.tsx";
 import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
@@ -26,20 +39,25 @@ const SNIPPETS = {
   preview: `import { Label } from "@slock/ui";
 
 <Label htmlFor="email">Email address</Label>`,
-  anatomy: `import { Label } from "@slock/ui";
+  anatomy: `import { Label, LabelAsterisk } from "@slock/ui";
 
 <Label htmlFor="email">
   Email address
-  <Label.Asterisk />
+  <LabelAsterisk />
 </Label>`,
   markers: `<Label htmlFor="email">
   Email address
-  <Label.Asterisk />
+  <LabelAsterisk />
 </Label>
 
 <Label htmlFor="middle-name">
   Middle name
-  <Label.Sub>(optional)</Label.Sub>
+  <LabelOptional />
+</Label>
+
+<Label htmlFor="project-visibility">
+  Project URL
+  <LabelSub>public</LabelSub>
 </Label>
 
 <Label htmlFor="project-url">
@@ -50,7 +68,7 @@ const SNIPPETS = {
 
 <Label htmlFor="email" disabled>
   Email address
-  <Label.Asterisk />
+  <LabelAsterisk />
 </Label>`,
   migrationInline: `// Source
 <label className="mb-1 block text-sm font-bold text-black" htmlFor="email">
@@ -67,7 +85,7 @@ const SNIPPETS = {
 // Current
 <Label htmlFor="email">
   Email
-  <Label.Asterisk />
+  <LabelAsterisk />
 </Label>
 <Input id="email" />`,
 } as const;
@@ -76,7 +94,8 @@ const LABEL_PROPS: readonly PropRow[] = [
   {
     name: "children",
     type: "ReactNode",
-    description: "Visible label content. Compose Label.Asterisk or Label.Sub inside it.",
+    description:
+      "Visible label content. Compose LabelAsterisk, LabelOptional, or LabelSub inside it.",
   },
   {
     name: "htmlFor",
@@ -112,8 +131,9 @@ const MARKER_PROPS: readonly PropRow[] = [
   {
     name: "children",
     type: "ReactNode",
-    default: '"*" for Label.Asterisk',
-    description: "Marker content. Label.Sub requires explicit children such as (optional).",
+    default: '"*" for LabelAsterisk',
+    description:
+      "Marker content. LabelOptional defaults to (optional). LabelSub accepts custom secondary text.",
   },
   {
     name: "...props",
@@ -122,13 +142,47 @@ const MARKER_PROPS: readonly PropRow[] = [
   },
 ];
 
+const LabelCurrent = LABEL_SOURCE_COMPARISON_COMPOSITION;
+
+const LABEL_COMPOSITION_RAW_SOURCES = {
+  InlineFormLabel: labelInlineFormLabelCompositionSource,
+  OptionalMarker: labelOptionalMarkerCompositionSource,
+  RequiredMarker: labelRequiredMarkerCompositionSource,
+  SecondaryText: labelSecondaryTextCompositionSource,
+} as const;
+
+const LABEL_COMPOSITION_SOURCES = createCompositionSourceMap(LABEL_COMPOSITION_RAW_SOURCES);
+
+const LABEL_COMPOSITION_SNIPPET_IDS = {
+  InlineFormLabel: "labelInlineFormLabelComposition",
+  OptionalMarker: "labelOptionalMarkerComposition",
+  RequiredMarker: "labelRequiredMarkerComposition",
+  SecondaryText: "labelSecondaryTextComposition",
+} as const;
+
+type LabelCompositionKey = keyof typeof LABEL_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/label")({
   component: LabelDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(LABEL_COMPOSITION_SOURCES, LABEL_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function LabelDoc() {
   const code = Route.useLoaderData();
+  const labelComposition = (key: LabelCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: LABEL_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: LABEL_COMPOSITION_SNIPPET_IDS,
+      sources: LABEL_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -168,18 +222,22 @@ function LabelDoc() {
       <DocSection id="markers" title="Markers">
         <div className="space-y-4">
           <DocNote>
-            Prefer explicit composition over boolean label props. Use Label.Asterisk for required
-            fields and Label.Sub for secondary text such as optional.
+            Prefer explicit composition over boolean label props. Use LabelAsterisk for required
+            fields, LabelOptional for optional markers, and LabelSub for custom secondary copy.
           </DocNote>
           <Example html={code.markers}>
             <div className="grid w-80 gap-4">
               <Label htmlFor="label-required-email">
                 Email address
-                <Label.Asterisk />
+                <LabelAsterisk />
               </Label>
               <Label htmlFor="label-optional-middle-name">
                 Middle name
-                <Label.Sub>(optional)</Label.Sub>
+                <LabelOptional />
+              </Label>
+              <Label htmlFor="label-secondary-project-url">
+                Project URL
+                <LabelSub>public</LabelSub>
               </Label>
               <Label htmlFor="label-project-url">
                 Project URL
@@ -201,7 +259,7 @@ function LabelDoc() {
               <Label htmlFor="label-state-email">Email address</Label>
               <Label htmlFor="label-state-disabled-email" disabled>
                 Email address
-                <Label.Asterisk />
+                <LabelAsterisk />
               </Label>
             </div>
           </Example>
@@ -215,7 +273,9 @@ function LabelDoc() {
             <PropsTable rows={LABEL_PROPS} />
           </div>
           <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Label.Asterisk / Label.Sub</h3>
+            <h3 className="mb-2 text-sm font-semibold text-gray-900">
+              LabelAsterisk / LabelOptional / LabelSub
+            </h3>
             <PropsTable rows={MARKER_PROPS} />
           </div>
         </div>
@@ -236,9 +296,10 @@ function LabelDoc() {
                   Email
                 </label>
               ),
-              brutal: <Label htmlFor="brutal-inline-email">Email</Label>,
-              elegant: <Label htmlFor="elegant-inline-email">Email</Label>,
-              elegantDark: <Label htmlFor="dark-inline-email">Email</Label>,
+              brutal: <LabelCurrent.InlineFormLabel />,
+              elegant: <LabelCurrent.InlineFormLabel />,
+              elegantDark: <LabelCurrent.InlineFormLabel />,
+              ...labelComposition("InlineFormLabel"),
             },
             {
               label: "Required marker",
@@ -249,52 +310,42 @@ function LabelDoc() {
                   <input id="source-required-email" className="input-brutal w-64" />
                 </LegacyFormField>
               ),
-              brutal: (
-                <Label htmlFor="brutal-required-email">
-                  Email
-                  <Label.Asterisk />
-                </Label>
-              ),
-              elegant: (
-                <Label htmlFor="elegant-required-email">
-                  Email
-                  <Label.Asterisk />
-                </Label>
-              ),
-              elegantDark: (
-                <Label htmlFor="dark-required-email">
-                  Email
-                  <Label.Asterisk />
-                </Label>
-              ),
+              brutal: <LabelCurrent.RequiredMarker />,
+              elegant: <LabelCurrent.RequiredMarker />,
+              elegantDark: <LabelCurrent.RequiredMarker />,
+              ...labelComposition("RequiredMarker"),
             },
             {
               label: "Optional marker",
               status: "difference",
-              note: "Source exposed optional as a FormField prop. Current uses Label.Sub so secondary label copy stays explicit.",
+              note: "Source exposed optional as a FormField prop. Current uses LabelOptional so optional markers stay explicit without repeating copy.",
               source: (
                 <LegacyFormField label="Middle name" htmlFor="source-optional-name" optional>
                   <input id="source-optional-name" className="input-brutal w-64" />
                 </LegacyFormField>
               ),
-              brutal: (
-                <Label htmlFor="brutal-optional-name">
-                  Middle name
-                  <Label.Sub>(optional)</Label.Sub>
-                </Label>
+              brutal: <LabelCurrent.OptionalMarker />,
+              elegant: <LabelCurrent.OptionalMarker />,
+              elegantDark: <LabelCurrent.OptionalMarker />,
+              ...labelComposition("OptionalMarker"),
+            },
+            {
+              label: "Secondary text",
+              status: "match",
+              note: "Source used a manual muted span beside the label. Current keeps that custom secondary copy in LabelSub.",
+              source: (
+                <label
+                  className="mb-1 block text-sm font-bold text-black"
+                  htmlFor="source-secondary-project"
+                >
+                  Project URL
+                  <span className="ml-1 text-black/40 normal-case">public</span>
+                </label>
               ),
-              elegant: (
-                <Label htmlFor="elegant-optional-name">
-                  Middle name
-                  <Label.Sub>(optional)</Label.Sub>
-                </Label>
-              ),
-              elegantDark: (
-                <Label htmlFor="dark-optional-name">
-                  Middle name
-                  <Label.Sub>(optional)</Label.Sub>
-                </Label>
-              ),
+              brutal: <LabelCurrent.SecondaryText />,
+              elegant: <LabelCurrent.SecondaryText />,
+              elegantDark: <LabelCurrent.SecondaryText />,
+              ...labelComposition("SecondaryText"),
             },
           ]}
         />

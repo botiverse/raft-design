@@ -31,6 +31,19 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import tabsReorderableDefaultCompositionSource from "#/compositions/tabs/reorderable-default-composition.tsx?raw";
+import tabsReorderableDefaultBackgroundCompositionSource from "#/compositions/tabs/reorderable-default-background-composition.tsx?raw";
+import tabsReorderableUnderlineCompositionSource from "#/compositions/tabs/reorderable-underline-composition.tsx?raw";
+import tabsReorderableUnderlineBackgroundCompositionSource from "#/compositions/tabs/reorderable-underline-background-composition.tsx?raw";
+import {
+  TABS_SOURCE_COMPARISON_COMPOSITION,
+  TABS_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/tabs-source-comparison.tsx";
 import LegacyReorderablePanelTabs, {
   type PanelTabItem,
 } from "../../../../../packages/ui/src/legacy/ReorderablePanelTabs.tsx";
@@ -379,9 +392,35 @@ type PlaygroundValues = {
   icons: boolean;
 };
 
+const TabsCurrent = TABS_SOURCE_COMPARISON_COMPOSITION;
+
+const TABS_COMPOSITION_RAW_SOURCES = {
+  ReorderableDefault: tabsReorderableDefaultCompositionSource,
+  ReorderableDefaultBackground: tabsReorderableDefaultBackgroundCompositionSource,
+  ReorderableUnderline: tabsReorderableUnderlineCompositionSource,
+  ReorderableUnderlineBackground: tabsReorderableUnderlineBackgroundCompositionSource,
+} as const;
+
+const TABS_COMPOSITION_SOURCES = createCompositionSourceMap(TABS_COMPOSITION_RAW_SOURCES);
+
+const TABS_COMPOSITION_SNIPPET_IDS = {
+  ReorderableDefault: "tabsReorderableDefaultComposition",
+  ReorderableDefaultBackground: "tabsReorderableDefaultBackgroundComposition",
+  ReorderableUnderline: "tabsReorderableUnderlineComposition",
+  ReorderableUnderlineBackground: "tabsReorderableUnderlineBackgroundComposition",
+} as const;
+
+type TabsCompositionKey = keyof typeof TABS_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/tabs")({
   component: TabsDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(TABS_COMPOSITION_SOURCES, TABS_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 type TabId = "chat" | "files" | "members" | "alerts";
@@ -424,6 +463,14 @@ function TabsDoc() {
   const [sourceOrder, setSourceOrder] = useState<TabId[]>(["chat", "files", "members", "alerts"]);
   const [sourceActive, setSourceActive] = useState<TabId>("chat");
   const sourceTabs = useOrderedTabs(SOURCE_TABS, sourceOrder);
+  const tabsComposition = (key: TabsCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: TABS_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: TABS_COMPOSITION_SNIPPET_IDS,
+      sources: TABS_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -646,33 +693,37 @@ function TabsDoc() {
                   onReorderTabs={setSourceOrder}
                 />
               ),
-              brutal: <ReorderableTabsDemo background />,
-              elegant: <ReorderableTabsDemo background />,
-              elegantDark: <ReorderableTabsDemo background />,
+              brutal: <TabsCurrent.ReorderableDefaultBackground />,
+              elegant: <TabsCurrent.ReorderableDefaultBackground />,
+              elegantDark: <TabsCurrent.ReorderableDefaultBackground />,
+              ...tabsComposition("ReorderableDefaultBackground"),
             },
             {
               label: "Reorderable default",
               status: "new",
               source: <MissingSource />,
-              brutal: <ReorderableTabsDemo />,
-              elegant: <ReorderableTabsDemo />,
-              elegantDark: <ReorderableTabsDemo />,
+              brutal: <TabsCurrent.ReorderableDefault />,
+              elegant: <TabsCurrent.ReorderableDefault />,
+              elegantDark: <TabsCurrent.ReorderableDefault />,
+              ...tabsComposition("ReorderableDefault"),
             },
             {
               label: "Reorderable underline background",
               status: "new",
               source: <MissingSource />,
-              brutal: <ReorderableTabsDemo background variant="underline" />,
-              elegant: <ReorderableTabsDemo background variant="underline" />,
-              elegantDark: <ReorderableTabsDemo background variant="underline" />,
+              brutal: <TabsCurrent.ReorderableUnderlineBackground />,
+              elegant: <TabsCurrent.ReorderableUnderlineBackground />,
+              elegantDark: <TabsCurrent.ReorderableUnderlineBackground />,
+              ...tabsComposition("ReorderableUnderlineBackground"),
             },
             {
               label: "Reorderable underline",
               status: "new",
               source: <MissingSource />,
-              brutal: <ReorderableTabsDemo variant="underline" />,
-              elegant: <ReorderableTabsDemo variant="underline" />,
-              elegantDark: <ReorderableTabsDemo variant="underline" />,
+              brutal: <TabsCurrent.ReorderableUnderline />,
+              elegant: <TabsCurrent.ReorderableUnderline />,
+              elegantDark: <TabsCurrent.ReorderableUnderline />,
+              ...tabsComposition("ReorderableUnderline"),
             },
           ]}
         />

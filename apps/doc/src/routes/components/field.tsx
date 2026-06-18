@@ -27,6 +27,18 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import fieldCompactLabelCompositionSource from "#/compositions/field/compact-label-composition.tsx?raw";
+import fieldErrorCompositionSource from "#/compositions/field/error-composition.tsx?raw";
+import fieldLabelControlHelperCompositionSource from "#/compositions/field/label-control-helper-composition.tsx?raw";
+import {
+  FIELD_SOURCE_COMPARISON_COMPOSITION,
+  FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "#/compositions/field-source-comparison.tsx";
 import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
@@ -241,13 +253,45 @@ const FIELD_PROPS: readonly PropRow[] = [
   },
 ];
 
+const FieldCurrent = FIELD_SOURCE_COMPARISON_COMPOSITION;
+
+const FIELD_COMPOSITION_RAW_SOURCES = {
+  CompactLabel: fieldCompactLabelCompositionSource,
+  Error: fieldErrorCompositionSource,
+  LabelControlHelper: fieldLabelControlHelperCompositionSource,
+} as const;
+
+const FIELD_COMPOSITION_SOURCES = createCompositionSourceMap(FIELD_COMPOSITION_RAW_SOURCES);
+
+const FIELD_COMPOSITION_SNIPPET_IDS = {
+  CompactLabel: "fieldCompactLabelComposition",
+  Error: "fieldErrorComposition",
+  LabelControlHelper: "fieldLabelControlHelperComposition",
+} as const;
+
+type FieldCompositionKey = keyof typeof FIELD_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/field")({
   component: FieldDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(FIELD_COMPOSITION_SOURCES, FIELD_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function FieldDoc() {
   const code = Route.useLoaderData();
+  const fieldComposition = (key: FieldCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: FIELD_COMPOSITION_SNIPPET_IDS,
+      sources: FIELD_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
@@ -452,9 +496,10 @@ function FieldDoc() {
                   <input id="source-field-email" aria-label="Email" className="input-brutal w-72" />
                 </LegacyFormField>
               ),
-              brutal: <ComparisonField id="brutal-field-email" required />,
-              elegant: <ComparisonField id="elegant-field-email" required />,
-              elegantDark: <ComparisonField id="dark-field-email" required />,
+              brutal: <FieldCurrent.LabelControlHelper />,
+              elegant: <FieldCurrent.LabelControlHelper />,
+              elegantDark: <FieldCurrent.LabelControlHelper />,
+              ...fieldComposition("LabelControlHelper"),
             },
             {
               label: "Error",
@@ -474,9 +519,10 @@ function FieldDoc() {
                   />
                 </LegacyFormField>
               ),
-              brutal: <ComparisonField id="brutal-field-error-email" invalid />,
-              elegant: <ComparisonField id="elegant-field-error-email" invalid />,
-              elegantDark: <ComparisonField id="dark-field-error-email" invalid />,
+              brutal: <FieldCurrent.Error />,
+              elegant: <FieldCurrent.Error />,
+              elegantDark: <FieldCurrent.Error />,
+              ...fieldComposition("Error"),
             },
             {
               label: "Compact label",
@@ -491,49 +537,14 @@ function FieldDoc() {
                   />
                 </LegacyFormField>
               ),
-              brutal: <ComparisonField id="brutal-display-name" label="Display name" size="sm" />,
-              elegant: <ComparisonField id="elegant-display-name" label="Display name" size="sm" />,
-              elegantDark: (
-                <ComparisonField id="dark-display-name" label="Display name" size="sm" />
-              ),
+              brutal: <FieldCurrent.CompactLabel />,
+              elegant: <FieldCurrent.CompactLabel />,
+              elegantDark: <FieldCurrent.CompactLabel />,
+              ...fieldComposition("CompactLabel"),
             },
           ]}
         />
       </DocSection>
     </DocPage>
-  );
-}
-
-function ComparisonField({
-  id,
-  label = "Email",
-  required,
-  invalid,
-  size,
-}: {
-  id: string;
-  label?: string;
-  required?: boolean;
-  invalid?: boolean;
-  size?: "sm" | "md";
-}) {
-  return (
-    <Field className="w-72" invalid={invalid}>
-      <FieldLabel htmlFor={id} required={required || undefined} size={size}>
-        {label}
-      </FieldLabel>
-      <Input
-        id={id}
-        type="email"
-        aria-invalid={invalid || undefined}
-        defaultValue={invalid ? "oops" : undefined}
-        placeholder="you@example.com"
-      />
-      {invalid ? (
-        <FieldError match>Email is required.</FieldError>
-      ) : (
-        <FieldDescription>Use your work email.</FieldDescription>
-      )}
-    </Field>
   );
 }

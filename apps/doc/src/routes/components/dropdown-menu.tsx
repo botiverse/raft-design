@@ -41,6 +41,7 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
 import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
 import {
   MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
@@ -91,6 +92,13 @@ const TOC = [
 ] as const;
 
 const TODOS = ["Add group part when a source callsite needs it"] as const;
+
+const DROPDOWN_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
+  messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
+  selectOptionsListComposition: selectOptionsListCompositionSource,
+  serverSwitcherComposition: serverSwitcherMenuCompositionSource,
+  sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
+} as const);
 
 type PlaygroundValues = {
   open: boolean;
@@ -599,10 +607,7 @@ export const Route = createFileRoute("/components/dropdown-menu")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
-        selectOptionsListComposition: selectOptionsListCompositionSource,
-        serverSwitcherComposition: serverSwitcherMenuCompositionSource,
-        sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
+        ...DROPDOWN_MENU_COMPOSITION_SOURCES,
       },
     }),
 });
@@ -754,7 +759,7 @@ function DropdownMenuDoc() {
               compositionCode: code.serverSwitcherComposition,
               compositionCollapsedCode: code.serverSwitcherCompositionBody,
               compositionPath: SERVER_SWITCHER_MENU_COMPOSITION_PATH,
-              compositionSource: serverSwitcherMenuCompositionSource,
+              compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.serverSwitcherComposition,
               compositionShowLineNumbers: false,
             },
             {
@@ -777,7 +782,8 @@ function DropdownMenuDoc() {
               compositionCode: code.messageSearchTimeFilterComposition,
               compositionCollapsedCode: code.messageSearchTimeFilterCompositionBody,
               compositionPath: MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
-              compositionSource: messageSearchTimeFilterCompositionSource,
+              compositionSource:
+                DROPDOWN_MENU_COMPOSITION_SOURCES.messageSearchTimeFilterComposition,
               compositionShowLineNumbers: false,
             },
             {
@@ -798,7 +804,7 @@ function DropdownMenuDoc() {
               compositionCode: code.sidebarSortMenuComposition,
               compositionCollapsedCode: code.sidebarSortMenuCompositionBody,
               compositionPath: SIDEBAR_SORT_MENU_COMPOSITION_PATH,
-              compositionSource: sidebarSortMenuCompositionSource,
+              compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.sidebarSortMenuComposition,
               compositionShowLineNumbers: false,
             },
             {
@@ -819,7 +825,7 @@ function DropdownMenuDoc() {
               compositionCode: code.selectOptionsListComposition,
               compositionCollapsedCode: code.selectOptionsListCompositionBody,
               compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
-              compositionSource: selectOptionsListCompositionSource,
+              compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.selectOptionsListComposition,
               compositionShowLineNumbers: false,
             },
           ]}

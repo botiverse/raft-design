@@ -1,15 +1,17 @@
 import {
-  DropdownMenu,
   DropdownMenuLabel,
   DropdownMenuPopup,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuTrigger,
 } from "@slock/ui";
+
+// @docs-source-strip-start
+import { DropdownMenu, DropdownMenuTrigger } from "@slock/ui";
 import { useId } from "react";
 import { cn } from "tailwind-variants";
+// @docs-source-strip-end
 
-function MessageSearchTimeFilterPopup() {
+export function MessageSearchTimeFilterContent() {
   return (
     <DropdownMenuPopup className="flex w-[220px] min-w-[220px] flex-col">
       <DropdownMenuLabel>Time</DropdownMenuLabel>
@@ -22,6 +24,7 @@ function MessageSearchTimeFilterPopup() {
   );
 }
 
+// @docs-source-strip-start
 export function MessageSearchTimeFilterComposition({ className }: { className?: string }) {
   const triggerId = useId();
 
@@ -30,8 +33,9 @@ export function MessageSearchTimeFilterComposition({ className }: { className?: 
     <div className={cn("flex h-full min-h-56 w-full items-center justify-center", className)}>
       <DropdownMenu open modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId} render={<span aria-hidden className="sr-only" />} />
-        <MessageSearchTimeFilterPopup />
+        <MessageSearchTimeFilterContent />
       </DropdownMenu>
     </div>
   );
 }
+// @docs-source-strip-end

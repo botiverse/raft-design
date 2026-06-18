@@ -167,7 +167,7 @@ function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
 
 export function SourceComparison({ items, layout = "auto", previewSize }: SourceComparisonProps) {
   return (
-    <div data-source-comparison className="space-y-12">
+    <div data-source-comparison className="space-y-16">
       {items.map((item) => {
         const status = item.status ?? "review";
         const StatusIcon = STATUS_ICON[status];
@@ -189,7 +189,7 @@ export function SourceComparison({ items, layout = "auto", previewSize }: Source
             id={item.id}
             data-source-comparison-item={item.label}
             data-source-comparison-status={status}
-            className={`space-y-6${item.id ? " scroll-mt-8" : ""}`}
+            className={`space-y-5${item.id ? " scroll-mt-8" : ""}`}
           >
             <div className="flex flex-wrap items-center gap-2 px-1">
               <h3 className="text-sm font-medium text-foreground-strong">{item.label}</h3>
@@ -204,40 +204,42 @@ export function SourceComparison({ items, layout = "auto", previewSize }: Source
               ) : null}
             </div>
             <div className="space-y-2">
-              {isGridLayout ? null : (
-                <div
-                  className={`ml-2 grid gap-y-2 px-1 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase ${columnClass}`}
-                >
+              <div className="space-y-2">
+                {isGridLayout ? null : (
+                  <div
+                    className={`ml-2 grid gap-y-2 px-1 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase ${columnClass}`}
+                  >
+                    {panes.map((pane) => (
+                      <div key={pane.label}>{pane.label}</div>
+                    ))}
+                  </div>
+                )}
+                <div className={previewFrameClass}>
                   {panes.map((pane) => (
-                    <div key={pane.label}>{pane.label}</div>
+                    <ComparisonPreview
+                      key={pane.label}
+                      label={pane.label}
+                      code={pane.code}
+                      family={pane.family}
+                      mode={pane.mode}
+                      labelPlacement={isGridLayout ? "corner" : "header"}
+                      previewSize={previewSize ?? (isGridLayout ? "tall" : "default")}
+                    >
+                      {pane.children}
+                    </ComparisonPreview>
                   ))}
                 </div>
-              )}
-              <div className={previewFrameClass}>
-                {panes.map((pane) => (
-                  <ComparisonPreview
-                    key={pane.label}
-                    label={pane.label}
-                    code={pane.code}
-                    family={pane.family}
-                    mode={pane.mode}
-                    labelPlacement={isGridLayout ? "corner" : "header"}
-                    previewSize={previewSize ?? (isGridLayout ? "tall" : "default")}
-                  >
-                    {pane.children}
-                  </ComparisonPreview>
-                ))}
               </div>
+              {item.compositionCode && item.compositionPath && item.compositionSource ? (
+                <DocsCodeBlock.Panel
+                  path={item.compositionPath}
+                  source={item.compositionSource}
+                  html={item.compositionCode}
+                  collapsedHtml={item.compositionCollapsedCode}
+                  showLineNumbers={item.compositionShowLineNumbers ?? false}
+                />
+              ) : null}
             </div>
-            {item.compositionCode && item.compositionPath && item.compositionSource ? (
-              <DocsCodeBlock.Panel
-                path={item.compositionPath}
-                source={item.compositionSource}
-                html={item.compositionCode}
-                collapsedHtml={item.compositionCollapsedCode}
-                showLineNumbers={item.compositionShowLineNumbers ?? false}
-              />
-            ) : null}
           </section>
         );
       })}

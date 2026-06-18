@@ -1,6 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { tv, type VariantProps } from "tailwind-variants";
-import { LabelAsterisk, LabelSub } from "../label/label.tsx";
+import { LabelAsterisk, LabelOptional } from "../label/label.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
@@ -78,7 +78,7 @@ export function FieldLabel({
     <BaseField.Label data-slot="field-label" className={label({ className })} {...props}>
       {children}
       {required ? <LabelAsterisk className="ml-1" /> : null}
-      {optional ? <LabelSub className="ml-1">(optional)</LabelSub> : null}
+      {optional ? <LabelOptional className="ml-1" /> : null}
     </BaseField.Label>
   );
 }

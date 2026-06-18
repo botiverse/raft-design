@@ -82,7 +82,18 @@ export function LabelSub({ className, ...props }: LabelSubProps) {
   return <span data-slot="label-sub" className={sub({ className })} {...props} />;
 }
 
+export type LabelOptionalProps = LabelSubProps;
+
+export function LabelOptional({ children = "(optional)", ...props }: LabelOptionalProps) {
+  return (
+    <LabelSub data-slot="label-optional" {...props}>
+      {children}
+    </LabelSub>
+  );
+}
+
 export const Label = Object.assign(LabelRoot, {
   Asterisk: LabelAsterisk,
+  Optional: LabelOptional,
   Sub: LabelSub,
 });
