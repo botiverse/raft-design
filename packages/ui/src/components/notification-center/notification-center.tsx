@@ -1,60 +1,79 @@
-import { Button as BaseButton } from "@base-ui/react/button";
-import { Dialog } from "@base-ui/react/dialog";
+import { Popover as BasePopover } from "@base-ui/react/popover";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { EmptyState, type EmptyStateProps } from "../empty-state/empty-state.tsx";
+import { Button, type ButtonProps } from "../button/button.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const notificationCenter = tv({
   slots: {
     popup: ["flex flex-col overflow-hidden bg-layer-panel"],
-    header: ["flex items-center gap-2 border-b-2 border-line-strong px-3 py-2"],
-    title: ["text-xs font-bold uppercase tracking-widest"],
-    count: ["ml-auto font-mono text-xs text-foreground/40"],
+    header: ["flex items-center gap-2 px-4 py-2"],
+    title: ["text-xs"],
+    count: ["ml-auto text-xs"],
     scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],
-    list: ["divide-y-2 divide-line-strong"],
-    item: ["px-3 py-3"],
-    itemInner: ["flex items-start gap-2"],
-    itemIcon: [
-      "mt-0.5 flex size-6 shrink-0 items-center justify-center border-2 border-line-strong",
-      "[&_svg]:size-4 [&_svg]:text-foreground-strong",
-    ],
+    list: ["divide-y"],
+    item: ["px-4 py-4"],
+    itemRow: ["flex items-start"],
+    itemIcon: ["mt-0.5 flex size-6 shrink-0 items-center justify-center", "[&_svg]:size-4"],
     itemContent: ["min-w-0 flex-1"],
-    itemTitle: ["break-words text-sm font-bold text-foreground-strong"],
+    itemTitle: ["break-words text-sm text-foreground-strong"],
     itemBody: ["mt-0.5 break-words text-sm"],
-    itemActions: ["mt-2 flex flex-wrap items-center gap-2"],
-    actionButton: ["px-3 py-1.5 font-heading text-xs font-bold transition-all duration-100"],
+    itemActions: ["mt-3 ml-auto flex items-center justify-end gap-2"],
+    actionButton: [],
   },
   variants: {
     theme: {
       brutal: {
-        popup: ["border-2 border-line-strong shadow-md"],
-        header: ["bg-brutal-cream"],
-        title: ["text-foreground/60"],
-        actionButton: [
-          "border-2 border-line-strong shadow-md",
-          "hover:-translate-y-px hover:shadow-xl",
-          "active:translate-x-[2px] active:translate-y-[2px] active:shadow-2xs",
-          "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+        popup: [
+          "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],
+        header: ["border-b-2 border-line-strong bg-brutal-cream"],
+        title: ["font-bold uppercase tracking-widest text-foreground/60"],
+        count: ["font-mono text-foreground/40"],
+        list: ["divide-y-2 divide-line-strong"],
+        itemRow: ["gap-2"],
+        itemIcon: ["border-2 border-line-strong [&_svg]:text-foreground-strong"],
+        itemTitle: ["font-bold"],
+        actionButton: [],
       },
-      elegant: {},
+      elegant: {
+        popup: [
+          "rounded-md bg-layer-popover",
+          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
+        ],
+        header: ["border-b border-line-muted pt-2.5"],
+        title: ["text-sm font-medium normal-case tracking-normal text-foreground-strong"],
+        count: ["font-sans text-[11px] font-medium text-foreground-placeholder"],
+        list: ["divide-line-muted"],
+        itemRow: ["gap-2.5"],
+        itemIcon: ["rounded-sm border border-transparent"],
+        itemTitle: ["font-medium"],
+        itemBody: ["text-foreground-muted"],
+        actionButton: ["py-0.5"],
+      },
     },
     viewport: {
       desktop: {
-        popup: "w-80",
+        popup: "w-[380px]",
       },
       mobile: {
         popup: "w-[min(92vw,360px)]",
       },
     },
     size: {
-      sm: {},
-      md: {},
-      lg: {},
+      sm: {
+        popup: "h-56",
+      },
+      md: {
+        popup: "h-72",
+      },
+      lg: {
+        popup: "h-96",
+      },
     },
     read: {
       true: {
@@ -65,37 +84,46 @@ const notificationCenter = tv({
       },
     },
     status: {
-      error: {
-        itemIcon: "bg-warning-base",
-      },
-      warning: {
-        itemIcon: "bg-warning-base",
-      },
-      info: {
-        itemIcon: "bg-primary-400",
-      },
-      success: {
-        itemIcon: "bg-success-base",
-      },
+      error: {},
+      warning: {},
+      info: {},
+      success: {},
     },
     actionVariant: {
-      primary: {
-        actionButton: "",
-      },
-      secondary: {
-        actionButton: "",
-      },
+      primary: {},
+      secondary: {},
     },
   },
   compoundVariants: [
-    { viewport: "desktop", size: "sm", class: { popup: "h-56" } },
-    { viewport: "desktop", size: "md", class: { popup: "h-72" } },
-    { viewport: "desktop", size: "lg", class: { popup: "h-96" } },
-    { viewport: "mobile", size: "sm", class: { popup: "max-h-[min(64dvh,224px)]" } },
-    { viewport: "mobile", size: "md", class: { popup: "max-h-[min(72dvh,288px)]" } },
-    { viewport: "mobile", size: "lg", class: { popup: "max-h-[min(80dvh,384px)]" } },
-    { theme: "brutal", actionVariant: "primary", class: { actionButton: "bg-accent-400" } },
-    { theme: "brutal", actionVariant: "secondary", class: { actionButton: "bg-layer-panel" } },
+    {
+      theme: "brutal",
+      actionVariant: "primary",
+      class: { actionButton: "bg-brutal-pink hover:bg-brutal-pink" },
+    },
+    { theme: "brutal", status: "error", class: { itemIcon: "bg-brutal-orange" } },
+    { theme: "brutal", status: "warning", class: { itemIcon: "bg-brutal-orange" } },
+    { theme: "brutal", status: "info", class: { itemIcon: "bg-brutal-yellow" } },
+    { theme: "brutal", status: "success", class: { itemIcon: "bg-brutal-lime" } },
+    {
+      theme: "elegant",
+      status: "error",
+      class: { itemIcon: "bg-danger-base/80 text-danger-dark" },
+    },
+    {
+      theme: "elegant",
+      status: "warning",
+      class: { itemIcon: "bg-warning-base/80 text-warning-dark" },
+    },
+    {
+      theme: "elegant",
+      status: "info",
+      class: { itemIcon: "bg-info-base/80 text-info-dark" },
+    },
+    {
+      theme: "elegant",
+      status: "success",
+      class: { itemIcon: "bg-success-base/80 text-success-dark" },
+    },
   ],
   defaultVariants: {
     viewport: "desktop",
@@ -106,26 +134,39 @@ const notificationCenter = tv({
   },
 });
 
-export type NotificationCenterProps = Dialog.Root.Props;
+export type NotificationCenterProps = BasePopover.Root.Props;
 
 export function NotificationCenter({ modal = false, ...props }: NotificationCenterProps) {
-  return <Dialog.Root modal={modal} {...props} />;
+  return <BasePopover.Root modal={modal} {...props} />;
 }
 
-export type NotificationCenterTriggerProps = Dialog.Trigger.Props;
+export type NotificationCenterTriggerProps = BasePopover.Trigger.Props;
 
 export function NotificationCenterTrigger(props: NotificationCenterTriggerProps) {
-  return <Dialog.Trigger data-slot="notification-center-trigger" {...props} />;
+  return <BasePopover.Trigger data-slot="notification-center-trigger" {...props} />;
 }
 
-export type NotificationCenterPortalProps = Dialog.Portal.Props;
+export type NotificationCenterPortalProps = BasePopover.Portal.Props;
 
-export function NotificationCenterPortal(props: NotificationCenterPortalProps) {
-  return <Dialog.Portal data-slot="notification-center-portal" {...props} />;
-}
-
-export type NotificationCenterPopupProps = StyledProps<Dialog.Popup.Props> &
-  Pick<VariantProps<typeof notificationCenter>, "size" | "viewport">;
+export type NotificationCenterPopupProps = StyledProps<BasePopover.Popup.Props> &
+  Pick<VariantProps<typeof notificationCenter>, "size" | "viewport"> &
+  Pick<
+    BasePopover.Positioner.Props,
+    | "align"
+    | "alignOffset"
+    | "anchor"
+    | "arrowPadding"
+    | "collisionAvoidance"
+    | "collisionBoundary"
+    | "collisionPadding"
+    | "disableAnchorTracking"
+    | "positionMethod"
+    | "side"
+    | "sideOffset"
+    | "sticky"
+  > & {
+    portalProps?: NotificationCenterPortalProps;
+  };
 
 export function NotificationCenterPopup({
   viewport = "desktop",
@@ -133,21 +174,52 @@ export function NotificationCenterPopup({
   className,
   initialFocus = false,
   "aria-label": ariaLabel = "Notification center",
+  align = "center",
+  alignOffset = 0,
+  anchor,
+  arrowPadding,
+  collisionAvoidance,
+  collisionBoundary,
+  collisionPadding,
+  disableAnchorTracking = true,
+  positionMethod = "fixed",
+  side = "bottom",
+  sideOffset = 4,
+  sticky,
+  portalProps,
   ...props
 }: NotificationCenterPopupProps) {
   const theme = useTheme();
   const { popup } = notificationCenter({ theme, viewport, size });
 
   return (
-    <Dialog.Popup
-      aria-label={ariaLabel}
-      data-slot="notification-center-popup"
-      data-size={size}
-      data-viewport={viewport}
-      initialFocus={initialFocus}
-      className={popup({ className })}
-      {...props}
-    />
+    <BasePopover.Portal {...portalProps}>
+      <BasePopover.Positioner
+        align={align}
+        alignOffset={alignOffset}
+        anchor={anchor}
+        arrowPadding={arrowPadding}
+        collisionAvoidance={collisionAvoidance}
+        collisionBoundary={collisionBoundary}
+        collisionPadding={collisionPadding}
+        disableAnchorTracking={disableAnchorTracking}
+        positionMethod={positionMethod}
+        side={side}
+        sideOffset={sideOffset}
+        sticky={sticky}
+        className="isolate z-50 outline-none"
+      >
+        <BasePopover.Popup
+          aria-label={ariaLabel}
+          data-slot="notification-center-popup"
+          data-size={size}
+          data-viewport={viewport}
+          initialFocus={initialFocus}
+          className={popup({ className })}
+          {...props}
+        />
+      </BasePopover.Positioner>
+    </BasePopover.Portal>
   );
 }
 
@@ -158,7 +230,8 @@ export function NotificationCenterHeader({
   className,
   ...props
 }: NotificationCenterHeaderProps) {
-  const { header } = notificationCenter();
+  const theme = useTheme();
+  const { header } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -203,7 +276,8 @@ export function NotificationCenterCount({
   className,
   ...props
 }: NotificationCenterCountProps) {
-  const { count } = notificationCenter();
+  const theme = useTheme();
+  const { count } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: count({ className }),
   };
@@ -248,7 +322,8 @@ export function NotificationCenterList({
   "aria-label": ariaLabel = "Notifications",
   ...props
 }: NotificationCenterListProps) {
-  const { list } = notificationCenter();
+  const theme = useTheme();
+  const { list } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"ul"> = {
     "aria-label": ariaLabel,
     className: list({ className }),
@@ -273,7 +348,8 @@ export function NotificationCenterItem({
   className,
   ...props
 }: NotificationCenterItemProps) {
-  const { item } = notificationCenter({ read });
+  const theme = useTheme();
+  const { item } = notificationCenter({ theme, read });
   const defaultProps: useRender.ElementProps<"li"> = {
     className: item({ className }),
   };
@@ -289,16 +365,17 @@ export function NotificationCenterItem({
   });
 }
 
-export type NotificationCenterItemInnerProps = useRender.ComponentProps<"div">;
+export type NotificationCenterItemRowProps = useRender.ComponentProps<"div">;
 
-export function NotificationCenterItemInner({
+export function NotificationCenterItemRow({
   render,
   className,
   ...props
-}: NotificationCenterItemInnerProps) {
-  const { itemInner } = notificationCenter();
+}: NotificationCenterItemRowProps) {
+  const theme = useTheme();
+  const { itemRow } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: itemInner({ className }),
+    className: itemRow({ className }),
   };
 
   return useRender({
@@ -306,7 +383,7 @@ export function NotificationCenterItemInner({
     render,
     props: mergeProps<"div">(defaultProps, props),
     state: {
-      slot: "notification-center-item-inner",
+      slot: "notification-center-item-row",
     },
   });
 }
@@ -339,7 +416,8 @@ export function NotificationCenterItemIcon({
   "aria-label": ariaLabel = STATUS_LABEL[status],
   ...props
 }: NotificationCenterItemIconProps) {
-  const { itemIcon } = notificationCenter({ status });
+  const theme = useTheme();
+  const { itemIcon } = notificationCenter({ theme, status });
   const defaultProps: useRender.ElementProps<"div"> = {
     "aria-label": ariaLabel,
     className: itemIcon({ className }),
@@ -386,7 +464,8 @@ export function NotificationCenterItemTitle({
   className,
   ...props
 }: NotificationCenterItemTitleProps) {
-  const { itemTitle } = notificationCenter();
+  const theme = useTheme();
+  const { itemTitle } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemTitle({ className }),
   };
@@ -408,7 +487,8 @@ export function NotificationCenterItemBody({
   className,
   ...props
 }: NotificationCenterItemBodyProps) {
-  const { itemBody } = notificationCenter();
+  const theme = useTheme();
+  const { itemBody } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemBody({ className }),
   };
@@ -445,7 +525,10 @@ export function NotificationCenterItemActions({
   });
 }
 
-export type NotificationCenterActionButtonProps = Omit<BaseButton.Props, "className"> & {
+export type NotificationCenterActionButtonProps = Omit<
+  ButtonProps,
+  "className" | "size" | "variant"
+> & {
   className?: string;
   variant?: VariantProps<typeof notificationCenter>["actionVariant"];
 };
@@ -457,8 +540,17 @@ export function NotificationCenterActionButton({
 }: NotificationCenterActionButtonProps) {
   const theme = useTheme();
   const { actionButton } = notificationCenter({ theme, actionVariant: variant });
+  const buttonVariant = variant === "primary" ? "primary" : "outline";
 
-  return <BaseButton type="button" className={actionButton({ className })} {...props} />;
+  return (
+    <Button
+      type="button"
+      size="xs"
+      variant={buttonVariant}
+      className={actionButton({ className })}
+      {...props}
+    />
+  );
 }
 
 export type NotificationCenterEmptyStateProps = EmptyStateProps;

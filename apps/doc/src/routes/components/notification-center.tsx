@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { useId, useRef, type RefObject } from "react";
+import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import {
+  Button,
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  InlineCode,
   NotificationCenter,
   NotificationCenterActionButton,
   NotificationCenterCount,
@@ -15,16 +17,15 @@ import {
   NotificationCenterItemBody,
   NotificationCenterItemContent,
   NotificationCenterItemIcon,
-  NotificationCenterItemInner,
+  NotificationCenterItemRow,
   NotificationCenterItemTitle,
   NotificationCenterList,
   NotificationCenterPopup,
-  NotificationCenterPortal,
   NotificationCenterScroller,
   NotificationCenterTitle,
+  NotificationCenterTrigger,
 } from "@slock/ui";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -32,23 +33,31 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
+import { StatusBadge } from "#/components/status-badge.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import LegacyNotificationCenter, {
-  type NotificationCenterEntry as LegacyNotificationCenterEntry,
-} from "../../../../../packages/ui/src/legacy/NotificationCenter.tsx";
+import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
+import notificationCenterCompositionSource from "#/compositions/notification-center-composition.tsx?raw";
+import {
+  NOTIFICATION_CENTER_COMPOSITION_PATH,
+  NotificationCenterComposition,
+  NotificationCenterSourcePreview,
+} from "#/compositions/notification-center-source-comparison.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "empty", title: "Empty" },
-  { id: "data-mapping", title: "Data mapping" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
+  {
+    id: "source-comparison",
+    title: "Source comparison",
+    children: [{ id: "source-comparison-notification-trigger", title: "Notification trigger" }],
+  },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
+const NOTIFICATION_CENTER_COMPOSITION_SOURCES = createCompositionSourceMap({
+  notificationCenterComposition: notificationCenterCompositionSource,
+} as const);
 
 type DemoStatus = "error" | "warning" | "info" | "success";
 
@@ -70,182 +79,187 @@ type DemoEntry = {
 
 const ENTRIES: DemoEntry[] = [
   {
-    id: "1",
-    status: "success",
-    title: "Deploy succeeded",
-    body: "slock-ui shipped to production.",
+    id: "runtime-stalled",
+    status: "warning",
+    title: "Runtime stalled",
+    body: "Atlas has not reported activity for 15 minutes.",
     actions: [{ label: "View", variant: "primary" }, { label: "Dismiss" }],
   },
   {
-    id: "2",
+    id: "storage-full",
     status: "warning",
     title: "Storage almost full",
-    body: "92% of your quota is used.",
+    body: "92% of the workspace quota is used.",
+    actions: [{ label: "Manage" }],
+  },
+  {
+    id: "deploy-complete",
+    status: "success",
+    title: "Deploy completed",
+    body: "slock-ui shipped to production.",
+  },
+  {
+    id: "backup-finished",
+    status: "success",
+    title: "Backup finished",
+    body: "Nightly snapshot stored to cold storage.",
     read: true,
   },
-  { id: "3", status: "info", title: "New comment on #design" },
+  {
+    id: "token-expiring",
+    status: "warning",
+    title: "Token expiring",
+    body: "API key rotates in 3 days.",
+    read: true,
+  },
 ];
-
-const LEGACY_ENTRIES: LegacyNotificationCenterEntry[] = ENTRIES.map((entry) => ({
-  ...entry,
-  kind: entry.status,
-}));
 
 const SNIPPETS = {
   anatomy: `import {
   NotificationCenter,
+  NotificationCenterTrigger,
+  NotificationCenterPopup,
   NotificationCenterHeader,
   NotificationCenterTitle,
   NotificationCenterCount,
   NotificationCenterScroller,
   NotificationCenterList,
   NotificationCenterItem,
-  NotificationCenterItemInner,
+  NotificationCenterItemRow,
   NotificationCenterItemIcon,
   NotificationCenterItemContent,
   NotificationCenterItemTitle,
   NotificationCenterItemBody,
   NotificationCenterItemActions,
   NotificationCenterActionButton,
-  NotificationCenterPortal,
 } from "@slock/ui";
 
 <NotificationCenter modal={false}>
   <NotificationCenterTrigger render={<button type="button" />}>
     Notifications
   </NotificationCenterTrigger>
-  <NotificationCenterPortal>
-    <NotificationCenterPopup viewport="desktop">
-      <NotificationCenterHeader>
-        <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-        <NotificationCenterCount>3 items</NotificationCenterCount>
-      </NotificationCenterHeader>
-      <NotificationCenterScroller>
-        <NotificationCenterList>
-          <NotificationCenterItem>
-            <NotificationCenterItemInner>
-              <NotificationCenterItemIcon status="success" />
-              <NotificationCenterItemContent>
-                <NotificationCenterItemTitle>Deploy succeeded</NotificationCenterItemTitle>
-                <NotificationCenterItemBody>slock-ui shipped to production.</NotificationCenterItemBody>
-                <NotificationCenterItemActions>
-                  <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
-                  <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
-                </NotificationCenterItemActions>
-              </NotificationCenterItemContent>
-            </NotificationCenterItemInner>
-          </NotificationCenterItem>
-        </NotificationCenterList>
-      </NotificationCenterScroller>
-    </NotificationCenterPopup>
-  </NotificationCenterPortal>
+  <NotificationCenterPopup viewport="desktop" side="bottom" align="center">
+    <NotificationCenterHeader>
+      <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+      <NotificationCenterCount>3 items</NotificationCenterCount>
+    </NotificationCenterHeader>
+    <NotificationCenterScroller>
+      <NotificationCenterList>
+        <NotificationCenterItem>
+          <NotificationCenterItemRow>
+            <NotificationCenterItemIcon status="success" />
+            <NotificationCenterItemContent>
+              <NotificationCenterItemTitle>Deploy succeeded</NotificationCenterItemTitle>
+              <NotificationCenterItemBody>slock-ui shipped to production.</NotificationCenterItemBody>
+              <NotificationCenterItemActions>
+                <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
+                <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
+              </NotificationCenterItemActions>
+            </NotificationCenterItemContent>
+          </NotificationCenterItemRow>
+        </NotificationCenterItem>
+      </NotificationCenterList>
+    </NotificationCenterScroller>
+  </NotificationCenterPopup>
 </NotificationCenter>`,
-  preview: `<NotificationCenter defaultOpen>
-  <NotificationCenterPortal>
-    <NotificationCenterPopup viewport="desktop">
-      <NotificationCenterHeader>
-        <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-        <NotificationCenterCount>2 items</NotificationCenterCount>
-      </NotificationCenterHeader>
-      <NotificationCenterScroller>
-        <NotificationCenterList>
-          <NotificationCenterItem>
-            <NotificationCenterItemInner>
-              <NotificationCenterItemIcon status="success" />
-              <NotificationCenterItemContent>
-                <NotificationCenterItemTitle>Deploy succeeded</NotificationCenterItemTitle>
-                <NotificationCenterItemBody>slock-ui shipped to production.</NotificationCenterItemBody>
-                <NotificationCenterItemActions>
-                  <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
-                  <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
-                </NotificationCenterItemActions>
-              </NotificationCenterItemContent>
-            </NotificationCenterItemInner>
-          </NotificationCenterItem>
-          <NotificationCenterItem read>
-            <NotificationCenterItemInner>
-              <NotificationCenterItemIcon status="warning" />
-              <NotificationCenterItemContent>
-                <NotificationCenterItemTitle>Storage almost full</NotificationCenterItemTitle>
-                <NotificationCenterItemBody>92% of your quota is used.</NotificationCenterItemBody>
-              </NotificationCenterItemContent>
-            </NotificationCenterItemInner>
-          </NotificationCenterItem>
-        </NotificationCenterList>
-      </NotificationCenterScroller>
-    </NotificationCenterPopup>
-  </NotificationCenterPortal>
+  preview: `<NotificationCenter open modal={false} triggerId={triggerId}>
+  <NotificationCenterTrigger id={triggerId} render={<Button variant="outline" size="icon-md" />}>
+    <AlertTriangle aria-hidden size={18} />
+  </NotificationCenterTrigger>
+  <NotificationCenterPopup
+    viewport="desktop"
+    side="bottom"
+    align="center"
+  >
+    <NotificationCenterHeader>
+      <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+      <NotificationCenterCount>5 items</NotificationCenterCount>
+    </NotificationCenterHeader>
+    <NotificationCenterScroller>
+      <NotificationCenterList>
+        <NotificationCenterItem>
+          <NotificationCenterItemRow>
+            <NotificationCenterItemIcon status="warning" />
+            <NotificationCenterItemContent>
+              <NotificationCenterItemTitle>Runtime stalled</NotificationCenterItemTitle>
+              <NotificationCenterItemBody>
+                Atlas has not reported activity for 15 minutes.
+              </NotificationCenterItemBody>
+              <NotificationCenterItemActions>
+                <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
+                <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
+              </NotificationCenterItemActions>
+            </NotificationCenterItemContent>
+          </NotificationCenterItemRow>
+        </NotificationCenterItem>
+        <NotificationCenterItem>
+          <NotificationCenterItemRow>
+            <NotificationCenterItemIcon status="warning" />
+            <NotificationCenterItemContent>
+              <NotificationCenterItemTitle>Storage almost full</NotificationCenterItemTitle>
+              <NotificationCenterItemBody>
+                92% of the workspace quota is used.
+              </NotificationCenterItemBody>
+              <NotificationCenterItemActions>
+                <NotificationCenterActionButton>Manage</NotificationCenterActionButton>
+              </NotificationCenterItemActions>
+            </NotificationCenterItemContent>
+          </NotificationCenterItemRow>
+        </NotificationCenterItem>
+        <NotificationCenterItem>
+          <NotificationCenterItemRow>
+            <NotificationCenterItemIcon status="success" />
+            <NotificationCenterItemContent>
+              <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
+              <NotificationCenterItemBody>slock-ui shipped to production.</NotificationCenterItemBody>
+            </NotificationCenterItemContent>
+          </NotificationCenterItemRow>
+        </NotificationCenterItem>
+        <NotificationCenterItem read>
+          <NotificationCenterItemRow>
+            <NotificationCenterItemIcon status="success" />
+            <NotificationCenterItemContent>
+              <NotificationCenterItemTitle>Backup finished</NotificationCenterItemTitle>
+              <NotificationCenterItemBody>
+                Nightly snapshot stored to cold storage.
+              </NotificationCenterItemBody>
+            </NotificationCenterItemContent>
+          </NotificationCenterItemRow>
+        </NotificationCenterItem>
+        <NotificationCenterItem read>
+          <NotificationCenterItemRow>
+            <NotificationCenterItemIcon status="warning" />
+            <NotificationCenterItemContent>
+              <NotificationCenterItemTitle>Token expiring</NotificationCenterItemTitle>
+              <NotificationCenterItemBody>API key rotates in 3 days.</NotificationCenterItemBody>
+            </NotificationCenterItemContent>
+          </NotificationCenterItemRow>
+        </NotificationCenterItem>
+      </NotificationCenterList>
+    </NotificationCenterScroller>
+  </NotificationCenterPopup>
 </NotificationCenter>`,
-  dataMapping: `function NotificationsList({ entries }) {
-  return (
-    <NotificationCenter defaultOpen>
-      <NotificationCenterPortal>
-        <NotificationCenterPopup viewport="desktop">
-          <NotificationCenterHeader>
-            <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-            <NotificationCenterCount>{defaultCountLabel(entries.length)}</NotificationCenterCount>
-          </NotificationCenterHeader>
-          <NotificationCenterScroller>
-            {entries.length === 0 ? (
-              <NotificationCenterEmptyState>
-                <EmptyStateIcon>
-                  <CheckCircle2 size={36} />
-                </EmptyStateIcon>
-                <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-                <EmptyStateDescription>
-                  You'll see things here that need your attention.
-                </EmptyStateDescription>
-              </NotificationCenterEmptyState>
-            ) : (
-              <NotificationCenterList>
-                {entries.map((entry) => (
-                  <NotificationCenterItem key={entry.id} read={entry.read}>
-                    <NotificationCenterItemInner>
-                      <NotificationCenterItemIcon status={entry.status} />
-                      <NotificationCenterItemContent>
-                        <NotificationCenterItemTitle>{entry.title}</NotificationCenterItemTitle>
-                        {entry.body ? <NotificationCenterItemBody>{entry.body}</NotificationCenterItemBody> : null}
-                        {entry.actions ? (
-                          <NotificationCenterItemActions>
-                            {entry.actions.map((action) => (
-                              <NotificationCenterActionButton key={action.label} variant={action.variant}>
-                                {action.label}
-                              </NotificationCenterActionButton>
-                            ))}
-                          </NotificationCenterItemActions>
-                        ) : null}
-                      </NotificationCenterItemContent>
-                    </NotificationCenterItemInner>
-                  </NotificationCenterItem>
-                ))}
-              </NotificationCenterList>
-            )}
-          </NotificationCenterScroller>
-        </NotificationCenterPopup>
-      </NotificationCenterPortal>
-    </NotificationCenter>
-  );
-}`,
-  empty: `<NotificationCenter defaultOpen>
-  <NotificationCenterPortal>
-    <NotificationCenterPopup viewport="desktop" size="sm">
-      <NotificationCenterHeader>
-        <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-        <NotificationCenterCount>all clear</NotificationCenterCount>
-      </NotificationCenterHeader>
-      <NotificationCenterScroller>
-        <NotificationCenterEmptyState>
-          <EmptyStateIcon>
-            <CheckCircle2 size={36} />
-          </EmptyStateIcon>
-          <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-          <EmptyStateDescription>
-            You'll see things here that need your attention.
-          </EmptyStateDescription>
-        </NotificationCenterEmptyState>
-      </NotificationCenterScroller>
-    </NotificationCenterPopup>
-  </NotificationCenterPortal>
+  empty: `<NotificationCenter open modal={false} triggerId={triggerId}>
+  <NotificationCenterTrigger id={triggerId} render={<Button variant="outline" size="icon-md" />}>
+    <AlertTriangle aria-hidden size={18} />
+  </NotificationCenterTrigger>
+  <NotificationCenterPopup viewport="desktop" size="sm" side="bottom" align="center">
+    <NotificationCenterHeader>
+      <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+      <NotificationCenterCount>Clear all</NotificationCenterCount>
+    </NotificationCenterHeader>
+    <NotificationCenterScroller>
+      <NotificationCenterEmptyState>
+        <EmptyStateIcon>
+          <CheckCircle2 size={36} />
+        </EmptyStateIcon>
+        <EmptyStateTitle>No notifications right now</EmptyStateTitle>
+        <EmptyStateDescription>
+          You'll see things here that need your attention.
+        </EmptyStateDescription>
+      </NotificationCenterEmptyState>
+    </NotificationCenterScroller>
+  </NotificationCenterPopup>
 </NotificationCenter>`,
   sourceApi: `<NotificationCenter
   viewport="desktop"
@@ -286,28 +300,24 @@ useEffect(() => {
   <NotificationCenterTrigger render={<button type="button" />}>
     Notifications
   </NotificationCenterTrigger>
-  <NotificationCenterPortal>
-    <NotificationCenterPopup viewport="desktop" style={popoverStyle}>
-      ...
-    </NotificationCenterPopup>
-  </NotificationCenterPortal>
+  <NotificationCenterPopup viewport="desktop" side="bottom" align="center">
+    ...
+  </NotificationCenterPopup>
 </NotificationCenter>`,
   currentApi: `<NotificationCenter modal={false}>
   <NotificationCenterTrigger render={<button type="button" />}>Notifications</NotificationCenterTrigger>
-  <NotificationCenterPortal>
-    <NotificationCenterPopup viewport="desktop">
-      <NotificationCenterHeader>...</NotificationCenterHeader>
-      <NotificationCenterScroller>
-        <NotificationCenterList>
-          {entries.map((entry) => (
-            <NotificationCenterItem key={entry.id} read={entry.read}>
-              ...
-            </NotificationCenterItem>
-          ))}
-        </NotificationCenterList>
-      </NotificationCenterScroller>
-    </NotificationCenterPopup>
-  </NotificationCenterPortal>
+  <NotificationCenterPopup viewport="desktop" side="bottom" align="center">
+    <NotificationCenterHeader>...</NotificationCenterHeader>
+    <NotificationCenterScroller>
+      <NotificationCenterList>
+        {entries.map((entry) => (
+          <NotificationCenterItem key={entry.id} read={entry.read}>
+            ...
+          </NotificationCenterItem>
+        ))}
+      </NotificationCenterList>
+    </NotificationCenterScroller>
+  </NotificationCenterPopup>
 </NotificationCenter>`,
   sourceItem: `function NotificationCenterItem({ entry }) {
   return (
@@ -322,14 +332,14 @@ useEffect(() => {
   );
 }`,
   currentItem: `<NotificationCenterItem read={entry.read}>
-  <NotificationCenterItemInner>
+  <NotificationCenterItemRow>
     <NotificationCenterItemIcon status={entry.status} />
     <NotificationCenterItemContent>
       <NotificationCenterItemTitle>{entry.title}</NotificationCenterItemTitle>
       <NotificationCenterItemBody>{entry.body}</NotificationCenterItemBody>
       <NotificationCenterItemActions>...</NotificationCenterItemActions>
     </NotificationCenterItemContent>
-  </NotificationCenterItemInner>
+  </NotificationCenterItemRow>
 </NotificationCenterItem>`,
   sourceAction: `<button
   type="button"
@@ -361,7 +371,7 @@ const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "open / defaultOpen",
     type: "boolean",
-    description: "Dialog open state. Source trigger state now lives on Base UI Dialog.Root.",
+    description: "Popover open state. Source trigger state now lives on Base UI Popover.Root.",
   },
   {
     name: "modal",
@@ -371,13 +381,13 @@ const ROOT_PROPS: readonly PropRow[] = [
   },
   {
     name: "onOpenChange",
-    type: "Dialog.Root.Props['onOpenChange']",
+    type: "Popover.Root.Props['onOpenChange']",
     description: "Called when trigger, Escape, or outside press changes open state.",
   },
   {
     name: "children",
     type: "ReactNode",
-    description: "Dialog trigger, portal, popup, and compound notification-center parts.",
+    description: "Popover trigger, popup, and compound notification-center parts.",
   },
 ];
 
@@ -395,22 +405,35 @@ const POPUP_PROPS: readonly PropRow[] = [
     description: "Frame height token. Desktop uses fixed heights; mobile uses max-height tokens.",
   },
   {
+    name: "NotificationCenterPopup.side / align",
+    type: '"top" | "bottom" | "left" | "right" / "start" | "center" | "end"',
+    default: '"bottom" / "center"',
+    description:
+      "Anchored placement relative to the trigger, forwarded to Base UI Popover.Positioner.",
+  },
+  {
+    name: "NotificationCenterPopup.positionMethod / sideOffset / collisionAvoidance",
+    type: '"fixed" | "absolute" / number / CollisionAvoidance',
+    description: "Positioner tuning. The popup bundles Portal, Positioner, and Popup internally.",
+  },
+  {
+    name: "NotificationCenterPopup.portalProps",
+    type: "Base UI Popover.Portal.Props",
+    description: "Optional portal options (e.g. container) forwarded to the internal portal.",
+  },
+  {
     name: "NotificationCenterPopup",
-    type: "Base UI Dialog.Popup.Props",
-    description: "The visual card. Receives positioning className/style from the caller.",
+    type: "Base UI Popover.Popup.Props",
+    description: "The visual card, anchored to the trigger by the internal positioner.",
   },
 ];
 
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "NotificationCenterTrigger",
-    type: "Base UI Dialog.Trigger.Props",
-    description: "Trigger affordance. Use render to compose the source icon button.",
-  },
-  {
-    name: "NotificationCenterPortal",
-    type: "Base UI Dialog.Portal.Props",
-    description: "Optional portal wrapper for app usage. Docs render Popup inline for comparison.",
+    type: "Base UI Popover.Trigger.Props",
+    description:
+      "Trigger affordance and positioning anchor. Use render to compose the source icon button.",
   },
 ];
 
@@ -447,7 +470,7 @@ const ITEM_PROPS: readonly PropRow[] = [
   },
   {
     name: "Item parts",
-    type: "ItemInner | ItemContent | ItemTitle | ItemBody | ItemActions",
+    type: "ItemRow | ItemContent | ItemTitle | ItemBody | ItemActions",
     description: "Addressable layers for the source li structure.",
   },
 ];
@@ -457,7 +480,7 @@ const ACTION_EMPTY_PROPS: readonly PropRow[] = [
     name: "NotificationCenterActionButton.variant",
     type: '"primary" | "secondary"',
     default: '"secondary"',
-    description: "Recreates the source btn-brutal action tier.",
+    description: "Maps notification actions to the shared Button primary/outline variants.",
   },
   {
     name: "NotificationCenterEmptyState",
@@ -474,7 +497,13 @@ const ACTION_EMPTY_PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/notification-center")({
   component: NotificationCenterDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...NOTIFICATION_CENTER_COMPOSITION_SOURCES,
+      },
+    }),
 });
 
 function NotificationCenterDoc() {
@@ -486,29 +515,28 @@ function NotificationCenterDoc() {
       description="A notification-center frame composed from header, scroller, list, item, and action parts."
       overview={
         <Differences from="NotificationCenter">
-          <li>brutal styling reproduced 1:1 (cream header, status markers, divided list)</li>
+          <li>
+            source frame semantics are preserved through explicit header, scroller, list, item,
+            status, and action slots
+          </li>
           <li>
             source trigger/open state, Escape close, and outside press close are delegated to Base
-            UI <code>Dialog</code>
+            UI <code>Popover</code>
           </li>
           <li>
             source <code>entries</code>, <code>actions</code>, and <code>emptyState</code> business
             props are removed; caller maps data into compound parts
           </li>
           <li>
-            <code>card-brutal</code> → <code>--shadow-hover</code>; action buttons reproduce the{" "}
-            <code>btn-brutal</code> tier (4px/6px/2px) 1:1
+            action buttons reuse the shared <code>Button</code> size and variant contract while the
+            notification center owns item layout and alignment
           </li>
         </Differences>
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
-        <Example html={code.preview}>
+        <Example html={code.preview} previewClassName="!min-h-[38rem] items-start pt-16">
           <NotificationCenterBasicExample />
         </Example>
       </DocSection>
@@ -522,14 +550,10 @@ function NotificationCenterDoc() {
         />
       </DocSection>
 
-      <DocSection id="empty" title="Empty">
+      <DocSection id="empty" title="Empty" badge={<StatusBadge status="in-progress" />}>
         <Example html={code.empty}>
           <NotificationCenterExample entries={[]} size="sm" />
         </Example>
-      </DocSection>
-
-      <DocSection id="data-mapping" title="Data mapping">
-        <CodeBlock html={code.dataMapping} />
       </DocSection>
 
       <DocSection id="api" title="API">
@@ -563,59 +587,32 @@ function NotificationCenterDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
+          previewSize="popover"
           items={[
             {
-              label: "Overlay mechanics",
+              id: "source-comparison-notification-trigger",
+              label: "Notification trigger",
               status: "difference",
-              note: "Source split trigger, open state, outside press, Escape close, and viewport-clamped positioning across layout files. Current delegates open state, trigger semantics, Escape, outside press, focus handling, and portal requirements to Base UI Dialog; callers still pass positioning style/className to the popup.",
-              source: <LegacyNotificationCenterPreview />,
-              current: <NotificationCenterPreview />,
-              sourceCode: code.sourceOverlay,
-              currentCode: code.currentOverlay,
-            },
-            {
-              label: "Data boundary",
-              status: "difference",
-              note: "Source accepted entries, countLabel, and emptyState props and mapped data internally. Current exposes only the frame and parts; callers map business data into children.",
-              source: <LegacyNotificationCenterPreview />,
-              current: <NotificationCenterPreview />,
-              sourceCode: code.sourceApi,
-              currentCode: code.currentApi,
-            },
-            {
-              label: "Visual frame and item",
-              status: "match",
-              note: "Visual structure is preserved: li padding, read opacity, status icon block, title/body stack, and action row. Current makes each layer addressable through compound parts.",
-              source: <LegacyNotificationCenterPreview />,
-              current: <NotificationCenterPreview />,
-              sourceCode: code.sourceItem,
-              currentCode: code.currentItem,
-            },
-            {
-              label: "Action button",
-              status: "match",
-              note: "Source btn-brutal action tier is preserved through NotificationCenterActionButton while removing the action-object prop shape.",
-              source: (
-                <NotificationCenterActionButton variant="primary">
-                  View
-                </NotificationCenterActionButton>
+              note: (
+                <>
+                  <InlineCode>NotificationTrigger.tsx</InlineCode> +{" "}
+                  <InlineCode>NotificationCenter.tsx</InlineCode>. Source keeps trigger, viewport
+                  clamp, data mapping, and primitive UI split across product files. Current keeps
+                  the real trigger/popup interaction on Base UI Popover and composes the
+                  notification body from NotificationCenter slots.
+                </>
               ),
-              current: (
-                <NotificationCenterActionButton variant="primary">
-                  View
-                </NotificationCenterActionButton>
-              ),
-              sourceCode: code.sourceAction,
-              currentCode: code.currentAction,
-            },
-            {
-              label: "Empty state",
-              status: "difference",
-              note: "Source exposes title/body as preset props on the notification-center empty state. Current keeps the same visual result but composes the shared EmptyState slots explicitly.",
-              source: <LegacyNotificationCenterEmptyPreview />,
-              current: <NotificationCenterEmptyPreview />,
-              sourceCode: code.sourceEmpty,
-              currentCode: code.currentEmpty,
+              source: <NotificationCenterSourcePreview />,
+              brutal: <NotificationCenterComposition />,
+              elegant: <NotificationCenterComposition />,
+              elegantDark: <NotificationCenterComposition />,
+              compositionCode: code.notificationCenterComposition,
+              compositionCollapsedCode: code.notificationCenterCompositionBody,
+              compositionPath: NOTIFICATION_CENTER_COMPOSITION_PATH,
+              compositionSource:
+                NOTIFICATION_CENTER_COMPOSITION_SOURCES.notificationCenterComposition,
+              compositionShowLineNumbers: false,
             },
           ]}
         />
@@ -633,99 +630,92 @@ function NotificationCenterExample({
   size?: "sm" | "md" | "lg";
   framed?: boolean;
 }) {
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const triggerId = useId();
+  const portalRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
-      ref={setPortalContainer}
-      className={framed ? "relative flex min-h-72 w-full items-center justify-center" : "relative"}
+      ref={portalRef}
+      className={
+        framed
+          ? "relative flex min-h-72 w-full items-start justify-center pt-8"
+          : "relative flex w-full items-start justify-center pt-8"
+      }
     >
-      {portalContainer ? (
-        <NotificationCenter defaultOpen>
-          <NotificationCenterPortal container={portalContainer}>
-            <NotificationCenterPopup viewport="desktop" size={size}>
-              <NotificationCenterHeader>
-                <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-                <NotificationCenterCount>
-                  {defaultCountLabel(entries.length)}
-                </NotificationCenterCount>
-              </NotificationCenterHeader>
-              <NotificationCenterScroller>
-                {entries.length === 0 ? (
-                  <NotificationCenterEmptyState>
-                    <EmptyStateIcon>
-                      <CheckCircle2 size={36} />
-                    </EmptyStateIcon>
-                    <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-                    <EmptyStateDescription>
-                      You'll see things here that need your attention.
-                    </EmptyStateDescription>
-                  </NotificationCenterEmptyState>
-                ) : (
-                  <NotificationCenterList>
-                    {entries.map((entry) => (
-                      <NotificationCenterItem key={entry.id} read={entry.read}>
-                        <NotificationCenterItemInner>
-                          <NotificationCenterItemIcon status={entry.status} />
-                          <NotificationCenterItemContent>
-                            <NotificationCenterItemTitle>{entry.title}</NotificationCenterItemTitle>
-                            {entry.body ? (
-                              <NotificationCenterItemBody>{entry.body}</NotificationCenterItemBody>
-                            ) : null}
-                            {entry.actions && entry.actions.length > 0 ? (
-                              <NotificationCenterItemActions>
-                                {entry.actions.map((action) => (
-                                  <NotificationCenterActionButton
-                                    key={action.id ?? `${entry.id}-${action.label}`}
-                                    disabled={action.disabled}
-                                    variant={action.variant}
-                                  >
-                                    {action.label}
-                                  </NotificationCenterActionButton>
-                                ))}
-                              </NotificationCenterItemActions>
-                            ) : null}
-                          </NotificationCenterItemContent>
-                        </NotificationCenterItemInner>
-                      </NotificationCenterItem>
-                    ))}
-                  </NotificationCenterList>
-                )}
-              </NotificationCenterScroller>
-            </NotificationCenterPopup>
-          </NotificationCenterPortal>
-        </NotificationCenter>
-      ) : null}
+      <NotificationCenter open modal={false} triggerId={triggerId}>
+        <NotificationCenterTrigger
+          id={triggerId}
+          render={<Button variant="outline" size="icon-md" className="size-9" />}
+        >
+          <AlertTriangle aria-hidden size={18} />
+        </NotificationCenterTrigger>
+        <NotificationCenterPopup
+          viewport="desktop"
+          size={size}
+          positionMethod="absolute"
+          side="bottom"
+          align="center"
+          collisionAvoidance={{ side: "none", align: "none" }}
+          initialFocus={false}
+          finalFocus={false}
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+        >
+          <NotificationCenterHeader>
+            <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+            <NotificationCenterCount>{defaultCountLabel(entries.length)}</NotificationCenterCount>
+          </NotificationCenterHeader>
+          <NotificationCenterScroller>
+            {entries.length === 0 ? (
+              <NotificationCenterEmptyState>
+                <EmptyStateIcon>
+                  <CheckCircle2 size={36} />
+                </EmptyStateIcon>
+                <EmptyStateTitle>No notifications right now</EmptyStateTitle>
+                <EmptyStateDescription>
+                  You'll see things here that need your attention.
+                </EmptyStateDescription>
+              </NotificationCenterEmptyState>
+            ) : (
+              <NotificationCenterList>
+                {entries.map((entry) => (
+                  <NotificationCenterItem key={entry.id} read={entry.read}>
+                    <NotificationCenterItemRow>
+                      <NotificationCenterItemIcon status={entry.status} />
+                      <NotificationCenterItemContent>
+                        <NotificationCenterItemTitle>{entry.title}</NotificationCenterItemTitle>
+                        {entry.body ? (
+                          <NotificationCenterItemBody>{entry.body}</NotificationCenterItemBody>
+                        ) : null}
+                        {entry.actions && entry.actions.length > 0 ? (
+                          <NotificationCenterItemActions>
+                            {entry.actions.map((action) => (
+                              <NotificationCenterActionButton
+                                key={action.id ?? `${entry.id}-${action.label}`}
+                                disabled={action.disabled}
+                                variant={action.variant}
+                              >
+                                {action.label}
+                              </NotificationCenterActionButton>
+                            ))}
+                          </NotificationCenterItemActions>
+                        ) : null}
+                      </NotificationCenterItemContent>
+                    </NotificationCenterItemRow>
+                  </NotificationCenterItem>
+                ))}
+              </NotificationCenterList>
+            )}
+          </NotificationCenterScroller>
+        </NotificationCenterPopup>
+      </NotificationCenter>
     </div>
   );
 }
 
 function NotificationCenterBasicExample() {
-  return <NotificationCenterExample entries={ENTRIES.slice(0, 2)} />;
-}
-
-function NotificationCenterPreview() {
-  return <NotificationCenterExample entries={ENTRIES.slice(0, 2)} framed={false} />;
-}
-
-function NotificationCenterEmptyPreview() {
-  return <NotificationCenterExample entries={[]} size="sm" framed={false} />;
-}
-
-function LegacyNotificationCenterPreview() {
-  return (
-    <LegacyNotificationCenter
-      entries={LEGACY_ENTRIES.slice(0, 2)}
-      viewport="desktop"
-      size="regular"
-    />
-  );
-}
-
-function LegacyNotificationCenterEmptyPreview() {
-  return <LegacyNotificationCenter entries={[]} viewport="desktop" size="compact" />;
+  return <NotificationCenterExample entries={ENTRIES} />;
 }
 
 function defaultCountLabel(count: number) {
-  return count === 0 ? "all clear" : `${count} ${count === 1 ? "item" : "items"}`;
+  return count === 0 ? "Clear all" : `${count} ${count === 1 ? "item" : "items"}`;
 }

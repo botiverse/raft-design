@@ -8,7 +8,6 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
-  InlineCode,
 } from "@slock/ui";
 import { Info, X } from "lucide-react";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
@@ -21,31 +20,18 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
+import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import notificationTriggerPopoverCompositionSource from "#/compositions/notification-trigger-popover-composition.tsx?raw";
-import {
-  NOTIFICATION_TRIGGER_POPOVER_COMPOSITION_PATH,
-  NotificationTriggerPopoverComposition,
-  NotificationTriggerSourcePreview,
-} from "#/compositions/notification-trigger-popover.tsx";
 
 const TOC = [
+  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "details", title: "Details" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [{ id: "source-comparison-notification-trigger", title: "Notification trigger" }],
-  },
 ] as const;
 
-const POPOVER_COMPOSITION_SOURCES = createCompositionSourceMap({
-  notificationTriggerPopoverComposition: notificationTriggerPopoverCompositionSource,
-} as const);
+const TODOS = ["Keep trigger labels aligned with the panel's actual content."] as const;
 
 type PlaygroundValues = {
   open: boolean;
@@ -93,7 +79,6 @@ ${PANEL_BODY_SNIPPET}
 ${PANEL_BODY_SNIPPET}
   </PopoverContent>
 </Popover>`,
-  notificationTriggerPopoverComposition: notificationTriggerPopoverCompositionSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -257,10 +242,13 @@ function PopoverDoc() {
       toc={TOC}
       sectionDividers={false}
     >
+      <DocSection id="todo" title="Todo">
+        <TodoList items={TODOS} />
+      </DocSection>
+
       <DocSection id="preview" title="Preview">
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
-          Use Popover for trigger-positioned panels with composed content. Use Combobox or
-          DropdownMenu when the surface is an option picker.
+          Preview keeps the surface to one trigger and its supporting guidance panel.
         </p>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
@@ -291,36 +279,6 @@ function PopoverDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="popover"
-          items={[
-            {
-              id: "source-comparison-notification-trigger",
-              label: "Notification trigger",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>NotificationTrigger.tsx</InlineCode>. Trigger-owned notification panel
-                  with status content and actions. Popover replaces bespoke refs, outside-click
-                  wiring, and viewport positioning while leaving the body composed.
-                </>
-              ),
-              source: <NotificationTriggerSourcePreview />,
-              brutal: <NotificationTriggerPopoverComposition />,
-              elegant: <NotificationTriggerPopoverComposition />,
-              elegantDark: <NotificationTriggerPopoverComposition />,
-              compositionCode: code.notificationTriggerPopoverComposition,
-              compositionCollapsedCode: code.notificationTriggerPopoverCompositionBody,
-              compositionPath: NOTIFICATION_TRIGGER_POPOVER_COMPOSITION_PATH,
-              compositionSource: POPOVER_COMPOSITION_SOURCES.notificationTriggerPopoverComposition,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

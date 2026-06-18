@@ -1,14 +1,15 @@
+import { AlertTriangle } from "lucide-react";
+import { cn } from "tailwind-variants";
 import LegacyNotificationCenter, {
   type NotificationCenterEntry as LegacyNotificationCenterEntry,
 } from "../../../../packages/ui/src/legacy/NotificationCenter.tsx";
-import { AlertTriangle } from "lucide-react";
 
-import { NotificationTriggerPopoverComposition } from "./notification-trigger-popover-composition.tsx";
+import { NotificationCenterComposition } from "./notification-center-composition.tsx";
 
-export const NOTIFICATION_TRIGGER_POPOVER_COMPOSITION_PATH =
-  "apps/doc/src/compositions/notification-trigger-popover-composition.tsx" as const;
+export const NOTIFICATION_CENTER_COMPOSITION_PATH =
+  "apps/doc/src/compositions/notification-center-composition.tsx" as const;
 
-export { NotificationTriggerPopoverComposition };
+export { NotificationCenterComposition };
 
 const notifications: LegacyNotificationCenterEntry[] = [
   {
@@ -23,7 +24,7 @@ const notifications: LegacyNotificationCenterEntry[] = [
   },
   {
     id: "storage-full",
-    kind: "error",
+    kind: "warning",
     title: "Storage almost full",
     body: "92% of the workspace quota is used.",
     actions: [{ id: "manage", label: "Manage" }],
@@ -34,16 +35,25 @@ const notifications: LegacyNotificationCenterEntry[] = [
     title: "Deploy completed",
     body: "slock-ui shipped to production.",
   },
+  {
+    id: "backup-finished",
+    kind: "success",
+    title: "Backup finished",
+    body: "Nightly snapshot stored to cold storage.",
+    read: true,
+  },
+  {
+    id: "token-expiring",
+    kind: "warning",
+    title: "Token expiring",
+    body: "API key rotates in 3 days.",
+    read: true,
+  },
 ];
 
-/** Legacy NotificationTrigger for source-comparison source pane. */
-export function NotificationTriggerSourcePreview({ className }: { className?: string }) {
+export function NotificationCenterSourcePreview({ className }: { className?: string }) {
   return (
-    <div
-      className={["flex h-full min-h-96 w-full items-start justify-center pt-8", className]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    <div className={cn("flex h-full min-h-96 w-full items-start justify-center pt-8", className)}>
       <div className="relative flex flex-col items-center">
         <button
           type="button"

@@ -206,7 +206,7 @@ const NAV = [
       {
         label: "NotificationCenter",
         to: "/components/notification-center",
-        progress: { theme: "todo" },
+        progress: { theme: "done" },
       },
       { label: "Spinner", to: "/components/spinner", progress: { theme: "todo" } },
     ],
@@ -433,9 +433,9 @@ const MIGRATED = {
     },
     {
       label: "NotificationTrigger",
-      to: "/components/popover",
+      to: "/components/notification-center",
       hash: "source-comparison-notification-trigger",
-      target: "Popover",
+      target: "NotificationCenter",
     },
     {
       label: "SelectionPopover",

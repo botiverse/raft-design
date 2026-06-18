@@ -22,6 +22,22 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Label,
+  NotificationCenter,
+  NotificationCenterActionButton,
+  NotificationCenterCount,
+  NotificationCenterHeader,
+  NotificationCenterItem,
+  NotificationCenterItemActions,
+  NotificationCenterItemBody,
+  NotificationCenterItemContent,
+  NotificationCenterItemIcon,
+  NotificationCenterItemRow,
+  NotificationCenterItemTitle,
+  NotificationCenterList,
+  NotificationCenterPopup,
+  NotificationCenterScroller,
+  NotificationCenterTitle,
+  NotificationCenterTrigger,
   Status,
   Tabs,
   TabsBackground,
@@ -65,7 +81,8 @@ type ComponentRoute =
   | "/components/inline-code"
   | "/components/status"
   | "/components/tabs"
-  | "/components/banner";
+  | "/components/banner"
+  | "/components/notification-center";
 
 type ComponentGridItem = {
   label: string;
@@ -272,6 +289,11 @@ const COMPONENT_GRID = [
     ),
   },
   {
+    label: "NotificationCenter",
+    to: "/components/notification-center",
+    preview: <NotificationCenterPreview />,
+  },
+  {
     label: "Tabs",
     to: "/components/tabs",
     preview: (
@@ -389,6 +411,84 @@ function DropdownMenuPreview() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+    </div>
+  );
+}
+
+function NotificationCenterPreview() {
+  const triggerId = "home-notification-center-trigger";
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div
+      ref={portalRef}
+      className="relative flex h-72 w-72 max-w-full items-start justify-center pt-8"
+    >
+      <NotificationCenter open modal={false} triggerId={triggerId}>
+        <div className="relative size-9">
+          <NotificationCenterTrigger
+            id={triggerId}
+            render={<Button variant="outline" size="icon-md" className="size-9 p-0" />}
+          >
+            <IconBellOutline18 aria-hidden />
+          </NotificationCenterTrigger>
+          <Status
+            aria-hidden
+            variant="primary"
+            size="md"
+            className="pointer-events-none absolute -top-1 -right-1"
+          />
+        </div>
+        <NotificationCenterPopup
+          viewport="desktop"
+          size="sm"
+          className="w-72"
+          initialFocus={false}
+          finalFocus={false}
+          positionMethod="absolute"
+          side="bottom"
+          align="center"
+          collisionAvoidance={{ side: "none", align: "none" }}
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+        >
+          <NotificationCenterHeader>
+            <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+            <NotificationCenterCount>2 items</NotificationCenterCount>
+          </NotificationCenterHeader>
+          <NotificationCenterScroller>
+            <NotificationCenterList>
+              <NotificationCenterItem>
+                <NotificationCenterItemRow>
+                  <NotificationCenterItemIcon status="warning" />
+                  <NotificationCenterItemContent>
+                    <NotificationCenterItemTitle>Runtime stalled</NotificationCenterItemTitle>
+                    <NotificationCenterItemBody>
+                      Atlas has not reported activity for 15 minutes.
+                    </NotificationCenterItemBody>
+                    <NotificationCenterItemActions>
+                      <NotificationCenterActionButton variant="primary">
+                        View
+                      </NotificationCenterActionButton>
+                      <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
+                    </NotificationCenterItemActions>
+                  </NotificationCenterItemContent>
+                </NotificationCenterItemRow>
+              </NotificationCenterItem>
+              <NotificationCenterItem read>
+                <NotificationCenterItemRow>
+                  <NotificationCenterItemIcon status="success" />
+                  <NotificationCenterItemContent>
+                    <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
+                    <NotificationCenterItemBody>
+                      slock-ui shipped to production.
+                    </NotificationCenterItemBody>
+                  </NotificationCenterItemContent>
+                </NotificationCenterItemRow>
+              </NotificationCenterItem>
+            </NotificationCenterList>
+          </NotificationCenterScroller>
+        </NotificationCenterPopup>
+      </NotificationCenter>
     </div>
   );
 }
