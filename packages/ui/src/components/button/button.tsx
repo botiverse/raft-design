@@ -29,7 +29,7 @@ export const buttonVariants = tv({
       },
       elegant: {
         root: [
-          "overflow-clip rounded-md border-0 font-sans font-medium antialiased",
+          "overflow-clip border-0 font-sans font-medium antialiased",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.05),0_4px_4px_-2px_oklch(0_0_0_/_0.03),0_0_0_1px_var(--line-subtle)]",
           "[&_[data-slot=button-content]]:drop-shadow-[0_0.5px_1px_oklch(0_0_0_/_0.05)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
@@ -115,8 +115,9 @@ export const buttonVariants = tv({
       },
       lg: {
         root: [
-          "gap-2 px-4 py-3 text-sm",
+          "gap-2 px-3.5 py-2.5 text-base",
           "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
+          "[&_svg:not([class*='size-'])]:size-4",
         ],
       },
       "icon-xs": { root: ["p-[5px] text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
@@ -130,6 +131,26 @@ export const buttonVariants = tv({
     size: "sm",
   },
   compoundVariants: [
+    {
+      theme: "elegant",
+      size: ["xs", "icon-xs"],
+      class: { root: "rounded-sm" },
+    },
+    {
+      theme: "elegant",
+      size: ["sm", "icon-sm"],
+      class: { root: "rounded" },
+    },
+    {
+      theme: "elegant",
+      size: ["md", "icon-md"],
+      class: { root: "rounded-md" },
+    },
+    {
+      theme: "elegant",
+      size: ["lg", "icon-lg"],
+      class: { root: "rounded-md" },
+    },
     {
       theme: "brutal",
       variant: "primary",
