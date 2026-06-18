@@ -70,7 +70,7 @@ export const highlightSnippets = createServerFn({ method: "POST" })
         const bodyCode = stripTopLevelImports(displayCode);
         const snippetEntries = [[id, displayCode]];
 
-        if (bodyCode !== code && !id.endsWith("Body")) {
+        if (bodyCode !== displayCode && !id.endsWith("Body")) {
           snippetEntries.push([`${id}Body`, bodyCode]);
         }
 
