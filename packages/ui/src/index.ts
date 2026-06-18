@@ -307,6 +307,47 @@ export type {
 } from "./components/combobox/index.ts";
 
 export {
+  Select,
+  SelectArrow,
+  SelectContent,
+  SelectGroup,
+  SelectGroupLabel,
+  SelectIcon,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectList,
+  SelectPopup,
+  SelectPortal,
+  SelectScrollDownArrow,
+  SelectScrollUpArrow,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "./components/select/index.ts";
+export type {
+  SelectArrowProps,
+  SelectContentProps,
+  SelectGroupLabelProps,
+  SelectGroupProps,
+  SelectIconProps,
+  SelectItemIndicatorProps,
+  SelectItemProps,
+  SelectItemTextProps,
+  SelectLabelProps,
+  SelectListProps,
+  SelectPopupProps,
+  SelectPortalProps,
+  SelectProps,
+  SelectScrollDownArrowProps,
+  SelectScrollUpArrowProps,
+  SelectSeparatorProps,
+  SelectTriggerProps,
+  SelectValueProps,
+} from "./components/select/index.ts";
+
+export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuCheckboxItemIndicator,

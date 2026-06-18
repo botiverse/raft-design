@@ -1,5 +1,17 @@
-import { useState, type ReactNode } from "react";
-import { Checkbox, Input } from "@slock/ui";
+import { useRef, useState, type ReactNode, type RefObject } from "react";
+import {
+  Checkbox,
+  Input,
+  Select,
+  SelectContent,
+  SelectIcon,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+  SelectValue,
+} from "@slock/ui";
 import { ComponentDemoFrame } from "./component-demo-frame.tsx";
 
 type ControlValue = string | boolean;
@@ -15,6 +27,53 @@ type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   previewClassName?: string;
   render: (values: T) => ReactNode;
 };
+
+type SelectControlInputProps = {
+  id: string;
+  label: string;
+  options: readonly string[];
+  value: string;
+  onValueChange: (value: string) => void;
+};
+
+function SelectControlInput({ id, label, options, value, onValueChange }: SelectControlInputProps) {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const items = options.map((option) => ({ value: option, label: option }));
+
+  return (
+    <div ref={portalRef} className="relative min-w-0">
+      <Select
+        value={value}
+        onValueChange={(nextValue) => {
+          if (nextValue) {
+            onValueChange(nextValue);
+          }
+        }}
+        items={items}
+        modal={false}
+      >
+        <SelectTrigger id={id} aria-label={label} className="h-7 w-full px-2 font-mono text-xs">
+          <SelectValue />
+          <SelectIcon />
+        </SelectTrigger>
+        <SelectContent
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-full min-w-[var(--anchor-width)]"
+        >
+          <SelectList>
+            {options.map((option) => (
+              <SelectItem key={option} value={option}>
+                <SelectItemText>{option}</SelectItemText>
+                <SelectItemIndicator />
+              </SelectItem>
+            ))}
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
 
 /**
  * Storybook-style preview: renders the live component above an editable control
@@ -47,19 +106,13 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             let input: ReactNode;
             if (control.type === "select") {
               input = (
-                <select
+                <SelectControlInput
                   id={control.name}
-                  aria-label={control.label}
+                  label={control.label}
+                  options={control.options}
                   value={String(values[control.name])}
-                  onChange={(event) => update(control.name, event.target.value)}
-                  className="h-7 w-full rounded-sm border border-line-subtle bg-layer-field px-2 font-mono text-xs text-foreground outline-none transition duration-200 ease-out hover:bg-layer-muted focus:border-line-focus"
-                >
-                  {control.options.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  onValueChange={(nextValue) => update(control.name, nextValue)}
+                />
               );
             } else if (control.type === "boolean") {
               input = (

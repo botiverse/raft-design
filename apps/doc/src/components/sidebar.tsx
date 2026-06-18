@@ -71,16 +71,11 @@ const NAV = [
       { label: "Input", to: "/components/input", progress: { theme: "done" } },
       { label: "InputGroup", to: "/components/input-group", progress: { theme: "done" } },
       { label: "Combobox", to: "/components/combobox", progress: { theme: "done" } },
+      { label: "Select", to: "/components/select", progress: { theme: "done" } },
       { label: "Textarea", to: "/components/textarea", progress: { theme: "done" } },
       { label: "ToggleGroup", to: "/components/toggle-group", progress: { theme: "todo" } },
     ],
     planned: [
-      {
-        label: "Select",
-        priority: "P0",
-        docsHref: "https://base-ui.com/react/components/select",
-        reason: "Formalize single-select flows with Base UI keyboard, portal, and field semantics.",
-      },
       {
         label: "Switch",
         priority: "P1",

@@ -33,6 +33,7 @@
     "@dnd-kit/utilities": "catalog:",
     "@tanstack/react-hotkeys": "catalog:",
     "lucide-react": "catalog:",
+    "nucleo-ui-outline-18": "catalog:",
     "tailwind-merge": "catalog:",
     "tailwind-variants": "catalog:"
   },

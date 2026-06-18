@@ -202,6 +202,9 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 1.18.0(react@19.2.7)
+      nucleo-ui-outline-18:
+        specifier: 'catalog:'
+        version: 1.4.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.6.0

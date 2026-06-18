@@ -24,6 +24,7 @@ import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
+import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSectionLabelRouteImport } from './routes/components/section-label'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
@@ -147,6 +148,11 @@ const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
 const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   id: '/spinner',
   path: '/spinner',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
+  id: '/select',
+  path: '/select',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsSectionLabelRoute = ComponentsSectionLabelRouteImport.update({
@@ -439,6 +445,7 @@ export interface FileRoutesByFullPath {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
+  '/components/select': typeof ComponentsSelectRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -505,6 +512,7 @@ export interface FileRoutesByTo {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
+  '/components/select': typeof ComponentsSelectRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -572,6 +580,7 @@ export interface FileRoutesById {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
+  '/components/select': typeof ComponentsSelectRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -640,6 +649,7 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
+    | '/components/select'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -706,6 +716,7 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
+    | '/components/select'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -772,6 +783,7 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
+    | '/components/select'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -921,6 +933,13 @@ declare module '@tanstack/react-router' {
       path: '/spinner'
       fullPath: '/components/spinner'
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/select': {
+      id: '/components/select'
+      path: '/select'
+      fullPath: '/components/select'
+      preLoaderRoute: typeof ComponentsSelectRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/section-label': {
@@ -1300,6 +1319,7 @@ interface ComponentsRouteChildren {
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSectionLabelRoute: typeof ComponentsSectionLabelRoute
+  ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
@@ -1353,6 +1373,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSectionLabelRoute: ComponentsSectionLabelRoute,
+  ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,

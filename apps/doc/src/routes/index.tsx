@@ -38,6 +38,15 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
+  Select,
+  SelectContent,
+  SelectIcon,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+  SelectValue,
   Status,
   Tabs,
   TabsBackground,
@@ -58,8 +67,10 @@ import {
 } from "nucleo-ui-fill-18";
 import {
   IconBellOutline18,
+  IconClockOutline18,
   IconCreditCardOutline18,
   IconGearOutline18,
+  IconInputSearchOutline18,
   IconMessageOutline18,
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
@@ -76,6 +87,7 @@ type ComponentRoute =
   | "/components/label"
   | "/components/input"
   | "/components/input-group"
+  | "/components/select"
   | "/components/textarea"
   | "/components/badge"
   | "/components/inline-code"
@@ -197,6 +209,11 @@ const COMPONENT_GRID = [
         </InputGroup>
       </div>
     ),
+  },
+  {
+    label: "Select",
+    to: "/components/select",
+    preview: <SelectPreview />,
   },
   {
     label: "Textarea",
@@ -350,6 +367,62 @@ const COMPONENT_GRID = [
     ),
   },
 ] as const satisfies readonly ComponentGridItem[];
+
+const SELECT_PREVIEW_OPTIONS = [
+  { value: "relevance", label: "Relevance", icon: IconInputSearchOutline18 },
+  { value: "recent", label: "Most recent", icon: IconClockOutline18 },
+  { value: "comments", label: "Most commented", icon: IconMessageOutline18 },
+] as const;
+
+function SelectPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div ref={portalRef} className="relative flex h-56 w-72 items-start justify-center pt-14">
+      <Select open defaultValue="relevance" items={SELECT_PREVIEW_OPTIONS} modal={false}>
+        <SelectTrigger>
+          <SelectValue>
+            {(selectedValue) => {
+              const selected = SELECT_PREVIEW_OPTIONS.find(
+                (option) => option.value === selectedValue,
+              );
+              const Icon = selected?.icon;
+
+              return selected && Icon ? (
+                <span className="flex min-w-0 items-center gap-2">
+                  <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
+                  <span className="truncate">{selected.label}</span>
+                </span>
+              ) : (
+                "Sort"
+              );
+            }}
+          </SelectValue>
+          <SelectIcon />
+        </SelectTrigger>
+        <SelectContent
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[220px]"
+        >
+          <SelectList>
+            {SELECT_PREVIEW_OPTIONS.map((option) => {
+              const Icon = option.icon;
+
+              return (
+                <SelectItem key={option.value} value={option.value}>
+                  <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
+                  <SelectItemText>{option.label}</SelectItemText>
+                  <SelectItemIndicator />
+                </SelectItem>
+              );
+            })}
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
 
 function DropdownMenuPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
