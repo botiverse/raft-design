@@ -17,7 +17,6 @@ import {
   NotificationCenterTitle,
   NotificationCenterTrigger,
   Status,
-  useTheme,
   type NotificationCenterPopupProps,
 } from "@raft/ui";
 import { AlertTriangle, CircleGauge } from "lucide-react";
@@ -25,13 +24,12 @@ import { useId, useRef, type RefObject } from "react";
 import { cn } from "@raft/ui/cn";
 
 export function NotificationCenterContent({
-  className,
   viewport = "desktop",
   size = "md",
   ...props
 }: NotificationCenterPopupProps) {
   return (
-    <NotificationCenterPopup viewport={viewport} size={size} className={className} {...props}>
+    <NotificationCenterPopup viewport={viewport} size={size} {...props}>
       <NotificationCenterHeader>
         <NotificationCenterTitle>Notifications</NotificationCenterTitle>
         <NotificationCenterCount>5 items</NotificationCenterCount>
@@ -111,8 +109,6 @@ export function NotificationCenterContent({
 export function NotificationCenterComposition({ className }: { className?: string }) {
   const triggerId = useId();
   const portalRef = useRef<HTMLDivElement>(null);
-  const theme = useTheme();
-  const isBrutal = theme === "brutal";
 
   return (
     <div
@@ -132,7 +128,7 @@ export function NotificationCenterComposition({ className }: { className?: strin
                 size="icon-md"
                 className={cn(
                   "size-9 overflow-visible p-0",
-                  isBrutal && "bg-brutal-orange text-black hover:bg-brutal-orange",
+                  "[[data-theme=brutal]_&]:bg-brutal-orange [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:hover:bg-brutal-orange",
                 )}
               />
             }

@@ -7,7 +7,6 @@ import {
   ContextMenuSubmenu,
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
-  useTheme,
 } from "@raft/ui";
 import {
   IconArchive2Outline18,
@@ -86,15 +85,12 @@ export function ContextMenuComposition() {
 
 // @docs-source-strip-start
 function ContextMenuPreviewTrigger({ children }: { children: ReactNode }) {
-  const theme = useTheme();
-
   return (
     <ContextMenuTrigger
       className={cn(
         "flex min-h-14 w-56 items-center justify-center px-4 py-3 text-center",
-        theme === "brutal"
-          ? "border-2 border-dashed border-black bg-brutal-cream font-sans text-xs font-bold text-black"
-          : "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+        "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+        "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
       )}
     >
       {children}
@@ -103,13 +99,12 @@ function ContextMenuPreviewTrigger({ children }: { children: ReactNode }) {
 }
 
 function ReactionRow() {
-  const theme = useTheme();
-
   return (
     <div
       className={cn(
         "flex h-9 items-center gap-1 px-2",
-        theme === "brutal" ? "bg-white" : "-mx-1 rounded-sm bg-layer-panel/70",
+        "-mx-1 rounded-sm bg-layer-panel/70",
+        "[[data-theme=brutal]_&]:mx-0 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:bg-white",
       )}
       data-message-affordance="reaction-quick-row"
     >
@@ -119,9 +114,8 @@ function ReactionRow() {
           type="button"
           className={cn(
             "flex size-7 items-center justify-center rounded bg-transparent text-base leading-none transition-colors",
-            theme === "brutal"
-              ? "hover:bg-brutal-pink/20 active:bg-brutal-pink/20"
-              : "hover:bg-foreground/[0.04] active:bg-foreground/[0.06]",
+            "hover:bg-foreground/[0.04] active:bg-foreground/[0.06]",
+            "[[data-theme=brutal]_&]:hover:bg-brutal-pink/20 [[data-theme=brutal]_&]:active:bg-brutal-pink/20",
           )}
           aria-label={`React with ${emoji}`}
         >

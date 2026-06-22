@@ -13,7 +13,6 @@ import {
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
   InlineCode,
-  useTheme,
 } from "@raft/ui";
 import {
   IconArchive2Outline18,
@@ -250,16 +249,13 @@ export const Route = createFileRoute("/components/context-menu")({
 });
 
 function ContextMenuTriggerSurface({ id, children }: { id: string; children: ReactNode }) {
-  const theme = useTheme();
-
   return (
     <ContextMenuTrigger
       id={id}
       className={cn(
         "flex min-h-24 w-72 items-center justify-center px-5 py-6 text-center",
-        theme === "brutal"
-          ? "border-2 border-dashed border-black bg-brutal-cream font-sans text-xs font-bold text-black"
-          : "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+        "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+        "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
       )}
     >
       {children}
@@ -414,7 +410,6 @@ function ContextMenuDoc() {
       title="ContextMenu"
       description="A right-click menu family for compact action, selection, and nested action surfaces."
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">

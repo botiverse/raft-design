@@ -257,7 +257,6 @@ function CheckboxDoc() {
         </Button>
       }
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />

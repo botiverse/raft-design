@@ -167,7 +167,6 @@ function SpinnerDoc() {
         </Differences>
       }
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />

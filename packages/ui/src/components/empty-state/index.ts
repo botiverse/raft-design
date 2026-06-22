@@ -1,5 +1,6 @@
 export {
   EmptyState,
+  EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
   EmptyStateDescription,
@@ -7,6 +8,7 @@ export {
 } from "./empty-state.tsx";
 export type {
   EmptyStateProps,
+  EmptyStateContentProps,
   EmptyStateIconProps,
   EmptyStateTitleProps,
   EmptyStateDescriptionProps,

@@ -14,6 +14,13 @@ import {
   BannerTitle,
   Button,
   Checkbox,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -22,6 +29,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
   Input,
   InlineCode,
   InputGroup,
@@ -73,12 +85,17 @@ import {
   IconCircleWarningFill18,
 } from "nucleo-ui-fill-18";
 import {
+  IconArchive2Outline18,
   IconBellOutline18,
   IconClockOutline18,
+  IconCopyOutline18,
   IconCreditCardOutline18,
   IconGearOutline18,
+  IconInboxOutline18,
   IconInputSearchOutline18,
   IconMessageOutline18,
+  IconPinOutline18,
+  IconTrashOutline18,
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
 import { Plus, Search, Trash2 } from "lucide-react";
@@ -90,6 +107,7 @@ export const Route = createFileRoute("/")({
 type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
+  | "/components/context-menu"
   | "/components/dropdown-menu"
   | "/components/label"
   | "/components/input"
@@ -103,6 +121,7 @@ type ComponentRoute =
   | "/components/spinner"
   | "/components/tabs"
   | "/components/banner"
+  | "/components/empty-state"
   | "/components/notification-center";
 
 type ComponentGridItem = {
@@ -226,6 +245,11 @@ const COMPONENT_GRID = [
     label: "DropdownMenu",
     to: "/components/dropdown-menu",
     preview: <DropdownMenuPreview />,
+  },
+  {
+    label: "ContextMenu",
+    to: "/components/context-menu",
+    preview: <ContextMenuPreview />,
   },
   {
     label: "Label",
@@ -421,6 +445,21 @@ const COMPONENT_GRID = [
     ),
   },
   {
+    label: "EmptyState",
+    to: "/components/empty-state",
+    preview: (
+      <EmptyState className="min-h-56 w-72 px-4 py-8">
+        <EmptyStateContent>
+          <EmptyStateIcon>
+            <IconInboxOutline18 />
+          </EmptyStateIcon>
+          <EmptyStateTitle>No messages yet</EmptyStateTitle>
+          <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
+        </EmptyStateContent>
+      </EmptyState>
+    ),
+  },
+  {
     label: "NotificationCenter",
     to: "/components/notification-center",
     preview: <NotificationCenterPreview />,
@@ -599,6 +638,74 @@ function DropdownMenuPreview() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+    </div>
+  );
+}
+
+function ContextMenuPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const anchor = useMemo(
+    () => ({
+      getBoundingClientRect() {
+        const rect = triggerRef.current?.getBoundingClientRect();
+        return DOMRect.fromRect({
+          x: (rect?.left ?? 0) + (rect?.width ?? 0) / 2,
+          y: rect?.bottom ?? 0,
+          width: 0,
+          height: 0,
+        });
+      },
+    }),
+    [],
+  );
+
+  return (
+    <div ref={portalRef} className="relative h-56 w-72">
+      <ContextMenu defaultOpen>
+        <div ref={triggerRef} className="absolute top-7 left-1/2 -translate-x-1/2">
+          <ContextMenuTrigger
+            id="home-context-menu-trigger"
+            className={[
+              "flex min-h-12 w-52 items-center justify-center px-4 text-center",
+              "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+              "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
+            ].join(" ")}
+          >
+            Right click thread
+          </ContextMenuTrigger>
+        </div>
+        <ContextMenuContent
+          anchor={anchor}
+          side="bottom"
+          align="center"
+          sideOffset={12}
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="flex w-60 min-w-60 flex-col"
+        >
+          <ContextMenuLabel>Thread actions</ContextMenuLabel>
+          <ContextMenuItem>
+            <IconPinOutline18 />
+            <span className="min-w-0 flex-1 truncate">Pin thread</span>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconCopyOutline18 />
+            <span className="min-w-0 flex-1 truncate">Copy link</span>
+            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem>
+            <IconArchive2Outline18 />
+            <span className="min-w-0 flex-1 truncate">Archive</span>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconTrashOutline18 />
+            <span className="min-w-0 flex-1 truncate">Delete</span>
+            <ContextMenuShortcut>⌫</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
     </div>
   );
 }
