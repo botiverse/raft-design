@@ -142,9 +142,6 @@ const THEME_PRESETS = [
   { id: "elegant", label: "elegant", family: "elegant", mode: "light" },
 ] as const satisfies readonly ThemePreset[];
 
-const FLOAT_ACTIONS_SHADOW =
-  "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px";
-
 const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
 const HOME_AVATAR_IMAGES = [
@@ -828,9 +825,9 @@ function Home() {
           aria-label="Preview theme"
           className={[
             "fixed bottom-6 left-[calc(50vw+var(--rail-w)/2)] z-20 -translate-x-1/2",
-            "inline-flex items-center gap-1 rounded-md border border-black/10 bg-white/95 p-1 text-black backdrop-blur",
+            "grid grid-cols-2 overflow-hidden rounded-none bg-layer-panel text-foreground backdrop-blur",
+            "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           ].join(" ")}
-          style={{ boxShadow: FLOAT_ACTIONS_SHADOW }}
         >
           {THEME_PRESETS.map((preset) => {
             const isActive = themePreset.id === preset.id;
@@ -841,9 +838,13 @@ function Home() {
                 type="button"
                 aria-pressed={isActive}
                 className={[
-                  "h-8 rounded-md px-3 text-xs font-medium outline-none",
-                  "focus-visible:ring-2 focus-visible:ring-black/20",
-                  isActive ? "rounded-full bg-black/5 text-black" : "text-black/45",
+                  "h-9 min-w-20 px-4 text-xs font-medium outline-none transition-colors",
+                  "border-l border-line-subtle first:border-l-0",
+                  "hover:bg-layer-muted hover:text-foreground-strong",
+                  "focus-visible:relative focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                  isActive
+                    ? "bg-layer-muted text-foreground-strong"
+                    : "text-foreground-placeholder",
                 ].join(" ")}
                 onClick={() => setThemePreset(preset)}
               >
