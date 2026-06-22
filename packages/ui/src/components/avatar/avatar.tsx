@@ -28,7 +28,6 @@ const avatar = tv({
     image: ["size-full object-cover"],
     fallback: [
       "flex size-full items-center justify-center",
-      "text-foreground-placeholder",
       "[&>svg]:size-4",
       "group-data-[size=xl]/avatar:[&>svg]:size-6",
       "group-data-[size=lg]/avatar:[&>svg]:size-6",
@@ -54,6 +53,7 @@ const avatar = tv({
     theme: {
       brutal: {
         root: "border-line-strong",
+        fallback: "text-black",
         badge: ["border-line-strong bg-success-base text-foreground-strong"],
         group: [
           "-space-x-1.5",
@@ -65,7 +65,7 @@ const avatar = tv({
         root: ["bg-layer-muted"],
         image: ["rounded-full"],
         fallback: [
-          "overflow-hidden bg-layer-muted text-sm",
+          "overflow-hidden bg-layer-muted text-foreground-placeholder/70 text-sm",
           "rounded-full",
           "group-data-[size=xs]/avatar:text-xs",
           "group-data-[size=2xs]/avatar:text-[10px]",
