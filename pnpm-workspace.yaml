@@ -6,29 +6,29 @@ packages:
 catalogMode: prefer
 
 catalog:
-  "@types/node": ^25.9.3
+  "@types/node": ^26.0.0
   typescript: ^6.0.3
-  vite: npm:@voidzero-dev/vite-plus-core@0.1.24
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.1
   vitest: npm:@voidzero-dev/vite-plus-test@0.1.24
-  vite-plus: 0.1.24
+  vite-plus: 0.2.1
   tailwind-variants: ^3.2.2
   "@base-ui-components/react": 1.0.0-rc.0
-  "@base-ui/react": ^1.5.0
-  "@base-ui/utils": ^0.3.0
+  "@base-ui/react": ^1.6.0
+  "@base-ui/utils": ^0.3.1
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.18.0
+  lucide-react: ^1.21.0
   nucleo-ui-fill-18: ^1.4.0
   nucleo-ui-fill-duo-18: ^1.4.0
   nucleo-ui-outline-18: ^1.4.1
   nucleo-ui-outline-duo-18: ^1.4.1
   tailwind-merge: ^3.6.0
-  wrangler: ^4.100.0
+  wrangler: ^4.103.0
   shiki: ^4.2.0
   "@tanstack/react-hotkeys": ^0.10.0
   "@vitejs/plugin-rsc": ^0.5.27
-  "@cloudflare/vite-plugin": ^1.40.2
+  "@cloudflare/vite-plugin": ^1.42.1
   portless: ^0.14.0
 overrides:
   vite: "catalog:"
