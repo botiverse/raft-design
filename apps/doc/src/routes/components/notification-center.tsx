@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useId, useRef, type RefObject } from "react";
-import { AlertTriangle, CheckCircle2 } from "lucide-react";
+import { useId, useRef, type ReactNode, type RefObject } from "react";
+import { AlertTriangle, CheckCircle2, CircleGauge } from "lucide-react";
 import {
   Button,
   EmptyStateDescription,
@@ -26,7 +26,6 @@ import {
   NotificationCenterTrigger,
 } from "@slock/ui";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -71,6 +70,7 @@ type DemoAction = {
 type DemoEntry = {
   id: string;
   status: DemoStatus;
+  icon?: ReactNode;
   title: string;
   body?: string;
   actions?: DemoAction[];
@@ -81,6 +81,7 @@ const ENTRIES: DemoEntry[] = [
   {
     id: "runtime-stalled",
     status: "warning",
+    icon: <CircleGauge />,
     title: "Runtime stalled",
     body: "Atlas has not reported activity for 15 minutes.",
     actions: [{ label: "View", variant: "primary" }, { label: "Dismiss" }],
@@ -162,7 +163,9 @@ const SNIPPETS = {
     </NotificationCenterScroller>
   </NotificationCenterPopup>
 </NotificationCenter>`,
-  preview: `<NotificationCenter open modal={false} triggerId={triggerId}>
+  preview: `import { AlertTriangle, CircleGauge } from "lucide-react";
+
+<NotificationCenter open modal={false} triggerId={triggerId}>
   <NotificationCenterTrigger id={triggerId} render={<Button variant="outline" size="icon-md" />}>
     <AlertTriangle aria-hidden size={18} />
   </NotificationCenterTrigger>
@@ -179,7 +182,9 @@ const SNIPPETS = {
       <NotificationCenterList>
         <NotificationCenterItem>
           <NotificationCenterItemRow>
-            <NotificationCenterItemIcon status="warning" />
+            <NotificationCenterItemIcon status="warning">
+              <CircleGauge />
+            </NotificationCenterItemIcon>
             <NotificationCenterItemContent>
               <NotificationCenterItemTitle>Runtime stalled</NotificationCenterItemTitle>
               <NotificationCenterItemBody>
@@ -513,26 +518,7 @@ function NotificationCenterDoc() {
     <DocPage
       title="NotificationCenter"
       description="A notification-center frame composed from header, scroller, list, item, and action parts."
-      overview={
-        <Differences from="NotificationCenter">
-          <li>
-            source frame semantics are preserved through explicit header, scroller, list, item,
-            status, and action slots
-          </li>
-          <li>
-            source trigger/open state, Escape close, and outside press close are delegated to Base
-            UI <code>Popover</code>
-          </li>
-          <li>
-            source <code>entries</code>, <code>actions</code>, and <code>emptyState</code> business
-            props are removed; caller maps data into compound parts
-          </li>
-          <li>
-            action buttons reuse the shared <code>Button</code> size and variant contract while the
-            notification center owns item layout and alignment
-          </li>
-        </Differences>
-      }
+      sectionDividers={false}
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
@@ -680,7 +666,9 @@ function NotificationCenterExample({
                 {entries.map((entry) => (
                   <NotificationCenterItem key={entry.id} read={entry.read}>
                     <NotificationCenterItemRow>
-                      <NotificationCenterItemIcon status={entry.status} />
+                      <NotificationCenterItemIcon status={entry.status}>
+                        {entry.icon}
+                      </NotificationCenterItemIcon>
                       <NotificationCenterItemContent>
                         <NotificationCenterItemTitle>{entry.title}</NotificationCenterItemTitle>
                         {entry.body ? (

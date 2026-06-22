@@ -20,7 +20,7 @@ import {
   useTheme,
   type NotificationCenterPopupProps,
 } from "@slock/ui";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, CircleGauge } from "lucide-react";
 import { useId, useRef, type RefObject } from "react";
 import { cn } from "tailwind-variants";
 
@@ -40,7 +40,9 @@ export function NotificationCenterContent({
         <NotificationCenterList>
           <NotificationCenterItem>
             <NotificationCenterItemRow>
-              <NotificationCenterItemIcon status="warning" />
+              <NotificationCenterItemIcon status="warning">
+                <CircleGauge />
+              </NotificationCenterItemIcon>
               <NotificationCenterItemContent>
                 <NotificationCenterItemTitle>Runtime stalled</NotificationCenterItemTitle>
                 <NotificationCenterItemBody>
