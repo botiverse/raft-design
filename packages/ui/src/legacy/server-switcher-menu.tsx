@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ComponentPropsWithRef, type ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check, Plus } from "lucide-react";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import { useTheme } from "../lib/theme/use-theme.ts";
 
 // "Switch server" dropdown content: joined servers + join-community actions + a

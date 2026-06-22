@@ -6,7 +6,7 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, ChevronDown, Copy } from "lucide-react";
 import { useCallback, useState, type ReactNode } from "react";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import { TextMorph } from "torph/react";
 
 import { CodeBlock } from "./code-block.tsx";

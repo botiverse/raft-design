@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from "react";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const inlineCode = tv({

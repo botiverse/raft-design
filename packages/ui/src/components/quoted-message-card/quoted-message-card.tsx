@@ -1,7 +1,7 @@
 import { MessageSquare } from "lucide-react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import { PreviewShell, type PreviewShellProps } from "../preview-shell/preview-shell.tsx";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 

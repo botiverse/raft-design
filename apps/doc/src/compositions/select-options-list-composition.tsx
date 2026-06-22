@@ -12,7 +12,7 @@ import {
 
 // @docs-source-strip-start
 import { useRef, type RefObject } from "react";
-import { cn } from "tailwind-variants";
+import { cn } from "@slock/ui/cn";
 // @docs-source-strip-end
 
 export function SelectOptionsListContent() {

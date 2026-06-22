@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react";
-import { cn } from "tailwind-variants";
+import { cn } from "../lib/cn.ts";
 
 type SpinnerSize = "sm" | "lg";
 

@@ -1,7 +1,7 @@
 import { createContext, use, useState, type ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import { Button } from "../button/index.ts";

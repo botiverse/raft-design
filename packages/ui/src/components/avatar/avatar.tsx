@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants/lite";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 

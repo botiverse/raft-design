@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 // EmptyState family: a quiet "nothing here yet" surface — muted icon, muted

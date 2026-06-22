@@ -23,7 +23,7 @@ catalog:
   nucleo-ui-fill-duo-18: ^1.4.0
   nucleo-ui-outline-18: ^1.4.1
   nucleo-ui-outline-duo-18: ^1.4.1
-  tailwind-merge: ^3.6.0
+  cnfast: ^0.0.7
   wrangler: ^4.103.0
   shiki: ^4.2.0
   "@tanstack/react-hotkeys": ^0.10.0
@@ -53,3 +53,4 @@ minimumReleaseAgeExclude:
   - "@cloudflare/vite-plugin@1.40.0"
   - miniflare@4.20260603.0
   - wrangler@4.98.0
+  - cnfast@0.0.7

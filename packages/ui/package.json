@@ -14,6 +14,11 @@
       "development": "./src/index.ts",
       "default": "./dist/index.mjs"
     },
+    "./cn": {
+      "types": "./src/lib/cn.ts",
+      "development": "./src/lib/cn.ts",
+      "default": "./dist/cn.mjs"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
@@ -32,9 +37,9 @@
     "@dnd-kit/sortable": "catalog:",
     "@dnd-kit/utilities": "catalog:",
     "@tanstack/react-hotkeys": "catalog:",
+    "cnfast": "catalog:",
     "lucide-react": "catalog:",
     "nucleo-ui-outline-18": "catalog:",
-    "tailwind-merge": "catalog:",
     "tailwind-variants": "catalog:"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import type { KeyboardEvent, ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check } from "lucide-react";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import { useTheme } from "../lib/theme/use-theme.ts";
 
 // Single-select popover content: a header, an optional search box, and a list of

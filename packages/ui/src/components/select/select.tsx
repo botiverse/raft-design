@@ -2,7 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check as LucideCheck } from "lucide-react";
 import { IconCheckOutline18, IconChevronDownOutline18 } from "nucleo-ui-outline-18";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import { Button } from "../button/index.ts";

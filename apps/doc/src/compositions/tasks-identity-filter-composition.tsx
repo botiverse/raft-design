@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { cn } from "tailwind-variants";
+import { cn } from "@slock/ui/cn";
 import { IconChevronDownOutline18, IconUserOutline18 } from "nucleo-ui-outline-18";
 import {
   Avatar,

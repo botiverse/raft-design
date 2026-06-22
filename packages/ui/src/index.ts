@@ -1,5 +1,6 @@
 export { Button, buttonVariants } from "./components/button/index.ts";
 export type { ButtonProps } from "./components/button/index.ts";
+export { cn } from "./lib/cn.ts";
 
 export { Kbd, KbdGroup } from "./components/kbd/index.ts";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index.ts";

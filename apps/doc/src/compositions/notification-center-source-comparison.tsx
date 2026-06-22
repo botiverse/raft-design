@@ -1,5 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import { cn } from "tailwind-variants";
+import { cn } from "@slock/ui/cn";
 import LegacyNotificationCenter, {
   type NotificationCenterEntry as LegacyNotificationCenterEntry,
 } from "../../../../packages/ui/src/legacy/NotificationCenter.tsx";

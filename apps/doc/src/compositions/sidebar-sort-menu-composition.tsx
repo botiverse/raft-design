@@ -3,7 +3,7 @@ import { DropdownMenuPopup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from
 // @docs-source-strip-start
 import { DropdownMenu, DropdownMenuTrigger } from "@slock/ui";
 import { useId } from "react";
-import { cn } from "tailwind-variants";
+import { cn } from "@slock/ui/cn";
 // @docs-source-strip-end
 
 export function SidebarSortMenuContent() {

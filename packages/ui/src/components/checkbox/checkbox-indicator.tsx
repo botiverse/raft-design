@@ -1,6 +1,6 @@
 import { Check, Minus } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants/lite";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const checkboxIndicator = tv({

@@ -1,5 +1,5 @@
 import { Field as BaseField } from "@base-ui/react/field";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants/lite";
 import { LabelAsterisk, LabelOptional } from "../label/label.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";

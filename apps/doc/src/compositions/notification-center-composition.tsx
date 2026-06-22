@@ -22,7 +22,7 @@ import {
 } from "@slock/ui";
 import { AlertTriangle, CircleGauge } from "lucide-react";
 import { useId, useRef, type RefObject } from "react";
-import { cn } from "tailwind-variants";
+import { cn } from "@slock/ui/cn";
 
 export function NotificationCenterContent({
   className,

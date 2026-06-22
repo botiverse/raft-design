@@ -1,5 +1,5 @@
 import { Input as BaseInput } from "@base-ui/react/input";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";

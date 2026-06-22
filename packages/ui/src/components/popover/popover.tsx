@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import { tv } from "tailwind-variants";
+import { tv } from "tailwind-variants/lite";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 

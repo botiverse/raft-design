@@ -2,7 +2,7 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants/lite";
 import { EmptyState, type EmptyStateProps } from "../empty-state/empty-state.tsx";
 import { Button, type ButtonProps } from "../button/button.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
