@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   Combobox,
   ComboboxClear,
+  ComboboxControl,
   ComboboxContent,
   ComboboxEmpty,
   ComboboxHeader,
@@ -19,7 +20,6 @@ import {
 import {
   IconCheckOutline18,
   IconChevronDownOutline18,
-  IconCircleUserOutline18,
   IconCodeBranchOutline18,
   IconFolderOutline18,
   IconHashtagOutline18,
@@ -28,11 +28,12 @@ import {
   IconLoaderOutline18,
   IconAtSignOutline18,
   IconCircleWarningOutline18,
+  IconSparkle2Outline18,
 } from "nucleo-ui-outline-18";
 import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -58,14 +59,21 @@ import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.t
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
-  { id: "preview", title: "Preview" },
-  { id: "anatomy", title: "Anatomy" },
   {
-    id: "async-examples",
-    title: "Async examples",
+    id: "searchable-combobox",
+    title: "Searchable combobox",
     children: [
-      { id: "async-load-options", title: "Load options" },
+      { id: "preview", title: "Preview" },
+      { id: "anatomy", title: "Anatomy" },
       { id: "async-search", title: "Async search" },
+    ],
+  },
+  {
+    id: "dropdown-combobox",
+    title: "Dropdown combobox",
+    children: [
+      { id: "button-trigger", title: "Button trigger" },
+      { id: "async-load-options", title: "Load options" },
       { id: "async-select", title: "Async select" },
     ],
   },
@@ -91,16 +99,19 @@ const channels = [
 
 type Channel = (typeof channels)[number];
 
+const models = [
+  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
+  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
+  { id: "vision", label: "Raft Vision", description: "Image understanding" },
+  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
+] as const;
+
+type Model = (typeof models)[number];
+
 type Repository = {
   id: string;
   label: string;
   description: string;
-};
-
-type Person = {
-  id: string;
-  label: string;
-  handle: string;
 };
 
 type Branch = {
@@ -109,21 +120,10 @@ type Branch = {
   description: string;
 };
 
-type PlaygroundValues = {
-  open: boolean;
-};
-
 const repositories: readonly Repository[] = [
   { id: "raft-ui", label: "raft-ui", description: "Design system" },
   { id: "raft", label: "raft", description: "Workspace app" },
   { id: "source", label: "source", description: "Reference repo" },
-];
-
-const people: readonly Person[] = [
-  { id: "me", label: "Me", handle: "@me" },
-  { id: "atlas", label: "Atlas", handle: "@atlas" },
-  { id: "emil", label: "Emil", handle: "@emil" },
-  { id: "mika", label: "Mika", handle: "@mika" },
 ];
 
 const branches: readonly Branch[] = [
@@ -139,19 +139,19 @@ const repositoryQuery = mockQueryOptions({
   queryFn: () => repositories,
 });
 
-const peopleSearchQuery = mockQueryOptions({
-  queryKey: ["combobox", "people-search"],
+const modelSearchQuery = mockQueryOptions({
+  queryKey: ["combobox", "model-search"],
   delayMs: 450,
   shouldFail: false,
   queryFn: (query: string) => {
     const normalizedQuery = query.trim().toLowerCase();
 
     if (!normalizedQuery) {
-      return people.slice(0, 3);
+      return models.slice(0, 3);
     }
 
-    return people.filter((person) =>
-      `${person.label} ${person.handle}`.toLowerCase().includes(normalizedQuery),
+    return models.filter((model) =>
+      `${model.label} ${model.description}`.toLowerCase().includes(normalizedQuery),
     );
   },
 });
@@ -167,10 +167,17 @@ function requestBranchChange() {
   return runMockMutation(branchChangeMutation);
 }
 
-const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
-    <ComboboxInput aria-label="Search scopes" placeholder="Search scope..." suppressPasswordManager />
-  </ComboboxInputGroup>
-  <ComboboxList>
+const MODEL_LIST_SNIPPET = `  <ComboboxList>
+    {(model) => (
+      <ComboboxItem key={model.id} value={model}>
+        <span className="truncate leading-6">{model.label}</span>
+        <ComboboxItemIndicator />
+      </ComboboxItem>
+    )}
+  </ComboboxList>
+  <ComboboxEmpty>No models found</ComboboxEmpty>`;
+
+const CHANNEL_LIST_SNIPPET = `  <ComboboxList>
     {(channel) => {
       const ChannelIcon = channel.Icon;
 
@@ -184,10 +191,67 @@ const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
         </ComboboxItem>
       );
     }}
-  </ComboboxList>`;
+  </ComboboxList>
+  <ComboboxEmpty>No channels found</ComboboxEmpty>`;
+
+const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
+    <ComboboxInput aria-label="Search scopes" placeholder="Search scope..." suppressPasswordManager />
+  </ComboboxInputGroup>
+${CHANNEL_LIST_SNIPPET}`;
 
 const SNIPPETS = {
   anatomy: `import { useState } from "react";
+import {
+  Combobox,
+  ComboboxClear,
+  ComboboxControl,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxTriggerIndicator,
+} from "@raft/ui";
+import { IconChevronDownOutline18, IconSparkle2Outline18 } from "nucleo-ui-outline-18";
+
+const models = [
+  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
+  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
+  { id: "vision", label: "Raft Vision", description: "Image understanding" },
+  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
+] as const;
+
+function ModelCombobox() {
+  const [value, setValue] = useState<typeof models[number] | null>(models[0]);
+
+  return (
+    <Combobox
+      items={models}
+      value={value}
+      itemToStringLabel={(model) => model.label}
+      onValueChange={setValue}
+      autoHighlight
+    >
+      <div className="grid w-56 gap-1.5">
+        <ComboboxLabel>Model</ComboboxLabel>
+        <ComboboxControl>
+          <IconSparkle2Outline18 aria-hidden className="size-3.5 text-foreground-muted" />
+          <ComboboxInput aria-label="Search models" placeholder="Search models..." />
+          <ComboboxClear aria-label="Clear model" />
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
+        </ComboboxControl>
+      </div>
+      <ComboboxContent className="w-[var(--anchor-width)]">
+${MODEL_LIST_SNIPPET}
+      </ComboboxContent>
+    </Combobox>
+  );
+}`,
+  buttonTrigger: `import { useState } from "react";
 import {
   Combobox,
   ComboboxContent,
@@ -217,7 +281,7 @@ const channels = [
   { id: "releases", label: "Releases", Icon: IconMegaphoneOutline18 },
 ] as const;
 
-function ChannelCombobox() {
+function ChannelFilterCombobox() {
   const [value, setValue] = useState<typeof channels[number] | null>(channels[0]);
 
   return (
@@ -356,60 +420,59 @@ function RepositoryPicker() {
   asyncSearch: `import { useState } from "react";
 import {
   Combobox,
+  ComboboxClear,
+  ComboboxControl,
   ComboboxContent,
   ComboboxEmpty,
-  ComboboxHeader,
   ComboboxInput,
-  ComboboxInputGroup,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
-  ComboboxSeparator,
-  ComboboxTrigger,
   ComboboxTriggerIndicator,
 } from "@raft/ui";
 import {
   IconChevronDownOutline18,
-  IconCircleUserOutline18,
   IconLoaderOutline18,
+  IconSparkle2Outline18,
 } from "nucleo-ui-outline-18";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
-const people = [
-  { id: "me", label: "Me", handle: "@me" },
-  { id: "atlas", label: "Atlas", handle: "@atlas" },
-  { id: "emil", label: "Emil", handle: "@emil" },
-  { id: "mika", label: "Mika", handle: "@mika" },
+const models = [
+  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
+  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
+  { id: "vision", label: "Raft Vision", description: "Image understanding" },
+  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
 ] as const;
 
-const peopleSearchQuery = mockQueryOptions({
-  queryKey: ["combobox", "people-search"],
+const modelSearchQuery = mockQueryOptions({
+  queryKey: ["combobox", "model-search"],
   delayMs: 450,
   shouldFail: false,
   queryFn: (query: string) => {
     const normalizedQuery = query.trim().toLowerCase();
 
     if (!normalizedQuery) {
-      return people.slice(0, 3);
+      return models.slice(0, 3);
     }
 
-    return people.filter((person) =>
-      \`\${person.label} \${person.handle}\`.toLowerCase().includes(normalizedQuery),
+    return models.filter((model) =>
+      \`\${model.label} \${model.description}\`.toLowerCase().includes(normalizedQuery),
     );
   },
 });
 
-function AsyncSenderSearch() {
-  const [query, setQuery] = useState("");
-  const [value, setValue] = useState<typeof people[number] | null>(null);
+function AsyncModelSearch() {
+  const [inputValue, setInputValue] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [value, setValue] = useState<typeof models[number] | null>(null);
   const { data: items = [], isLoading } = useMockQuery({
-    query: peopleSearchQuery,
-    variables: query,
+    query: modelSearchQuery,
+    variables: searchQuery,
     clearOnFetch: true,
   });
 
-  function renderSenderItems() {
+  function renderModelItems() {
     if (isLoading) {
       return (
         <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
@@ -420,19 +483,14 @@ function AsyncSenderSearch() {
     }
 
     if (items.length === 0) {
-      return <ComboboxEmpty>No senders</ComboboxEmpty>;
+      return <ComboboxEmpty>No models found</ComboboxEmpty>;
     }
 
     return (
       <ComboboxList>
-        {(person) => (
-          <ComboboxItem key={person.id} value={person}>
-            <span className="flex min-w-0 items-center gap-1.5">
-              <span className="flex size-4 shrink-0 items-center justify-center">
-                <IconCircleUserOutline18 />
-              </span>
-              <span className="truncate leading-6">{person.label}</span>
-            </span>
+        {(model) => (
+          <ComboboxItem key={model.id} value={model}>
+            <span className="truncate leading-6">{model.label}</span>
             <ComboboxItemIndicator />
           </ComboboxItem>
         )}
@@ -443,36 +501,37 @@ function AsyncSenderSearch() {
   return (
     <Combobox
       open
-      inputValue={query}
+      inputValue={inputValue}
       value={value}
       items={items}
-      itemToStringLabel={(person) => person.label}
+      itemToStringLabel={(model) => model.label}
       onInputValueChange={(nextQuery, eventDetails) => {
         if (eventDetails.reason !== "item-press") {
-          setQuery(nextQuery);
+          setInputValue(nextQuery);
+          setSearchQuery(nextQuery);
         }
       }}
-      onValueChange={setValue}
+      onValueChange={(nextValue) => {
+        setValue(nextValue);
+        if (nextValue) {
+          setInputValue(nextValue.label);
+        }
+      }}
       autoHighlight
     >
-      <ComboboxTrigger className="h-8 w-36 py-0">
-        <IconCircleUserOutline18 />
-        <span className="min-w-0 truncate text-left">
-          {value ? \`Sender: \${value.label}\` : "Choose sender"}
-        </span>
-        <ComboboxTriggerIndicator>
-          <IconChevronDownOutline18 aria-hidden />
-        </ComboboxTriggerIndicator>
-      </ComboboxTrigger>
-      <ComboboxContent className="w-[220px]">
-        <ComboboxHeader>
-          <ComboboxLabel>Sender</ComboboxLabel>
-        </ComboboxHeader>
-        <ComboboxSeparator />
-        <ComboboxInputGroup>
-          <ComboboxInput aria-label="Search senders" placeholder="Search..." />
-        </ComboboxInputGroup>
-        {renderSenderItems()}
+      <div className="grid w-56 gap-1.5">
+        <ComboboxLabel>Model</ComboboxLabel>
+        <ComboboxControl>
+          <IconSparkle2Outline18 aria-hidden className="size-3.5 text-foreground-muted" />
+          <ComboboxInput aria-label="Search models" placeholder="Search models..." />
+          <ComboboxClear aria-label="Clear model" />
+          <ComboboxTriggerIndicator>
+            <IconChevronDownOutline18 aria-hidden />
+          </ComboboxTriggerIndicator>
+        </ComboboxControl>
+      </div>
+      <ComboboxContent className="w-[var(--anchor-width)]">
+        {renderModelItems()}
       </ComboboxContent>
     </Combobox>
   );
@@ -611,6 +670,7 @@ function AsyncBranchSelect() {
             </ComboboxItem>
           )}
         </ComboboxList>
+        <ComboboxEmpty>No branches found</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
   );
@@ -625,9 +685,16 @@ const PROPS: readonly PropRow[] = [
       "Owns selected value, input value, filtering, highlighted item, Escape, and Enter selection.",
   },
   {
+    name: "ComboboxControl",
+    type: "Base UI Combobox.InputGroup.Props",
+    description:
+      "Input-first control surface. Use it when the visible combobox trigger should be searchable.",
+  },
+  {
     name: "ComboboxTrigger",
     type: "Base UI Combobox.Trigger.Props",
-    description: "Outline button trigger by default. Use render to substitute the trigger element.",
+    description:
+      "Button trigger for picker-style filters where the search input lives inside the popup.",
   },
   {
     name: "ComboboxInput",
@@ -873,6 +940,14 @@ function ComboboxBody() {
           suppressPasswordManager
         />
       </ComboboxInputGroup>
+      <ComboboxChannelList />
+    </>
+  );
+}
+
+function ComboboxChannelList() {
+  return (
+    <>
       <ComboboxList>
         {(channel: Channel) => {
           const ChannelIcon = channel.Icon;
@@ -890,11 +965,73 @@ function ComboboxBody() {
           );
         }}
       </ComboboxList>
+      <ComboboxEmpty>No channels found</ComboboxEmpty>
     </>
   );
 }
 
-function PreviewCombobox({ open }: PlaygroundValues) {
+function ComboboxModelList() {
+  return (
+    <>
+      <ComboboxList>
+        {(model: Model) => (
+          <ComboboxItem key={model.id} value={model}>
+            <span className="truncate leading-6">{model.label}</span>
+            <ComboboxItemIndicator />
+          </ComboboxItem>
+        )}
+      </ComboboxList>
+      <ComboboxEmpty>No models found</ComboboxEmpty>
+    </>
+  );
+}
+
+function PreviewCombobox() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [selectedModel, setSelectedModel] = useState<Model | null>(models[0]);
+
+  return (
+    <div ref={portalRef} className="relative flex justify-center">
+      <Combobox<Model>
+        items={models}
+        value={selectedModel}
+        itemToStringLabel={(model) => model.label}
+        onValueChange={setSelectedModel}
+        autoHighlight
+      >
+        <div className="grid w-56 gap-1.5">
+          <ComboboxLabel>Model</ComboboxLabel>
+          <ComboboxControl>
+            <IconSparkle2Outline18
+              aria-hidden
+              className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+            />
+            <ComboboxInput
+              aria-label="Search models"
+              placeholder="Search models..."
+              suppressPasswordManager
+            />
+            <ComboboxClear aria-label="Clear model" />
+            <ComboboxTriggerIndicator>
+              <IconChevronDownOutline18 aria-hidden />
+            </ComboboxTriggerIndicator>
+          </ComboboxControl>
+        </div>
+        <ComboboxContent
+          initialFocus={false}
+          finalFocus={false}
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[var(--anchor-width)]"
+        >
+          <ComboboxModelList />
+        </ComboboxContent>
+      </Combobox>
+    </div>
+  );
+}
+
+function ButtonTriggerCombobox() {
   const portalRef = useRef<HTMLDivElement>(null);
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(channels[0]);
   const SelectedChannelIcon = selectedChannel?.Icon ?? IconMessagesOutline18;
@@ -902,7 +1039,7 @@ function PreviewCombobox({ open }: PlaygroundValues) {
   return (
     <div ref={portalRef} className="relative flex justify-center">
       <Combobox<Channel>
-        open={open}
+        open
         items={channels}
         value={selectedChannel}
         itemToStringLabel={(channel) => channel.label}
@@ -1018,15 +1155,16 @@ function AsyncOptionsCombobox() {
 
 function AsyncSearchCombobox() {
   const portalRef = useRef<HTMLDivElement>(null);
-  const [query, setQuery] = useState("");
-  const [value, setValue] = useState<Person | null>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [value, setValue] = useState<Model | null>(null);
   const { data: items = [], isLoading } = useMockQuery({
-    query: peopleSearchQuery,
-    variables: query,
+    query: modelSearchQuery,
+    variables: searchQuery,
     clearOnFetch: true,
   });
 
-  function renderSenderItems() {
+  function renderModelItems() {
     if (isLoading) {
       return (
         <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
@@ -1037,19 +1175,14 @@ function AsyncSearchCombobox() {
     }
 
     if (items.length === 0) {
-      return <ComboboxEmpty>No senders</ComboboxEmpty>;
+      return <ComboboxEmpty>No models found</ComboboxEmpty>;
     }
 
     return (
       <ComboboxList>
-        {(person: Person) => (
-          <ComboboxItem key={person.id} value={person}>
-            <span className="flex min-w-0 items-center gap-1.5">
-              <span className="flex size-4 shrink-0 items-center justify-center">
-                <IconCircleUserOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
-              </span>
-              <span className="truncate leading-6">{person.label}</span>
-            </span>
+        {(model: Model) => (
+          <ComboboxItem key={model.id} value={model}>
+            <span className="truncate leading-6">{model.label}</span>
             <ComboboxItemIndicator />
           </ComboboxItem>
         )}
@@ -1059,48 +1192,52 @@ function AsyncSearchCombobox() {
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
-      <Combobox<Person>
+      <Combobox<Model>
         open
-        inputValue={query}
+        inputValue={inputValue}
         value={value}
         items={items}
-        itemToStringLabel={(person) => person.label}
+        itemToStringLabel={(model) => model.label}
         onInputValueChange={(nextQuery, eventDetails) => {
           if (eventDetails.reason !== "item-press") {
-            setQuery(nextQuery);
+            setInputValue(nextQuery);
+            setSearchQuery(nextQuery);
           }
         }}
-        onValueChange={setValue}
+        onValueChange={(nextValue) => {
+          setValue(nextValue);
+          if (nextValue) {
+            setInputValue(nextValue.label);
+          }
+        }}
         autoHighlight
       >
-        <ComboboxTrigger className="h-8 w-36 py-0">
-          <IconCircleUserOutline18 aria-hidden />
-          <span className="min-w-0 truncate text-left">
-            {value ? `Sender: ${value.label}` : "Choose sender"}
-          </span>
-          <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
-          </ComboboxTriggerIndicator>
-        </ComboboxTrigger>
+        <div className="grid w-56 gap-1.5">
+          <ComboboxLabel>Model</ComboboxLabel>
+          <ComboboxControl>
+            <IconSparkle2Outline18
+              aria-hidden
+              className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+            />
+            <ComboboxInput
+              aria-label="Search models"
+              placeholder="Search models..."
+              suppressPasswordManager
+            />
+            <ComboboxClear aria-label="Clear model" />
+            <ComboboxTriggerIndicator>
+              <IconChevronDownOutline18 aria-hidden />
+            </ComboboxTriggerIndicator>
+          </ComboboxControl>
+        </div>
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
+          className="w-[var(--anchor-width)]"
         >
-          <ComboboxHeader>
-            <ComboboxLabel>Sender</ComboboxLabel>
-          </ComboboxHeader>
-          <ComboboxSeparator />
-          <ComboboxInputGroup>
-            <ComboboxInput
-              aria-label="Search senders"
-              placeholder="Search..."
-              suppressPasswordManager
-            />
-          </ComboboxInputGroup>
-          {renderSenderItems()}
+          {renderModelItems()}
         </ComboboxContent>
       </Combobox>
     </div>
@@ -1213,6 +1350,7 @@ function AsyncSelectCombobox() {
               </ComboboxItem>
             )}
           </ComboboxList>
+          <ComboboxEmpty>No branches found</ComboboxEmpty>
         </ComboboxContent>
       </Combobox>
     </div>
@@ -1228,40 +1366,27 @@ function ComboboxDoc() {
       description="Use Combobox when the user searches, highlights, and selects structured options. Use Popover only for generic floating panels."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            open: true,
-          }}
-          controls={[{ name: "open", label: "Open", type: "boolean" }]}
-          previewClassName="min-h-[24rem] items-start pt-24"
-          render={(values) => <PreviewCombobox {...values} />}
-        />
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Combobox.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-          showLineNumbers={false}
-        />
-      </DocSection>
-
-      <DocSection id="async-examples" title="Async examples">
+      <DocSection id="searchable-combobox" title="Searchable combobox">
         <div className="space-y-8">
           <div className="space-y-3">
-            <h3 id="async-load-options" className="scroll-mt-24 text-sm font-medium">
-              Load options
+            <h3 id="preview" className="scroll-mt-24 text-sm font-medium">
+              Preview
             </h3>
-            <Example
-              html={code.asyncOptions}
-              collapsedHtml={code.asyncOptionsBody}
-              previewClassName="min-h-[22rem] items-start pt-24"
-            >
-              <AsyncOptionsCombobox />
-            </Example>
+            <ComponentDemoFrame previewClassName="min-h-[24rem] items-start pt-24">
+              <PreviewCombobox />
+            </ComponentDemoFrame>
+          </div>
+          <div className="space-y-3">
+            <h3 id="anatomy" className="scroll-mt-24 text-sm font-medium">
+              Anatomy
+            </h3>
+            <DocsCodeBlock.Panel
+              path="Combobox.tsx"
+              source={SNIPPETS.anatomy}
+              html={code.anatomy}
+              collapsedHtml={code.anatomyBody}
+              showLineNumbers={false}
+            />
           </div>
           <div className="space-y-3">
             <h3 id="async-search" className="scroll-mt-24 text-sm font-medium">
@@ -1273,6 +1398,35 @@ function ComboboxDoc() {
               previewClassName="min-h-[22rem] items-start pt-24"
             >
               <AsyncSearchCombobox />
+            </Example>
+          </div>
+        </div>
+      </DocSection>
+
+      <DocSection id="dropdown-combobox" title="Dropdown combobox">
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 id="button-trigger" className="scroll-mt-24 text-sm font-medium">
+              Button trigger
+            </h3>
+            <Example
+              html={code.buttonTrigger}
+              collapsedHtml={code.buttonTriggerBody}
+              previewClassName="min-h-[24rem] items-start pt-24"
+            >
+              <ButtonTriggerCombobox />
+            </Example>
+          </div>
+          <div className="space-y-3">
+            <h3 id="async-load-options" className="scroll-mt-24 text-sm font-medium">
+              Load options
+            </h3>
+            <Example
+              html={code.asyncOptions}
+              collapsedHtml={code.asyncOptionsBody}
+              previewClassName="min-h-[22rem] items-start pt-24"
+            >
+              <AsyncOptionsCombobox />
             </Example>
           </div>
           <div className="space-y-3">

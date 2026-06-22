@@ -17,18 +17,29 @@ const combobox = tv({
       "[&_[data-slot='combobox-trigger-indicator']]:!stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']_*]:!stroke-[1.5]",
     ],
     triggerIndicator: ["ml-auto flex shrink-0 items-center justify-center opacity-60"],
+    control: [
+      "flex min-w-0 items-center gap-2",
+      "outline-none transition-colors",
+      "[&_[data-slot='combobox-input']]:min-w-0 [&_[data-slot='combobox-input']]:flex-1",
+      "[&_[data-slot='combobox-input']]:border-0 [&_[data-slot='combobox-input']]:bg-transparent [&_[data-slot='combobox-input']]:p-0",
+      "[&_[data-slot='combobox-input']]:shadow-none [&_[data-slot='combobox-input']]:outline-none [&_[data-slot='combobox-input']]:ring-0",
+      "[&_[data-slot='combobox-input']]:focus:border-transparent [&_[data-slot='combobox-input']]:focus:ring-0 [&_[data-slot='combobox-input']]:focus-visible:ring-0",
+      "[&_[data-slot='combobox-clear']]:size-5 [&_[data-slot='combobox-clear']]:min-w-5 [&_[data-slot='combobox-clear']]:shrink-0",
+      "[&_[data-slot='combobox-trigger-indicator']]:size-4",
+      "[&_[data-slot='combobox-trigger-indicator']_svg]:!size-3.5 [&_[data-slot='combobox-trigger-indicator']_svg]:shrink-0",
+    ],
     inputGroup: ["flex items-center gap-2 border-b px-2 py-2"],
     input: ["w-full outline-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
+      "h-auto max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
     header: ["flex items-center justify-between px-3 py-2"],
     separator: ["h-px shrink-0 border-0"],
-    list: ["max-h-64 overflow-y-auto"],
+    list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-1"],
     item: [
-      "flex h-9 w-full cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3",
+      "flex w-full shrink-0 cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3 py-1.5",
       "text-left outline-none transition-colors",
     ],
     itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
@@ -70,7 +81,21 @@ const combobox = tv({
         itemIndicator: ["text-black"],
         label: ["font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black"],
         clear: [
-          "font-sans text-[10px] font-bold uppercase tracking-wide text-black/60 hover:text-black",
+          "font-sans text-[10px] font-bold uppercase tracking-wide text-black hover:text-black",
+          "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
+        ],
+        triggerIndicator: [
+          "text-black opacity-100",
+          "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
+        ],
+        control: [
+          "h-9 border-2 border-line-strong bg-white px-2 py-1",
+          "font-mono text-xs font-bold text-black shadow-[var(--shadow)]",
+          "focus-within:shadow-[var(--shadow-hover)]",
+          "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
+          "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5] [&_svg_*]:fill-none",
+          "[&_[data-slot='combobox-input']]:font-mono [&_[data-slot='combobox-input']]:text-xs [&_[data-slot='combobox-input']]:font-bold [&_[data-slot='combobox-input']]:text-black",
+          "[&_[data-slot='combobox-input']::placeholder]:text-black/40",
         ],
         empty: ["font-sans text-xs font-bold text-black/50"],
         groupLabel: [
@@ -110,7 +135,20 @@ const combobox = tv({
         itemIndicator: ["text-foreground-strong"],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
         clear: [
-          "text-[11px] font-medium tracking-[-0.005em] text-foreground/45 hover:text-foreground-strong",
+          "text-[11px] font-medium tracking-[-0.005em] text-foreground-muted hover:text-foreground-strong",
+          "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5]",
+        ],
+        triggerIndicator: [
+          "text-foreground-muted opacity-100",
+          "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5]",
+        ],
+        control: [
+          "h-9 rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
+          "text-sm text-foreground shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.05)]",
+          "focus-within:border-line-strong/25 focus-within:ring-2 focus-within:ring-line-strong/8",
+          "[&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+          "[&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:text-foreground",
+          "[&_[data-slot='combobox-input']::placeholder]:text-foreground-placeholder/70",
         ],
         empty: ["text-foreground-muted"],
         groupLabel: ["text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45"],
@@ -275,6 +313,20 @@ export function ComboboxInputGroup({ className, ...props }: ComboboxInputGroupPr
     <BaseCombobox.InputGroup
       data-slot="combobox-input-group"
       className={inputGroup({ className })}
+      {...props}
+    />
+  );
+}
+
+export type ComboboxControlProps = StyledProps<BaseCombobox.InputGroup.Props>;
+
+export function ComboboxControl({ className, ...props }: ComboboxControlProps) {
+  const theme = useTheme();
+  const { control } = combobox({ theme });
+  return (
+    <BaseCombobox.InputGroup
+      data-slot="combobox-control"
+      className={control({ className })}
       {...props}
     />
   );
@@ -467,18 +519,24 @@ export function ComboboxClear({
       className={clear({ className })}
       {...props}
     >
-      {children ?? <X aria-hidden className="size-3 shrink-0" />}
+      {children ?? <X aria-hidden className="size-3.5 shrink-0" />}
     </BaseCombobox.Clear>
   );
 }
 
 export type ComboboxEmptyProps = StyledProps<BaseCombobox.Empty.Props>;
 
-export function ComboboxEmpty({ className, ...props }: ComboboxEmptyProps) {
+export function ComboboxEmpty({ className, children, ...props }: ComboboxEmptyProps) {
   const theme = useTheme();
   const { empty } = combobox({ theme });
   return (
-    <BaseCombobox.Empty data-slot="combobox-empty" className={empty({ className })} {...props} />
+    <BaseCombobox.Empty data-slot="combobox-empty" {...props}>
+      {children == null ? null : (
+        <div data-slot="combobox-empty-content" className={empty({ className })}>
+          {children}
+        </div>
+      )}
+    </BaseCombobox.Empty>
   );
 }
 

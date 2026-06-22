@@ -4,7 +4,7 @@ import { ThemeSwitcher } from "./theme-switcher.tsx";
 
 type ComponentDemoFrameProps = {
   children: ReactNode;
-  footer: ReactNode;
+  footer?: ReactNode;
   layout?: "stack" | "split";
   previewClassName?: string;
   footerClassName?: string;
@@ -40,11 +40,13 @@ export function ComponentDemoFrame({
               {children}
             </div>
           </PreviewThemeScope>
-          <div
-            className={`border-t border-[oklch(0_0_0_/_0.10)] md:border-t-0 md:border-l ${footerToneClass} ${footerInsetClass} ${footerClassName}`}
-          >
-            {footer}
-          </div>
+          {footer == null ? null : (
+            <div
+              className={`border-t border-[oklch(0_0_0_/_0.10)] md:border-t-0 md:border-l ${footerToneClass} ${footerInsetClass} ${footerClassName}`}
+            >
+              {footer}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -63,11 +65,13 @@ export function ComponentDemoFrame({
             {children}
           </div>
         </PreviewThemeScope>
-        <div
-          className={`border-t border-[oklch(0_0_0_/_0.10)] ${footerToneClass} ${footerInsetClass} ${footerClassName}`}
-        >
-          {footer}
-        </div>
+        {footer == null ? null : (
+          <div
+            className={`border-t border-[oklch(0_0_0_/_0.10)] ${footerToneClass} ${footerInsetClass} ${footerClassName}`}
+          >
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );

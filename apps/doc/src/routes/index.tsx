@@ -15,9 +15,11 @@ import {
   Button,
   Checkbox,
   Combobox,
+  ComboboxClear,
+  ComboboxControl,
+  ComboboxEmpty,
   ComboboxHeader,
   ComboboxInput,
-  ComboboxInputGroup,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxLabel,
@@ -110,6 +112,7 @@ import {
   IconInputSearchOutline18,
   IconMessageOutline18,
   IconPinOutline18,
+  IconSparkle2Outline18,
   IconTrashOutline18,
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
@@ -562,58 +565,57 @@ const SELECT_PREVIEW_OPTIONS = [
 ] as const;
 
 const HOME_COMBOBOX_OPTIONS = [
-  { id: "design", label: "#design", description: "Component reviews" },
-  { id: "runtime", label: "#runtime", description: "Agent health" },
-  { id: "release", label: "#release", description: "Ship notes" },
+  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
+  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
+  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
 ] as const;
 
 type HomeComboboxOption = (typeof HOME_COMBOBOX_OPTIONS)[number];
 
 function ComboboxPreview() {
-  const [selectedChannel, setSelectedChannel] = useState<HomeComboboxOption | null>(
+  const [selectedModel, setSelectedModel] = useState<HomeComboboxOption | null>(
     HOME_COMBOBOX_OPTIONS[0],
   );
 
   return (
-    <div className="flex h-64 w-72 items-center justify-center">
+    <div className="flex h-64 w-72 flex-col items-center justify-center gap-2">
       <Combobox<HomeComboboxOption>
         autoHighlight
         items={HOME_COMBOBOX_OPTIONS}
         isItemEqualToValue={(item, value) => item.id === value.id}
-        itemToStringLabel={(channel) => channel.label}
-        value={selectedChannel}
-        onValueChange={setSelectedChannel}
+        itemToStringLabel={(model) => model.label}
+        value={selectedModel}
+        onValueChange={setSelectedModel}
       >
-        <ComboboxPopup className="w-[240px]">
-          <ComboboxHeader>
-            <ComboboxLabel>Channels</ComboboxLabel>
-          </ComboboxHeader>
-          <ComboboxSeparator />
-          <ComboboxInputGroup>
+        <div className="grid w-[240px] gap-1.5">
+          <ComboboxLabel>Model</ComboboxLabel>
+          <ComboboxControl>
+            <IconSparkle2Outline18
+              aria-hidden
+              className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+            />
             <ComboboxInput
-              aria-label="Search channels"
-              placeholder="Search..."
+              aria-label="Search models"
+              placeholder="Search models..."
               suppressPasswordManager
             />
-          </ComboboxInputGroup>
+            <ComboboxClear aria-label="Clear model" />
+          </ComboboxControl>
+        </div>
+        <ComboboxPopup className="w-[240px]">
+          <ComboboxHeader>
+            <ComboboxLabel>Models</ComboboxLabel>
+          </ComboboxHeader>
+          <ComboboxSeparator />
           <ComboboxList>
-            {(channel: HomeComboboxOption) => (
-              <ComboboxItem key={channel.id} value={channel}>
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className="flex size-4 shrink-0 items-center justify-center text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
-                    #
-                  </span>
-                  <span className="grid min-w-0">
-                    <span className="truncate leading-5">{channel.label}</span>
-                    <span className="truncate text-[11px] leading-4 text-foreground-placeholder [[data-theme=brutal]_&]:text-black/50">
-                      {channel.description}
-                    </span>
-                  </span>
-                </span>
+            {(model: HomeComboboxOption) => (
+              <ComboboxItem key={model.id} value={model}>
+                <span className="truncate leading-5">{model.label}</span>
                 <ComboboxItemIndicator />
               </ComboboxItem>
             )}
           </ComboboxList>
+          <ComboboxEmpty>No models found</ComboboxEmpty>
         </ComboboxPopup>
       </Combobox>
     </div>
