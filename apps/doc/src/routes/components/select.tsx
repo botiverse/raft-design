@@ -563,7 +563,7 @@ function BranchSelect() {
 function StateSelects() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-3">
-      <SortSelect open />
+      <SortSelect />
       <Select disabled defaultValue="recent" items={SORT_OPTIONS} modal={false}>
         <SelectTrigger>
           <SelectValue />
@@ -575,18 +575,11 @@ function StateSelects() {
 }
 
 function RegionSelect() {
-  const [open, setOpen] = useState(true);
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
-      <Select
-        open={open}
-        onOpenChange={setOpen}
-        defaultValue="us-east"
-        items={REGION_OPTIONS}
-        modal={false}
-      >
+      <Select defaultValue="us-east" items={REGION_OPTIONS} modal={false}>
         <SelectTrigger>
           <SelectValue placeholder="Region" />
           <SelectIcon />
