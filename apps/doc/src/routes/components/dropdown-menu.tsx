@@ -22,9 +22,11 @@ import {
   IconChevronRightOutline18,
   IconCreditCardOutline18,
   IconGridCircleOutline18,
+  IconMonitorOutline18,
   IconMoonStarsOutline18,
   IconPersonDoorOutline18,
   IconProfileAnalyticsOutline18,
+  IconSunOutline18,
   IconTrashOutline18,
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
@@ -177,17 +179,21 @@ const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="che
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const RADIO_GROUP_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="radio-group-menu-trigger">
+const RADIO_GROUP_MENU_SNIPPET = `import { IconMonitorOutline18, IconSunOutline18 } from "nucleo-ui-outline-18";
+
+<DropdownMenu open modal={false} triggerId="radio-group-menu-trigger">
   <DropdownMenuTrigger id="radio-group-menu-trigger" render={<Button variant="outline" size="md" />}>
     Radio group
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
     <DropdownMenuRadioGroup defaultValue="system">
       <DropdownMenuRadioItem value="system">
-        System theme
+        <IconMonitorOutline18 />
+        <span className="min-w-0 flex-1 truncate">System theme</span>
       </DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="light">
-        Light theme
+        <IconSunOutline18 />
+        <span className="min-w-0 flex-1 truncate">Light theme</span>
       </DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   </DropdownMenuContent>
@@ -394,8 +400,14 @@ function CheckboxesMenuRows() {
 function RadioGroupMenuRows() {
   return (
     <DropdownMenuRadioGroup defaultValue="system">
-      <DropdownMenuRadioItem value="system">System theme</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="light">Light theme</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="system">
+        <IconMonitorOutline18 />
+        <span className="min-w-0 flex-1 truncate">System theme</span>
+      </DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="light">
+        <IconSunOutline18 />
+        <span className="min-w-0 flex-1 truncate">Light theme</span>
+      </DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   );
 }

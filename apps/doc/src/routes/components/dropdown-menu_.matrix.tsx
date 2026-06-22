@@ -7,8 +7,10 @@ import {
   IconBellOutline18,
   IconChevronRightOutline18,
   IconCreditCardOutline18,
+  IconMonitorOutline18,
   IconMoonStarsOutline18,
   IconPersonDoorOutline18,
+  IconSunOutline18,
   IconTrashOutline18,
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
@@ -133,9 +135,18 @@ const CASES: readonly MatrixCase[] = [
     render: () => (
       <MatrixMenu label="Theme">
         <DropdownMenuRadioGroup defaultValue="system">
-          <DropdownMenuRadioItem value="system">System theme</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="light">Light theme</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">Dark theme</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system">
+            <IconMonitorOutline18 />
+            <span className="min-w-0 flex-1 truncate">System theme</span>
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="light">
+            <IconSunOutline18 />
+            <span className="min-w-0 flex-1 truncate">Light theme</span>
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark">
+            <IconMoonStarsOutline18 />
+            <span className="min-w-0 flex-1 truncate">Dark theme</span>
+          </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </MatrixMenu>
     ),

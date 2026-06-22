@@ -19,7 +19,7 @@ const dropdownMenu = tv({
       "text-left text-sm outline-none transition-colors",
     ],
     radioItem: [
-      "flex w-full cursor-default select-none items-center justify-between gap-2 px-3",
+      "flex w-full cursor-default select-none items-center gap-2 px-3",
       "text-left outline-none transition-colors",
     ],
     submenuTrigger: [
@@ -43,7 +43,7 @@ const dropdownMenu = tv({
           "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],
         item: [
-          "font-sans font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
+          "font-sans text-xs font-bold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
@@ -52,10 +52,10 @@ const dropdownMenu = tv({
           "border-b border-black/10 last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         submenuTrigger: [
-          "font-sans font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
+          "font-sans text-xs font-bold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
@@ -78,7 +78,7 @@ const dropdownMenu = tv({
           "flex flex-col",
         ],
         item: [
-          "gap-2.5 rounded-sm px-3 py-2 text-sm font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
@@ -91,7 +91,7 @@ const dropdownMenu = tv({
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
         radioItem: [
-          "gap-2.5 rounded-sm px-3 py-2 text-sm font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
@@ -104,7 +104,7 @@ const dropdownMenu = tv({
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
         submenuTrigger: [
-          "gap-2.5 rounded-sm px-3 py-2 text-sm font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
