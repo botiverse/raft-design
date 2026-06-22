@@ -9,7 +9,7 @@ const inlineCode = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border border-black bg-brutal-yellow/40 px-1 text-sm font-mono [overflow-wrap:anywhere]",
+        root: "border border-black bg-brutal-yellow/40 px-1 text-sm font-mono text-black [overflow-wrap:anywhere]",
       },
       elegant: {
         root: [

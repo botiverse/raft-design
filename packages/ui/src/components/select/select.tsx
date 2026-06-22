@@ -49,7 +49,7 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "font-sans text-xs font-semibold text-black",
+          "font-sans text-sm font-semibold text-black",
           "[&_[data-slot='button-content']]:font-semibold [&_[data-slot='select-value']]:font-semibold",
           "[&_[data-slot='select-value']_svg]:!stroke-2 [&_[data-slot='select-value']_svg_*]:!stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
@@ -59,7 +59,7 @@ const select = tv({
           "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],
         item: [
-          "border-b border-black/10 bg-white font-sans text-xs font-semibold leading-6 text-black last:border-b-0",
+          "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-black last:border-b-0",
           "[&_[data-slot='select-item-text']]:font-semibold",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[selected]:bg-brutal-yellow/30",
@@ -79,7 +79,7 @@ const select = tv({
           "border-black bg-white text-black",
           "data-[direction=up]:border-b data-[direction=down]:border-t",
         ],
-        empty: ["font-sans text-xs font-semibold text-black/50"],
+        empty: ["font-sans text-sm font-semibold text-black/50"],
       },
       elegant: {
         trigger: [

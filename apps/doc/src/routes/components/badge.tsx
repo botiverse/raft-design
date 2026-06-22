@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Status, Text, type BadgeProps } from "@raft/ui";
+import { Badge, Button, Spinner, Status, Text, type BadgeProps } from "@raft/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 import {
   IconClockOutline18,
@@ -49,6 +49,7 @@ const TOC = [
   { id: "appearance", title: "Appearance" },
   { id: "casing", title: "Casing" },
   { id: "icons", title: "Icons" },
+  { id: "spinner", title: "Spinner" },
   { id: "composition", title: "Composition" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -100,6 +101,18 @@ import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 <Badge appearance="soft" variant="success">
   <Status size="xs" variant="success" />
   Available
+</Badge>`,
+  spinner: `import { Badge, Spinner } from "@raft/ui";
+
+<Badge>
+  {/* Badge targets Spinner and renders it one step smaller than sm. */}
+  <Spinner data-icon="inline-start" />
+  Syncing
+</Badge>
+
+<Badge variant="primary">
+  <Spinner data-icon="inline-start" />
+  Loading
 </Badge>`,
   composition: `import { Badge, Text } from "@raft/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
@@ -404,6 +417,19 @@ function BadgeDoc() {
           <Badge appearance="soft" variant="success">
             <Status size="xs" variant="success" />
             Available
+          </Badge>
+        </Example>
+      </DocSection>
+
+      <DocSection id="spinner" title="Spinner">
+        <Example html={code.spinner}>
+          <Badge>
+            <Spinner data-icon="inline-start" />
+            Syncing
+          </Badge>
+          <Badge variant="primary">
+            <Spinner data-icon="inline-start" />
+            Loading
           </Badge>
         </Example>
       </DocSection>

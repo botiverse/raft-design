@@ -59,7 +59,7 @@ const combobox = tv({
     theme: {
       brutal: {
         trigger: [
-          "font-sans text-xs font-bold text-black",
+          "font-sans text-sm font-semibold text-black",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
@@ -73,7 +73,7 @@ const combobox = tv({
         ],
         separator: ["bg-black"],
         item: [
-          "border-b border-black/10 bg-white font-sans text-xs font-bold leading-6 text-black last:border-b-0",
+          "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-black last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
@@ -89,15 +89,15 @@ const combobox = tv({
           "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
         ],
         control: [
-          "h-9 border-2 border-line-strong bg-white px-2 py-1",
-          "font-mono text-xs font-bold text-black shadow-[var(--shadow)]",
+          "border-2 border-line-strong bg-white px-2 py-1",
+          "font-sans text-sm font-semibold text-black shadow-[var(--shadow)]",
           "focus-within:shadow-[var(--shadow-hover)]",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5] [&_svg_*]:fill-none",
-          "[&_[data-slot='combobox-input']]:font-mono [&_[data-slot='combobox-input']]:text-xs [&_[data-slot='combobox-input']]:font-bold [&_[data-slot='combobox-input']]:text-black",
+          "[&_[data-slot='combobox-input']]:font-sans [&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-semibold [&_[data-slot='combobox-input']]:text-black",
           "[&_[data-slot='combobox-input']::placeholder]:text-black/40",
         ],
-        empty: ["font-sans text-xs font-bold text-black/50"],
+        empty: ["font-sans text-sm font-semibold text-black/50"],
         groupLabel: [
           "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
         ],
@@ -125,7 +125,7 @@ const combobox = tv({
         separator: ["hidden bg-line-muted"],
         list: ["flex flex-col gap-0.5 px-1.5 py-1"],
         item: [
-          "rounded-sm bg-transparent px-2 text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-foreground/[0.04] hover:text-foreground-strong",
           "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
@@ -143,7 +143,7 @@ const combobox = tv({
           "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5]",
         ],
         control: [
-          "h-9 rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
+          "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
           "text-sm text-foreground shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.05)]",
           "focus-within:border-line-strong/25 focus-within:ring-2 focus-within:ring-line-strong/8",
           "[&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",

@@ -43,19 +43,19 @@ const dropdownMenu = tv({
           "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
         ],
         item: [
-          "font-sans text-xs font-bold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
+          "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         radioItem: [
-          "h-9 overflow-hidden font-sans text-xs font-bold leading-6 text-black",
+          "h-9 overflow-hidden font-sans text-sm font-semibold leading-6 text-black",
           "border-b border-black/10 last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         submenuTrigger: [
-          "font-sans text-xs font-bold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
+          "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
@@ -63,7 +63,7 @@ const dropdownMenu = tv({
           "border-b border-black px-3 py-2",
           "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
         ],
-        shortcut: ["font-sans"],
+        shortcut: ["font-sans text-sm font-semibold leading-6"],
         itemCount: [
           "rounded border border-black bg-brutal-pink px-1.5 py-0.5",
           "font-sans text-[10px] leading-none font-bold text-white",

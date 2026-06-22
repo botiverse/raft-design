@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Avatar,
@@ -16,23 +16,14 @@ import {
   Checkbox,
   Combobox,
   ComboboxClear,
+  ComboboxContent,
   ComboboxControl,
   ComboboxEmpty,
-  ComboboxHeader,
   ComboboxInput,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
-  ComboboxPopup,
-  ComboboxSeparator,
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -573,14 +564,16 @@ const HOME_COMBOBOX_OPTIONS = [
 type HomeComboboxOption = (typeof HOME_COMBOBOX_OPTIONS)[number];
 
 function ComboboxPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
   const [selectedModel, setSelectedModel] = useState<HomeComboboxOption | null>(
     HOME_COMBOBOX_OPTIONS[0],
   );
 
   return (
-    <div className="flex h-64 w-72 flex-col items-center justify-center gap-2">
+    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
       <Combobox<HomeComboboxOption>
         autoHighlight
+        open
         items={HOME_COMBOBOX_OPTIONS}
         isItemEqualToValue={(item, value) => item.id === value.id}
         itemToStringLabel={(model) => model.label}
@@ -602,11 +595,13 @@ function ComboboxPreview() {
             <ComboboxClear aria-label="Clear model" />
           </ComboboxControl>
         </div>
-        <ComboboxPopup className="w-[240px]">
-          <ComboboxHeader>
-            <ComboboxLabel>Models</ComboboxLabel>
-          </ComboboxHeader>
-          <ComboboxSeparator />
+        <ComboboxContent
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          initialFocus={false}
+          finalFocus={false}
+          className="w-[240px]"
+        >
           <ComboboxList>
             {(model: HomeComboboxOption) => (
               <ComboboxItem key={model.id} value={model}>
@@ -616,7 +611,7 @@ function ComboboxPreview() {
             )}
           </ComboboxList>
           <ComboboxEmpty>No models found</ComboboxEmpty>
-        </ComboboxPopup>
+        </ComboboxContent>
       </Combobox>
     </div>
   );
@@ -624,17 +619,10 @@ function ComboboxPreview() {
 
 function SelectPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(true);
 
   return (
     <div ref={portalRef} className="relative flex h-56 w-72 items-start justify-center pt-14">
-      <Select
-        open={open}
-        onOpenChange={setOpen}
-        defaultValue="relevance"
-        items={SELECT_PREVIEW_OPTIONS}
-        modal={false}
-      >
+      <Select open defaultValue="relevance" items={SELECT_PREVIEW_OPTIONS} modal={false}>
         <SelectTrigger>
           <SelectValue>
             {(selectedValue) => {
@@ -681,11 +669,10 @@ function SelectPreview() {
 
 function DropdownMenuPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(true);
 
   return (
     <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
-      <DropdownMenu open={open} onOpenChange={setOpen} modal={false} triggerId="home-menu-trigger">
+      <DropdownMenu open modal={false} triggerId="home-menu-trigger">
         <DropdownMenuTrigger id="home-menu-trigger" render={<Button variant="outline" size="md" />}>
           <IconUserOutline18 aria-hidden />
           Account
@@ -722,78 +709,73 @@ function DropdownMenuPreview() {
 }
 
 function ContextMenuPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(true);
-  const [hasCursorAnchor, setHasCursorAnchor] = useState(false);
-  const anchor = {
-    getBoundingClientRect() {
-      const rect = triggerRef.current?.getBoundingClientRect();
-      return DOMRect.fromRect({
-        x: rect?.right ?? 0,
-        y: rect?.bottom ?? 0,
-        width: 0,
-        height: 0,
-      });
-    },
-  };
-
   return (
-    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-9">
-      <ContextMenu open={open} onOpenChange={setOpen}>
-        <div ref={triggerRef} onContextMenuCapture={() => setHasCursorAnchor(true)}>
-          <ContextMenuTrigger
-            className={[
-              "flex min-h-14 w-56 items-center justify-center px-4 text-center",
-              "bg-[oklch(0.955_0.003_286)] text-sm font-medium text-[oklch(0.32_0.006_286)]",
-              "[[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold",
-            ].join(" ")}
-            onClick={() => {
-              setHasCursorAnchor(false);
-              setOpen((currentOpen) => !currentOpen);
-            }}
-          >
-            Right click thread
-          </ContextMenuTrigger>
+    <div className="relative flex h-64 w-72 items-start justify-center pt-9">
+      <div
+        className={[
+          "flex min-h-14 w-56 select-none items-center justify-center px-4 text-center",
+          "bg-[oklch(0.955_0.003_286)] text-sm font-medium text-[oklch(0.32_0.006_286)]",
+          "[[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold",
+        ].join(" ")}
+      >
+        Right click thread
+      </div>
+      <div
+        className={[
+          "absolute top-[6.5rem] left-1/2 z-50 flex w-60 min-w-60 -translate-x-1/2 flex-col overflow-hidden",
+          "gap-0.5 rounded-md bg-layer-popover p-1",
+          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
+          "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:p-0 [[data-theme=brutal]_&]:shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
+        ].join(" ")}
+      >
+        <div className="-mx-1 border-b border-line-muted px-3 py-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45 [[data-theme=brutal]_&]:mx-0 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60 [[data-theme=brutal]_&]:uppercase">
+          Thread actions
         </div>
-        <ContextMenuContent
-          anchor={hasCursorAnchor ? undefined : anchor}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="flex w-60 min-w-60 flex-col"
-        >
-          <ContextMenuLabel>Thread actions</ContextMenuLabel>
-          <ContextMenuItem>
-            <IconPinOutline18 />
-            <span className="min-w-0 flex-1 truncate">Pin thread</span>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <IconCopyOutline18 />
-            <span className="min-w-0 flex-1 truncate">Copy link</span>
-            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem>
-            <IconArchive2Outline18 />
-            <span className="min-w-0 flex-1 truncate">Archive</span>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <IconTrashOutline18 />
-            <span className="min-w-0 flex-1 truncate">Delete</span>
-            <ContextMenuShortcut>⌫</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+        <ContextMenuPreviewRow icon={<IconPinOutline18 />} label="Pin thread" />
+        <ContextMenuPreviewRow icon={<IconCopyOutline18 />} label="Copy link" shortcut="⌘C" />
+        <div className="my-1 -mx-1 h-px bg-line-muted [[data-theme=brutal]_&]:m-0 [[data-theme=brutal]_&]:border-t-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-transparent" />
+        <ContextMenuPreviewRow icon={<IconArchive2Outline18 />} label="Archive" />
+        <ContextMenuPreviewRow icon={<IconTrashOutline18 />} label="Delete" shortcut="⌫" />
+      </div>
+    </div>
+  );
+}
+
+function ContextMenuPreviewRow({
+  icon,
+  label,
+  shortcut,
+}: {
+  icon: ReactNode;
+  label: string;
+  shortcut?: string;
+}) {
+  return (
+    <div
+      className={[
+        "flex w-full cursor-default select-none items-center gap-2.5 rounded-sm px-3 py-2",
+        "text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
+        "[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+        "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:gap-2 [[data-theme=brutal]_&]:py-1.5 [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-sm [[data-theme=brutal]_&]:font-semibold [[data-theme=brutal]_&]:leading-6 [[data-theme=brutal]_&]:tracking-normal [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:[&_svg]:size-3.5 [[data-theme=brutal]_&]:[&_svg]:stroke-2 [[data-theme=brutal]_&]:[&_svg_*]:stroke-2",
+      ].join(" ")}
+    >
+      {icon}
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {shortcut ? (
+        <span className="ml-auto text-foreground-muted [[data-theme=brutal]_&]:font-sans">
+          {shortcut}
+        </span>
+      ) : null}
     </div>
   );
 }
 
 function PopoverPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(true);
 
   return (
     <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
-      <Popover open={open} onOpenChange={setOpen} modal={false} triggerId="home-popover-trigger">
+      <Popover open modal={false} triggerId="home-popover-trigger">
         <PopoverTrigger id="home-popover-trigger" render={<Button variant="outline" size="md" />}>
           <IconCircleInfoFill18 aria-hidden />
           Usage notes
@@ -899,6 +881,24 @@ function NotificationCenterPreview() {
 function Home() {
   const [themePreset, setThemePreset] = useState<ThemePreset>(THEME_PRESETS[1]);
 
+  useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+
+    window.history.scrollRestoration = "manual";
+
+    const resetScroll = () => window.scrollTo(0, 0);
+    const frame = window.requestAnimationFrame(resetScroll);
+    const timeout = window.setTimeout(resetScroll, 150);
+
+    resetScroll();
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={themePreset.family}>
       <div
@@ -911,7 +911,7 @@ function Home() {
             <article
               key={item.label}
               className={[
-                "relative isolate h-[420px] overflow-hidden",
+                "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
                 "border-b border-r border-line-subtle bg-background",
               ].join(" ")}
             >
@@ -935,7 +935,7 @@ function Home() {
         <fieldset
           aria-label="Preview theme"
           className={[
-            "fixed bottom-6 left-[calc(50vw+var(--rail-w)/2)] z-20 -translate-x-1/2",
+            "fixed bottom-6 left-[calc(50vw+var(--rail-w)/2)] z-[80] -translate-x-1/2",
             "grid grid-cols-2 overflow-hidden rounded-none bg-layer-panel text-foreground backdrop-blur",
             "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           ].join(" ")}
