@@ -53,6 +53,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
+  Spinner,
   Status,
   Tabs,
   TabsBackground,
@@ -99,6 +100,7 @@ type ComponentRoute =
   | "/components/badge"
   | "/components/inline-code"
   | "/components/status"
+  | "/components/spinner"
   | "/components/tabs"
   | "/components/banner"
   | "/components/notification-center";
@@ -321,6 +323,23 @@ const COMPONENT_GRID = [
         <Status variant="success" pulse aria-label="Online" />
         <Status variant="primary" aria-label="Queued" />
         <Status variant="accent" aria-label="Unread" />
+      </div>
+    ),
+  },
+  {
+    label: "Spinner",
+    to: "/components/spinner",
+    preview: (
+      <div className="grid justify-items-center gap-4">
+        <div className="flex items-center gap-4">
+          <Spinner />
+          <Spinner size="lg" />
+        </div>
+        <Button loading>Loading</Button>
+        <Badge variant="primary">
+          <Spinner data-icon="inline-start" />
+          Syncing
+        </Badge>
       </div>
     ),
   },

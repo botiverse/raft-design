@@ -203,7 +203,7 @@ const NAV = [
         to: "/components/notification-center",
         progress: { theme: "done" },
       },
-      { label: "Spinner", to: "/components/spinner", progress: { theme: "todo" } },
+      { label: "Spinner", to: "/components/spinner", progress: { theme: "done" } },
     ],
     planned: [
       {
