@@ -255,8 +255,8 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-primary-400 text-primary-950",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.25),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.12),0_4px_4px_-2px_oklch(0.85_0.162_91.89_/_0.08),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
-          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_14%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.15),0_5px_0.5px_-1px_oklch(0.85_0.162_91.89_/_0.02),0_4px_0px_-2px_oklch(0.85_0.162_91.89_/_0),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.83)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_11%)_0%,oklab(100%_0_0_/_0%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.86_0.15_91.89)]",
         ],
       },
