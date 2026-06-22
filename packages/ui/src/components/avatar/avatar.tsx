@@ -38,14 +38,14 @@ const avatar = tv({
     ],
     badge: [
       "absolute right-0 bottom-0 z-10 translate-x-1/4 translate-y-1/4 select-none",
-      "inline-flex items-center justify-center rounded-full border-2",
+      "inline-flex items-center justify-center rounded-full outline-2 outline-white",
       "size-2 [&>svg]:hidden",
       "group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
       "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
       "group-data-[size=md]/avatar:size-2.5 group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=sm]/avatar:size-2",
-      "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:border",
-      "group-data-[size=2xs]/avatar:size-1.5 group-data-[size=2xs]/avatar:border",
+      "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:outline",
+      "group-data-[size=2xs]/avatar:size-1.5 group-data-[size=2xs]/avatar:outline",
     ],
     group: ["group/avatar-group flex items-center"],
   },
@@ -54,7 +54,7 @@ const avatar = tv({
       brutal: {
         root: "border-line-strong",
         fallback: "text-black",
-        badge: ["border-line-strong bg-success-base text-foreground-strong"],
+        badge: ["bg-success-base text-foreground-strong"],
         group: [
           "-space-x-1.5",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
@@ -71,7 +71,7 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:text-[10px]",
         ],
         badge: [
-          "translate-x-0 translate-y-0 border-0 bg-success-base text-foreground-inverse",
+          "translate-x-0 translate-y-0 bg-success-base text-foreground-inverse",
           "right-0.5 bottom-0.5",
           "group-data-[size=xl]/avatar:right-1 group-data-[size=xl]/avatar:bottom-1",
           "group-data-[size=lg]/avatar:right-0.75 group-data-[size=lg]/avatar:bottom-0.75",

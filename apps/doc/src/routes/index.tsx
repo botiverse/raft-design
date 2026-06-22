@@ -126,10 +126,65 @@ const THEME_PRESETS = [
 const FLOAT_ACTIONS_SHADOW =
   "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px";
 
-const AVATAR_PHOTOS = [
-  "https://unsplash.com/photos/n4KewLKFOZw/download?force=true&w=160&h=160&fit=crop&crop=faces",
-  "https://unsplash.com/photos/H6FbE_vxaxQ/download?force=true&w=160&h=160&fit=crop&crop=faces",
-  "https://unsplash.com/photos/mxwcEIqJ63Y/download?force=true&w=160&h=160&fit=crop&crop=faces",
+const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+
+const HOME_AVATAR_IMAGES = [
+  avatarSvg(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+      <rect width="160" height="160" fill="#27ccf3"/>
+      <rect x="25" y="39" width="110" height="92" rx="24" fill="#06151d"/>
+      <rect x="47" y="67" width="18" height="18" rx="5" fill="#e9fbff"/>
+      <rect x="95" y="67" width="18" height="18" rx="5" fill="#e9fbff"/>
+      <path d="M54 106h52" stroke="#e9fbff" stroke-width="10" stroke-linecap="round"/>
+      <path d="M80 27v15" stroke="#06151d" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="80" cy="23" r="9" fill="#06151d"/>
+    </svg>
+  `),
+  avatarSvg(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+      <defs>
+        <linearGradient id="g" x1="18" y1="10" x2="142" y2="150" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#ffe2f2"/>
+          <stop offset="1" stop-color="#9fd7ff"/>
+        </linearGradient>
+      </defs>
+      <rect width="160" height="160" fill="url(#g)"/>
+      <path d="M35 154c9-35 32-52 45-52s36 17 45 52" fill="#3f2b7b"/>
+      <circle cx="80" cy="70" r="34" fill="#ffd9bd"/>
+      <path d="M45 68c0-27 16-45 39-45 19 0 34 13 37 34-20-1-37-10-52-25-7 18-16 28-24 36Z" fill="#251523"/>
+      <circle cx="67" cy="72" r="4" fill="#24161c"/>
+      <circle cx="94" cy="72" r="4" fill="#24161c"/>
+      <path d="M70 90c7 7 14 7 21 0" fill="none" stroke="#24161c" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+  `),
+  avatarSvg(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+      <rect width="160" height="160" fill="#ffd84d"/>
+      <circle cx="80" cy="76" r="50" fill="#0b101b"/>
+      <circle cx="80" cy="79" r="37" fill="#ffbf8c"/>
+      <path d="M43 75c5-31 23-48 49-48 15 8 24 22 27 42-23-3-43-13-59-31-2 16-8 28-17 37Z" fill="#0b101b"/>
+      <circle cx="67" cy="80" r="4" fill="#0b101b"/>
+      <circle cx="94" cy="80" r="4" fill="#0b101b"/>
+      <path d="M71 98c6 5 13 5 19 0" fill="none" stroke="#0b101b" stroke-width="5" stroke-linecap="round"/>
+      <path d="M31 160c8-31 30-48 49-48s41 17 49 48" fill="#ffffff"/>
+    </svg>
+  `),
+  avatarSvg(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+      <defs>
+        <linearGradient id="g" x1="12" y1="148" x2="148" y2="12" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#0f766e"/>
+          <stop offset="1" stop-color="#c4f55f"/>
+        </linearGradient>
+      </defs>
+      <rect width="160" height="160" fill="url(#g)"/>
+      <rect x="33" y="36" width="94" height="94" rx="30" fill="#eef8d8"/>
+      <rect x="48" y="58" width="24" height="24" rx="8" fill="#0f2924"/>
+      <rect x="88" y="58" width="24" height="24" rx="8" fill="#0f2924"/>
+      <path d="M59 101c12 10 30 10 42 0" fill="none" stroke="#0f2924" stroke-width="9" stroke-linecap="round"/>
+      <path d="M34 55c15-23 33-34 54-34 25 0 40 17 44 48-31-2-55-13-72-35-5 9-14 16-26 21Z" fill="#0f2924"/>
+    </svg>
+  `),
 ] as const;
 
 const COMPONENT_GRID = [
@@ -280,7 +335,7 @@ const COMPONENT_GRID = [
     preview: (
       <div className="grid justify-items-center gap-5">
         <AvatarGroup>
-          {AVATAR_PHOTOS.map((src, index) => (
+          {HOME_AVATAR_IMAGES.slice(0, 3).map((src, index) => (
             <Avatar key={src} size="sm" type={index === 1 ? "human" : "agent"}>
               <AvatarImage src={src} alt="" />
               <AvatarFallback />
@@ -290,7 +345,7 @@ const COMPONENT_GRID = [
         </AvatarGroup>
         <div className="flex items-end gap-4">
           <Avatar size="lg" type="agent">
-            <AvatarImage src={AVATAR_PHOTOS[0]} alt="" />
+            <AvatarImage src={HOME_AVATAR_IMAGES[0]} alt="" />
             <AvatarFallback />
             <AvatarBadge />
           </Avatar>
