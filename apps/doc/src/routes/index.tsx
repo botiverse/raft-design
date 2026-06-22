@@ -65,7 +65,7 @@ import {
   TextareaGroup,
   ThemeProvider,
   type Theme,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconCircleCheckFill18,
   IconCircleInfoFill18,
@@ -594,7 +594,7 @@ function NotificationCenterPreview() {
                   <NotificationCenterItemContent>
                     <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
                     <NotificationCenterItemBody>
-                      slock-ui shipped to production.
+                      raft-ui shipped to production.
                     </NotificationCenterItemBody>
                   </NotificationCenterItemContent>
                 </NotificationCenterItemRow>

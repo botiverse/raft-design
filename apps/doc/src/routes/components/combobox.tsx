@@ -15,7 +15,7 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
   InlineCode,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconCheckOutline18,
   IconChevronDownOutline18,
@@ -115,7 +115,7 @@ type PlaygroundValues = {
 
 const repositories: readonly Repository[] = [
   { id: "raft-ui", label: "raft-ui", description: "Design system" },
-  { id: "slock", label: "slock", description: "Workspace app" },
+  { id: "raft", label: "raft", description: "Workspace app" },
   { id: "source", label: "source", description: "Reference repo" },
 ];
 
@@ -201,7 +201,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconAtSignOutline18,
   IconChevronDownOutline18,
@@ -260,7 +260,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconChevronDownOutline18,
   IconFolderOutline18,
@@ -270,7 +270,7 @@ import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const repositories = [
   { id: "raft-ui", label: "raft-ui", description: "Design system" },
-  { id: "slock", label: "slock", description: "Workspace app" },
+  { id: "raft", label: "raft", description: "Workspace app" },
   { id: "source", label: "source", description: "Reference repo" },
 ] as const;
 
@@ -368,7 +368,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconChevronDownOutline18,
   IconCircleUserOutline18,
@@ -491,7 +491,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconCheckOutline18,
   IconChevronDownOutline18,

@@ -7,7 +7,7 @@ import {
   Button,
   type BannerActionProps,
   type BannerProps,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconCircleCheckFill18,
   IconCircleInfoFill18,
@@ -80,7 +80,7 @@ const BANNER_COMPOSITION_SNIPPET_IDS = {
 type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 
 const SNIPPETS = {
-  anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@slock/ui";
+  anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@raft/ui";
 import { IconCircleWarningFill18 } from "nucleo-ui-fill-18";
 import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 

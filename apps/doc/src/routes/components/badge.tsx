@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Status, Text, type BadgeProps } from "@slock/ui";
+import { Badge, Button, Status, Text, type BadgeProps } from "@raft/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 import {
   IconClockOutline18,
@@ -68,7 +68,7 @@ const VARIANTS = [
 const APPEARANCES = ["solid", "soft", "outline"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Badge } from "@slock/ui";
+  anatomy: `import { Badge } from "@raft/ui";
 
 <Badge variant="primary">In Progress</Badge>`,
   variants: `<Badge appearance="outline" uppercase>Default</Badge>
@@ -84,7 +84,7 @@ const SNIPPETS = {
 <Badge appearance="outline" variant="primary">Outline</Badge>`,
   casing: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
-  icons: `import { Badge, Status } from "@slock/ui";
+  icons: `import { Badge, Status } from "@raft/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 
 <Badge variant="primary">
@@ -101,7 +101,7 @@ import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
   <Status size="xs" variant="success" />
   Available
 </Badge>`,
-  composition: `import { Badge, Text } from "@slock/ui";
+  composition: `import { Badge, Text } from "@raft/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
 

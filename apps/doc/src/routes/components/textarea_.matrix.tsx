@@ -10,7 +10,7 @@ import {
   TextareaGroup,
   ThemeProvider,
   type Theme,
-} from "@slock/ui";
+} from "@raft/ui";
 
 export const Route = createFileRoute("/components/textarea_/matrix")({
   staticData: { standalone: true },

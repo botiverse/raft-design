@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
-import { Label, ThemeProvider, type Theme } from "@slock/ui";
+import { Label, ThemeProvider, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/label_/matrix")({
   staticData: { standalone: true },

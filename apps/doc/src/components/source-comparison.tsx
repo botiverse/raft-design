@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Badge, type BadgeProps, type Theme } from "@slock/ui";
+import { Badge, type BadgeProps, type Theme } from "@raft/ui";
 import { IconCircleCheckFill18, IconCircleWarningFill18 } from "nucleo-ui-fill-18";
 import { IconSearchContentOutline18, IconStarOutline18 } from "nucleo-ui-outline-18";
 import { CodeBlock } from "./code-block.tsx";

@@ -1,12 +1,12 @@
-# @slock/ui
+# @raft/ui
 
-React UI components for slock-ui, styled with Tailwind CSS v4.
+React UI components for raft-ui, styled with Tailwind CSS v4.
 
 ## Usage
 
 ```tsx
-import { Button } from "@slock/ui";
-import "@slock/ui/styles.css";
+import { Button } from "@raft/ui";
+import "@raft/ui/styles.css";
 ```
 
 ## Development

@@ -14,7 +14,7 @@ function MigrationSkillDoc() {
   return (
     <DocPage
       title="Migration Skill"
-      description="The skill for migrating existing components into slock-ui."
+      description="The skill for migrating existing components into raft-ui."
       toc={TOC}
     >
       <DocSection id="todo" title="Todo">

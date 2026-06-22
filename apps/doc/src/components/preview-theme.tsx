@@ -1,5 +1,5 @@
 import { createContext, use, useState, useSyncExternalStore, type ReactNode } from "react";
-import { ThemeProvider, type Theme } from "@slock/ui";
+import { ThemeProvider, type Theme } from "@raft/ui";
 
 export type PreviewMode = "light" | "dark" | "system";
 

@@ -14,7 +14,7 @@ function NewComponentSkillDoc() {
   return (
     <DocPage
       title="New Component Skill"
-      description="The skill for developing brand-new slock-ui components."
+      description="The skill for developing brand-new raft-ui components."
       toc={TOC}
     >
       <DocSection id="todo" title="Todo">

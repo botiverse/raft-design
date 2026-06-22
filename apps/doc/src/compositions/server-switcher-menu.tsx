@@ -8,7 +8,7 @@ export const SERVER_SWITCHER_MENU_COMPOSITION_PATH =
 export { ServerSwitcherMenuComposition };
 
 export const SERVER_SWITCHER_DEMO_SERVERS = [
-  { id: "slock", name: "Slock", slug: "slock" },
+  { id: "raft", name: "Raft", slug: "raft" },
   { id: "design", name: "Design Guild", slug: "design" },
   { id: "oss", name: "Open Source", slug: "oss" },
 ] as const;
@@ -29,7 +29,7 @@ export function ServerSwitcherMenuSourcePreview({ className }: { className?: str
       <div className="relative w-64 shrink-0 [--shadow-hover:4px_4px_0px_oklch(0_0_0)]">
         <LegacyServerSwitcherMenu
           servers={[...SERVER_SWITCHER_DEMO_SERVERS]}
-          currentServerId="slock"
+          currentServerId="raft"
           serverUnreadCounts={SERVER_SWITCHER_DEMO_UNREAD_COUNTS}
           joinOptions={[{ slug: "community", label: "Join Community" }]}
           className="w-64"

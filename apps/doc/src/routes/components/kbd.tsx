@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Kbd } from "@slock/ui";
+import { Kbd } from "@raft/ui";
 import { Callout } from "#/components/callout.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -18,14 +18,14 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { Kbd } from "@slock/ui";
+  preview: `import { Kbd } from "@raft/ui";
 
 <div className="flex flex-wrap items-center gap-3">
   <Kbd>⌫</Kbd>
   <Kbd>Esc</Kbd>
   <Kbd>⌘K</Kbd>
 </div>`,
-  anatomy: `import { Kbd } from "@slock/ui";
+  anatomy: `import { Kbd } from "@raft/ui";
 
 <Kbd>⌫</Kbd>`,
   sourceShortcut: `// Source scenes from legacy/menu-item.tsx inventory:

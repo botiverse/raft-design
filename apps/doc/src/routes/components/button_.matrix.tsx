@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import { IconCaretRightFill18 } from "nucleo-ui-fill-18";
 import { IconPlusOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
-import { Button, ThemeProvider, type ButtonProps, type Theme } from "@slock/ui";
+import { Button, ThemeProvider, type ButtonProps, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/button_/matrix")({
   staticData: { standalone: true },

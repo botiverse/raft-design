@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Theme } from "@slock/ui";
+import type { Theme } from "@raft/ui";
 
 export interface FamilyContextValue {
   family: Theme;

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Input, ThemeProvider, type Theme } from "@slock/ui";
+import { Input, ThemeProvider, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/input_/matrix")({
   staticData: { standalone: true },

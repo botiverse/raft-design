@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { ThemeProvider } from "@slock/ui";
+import { ThemeProvider } from "@raft/ui";
 
 import { Sidebar } from "#/components/sidebar.tsx";
 import appCss from "../styles.css?url";
@@ -113,7 +113,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 }
 
 function getDocumentTitle(pathname: string) {
-  return getComponentTitle(pathname) ?? "RAFT Design System";
+  return getComponentTitle(pathname) ?? "Raft Design System";
 }
 
 function getComponentTitle(pathname: string) {

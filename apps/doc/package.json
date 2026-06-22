@@ -11,13 +11,13 @@
     "build": "vp build",
     "preview": "vp preview",
     "test": "vp test run --config vitest.config.ts",
-    "deploy": "vp run @slock/ui#build && vp build && wrangler deploy",
+    "deploy": "vp run @raft/ui#build && vp build && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
     "@base-ui/utils": "catalog:",
-    "@slock/ui": "workspace:*",
+    "@raft/ui": "workspace:*",
     "@tailwindcss/vite": "^4.3.1",
     "@tanstack/react-devtools": "0.10.7",
     "@tanstack/react-router": "1.170.16",

@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Badge } from "@slock/ui";
+import { Badge } from "@raft/ui";
 import { IconGlobe3Outline18 } from "nucleo-ui-outline-18";
 
 const SKILLS = {

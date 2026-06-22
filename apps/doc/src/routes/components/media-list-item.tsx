@@ -11,7 +11,7 @@ import {
   MediaListItemTitle,
   MediaListItemVisual,
   Status,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Clock3, Download, ExternalLink } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -47,7 +47,7 @@ const SNIPPETS = {
   MediaListItemText,
   MediaListItemTitle,
   MediaListItemVisual,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <MediaListItem>
   <MediaListItemBody>

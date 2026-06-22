@@ -4,7 +4,7 @@ import { tv, type VariantProps } from "tailwind-variants/lite";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const STATUS_STYLE = `
-@keyframes slock-status-pulse-background {
+@keyframes raft-status-pulse-background {
   0% {
     box-shadow: 0 0 0 1px color-mix(in oklch, var(--status-color) 42%, transparent);
   }
@@ -113,14 +113,14 @@ const status = tv({
       theme: "elegant",
       pulse: true,
       class: {
-        root: "[animation:slock-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
+        root: "[animation:raft-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
       },
     },
   ],
 });
 
 const statusStyle = (
-  <style href="slock-ui-status" precedence="default">
+  <style href="raft-ui-status" precedence="default">
     {STATUS_STYLE}
   </style>
 );

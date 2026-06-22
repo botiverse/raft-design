@@ -4,7 +4,7 @@ import { stripSourceCodeBlocks, stripTopLevelImports } from "./source-code.ts";
 
 describe("stripTopLevelImports", () => {
   it("keeps snippets with a single import line unchanged", () => {
-    const code = `import { Button } from "@slock/ui";
+    const code = `import { Button } from "@raft/ui";
 
 <Button>Save</Button>`;
 
@@ -15,7 +15,7 @@ describe("stripTopLevelImports", () => {
     const code = `import {
   Button,
   IconButton,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <Button>Save</Button>`;
 
@@ -23,7 +23,7 @@ describe("stripTopLevelImports", () => {
   });
 
   it("strips top-level imports when there are multiple import lines", () => {
-    const code = `import { Button } from "@slock/ui";
+    const code = `import { Button } from "@raft/ui";
 import { Plus } from "lucide-react";
 
 <Button>

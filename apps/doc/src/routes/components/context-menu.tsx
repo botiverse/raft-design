@@ -14,7 +14,7 @@ import {
   ContextMenuTrigger,
   InlineCode,
   useTheme,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconArchive2Outline18,
   IconBellOutline18,
@@ -108,7 +108,7 @@ const SNIPPETS = {
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconArchive2Outline18,
   IconCopyOutline18,

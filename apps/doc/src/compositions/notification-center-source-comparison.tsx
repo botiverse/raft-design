@@ -1,5 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import { cn } from "@slock/ui/cn";
+import { cn } from "@raft/ui/cn";
 import LegacyNotificationCenter, {
   type NotificationCenterEntry as LegacyNotificationCenterEntry,
 } from "../../../../packages/ui/src/legacy/NotificationCenter.tsx";
@@ -33,7 +33,7 @@ const notifications: LegacyNotificationCenterEntry[] = [
     id: "deploy-complete",
     kind: "success",
     title: "Deploy completed",
-    body: "slock-ui shipped to production.",
+    body: "raft-ui shipped to production.",
   },
   {
     id: "backup-finished",

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
-import { Button, Status, type StatusProps } from "@slock/ui";
+import { Button, Status, type StatusProps } from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -67,7 +67,7 @@ function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
 }
 
 const SNIPPETS = {
-  anatomy: `import { Status } from "@slock/ui";
+  anatomy: `import { Status } from "@raft/ui";
 
 <Status variant="success" />`,
   variants: `<Status />

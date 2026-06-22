@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { cn } from "@slock/ui/cn";
+import { cn } from "@raft/ui/cn";
 import { IconChevronDownOutline18, IconUserOutline18 } from "nucleo-ui-outline-18";
 import {
   Avatar,
@@ -18,7 +18,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@slock/ui";
+} from "@raft/ui";
 
 type Identity = {
   id: string;

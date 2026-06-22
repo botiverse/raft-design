@@ -19,7 +19,7 @@ import {
   QuotedMessageCardThread,
   QuotedMessageCardTimestamp,
   QuotedMessageCardUnavailable,
-} from "@slock/ui";
+} from "@raft/ui";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -59,7 +59,7 @@ const SNIPPETS = {
   QuotedMessageCardMeta,
   QuotedMessageCardSeparator,
   QuotedMessageCardTimestamp,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Hash } from "lucide-react";
 
 <QuotedMessageCard

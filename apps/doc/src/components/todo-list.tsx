@@ -1,4 +1,4 @@
-import { Badge, type BadgeProps } from "@slock/ui";
+import { Badge, type BadgeProps } from "@raft/ui";
 
 type TodoStatus = "done" | "todo" | "deferred";
 

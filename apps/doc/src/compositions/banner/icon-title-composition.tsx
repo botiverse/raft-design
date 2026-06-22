@@ -1,4 +1,4 @@
-import { Banner, BannerDescription, BannerTitle } from "@slock/ui";
+import { Banner, BannerDescription, BannerTitle } from "@raft/ui";
 import { IconCircleXmarkFill18 } from "nucleo-ui-fill-18";
 
 // @docs-source-strip-start

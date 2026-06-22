@@ -9,7 +9,7 @@ import {
   InputGroupInput,
   InlineCode,
   Kbd,
-} from "@slock/ui";
+} from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
@@ -53,7 +53,7 @@ const TOC = [
 const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
-  anatomy: `import { InputGroup, InputGroupInput } from "@slock/ui";
+  anatomy: `import { InputGroup, InputGroupInput } from "@raft/ui";
 
 <InputGroup>
   <InputGroupInput aria-label="Email" placeholder="you@example.com" />
@@ -81,7 +81,7 @@ const SNIPPETS = {
   <InputGroupInput aria-label="Email username" placeholder="alex" />
   <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
 </InputGroup>`,
-  addonVariants: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@slock/ui";
+  addonVariants: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@raft/ui";
 import { Upload } from "lucide-react";
 
 <InputGroup>
@@ -147,7 +147,7 @@ import { Upload } from "lucide-react";
   <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
   <InputGroupInput aria-label="Server slug" aria-invalid defaultValue="Bad Slug" />
 </InputGroup>`,
-  field: `import { Field, FieldError, FieldLabel, InputGroup, InputGroupInput } from "@slock/ui";
+  field: `import { Field, FieldError, FieldLabel, InputGroup, InputGroupInput } from "@raft/ui";
 
 <Field invalid>
   <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>

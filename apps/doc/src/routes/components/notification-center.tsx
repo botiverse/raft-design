@@ -24,7 +24,7 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -97,7 +97,7 @@ const ENTRIES: DemoEntry[] = [
     id: "deploy-complete",
     status: "success",
     title: "Deploy completed",
-    body: "slock-ui shipped to production.",
+    body: "raft-ui shipped to production.",
   },
   {
     id: "backup-finished",
@@ -133,7 +133,7 @@ const SNIPPETS = {
   NotificationCenterItemBody,
   NotificationCenterItemActions,
   NotificationCenterActionButton,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <NotificationCenter modal={false}>
   <NotificationCenterTrigger render={<button type="button" />}>
@@ -151,7 +151,7 @@ const SNIPPETS = {
             <NotificationCenterItemIcon status="success" />
             <NotificationCenterItemContent>
               <NotificationCenterItemTitle>Deploy succeeded</NotificationCenterItemTitle>
-              <NotificationCenterItemBody>slock-ui shipped to production.</NotificationCenterItemBody>
+              <NotificationCenterItemBody>raft-ui shipped to production.</NotificationCenterItemBody>
               <NotificationCenterItemActions>
                 <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
                 <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
@@ -216,7 +216,7 @@ const SNIPPETS = {
             <NotificationCenterItemIcon status="success" />
             <NotificationCenterItemContent>
               <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
-              <NotificationCenterItemBody>slock-ui shipped to production.</NotificationCenterItemBody>
+              <NotificationCenterItemBody>raft-ui shipped to production.</NotificationCenterItemBody>
             </NotificationCenterItemContent>
           </NotificationCenterItemRow>
         </NotificationCenterItem>

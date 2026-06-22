@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button, Field, FieldError, FieldLabel, InlineCode, Input } from "@slock/ui";
+import { Button, Field, FieldError, FieldLabel, InlineCode, Input } from "@raft/ui";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -38,7 +38,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Input } from "@slock/ui";
+  anatomy: `import { Input } from "@raft/ui";
 
 <Input aria-label="Email" placeholder="you@example.com" />`,
   types: `<Input
@@ -61,7 +61,7 @@ const SNIPPETS = {
 <Input aria-label="Email" aria-invalid defaultValue="oops" />
 <Input aria-label="Email" disabled placeholder="Disabled" />
 <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />`,
-  field: `import { Field, FieldError, FieldLabel, Input } from "@slock/ui";
+  field: `import { Field, FieldError, FieldLabel, Input } from "@raft/ui";
 
 <Field invalid>
   <FieldLabel htmlFor="email">Email</FieldLabel>

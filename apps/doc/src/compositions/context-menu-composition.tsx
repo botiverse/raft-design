@@ -8,7 +8,7 @@ import {
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
   useTheme,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconArchive2Outline18,
   IconBookmarkPlusOutline18,

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "@slock/ui";
+import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "@raft/ui";
 import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
@@ -36,10 +36,10 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { Label } from "@slock/ui";
+  preview: `import { Label } from "@raft/ui";
 
 <Label htmlFor="email">Email address</Label>`,
-  anatomy: `import { Label, LabelAsterisk } from "@slock/ui";
+  anatomy: `import { Label, LabelAsterisk } from "@raft/ui";
 
 <Label htmlFor="email">
   Email address

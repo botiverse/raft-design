@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
-import { Badge, Status, Text, ThemeProvider, type BadgeProps, type Theme } from "@slock/ui";
+import { Badge, Status, Text, ThemeProvider, type BadgeProps, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/badge_/matrix")({
   staticData: { standalone: true },

@@ -9,7 +9,7 @@ import {
   BottomSheetTitle,
   BottomSheetTrigger,
   Button,
-} from "@slock/ui";
+} from "@raft/ui";
 import { X } from "lucide-react";
 import { useState } from "react";
 
@@ -44,7 +44,7 @@ const SNIPPETS = {
   BottomSheetDescription,
   BottomSheetFooter,
   BottomSheetClose,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <BottomSheet>
   <BottomSheetTrigger render={<Button variant="primary" />}>Open sheet</BottomSheetTrigger>
@@ -235,7 +235,7 @@ function BottomSheetDoc() {
             {
               label: "Bottom surface",
               status: "match",
-              note: "Resting visual style stays aligned to the slock source: no dim backdrop, 12px safe-area gutter, centered max-w-md sheet, black 2px frame, white surface, and brutal large shadow.",
+              note: "Resting visual style stays aligned to the raft source: no dim backdrop, 12px safe-area gutter, centered max-w-md sheet, black 2px frame, white surface, and brutal large shadow.",
               source: <BottomSheetSurfacePreview />,
               current: <BottomSheetSurfacePreview />,
               sourceCode: code.sourceBottom,

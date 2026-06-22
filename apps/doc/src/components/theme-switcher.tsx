@@ -1,4 +1,4 @@
-import type { Theme } from "@slock/ui";
+import type { Theme } from "@raft/ui";
 import { usePreviewTheme, type PreviewMode } from "#/components/preview-theme.tsx";
 
 type PreviewThemePreset = {

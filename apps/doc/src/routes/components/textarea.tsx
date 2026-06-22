@@ -9,7 +9,7 @@ import {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "@slock/ui";
+} from "@raft/ui";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -50,7 +50,7 @@ const TOC = [
 const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
 
 const SNIPPETS = {
-  anatomy: `import { Textarea } from "@slock/ui";
+  anatomy: `import { Textarea } from "@raft/ui";
 
 <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />`,
   states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
@@ -58,7 +58,7 @@ const SNIPPETS = {
 <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
 <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
 <Textarea aria-label="Message" rows={4} aria-invalid disabled defaultValue="Locked error" />`,
-  counter: `import { Textarea, TextareaCounter, TextareaGroup } from "@slock/ui";
+  counter: `import { Textarea, TextareaCounter, TextareaGroup } from "@raft/ui";
 
 <TextareaGroup>
   <Textarea
@@ -83,7 +83,7 @@ const SNIPPETS = {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <Field invalid>
   <FieldLabel htmlFor="msg">Message</FieldLabel>

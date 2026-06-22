@@ -11,7 +11,7 @@ import {
   TabsTab,
   useOrderedTabs,
   type OrderedTabItem,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconBellOutline18,
   IconCreditCardOutline18,
@@ -61,7 +61,7 @@ const TOC = [
 const VARIANTS = ["default", "underline"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@slock/ui";
+  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -79,7 +79,7 @@ const SNIPPETS = {
   IconGearOutline18,
   IconMessageOutline18,
 } from "nucleo-ui-outline-18";
-import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@slock/ui";
+import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@raft/ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -148,7 +148,7 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@
   IconGearOutline18,
   IconMessageOutline18,
 } from "nucleo-ui-outline-18";
-import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@slock/ui";
+import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -221,7 +221,7 @@ import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@slock/ui";
   TabsBackground,
   TabsLabel,
   useOrderedTabs,
-} from "@slock/ui";
+} from "@raft/ui";
 
 const orderedTabs = useOrderedTabs(TABS, order);
 const plainTabs = useOrderedTabs(TABS, plainOrder);

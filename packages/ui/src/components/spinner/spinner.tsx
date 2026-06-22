@@ -5,7 +5,7 @@ import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 
 const SPINNER_STYLE = `
-@keyframes slock-braille-spinner {
+@keyframes raft-braille-spinner {
   0%,
   9.99% {
     content: "⠋";
@@ -50,7 +50,7 @@ const SPINNER_STYLE = `
 
 [data-slot="spinner"] [data-spinner-glyph]::before {
   content: "⠋";
-  animation: slock-braille-spinner 800ms steps(1, end) infinite;
+  animation: raft-braille-spinner 800ms steps(1, end) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -90,7 +90,7 @@ const spinner = tv({
 const { glyph } = spinner();
 const spinnerChildren = (
   <>
-    <style href="slock-ui-spinner" precedence="default">
+    <style href="raft-ui-spinner" precedence="default">
       {SPINNER_STYLE}
     </style>
     <span data-spinner-glyph="" aria-hidden="true" className={glyph()} />

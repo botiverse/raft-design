@@ -13,7 +13,7 @@ import {
   PanelHeaderTitleRow,
   PanelHeaderVisual,
   Status,
-} from "@slock/ui";
+} from "@raft/ui";
 import { ArrowLeft, Bookmark, Search, Settings, X } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -44,7 +44,7 @@ const SNIPPETS = {
   PanelHeaderContent,
   PanelHeaderTitle,
   PanelHeaderTitleRow,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <PanelHeader>
   <PanelHeaderContent>

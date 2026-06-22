@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Spinner, type SpinnerProps } from "@slock/ui";
+import { Badge, Button, Spinner, type SpinnerProps } from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -29,7 +29,7 @@ const SIZES = ["sm", "lg"] as const;
 const TODOS = ["Add elegant family motion/color review"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Spinner } from "@slock/ui";
+  anatomy: `import { Spinner } from "@raft/ui";
 
 <Spinner />`,
   sizes: `<Spinner size="sm" />

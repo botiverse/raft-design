@@ -15,7 +15,7 @@ import {
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
   InlineCode,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Check } from "lucide-react";
 import {
   IconBellOutline18,
@@ -275,7 +275,7 @@ const SNIPPETS = {
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconBellOutline18,
   IconChevronRightOutline18,

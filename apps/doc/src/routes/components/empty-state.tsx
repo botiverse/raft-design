@@ -6,7 +6,7 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Inbox, Plus } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -32,7 +32,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { EmptyState, EmptyStateIcon, EmptyStateTitle } from "@slock/ui";
+  anatomy: `import { EmptyState, EmptyStateIcon, EmptyStateTitle } from "@raft/ui";
 import { Inbox } from "lucide-react";
 
 <EmptyState>

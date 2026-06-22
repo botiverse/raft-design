@@ -1,4 +1,4 @@
-import { InlineCode } from "@slock/ui";
+import { InlineCode } from "@raft/ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

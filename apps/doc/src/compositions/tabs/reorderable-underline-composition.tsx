@@ -6,7 +6,7 @@ import {
   TabsLabel,
   useOrderedTabs,
   type OrderedTabItem,
-} from "@slock/ui";
+} from "@raft/ui";
 import {
   IconBellOutline18,
   IconFilesOutline18,

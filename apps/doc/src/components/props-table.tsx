@@ -1,4 +1,4 @@
-import { InlineCode } from "@slock/ui";
+import { InlineCode } from "@raft/ui";
 
 export type PropRow = {
   name: string;

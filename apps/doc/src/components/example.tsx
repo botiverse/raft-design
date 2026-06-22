@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Collapsible } from "@base-ui/react";
-import { Button } from "@slock/ui";
+import { Button } from "@raft/ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { IconChevronDownOutline18 } from "nucleo-ui-outline-18";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";

@@ -1,4 +1,4 @@
-import { Banner, BannerAction, BannerDescription, Button } from "@slock/ui";
+import { Banner, BannerAction, BannerDescription, Button } from "@raft/ui";
 import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
 import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 

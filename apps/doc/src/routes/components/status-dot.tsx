@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Status } from "@slock/ui";
+import { Status } from "@raft/ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -24,7 +24,7 @@ const SNIPPETS = {
 // Current
 <Status variant="success" />
 <Status variant="primary" pulse />`,
-  anatomy: `import { Status } from "@slock/ui";
+  anatomy: `import { Status } from "@raft/ui";
 
 <Status variant="success" />`,
   sourceDefault: `<StatusDot tone="bg-brutal-lime" />`,

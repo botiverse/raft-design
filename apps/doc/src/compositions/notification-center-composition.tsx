@@ -19,10 +19,10 @@ import {
   Status,
   useTheme,
   type NotificationCenterPopupProps,
-} from "@slock/ui";
+} from "@raft/ui";
 import { AlertTriangle, CircleGauge } from "lucide-react";
 import { useId, useRef, type RefObject } from "react";
-import { cn } from "@slock/ui/cn";
+import { cn } from "@raft/ui/cn";
 
 export function NotificationCenterContent({
   className,
@@ -77,7 +77,7 @@ export function NotificationCenterContent({
               <NotificationCenterItemContent>
                 <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
                 <NotificationCenterItemBody>
-                  slock-ui shipped to production.
+                  raft-ui shipped to production.
                 </NotificationCenterItemBody>
               </NotificationCenterItemContent>
             </NotificationCenterItemRow>

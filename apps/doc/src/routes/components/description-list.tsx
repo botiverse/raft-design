@@ -6,7 +6,7 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "@slock/ui";
+} from "@raft/ui";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -35,7 +35,7 @@ const SNIPPETS = {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <DescriptionList>
   <DescriptionItem>

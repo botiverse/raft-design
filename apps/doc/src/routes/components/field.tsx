@@ -15,7 +15,7 @@ import {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "@slock/ui";
+} from "@raft/ui";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -54,14 +54,14 @@ const TOC = [
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
 
 const SNIPPETS = {
-  preview: `import { Field, FieldDescription, FieldError, FieldLabel, Input } from "@slock/ui";
+  preview: `import { Field, FieldDescription, FieldError, FieldLabel, Input } from "@raft/ui";
 
 <Field invalid>
   <FieldLabel htmlFor="email" required>Email</FieldLabel>
   <Input id="email" type="email" aria-invalid defaultValue="oops" />
   <FieldError match>Email is required.</FieldError>
 </Field>`,
-  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "@slock/ui";
+  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "@raft/ui";
 
 <Field>
   <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -110,12 +110,12 @@ const SNIPPETS = {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <div className="grid gap-5 sm:grid-cols-2">
   <Field>
     <FieldLabel htmlFor="project-name" required>Project name</FieldLabel>
-    <Input id="project-name" defaultValue="RAFT" />
+    <Input id="project-name" defaultValue="Raft" />
     <FieldDescription>Visible in the project switcher.</FieldDescription>
   </Field>
 
@@ -426,7 +426,7 @@ function FieldDoc() {
                 <FieldLabel htmlFor="field-project-name" required>
                   Project name
                 </FieldLabel>
-                <Input id="field-project-name" defaultValue="RAFT" />
+                <Input id="field-project-name" defaultValue="Raft" />
                 <FieldDescription>Visible in the project switcher.</FieldDescription>
               </Field>
               <Field invalid>

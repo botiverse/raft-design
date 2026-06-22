@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
   ThemeProvider,
   type Theme,
-} from "@slock/ui";
+} from "@raft/ui";
 
 export const Route = createFileRoute("/components/dropdown-menu_/matrix")({
   staticData: { standalone: true },
@@ -82,7 +82,7 @@ const CASES: readonly MatrixCase[] = [
           <span className="flex size-3.5 shrink-0 items-center justify-center">
             <Check size={14} />
           </span>
-          <span className="min-w-0 flex-1 truncate">Slock</span>
+          <span className="min-w-0 flex-1 truncate">Raft</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <span className="flex size-3.5 shrink-0 items-center justify-center" aria-hidden>

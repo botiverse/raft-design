@@ -1,7 +1,7 @@
 {
-  "name": "@slock/ui",
+  "name": "@raft/ui",
   "version": "0.0.0",
-  "description": "React UI components for slock-ui.",
+  "description": "React UI components for raft-ui.",
   "license": "MIT",
   "files": [
     "dist",

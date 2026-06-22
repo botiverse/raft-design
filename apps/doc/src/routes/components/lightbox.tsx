@@ -10,7 +10,7 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
 import { useCallback, useEffect, useEffectEvent, useState } from "react";
 
@@ -66,7 +66,7 @@ const SNIPPETS = {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <Lightbox>
   <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>

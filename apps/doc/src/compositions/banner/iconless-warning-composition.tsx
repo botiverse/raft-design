@@ -1,4 +1,4 @@
-import { Banner, BannerDescription } from "@slock/ui";
+import { Banner, BannerDescription } from "@raft/ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

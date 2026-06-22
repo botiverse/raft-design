@@ -1,4 +1,4 @@
-import { Button } from "@slock/ui";
+import { Button } from "@raft/ui";
 import { Plus } from "lucide-react";
 
 // @docs-source-strip-start

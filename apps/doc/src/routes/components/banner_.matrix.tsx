@@ -16,7 +16,7 @@ import {
   ThemeProvider,
   type BannerProps,
   type Theme,
-} from "@slock/ui";
+} from "@raft/ui";
 
 export const Route = createFileRoute("/components/banner_/matrix")({
   staticData: { standalone: true },

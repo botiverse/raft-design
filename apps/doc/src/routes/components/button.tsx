@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
-import { Button, type ButtonProps } from "@slock/ui";
+import { Button, type ButtonProps } from "@raft/ui";
 import { Plus, Trash2 } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -64,7 +64,7 @@ const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Button } from "@slock/ui";
+  anatomy: `import { Button } from "@raft/ui";
 
 <Button>Button</Button>`,
   variants: `<Button variant="default">Default</Button>

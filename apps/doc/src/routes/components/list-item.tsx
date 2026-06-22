@@ -8,7 +8,7 @@ import {
   ListItemRow,
   ListItemMeta,
   ListItemTitle,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Clock3, ExternalLink, Link2, Play, Repeat, RotateCcw, Square } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -45,7 +45,7 @@ const SNIPPETS = {
   ListItemRow,
   ListItemMeta,
   ListItemTitle,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <ListItem>
   <ListItemBody>
@@ -66,7 +66,7 @@ const SNIPPETS = {
 <SurfaceListItem>Resting (interactive)</SurfaceListItem>
 <SurfaceListItem selected>Selected</SurfaceListItem>
 <SurfaceListItem interactive={false}>Static</SurfaceListItem>`,
-  currentApi: `import { ListItem } from "@slock/ui";
+  currentApi: `import { ListItem } from "@raft/ui";
 
 <ListItem>Resting (interactive)</ListItem>
 <ListItem selected>Selected</ListItem>

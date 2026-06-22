@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
-import { Button, Checkbox, Label, type CheckboxProps } from "@slock/ui";
+import { Button, Checkbox, Label, type CheckboxProps } from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -51,7 +51,7 @@ const VARIANTS = ["default", "primary"] as const;
 const TODOS = ["Document Checkbox Group usage"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Checkbox } from "@slock/ui";
+  anatomy: `import { Checkbox } from "@raft/ui";
 
 <Checkbox defaultChecked />`,
   sizes: `<Checkbox size="sm" defaultChecked />

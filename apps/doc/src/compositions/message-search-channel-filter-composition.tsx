@@ -14,7 +14,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@slock/ui";
+} from "@raft/ui";
 
 type Channel = {
   id: string;

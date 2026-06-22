@@ -15,7 +15,7 @@ import {
   ConversationPreviewCardPreviewLeading,
   ConversationPreviewCardSecondaryPreview,
   ConversationPreviewCardTimestamp,
-} from "@slock/ui";
+} from "@raft/ui";
 import { CheckCircle, MessageSquare } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -53,7 +53,7 @@ const SNIPPETS = {
   ConversationPreviewCardMeta,
   ConversationPreviewCardPreview,
   ConversationPreviewCardTimestamp,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <ConversationPreviewCard onClick={() => open()}>
   <ConversationPreviewCardContent>

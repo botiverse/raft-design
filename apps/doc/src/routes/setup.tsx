@@ -12,7 +12,7 @@ export const Route = createFileRoute("/setup")({ component: SetupDoc });
 
 function SetupDoc() {
   return (
-    <DocPage title="Installation" description="Get slock-ui wired into your project." toc={TOC}>
+    <DocPage title="Installation" description="Get raft-ui wired into your project." toc={TOC}>
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
       </DocSection>

@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
   ThemeProvider,
   type Theme,
-} from "@slock/ui";
+} from "@raft/ui";
 
 export const Route = createFileRoute("/components/popover_/matrix")({
   staticData: { standalone: true },

@@ -78,7 +78,7 @@ importers:
       '@base-ui/utils':
         specifier: 'catalog:'
         version: 0.3.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@slock/ui':
+      '@raft/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@tailwindcss/vite':

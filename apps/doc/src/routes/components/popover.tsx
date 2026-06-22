@@ -8,7 +8,7 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Info, X } from "lucide-react";
 import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
 import type { ReactNode, RefObject } from "react";
@@ -59,7 +59,7 @@ const SNIPPETS = {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Info, X } from "lucide-react";
 
 <Popover>

@@ -1,4 +1,4 @@
-import { Field, FieldDescription, FieldLabel, Input } from "@slock/ui";
+import { Field, FieldDescription, FieldLabel, Input } from "@raft/ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

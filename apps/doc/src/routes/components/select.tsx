@@ -22,7 +22,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "@slock/ui";
+} from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -99,7 +99,7 @@ const SNIPPETS = {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "@slock/ui";
+} from "@raft/ui";
 
 const sortOptions = [
   { value: "relevance", label: "Relevance" },
@@ -139,7 +139,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "@slock/ui";
+} from "@raft/ui";
 
 const sortOptions = [
   { value: "relevance", label: "Relevance", icon: IconInputSearchOutline18 },

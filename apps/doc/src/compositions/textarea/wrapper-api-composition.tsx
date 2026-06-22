@@ -1,4 +1,4 @@
-import { Field, FieldDescription, Textarea, TextareaCounter, TextareaGroup } from "@slock/ui";
+import { Field, FieldDescription, Textarea, TextareaCounter, TextareaGroup } from "@raft/ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

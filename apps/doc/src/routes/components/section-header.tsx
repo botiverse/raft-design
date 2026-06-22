@@ -7,7 +7,7 @@ import {
   SectionHeaderCount,
   SectionHeaderIcon,
   SectionHeaderTitle,
-} from "@slock/ui";
+} from "@raft/ui";
 import { BellRing, Plus, User } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -38,7 +38,7 @@ const SNIPPETS = {
   SectionHeaderContent,
   SectionHeaderCount,
   SectionHeaderTitle,
-} from "@slock/ui";
+} from "@raft/ui";
 
 <SectionHeader>
   <SectionHeaderContent>

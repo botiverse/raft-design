@@ -3,12 +3,12 @@ import {
   DropdownMenuPopup,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-} from "@slock/ui";
+} from "@raft/ui";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "@slock/ui";
+import { DropdownMenu, DropdownMenuTrigger } from "@raft/ui";
 import { useId } from "react";
-import { cn } from "@slock/ui/cn";
+import { cn } from "@raft/ui/cn";
 // @docs-source-strip-end
 
 export function MessageSearchTimeFilterContent() {

@@ -8,11 +8,11 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "@slock/ui";
+} from "@raft/ui";
 
 // @docs-source-strip-start
 import { useRef, type RefObject } from "react";
-import { cn } from "@slock/ui/cn";
+import { cn } from "@raft/ui/cn";
 // @docs-source-strip-end
 
 export function SelectOptionsListContent() {

@@ -15,7 +15,7 @@ import {
   TabsTab,
   ThemeProvider,
   type Theme,
-} from "@slock/ui";
+} from "@raft/ui";
 
 export const Route = createFileRoute("/components/tabs_/matrix")({
   staticData: { standalone: true },

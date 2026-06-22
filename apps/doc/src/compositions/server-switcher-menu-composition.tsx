@@ -3,14 +3,14 @@ import {
   DropdownMenuItemCount,
   DropdownMenuPopup,
   DropdownMenuSeparator,
-} from "@slock/ui";
+} from "@raft/ui";
 import { Check } from "lucide-react";
 import { IconPlusOutline18, IconUsersPlusOutline18 } from "nucleo-ui-outline-18";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "@slock/ui";
+import { DropdownMenu, DropdownMenuTrigger } from "@raft/ui";
 import { useId } from "react";
-import { cn } from "@slock/ui/cn";
+import { cn } from "@raft/ui/cn";
 // @docs-source-strip-end
 
 export function ServerSwitcherMenuContent() {
@@ -19,7 +19,7 @@ export function ServerSwitcherMenuContent() {
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <DropdownMenuItem data-selected className="[[data-theme=brutal]_&]:font-bold">
           <Check aria-hidden />
-          <span className="min-w-0 flex-1 truncate text-left">Slock</span>
+          <span className="min-w-0 flex-1 truncate text-left">Raft</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="font-medium">
           <Check aria-hidden className="opacity-0" />

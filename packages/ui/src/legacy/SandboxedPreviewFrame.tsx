@@ -7,7 +7,7 @@ import type { CSSProperties } from "react";
  *
  * The iframe is the real security boundary: with no `allow-same-origin` in
  * `sandbox`, the framed content runs in an opaque origin and cannot touch
- * Slock's DOM / cookies / localStorage. This is strictly stronger than
+ * Raft's DOM / cookies / localStorage. This is strictly stronger than
  * sanitizing a string and hoping the sanitizer has no gaps.
  *
  * Two callsites share this one implementation so the isolation config can't
