@@ -2,14 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Badge, Button, Spinner, type SpinnerProps } from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import spinnerDefaultCompositionSource from "#/compositions/spinner/default-composition.tsx?raw";
@@ -22,7 +20,6 @@ import {
 } from "#/compositions/spinner-source-comparison.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "sizes", title: "Sizes" },
@@ -34,8 +31,6 @@ const TOC = [
 
 const SIZES = ["sm", "lg"] as const;
 const VARIANTS = ["default", "inverse"] as const;
-
-const TODOS = [{ label: "Elegant ring motion/color review", status: "done" }] as const;
 
 const SNIPPETS = {
   anatomy: `import { Spinner } from "@raft/ui";
@@ -141,37 +136,8 @@ function SpinnerDoc() {
     <DocPage
       title="Spinner"
       description="A theme-aware spinner for indeterminate loading / pending feedback."
-      overview={
-        <Differences from="Spinner">
-          <li>
-            brutal preserves the source braille glyph animation 1:1 (frames, 800ms steps,
-            reduced-motion duration)
-          </li>
-          <li>elegant renders a two-layer SVG ring that derives both layers from currentColor</li>
-          <li>
-            source <code>sm</code>/<code>lg</code> sizing is preserved; previous ring-only{" "}
-            <code>xs</code>/<code>md</code> and <code>variant</code> API was removed
-          </li>
-          <li>
-            color stays <code>text-current</code>, so dark surfaces pass a text color instead of a
-            component variant
-          </li>
-          <li>
-            no Base UI primitive exists for indeterminate progress, so the root is a native{" "}
-            <code>span</code> composed through Base UI <code>useRender</code>
-          </li>
-          <li>
-            current hoists the static glyph subtree and marks the style tag as a React stylesheet;
-            source keeps a fresh inline <code>style</code> element in every render
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{ size: "sm", variant: "default" }}
