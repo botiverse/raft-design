@@ -1,6 +1,6 @@
 import type { MouseEvent } from "react";
 import { Dialog } from "@base-ui/react/dialog";
-import { tv } from "tailwind-variants/lite";
+import { tv } from "../lib/tv.ts";
 
 const dismissBackdrop = tv({
   slots: {

@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
-import { tv, type VariantProps } from "tailwind-variants/lite";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const label = tv({

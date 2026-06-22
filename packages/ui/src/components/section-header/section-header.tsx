@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "tailwind-variants/lite";
+import { tv } from "../../lib/tv.ts";
 import { SectionLabel, type SectionLabelProps } from "../section-label/section-label.tsx";
 
 const sectionHeader = tv({

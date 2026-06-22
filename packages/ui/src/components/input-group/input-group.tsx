@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
-import { tv, type VariantProps } from "tailwind-variants/lite";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";

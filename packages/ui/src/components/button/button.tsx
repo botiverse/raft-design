@@ -1,6 +1,6 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import type { ReactElement } from "react";
-import { tv, type VariantProps } from "tailwind-variants/lite";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import { Spinner } from "../spinner/index.ts";

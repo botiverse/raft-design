@@ -23,7 +23,7 @@ import {
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
-import { tv, type VariantProps } from "tailwind-variants/lite";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 

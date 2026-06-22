@@ -2,7 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv, type VariantProps } from "tailwind-variants/lite";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import { cn } from "../../lib/cn.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import { ListItem, type ListItemProps } from "../list-item/list-item.tsx";

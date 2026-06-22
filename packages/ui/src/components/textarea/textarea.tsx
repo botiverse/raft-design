@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from "react";
-import { tv } from "tailwind-variants/lite";
+import { tv } from "../../lib/tv.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 

@@ -1,6 +1,6 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import type { ComponentPropsWithRef } from "react";
-import { tv } from "tailwind-variants/lite";
+import { tv } from "../../lib/tv.ts";
 import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";

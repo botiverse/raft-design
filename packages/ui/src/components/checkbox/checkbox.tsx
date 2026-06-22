@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
-import { tv, type VariantProps } from "tailwind-variants/lite";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import { CheckboxIndicator } from "./checkbox-indicator.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";

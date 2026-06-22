@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "tailwind-variants/lite";
+import { tv } from "../../lib/tv.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 const conversationPreviewCard = tv({

@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { tv } from "tailwind-variants/lite";
+import { tv } from "../../lib/tv.ts";
 import { Badge, type BadgeProps } from "../badge/index.ts";
 import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
