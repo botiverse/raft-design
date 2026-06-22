@@ -14,6 +14,31 @@ import {
   BannerTitle,
   Button,
   Checkbox,
+  Combobox,
+  ComboboxHeader,
+  ComboboxInput,
+  ComboboxInputGroup,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxPopup,
+  ComboboxSeparator,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuItemCount,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -38,6 +63,14 @@ import {
   NotificationCenterList,
   NotificationCenterScroller,
   NotificationCenterTitle,
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverSeparator,
+  PopoverTitle,
+  PopoverTrigger,
   Select,
   SelectContent,
   SelectIcon,
@@ -89,6 +122,7 @@ export const Route = createFileRoute("/")({
 type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
+  | "/components/combobox"
   | "/components/context-menu"
   | "/components/dropdown-menu"
   | "/components/label"
@@ -104,7 +138,8 @@ type ComponentRoute =
   | "/components/tabs"
   | "/components/banner"
   | "/components/empty-state"
-  | "/components/notification-center";
+  | "/components/notification-center"
+  | "/components/popover";
 
 type ComponentGridItem = {
   label: string;
@@ -240,6 +275,11 @@ const COMPONENT_GRID = [
     preview: <ContextMenuPreview />,
   },
   {
+    label: "Popover",
+    to: "/components/popover",
+    preview: <PopoverPreview />,
+  },
+  {
     label: "Label",
     to: "/components/label",
     preview: (
@@ -291,6 +331,11 @@ const COMPONENT_GRID = [
         </InputGroup>
       </div>
     ),
+  },
+  {
+    label: "Combobox",
+    to: "/components/combobox",
+    preview: <ComboboxPreview />,
   },
   {
     label: "Select",
@@ -516,57 +561,78 @@ const SELECT_PREVIEW_OPTIONS = [
   { value: "comments", label: "Most commented", icon: IconMessageOutline18 },
 ] as const;
 
-const HOME_MENU_SURFACE_CLASS = [
-  "max-h-[var(--available-height)] overflow-hidden gap-0.5 rounded-md bg-layer-popover p-1",
-  "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)] outline-none",
-  "flex flex-col",
-  "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
-].join(" ");
+const HOME_COMBOBOX_OPTIONS = [
+  { id: "design", label: "#design", description: "Component reviews" },
+  { id: "runtime", label: "#runtime", description: "Agent health" },
+  { id: "release", label: "#release", description: "Ship notes" },
+] as const;
 
-function HomeMenuLabel({ children }: { children: ReactNode }) {
+type HomeComboboxOption = (typeof HOME_COMBOBOX_OPTIONS)[number];
+
+function ComboboxPreview() {
+  const [selectedChannel, setSelectedChannel] = useState<HomeComboboxOption | null>(
+    HOME_COMBOBOX_OPTIONS[0],
+  );
+
   return (
-    <div className="-mx-1 border-b border-line-muted px-3 py-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:uppercase [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60">
-      {children}
+    <div className="flex h-64 w-72 items-center justify-center">
+      <Combobox<HomeComboboxOption>
+        autoHighlight
+        items={HOME_COMBOBOX_OPTIONS}
+        isItemEqualToValue={(item, value) => item.id === value.id}
+        itemToStringLabel={(channel) => channel.label}
+        value={selectedChannel}
+        onValueChange={setSelectedChannel}
+      >
+        <ComboboxPopup className="w-[240px]">
+          <ComboboxHeader>
+            <ComboboxLabel>Channels</ComboboxLabel>
+          </ComboboxHeader>
+          <ComboboxSeparator />
+          <ComboboxInputGroup>
+            <ComboboxInput
+              aria-label="Search channels"
+              placeholder="Search..."
+              suppressPasswordManager
+            />
+          </ComboboxInputGroup>
+          <ComboboxList>
+            {(channel: HomeComboboxOption) => (
+              <ComboboxItem key={channel.id} value={channel}>
+                <span className="flex min-w-0 items-center gap-2">
+                  <span className="flex size-4 shrink-0 items-center justify-center text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+                    #
+                  </span>
+                  <span className="grid min-w-0">
+                    <span className="truncate leading-5">{channel.label}</span>
+                    <span className="truncate text-[11px] leading-4 text-foreground-placeholder [[data-theme=brutal]_&]:text-black/50">
+                      {channel.description}
+                    </span>
+                  </span>
+                </span>
+                <ComboboxItemIndicator />
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxPopup>
+      </Combobox>
     </div>
-  );
-}
-
-function HomeMenuItem({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex w-full cursor-default select-none items-center gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em] text-foreground-muted transition-colors [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:leading-6 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:[&_svg]:size-3.5 [[data-theme=brutal]_&]:[&_svg]:stroke-2">
-      {children}
-    </div>
-  );
-}
-
-function HomeMenuShortcut({ children }: { children: ReactNode }) {
-  return (
-    <span className="ml-auto text-foreground-muted [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-black">
-      {children}
-    </span>
-  );
-}
-
-function HomeMenuCount({ children }: { children: ReactNode }) {
-  return (
-    <span className="ml-auto tabular-nums text-foreground-muted [[data-theme=brutal]_&]:rounded [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-pink [[data-theme=brutal]_&]:px-1.5 [[data-theme=brutal]_&]:py-0.5 [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:leading-none [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-white">
-      {children}
-    </span>
-  );
-}
-
-function HomeMenuSeparator() {
-  return (
-    <div className="my-1 -mx-1 h-px bg-line-muted [[data-theme=brutal]_&]:border-t [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-transparent" />
   );
 }
 
 function SelectPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(true);
 
   return (
     <div ref={portalRef} className="relative flex h-56 w-72 items-start justify-center pt-14">
-      <Select defaultValue="relevance" items={SELECT_PREVIEW_OPTIONS} modal={false}>
+      <Select
+        open={open}
+        onOpenChange={setOpen}
+        defaultValue="relevance"
+        items={SELECT_PREVIEW_OPTIONS}
+        modal={false}
+      >
         <SelectTrigger>
           <SelectValue>
             {(selectedValue) => {
@@ -612,68 +678,149 @@ function SelectPreview() {
 }
 
 function DropdownMenuPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(true);
+
   return (
-    <div className="flex h-56 w-72 items-center justify-center">
-      <div className={`${HOME_MENU_SURFACE_CLASS} w-64`}>
-        <HomeMenuLabel>Account</HomeMenuLabel>
-        <HomeMenuItem>
-          <IconUserOutline18 />
-          <span className="min-w-0 flex-1 truncate">Profile</span>
-          <HomeMenuShortcut>⌘P</HomeMenuShortcut>
-        </HomeMenuItem>
-        <HomeMenuItem>
-          <IconBellOutline18 />
-          <span className="min-w-0 flex-1 truncate">Notifications</span>
-          <HomeMenuCount>3</HomeMenuCount>
-        </HomeMenuItem>
-        <HomeMenuItem>
-          <IconCreditCardOutline18 />
-          <span className="min-w-0 flex-1 truncate">Billing</span>
-        </HomeMenuItem>
-        <HomeMenuSeparator />
-        <HomeMenuItem>
-          <IconGearOutline18 />
-          <span className="min-w-0 flex-1 truncate">Settings</span>
-        </HomeMenuItem>
-      </div>
+    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
+      <DropdownMenu open={open} onOpenChange={setOpen} modal={false} triggerId="home-menu-trigger">
+        <DropdownMenuTrigger id="home-menu-trigger" render={<Button variant="outline" size="md" />}>
+          <IconUserOutline18 aria-hidden />
+          Account
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="flex w-64 flex-col"
+        >
+          <DropdownMenuLabel>Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <IconUserOutline18 />
+            <span className="min-w-0 flex-1 truncate">Profile</span>
+            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconBellOutline18 />
+            <span className="min-w-0 flex-1 truncate">Notifications</span>
+            <DropdownMenuItemCount>3</DropdownMenuItemCount>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconCreditCardOutline18 />
+            <span className="min-w-0 flex-1 truncate">Billing</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <IconGearOutline18 />
+            <span className="min-w-0 flex-1 truncate">Settings</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
 
 function ContextMenuPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(true);
+  const [hasCursorAnchor, setHasCursorAnchor] = useState(false);
+  const anchor = {
+    getBoundingClientRect() {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      return DOMRect.fromRect({
+        x: rect?.right ?? 0,
+        y: rect?.bottom ?? 0,
+        width: 0,
+        height: 0,
+      });
+    },
+  };
+
   return (
-    <div className="grid h-56 w-72 justify-items-center gap-3 pt-7">
-      <div
-        className={[
-          "flex min-h-12 w-52 items-center justify-center px-4 text-center",
-          "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
-          "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
-        ].join(" ")}
-      >
-        Right click thread
-      </div>
-      <div className={`${HOME_MENU_SURFACE_CLASS} w-60 min-w-60`}>
-        <HomeMenuLabel>Thread actions</HomeMenuLabel>
-        <HomeMenuItem>
-          <IconPinOutline18 />
-          <span className="min-w-0 flex-1 truncate">Pin thread</span>
-        </HomeMenuItem>
-        <HomeMenuItem>
-          <IconCopyOutline18 />
-          <span className="min-w-0 flex-1 truncate">Copy link</span>
-          <HomeMenuShortcut>⌘C</HomeMenuShortcut>
-        </HomeMenuItem>
-        <HomeMenuSeparator />
-        <HomeMenuItem>
-          <IconArchive2Outline18 />
-          <span className="min-w-0 flex-1 truncate">Archive</span>
-        </HomeMenuItem>
-        <HomeMenuItem>
-          <IconTrashOutline18 />
-          <span className="min-w-0 flex-1 truncate">Delete</span>
-          <HomeMenuShortcut>⌫</HomeMenuShortcut>
-        </HomeMenuItem>
-      </div>
+    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-9">
+      <ContextMenu open={open} onOpenChange={setOpen}>
+        <div ref={triggerRef} onContextMenuCapture={() => setHasCursorAnchor(true)}>
+          <ContextMenuTrigger
+            className={[
+              "flex min-h-14 w-56 items-center justify-center px-4 text-center",
+              "bg-[oklch(0.955_0.003_286)] text-sm font-medium text-[oklch(0.32_0.006_286)]",
+              "[[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold",
+            ].join(" ")}
+            onClick={() => {
+              setHasCursorAnchor(false);
+              setOpen((currentOpen) => !currentOpen);
+            }}
+          >
+            Right click thread
+          </ContextMenuTrigger>
+        </div>
+        <ContextMenuContent
+          anchor={hasCursorAnchor ? undefined : anchor}
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="flex w-60 min-w-60 flex-col"
+        >
+          <ContextMenuLabel>Thread actions</ContextMenuLabel>
+          <ContextMenuItem>
+            <IconPinOutline18 />
+            <span className="min-w-0 flex-1 truncate">Pin thread</span>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconCopyOutline18 />
+            <span className="min-w-0 flex-1 truncate">Copy link</span>
+            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem>
+            <IconArchive2Outline18 />
+            <span className="min-w-0 flex-1 truncate">Archive</span>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconTrashOutline18 />
+            <span className="min-w-0 flex-1 truncate">Delete</span>
+            <ContextMenuShortcut>⌫</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  );
+}
+
+function PopoverPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(true);
+
+  return (
+    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
+      <Popover open={open} onOpenChange={setOpen} modal={false} triggerId="home-popover-trigger">
+        <PopoverTrigger id="home-popover-trigger" render={<Button variant="outline" size="md" />}>
+          <IconCircleInfoFill18 aria-hidden />
+          Usage notes
+        </PopoverTrigger>
+        <PopoverContent
+          initialFocus={false}
+          finalFocus={false}
+          align="center"
+          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[248px]"
+        >
+          <PopoverHeader>
+            <PopoverTitle>Search guide</PopoverTitle>
+            <PopoverClose>Close</PopoverClose>
+          </PopoverHeader>
+          <PopoverSeparator />
+          <div className="grid gap-3 px-3 py-3">
+            <PopoverDescription>
+              Mix channels, people, and quoted phrases to narrow message history.
+            </PopoverDescription>
+            <div className="grid gap-1 rounded-sm bg-foreground/[0.04] px-2 py-2 font-mono text-xs text-foreground/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+              <span className="truncate">#design "token audit"</span>
+              <span className="truncate">@atlas migration notes</span>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

@@ -273,27 +273,27 @@ const STATES = [
   },
   {
     role: "warning",
-    scale: "yellow",
+    scale: "amber",
     tones: [
       {
         label: "dark",
         token: "--state-warning-dark",
-        value: PALETTE_VALUES.yellow["900"],
+        value: "oklch(0.366 0.106 44.441)",
       },
       {
         label: "base",
         token: "--state-warning-base",
-        value: PALETTE_VALUES.yellow["400"],
+        value: "oklch(0.7 0.202 44.441)",
       },
       {
         label: "light",
         token: "--state-warning-light",
-        value: PALETTE_VALUES.yellow["200"],
+        value: "oklch(0.91 0.05 44.441)",
       },
       {
         label: "lighter",
         token: "--state-warning-lighter",
-        value: PALETTE_VALUES.yellow["100"],
+        value: "oklch(0.949 0.027 44.441)",
       },
     ],
   },

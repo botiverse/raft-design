@@ -14,11 +14,11 @@ const popover = tv({
     ],
     header: ["flex items-center justify-between px-3 py-2"],
     separator: ["border-t"],
-    title: ["m-0 text-[10px] font-bold uppercase leading-none tracking-wide"],
+    title: ["m-0 text-[10px] font-bold leading-none"],
     description: ["m-0 text-xs leading-5"],
     close: [
       "inline-flex items-center justify-center",
-      "text-[10px] font-bold uppercase tracking-wide",
+      "text-[10px] font-bold",
       "outline-none transition-colors",
     ],
     arrow: ["size-2 rotate-45"],

@@ -468,7 +468,13 @@ export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
 
   return (
     <TokenThemeScope theme={theme}>
-      <DocPage title={title} description="The font contract." showToc={false} toc={[]}>
+      <DocPage
+        title={title}
+        description="The font contract."
+        articleClassName="mx-auto max-w-[92rem]"
+        showToc={false}
+        toc={[]}
+      >
         <DocSection id="specimens" title="Theme specimens">
           <ThemeTypographyScope theme={theme}>
             {families.map((family) => (
