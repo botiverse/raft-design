@@ -4,40 +4,57 @@ import { tv } from "../../lib/tv.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
 
 // EmptyState family: a quiet "nothing here yet" surface — muted icon, muted
-// title, optional description + action. Composed from a centered root and slot
-// parts (`EmptyStateIcon`, `EmptyStateTitle`, `EmptyStateDescription`,
-// `EmptyStateActions`). All parts share one `tv()` slots config so theme styling
-// lives in a single place — ready for the elegant family to add per-slot
-// overrides under `theme`. There is no icon frame; the title is sentence-case
-// (callers pass the literal string). Layout slots stay theme-free.
+// title, optional description + action. Composed from a centered root, a
+// content group, and slot parts (`EmptyStateIcon`, `EmptyStateTitle`,
+// `EmptyStateDescription`, `EmptyStateActions`). All parts share one `tv()`
+// slots config so theme styling lives in a single place. There is no icon frame
+// in brutal; elegant uses a compact neutral icon chip. The title is
+// sentence-case (callers pass the literal string).
 const emptyState = tv({
   slots: {
-    root: ["px-6 py-12 text-center"],
-    icon: ["mb-4 inline-flex items-center justify-center"],
-    title: ["mb-2 font-heading text-lg font-semibold"],
-    description: ["mx-auto max-w-[32ch] text-sm leading-relaxed"],
+    root: ["flex w-full min-w-0 flex-col items-center justify-center px-6 py-12 text-center"],
+    content: [
+      "flex w-full max-w-sm min-w-0 flex-col items-center gap-2 text-center",
+      "[&>[data-slot=empty-state-icon]]:mb-0",
+      "[&>[data-slot=empty-state-title]]:mb-0",
+    ],
+    icon: ["mb-4 inline-flex items-center justify-center [&_svg]:shrink-0"],
+    title: ["mb-2 w-full max-w-full text-center text-balance font-heading text-lg font-semibold"],
+    description: [
+      "mx-auto w-full max-w-[32ch] text-center text-sm leading-relaxed text-pretty",
+      "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-foreground-strong",
+    ],
     actions: ["mt-5"],
   },
   variants: {
     theme: {
       brutal: {
-        icon: "text-foreground/40",
+        icon: "text-foreground-muted [&_svg]:size-9",
         title: "text-foreground/60",
         description: "text-foreground/60",
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        icon: "rounded-md bg-layer-muted p-2 text-foreground-placeholder [&_svg]:size-4.5",
+        title: "text-sm font-medium text-foreground-strong",
+        description: "text-foreground-muted",
+      },
     },
   },
 });
 
+type EmptyStateSlotProps = useRender.ElementProps<"div"> & {
+  "data-slot": string;
+};
+
 export type EmptyStateProps = useRender.ComponentProps<"div">;
 
-// Root: a centered, padded column. Compose `EmptyStateIcon` / `EmptyStateTitle`
-// / `EmptyStateDescription` / `EmptyStateActions` as children.
+// Root: a centered, padded column. Compose `EmptyStateContent` and
+// `EmptyStateActions` as children. Flat icon/title/description children are
+// still supported for legacy callsites.
 export function EmptyState({ render, className, ...props }: EmptyStateProps) {
   const { root } = emptyState();
-  const defaultProps: useRender.ElementProps<"div"> = {
+  const defaultProps: EmptyStateSlotProps = {
+    "data-slot": "empty-state",
     className: root({ className }),
   };
 
@@ -51,14 +68,36 @@ export function EmptyState({ render, className, ...props }: EmptyStateProps) {
   });
 }
 
+export type EmptyStateContentProps = useRender.ComponentProps<"div">;
+
+// Content: groups media, title, and description so empty-state copy keeps a
+// stable measure and balanced line breaks.
+export function EmptyStateContent({ render, className, ...props }: EmptyStateContentProps) {
+  const { content } = emptyState();
+  const defaultProps: EmptyStateSlotProps = {
+    "data-slot": "empty-state-content",
+    className: content({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "empty-state-content",
+    },
+  });
+}
+
 export type EmptyStateIconProps = useRender.ComponentProps<"div">;
 
-// Muted icon slot, conventionally a 36px glyph. Pass `render` to override the
-// wrapper element.
+// Muted icon slot. The slot owns default SVG sizing per theme; callers can
+// still override it with className for custom media.
 export function EmptyStateIcon({ render, className, ...props }: EmptyStateIconProps) {
   const theme = useTheme();
   const { icon } = emptyState({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
+  const defaultProps: EmptyStateSlotProps = {
+    "data-slot": "empty-state-icon",
     className: icon({ className }),
   };
 
@@ -79,7 +118,8 @@ export type EmptyStateTitleProps = useRender.ComponentProps<"div">;
 export function EmptyStateTitle({ render, className, ...props }: EmptyStateTitleProps) {
   const theme = useTheme();
   const { title } = emptyState({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
+  const defaultProps: EmptyStateSlotProps = {
+    "data-slot": "empty-state-title",
     className: title({ className }),
   };
 
@@ -100,7 +140,8 @@ export type EmptyStateDescriptionProps = useRender.ComponentProps<"div">;
 export function EmptyStateDescription({ render, className, ...props }: EmptyStateDescriptionProps) {
   const theme = useTheme();
   const { description } = emptyState({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
+  const defaultProps: EmptyStateSlotProps = {
+    "data-slot": "empty-state-description",
     className: description({ className }),
   };
 
@@ -120,7 +161,8 @@ export type EmptyStateActionsProps = useRender.ComponentProps<"div">;
 // element.
 export function EmptyStateActions({ render, className, ...props }: EmptyStateActionsProps) {
   const { actions } = emptyState();
-  const defaultProps: useRender.ElementProps<"div"> = {
+  const defaultProps: EmptyStateSlotProps = {
+    "data-slot": "empty-state-actions",
     className: actions({ className }),
   };
 

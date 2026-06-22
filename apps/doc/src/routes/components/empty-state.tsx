@@ -4,152 +4,268 @@ import {
   EmptyState,
   EmptyStateActions,
   EmptyStateDescription,
+  EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { Inbox, Plus } from "lucide-react";
+import { Inbox, Plus, Search, Upload } from "lucide-react";
+import type { ReactNode } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
+import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
+import { ThemeSwitcher } from "#/components/theme-switcher.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import LegacyEmptyState from "../../../../../packages/ui/src/legacy/EmptyState.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import emptyStateActivityInboxCompositionSource from "#/compositions/empty-state/activity-inbox-composition.tsx?raw";
+import emptyStateDefaultCompositionSource from "#/compositions/empty-state/default-composition.tsx?raw";
+import emptyStateFilesCompositionSource from "#/compositions/empty-state/files-composition.tsx?raw";
+import emptyStateInboxStatusCompositionSource from "#/compositions/empty-state/inbox-status-composition.tsx?raw";
+import emptyStateSavedMessagesCompositionSource from "#/compositions/empty-state/saved-messages-composition.tsx?raw";
+import emptyStateTaskFilterCompositionSource from "#/compositions/empty-state/task-filter-composition.tsx?raw";
+import emptyStateWithActionCompositionSource from "#/compositions/empty-state/with-action-composition.tsx?raw";
+import {
+  EMPTY_STATE_SOURCE_COMPARISON_COMPOSITION,
+  EMPTY_STATE_SOURCE_COMPARISON_COMPOSITION_PATHS,
+  EMPTY_STATE_SOURCE_COMPARISON_SOURCE,
+} from "#/compositions/empty-state-source-comparison.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "with-action", title: "With action" },
+  { id: "copy", title: "Copy" },
+  { id: "actions", title: "Actions" },
+  { id: "customize", title: "Customize" },
+  { id: "composition", title: "Composition" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
-
 const SNIPPETS = {
-  anatomy: `import { EmptyState, EmptyStateIcon, EmptyStateTitle } from "@raft/ui";
+  anatomy: `import {
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateIcon,
+  EmptyStateTitle,
+} from "@raft/ui";
 import { Inbox } from "lucide-react";
 
 <EmptyState>
-  <EmptyStateIcon>
-    <Inbox size={36} />
-  </EmptyStateIcon>
-  <EmptyStateTitle>No messages yet</EmptyStateTitle>
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <Inbox />
+    </EmptyStateIcon>
+    <EmptyStateTitle>No messages yet</EmptyStateTitle>
+  </EmptyStateContent>
 </EmptyState>`,
-  basic: `<EmptyState>
-  <EmptyStateIcon>
-    <Inbox size={36} />
-  </EmptyStateIcon>
-  <EmptyStateTitle>No messages yet</EmptyStateTitle>
-  <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
+  copy: `<EmptyState>
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <Search />
+    </EmptyStateIcon>
+    <EmptyStateTitle>No results for "linear sync"</EmptyStateTitle>
+    <EmptyStateDescription>
+      Try a different keyword or check the selected filters.
+    </EmptyStateDescription>
+  </EmptyStateContent>
+</EmptyState>
+
+<EmptyState>
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <Inbox />
+    </EmptyStateIcon>
+    <EmptyStateTitle>No messages yet</EmptyStateTitle>
+    <EmptyStateDescription>
+      Conversations you start will show up here.
+    </EmptyStateDescription>
+  </EmptyStateContent>
 </EmptyState>`,
-  withAction: `<EmptyState>
-  <EmptyStateIcon>
-    <Inbox size={36} />
-  </EmptyStateIcon>
-  <EmptyStateTitle>No channels yet</EmptyStateTitle>
-  <EmptyStateDescription>Create your first channel to get started.</EmptyStateDescription>
-  <EmptyStateActions>
+  actions: `<EmptyState>
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <Inbox />
+    </EmptyStateIcon>
+    <EmptyStateTitle>No channels yet</EmptyStateTitle>
+    <EmptyStateDescription>
+      Create your first channel to start organizing work.
+    </EmptyStateDescription>
+  </EmptyStateContent>
+  <EmptyStateActions className="flex flex-wrap justify-center gap-2">
     <Button variant="primary" size="sm">
-      <Plus />
+      <Plus data-icon="inline-start" />
       New channel
     </Button>
+    <Button variant="outline" size="sm">Import</Button>
   </EmptyStateActions>
 </EmptyState>`,
-  sourceApi: `<EmptyState
-  icon={<Inbox size={36} />}
-  title="No messages yet"
-  description="Conversations you start will show up here."
-  action={<Button variant="primary" size="sm">New channel</Button>}
-/>`,
-  currentApi: `<EmptyState>
-  <EmptyStateIcon>
-    <Inbox size={36} />
-  </EmptyStateIcon>
-  <EmptyStateTitle>No messages yet</EmptyStateTitle>
-  <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
-  <EmptyStateActions>
-    <Button variant="primary" size="sm">New channel</Button>
-  </EmptyStateActions>
+  customize: `import { Button, EmptyState, EmptyStateContent, EmptyStateDescription, EmptyStateIcon, EmptyStateTitle } from "@raft/ui";
+import { Upload } from "lucide-react";
+
+<EmptyState className="min-h-72">
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <Upload />
+    </EmptyStateIcon>
+    <EmptyStateTitle>Drop files to import customers</EmptyStateTitle>
+    <EmptyStateDescription>
+      CSV and TSV files can be mapped before anything is saved.
+    </EmptyStateDescription>
+  </EmptyStateContent>
+  <div className="mt-5 flex flex-col items-center gap-2">
+    <Button variant="primary" size="sm">Choose file</Button>
+    <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
+      <button className="underline underline-offset-4 hover:text-foreground-strong">
+        Download template
+      </button>
+      <span aria-hidden>·</span>
+      <button className="underline underline-offset-4 hover:text-foreground-strong">
+        View import guide
+      </button>
+    </div>
+  </div>
+</EmptyState>`,
+  composition: `<EmptyState render={<section aria-labelledby="empty-state-title" />}>
+  <EmptyStateContent>
+    <EmptyStateIcon aria-hidden>
+      <Inbox />
+    </EmptyStateIcon>
+    <EmptyStateTitle render={<h2 id="empty-state-title" />}>
+      No notifications right now
+    </EmptyStateTitle>
+    <EmptyStateDescription>
+      New mentions, assignments, and approvals will appear here.
+    </EmptyStateDescription>
+  </EmptyStateContent>
 </EmptyState>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
+    name: "render",
+    type: "ReactElement | (props, state) => ReactElement",
+    description: "Change the root element, for example to section with an aria-labelledby hook.",
+  },
+  {
     name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
-    description: "Native div attributes. Pass render to override the element.",
+    description: "Native div attributes plus className.",
   },
 ];
 
 const PART_PROPS: readonly PropRow[] = [
   {
-    name: "EmptyStateIcon",
-    type: "ReactNode",
-    description: "Muted icon slot, conventionally 36px.",
+    name: "EmptyStateContent",
+    type: "HTMLAttributes<HTMLDivElement>",
+    description:
+      "Recommended wrapper for icon, title, and description. Keeps copy centered, bounded, and balanced.",
   },
-  { name: "EmptyStateTitle", type: "ReactNode", description: "Muted, sentence-case title line." },
+  {
+    name: "EmptyStateIcon",
+    type: "HTMLAttributes<HTMLDivElement>",
+    description:
+      "Muted icon slot. The slot owns default SVG sizing per theme; override with className for custom media.",
+  },
+  {
+    name: "EmptyStateTitle",
+    type: "HTMLAttributes<HTMLDivElement>",
+    description: "Muted sentence-case title. Use render to promote it to a real heading.",
+  },
   {
     name: "EmptyStateDescription",
-    type: "ReactNode",
-    description: "Optional supporting copy (max ~32ch).",
+    type: "HTMLAttributes<HTMLDivElement>",
+    description: "Optional supporting copy with a readable measure.",
   },
   {
     name: "EmptyStateActions",
-    type: "ReactNode",
-    description: "Optional action slot below the copy.",
+    type: "HTMLAttributes<HTMLDivElement>",
+    description:
+      "Optional action row. Add flex and gap classes when rendering more than one action.",
   },
 ];
 
+const EmptyStateSource = EMPTY_STATE_SOURCE_COMPARISON_SOURCE;
+const EmptyStateCurrent = EMPTY_STATE_SOURCE_COMPARISON_COMPOSITION;
+
+const EMPTY_STATE_COMPOSITION_RAW_SOURCES = {
+  Default: emptyStateDefaultCompositionSource,
+  WithAction: emptyStateWithActionCompositionSource,
+  Files: emptyStateFilesCompositionSource,
+  SavedMessages: emptyStateSavedMessagesCompositionSource,
+  TaskFilter: emptyStateTaskFilterCompositionSource,
+  InboxStatus: emptyStateInboxStatusCompositionSource,
+  ActivityInbox: emptyStateActivityInboxCompositionSource,
+} as const;
+
+const EMPTY_STATE_COMPOSITION_SOURCES = createCompositionSourceMap(
+  EMPTY_STATE_COMPOSITION_RAW_SOURCES,
+);
+
+const EMPTY_STATE_COMPOSITION_SNIPPET_IDS = {
+  Default: "emptyStateDefaultComposition",
+  WithAction: "emptyStateWithActionComposition",
+  Files: "emptyStateFilesComposition",
+  SavedMessages: "emptyStateSavedMessagesComposition",
+  TaskFilter: "emptyStateTaskFilterComposition",
+  InboxStatus: "emptyStateInboxStatusComposition",
+  ActivityInbox: "emptyStateActivityInboxComposition",
+} as const;
+
+type EmptyStateCompositionKey = keyof typeof EMPTY_STATE_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/empty-state")({
   component: EmptyStateDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(
+          EMPTY_STATE_COMPOSITION_SOURCES,
+          EMPTY_STATE_COMPOSITION_SNIPPET_IDS,
+        ),
+      },
+    }),
 });
 
 function EmptyStateDoc() {
   const code = Route.useLoaderData();
+  const emptyStateComposition = (key: EmptyStateCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: EMPTY_STATE_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: EMPTY_STATE_COMPOSITION_SNIPPET_IDS,
+      sources: EMPTY_STATE_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
       title="EmptyState"
-      description="A quiet 'nothing here yet' surface — muted icon, title, and optional action."
-      overview={
-        <Differences from="EmptyState">
-          <li>brutal styling reproduced 1:1 (no icon frame, muted title, 36px icon at callsite)</li>
-          <li>
-            composition-first: <code>EmptyStateIcon</code> / <code>EmptyStateTitle</code> /{" "}
-            <code>EmptyStateDescription</code> / <code>EmptyStateActions</code> parts replace the
-            original <code>icon</code> / <code>title</code> / <code>description</code> /{" "}
-            <code>action</code> props
-          </li>
-          <li>
-            the <code>default</code> export is now a named <code>EmptyState</code> export
-          </li>
-        </Differences>
-      }
+      description="A quiet feedback surface for empty collections, filtered results, and first-run states."
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
-        <Example html={code.basic}>
+        <QuietPreview>
           <EmptyState>
-            <EmptyStateIcon>
-              <Inbox size={36} />
-            </EmptyStateIcon>
-            <EmptyStateTitle>No messages yet</EmptyStateTitle>
-            <EmptyStateDescription>
-              Conversations you start will show up here.
-            </EmptyStateDescription>
+            <EmptyStateContent>
+              <EmptyStateIcon>
+                <Inbox />
+              </EmptyStateIcon>
+              <EmptyStateTitle>No messages yet</EmptyStateTitle>
+              <EmptyStateDescription>
+                Conversations you start will show up here.
+              </EmptyStateDescription>
+            </EmptyStateContent>
           </EmptyState>
-        </Example>
+        </QuietPreview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -160,20 +276,105 @@ function EmptyStateDoc() {
           collapsedHtml={code.anatomyBody}
         />
       </DocSection>
-      <DocSection id="with-action" title="With action">
-        <Example html={code.withAction}>
+
+      <DocSection id="copy" title="Copy">
+        <Example html={code.copy} previewClassName="items-stretch">
+          <div className="grid w-full gap-4 md:grid-cols-2">
+            <EmptyState className="min-h-56">
+              <EmptyStateContent>
+                <EmptyStateIcon>
+                  <Search />
+                </EmptyStateIcon>
+                <EmptyStateTitle>No results for "linear sync"</EmptyStateTitle>
+                <EmptyStateDescription>
+                  Try a different keyword or check the selected filters.
+                </EmptyStateDescription>
+              </EmptyStateContent>
+            </EmptyState>
+            <EmptyState className="min-h-56">
+              <EmptyStateContent>
+                <EmptyStateIcon>
+                  <Inbox />
+                </EmptyStateIcon>
+                <EmptyStateTitle>No messages yet</EmptyStateTitle>
+                <EmptyStateDescription>
+                  Conversations you start will show up here.
+                </EmptyStateDescription>
+              </EmptyStateContent>
+            </EmptyState>
+          </div>
+        </Example>
+      </DocSection>
+
+      <DocSection id="actions" title="Actions">
+        <Example html={code.actions}>
           <EmptyState>
-            <EmptyStateIcon>
-              <Inbox size={36} />
-            </EmptyStateIcon>
-            <EmptyStateTitle>No channels yet</EmptyStateTitle>
-            <EmptyStateDescription>Create your first channel to get started.</EmptyStateDescription>
-            <EmptyStateActions>
+            <EmptyStateContent>
+              <EmptyStateIcon>
+                <Inbox />
+              </EmptyStateIcon>
+              <EmptyStateTitle>No channels yet</EmptyStateTitle>
+              <EmptyStateDescription>
+                Create your first channel to start organizing work.
+              </EmptyStateDescription>
+            </EmptyStateContent>
+            <EmptyStateActions className="flex flex-wrap justify-center gap-2">
               <Button variant="primary" size="sm">
-                <Plus />
+                <Plus data-icon="inline-start" />
                 New channel
               </Button>
+              <Button variant="outline" size="sm">
+                Import
+              </Button>
             </EmptyStateActions>
+          </EmptyState>
+        </Example>
+      </DocSection>
+
+      <DocSection id="customize" title="Customize">
+        <Example html={code.customize}>
+          <EmptyState className="min-h-72">
+            <EmptyStateContent>
+              <EmptyStateIcon>
+                <Upload />
+              </EmptyStateIcon>
+              <EmptyStateTitle>Drop files to import customers</EmptyStateTitle>
+              <EmptyStateDescription>
+                CSV and TSV files can be mapped before anything is saved.
+              </EmptyStateDescription>
+            </EmptyStateContent>
+            <div className="mt-5 flex flex-col items-center gap-2">
+              <Button variant="primary" size="sm">
+                Choose file
+              </Button>
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
+                <button className="underline underline-offset-4 hover:text-foreground-strong">
+                  Download template
+                </button>
+                <span aria-hidden>·</span>
+                <button className="underline underline-offset-4 hover:text-foreground-strong">
+                  View import guide
+                </button>
+              </div>
+            </div>
+          </EmptyState>
+        </Example>
+      </DocSection>
+
+      <DocSection id="composition" title="Composition">
+        <Example html={code.composition}>
+          <EmptyState render={<section aria-labelledby="empty-state-title" />}>
+            <EmptyStateContent>
+              <EmptyStateIcon aria-hidden>
+                <Inbox />
+              </EmptyStateIcon>
+              <EmptyStateTitle render={<h2 id="empty-state-title" />}>
+                No notifications right now
+              </EmptyStateTitle>
+              <EmptyStateDescription>
+                New mentions, assignments, and approvals will appear here.
+              </EmptyStateDescription>
+            </EmptyStateContent>
           </EmptyState>
         </Example>
       </DocSection>
@@ -185,15 +386,77 @@ function EmptyStateDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
-              label: "API shape",
-              status: "difference",
-              note: "Source accepted icon, title, description, and action props. Current keeps the visual contract but exposes those areas as compound parts so callers own composition and semantics.",
-              source: <LegacyEmptyStatePreview />,
-              current: <EmptyStatePreview />,
-              sourceCode: code.sourceApi,
-              currentCode: code.currentApi,
+              label: "Default",
+              status: "match",
+              note: "Source used icon, title, and description props. Current keeps the visual contract but moves those regions into compound parts.",
+              source: <EmptyStateSource.Default />,
+              brutal: <EmptyStateCurrent.Default />,
+              elegant: <EmptyStateCurrent.Default />,
+              elegantDark: <EmptyStateCurrent.Default />,
+              ...emptyStateComposition("Default"),
+            },
+            {
+              label: "With action",
+              status: "match",
+              note: "The old action prop maps to EmptyStateActions so callers can own button semantics, labels, and multi-action layout.",
+              source: <EmptyStateSource.WithAction />,
+              brutal: <EmptyStateCurrent.WithAction />,
+              elegant: <EmptyStateCurrent.WithAction />,
+              elegantDark: <EmptyStateCurrent.WithAction />,
+              ...emptyStateComposition("WithAction"),
+            },
+            {
+              label: "Files",
+              status: "match",
+              note: "Source ChannelFilesPanel uses the same primitive for a collection-specific empty panel with longer instructional copy.",
+              source: <EmptyStateSource.Files />,
+              brutal: <EmptyStateCurrent.Files />,
+              elegant: <EmptyStateCurrent.Files />,
+              elegantDark: <EmptyStateCurrent.Files />,
+              ...emptyStateComposition("Files"),
+            },
+            {
+              label: "Saved messages",
+              status: "match",
+              note: "Source SavedPanel keeps the title in the base No-object-yet template and uses description copy to explain the saving action.",
+              source: <EmptyStateSource.SavedMessages />,
+              brutal: <EmptyStateCurrent.SavedMessages />,
+              elegant: <EmptyStateCurrent.SavedMessages />,
+              elegantDark: <EmptyStateCurrent.SavedMessages />,
+              ...emptyStateComposition("SavedMessages"),
+            },
+            {
+              label: "Task filter",
+              status: "match",
+              note: "Source TasksPanel switches from the base empty title to the filter-empty template when the user has narrowed the task list.",
+              source: <EmptyStateSource.TaskFilter />,
+              brutal: <EmptyStateCurrent.TaskFilter />,
+              elegant: <EmptyStateCurrent.TaskFilter />,
+              elegantDark: <EmptyStateCurrent.TaskFilter />,
+              ...emptyStateComposition("TaskFilter"),
+            },
+            {
+              label: "Inbox status",
+              status: "match",
+              note: "Source ThreadsInbox uses a status-type title without yet for binary views such as unread chats.",
+              source: <EmptyStateSource.InboxStatus />,
+              brutal: <EmptyStateCurrent.InboxStatus />,
+              elegant: <EmptyStateCurrent.InboxStatus />,
+              elegantDark: <EmptyStateCurrent.InboxStatus />,
+              ...emptyStateComposition("InboxStatus"),
+            },
+            {
+              label: "Activity inbox",
+              status: "match",
+              note: "Source ThreadsInbox also uses a named-container title when the surface itself is the product noun.",
+              source: <EmptyStateSource.ActivityInbox />,
+              brutal: <EmptyStateCurrent.ActivityInbox />,
+              elegant: <EmptyStateCurrent.ActivityInbox />,
+              elegantDark: <EmptyStateCurrent.ActivityInbox />,
+              ...emptyStateComposition("ActivityInbox"),
             },
           ]}
         />
@@ -202,36 +465,17 @@ function EmptyStateDoc() {
   );
 }
 
-function EmptyStatePreview() {
+function QuietPreview({ children }: { children: ReactNode }) {
   return (
-    <EmptyState>
-      <EmptyStateIcon>
-        <Inbox size={36} />
-      </EmptyStateIcon>
-      <EmptyStateTitle>No messages yet</EmptyStateTitle>
-      <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
-      <EmptyStateActions>
-        <Button variant="primary" size="sm">
-          <Plus />
-          New channel
-        </Button>
-      </EmptyStateActions>
-    </EmptyState>
-  );
-}
-
-function LegacyEmptyStatePreview() {
-  return (
-    <LegacyEmptyState
-      icon={<Inbox size={36} />}
-      title="No messages yet"
-      description="Conversations you start will show up here."
-      action={
-        <Button variant="primary" size="sm">
-          <Plus />
-          New channel
-        </Button>
-      }
-    />
+    <div className="relative">
+      <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
+        <ThemeSwitcher />
+      </div>
+      <div className="overflow-clip rounded-lg bg-[oklch(0.991_0_0)] shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]">
+        <PreviewThemeScope className="flex min-h-84 w-full flex-wrap items-center justify-center gap-4 bg-background px-6 py-4 text-foreground">
+          {children}
+        </PreviewThemeScope>
+      </div>
+    </div>
   );
 }

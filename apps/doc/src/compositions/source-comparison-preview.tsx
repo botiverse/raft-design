@@ -16,8 +16,8 @@ export function SourceComparisonPreview({
   const gapClassName = gap === "loose" ? "gap-4" : "gap-2.5";
   const layoutClassName =
     layout === "grid"
-      ? `grid grid-cols-[max-content_max-content] grid-rows-[max-content_max-content] place-items-center justify-center ${gapClassName}`
-      : `flex flex-wrap items-center justify-center ${gapClassName}`;
+      ? `grid w-full grid-cols-[max-content_max-content] grid-rows-[max-content_max-content] place-items-center justify-center ${gapClassName}`
+      : `flex w-full flex-wrap items-center justify-center ${gapClassName}`;
 
   return (
     <div

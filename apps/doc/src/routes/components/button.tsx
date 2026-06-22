@@ -272,7 +272,6 @@ function ButtonDoc() {
         </Button>
       }
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>

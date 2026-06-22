@@ -3,6 +3,7 @@ import { useId, useRef, type ReactNode, type RefObject } from "react";
 import { AlertTriangle, CheckCircle2, CircleGauge } from "lucide-react";
 import {
   Button,
+  EmptyStateContent,
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
@@ -255,13 +256,15 @@ const SNIPPETS = {
     </NotificationCenterHeader>
     <NotificationCenterScroller>
       <NotificationCenterEmptyState>
-        <EmptyStateIcon>
-          <CheckCircle2 size={36} />
-        </EmptyStateIcon>
-        <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-        <EmptyStateDescription>
-          You'll see things here that need your attention.
-        </EmptyStateDescription>
+        <EmptyStateContent>
+          <EmptyStateIcon>
+            <CheckCircle2 />
+          </EmptyStateIcon>
+          <EmptyStateTitle>No notifications right now</EmptyStateTitle>
+          <EmptyStateDescription>
+            You'll see things here that need your attention.
+          </EmptyStateDescription>
+        </EmptyStateContent>
       </NotificationCenterEmptyState>
     </NotificationCenterScroller>
   </NotificationCenterPopup>
@@ -362,13 +365,15 @@ useEffect(() => {
   return <EmptyState icon={<CheckCircle2 size={36} />} title={title} description={body} />;
 }`,
   currentEmpty: `<NotificationCenterEmptyState>
-  <EmptyStateIcon>
-    <CheckCircle2 size={36} />
-  </EmptyStateIcon>
-  <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-  <EmptyStateDescription>
-    You'll see things here that need your attention.
-  </EmptyStateDescription>
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <CheckCircle2 />
+    </EmptyStateIcon>
+    <EmptyStateTitle>No notifications right now</EmptyStateTitle>
+    <EmptyStateDescription>
+      You'll see things here that need your attention.
+    </EmptyStateDescription>
+  </EmptyStateContent>
 </NotificationCenterEmptyState>`,
 } as const;
 
@@ -491,7 +496,7 @@ const ACTION_EMPTY_PROPS: readonly PropRow[] = [
     name: "NotificationCenterEmptyState",
     type: "EmptyStateProps",
     description:
-      "Semantic empty-state root. Compose EmptyStateIcon, EmptyStateTitle, and EmptyStateDescription as children.",
+      "Semantic empty-state root. Compose EmptyStateContent with EmptyStateIcon, EmptyStateTitle, and EmptyStateDescription.",
   },
   {
     name: "NotificationCenterEmptyState.render",
@@ -518,7 +523,6 @@ function NotificationCenterDoc() {
     <DocPage
       title="NotificationCenter"
       description="A notification-center frame composed from header, scroller, list, item, and action parts."
-      sectionDividers={false}
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
@@ -653,13 +657,15 @@ function NotificationCenterExample({
           <NotificationCenterScroller>
             {entries.length === 0 ? (
               <NotificationCenterEmptyState>
-                <EmptyStateIcon>
-                  <CheckCircle2 size={36} />
-                </EmptyStateIcon>
-                <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-                <EmptyStateDescription>
-                  You'll see things here that need your attention.
-                </EmptyStateDescription>
+                <EmptyStateContent>
+                  <EmptyStateIcon>
+                    <CheckCircle2 />
+                  </EmptyStateIcon>
+                  <EmptyStateTitle>No notifications right now</EmptyStateTitle>
+                  <EmptyStateDescription>
+                    You'll see things here that need your attention.
+                  </EmptyStateDescription>
+                </EmptyStateContent>
               </NotificationCenterEmptyState>
             ) : (
               <NotificationCenterList>

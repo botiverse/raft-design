@@ -414,7 +414,6 @@ function ContextMenuDoc() {
       title="ContextMenu"
       description="A right-click menu family for compact action, selection, and nested action surfaces."
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">

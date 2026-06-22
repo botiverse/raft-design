@@ -22,6 +22,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
   Input,
   InlineCode,
   InputGroup,
@@ -76,6 +81,7 @@ import {
   IconClockOutline18,
   IconCreditCardOutline18,
   IconGearOutline18,
+  IconInboxOutline18,
   IconInputSearchOutline18,
   IconMessageOutline18,
   IconUserOutline18,
@@ -101,6 +107,7 @@ type ComponentRoute =
   | "/components/status"
   | "/components/tabs"
   | "/components/banner"
+  | "/components/empty-state"
   | "/components/notification-center";
 
 type ComponentGridItem = {
@@ -344,6 +351,21 @@ const COMPONENT_GRID = [
           <BannerDescription>Deployment is live.</BannerDescription>
         </Banner>
       </div>
+    ),
+  },
+  {
+    label: "EmptyState",
+    to: "/components/empty-state",
+    preview: (
+      <EmptyState className="min-h-56 w-72 px-4 py-8">
+        <EmptyStateContent>
+          <EmptyStateIcon>
+            <IconInboxOutline18 />
+          </EmptyStateIcon>
+          <EmptyStateTitle>No messages yet</EmptyStateTitle>
+          <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
+        </EmptyStateContent>
+      </EmptyState>
     ),
   },
   {

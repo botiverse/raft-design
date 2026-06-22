@@ -222,6 +222,7 @@ export type {
 
 export {
   EmptyState,
+  EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
   EmptyStateDescription,
@@ -229,6 +230,7 @@ export {
 } from "./components/empty-state/index.ts";
 export type {
   EmptyStateProps,
+  EmptyStateContentProps,
   EmptyStateIconProps,
   EmptyStateTitleProps,
   EmptyStateDescriptionProps,

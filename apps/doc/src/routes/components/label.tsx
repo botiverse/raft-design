@@ -199,7 +199,6 @@ function LabelDoc() {
         </Button>
       }
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <Example html={code.preview}>

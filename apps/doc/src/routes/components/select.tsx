@@ -663,7 +663,6 @@ function SelectDoc() {
       title="Select"
       description="A single-select field built on Base UI Select for value display, typeahead, keyboard navigation, and form submission."
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>

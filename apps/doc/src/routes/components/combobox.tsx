@@ -1227,7 +1227,6 @@ function ComboboxDoc() {
       title="Combobox"
       description="Use Combobox when the user searches, highlights, and selects structured options. Use Popover only for generic floating panels."
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>

@@ -290,7 +290,6 @@ function AvatarDoc() {
       title="Avatar"
       description="A black-bordered avatar frame with a role-keyed background, managed image, and placeholder."
       toc={TOC}
-      sectionDividers={false}
     >
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
