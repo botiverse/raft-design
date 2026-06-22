@@ -11,7 +11,15 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import LegacySpinner from "../../../../../packages/ui/src/legacy/Spinner.tsx";
+import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
+import spinnerDefaultCompositionSource from "#/compositions/spinner/default-composition.tsx?raw";
+import spinnerInverseCompositionSource from "#/compositions/spinner/inverse-composition.tsx?raw";
+import spinnerLargeCompositionSource from "#/compositions/spinner/large-composition.tsx?raw";
+import {
+  SPINNER_SOURCE_COMPARISON_COMPOSITION,
+  SPINNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
+  SPINNER_SOURCE_COMPARISON_SOURCE,
+} from "#/compositions/spinner-source-comparison.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
@@ -25,8 +33,9 @@ const TOC = [
 ] as const;
 
 const SIZES = ["sm", "lg"] as const;
+const VARIANTS = ["default", "inverse"] as const;
 
-const TODOS = ["Add elegant family motion/color review"] as const;
+const TODOS = [{ label: "Elegant ring motion/color review", status: "done" }] as const;
 
 const SNIPPETS = {
   anatomy: `import { Spinner } from "@raft/ui";
@@ -34,11 +43,12 @@ const SNIPPETS = {
 <Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
-  currentColor: `<div className="text-black">
-  <Spinner />
+  currentColor: `<Spinner className="text-primary-400" />
+<div className="rounded bg-primary-50 p-3">
+  <Spinner className="text-primary-500" />
 </div>
-<div className="text-white">
-  <Spinner />
+<div className="rounded bg-primary-950 p-3">
+  <Spinner className="text-primary-400" />
 </div>`,
   inline: `<Button>
   <Spinner data-icon="inline-start" />
@@ -49,21 +59,29 @@ const SNIPPETS = {
   <Spinner data-icon="inline-start" />
   Syncing
 </Badge>`,
-  sourceDefault: `<Spinner />`,
-  currentDefault: `<Spinner />`,
-  sourceLarge: `<Spinner size="lg" />`,
-  currentLarge: `<Spinner size="lg" />`,
-  sourceColor: `<span className="text-white">
-  <Spinner />
-</span>`,
-  currentColorCompare: `<span className="text-white">
-  <Spinner />
-</span>`,
 } as const;
+
+const SpinnerSource = SPINNER_SOURCE_COMPARISON_SOURCE;
+const SpinnerCurrent = SPINNER_SOURCE_COMPARISON_COMPOSITION;
+const SpinnerCompositionPaths = SPINNER_SOURCE_COMPARISON_COMPOSITION_PATHS;
+
+const SPINNER_COMPOSITION_SOURCES = {
+  Default: stripSourceCodeBlocks(spinnerDefaultCompositionSource),
+  Inverse: stripSourceCodeBlocks(spinnerInverseCompositionSource),
+  Large: stripSourceCodeBlocks(spinnerLargeCompositionSource),
+} as const;
+
+const SPINNER_COMPOSITION_SNIPPET_IDS = {
+  Default: "spinnerDefaultComposition",
+  Inverse: "spinnerInverseComposition",
+  Large: "spinnerLargeComposition",
+} as const;
+
+type SpinnerCompositionKey = keyof typeof SPINNER_COMPOSITION_SOURCES;
 
 type PlaygroundValues = {
   size: NonNullable<SpinnerProps["size"]>;
-  color: "black" | "white" | "yellow";
+  variant: (typeof VARIANTS)[number];
 };
 
 const PROPS: readonly PropRow[] = [
@@ -94,22 +112,42 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/spinner")({
   component: SpinnerDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        spinnerDefaultComposition: SPINNER_COMPOSITION_SOURCES.Default,
+        spinnerInverseComposition: SPINNER_COMPOSITION_SOURCES.Inverse,
+        spinnerLargeComposition: SPINNER_COMPOSITION_SOURCES.Large,
+      },
+    }),
 });
 
 function SpinnerDoc() {
   const code = Route.useLoaderData();
+  const spinnerComposition = (key: SpinnerCompositionKey) => {
+    const snippetId = SPINNER_COMPOSITION_SNIPPET_IDS[key];
+
+    return {
+      compositionCode: code[snippetId],
+      compositionCollapsedCode: code[`${snippetId}Body`],
+      compositionPath: SpinnerCompositionPaths[key],
+      compositionSource: SPINNER_COMPOSITION_SOURCES[key],
+      compositionShowLineNumbers: false,
+    };
+  };
 
   return (
     <DocPage
       title="Spinner"
-      description="A braille-glyph spinner for indeterminate loading / pending feedback."
+      description="A theme-aware spinner for indeterminate loading / pending feedback."
       overview={
         <Differences from="Spinner">
           <li>
-            source braille glyph animation reproduced 1:1 (frames, 800ms steps, reduced-motion
-            duration)
+            brutal preserves the source braille glyph animation 1:1 (frames, 800ms steps,
+            reduced-motion duration)
           </li>
+          <li>elegant renders a two-layer SVG ring that derives both layers from currentColor</li>
           <li>
             source <code>sm</code>/<code>lg</code> sizing is preserved; previous ring-only{" "}
             <code>xs</code>/<code>md</code> and <code>variant</code> API was removed
@@ -129,6 +167,7 @@ function SpinnerDoc() {
         </Differences>
       }
       toc={TOC}
+      sectionDividers={false}
     >
       <DocSection id="todo" title="Todo">
         <TodoList items={TODOS} />
@@ -136,25 +175,21 @@ function SpinnerDoc() {
 
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ size: "sm", color: "black" }}
+          defaultValues={{ size: "sm", variant: "default" }}
           controls={[
             { name: "size", label: "Size", type: "select", options: SIZES },
             {
-              name: "color",
-              label: "Color",
+              name: "variant",
+              label: "Variant",
               type: "select",
-              options: ["black", "white", "yellow"],
+              options: VARIANTS,
             },
           ]}
           render={(values) => {
-            const colorClassName =
-              values.color === "white"
-                ? "bg-gray-950 text-white"
-                : values.color === "yellow"
-                  ? "bg-gray-950 text-brutal-yellow"
-                  : "text-black";
+            const variantClassName =
+              values.variant === "inverse" ? "bg-gray-950 text-white" : "text-black";
             return (
-              <div className={`rounded px-4 py-3 ${colorClassName}`}>
+              <div className={`rounded px-4 py-3 ${variantClassName}`}>
                 <Spinner size={values.size} />
               </div>
             );
@@ -183,14 +218,12 @@ function SpinnerDoc() {
       <DocSection id="current-color" title="Current color">
         <Example html={code.currentColor}>
           <div className="flex items-center gap-3">
-            <div className="text-black">
-              <Spinner />
+            <Spinner className="text-primary-400" />
+            <div className="rounded bg-primary-50 p-3">
+              <Spinner className="text-primary-500" />
             </div>
-            <div className="rounded bg-gray-950 p-3 text-white">
-              <Spinner />
-            </div>
-            <div className="rounded bg-gray-950 p-3 text-brutal-yellow">
-              <Spinner />
+            <div className="rounded bg-primary-950 p-3">
+              <Spinner className="text-primary-400" />
             </div>
           </div>
         </Example>
@@ -220,38 +253,33 @@ function SpinnerDoc() {
           items={[
             {
               label: "Default",
-              status: "match",
-              note: "Both render the source braille spinner with the same default size, label, and currentColor behavior.",
-              source: <LegacySpinner />,
-              current: <Spinner />,
-              sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
+              status: "difference",
+              note: "Brutal keeps the source braille glyph; elegant intentionally switches to the currentColor SVG ring.",
+              source: <SpinnerSource.Default />,
+              brutal: <SpinnerCurrent.Default />,
+              elegant: <SpinnerCurrent.Default />,
+              elegantDark: <SpinnerCurrent.Default />,
+              ...spinnerComposition("Default"),
             },
             {
               label: "Large",
-              status: "match",
-              note: "Source size lg maps directly to current size lg.",
-              source: <LegacySpinner size="lg" />,
-              current: <Spinner size="lg" />,
-              sourceCode: code.sourceLarge,
-              currentCode: code.currentLarge,
+              status: "difference",
+              note: "The size API is shared while elegant uses the ring form.",
+              source: <SpinnerSource.Large />,
+              brutal: <SpinnerCurrent.Large />,
+              elegant: <SpinnerCurrent.Large />,
+              elegantDark: <SpinnerCurrent.Large />,
+              ...spinnerComposition("Large"),
             },
             {
-              label: "Current color",
-              status: "match",
-              note: "Both inherit color from the surrounding text context.",
-              source: (
-                <span className="rounded bg-gray-950 p-3 text-white">
-                  <LegacySpinner />
-                </span>
-              ),
-              current: (
-                <span className="rounded bg-gray-950 p-3 text-white">
-                  <Spinner />
-                </span>
-              ),
-              sourceCode: code.sourceColor,
-              currentCode: code.currentColorCompare,
+              label: "Inverse context",
+              status: "difference",
+              note: "Both forms inherit the surrounding text color; elegant applies it through ring opacity layers.",
+              source: <SpinnerSource.Inverse />,
+              brutal: <SpinnerCurrent.Inverse />,
+              elegant: <SpinnerCurrent.Inverse />,
+              elegantDark: <SpinnerCurrent.Inverse />,
+              ...spinnerComposition("Inverse"),
             },
           ]}
         />

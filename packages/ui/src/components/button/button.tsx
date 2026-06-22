@@ -20,7 +20,7 @@ export const buttonVariants = tv({
     ],
     content:
       "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
-    loadingIndicator: "absolute z-10",
+    loadingIndicator: "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
   },
   variants: {
     theme: {
