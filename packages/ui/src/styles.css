@@ -288,10 +288,10 @@
   --state-success-light: oklch(0.91 0.149 153.079);
   --state-success-lighter: oklch(0.949 0.079 153.079);
 
-  --state-warning-dark: var(--color-brutal-yellow-900);
-  --state-warning-base: var(--color-brutal-yellow);
-  --state-warning-light: var(--color-brutal-yellow-200);
-  --state-warning-lighter: var(--color-brutal-yellow-100);
+  --state-warning-dark: oklch(0.366 0.106 44.441);
+  --state-warning-base: oklch(0.7 0.202 44.441);
+  --state-warning-light: oklch(0.91 0.05 44.441);
+  --state-warning-lighter: oklch(0.949 0.027 44.441);
 
   --state-danger-dark: var(--color-brutal-red-800);
   --state-danger-base: oklch(0.616 0.249 26.758);
@@ -378,10 +378,10 @@
   --state-success-light: oklch(0.91 0.149 153.079);
   --state-success-lighter: oklch(0.949 0.079 153.079);
 
-  --state-warning-dark: var(--color-brutal-yellow-900);
-  --state-warning-base: var(--color-brutal-yellow);
-  --state-warning-light: var(--color-brutal-yellow-200);
-  --state-warning-lighter: var(--color-brutal-yellow-100);
+  --state-warning-dark: oklch(0.366 0.106 44.441);
+  --state-warning-base: oklch(0.7 0.202 44.441);
+  --state-warning-light: oklch(0.91 0.05 44.441);
+  --state-warning-lighter: oklch(0.949 0.027 44.441);
 
   --state-danger-dark: var(--color-brutal-red-800);
   --state-danger-base: oklch(0.616 0.249 26.758);

@@ -176,6 +176,17 @@ const MONO_SIZE_BY_TITLE = {
   Tabular: "tabular",
 } as const;
 
+const TEXT_COLOR_VARIANTS = [
+  "default",
+  "primary",
+  "information",
+  "muted",
+  "accent",
+  "success",
+  "warning",
+  "danger",
+] as const;
+
 const THEME_TYPOGRAPHY = {
   brutal: {
     headings: HEADING_SCALE,
@@ -483,6 +494,12 @@ export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
             <TypographySpecList specs={monoSpecs} />
           </ThemeTypographyScope>
         </DocSection>
+
+        <DocSection id="color-variants" title="Color variants">
+          <ThemeTypographyScope theme={theme}>
+            <TextColorVariantList />
+          </ThemeTypographyScope>
+        </DocSection>
       </DocPage>
     </TokenThemeScope>
   );
@@ -543,6 +560,36 @@ function TypographySpecList({ specs }: { specs: TypographySpec[] }) {
         <TypographySpecRow
           key={spec.category ? `${spec.category}-${spec.name}` : spec.name}
           spec={spec}
+        />
+      ))}
+    </>
+  );
+}
+
+function TextColorVariantList() {
+  return (
+    <>
+      {TEXT_COLOR_VARIANTS.map((variant) => (
+        <TypographySpecRow
+          key={variant}
+          spec={{
+            category: "Variant",
+            name: variant,
+            family: "Text.Sans",
+            utility: `variant="${variant}"`,
+            size: "",
+            px: "",
+            weight: "",
+            weightValue: "",
+            tracking: "",
+            leading: "",
+            className: "",
+            preview: (
+              <Text.Sans size="small" variant={variant} className="whitespace-nowrap">
+                {SAMPLE_TEXT}
+              </Text.Sans>
+            ),
+          }}
         />
       ))}
     </>

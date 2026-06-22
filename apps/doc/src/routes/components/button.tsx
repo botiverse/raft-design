@@ -26,6 +26,7 @@ import buttonMutedCompositionSource from "#/compositions/button/muted-compositio
 import buttonOutlineCompositionSource from "#/compositions/button/outline-composition.tsx?raw";
 import buttonPrimaryCompositionSource from "#/compositions/button/primary-composition.tsx?raw";
 import buttonSizesCompositionSource from "#/compositions/button/sizes-composition.tsx?raw";
+import buttonWarningCompositionSource from "#/compositions/button/warning-composition.tsx?raw";
 import {
   BUTTON_SOURCE_COMPARISON_COMPOSITION,
   BUTTON_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -51,6 +52,7 @@ const VARIANTS = [
   "information",
   "muted",
   "accent",
+  "warning",
   "danger",
   "danger-secondary",
   "danger-outline",
@@ -71,6 +73,7 @@ const SNIPPETS = {
 <Button variant="information">Information</Button>
 <Button variant="muted">Muted</Button>
 <Button variant="accent">Accent</Button>
+<Button variant="warning">Warning</Button>
 <Button variant="danger">Danger</Button>
 <Button variant="danger-secondary">Delete</Button>
 <Button variant="danger-outline">Remove</Button>
@@ -192,6 +195,7 @@ const BUTTON_COMPOSITION_SOURCES = {
   Outline: stripSourceCodeBlocks(buttonOutlineCompositionSource),
   Primary: stripSourceCodeBlocks(buttonPrimaryCompositionSource),
   Sizes: stripSourceCodeBlocks(buttonSizesCompositionSource),
+  Warning: stripSourceCodeBlocks(buttonWarningCompositionSource),
 } as const;
 
 const BUTTON_COMPOSITION_SNIPPET_IDS = {
@@ -209,6 +213,7 @@ const BUTTON_COMPOSITION_SNIPPET_IDS = {
   Outline: "buttonOutlineComposition",
   Primary: "buttonPrimaryComposition",
   Sizes: "buttonSizesComposition",
+  Warning: "buttonWarningComposition",
 } as const;
 
 type ButtonCompositionKey = keyof typeof BUTTON_COMPOSITION_SOURCES;
@@ -233,6 +238,7 @@ export const Route = createFileRoute("/components/button")({
         buttonOutlineComposition: BUTTON_COMPOSITION_SOURCES.Outline,
         buttonPrimaryComposition: BUTTON_COMPOSITION_SOURCES.Primary,
         buttonSizesComposition: BUTTON_COMPOSITION_SOURCES.Sizes,
+        buttonWarningComposition: BUTTON_COMPOSITION_SOURCES.Warning,
       },
     }),
 });
@@ -317,6 +323,7 @@ function ButtonDoc() {
               <Button variant="information">Information</Button>
               <Button variant="muted">Muted</Button>
               <Button variant="accent">Accent</Button>
+              <Button variant="warning">Warning</Button>
               <Button variant="danger">Danger</Button>
               <Button variant="danger-secondary">Delete</Button>
               <Button variant="danger-outline">Remove</Button>
@@ -446,6 +453,15 @@ function ButtonDoc() {
               elegant: <ButtonCurrent.Accent />,
               elegantDark: <ButtonCurrent.Accent />,
               ...buttonComposition("Accent"),
+            },
+            {
+              label: "Warning",
+              status: "match",
+              source: <ButtonSource.Warning />,
+              brutal: <ButtonCurrent.Warning />,
+              elegant: <ButtonCurrent.Warning />,
+              elegantDark: <ButtonCurrent.Warning />,
+              ...buttonComposition("Warning"),
             },
             {
               label: "Danger",

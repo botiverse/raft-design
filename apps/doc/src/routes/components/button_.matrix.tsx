@@ -43,6 +43,10 @@ const CASES: readonly MatrixCase[] = [
     render: () => <Button variant="accent">Accent</Button>,
   },
   {
+    label: "warning",
+    render: () => <Button variant="warning">Warning</Button>,
+  },
+  {
     label: "danger",
     render: () => <Button variant="danger">Danger</Button>,
   },

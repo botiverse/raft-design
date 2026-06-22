@@ -2,6 +2,17 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "tailwind-variants";
 
+const textColorVariants = {
+  default: ["text-foreground-strong"],
+  primary: ["text-primary-700"],
+  information: ["text-info-dark"],
+  muted: ["text-foreground-muted"],
+  accent: ["text-accent-700"],
+  success: ["text-success-base"],
+  warning: ["text-warning-base"],
+  danger: ["text-danger-base"],
+};
+
 const heading = tv({
   base: ["m-0 font-heading font-medium text-foreground-strong"],
   variants: {
@@ -13,6 +24,7 @@ const heading = tv({
       5: ["text-[1.5rem] leading-8"],
       6: ["text-[1.25rem] leading-7"],
     },
+    variant: textColorVariants,
   },
   defaultVariants: {
     level: 1,
@@ -28,6 +40,7 @@ const sans = tv({
       small: ["text-sm leading-5 text-foreground-muted"],
       caption: ["text-xs leading-4 text-foreground-muted"],
     },
+    variant: textColorVariants,
   },
   defaultVariants: {
     size: "body",
@@ -46,6 +59,7 @@ const mono = tv({
       ],
       tabular: ["text-sm tabular-nums leading-5 text-foreground"],
     },
+    variant: textColorVariants,
   },
   defaultVariants: {
     size: "code",
@@ -54,9 +68,9 @@ const mono = tv({
 
 export type TextHeadingProps = useRender.ComponentProps<"h1"> & VariantProps<typeof heading>;
 
-export function TextHeading({ level = 1, className, render, ...props }: TextHeadingProps) {
+export function TextHeading({ level = 1, variant, className, render, ...props }: TextHeadingProps) {
   const defaultProps: useRender.ElementProps<"h1"> = {
-    className: heading({ level, className }),
+    className: heading({ level, variant, className }),
   };
 
   return useRender({
@@ -66,15 +80,16 @@ export function TextHeading({ level = 1, className, render, ...props }: TextHead
     state: {
       slot: "text-heading",
       level,
+      variant,
     },
   });
 }
 
 export type TextSansProps = useRender.ComponentProps<"p"> & VariantProps<typeof sans>;
 
-export function TextSans({ size = "body", className, render, ...props }: TextSansProps) {
+export function TextSans({ size = "body", variant, className, render, ...props }: TextSansProps) {
   const defaultProps: useRender.ElementProps<"p"> = {
-    className: sans({ size, className }),
+    className: sans({ size, variant, className }),
   };
 
   return useRender({
@@ -84,15 +99,16 @@ export function TextSans({ size = "body", className, render, ...props }: TextSan
     state: {
       slot: "text-sans",
       size,
+      variant,
     },
   });
 }
 
 export type TextMonoProps = useRender.ComponentProps<"p"> & VariantProps<typeof mono>;
 
-export function TextMono({ size = "code", className, render, ...props }: TextMonoProps) {
+export function TextMono({ size = "code", variant, className, render, ...props }: TextMonoProps) {
   const defaultProps: useRender.ElementProps<"p"> = {
-    className: mono({ size, className }),
+    className: mono({ size, variant, className }),
   };
 
   return useRender({
@@ -102,6 +118,7 @@ export function TextMono({ size = "code", className, render, ...props }: TextMon
     state: {
       slot: "text-mono",
       size,
+      variant,
     },
   });
 }

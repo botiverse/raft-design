@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
-import { Badge, Status, ThemeProvider, type BadgeProps, type Theme } from "@slock/ui";
+import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import { Badge, Status, Text, ThemeProvider, type BadgeProps, type Theme } from "@slock/ui";
 
 export const Route = createFileRoute("/components/badge_/matrix")({
   staticData: { standalone: true },
@@ -20,6 +20,7 @@ const VARIANTS = [
   "muted",
   "accent",
   "success",
+  "warning",
   "danger",
 ] as const satisfies readonly NonNullable<BadgeProps["variant"]>[];
 
@@ -97,6 +98,51 @@ const CASES: readonly MatrixCase[] = [
       </Badge>
     ),
   },
+  {
+    label: "text status",
+    render: () => (
+      <TextBadgeRow
+        variant="success"
+        text="Release channel"
+        badge={
+          <Badge variant="success">
+            <IconCircleCheckFill18 className="size-3" />
+            Live
+          </Badge>
+        }
+      />
+    ),
+  },
+  {
+    label: "text metadata",
+    render: () => (
+      <TextBadgeRow
+        variant="warning"
+        text="deploy:warning"
+        badge={
+          <Badge variant="warning">
+            <IconClockOutline18 className="size-3" />
+            Warning
+          </Badge>
+        }
+      />
+    ),
+  },
+  {
+    label: "text danger",
+    render: () => (
+      <TextBadgeRow
+        variant="danger"
+        text="Sync failed"
+        badge={
+          <Badge appearance="soft" variant="danger">
+            <IconXmarkOutline18 className="size-3" />
+            Retry
+          </Badge>
+        }
+      />
+    ),
+  },
 ];
 
 function BadgeMatrixPage() {
@@ -140,6 +186,25 @@ function MatrixCell({
         <div className="flex min-h-12 items-center justify-center">{children}</div>
       </div>
     </ThemeProvider>
+  );
+}
+
+function TextBadgeRow({
+  variant,
+  text,
+  badge,
+}: {
+  variant: "success" | "warning" | "danger";
+  text: string;
+  badge: ReactNode;
+}) {
+  return (
+    <div className="flex min-w-0 max-w-full items-center gap-3">
+      <div className="shrink-0">{badge}</div>
+      <Text.Sans size="small" variant={variant} className="min-w-0 truncate font-medium">
+        {text}
+      </Text.Sans>
+    </div>
   );
 }
 

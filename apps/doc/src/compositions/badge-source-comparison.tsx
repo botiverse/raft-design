@@ -10,6 +10,7 @@ import { BadgeOutlineAppearanceComposition } from "./badge/outline-appearance-co
 import { BadgePrimaryComposition } from "./badge/primary-composition.tsx";
 import { BadgeSoftAppearanceComposition } from "./badge/soft-appearance-composition.tsx";
 import { BadgeSuccessComposition } from "./badge/success-composition.tsx";
+import { BadgeWarningComposition } from "./badge/warning-composition.tsx";
 
 export const BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   Accent: "apps/doc/src/compositions/badge/accent-composition.tsx",
@@ -25,6 +26,7 @@ export const BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   Primary: "apps/doc/src/compositions/badge/primary-composition.tsx",
   SoftAppearance: "apps/doc/src/compositions/badge/soft-appearance-composition.tsx",
   Success: "apps/doc/src/compositions/badge/success-composition.tsx",
+  Warning: "apps/doc/src/compositions/badge/warning-composition.tsx",
 } as const;
 
 export const BADGE_SOURCE_COMPARISON_COMPOSITION = {
@@ -40,4 +42,5 @@ export const BADGE_SOURCE_COMPARISON_COMPOSITION = {
   Primary: BadgePrimaryComposition,
   SoftAppearance: BadgeSoftAppearanceComposition,
   Success: BadgeSuccessComposition,
+  Warning: BadgeWarningComposition,
 } as const;

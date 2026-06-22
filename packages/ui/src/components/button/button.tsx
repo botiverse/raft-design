@@ -56,6 +56,12 @@ export const buttonVariants = tv({
       accent: {
         root: ["border-line-strong bg-accent-400 text-accent-950", "hover:bg-accent-500"],
       },
+      warning: {
+        root: [
+          "border-line-strong bg-warning-base text-foreground-inverse",
+          "hover:bg-warning-base",
+        ],
+      },
       outline: {
         root: [
           "border-line-strong bg-transparent text-foreground-strong",
@@ -185,6 +191,11 @@ export const buttonVariants = tv({
       theme: "brutal",
       variant: "danger",
       class: { root: "bg-brutal-red text-black hover:bg-brutal-red" },
+    },
+    {
+      theme: "brutal",
+      variant: "warning",
+      class: { root: "bg-warning-base text-black hover:bg-warning-base" },
     },
     {
       theme: "brutal",
@@ -350,6 +361,18 @@ export const buttonVariants = tv({
     },
     {
       theme: "elegant",
+      variant: "warning",
+      class: {
+        root: [
+          "bg-warning-base text-foreground-inverse",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.14),0_2px_2px_-1px_oklch(0.7_0.202_44.441_/_0.16),0_4px_4px_-2px_oklch(0.7_0.202_44.441_/_0.2),0_0_0_1px_var(--state-warning-base)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-[oklch(0.65_0.19_44.441)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
       variant: "link",
       class: {
         root: [
@@ -384,7 +407,7 @@ export const buttonVariants = tv({
     },
     {
       theme: "brutal",
-      variant: ["primary", "default", "information", "muted", "accent", "outline"],
+      variant: ["primary", "default", "information", "muted", "accent", "warning", "outline"],
       class: {
         root: [
           "hover:-translate-y-px hover:shadow-md",

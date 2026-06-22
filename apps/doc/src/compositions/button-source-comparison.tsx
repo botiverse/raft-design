@@ -16,6 +16,7 @@ import { ButtonMutedComposition } from "./button/muted-composition.tsx";
 import { ButtonOutlineComposition } from "./button/outline-composition.tsx";
 import { ButtonPrimaryComposition } from "./button/primary-composition.tsx";
 import { ButtonSizesComposition } from "./button/sizes-composition.tsx";
+import { ButtonWarningComposition } from "./button/warning-composition.tsx";
 
 export const BUTTON_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   Accent: "apps/doc/src/compositions/button/accent-composition.tsx",
@@ -32,6 +33,7 @@ export const BUTTON_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   Outline: "apps/doc/src/compositions/button/outline-composition.tsx",
   Primary: "apps/doc/src/compositions/button/primary-composition.tsx",
   Sizes: "apps/doc/src/compositions/button/sizes-composition.tsx",
+  Warning: "apps/doc/src/compositions/button/warning-composition.tsx",
 } as const;
 
 export const BUTTON_SOURCE_COMPARISON_COMPOSITION = {
@@ -49,6 +51,7 @@ export const BUTTON_SOURCE_COMPARISON_COMPOSITION = {
   Outline: ButtonOutlineComposition,
   Primary: ButtonPrimaryComposition,
   Sizes: ButtonSizesComposition,
+  Warning: ButtonWarningComposition,
 } as const;
 
 type ButtonSourcePreviewProps = {
@@ -137,6 +140,14 @@ export function ButtonAccentSourcePreview({ className }: { className?: string })
   );
 }
 
+export function ButtonWarningSourcePreview({ className }: { className?: string }) {
+  return (
+    <ButtonSourcePreview className={className}>
+      <LegacyButton tone="orange">Warning</LegacyButton>
+    </ButtonSourcePreview>
+  );
+}
+
 export function ButtonDangerSourcePreview({ className }: { className?: string }) {
   return (
     <ButtonSourcePreview className={className}>
@@ -205,4 +216,5 @@ export const BUTTON_SOURCE_COMPARISON_SOURCE = {
   Outline: ButtonOutlineSourcePreview,
   Primary: ButtonPrimarySourcePreview,
   Sizes: ButtonSizesSourcePreview,
+  Warning: ButtonWarningSourcePreview,
 } as const;

@@ -46,7 +46,7 @@ const dot = tv({
         root: "[--status-color:var(--color-success-base)]",
       },
       warning: {
-        root: "[--status-color:oklch(0.72_0.165_48)]",
+        root: "[--status-color:var(--color-warning-base)]",
       },
       danger: {
         root: "[--status-color:var(--color-danger-base)]",
@@ -102,7 +102,7 @@ const status = tv({
     {
       theme: "brutal",
       variant: "warning",
-      class: { root: "[--status-color:var(--color-brutal-orange)]" },
+      class: { root: "[--status-color:var(--color-warning-base)]" },
     },
     {
       theme: "brutal",

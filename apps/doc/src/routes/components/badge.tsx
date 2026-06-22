@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Status, type BadgeProps } from "@slock/ui";
+import { Badge, Button, Status, Text, type BadgeProps } from "@slock/ui";
 import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { IconGridCircleOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import {
+  IconClockOutline18,
+  IconGridCircleOutline18,
+  IconXmarkOutline18,
+} from "nucleo-ui-outline-18";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -28,6 +32,7 @@ import badgeOutlineAppearanceCompositionSource from "#/compositions/badge/outlin
 import badgePrimaryCompositionSource from "#/compositions/badge/primary-composition.tsx?raw";
 import badgeSoftAppearanceCompositionSource from "#/compositions/badge/soft-appearance-composition.tsx?raw";
 import badgeSuccessCompositionSource from "#/compositions/badge/success-composition.tsx?raw";
+import badgeWarningCompositionSource from "#/compositions/badge/warning-composition.tsx?raw";
 import {
   BADGE_SOURCE_COMPARISON_COMPOSITION,
   BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -56,6 +61,7 @@ const VARIANTS = [
   "muted",
   "accent",
   "success",
+  "warning",
   "danger",
 ] as const;
 
@@ -71,6 +77,7 @@ const SNIPPETS = {
 <Badge variant="muted">Saved</Badge>
 <Badge variant="accent">New</Badge>
 <Badge variant="success">Live</Badge>
+<Badge variant="warning">Warning</Badge>
 <Badge variant="danger">Failed</Badge>`,
   appearance: `<Badge appearance="solid" variant="primary">Solid</Badge>
 <Badge appearance="soft" variant="primary">Soft</Badge>
@@ -94,26 +101,58 @@ import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
   <Status size="xs" variant="success" />
   Available
 </Badge>`,
-  composition: `import { Badge } from "@slock/ui";
-import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
+  composition: `import { Badge, Text } from "@slock/ui";
+import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
+import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
-<Badge.Experimental />
-
-<Badge
-  render={<button type="button" aria-label="Open thread replies" />}
-  variant="information"
-  onClick={openThread}
->
-  3 replies
-</Badge>
-
-<Badge
-  render={<button type="button" aria-label="Remove assignee filter" />}
-  variant="danger"
->
-  @bugen
-  <IconXmarkOutline18 className="size-3" />
-</Badge>`,
+<div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
+  <div className="flex flex-col items-start gap-3">
+    <Badge.Experimental />
+    <Badge
+      render={<button type="button" aria-label="Open thread replies" />}
+      variant="information"
+      onClick={openThread}
+    >
+      3 replies
+    </Badge>
+    <Badge
+      render={<button type="button" aria-label="Remove assignee filter" />}
+      variant="danger"
+    >
+      @bugen
+      <IconXmarkOutline18 className="size-3" />
+    </Badge>
+  </div>
+  <div className="flex flex-col items-start gap-3">
+    <div className="flex items-center gap-3">
+      <Badge variant="success">
+        <IconCircleCheckFill18 className="size-3" />
+        Live
+      </Badge>
+      <Text.Sans size="small" variant="success" className="font-medium">
+        Release channel
+      </Text.Sans>
+    </div>
+    <div className="flex items-center gap-3">
+      <Badge variant="warning">
+        <IconClockOutline18 className="size-3" />
+        Warning
+      </Badge>
+      <Text.Sans size="small" variant="warning" className="font-medium">
+        deploy:warning
+      </Text.Sans>
+    </div>
+    <div className="flex items-center gap-3">
+      <Badge appearance="soft" variant="danger">
+        <IconXmarkOutline18 className="size-3" />
+        Retry
+      </Badge>
+      <Text.Sans size="small" variant="danger" className="font-medium">
+        Sync failed
+      </Text.Sans>
+    </div>
+  </div>
+</div>`,
   migrationToneToVariant: `// Source
 <Badge tone="white">Default</Badge>
 <Badge tone="yellow">In Progress</Badge>
@@ -121,6 +160,7 @@ import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 <Badge tone="stone">Saved</Badge>
 <Badge tone="pink">New</Badge>
 <Badge tone="lime">Experimental</Badge>
+<Badge tone="orange">Warning</Badge>
 <Badge tone="red">Error</Badge>
 
 // Current
@@ -130,6 +170,7 @@ import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 <Badge variant="muted" uppercase>Saved</Badge>
 <Badge variant="accent" uppercase>New</Badge>
 <Badge variant="success" uppercase>Experimental</Badge>
+<Badge variant="warning" uppercase>Warning</Badge>
 <Badge variant="danger" uppercase>Error</Badge>`,
   migrationCasing: `// Source opt-out
 <Badge uppercase={false}>task #42 @bugen</Badge>
@@ -213,6 +254,7 @@ const BADGE_COMPOSITION_RAW_SOURCES = {
   Primary: badgePrimaryCompositionSource,
   SoftAppearance: badgeSoftAppearanceCompositionSource,
   Success: badgeSuccessCompositionSource,
+  Warning: badgeWarningCompositionSource,
 } as const;
 
 const BADGE_COMPOSITION_SOURCES = createCompositionSourceMap(BADGE_COMPOSITION_RAW_SOURCES);
@@ -230,6 +272,7 @@ const BADGE_COMPOSITION_SNIPPET_IDS = {
   Primary: "badgePrimaryComposition",
   SoftAppearance: "badgeSoftAppearanceComposition",
   Success: "badgeSuccessComposition",
+  Warning: "badgeWarningComposition",
 } as const;
 
 type BadgeCompositionKey = keyof typeof BADGE_COMPOSITION_SOURCES;
@@ -320,6 +363,7 @@ function BadgeDoc() {
           <Badge variant="muted">Saved</Badge>
           <Badge variant="accent">New</Badge>
           <Badge variant="success">Live</Badge>
+          <Badge variant="warning">Warning</Badge>
           <Badge variant="danger">Failed</Badge>
         </Example>
       </DocSection>
@@ -367,21 +411,54 @@ function BadgeDoc() {
 
       <DocSection id="composition" title="Composition">
         <Example html={code.composition}>
-          <Badge.Experimental />
-          <Badge
-            render={<button type="button" aria-label="Open thread replies" />}
-            variant="information"
-            onClick={() => undefined}
-          >
-            3 replies
-          </Badge>
-          <Badge
-            render={<button type="button" aria-label="Remove assignee filter" />}
-            variant="danger"
-          >
-            @bugen
-            <IconXmarkOutline18 className="size-3" />
-          </Badge>
+          <div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
+            <div className="flex flex-col items-start gap-3">
+              <Badge.Experimental />
+              <Badge
+                render={<button type="button" aria-label="Open thread replies" />}
+                variant="information"
+                onClick={() => undefined}
+              >
+                3 replies
+              </Badge>
+              <Badge
+                render={<button type="button" aria-label="Remove assignee filter" />}
+                variant="danger"
+              >
+                @bugen
+                <IconXmarkOutline18 className="size-3" />
+              </Badge>
+            </div>
+            <div className="flex flex-col items-start gap-3">
+              <div className="flex items-center gap-3">
+                <Badge variant="success">
+                  <IconCircleCheckFill18 className="size-3" />
+                  Live
+                </Badge>
+                <Text.Sans size="small" variant="success" className="font-medium">
+                  Release channel
+                </Text.Sans>
+              </div>
+              <div className="flex items-center gap-3">
+                <Badge variant="warning">
+                  <IconClockOutline18 className="size-3" />
+                  Warning
+                </Badge>
+                <Text.Sans size="small" variant="warning" className="font-medium">
+                  deploy:warning
+                </Text.Sans>
+              </div>
+              <div className="flex items-center gap-3">
+                <Badge appearance="soft" variant="danger">
+                  <IconXmarkOutline18 className="size-3" />
+                  Retry
+                </Badge>
+                <Text.Sans size="small" variant="danger" className="font-medium">
+                  Sync failed
+                </Text.Sans>
+              </div>
+            </div>
+          </div>
         </Example>
       </DocSection>
 
@@ -445,6 +522,15 @@ function BadgeDoc() {
               elegant: <BadgeCurrent.Success />,
               elegantDark: <BadgeCurrent.Success />,
               ...badgeComposition("Success"),
+            },
+            {
+              label: "Warning",
+              status: "match",
+              source: <LegacyBadge tone="orange">Warning</LegacyBadge>,
+              brutal: <BadgeCurrent.Warning />,
+              elegant: <BadgeCurrent.Warning />,
+              elegantDark: <BadgeCurrent.Warning />,
+              ...badgeComposition("Warning"),
             },
             {
               label: "Danger",
