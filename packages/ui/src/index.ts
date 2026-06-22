@@ -236,21 +236,37 @@ export type {
 
 export {
   ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuCheckboxItemIndicator,
   ContextMenuTrigger,
   ContextMenuPortal,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuRadioItemIndicator,
   ContextMenuSeparator,
   ContextMenuShortcut,
+  ContextMenuSubmenu,
+  ContextMenuSubmenuTrigger,
 } from "./components/context-menu/index.ts";
 export type {
+  ContextMenuCheckboxItemIndicatorProps,
+  ContextMenuCheckboxItemProps,
   ContextMenuProps,
   ContextMenuTriggerProps,
   ContextMenuPortalProps,
   ContextMenuContentProps,
   ContextMenuItemProps,
+  ContextMenuLabelProps,
+  ContextMenuRadioGroupProps,
+  ContextMenuRadioItemIndicatorProps,
+  ContextMenuRadioItemProps,
   ContextMenuSeparatorProps,
   ContextMenuShortcutProps,
+  ContextMenuSubmenuProps,
+  ContextMenuSubmenuTriggerProps,
 } from "./components/context-menu/index.ts";
 
 export {

@@ -1,177 +1,408 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ContextMenu,
+  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
   ContextMenuSeparator,
   ContextMenuShortcut,
+  ContextMenuSubmenu,
+  ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
+  InlineCode,
+  useTheme,
 } from "@slock/ui";
-import { Archive, Pin, Trash2 } from "lucide-react";
-import { useMemo, useRef } from "react";
+import {
+  IconArchive2Outline18,
+  IconBellOutline18,
+  IconChevronRightOutline18,
+  IconCopyOutline18,
+  IconMoonStarsOutline18,
+  IconPinOutline18,
+  IconSunOutline18,
+  IconTrashOutline18,
+} from "nucleo-ui-outline-18";
+import type { ReactNode, RefObject } from "react";
+import { useRef, useState } from "react";
+import { cn } from "tailwind-variants";
 
-import { Callout } from "#/components/callout.tsx";
-import { Differences } from "#/components/differences.tsx";
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import LegacyContextMenuDivider from "../../../../../packages/ui/src/legacy/context-menu-divider.tsx";
-import LegacyMenuItem from "../../../../../packages/ui/src/legacy/menu-item.tsx";
+import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
+import contextMenuCompositionSource from "#/compositions/context-menu-composition.tsx?raw";
+import {
+  CONTEXT_MENU_COMPOSITION_PATH,
+  ContextMenuCompositionPreview,
+  ContextMenuMessageMenuPreview,
+  ContextMenuSelectionMenuPreview,
+  ContextMenuSidebarMenuPreview,
+  ContextMenuSourceMessageMenuPreview,
+  ContextMenuSourcePreview,
+  ContextMenuSourceSelectionMenuPreview,
+  ContextMenuSourceSidebarMenuPreview,
+} from "#/compositions/context-menu-source-comparison.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "opened", title: "Opened" },
+  { id: "submenu", title: "Submenu" },
+  { id: "radio-group", title: "Radio group" },
+  { id: "checkboxes", title: "Checkboxes" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
+  {
+    id: "source-comparison",
+    title: "Source comparison",
+    children: [
+      { id: "source-comparison-action-menu", title: "Action menu" },
+      { id: "source-comparison-message-menu", title: "Message menu" },
+      { id: "source-comparison-selection-menu", title: "Selection menu" },
+      { id: "source-comparison-sidebar-menu", title: "Sidebar menu" },
+    ],
+  },
 ] as const;
 
-const TODOS = [
-  "Add elegant family styling",
-  "Add checkbox, radio, label, and submenu parts when a source callsite needs them",
-] as const;
+const CONTEXT_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
+  contextMenuComposition: contextMenuCompositionSource,
+} as const);
+
+type PlaygroundValues = {
+  label: string;
+};
+
+const ACTION_MENU_BODY_SNIPPET = `    <ContextMenuLabel>Thread actions</ContextMenuLabel>
+    <ContextMenuItem>
+      <IconPinOutline18 />
+      <span className="min-w-0 flex-1 truncate">Pin thread</span>
+    </ContextMenuItem>
+    <ContextMenuItem>
+      <IconCopyOutline18 />
+      <span className="min-w-0 flex-1 truncate">Copy link</span>
+      <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem>
+      <IconArchive2Outline18 />
+      <span className="min-w-0 flex-1 truncate">Archive</span>
+    </ContextMenuItem>
+    <ContextMenuItem>
+      <IconTrashOutline18 />
+      <span className="min-w-0 flex-1 truncate">Delete</span>
+      <ContextMenuShortcut>⌫</ContextMenuShortcut>
+    </ContextMenuItem>`;
 
 const SNIPPETS = {
   anatomy: `import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@slock/ui";
+import {
+  IconArchive2Outline18,
+  IconCopyOutline18,
+  IconPinOutline18,
+  IconTrashOutline18,
+} from "nucleo-ui-outline-18";
 
-<ContextMenu>
-  <ContextMenuTrigger>Right click me</ContextMenuTrigger>
+<ContextMenu defaultOpen>
+  <ContextMenuTrigger id="context-menu-trigger">Right click this surface</ContextMenuTrigger>
   <ContextMenuContent>
-    <ContextMenuItem>
-      <Pin />
-      <span className="min-w-0 flex-1 truncate">Pin</span>
-    </ContextMenuItem>
-    <ContextMenuItem>
-      <Archive />
-      <span className="min-w-0 flex-1 truncate">Archive</span>
-    </ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuItem>
-      <Trash2 />
-      <span className="min-w-0 flex-1 truncate">Delete</span>
-      <ContextMenuShortcut>⌫</ContextMenuShortcut>
-    </ContextMenuItem>
+${ACTION_MENU_BODY_SNIPPET}
   </ContextMenuContent>
 </ContextMenu>`,
-  opened: `<div className="min-w-48 overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]">
-  <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
-    <Pin size={14} />
-    <span className="min-w-0 flex-1 truncate">Pin</span>
-  </div>
-  <div className="flex w-full items-center gap-2 bg-brutal-yellow/30 px-3 py-2 text-left text-sm font-medium text-black">
-    <Archive size={14} />
-    <span className="min-w-0 flex-1 truncate">Archive</span>
-  </div>
-  <div className="border-t-2 border-black" />
-  <div className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black">
-    <Trash2 size={14} />
-    <span className="min-w-0 flex-1 truncate">Delete</span>
-    <kbd className="pointer-events-none ml-auto inline-flex w-fit shrink-0 items-center justify-center gap-1 font-sans text-sm font-medium leading-none whitespace-nowrap text-black/60 select-none">⌫</kbd>
-  </div>
-</div>`,
-  sourceItem: `<MenuItem icon={<Pin size={14} />}>Pin</MenuItem>`,
-  currentItem: `<ContextMenuItem>
-  <Pin />
-  <span className="min-w-0 flex-1 truncate">Pin</span>
-</ContextMenuItem>`,
-  sourceDivider: `<ContextMenuDivider />`,
-  currentDivider: `<ContextMenuSeparator />`,
+  submenu: `<ContextMenu defaultOpen>
+  <ContextMenuTrigger id="context-submenu-trigger">Right click this surface</ContextMenuTrigger>
+  <ContextMenuContent className="flex w-56 min-w-56 flex-col">
+    <ContextMenuItem>
+      <IconPinOutline18 />
+      <span className="min-w-0 flex-1 truncate">Pin thread</span>
+    </ContextMenuItem>
+    <ContextMenuSubmenu>
+      <ContextMenuSubmenuTrigger openOnHover>
+        <IconMoonStarsOutline18 />
+        <span className="min-w-0 flex-1 truncate">Move to</span>
+        <IconChevronRightOutline18 className="ml-auto" />
+      </ContextMenuSubmenuTrigger>
+      <ContextMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
+        <ContextMenuItem>Inbox</ContextMenuItem>
+        <ContextMenuItem>Archive</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenuSubmenu>
+  </ContextMenuContent>
+</ContextMenu>`,
+  radioGroup: `<ContextMenu defaultOpen>
+  <ContextMenuTrigger id="context-radio-trigger">Right click this surface</ContextMenuTrigger>
+  <ContextMenuContent className="flex w-60 min-w-60 flex-col">
+    <ContextMenuLabel>Theme</ContextMenuLabel>
+    <ContextMenuRadioGroup defaultValue="system">
+      <ContextMenuRadioItem value="system">
+        <IconBellOutline18 />
+        <span className="min-w-0 flex-1 truncate">System alerts</span>
+      </ContextMenuRadioItem>
+      <ContextMenuRadioItem value="quiet">
+        <IconMoonStarsOutline18 />
+        <span className="min-w-0 flex-1 truncate">Quiet mode</span>
+      </ContextMenuRadioItem>
+      <ContextMenuRadioItem value="light">
+        <IconSunOutline18 />
+        <span className="min-w-0 flex-1 truncate">Light mode</span>
+      </ContextMenuRadioItem>
+    </ContextMenuRadioGroup>
+  </ContextMenuContent>
+</ContextMenu>`,
+  checkboxes: `<ContextMenu defaultOpen>
+  <ContextMenuTrigger id="context-checkbox-trigger">Right click this surface</ContextMenuTrigger>
+  <ContextMenuContent className="flex w-64 min-w-64 flex-col">
+    <ContextMenuLabel>Visible rows</ContextMenuLabel>
+    <ContextMenuCheckboxItem defaultChecked>Unread threads</ContextMenuCheckboxItem>
+    <ContextMenuCheckboxItem defaultChecked>Pinned threads</ContextMenuCheckboxItem>
+    <ContextMenuCheckboxItem>Archived threads</ContextMenuCheckboxItem>
+  </ContextMenuContent>
+</ContextMenu>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
     name: "ContextMenu",
     type: "Base UI ContextMenu.Root.Props",
-    description: "Owns right-click open state and menu dismissal.",
+    description: "Owns right-click open state, focus roving, keyboard navigation, and dismissal.",
   },
   {
     name: "ContextMenuTrigger",
     type: "Base UI ContextMenu.Trigger.Props",
-    description: "Right-click target. Adds source-compatible select-none behavior.",
+    description: "Right-click or long-press target. Renders a div and keeps text selection off.",
   },
   {
     name: "ContextMenuContent",
     type: "Base UI Popup + Positioner props",
     description:
-      "Portaled card shell. Defaults to side=right, align=start, alignOffset=4, disableAnchorTracking=true, and positionMethod=fixed.",
+      "Portaled floating menu shell. Defaults to placing the popup top-left at the context point, with collision correction off unless overridden.",
   },
   {
     name: "ContextMenuItem",
     type: "Base UI ContextMenu.Item.Props",
     description:
-      "Source MenuItem row styling plus Base UI keyboard highlight and dismiss behavior.",
+      "Action row. Compose leading icons, label text, and trailing shortcuts as children.",
+  },
+  {
+    name: "ContextMenuSubmenu",
+    type: "Base UI ContextMenu.SubmenuRoot.Props",
+    description: "Nested context-menu branch for secondary action groups.",
+  },
+  {
+    name: "ContextMenuSubmenuTrigger",
+    type: "Base UI ContextMenu.SubmenuTrigger.Props",
+    description: "Row that opens a nested menu. Compose the chevron as the trailing icon.",
+  },
+  {
+    name: "ContextMenuRadioGroup",
+    type: "Base UI ContextMenu.RadioGroup.Props",
+    description: "Single-selection group inside the menu.",
+  },
+  {
+    name: "ContextMenuRadioItem",
+    type: "Base UI ContextMenu.RadioItem.Props",
+    description: "Selectable row with a trailing check indicator.",
+  },
+  {
+    name: "ContextMenuCheckboxItem",
+    type: "Base UI ContextMenu.CheckboxItem.Props",
+    description: "Toggleable row with a trailing check indicator.",
+  },
+  {
+    name: "ContextMenuLabel",
+    type: "div props",
+    description: "Section label for grouped rows.",
   },
   {
     name: "ContextMenuShortcut",
     type: "Kbd props",
-    description: "Right-aligned keyboard hint composed inside ContextMenuItem.",
+    description: "Right-aligned keyboard hint composed inside a menu row.",
   },
   {
     name: "ContextMenuSeparator",
     type: "Base UI ContextMenu.Separator.Props",
-    description: "Source ContextMenuDivider styling as the separator part.",
+    description: "Group separator mapped from the source ContextMenuDivider primitive.",
   },
 ];
 
-const PREVIEW_CONTENT_CLASS =
-  "w-full max-w-xs overflow-hidden border-2 border-black bg-white shadow-[var(--shadow-hover)]";
-const PREVIEW_ITEM_CLASS =
-  "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1 text-left text-sm font-medium text-black transition-colors hover:bg-brutal-yellow/30 [&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0";
-const PREVIEW_SEPARATOR_CLASS = "border-t-2 border-black";
 export const Route = createFileRoute("/components/context-menu")({
   component: ContextMenuDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
-});
-
-function CurrentMenuItemComparison() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const anchor = useMemo(
-    () => ({
-      getBoundingClientRect() {
-        const rect = containerRef.current?.getBoundingClientRect();
-        return DOMRect.fromRect({
-          x: rect?.left ?? 0,
-          y: rect?.top ?? 0,
-          width: 0,
-          height: 0,
-        });
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...CONTEXT_MENU_COMPOSITION_SOURCES,
       },
     }),
-    [],
-  );
+});
+
+function ContextMenuTriggerSurface({ id, children }: { id: string; children: ReactNode }) {
+  const theme = useTheme();
 
   return (
-    <div ref={containerRef} className="relative h-9 w-full max-w-xs">
-      <ContextMenu open>
+    <ContextMenuTrigger
+      id={id}
+      className={cn(
+        "flex min-h-24 w-72 items-center justify-center px-5 py-6 text-center",
+        theme === "brutal"
+          ? "border-2 border-dashed border-black bg-brutal-cream font-sans text-xs font-bold text-black"
+          : "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+      )}
+    >
+      {children}
+    </ContextMenuTrigger>
+  );
+}
+
+function ActionMenuRows() {
+  return (
+    <>
+      <ContextMenuLabel>Thread actions</ContextMenuLabel>
+      <ContextMenuItem>
+        <IconPinOutline18 />
+        <span className="min-w-0 flex-1 truncate">Pin thread</span>
+      </ContextMenuItem>
+      <ContextMenuItem>
+        <IconCopyOutline18 />
+        <span className="min-w-0 flex-1 truncate">Copy link</span>
+        <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+      </ContextMenuItem>
+      <ContextMenuSeparator />
+      <ContextMenuItem>
+        <IconArchive2Outline18 />
+        <span className="min-w-0 flex-1 truncate">Archive</span>
+      </ContextMenuItem>
+      <ContextMenuItem>
+        <IconTrashOutline18 />
+        <span className="min-w-0 flex-1 truncate">Delete</span>
+        <ContextMenuShortcut>⌫</ContextMenuShortcut>
+      </ContextMenuItem>
+    </>
+  );
+}
+
+function SubmenuRows() {
+  return (
+    <>
+      <ContextMenuItem>
+        <IconPinOutline18 />
+        <span className="min-w-0 flex-1 truncate">Pin thread</span>
+      </ContextMenuItem>
+      <ContextMenuSubmenu>
+        <ContextMenuSubmenuTrigger openOnHover>
+          <IconMoonStarsOutline18 />
+          <span className="min-w-0 flex-1 truncate">Move to</span>
+          <IconChevronRightOutline18 className="ml-auto" />
+        </ContextMenuSubmenuTrigger>
         <ContextMenuContent
-          anchor={anchor}
-          side="bottom"
+          side="right"
           align="start"
-          sideOffset={0}
-          alignOffset={0}
-          className="w-80 min-w-0 border-0 shadow-none"
-          portalProps={{ container: containerRef }}
+          sideOffset={10}
+          className="flex w-36 min-w-36 flex-col"
         >
-          <ContextMenuItem>
-            <Pin />
-            <span className="min-w-0 flex-1 truncate">Pin</span>
-          </ContextMenuItem>
+          <ContextMenuItem>Inbox</ContextMenuItem>
+          <ContextMenuItem>Archive</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenuSubmenu>
+    </>
+  );
+}
+
+function RadioGroupRows() {
+  return (
+    <>
+      <ContextMenuLabel>Theme</ContextMenuLabel>
+      <ContextMenuRadioGroup defaultValue="system">
+        <ContextMenuRadioItem value="system">
+          <IconBellOutline18 />
+          <span className="min-w-0 flex-1 truncate">System alerts</span>
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="quiet">
+          <IconMoonStarsOutline18 />
+          <span className="min-w-0 flex-1 truncate">Quiet mode</span>
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="light">
+          <IconSunOutline18 />
+          <span className="min-w-0 flex-1 truncate">Light mode</span>
+        </ContextMenuRadioItem>
+      </ContextMenuRadioGroup>
+    </>
+  );
+}
+
+function CheckboxRows() {
+  return (
+    <>
+      <ContextMenuLabel>Visible rows</ContextMenuLabel>
+      <ContextMenuCheckboxItem defaultChecked>Unread threads</ContextMenuCheckboxItem>
+      <ContextMenuCheckboxItem defaultChecked>Pinned threads</ContextMenuCheckboxItem>
+      <ContextMenuCheckboxItem>Archived threads</ContextMenuCheckboxItem>
+    </>
+  );
+}
+
+function OpenContextMenuExample({
+  triggerId,
+  label,
+  children,
+  contentClassName = "flex w-56 min-w-56 flex-col",
+}: {
+  triggerId: string;
+  label: string;
+  children: ReactNode;
+  contentClassName?: string;
+}) {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const [hasCursorAnchor, setHasCursorAnchor] = useState(false);
+  const anchor = {
+    getBoundingClientRect() {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      return DOMRect.fromRect({
+        x: rect?.right ?? 0,
+        y: rect?.bottom ?? 0,
+        width: 0,
+        height: 0,
+      });
+    },
+  };
+
+  return (
+    <div ref={portalRef} className="relative flex justify-center">
+      <ContextMenu defaultOpen>
+        <div ref={triggerRef} onContextMenuCapture={() => setHasCursorAnchor(true)}>
+          <ContextMenuTriggerSurface id={triggerId}>{label}</ContextMenuTriggerSurface>
+        </div>
+        <ContextMenuContent
+          anchor={hasCursorAnchor ? undefined : anchor}
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className={contentClassName}
+        >
+          {children}
         </ContextMenuContent>
       </ContextMenu>
     </div>
+  );
+}
+
+function ContextMenuPreview({ label }: PlaygroundValues) {
+  return (
+    <OpenContextMenuExample triggerId="preview-context-menu-trigger" label={label}>
+      <ActionMenuRows />
+    </OpenContextMenuExample>
   );
 }
 
@@ -181,69 +412,23 @@ function ContextMenuDoc() {
   return (
     <DocPage
       title="ContextMenu"
-      description="A right-click menu family built on Base UI and styled like the source action menus."
-      overview={
-        <Differences from="MenuItem + ContextMenuDivider">
-          <li>
-            source row and divider styling preserved: yellow/30 item hover, compact viewport
-            density, and border-t-2 separators
-          </li>
-          <li>
-            source standalone primitives are now composition parts:
-            <code> MenuItem</code> → <code>ContextMenuItem</code>, <code>ContextMenuDivider</code> →{" "}
-            <code>ContextMenuSeparator</code>
-          </li>
-          <li>
-            item content follows shadcn-style composition: icons, labels, and shortcuts are authored
-            as children, with <code>ContextMenuShortcut</code> for the right-aligned slot
-          </li>
-          <li>
-            Base UI now owns right-click opening, focus roving, keyboard highlight, Escape, outside
-            press dismissal, portal, and positioning
-          </li>
-          <li>
-            difference from source: item and separator parts are meant to live inside a{" "}
-            <code>ContextMenu</code> tree; legacy source files are kept only under{" "}
-            <code>src/legacy</code> for visual comparison
-          </li>
-        </Differences>
-      }
+      description="A right-click menu family for compact action, selection, and nested action surfaces."
       toc={TOC}
+      sectionDividers={false}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
-        <div className="space-y-4">
-          <Example html={code.anatomy}>
-            <ContextMenu>
-              <ContextMenuTrigger className="block w-full border-2 border-dashed border-black bg-brutal-cream px-4 py-8 text-center font-heading text-sm font-bold text-black">
-                Right click this surface
-              </ContextMenuTrigger>
-              <ContextMenuContent>
-                <ContextMenuItem>
-                  <Pin />
-                  <span className="min-w-0 flex-1 truncate">Pin</span>
-                </ContextMenuItem>
-                <ContextMenuItem>
-                  <Archive />
-                  <span className="min-w-0 flex-1 truncate">Archive</span>
-                </ContextMenuItem>
-                <ContextMenuSeparator />
-                <ContextMenuItem>
-                  <Trash2 />
-                  <span className="min-w-0 flex-1 truncate">Delete</span>
-                  <ContextMenuShortcut>⌫</ContextMenuShortcut>
-                </ContextMenuItem>
-              </ContextMenuContent>
-            </ContextMenu>
-          </Example>
-          <Callout>
-            Keyboard navigation now uses Base UI&rsquo;s highlighted state, mapped to the same
-            yellow/30 fill as pointer hover.
-          </Callout>
-        </div>
+        <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
+          Preview defaults the menu open so the row styling, density, and theme differences are
+          visible immediately; dismiss it and right-click the trigger to reopen it.
+        </p>
+        <ComponentPlayground<PlaygroundValues>
+          defaultValues={{
+            label: "Right click thread",
+          }}
+          controls={[{ name: "label", label: "Label", type: "text" }]}
+          previewClassName="min-h-[26rem] items-start pt-16"
+          render={(values) => <ContextMenuPreview {...values} />}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -254,24 +439,36 @@ function ContextMenuDoc() {
           collapsedHtml={code.anatomyBody}
         />
       </DocSection>
-      <DocSection id="opened" title="Opened">
-        <Example html={code.opened}>
-          <div className={PREVIEW_CONTENT_CLASS}>
-            <div className={PREVIEW_ITEM_CLASS}>
-              <Pin />
-              <span className="min-w-0 flex-1 truncate">Pin</span>
-            </div>
-            <div className={`${PREVIEW_ITEM_CLASS} bg-brutal-yellow/30`}>
-              <Archive />
-              <span className="min-w-0 flex-1 truncate">Archive</span>
-            </div>
-            <div className={PREVIEW_SEPARATOR_CLASS} />
-            <div className={PREVIEW_ITEM_CLASS}>
-              <Trash2 />
-              <span className="min-w-0 flex-1 truncate">Delete</span>
-              <ContextMenuShortcut>⌫</ContextMenuShortcut>
-            </div>
-          </div>
+
+      <DocSection id="submenu" title="Submenu">
+        <Example html={code.submenu} previewClassName="min-h-[22rem] items-start pt-12">
+          <OpenContextMenuExample triggerId="context-submenu-trigger" label="Right click item">
+            <SubmenuRows />
+          </OpenContextMenuExample>
+        </Example>
+      </DocSection>
+
+      <DocSection id="radio-group" title="Radio group">
+        <Example html={code.radioGroup} previewClassName="min-h-[24rem] items-start pt-12">
+          <OpenContextMenuExample
+            triggerId="context-radio-trigger"
+            label="Right click notification"
+            contentClassName="flex w-60 min-w-60 flex-col"
+          >
+            <RadioGroupRows />
+          </OpenContextMenuExample>
+        </Example>
+      </DocSection>
+
+      <DocSection id="checkboxes" title="Checkboxes">
+        <Example html={code.checkboxes} previewClassName="min-h-[22rem] items-start pt-12">
+          <OpenContextMenuExample
+            triggerId="context-checkbox-trigger"
+            label="Right click list"
+            contentClassName="flex w-64 min-w-64 flex-col"
+          >
+            <CheckboxRows />
+          </OpenContextMenuExample>
         </Example>
       </DocSection>
 
@@ -281,40 +478,79 @@ function ContextMenuDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
-              label: "Menu item row",
-              status: "match",
-              note: "Current keeps the same row density and yellow/30 hover, but moves icon and label to children composition.",
-              source: (
-                <div className="w-full max-w-xs">
-                  <LegacyMenuItem icon={<Pin size={14} />}>Pin</LegacyMenuItem>
-                </div>
+              id: "source-comparison-action-menu",
+              label: "Action menu",
+              status: "difference",
+              note: (
+                <>
+                  Source exposed standalone <InlineCode>MenuItem</InlineCode> and{" "}
+                  <InlineCode>ContextMenuDivider</InlineCode> primitives. Current keeps the compact
+                  row and separator structure but moves it into a themed Base UI{" "}
+                  <InlineCode>ContextMenu</InlineCode> composition.
+                </>
               ),
-              current: (
-                <div className="w-full max-w-xs">
-                  <CurrentMenuItemComparison />
-                </div>
-              ),
-              sourceCode: code.sourceItem,
-              currentCode: code.currentItem,
+              source: <ContextMenuSourcePreview />,
+              brutal: <ContextMenuCompositionPreview />,
+              elegant: <ContextMenuCompositionPreview />,
+              elegantDark: <ContextMenuCompositionPreview />,
+              compositionCode: code.contextMenuComposition,
+              compositionCollapsedCode: code.contextMenuCompositionBody,
+              compositionPath: CONTEXT_MENU_COMPOSITION_PATH,
+              compositionSource: CONTEXT_MENU_COMPOSITION_SOURCES.contextMenuComposition,
+              compositionShowLineNumbers: false,
             },
             {
-              label: "Divider",
-              status: "match",
-              note: "Current maps the source border-t-2 divider onto Base UI's separator part.",
-              source: (
-                <div className="w-full max-w-xs">
-                  <LegacyContextMenuDivider />
-                </div>
+              id: "source-comparison-message-menu",
+              label: "Message menu",
+              status: "difference",
+              note: (
+                <>
+                  Source rendered the message context menu from <InlineCode>MessageItem</InlineCode>
+                  with a custom reaction quick row followed by copy, share, thread, save, and task
+                  sections. Current keeps that mixed custom-row plus item-section structure inside
+                  the shared <InlineCode>ContextMenu</InlineCode> visual contract.
+                </>
               ),
-              current: (
-                <div className="w-full max-w-xs">
-                  <ContextMenuSeparator />
-                </div>
+              source: <ContextMenuSourceMessageMenuPreview />,
+              brutal: <ContextMenuMessageMenuPreview />,
+              elegant: <ContextMenuMessageMenuPreview />,
+              elegantDark: <ContextMenuMessageMenuPreview />,
+            },
+            {
+              id: "source-comparison-selection-menu",
+              label: "Selection menu",
+              status: "difference",
+              note: (
+                <>
+                  Source intentionally kept selected-text actions separate from the full message row
+                  menu: only <InlineCode>Quote</InlineCode> and <InlineCode>Copy</InlineCode>.
+                  Current preserves that scoped two-action surface instead of merging it with
+                  message actions.
+                </>
               ),
-              sourceCode: code.sourceDivider,
-              currentCode: code.currentDivider,
+              source: <ContextMenuSourceSelectionMenuPreview />,
+              brutal: <ContextMenuSelectionMenuPreview />,
+              elegant: <ContextMenuSelectionMenuPreview />,
+              elegantDark: <ContextMenuSelectionMenuPreview />,
+            },
+            {
+              id: "source-comparison-sidebar-menu",
+              label: "Sidebar menu",
+              status: "difference",
+              note: (
+                <>
+                  Source sidebar right-click menus reuse the same action row primitive for unread,
+                  pin, and archive sections across channels, DMs, and agents. Current keeps the
+                  section divider contract while letting the theme own item and surface styling.
+                </>
+              ),
+              source: <ContextMenuSourceSidebarMenuPreview />,
+              brutal: <ContextMenuSidebarMenuPreview />,
+              elegant: <ContextMenuSidebarMenuPreview />,
+              elegantDark: <ContextMenuSidebarMenuPreview />,
             },
           ]}
         />

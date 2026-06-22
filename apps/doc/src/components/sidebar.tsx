@@ -155,7 +155,7 @@ const NAV = [
     title: "Overlays",
     items: [
       { label: "BottomSheet", to: "/components/bottom-sheet", progress: { theme: "todo" } },
-      { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "todo" } },
+      { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "done" } },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
       { label: "Popover", to: "/components/popover", progress: { theme: "done" } },
@@ -344,13 +344,13 @@ const MIGRATED = {
     {
       label: "MenuItem",
       to: "/components/context-menu",
-      hash: "migration",
+      hash: "source-comparison",
       target: "ContextMenuItem",
     },
     {
       label: "ContextMenuDivider",
       to: "/components/context-menu",
-      hash: "migration",
+      hash: "source-comparison",
       target: "ContextMenuSeparator",
     },
     {
