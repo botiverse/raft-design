@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useRef, useState, type ReactNode, type RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Avatar,
@@ -14,21 +14,6 @@ import {
   BannerTitle,
   Button,
   Checkbox,
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuItemCount,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -40,7 +25,6 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Label,
-  NotificationCenter,
   NotificationCenterActionButton,
   NotificationCenterCount,
   NotificationCenterHeader,
@@ -52,10 +36,8 @@ import {
   NotificationCenterItemRow,
   NotificationCenterItemTitle,
   NotificationCenterList,
-  NotificationCenterPopup,
   NotificationCenterScroller,
   NotificationCenterTitle,
-  NotificationCenterTrigger,
   Select,
   SelectContent,
   SelectIcon,
@@ -146,14 +128,23 @@ const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent
 
 const HOME_AVATAR_IMAGES = [
   avatarSvg(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
-      <rect width="160" height="160" fill="#27ccf3"/>
-      <rect x="25" y="39" width="110" height="92" rx="24" fill="#06151d"/>
-      <rect x="47" y="67" width="18" height="18" rx="5" fill="#e9fbff"/>
-      <rect x="95" y="67" width="18" height="18" rx="5" fill="#e9fbff"/>
-      <path d="M54 106h52" stroke="#e9fbff" stroke-width="10" stroke-linecap="round"/>
-      <path d="M80 27v15" stroke="#06151d" stroke-width="9" stroke-linecap="round"/>
-      <circle cx="80" cy="23" r="9" fill="#06151d"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" shape-rendering="crispEdges">
+      <rect width="8" height="8" fill="#27CCF3"/>
+      <rect x="1" y="0" width="6" height="1" fill="#141111"/>
+      <rect x="0" y="1" width="1" height="3" fill="#141111"/>
+      <rect x="2" y="1" width="1" height="3" fill="#141111"/>
+      <rect x="5" y="1" width="1" height="3" fill="#141111"/>
+      <rect x="7" y="1" width="1" height="3" fill="#141111"/>
+      <rect x="3" y="1" width="2" height="2" fill="#FFFFFF"/>
+      <rect x="1" y="2" width="1" height="1" fill="#FFFFFF"/>
+      <rect x="6" y="2" width="1" height="1" fill="#FFFFFF"/>
+      <rect x="1" y="3" width="1" height="5" fill="#141111"/>
+      <rect x="3" y="3" width="2" height="3" fill="#141111"/>
+      <rect x="6" y="3" width="1" height="5" fill="#141111"/>
+      <rect x="2" y="4" width="1" height="1" fill="#FFFFFF"/>
+      <rect x="5" y="4" width="1" height="1" fill="#FFFFFF"/>
+      <rect x="2" y="5" width="1" height="3" fill="#141111"/>
+      <rect x="5" y="5" width="1" height="3" fill="#141111"/>
     </svg>
   `),
   avatarSvg(`
@@ -525,12 +516,57 @@ const SELECT_PREVIEW_OPTIONS = [
   { value: "comments", label: "Most commented", icon: IconMessageOutline18 },
 ] as const;
 
+const HOME_MENU_SURFACE_CLASS = [
+  "max-h-[var(--available-height)] overflow-hidden gap-0.5 rounded-md bg-layer-popover p-1",
+  "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)] outline-none",
+  "flex flex-col",
+  "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
+].join(" ");
+
+function HomeMenuLabel({ children }: { children: ReactNode }) {
+  return (
+    <div className="-mx-1 border-b border-line-muted px-3 py-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:uppercase [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60">
+      {children}
+    </div>
+  );
+}
+
+function HomeMenuItem({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex w-full cursor-default select-none items-center gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em] text-foreground-muted transition-colors [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:leading-6 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:[&_svg]:size-3.5 [[data-theme=brutal]_&]:[&_svg]:stroke-2">
+      {children}
+    </div>
+  );
+}
+
+function HomeMenuShortcut({ children }: { children: ReactNode }) {
+  return (
+    <span className="ml-auto text-foreground-muted [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-black">
+      {children}
+    </span>
+  );
+}
+
+function HomeMenuCount({ children }: { children: ReactNode }) {
+  return (
+    <span className="ml-auto tabular-nums text-foreground-muted [[data-theme=brutal]_&]:rounded [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-pink [[data-theme=brutal]_&]:px-1.5 [[data-theme=brutal]_&]:py-0.5 [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:leading-none [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-white">
+      {children}
+    </span>
+  );
+}
+
+function HomeMenuSeparator() {
+  return (
+    <div className="my-1 -mx-1 h-px bg-line-muted [[data-theme=brutal]_&]:border-t [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-transparent" />
+  );
+}
+
 function SelectPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
     <div ref={portalRef} className="relative flex h-56 w-72 items-start justify-center pt-14">
-      <Select open defaultValue="relevance" items={SELECT_PREVIEW_OPTIONS} modal={false}>
+      <Select defaultValue="relevance" items={SELECT_PREVIEW_OPTIONS} modal={false}>
         <SelectTrigger>
           <SelectValue>
             {(selectedValue) => {
@@ -576,211 +612,137 @@ function SelectPreview() {
 }
 
 function DropdownMenuPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const anchor = useMemo(
-    () => ({
-      getBoundingClientRect() {
-        const rect = portalRef.current?.getBoundingClientRect();
-        return DOMRect.fromRect({
-          x: (rect?.left ?? 0) + (rect?.width ?? 0) / 2,
-          y: (rect?.top ?? 0) + (rect?.height ?? 0) / 2 - 104,
-          width: 0,
-          height: 0,
-        });
-      },
-    }),
-    [],
-  );
-
   return (
-    <div ref={portalRef} className="relative h-56 w-72">
-      <DropdownMenu open modal={false} triggerId="home-dropdown-menu-trigger">
-        <DropdownMenuTrigger
-          id="home-dropdown-menu-trigger"
-          render={
-            <button
-              type="button"
-              aria-label="Profile menu"
-              className="absolute top-1/2 left-1/2 size-px -translate-x-1/2 -translate-y-1/2 overflow-hidden p-0 opacity-0"
-            />
-          }
-        />
-        <DropdownMenuContent
-          anchor={anchor}
-          align="center"
-          sideOffset={0}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="flex w-64 flex-col"
-        >
-          <DropdownMenuLabel>Account</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <IconUserOutline18 />
-            <span className="min-w-0 flex-1 truncate">Profile</span>
-            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IconBellOutline18 />
-            <span className="min-w-0 flex-1 truncate">Notifications</span>
-            <DropdownMenuItemCount>3</DropdownMenuItemCount>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IconCreditCardOutline18 />
-            <span className="min-w-0 flex-1 truncate">Billing</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <IconGearOutline18 />
-            <span className="min-w-0 flex-1 truncate">Settings</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+    <div className="flex h-56 w-72 items-center justify-center">
+      <div className={`${HOME_MENU_SURFACE_CLASS} w-64`}>
+        <HomeMenuLabel>Account</HomeMenuLabel>
+        <HomeMenuItem>
+          <IconUserOutline18 />
+          <span className="min-w-0 flex-1 truncate">Profile</span>
+          <HomeMenuShortcut>⌘P</HomeMenuShortcut>
+        </HomeMenuItem>
+        <HomeMenuItem>
+          <IconBellOutline18 />
+          <span className="min-w-0 flex-1 truncate">Notifications</span>
+          <HomeMenuCount>3</HomeMenuCount>
+        </HomeMenuItem>
+        <HomeMenuItem>
+          <IconCreditCardOutline18 />
+          <span className="min-w-0 flex-1 truncate">Billing</span>
+        </HomeMenuItem>
+        <HomeMenuSeparator />
+        <HomeMenuItem>
+          <IconGearOutline18 />
+          <span className="min-w-0 flex-1 truncate">Settings</span>
+        </HomeMenuItem>
+      </div>
     </div>
   );
 }
 
 function ContextMenuPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const anchor = useMemo(
-    () => ({
-      getBoundingClientRect() {
-        const rect = triggerRef.current?.getBoundingClientRect();
-        return DOMRect.fromRect({
-          x: (rect?.left ?? 0) + (rect?.width ?? 0) / 2,
-          y: rect?.bottom ?? 0,
-          width: 0,
-          height: 0,
-        });
-      },
-    }),
-    [],
-  );
-
   return (
-    <div ref={portalRef} className="relative h-56 w-72">
-      <ContextMenu defaultOpen>
-        <div ref={triggerRef} className="absolute top-7 left-1/2 -translate-x-1/2">
-          <ContextMenuTrigger
-            id="home-context-menu-trigger"
-            className={[
-              "flex min-h-12 w-52 items-center justify-center px-4 text-center",
-              "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
-              "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
-            ].join(" ")}
-          >
-            Right click thread
-          </ContextMenuTrigger>
-        </div>
-        <ContextMenuContent
-          anchor={anchor}
-          side="bottom"
-          align="center"
-          sideOffset={12}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="flex w-60 min-w-60 flex-col"
-        >
-          <ContextMenuLabel>Thread actions</ContextMenuLabel>
-          <ContextMenuItem>
-            <IconPinOutline18 />
-            <span className="min-w-0 flex-1 truncate">Pin thread</span>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <IconCopyOutline18 />
-            <span className="min-w-0 flex-1 truncate">Copy link</span>
-            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem>
-            <IconArchive2Outline18 />
-            <span className="min-w-0 flex-1 truncate">Archive</span>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <IconTrashOutline18 />
-            <span className="min-w-0 flex-1 truncate">Delete</span>
-            <ContextMenuShortcut>⌫</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+    <div className="grid h-56 w-72 justify-items-center gap-3 pt-7">
+      <div
+        className={[
+          "flex min-h-12 w-52 items-center justify-center px-4 text-center",
+          "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+          "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
+        ].join(" ")}
+      >
+        Right click thread
+      </div>
+      <div className={`${HOME_MENU_SURFACE_CLASS} w-60 min-w-60`}>
+        <HomeMenuLabel>Thread actions</HomeMenuLabel>
+        <HomeMenuItem>
+          <IconPinOutline18 />
+          <span className="min-w-0 flex-1 truncate">Pin thread</span>
+        </HomeMenuItem>
+        <HomeMenuItem>
+          <IconCopyOutline18 />
+          <span className="min-w-0 flex-1 truncate">Copy link</span>
+          <HomeMenuShortcut>⌘C</HomeMenuShortcut>
+        </HomeMenuItem>
+        <HomeMenuSeparator />
+        <HomeMenuItem>
+          <IconArchive2Outline18 />
+          <span className="min-w-0 flex-1 truncate">Archive</span>
+        </HomeMenuItem>
+        <HomeMenuItem>
+          <IconTrashOutline18 />
+          <span className="min-w-0 flex-1 truncate">Delete</span>
+          <HomeMenuShortcut>⌫</HomeMenuShortcut>
+        </HomeMenuItem>
+      </div>
     </div>
   );
 }
 
 function NotificationCenterPreview() {
-  const triggerId = "home-notification-center-trigger";
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div
-      ref={portalRef}
-      className="relative flex h-72 w-72 max-w-full items-start justify-center pt-8"
-    >
-      <NotificationCenter open modal={false} triggerId={triggerId}>
-        <div className="relative size-9">
-          <NotificationCenterTrigger
-            id={triggerId}
-            render={<Button variant="outline" size="icon-md" className="size-9 p-0" />}
-          >
-            <IconBellOutline18 aria-hidden />
-          </NotificationCenterTrigger>
-          <Status
-            aria-hidden
-            variant="primary"
-            size="md"
-            className="pointer-events-none absolute -top-1 -right-1"
-          />
-        </div>
-        <NotificationCenterPopup
-          viewport="desktop"
-          size="sm"
-          className="w-72"
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          side="bottom"
-          align="center"
-          collisionAvoidance={{ side: "none", align: "none" }}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+    <div className="grid h-72 w-72 max-w-full justify-items-center gap-3 pt-5">
+      <div className="relative size-9">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon-md"
+          className="size-9 p-0"
+          aria-label="Notifications"
         >
-          <NotificationCenterHeader>
-            <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-            <NotificationCenterCount>2 items</NotificationCenterCount>
-          </NotificationCenterHeader>
-          <NotificationCenterScroller>
-            <NotificationCenterList>
-              <NotificationCenterItem>
-                <NotificationCenterItemRow>
-                  <NotificationCenterItemIcon status="warning" />
-                  <NotificationCenterItemContent>
-                    <NotificationCenterItemTitle>Runtime stalled</NotificationCenterItemTitle>
-                    <NotificationCenterItemBody>
-                      Atlas has not reported activity for 15 minutes.
-                    </NotificationCenterItemBody>
-                    <NotificationCenterItemActions>
-                      <NotificationCenterActionButton variant="primary">
-                        View
-                      </NotificationCenterActionButton>
-                      <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
-                    </NotificationCenterItemActions>
-                  </NotificationCenterItemContent>
-                </NotificationCenterItemRow>
-              </NotificationCenterItem>
-              <NotificationCenterItem read>
-                <NotificationCenterItemRow>
-                  <NotificationCenterItemIcon status="success" />
-                  <NotificationCenterItemContent>
-                    <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
-                    <NotificationCenterItemBody>
-                      raft-ui shipped to production.
-                    </NotificationCenterItemBody>
-                  </NotificationCenterItemContent>
-                </NotificationCenterItemRow>
-              </NotificationCenterItem>
-            </NotificationCenterList>
-          </NotificationCenterScroller>
-        </NotificationCenterPopup>
-      </NotificationCenter>
+          <IconBellOutline18 aria-hidden />
+        </Button>
+        <Status
+          aria-hidden
+          variant="primary"
+          size="md"
+          className="pointer-events-none absolute -top-1 -right-1"
+        />
+      </div>
+      <div
+        data-slot="notification-center-popup"
+        className={[
+          "flex h-56 w-72 flex-col overflow-hidden rounded-md bg-layer-popover",
+          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
+          "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
+        ].join(" ")}
+      >
+        <NotificationCenterHeader>
+          <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+          <NotificationCenterCount>2 items</NotificationCenterCount>
+        </NotificationCenterHeader>
+        <NotificationCenterScroller>
+          <NotificationCenterList>
+            <NotificationCenterItem>
+              <NotificationCenterItemRow>
+                <NotificationCenterItemIcon status="warning" />
+                <NotificationCenterItemContent>
+                  <NotificationCenterItemTitle>Runtime stalled</NotificationCenterItemTitle>
+                  <NotificationCenterItemBody>
+                    Atlas has not reported activity for 15 minutes.
+                  </NotificationCenterItemBody>
+                  <NotificationCenterItemActions>
+                    <NotificationCenterActionButton variant="primary">
+                      View
+                    </NotificationCenterActionButton>
+                    <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
+                  </NotificationCenterItemActions>
+                </NotificationCenterItemContent>
+              </NotificationCenterItemRow>
+            </NotificationCenterItem>
+            <NotificationCenterItem read>
+              <NotificationCenterItemRow>
+                <NotificationCenterItemIcon status="success" />
+                <NotificationCenterItemContent>
+                  <NotificationCenterItemTitle>Deploy completed</NotificationCenterItemTitle>
+                  <NotificationCenterItemBody>
+                    raft-ui shipped to production.
+                  </NotificationCenterItemBody>
+                </NotificationCenterItemContent>
+              </NotificationCenterItemRow>
+            </NotificationCenterItem>
+          </NotificationCenterList>
+        </NotificationCenterScroller>
+      </div>
     </div>
   );
 }
