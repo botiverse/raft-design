@@ -144,10 +144,10 @@ const combobox = tv({
         ],
         control: [
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
-          "text-sm text-foreground shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.05)]",
+          "text-sm font-normal text-foreground shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.05)]",
           "focus-within:border-line-strong/25 focus-within:ring-2 focus-within:ring-line-strong/8",
           "[&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
-          "[&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:text-foreground",
+          "[&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-normal [&_[data-slot='combobox-input']]:text-foreground",
           "[&_[data-slot='combobox-input']::placeholder]:text-foreground-placeholder/70",
         ],
         empty: ["text-foreground-muted"],

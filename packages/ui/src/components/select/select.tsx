@@ -15,13 +15,12 @@ const select = tv({
       "data-[placeholder]:text-foreground-placeholder",
       "aria-invalid:border-danger-base/45 aria-invalid:hover:border-danger-base/75 aria-invalid:focus-visible:border-danger-base/75 aria-invalid:focus-visible:ring-3 aria-invalid:focus-visible:ring-danger-base/12",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
-      "[&_[data-slot='button-content']]:font-normal",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:!size-3.5 [&_[data-slot='select-trigger-content']_svg]:shrink-0 [&_[data-slot='select-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='select-trigger-content']_svg_*]:!stroke-[1.5]",
       "[&_[data-slot='select-icon']]:!stroke-[1.5] [&_[data-slot='select-icon']_*]:!stroke-[1.5]",
     ],
     icon: ["ml-auto flex shrink-0 items-center justify-center opacity-80"],
-    value: ["flex min-w-0 flex-1 truncate text-left font-normal"],
+    value: ["flex min-w-0 flex-1 truncate text-left"],
     positioner: ["isolate z-50 outline-none"],
     content: [
       "relative max-h-[var(--available-height)] min-w-[max(var(--anchor-width),220px)] overflow-hidden bg-layer-panel",
@@ -83,7 +82,8 @@ const select = tv({
       },
       elegant: {
         trigger: [
-          "text-sm font-normal tracking-[-0.005em] text-foreground-muted",
+          "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         content: [
@@ -129,7 +129,7 @@ export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props>;
 export function SelectTrigger({
   className,
   children,
-  render = <Button variant="outline" size="sm" />,
+  render = <Button variant="outline" size="md" />,
   ...props
 }: SelectTriggerProps) {
   const theme = useTheme();

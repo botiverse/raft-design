@@ -85,7 +85,6 @@ const REGION_OPTIONS = [
   { value: "me-central", label: "Middle East" },
 ] as const;
 
-type SortValue = (typeof SORT_OPTIONS)[number]["value"];
 type SortIconValue = (typeof SORT_ICON_OPTIONS)[number]["value"];
 
 const SNIPPETS = {
@@ -345,8 +344,6 @@ const SELECT_COMPOSITION_SOURCES = createCompositionSourceMap({
 
 type PlaygroundValues = {
   disabled: boolean;
-  open: boolean;
-  value: SortValue;
 };
 
 const PROPS: readonly PropRow[] = [
@@ -409,15 +406,7 @@ export const Route = createFileRoute("/components/select")({
     }),
 });
 
-function SortSelect({
-  disabled = false,
-  open,
-  value,
-}: {
-  disabled?: boolean;
-  open?: boolean;
-  value?: SortValue;
-}) {
+function SortSelect({ disabled = false, open }: { disabled?: boolean; open?: boolean }) {
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -426,8 +415,7 @@ function SortSelect({
         disabled={disabled}
         modal={false}
         open={open}
-        defaultValue={value === undefined ? "relevance" : undefined}
-        value={value}
+        defaultValue="relevance"
         items={SORT_ICON_OPTIONS}
       >
         <SelectTrigger>
@@ -668,23 +656,10 @@ function SelectDoc() {
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             disabled: false,
-            open: true,
-            value: "relevance",
           }}
-          controls={[
-            { name: "open", label: "Open", type: "boolean" },
-            { name: "disabled", label: "Disabled", type: "boolean" },
-            {
-              name: "value",
-              label: "Value",
-              type: "select",
-              options: SORT_OPTIONS.map((option) => option.value),
-            },
-          ]}
+          controls={[{ name: "disabled", label: "Disabled", type: "boolean" }]}
           previewClassName="min-h-[18rem] items-start pt-20"
-          render={(values) => (
-            <SortSelect disabled={values.disabled} open={values.open} value={values.value} />
-          )}
+          render={(values) => <SortSelect disabled={values.disabled} />}
         />
       </DocSection>
 

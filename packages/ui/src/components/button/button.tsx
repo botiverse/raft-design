@@ -134,7 +134,7 @@ export const buttonVariants = tv({
   },
   defaultVariants: {
     variant: "default",
-    size: "sm",
+    size: "md",
   },
   compoundVariants: [
     {
