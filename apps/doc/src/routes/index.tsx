@@ -78,6 +78,10 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
+  SegmentedControl,
+  SegmentedControlCount,
+  SegmentedControlItem,
+  SegmentedControlLabel,
   Spinner,
   Status,
   Tabs,
@@ -99,11 +103,14 @@ import {
 } from "nucleo-ui-fill-18";
 import {
   IconArchive2Outline18,
+  IconAtSignOutline18,
   IconBellOutline18,
   IconClockOutline18,
   IconCopyOutline18,
   IconCreditCardOutline18,
   IconGearOutline18,
+  IconBulletListOutline18,
+  IconGridLayoutCols3Outline18,
   IconInboxOutline18,
   IconInputSearchOutline18,
   IconMessageOutline18,
@@ -128,6 +135,7 @@ type ComponentRoute =
   | "/components/input"
   | "/components/input-group"
   | "/components/select"
+  | "/components/segmented-control"
   | "/components/textarea"
   | "/components/avatar"
   | "/components/badge"
@@ -347,6 +355,11 @@ const COMPONENT_GRID = [
     label: "Select",
     to: "/components/select",
     preview: <SelectPreview />,
+  },
+  {
+    label: "SegmentedControl",
+    to: "/components/segmented-control",
+    preview: <SegmentedControlPreview />,
   },
   {
     label: "Textarea",
@@ -703,6 +716,41 @@ function SelectPreview() {
           </SelectList>
         </SelectContent>
       </Select>
+    </div>
+  );
+}
+
+function SegmentedControlPreview() {
+  const [value, setValue] = useState("board");
+  const [filter, setFilter] = useState("all");
+
+  return (
+    <div className="grid justify-items-center gap-4">
+      <SegmentedControl ariaLabel="Task view" value={value} onValueChange={setValue}>
+        <SegmentedControlItem value="board">
+          <IconGridLayoutCols3Outline18 />
+          <SegmentedControlLabel>Board</SegmentedControlLabel>
+        </SegmentedControlItem>
+        <SegmentedControlItem value="list">
+          <IconBulletListOutline18 />
+          <SegmentedControlLabel>List</SegmentedControlLabel>
+        </SegmentedControlItem>
+      </SegmentedControl>
+      <SegmentedControl ariaLabel="Filter messages" value={filter} onValueChange={setFilter}>
+        <SegmentedControlItem value="all">
+          <IconInboxOutline18 />
+          <SegmentedControlLabel>All</SegmentedControlLabel>
+          <SegmentedControlCount>12</SegmentedControlCount>
+        </SegmentedControlItem>
+        <SegmentedControlItem value="unread">
+          <SegmentedControlLabel>Unread</SegmentedControlLabel>
+          <SegmentedControlCount>3</SegmentedControlCount>
+        </SegmentedControlItem>
+        <SegmentedControlItem value="mentions">
+          <IconAtSignOutline18 />
+          <SegmentedControlLabel>Mentions</SegmentedControlLabel>
+        </SegmentedControlItem>
+      </SegmentedControl>
     </div>
   );
 }

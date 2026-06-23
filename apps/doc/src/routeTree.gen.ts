@@ -26,6 +26,7 @@ import { Route as ComponentsStatusDotRouteImport } from './routes/components/sta
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
+import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSectionLabelRouteImport } from './routes/components/section-label'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
@@ -161,6 +162,12 @@ const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
   path: '/select',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsSegmentedControlRoute =
+  ComponentsSegmentedControlRouteImport.update({
+    id: '/segmented-control',
+    path: '/segmented-control',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsSectionLabelRoute = ComponentsSectionLabelRouteImport.update({
   id: '/section-label',
   path: '/section-label',
@@ -451,6 +458,7 @@ export interface FileRoutesByFullPath {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
+  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
@@ -519,6 +527,7 @@ export interface FileRoutesByTo {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
+  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
@@ -588,6 +597,7 @@ export interface FileRoutesById {
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
+  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
@@ -658,6 +668,7 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
+    | '/components/segmented-control'
     | '/components/select'
     | '/components/spinner'
     | '/components/status'
@@ -726,6 +737,7 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
+    | '/components/segmented-control'
     | '/components/select'
     | '/components/spinner'
     | '/components/status'
@@ -794,6 +806,7 @@ export interface FileRouteTypes {
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
+    | '/components/segmented-control'
     | '/components/select'
     | '/components/spinner'
     | '/components/status'
@@ -959,6 +972,13 @@ declare module '@tanstack/react-router' {
       path: '/select'
       fullPath: '/components/select'
       preLoaderRoute: typeof ComponentsSelectRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/segmented-control': {
+      id: '/components/segmented-control'
+      path: '/segmented-control'
+      fullPath: '/components/segmented-control'
+      preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/section-label': {
@@ -1338,6 +1358,7 @@ interface ComponentsRouteChildren {
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSectionLabelRoute: typeof ComponentsSectionLabelRoute
+  ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
@@ -1393,6 +1414,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSectionLabelRoute: ComponentsSectionLabelRoute,
+  ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,

@@ -81,6 +81,19 @@ export type {
   ToggleGroupProps,
 } from "./components/toggle-group/index.ts";
 
+export {
+  SegmentedControl,
+  SegmentedControlCount,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+} from "./components/segmented-control/index.ts";
+export type {
+  SegmentedControlCountProps,
+  SegmentedControlItemProps,
+  SegmentedControlLabelProps,
+  SegmentedControlProps,
+} from "./components/segmented-control/index.ts";
+
 export { PreviewShell } from "./components/preview-shell/index.ts";
 export type { PreviewShellProps } from "./components/preview-shell/index.ts";
 

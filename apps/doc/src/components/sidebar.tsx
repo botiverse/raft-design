@@ -72,8 +72,12 @@ const NAV = [
       { label: "InputGroup", to: "/components/input-group", progress: { theme: "done" } },
       { label: "Combobox", to: "/components/combobox", progress: { theme: "done" } },
       { label: "Select", to: "/components/select", progress: { theme: "done" } },
+      {
+        label: "SegmentedControl",
+        to: "/components/segmented-control",
+        progress: { theme: "done" },
+      },
       { label: "Textarea", to: "/components/textarea", progress: { theme: "done" } },
-      { label: "ToggleGroup", to: "/components/toggle-group", progress: { theme: "todo" } },
     ],
     planned: [
       {
@@ -88,6 +92,12 @@ const NAV = [
         docsHref: "https://base-ui.com/react/components/radio",
         reason:
           "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
+      },
+      {
+        label: "ToggleGroup",
+        priority: "Later",
+        docsHref: "https://base-ui.com/react/components/toggle-group",
+        reason: "Reserve for true pressed toggle toolbar controls, not source SegmentedControl.",
       },
       {
         label: "NumberField",
@@ -435,9 +445,9 @@ const MIGRATED = {
     },
     {
       label: "SegmentedControl",
-      to: "/components/toggle-group",
+      to: "/components/segmented-control",
       hash: "source-comparison",
-      target: "ToggleGroup",
+      target: "SegmentedControl",
     },
     {
       label: "ReorderablePanelTabs",
