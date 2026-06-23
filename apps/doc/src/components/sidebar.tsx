@@ -159,14 +159,9 @@ const NAV = [
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
       { label: "Popover", to: "/components/popover", progress: { theme: "done" } },
+      { label: "Tooltip", to: "/components/tooltip", progress: { theme: "done" } },
     ],
     planned: [
-      {
-        label: "Tooltip",
-        priority: "P0",
-        docsHref: "https://base-ui.com/react/components/tooltip",
-        reason: "Replace hand-rolled tooltip positioning and cover icon/status hints.",
-      },
       {
         label: "Dialog",
         priority: "P0",

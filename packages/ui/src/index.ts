@@ -438,6 +438,21 @@ export type {
   PopoverViewportProps,
 } from "./components/popover/index.ts";
 
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./components/tooltip/index.ts";
+export type {
+  TooltipContentProps,
+  TooltipPortalProps,
+  TooltipProps,
+  TooltipProviderProps,
+  TooltipTriggerProps,
+} from "./components/tooltip/index.ts";
+
 export { SectionLabel } from "./components/section-label/index.ts";
 export type { SectionLabelProps } from "./components/section-label/index.ts";
 

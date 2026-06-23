@@ -18,6 +18,7 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
+import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
@@ -119,6 +120,11 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   id: '/skills/migration',
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
+  id: '/tooltip',
+  path: '/tooltip',
+  getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
   id: '/toggle-group',
@@ -452,6 +458,7 @@ export interface FileRoutesByFullPath {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
+  '/components/tooltip': typeof ComponentsTooltipRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -519,6 +526,7 @@ export interface FileRoutesByTo {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
+  '/components/tooltip': typeof ComponentsTooltipRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -587,6 +595,7 @@ export interface FileRoutesById {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
+  '/components/tooltip': typeof ComponentsTooltipRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -656,6 +665,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
+    | '/components/tooltip'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -723,6 +733,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
+    | '/components/tooltip'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -790,6 +801,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/textarea'
     | '/components/toggle-group'
+    | '/components/tooltip'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -892,6 +904,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/skills/migration'
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/components/tooltip': {
+      id: '/components/tooltip'
+      path: '/tooltip'
+      fullPath: '/components/tooltip'
+      preLoaderRoute: typeof ComponentsTooltipRouteImport
+      parentRoute: typeof ComponentsRoute
     }
     '/components/toggle-group': {
       id: '/components/toggle-group'
@@ -1326,6 +1345,7 @@ interface ComponentsRouteChildren {
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
+  ComponentsTooltipRoute: typeof ComponentsTooltipRoute
   ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
   ComponentsBannerMatrixRoute: typeof ComponentsBannerMatrixRoute
   ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
@@ -1380,6 +1400,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
+  ComponentsTooltipRoute: ComponentsTooltipRoute,
   ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,
   ComponentsBannerMatrixRoute: ComponentsBannerMatrixRoute,
   ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,

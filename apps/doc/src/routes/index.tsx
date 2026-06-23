@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Avatar,
@@ -66,6 +66,9 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
   Select,
   SelectContent,
   SelectIcon,
@@ -109,7 +112,7 @@ import {
   IconTrashOutline18,
   IconUserOutline18,
 } from "nucleo-ui-outline-18";
-import { Plus, Search, Trash2 } from "lucide-react";
+import { Plus, Search, SmilePlus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -130,6 +133,7 @@ type ComponentRoute =
   | "/components/badge"
   | "/components/inline-code"
   | "/components/kbd"
+  | "/components/tooltip"
   | "/components/status"
   | "/components/spinner"
   | "/components/tabs"
@@ -275,6 +279,11 @@ const COMPONENT_GRID = [
     label: "Popover",
     to: "/components/popover",
     preview: <PopoverPreview />,
+  },
+  {
+    label: "Tooltip",
+    to: "/components/tooltip",
+    preview: <TooltipPreview />,
   },
   {
     label: "Label",
@@ -836,6 +845,31 @@ function PopoverPreview() {
           </div>
         </PopoverContent>
       </Popover>
+    </div>
+  );
+}
+
+function TooltipPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const triggerId = useId();
+
+  return (
+    <div ref={portalRef} className="relative flex h-40 w-72 items-center justify-center">
+      <Tooltip open triggerId={triggerId}>
+        <TooltipTrigger
+          id={triggerId}
+          render={<Button variant="ghost" size="icon-sm" aria-label="Add reaction" />}
+        >
+          <SmilePlus />
+        </TooltipTrigger>
+        <TooltipContent
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+        >
+          Add reaction
+          <Kbd>R</Kbd>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
