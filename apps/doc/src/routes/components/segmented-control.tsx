@@ -13,6 +13,8 @@ import { SegmentedControlDisabledComposition } from "#/compositions/segmented-co
 import segmentedControlDisabledCompositionSource from "#/compositions/segmented-control/disabled-composition.tsx?raw";
 import { SegmentedControlFiltersComposition } from "#/compositions/segmented-control/filters-composition.tsx";
 import segmentedControlFiltersCompositionSource from "#/compositions/segmented-control/filters-composition.tsx?raw";
+import { SegmentedControlSearchSortComposition } from "#/compositions/segmented-control/search-sort-composition.tsx";
+import segmentedControlSearchSortCompositionSource from "#/compositions/segmented-control/search-sort-composition.tsx?raw";
 import { SegmentedControlTimeFormatComposition } from "#/compositions/segmented-control/time-format-composition.tsx";
 import segmentedControlTimeFormatCompositionSource from "#/compositions/segmented-control/time-format-composition.tsx?raw";
 import { SegmentedControlViewModeComposition } from "#/compositions/segmented-control/view-mode-composition.tsx";
@@ -83,6 +85,18 @@ const SNIPPETS = {
     <SegmentedControlLabel>List</SegmentedControlLabel>
   </SegmentedControlItem>
 </SegmentedControl>`,
+  searchSort: `<SegmentedControl
+  ariaLabel="Sort search results"
+  value={sort}
+  onValueChange={setSort}
+>
+  <SegmentedControlItem value="relevance">
+    <SegmentedControlLabel>Relevant</SegmentedControlLabel>
+  </SegmentedControlItem>
+  <SegmentedControlItem value="recent">
+    <SegmentedControlLabel>Recent</SegmentedControlLabel>
+  </SegmentedControlItem>
+</SegmentedControl>`,
   preferences: `<SegmentedControl
   ariaLabel="Time format"
   value={timeFormat}
@@ -128,6 +142,15 @@ const SNIPPETS = {
     { value: "list", label: "List", icon: <LayoutList size={12} /> },
   ]}
 />`,
+  sourceSearchSort: `<SegmentedControl
+  ariaLabel="Sort search results"
+  value="relevance"
+  onChange={setValue}
+  options={[
+    { value: "relevance", label: "Relevant" },
+    { value: "recent", label: "Recent" },
+  ]}
+/>`,
   sourcePreferences: `<SegmentedControl
   ariaLabel="Time format"
   value="24h"
@@ -151,6 +174,7 @@ const SNIPPETS = {
 const SEGMENTED_CONTROL_COMPOSITION_PATHS = {
   disabled: "apps/doc/src/compositions/segmented-control/disabled-composition.tsx",
   filters: "apps/doc/src/compositions/segmented-control/filters-composition.tsx",
+  searchSort: "apps/doc/src/compositions/segmented-control/search-sort-composition.tsx",
   timeFormat: "apps/doc/src/compositions/segmented-control/time-format-composition.tsx",
   viewMode: "apps/doc/src/compositions/segmented-control/view-mode-composition.tsx",
 } as const;
@@ -158,6 +182,7 @@ const SEGMENTED_CONTROL_COMPOSITION_PATHS = {
 const SEGMENTED_CONTROL_COMPOSITION_SOURCES = {
   disabled: segmentedControlDisabledCompositionSource,
   filters: segmentedControlFiltersCompositionSource,
+  searchSort: segmentedControlSearchSortCompositionSource,
   timeFormat: segmentedControlTimeFormatCompositionSource,
   viewMode: segmentedControlViewModeCompositionSource,
 } as const;
@@ -197,6 +222,7 @@ export const Route = createFileRoute("/components/segmented-control")({
         ...SNIPPETS,
         disabledComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.disabled,
         filtersComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.filters,
+        searchSortComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.searchSort,
         timeFormatComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.timeFormat,
         viewModeComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.viewMode,
       },
@@ -232,6 +258,11 @@ function SegmentedControlDoc() {
   const [brutalView, setBrutalView] = useState<string>("board");
   const [elegantView, setElegantView] = useState<string>("board");
   const [elegantDarkView, setElegantDarkView] = useState<string>("board");
+  const [searchSort, setSearchSort] = useState<string>("relevance");
+  const [sourceSearchSort, setSourceSearchSort] = useState<string>("relevance");
+  const [brutalSearchSort, setBrutalSearchSort] = useState<string>("relevance");
+  const [elegantSearchSort, setElegantSearchSort] = useState<string>("relevance");
+  const [elegantDarkSearchSort, setElegantDarkSearchSort] = useState<string>("relevance");
   const [sourceTime, setSourceTime] = useState<string>("24h");
   const [brutalTime, setBrutalTime] = useState<string>("24h");
   const [elegantTime, setElegantTime] = useState<string>("24h");
@@ -283,6 +314,16 @@ function SegmentedControlDoc() {
             <h3 className="text-sm font-medium text-foreground-strong">View mode</h3>
             <Example html={code.viewMode}>
               <SegmentedControlViewModeComposition value={view} onValueChange={setView} />
+            </Example>
+          </section>
+
+          <section className="grid gap-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Search sort</h3>
+            <Example html={code.searchSort}>
+              <SegmentedControlSearchSortComposition
+                value={searchSort}
+                onValueChange={setSearchSort}
+              />
             </Example>
           </section>
 
@@ -379,6 +420,41 @@ function SegmentedControlDoc() {
                 />
               ),
               ...composition("viewMode"),
+            },
+            {
+              label: "Search sort",
+              status: "match",
+              note: "Used by message search relevance/recent sorting. It stays a compact immediate view choice, so it belongs with SegmentedControl rather than Select or RadioGroup.",
+              source: (
+                <LegacySegmentedControl
+                  ariaLabel="Sort search results"
+                  value={sourceSearchSort}
+                  onChange={setSourceSearchSort}
+                  options={[
+                    { value: "relevance", label: "Relevant" },
+                    { value: "recent", label: "Recent" },
+                  ]}
+                />
+              ),
+              brutal: (
+                <SegmentedControlSearchSortComposition
+                  value={brutalSearchSort}
+                  onValueChange={setBrutalSearchSort}
+                />
+              ),
+              elegant: (
+                <SegmentedControlSearchSortComposition
+                  value={elegantSearchSort}
+                  onValueChange={setElegantSearchSort}
+                />
+              ),
+              elegantDark: (
+                <SegmentedControlSearchSortComposition
+                  value={elegantDarkSearchSort}
+                  onValueChange={setElegantDarkSearchSort}
+                />
+              ),
+              ...composition("searchSort"),
             },
             {
               label: "Persistent preference",

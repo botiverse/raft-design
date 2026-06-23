@@ -10,7 +10,6 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   createCompositionPanelProps,
@@ -23,6 +22,8 @@ import checkboxDisabledCompositionSource from "#/compositions/checkbox/disabled-
 import checkboxIndeterminateCompositionSource from "#/compositions/checkbox/indeterminate-composition.tsx?raw";
 import checkboxPreviewOnHoverMarkerCompositionSource from "#/compositions/checkbox/preview-on-hover-marker-composition.tsx?raw";
 import checkboxPrimaryCheckedCompositionSource from "#/compositions/checkbox/primary-checked-composition.tsx?raw";
+import { CheckboxSettingsGroupContent } from "#/compositions/checkbox/settings-group-composition.tsx";
+import checkboxSettingsGroupCompositionSource from "#/compositions/checkbox/settings-group-composition.tsx?raw";
 import checkboxSizesCompositionSource from "#/compositions/checkbox/sizes-composition.tsx?raw";
 import checkboxUncheckedCompositionSource from "#/compositions/checkbox/unchecked-composition.tsx?raw";
 import {
@@ -33,7 +34,6 @@ import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker
 import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "variants", title: "Variants" },
@@ -47,8 +47,6 @@ const TOC = [
 
 const SIZES = ["sm", "md"] as const;
 const VARIANTS = ["default", "primary"] as const;
-
-const TODOS = ["Document Checkbox Group usage"] as const;
 
 const SNIPPETS = {
   anatomy: `import { Checkbox } from "@raft/ui";
@@ -89,6 +87,20 @@ const SNIPPETS = {
   bulk: `<div className="flex items-center gap-3">
   <Checkbox indeterminate aria-label="Select all messages" />
   <span className="text-sm font-bold">3 of 8 selected</span>
+</div>`,
+  settingsGroup: `<div className="grid gap-2">
+  <label className="flex items-center gap-3">
+    <Checkbox defaultChecked aria-label="Include recent messages" />
+    <span>Recent messages</span>
+  </label>
+  <label className="flex items-center gap-3">
+    <Checkbox defaultChecked aria-label="Include activity log" />
+    <span>Activity log</span>
+  </label>
+  <label className="flex items-center gap-3">
+    <Checkbox aria-label="Include trajectory log" />
+    <span>Trajectory log</span>
+  </label>
 </div>`,
   migrationMarker: `// Source
 <CheckMarker checked />
@@ -198,6 +210,7 @@ const CHECKBOX_COMPOSITION_RAW_SOURCES = {
   Indeterminate: checkboxIndeterminateCompositionSource,
   PreviewOnHoverMarker: checkboxPreviewOnHoverMarkerCompositionSource,
   PrimaryChecked: checkboxPrimaryCheckedCompositionSource,
+  SettingsGroup: checkboxSettingsGroupCompositionSource,
   Sizes: checkboxSizesCompositionSource,
   Unchecked: checkboxUncheckedCompositionSource,
 } as const;
@@ -211,6 +224,7 @@ const CHECKBOX_COMPOSITION_SNIPPET_IDS = {
   Indeterminate: "checkboxIndeterminateComposition",
   PreviewOnHoverMarker: "checkboxPreviewOnHoverMarkerComposition",
   PrimaryChecked: "checkboxPrimaryCheckedComposition",
+  SettingsGroup: "checkboxSettingsGroupComposition",
   Sizes: "checkboxSizesComposition",
   Unchecked: "checkboxUncheckedComposition",
 } as const;
@@ -258,10 +272,6 @@ function CheckboxDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
@@ -375,6 +385,9 @@ function CheckboxDoc() {
               <span className="text-sm font-bold">3 of 8 selected</span>
             </div>
           </Example>
+          <Example html={code.settingsGroup}>
+            <CheckboxSettingsGroupContent />
+          </Example>
         </div>
       </DocSection>
 
@@ -461,6 +474,31 @@ function CheckboxDoc() {
               elegant: <CheckboxCurrent.PreviewOnHoverMarker />,
               elegantDark: <CheckboxCurrent.PreviewOnHoverMarker />,
               ...checkboxComposition("PreviewOnHoverMarker"),
+            },
+            {
+              label: "Settings group",
+              status: "match",
+              note: "Used by report bundles, permissions, and settings rows. Checkbox remains independent per row and covers multi-select inclusion, not a mutually exclusive choice.",
+              source: (
+                <div className="grid min-w-60 gap-2 text-sm">
+                  <label className="flex items-center gap-3">
+                    <LegacyCheckbox checked readOnly aria-label="Include recent messages" />
+                    <span>Recent messages</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <LegacyCheckbox checked readOnly aria-label="Include activity log" />
+                    <span>Activity log</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <LegacyCheckbox aria-label="Include trajectory log" />
+                    <span>Trajectory log</span>
+                  </label>
+                </div>
+              ),
+              brutal: <CheckboxCurrent.SettingsGroup />,
+              elegant: <CheckboxCurrent.SettingsGroup />,
+              elegantDark: <CheckboxCurrent.SettingsGroup />,
+              ...checkboxComposition("SettingsGroup"),
             },
           ]}
         />

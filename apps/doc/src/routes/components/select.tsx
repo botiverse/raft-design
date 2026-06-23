@@ -34,11 +34,17 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
 import selectOptionsListCompositionSource from "#/compositions/select-options-list-composition.tsx?raw";
+import selectTimeRangeCompositionSource from "#/compositions/select-time-range-composition.tsx?raw";
 import {
   SELECT_OPTIONS_LIST_COMPOSITION_PATH,
   SelectOptionsListComposition,
   SelectOptionsListSourcePreview,
 } from "#/compositions/select-options-list.tsx";
+import {
+  SELECT_TIME_RANGE_COMPOSITION_PATH,
+  SelectTimeRangeComposition,
+  SelectTimeRangeSourcePreview,
+} from "#/compositions/select-time-range.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -340,6 +346,7 @@ function RegionSelect() {
 
 const SELECT_COMPOSITION_SOURCES = createCompositionSourceMap({
   selectOptionsListComposition: selectOptionsListCompositionSource,
+  selectTimeRangeComposition: selectTimeRangeCompositionSource,
 } as const);
 
 type PlaygroundValues = {
@@ -722,6 +729,27 @@ function SelectDoc() {
               compositionCollapsedCode: code.selectOptionsListCompositionBody,
               compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
               compositionSource: SELECT_COMPOSITION_SOURCES.selectOptionsListComposition,
+              compositionShowLineNumbers: false,
+            },
+            {
+              id: "source-comparison-time-range",
+              label: "Time range dropdown",
+              status: "difference",
+              note: (
+                <>
+                  Source search filters used <InlineCode>SelectionPopover</InlineCode> as a dropdown
+                  single-select surface. In the design system, closed value fields use Select while
+                  the selected option stays a trailing indicator.
+                </>
+              ),
+              source: <SelectTimeRangeSourcePreview />,
+              brutal: <SelectTimeRangeComposition />,
+              elegant: <SelectTimeRangeComposition />,
+              elegantDark: <SelectTimeRangeComposition />,
+              compositionCode: code.selectTimeRangeComposition,
+              compositionCollapsedCode: code.selectTimeRangeCompositionBody,
+              compositionPath: SELECT_TIME_RANGE_COMPOSITION_PATH,
+              compositionSource: SELECT_COMPOSITION_SOURCES.selectTimeRangeComposition,
               compositionShowLineNumbers: false,
             },
           ]}

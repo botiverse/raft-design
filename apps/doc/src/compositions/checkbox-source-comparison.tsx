@@ -4,6 +4,7 @@ import { CheckboxDisabledComposition } from "./checkbox/disabled-composition.tsx
 import { CheckboxIndeterminateComposition } from "./checkbox/indeterminate-composition.tsx";
 import { CheckboxPreviewOnHoverMarkerComposition } from "./checkbox/preview-on-hover-marker-composition.tsx";
 import { CheckboxPrimaryCheckedComposition } from "./checkbox/primary-checked-composition.tsx";
+import { CheckboxSettingsGroupComposition } from "./checkbox/settings-group-composition.tsx";
 import { CheckboxSizesComposition } from "./checkbox/sizes-composition.tsx";
 import { CheckboxUncheckedComposition } from "./checkbox/unchecked-composition.tsx";
 
@@ -15,6 +16,7 @@ export const CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   PreviewOnHoverMarker:
     "apps/doc/src/compositions/checkbox/preview-on-hover-marker-composition.tsx",
   PrimaryChecked: "apps/doc/src/compositions/checkbox/primary-checked-composition.tsx",
+  SettingsGroup: "apps/doc/src/compositions/checkbox/settings-group-composition.tsx",
   Sizes: "apps/doc/src/compositions/checkbox/sizes-composition.tsx",
   Unchecked: "apps/doc/src/compositions/checkbox/unchecked-composition.tsx",
 } as const;
@@ -26,6 +28,7 @@ export const CHECKBOX_SOURCE_COMPARISON_COMPOSITION = {
   Indeterminate: CheckboxIndeterminateComposition,
   PreviewOnHoverMarker: CheckboxPreviewOnHoverMarkerComposition,
   PrimaryChecked: CheckboxPrimaryCheckedComposition,
+  SettingsGroup: CheckboxSettingsGroupComposition,
   Sizes: CheckboxSizesComposition,
   Unchecked: CheckboxUncheckedComposition,
 } as const;
