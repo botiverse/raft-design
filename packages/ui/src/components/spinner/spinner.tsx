@@ -61,87 +61,50 @@ const BRAILLE_SPINNER_STYLE = `
 `;
 
 const ELEGANT_SPINNER_STYLE = `
-@keyframes raft-elegant-spinner {
+@keyframes raft-elegant-spinner-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
+@keyframes raft-elegant-spinner-dash {
+  0% {
+    stroke-dasharray: 1 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90 150;
+    stroke-dashoffset: -124;
+  }
+}
+
 [data-slot="spinner"] [data-spinner-ring] {
-  animation: raft-elegant-spinner 1180ms linear infinite;
+  animation: raft-elegant-spinner-spin 1600ms linear infinite;
   transform-box: fill-box;
   transform-origin: center;
   will-change: transform;
 }
 
-[data-slot="spinner"] [data-spinner-drift-a],
-[data-slot="spinner"] [data-spinner-drift-b],
-[data-slot="spinner"] [data-spinner-drift-c] {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-[data-slot="spinner"] [data-spinner-drift-a] {
-  animation: raft-elegant-spinner-drift-a 2110ms cubic-bezier(0.42, 0, 0.58, 1) infinite;
-}
-
-[data-slot="spinner"] [data-spinner-drift-b] {
-  animation: raft-elegant-spinner-drift-b 3370ms cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-[data-slot="spinner"] [data-spinner-drift-c] {
-  animation: raft-elegant-spinner-drift-c 5210ms cubic-bezier(0.45, 0, 0.55, 1) infinite;
-}
-
-@keyframes raft-elegant-spinner-drift-a {
-  0%,
-  100% {
-    transform: rotate(-4deg);
-  }
-  34% {
-    transform: rotate(5deg);
-  }
-  68% {
-    transform: rotate(-2deg);
-  }
-}
-
-@keyframes raft-elegant-spinner-drift-b {
-  0%,
-  100% {
-    transform: rotate(3deg);
-  }
-  42% {
-    transform: rotate(-4deg);
-  }
-  76% {
-    transform: rotate(4deg);
-  }
-}
-
-@keyframes raft-elegant-spinner-drift-c {
-  0%,
-  100% {
-    transform: rotate(-2deg);
-  }
-  48% {
-    transform: rotate(3deg);
-  }
-  82% {
-    transform: rotate(-0.5deg);
-  }
+[data-slot="spinner"] [data-spinner-arc] {
+  animation: raft-elegant-spinner-dash 1400ms cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  stroke-dasharray: 1 150;
+  stroke-dashoffset: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
   [data-slot="spinner"] [data-spinner-ring] {
-    animation-duration: 1800ms;
+    animation-duration: 2400ms;
     will-change: auto;
   }
 
-  [data-slot="spinner"] [data-spinner-drift-a],
-  [data-slot="spinner"] [data-spinner-drift-b],
-  [data-slot="spinner"] [data-spinner-drift-c] {
-    animation-duration: 3200ms;
+  [data-slot="spinner"] [data-spinner-arc] {
+    animation: none;
+    stroke-dasharray: 72 150;
+    stroke-dashoffset: -30;
   }
 }
 `;
@@ -218,27 +181,26 @@ export function Spinner({ size = "sm", className, render, ...props }: SpinnerPro
           fill="none"
           viewBox="0 0 24 24"
         >
-          <g data-spinner-drift-a="">
-            <g data-spinner-drift-b="">
-              <g data-spinner-drift-c="">
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                />
-                <path
-                  className="opacity-75"
-                  d="M12 2a10 10 0 1 1-2.08 19.78"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth="2.5"
-                />
-              </g>
-            </g>
-          </g>
+          <circle
+            className="opacity-20"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          />
+          <circle
+            data-spinner-arc=""
+            className="opacity-80"
+            cx="12"
+            cy="12"
+            r="10"
+            fill="none"
+            pathLength="150"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.5"
+          />
         </svg>
       </>
     ) : (
