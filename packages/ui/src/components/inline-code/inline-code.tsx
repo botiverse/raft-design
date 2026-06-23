@@ -15,7 +15,7 @@ const inlineCode = tv({
         root: [
           "inline-flex items-center rounded px-2 py-0.5",
           "font-mono text-xs font-medium",
-          "bg-foreground/[0.065] text-[oklch(0.38_0_0)] dark:text-[oklch(0.78_0_0)]",
+          "bg-layer-muted text-[oklch(0.38_0_0)] dark:text-[oklch(0.78_0_0)]",
           "shadow-[0_0.5px_0.5px_-0.5px_oklch(0_0_0_/_0.08)]",
         ],
       },
