@@ -207,13 +207,11 @@
   --color-danger-light: var(--state-danger-light);
   --color-danger-lighter: var(--state-danger-lighter);
 
-  --shadow-2xs: var(--theme-shadow-2xs);
   --shadow-xs: var(--theme-shadow-xs);
   --shadow-sm: var(--theme-shadow-sm);
   --shadow-md: var(--theme-shadow-md);
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
-  --shadow-2xl: var(--theme-shadow-2xl);
 
   --font-heading: var(--heading-font);
   --font-sans: var(--sans-font);
@@ -298,13 +296,12 @@
   --state-danger-light: var(--color-brutal-red-200);
   --state-danger-lighter: var(--color-brutal-red-100);
 
-  --theme-shadow-2xs: 1px 1px 0px var(--line-strong);
+  /* xs: pressed · sm: resting · md: hover/focus · lg: floating overlay · xl: modal */
   --theme-shadow-xs: 1px 1px 0px var(--line-strong);
   --theme-shadow-sm: 2px 2px 0px var(--line-strong);
   --theme-shadow-md: 4px 4px 0px var(--line-strong);
-  --theme-shadow-lg: 4px 4px 0px var(--line-strong);
+  --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
-  --theme-shadow-2xl: 6px 6px 0px var(--line-strong);
 
   --heading-font: "Fabric Grotesk", system-ui, sans-serif;
   --sans-font: "Fabric Grotesk", system-ui, sans-serif;
@@ -388,10 +385,8 @@
   --state-danger-light: var(--color-brutal-red-200);
   --state-danger-lighter: var(--color-brutal-red-100);
 
-  --theme-shadow-2xs: oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px;
-  --theme-shadow-xs:
-    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
-    oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px;
+  /* xs: pressed · sm: resting · md: hover/focus · lg: floating overlay · xl: modal */
+  --theme-shadow-xs: oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px;
   --theme-shadow-sm:
     oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
     oklch(0.145 0.002 286.131 / 0.012) 0px 5px 4px -2px,
@@ -403,20 +398,13 @@
     oklch(0.145 0.002 286.131 / 0.027) 0px 5px 5px -2px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 2px 3px -1px;
   --theme-shadow-lg:
-    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
-    oklch(0.145 0.002 286.131 / 0.024) 0px 12px 16px -8px,
-    oklch(0.145 0.002 286.131 / 0.031) 0px 8px 8px -4px,
-    oklch(0.145 0.002 286.131 / 0.039) 0px 3px 4px -2px;
+    0px 1px 1px oklch(0.21 0.006 285 / 0.1), 0px 0px 0px 1px oklch(0.21 0.006 285 / 0.04),
+    0px 2px 12px -4px oklch(0.21 0.006 285 / 0.16);
   --theme-shadow-xl:
     oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
     oklch(0.145 0.002 286.131 / 0.031) 0px 18px 24px -12px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 12px 12px -6px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 4px 6px -3px;
-  --theme-shadow-2xl:
-    oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px,
-    oklch(0.145 0.002 286.131 / 0.039) 0px 24px 32px -16px,
-    oklch(0.145 0.002 286.131 / 0.047) 0px 16px 16px -8px,
-    oklch(0.145 0.002 286.131 / 0.039) 0px 6px 8px -4px;
 
   --heading-font: "Inter", system-ui, sans-serif;
   --sans-font: "Geist", system-ui, sans-serif;

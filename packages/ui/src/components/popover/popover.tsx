@@ -28,9 +28,7 @@ const popover = tv({
   variants: {
     theme: {
       brutal: {
-        content: [
-          "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
-        ],
+        content: ["border-2 border-black bg-white shadow-lg"],
         separator: ["border-black"],
         title: ["font-sans uppercase tracking-wide text-black/60"],
         description: ["font-sans text-black"],
@@ -39,10 +37,7 @@ const popover = tv({
         backdrop: ["bg-transparent"],
       },
       elegant: {
-        content: [
-          "rounded-md bg-layer-popover",
-          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
-        ],
+        content: ["rounded-md bg-layer-popover", "shadow-lg"],
         separator: ["border-line-muted"],
         title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground/45"],
         description: ["text-xs leading-5 text-foreground-muted"],

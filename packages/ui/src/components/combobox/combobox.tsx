@@ -68,9 +68,7 @@ const combobox = tv({
           "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
           "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
         ],
-        content: [
-          "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
-        ],
+        content: ["border-2 border-black bg-white shadow-lg"],
         separator: ["bg-black"],
         item: [
           "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-black last:border-b-0",
@@ -117,10 +115,7 @@ const combobox = tv({
           "placeholder:text-foreground-placeholder/70",
           "focus:border-line-strong/25 focus-visible:ring-2 focus-visible:ring-line-strong/8",
         ],
-        content: [
-          "rounded-md bg-layer-popover",
-          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
-        ],
+        content: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["pl-2 pr-1.5 pt-2.5 pb-0.5"],
         separator: ["hidden bg-line-muted"],
         list: ["flex flex-col gap-0.5 px-1.5 py-1"],

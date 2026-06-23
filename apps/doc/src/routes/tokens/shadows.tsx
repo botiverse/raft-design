@@ -22,24 +22,17 @@ const THEME_LABELS = {
 
 const SHADOW_TOKENS = [
   {
-    name: "2xs",
-    utility: "shadow-2xs",
-    themeToken: "--shadow-2xs",
-    sourceToken: "--theme-shadow-2xs",
-    brutal: "1px 1px 0px var(--line-strong)",
-    elegant: "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px",
-  },
-  {
     name: "xs",
+    role: "Pressed",
     utility: "shadow-xs",
     themeToken: "--shadow-xs",
     sourceToken: "--theme-shadow-xs",
     brutal: "1px 1px 0px var(--line-strong)",
-    elegant:
-      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px",
+    elegant: "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px",
   },
   {
     name: "sm",
+    role: "Resting",
     utility: "shadow-sm",
     themeToken: "--shadow-sm",
     sourceToken: "--theme-shadow-sm",
@@ -49,6 +42,7 @@ const SHADOW_TOKENS = [
   },
   {
     name: "md",
+    role: "Hover / focus",
     utility: "shadow-md",
     themeToken: "--shadow-md",
     sourceToken: "--theme-shadow-md",
@@ -58,30 +52,23 @@ const SHADOW_TOKENS = [
   },
   {
     name: "lg",
+    role: "Floating overlay",
     utility: "shadow-lg",
     themeToken: "--shadow-lg",
     sourceToken: "--theme-shadow-lg",
-    brutal: "4px 4px 0px var(--line-strong)",
+    brutal: "4px 4px 0px var(--color-black)",
     elegant:
-      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.024) 0px 12px 16px -8px, oklch(0.145 0.002 286.131 / 0.031) 0px 8px 8px -4px, oklch(0.145 0.002 286.131 / 0.039) 0px 3px 4px -2px",
+      "0px 1px 1px oklch(0.21 0.006 285 / 0.1), 0px 0px 0px 1px oklch(0.21 0.006 285 / 0.04), 0px 2px 12px -4px oklch(0.21 0.006 285 / 0.16)",
   },
   {
     name: "xl",
+    role: "Modal",
     utility: "shadow-xl",
     themeToken: "--shadow-xl",
     sourceToken: "--theme-shadow-xl",
     brutal: "6px 6px 0px var(--line-strong)",
     elegant:
       "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 286.131 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 286.131 / 0.039) 0px 4px 6px -3px",
-  },
-  {
-    name: "2xl",
-    utility: "shadow-2xl",
-    themeToken: "--shadow-2xl",
-    sourceToken: "--theme-shadow-2xl",
-    brutal: "6px 6px 0px var(--line-strong)",
-    elegant:
-      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.039) 0px 24px 32px -16px, oklch(0.145 0.002 286.131 / 0.047) 0px 16px 16px -8px, oklch(0.145 0.002 286.131 / 0.039) 0px 6px 8px -4px",
   },
 ] as const;
 
@@ -90,7 +77,7 @@ const THEME_PREVIEWS = [{ theme: "brutal" }, { theme: "elegant" }] as const;
 export const SHADOW_SNIPPETS = {
   usage: `<div className="border border-line bg-layer-panel shadow-sm" />
 
-<button className="border-2 border-line-strong bg-primary-400 shadow-sm hover:shadow-md active:shadow-2xs">
+<button className="border-2 border-line-strong bg-primary-400 shadow-sm hover:shadow-md active:shadow-xs">
   Raised
 </button>`,
 } as const;

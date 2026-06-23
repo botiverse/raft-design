@@ -39,9 +39,7 @@ const dropdownMenu = tv({
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        content: [
-          "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
-        ],
+        content: ["border-2 border-black bg-white shadow-lg"],
         item: [
           "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
@@ -74,7 +72,7 @@ const dropdownMenu = tv({
       elegant: {
         content: [
           "gap-0.5 rounded-md bg-layer-popover p-1",
-          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)] outline-none",
+          "shadow-lg outline-none",
           "flex flex-col",
         ],
         item: [

@@ -54,9 +54,7 @@ const select = tv({
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        content: [
-          "border-2 border-black bg-white shadow-[var(--shadow-hover,4px_4px_0px_var(--color-black))]",
-        ],
+        content: ["border-2 border-black bg-white shadow-lg"],
         item: [
           "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-black last:border-b-0",
           "[&_[data-slot='select-item-text']]:font-semibold",
@@ -86,10 +84,7 @@ const select = tv({
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
-        content: [
-          "rounded-md bg-layer-popover",
-          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
-        ],
+        content: ["rounded-md bg-layer-popover", "shadow-lg"],
         list: ["flex flex-col gap-0.5 px-1 py-1"],
         item: [
           "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
