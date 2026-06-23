@@ -276,14 +276,14 @@ const COMPONENT_GRID = [
     preview: <ContextMenuPreview />,
   },
   {
-    label: "Popover",
-    to: "/components/popover",
-    preview: <PopoverPreview />,
-  },
-  {
     label: "Tooltip",
     to: "/components/tooltip",
     preview: <TooltipPreview />,
+  },
+  {
+    label: "Popover",
+    to: "/components/popover",
+    preview: <PopoverPreview />,
   },
   {
     label: "Label",
@@ -854,7 +854,7 @@ function TooltipPreview() {
   const triggerId = useId();
 
   return (
-    <div ref={portalRef} className="relative flex h-40 w-72 items-center justify-center">
+    <div ref={portalRef} className="relative flex h-56 w-72 items-center justify-center">
       <Tooltip open triggerId={triggerId}>
         <TooltipTrigger
           id={triggerId}
