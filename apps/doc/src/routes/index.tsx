@@ -363,7 +363,7 @@ const COMPONENT_GRID = [
     label: "RadioGroup",
     to: "/components/radio-group",
     preview: (
-      <RadioGroup defaultValue="restart" ariaLabel="Restart mode" className="w-56">
+      <RadioGroup defaultValue="restart" ariaLabel="Restart mode" className="w-fit">
         <label className="flex items-center gap-3 text-sm">
           <RadioGroupItem value="restart" />
           Restart
