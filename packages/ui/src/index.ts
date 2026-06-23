@@ -14,6 +14,13 @@ export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./component
 export { Checkbox } from "./components/checkbox/index.ts";
 export type { CheckboxProps } from "./components/checkbox/index.ts";
 
+export { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "./components/radio-group/index.ts";
+export type {
+  RadioGroupIndicatorProps,
+  RadioGroupItemProps,
+  RadioGroupProps,
+} from "./components/radio-group/index.ts";
+
 export { Badge } from "./components/badge/index.ts";
 export type { BadgeProps } from "./components/badge/index.ts";
 

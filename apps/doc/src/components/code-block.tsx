@@ -13,7 +13,7 @@ const embeddedClassName =
   "overflow-hidden bg-[oklch(0.986_0_0)] [&>pre]:overflow-x-auto [&>pre]:!bg-[oklch(0.986_0_0)] [&>pre]:!px-0 [&>pre]:!py-0 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed";
 
 const docsClassName =
-  "min-w-0 flex-1 rounded-none bg-white [&>pre]:overflow-x-auto [&>pre]:!bg-white [&>pre]:!p-0 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed [&>pre>code>span]:block";
+  "min-w-0 flex-1 overflow-hidden rounded-none bg-white [&>pre]:overflow-x-auto [&>pre]:!bg-white [&>pre]:!p-0 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed [&>pre>code>span]:block";
 
 /**
  * Renders either legacy Shiki HTML or an RSC-rendered code block from

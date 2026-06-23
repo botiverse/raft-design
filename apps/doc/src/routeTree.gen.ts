@@ -30,6 +30,7 @@ import { Route as ComponentsSegmentedControlRouteImport } from './routes/compone
 import { Route as ComponentsSectionLabelRouteImport } from './routes/components/section-label'
 import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
+import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
@@ -184,6 +185,11 @@ const ComponentsSandboxedPreviewFrameRoute =
     path: '/sandboxed-preview-frame',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
+  id: '/radio-group',
+  path: '/radio-group',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsQuotedMessageCardRoute =
   ComponentsQuotedMessageCardRouteImport.update({
     id: '/quoted-message-card',
@@ -455,6 +461,7 @@ export interface FileRoutesByFullPath {
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
+  '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
@@ -524,6 +531,7 @@ export interface FileRoutesByTo {
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
+  '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
@@ -594,6 +602,7 @@ export interface FileRoutesById {
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
+  '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/section-header': typeof ComponentsSectionHeaderRoute
   '/components/section-label': typeof ComponentsSectionLabelRoute
@@ -665,6 +674,7 @@ export interface FileRouteTypes {
     | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
+    | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
@@ -734,6 +744,7 @@ export interface FileRouteTypes {
     | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
+    | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
@@ -803,6 +814,7 @@ export interface FileRouteTypes {
     | '/components/popover'
     | '/components/preview-shell'
     | '/components/quoted-message-card'
+    | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/section-header'
     | '/components/section-label'
@@ -1000,6 +1012,13 @@ declare module '@tanstack/react-router' {
       path: '/sandboxed-preview-frame'
       fullPath: '/components/sandboxed-preview-frame'
       preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/radio-group': {
+      id: '/components/radio-group'
+      path: '/radio-group'
+      fullPath: '/components/radio-group'
+      preLoaderRoute: typeof ComponentsRadioGroupRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/quoted-message-card': {
@@ -1355,6 +1374,7 @@ interface ComponentsRouteChildren {
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
   ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
+  ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
   ComponentsSectionLabelRoute: typeof ComponentsSectionLabelRoute
@@ -1411,6 +1431,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
   ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
+  ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
   ComponentsSectionLabelRoute: ComponentsSectionLabelRoute,

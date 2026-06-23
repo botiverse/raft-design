@@ -66,6 +66,8 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
+  RadioGroup,
+  RadioGroupItem,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -134,6 +136,7 @@ type ComponentRoute =
   | "/components/label"
   | "/components/input"
   | "/components/input-group"
+  | "/components/radio-group"
   | "/components/select"
   | "/components/segmented-control"
   | "/components/textarea"
@@ -355,6 +358,26 @@ const COMPONENT_GRID = [
     label: "Select",
     to: "/components/select",
     preview: <SelectPreview />,
+  },
+  {
+    label: "RadioGroup",
+    to: "/components/radio-group",
+    preview: (
+      <RadioGroup defaultValue="restart" ariaLabel="Restart mode" className="w-56">
+        <label className="flex items-center gap-3 text-sm">
+          <RadioGroupItem value="restart" />
+          Restart
+        </label>
+        <label className="flex items-center gap-3 text-sm">
+          <RadioGroupItem value="session" />
+          Reset session
+        </label>
+        <label className="flex items-center gap-3 text-sm">
+          <RadioGroupItem value="full" />
+          Full reset
+        </label>
+      </RadioGroup>
+    ),
   },
   {
     label: "SegmentedControl",

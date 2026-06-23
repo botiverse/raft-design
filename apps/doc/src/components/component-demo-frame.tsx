@@ -24,11 +24,11 @@ export function ComponentDemoFrame({
   const footerInsetClass = footerInset === "flush" ? "p-0" : "px-8 py-8";
   const footerToneClass = footerTone === "white" ? "bg-white" : "bg-[oklch(0.986_0_0)]";
   const frameClass =
-    "overflow-clip rounded-lg bg-[oklch(0.991_0_0)] shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
+    "min-w-0 overflow-clip rounded-lg bg-[oklch(0.991_0_0)] shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
 
   if (layout === "split") {
     return (
-      <div className="relative">
+      <div className="relative min-w-0">
         <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
           <ThemeSwitcher />
         </div>
@@ -53,7 +53,7 @@ export function ComponentDemoFrame({
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-w-0">
       <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
         <ThemeSwitcher />
       </div>

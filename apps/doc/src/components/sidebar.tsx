@@ -72,6 +72,7 @@ const NAV = [
       { label: "InputGroup", to: "/components/input-group", progress: { theme: "done" } },
       { label: "Combobox", to: "/components/combobox", progress: { theme: "done" } },
       { label: "Select", to: "/components/select", progress: { theme: "done" } },
+      { label: "RadioGroup", to: "/components/radio-group", progress: { theme: "done" } },
       {
         label: "SegmentedControl",
         to: "/components/segmented-control",
@@ -85,13 +86,6 @@ const NAV = [
         priority: "P1",
         docsHref: "https://base-ui.com/react/components/switch",
         reason: "Use for binary settings where Checkbox is the wrong semantic control.",
-      },
-      {
-        label: "RadioGroup",
-        priority: "P1",
-        docsHref: "https://base-ui.com/react/components/radio",
-        reason:
-          "Use for mutually exclusive options; do not overload ToggleGroup for radio semantics.",
       },
       {
         label: "ToggleGroup",
@@ -442,6 +436,18 @@ const MIGRATED = {
       to: "/components/dropdown-menu",
       hash: "source-comparison",
       target: "DropdownMenu (plain pickers)",
+    },
+    {
+      label: "ReferralSourceStep",
+      to: "/components/radio-group",
+      hash: "source-comparison",
+      target: "RadioGroup",
+    },
+    {
+      label: "ResetAgentDialog modes",
+      to: "/components/radio-group",
+      hash: "source-comparison",
+      target: "RadioGroup",
     },
     {
       label: "SegmentedControl",

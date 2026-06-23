@@ -14,15 +14,18 @@ import { IconSwap } from "./icon-swap.tsx";
 
 const docsCodeBlock = tv({
   slots: {
-    frame: ["overflow-clip rounded-none bg-white", "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]"],
-    inner: "relative",
+    frame: [
+      "min-w-0 overflow-clip rounded-none bg-white",
+      "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
+    ],
+    inner: "relative min-w-0",
     rail: ["pointer-events-none absolute inset-y-0 w-0", "border-[oklch(0_0_0_/_0.12)]"],
-    section: "flex items-stretch",
+    section: "flex min-w-0 items-stretch",
     gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_286)]",
     sectionInner: "min-w-0 flex-1",
     headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-2.5",
     bodyRow: "flex min-w-0 flex-1 bg-white pt-3 pb-3",
-    bodyContent: "min-w-0 flex-1",
+    bodyContent: "min-w-0 flex-1 overflow-hidden",
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
       "w-full select-none pt-3 pb-3 font-mono text-sm leading-relaxed",
