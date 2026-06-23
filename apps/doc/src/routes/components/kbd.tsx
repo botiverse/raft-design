@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Kbd } from "@raft/ui";
-import { Callout } from "#/components/callout.tsx";
+import { InputGroup, InputGroupAddon, InputGroupInput, Kbd, KbdGroup } from "@raft/ui";
+import { Search } from "lucide-react";
+
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -8,35 +10,72 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import LegacyMenuItem from "../../../../../packages/ui/src/legacy/menu-item.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
+import {
+  KBD_SOURCE_COMPARISON_COMPOSITION,
+  KBD_SOURCE_COMPARISON_COMPOSITION_PATHS,
+  KBD_SOURCE_COMPARISON_SOURCE,
+} from "#/compositions/kbd-source-comparison.tsx";
+import kbdMenuShortcutCompositionSource from "#/compositions/kbd/menu-shortcut-composition.tsx?raw";
+import kbdShortcutGroupCompositionSource from "#/compositions/kbd/shortcut-group-composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { Kbd } from "@raft/ui";
+  preview: `import { Kbd, KbdGroup } from "@raft/ui";
 
-<div className="flex flex-wrap items-center gap-3">
+<div className="flex flex-wrap items-center gap-4">
   <Kbd>⌫</Kbd>
+  <KbdGroup aria-label="Command K">
+    <Kbd>⌘</Kbd>
+    <Kbd>K</Kbd>
+  </KbdGroup>
   <Kbd>Esc</Kbd>
-  <Kbd>⌘K</Kbd>
 </div>`,
-  anatomy: `import { Kbd } from "@raft/ui";
+  anatomy: `import { Kbd, KbdGroup } from "@raft/ui";
 
-<Kbd>⌫</Kbd>`,
-  sourceShortcut: `// Source scenes from legacy/menu-item.tsx inventory:
-// Sidebar channel/DM/agent menus, MessageItem, SavedPanel, ThreadsInbox.
-<MenuItem trailing={<span className="ml-auto shrink-0 text-black/60">⌫</span>}>
-  Delete
-</MenuItem>`,
-  currentShortcut: `// Extracted primitive for the same right-click action-menu hint.
-<div className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-black">
-  <span className="min-w-0 flex-1 truncate">Delete</span>
-  <Kbd>⌫</Kbd>
+<Kbd>⌫</Kbd>
+
+<KbdGroup aria-label="Command K">
+  <Kbd>⌘</Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>`,
+  usageMenu: `import { Kbd } from "@raft/ui";
+
+<div className="flex w-64 items-center gap-2 px-3 py-2 text-sm font-medium">
+  <span className="min-w-0 flex-1 truncate">Copy link</span>
+  <Kbd>⌘C</Kbd>
+</div>`,
+  usageInput: `import { InputGroup, InputGroupAddon, InputGroupInput, Kbd } from "@raft/ui";
+import { Search } from "lucide-react";
+
+<InputGroup className="w-64">
+  <InputGroupAddon>
+    <Search aria-hidden />
+  </InputGroupAddon>
+  <InputGroupInput aria-label="Search messages" placeholder="Search messages" />
+  <InputGroupAddon align="inline-end">
+    <Kbd>Cmd K</Kbd>
+  </InputGroupAddon>
+</InputGroup>`,
+  usageSequence: `import { Kbd, KbdGroup } from "@raft/ui";
+
+<div className="flex items-center gap-3 text-sm font-medium">
+  <span>Open command menu</span>
+  <KbdGroup aria-label="Command K">
+    <Kbd>⌘</Kbd>
+    <Kbd>K</Kbd>
+  </KbdGroup>
 </div>`,
 } as const;
 
@@ -53,32 +92,74 @@ const KBD_PROPS: readonly PropRow[] = [
   },
 ];
 
+const KBD_GROUP_PROPS: readonly PropRow[] = [
+  {
+    name: "className",
+    type: "string",
+    description: "Optional spacing or rare layout override classes.",
+  },
+  {
+    name: "...props",
+    type: "ComponentPropsWithRef<'span'>",
+    description:
+      "Native span attributes for a shortcut sequence. Add aria-label when the visual keys are symbolic.",
+  },
+];
+
+const KbdCurrent = KBD_SOURCE_COMPARISON_COMPOSITION;
+const KbdSource = KBD_SOURCE_COMPARISON_SOURCE;
+
+const KBD_COMPOSITION_RAW_SOURCES = {
+  DeleteShortcut: kbdMenuShortcutCompositionSource,
+  CommandShortcut: kbdShortcutGroupCompositionSource,
+} as const;
+
+const KBD_COMPOSITION_SOURCES = createCompositionSourceMap(KBD_COMPOSITION_RAW_SOURCES);
+
+const KBD_COMPOSITION_SNIPPET_IDS = {
+  DeleteShortcut: "kbdDeleteShortcutComposition",
+  CommandShortcut: "kbdCommandShortcutComposition",
+} as const;
+
+type KbdCompositionKey = keyof typeof KBD_COMPOSITION_SOURCES;
+
 export const Route = createFileRoute("/components/kbd")({
   component: KbdDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(KBD_COMPOSITION_SOURCES, KBD_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 function KbdDoc() {
   const code = Route.useLoaderData();
+  const kbdComposition = (key: KbdCompositionKey) =>
+    createCompositionPanelProps({
+      code,
+      key,
+      paths: KBD_SOURCE_COMPARISON_COMPOSITION_PATHS,
+      snippetIds: KBD_COMPOSITION_SNIPPET_IDS,
+      sources: KBD_COMPOSITION_SOURCES,
+    });
 
   return (
     <DocPage
       title="Kbd"
-      description="A compact keyboard hint for menu row shortcuts."
-      overview={
-        <Callout>
-          <code>Kbd</code> is extracted from the source menu trailing slot. It should read like a
-          right-aligned shortcut hint inside a row, not like a standalone boxed keycap.
-        </Callout>
-      }
+      description="A compact keyboard hint for row shortcuts, command prompts, and input affordances."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
         <Example html={code.preview}>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-4">
             <Kbd>⌫</Kbd>
+            <KbdGroup aria-label="Command K">
+              <Kbd>⌘</Kbd>
+              <Kbd>K</Kbd>
+            </KbdGroup>
             <Kbd>Esc</Kbd>
-            <Kbd>⌘K</Kbd>
           </div>
         </Example>
       </DocSection>
@@ -92,42 +173,84 @@ function KbdDoc() {
         />
       </DocSection>
 
+      <DocSection id="usage" title="Usage">
+        <div className="space-y-6">
+          <DocNote>
+            Keep Kbd as supporting metadata, not the primary action label. In menus it sits at the
+            trailing edge; in fields it names a shortcut without becoming a clickable control.
+          </DocNote>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Menu row</h3>
+            <Example html={code.usageMenu}>
+              <div className="flex w-64 items-center gap-2 px-3 py-2 text-sm font-medium">
+                <span className="min-w-0 flex-1 truncate">Copy link</span>
+                <Kbd>⌘C</Kbd>
+              </div>
+            </Example>
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Input hint</h3>
+            <Example html={code.usageInput}>
+              <InputGroup className="w-64">
+                <InputGroupAddon>
+                  <Search aria-hidden />
+                </InputGroupAddon>
+                <InputGroupInput aria-label="Search messages" placeholder="Search messages" />
+                <InputGroupAddon align="inline-end">
+                  <Kbd>Cmd K</Kbd>
+                </InputGroupAddon>
+              </InputGroup>
+            </Example>
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Key sequence</h3>
+            <Example html={code.usageSequence}>
+              <div className="flex items-center gap-3 text-sm font-medium">
+                <span>Open command menu</span>
+                <KbdGroup aria-label="Command K">
+                  <Kbd>⌘</Kbd>
+                  <Kbd>K</Kbd>
+                </KbdGroup>
+              </div>
+            </Example>
+          </div>
+        </div>
+      </DocSection>
+
       <DocSection id="api" title="API">
-        <PropsTable rows={KBD_PROPS} />
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Kbd props</h3>
+            <PropsTable rows={KBD_PROPS} />
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">KbdGroup props</h3>
+            <PropsTable rows={KBD_GROUP_PROPS} />
+          </div>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
-              label:
-                "Source scenes: Sidebar channel/DM/agent, MessageItem, SavedPanel, ThreadsInbox",
-              status: "difference",
-              note: (
-                <>
-                  Source evidence comes from <code>legacy/menu-item.tsx</code>: the shared{" "}
-                  <code>MenuItem</code> row was inventoried for right-click context menus across
-                  these app surfaces, and its <code>trailing</code> slot was documented as the
-                  shortcut-hint position. The visual contract is right-aligned subtle text, not a
-                  bordered keycap. Current extracts that hint into <code>Kbd</code>; menu-specific
-                  shortcut parts can reuse it from their own component docs.
-                </>
-              ),
-              source: (
-                <LegacyMenuItem
-                  trailing={<span className="ml-auto shrink-0 text-black/60">⌫</span>}
-                >
-                  Delete
-                </LegacyMenuItem>
-              ),
-              current: (
-                <div className="flex w-full cursor-default select-none items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black transition-colors hover:bg-brutal-yellow/30 [&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0">
-                  <span className="min-w-0 flex-1 truncate">Delete</span>
-                  <Kbd>⌫</Kbd>
-                </div>
-              ),
-              sourceCode: code.sourceShortcut,
-              currentCode: code.currentShortcut,
+              label: "Delete shortcut",
+              status: "match",
+              source: <KbdSource.DeleteShortcut />,
+              brutal: <KbdCurrent.DeleteShortcut />,
+              elegant: <KbdCurrent.DeleteShortcut />,
+              elegantDark: <KbdCurrent.DeleteShortcut />,
+              ...kbdComposition("DeleteShortcut"),
+            },
+            {
+              label: "Command shortcut",
+              status: "match",
+              source: <KbdSource.CommandShortcut />,
+              brutal: <KbdCurrent.CommandShortcut />,
+              elegant: <KbdCurrent.CommandShortcut />,
+              elegantDark: <KbdCurrent.CommandShortcut />,
+              ...kbdComposition("CommandShortcut"),
             },
           ]}
         />

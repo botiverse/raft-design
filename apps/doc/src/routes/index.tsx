@@ -42,6 +42,8 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  Kbd,
+  KbdGroup,
   Label,
   NotificationCenterActionButton,
   NotificationCenterCount,
@@ -127,6 +129,7 @@ type ComponentRoute =
   | "/components/avatar"
   | "/components/badge"
   | "/components/inline-code"
+  | "/components/kbd"
   | "/components/status"
   | "/components/spinner"
   | "/components/tabs"
@@ -418,6 +421,34 @@ const COMPONENT_GRID = [
         <span>with</span>
         <InlineCode>disabled</InlineCode>
         <span>state.</span>
+      </div>
+    ),
+  },
+  {
+    label: "Kbd",
+    to: "/components/kbd",
+    preview: (
+      <div className="grid w-64 justify-items-center gap-4">
+        <div className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium">
+          <span className="min-w-0 flex-1 truncate">Copy link</span>
+          <Kbd>⌘C</Kbd>
+        </div>
+        <InputGroup>
+          <InputGroupAddon>
+            <Search aria-hidden />
+          </InputGroupAddon>
+          <InputGroupInput aria-label="Search messages" placeholder="Search messages" />
+          <InputGroupAddon align="inline-end">
+            <Kbd>Cmd K</Kbd>
+          </InputGroupAddon>
+        </InputGroup>
+        <div className="flex items-center gap-3 text-sm font-medium">
+          <span>Command menu</span>
+          <KbdGroup aria-label="Command K">
+            <Kbd>⌘</Kbd>
+            <Kbd>K</Kbd>
+          </KbdGroup>
+        </div>
       </div>
     ),
   },
