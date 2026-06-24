@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Grid2X2, Plus, Trash2 } from "lucide-react";
-import { Button, type ButtonProps } from "@raft/ui";
+import { Button, useTheme, type ButtonProps } from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -36,6 +36,7 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "variants", title: "Variants" },
+  { id: "states", title: "States" },
   { id: "sizes", title: "Sizes" },
   { id: "icons", title: "Icons" },
   { id: "loading", title: "Loading" },
@@ -61,6 +62,8 @@ const VARIANTS = [
 
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
+const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
+  "outline outline-[1px] outline-offset-2 outline-[var(--button-focus-outline,transparent)]";
 
 const SNIPPETS = {
   anatomy: `import { Button } from "@raft/ui";
@@ -78,6 +81,9 @@ const SNIPPETS = {
 <Button variant="danger-outline">Remove</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
+  states: `<Button>Default</Button>
+<Button>Focus visible</Button>
+<Button disabled>Disabled</Button>`,
   sizes: `<Button size="xs">Extra small</Button>
 <Button size="sm">Small</Button>
 <Button size="md">Medium</Button>
@@ -129,7 +135,21 @@ type PlaygroundValues = {
   label: string;
   disabled: boolean;
   loading: boolean;
+  focusVisible: boolean;
 };
+
+type ButtonPreviewProps = ButtonProps & {
+  focusVisible?: boolean;
+};
+
+function ButtonPreview({ focusVisible = false, className, ...props }: ButtonPreviewProps) {
+  const { theme } = useTheme();
+  const focusClassName =
+    focusVisible && theme === "elegant" ? ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME : null;
+  const mergedClassName = [focusClassName, className].filter(Boolean).join(" ") || undefined;
+
+  return <Button {...props} className={mergedClassName} />;
+}
 
 const PROPS: readonly PropRow[] = [
   {
@@ -280,24 +300,27 @@ function ButtonDoc() {
             label: "Button",
             disabled: false,
             loading: false,
+            focusVisible: false,
           }}
           controls={[
             { name: "variant", label: "Variant", type: "select", options: VARIANTS },
             { name: "size", label: "Size", type: "select", options: SIZES },
             { name: "label", label: "Label", type: "text" },
+            { name: "focusVisible", label: "Focus", type: "boolean" },
             { name: "disabled", label: "Disabled", type: "boolean" },
             { name: "loading", label: "Loading", type: "boolean" },
           ]}
           render={(values) => (
-            <Button
+            <ButtonPreview
               variant={values.variant}
               size={values.size}
               disabled={values.disabled}
               loading={values.loading}
               aria-label={values.size.startsWith("icon-") ? values.label : undefined}
+              focusVisible={values.focusVisible}
             >
               {values.size.startsWith("icon-") ? <Plus /> : values.label}
-            </Button>
+            </ButtonPreview>
           )}
         />
       </DocSection>
@@ -330,6 +353,22 @@ function ButtonDoc() {
             </div>
           </Example>
         </div>
+      </DocSection>
+
+      <DocSection id="states" title="States">
+        <Example html={code.states}>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="grid min-w-32 place-items-center">
+              <Button>Default</Button>
+            </div>
+            <div className="grid min-w-32 place-items-center">
+              <ButtonPreview focusVisible>Focus visible</ButtonPreview>
+            </div>
+            <div className="grid min-w-32 place-items-center">
+              <Button disabled>Disabled</Button>
+            </div>
+          </div>
+        </Example>
       </DocSection>
 
       <DocSection id="sizes" title="Sizes">

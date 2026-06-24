@@ -12,7 +12,7 @@ export const buttonVariants = tv({
       "font-heading leading-none whitespace-nowrap select-none",
       "border-line rounded-none",
       "shadow-sm transition-all duration-100",
-      "outline-none focus-visible:ring-2 focus-visible:ring-line-focus",
+      "outline outline-[1px] outline-offset-2 outline-transparent",
       "data-[loading=true]:cursor-wait",
       "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
       "disabled:transform-none",
@@ -25,11 +25,12 @@ export const buttonVariants = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 font-bold"],
+        root: ["border-2 font-bold focus-visible:outline-transparent"],
       },
       elegant: {
         root: [
           "overflow-clip border-0 font-sans font-medium antialiased",
+          "focus-visible:outline-[var(--button-focus-outline,transparent)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.05),0_4px_4px_-2px_oklch(0_0_0_/_0.03),0_0_0_1px_var(--line-subtle)]",
           "[&_[data-slot=button-content]]:drop-shadow-[0_0.5px_1px_oklch(0_0_0_/_0.05)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
@@ -243,6 +244,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-foreground-strong text-foreground-inverse",
+          "[--button-focus-outline:var(--foreground-strong)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0_0_0_/_0.12),0_4px_4px_-2px_oklch(0_0_0_/_0.14),0_0_0_1px_var(--foreground-strong)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.31_0.006_285)]",
@@ -255,6 +257,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-primary-400 text-primary-950",
+          "[--button-focus-outline:var(--primary-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.15),0_5px_0.5px_-1px_oklch(0.85_0.162_91.89_/_0.02),0_4px_0px_-2px_oklch(0.85_0.162_91.89_/_0),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.83)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_11%)_0%,oklab(100%_0_0_/_0%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.86_0.15_91.89)]",
@@ -267,6 +270,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-layer-panel text-foreground-strong",
+          "[--button-focus-outline:var(--layer-panel)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.04),0_4px_4px_-2px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-layer-muted",
@@ -279,6 +283,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-transparent text-foreground-muted shadow-none",
+          "[--button-focus-outline:var(--line-muted)]",
           "before:bg-transparent hover:bg-line-muted",
         ],
       },
@@ -289,6 +294,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-danger-lighter text-danger-base",
+          "[--button-focus-outline:var(--state-danger-lighter)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.18),0_2px_2px_-1px_oklch(0.616_0.249_26.758_/_0.08),0_4px_4px_-2px_oklch(0.616_0.249_26.758_/_0.1),0_0_0_1px_var(--state-danger-light)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_9%)_0%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-danger-light",
@@ -301,6 +307,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-danger-base text-foreground-inverse",
+          "[--button-focus-outline:var(--state-danger-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0.616_0.249_26.758_/_0.16),0_4px_4px_-2px_oklch(0.616_0.249_26.758_/_0.24),0_0_0_1px_var(--state-danger-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.56_0.23_26.758)]",
@@ -341,6 +348,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-layer-panel text-danger-base",
+          "[--button-focus-outline:var(--layer-panel)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0.616_0.249_26.758_/_0.06),0_4px_4px_-2px_oklch(0.616_0.249_26.758_/_0.06),0_0_0_1px_var(--state-danger-light)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-danger-lighter",
@@ -353,6 +361,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-accent-400 text-white",
+          "[--button-focus-outline:var(--accent-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0.78_0.16_0.71_/_0.16),0_4px_4px_-2px_oklch(0.78_0.16_0.71_/_0.2),0_0_0_1px_var(--accent-400)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.72_0.15_0.71)]",
@@ -365,6 +374,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-warning-base text-foreground-inverse",
+          "[--button-focus-outline:var(--state-warning-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.14),0_2px_2px_-1px_oklch(0.7_0.202_44.441_/_0.16),0_4px_4px_-2px_oklch(0.7_0.202_44.441_/_0.2),0_0_0_1px_var(--state-warning-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.65_0.19_44.441)]",
@@ -377,6 +387,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-transparent text-foreground-muted shadow-none",
+          "[--button-focus-outline:transparent]",
           "before:bg-transparent hover:bg-transparent hover:text-foreground-muted",
         ],
       },
@@ -387,6 +398,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-info-base text-foreground-inverse",
+          "[--button-focus-outline:var(--state-info-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_2px_2px_-1px_oklch(0.78_0.145_215_/_0.16),0_4px_4px_-2px_oklch(0.78_0.145_215_/_0.2),0_0_0_1px_var(--state-info-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.74_0.13_219.2)]",
@@ -399,6 +411,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-layer-muted text-foreground-placeholder",
+          "[--button-focus-outline:var(--layer-muted)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_2px_2px_-1px_oklch(0_0_0_/_0.03),0_4px_4px_-2px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_5%)_0%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-line-subtle",

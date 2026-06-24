@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { ChevronRight, Plus, X } from "lucide-react";
-import { Button, ThemeProvider, type ButtonProps, type Theme } from "@raft/ui";
+import { Button, ThemeProvider, useTheme, type ButtonProps, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/button_/matrix")({
   staticData: { standalone: true },
@@ -9,6 +9,20 @@ export const Route = createFileRoute("/components/button_/matrix")({
 });
 
 const THEMES = ["brutal", "elegant"] as const satisfies readonly Theme[];
+const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
+  "outline outline-[1px] outline-offset-2 outline-[var(--button-focus-outline,transparent)]";
+const FOCUS_VARIANTS = [
+  "default",
+  "primary",
+  "outline",
+  "information",
+  "muted",
+  "accent",
+  "warning",
+  "danger",
+  "danger-secondary",
+  "danger-outline",
+] as const satisfies readonly NonNullable<ButtonProps["variant"]>[];
 
 type MatrixCase = {
   label: string;
@@ -147,6 +161,12 @@ const CASES: readonly MatrixCase[] = [
     label: "disabled",
     render: () => <Button disabled>Disabled</Button>,
   },
+  ...FOCUS_VARIANTS.map((variant) => ({
+    label: `${variant} focus visible`,
+    render: () => (
+      <ButtonFocusVisiblePreview variant={variant}>{variant}</ButtonFocusVisiblePreview>
+    ),
+  })),
   {
     label: "primary disabled",
     render: () => (
@@ -194,6 +214,25 @@ const CASES: readonly MatrixCase[] = [
     }),
   ),
 ] as const;
+
+function ButtonFocusVisiblePreview({
+  children,
+  variant,
+}: {
+  children: ReactNode;
+  variant?: ButtonProps["variant"];
+}) {
+  const { theme } = useTheme();
+
+  return (
+    <Button
+      variant={variant}
+      className={theme === "elegant" ? ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME : undefined}
+    >
+      {children}
+    </Button>
+  );
+}
 
 function ButtonMatrixPage() {
   return (

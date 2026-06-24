@@ -25,7 +25,7 @@ export function Example({ html, collapsedHtml, children, previewClassName }: Exa
               render={<Collapsible.Trigger />}
               variant="ghost"
               size="xs"
-              className="text-foreground-placeholder hover:text-foreground-muted focus-visible:ring-1 [&[data-panel-open]_svg]:rotate-180"
+              className="text-foreground-placeholder hover:text-foreground-muted [&[data-panel-open]_svg]:rotate-180"
             >
               <span className="order-1">Code</span>
               <ChevronDown
