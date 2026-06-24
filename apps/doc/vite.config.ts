@@ -1,4 +1,4 @@
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import { devtools } from "@tanstack/devtools-vite";
 
@@ -12,13 +12,23 @@ import tailwindcss from "@tailwindcss/vite";
 const baseUiUseRefWithInitPath = fileURLToPath(
   import.meta.resolve("@base-ui/utils/useRefWithInit"),
 );
+const raftUiIndexPath = fileURLToPath(new URL("../../packages/ui/src/index.ts", import.meta.url));
+const raftUiCnPath = fileURLToPath(new URL("../../packages/ui/src/lib/cn.ts", import.meta.url));
+const raftUiWipPath = fileURLToPath(new URL("../../packages/ui/src/wip.ts", import.meta.url));
+const raftUiStylesPath = fileURLToPath(
+  new URL("../../packages/ui/src/styles.css", import.meta.url),
+);
 
 const config = defineConfig({
   resolve: {
     tsconfigPaths: true,
-    alias: {
-      "@base-ui/utils/useRefWithInit": baseUiUseRefWithInitPath,
-    },
+    alias: [
+      { find: /^raft-ui$/, replacement: raftUiIndexPath },
+      { find: /^raft-ui\/cn$/, replacement: raftUiCnPath },
+      { find: /^raft-ui\/wip$/, replacement: raftUiWipPath },
+      { find: /^raft-ui\/styles\.css$/, replacement: raftUiStylesPath },
+      { find: "@base-ui/utils/useRefWithInit", replacement: baseUiUseRefWithInitPath },
+    ],
   },
   ssr: {
     noExternal: ["foxact", "torph"],
