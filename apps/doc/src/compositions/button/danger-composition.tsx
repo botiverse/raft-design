@@ -1,4 +1,4 @@
-import { Button } from "@raft/ui";
+import { Button } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { ButtonComparisonPreview } from "./preview.tsx";

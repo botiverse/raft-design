@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button, InlineCode, Textarea, TextareaCounter, TextareaGroup } from "@raft/ui";
-import { Field, FieldError, FieldLabel } from "@raft/ui/wip";
+import { Button, InlineCode, Textarea, TextareaCounter, TextareaGroup } from "cuvii-rui";
+import { Field, FieldError, FieldLabel } from "cuvii-rui/wip";
 import { Grid2X2 } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -42,7 +42,7 @@ const TOC = [
 const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
 
 const SNIPPETS = {
-  anatomy: `import { Textarea } from "@raft/ui";
+  anatomy: `import { Textarea } from "cuvii-rui";
 
 <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />`,
   states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
@@ -50,7 +50,7 @@ const SNIPPETS = {
 <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
 <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
 <Textarea aria-label="Message" rows={4} aria-invalid disabled defaultValue="Locked error" />`,
-  counter: `import { Textarea, TextareaCounter, TextareaGroup } from "@raft/ui";
+  counter: `import { Textarea, TextareaCounter, TextareaGroup } from "cuvii-rui";
 
 <TextareaGroup>
   <Textarea
@@ -75,7 +75,7 @@ const SNIPPETS = {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <Field invalid>
   <FieldLabel htmlFor="msg">Message</FieldLabel>

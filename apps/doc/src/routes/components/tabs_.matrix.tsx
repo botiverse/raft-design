@@ -10,7 +10,7 @@ import {
   TabsTab,
   ThemeProvider,
   type Theme,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 export const Route = createFileRoute("/components/tabs_/matrix")({
   staticData: { standalone: true },

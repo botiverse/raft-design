@@ -1,4 +1,4 @@
-import { Banner, BannerDescription } from "@raft/ui";
+import { Banner, BannerDescription } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

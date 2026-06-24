@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, InputGroup, InputGroupAddon, InputGroupInput, InlineCode, Kbd } from "@raft/ui";
-import { Field, FieldError, FieldLabel } from "@raft/ui/wip";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput, InlineCode, Kbd } from "cuvii-rui";
+import { Field, FieldError, FieldLabel } from "cuvii-rui/wip";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
@@ -43,7 +43,7 @@ const TOC = [
 const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
-  anatomy: `import { InputGroup, InputGroupInput } from "@raft/ui";
+  anatomy: `import { InputGroup, InputGroupInput } from "cuvii-rui";
 
 <InputGroup>
   <InputGroupInput aria-label="Email" placeholder="you@example.com" />
@@ -71,7 +71,7 @@ const SNIPPETS = {
   <InputGroupInput aria-label="Email username" placeholder="alex" />
   <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
 </InputGroup>`,
-  addonVariants: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@raft/ui";
+  addonVariants: `import { InputGroup, InputGroupAddon, InputGroupInput } from "cuvii-rui";
 
 <InputGroup>
   <InputGroupAddon variant="container">
@@ -136,7 +136,7 @@ const SNIPPETS = {
   <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
   <InputGroupInput aria-label="Server slug" aria-invalid defaultValue="Bad Slug" />
 </InputGroup>`,
-  field: `import { Field, FieldError, FieldLabel, InputGroup, InputGroupInput } from "@raft/ui";
+  field: `import { Field, FieldError, FieldLabel, InputGroup, InputGroupInput } from "cuvii-rui";
 
 <Field invalid>
   <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>

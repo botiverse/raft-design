@@ -1,4 +1,4 @@
-import { Status } from "@raft/ui";
+import { Status } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

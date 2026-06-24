@@ -1,4 +1,4 @@
-import { Textarea } from "@raft/ui";
+import { Textarea } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

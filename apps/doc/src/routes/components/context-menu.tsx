@@ -13,7 +13,7 @@ import {
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
   InlineCode,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { Archive, Bell, ChevronRight, Copy, MoonStar, Pin, Sun, Trash } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef, useState } from "react";
@@ -98,7 +98,7 @@ const SNIPPETS = {
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <ContextMenu defaultOpen>
   <ContextMenuTrigger id="context-menu-trigger">Right click this surface</ContextMenuTrigger>

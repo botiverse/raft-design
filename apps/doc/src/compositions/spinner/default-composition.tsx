@@ -1,4 +1,4 @@
-import { Spinner } from "@raft/ui";
+import { Spinner } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

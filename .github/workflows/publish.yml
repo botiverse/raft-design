@@ -1,0 +1,46 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Set up pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.8.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check workspace
+        run: pnpm exec vp check
+
+      - name: Build package
+        run: pnpm exec vp run cuvii-rui#build
+
+      - name: Pack package
+        run: pnpm --dir packages/ui pack --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
+
+      - name: Publish package
+        run: npm publish "$RUNNER_TEMP"/cuvii-rui-pack/cuvii-rui-*.tgz --access public

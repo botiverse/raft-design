@@ -11,7 +11,7 @@ import {
   TabsTab,
   useOrderedTabs,
   type OrderedTabItem,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { Bell, CreditCard, Files, Settings, Grid2X2, MessageSquare, Users } from "lucide-react";
 import { useState, type ComponentType } from "react";
 
@@ -53,7 +53,7 @@ const TOC = [
 const VARIANTS = ["default", "underline"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
+  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "cuvii-rui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -71,7 +71,7 @@ const SNIPPETS = {
   Settings,
   MessageSquare,
 } from "lucide-react";
-import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@raft/ui";
+import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "cuvii-rui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -140,7 +140,7 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@
   Settings,
   MessageSquare,
 } from "lucide-react";
-import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
+import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "cuvii-rui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -213,7 +213,7 @@ import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
   TabsBackground,
   TabsLabel,
   useOrderedTabs,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 const orderedTabs = useOrderedTabs(TABS, order);
 const plainTabs = useOrderedTabs(TABS, plainOrder);

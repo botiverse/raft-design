@@ -1,4 +1,4 @@
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@raft/ui";
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "cuvii-rui";
 import { SmilePlus } from "lucide-react";
 import { useId } from "react";
 

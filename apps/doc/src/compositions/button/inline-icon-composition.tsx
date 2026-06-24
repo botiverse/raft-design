@@ -1,4 +1,4 @@
-import { Button } from "@raft/ui";
+import { Button } from "cuvii-rui";
 import { Plus } from "lucide-react";
 
 // @docs-source-strip-start

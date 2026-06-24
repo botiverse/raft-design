@@ -1,5 +1,5 @@
-import { Textarea, TextareaCounter, TextareaGroup } from "@raft/ui";
-import { Field, FieldDescription } from "@raft/ui/wip";
+import { Textarea, TextareaCounter, TextareaGroup } from "cuvii-rui";
+import { Field, FieldDescription } from "cuvii-rui/wip";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

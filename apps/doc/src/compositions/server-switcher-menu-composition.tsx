@@ -3,13 +3,13 @@ import {
   DropdownMenuItemCount,
   DropdownMenuPopup,
   DropdownMenuSeparator,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { Check, Plus, UserPlus } from "lucide-react";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "@raft/ui";
+import { DropdownMenu, DropdownMenuTrigger } from "cuvii-rui";
 import { useId } from "react";
-import { cn } from "@raft/ui/cn";
+import { cn } from "cuvii-rui/cn";
 // @docs-source-strip-end
 
 export function ServerSwitcherMenuContent() {

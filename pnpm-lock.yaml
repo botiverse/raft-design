@@ -78,9 +78,6 @@ importers:
       '@base-ui/utils':
         specifier: 'catalog:'
         version: 0.3.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@raft/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@tailwindcss/vite':
         specifier: ^4.3.1
         version: 4.3.1(@voidzero-dev/vite-plus-core@0.2.1(@types/node@26.0.0)(esbuild@0.28.1)(jiti@2.7.0)(typescript@6.0.3))
@@ -96,6 +93,9 @@ importers:
       '@tanstack/react-start':
         specifier: 1.168.26
         version: 1.168.26(@vitejs/plugin-rsc@0.5.27(@voidzero-dev/vite-plus-core@0.2.1(@types/node@26.0.0)(esbuild@0.28.1)(jiti@2.7.0)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@voidzero-dev/vite-plus-core@0.2.1(@types/node@26.0.0)(esbuild@0.28.1)(jiti@2.7.0)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      cuvii-rui:
+        specifier: workspace:*
+        version: link:../../packages/ui
       foxact:
         specifier: ^0.3.7
         version: 0.3.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

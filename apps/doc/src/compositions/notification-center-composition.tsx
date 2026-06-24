@@ -18,10 +18,10 @@ import {
   NotificationCenterTrigger,
   Status,
   type NotificationCenterPopupProps,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { AlertTriangle, CircleGauge } from "lucide-react";
 import { useId, useRef, type RefObject } from "react";
-import { cn } from "@raft/ui/cn";
+import { cn } from "cuvii-rui/cn";
 
 export function NotificationCenterContent({
   viewport = "desktop",

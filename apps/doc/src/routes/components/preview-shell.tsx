@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PreviewShell } from "@raft/ui/wip";
+import { PreviewShell } from "cuvii-rui/wip";
 import { Eye } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -25,7 +25,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { PreviewShell } from "@raft/ui";
+  anatomy: `import { PreviewShell } from "cuvii-rui";
 
 <PreviewShell className="group block w-full p-3 text-left">
   Quoted message preview

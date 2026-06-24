@@ -6,7 +6,7 @@ import {
   TabsLabel,
   useOrderedTabs,
   type OrderedTabItem,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { Bell, Files, MessageSquare, Users } from "lucide-react";
 
 // @docs-source-strip-start

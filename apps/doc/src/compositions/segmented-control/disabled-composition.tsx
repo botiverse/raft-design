@@ -1,4 +1,4 @@
-import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "@raft/ui";
+import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "cuvii-rui";
 import { Languages } from "lucide-react";
 
 export function SegmentedControlDisabledComposition() {

@@ -1,5 +1,5 @@
 import { Collapsible } from "@base-ui/react";
-import { Button } from "@raft/ui";
+import { Button } from "cuvii-rui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, ChevronDown, Copy } from "lucide-react";

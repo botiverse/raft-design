@@ -15,7 +15,7 @@ import {
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
   InlineCode,
-} from "@raft/ui";
+} from "cuvii-rui";
 import {
   Bell,
   ChartNoAxesCombined,
@@ -275,7 +275,7 @@ const SNIPPETS = {
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <DropdownMenu>
   <DropdownMenuTrigger render={<Button variant="outline" size="md" />}>

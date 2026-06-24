@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Badge, type BadgeProps, type Theme } from "@raft/ui";
+import { Badge, type BadgeProps, type Theme } from "cuvii-rui";
 import { CircleAlert, CircleCheck, Search, Star } from "lucide-react";
 import { CodeBlock } from "./code-block.tsx";
 import { DocsCodeBlock } from "./docs-code-block.tsx";

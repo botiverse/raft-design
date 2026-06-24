@@ -1,4 +1,4 @@
-import { InlineCode } from "@raft/ui";
+import { InlineCode } from "cuvii-rui";
 
 export type PropRow = {
   name: string;

@@ -8,7 +8,7 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { Grid2X2, Info, X } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
@@ -58,7 +58,7 @@ const SNIPPETS = {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <Popover>
   <PopoverTrigger render={<Button variant="outline" size="md" />}>

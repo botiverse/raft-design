@@ -1,4 +1,4 @@
-import { Banner, BannerDescription, BannerTitle } from "@raft/ui";
+import { Banner, BannerDescription, BannerTitle } from "cuvii-rui";
 import { CircleX } from "lucide-react";
 
 // @docs-source-strip-start

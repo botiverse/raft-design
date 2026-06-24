@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Collapsible } from "@base-ui/react";
-import { Button } from "@raft/ui";
+import { Button } from "cuvii-rui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { ChevronDown } from "lucide-react";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";

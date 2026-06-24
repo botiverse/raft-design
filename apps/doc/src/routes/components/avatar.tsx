@@ -8,7 +8,7 @@ import {
   AvatarGroupCount,
   AvatarImage,
   type AvatarProps,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { Check } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -85,14 +85,14 @@ const LEGACY_CONTEXTS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Avatar, AvatarFallback, AvatarImage, AvatarBadge } from "@raft/ui";
+  anatomy: `import { Avatar, AvatarFallback, AvatarImage, AvatarBadge } from "cuvii-rui";
 
 <Avatar size="md" type="human">
   <AvatarImage src={url} alt="Atlas" />
   <AvatarFallback />
   <AvatarBadge />
 </Avatar>`,
-  image: `import { Avatar, AvatarImage, AvatarFallback } from "@raft/ui";
+  image: `import { Avatar, AvatarImage, AvatarFallback } from "cuvii-rui";
 
 // App-domain code still resolves agent pixel art, uploaded images, and Gravatar.
 // Avatar only receives an image src plus fallback content.
@@ -114,7 +114,7 @@ const SNIPPETS = {
 <Avatar size="sm" type="human">
   <AvatarFallback />
 </Avatar>`,
-  badge: `import { Avatar, AvatarFallback, AvatarBadge } from "@raft/ui";
+  badge: `import { Avatar, AvatarFallback, AvatarBadge } from "cuvii-rui";
 import { Check } from "lucide-react";
 
 <div className="flex items-end gap-4">
@@ -141,7 +141,7 @@ import { Check } from "lucide-react";
     </Avatar>
   ))}
 </div>`,
-  group: `import { Avatar, AvatarGroup, AvatarGroupCount } from "@raft/ui";
+  group: `import { Avatar, AvatarGroup, AvatarGroupCount } from "cuvii-rui";
 
 <AvatarGroup>
   {avatarPhotoUrls.slice(0, 3).map((src, index) => (

@@ -1,4 +1,4 @@
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@raft/ui";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

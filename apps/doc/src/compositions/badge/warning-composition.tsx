@@ -1,4 +1,4 @@
-import { Badge } from "@raft/ui";
+import { Badge } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

@@ -11,7 +11,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { ComponentDemoFrame } from "./component-demo-frame.tsx";
 
 type ControlValue = string | boolean;

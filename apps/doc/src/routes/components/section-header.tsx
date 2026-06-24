@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@raft/ui";
+import { Button } from "cuvii-rui";
 import {
   SectionHeader,
   SectionHeaderActions,
@@ -7,7 +7,7 @@ import {
   SectionHeaderCount,
   SectionHeaderIcon,
   SectionHeaderTitle,
-} from "@raft/ui/wip";
+} from "cuvii-rui/wip";
 import { BellRing, Plus, User } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -38,7 +38,7 @@ const SNIPPETS = {
   SectionHeaderContent,
   SectionHeaderCount,
   SectionHeaderTitle,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <SectionHeader>
   <SectionHeaderContent>

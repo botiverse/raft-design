@@ -16,7 +16,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 type Sender = {
   id: string;

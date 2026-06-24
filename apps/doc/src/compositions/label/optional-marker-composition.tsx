@@ -1,4 +1,4 @@
-import { Label, LabelOptional } from "@raft/ui";
+import { Label, LabelOptional } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

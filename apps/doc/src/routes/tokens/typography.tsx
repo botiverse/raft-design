@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Text } from "@raft/ui/wip";
+import { Text } from "cuvii-rui/wip";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";

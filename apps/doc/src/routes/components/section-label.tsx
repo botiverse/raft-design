@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SectionLabel } from "@raft/ui/wip";
+import { SectionLabel } from "cuvii-rui/wip";
 
 import { Callout } from "#/components/callout.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -26,7 +26,7 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { SectionLabel } from "@raft/ui";
+  anatomy: `import { SectionLabel } from "cuvii-rui";
 
 <SectionLabel>Members</SectionLabel>`,
   render: `<SectionLabel>Span</SectionLabel>

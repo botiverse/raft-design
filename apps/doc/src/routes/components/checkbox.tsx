@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Grid2X2 } from "lucide-react";
-import { Button, Checkbox, Label, type CheckboxProps } from "@raft/ui";
+import { Button, Checkbox, Label, type CheckboxProps } from "cuvii-rui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -49,7 +49,7 @@ const SIZES = ["sm", "md"] as const;
 const VARIANTS = ["default", "primary"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Checkbox } from "@raft/ui";
+  anatomy: `import { Checkbox } from "cuvii-rui";
 
 <Checkbox defaultChecked />`,
   sizes: `<Checkbox size="sm" defaultChecked />

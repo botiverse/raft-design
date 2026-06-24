@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { ThemeProvider } from "@raft/ui";
+import { ThemeProvider } from "cuvii-rui";
 
 import { Sidebar } from "#/components/sidebar.tsx";
 import appCss from "../styles.css?url";

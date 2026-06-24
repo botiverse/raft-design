@@ -4,12 +4,12 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectList,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 // @docs-source-strip-start
 import { Check } from "lucide-react";
-import { SelectPopup, useThemeFamily } from "@raft/ui";
-import { cn } from "@raft/ui/cn";
+import { SelectPopup, useThemeFamily } from "cuvii-rui";
+import { cn } from "cuvii-rui/cn";
 // @docs-source-strip-end
 
 export function SelectOptionsListContent() {

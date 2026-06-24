@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge } from "@raft/ui";
+import { Badge } from "cuvii-rui";
 import {
   ListItem,
   ListItemActionGroup,
@@ -8,7 +8,7 @@ import {
   ListItemRow,
   ListItemMeta,
   ListItemTitle,
-} from "@raft/ui/wip";
+} from "cuvii-rui/wip";
 import { Clock3, ExternalLink, Link2, Play, Repeat, RotateCcw, Square } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -45,7 +45,7 @@ const SNIPPETS = {
   ListItemRow,
   ListItemMeta,
   ListItemTitle,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <ListItem>
   <ListItemBody>
@@ -66,7 +66,7 @@ const SNIPPETS = {
 <SurfaceListItem>Resting (interactive)</SurfaceListItem>
 <SurfaceListItem selected>Selected</SurfaceListItem>
 <SurfaceListItem interactive={false}>Static</SurfaceListItem>`,
-  currentApi: `import { ListItem } from "@raft/ui";
+  currentApi: `import { ListItem } from "cuvii-rui";
 
 <ListItem>Resting (interactive)</ListItem>
 <ListItem selected>Selected</ListItem>

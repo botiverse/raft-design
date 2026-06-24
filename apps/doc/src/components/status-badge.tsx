@@ -1,4 +1,4 @@
-import { Badge, type BadgeProps } from "@raft/ui";
+import { Badge, type BadgeProps } from "cuvii-rui";
 
 // Progress badges. An item carries its status until it drops the badge once done.
 const STATUS = {

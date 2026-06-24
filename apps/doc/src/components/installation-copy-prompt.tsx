@@ -1,4 +1,4 @@
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@raft/ui";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "cuvii-rui";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";

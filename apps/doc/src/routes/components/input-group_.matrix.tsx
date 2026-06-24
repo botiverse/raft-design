@@ -9,7 +9,7 @@ import {
   Kbd,
   ThemeProvider,
   type Theme,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 export const Route = createFileRoute("/components/input-group_/matrix")({
   staticData: { standalone: true },

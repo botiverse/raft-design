@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@raft/ui";
+import { Button } from "cuvii-rui";
 import {
   Lightbox,
   LightboxActions,
@@ -10,7 +10,7 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "@raft/ui/wip";
+} from "cuvii-rui/wip";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
 import { useCallback, useEffect, useEffectEvent, useState } from "react";
 
@@ -66,7 +66,7 @@ const SNIPPETS = {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 <Lightbox>
   <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>

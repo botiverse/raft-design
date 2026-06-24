@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Textarea, TextareaCounter, TextareaGroup, ThemeProvider, type Theme } from "@raft/ui";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@raft/ui/wip";
+import { Textarea, TextareaCounter, TextareaGroup, ThemeProvider, type Theme } from "cuvii-rui";
+import { Field, FieldDescription, FieldError, FieldLabel } from "cuvii-rui/wip";
 
 export const Route = createFileRoute("/components/textarea_/matrix")({
   staticData: { standalone: true },

@@ -1,4 +1,4 @@
-import { Input } from "@raft/ui";
+import { Input } from "cuvii-rui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

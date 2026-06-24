@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Grid2X2, Plus, Trash2 } from "lucide-react";
-import { Button, useTheme, type ButtonProps } from "@raft/ui";
+import { Button, useTheme, type ButtonProps } from "cuvii-rui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -66,7 +66,7 @@ const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
   "outline outline-[1px] outline-offset-2 outline-[var(--button-focus-outline,transparent)]";
 
 const SNIPPETS = {
-  anatomy: `import { Button } from "@raft/ui";
+  anatomy: `import { Button } from "cuvii-rui";
 
 <Button>Button</Button>`,
   variants: `<Button variant="default">Default</Button>

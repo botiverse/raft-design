@@ -3,12 +3,12 @@ import {
   DropdownMenuPopup,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "@raft/ui";
+import { DropdownMenu, DropdownMenuTrigger } from "cuvii-rui";
 import { useId } from "react";
-import { cn } from "@raft/ui/cn";
+import { cn } from "cuvii-rui/cn";
 // @docs-source-strip-end
 
 export function MessageSearchTimeFilterContent() {

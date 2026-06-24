@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { ChevronRight, Plus, X } from "lucide-react";
-import { Button, ThemeProvider, useTheme, type ButtonProps, type Theme } from "@raft/ui";
+import { Button, ThemeProvider, useTheme, type ButtonProps, type Theme } from "cuvii-rui";
 
 export const Route = createFileRoute("/components/button_/matrix")({
   staticData: { standalone: true },

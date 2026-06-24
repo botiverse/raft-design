@@ -4,7 +4,7 @@ import {
   EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "@raft/ui";
+} from "cuvii-rui";
 import { MessagesSquare } from "lucide-react";
 
 // @docs-source-strip-start

@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { cn } from "@raft/ui/cn";
+import { cn } from "cuvii-rui/cn";
 import { ChevronDown, User } from "lucide-react";
 import {
   Avatar,
@@ -18,7 +18,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "@raft/ui";
+} from "cuvii-rui";
 
 type Identity = {
   id: string;

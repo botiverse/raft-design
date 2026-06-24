@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Checkbox, ThemeProvider, type CheckboxProps, type Theme } from "@raft/ui";
+import { Checkbox, ThemeProvider, type CheckboxProps, type Theme } from "cuvii-rui";
 
 export const Route = createFileRoute("/components/checkbox_/matrix")({
   staticData: { standalone: true },

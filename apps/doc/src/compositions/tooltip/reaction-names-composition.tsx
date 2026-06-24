@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from "@raft/ui";
+import { Tooltip, TooltipContent, TooltipTrigger } from "cuvii-rui";
 import { useId } from "react";
 
 import { TooltipComparisonPreview } from "./preview.tsx";

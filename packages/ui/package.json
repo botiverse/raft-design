@@ -1,7 +1,7 @@
 {
-  "name": "@raft/ui",
-  "version": "0.0.0",
-  "description": "React UI components for raft-ui.",
+  "name": "cuvii-rui",
+  "version": "0.0.1",
+  "description": "React UI components for rui.",
   "license": "MIT",
   "files": [
     "dist",
