@@ -31,10 +31,10 @@ jobs:
         run: vp check
 
       - name: Build package
-        run: vp run cuvii-rui#build
+        run: vp run raft-ui#build
 
       - name: Pack package
-        run: vp pm pack --filter cuvii-rui --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
+        run: vp pm pack --filter raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
 
       - name: Publish package
-        run: npm publish "$RUNNER_TEMP"/cuvii-rui-pack/cuvii-rui-*.tgz --access public
+        run: npm publish "$RUNNER_TEMP"/raft-ui-pack/raft-ui-*.tgz --access public
