@@ -18,26 +18,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1
         with:
-          version: 11.8.0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          registry-url: https://registry.npmjs.org
-          cache: pnpm
+          node-version: "24"
+          cache: true
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: vp install
 
       - name: Check workspace
-        run: pnpm exec vp check
+        run: vp check
 
       - name: Build package
-        run: pnpm exec vp run cuvii-rui#build
+        run: vp run cuvii-rui#build
 
       - name: Pack package
         run: pnpm --dir packages/ui pack --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
