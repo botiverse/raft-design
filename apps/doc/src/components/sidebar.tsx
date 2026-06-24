@@ -909,7 +909,7 @@ function PriorityBadge({ priority }: { priority: PlannedPriority }) {
 
 export function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--rail-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--sidebar-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
       <Link to="/" className="flex items-center gap-2 text-foreground-strong">
         <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
       </Link>

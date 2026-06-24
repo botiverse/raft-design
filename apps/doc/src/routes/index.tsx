@@ -1071,7 +1071,7 @@ function Home() {
         <fieldset
           aria-label="Preview theme"
           className={[
-            "fixed bottom-6 left-[calc(50vw+var(--rail-w)/2)] z-[80] -translate-x-1/2",
+            "fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-[80] -translate-x-1/2",
             "grid grid-cols-2 overflow-hidden rounded-none bg-layer-panel text-foreground backdrop-blur",
             "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           ].join(" ")}

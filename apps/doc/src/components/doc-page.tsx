@@ -25,7 +25,7 @@ export function DocPage({
   showHeader = true,
   children,
 }: DocPageProps) {
-  const contentInset = showToc ? "xl:pr-[var(--rail-w)]" : "";
+  const contentInset = showToc ? "xl:pr-[var(--toc-w)]" : "";
   const articleWidth = showToc ? "mx-auto max-w-160 xl:max-w-4xl 2xl:max-w-6xl" : "max-w-none";
 
   return (

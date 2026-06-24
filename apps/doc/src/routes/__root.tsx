@@ -87,12 +87,12 @@ function RootDocument({ children }: { children: ReactNode }) {
           <div
             className={
               isStandalonePage
-                ? "isolate min-h-screen [--rail-w:0rem]"
-                : "isolate min-h-screen [--rail-w:0rem] lg:[--rail-w:20rem]"
+                ? "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem]"
+                : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
             }
           >
             {isStandalonePage ? null : <Sidebar />}
-            <main className="min-h-screen pl-[var(--rail-w)]">{children}</main>
+            <main className="min-h-screen pl-[var(--sidebar-w)]">{children}</main>
           </div>
         </ThemeProvider>
         <TanStackDevtools
