@@ -12,6 +12,8 @@ import {
   ThemeContext,
   ThemeStateContext,
   type ResolvedThemeMode,
+  type SetTheme,
+  type SetThemeOptions,
   type Theme,
   type ThemeState,
   type ThemeMode,
@@ -112,7 +114,7 @@ export function ThemeProvider({
   );
   const resolvedMode: ResolvedThemeMode = activeMode === "system" ? systemMode : activeMode;
 
-  const setTheme = useCallback(
+  const commitTheme = useCallback(
     (nextTheme: Theme) => {
       if (theme === undefined) {
         setUncontrolledTheme(nextTheme);
@@ -123,7 +125,7 @@ export function ThemeProvider({
     [onThemeChange, storageKey, theme],
   );
 
-  const setMode = useCallback(
+  const commitMode = useCallback(
     (nextMode: ThemeMode) => {
       if (mode === undefined) {
         setUncontrolledMode(nextMode);
@@ -134,17 +136,18 @@ export function ThemeProvider({
     [mode, modeStorageKey, onModeChange],
   );
 
-  const setBrutal = useCallback(() => {
-    setTheme("brutal");
-    setMode("light");
-  }, [setMode, setTheme]);
-
-  const setElegant = useCallback(
-    (nextMode: ThemeMode = "system") => {
-      setTheme("elegant");
-      setMode(nextMode);
+  const setTheme = useCallback<SetTheme>(
+    (nextTheme: Theme, options?: SetThemeOptions) => {
+      commitTheme(nextTheme);
+      if (nextTheme === "brutal") {
+        commitMode("light");
+        return;
+      }
+      if (options?.mode) {
+        commitMode(options.mode);
+      }
     },
-    [setMode, setTheme],
+    [commitMode, commitTheme],
   );
 
   const themeState = useMemo<ThemeState>(
@@ -152,15 +155,9 @@ export function ThemeProvider({
       theme: activeTheme,
       setTheme,
       mode: activeMode,
-      setMode,
       resolvedMode,
-      setBrutal,
-      setElegant,
-      setElegantLight: () => setElegant("light"),
-      setElegantDark: () => setElegant("dark"),
-      setElegantSystem: () => setElegant("system"),
     }),
-    [activeMode, activeTheme, resolvedMode, setBrutal, setElegant, setMode, setTheme],
+    [activeMode, activeTheme, resolvedMode, setTheme],
   );
 
   useEffect(() => {

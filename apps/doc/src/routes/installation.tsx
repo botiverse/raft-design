@@ -1,3 +1,4 @@
+import { InlineCode } from "@raft/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import type { ReactNode } from "react";
@@ -27,29 +28,16 @@ Requirements:
 - Do not import tailwindcss again from the same CSS entry after importing @raft/ui/styles.css.
 - The package stylesheet already sources @raft/ui's component classes.
 - Wrap the app in ThemeProvider with syncDom when selecting a style family or color mode.
-- Use useTheme to switch to brutal, elegant light, elegant dark, or elegant system.
+- Use useTheme().setTheme to switch families and pass mode for elegant light, dark, or system.
 
-Example:
+Minimal setup:
 import "@raft/ui/styles.css";
-import { Button, ThemeProvider, useTheme } from "@raft/ui";
-
-function ThemeControls() {
-  const { setBrutal, setElegantLight, setElegantDark, setElegantSystem } = useTheme();
-
-  return (
-    <div>
-      <Button onClick={setBrutal}>Brutal</Button>
-      <Button onClick={setElegantLight}>Elegant light</Button>
-      <Button onClick={setElegantDark}>Elegant dark</Button>
-      <Button onClick={setElegantSystem}>Elegant system</Button>
-    </div>
-  );
-}
+import { ThemeProvider } from "@raft/ui";
 
 export function App() {
   return (
     <ThemeProvider defaultTheme="brutal" defaultMode="light" storageKey="raft-ui-theme" syncDom>
-      <ThemeControls />
+      <YourApp />
     </ThemeProvider>
   );
 }`;
@@ -72,39 +60,50 @@ export function App() {
 }`,
   themeProvider: `import "@raft/ui/styles.css";
 
-import { Button, ThemeProvider, useTheme } from "@raft/ui";
-
-function ThemeControls() {
-  const {
-    theme,
-    mode,
-    resolvedMode,
-    setBrutal,
-    setElegantLight,
-    setElegantDark,
-    setElegantSystem,
-  } = useTheme();
-
-  return (
-    <div>
-      <p>
-        {theme} / {mode} / resolved {resolvedMode}
-      </p>
-      <Button onClick={setBrutal}>Brutal</Button>
-      <Button onClick={setElegantLight}>Elegant light</Button>
-      <Button onClick={setElegantDark}>Elegant dark</Button>
-      <Button onClick={setElegantSystem}>Elegant system</Button>
-    </div>
-  );
-}
+import { ThemeProvider } from "@raft/ui";
 
 export function App() {
   return (
     <ThemeProvider defaultTheme="brutal" defaultMode="light" storageKey="raft-ui-theme" syncDom>
-      <ThemeControls />
+      <YourApp />
     </ThemeProvider>
   );
 }`,
+  themeSwitching: `import { Button, useTheme } from "@raft/ui";
+
+export function ThemeSwitcher() {
+  const { setTheme } = useTheme();
+
+  return (
+    <div>
+      <Button onClick={() => setTheme("brutal")}>Brutal</Button>
+      <Button onClick={() => setTheme("elegant", { mode: "light" })}>Elegant light</Button>
+      <Button onClick={() => setTheme("elegant", { mode: "dark" })}>Elegant dark</Button>
+      <Button onClick={() => setTheme("elegant", { mode: "system" })}>Elegant system</Button>
+    </div>
+  );
+}`,
+  themeState: `import { useTheme } from "@raft/ui";
+
+export function ThemeStatus() {
+  const { theme, mode, resolvedMode } = useTheme();
+
+  return (
+    <p>
+      {theme} / {mode} / resolved {resolvedMode}
+    </p>
+  );
+}`,
+  themeDataTheme: `<section
+  className={cn(
+    "rounded-lg border border-line bg-layer-panel p-4 text-foreground shadow-sm",
+    "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black",
+    "[[data-theme=elegant]_&]:shadow-md",
+    "[[data-theme=elegant].dark_&]:bg-layer-popover",
+  )}
+>
+  Billing
+</section>`,
   manualSource: `@import "tailwindcss";
 @source "../node_modules/@raft/ui/src";`,
 } as const;
@@ -197,9 +196,8 @@ function InstallationDoc() {
               hint for its component classes.
             </p>
             <p className="text-sm leading-relaxed text-foreground-muted">
-              Add a manual source only if you skip
-              <code className="mx-1 font-mono text-foreground-strong">@raft/ui/styles.css</code>
-              and build your Tailwind entry yourself.
+              Add a manual source only if you skip <InlineCode>@raft/ui/styles.css</InlineCode> and
+              build your Tailwind entry yourself.
             </p>
             <CodeSnippet
               path="src/styles.css"
@@ -220,20 +218,68 @@ function InstallationDoc() {
       </DocSection>
 
       <DocSection id="theme" title="Theme">
-        <div className="space-y-4">
-          <Lead>
-            ThemeProvider supplies the style family to component recipes. Add
-            <code className="mx-1 font-mono text-foreground-strong">syncDom</code>
-            at the application root so RUI also updates
-            <code className="mx-1 font-mono text-foreground-strong">data-theme</code>
-            and the light/dark class on
-            <code className="mx-1 font-mono text-foreground-strong">document.documentElement</code>.
-          </Lead>
-          <CodeSnippet
-            path="src/App.tsx"
-            source={SNIPPETS.themeProvider}
-            html={code.themeProvider}
-          />
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 className="font-heading text-lg font-medium text-foreground-strong">
+              Connect the provider
+            </h3>
+            <Lead>
+              Wrap the app once. Use <InlineCode>syncDom</InlineCode> when this provider owns the
+              app-level theme so RUI can keep <InlineCode>data-theme</InlineCode> and color mode
+              classes on the document root in sync.
+            </Lead>
+            <CodeSnippet
+              path="src/App.tsx"
+              source={SNIPPETS.themeProvider}
+              html={code.themeProvider}
+            />
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="font-heading text-lg font-medium text-foreground-strong">
+              Switch themes
+            </h3>
+            <Lead>
+              Use <InlineCode>setTheme</InlineCode> from <InlineCode>useTheme</InlineCode>. Pass the
+              family first, then add a mode when selecting an elegant color mode.
+            </Lead>
+            <CodeSnippet
+              path="src/ThemeSwitcher.tsx"
+              source={SNIPPETS.themeSwitching}
+              html={code.themeSwitching}
+            />
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="font-heading text-lg font-medium text-foreground-strong">
+              Read theme state
+            </h3>
+            <Lead>
+              Read the selected family, selected mode, and resolved mode when labels, previews, or
+              app logic need to reflect the active theme.
+            </Lead>
+            <CodeSnippet
+              path="src/ThemeStatus.tsx"
+              source={SNIPPETS.themeState}
+              html={code.themeState}
+            />
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="font-heading text-lg font-medium text-foreground-strong">
+              Customize with data-theme
+            </h3>
+            <Lead>
+              Use Tailwind classes against semantic tokens first, then add{" "}
+              <InlineCode>data-theme</InlineCode> variants only for the details that should differ
+              between theme families.
+            </Lead>
+            <CodeSnippet
+              path="src/BillingCard.tsx"
+              source={SNIPPETS.themeDataTheme}
+              html={code.themeDataTheme}
+            />
+          </div>
         </div>
       </DocSection>
 
@@ -244,20 +290,18 @@ function InstallationDoc() {
             and React DOM 19 from the host app.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">CSS:</span> import
-            <code className="mx-1 font-mono text-foreground-strong">@raft/ui/styles.css</code>
-            once. Do not also import
-            <code className="mx-1 font-mono text-foreground-strong">tailwindcss</code>
-            separately from the same entry.
+            <span className="font-medium text-foreground-strong">CSS:</span> import{" "}
+            <InlineCode>@raft/ui/styles.css</InlineCode> once. Do not also import{" "}
+            <InlineCode>tailwindcss</InlineCode> separately from the same entry.
           </li>
           <li>
             <span className="font-medium text-foreground-strong">Build:</span> the host app needs a
             Tailwind v4-capable build pipeline.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">Theme switching:</span> use
-            <code className="mx-1 font-mono text-foreground-strong">syncDom</code>
-            on the app-level provider. Nested preview providers can omit it.
+            <span className="font-medium text-foreground-strong">Theme switching:</span> use{" "}
+            <InlineCode>syncDom</InlineCode> on the app-level provider. Nested preview providers can
+            omit it.
           </li>
         </ul>
       </DocSection>

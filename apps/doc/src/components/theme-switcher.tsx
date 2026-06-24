@@ -13,19 +13,19 @@ const PRESETS: readonly PreviewThemePreset[] = [
     label: "Brutal",
     family: "brutal",
     mode: "light",
-    select: (theme) => theme.setBrutal(),
+    select: (theme) => theme.setTheme("brutal"),
   },
   {
     label: "Elegant",
     family: "elegant",
     mode: "light",
-    select: (theme) => theme.setElegantLight(),
+    select: (theme) => theme.setTheme("elegant", { mode: "light" }),
   },
   {
     label: "Elegant dark",
     family: "elegant",
     mode: "dark",
-    select: (theme) => theme.setElegantDark(),
+    select: (theme) => theme.setTheme("elegant", { mode: "dark" }),
   },
 ];
 

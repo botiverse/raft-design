@@ -645,4 +645,11 @@ export type {
 export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider.tsx";
 export { useTheme, useThemeFamily } from "./lib/theme/use-theme.ts";
-export type { ResolvedThemeMode, Theme, ThemeState, ThemeMode } from "./lib/theme/theme-context.ts";
+export type {
+  ResolvedThemeMode,
+  SetTheme,
+  SetThemeOptions,
+  Theme,
+  ThemeState,
+  ThemeMode,
+} from "./lib/theme/theme-context.ts";
