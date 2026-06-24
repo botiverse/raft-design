@@ -21,6 +21,7 @@ import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
+import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
@@ -136,6 +137,11 @@ const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
 const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
   id: '/textarea',
   path: '/textarea',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTextRoute = ComponentsTextRouteImport.update({
+  id: '/text',
+  path: '/text',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
@@ -471,6 +477,7 @@ export interface FileRoutesByFullPath {
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -541,6 +548,7 @@ export interface FileRoutesByTo {
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -612,6 +620,7 @@ export interface FileRoutesById {
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -684,6 +693,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/status-dot'
     | '/components/tabs'
+    | '/components/text'
     | '/components/textarea'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -754,6 +764,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/status-dot'
     | '/components/tabs'
+    | '/components/text'
     | '/components/textarea'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -824,6 +835,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/status-dot'
     | '/components/tabs'
+    | '/components/text'
     | '/components/textarea'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -949,6 +961,13 @@ declare module '@tanstack/react-router' {
       path: '/textarea'
       fullPath: '/components/textarea'
       preLoaderRoute: typeof ComponentsTextareaRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/text': {
+      id: '/components/text'
+      path: '/text'
+      fullPath: '/components/text'
+      preLoaderRoute: typeof ComponentsTextRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/tabs': {
@@ -1384,6 +1403,7 @@ interface ComponentsRouteChildren {
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
+  ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
@@ -1441,6 +1461,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
+  ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,

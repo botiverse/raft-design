@@ -135,6 +135,25 @@ export type {
 export { Input } from "./components/input/index.ts";
 export type { InputProps } from "./components/input/index.ts";
 
+export {
+  Field,
+  FieldControl,
+  FieldDescription,
+  FieldError,
+  FieldItem,
+  FieldLabel,
+  FieldValidity,
+} from "./components/field/index.ts";
+export type {
+  FieldControlProps,
+  FieldDescriptionProps,
+  FieldErrorProps,
+  FieldItemProps,
+  FieldLabelProps,
+  FieldProps,
+  FieldValidityProps,
+} from "./components/field/index.ts";
+
 export { InputGroup, InputGroupAddon, InputGroupInput } from "./components/input-group/index.ts";
 export type {
   InputGroupAddonProps,
@@ -292,6 +311,9 @@ export type { InlineCodeProps } from "./components/inline-code/index.ts";
 
 export { Kbd, KbdGroup } from "./components/kbd/index.ts";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index.ts";
+
+export { Text, TextHeading, TextMono, TextSans } from "./components/text/index.ts";
+export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index.ts";
 
 export { Status } from "./components/status/index.ts";
 export type { StatusProps } from "./components/status/index.ts";

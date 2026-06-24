@@ -1,5 +1,5 @@
 import { Input } from "raft-ui";
-import { Field, FieldDescription, FieldLabel } from "raft-ui/wip";
+import { Field, FieldDescription, FieldLabel } from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

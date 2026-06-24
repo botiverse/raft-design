@@ -225,6 +225,7 @@ const NAV = [
       { label: "Badge", to: "/components/badge", progress: { theme: "done" } },
       { label: "InlineCode", to: "/components/inline-code", progress: { theme: "done" } },
       { label: "Kbd", to: "/components/kbd", progress: { theme: "done" } },
+      { label: "Text", to: "/components/text", progress: { theme: "done" } },
       {
         label: "Status",
         to: "/components/status",

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "raft-ui";
-import { Field, FieldDescription, FieldLabel } from "raft-ui/wip";
+import { Field, FieldDescription, FieldLabel } from "raft-ui";
 import { Check } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";

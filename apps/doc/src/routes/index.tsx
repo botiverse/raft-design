@@ -37,6 +37,10 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
   Input,
   InlineCode,
   InputGroup,
@@ -92,6 +96,7 @@ import {
   TabsList,
   TabsPanel,
   TabsTab,
+  Text,
   Textarea,
   TextareaCounter,
   TextareaGroup,
@@ -133,6 +138,7 @@ type ComponentRoute =
   | "/components/combobox"
   | "/components/context-menu"
   | "/components/dropdown-menu"
+  | "/components/field"
   | "/components/label"
   | "/components/input"
   | "/components/input-group"
@@ -148,6 +154,7 @@ type ComponentRoute =
   | "/components/status"
   | "/components/spinner"
   | "/components/tabs"
+  | "/components/text"
   | "/components/banner"
   | "/components/empty-state"
   | "/components/notification-center"
@@ -314,6 +321,26 @@ const COMPONENT_GRID = [
           Project URL
           <Info aria-hidden className="size-3.5 text-foreground/40" />
         </Label>
+      </div>
+    ),
+  },
+  {
+    label: "Field",
+    to: "/components/field",
+    preview: (
+      <div className="grid w-64 gap-3">
+        <Field>
+          <FieldLabel htmlFor="home-field-workspace" required>
+            Workspace
+          </FieldLabel>
+          <Input id="home-field-workspace" defaultValue="raft-design" />
+          <FieldDescription>Visible in the project switcher.</FieldDescription>
+        </Field>
+        <Field invalid>
+          <FieldLabel htmlFor="home-field-email">Email</FieldLabel>
+          <Input id="home-field-email" aria-invalid defaultValue="oops" />
+          <FieldError match>Email is required.</FieldError>
+        </Field>
       </div>
     ),
   },
@@ -494,6 +521,22 @@ const COMPONENT_GRID = [
             <Kbd>K</Kbd>
           </KbdGroup>
         </div>
+      </div>
+    ),
+  },
+  {
+    label: "Text",
+    to: "/components/text",
+    preview: (
+      <div className="grid w-64 gap-2">
+        <Text.Heading level={5}>Workspace updates</Text.Heading>
+        <Text.Sans size="small" variant="muted">
+          3 unread messages
+        </Text.Sans>
+        <Text.Mono size="meta">raft-ui@0.0.1</Text.Mono>
+        <Text.Sans size="small" variant="success">
+          Ready for review
+        </Text.Sans>
       </div>
     ),
   },

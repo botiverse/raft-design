@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button, InlineCode, Input } from "raft-ui";
-import { Field, FieldError, FieldLabel } from "raft-ui/wip";
+import { Field, FieldError, FieldLabel } from "raft-ui";
 import { Grid2X2 } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";

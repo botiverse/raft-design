@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "raft-ui";
-import { Field, FieldDescription, FieldLabel } from "raft-ui/wip";
+import { Field, FieldDescription, FieldLabel } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";

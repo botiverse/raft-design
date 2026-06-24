@@ -9,7 +9,7 @@ import {
   ThemeProvider,
   type Theme,
 } from "raft-ui";
-import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "raft-ui/wip";
+import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "raft-ui";
 
 export const Route = createFileRoute("/components/field_/matrix")({
   staticData: { standalone: true },

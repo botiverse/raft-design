@@ -1,26 +1,4 @@
 export {
-  Field,
-  FieldControl,
-  FieldDescription,
-  FieldError,
-  FieldItem,
-  FieldLabel,
-  FieldValidity,
-} from "./components/field/index.ts";
-export type {
-  FieldControlProps,
-  FieldDescriptionProps,
-  FieldErrorProps,
-  FieldItemProps,
-  FieldLabelProps,
-  FieldProps,
-  FieldValidityProps,
-} from "./components/field/index.ts";
-
-export { Text, TextHeading, TextMono, TextSans } from "./components/text/index.ts";
-export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index.ts";
-
-export {
   ToggleGroup,
   ToggleGroupCount,
   ToggleGroupItem,
