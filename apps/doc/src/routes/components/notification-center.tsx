@@ -42,6 +42,7 @@ import {
   NotificationCenterComposition,
   NotificationCenterSourcePreview,
 } from "#/compositions/notification-center-source-comparison.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -434,7 +435,8 @@ const POPUP_PROPS: readonly PropRow[] = [
   {
     name: "NotificationCenterPopup",
     type: "Base UI Popover.Popup.Props",
-    description: "The visual card, anchored to the trigger by the internal positioner.",
+    description:
+      "The visual card. Popup owns the border, shadow, background, portal, and positioner.",
   },
 ];
 
@@ -532,6 +534,10 @@ function NotificationCenterDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
+        <DocNote>
+          NotificationCenterPopup is the surface. Header, scroller, list, and item parts are content
+          slots and should live inside the popup unless you intentionally provide your own shell.
+        </DocNote>
         <DocsCodeBlock.Panel
           path="NotificationCenter.tsx"
           source={SNIPPETS.anatomy}

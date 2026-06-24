@@ -661,7 +661,7 @@ function ComboboxPreview() {
           <ComboboxControl>
             <Sparkles
               aria-hidden
-              className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
             />
             <ComboboxInput
               aria-label="Search models"

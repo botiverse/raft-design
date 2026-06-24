@@ -3,6 +3,7 @@ import { Columns3 as LucideColumns3, LayoutList as LucideLayoutList } from "luci
 import { useState } from "react";
 
 import { Differences } from "#/components/differences.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -303,6 +304,11 @@ function SegmentedControlDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="grid gap-10">
+          <DocNote>
+            Segment items own icon sizing, label truncation, and count line-height. Compose plain
+            icons, SegmentedControlLabel, and SegmentedControlCount unless a specific custom size is
+            intentional.
+          </DocNote>
           <section className="grid gap-3">
             <h3 className="text-sm font-medium text-foreground-strong">Filters with counts</h3>
             <Example html={code.filters}>

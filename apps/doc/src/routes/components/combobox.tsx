@@ -34,6 +34,7 @@ import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -236,7 +237,7 @@ function ModelCombobox() {
       <div className="grid w-56 gap-1.5">
         <ComboboxLabel>Model</ComboboxLabel>
         <ComboboxControl>
-          <Sparkles aria-hidden className="size-3.5 text-foreground-muted" />
+          <Sparkles aria-hidden className="text-foreground-muted" />
           <ComboboxInput aria-label="Search models" placeholder="Search models..." />
           <ComboboxClear aria-label="Clear model" />
           <ComboboxTriggerIndicator>
@@ -504,7 +505,7 @@ function AsyncModelSearch() {
       <div className="grid w-56 gap-1.5">
         <ComboboxLabel>Model</ComboboxLabel>
         <ComboboxControl>
-          <Sparkles aria-hidden className="size-3.5 text-foreground-muted" />
+          <Sparkles aria-hidden className="text-foreground-muted" />
           <ComboboxInput aria-label="Search models" placeholder="Search models..." />
           <ComboboxClear aria-label="Clear model" />
           <ComboboxTriggerIndicator>
@@ -664,7 +665,7 @@ const PROPS: readonly PropRow[] = [
     name: "ComboboxControl",
     type: "Base UI Combobox.InputGroup.Props",
     description:
-      "Input-first control surface. Use it when the visible combobox trigger should be searchable.",
+      "Input-first control surface. Use it when the visible combobox trigger should be searchable; plain SVG children get the component's default icon size.",
   },
   {
     name: "ComboboxTrigger",
@@ -980,7 +981,7 @@ function PreviewCombobox() {
           <ComboboxControl>
             <Sparkles
               aria-hidden
-              className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
             />
             <ComboboxInput
               aria-label="Search models"
@@ -1193,7 +1194,7 @@ function AsyncSearchCombobox() {
           <ComboboxControl>
             <Sparkles
               aria-hidden
-              className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
             />
             <ComboboxInput
               aria-label="Search models"
@@ -1344,6 +1345,11 @@ function ComboboxDoc() {
     >
       <DocSection id="searchable-combobox" title="Searchable combobox">
         <div className="space-y-8">
+          <DocNote>
+            ComboboxControl owns the searchable field surface. Compose leading icons, input, clear,
+            and trigger indicator as children; icons without an explicit size class are normalized
+            by the component.
+          </DocNote>
           <div className="space-y-3">
             <h3 id="preview" className="scroll-mt-24 text-sm font-medium">
               Preview

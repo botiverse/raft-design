@@ -565,7 +565,8 @@ function TooltipDoc() {
         <div className="space-y-8">
           <DocNote>
             Use Tooltip for terse labels or hidden detail. Rich cards with actions, avatars, or
-            structured content should stay in Popover or a future HoverCard-style primitive.
+            structured content should stay in Popover or a future HoverCard-style primitive. Wrap
+            tooltip trees in TooltipProvider once near the app or page root.
           </DocNote>
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">Action cluster</h3>

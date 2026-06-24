@@ -20,6 +20,7 @@ const combobox = tv({
     control: [
       "flex min-w-0 items-center gap-2",
       "outline-none transition-colors",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
       "[&_[data-slot='combobox-input']]:min-w-0 [&_[data-slot='combobox-input']]:flex-1",
       "[&_[data-slot='combobox-input']]:border-0 [&_[data-slot='combobox-input']]:bg-transparent [&_[data-slot='combobox-input']]:p-0",
       "[&_[data-slot='combobox-input']]:shadow-none [&_[data-slot='combobox-input']]:outline-none [&_[data-slot='combobox-input']]:ring-0",

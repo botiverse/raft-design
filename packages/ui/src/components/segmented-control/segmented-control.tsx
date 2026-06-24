@@ -10,12 +10,12 @@ const segmentedControl = tv({
     root: ["inline-flex max-w-full flex-wrap items-center gap-1"],
     item: [
       "inline-flex min-w-0 shrink-0 items-center gap-1.5",
-      "text-xs leading-none transition-colors",
+      "text-xs leading-4 transition-colors",
       "outline-none disabled:pointer-events-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
     ],
     label: ["truncate"],
-    count: ["font-mono text-xs leading-none"],
+    count: ["font-mono text-xs leading-4"],
   },
   variants: {
     theme: {
