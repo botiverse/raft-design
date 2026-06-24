@@ -10,7 +10,7 @@ import {
   TextareaCounter,
   TextareaGroup,
 } from "@raft/ui";
-import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
+import { Grid2X2 } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
@@ -275,7 +275,7 @@ function TextareaDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}

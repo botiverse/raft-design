@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { Badge, type BadgeProps, type Theme } from "@raft/ui";
-import { IconCircleCheckFill18, IconCircleWarningFill18 } from "nucleo-ui-fill-18";
-import { IconSearchContentOutline18, IconStarOutline18 } from "nucleo-ui-outline-18";
+import { CircleAlert, CircleCheck, Search, Star } from "lucide-react";
 import { CodeBlock } from "./code-block.tsx";
 import { DocsCodeBlock } from "./docs-code-block.tsx";
 import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
@@ -61,10 +60,10 @@ const STATUS_VARIANT = {
 } as const;
 
 const STATUS_ICON = {
-  match: IconCircleCheckFill18,
-  difference: IconCircleWarningFill18,
-  review: IconSearchContentOutline18,
-  new: IconStarOutline18,
+  match: CircleCheck,
+  difference: CircleAlert,
+  review: Search,
+  new: Star,
 } as const;
 
 const frameClass = "overflow-clip bg-[oklch(0.991_0_0)] shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";

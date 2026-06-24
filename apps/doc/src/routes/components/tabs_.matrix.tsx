@@ -1,11 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import {
-  IconBellOutline18,
-  IconFilesOutline18,
-  IconMessageOutline18,
-  IconUsersOutline18,
-} from "nucleo-ui-outline-18";
+import { Bell, Files, MessageSquare, Users } from "lucide-react";
 import {
   Tabs,
   TabsBackground,
@@ -124,19 +119,19 @@ function DemoTabs({
       <TabsList variant={variant}>
         {background ? <TabsBackground /> : null}
         <TabsTab value="chat" aria-label={iconOnly ? "Chat" : undefined}>
-          <IconMessageOutline18 />
+          <MessageSquare />
           {iconOnly ? null : <TabsLabel>Chat</TabsLabel>}
         </TabsTab>
         <TabsTab value="files" aria-label={iconOnly ? "Files" : undefined}>
-          <IconFilesOutline18 />
+          <Files />
           {iconOnly ? null : <TabsLabel>Files</TabsLabel>}
         </TabsTab>
         <TabsTab value="members" aria-label={iconOnly ? "Members" : undefined} disabled={disabled}>
-          <IconUsersOutline18 />
+          <Users />
           {iconOnly ? null : <TabsLabel>Members</TabsLabel>}
         </TabsTab>
         <TabsTab value="alerts" aria-label={iconOnly ? "Alerts" : undefined}>
-          <IconBellOutline18 />
+          <Bell />
           {iconOnly ? null : <TabsLabel>Alerts</TabsLabel>}
         </TabsTab>
       </TabsList>

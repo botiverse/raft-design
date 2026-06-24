@@ -1,19 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+import {
+  Bell,
+  Check,
+  ChevronRight,
+  CircleAlert,
+  CreditCard,
+  Info,
+  LogOut,
+  Monitor,
+  MoonStar,
+  Sun,
+  Trash,
+  User,
+} from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useId, useRef } from "react";
-import { IconCircleInfoFill18, IconCircleWarningFill18 } from "nucleo-ui-fill-18";
-import {
-  IconBellOutline18,
-  IconChevronRightOutline18,
-  IconCreditCardOutline18,
-  IconMonitorOutline18,
-  IconMoonStarsOutline18,
-  IconPersonDoorOutline18,
-  IconSunOutline18,
-  IconTrashOutline18,
-  IconUserOutline18,
-} from "nucleo-ui-outline-18";
 import {
   Button,
   DropdownMenu,
@@ -52,22 +53,22 @@ const CASES: readonly MatrixCase[] = [
       <MatrixMenu label="Profile">
         <DropdownMenuLabel>Account</DropdownMenuLabel>
         <DropdownMenuItem>
-          <IconUserOutline18 />
+          <User />
           <span className="min-w-0 flex-1 truncate">Profile</span>
           <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <IconBellOutline18 />
+          <Bell />
           <span className="min-w-0 flex-1 truncate">Notifications</span>
           <DropdownMenuItemCount>3</DropdownMenuItemCount>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <IconCreditCardOutline18 />
+          <CreditCard />
           <span className="min-w-0 flex-1 truncate">Billing</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <IconPersonDoorOutline18 />
+          <LogOut />
           <span className="min-w-0 flex-1 truncate">Sign out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
@@ -106,15 +107,15 @@ const CASES: readonly MatrixCase[] = [
     render: () => (
       <MatrixMenu label="Actions">
         <DropdownMenuItem>
-          <IconCircleInfoFill18 />
+          <Info />
           <span className="min-w-0 flex-1 truncate">View details</span>
         </DropdownMenuItem>
         <DropdownMenuItem disabled>
-          <IconCircleWarningFill18 />
+          <CircleAlert />
           <span className="min-w-0 flex-1 truncate">Archived project</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <IconTrashOutline18 />
+          <Trash />
           <span className="min-w-0 flex-1 truncate">Delete project</span>
         </DropdownMenuItem>
       </MatrixMenu>
@@ -136,15 +137,15 @@ const CASES: readonly MatrixCase[] = [
       <MatrixMenu label="Theme">
         <DropdownMenuRadioGroup defaultValue="system">
           <DropdownMenuRadioItem value="system">
-            <IconMonitorOutline18 />
+            <Monitor />
             <span className="min-w-0 flex-1 truncate">System theme</span>
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="light">
-            <IconSunOutline18 />
+            <Sun />
             <span className="min-w-0 flex-1 truncate">Light theme</span>
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="dark">
-            <IconMoonStarsOutline18 />
+            <MoonStar />
             <span className="min-w-0 flex-1 truncate">Dark theme</span>
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
@@ -156,14 +157,14 @@ const CASES: readonly MatrixCase[] = [
     render: () => (
       <MatrixMenu label="More">
         <DropdownMenuItem>
-          <IconUserOutline18 />
+          <User />
           <span className="min-w-0 flex-1 truncate">Profile</span>
         </DropdownMenuItem>
         <DropdownMenuSubmenu>
           <DropdownMenuSubmenuTrigger>
-            <IconMoonStarsOutline18 />
+            <MoonStar />
             <span className="min-w-0 flex-1 truncate">Theme</span>
-            <IconChevronRightOutline18 className="ml-auto" />
+            <ChevronRight className="ml-auto" />
           </DropdownMenuSubmenuTrigger>
           <DropdownMenuContent
             side="right"
@@ -204,12 +205,12 @@ const CASES: readonly MatrixCase[] = [
       <MatrixMenu label="Overflow">
         <DropdownMenuLabel>Workspace</DropdownMenuLabel>
         <DropdownMenuItem>
-          <IconUserOutline18 />
+          <User />
           <span className="min-w-0 flex-1 truncate">Very long workspace member display name</span>
           <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <IconBellOutline18 />
+          <Bell />
           <span className="min-w-0 flex-1 truncate">Notification preferences and digest</span>
         </DropdownMenuItem>
       </MatrixMenu>

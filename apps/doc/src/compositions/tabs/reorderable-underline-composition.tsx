@@ -7,12 +7,7 @@ import {
   useOrderedTabs,
   type OrderedTabItem,
 } from "@raft/ui";
-import {
-  IconBellOutline18,
-  IconFilesOutline18,
-  IconMessageOutline18,
-  IconUsersOutline18,
-} from "nucleo-ui-outline-18";
+import { Bell, Files, MessageSquare, Users } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -31,10 +26,10 @@ type TabItem = OrderedTabItem<TabId> & {
 };
 
 const TABS = [
-  { id: "chat", label: "Chat", icon: IconMessageOutline18 },
-  { id: "files", label: "Files", icon: IconFilesOutline18 },
-  { id: "members", label: "Members", icon: IconUsersOutline18 },
-  { id: "alerts", label: "Alerts", icon: IconBellOutline18 },
+  { id: "chat", label: "Chat", icon: MessageSquare },
+  { id: "files", label: "Files", icon: Files },
+  { id: "members", label: "Members", icon: Users },
+  { id: "alerts", label: "Alerts", icon: Bell },
 ] as const satisfies readonly TabItem[];
 
 export function TabsContent() {

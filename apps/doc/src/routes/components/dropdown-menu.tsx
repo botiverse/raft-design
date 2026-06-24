@@ -16,20 +16,20 @@ import {
   DropdownMenuTrigger,
   InlineCode,
 } from "@raft/ui";
-import { Check } from "lucide-react";
 import {
-  IconBellOutline18,
-  IconChevronRightOutline18,
-  IconCreditCardOutline18,
-  IconGridCircleOutline18,
-  IconMonitorOutline18,
-  IconMoonStarsOutline18,
-  IconPersonDoorOutline18,
-  IconProfileAnalyticsOutline18,
-  IconSunOutline18,
-  IconTrashOutline18,
-  IconUserOutline18,
-} from "nucleo-ui-outline-18";
+  Bell,
+  ChartNoAxesCombined,
+  Check,
+  ChevronRight,
+  CreditCard,
+  Grid2X2,
+  LogOut,
+  Monitor,
+  MoonStar,
+  Sun,
+  Trash,
+  User,
+} from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
 
@@ -109,24 +109,24 @@ type PlaygroundValues = {
 
 const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
     <DropdownMenuItem>
-      <IconUserOutline18 />
+      <User />
       <span className="min-w-0 flex-1 truncate">Profile</span>
       <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
     </DropdownMenuItem>
     <DropdownMenuItem>
-      <IconBellOutline18 />
+      <Bell />
       <span className="min-w-0 flex-1 truncate">Notifications</span>
       <DropdownMenuItemCount>3</DropdownMenuItemCount>
     </DropdownMenuItem>
     <DropdownMenuItem>
-      <IconCreditCardOutline18 />
+      <CreditCard />
       <span className="min-w-0 flex-1 truncate">Billing</span>
     </DropdownMenuItem>
     <DropdownMenuSubmenu>
       <DropdownMenuSubmenuTrigger openOnHover>
-        <IconMoonStarsOutline18 />
+        <MoonStar />
         <span className="min-w-0 flex-1 truncate">Theme</span>
-        <IconChevronRightOutline18 className="ml-auto" />
+        <ChevronRight className="ml-auto" />
       </DropdownMenuSubmenuTrigger>
       <DropdownMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
         <DropdownMenuItem>System</DropdownMenuItem>
@@ -136,12 +136,12 @@ const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
     </DropdownMenuSubmenu>
     <DropdownMenuSeparator />
     <DropdownMenuItem>
-      <IconPersonDoorOutline18 />
+      <LogOut />
       <span className="min-w-0 flex-1 truncate">Sign out</span>
       <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
     </DropdownMenuItem>
     <DropdownMenuItem className="text-danger-base hover:bg-danger-lighter hover:text-danger-base data-[highlighted]:bg-danger-lighter data-[highlighted]:text-danger-base [&>svg]:text-danger-base hover:[&>svg]:text-danger-base data-[highlighted]:[&>svg]:text-danger-base">
-      <IconTrashOutline18 />
+      <Trash />
       <span className="min-w-0 flex-1 truncate">Delete account</span>
     </DropdownMenuItem>`;
 
@@ -179,7 +179,7 @@ const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="che
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const RADIO_GROUP_MENU_SNIPPET = `import { IconMonitorOutline18, IconSunOutline18 } from "nucleo-ui-outline-18";
+const RADIO_GROUP_MENU_SNIPPET = `import { Monitor, Sun } from "lucide-react";
 
 <DropdownMenu open modal={false} triggerId="radio-group-menu-trigger">
   <DropdownMenuTrigger id="radio-group-menu-trigger" render={<Button variant="outline" size="md" />}>
@@ -188,11 +188,11 @@ const RADIO_GROUP_MENU_SNIPPET = `import { IconMonitorOutline18, IconSunOutline1
   <DropdownMenuContent className="flex w-64 flex-col">
     <DropdownMenuRadioGroup defaultValue="system">
       <DropdownMenuRadioItem value="system">
-        <IconMonitorOutline18 />
+        <Monitor />
         <span className="min-w-0 flex-1 truncate">System theme</span>
       </DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="light">
-        <IconSunOutline18 />
+        <Sun />
         <span className="min-w-0 flex-1 truncate">Light theme</span>
       </DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
@@ -244,14 +244,14 @@ const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-tri
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
     <DropdownMenuItem>
-      <IconUserOutline18 />
+      <User />
       <span className="min-w-0 flex-1 truncate">Profile</span>
     </DropdownMenuItem>
     <DropdownMenuSubmenu>
       <DropdownMenuSubmenuTrigger openOnHover>
-        <IconMoonStarsOutline18 />
+        <MoonStar />
         <span className="min-w-0 flex-1 truncate">Theme</span>
-        <IconChevronRightOutline18 className="ml-auto" />
+        <ChevronRight className="ml-auto" />
       </DropdownMenuSubmenuTrigger>
       <DropdownMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
         <DropdownMenuItem>System</DropdownMenuItem>
@@ -276,20 +276,10 @@ const SNIPPETS = {
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
 } from "@raft/ui";
-import {
-  IconBellOutline18,
-  IconChevronRightOutline18,
-  IconCreditCardOutline18,
-  IconMoonStarsOutline18,
-  IconPersonDoorOutline18,
-  IconProfileAnalyticsOutline18,
-  IconTrashOutline18,
-  IconUserOutline18,
-} from "nucleo-ui-outline-18";
 
 <DropdownMenu>
   <DropdownMenuTrigger render={<Button variant="outline" size="md" />}>
-    <IconProfileAnalyticsOutline18 />
+    <ChartNoAxesCombined />
     Profile
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
@@ -310,24 +300,24 @@ function ProfileMenuRows() {
     <>
       <DropdownMenuLabel>Account</DropdownMenuLabel>
       <DropdownMenuItem>
-        <IconUserOutline18 />
+        <User />
         <span className="min-w-0 flex-1 truncate">Profile</span>
         <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <IconBellOutline18 />
+        <Bell />
         <span className="min-w-0 flex-1 truncate">Notifications</span>
         <DropdownMenuItemCount>3</DropdownMenuItemCount>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <IconCreditCardOutline18 />
+        <CreditCard />
         <span className="min-w-0 flex-1 truncate">Billing</span>
       </DropdownMenuItem>
       <DropdownMenuSubmenu>
         <DropdownMenuSubmenuTrigger openOnHover>
-          <IconMoonStarsOutline18 />
+          <MoonStar />
           <span className="min-w-0 flex-1 truncate">Theme</span>
-          <IconChevronRightOutline18 className="ml-auto" />
+          <ChevronRight className="ml-auto" />
         </DropdownMenuSubmenuTrigger>
         <DropdownMenuContent
           side="right"
@@ -357,12 +347,12 @@ function ProfileMenuRows() {
       </DropdownMenuSubmenu>
       <DropdownMenuSeparator />
       <DropdownMenuItem>
-        <IconPersonDoorOutline18 />
+        <LogOut />
         <span className="min-w-0 flex-1 truncate">Sign out</span>
         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
       </DropdownMenuItem>
       <DropdownMenuItem className="text-danger-base hover:bg-danger-lighter hover:text-danger-base data-[highlighted]:bg-danger-lighter data-[highlighted]:text-danger-base [&>svg]:text-danger-base hover:[&>svg]:text-danger-base data-[highlighted]:[&>svg]:text-danger-base">
-        <IconTrashOutline18 />
+        <Trash />
         <span className="min-w-0 flex-1 truncate">Delete account</span>
       </DropdownMenuItem>
     </>
@@ -401,11 +391,11 @@ function RadioGroupMenuRows() {
   return (
     <DropdownMenuRadioGroup defaultValue="system">
       <DropdownMenuRadioItem value="system">
-        <IconMonitorOutline18 />
+        <Monitor />
         <span className="min-w-0 flex-1 truncate">System theme</span>
       </DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="light">
-        <IconSunOutline18 />
+        <Sun />
         <span className="min-w-0 flex-1 truncate">Light theme</span>
       </DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
@@ -448,14 +438,14 @@ function SubmenuRows() {
   return (
     <>
       <DropdownMenuItem>
-        <IconUserOutline18 />
+        <User />
         <span className="min-w-0 flex-1 truncate">Profile</span>
       </DropdownMenuItem>
       <DropdownMenuSubmenu>
         <DropdownMenuSubmenuTrigger openOnHover>
-          <IconMoonStarsOutline18 />
+          <MoonStar />
           <span className="min-w-0 flex-1 truncate">Theme</span>
-          <IconChevronRightOutline18 className="ml-auto" />
+          <ChevronRight className="ml-auto" />
         </DropdownMenuSubmenuTrigger>
         <DropdownMenuContent
           side="right"
@@ -513,7 +503,7 @@ function ProfilePreviewMenu({ open, label }: { open: boolean; label: string }) {
           id="preview-profile-trigger"
           render={<Button variant="outline" size="md" />}
         >
-          <IconProfileAnalyticsOutline18 />
+          <ChartNoAxesCombined />
           {label}
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -638,7 +628,7 @@ function DropdownMenuDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}

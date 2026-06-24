@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { IconChevronDownOutline18, IconHashtagOutline18 } from "nucleo-ui-outline-18";
+import { ChevronDown, Hash } from "lucide-react";
 import {
   Badge,
   Combobox,
@@ -48,7 +48,7 @@ export function TasksChannelFilterComposition() {
         onValueChange={setSelectedChannels}
       >
         <ComboboxTrigger className="h-8 w-36 py-0">
-          <IconHashtagOutline18 aria-hidden />
+          <Hash aria-hidden />
           <span className="min-w-0 truncate text-left">Channels</span>
           {selectedChannels.length > 0 && (
             <Badge
@@ -59,7 +59,7 @@ export function TasksChannelFilterComposition() {
             </Badge>
           )}
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
@@ -88,7 +88,7 @@ export function TasksChannelFilterComposition() {
               <ComboboxItem key={channel.id} value={channel}>
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <IconHashtagOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                    <Hash className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
                   </span>
                   <span className="truncate leading-6">{channel.label}</span>
                 </span>

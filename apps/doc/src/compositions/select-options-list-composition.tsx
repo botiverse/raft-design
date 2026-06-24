@@ -7,8 +7,7 @@ import {
 } from "@raft/ui";
 
 // @docs-source-strip-start
-import { Check as LucideCheck } from "lucide-react";
-import { IconCheckOutline18 } from "nucleo-ui-outline-18";
+import { Check } from "lucide-react";
 import { SelectPopup, useTheme } from "@raft/ui";
 import { cn } from "@raft/ui/cn";
 // @docs-source-strip-end
@@ -44,7 +43,6 @@ function SelectOptionsListStaticItem({
   selected?: boolean;
 }) {
   const theme = useTheme();
-  const CheckIcon = theme === "brutal" ? LucideCheck : IconCheckOutline18;
 
   return (
     <div
@@ -70,9 +68,9 @@ function SelectOptionsListStaticItem({
           )}
         >
           {theme === "brutal" ? (
-            <CheckIcon aria-hidden size={12} className="shrink-0 !stroke-[2.25]" />
+            <Check aria-hidden size={12} className="shrink-0 !stroke-[2.25]" />
           ) : (
-            <CheckIcon aria-hidden className="size-3 shrink-0" />
+            <Check aria-hidden className="size-3 shrink-0" />
           )}
         </span>
       ) : null}

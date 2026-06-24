@@ -5,20 +5,20 @@ import { cn } from "tailwind-variants";
 import LegacyContextMenuDivider from "../../../../packages/ui/src/legacy/context-menu-divider.tsx";
 import LegacyMenuItem from "../../../../packages/ui/src/legacy/menu-item.tsx";
 import {
-  IconArchive2Outline18,
-  IconBookmarkPlusOutline18,
-  IconChatBubbleOutline18,
-  IconChevronRightOutline18,
-  IconClipboardCheckOutline18,
-  IconCopyOutline18,
-  IconLink2Outline18,
-  IconMailboxOutline18,
-  IconMessageQuoteOutline18,
-  IconMoonStarsOutline18,
-  IconPinOutline18,
-  IconShareRightOutline18,
-  IconTrashOutline18,
-} from "nucleo-ui-outline-18";
+  Archive,
+  BookmarkPlus,
+  MessageCircle,
+  ChevronRight,
+  ClipboardCheck,
+  Copy,
+  Link2,
+  Mailbox,
+  MessageSquareQuote,
+  MoonStar,
+  Pin,
+  Forward,
+  Trash,
+} from "lucide-react";
 
 import {
   ContextMenuCompositionPreview,
@@ -94,23 +94,23 @@ export function ContextMenuSourcePreview({ className }: { className?: string }) 
       contentClassName="flex w-56 min-w-56 flex-col"
       triggerLabel="Right click thread"
     >
-      <LegacyMenuItem icon={<IconPinOutline18 className="size-3.5" />}>Pin thread</LegacyMenuItem>
+      <LegacyMenuItem icon={<Pin className="size-3.5" />}>Pin thread</LegacyMenuItem>
       <LegacyMenuItem
-        icon={<IconCopyOutline18 className="size-3.5" />}
+        icon={<Copy className="size-3.5" />}
         trailing={<span className="ml-auto font-sans text-sm font-medium text-black/60">⌘C</span>}
       >
         Copy link
       </LegacyMenuItem>
       <LegacyMenuItem
-        icon={<IconMoonStarsOutline18 className="size-3.5" />}
-        trailing={<IconChevronRightOutline18 className="ml-auto size-3.5" />}
+        icon={<MoonStar className="size-3.5" />}
+        trailing={<ChevronRight className="ml-auto size-3.5" />}
       >
         Move to
       </LegacyMenuItem>
       <LegacyContextMenuDivider />
-      <LegacyMenuItem icon={<IconArchive2Outline18 className="size-3.5" />}>Archive</LegacyMenuItem>
+      <LegacyMenuItem icon={<Archive className="size-3.5" />}>Archive</LegacyMenuItem>
       <LegacyMenuItem
-        icon={<IconTrashOutline18 className="size-3.5" />}
+        icon={<Trash className="size-3.5" />}
         trailing={<span className="ml-auto font-sans text-sm font-medium text-black/60">⌫</span>}
       >
         Delete
@@ -149,21 +149,13 @@ export function ContextMenuSourceMessageMenuPreview({ className }: { className?:
     >
       <SourceReactionRow />
       <LegacyContextMenuDivider />
-      <LegacyMenuItem icon={<IconLink2Outline18 className="size-3.5" />}>Copy Link</LegacyMenuItem>
-      <LegacyMenuItem icon={<IconCopyOutline18 className="size-3.5" />}>
-        Copy Markdown
-      </LegacyMenuItem>
-      <LegacyMenuItem icon={<IconShareRightOutline18 className="size-3.5" />}>
-        Share Messages...
-      </LegacyMenuItem>
+      <LegacyMenuItem icon={<Link2 className="size-3.5" />}>Copy Link</LegacyMenuItem>
+      <LegacyMenuItem icon={<Copy className="size-3.5" />}>Copy Markdown</LegacyMenuItem>
+      <LegacyMenuItem icon={<Forward className="size-3.5" />}>Share Messages...</LegacyMenuItem>
       <LegacyContextMenuDivider />
-      <LegacyMenuItem icon={<IconChatBubbleOutline18 className="size-3.5" />}>
-        Open Thread
-      </LegacyMenuItem>
-      <LegacyMenuItem icon={<IconBookmarkPlusOutline18 className="size-3.5" />}>
-        Save Message
-      </LegacyMenuItem>
-      <LegacyMenuItem icon={<IconClipboardCheckOutline18 className="size-3.5" />}>
+      <LegacyMenuItem icon={<MessageCircle className="size-3.5" />}>Open Thread</LegacyMenuItem>
+      <LegacyMenuItem icon={<BookmarkPlus className="size-3.5" />}>Save Message</LegacyMenuItem>
+      <LegacyMenuItem icon={<ClipboardCheck className="size-3.5" />}>
         Convert to Task
       </LegacyMenuItem>
     </SourceContextMenuPreview>
@@ -178,10 +170,8 @@ export function ContextMenuSourceSelectionMenuPreview({ className }: { className
       minHeight="min-h-40"
       triggerLabel="Right click selection"
     >
-      <LegacyMenuItem icon={<IconMessageQuoteOutline18 className="size-3.5" />}>
-        Quote
-      </LegacyMenuItem>
-      <LegacyMenuItem icon={<IconCopyOutline18 className="size-3.5" />}>Copy</LegacyMenuItem>
+      <LegacyMenuItem icon={<MessageSquareQuote className="size-3.5" />}>Quote</LegacyMenuItem>
+      <LegacyMenuItem icon={<Copy className="size-3.5" />}>Copy</LegacyMenuItem>
     </SourceContextMenuPreview>
   );
 }
@@ -194,12 +184,10 @@ export function ContextMenuSourceSidebarMenuPreview({ className }: { className?:
       minHeight="min-h-48"
       triggerLabel="Right click channel"
     >
-      <LegacyMenuItem icon={<IconMailboxOutline18 className="size-3.5" />}>
-        Mark as Read
-      </LegacyMenuItem>
-      <LegacyMenuItem icon={<IconPinOutline18 className="size-3.5" />}>Pin</LegacyMenuItem>
+      <LegacyMenuItem icon={<Mailbox className="size-3.5" />}>Mark as Read</LegacyMenuItem>
+      <LegacyMenuItem icon={<Pin className="size-3.5" />}>Pin</LegacyMenuItem>
       <LegacyContextMenuDivider />
-      <LegacyMenuItem icon={<IconArchive2Outline18 className="size-3.5" />}>Archive</LegacyMenuItem>
+      <LegacyMenuItem icon={<Archive className="size-3.5" />}>Archive</LegacyMenuItem>
     </SourceContextMenuPreview>
   );
 }

@@ -32,8 +32,7 @@ import {
   INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION,
   INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
 } from "#/compositions/input-group-source-comparison.tsx";
-import { Search, Upload } from "lucide-react";
-import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
+import { Grid2X2, Search, Upload } from "lucide-react";
 import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
 import LegacySlugInput from "../../../../../packages/ui/src/legacy/SlugInput.tsx";
 
@@ -82,7 +81,6 @@ const SNIPPETS = {
   <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
 </InputGroup>`,
   addonVariants: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@raft/ui";
-import { Upload } from "lucide-react";
 
 <InputGroup>
   <InputGroupAddon variant="container">
@@ -316,7 +314,7 @@ function InputGroupDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}

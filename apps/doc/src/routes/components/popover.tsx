@@ -9,8 +9,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@raft/ui";
-import { Info, X } from "lucide-react";
-import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
+import { Grid2X2, Info, X } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
 
@@ -60,7 +59,6 @@ const SNIPPETS = {
   PopoverTitle,
   PopoverTrigger,
 } from "@raft/ui";
-import { Info, X } from "lucide-react";
 
 <Popover>
   <PopoverTrigger render={<Button variant="outline" size="md" />}>
@@ -236,7 +234,7 @@ function PopoverDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}

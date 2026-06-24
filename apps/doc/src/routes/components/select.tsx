@@ -1,10 +1,6 @@
 import { useRef, useState, type RefObject } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  IconClockOutline18,
-  IconInputSearchOutline18,
-  IconMessageOutline18,
-} from "nucleo-ui-outline-18";
+import { Clock, MessageSquare, Search } from "lucide-react";
 import {
   Field,
   FieldDescription,
@@ -65,9 +61,9 @@ const SORT_OPTIONS = [
 ] as const;
 
 const SORT_ICON_OPTIONS = [
-  { value: "relevance", label: "Relevance", icon: IconInputSearchOutline18 },
-  { value: "recent", label: "Most recent", icon: IconClockOutline18 },
-  { value: "comments", label: "Most commented", icon: IconMessageOutline18 },
+  { value: "relevance", label: "Relevance", icon: Search },
+  { value: "recent", label: "Most recent", icon: Clock },
+  { value: "comments", label: "Most commented", icon: MessageSquare },
 ] as const;
 
 const BRANCH_OPTIONS = [
@@ -130,11 +126,6 @@ const sortOptions = [
 </Select>`,
   icons: `import { useState } from "react";
 import {
-  IconClockOutline18,
-  IconInputSearchOutline18,
-  IconMessageOutline18,
-} from "nucleo-ui-outline-18";
-import {
   Select,
   SelectContent,
   SelectIcon,
@@ -147,9 +138,9 @@ import {
 } from "@raft/ui";
 
 const sortOptions = [
-  { value: "relevance", label: "Relevance", icon: IconInputSearchOutline18 },
-  { value: "recent", label: "Most recent", icon: IconClockOutline18 },
-  { value: "comments", label: "Most commented", icon: IconMessageOutline18 },
+  { value: "relevance", label: "Relevance", icon: Search },
+  { value: "recent", label: "Most recent", icon: Clock },
+  { value: "comments", label: "Most commented", icon: MessageSquare },
 ] as const;
 
 function SortSelectWithIcons() {

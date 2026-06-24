@@ -24,6 +24,12 @@ catalogs:
     '@dnd-kit/utilities':
       specifier: ^3.2.2
       version: 3.2.2
+    '@fontsource-variable/geist-mono':
+      specifier: ^5.2.8
+      version: 5.2.8
+    '@fontsource-variable/space-grotesk':
+      specifier: ^5.2.10
+      version: 5.2.10
     '@tanstack/react-hotkeys':
       specifier: ^0.10.0
       version: 0.10.0
@@ -36,12 +42,6 @@ catalogs:
     lucide-react:
       specifier: ^1.21.0
       version: 1.21.0
-    nucleo-ui-fill-18:
-      specifier: ^1.4.0
-      version: 1.4.0
-    nucleo-ui-outline-18:
-      specifier: ^1.4.1
-      version: 1.4.1
     portless:
       specifier: ^0.14.0
       version: 0.14.0
@@ -105,12 +105,6 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      nucleo-ui-fill-18:
-        specifier: 'catalog:'
-        version: 1.4.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      nucleo-ui-outline-18:
-        specifier: 'catalog:'
-        version: 1.4.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -196,6 +190,12 @@ importers:
       '@dnd-kit/utilities':
         specifier: 'catalog:'
         version: 3.2.2(react@19.2.7)
+      '@fontsource-variable/geist-mono':
+        specifier: 'catalog:'
+        version: 5.2.8
+      '@fontsource-variable/space-grotesk':
+        specifier: 'catalog:'
+        version: 5.2.10
       '@tanstack/react-hotkeys':
         specifier: 'catalog:'
         version: 0.10.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -205,9 +205,6 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 1.21.0(react@19.2.7)
-      nucleo-ui-outline-18:
-        specifier: 'catalog:'
-        version: 1.4.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       tailwind-variants:
         specifier: 'catalog:'
         version: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.1)
@@ -666,6 +663,12 @@ packages:
 
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+
+  '@fontsource-variable/geist-mono@5.2.8':
+    resolution: {integrity: sha512-KI5bj+hkkRiHttYHmccotUZ80ZuZyai+RwI1d7UId0clkx/jXxlo8qYK8j54WzmpBjtMoEMPyllV7faDcj+6RA==}
+
+  '@fontsource-variable/space-grotesk@5.2.10':
+    resolution: {integrity: sha512-yJQO/o35/hAP3CFnpdFTwQku2yzJOae2HIpBmqkOVoxhhXJaQP3g+b6Jrz7u+eI7A5ZdCIf88uMWpBJdFiGr5w==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2592,18 +2595,6 @@ packages:
     resolution: {integrity: sha512-GYVXHE2KnrzAfsAjl4uP++evGFCrAU1jta4ubEjIG7YWt/64Gqv66a30yKwWczVjA6j3bM4nBwH7Pk1JmDHaxQ==}
     engines: {node: '>=18'}
 
-  nucleo-ui-fill-18@1.4.0:
-    resolution: {integrity: sha512-r3/nD/VWLPzPPkQ/9lfVMq1GB9uRTiWs9cc1Df/Xzwa8/Qb50z2yPZsrXS6Cr+FLg1OChKy21gESlsgFa4SDQA==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
-  nucleo-ui-outline-18@1.4.1:
-    resolution: {integrity: sha512-ir2trm9LJyOvAt7/8yoP2iuLyb4Ru5Senqjoq2KfPdR8uOnW40txLH0dRM+mQIXBYaylbs3YjTTncPGjyf7Ohw==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
   obug@2.1.1:
     resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
 
@@ -2915,10 +2906,6 @@ packages:
 
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
-
-  undici@7.26.0:
-    resolution: {integrity: sha512-3O9Tf67pGhgOv9jM35AbhkXAKi13f3oy3aE4CSgr+TckGeY+/iu97ZXN+J7DpHPzLbVApFd1IFhcnBjREYXYcg==}
-    engines: {node: '>=20.18.1'}
 
   undici@7.28.0:
     resolution: {integrity: sha512-cRZYrTDwWznlnRiPjggAGxZXanty6M8RV1ff8Wm4LWXBp7/IG8v5DnOm74DtUBp9OONpK75YlPnIjQqX0dBDtA==}
@@ -3462,6 +3449,10 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
 
   '@floating-ui/utils@0.2.11': {}
+
+  '@fontsource-variable/geist-mono@5.2.8': {}
+
+  '@fontsource-variable/space-grotesk@5.2.10': {}
 
   '@img/colour@1.1.0': {}
 
@@ -4936,7 +4927,7 @@ snapshots:
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 6.0.1
-      undici: 7.26.0
+      undici: 7.28.0
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
@@ -5076,18 +5067,6 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
 
   node-releases@2.0.46: {}
-
-  nucleo-ui-fill-18@1.4.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
-    dependencies:
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      tslib: 2.8.1
-
-  nucleo-ui-outline-18@1.4.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
-    dependencies:
-      react: 19.2.7
-      react-dom: 19.2.7(react@19.2.7)
-      tslib: 2.8.1
 
   obug@2.1.1: {}
 
@@ -5480,8 +5459,6 @@ snapshots:
   ufo@1.6.4: {}
 
   undici-types@8.3.0: {}
-
-  undici@7.26.0: {}
 
   undici@7.28.0: {}
 

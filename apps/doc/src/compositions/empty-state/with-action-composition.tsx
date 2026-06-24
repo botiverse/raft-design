@@ -7,7 +7,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconInboxOutline18, IconPlusOutline18 } from "nucleo-ui-outline-18";
+import { Inbox, Plus } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -18,7 +18,7 @@ export function EmptyStateWithActionContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconInboxOutline18 />
+          <Inbox />
         </EmptyStateIcon>
         <EmptyStateTitle>No channels yet</EmptyStateTitle>
         <EmptyStateDescription>
@@ -27,7 +27,7 @@ export function EmptyStateWithActionContent() {
       </EmptyStateContent>
       <EmptyStateActions>
         <Button variant="primary" size="sm">
-          <IconPlusOutline18 data-icon="inline-start" />
+          <Plus data-icon="inline-start" />
           New channel
         </Button>
       </EmptyStateActions>

@@ -12,15 +12,7 @@ import {
   useOrderedTabs,
   type OrderedTabItem,
 } from "@raft/ui";
-import {
-  IconBellOutline18,
-  IconCreditCardOutline18,
-  IconFilesOutline18,
-  IconGearOutline18,
-  IconGridCircleOutline18,
-  IconMessageOutline18,
-  IconUsersOutline18,
-} from "nucleo-ui-outline-18";
+import { Bell, CreditCard, Files, Settings, Grid2X2, MessageSquare, Users } from "lucide-react";
 import { useState, type ComponentType } from "react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -75,21 +67,21 @@ const SNIPPETS = {
   <TabsPanel value="settings">Settings content</TabsPanel>
 </Tabs>`,
   variants: `import {
-  IconCreditCardOutline18,
-  IconGearOutline18,
-  IconMessageOutline18,
-} from "nucleo-ui-outline-18";
+  CreditCard,
+  Settings,
+  MessageSquare,
+} from "lucide-react";
 import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@raft/ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
     <TabsBackground />
     <TabsTab value="overview">
-      <IconMessageOutline18 />
+      <MessageSquare />
       <TabsLabel>Overview</TabsLabel>
     </TabsTab>
     <TabsTab value="billing">
-      <IconCreditCardOutline18 />
+      <CreditCard />
       <TabsLabel>Billing</TabsLabel>
     </TabsTab>
   </TabsList>
@@ -100,11 +92,11 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@
 <Tabs defaultValue="overview">
   <TabsList>
     <TabsTab value="overview">
-      <IconMessageOutline18 />
+      <MessageSquare />
       <TabsLabel>Overview</TabsLabel>
     </TabsTab>
     <TabsTab value="billing">
-      <IconCreditCardOutline18 />
+      <CreditCard />
       <TabsLabel>Billing</TabsLabel>
     </TabsTab>
   </TabsList>
@@ -116,11 +108,11 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@
   <TabsList variant="underline">
     <TabsBackground />
     <TabsTab value="overview">
-      <IconMessageOutline18 />
+      <MessageSquare />
       <TabsLabel>Overview</TabsLabel>
     </TabsTab>
     <TabsTab value="settings">
-      <IconGearOutline18 />
+      <Settings />
       <TabsLabel>Settings</TabsLabel>
     </TabsTab>
   </TabsList>
@@ -131,11 +123,11 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@
 <Tabs defaultValue="overview">
   <TabsList variant="underline">
     <TabsTab value="overview">
-      <IconMessageOutline18 />
+      <MessageSquare />
       <TabsLabel>Overview</TabsLabel>
     </TabsTab>
     <TabsTab value="settings">
-      <IconGearOutline18 />
+      <Settings />
       <TabsLabel>Settings</TabsLabel>
     </TabsTab>
   </TabsList>
@@ -143,24 +135,24 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "@
   <TabsPanel value="settings" />
 </Tabs>`,
   icons: `import {
-  IconBellOutline18,
-  IconCreditCardOutline18,
-  IconGearOutline18,
-  IconMessageOutline18,
-} from "nucleo-ui-outline-18";
+  Bell,
+  CreditCard,
+  Settings,
+  MessageSquare,
+} from "lucide-react";
 import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
     <TabsBackground />
     <TabsTab value="overview" aria-label="Overview">
-      <IconMessageOutline18 />
+      <MessageSquare />
     </TabsTab>
     <TabsTab value="billing" aria-label="Billing">
-      <IconCreditCardOutline18 />
+      <CreditCard />
     </TabsTab>
     <TabsTab value="settings" aria-label="Settings">
-      <IconGearOutline18 />
+      <Settings />
     </TabsTab>
   </TabsList>
   <TabsPanel value="overview" />
@@ -171,13 +163,13 @@ import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "@raft/ui";
 <Tabs defaultValue="messages">
   <TabsList variant="underline">
     <TabsTab value="messages" aria-label="Messages">
-      <IconMessageOutline18 />
+      <MessageSquare />
     </TabsTab>
     <TabsTab value="alerts" aria-label="Alerts">
-      <IconBellOutline18 />
+      <Bell />
     </TabsTab>
     <TabsTab value="settings" aria-label="Settings">
-      <IconGearOutline18 />
+      <Settings />
     </TabsTab>
   </TabsList>
   <TabsPanel value="messages" />
@@ -437,10 +429,10 @@ type TabItem = OrderedTabItem<TabId> & {
 };
 
 const TABS: readonly TabItem[] = [
-  { id: "chat", label: "Chat", icon: IconMessageOutline18 },
-  { id: "files", label: "Files", icon: IconFilesOutline18 },
-  { id: "members", label: "Members", icon: IconUsersOutline18 },
-  { id: "alerts", label: "Alerts", icon: IconBellOutline18 },
+  { id: "chat", label: "Chat", icon: MessageSquare },
+  { id: "files", label: "Files", icon: Files },
+  { id: "members", label: "Members", icon: Users },
+  { id: "alerts", label: "Alerts", icon: Bell },
 ];
 
 const SOURCE_TABS: PanelTabItem<TabId>[] = TABS.map((tab) => ({
@@ -453,9 +445,9 @@ const SETTINGS_TABS: readonly (OrderedTabItem<SettingsTabId> & {
   label: string;
   icon: IconComponent;
 })[] = [
-  { id: "overview", label: "Overview", icon: IconMessageOutline18 },
-  { id: "billing", label: "Billing", icon: IconCreditCardOutline18 },
-  { id: "settings", label: "Settings", icon: IconGearOutline18 },
+  { id: "overview", label: "Overview", icon: MessageSquare },
+  { id: "billing", label: "Billing", icon: CreditCard },
+  { id: "settings", label: "Settings", icon: Settings },
 ];
 
 function TabsDoc() {
@@ -483,7 +475,7 @@ function TabsDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}
@@ -616,13 +608,13 @@ function TabsDoc() {
                 <TabsList>
                   <TabsBackground />
                   <TabsTab value="overview" aria-label="Overview">
-                    <IconMessageOutline18 />
+                    <MessageSquare />
                   </TabsTab>
                   <TabsTab value="billing" aria-label="Billing">
-                    <IconCreditCardOutline18 />
+                    <CreditCard />
                   </TabsTab>
                   <TabsTab value="settings" aria-label="Settings">
-                    <IconGearOutline18 />
+                    <Settings />
                   </TabsTab>
                 </TabsList>
                 {SETTINGS_TABS.map((tab) => (
@@ -635,13 +627,13 @@ function TabsDoc() {
               <Tabs defaultValue="messages" className="overflow-visible">
                 <TabsList variant="underline">
                   <TabsTab value="messages" aria-label="Messages">
-                    <IconMessageOutline18 />
+                    <MessageSquare />
                   </TabsTab>
                   <TabsTab value="alerts" aria-label="Alerts">
-                    <IconBellOutline18 />
+                    <Bell />
                   </TabsTab>
                   <TabsTab value="settings" aria-label="Settings">
-                    <IconGearOutline18 />
+                    <Settings />
                   </TabsTab>
                 </TabsList>
                 <TabsPanel value="messages" className="sr-only">

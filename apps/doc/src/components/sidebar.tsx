@@ -2,7 +2,7 @@ import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Badge } from "@raft/ui";
-import { IconGlobe3Outline18 } from "nucleo-ui-outline-18";
+import { Globe2 } from "lucide-react";
 
 const SKILLS = {
   title: "Skills",
@@ -883,7 +883,7 @@ function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
     >
       <span className="flex min-w-0 flex-1 items-center gap-1">
         <span className="min-w-0 truncate">{label}</span>
-        <IconGlobe3Outline18 className="size-3 shrink-0 opacity-50" aria-hidden />
+        <Globe2 className="size-3 shrink-0 opacity-50" aria-hidden />
       </span>
       <PriorityBadge priority={priority} />
     </a>

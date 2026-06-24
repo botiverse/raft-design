@@ -77,11 +77,11 @@ const SNIPPETS = {
   onValueChange={setView}
 >
   <SegmentedControlItem value="board">
-    <IconGridLayoutCols3Outline18 />
+    <Columns3 />
     <SegmentedControlLabel>Board</SegmentedControlLabel>
   </SegmentedControlItem>
   <SegmentedControlItem value="list">
-    <IconBulletListOutline18 />
+    <List />
     <SegmentedControlLabel>List</SegmentedControlLabel>
   </SegmentedControlItem>
 </SegmentedControl>`,

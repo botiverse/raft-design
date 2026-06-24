@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
+import { Grid2X2 } from "lucide-react";
 import { Button, Checkbox, Label, type CheckboxProps } from "@raft/ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -267,7 +267,7 @@ function CheckboxDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}

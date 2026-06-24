@@ -1,6 +1,5 @@
 import { fileURLToPath } from "node:url";
-import type { Logger } from "vite";
-import { createLogger, defineConfig } from "vite";
+import { defineConfig } from "vite";
 import { devtools } from "@tanstack/devtools-vite";
 
 import { cloudflare } from "@cloudflare/vite-plugin";
@@ -14,44 +13,7 @@ const baseUiUseRefWithInitPath = fileURLToPath(
   import.meta.resolve("@base-ui/utils/useRefWithInit"),
 );
 
-function isNucleoMissingSourcemapWarning(message: string): boolean {
-  return (
-    message.startsWith("Sourcemap for ") &&
-    message.includes("/node_modules/nucleo-ui-") &&
-    message.includes(" points to missing source files")
-  );
-}
-
-function createFilteredLogger(): Logger {
-  const logger = createLogger();
-
-  return {
-    ...logger,
-    warn(message, options) {
-      if (isNucleoMissingSourcemapWarning(message)) {
-        return;
-      }
-
-      logger.warn(message, options);
-    },
-    warnOnce(message, options) {
-      if (isNucleoMissingSourcemapWarning(message)) {
-        return;
-      }
-
-      logger.warnOnce(message, options);
-    },
-    get hasWarned() {
-      return logger.hasWarned;
-    },
-    set hasWarned(value) {
-      logger.hasWarned = value;
-    },
-  };
-}
-
 const config = defineConfig({
-  customLogger: createFilteredLogger(),
   resolve: {
     tsconfigPaths: true,
     alias: {
@@ -59,7 +21,7 @@ const config = defineConfig({
     },
   },
   ssr: {
-    noExternal: ["foxact", "nucleo-ui-fill-18", "nucleo-ui-outline-18", "torph"],
+    noExternal: ["foxact", "torph"],
   },
   optimizeDeps: {
     include: ["foxact/use-clipboard", "torph/react"],

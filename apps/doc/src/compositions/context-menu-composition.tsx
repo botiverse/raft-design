@@ -9,20 +9,20 @@ import {
   ContextMenuTrigger,
 } from "@raft/ui";
 import {
-  IconArchive2Outline18,
-  IconBookmarkPlusOutline18,
-  IconChatBubbleOutline18,
-  IconChevronRightOutline18,
-  IconClipboardCheckOutline18,
-  IconCopyOutline18,
-  IconLink2Outline18,
-  IconMailboxOutline18,
-  IconMessageQuoteOutline18,
-  IconMoonStarsOutline18,
-  IconPinOutline18,
-  IconShareRightOutline18,
-  IconTrashOutline18,
-} from "nucleo-ui-outline-18";
+  Archive,
+  BookmarkPlus,
+  MessageCircle,
+  ChevronRight,
+  ClipboardCheck,
+  Copy,
+  Link2,
+  Mailbox,
+  MessageSquareQuote,
+  MoonStar,
+  Pin,
+  Forward,
+  Trash,
+} from "lucide-react";
 
 // @docs-source-strip-start
 import type { ReactNode, RefObject } from "react";
@@ -34,19 +34,19 @@ export function ContextMenuContentPreview() {
   return (
     <>
       <ContextMenuItem>
-        <IconPinOutline18 />
+        <Pin />
         <span className="min-w-0 flex-1 truncate">Pin thread</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconCopyOutline18 />
+        <Copy />
         <span className="min-w-0 flex-1 truncate">Copy link</span>
         <ContextMenuShortcut>⌘C</ContextMenuShortcut>
       </ContextMenuItem>
       <ContextMenuSubmenu>
         <ContextMenuSubmenuTrigger>
-          <IconMoonStarsOutline18 />
+          <MoonStar />
           <span className="min-w-0 flex-1 truncate">Move to</span>
-          <IconChevronRightOutline18 className="ml-auto" />
+          <ChevronRight className="ml-auto" />
         </ContextMenuSubmenuTrigger>
         <ContextMenuContent
           side="right"
@@ -60,11 +60,11 @@ export function ContextMenuContentPreview() {
       </ContextMenuSubmenu>
       <ContextMenuSeparator />
       <ContextMenuItem>
-        <IconArchive2Outline18 />
+        <Archive />
         <span className="min-w-0 flex-1 truncate">Archive</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconTrashOutline18 />
+        <Trash />
         <span className="min-w-0 flex-1 truncate">Delete</span>
         <ContextMenuShortcut>⌫</ContextMenuShortcut>
       </ContextMenuItem>
@@ -130,26 +130,26 @@ function StaticContextMenuRows() {
   return (
     <>
       <ContextMenuItem>
-        <IconPinOutline18 />
+        <Pin />
         <span className="min-w-0 flex-1 truncate">Pin thread</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconCopyOutline18 />
+        <Copy />
         <span className="min-w-0 flex-1 truncate">Copy link</span>
         <ContextMenuShortcut>⌘C</ContextMenuShortcut>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconMoonStarsOutline18 />
+        <MoonStar />
         <span className="min-w-0 flex-1 truncate">Move to</span>
-        <IconChevronRightOutline18 className="ml-auto" />
+        <ChevronRight className="ml-auto" />
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem>
-        <IconArchive2Outline18 />
+        <Archive />
         <span className="min-w-0 flex-1 truncate">Archive</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconTrashOutline18 />
+        <Trash />
         <span className="min-w-0 flex-1 truncate">Delete</span>
         <ContextMenuShortcut>⌫</ContextMenuShortcut>
       </ContextMenuItem>
@@ -163,28 +163,28 @@ function StaticMessageMenuRows() {
       <ReactionRow />
       <ContextMenuSeparator />
       <ContextMenuItem>
-        <IconLink2Outline18 />
+        <Link2 />
         <span className="min-w-0 flex-1 truncate">Copy Link</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconCopyOutline18 />
+        <Copy />
         <span className="min-w-0 flex-1 truncate">Copy Markdown</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconShareRightOutline18 />
+        <Forward />
         <span className="min-w-0 flex-1 truncate">Share Messages...</span>
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem>
-        <IconChatBubbleOutline18 />
+        <MessageCircle />
         <span className="min-w-0 flex-1 truncate">Open Thread</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconBookmarkPlusOutline18 />
+        <BookmarkPlus />
         <span className="min-w-0 flex-1 truncate">Save Message</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconClipboardCheckOutline18 />
+        <ClipboardCheck />
         <span className="min-w-0 flex-1 truncate">Convert to Task</span>
       </ContextMenuItem>
     </>
@@ -195,11 +195,11 @@ function StaticSelectionMenuRows() {
   return (
     <>
       <ContextMenuItem>
-        <IconMessageQuoteOutline18 />
+        <MessageSquareQuote />
         <span className="min-w-0 flex-1 truncate">Quote</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconCopyOutline18 />
+        <Copy />
         <span className="min-w-0 flex-1 truncate">Copy</span>
       </ContextMenuItem>
     </>
@@ -210,16 +210,16 @@ function StaticSidebarMenuRows() {
   return (
     <>
       <ContextMenuItem>
-        <IconMailboxOutline18 />
+        <Mailbox />
         <span className="min-w-0 flex-1 truncate">Mark as Read</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconPinOutline18 />
+        <Pin />
         <span className="min-w-0 flex-1 truncate">Pin</span>
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem>
-        <IconArchive2Outline18 />
+        <Archive />
         <span className="min-w-0 flex-1 truncate">Archive</span>
       </ContextMenuItem>
     </>

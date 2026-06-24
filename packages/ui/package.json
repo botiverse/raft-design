@@ -1,5 +1,5 @@
 {
-  "name": "@raft/ui",
+  "name": "rui",
   "version": "0.0.0",
   "description": "React UI components for raft-ui.",
   "license": "MIT",
@@ -36,10 +36,11 @@
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/sortable": "catalog:",
     "@dnd-kit/utilities": "catalog:",
+    "@fontsource-variable/geist-mono": "catalog:",
+    "@fontsource-variable/space-grotesk": "catalog:",
     "@tanstack/react-hotkeys": "catalog:",
     "cnfast": "catalog:",
     "lucide-react": "catalog:",
-    "nucleo-ui-outline-18": "catalog:",
     "tailwind-variants": "catalog:"
   },
   "devDependencies": {

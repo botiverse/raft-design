@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconMessagesOutline18 } from "nucleo-ui-outline-18";
+import { MessagesSquare } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -16,7 +16,7 @@ export function EmptyStateInboxStatusContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconMessagesOutline18 />
+          <MessagesSquare />
         </EmptyStateIcon>
         <EmptyStateTitle>No unread chats</EmptyStateTitle>
         <EmptyStateDescription>

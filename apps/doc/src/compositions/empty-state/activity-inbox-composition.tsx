@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconInboxStackOutline18 } from "nucleo-ui-outline-18";
+import { Layers } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -16,7 +16,7 @@ export function EmptyStateActivityInboxContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconInboxStackOutline18 />
+          <Layers />
         </EmptyStateIcon>
         <EmptyStateTitle>Activity is empty</EmptyStateTitle>
         <EmptyStateDescription>

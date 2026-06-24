@@ -1,12 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import {
-  IconCircleCheckFill18,
-  IconCircleInfoFill18,
-  IconCircleWarningFill18,
-  IconCircleXmarkFill18,
-} from "nucleo-ui-fill-18";
-import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 import {
   Banner,
   BannerAction,
@@ -35,11 +29,11 @@ const SIZES = ["sm", "md", "lg"] as const satisfies readonly NonNullable<BannerP
 const WIDE_COLUMN_COUNT = 4;
 
 const STATUS_ICON = {
-  default: IconCircleInfoFill18,
-  destructive: IconCircleXmarkFill18,
-  warning: IconCircleWarningFill18,
-  info: IconCircleInfoFill18,
-  success: IconCircleCheckFill18,
+  default: Info,
+  destructive: CircleX,
+  warning: CircleAlert,
+  info: Info,
+  success: CircleCheck,
 } as const;
 
 type MatrixCase = {
@@ -65,7 +59,7 @@ const CASES: readonly MatrixCase[] = [
     label: `size ${size}`,
     render: () => (
       <Banner status="info" size={size} className="w-full max-w-md">
-        <IconCircleInfoFill18 />
+        <Info />
         <BannerTitle>{formatLabel(size)} banner</BannerTitle>
         <BannerDescription>{getSizeDescription(size)}</BannerDescription>
       </Banner>
@@ -91,7 +85,7 @@ const CASES: readonly MatrixCase[] = [
     label: "title only",
     render: () => (
       <Banner status="success" className="w-full max-w-md">
-        <IconCircleCheckFill18 />
+        <CircleCheck />
         <BannerTitle>Deployment live</BannerTitle>
       </Banner>
     ),
@@ -100,7 +94,7 @@ const CASES: readonly MatrixCase[] = [
     label: "action",
     render: () => (
       <Banner status="warning" className="w-full max-w-md">
-        <IconCircleWarningFill18 />
+        <CircleAlert />
         <BannerDescription>Add billing email and tax ID.</BannerDescription>
         <BannerAction>
           <Button variant="outline" size="xs">
@@ -114,11 +108,11 @@ const CASES: readonly MatrixCase[] = [
     label: "dismiss action",
     render: () => (
       <Banner status="info" className="w-full max-w-md">
-        <IconCircleInfoFill18 />
+        <Info />
         <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
         <BannerAction>
           <Button size="icon-xs" aria-label="Dismiss">
-            <IconXmarkOutline18 />
+            <X />
           </Button>
         </BannerAction>
       </Banner>
@@ -128,7 +122,7 @@ const CASES: readonly MatrixCase[] = [
     label: "top action",
     render: () => (
       <Banner status="destructive" className="w-full max-w-md">
-        <IconCircleXmarkFill18 />
+        <CircleX />
         <BannerTitle>Payment failed</BannerTitle>
         <BannerDescription>Retry to keep automations running.</BannerDescription>
         <BannerAction align="top">
@@ -143,11 +137,11 @@ const CASES: readonly MatrixCase[] = [
     label: "large action",
     render: () => (
       <Banner status="info" size="lg" className="w-full max-w-md">
-        <IconCircleInfoFill18 />
+        <Info />
         <BannerDescription>You&rsquo;re on the free plan.</BannerDescription>
         <BannerAction>
           <Button size="icon-xs" aria-label="Dismiss">
-            <IconXmarkOutline18 />
+            <X />
           </Button>
         </BannerAction>
       </Banner>

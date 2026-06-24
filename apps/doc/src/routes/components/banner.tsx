@@ -8,13 +8,7 @@ import {
   type BannerActionProps,
   type BannerProps,
 } from "@raft/ui";
-import {
-  IconCircleCheckFill18,
-  IconCircleInfoFill18,
-  IconCircleWarningFill18,
-  IconCircleXmarkFill18,
-} from "nucleo-ui-fill-18";
-import { IconGridCircleOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import { CircleAlert, CircleCheck, CircleX, Grid2X2, Info, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -54,11 +48,11 @@ const SIZES = ["sm", "md", "lg"] as const;
 const ACTION_ALIGNS = ["top", "middle"] as const;
 
 const STATUS_ICON = {
-  default: IconCircleInfoFill18,
-  destructive: IconCircleXmarkFill18,
-  warning: IconCircleWarningFill18,
-  info: IconCircleInfoFill18,
-  success: IconCircleCheckFill18,
+  default: Info,
+  destructive: CircleX,
+  warning: CircleAlert,
+  info: Info,
+  success: CircleCheck,
 } as const;
 
 const BannerCurrent = BANNER_SOURCE_COMPARISON_COMPOSITION;
@@ -81,71 +75,69 @@ type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 
 const SNIPPETS = {
   anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@raft/ui";
-import { IconCircleWarningFill18 } from "nucleo-ui-fill-18";
-import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 <Banner status="warning">
-  <IconCircleWarningFill18 />
+  <CircleAlert />
   <BannerTitle>Review required</BannerTitle>
   <BannerDescription>Heads up — this can't be undone.</BannerDescription>
   <BannerAction align="top">
-    <Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button>
+    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
   </BannerAction>
 </Banner>`,
   statuses: `<Banner status="default">
-  <IconCircleInfoFill18 />
+  <Info />
   <BannerTitle>Settings synced</BannerTitle>
   <BannerDescription>Rules now apply to every project.</BannerDescription>
-  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><IconXmarkOutline18 /></Button></BannerAction>
+  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><X /></Button></BannerAction>
 </Banner>
 <Banner status="destructive">
-  <IconCircleXmarkFill18 />
+  <CircleX />
   <BannerTitle>Payment failed</BannerTitle>
   <BannerDescription>Retry to keep automations running.</BannerDescription>
   <BannerAction><Button variant="ghost" size="xs">Retry</Button></BannerAction>
 </Banner>
 <Banner status="warning">
-  <IconCircleWarningFill18 />
+  <CircleAlert />
   <BannerTitle>Invoice details missing</BannerTitle>
   <BannerDescription>Add billing email and tax ID.</BannerDescription>
   <BannerAction><Button variant="outline" size="xs">Review</Button></BannerAction>
 </Banner>
 <Banner status="info">
-  <IconCircleInfoFill18 />
+  <Info />
   <BannerTitle>Trial ends soon</BannerTitle>
   <BannerDescription>Upgrade to keep projects available.</BannerDescription>
   <BannerAction><Button variant="outline" size="xs">Upgrade</Button></BannerAction>
 </Banner>
 <Banner status="success">
-  <IconCircleCheckFill18 />
+  <CircleCheck />
   <BannerTitle>Deployment live</BannerTitle>
   <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
-  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><IconXmarkOutline18 /></Button></BannerAction>
+  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><X /></Button></BannerAction>
 </Banner>`,
   sizes: `<Banner status="info" size="sm">
-  <IconCircleInfoFill18 />
+  <Info />
   <BannerTitle>Small banner</BannerTitle>
   <BannerDescription>Tight form-error banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button></BannerAction>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="md">
-  <IconCircleInfoFill18 />
+  <Info />
   <BannerTitle>Medium banner</BannerTitle>
   <BannerDescription>Default banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button></BannerAction>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="lg">
-  <IconCircleInfoFill18 />
+  <Info />
   <BannerTitle>Large banner</BannerTitle>
   <BannerDescription>Prominent surface banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button></BannerAction>
+  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>`,
   composition: `<Banner status="warning">
-  <IconCircleWarningFill18 />
+  <CircleAlert />
   <BannerTitle>Plan limit reached</BannerTitle>
   <BannerDescription>Remove an inactive machine before adding another.</BannerDescription>
   <BannerAction align="top">
-    <Button size="icon-xs" aria-label="Dismiss"><IconXmarkOutline18 /></Button>
+    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
   </BannerAction>
 </Banner>`,
   sourceDefault: `<Banner intent="warning">
@@ -158,7 +150,7 @@ import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
   This can't be undone.
 </Banner>`,
   currentIcon: `<Banner status="destructive">
-  <IconCircleXmarkFill18 />
+  <CircleX />
   <BannerTitle>Delete server</BannerTitle>
   <BannerDescription>This can't be undone.</BannerDescription>
 </Banner>`,
@@ -166,14 +158,14 @@ import { IconXmarkOutline18 } from "nucleo-ui-outline-18";
   intent="info"
   density="lg"
   withIcon
-  actions={<button aria-label="Dismiss"><IconXmarkOutline18 /></button>}
+  actions={<button aria-label="Dismiss"><X /></button>}
 >
   You're on the free plan.
 </Banner>`,
   currentActions: `<Banner status="info" size="lg">
-  <IconCircleInfoFill18 />
+  <Info />
   <BannerDescription>You're on the free plan.</BannerDescription>
-  <BannerAction><button aria-label="Dismiss"><IconXmarkOutline18 /></button></BannerAction>
+  <BannerAction><button aria-label="Dismiss"><X /></button></BannerAction>
 </Banner>`,
 } as const;
 
@@ -248,7 +240,7 @@ function DismissIconButton() {
       aria-label="Dismiss"
       className="inline-flex size-6 shrink-0 items-center justify-center border-2 border-black bg-white text-black transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-hover)] [&>svg]:size-3.5"
     >
-      <IconXmarkOutline18 />
+      <X />
     </button>
   );
 }
@@ -286,7 +278,7 @@ function BannerDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}
@@ -319,7 +311,7 @@ function BannerDoc() {
                 {values.withActions ? (
                   <BannerAction align={values.actionAlign}>
                     <Button size="icon-xs" aria-label="Dismiss">
-                      <IconXmarkOutline18 />
+                      <X />
                     </Button>
                   </BannerAction>
                 ) : null}
@@ -342,7 +334,7 @@ function BannerDoc() {
         <Example html={code.statuses}>
           <div className="flex w-[28rem] flex-col gap-3">
             <Banner status="default">
-              <IconCircleInfoFill18 />
+              <Info />
               <BannerTitle>Settings synced</BannerTitle>
               <BannerDescription>Rules now apply to every project.</BannerDescription>
               <BannerAction align="top">
@@ -351,12 +343,12 @@ function BannerDoc() {
                   size="icon-xs"
                   aria-label="Dismiss workspace settings notice"
                 >
-                  <IconXmarkOutline18 />
+                  <X />
                 </Button>
               </BannerAction>
             </Banner>
             <Banner status="destructive">
-              <IconCircleXmarkFill18 />
+              <CircleX />
               <BannerTitle>Payment failed</BannerTitle>
               <BannerDescription>Retry to keep automations running.</BannerDescription>
               <BannerAction>
@@ -366,7 +358,7 @@ function BannerDoc() {
               </BannerAction>
             </Banner>
             <Banner status="warning">
-              <IconCircleWarningFill18 />
+              <CircleAlert />
               <BannerTitle>Invoice details missing</BannerTitle>
               <BannerDescription>Add billing email and tax ID.</BannerDescription>
               <BannerAction>
@@ -376,7 +368,7 @@ function BannerDoc() {
               </BannerAction>
             </Banner>
             <Banner status="info">
-              <IconCircleInfoFill18 />
+              <Info />
               <BannerTitle>Trial ends soon</BannerTitle>
               <BannerDescription>Upgrade to keep projects available.</BannerDescription>
               <BannerAction>
@@ -386,12 +378,12 @@ function BannerDoc() {
               </BannerAction>
             </Banner>
             <Banner status="success">
-              <IconCircleCheckFill18 />
+              <CircleCheck />
               <BannerTitle>Deployment live</BannerTitle>
               <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
               <BannerAction align="top">
                 <Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice">
-                  <IconXmarkOutline18 />
+                  <X />
                 </Button>
               </BannerAction>
             </Banner>
@@ -408,32 +400,32 @@ function BannerDoc() {
           <Example html={code.sizes}>
             <div className="flex w-[28rem] flex-col gap-3">
               <Banner status="info" size="sm">
-                <IconCircleInfoFill18 />
+                <Info />
                 <BannerTitle>Small banner</BannerTitle>
                 <BannerDescription>Tight form-error banner.</BannerDescription>
                 <BannerAction>
                   <Button size="icon-xs" aria-label="Dismiss">
-                    <IconXmarkOutline18 />
+                    <X />
                   </Button>
                 </BannerAction>
               </Banner>
               <Banner status="info" size="md">
-                <IconCircleInfoFill18 />
+                <Info />
                 <BannerTitle>Medium banner</BannerTitle>
                 <BannerDescription>Default banner.</BannerDescription>
                 <BannerAction>
                   <Button size="icon-xs" aria-label="Dismiss">
-                    <IconXmarkOutline18 />
+                    <X />
                   </Button>
                 </BannerAction>
               </Banner>
               <Banner status="info" size="lg">
-                <IconCircleInfoFill18 />
+                <Info />
                 <BannerTitle>Large banner</BannerTitle>
                 <BannerDescription>Prominent surface banner.</BannerDescription>
                 <BannerAction>
                   <Button size="icon-xs" aria-label="Dismiss">
-                    <IconXmarkOutline18 />
+                    <X />
                   </Button>
                 </BannerAction>
               </Banner>
@@ -446,14 +438,14 @@ function BannerDoc() {
         <Example html={code.composition}>
           <div className="w-[28rem]">
             <Banner status="warning">
-              <IconCircleWarningFill18 />
+              <CircleAlert />
               <BannerTitle>Plan limit reached</BannerTitle>
               <BannerDescription>
                 Remove an inactive machine before adding another.
               </BannerDescription>
               <BannerAction align="top">
                 <Button size="icon-xs" aria-label="Dismiss">
-                  <IconXmarkOutline18 />
+                  <X />
                 </Button>
               </BannerAction>
             </Banner>

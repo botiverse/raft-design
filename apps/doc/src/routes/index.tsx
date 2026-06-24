@@ -99,29 +99,29 @@ import {
   type Theme,
 } from "@raft/ui";
 import {
-  IconCircleCheckFill18,
-  IconCircleInfoFill18,
-  IconCircleWarningFill18,
-} from "nucleo-ui-fill-18";
-import {
-  IconArchive2Outline18,
-  IconAtSignOutline18,
-  IconBellOutline18,
-  IconClockOutline18,
-  IconCopyOutline18,
-  IconCreditCardOutline18,
-  IconGearOutline18,
-  IconBulletListOutline18,
-  IconGridLayoutCols3Outline18,
-  IconInboxOutline18,
-  IconInputSearchOutline18,
-  IconMessageOutline18,
-  IconPinOutline18,
-  IconSparkle2Outline18,
-  IconTrashOutline18,
-  IconUserOutline18,
-} from "nucleo-ui-outline-18";
-import { Plus, Search, SmilePlus, Trash2 } from "lucide-react";
+  Archive,
+  AtSign,
+  Bell,
+  CircleAlert,
+  CircleCheck,
+  Clock,
+  Columns3,
+  Copy,
+  CreditCard,
+  Inbox,
+  Info,
+  List,
+  MessageSquare,
+  Pin,
+  Plus,
+  Search,
+  Settings,
+  SmilePlus,
+  Sparkles,
+  Trash,
+  Trash2,
+  User,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -312,7 +312,7 @@ const COMPONENT_GRID = [
         </Label>
         <Label htmlFor="home-label-project-url">
           Project URL
-          <IconCircleInfoFill18 aria-hidden className="size-3.5 text-foreground/40" />
+          <Info aria-hidden className="size-3.5 text-foreground/40" />
         </Label>
       </div>
     ),
@@ -414,7 +414,7 @@ const COMPONENT_GRID = [
         </div>
         <div className="flex max-w-64 flex-wrap items-center justify-center gap-2">
           <Badge variant="primary">
-            <IconCircleCheckFill18 className="size-3" />
+            <CircleCheck className="size-3" />
             Approved
           </Badge>
           <Badge appearance="outline" variant="success">
@@ -531,7 +531,7 @@ const COMPONENT_GRID = [
     preview: (
       <div className="grid w-72 gap-3">
         <Banner status="warning" size="sm">
-          <IconCircleWarningFill18 />
+          <CircleAlert />
           <BannerTitle>Review required</BannerTitle>
           <BannerDescription>Check billing details.</BannerDescription>
           <BannerAction>
@@ -541,7 +541,7 @@ const COMPONENT_GRID = [
           </BannerAction>
         </Banner>
         <Banner status="success" size="sm">
-          <IconCircleCheckFill18 />
+          <CircleCheck />
           <BannerDescription>Deployment is live.</BannerDescription>
         </Banner>
       </div>
@@ -554,7 +554,7 @@ const COMPONENT_GRID = [
       <EmptyState className="min-h-56 w-72 px-4 py-8">
         <EmptyStateContent>
           <EmptyStateIcon>
-            <IconInboxOutline18 />
+            <Inbox />
           </EmptyStateIcon>
           <EmptyStateTitle>No messages yet</EmptyStateTitle>
           <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>
@@ -576,15 +576,15 @@ const COMPONENT_GRID = [
           <TabsList>
             <TabsBackground />
             <TabsTab value="overview">
-              <IconMessageOutline18 />
+              <MessageSquare />
               <TabsLabel>Overview</TabsLabel>
             </TabsTab>
             <TabsTab value="billing">
-              <IconCreditCardOutline18 />
+              <CreditCard />
               <TabsLabel>Billing</TabsLabel>
             </TabsTab>
             <TabsTab value="settings">
-              <IconGearOutline18 />
+              <Settings />
               <TabsLabel>Settings</TabsLabel>
             </TabsTab>
           </TabsList>
@@ -601,13 +601,13 @@ const COMPONENT_GRID = [
         <Tabs defaultValue="messages" className="flex justify-center overflow-visible">
           <TabsList variant="underline">
             <TabsTab value="messages" aria-label="Messages">
-              <IconMessageOutline18 />
+              <MessageSquare />
             </TabsTab>
             <TabsTab value="alerts" aria-label="Alerts">
-              <IconBellOutline18 />
+              <Bell />
             </TabsTab>
             <TabsTab value="settings" aria-label="Settings">
-              <IconGearOutline18 />
+              <Settings />
             </TabsTab>
           </TabsList>
           <TabsPanel value="messages" className="sr-only">
@@ -626,9 +626,9 @@ const COMPONENT_GRID = [
 ] as const satisfies readonly ComponentGridItem[];
 
 const SELECT_PREVIEW_OPTIONS = [
-  { value: "relevance", label: "Relevance", icon: IconInputSearchOutline18 },
-  { value: "recent", label: "Most recent", icon: IconClockOutline18 },
-  { value: "comments", label: "Most commented", icon: IconMessageOutline18 },
+  { value: "relevance", label: "Relevance", icon: Search },
+  { value: "recent", label: "Most recent", icon: Clock },
+  { value: "comments", label: "Most commented", icon: MessageSquare },
 ] as const;
 
 const HOME_COMBOBOX_OPTIONS = [
@@ -659,7 +659,7 @@ function ComboboxPreview() {
         <div className="grid w-[240px] gap-1.5">
           <ComboboxLabel>Model</ComboboxLabel>
           <ComboboxControl>
-            <IconSparkle2Outline18
+            <Sparkles
               aria-hidden
               className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
             />
@@ -751,17 +751,17 @@ function SegmentedControlPreview() {
     <div className="grid justify-items-center gap-4">
       <SegmentedControl ariaLabel="Task view" value={value} onValueChange={setValue}>
         <SegmentedControlItem value="board">
-          <IconGridLayoutCols3Outline18 />
+          <Columns3 />
           <SegmentedControlLabel>Board</SegmentedControlLabel>
         </SegmentedControlItem>
         <SegmentedControlItem value="list">
-          <IconBulletListOutline18 />
+          <List />
           <SegmentedControlLabel>List</SegmentedControlLabel>
         </SegmentedControlItem>
       </SegmentedControl>
       <SegmentedControl ariaLabel="Filter messages" value={filter} onValueChange={setFilter}>
         <SegmentedControlItem value="all">
-          <IconInboxOutline18 />
+          <Inbox />
           <SegmentedControlLabel>All</SegmentedControlLabel>
           <SegmentedControlCount>12</SegmentedControlCount>
         </SegmentedControlItem>
@@ -770,7 +770,7 @@ function SegmentedControlPreview() {
           <SegmentedControlCount>3</SegmentedControlCount>
         </SegmentedControlItem>
         <SegmentedControlItem value="mentions">
-          <IconAtSignOutline18 />
+          <AtSign />
           <SegmentedControlLabel>Mentions</SegmentedControlLabel>
         </SegmentedControlItem>
       </SegmentedControl>
@@ -785,7 +785,7 @@ function DropdownMenuPreview() {
     <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
       <DropdownMenu open modal={false} triggerId="home-menu-trigger">
         <DropdownMenuTrigger id="home-menu-trigger" render={<Button variant="outline" size="md" />}>
-          <IconUserOutline18 aria-hidden />
+          <User aria-hidden />
           Account
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -795,22 +795,22 @@ function DropdownMenuPreview() {
         >
           <DropdownMenuLabel>Account</DropdownMenuLabel>
           <DropdownMenuItem>
-            <IconUserOutline18 />
+            <User />
             <span className="min-w-0 flex-1 truncate">Profile</span>
             <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconBellOutline18 />
+            <Bell />
             <span className="min-w-0 flex-1 truncate">Notifications</span>
             <DropdownMenuItemCount>3</DropdownMenuItemCount>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconCreditCardOutline18 />
+            <CreditCard />
             <span className="min-w-0 flex-1 truncate">Billing</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <IconGearOutline18 />
+            <Settings />
             <span className="min-w-0 flex-1 truncate">Settings</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -842,11 +842,11 @@ function ContextMenuPreview() {
         <div className="-mx-1 border-b border-line-muted px-3 py-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45 [[data-theme=brutal]_&]:mx-0 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60 [[data-theme=brutal]_&]:uppercase">
           Thread actions
         </div>
-        <ContextMenuPreviewRow icon={<IconPinOutline18 />} label="Pin thread" />
-        <ContextMenuPreviewRow icon={<IconCopyOutline18 />} label="Copy link" shortcut="⌘C" />
+        <ContextMenuPreviewRow icon={<Pin />} label="Pin thread" />
+        <ContextMenuPreviewRow icon={<Copy />} label="Copy link" shortcut="⌘C" />
         <div className="my-1 -mx-1 h-px bg-line-muted [[data-theme=brutal]_&]:m-0 [[data-theme=brutal]_&]:border-t-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-transparent" />
-        <ContextMenuPreviewRow icon={<IconArchive2Outline18 />} label="Archive" />
-        <ContextMenuPreviewRow icon={<IconTrashOutline18 />} label="Delete" shortcut="⌫" />
+        <ContextMenuPreviewRow icon={<Archive />} label="Archive" />
+        <ContextMenuPreviewRow icon={<Trash />} label="Delete" shortcut="⌫" />
       </div>
     </div>
   );
@@ -888,7 +888,7 @@ function PopoverPreview() {
     <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
       <Popover open modal={false} triggerId="home-popover-trigger">
         <PopoverTrigger id="home-popover-trigger" render={<Button variant="outline" size="md" />}>
-          <IconCircleInfoFill18 aria-hidden />
+          <Info aria-hidden />
           Usage notes
         </PopoverTrigger>
         <PopoverContent
@@ -956,7 +956,7 @@ function NotificationCenterPreview() {
           className="size-9 p-0"
           aria-label="Notifications"
         >
-          <IconBellOutline18 aria-hidden />
+          <Bell aria-hidden />
         </Button>
         <Status
           aria-hidden

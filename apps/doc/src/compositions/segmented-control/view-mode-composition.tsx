@@ -1,5 +1,5 @@
 import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "@raft/ui";
-import { IconBulletListOutline18, IconGridLayoutCols3Outline18 } from "nucleo-ui-outline-18";
+import { List, Columns3 } from "lucide-react";
 
 type SegmentedControlViewModeCompositionProps = {
   value?: string;
@@ -13,11 +13,11 @@ export function SegmentedControlViewModeComposition({
   return (
     <SegmentedControl ariaLabel="Task view" value={value} onValueChange={onValueChange}>
       <SegmentedControlItem value="board">
-        <IconGridLayoutCols3Outline18 />
+        <Columns3 />
         <SegmentedControlLabel>Board</SegmentedControlLabel>
       </SegmentedControlItem>
       <SegmentedControlItem value="list">
-        <IconBulletListOutline18 />
+        <List />
         <SegmentedControlLabel>List</SegmentedControlLabel>
       </SegmentedControlItem>
     </SegmentedControl>

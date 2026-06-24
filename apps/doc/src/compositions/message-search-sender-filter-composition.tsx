@@ -1,6 +1,6 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
-import { IconChevronDownOutline18, IconCircleUserOutline18 } from "nucleo-ui-outline-18";
+import { ChevronDown, CircleUserRound } from "lucide-react";
 import {
   Avatar,
   Combobox,
@@ -54,10 +54,10 @@ export function MessageSearchSenderFilterComposition() {
         onValueChange={setSelectedSender}
       >
         <ComboboxTrigger className="h-8 w-36 py-0">
-          <IconCircleUserOutline18 aria-hidden />
+          <CircleUserRound aria-hidden />
           <span className="min-w-0 truncate text-left">{selectedSender?.label ?? "From"}</span>
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent

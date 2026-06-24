@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import { CircleCheck, Clock, X } from "lucide-react";
 import { Badge, Status, Text, ThemeProvider, type BadgeProps, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/badge_/matrix")({
@@ -52,7 +51,7 @@ const CASES: readonly MatrixCase[] = [
     label: "leading icon",
     render: () => (
       <Badge variant="success">
-        <IconCircleCheckFill18 className="size-3" />
+        <CircleCheck className="size-3" />
         Approved
       </Badge>
     ),
@@ -71,7 +70,7 @@ const CASES: readonly MatrixCase[] = [
     render: () => (
       <Badge appearance="soft" variant="danger">
         @bugen
-        <IconXmarkOutline18 className="size-3" />
+        <X className="size-3" />
       </Badge>
     ),
   },
@@ -106,7 +105,7 @@ const CASES: readonly MatrixCase[] = [
         text="Release channel"
         badge={
           <Badge variant="success">
-            <IconCircleCheckFill18 className="size-3" />
+            <CircleCheck className="size-3" />
             Live
           </Badge>
         }
@@ -121,7 +120,7 @@ const CASES: readonly MatrixCase[] = [
         text="deploy:warning"
         badge={
           <Badge variant="warning">
-            <IconClockOutline18 className="size-3" />
+            <Clock className="size-3" />
             Warning
           </Badge>
         }
@@ -136,7 +135,7 @@ const CASES: readonly MatrixCase[] = [
         text="Sync failed"
         badge={
           <Badge appearance="soft" variant="danger">
-            <IconXmarkOutline18 className="size-3" />
+            <X className="size-3" />
             Retry
           </Badge>
         }

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Collapsible } from "@base-ui/react";
 import { Button } from "@raft/ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { IconChevronDownOutline18 } from "nucleo-ui-outline-18";
+import { ChevronDown } from "lucide-react";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 
@@ -28,7 +28,7 @@ export function Example({ html, collapsedHtml, children, previewClassName }: Exa
               className="text-foreground-placeholder hover:text-foreground-muted focus-visible:ring-1 [&[data-panel-open]_svg]:rotate-180"
             >
               <span className="order-1">Code</span>
-              <IconChevronDownOutline18
+              <ChevronDown
                 aria-hidden
                 className="order-2 size-3 transition duration-200 ease-out"
                 strokeWidth={1.5}

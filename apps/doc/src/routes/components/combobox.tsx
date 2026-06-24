@@ -18,18 +18,18 @@ import {
   InlineCode,
 } from "@raft/ui";
 import {
-  IconCheckOutline18,
-  IconChevronDownOutline18,
-  IconCodeBranchOutline18,
-  IconFolderOutline18,
-  IconHashtagOutline18,
-  IconMegaphoneOutline18,
-  IconMessagesOutline18,
-  IconLoaderOutline18,
-  IconAtSignOutline18,
-  IconCircleWarningOutline18,
-  IconSparkle2Outline18,
-} from "nucleo-ui-outline-18";
+  AtSign,
+  Check,
+  ChevronDown,
+  CircleAlert,
+  Folder,
+  GitBranch,
+  Hash,
+  Loader,
+  Megaphone,
+  MessagesSquare,
+  Sparkles,
+} from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
@@ -91,10 +91,10 @@ const TOC = [
 ] as const;
 
 const channels = [
-  { id: "all", label: "All messages", Icon: IconMessagesOutline18 },
-  { id: "mentions", label: "Mentions", Icon: IconAtSignOutline18 },
-  { id: "incidents", label: "Incidents", Icon: IconCircleWarningOutline18 },
-  { id: "releases", label: "Releases", Icon: IconMegaphoneOutline18 },
+  { id: "all", label: "All messages", Icon: MessagesSquare },
+  { id: "mentions", label: "Mentions", Icon: AtSign },
+  { id: "incidents", label: "Incidents", Icon: CircleAlert },
+  { id: "releases", label: "Releases", Icon: Megaphone },
 ] as const;
 
 type Channel = (typeof channels)[number];
@@ -214,7 +214,6 @@ import {
   ComboboxList,
   ComboboxTriggerIndicator,
 } from "@raft/ui";
-import { IconChevronDownOutline18, IconSparkle2Outline18 } from "nucleo-ui-outline-18";
 
 const models = [
   { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
@@ -237,11 +236,11 @@ function ModelCombobox() {
       <div className="grid w-56 gap-1.5">
         <ComboboxLabel>Model</ComboboxLabel>
         <ComboboxControl>
-          <IconSparkle2Outline18 aria-hidden className="size-3.5 text-foreground-muted" />
+          <Sparkles aria-hidden className="size-3.5 text-foreground-muted" />
           <ComboboxInput aria-label="Search models" placeholder="Search models..." />
           <ComboboxClear aria-label="Clear model" />
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxControl>
       </div>
@@ -266,19 +265,12 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
 } from "@raft/ui";
-import {
-  IconAtSignOutline18,
-  IconChevronDownOutline18,
-  IconCircleWarningOutline18,
-  IconMegaphoneOutline18,
-  IconMessagesOutline18,
-} from "nucleo-ui-outline-18";
 
 const channels = [
-  { id: "all", label: "All messages", Icon: IconMessagesOutline18 },
-  { id: "mentions", label: "Mentions", Icon: IconAtSignOutline18 },
-  { id: "incidents", label: "Incidents", Icon: IconCircleWarningOutline18 },
-  { id: "releases", label: "Releases", Icon: IconMegaphoneOutline18 },
+  { id: "all", label: "All messages", Icon: MessagesSquare },
+  { id: "mentions", label: "Mentions", Icon: AtSign },
+  { id: "incidents", label: "Incidents", Icon: CircleAlert },
+  { id: "releases", label: "Releases", Icon: Megaphone },
 ] as const;
 
 function ChannelFilterCombobox() {
@@ -293,10 +285,10 @@ function ChannelFilterCombobox() {
       autoHighlight
     >
       <ComboboxTrigger className="h-8 w-36 py-0">
-        <IconMessagesOutline18 />
+        <MessagesSquare />
         {value?.label ?? "Channel"}
         <ComboboxTriggerIndicator>
-          <IconChevronDownOutline18 aria-hidden />
+          <ChevronDown aria-hidden />
         </ComboboxTriggerIndicator>
       </ComboboxTrigger>
       <ComboboxContent className="w-[220px]">
@@ -325,11 +317,6 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
 } from "@raft/ui";
-import {
-  IconChevronDownOutline18,
-  IconFolderOutline18,
-  IconLoaderOutline18,
-} from "nucleo-ui-outline-18";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const repositories = [
@@ -358,7 +345,7 @@ function RepositoryPicker() {
     if (isLoading) {
       return (
         <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
-          <IconLoaderOutline18 aria-hidden className="size-3.5 animate-spin" />
+          <Loader aria-hidden className="size-3.5 animate-spin" />
           Loading
         </div>
       );
@@ -374,7 +361,7 @@ function RepositoryPicker() {
           <ComboboxItem key={repository.id} value={repository}>
             <span className="flex min-w-0 items-center gap-1.5">
               <span className="flex size-4 shrink-0 items-center justify-center">
-                <IconFolderOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                <Folder className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
               </span>
               <span className="truncate leading-6">{repository.label}</span>
             </span>
@@ -396,12 +383,12 @@ function RepositoryPicker() {
       autoHighlight
     >
       <ComboboxTrigger className="h-8 w-36 py-0">
-        <IconFolderOutline18 />
+        <Folder />
         <span className="min-w-0 truncate text-left">
           {value ? \`Repository: \${value.label}\` : "Choose repository"}
         </span>
         <ComboboxTriggerIndicator>
-          <IconChevronDownOutline18 aria-hidden />
+          <ChevronDown aria-hidden />
         </ComboboxTriggerIndicator>
       </ComboboxTrigger>
       <ComboboxContent className="w-[220px]">
@@ -431,11 +418,6 @@ import {
   ComboboxList,
   ComboboxTriggerIndicator,
 } from "@raft/ui";
-import {
-  IconChevronDownOutline18,
-  IconLoaderOutline18,
-  IconSparkle2Outline18,
-} from "nucleo-ui-outline-18";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const models = [
@@ -476,7 +458,7 @@ function AsyncModelSearch() {
     if (isLoading) {
       return (
         <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
-          <IconLoaderOutline18 className="size-3.5 animate-spin" />
+          <Loader className="size-3.5 animate-spin" />
           Searching
         </div>
       );
@@ -522,11 +504,11 @@ function AsyncModelSearch() {
       <div className="grid w-56 gap-1.5">
         <ComboboxLabel>Model</ComboboxLabel>
         <ComboboxControl>
-          <IconSparkle2Outline18 aria-hidden className="size-3.5 text-foreground-muted" />
+          <Sparkles aria-hidden className="size-3.5 text-foreground-muted" />
           <ComboboxInput aria-label="Search models" placeholder="Search models..." />
           <ComboboxClear aria-label="Clear model" />
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxControl>
       </div>
@@ -551,12 +533,6 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
 } from "@raft/ui";
-import {
-  IconCheckOutline18,
-  IconChevronDownOutline18,
-  IconCodeBranchOutline18,
-  IconLoaderOutline18,
-} from "nucleo-ui-outline-18";
 import { mockMutationOptions, runMockMutation } from "#/lib/mock-query.ts";
 
 const branches = [
@@ -631,12 +607,12 @@ function AsyncBranchSelect() {
       autoHighlight
     >
       <ComboboxTrigger className="h-8 w-36 py-0">
-        <IconCodeBranchOutline18 />
+        <GitBranch />
         <span className="min-w-0 truncate text-left">
           {value ? \`Branch: \${value.label}\` : "Choose branch"}
         </span>
         <ComboboxTriggerIndicator>
-          <IconChevronDownOutline18 aria-hidden />
+          <ChevronDown aria-hidden />
         </ComboboxTriggerIndicator>
       </ComboboxTrigger>
       <ComboboxContent className="w-[220px]">
@@ -656,14 +632,14 @@ function AsyncBranchSelect() {
             >
               <span className="flex min-w-0 items-center gap-1.5">
                 <span className="flex size-4 shrink-0 items-center justify-center">
-                  <IconCodeBranchOutline18 />
+                  <GitBranch />
                 </span>
                 <span className="truncate leading-6">{branch.label}</span>
               </span>
               {pendingId === branch.id ? (
-                <IconLoaderOutline18 className="ml-auto size-3.5 animate-spin" />
+                <Loader className="ml-auto size-3.5 animate-spin" />
               ) : confirmedId === branch.id ? (
-                <IconCheckOutline18 className="ml-auto size-3.5" />
+                <Check className="ml-auto size-3.5" />
               ) : (
                 <ComboboxItemIndicator />
               )}
@@ -746,7 +722,7 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const HASH_LEADING = <IconHashtagOutline18 className="text-black/50" />;
+const HASH_LEADING = <Hash className="text-black/50" />;
 
 const MESSAGE_SEARCH_CHANNEL_FILTER_COMPOSITION_PATH =
   "apps/doc/src/compositions/message-search-channel-filter-composition.tsx" as const;
@@ -1002,7 +978,7 @@ function PreviewCombobox() {
         <div className="grid w-56 gap-1.5">
           <ComboboxLabel>Model</ComboboxLabel>
           <ComboboxControl>
-            <IconSparkle2Outline18
+            <Sparkles
               aria-hidden
               className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
             />
@@ -1013,7 +989,7 @@ function PreviewCombobox() {
             />
             <ComboboxClear aria-label="Clear model" />
             <ComboboxTriggerIndicator>
-              <IconChevronDownOutline18 aria-hidden />
+              <ChevronDown aria-hidden />
             </ComboboxTriggerIndicator>
           </ComboboxControl>
         </div>
@@ -1034,7 +1010,7 @@ function PreviewCombobox() {
 function ButtonTriggerCombobox() {
   const portalRef = useRef<HTMLDivElement>(null);
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(channels[0]);
-  const SelectedChannelIcon = selectedChannel?.Icon ?? IconMessagesOutline18;
+  const SelectedChannelIcon = selectedChannel?.Icon ?? MessagesSquare;
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
@@ -1050,7 +1026,7 @@ function ButtonTriggerCombobox() {
           <SelectedChannelIcon aria-hidden />
           {selectedChannel?.label ?? "Channel"}
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
@@ -1081,7 +1057,7 @@ function AsyncOptionsCombobox() {
     if (isLoading) {
       return (
         <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
-          <IconLoaderOutline18 aria-hidden className="size-3.5 animate-spin" />
+          <Loader aria-hidden className="size-3.5 animate-spin" />
           Loading
         </div>
       );
@@ -1097,7 +1073,7 @@ function AsyncOptionsCombobox() {
           <ComboboxItem key={repository.id} value={repository}>
             <span className="flex min-w-0 items-center gap-1.5">
               <span className="flex size-4 shrink-0 items-center justify-center">
-                <IconFolderOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                <Folder className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
               </span>
               <span className="truncate leading-6">{repository.label}</span>
             </span>
@@ -1120,12 +1096,12 @@ function AsyncOptionsCombobox() {
         autoHighlight
       >
         <ComboboxTrigger className="h-8 w-36 py-0">
-          <IconFolderOutline18 aria-hidden />
+          <Folder aria-hidden />
           <span className="min-w-0 truncate text-left">
             {value ? `Repository: ${value.label}` : "Choose repository"}
           </span>
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
@@ -1168,7 +1144,7 @@ function AsyncSearchCombobox() {
     if (isLoading) {
       return (
         <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
-          <IconLoaderOutline18 aria-hidden className="size-3.5 animate-spin" />
+          <Loader aria-hidden className="size-3.5 animate-spin" />
           Searching
         </div>
       );
@@ -1215,7 +1191,7 @@ function AsyncSearchCombobox() {
         <div className="grid w-56 gap-1.5">
           <ComboboxLabel>Model</ComboboxLabel>
           <ComboboxControl>
-            <IconSparkle2Outline18
+            <Sparkles
               aria-hidden
               className="size-3.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
             />
@@ -1226,7 +1202,7 @@ function AsyncSearchCombobox() {
             />
             <ComboboxClear aria-label="Clear model" />
             <ComboboxTriggerIndicator>
-              <IconChevronDownOutline18 aria-hidden />
+              <ChevronDown aria-hidden />
             </ComboboxTriggerIndicator>
           </ComboboxControl>
         </div>
@@ -1301,12 +1277,12 @@ function AsyncSelectCombobox() {
         autoHighlight
       >
         <ComboboxTrigger className="h-8 w-36 py-0">
-          <IconCodeBranchOutline18 aria-hidden />
+          <GitBranch aria-hidden />
           <span className="min-w-0 truncate text-left">
             {value ? `Branch: ${value.label}` : "Choose branch"}
           </span>
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent
@@ -1336,14 +1312,14 @@ function AsyncSelectCombobox() {
               >
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <IconCodeBranchOutline18 className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                    <GitBranch className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
                   </span>
                   <span className="truncate leading-6">{branch.label}</span>
                 </span>
                 {pendingId === branch.id ? (
-                  <IconLoaderOutline18 aria-hidden className="ml-auto size-3.5 animate-spin" />
+                  <Loader aria-hidden className="ml-auto size-3.5 animate-spin" />
                 ) : confirmedId === branch.id ? (
-                  <IconCheckOutline18 aria-hidden className="ml-auto size-3.5 stroke-[1.5]" />
+                  <Check aria-hidden className="ml-auto size-3.5 stroke-[1.5]" />
                 ) : (
                   <ComboboxItemIndicator />
                 )}
@@ -1459,8 +1435,8 @@ function ComboboxDoc() {
               status: "difference",
               note: (
                 <>
-                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Searchable channel picker.
-                  IconHashtagOutline18 rows. Enter selects the first match.
+                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Searchable channel picker. Hash
+                  rows. Enter selects the first match.
                 </>
               ),
               source: <SourceMessageSearchChannelComparison />,

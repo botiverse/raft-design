@@ -1,5 +1,5 @@
 import { Banner, BannerDescription, BannerTitle } from "@raft/ui";
-import { IconCircleXmarkFill18 } from "nucleo-ui-fill-18";
+import { CircleX } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -8,7 +8,7 @@ import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 export function BannerContent() {
   return (
     <Banner status="destructive" className="w-fit max-w-full">
-      <IconCircleXmarkFill18 />
+      <CircleX />
       <BannerTitle>Delete server</BannerTitle>
       <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
     </Banner>

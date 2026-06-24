@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconTaskSearchOutline18 } from "nucleo-ui-outline-18";
+import { SearchCheck } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -16,7 +16,7 @@ export function EmptyStateTaskFilterContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconTaskSearchOutline18 />
+          <SearchCheck />
         </EmptyStateIcon>
         <EmptyStateTitle>No tasks match this filter</EmptyStateTitle>
         <EmptyStateDescription>

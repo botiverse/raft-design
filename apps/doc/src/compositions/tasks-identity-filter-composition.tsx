@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 import { useRef, useState } from "react";
 import { cn } from "@raft/ui/cn";
-import { IconChevronDownOutline18, IconUserOutline18 } from "nucleo-ui-outline-18";
+import { ChevronDown, User } from "lucide-react";
 import {
   Avatar,
   Badge,
@@ -59,7 +59,7 @@ export function TasksIdentityFilterComposition() {
         onValueChange={setSelectedIdentities}
       >
         <ComboboxTrigger className="h-8 w-36 py-0">
-          <IconUserOutline18 aria-hidden />
+          <User aria-hidden />
           <span className="min-w-0 truncate text-left">Assignee</span>
           {selectedIdentities.length > 0 && (
             <Badge
@@ -70,7 +70,7 @@ export function TasksIdentityFilterComposition() {
             </Badge>
           )}
           <ComboboxTriggerIndicator>
-            <IconChevronDownOutline18 aria-hidden />
+            <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent

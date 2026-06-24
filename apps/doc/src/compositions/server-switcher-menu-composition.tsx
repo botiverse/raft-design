@@ -4,8 +4,7 @@ import {
   DropdownMenuPopup,
   DropdownMenuSeparator,
 } from "@raft/ui";
-import { Check } from "lucide-react";
-import { IconPlusOutline18, IconUsersPlusOutline18 } from "nucleo-ui-outline-18";
+import { Check, Plus, UserPlus } from "lucide-react";
 
 // @docs-source-strip-start
 import { DropdownMenu, DropdownMenuTrigger } from "@raft/ui";
@@ -36,11 +35,11 @@ export function ServerSwitcherMenuContent() {
       <DropdownMenuSeparator />
 
       <DropdownMenuItem>
-        <IconUsersPlusOutline18 />
+        <UserPlus />
         <span className="min-w-0 flex-1 text-left">Join Community</span>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <IconPlusOutline18 />
+        <Plus />
         <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
       </DropdownMenuItem>
     </DropdownMenuPopup>

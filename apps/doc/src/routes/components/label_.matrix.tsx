@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
+import { Info } from "lucide-react";
 import { Label, ThemeProvider, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/label_/matrix")({
@@ -43,7 +43,7 @@ const CASES: readonly MatrixCase[] = [
     render: (theme) => (
       <Label htmlFor={`${theme}-matrix-project-url`}>
         Project URL
-        <IconCircleInfoFill18 aria-hidden className="size-3.5 text-foreground/40" />
+        <Info aria-hidden className="size-3.5 text-foreground/40" />
       </Label>
     ),
   },

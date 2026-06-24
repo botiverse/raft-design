@@ -14,16 +14,7 @@ import {
   ContextMenuTrigger,
   InlineCode,
 } from "@raft/ui";
-import {
-  IconArchive2Outline18,
-  IconBellOutline18,
-  IconChevronRightOutline18,
-  IconCopyOutline18,
-  IconMoonStarsOutline18,
-  IconPinOutline18,
-  IconSunOutline18,
-  IconTrashOutline18,
-} from "nucleo-ui-outline-18";
+import { Archive, Bell, ChevronRight, Copy, MoonStar, Pin, Sun, Trash } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef, useState } from "react";
 import { cn } from "tailwind-variants";
@@ -79,21 +70,21 @@ type PlaygroundValues = {
 
 const ACTION_MENU_BODY_SNIPPET = `    <ContextMenuLabel>Thread actions</ContextMenuLabel>
     <ContextMenuItem>
-      <IconPinOutline18 />
+      <Pin />
       <span className="min-w-0 flex-1 truncate">Pin thread</span>
     </ContextMenuItem>
     <ContextMenuItem>
-      <IconCopyOutline18 />
+      <Copy />
       <span className="min-w-0 flex-1 truncate">Copy link</span>
       <ContextMenuShortcut>⌘C</ContextMenuShortcut>
     </ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuItem>
-      <IconArchive2Outline18 />
+      <Archive />
       <span className="min-w-0 flex-1 truncate">Archive</span>
     </ContextMenuItem>
     <ContextMenuItem>
-      <IconTrashOutline18 />
+      <Trash />
       <span className="min-w-0 flex-1 truncate">Delete</span>
       <ContextMenuShortcut>⌫</ContextMenuShortcut>
     </ContextMenuItem>`;
@@ -108,12 +99,6 @@ const SNIPPETS = {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@raft/ui";
-import {
-  IconArchive2Outline18,
-  IconCopyOutline18,
-  IconPinOutline18,
-  IconTrashOutline18,
-} from "nucleo-ui-outline-18";
 
 <ContextMenu defaultOpen>
   <ContextMenuTrigger id="context-menu-trigger">Right click this surface</ContextMenuTrigger>
@@ -125,14 +110,14 @@ ${ACTION_MENU_BODY_SNIPPET}
   <ContextMenuTrigger id="context-submenu-trigger">Right click this surface</ContextMenuTrigger>
   <ContextMenuContent className="flex w-56 min-w-56 flex-col">
     <ContextMenuItem>
-      <IconPinOutline18 />
+      <Pin />
       <span className="min-w-0 flex-1 truncate">Pin thread</span>
     </ContextMenuItem>
     <ContextMenuSubmenu>
       <ContextMenuSubmenuTrigger openOnHover>
-        <IconMoonStarsOutline18 />
+        <MoonStar />
         <span className="min-w-0 flex-1 truncate">Move to</span>
-        <IconChevronRightOutline18 className="ml-auto" />
+        <ChevronRight className="ml-auto" />
       </ContextMenuSubmenuTrigger>
       <ContextMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
         <ContextMenuItem>Inbox</ContextMenuItem>
@@ -147,15 +132,15 @@ ${ACTION_MENU_BODY_SNIPPET}
     <ContextMenuLabel>Theme</ContextMenuLabel>
     <ContextMenuRadioGroup defaultValue="system">
       <ContextMenuRadioItem value="system">
-        <IconBellOutline18 />
+        <Bell />
         <span className="min-w-0 flex-1 truncate">System alerts</span>
       </ContextMenuRadioItem>
       <ContextMenuRadioItem value="quiet">
-        <IconMoonStarsOutline18 />
+        <MoonStar />
         <span className="min-w-0 flex-1 truncate">Quiet mode</span>
       </ContextMenuRadioItem>
       <ContextMenuRadioItem value="light">
-        <IconSunOutline18 />
+        <Sun />
         <span className="min-w-0 flex-1 truncate">Light mode</span>
       </ContextMenuRadioItem>
     </ContextMenuRadioGroup>
@@ -268,21 +253,21 @@ function ActionMenuRows() {
     <>
       <ContextMenuLabel>Thread actions</ContextMenuLabel>
       <ContextMenuItem>
-        <IconPinOutline18 />
+        <Pin />
         <span className="min-w-0 flex-1 truncate">Pin thread</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconCopyOutline18 />
+        <Copy />
         <span className="min-w-0 flex-1 truncate">Copy link</span>
         <ContextMenuShortcut>⌘C</ContextMenuShortcut>
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem>
-        <IconArchive2Outline18 />
+        <Archive />
         <span className="min-w-0 flex-1 truncate">Archive</span>
       </ContextMenuItem>
       <ContextMenuItem>
-        <IconTrashOutline18 />
+        <Trash />
         <span className="min-w-0 flex-1 truncate">Delete</span>
         <ContextMenuShortcut>⌫</ContextMenuShortcut>
       </ContextMenuItem>
@@ -294,14 +279,14 @@ function SubmenuRows() {
   return (
     <>
       <ContextMenuItem>
-        <IconPinOutline18 />
+        <Pin />
         <span className="min-w-0 flex-1 truncate">Pin thread</span>
       </ContextMenuItem>
       <ContextMenuSubmenu>
         <ContextMenuSubmenuTrigger openOnHover>
-          <IconMoonStarsOutline18 />
+          <MoonStar />
           <span className="min-w-0 flex-1 truncate">Move to</span>
-          <IconChevronRightOutline18 className="ml-auto" />
+          <ChevronRight className="ml-auto" />
         </ContextMenuSubmenuTrigger>
         <ContextMenuContent
           side="right"
@@ -323,15 +308,15 @@ function RadioGroupRows() {
       <ContextMenuLabel>Theme</ContextMenuLabel>
       <ContextMenuRadioGroup defaultValue="system">
         <ContextMenuRadioItem value="system">
-          <IconBellOutline18 />
+          <Bell />
           <span className="min-w-0 flex-1 truncate">System alerts</span>
         </ContextMenuRadioItem>
         <ContextMenuRadioItem value="quiet">
-          <IconMoonStarsOutline18 />
+          <MoonStar />
           <span className="min-w-0 flex-1 truncate">Quiet mode</span>
         </ContextMenuRadioItem>
         <ContextMenuRadioItem value="light">
-          <IconSunOutline18 />
+          <Sun />
           <span className="min-w-0 flex-1 truncate">Light mode</span>
         </ContextMenuRadioItem>
       </ContextMenuRadioGroup>

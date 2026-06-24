@@ -303,9 +303,9 @@
   --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
 
-  --heading-font: "Fabric Grotesk", system-ui, sans-serif;
-  --sans-font: "Fabric Grotesk", system-ui, sans-serif;
-  --mono-font: "Berkeley Mono", ui-monospace, monospace;
+  --heading-font: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  --sans-font: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  --mono-font: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
 }
 
 [data-theme="elegant"] {
@@ -408,7 +408,7 @@
 
   --heading-font: "Inter", system-ui, sans-serif;
   --sans-font: "Geist", system-ui, sans-serif;
-  --mono-font: "Berkeley Mono", ui-monospace, monospace;
+  --mono-font: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
 }
 
 @media (prefers-color-scheme: dark) {

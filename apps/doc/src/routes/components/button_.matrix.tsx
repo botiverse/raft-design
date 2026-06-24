@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
-import { IconCaretRightFill18 } from "nucleo-ui-fill-18";
-import { IconPlusOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
+import { ChevronRight, Plus, X } from "lucide-react";
 import { Button, ThemeProvider, type ButtonProps, type Theme } from "@raft/ui";
 
 export const Route = createFileRoute("/components/button_/matrix")({
@@ -86,7 +84,7 @@ const CASES: readonly MatrixCase[] = [
     label: "icon xs",
     render: () => (
       <Button size="icon-xs" aria-label="Icon xs">
-        <IconPlusOutline18 />
+        <Plus />
       </Button>
     ),
   },
@@ -94,7 +92,7 @@ const CASES: readonly MatrixCase[] = [
     label: "icon sm",
     render: () => (
       <Button size="icon-sm" aria-label="Icon sm">
-        <IconPlusOutline18 />
+        <Plus />
       </Button>
     ),
   },
@@ -102,7 +100,7 @@ const CASES: readonly MatrixCase[] = [
     label: "icon md",
     render: () => (
       <Button size="icon-md" aria-label="Icon md">
-        <IconPlusOutline18 />
+        <Plus />
       </Button>
     ),
   },
@@ -110,7 +108,7 @@ const CASES: readonly MatrixCase[] = [
     label: "icon lg",
     render: () => (
       <Button size="icon-lg" aria-label="Icon lg">
-        <IconPlusOutline18 />
+        <Plus />
       </Button>
     ),
   },
@@ -118,7 +116,7 @@ const CASES: readonly MatrixCase[] = [
     label: "leading icon",
     render: () => (
       <Button variant="primary">
-        <IconPlusOutline18 data-icon="inline-start" />
+        <Plus data-icon="inline-start" />
         New
       </Button>
     ),
@@ -129,7 +127,7 @@ const CASES: readonly MatrixCase[] = [
       <Button variant="outline">
         Next
         {theme === "elegant" ? (
-          <IconCaretRightFill18 data-icon="inline-end" className="size-3" />
+          <ChevronRight data-icon="inline-end" className="size-3" />
         ) : (
           <ChevronRight data-icon="inline-end" />
         )}
@@ -140,7 +138,7 @@ const CASES: readonly MatrixCase[] = [
     label: "danger icon",
     render: () => (
       <Button variant="danger">
-        <IconXmarkOutline18 data-icon="inline-start" />
+        <X data-icon="inline-start" />
         Delete
       </Button>
     ),

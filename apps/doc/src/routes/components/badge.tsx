@@ -1,11 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, Button, Spinner, Status, Text, type BadgeProps } from "@raft/ui";
-import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import {
-  IconClockOutline18,
-  IconGridCircleOutline18,
-  IconXmarkOutline18,
-} from "nucleo-ui-outline-18";
+import { CircleCheck, Clock, Grid2X2, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -86,10 +81,9 @@ const SNIPPETS = {
   casing: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
   icons: `import { Badge, Status } from "@raft/ui";
-import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
 
 <Badge variant="primary">
-  <IconCircleCheckFill18 className="size-3" />
+  <CircleCheck className="size-3" />
   Approved
 </Badge>
 
@@ -115,8 +109,6 @@ import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
   Loading
 </Badge>`,
   composition: `import { Badge, Text } from "@raft/ui";
-import { IconCircleCheckFill18 } from "nucleo-ui-fill-18";
-import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
 
 <div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
   <div className="flex flex-col items-start gap-3">
@@ -133,13 +125,13 @@ import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
       variant="danger"
     >
       @bugen
-      <IconXmarkOutline18 className="size-3" />
+      <X className="size-3" />
     </Badge>
   </div>
   <div className="flex flex-col items-start gap-3">
     <div className="flex items-center gap-3">
       <Badge variant="success">
-        <IconCircleCheckFill18 className="size-3" />
+        <CircleCheck className="size-3" />
         Live
       </Badge>
       <Text.Sans size="small" variant="success" className="font-medium">
@@ -148,7 +140,7 @@ import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
     </div>
     <div className="flex items-center gap-3">
       <Badge variant="warning">
-        <IconClockOutline18 className="size-3" />
+        <Clock className="size-3" />
         Warning
       </Badge>
       <Text.Sans size="small" variant="warning" className="font-medium">
@@ -157,7 +149,7 @@ import { IconClockOutline18, IconXmarkOutline18 } from "nucleo-ui-outline-18";
     </div>
     <div className="flex items-center gap-3">
       <Badge appearance="soft" variant="danger">
-        <IconXmarkOutline18 className="size-3" />
+        <X className="size-3" />
         Retry
       </Badge>
       <Text.Sans size="small" variant="danger" className="font-medium">
@@ -323,7 +315,7 @@ function BadgeDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}
@@ -407,7 +399,7 @@ function BadgeDoc() {
       <DocSection id="icons" title="Icons">
         <Example html={code.icons}>
           <Badge variant="primary">
-            <IconCircleCheckFill18 className="size-3" />
+            <CircleCheck className="size-3" />
             Approved
           </Badge>
           <Badge appearance="outline" variant="success">
@@ -451,13 +443,13 @@ function BadgeDoc() {
                 variant="danger"
               >
                 @bugen
-                <IconXmarkOutline18 className="size-3" />
+                <X className="size-3" />
               </Badge>
             </div>
             <div className="flex flex-col items-start gap-3">
               <div className="flex items-center gap-3">
                 <Badge variant="success">
-                  <IconCircleCheckFill18 className="size-3" />
+                  <CircleCheck className="size-3" />
                   Live
                 </Badge>
                 <Text.Sans size="small" variant="success" className="font-medium">
@@ -466,7 +458,7 @@ function BadgeDoc() {
               </div>
               <div className="flex items-center gap-3">
                 <Badge variant="warning">
-                  <IconClockOutline18 className="size-3" />
+                  <Clock className="size-3" />
                   Warning
                 </Badge>
                 <Text.Sans size="small" variant="warning" className="font-medium">
@@ -475,7 +467,7 @@ function BadgeDoc() {
               </div>
               <div className="flex items-center gap-3">
                 <Badge appearance="soft" variant="danger">
-                  <IconXmarkOutline18 className="size-3" />
+                  <X className="size-3" />
                   Retry
                 </Badge>
                 <Text.Sans size="small" variant="danger" className="font-medium">

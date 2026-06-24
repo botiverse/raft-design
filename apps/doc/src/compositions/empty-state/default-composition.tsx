@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconInboxOutline18 } from "nucleo-ui-outline-18";
+import { Inbox } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -16,7 +16,7 @@ export function EmptyStateDefaultContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconInboxOutline18 />
+          <Inbox />
         </EmptyStateIcon>
         <EmptyStateTitle>No messages yet</EmptyStateTitle>
         <EmptyStateDescription>Conversations you start will show up here.</EmptyStateDescription>

@@ -1,7 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
-import { Check as LucideCheck } from "lucide-react";
-import { IconCheckOutline18, IconChevronDownOutline18 } from "nucleo-ui-outline-18";
+import { Check, ChevronDown } from "lucide-react";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useTheme } from "../../lib/theme/use-theme.ts";
@@ -158,7 +157,7 @@ export function SelectIcon({ className, children, ...props }: SelectIconProps) {
   const { icon } = select({ theme });
   return (
     <BaseSelect.Icon data-slot="select-icon" className={icon({ className })} {...props}>
-      {children ?? <IconChevronDownOutline18 aria-hidden className="size-3.5 shrink-0" />}
+      {children ?? <ChevronDown aria-hidden className="size-3.5 shrink-0" />}
     </BaseSelect.Icon>
   );
 }
@@ -264,9 +263,9 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
   const { itemIndicator } = select({ theme });
   const defaultIndicator =
     theme === "brutal" ? (
-      <LucideCheck aria-hidden size={12} className="shrink-0 !stroke-[2.25]" />
+      <Check aria-hidden size={12} className="shrink-0 !stroke-[2.25]" />
     ) : (
-      <IconCheckOutline18 aria-hidden className="size-3 shrink-0" />
+      <Check aria-hidden className="size-3 shrink-0" />
     );
 
   return (
@@ -350,9 +349,7 @@ export function SelectScrollUpArrow({ className, children, ...props }: SelectScr
       className={scrollArrow({ className })}
       {...props}
     >
-      {children ?? (
-        <IconChevronDownOutline18 aria-hidden className="size-3.5 shrink-0 rotate-180" />
-      )}
+      {children ?? <ChevronDown aria-hidden className="size-3.5 shrink-0 rotate-180" />}
     </BaseSelect.ScrollUpArrow>
   );
 }
@@ -373,7 +370,7 @@ export function SelectScrollDownArrow({
       className={scrollArrow({ className })}
       {...props}
     >
-      {children ?? <IconChevronDownOutline18 aria-hidden className="size-3.5 shrink-0" />}
+      {children ?? <ChevronDown aria-hidden className="size-3.5 shrink-0" />}
     </BaseSelect.ScrollDownArrow>
   );
 }

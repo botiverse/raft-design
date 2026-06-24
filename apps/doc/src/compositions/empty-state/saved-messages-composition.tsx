@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconBookmarkOutline18 } from "nucleo-ui-outline-18";
+import { Bookmark } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -16,7 +16,7 @@ export function EmptyStateSavedMessagesContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconBookmarkOutline18 />
+          <Bookmark />
         </EmptyStateIcon>
         <EmptyStateTitle>No saved messages yet</EmptyStateTitle>
         <EmptyStateDescription>

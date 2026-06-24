@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "@raft/ui";
-import { IconCircleInfoFill18 } from "nucleo-ui-fill-18";
-import { IconGridCircleOutline18 } from "nucleo-ui-outline-18";
+import { Grid2X2, Info } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -62,7 +61,7 @@ const SNIPPETS = {
 
 <Label htmlFor="project-url">
   Project URL
-  <IconCircleInfoFill18 aria-hidden className="size-3.5 text-foreground/40" />
+  <Info aria-hidden className="size-3.5 text-foreground/40" />
 </Label>`,
   states: `<Label htmlFor="email">Email address</Label>
 
@@ -195,7 +194,7 @@ function LabelDoc() {
           size="sm"
         >
           Matrix
-          <IconGridCircleOutline18 data-icon="inline-end" />
+          <Grid2X2 data-icon="inline-end" />
         </Button>
       }
       toc={TOC}
@@ -240,7 +239,7 @@ function LabelDoc() {
               </Label>
               <Label htmlFor="label-project-url">
                 Project URL
-                <IconCircleInfoFill18 aria-hidden className="size-3.5 text-foreground/40" />
+                <Info aria-hidden className="size-3.5 text-foreground/40" />
               </Label>
             </div>
           </Example>

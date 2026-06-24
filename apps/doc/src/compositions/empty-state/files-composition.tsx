@@ -5,7 +5,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@raft/ui";
-import { IconPaperclipOutline18 } from "nucleo-ui-outline-18";
+import { Paperclip } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
@@ -16,7 +16,7 @@ export function EmptyStateFilesContent() {
     <EmptyState>
       <EmptyStateContent>
         <EmptyStateIcon>
-          <IconPaperclipOutline18 />
+          <Paperclip />
         </EmptyStateIcon>
         <EmptyStateTitle>No files yet</EmptyStateTitle>
         <EmptyStateDescription>
