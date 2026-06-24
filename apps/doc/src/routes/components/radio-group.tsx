@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "cuvii-rui";
-import { Field, FieldDescription, FieldLabel } from "cuvii-rui/wip";
+import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "raft-ui";
+import { Field, FieldDescription, FieldLabel } from "raft-ui/wip";
 import { Check } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -42,7 +42,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "cuvii-rui";
+  anatomy: `import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "raft-ui";
 import { Check } from "lucide-react";
 
 <RadioGroup

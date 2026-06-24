@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Info } from "lucide-react";
-import { Label, ThemeProvider, type Theme } from "cuvii-rui";
+import { Label, ThemeProvider, type Theme } from "raft-ui";
 
 export const Route = createFileRoute("/components/label_/matrix")({
   staticData: { standalone: true },

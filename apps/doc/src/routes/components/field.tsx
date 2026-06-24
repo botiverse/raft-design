@@ -10,8 +10,8 @@ import {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "cuvii-rui";
-import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "cuvii-rui/wip";
+} from "raft-ui";
+import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "raft-ui/wip";
 import { Grid2X2 } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -50,14 +50,14 @@ const TOC = [
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
 
 const SNIPPETS = {
-  preview: `import { Field, FieldDescription, FieldError, FieldLabel, Input } from "cuvii-rui";
+  preview: `import { Field, FieldDescription, FieldError, FieldLabel, Input } from "raft-ui";
 
 <Field invalid>
   <FieldLabel htmlFor="email" required>Email</FieldLabel>
   <Input id="email" type="email" aria-invalid defaultValue="oops" />
   <FieldError match>Email is required.</FieldError>
 </Field>`,
-  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "cuvii-rui";
+  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "raft-ui";
 
 <Field>
   <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -106,7 +106,7 @@ const SNIPPETS = {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <div className="grid gap-5 sm:grid-cols-2">
   <Field>

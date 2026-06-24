@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge } from "cuvii-rui";
+import { Badge } from "raft-ui";
 import {
   ConversationPreviewCard,
   ConversationPreviewCardAction,
@@ -15,7 +15,7 @@ import {
   ConversationPreviewCardPreviewLeading,
   ConversationPreviewCardSecondaryPreview,
   ConversationPreviewCardTimestamp,
-} from "cuvii-rui/wip";
+} from "raft-ui/wip";
 import { CheckCircle, MessageSquare } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -53,7 +53,7 @@ const SNIPPETS = {
   ConversationPreviewCardMeta,
   ConversationPreviewCardPreview,
   ConversationPreviewCardTimestamp,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <ConversationPreviewCard onClick={() => open()}>
   <ConversationPreviewCardContent>

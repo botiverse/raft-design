@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "cuvii-rui";
+import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
 
 export type PreviewMode = ThemeMode;
 

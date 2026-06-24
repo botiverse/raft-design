@@ -15,8 +15,8 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "cuvii-rui";
-import { Field, FieldDescription, FieldLabel } from "cuvii-rui/wip";
+} from "raft-ui";
+import { Field, FieldDescription, FieldLabel } from "raft-ui/wip";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -98,7 +98,7 @@ const SNIPPETS = {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "cuvii-rui";
+} from "raft-ui";
 
 const sortOptions = [
   { value: "relevance", label: "Relevance" },
@@ -133,7 +133,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "cuvii-rui";
+} from "raft-ui";
 
 const sortOptions = [
   { value: "relevance", label: "Relevance", icon: Search },

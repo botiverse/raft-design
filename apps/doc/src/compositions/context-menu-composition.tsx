@@ -7,7 +7,7 @@ import {
   ContextMenuSubmenu,
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
-} from "cuvii-rui";
+} from "raft-ui";
 import {
   Archive,
   BookmarkPlus,

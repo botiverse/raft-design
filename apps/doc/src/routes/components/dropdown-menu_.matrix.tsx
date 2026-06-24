@@ -32,7 +32,7 @@ import {
   DropdownMenuTrigger,
   ThemeProvider,
   type Theme,
-} from "cuvii-rui";
+} from "raft-ui";
 
 export const Route = createFileRoute("/components/dropdown-menu_/matrix")({
   staticData: { standalone: true },

@@ -7,7 +7,7 @@ import {
   EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "cuvii-rui";
+} from "raft-ui";
 import { Inbox, Plus, Search, Upload } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -55,7 +55,7 @@ const SNIPPETS = {
   EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "cuvii-rui";
+} from "raft-ui";
 import { Inbox } from "lucide-react";
 
 <EmptyState>
@@ -107,7 +107,7 @@ import { Inbox } from "lucide-react";
     <Button variant="outline" size="sm">Import</Button>
   </EmptyStateActions>
 </EmptyState>`,
-  customize: `import { Button, EmptyState, EmptyStateContent, EmptyStateDescription, EmptyStateIcon, EmptyStateTitle } from "cuvii-rui";
+  customize: `import { Button, EmptyState, EmptyStateContent, EmptyStateDescription, EmptyStateIcon, EmptyStateTitle } from "raft-ui";
 import { Upload } from "lucide-react";
 
 <EmptyState className="min-h-72">

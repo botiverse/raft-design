@@ -1,4 +1,4 @@
-import { Banner, BannerAction, BannerDescription, Button } from "cuvii-rui";
+import { Banner, BannerAction, BannerDescription, Button } from "raft-ui";
 import { Info, X } from "lucide-react";
 
 // @docs-source-strip-start

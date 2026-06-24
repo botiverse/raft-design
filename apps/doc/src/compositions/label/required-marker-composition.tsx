@@ -1,4 +1,4 @@
-import { Label, LabelAsterisk } from "cuvii-rui";
+import { Label, LabelAsterisk } from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

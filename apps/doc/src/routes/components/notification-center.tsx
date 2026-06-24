@@ -25,7 +25,7 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
-} from "cuvii-rui";
+} from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -135,7 +135,7 @@ const SNIPPETS = {
   NotificationCenterItemBody,
   NotificationCenterItemActions,
   NotificationCenterActionButton,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <NotificationCenter modal={false}>
   <NotificationCenterTrigger render={<button type="button" />}>

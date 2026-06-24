@@ -16,7 +16,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "cuvii-rui";
+} from "raft-ui";
 
 type Channel = {
   id: string;

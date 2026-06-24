@@ -7,7 +7,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "cuvii-rui";
+} from "raft-ui";
 import { Bell, Bookmark, Info, MessageSquare, SmilePlus } from "lucide-react";
 import { useId, useRef, type ReactNode, type RefObject } from "react";
 
@@ -43,7 +43,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  preview: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 import { SmilePlus } from "lucide-react";
 
 <TooltipProvider>
@@ -54,7 +54,7 @@ import { SmilePlus } from "lucide-react";
     <TooltipContent>Add reaction</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  anatomy: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  anatomy: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 
 <TooltipProvider>
   <Tooltip>
@@ -62,7 +62,7 @@ import { SmilePlus } from "lucide-react";
     <TooltipContent>Content</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  usageActions: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  usageActions: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
 
 <TooltipProvider>
@@ -87,7 +87,7 @@ import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
     </Tooltip>
   </div>
 </TooltipProvider>`,
-  usageStatus: `import { Status, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  usageStatus: `import { Status, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 
 <TooltipProvider>
   <Tooltip>
@@ -102,7 +102,7 @@ import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
     <TooltipContent>Agent is thinking</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  usageIconContent: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  usageIconContent: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 import { Info } from "lucide-react";
 
 <TooltipProvider>
@@ -116,7 +116,7 @@ import { Info } from "lucide-react";
     </TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  usageTimestamp: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  usageTimestamp: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 
 <TooltipProvider>
   <Tooltip>
@@ -126,7 +126,7 @@ import { Info } from "lucide-react";
     <TooltipContent>Jun 23, 2026, 09:30</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  usageShortcut: `import { Button, Kbd, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  usageShortcut: `import { Button, Kbd, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 import { Info } from "lucide-react";
 
 <TooltipProvider>
@@ -140,7 +140,7 @@ import { Info } from "lucide-react";
     </TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  usagePlacement: `import { Button, Status, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "cuvii-rui";
+  usagePlacement: `import { Button, Status, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 import { SmilePlus } from "lucide-react";
 
 <TooltipProvider>

@@ -20,9 +20,7 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const TODOS = [
-  "Skipped: keep as an app-local security utility, not an cuvii-rui component",
-] as const;
+const TODOS = ["Skipped: keep as an app-local security utility, not an raft-ui component"] as const;
 
 const SNIPPETS = {
   anatomy: `import SandboxedPreviewFrame from "../ui/SandboxedPreviewFrame";
@@ -170,7 +168,7 @@ function SandboxedPreviewFrameDoc() {
       overview={
         <Differences from="SandboxedPreviewFrame">
           <li>
-            skipped for <code>cuvii-rui</code>: no visual contract, no theme contract, and no Base
+            skipped for <code>raft-ui</code>: no visual contract, no theme contract, and no Base
             UI/composition value
           </li>
           <li>
@@ -245,7 +243,7 @@ function SandboxedPreviewFrameDoc() {
             {
               label: "HTML attachment preview",
               status: "match",
-              note: "Source pins allow-scripts for interactive HTML while omitting allow-same-origin. Current decision is to keep the same utility app-local, outside cuvii-rui.",
+              note: "Source pins allow-scripts for interactive HTML while omitting allow-same-origin. Current decision is to keep the same utility app-local, outside raft-ui.",
               source: (
                 <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
                   <AppSandboxedPreviewFrame

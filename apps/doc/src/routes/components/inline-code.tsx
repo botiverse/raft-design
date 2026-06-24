@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { InlineCode } from "cuvii-rui";
+import { InlineCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -29,12 +29,12 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { InlineCode } from "cuvii-rui";
+  preview: `import { InlineCode } from "raft-ui";
 
 <p>
   Set <InlineCode>aria-invalid</InlineCode> on the control.
 </p>`,
-  anatomy: `import { InlineCode } from "cuvii-rui";
+  anatomy: `import { InlineCode } from "raft-ui";
 
 <InlineCode>aria-invalid</InlineCode>`,
   usage: `<p>

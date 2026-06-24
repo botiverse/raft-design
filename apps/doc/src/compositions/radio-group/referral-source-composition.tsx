@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RadioGroup, RadioGroupItem } from "cuvii-rui";
+import { RadioGroup, RadioGroupItem } from "raft-ui";
 
 const REFERRAL_OPTIONS = [
   { value: "twitter_x", label: "Twitter / X" },

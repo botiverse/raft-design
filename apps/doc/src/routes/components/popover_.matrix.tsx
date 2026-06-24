@@ -15,8 +15,8 @@ import {
   PopoverTrigger,
   ThemeProvider,
   type Theme,
-} from "cuvii-rui";
-import { Field, FieldLabel } from "cuvii-rui/wip";
+} from "raft-ui";
+import { Field, FieldLabel } from "raft-ui/wip";
 
 export const Route = createFileRoute("/components/popover_/matrix")({
   staticData: { standalone: true },

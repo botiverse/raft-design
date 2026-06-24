@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button, InlineCode, Input } from "cuvii-rui";
-import { Field, FieldError, FieldLabel } from "cuvii-rui/wip";
+import { Button, InlineCode, Input } from "raft-ui";
+import { Field, FieldError, FieldLabel } from "raft-ui/wip";
 import { Grid2X2 } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -39,7 +39,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Input } from "cuvii-rui";
+  anatomy: `import { Input } from "raft-ui";
 
 <Input aria-label="Email" placeholder="you@example.com" />`,
   types: `<Input
@@ -62,7 +62,7 @@ const SNIPPETS = {
 <Input aria-label="Email" aria-invalid defaultValue="oops" />
 <Input aria-label="Email" disabled placeholder="Disabled" />
 <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />`,
-  field: `import { Field, FieldError, FieldLabel, Input } from "cuvii-rui";
+  field: `import { Field, FieldError, FieldLabel, Input } from "raft-ui";
 
 <Field invalid>
   <FieldLabel htmlFor="email">Email</FieldLabel>

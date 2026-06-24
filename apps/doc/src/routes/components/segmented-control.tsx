@@ -37,7 +37,7 @@ const SNIPPETS = {
   SegmentedControlCount,
   SegmentedControlItem,
   SegmentedControlLabel,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <SegmentedControl
   ariaLabel="Filter messages"

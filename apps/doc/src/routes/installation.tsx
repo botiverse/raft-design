@@ -1,4 +1,4 @@
-import { InlineCode } from "cuvii-rui";
+import { InlineCode } from "raft-ui";
 import { createFileRoute } from "@tanstack/react-router";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import type { ReactNode } from "react";
@@ -17,22 +17,22 @@ const TOC = [
   { id: "requirements", title: "Requirements" },
 ] as const;
 
-const INSTALLATION_PROMPT = `Install cuvii-rui in this project as an npm package.
+const INSTALLATION_PROMPT = `Install raft-ui in this project as an npm package.
 
 Use the package route, not the shadcn registry route.
 
 Requirements:
-- Install cuvii-rui.
+- Install raft-ui.
 - Use Tailwind CSS v4 in the host app.
-- Import cuvii-rui/styles.css exactly once from the app's global stylesheet or root entry.
-- Do not import tailwindcss again from the same CSS entry after importing cuvii-rui/styles.css.
-- The package stylesheet already sources cuvii-rui's component classes.
+- Import raft-ui/styles.css exactly once from the app's global stylesheet or root entry.
+- Do not import tailwindcss again from the same CSS entry after importing raft-ui/styles.css.
+- The package stylesheet already sources raft-ui's component classes.
 - Wrap the app in ThemeProvider with syncDom when selecting a style family or color mode.
 - Use useTheme().setTheme to switch families and pass mode for elegant light, dark, or system.
 
 Minimal setup:
-import "cuvii-rui/styles.css";
-import { ThemeProvider } from "cuvii-rui";
+import "raft-ui/styles.css";
+import { ThemeProvider } from "raft-ui";
 
 export function App() {
   return (
@@ -43,7 +43,7 @@ export function App() {
 }`;
 
 const SNIPPETS = {
-  install: "pnpm add cuvii-rui",
+  install: "pnpm add raft-ui",
   installTailwind: "pnpm add -D tailwindcss @tailwindcss/vite",
   vite: `import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -52,15 +52,15 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [tailwindcss(), react()],
 });`,
-  globalCss: `@import "cuvii-rui/styles.css";`,
-  app: `import { Button } from "cuvii-rui";
+  globalCss: `@import "raft-ui/styles.css";`,
+  app: `import { Button } from "raft-ui";
 
 export function App() {
   return <Button>Save</Button>;
 }`,
-  themeProvider: `import "cuvii-rui/styles.css";
+  themeProvider: `import "raft-ui/styles.css";
 
-import { ThemeProvider } from "cuvii-rui";
+import { ThemeProvider } from "raft-ui";
 
 export function App() {
   return (
@@ -69,7 +69,7 @@ export function App() {
     </ThemeProvider>
   );
 }`,
-  themeSwitching: `import { Button, useTheme } from "cuvii-rui";
+  themeSwitching: `import { Button, useTheme } from "raft-ui";
 
 export function ThemeSwitcher() {
   const { setTheme } = useTheme();
@@ -83,7 +83,7 @@ export function ThemeSwitcher() {
     </div>
   );
 }`,
-  themeState: `import { useTheme } from "cuvii-rui";
+  themeState: `import { useTheme } from "raft-ui";
 
 export function ThemeStatus() {
   const { theme, mode, resolvedMode } = useTheme();
@@ -105,7 +105,7 @@ export function ThemeStatus() {
   Billing
 </section>`,
   manualSource: `@import "tailwindcss";
-@source "../node_modules/cuvii-rui/src";`,
+@source "../node_modules/raft-ui/src";`,
 } as const;
 
 export const Route = createFileRoute("/installation")({
@@ -139,7 +139,7 @@ function InstallationDoc() {
   return (
     <DocPage
       title="Installation"
-      description="Install cuvii-rui as a package and wire its Tailwind v4 theme into your app."
+      description="Install raft-ui as a package and wire its Tailwind v4 theme into your app."
       toc={TOC}
       headerAction={<InstallationCopyPrompt prompt={INSTALLATION_PROMPT} />}
     >
@@ -196,7 +196,7 @@ function InstallationDoc() {
               hint for its component classes.
             </p>
             <p className="text-sm leading-relaxed text-foreground-muted">
-              Add a manual source only if you skip <InlineCode>cuvii-rui/styles.css</InlineCode> and
+              Add a manual source only if you skip <InlineCode>raft-ui/styles.css</InlineCode> and
               build your Tailwind entry yourself.
             </p>
             <CodeSnippet
@@ -291,7 +291,7 @@ function InstallationDoc() {
           </li>
           <li>
             <span className="font-medium text-foreground-strong">CSS:</span> import{" "}
-            <InlineCode>cuvii-rui/styles.css</InlineCode> once. Do not also import{" "}
+            <InlineCode>raft-ui/styles.css</InlineCode> once. Do not also import{" "}
             <InlineCode>tailwindcss</InlineCode> separately from the same entry.
           </li>
           <li>

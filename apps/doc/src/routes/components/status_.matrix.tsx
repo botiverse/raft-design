@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Status, ThemeProvider, type StatusProps, type Theme } from "cuvii-rui";
+import { Status, ThemeProvider, type StatusProps, type Theme } from "raft-ui";
 
 export const Route = createFileRoute("/components/status_/matrix")({
   staticData: { standalone: true },

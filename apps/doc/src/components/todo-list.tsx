@@ -1,4 +1,4 @@
-import { Badge, type BadgeProps } from "cuvii-rui";
+import { Badge, type BadgeProps } from "raft-ui";
 
 type TodoStatus = "done" | "todo" | "deferred";
 

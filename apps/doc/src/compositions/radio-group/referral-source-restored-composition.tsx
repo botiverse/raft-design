@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { RadioGroup, RadioGroupItem, useThemeFamily } from "cuvii-rui";
-import { cn } from "cuvii-rui/cn";
+import { RadioGroup, RadioGroupItem, useThemeFamily } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import { Check } from "lucide-react";
 
 const REFERRAL_OPTIONS = [

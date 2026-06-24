@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Grid2X2 } from "lucide-react";
-import { Button, Status, type StatusProps } from "cuvii-rui";
+import { Button, Status, type StatusProps } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -67,7 +67,7 @@ function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
 }
 
 const SNIPPETS = {
-  anatomy: `import { Status } from "cuvii-rui";
+  anatomy: `import { Status } from "raft-ui";
 
 <Status variant="success" />`,
   variants: `<Status />

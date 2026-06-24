@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Status } from "cuvii-rui";
+import { Status } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -26,7 +26,7 @@ const SNIPPETS = {
 <Status variant="accent" />
 <Status variant="accent" size="xs" />
 <Status variant="warning" />`,
-  anatomy: `import { Status } from "cuvii-rui";
+  anatomy: `import { Status } from "raft-ui";
 
 <Status variant="accent" />`,
   sourceDefault: `<AttentionDot />`,

@@ -16,7 +16,7 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
   InlineCode,
-} from "cuvii-rui";
+} from "raft-ui";
 import {
   AtSign,
   Check,
@@ -214,7 +214,7 @@ import {
   ComboboxLabel,
   ComboboxList,
   ComboboxTriggerIndicator,
-} from "cuvii-rui";
+} from "raft-ui";
 
 const models = [
   { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
@@ -265,7 +265,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "cuvii-rui";
+} from "raft-ui";
 
 const channels = [
   { id: "all", label: "All messages", Icon: MessagesSquare },
@@ -317,7 +317,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "cuvii-rui";
+} from "raft-ui";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const repositories = [
@@ -418,7 +418,7 @@ import {
   ComboboxLabel,
   ComboboxList,
   ComboboxTriggerIndicator,
-} from "cuvii-rui";
+} from "raft-ui";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const models = [
@@ -533,7 +533,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-} from "cuvii-rui";
+} from "raft-ui";
 import { mockMutationOptions, runMockMutation } from "#/lib/mock-query.ts";
 
 const branches = [

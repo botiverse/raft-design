@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "cuvii-rui";
+import { Button } from "raft-ui";
 import {
   BottomSheet,
   BottomSheetClose,
@@ -9,7 +9,7 @@ import {
   BottomSheetHeader,
   BottomSheetTitle,
   BottomSheetTrigger,
-} from "cuvii-rui/wip";
+} from "raft-ui/wip";
 import { X } from "lucide-react";
 import { useState } from "react";
 
@@ -44,7 +44,7 @@ const SNIPPETS = {
   BottomSheetDescription,
   BottomSheetFooter,
   BottomSheetClose,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <BottomSheet>
   <BottomSheetTrigger render={<Button variant="primary" />}>Open sheet</BottomSheetTrigger>

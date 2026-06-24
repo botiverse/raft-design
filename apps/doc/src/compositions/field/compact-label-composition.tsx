@@ -1,5 +1,5 @@
-import { Input } from "cuvii-rui";
-import { Field, FieldDescription, FieldLabel } from "cuvii-rui/wip";
+import { Input } from "raft-ui";
+import { Field, FieldDescription, FieldLabel } from "raft-ui/wip";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

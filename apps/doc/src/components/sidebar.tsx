@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Badge } from "cuvii-rui";
+import { Badge } from "raft-ui";
 import { Globe2 } from "lucide-react";
 
 const SKILLS = {

@@ -4,7 +4,7 @@ import {
   EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "cuvii-rui";
+} from "raft-ui";
 import { Layers } from "lucide-react";
 
 // @docs-source-strip-start

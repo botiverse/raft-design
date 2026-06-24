@@ -1,12 +1,12 @@
-# cuvii-rui
+# raft-ui
 
 React UI components for rui, styled with Tailwind CSS v4.
 
 ## Usage
 
 ```tsx
-import { Button } from "cuvii-rui";
-import "cuvii-rui/styles.css";
+import { Button } from "raft-ui";
+import "raft-ui/styles.css";
 ```
 
 ## Development

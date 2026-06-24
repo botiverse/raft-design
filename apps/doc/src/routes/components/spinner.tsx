@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Spinner, type SpinnerProps } from "cuvii-rui";
+import { Badge, Button, Spinner, type SpinnerProps } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -33,7 +33,7 @@ const SIZES = ["sm", "lg"] as const;
 const VARIANTS = ["default", "inverse"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Spinner } from "cuvii-rui";
+  anatomy: `import { Spinner } from "raft-ui";
 
 <Spinner />`,
   sizes: `<Spinner size="sm" />

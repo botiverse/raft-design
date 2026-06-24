@@ -1,4 +1,4 @@
-import { InputGroup, InputGroupAddon, InputGroupInput } from "cuvii-rui";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
 import { Search } from "lucide-react";
 
 // @docs-source-strip-start

@@ -1,4 +1,4 @@
-import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from "cuvii-rui";
+import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from "raft-ui";
 import type { ReactNode, RefObject } from "react";
 import { useRef, useState } from "react";
 import { cn } from "tailwind-variants";

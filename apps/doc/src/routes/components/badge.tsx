@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Spinner, Status, type BadgeProps } from "cuvii-rui";
-import { Text } from "cuvii-rui/wip";
+import { Badge, Button, Spinner, Status, type BadgeProps } from "raft-ui";
+import { Text } from "raft-ui/wip";
 import { CircleCheck, Clock, Grid2X2, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -65,7 +65,7 @@ const VARIANTS = [
 const APPEARANCES = ["solid", "soft", "outline"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Badge } from "cuvii-rui";
+  anatomy: `import { Badge } from "raft-ui";
 
 <Badge variant="primary">In Progress</Badge>`,
   variants: `<Badge appearance="outline" uppercase>Default</Badge>
@@ -81,7 +81,7 @@ const SNIPPETS = {
 <Badge appearance="outline" variant="primary">Outline</Badge>`,
   casing: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
-  icons: `import { Badge, Status } from "cuvii-rui";
+  icons: `import { Badge, Status } from "raft-ui";
 
 <Badge variant="primary">
   <CircleCheck className="size-3" />
@@ -97,7 +97,7 @@ const SNIPPETS = {
   <Status size="xs" variant="success" />
   Available
 </Badge>`,
-  spinner: `import { Badge, Spinner } from "cuvii-rui";
+  spinner: `import { Badge, Spinner } from "raft-ui";
 
 <Badge>
   {/* Badge targets Spinner and renders it one step smaller than sm. */}
@@ -109,7 +109,7 @@ const SNIPPETS = {
   <Spinner data-icon="inline-start" />
   Loading
 </Badge>`,
-  composition: `import { Badge, Text } from "cuvii-rui";
+  composition: `import { Badge, Text } from "raft-ui";
 
 <div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
   <div className="flex flex-col items-start gap-3">

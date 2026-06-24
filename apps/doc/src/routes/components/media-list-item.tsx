@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Status } from "cuvii-rui";
+import { Badge, Button, Status } from "raft-ui";
 import {
   MediaListItem,
   MediaListItemActionGroup,
@@ -9,7 +9,7 @@ import {
   MediaListItemText,
   MediaListItemTitle,
   MediaListItemVisual,
-} from "cuvii-rui/wip";
+} from "raft-ui/wip";
 import { Clock3, Download, ExternalLink } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";
@@ -45,7 +45,7 @@ const SNIPPETS = {
   MediaListItemText,
   MediaListItemTitle,
   MediaListItemVisual,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <MediaListItem>
   <MediaListItemBody>

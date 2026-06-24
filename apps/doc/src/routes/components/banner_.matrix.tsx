@@ -10,7 +10,7 @@ import {
   ThemeProvider,
   type BannerProps,
   type Theme,
-} from "cuvii-rui";
+} from "raft-ui";
 
 export const Route = createFileRoute("/components/banner_/matrix")({
   staticData: { standalone: true },

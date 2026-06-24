@@ -1,5 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import { cn } from "cuvii-rui/cn";
+import { cn } from "raft-ui/cn";
 import LegacyNotificationCenter, {
   type NotificationCenterEntry as LegacyNotificationCenterEntry,
 } from "../../../../packages/ui/src/legacy/NotificationCenter.tsx";

@@ -97,7 +97,7 @@ import {
   TextareaGroup,
   ThemeProvider,
   type Theme,
-} from "cuvii-rui";
+} from "raft-ui";
 import {
   Archive,
   AtSign,

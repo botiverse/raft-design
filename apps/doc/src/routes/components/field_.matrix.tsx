@@ -8,8 +8,8 @@ import {
   TextareaGroup,
   ThemeProvider,
   type Theme,
-} from "cuvii-rui";
-import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "cuvii-rui/wip";
+} from "raft-ui";
+import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "raft-ui/wip";
 
 export const Route = createFileRoute("/components/field_/matrix")({
   staticData: { standalone: true },

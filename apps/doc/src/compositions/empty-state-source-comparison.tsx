@@ -1,4 +1,4 @@
-import { Button } from "cuvii-rui";
+import { Button } from "raft-ui";
 import { Bookmark, CheckSquare, Inbox, MessageSquareText, Paperclip, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 

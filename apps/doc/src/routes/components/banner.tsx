@@ -7,7 +7,7 @@ import {
   Button,
   type BannerActionProps,
   type BannerProps,
-} from "cuvii-rui";
+} from "raft-ui";
 import { CircleAlert, CircleCheck, CircleX, Grid2X2, Info, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -74,7 +74,7 @@ const BANNER_COMPOSITION_SNIPPET_IDS = {
 type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 
 const SNIPPETS = {
-  anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "cuvii-rui";
+  anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "raft-ui";
 
 <Banner status="warning">
   <CircleAlert />

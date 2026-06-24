@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { InputGroup, InputGroupAddon, InputGroupInput, Kbd, KbdGroup } from "cuvii-rui";
+import { InputGroup, InputGroupAddon, InputGroupInput, Kbd, KbdGroup } from "raft-ui";
 import { Search } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -32,7 +32,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { Kbd, KbdGroup } from "cuvii-rui";
+  preview: `import { Kbd, KbdGroup } from "raft-ui";
 
 <div className="flex flex-wrap items-center gap-4">
   <Kbd>⌫</Kbd>
@@ -42,7 +42,7 @@ const SNIPPETS = {
   </KbdGroup>
   <Kbd>Esc</Kbd>
 </div>`,
-  anatomy: `import { Kbd, KbdGroup } from "cuvii-rui";
+  anatomy: `import { Kbd, KbdGroup } from "raft-ui";
 
 <Kbd>⌫</Kbd>
 
@@ -50,13 +50,13 @@ const SNIPPETS = {
   <Kbd>⌘</Kbd>
   <Kbd>K</Kbd>
 </KbdGroup>`,
-  usageMenu: `import { Kbd } from "cuvii-rui";
+  usageMenu: `import { Kbd } from "raft-ui";
 
 <div className="flex w-64 items-center gap-2 px-3 py-2 text-sm font-medium">
   <span className="min-w-0 flex-1 truncate">Copy link</span>
   <Kbd>⌘C</Kbd>
 </div>`,
-  usageInput: `import { InputGroup, InputGroupAddon, InputGroupInput, Kbd } from "cuvii-rui";
+  usageInput: `import { InputGroup, InputGroupAddon, InputGroupInput, Kbd } from "raft-ui";
 import { Search } from "lucide-react";
 
 <InputGroup className="w-64">
@@ -68,7 +68,7 @@ import { Search } from "lucide-react";
     <Kbd>Cmd K</Kbd>
   </InputGroupAddon>
 </InputGroup>`,
-  usageSequence: `import { Kbd, KbdGroup } from "cuvii-rui";
+  usageSequence: `import { Kbd, KbdGroup } from "raft-ui";
 
 <div className="flex items-center gap-3 text-sm font-medium">
   <span>Open command menu</span>

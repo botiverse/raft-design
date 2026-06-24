@@ -6,7 +6,7 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "cuvii-rui/wip";
+} from "raft-ui/wip";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -35,7 +35,7 @@ const SNIPPETS = {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <DescriptionList>
   <DescriptionItem>

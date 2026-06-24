@@ -9,7 +9,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "cuvii-rui";
+} from "raft-ui";
 
 const TIME_RANGE_OPTIONS = [
   { value: "any", label: "Any time" },

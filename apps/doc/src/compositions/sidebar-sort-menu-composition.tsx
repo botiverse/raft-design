@@ -1,9 +1,9 @@
-import { DropdownMenuPopup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "cuvii-rui";
+import { DropdownMenuPopup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "raft-ui";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "cuvii-rui";
+import { DropdownMenu, DropdownMenuTrigger } from "raft-ui";
 import { useId } from "react";
-import { cn } from "cuvii-rui/cn";
+import { cn } from "raft-ui/cn";
 // @docs-source-strip-end
 
 export function SidebarSortMenuContent() {

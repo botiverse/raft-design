@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hash } from "lucide-react";
-import { Avatar, AvatarFallback } from "cuvii-rui";
+import { Avatar, AvatarFallback } from "raft-ui";
 import {
   QuotedMessageCard,
   QuotedMessageCardAttachments,
@@ -18,7 +18,7 @@ import {
   QuotedMessageCardThread,
   QuotedMessageCardTimestamp,
   QuotedMessageCardUnavailable,
-} from "cuvii-rui/wip";
+} from "raft-ui/wip";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -58,7 +58,7 @@ const SNIPPETS = {
   QuotedMessageCardMeta,
   QuotedMessageCardSeparator,
   QuotedMessageCardTimestamp,
-} from "cuvii-rui";
+} from "raft-ui";
 import { Hash } from "lucide-react";
 
 <QuotedMessageCard

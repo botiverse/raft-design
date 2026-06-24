@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "cuvii-rui";
+import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "raft-ui";
 import { Grid2X2, Info } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -35,10 +35,10 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { Label } from "cuvii-rui";
+  preview: `import { Label } from "raft-ui";
 
 <Label htmlFor="email">Email address</Label>`,
-  anatomy: `import { Label, LabelAsterisk } from "cuvii-rui";
+  anatomy: `import { Label, LabelAsterisk } from "raft-ui";
 
 <Label htmlFor="email">
   Email address

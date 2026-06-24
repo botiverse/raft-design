@@ -1,4 +1,4 @@
-import { Kbd, KbdGroup } from "cuvii-rui";
+import { Kbd, KbdGroup } from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, Badge, Button, Status } from "cuvii-rui";
+import { Avatar, Badge, Button, Status } from "raft-ui";
 import {
   PanelHeader,
   PanelHeaderActions,
@@ -10,7 +10,7 @@ import {
   PanelHeaderTitle,
   PanelHeaderTitleRow,
   PanelHeaderVisual,
-} from "cuvii-rui/wip";
+} from "raft-ui/wip";
 import { ArrowLeft, Bookmark, Search, Settings, X } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -41,7 +41,7 @@ const SNIPPETS = {
   PanelHeaderContent,
   PanelHeaderTitle,
   PanelHeaderTitleRow,
-} from "cuvii-rui";
+} from "raft-ui";
 
 <PanelHeader>
   <PanelHeaderContent>

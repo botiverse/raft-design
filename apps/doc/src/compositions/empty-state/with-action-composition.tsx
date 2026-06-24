@@ -6,7 +6,7 @@ import {
   EmptyStateContent,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "cuvii-rui";
+} from "raft-ui";
 import { Inbox, Plus } from "lucide-react";
 
 // @docs-source-strip-start
