@@ -34,7 +34,7 @@ jobs:
         run: vp run cuvii-rui#build
 
       - name: Pack package
-        run: pnpm --dir packages/ui pack --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
+        run: vp pm pack --filter cuvii-rui --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
 
       - name: Publish package
         run: npm publish "$RUNNER_TEMP"/cuvii-rui-pack/cuvii-rui-*.tgz --access public

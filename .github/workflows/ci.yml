@@ -30,4 +30,4 @@ jobs:
         run: vp run cuvii-rui#build
 
       - name: Pack package
-        run: pnpm --dir packages/ui pack --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
+        run: vp pm pack --filter cuvii-rui --pack-destination "$RUNNER_TEMP/cuvii-rui-pack"
