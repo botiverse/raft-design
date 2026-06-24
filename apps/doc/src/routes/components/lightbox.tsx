@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Button } from "@raft/ui";
 import {
-  Button,
   Lightbox,
   LightboxActions,
   LightboxClose,
@@ -10,7 +10,7 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "@raft/ui";
+} from "@raft/ui/wip";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
 import { useCallback, useEffect, useEffectEvent, useState } from "react";
 

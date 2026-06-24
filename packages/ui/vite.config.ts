@@ -5,6 +5,7 @@ export default defineConfig({
     entry: {
       index: "src/index.ts",
       cn: "src/lib/cn.ts",
+      wip: "src/wip.ts",
     },
     dts: {
       tsgo: true,

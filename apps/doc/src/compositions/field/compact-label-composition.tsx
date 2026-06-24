@@ -1,4 +1,5 @@
-import { Field, FieldDescription, FieldLabel, Input } from "@raft/ui";
+import { Input } from "@raft/ui";
+import { Field, FieldDescription, FieldLabel } from "@raft/ui/wip";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";

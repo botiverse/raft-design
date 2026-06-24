@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Avatar, Badge, Button, Status } from "@raft/ui";
 import {
-  Avatar,
-  Badge,
-  Button,
   PanelHeader,
   PanelHeaderActions,
   PanelHeaderContent,
@@ -12,8 +10,7 @@ import {
   PanelHeaderTitle,
   PanelHeaderTitleRow,
   PanelHeaderVisual,
-  Status,
-} from "@raft/ui";
+} from "@raft/ui/wip";
 import { ArrowLeft, Bookmark, Search, Settings, X } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";

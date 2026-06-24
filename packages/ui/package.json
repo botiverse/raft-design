@@ -19,6 +19,11 @@
       "development": "./src/lib/cn.ts",
       "default": "./dist/cn.mjs"
     },
+    "./wip": {
+      "types": "./src/wip.ts",
+      "development": "./src/wip.ts",
+      "default": "./dist/wip.mjs"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },

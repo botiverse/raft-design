@@ -2,9 +2,6 @@ import { useRef, useState, type RefObject } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock, MessageSquare, Search } from "lucide-react";
 import {
-  Field,
-  FieldDescription,
-  FieldLabel,
   InlineCode,
   Select,
   SelectContent,
@@ -19,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@raft/ui";
+import { Field, FieldDescription, FieldLabel } from "@raft/ui/wip";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";

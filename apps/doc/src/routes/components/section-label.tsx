@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SectionLabel } from "@raft/ui";
+import { SectionLabel } from "@raft/ui/wip";
 
 import { Callout } from "#/components/callout.tsx";
 import { Differences } from "#/components/differences.tsx";

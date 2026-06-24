@@ -6,7 +6,7 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "@raft/ui";
+} from "@raft/ui/wip";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";

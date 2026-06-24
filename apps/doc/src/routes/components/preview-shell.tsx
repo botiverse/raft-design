@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PreviewShell } from "@raft/ui";
+import { PreviewShell } from "@raft/ui/wip";
 import { Eye } from "lucide-react";
 
 import { Differences } from "#/components/differences.tsx";

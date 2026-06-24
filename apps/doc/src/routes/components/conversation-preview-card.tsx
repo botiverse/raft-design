@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Badge } from "@raft/ui";
 import {
-  Badge,
   ConversationPreviewCard,
   ConversationPreviewCardAction,
   ConversationPreviewCardAuthor,
@@ -15,7 +15,7 @@ import {
   ConversationPreviewCardPreviewLeading,
   ConversationPreviewCardSecondaryPreview,
   ConversationPreviewCardTimestamp,
-} from "@raft/ui";
+} from "@raft/ui/wip";
 import { CheckCircle, MessageSquare } from "lucide-react";
 
 import { Callout } from "#/components/callout.tsx";

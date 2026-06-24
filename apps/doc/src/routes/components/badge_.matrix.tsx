@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { CircleCheck, Clock, X } from "lucide-react";
-import { Badge, Status, Text, ThemeProvider, type BadgeProps, type Theme } from "@raft/ui";
+import { Badge, Status, ThemeProvider, type BadgeProps, type Theme } from "@raft/ui";
+import { Text } from "@raft/ui/wip";
 
 export const Route = createFileRoute("/components/badge_/matrix")({
   staticData: { standalone: true },

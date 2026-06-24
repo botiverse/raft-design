@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Spinner, Status, Text, type BadgeProps } from "@raft/ui";
+import { Badge, Button, Spinner, Status, type BadgeProps } from "@raft/ui";
+import { Text } from "@raft/ui/wip";
 import { CircleCheck, Clock, Grid2X2, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";

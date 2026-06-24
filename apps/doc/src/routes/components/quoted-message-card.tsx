@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hash } from "lucide-react";
+import { Avatar, AvatarFallback } from "@raft/ui";
 import {
-  Avatar,
-  AvatarFallback,
   QuotedMessageCard,
   QuotedMessageCardAttachments,
   QuotedMessageCardAuthor,
@@ -19,7 +18,7 @@ import {
   QuotedMessageCardThread,
   QuotedMessageCardTimestamp,
   QuotedMessageCardUnavailable,
-} from "@raft/ui";
+} from "@raft/ui/wip";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
