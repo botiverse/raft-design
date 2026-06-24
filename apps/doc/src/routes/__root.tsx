@@ -77,13 +77,13 @@ function RootDocument({ children }: { children: ReactNode }) {
   const documentTitle = getDocumentTitle(location.pathname);
 
   return (
-    <html lang="en" data-theme="elegant">
+    <html lang="en" data-theme="elegant" className="light">
       <head>
         <title>{documentTitle}</title>
         <HeadContent />
       </head>
       <body className="bg-background text-foreground antialiased">
-        <ThemeProvider theme="elegant">
+        <ThemeProvider theme="elegant" mode="light">
           <div
             className={
               isStandalonePage
