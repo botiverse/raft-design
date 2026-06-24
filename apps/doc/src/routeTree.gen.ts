@@ -9,8 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SetupRouteImport } from './routes/setup'
 import { Route as PlaygroundRouteImport } from './routes/playground'
+import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
@@ -78,14 +78,14 @@ import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/
 import { Route as ComponentsBannerMatrixRouteImport } from './routes/components/banner_.matrix'
 import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
 
-const SetupRoute = SetupRouteImport.update({
-  id: '/setup',
-  path: '/setup',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PlaygroundRoute = PlaygroundRouteImport.update({
   id: '/playground',
   path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallationRoute = InstallationRouteImport.update({
+  id: '/installation',
+  path: '/installation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsRoute = ComponentsRouteImport.update({
@@ -432,8 +432,8 @@ const ComponentsBadgeMatrixRoute = ComponentsBadgeMatrixRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
+  '/installation': typeof InstallationRoute
   '/playground': typeof PlaygroundRoute
-  '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -502,8 +502,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
+  '/installation': typeof InstallationRoute
   '/playground': typeof PlaygroundRoute
-  '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -573,8 +573,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
+  '/installation': typeof InstallationRoute
   '/playground': typeof PlaygroundRoute
-  '/setup': typeof SetupRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -645,8 +645,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/components'
+    | '/installation'
     | '/playground'
-    | '/setup'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -715,8 +715,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/components'
+    | '/installation'
     | '/playground'
-    | '/setup'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -785,8 +785,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/components'
+    | '/installation'
     | '/playground'
-    | '/setup'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -856,8 +856,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
+  InstallationRoute: typeof InstallationRoute
   PlaygroundRoute: typeof PlaygroundRoute
-  SetupRoute: typeof SetupRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRouteWithChildren
@@ -867,18 +867,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/setup': {
-      id: '/setup'
-      path: '/setup'
-      fullPath: '/setup'
-      preLoaderRoute: typeof SetupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/playground': {
       id: '/playground'
       path: '/playground'
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/installation': {
+      id: '/installation'
+      path: '/installation'
+      fullPath: '/installation'
+      preLoaderRoute: typeof InstallationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components': {
@@ -1507,8 +1507,8 @@ const TokensTypographyRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
+  InstallationRoute: InstallationRoute,
   PlaygroundRoute: PlaygroundRoute,
-  SetupRoute: SetupRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRouteWithChildren,

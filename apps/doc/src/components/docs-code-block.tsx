@@ -23,7 +23,7 @@ const docsCodeBlock = tv({
     section: "flex min-w-0 items-stretch",
     gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_286)]",
     sectionInner: "min-w-0 flex-1",
-    headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-2.5",
+    headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-1.5",
     bodyRow: "flex min-w-0 flex-1 bg-white pt-3 pb-3",
     bodyContent: "min-w-0 flex-1 overflow-hidden",
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
@@ -108,6 +108,7 @@ type DocsCodeBlockPanelProps = {
   source: string;
   html: ReactNode | AnyRenderableServerComponent;
   collapsedHtml?: ReactNode | AnyRenderableServerComponent;
+  collapsible?: boolean;
   showLineNumbers?: boolean;
 };
 
@@ -288,9 +289,24 @@ function DocsCodeBlockPanel({
   source,
   html,
   collapsedHtml,
+  collapsible = true,
   showLineNumbers = false,
 }: DocsCodeBlockPanelProps) {
   const [bodyOpen, setBodyOpen] = useState(true);
+
+  if (!collapsible) {
+    return (
+      <DocsCodeBlock showLineNumbers={showLineNumbers}>
+        <DocsCodeBlock.Header showLineNumbers={showLineNumbers}>
+          <DocsCodeBlock.Path>{path}</DocsCodeBlock.Path>
+          <DocsCodeBlock.Copy source={source} />
+        </DocsCodeBlock.Header>
+        <DocsCodeBlock.Body showLineNumbers={showLineNumbers} source={source}>
+          <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
+        </DocsCodeBlock.Body>
+      </DocsCodeBlock>
+    );
+  }
 
   return (
     <DocsCodeBlock showLineNumbers={showLineNumbers}>

@@ -919,7 +919,7 @@ export function Sidebar() {
             <NavLink to="/" label="Home" />
           </li>
           <li>
-            <NavLink to="/setup" label="Installation" />
+            <NavLink to="/installation" label="Installation" />
           </li>
           <li>
             <NavLink to="/playground" label="Playground" />
