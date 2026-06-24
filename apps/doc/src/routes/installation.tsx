@@ -23,9 +23,10 @@ const INSTALLATION_PROMPT = `Add raft-ui to this React app.
 Tasks:
 1. Run: pnpm add raft-ui
 2. Import raft-ui/styles.css once from the global CSS file or root entry.
-3. Wrap the app root with ThemeProvider.
-4. Add TooltipProvider when the app uses Tooltip.
-5. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
+3. Put the app inside an isolated layout root so body portals stack above app content.
+4. Wrap the app root with ThemeProvider.
+5. Add TooltipProvider when the app uses Tooltip.
+6. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
 
 Minimal setup:
 import "raft-ui/styles.css";
@@ -33,11 +34,13 @@ import { ThemeProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
   return (
-    <ThemeProvider>
-      <TooltipProvider>
-        <YourApp />
-      </TooltipProvider>
-    </ThemeProvider>
+    <div className="isolate">
+      <ThemeProvider>
+        <TooltipProvider>
+          <YourApp />
+        </TooltipProvider>
+      </ThemeProvider>
+    </div>
   );
 }`;
 
@@ -55,6 +58,14 @@ export default defineConfig({
 
 export function App() {
   return <Button>Save</Button>;
+}`,
+  layoutRoot: `<body>
+  <div className="isolate">
+    {children}
+  </div>
+</body>`,
+  portalRootCss: `.root {
+  isolation: isolate;
 }`,
   appShell: `import "raft-ui/styles.css";
 
@@ -174,19 +185,34 @@ function InstallationDoc() {
             </li>
             <li className="space-y-3">
               <span className="block font-medium text-foreground-strong">
-                Keep default portals.
+                Isolate the layout root.
               </span>
               <p>
-                Floating components portal to the document body. Pass portal props only for iframes,
-                preview frames, or embedded shells.
+                Base UI portals render floating surfaces such as Dialog, Popover, Select,
+                DropdownMenu, and Tooltip at the document body. Add Tailwind's{" "}
+                <InlineCode>isolate</InlineCode> class to the application root so portaled surfaces
+                stack above page content instead of competing with app-level{" "}
+                <InlineCode>z-index</InlineCode> values. Keep the default body portal behavior
+                unless the app renders inside an iframe, preview frame, or embedded shell.
+              </p>
+              <div className="grid gap-3 lg:grid-cols-2">
+                <CodeSnippet
+                  path="layout.tsx"
+                  source={SNIPPETS.layoutRoot}
+                  html={code.layoutRoot}
+                />
+                <CodeSnippet
+                  path="styles.css"
+                  source={SNIPPETS.portalRootCss}
+                  html={code.portalRootCss}
+                />
+              </div>
+              <p>
+                If the host layout does not use Tailwind, apply the same CSS with{" "}
+                <InlineCode>isolation: isolate</InlineCode>.
               </p>
             </li>
           </StepList>
-
-          <p className="border-l-2 border-line-subtle pl-4 text-sm leading-relaxed text-foreground-muted">
-            Use <InlineCode>syncDom={"{false}"}</InlineCode> only for nested previews or component
-            islands that should not mutate the app root.
-          </p>
         </div>
       </DocSection>
 
@@ -296,19 +322,6 @@ function InstallationDoc() {
           <li>
             <span className="font-medium text-foreground-strong">Build:</span> use a Tailwind
             v4-capable build pipeline.
-          </li>
-          <li>
-            <span className="font-medium text-foreground-strong">Nested themes:</span> pass{" "}
-            <InlineCode>syncDom={"{false}"}</InlineCode> for previews that should not update the
-            document root.
-          </li>
-          <li>
-            <span className="font-medium text-foreground-strong">Tooltips:</span> use one{" "}
-            <InlineCode>TooltipProvider</InlineCode> near the app root.
-          </li>
-          <li>
-            <span className="font-medium text-foreground-strong">Portals:</span> use custom portal
-            containers only for iframes, previews, or embedded shells.
           </li>
         </ul>
       </DocSection>
