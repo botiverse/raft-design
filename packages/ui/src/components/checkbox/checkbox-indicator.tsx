@@ -1,7 +1,7 @@
 import { Check, Minus } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const checkboxIndicator = tv({
   slots: {
@@ -103,7 +103,7 @@ export function CheckboxIndicator({
   className,
   ...props
 }: CheckboxIndicatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = checkboxIndicator({
     theme,
     shape,

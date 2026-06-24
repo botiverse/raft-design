@@ -5,7 +5,7 @@ import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const lightbox = tv({
   slots: {
@@ -124,7 +124,7 @@ export function LightboxContent({
   finalFocus = false,
   ...props
 }: LightboxContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { backdrop, content } = lightbox({ theme });
   return (
     <LightboxPortal>
@@ -143,7 +143,7 @@ export function LightboxContent({
 export type LightboxHeaderProps = useRender.ComponentProps<"div">;
 
 export function LightboxHeader({ render, className, ...props }: LightboxHeaderProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { header } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
@@ -162,7 +162,7 @@ export function LightboxHeader({ render, className, ...props }: LightboxHeaderPr
 export type LightboxTitleProps = useRender.ComponentProps<"div">;
 
 export function LightboxTitle({ render, className, ...props }: LightboxTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: title({ className }),
@@ -181,7 +181,7 @@ export function LightboxTitle({ render, className, ...props }: LightboxTitleProp
 export type LightboxActionsProps = useRender.ComponentProps<"div">;
 
 export function LightboxActions({ render, className, ...props }: LightboxActionsProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { actions } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actions({ className }),
@@ -200,7 +200,7 @@ export function LightboxActions({ render, className, ...props }: LightboxActions
 export type LightboxStageProps = useRender.ComponentProps<"div">;
 
 export function LightboxStage({ render, className, ...props }: LightboxStageProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { stage } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: stage({ className }),
@@ -219,7 +219,7 @@ export function LightboxStage({ render, className, ...props }: LightboxStageProp
 export type LightboxMediaProps = useRender.ComponentProps<"div">;
 
 export function LightboxMedia({ render, className, ...props }: LightboxMediaProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { media } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: media({ className }),
@@ -238,7 +238,7 @@ export function LightboxMedia({ render, className, ...props }: LightboxMediaProp
 export type LightboxCloseProps = StyledProps<Dialog.Close.Props>;
 
 export function LightboxClose({ className, ...props }: LightboxCloseProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { close } = lightbox({ theme });
 
   return <Dialog.Close data-slot="lightbox-close" className={close({ className })} {...props} />;

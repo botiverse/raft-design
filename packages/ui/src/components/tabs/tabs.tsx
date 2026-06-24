@@ -25,7 +25,7 @@ import {
 } from "@dnd-kit/sortable";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const tabs = tv({
   slots: {
@@ -198,7 +198,7 @@ export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
 };
 
 export function TabsList({ className, children, variant = "default", ...props }: TabsListProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const resolvedVariant = theme === "elegant" ? variant : "underline";
   const { list } = tabs({ theme, variant: resolvedVariant });
 
@@ -314,7 +314,7 @@ function TabsTabButton<T extends string = string>({
 }: TabsTabProps<T> & {
   sortableRef?: (node: HTMLElement | null) => void;
 }) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
   const { content, tab } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
 
@@ -352,7 +352,7 @@ export function TabsPanel({ className, ...props }: TabsPanelProps) {
 export type TabsBackgroundProps = ComponentPropsWithRef<"span">;
 
 export function TabsBackground({ className, ...props }: TabsBackgroundProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
   const { background } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
 
@@ -369,7 +369,7 @@ export function TabsBackground({ className, ...props }: TabsBackgroundProps) {
 export type TabsIndicatorProps = StyledProps<BaseTabs.Indicator.Props>;
 
 export function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
   const { indicator } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
   return (

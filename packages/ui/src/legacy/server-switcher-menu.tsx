@@ -2,7 +2,7 @@ import { useEffect, useRef, type ComponentPropsWithRef, type ReactNode } from "r
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check, Plus } from "lucide-react";
 import { tv } from "../lib/tv.ts";
-import { useTheme } from "../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../lib/theme/use-theme.ts";
 
 // "Switch server" dropdown content: joined servers + join-community actions + a
 // "switch or create" action. App-domain data and navigation stay caller-owned,
@@ -100,7 +100,7 @@ export function ServerSwitcherMenu({
   onMouseDown,
   ...props
 }: ServerSwitcherMenuProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const onCloseRef = useRef(onClose);
   const { root, scroller, actionRow, actionLabel } = serverSwitcherMenu({ theme });

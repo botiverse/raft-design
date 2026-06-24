@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RadioGroup, RadioGroupItem, useTheme } from "@raft/ui";
+import { RadioGroup, RadioGroupItem, useThemeFamily } from "@raft/ui";
 import { cn } from "@raft/ui/cn";
 import { Check } from "lucide-react";
 
@@ -45,7 +45,7 @@ export function RadioGroupReferralSourceRestoredComposition({
 }: RadioGroupReferralSourceRestoredCompositionProps) {
   const [selectedValue, setSelectedValue] = useState(value ?? "twitter_x");
   const currentValue = value ?? selectedValue;
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const isElegant = theme === "elegant";
 
   function handleValueChange(nextValue: string) {

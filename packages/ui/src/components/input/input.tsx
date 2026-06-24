@@ -1,7 +1,7 @@
 import { Input as BaseInput } from "@base-ui/react/input";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 
 // The brutal field visual (formerly the app's `.input-brutal` class). The error
@@ -59,7 +59,7 @@ export type InputBehaviorProps = {
 export type InputProps = WithoutChildren<StyledProps<BaseInput.Props>> & InputBehaviorProps;
 
 export function Input({ suppressPasswordManager, className, ...props }: InputProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = input({ theme });
 
   return (

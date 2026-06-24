@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const sectionLabel = tv({
   slots: {
@@ -21,7 +21,7 @@ const sectionLabel = tv({
 export type SectionLabelProps = useRender.ComponentProps<"span">;
 
 export function SectionLabel({ className, render, ...props }: SectionLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = sectionLabel({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),

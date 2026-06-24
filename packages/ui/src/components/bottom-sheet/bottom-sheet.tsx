@@ -3,7 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 // Mobile bottom sheet, composed from base-ui Dialog parts and slot parts
 // (`BottomSheetTrigger`, `BottomSheetContent`, `BottomSheetHeader`,
@@ -64,7 +64,7 @@ export type BottomSheetContentProps = StyledProps<Dialog.Popup.Props>;
 // reproduce the original 12px gutter. Close affordances are composed in by the
 // caller via `BottomSheetClose`.
 export function BottomSheetContent({ className, ...props }: BottomSheetContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { content } = bottomSheet({ theme });
   return (
     <BottomSheetPortal>
@@ -89,7 +89,7 @@ export type BottomSheetHeaderProps = useRender.ComponentProps<"div">;
 
 // Stacks the title + description at the top of the sheet.
 export function BottomSheetHeader({ className, render, ...props }: BottomSheetHeaderProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { header } = bottomSheet({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
@@ -109,7 +109,7 @@ export type BottomSheetFooterProps = useRender.ComponentProps<"div">;
 
 // Trailing action area, pushed to the bottom of the sheet.
 export function BottomSheetFooter({ className, render, ...props }: BottomSheetFooterProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { footer } = bottomSheet({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: footer({ className }),
@@ -129,7 +129,7 @@ export type BottomSheetTitleProps = StyledProps<Dialog.Title.Props>;
 
 // Accessible heading for the sheet (labels the dialog for screen readers).
 export function BottomSheetTitle({ className, ...props }: BottomSheetTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = bottomSheet({ theme });
   return (
     <Dialog.Title data-slot="bottom-sheet-title" className={title({ className })} {...props} />
@@ -140,7 +140,7 @@ export type BottomSheetDescriptionProps = StyledProps<Dialog.Description.Props>;
 
 // Secondary supporting copy under the title; also the dialog's a11y description.
 export function BottomSheetDescription({ className, ...props }: BottomSheetDescriptionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { description } = bottomSheet({ theme });
   return (
     <Dialog.Description

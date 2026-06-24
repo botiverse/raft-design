@@ -4,7 +4,7 @@ import { tv } from "../../lib/tv.ts";
 import { Badge, type BadgeProps } from "../badge/index.ts";
 import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const dropdownMenu = tv({
   slots: {
@@ -144,7 +144,7 @@ export function DropdownMenuSubmenu(props: DropdownMenuSubmenuProps) {
 export type DropdownMenuTriggerProps = StyledProps<BaseMenu.Trigger.Props>;
 
 export function DropdownMenuTrigger({ className, ...props }: DropdownMenuTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { trigger } = dropdownMenu({ theme });
   return (
     <BaseMenu.Trigger
@@ -164,7 +164,7 @@ export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
 export type DropdownMenuPopupProps = ComponentPropsWithRef<"div">;
 
 export function DropdownMenuPopup({ className, ...props }: DropdownMenuPopupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { content } = dropdownMenu({ theme });
   return <div data-slot="dropdown-menu-content" className={content({ className })} {...props} />;
 }
@@ -205,7 +205,7 @@ export function DropdownMenuContent({
   className,
   ...props
 }: DropdownMenuContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { positioner, content } = dropdownMenu({ theme });
   return (
     <BaseMenu.Portal {...portalProps}>
@@ -237,7 +237,7 @@ export function DropdownMenuContent({
 export type DropdownMenuItemProps = StyledProps<BaseMenu.Item.Props>;
 
 export function DropdownMenuItem({ className, ...props }: DropdownMenuItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = dropdownMenu({ theme });
   return (
     <BaseMenu.Item data-slot="dropdown-menu-item" className={item({ className })} {...props} />
@@ -250,7 +250,7 @@ export function DropdownMenuSubmenuTrigger({
   className,
   ...props
 }: DropdownMenuSubmenuTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { submenuTrigger } = dropdownMenu({ theme });
   return (
     <BaseMenu.SubmenuTrigger
@@ -264,7 +264,7 @@ export function DropdownMenuSubmenuTrigger({
 export type DropdownMenuLabelProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function DropdownMenuLabel({ className, ...props }: DropdownMenuLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { label } = dropdownMenu({ theme });
   return <div data-slot="dropdown-menu-label" className={label({ className })} {...props} />;
 }
@@ -272,7 +272,7 @@ export function DropdownMenuLabel({ className, ...props }: DropdownMenuLabelProp
 export type DropdownMenuShortcutProps = KbdProps;
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { shortcut } = dropdownMenu({ theme });
   return <Kbd data-slot="dropdown-menu-shortcut" className={shortcut({ className })} {...props} />;
 }
@@ -280,7 +280,7 @@ export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortc
 export type DropdownMenuItemCountProps = BadgeProps;
 
 export function DropdownMenuItemCount({ className, ...props }: DropdownMenuItemCountProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemCount } = dropdownMenu({ theme });
   return (
     <Badge data-slot="dropdown-menu-item-count" className={itemCount({ className })} {...props} />
@@ -290,7 +290,7 @@ export function DropdownMenuItemCount({ className, ...props }: DropdownMenuItemC
 export type DropdownMenuSeparatorProps = StyledProps<BaseMenu.Separator.Props>;
 
 export function DropdownMenuSeparator({ className, ...props }: DropdownMenuSeparatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { separator } = dropdownMenu({ theme });
   return (
     <BaseMenu.Separator
@@ -330,7 +330,7 @@ export function DropdownMenuRadioItem({
   children,
   ...props
 }: DropdownMenuRadioItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { radioItem, indicator } = dropdownMenu({ theme });
   return (
     <BaseMenu.RadioItem
@@ -370,7 +370,7 @@ export function DropdownMenuCheckboxItem({
   children,
   ...props
 }: DropdownMenuCheckboxItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item, indicator } = dropdownMenu({ theme });
   return (
     <BaseMenu.CheckboxItem

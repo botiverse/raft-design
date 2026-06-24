@@ -2,7 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 import { type InputBehaviorProps } from "../input/input.tsx";
 
@@ -132,7 +132,7 @@ const inputGroup = tv({
 export type InputGroupProps = ComponentPropsWithRef<"div">;
 
 export function InputGroup({ className, ...props }: InputGroupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = inputGroup({ theme });
   return <div data-slot="input-group" className={root({ className })} {...props} />;
 }
@@ -148,7 +148,7 @@ function InputGroupAddonRoot({
   className,
   ...props
 }: InputGroupAddonProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { addon } = inputGroup({ theme, align, variant });
   return (
     <div
@@ -171,7 +171,7 @@ function TextAddon({
   className,
   ...props
 }: InputGroupAddonTextProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { text } = inputGroup({ theme, align, variant });
   return (
     <span
@@ -198,7 +198,7 @@ export function InputGroupInput({
   suppressPasswordManager,
   ...props
 }: InputGroupInputProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { control } = inputGroup({ theme });
 
   return (

@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const inlineCode = tv({
   slots: {
@@ -26,7 +26,7 @@ const inlineCode = tv({
 export type InlineCodeProps = ComponentPropsWithRef<"code">;
 
 export function InlineCode({ className, ...props }: InlineCodeProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = inlineCode({ theme });
 
   return <code data-slot="inline-code" className={root({ className })} {...props} />;

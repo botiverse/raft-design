@@ -6,7 +6,7 @@ import { tv, type VariantProps } from "../../lib/tv.ts";
 import { EmptyState, type EmptyStateProps } from "../empty-state/empty-state.tsx";
 import { Button, type ButtonProps } from "../button/button.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const notificationCenter = tv({
   slots: {
@@ -187,7 +187,7 @@ export function NotificationCenterPopup({
   portalProps,
   ...props
 }: NotificationCenterPopupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { popup } = notificationCenter({ theme, viewport, size });
 
   return (
@@ -228,7 +228,7 @@ export function NotificationCenterHeader({
   className,
   ...props
 }: NotificationCenterHeaderProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { header } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
@@ -251,7 +251,7 @@ export function NotificationCenterTitle({
   className,
   ...props
 }: NotificationCenterTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: title({ className }),
@@ -274,7 +274,7 @@ export function NotificationCenterCount({
   className,
   ...props
 }: NotificationCenterCountProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { count } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: count({ className }),
@@ -320,7 +320,7 @@ export function NotificationCenterList({
   "aria-label": ariaLabel = "Notifications",
   ...props
 }: NotificationCenterListProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { list } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"ul"> = {
     "aria-label": ariaLabel,
@@ -346,7 +346,7 @@ export function NotificationCenterItem({
   className,
   ...props
 }: NotificationCenterItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = notificationCenter({ theme, read });
   const defaultProps: useRender.ElementProps<"li"> = {
     className: item({ className }),
@@ -370,7 +370,7 @@ export function NotificationCenterItemRow({
   className,
   ...props
 }: NotificationCenterItemRowProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemRow } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemRow({ className }),
@@ -414,7 +414,7 @@ export function NotificationCenterItemIcon({
   "aria-label": ariaLabel = STATUS_LABEL[status],
   ...props
 }: NotificationCenterItemIconProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemIcon } = notificationCenter({ theme, status });
   const defaultProps: useRender.ElementProps<"div"> = {
     "aria-label": ariaLabel,
@@ -462,7 +462,7 @@ export function NotificationCenterItemTitle({
   className,
   ...props
 }: NotificationCenterItemTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemTitle } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemTitle({ className }),
@@ -485,7 +485,7 @@ export function NotificationCenterItemBody({
   className,
   ...props
 }: NotificationCenterItemBodyProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemBody } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemBody({ className }),
@@ -536,7 +536,7 @@ export function NotificationCenterActionButton({
   className,
   ...props
 }: NotificationCenterActionButtonProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { actionButton } = notificationCenter({ theme, actionVariant: variant });
   const buttonVariant = variant === "primary" ? "primary" : "outline";
 

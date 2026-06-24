@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 
 const BRAILLE_SPINNER_STYLE = `
@@ -167,7 +167,7 @@ export type SpinnerProps = WithoutChildren<useRender.ComponentProps<"span">> &
   Omit<VariantProps<typeof spinner>, "theme">;
 
 export function Spinner({ size = "sm", className, render, ...props }: SpinnerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root, glyph, ring } = spinner({ theme, size });
   const children =
     theme === "elegant" ? (

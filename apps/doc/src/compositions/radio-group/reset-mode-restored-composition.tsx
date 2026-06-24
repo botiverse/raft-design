@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RadioGroup, RadioGroupItem, useTheme } from "@raft/ui";
+import { RadioGroup, RadioGroupItem, useThemeFamily } from "@raft/ui";
 import { cn } from "@raft/ui/cn";
 
 const RESET_MODE_OPTIONS = [
@@ -54,7 +54,7 @@ export function RadioGroupResetModeRestoredComposition({
 }: RadioGroupResetModeRestoredCompositionProps) {
   const [selectedValue, setSelectedValue] = useState(value ?? "restart");
   const currentValue = value ?? selectedValue;
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const isElegant = theme === "elegant";
 
   function handleValueChange(nextValue: string) {

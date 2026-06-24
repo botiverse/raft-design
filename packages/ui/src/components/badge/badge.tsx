@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 export const badge = tv({
   slots: {
@@ -353,7 +353,7 @@ export type BadgeProps = useRender.ComponentProps<"span"> &
   Omit<VariantProps<typeof badge>, "theme">;
 
 function BadgeRoot({ appearance, variant, uppercase, className, render, ...props }: BadgeProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const resolvedAppearance = appearance ?? "solid";
   const resolvedUppercase = uppercase ?? false;
   const { root } = badge({

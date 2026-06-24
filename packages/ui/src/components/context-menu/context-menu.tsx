@@ -3,7 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv.ts";
 import { Kbd, type KbdProps } from "../kbd/index.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const contextMenu = tv({
   slots: {
@@ -133,7 +133,7 @@ export function ContextMenuSubmenu(props: ContextMenuSubmenuProps) {
 export type ContextMenuTriggerProps = StyledProps<BaseContextMenu.Trigger.Props>;
 
 export function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { trigger } = contextMenu({ theme });
   return (
     <BaseContextMenu.Trigger
@@ -192,7 +192,7 @@ export function ContextMenuContent({
   className,
   ...props
 }: ContextMenuContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { positioner, content } = contextMenu({ theme });
   return (
     <BaseContextMenu.Portal {...portalProps}>
@@ -224,7 +224,7 @@ export function ContextMenuContent({
 export type ContextMenuItemProps = StyledProps<BaseContextMenu.Item.Props>;
 
 export function ContextMenuItem({ className, ...props }: ContextMenuItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = contextMenu({ theme });
   return (
     <BaseContextMenu.Item
@@ -238,7 +238,7 @@ export function ContextMenuItem({ className, ...props }: ContextMenuItemProps) {
 export type ContextMenuSubmenuTriggerProps = StyledProps<BaseContextMenu.SubmenuTrigger.Props>;
 
 export function ContextMenuSubmenuTrigger({ className, ...props }: ContextMenuSubmenuTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { submenuTrigger } = contextMenu({ theme });
   return (
     <BaseContextMenu.SubmenuTrigger
@@ -252,7 +252,7 @@ export function ContextMenuSubmenuTrigger({ className, ...props }: ContextMenuSu
 export type ContextMenuLabelProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function ContextMenuLabel({ className, ...props }: ContextMenuLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { label } = contextMenu({ theme });
   return <div data-slot="context-menu-label" className={label({ className })} {...props} />;
 }
@@ -260,7 +260,7 @@ export function ContextMenuLabel({ className, ...props }: ContextMenuLabelProps)
 export type ContextMenuShortcutProps = KbdProps;
 
 export function ContextMenuShortcut({ className, ...props }: ContextMenuShortcutProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { shortcut } = contextMenu({ theme });
   return <Kbd data-slot="context-menu-shortcut" className={shortcut({ className })} {...props} />;
 }
@@ -268,7 +268,7 @@ export function ContextMenuShortcut({ className, ...props }: ContextMenuShortcut
 export type ContextMenuSeparatorProps = StyledProps<BaseContextMenu.Separator.Props>;
 
 export function ContextMenuSeparator({ className, ...props }: ContextMenuSeparatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { separator } = contextMenu({ theme });
   return (
     <BaseContextMenu.Separator
@@ -304,7 +304,7 @@ export function ContextMenuRadioGroup({ ...props }: ContextMenuRadioGroupProps) 
 export type ContextMenuRadioItemProps = StyledProps<BaseContextMenu.RadioItem.Props>;
 
 export function ContextMenuRadioItem({ className, children, ...props }: ContextMenuRadioItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { radioItem, indicator } = contextMenu({ theme });
   return (
     <BaseContextMenu.RadioItem
@@ -345,7 +345,7 @@ export function ContextMenuCheckboxItem({
   children,
   ...props
 }: ContextMenuCheckboxItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item, indicator } = contextMenu({ theme });
   return (
     <BaseContextMenu.CheckboxItem

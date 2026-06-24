@@ -3,7 +3,7 @@ import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { tv } from "../../lib/tv.ts";
 import { cn } from "../../lib/cn.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const radioGroup = tv({
   slots: {
@@ -62,7 +62,7 @@ export function RadioGroup<T extends string = string>({
   className,
   ...props
 }: RadioGroupProps<T>) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = radioGroup({ theme });
 
   return (
@@ -78,7 +78,7 @@ export function RadioGroup<T extends string = string>({
 export type RadioGroupIndicatorProps = StyledProps<BaseRadio.Indicator.Props>;
 
 export function RadioGroupIndicator({ className, children, ...props }: RadioGroupIndicatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { indicator, dot } = radioGroup({ theme });
 
   return (
@@ -104,7 +104,7 @@ export function RadioGroupItem<T extends string = string>({
   children,
   ...props
 }: RadioGroupItemProps<T>) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = radioGroup({ theme });
   const itemClassName =
     appearance === "none"

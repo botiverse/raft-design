@@ -2,7 +2,7 @@ import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { ComponentProps } from "react";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const tooltip = tv({
   slots: {
@@ -71,7 +71,7 @@ export function Tooltip(props: TooltipProps) {
 export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props>;
 
 export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { trigger } = tooltip({ theme });
   return (
     <BaseTooltip.Trigger
@@ -91,7 +91,7 @@ export function TooltipPortal(props: TooltipPortalProps) {
 type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;
 
 function TooltipArrow({ className, ...props }: TooltipArrowProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { arrow } = tooltip({ theme });
   return (
     <BaseTooltip.Arrow data-slot="tooltip-arrow" className={arrow({ className })} {...props}>
@@ -152,7 +152,7 @@ export function TooltipContent({
   children,
   ...props
 }: TooltipContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { positioner, content } = tooltip({ theme });
 
   return (

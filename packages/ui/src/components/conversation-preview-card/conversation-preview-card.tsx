@@ -2,7 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const conversationPreviewCard = tv({
   slots: {
@@ -63,7 +63,7 @@ export function ConversationPreviewCard({
   testId,
   ...props
 }: ConversationPreviewCardProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const interactive = Boolean(onClick);
   const { root } = conversationPreviewCard({ theme, interactive });
   const defaultProps: useRender.ElementProps<"button"> & {
@@ -127,7 +127,7 @@ export function ConversationPreviewCardChannel({
   render,
   ...props
 }: ConversationPreviewCardChannelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { channel } = conversationPreviewCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: channel({ className }),
@@ -147,7 +147,7 @@ export function ConversationPreviewCardAuthor({
   render,
   ...props
 }: ConversationPreviewCardAuthorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { author } = conversationPreviewCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: author({ className }),
@@ -186,7 +186,7 @@ export function ConversationPreviewCardAuthorSubtitle({
   render,
   ...props
 }: ConversationPreviewCardAuthorSubtitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { authorSubtitle } = conversationPreviewCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: authorSubtitle({ className }),
@@ -206,7 +206,7 @@ export function ConversationPreviewCardTimestamp({
   render,
   ...props
 }: ConversationPreviewCardTimestampProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { timestamp } = conversationPreviewCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: timestamp({ className }),
@@ -264,7 +264,7 @@ export function ConversationPreviewCardPreviewAuthor({
   render,
   ...props
 }: ConversationPreviewCardPreviewAuthorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { previewAuthor } = conversationPreviewCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: previewAuthor({ className }),
@@ -284,7 +284,7 @@ export function ConversationPreviewCardSecondaryPreview({
   render,
   ...props
 }: ConversationPreviewCardSecondaryPreviewProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { secondaryPreview } = conversationPreviewCard({ theme });
   const defaultProps: useRender.ElementProps<"p"> = {
     className: secondaryPreview({ className }),

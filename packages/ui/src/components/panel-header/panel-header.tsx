@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const panelHeader = tv({
   slots: {
@@ -35,7 +35,7 @@ const panelHeader = tv({
 export type PanelHeaderProps = useRender.ComponentProps<"div">;
 
 export function PanelHeader({ className, render, ...props }: PanelHeaderProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = panelHeader({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
@@ -54,7 +54,7 @@ export function PanelHeader({ className, render, ...props }: PanelHeaderProps) {
 export type PanelHeaderIconProps = useRender.ComponentProps<"div">;
 
 export function PanelHeaderIcon({ className, render, ...props }: PanelHeaderIconProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { icon } = panelHeader({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: icon({ className }),
@@ -127,7 +127,7 @@ export function PanelHeaderTitleRow({ className, render, ...props }: PanelHeader
 export type PanelHeaderTitleProps = useRender.ComponentProps<"h2">;
 
 export function PanelHeaderTitle({ className, render, ...props }: PanelHeaderTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = panelHeader({ theme });
   const defaultProps: useRender.ElementProps<"h2"> = {
     className: title({ className }),
@@ -164,7 +164,7 @@ export function PanelHeaderSuffix({ className, render, ...props }: PanelHeaderSu
 export type PanelHeaderSubtitleProps = useRender.ComponentProps<"p">;
 
 export function PanelHeaderSubtitle({ className, render, ...props }: PanelHeaderSubtitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { subtitle } = panelHeader({ theme });
   const defaultProps: useRender.ElementProps<"p"> = {
     className: subtitle({ className }),

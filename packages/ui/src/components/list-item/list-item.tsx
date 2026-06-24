@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const listItem = tv({
   slots: {
@@ -114,7 +114,7 @@ export type ListItemProps = useRender.ComponentProps<"div"> &
   Omit<VariantProps<typeof listItem>, "theme">;
 
 export function ListItem({ selected, interactive, className, render, ...props }: ListItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = listItem({ theme, selected, interactive });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
@@ -151,7 +151,7 @@ export function ListItemBody({ className, render, ...props }: ListItemBodyProps)
 export type ListItemIconProps = useRender.ComponentProps<"div">;
 
 export function ListItemIcon({ className, render, ...props }: ListItemIconProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { icon } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: icon({ className }),
@@ -170,7 +170,7 @@ export function ListItemIcon({ className, render, ...props }: ListItemIconProps)
 export type ListItemRowProps = useRender.ComponentProps<"div">;
 
 export function ListItemRow({ className, render, ...props }: ListItemRowProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { row } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: row({ className }),
@@ -189,7 +189,7 @@ export function ListItemRow({ className, render, ...props }: ListItemRowProps) {
 export type ListItemTitleProps = useRender.ComponentProps<"div">;
 
 export function ListItemTitle({ className, render, ...props }: ListItemTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: title({ className }),
@@ -208,7 +208,7 @@ export function ListItemTitle({ className, render, ...props }: ListItemTitleProp
 export type ListItemDescriptionProps = useRender.ComponentProps<"p">;
 
 export function ListItemDescription({ className, render, ...props }: ListItemDescriptionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { description } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"p"> = {
     className: description({ className }),
@@ -227,7 +227,7 @@ export function ListItemDescription({ className, render, ...props }: ListItemDes
 export type ListItemMetaProps = useRender.ComponentProps<"div">;
 
 export function ListItemMeta({ className, render, ...props }: ListItemMetaProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { meta } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: meta({ className }),
@@ -246,7 +246,7 @@ export function ListItemMeta({ className, render, ...props }: ListItemMetaProps)
 export type ListItemActionGroupProps = useRender.ComponentProps<"div">;
 
 export function ListItemActionGroup({ className, render, ...props }: ListItemActionGroupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { actionGroup } = listItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actionGroup({ className }),

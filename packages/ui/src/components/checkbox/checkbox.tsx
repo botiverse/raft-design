@@ -3,7 +3,7 @@ import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import { CheckboxIndicator } from "./checkbox-indicator.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const checkbox = tv({
   slots: {
@@ -278,7 +278,7 @@ export function Checkbox({
   className,
   ...props
 }: CheckboxProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root, indicator, graphic, outerRect, overlayRect, mark, checkMark, indeterminateMark } =
     checkbox({
       theme,

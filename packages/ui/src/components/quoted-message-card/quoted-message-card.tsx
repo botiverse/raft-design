@@ -3,7 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
 import { PreviewShell, type PreviewShellProps } from "../preview-shell/preview-shell.tsx";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 // A quoted-message preview routed through PreviewShell. The source's app-domain
 // fields (channel object, author fetching, markdown rendering, attachments
@@ -145,7 +145,7 @@ export function QuotedMessageCardChannel({
   render,
   ...props
 }: QuotedMessageCardChannelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { channel } = quotedMessageCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: channel({ className }),
@@ -213,7 +213,7 @@ export function QuotedMessageCardAuthorName({
   render,
   ...props
 }: QuotedMessageCardAuthorNameProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { authorName } = quotedMessageCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: authorName({ className }),
@@ -236,7 +236,7 @@ export function QuotedMessageCardAuthorSubtitle({
   render,
   ...props
 }: QuotedMessageCardAuthorSubtitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { authorSubtitle } = quotedMessageCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: authorSubtitle({ className }),
@@ -260,7 +260,7 @@ export function QuotedMessageCardThread({
   children = "Thread",
   ...props
 }: QuotedMessageCardThreadProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { thread } = quotedMessageCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: thread({ className }),
@@ -307,7 +307,7 @@ export function QuotedMessageCardTimestamp({
   render,
   ...props
 }: QuotedMessageCardTimestampProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { timestamp } = quotedMessageCard({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: timestamp({ className }),
@@ -352,7 +352,7 @@ export function QuotedMessageCardContent({
   render,
   ...props
 }: QuotedMessageCardContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { content } = quotedMessageCard({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: content({ className }),

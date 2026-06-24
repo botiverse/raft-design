@@ -3,7 +3,7 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import { Button } from "../button/index.ts";
 
 const combobox = tv({
@@ -245,7 +245,7 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
 export type ComboboxLabelProps = StyledProps<BaseCombobox.Label.Props>;
 
 export function ComboboxLabel({ className, ...props }: ComboboxLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { label } = combobox({ theme });
   return (
     <BaseCombobox.Label data-slot="combobox-label" className={label({ className })} {...props} />
@@ -266,7 +266,7 @@ export function ComboboxTrigger({
   render = <Button variant="outline" size="md" />,
   ...props
 }: ComboboxTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { trigger } = combobox({ theme });
   return (
     <BaseCombobox.Trigger
@@ -288,7 +288,7 @@ export function ComboboxTrigger({
 export type ComboboxTriggerIndicatorProps = StyledProps<ComponentPropsWithRef<"span">>;
 
 export function ComboboxTriggerIndicator({ className, ...props }: ComboboxTriggerIndicatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { triggerIndicator } = combobox({ theme });
   return (
     <span
@@ -302,7 +302,7 @@ export function ComboboxTriggerIndicator({ className, ...props }: ComboboxTrigge
 export type ComboboxInputGroupProps = StyledProps<BaseCombobox.InputGroup.Props>;
 
 export function ComboboxInputGroup({ className, ...props }: ComboboxInputGroupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { inputGroup } = combobox({ theme });
   return (
     <BaseCombobox.InputGroup
@@ -316,7 +316,7 @@ export function ComboboxInputGroup({ className, ...props }: ComboboxInputGroupPr
 export type ComboboxControlProps = StyledProps<BaseCombobox.InputGroup.Props>;
 
 export function ComboboxControl({ className, ...props }: ComboboxControlProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { control } = combobox({ theme });
   return (
     <BaseCombobox.InputGroup
@@ -336,7 +336,7 @@ export function ComboboxInput({
   className,
   ...props
 }: ComboboxInputProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { input } = combobox({ theme });
   return (
     <BaseCombobox.Input
@@ -360,7 +360,7 @@ export function ComboboxPortal(props: ComboboxPortalProps) {
 export type ComboboxPopupProps = ComponentPropsWithRef<"div">;
 
 export function ComboboxPopup({ className, ...props }: ComboboxPopupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { content } = combobox({ theme });
   return <div data-slot="combobox-content" className={content({ className })} {...props} />;
 }
@@ -368,7 +368,7 @@ export function ComboboxPopup({ className, ...props }: ComboboxPopupProps) {
 export type ComboboxHeaderProps = ComponentPropsWithRef<"div">;
 
 export function ComboboxHeader({ className, ...props }: ComboboxHeaderProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { header } = combobox({ theme });
   return <div data-slot="combobox-header" className={header({ className })} {...props} />;
 }
@@ -376,7 +376,7 @@ export function ComboboxHeader({ className, ...props }: ComboboxHeaderProps) {
 export type ComboboxSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function ComboboxSeparator({ className, ...props }: ComboboxSeparatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { separator } = combobox({ theme });
   return (
     <div
@@ -427,7 +427,7 @@ export function ComboboxContent({
   finalFocus = false,
   ...props
 }: ComboboxContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { positioner, content } = combobox({ theme });
   return (
     <BaseCombobox.Portal {...portalProps}>
@@ -461,7 +461,7 @@ export function ComboboxContent({
 export type ComboboxListProps = StyledProps<BaseCombobox.List.Props>;
 
 export function ComboboxList({ className, ...props }: ComboboxListProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { list } = combobox({ theme });
   return <BaseCombobox.List data-slot="combobox-list" className={list({ className })} {...props} />;
 }
@@ -469,7 +469,7 @@ export function ComboboxList({ className, ...props }: ComboboxListProps) {
 export type ComboboxItemProps = StyledProps<BaseCombobox.Item.Props>;
 
 export function ComboboxItem({ className, ...props }: ComboboxItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = combobox({ theme });
   return <BaseCombobox.Item data-slot="combobox-item" className={item({ className })} {...props} />;
 }
@@ -481,7 +481,7 @@ export function ComboboxItemIndicator({
   children,
   ...props
 }: ComboboxItemIndicatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemIndicator } = combobox({ theme });
   return (
     <BaseCombobox.ItemIndicator
@@ -502,7 +502,7 @@ export function ComboboxClear({
   keepMounted = true,
   ...props
 }: ComboboxClearProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { visible } = use(ComboboxClearContext);
   const { clear } = combobox({ theme });
   return (
@@ -522,7 +522,7 @@ export function ComboboxClear({
 export type ComboboxEmptyProps = StyledProps<BaseCombobox.Empty.Props>;
 
 export function ComboboxEmpty({ className, children, ...props }: ComboboxEmptyProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { empty } = combobox({ theme });
   return (
     <BaseCombobox.Empty data-slot="combobox-empty" {...props}>
@@ -544,7 +544,7 @@ export function ComboboxGroup({ className, ...props }: ComboboxGroupProps) {
 export type ComboboxGroupLabelProps = StyledProps<BaseCombobox.GroupLabel.Props>;
 
 export function ComboboxGroupLabel({ className, ...props }: ComboboxGroupLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { groupLabel } = combobox({ theme });
   return (
     <BaseCombobox.GroupLabel
@@ -570,7 +570,7 @@ export function ComboboxCollection(props: ComboboxCollectionProps) {
 export type ComboboxChipsProps = StyledProps<BaseCombobox.Chips.Props>;
 
 export function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { chips } = combobox({ theme });
   return (
     <BaseCombobox.Chips data-slot="combobox-chips" className={chips({ className })} {...props} />
@@ -580,7 +580,7 @@ export function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
 export type ComboboxChipProps = StyledProps<BaseCombobox.Chip.Props>;
 
 export function ComboboxChip({ className, ...props }: ComboboxChipProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { chip } = combobox({ theme });
   return <BaseCombobox.Chip data-slot="combobox-chip" className={chip({ className })} {...props} />;
 }
@@ -588,7 +588,7 @@ export function ComboboxChip({ className, ...props }: ComboboxChipProps) {
 export type ComboboxChipRemoveProps = StyledProps<BaseCombobox.ChipRemove.Props>;
 
 export function ComboboxChipRemove({ className, children, ...props }: ComboboxChipRemoveProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { chipRemove } = combobox({ theme });
   return (
     <BaseCombobox.ChipRemove

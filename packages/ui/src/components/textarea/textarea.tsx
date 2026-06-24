@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import type { WithoutChildren } from "../../lib/without-children.ts";
 
 const textarea = tv({
@@ -95,14 +95,14 @@ export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">>;
 export type TextareaGroupProps = ComponentPropsWithRef<"div">;
 
 export function TextareaGroup({ className, ...props }: TextareaGroupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = textareaGroup({ theme });
 
   return <div data-slot="textarea-group" className={root({ className })} {...props} />;
 }
 
 export function Textarea({ className, ...props }: TextareaProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = textarea({ theme });
 
   return <textarea data-slot="textarea" className={root({ className })} {...props} />;
@@ -123,7 +123,7 @@ export function TextareaCounter({
   className,
   ...props
 }: TextareaCounterProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const text = value ?? "";
   const length = count ?? getLength?.(text) ?? text.length;
   const overLimit = length > limit;

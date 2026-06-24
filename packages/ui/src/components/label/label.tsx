@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const label = tv({
   slots: {
@@ -42,7 +42,7 @@ export type LabelProps = useRender.ComponentProps<"label"> &
   };
 
 function LabelRoot({ size, disabled, className, render, ...props }: LabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = label({ theme, size });
   const defaultProps: useRender.ElementProps<"label"> = {
     "aria-disabled": disabled ? true : undefined,
@@ -63,7 +63,7 @@ function LabelRoot({ size, disabled, className, render, ...props }: LabelProps) 
 export type LabelAsteriskProps = ComponentPropsWithRef<"span">;
 
 export function LabelAsterisk({ className, children = "*", ...props }: LabelAsteriskProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { asterisk } = label({ theme });
 
   return (
@@ -76,7 +76,7 @@ export function LabelAsterisk({ className, children = "*", ...props }: LabelAste
 export type LabelSubProps = ComponentPropsWithRef<"span">;
 
 export function LabelSub({ className, ...props }: LabelSubProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { sub } = label({ theme });
 
   return <span data-slot="label-sub" className={sub({ className })} {...props} />;

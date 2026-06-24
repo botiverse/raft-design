@@ -2,7 +2,7 @@ import { Field as BaseField } from "@base-ui/react/field";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import { LabelAsterisk, LabelOptional } from "../label/label.tsx";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const field = tv({
   slots: {
@@ -43,7 +43,7 @@ const field = tv({
 export type FieldProps = StyledProps<BaseField.Root.Props>;
 
 export function Field({ className, ...props }: FieldProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = field({ theme });
   return <BaseField.Root data-slot="field" className={root({ className })} {...props} />;
 }
@@ -51,7 +51,7 @@ export function Field({ className, ...props }: FieldProps) {
 export type FieldItemProps = StyledProps<BaseField.Item.Props>;
 
 export function FieldItem({ className, ...props }: FieldItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = field({ theme });
   return <BaseField.Item data-slot="field-item" className={item({ className })} {...props} />;
 }
@@ -72,7 +72,7 @@ export function FieldLabel({
   children,
   ...props
 }: FieldLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { label } = field({ theme, size });
   return (
     <BaseField.Label data-slot="field-label" className={label({ className })} {...props}>
@@ -86,7 +86,7 @@ export function FieldLabel({
 export type FieldDescriptionProps = StyledProps<BaseField.Description.Props>;
 
 export function FieldDescription({ className, ...props }: FieldDescriptionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { description } = field({ theme });
   return (
     <BaseField.Description
@@ -100,7 +100,7 @@ export function FieldDescription({ className, ...props }: FieldDescriptionProps)
 export type FieldErrorProps = StyledProps<BaseField.Error.Props>;
 
 export function FieldError({ className, role = "alert", ...props }: FieldErrorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { error } = field({ theme });
   return (
     <BaseField.Error

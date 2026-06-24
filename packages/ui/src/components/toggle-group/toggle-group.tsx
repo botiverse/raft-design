@@ -3,7 +3,7 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const toggleGroup = tv({
   slots: {
@@ -83,7 +83,7 @@ export function ToggleGroupItem<T extends string = string>({
   className,
   ...props
 }: ToggleGroupItemProps<T>) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = toggleGroup({ theme });
   return (
     <BaseToggle
@@ -105,7 +105,7 @@ export function ToggleGroupLabel({ className, ...props }: ToggleGroupLabelProps)
 export type ToggleGroupCountProps = ComponentPropsWithRef<"span">;
 
 export function ToggleGroupCount({ className, ...props }: ToggleGroupCountProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { count } = toggleGroup({ theme });
   return <span data-slot="toggle-group-count" className={count({ className })} {...props} />;
 }

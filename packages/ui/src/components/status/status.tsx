@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const STATUS_STYLE = `
 @keyframes raft-status-pulse-background {
@@ -129,7 +129,7 @@ export type StatusProps = Omit<useRender.ComponentProps<"span">, "children"> &
   Omit<VariantProps<typeof status>, "theme">;
 
 function StatusRoot({ size, variant, pulse, className, render, ...props }: StatusProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = status({ theme, size, variant, pulse });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),

@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const kbd = tv({
   slots: {
@@ -29,7 +29,7 @@ const kbd = tv({
 export type KbdProps = ComponentPropsWithRef<"kbd">;
 
 export function Kbd({ className, ...props }: KbdProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = kbd({ theme });
   return <kbd data-slot="kbd" className={root({ className })} {...props} />;
 }
@@ -37,7 +37,7 @@ export function Kbd({ className, ...props }: KbdProps) {
 export type KbdGroupProps = ComponentPropsWithRef<"span">;
 
 export function KbdGroup({ className, ...props }: KbdGroupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { group } = kbd({ theme });
   return <span data-slot="kbd-group" className={group({ className })} {...props} />;
 }

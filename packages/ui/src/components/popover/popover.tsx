@@ -2,7 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const popover = tv({
   slots: {
@@ -61,7 +61,7 @@ export function Popover(props: PopoverProps) {
 export type PopoverTriggerProps = StyledProps<BasePopover.Trigger.Props>;
 
 export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { trigger } = popover({ theme });
   return (
     <BasePopover.Trigger
@@ -81,7 +81,7 @@ export function PopoverPortal(props: PopoverPortalProps) {
 export type PopoverPopupProps = ComponentPropsWithRef<"div">;
 
 export function PopoverPopup({ className, ...props }: PopoverPopupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { content } = popover({ theme });
   return <div data-slot="popover-content" className={content({ className })} {...props} />;
 }
@@ -122,7 +122,7 @@ export function PopoverContent({
   className,
   ...props
 }: PopoverContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { positioner, content } = popover({ theme });
   return (
     <BasePopover.Portal {...portalProps}>
@@ -154,7 +154,7 @@ export function PopoverContent({
 export type PopoverViewportProps = StyledProps<BasePopover.Viewport.Props>;
 
 export function PopoverViewport({ className, ...props }: PopoverViewportProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { viewport } = popover({ theme });
   return (
     <BasePopover.Viewport
@@ -168,7 +168,7 @@ export function PopoverViewport({ className, ...props }: PopoverViewportProps) {
 export type PopoverHeaderProps = ComponentPropsWithRef<"div">;
 
 export function PopoverHeader({ className, ...props }: PopoverHeaderProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { header } = popover({ theme });
   return <div data-slot="popover-header" className={header({ className })} {...props} />;
 }
@@ -176,7 +176,7 @@ export function PopoverHeader({ className, ...props }: PopoverHeaderProps) {
 export type PopoverSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function PopoverSeparator({ className, ...props }: PopoverSeparatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { separator } = popover({ theme });
   return (
     <div
@@ -192,7 +192,7 @@ export function PopoverSeparator({ className, ...props }: PopoverSeparatorProps)
 export type PopoverTitleProps = StyledProps<BasePopover.Title.Props>;
 
 export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = popover({ theme });
   return (
     <BasePopover.Title data-slot="popover-title" className={title({ className })} {...props} />
@@ -202,7 +202,7 @@ export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
 export type PopoverDescriptionProps = StyledProps<BasePopover.Description.Props>;
 
 export function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { description } = popover({ theme });
   return (
     <BasePopover.Description
@@ -216,7 +216,7 @@ export function PopoverDescription({ className, ...props }: PopoverDescriptionPr
 export type PopoverCloseProps = StyledProps<BasePopover.Close.Props>;
 
 export function PopoverClose({ className, ...props }: PopoverCloseProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { close } = popover({ theme });
   return (
     <BasePopover.Close data-slot="popover-close" className={close({ className })} {...props} />
@@ -226,7 +226,7 @@ export function PopoverClose({ className, ...props }: PopoverCloseProps) {
 export type PopoverArrowProps = StyledProps<BasePopover.Arrow.Props>;
 
 export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { arrow } = popover({ theme });
   return (
     <BasePopover.Arrow data-slot="popover-arrow" className={arrow({ className })} {...props} />
@@ -236,7 +236,7 @@ export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
 export type PopoverBackdropProps = StyledProps<BasePopover.Backdrop.Props>;
 
 export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { backdrop } = popover({ theme });
   return (
     <BasePopover.Backdrop

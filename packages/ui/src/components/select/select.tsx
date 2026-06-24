@@ -3,7 +3,7 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import { tv } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import { Button } from "../button/index.ts";
 
 const select = tv({
@@ -126,7 +126,7 @@ export function SelectTrigger({
   render = <Button variant="outline" size="md" />,
   ...props
 }: SelectTriggerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { trigger } = select({ theme });
   return (
     <BaseSelect.Trigger
@@ -145,7 +145,7 @@ export function SelectTrigger({
 export type SelectValueProps = StyledProps<BaseSelect.Value.Props>;
 
 export function SelectValue({ className, ...props }: SelectValueProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { value } = select({ theme });
   return <BaseSelect.Value data-slot="select-value" className={value({ className })} {...props} />;
 }
@@ -153,7 +153,7 @@ export function SelectValue({ className, ...props }: SelectValueProps) {
 export type SelectIconProps = StyledProps<BaseSelect.Icon.Props>;
 
 export function SelectIcon({ className, children, ...props }: SelectIconProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { icon } = select({ theme });
   return (
     <BaseSelect.Icon data-slot="select-icon" className={icon({ className })} {...props}>
@@ -171,7 +171,7 @@ export function SelectPortal(props: SelectPortalProps) {
 export type SelectPopupProps = ComponentPropsWithRef<"div">;
 
 export function SelectPopup({ className, ...props }: SelectPopupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { content } = select({ theme });
   return <div data-slot="select-content" className={content({ className })} {...props} />;
 }
@@ -214,7 +214,7 @@ export function SelectContent({
   className,
   ...props
 }: SelectContentProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { positioner, content } = select({ theme });
   const positionerNode = (
     <BaseSelect.Positioner
@@ -243,7 +243,7 @@ export function SelectContent({
 export type SelectListProps = StyledProps<BaseSelect.List.Props>;
 
 export function SelectList({ className, ...props }: SelectListProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { list } = select({ theme });
   return <BaseSelect.List data-slot="select-list" className={list({ className })} {...props} />;
 }
@@ -251,7 +251,7 @@ export function SelectList({ className, ...props }: SelectListProps) {
 export type SelectItemProps = StyledProps<BaseSelect.Item.Props>;
 
 export function SelectItem({ className, ...props }: SelectItemProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = select({ theme });
   return <BaseSelect.Item data-slot="select-item" className={item({ className })} {...props} />;
 }
@@ -259,7 +259,7 @@ export function SelectItem({ className, ...props }: SelectItemProps) {
 export type SelectItemIndicatorProps = StyledProps<BaseSelect.ItemIndicator.Props>;
 
 export function SelectItemIndicator({ className, children, ...props }: SelectItemIndicatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemIndicator } = select({ theme });
   const defaultIndicator =
     theme === "brutal" ? (
@@ -282,7 +282,7 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
 export type SelectItemTextProps = StyledProps<BaseSelect.ItemText.Props>;
 
 export function SelectItemText({ className, ...props }: SelectItemTextProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { itemText } = select({ theme });
   return (
     <BaseSelect.ItemText
@@ -296,7 +296,7 @@ export function SelectItemText({ className, ...props }: SelectItemTextProps) {
 export type SelectLabelProps = StyledProps<BaseSelect.Label.Props>;
 
 export function SelectLabel({ className, ...props }: SelectLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { label } = select({ theme });
   return <BaseSelect.Label data-slot="select-label" className={label({ className })} {...props} />;
 }
@@ -310,7 +310,7 @@ export function SelectGroup({ className, ...props }: SelectGroupProps) {
 export type SelectGroupLabelProps = StyledProps<BaseSelect.GroupLabel.Props>;
 
 export function SelectGroupLabel({ className, ...props }: SelectGroupLabelProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { groupLabel } = select({ theme });
   return (
     <BaseSelect.GroupLabel
@@ -324,7 +324,7 @@ export function SelectGroupLabel({ className, ...props }: SelectGroupLabelProps)
 export type SelectSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { separator } = select({ theme });
   return (
     <div
@@ -340,7 +340,7 @@ export function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
 export type SelectScrollUpArrowProps = StyledProps<BaseSelect.ScrollUpArrow.Props>;
 
 export function SelectScrollUpArrow({ className, children, ...props }: SelectScrollUpArrowProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { scrollArrow } = select({ theme });
   return (
     <BaseSelect.ScrollUpArrow
@@ -361,7 +361,7 @@ export function SelectScrollDownArrow({
   children,
   ...props
 }: SelectScrollDownArrowProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { scrollArrow } = select({ theme });
   return (
     <BaseSelect.ScrollDownArrow

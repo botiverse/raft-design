@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const descriptionList = tv({
   slots: {
@@ -62,7 +62,7 @@ export function DescriptionItem({ className, render, ...props }: DescriptionItem
 export type DescriptionTermProps = useRender.ComponentProps<"dt">;
 
 export function DescriptionTerm({ className, render, ...props }: DescriptionTermProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { term } = descriptionList({ theme });
   const defaultProps: useRender.ElementProps<"dt"> = {
     className: term({ className }),
@@ -81,7 +81,7 @@ export function DescriptionTerm({ className, render, ...props }: DescriptionTerm
 export type DescriptionDetailsProps = useRender.ComponentProps<"dd">;
 
 export function DescriptionDetails({ className, render, ...props }: DescriptionDetailsProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { details } = descriptionList({ theme });
   const defaultProps: useRender.ElementProps<"dd"> = {
     className: details({ className }),

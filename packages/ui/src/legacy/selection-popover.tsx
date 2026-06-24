@@ -2,7 +2,7 @@ import type { KeyboardEvent, ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check } from "lucide-react";
 import { tv } from "../lib/tv.ts";
-import { useTheme } from "../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../lib/theme/use-theme.ts";
 
 // Single-select popover content: a header, an optional search box, and a list of
 // checkable rows (the trailing ✓ is the selected indicator; hover is the shared
@@ -117,7 +117,7 @@ function SelectionPopoverOptionRow({
   reserveLeadingSlot = false,
   leading = null,
 }: Omit<SelectionPopoverOption, "key">) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const leadingContent = leading ?? avatar;
   const {
     row,
@@ -150,7 +150,7 @@ function SelectionPopoverOptionRow({
 }
 
 export function SelectionPopover(props: SelectionPopoverProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const {
     title,
     options,

@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 
 // Avatar family built on Base UI's Avatar primitive. Compose `<AvatarImage>`,
@@ -171,7 +171,7 @@ export type AvatarProps = StyledProps<AvatarPrimitive.Root.Props> &
   Required<Pick<VariantProps<typeof avatar>, "size" | "type">>;
 
 export function Avatar({ size, type, className, children, ...props }: AvatarProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = avatar({ theme, type, size });
   return (
     <AvatarPrimitive.Root
@@ -190,7 +190,7 @@ export type AvatarImageProps = StyledProps<AvatarPrimitive.Image.Props>;
 // Managed avatar image. Base UI tracks its load state and hides it (revealing the
 // fallback) while loading or on error. Fills the frame edge-to-edge.
 export function AvatarImage({ className, ...props }: AvatarImageProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { image } = avatar({ theme });
   return (
     <AvatarPrimitive.Image data-slot="avatar-image" className={image({ className })} {...props} />
@@ -315,7 +315,7 @@ function AvatarFallbackIcon() {
 // Shown when no AvatarImage has loaded. With no children it renders the
 // placeholder user icon, auto-scaled via the parent's `data-size` hook.
 export function AvatarFallback({ className, children, ...props }: AvatarFallbackProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { fallback } = avatar({ theme });
   return (
     <AvatarPrimitive.Fallback
@@ -334,7 +334,7 @@ export type AvatarBadgeProps = ComponentPropsWithRef<"span">;
 // stays overflow-visible so the badge can sit on the frame edge. Default fill is
 // lime; override with a `bg-*` class via className. Optionally wraps a small icon.
 export function AvatarBadge({ className, ...props }: AvatarBadgeProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { badge } = avatar({ theme });
   return <span data-slot="avatar-badge" className={badge({ className })} {...props} />;
 }
@@ -344,7 +344,7 @@ export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 // Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
 // ring color follows the active theme's surface assumptions.
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { group } = avatar({ theme });
   return <div data-slot="avatar-group" className={group({ className })} {...props} />;
 }
@@ -357,7 +357,7 @@ export type AvatarGroupCountProps = ComponentPropsWithRef<"span"> & {
 // Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame but
 // omits `type`, swapping the role fill for a neutral count chip.
 export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCountProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = avatar({ theme, size });
   const countClassName =
     theme === "elegant"

@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const banner = tv({
   slots: {
@@ -190,7 +190,7 @@ export type BannerProps = useRender.ComponentProps<"div"> &
   };
 
 export function Banner({ status, size = "md", className, render, ...props }: BannerProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = banner({ theme, status, size });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
@@ -212,7 +212,7 @@ export function Banner({ status, size = "md", className, render, ...props }: Ban
 export type BannerTitleProps = useRender.ComponentProps<"div">;
 
 export function BannerTitle({ render, className, ...props }: BannerTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = banner({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: title({ className }),
@@ -231,7 +231,7 @@ export function BannerTitle({ render, className, ...props }: BannerTitleProps) {
 export type BannerDescriptionProps = useRender.ComponentProps<"div">;
 
 export function BannerDescription({ render, className, ...props }: BannerDescriptionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { description } = banner({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: description({ className }),
@@ -251,7 +251,7 @@ export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align"> &
   Pick<VariantProps<typeof banner>, "align">;
 
 export function BannerAction({ align = "middle", render, className, ...props }: BannerActionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { action } = banner({ theme, align });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: action({ className }),

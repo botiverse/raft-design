@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 // EmptyState family: a quiet "nothing here yet" surface — muted icon, muted
 // title, optional description + action. Composed from a centered root, a
@@ -94,7 +94,7 @@ export type EmptyStateIconProps = useRender.ComponentProps<"div">;
 // Muted icon slot. The slot owns default SVG sizing per theme; callers can
 // still override it with className for custom media.
 export function EmptyStateIcon({ render, className, ...props }: EmptyStateIconProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { icon } = emptyState({ theme });
   const defaultProps: EmptyStateSlotProps = {
     "data-slot": "empty-state-icon",
@@ -116,7 +116,7 @@ export type EmptyStateTitleProps = useRender.ComponentProps<"div">;
 // Muted, sentence-case title line. Pass `render` to override the element (e.g. a
 // real heading for landmark semantics).
 export function EmptyStateTitle({ render, className, ...props }: EmptyStateTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = emptyState({ theme });
   const defaultProps: EmptyStateSlotProps = {
     "data-slot": "empty-state-title",
@@ -138,7 +138,7 @@ export type EmptyStateDescriptionProps = useRender.ComponentProps<"div">;
 // Optional supporting copy, capped to ~32ch for a tidy measure. Pass `render` to
 // override the element.
 export function EmptyStateDescription({ render, className, ...props }: EmptyStateDescriptionProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { description } = emptyState({ theme });
   const defaultProps: EmptyStateSlotProps = {
     "data-slot": "empty-state-description",

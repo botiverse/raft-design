@@ -2,7 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import type { ReactElement } from "react";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import { Spinner } from "../spinner/index.ts";
 
 export const buttonVariants = tv({
@@ -450,7 +450,7 @@ export function Button({
   nativeButton,
   ...props
 }: ButtonProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root, content, loadingIndicator } = buttonVariants({
     theme,
     variant,

@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const previewShell = tv({
   slots: {
@@ -33,7 +33,7 @@ export type PreviewShellProps = useRender.ComponentProps<"div"> &
   };
 
 export function PreviewShell({ variant, className, render, ...props }: PreviewShellProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = previewShell({ theme, variant });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),

@@ -4,7 +4,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import { cn } from "../../lib/cn.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 import { ListItem, type ListItemProps } from "../list-item/list-item.tsx";
 
 const mediaItem = tv({
@@ -133,7 +133,7 @@ export function MediaListItemVisual({ className, ...props }: MediaListItemVisual
 export type MediaListItemTitleProps = ComponentPropsWithRef<"span">;
 
 export function MediaListItemTitle({ className, ...props }: MediaListItemTitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { title } = mediaItem({ theme });
   return <span data-slot="media-list-item-title" className={title({ className })} {...props} />;
 }
@@ -141,7 +141,7 @@ export function MediaListItemTitle({ className, ...props }: MediaListItemTitlePr
 export type MediaListItemSubtitleProps = ComponentPropsWithRef<"span">;
 
 export function MediaListItemSubtitle({ className, ...props }: MediaListItemSubtitleProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { subtitle } = mediaItem({ theme });
   return (
     <span data-slot="media-list-item-subtitle" className={subtitle({ className })} {...props} />

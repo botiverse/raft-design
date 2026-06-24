@@ -8,7 +8,7 @@ import {
 
 // @docs-source-strip-start
 import { Check } from "lucide-react";
-import { SelectPopup, useTheme } from "@raft/ui";
+import { SelectPopup, useThemeFamily } from "@raft/ui";
 import { cn } from "@raft/ui/cn";
 // @docs-source-strip-end
 
@@ -42,7 +42,7 @@ function SelectOptionsListStaticItem({
   label: string;
   selected?: boolean;
 }) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
 
   return (
     <div
@@ -79,7 +79,7 @@ function SelectOptionsListStaticItem({
 }
 
 export function SelectOptionsListComposition({ className }: { className?: string }) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
 
   return (
     <div

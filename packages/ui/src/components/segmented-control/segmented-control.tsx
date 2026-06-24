@@ -3,7 +3,7 @@ import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
-import { useTheme } from "../../lib/theme/use-theme.ts";
+import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
 const segmentedControl = tv({
   slots: {
@@ -77,7 +77,7 @@ export function SegmentedControl<T extends string = string>({
   className,
   ...props
 }: SegmentedControlProps<T>) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { root } = segmentedControl({ disabled, theme });
   return (
     <BaseRadioGroup
@@ -98,7 +98,7 @@ export function SegmentedControlItem<T extends string = string>({
   className,
   ...props
 }: SegmentedControlItemProps<T>) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { item } = segmentedControl({ theme });
   return (
     <BaseRadio.Root
@@ -123,7 +123,7 @@ export function SegmentedControlLabel({ className, ...props }: SegmentedControlL
 export type SegmentedControlCountProps = ComponentPropsWithRef<"span">;
 
 export function SegmentedControlCount({ className, ...props }: SegmentedControlCountProps) {
-  const theme = useTheme();
+  const theme = useThemeFamily();
   const { count } = segmentedControl({ theme });
   return <span data-slot="segmented-control-count" className={count({ className })} {...props} />;
 }
