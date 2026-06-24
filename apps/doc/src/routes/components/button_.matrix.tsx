@@ -264,7 +264,7 @@ function MatrixCell({
   children: ReactNode;
 }) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} syncDom={false}>
       <div
         data-theme={theme}
         className="relative flex min-w-0 items-center justify-center bg-background p-6 text-foreground"

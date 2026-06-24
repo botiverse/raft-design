@@ -37,7 +37,7 @@ const popover = tv({
         backdrop: ["bg-transparent"],
       },
       elegant: {
-        content: ["rounded-md bg-layer-popover", "shadow-lg"],
+        content: ["rounded-md bg-layer-popover", "shadow-xl"],
         separator: ["border-line-muted"],
         title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground/45"],
         description: ["text-xs leading-5 text-foreground-muted"],

@@ -1036,7 +1036,7 @@ function Home() {
   }, []);
 
   return (
-    <ThemeProvider theme={themePreset.family}>
+    <ThemeProvider theme={themePreset.family} syncDom={false}>
       <div
         data-theme={themePreset.family}
         className="min-h-screen bg-background pb-28 text-foreground"

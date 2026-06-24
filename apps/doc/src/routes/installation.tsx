@@ -11,33 +11,32 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
   { id: "install", title: "Install" },
+  { id: "app-shell", title: "App shell" },
   { id: "tailwind", title: "Tailwind" },
   { id: "usage", title: "Usage" },
   { id: "theme", title: "Theme" },
   { id: "requirements", title: "Requirements" },
 ] as const;
 
-const INSTALLATION_PROMPT = `Install raft-ui in this project as an npm package.
+const INSTALLATION_PROMPT = `Add raft-ui to this React app.
 
-Use the package route, not the shadcn registry route.
-
-Requirements:
-- Install raft-ui.
-- Use Tailwind CSS v4 in the host app.
-- Import raft-ui/styles.css exactly once from the app's global stylesheet or root entry.
-- Do not import tailwindcss again from the same CSS entry after importing raft-ui/styles.css.
-- The package stylesheet already sources raft-ui's component classes.
-- Wrap the app in ThemeProvider with syncDom when selecting a style family or color mode.
-- Use useTheme().setTheme to switch families and pass mode for elegant light, dark, or system.
+Tasks:
+1. Run: pnpm add raft-ui
+2. Import raft-ui/styles.css once from the global CSS file or root entry.
+3. Wrap the app root with ThemeProvider.
+4. Add TooltipProvider when the app uses Tooltip.
+5. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
 
 Minimal setup:
 import "raft-ui/styles.css";
-import { ThemeProvider } from "raft-ui";
+import { ThemeProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
   return (
-    <ThemeProvider defaultTheme="brutal" defaultMode="light" storageKey="raft-ui-theme" syncDom>
-      <YourApp />
+    <ThemeProvider>
+      <TooltipProvider>
+        <YourApp />
+      </TooltipProvider>
     </ThemeProvider>
   );
 }`;
@@ -52,20 +51,21 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [tailwindcss(), react()],
 });`,
-  globalCss: `@import "raft-ui/styles.css";`,
   app: `import { Button } from "raft-ui";
 
 export function App() {
   return <Button>Save</Button>;
 }`,
-  themeProvider: `import "raft-ui/styles.css";
+  appShell: `import "raft-ui/styles.css";
 
-import { ThemeProvider } from "raft-ui";
+import { ThemeProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
   return (
-    <ThemeProvider defaultTheme="brutal" defaultMode="light" storageKey="raft-ui-theme" syncDom>
-      <YourApp />
+    <ThemeProvider>
+      <TooltipProvider>
+        <YourApp />
+      </TooltipProvider>
     </ThemeProvider>
   );
 }`,
@@ -139,32 +139,64 @@ function InstallationDoc() {
   return (
     <DocPage
       title="Installation"
-      description="Install raft-ui as a package and wire its Tailwind v4 theme into your app."
+      description="Install the package, load the stylesheet, and wire the app shell."
       toc={TOC}
       headerAction={<InstallationCopyPrompt prompt={INSTALLATION_PROMPT} />}
     >
       <DocSection id="install" title="Install">
         <div className="space-y-4">
-          <Lead>
-            Add the package to your app. React and React DOM are peer dependencies, so keep them in
-            the host project.
-          </Lead>
+          <Lead>Add the package. React and React DOM come from your app.</Lead>
           <CodeSnippet path="Shell" source={SNIPPETS.install} html={code.install} />
+        </div>
+      </DocSection>
+
+      <DocSection id="app-shell" title="App shell">
+        <div className="space-y-6">
+          <Lead>Set up styles and providers once near the root.</Lead>
+
+          <StepList>
+            <li className="space-y-3">
+              <span className="block font-medium text-foreground-strong">
+                Import the stylesheet.
+              </span>
+              <p>
+                Load <InlineCode>raft-ui/styles.css</InlineCode> once from your global stylesheet or
+                root entry.
+              </p>
+            </li>
+            <li className="space-y-3">
+              <span className="block font-medium text-foreground-strong">Wrap the app.</span>
+              <p>
+                <InlineCode>ThemeProvider</InlineCode> syncs theme attributes to the document root.
+                Add <InlineCode>TooltipProvider</InlineCode> when the app uses Tooltip.
+              </p>
+              <CodeSnippet path="src/App.tsx" source={SNIPPETS.appShell} html={code.appShell} />
+            </li>
+            <li className="space-y-3">
+              <span className="block font-medium text-foreground-strong">
+                Keep default portals.
+              </span>
+              <p>
+                Floating components portal to the document body. Pass portal props only for iframes,
+                preview frames, or embedded shells.
+              </p>
+            </li>
+          </StepList>
+
+          <p className="border-l-2 border-line-subtle pl-4 text-sm leading-relaxed text-foreground-muted">
+            Use <InlineCode>syncDom={"{false}"}</InlineCode> only for nested previews or component
+            islands that should not mutate the app root.
+          </p>
         </div>
       </DocSection>
 
       <DocSection id="tailwind" title="Tailwind">
         <div className="space-y-6">
-          <Lead>
-            RUI ships a Tailwind v4 entry stylesheet. Import it once so the semantic tokens,
-            component utilities, and package source hints are available to the host build.
-          </Lead>
+          <Lead>If your app already uses Tailwind v4, skip this section.</Lead>
 
           <StepList>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">
-                Install Tailwind v4 if your app does not already use it.
-              </span>
+              <span className="block font-medium text-foreground-strong">Install Tailwind v4.</span>
               <CodeSnippet
                 path="Shell"
                 source={SNIPPETS.installTailwind}
@@ -173,31 +205,18 @@ function InstallationDoc() {
             </li>
             <li className="space-y-3">
               <span className="block font-medium text-foreground-strong">
-                Register the Tailwind Vite plugin.
+                Register the Vite plugin.
               </span>
               <CodeSnippet path="vite.config.ts" source={SNIPPETS.vite} html={code.vite} />
-            </li>
-            <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">
-                Import the RUI stylesheet once.
-              </span>
-              <CodeSnippet
-                path="src/styles.css"
-                source={SNIPPETS.globalCss}
-                html={code.globalCss}
-              />
             </li>
           </StepList>
 
           <div className="space-y-3 border-l-2 border-line-subtle pl-4">
             <p className="text-sm leading-relaxed text-foreground-muted">
-              You normally do not need to manually include the npm package in Tailwind content
-              detection. The RUI stylesheet imports Tailwind and includes a package-local source
-              hint for its component classes.
+              <InlineCode>raft-ui/styles.css</InlineCode> already includes the package source hint.
             </p>
             <p className="text-sm leading-relaxed text-foreground-muted">
-              Add a manual source only if you skip <InlineCode>raft-ui/styles.css</InlineCode> and
-              build your Tailwind entry yourself.
+              Add this only if you build your own Tailwind entry and skip the package stylesheet.
             </p>
             <CodeSnippet
               path="src/styles.css"
@@ -210,38 +229,20 @@ function InstallationDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-4">
-          <Lead>
-            Import components from the package after the stylesheet is present in your app shell.
-          </Lead>
+          <Lead>Import components from the package.</Lead>
           <CodeSnippet path="src/App.tsx" source={SNIPPETS.app} html={code.app} />
         </div>
       </DocSection>
 
       <DocSection id="theme" title="Theme">
-        <div className="space-y-8">
-          <div className="space-y-3">
-            <h3 className="font-heading text-lg font-medium text-foreground-strong">
-              Connect the provider
-            </h3>
-            <Lead>
-              Wrap the app once. Use <InlineCode>syncDom</InlineCode> when this provider owns the
-              app-level theme so RUI can keep <InlineCode>data-theme</InlineCode> and color mode
-              classes on the document root in sync.
-            </Lead>
-            <CodeSnippet
-              path="src/App.tsx"
-              source={SNIPPETS.themeProvider}
-              html={code.themeProvider}
-            />
-          </div>
-
+        <div className="space-y-6">
           <div className="space-y-3">
             <h3 className="font-heading text-lg font-medium text-foreground-strong">
               Switch themes
             </h3>
             <Lead>
-              Use <InlineCode>setTheme</InlineCode> from <InlineCode>useTheme</InlineCode>. Pass the
-              family first, then add a mode when selecting an elegant color mode.
+              Use <InlineCode>setTheme</InlineCode>. Pass a mode only for elegant light, dark, or
+              system.
             </Lead>
             <CodeSnippet
               path="src/ThemeSwitcher.tsx"
@@ -255,8 +256,8 @@ function InstallationDoc() {
               Read theme state
             </h3>
             <Lead>
-              Read the selected family, selected mode, and resolved mode when labels, previews, or
-              app logic need to reflect the active theme.
+              Read the active family, selected mode, and resolved mode from{" "}
+              <InlineCode>useTheme</InlineCode>.
             </Lead>
             <CodeSnippet
               path="src/ThemeStatus.tsx"
@@ -270,9 +271,8 @@ function InstallationDoc() {
               Customize with data-theme
             </h3>
             <Lead>
-              Use Tailwind classes against semantic tokens first, then add{" "}
-              <InlineCode>data-theme</InlineCode> variants only for the details that should differ
-              between theme families.
+              Prefer semantic tokens. Use <InlineCode>data-theme</InlineCode> variants only for
+              family-specific differences.
             </Lead>
             <CodeSnippet
               path="src/BillingCard.tsx"
@@ -287,21 +287,28 @@ function InstallationDoc() {
         <ul className="space-y-3 text-sm leading-relaxed text-foreground-muted">
           <li>
             <span className="font-medium text-foreground-strong">React:</span> RUI expects React 19
-            and React DOM 19 from the host app.
+            and React DOM 19.
           </li>
           <li>
             <span className="font-medium text-foreground-strong">CSS:</span> import{" "}
-            <InlineCode>raft-ui/styles.css</InlineCode> once. Do not also import{" "}
-            <InlineCode>tailwindcss</InlineCode> separately from the same entry.
+            <InlineCode>raft-ui/styles.css</InlineCode> once.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">Build:</span> the host app needs a
-            Tailwind v4-capable build pipeline.
+            <span className="font-medium text-foreground-strong">Build:</span> use a Tailwind
+            v4-capable build pipeline.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">Theme switching:</span> use{" "}
-            <InlineCode>syncDom</InlineCode> on the app-level provider. Nested preview providers can
-            omit it.
+            <span className="font-medium text-foreground-strong">Nested themes:</span> pass{" "}
+            <InlineCode>syncDom={"{false}"}</InlineCode> for previews that should not update the
+            document root.
+          </li>
+          <li>
+            <span className="font-medium text-foreground-strong">Tooltips:</span> use one{" "}
+            <InlineCode>TooltipProvider</InlineCode> near the app root.
+          </li>
+          <li>
+            <span className="font-medium text-foreground-strong">Portals:</span> use custom portal
+            containers only for iframes, previews, or embedded shells.
           </li>
         </ul>
       </DocSection>

@@ -1,7 +1,7 @@
-import { Button, Popover, PopoverContent, PopoverTrigger } from "raft-ui";
+import { Button, Popover, PopoverContent, PopoverTrigger, type PopoverProps } from "raft-ui";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
 import { TextMorph } from "torph/react";
 
 type InstallationCopyPromptProps = {
@@ -20,6 +20,16 @@ export function InstallationCopyPrompt({ prompt }: InstallationCopyPromptProps) 
     }
   }, []);
 
+  const handleOpenChange = useCallback<NonNullable<PopoverProps["onOpenChange"]>>(
+    (nextOpen, eventDetails) => {
+      if (eventDetails.reason === "trigger-press") {
+        return;
+      }
+      setOpen(nextOpen);
+    },
+    [],
+  );
+
   const showPreview = useCallback(() => {
     clearCloseTimer();
     setOpen(true);
@@ -30,8 +40,18 @@ export function InstallationCopyPrompt({ prompt }: InstallationCopyPromptProps) 
     closeTimerRef.current = window.setTimeout(() => {
       setOpen(false);
       closeTimerRef.current = undefined;
-    }, 120);
+    }, 80);
   }, [clearCloseTimer]);
+
+  const hidePreviewOnBlur = useCallback(
+    (event: FocusEvent<HTMLElement>) => {
+      if (event.currentTarget.contains(event.relatedTarget)) {
+        return;
+      }
+      hidePreview();
+    },
+    [hidePreview],
+  );
 
   useEffect(() => {
     return () => {
@@ -41,23 +61,29 @@ export function InstallationCopyPrompt({ prompt }: InstallationCopyPromptProps) 
 
   const handleCopy = useCallback(() => {
     void copy(prompt);
-    setOpen(true);
   }, [copy, prompt]);
 
   return (
-    <Popover open={open} onOpenChange={setOpen} modal={false}>
+    <Popover
+      open={open}
+      onOpenChange={handleOpenChange}
+      modal={false}
+      triggerId="installation-copy-prompt-trigger"
+    >
       <PopoverTrigger
+        id="installation-copy-prompt-trigger"
         render={
           <Button
             type="button"
             variant="outline"
             size="sm"
+            className="w-[8.5rem]"
             aria-label="Copy installation prompt"
             onClick={handleCopy}
-            onMouseEnter={showPreview}
-            onMouseLeave={hidePreview}
+            onPointerEnter={showPreview}
+            onPointerLeave={hidePreview}
             onFocus={showPreview}
-            onBlur={hidePreview}
+            onBlur={hidePreviewOnBlur}
           />
         }
       >
@@ -74,12 +100,9 @@ export function InstallationCopyPrompt({ prompt }: InstallationCopyPromptProps) 
         align="end"
         sideOffset={8}
         className="w-[min(28rem,calc(100vw-2rem))] p-0"
-        onMouseEnter={showPreview}
-        onMouseLeave={hidePreview}
+        onPointerEnter={showPreview}
+        onPointerLeave={hidePreview}
       >
-        <div className="border-b border-line-muted px-3 py-2 text-xs font-medium text-foreground-muted">
-          Prompt preview
-        </div>
         <pre className="max-h-80 overflow-auto px-3 py-3 font-mono text-xs leading-relaxed text-foreground-strong whitespace-pre-wrap">
           {prompt}
         </pre>

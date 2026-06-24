@@ -5,7 +5,7 @@ export type PreviewMode = ThemeMode;
 
 export function PreviewThemeProvider({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider defaultTheme="elegant" defaultMode="light">
+    <ThemeProvider defaultTheme="elegant" defaultMode="light" syncDom={false}>
       {children}
     </ThemeProvider>
   );
@@ -31,7 +31,7 @@ export function PreviewThemeScope({
   const mode = modeOverride ?? selectedMode;
 
   return (
-    <ThemeProvider theme={family} mode={mode}>
+    <ThemeProvider theme={family} mode={mode} syncDom={false}>
       <PreviewThemeScopeContent family={family} className={className}>
         {children}
       </PreviewThemeScopeContent>

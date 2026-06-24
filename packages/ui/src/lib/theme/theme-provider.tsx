@@ -39,7 +39,8 @@ export interface ThemeProviderProps {
   modeStorageKey?: string;
   /**
    * Sync the active family/mode onto `document.documentElement`.
-   * Defaults to false so nested docs/previews do not mutate the app root.
+   * Defaults to true for app-level providers. Set to false for nested previews
+   * or component islands that should not mutate the app root.
    */
   syncDom?: boolean;
   children: ReactNode;
@@ -96,7 +97,7 @@ export function ThemeProvider({
   onModeChange,
   storageKey,
   modeStorageKey = storageKey ? `${storageKey}-mode` : undefined,
-  syncDom = false,
+  syncDom = true,
   children,
 }: ThemeProviderProps) {
   const [uncontrolledTheme, setUncontrolledTheme] = useState<Theme>(() =>
