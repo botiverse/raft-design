@@ -6,8 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "node ./scripts/portless-dev.mjs",
-    "dev:app": "vp dev",
+    "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
     "test": "vp test run --config vitest.config.ts",
@@ -45,7 +44,6 @@
     "@vitejs/plugin-react": "^6.0.2",
     "@vitejs/plugin-rsc": "catalog:",
     "jsdom": "^29.1.1",
-    "portless": "catalog:",
     "typescript": "^6.0.3",
     "vite": "catalog:",
     "vite-plus": "catalog:",
@@ -57,9 +55,5 @@
       "esbuild",
       "lightningcss"
     ]
-  },
-  "portless": {
-    "name": "raft-ui",
-    "script": "dev:app"
   }
 }
