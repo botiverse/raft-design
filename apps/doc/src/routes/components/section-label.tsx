@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SectionLabel } from "raft-ui/wip";
+import type { ReactNode } from "react";
 
 import { Callout } from "#/components/callout.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -145,14 +146,18 @@ function SectionLabelDoc() {
               status: "difference",
               note: "Source used an as prop. Current uses render composition while preserving the same typography and spacing.",
               source: (
-                <LegacySectionEyebrow as="div" className="mb-3">
-                  Info
-                </LegacySectionEyebrow>
+                <SectionLabelInfoFrame>
+                  <LegacySectionEyebrow as="div" className="mb-3">
+                    Info
+                  </LegacySectionEyebrow>
+                </SectionLabelInfoFrame>
               ),
               current: (
-                <SectionLabel render={<div />} className="mb-3">
-                  Info
-                </SectionLabel>
+                <SectionLabelInfoFrame>
+                  <SectionLabel render={<div />} className="mb-3">
+                    Info
+                  </SectionLabel>
+                </SectionLabelInfoFrame>
               ),
               sourceCode: code.sourceDiv,
               currentCode: code.currentDiv,
@@ -166,11 +171,17 @@ function SectionLabelDoc() {
               status: "difference",
               note: "Source combined as='label' and htmlFor. Current puts the label element directly in render.",
               source: (
-                <LegacySectionEyebrow as="label" htmlFor="name">
-                  Name
-                </LegacySectionEyebrow>
+                <SectionLabelFormFrame>
+                  <LegacySectionEyebrow as="label" htmlFor="name">
+                    Name
+                  </LegacySectionEyebrow>
+                </SectionLabelFormFrame>
               ),
-              current: <SectionLabel render={<label htmlFor="name" />}>Name</SectionLabel>,
+              current: (
+                <SectionLabelFormFrame>
+                  <SectionLabel render={<label htmlFor="name" />}>Name</SectionLabel>
+                </SectionLabelFormFrame>
+              ),
               sourceCode: code.sourceLabel,
               currentCode: code.currentLabel,
               compositionCode: code.currentLabel,
@@ -182,5 +193,40 @@ function SectionLabelDoc() {
         />
       </DocSection>
     </DocPage>
+  );
+}
+
+function SectionLabelInfoFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      {children}
+      <div className="grid gap-2">
+        <div className="rounded-none bg-black/[0.04] px-3 py-2 text-sm font-medium text-black [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:bg-layer-muted [[data-theme=elegant]_&]:text-foreground">
+          Billing workspace
+        </div>
+        <p className="m-0 text-xs leading-5 text-black/55 [[data-theme=elegant]_&]:text-foreground-muted">
+          Section labels sit above grouped content rather than floating alone.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SectionLabelFormFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      <div className="grid gap-2">
+        {children}
+        <input
+          id="name"
+          value="design-system"
+          readOnly
+          className="h-9 w-full border-2 border-black bg-white px-3 text-sm text-black outline-none [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:text-foreground"
+        />
+        <p className="m-0 text-xs leading-5 text-black/55 [[data-theme=elegant]_&]:text-foreground-muted">
+          Visible in the sidebar and message header.
+        </p>
+      </div>
+    </div>
   );
 }

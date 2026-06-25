@@ -9,6 +9,7 @@ import {
   SectionHeaderTitle,
 } from "raft-ui/wip";
 import { BellRing, Plus, User } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -208,8 +209,16 @@ function SectionHeaderDoc() {
               label: "Created agents",
               status: "difference",
               note: "Source packed label and count into props. Current composes the title and count slots explicitly.",
-              source: <LegacySectionHeader className="mb-3" label="Created Agents" count={3} />,
-              current: <CurrentCreatedAgentsHeader />,
+              source: (
+                <SectionHeaderListFrame>
+                  <LegacySectionHeader className="mb-3" label="Created Agents" count={3} />
+                </SectionHeaderListFrame>
+              ),
+              current: (
+                <SectionHeaderListFrame>
+                  <CurrentCreatedAgentsHeader />
+                </SectionHeaderListFrame>
+              ),
               sourceCode: code.sourceCreatedAgents,
               currentCode: code.currentCreatedAgents,
               compositionCode: code.currentCreatedAgents,
@@ -222,15 +231,21 @@ function SectionHeaderDoc() {
               status: "difference",
               note: "Source accepted icon/count/action props. Current preserves the same row but exposes each part as a slot.",
               source: (
-                <LegacySectionHeader
-                  className="mb-3"
-                  icon={<BellRing size={14} className="text-black/50" />}
-                  label="Pending Reminders"
-                  count={8}
-                  action={<span className="text-xs font-bold text-black/50">Loading...</span>}
-                />
+                <SectionHeaderReminderFrame>
+                  <LegacySectionHeader
+                    className="mb-3"
+                    icon={<BellRing size={14} className="text-black/50" />}
+                    label="Pending Reminders"
+                    count={8}
+                    action={<span className="text-xs font-bold text-black/50">Loading...</span>}
+                  />
+                </SectionHeaderReminderFrame>
               ),
-              current: <CurrentPendingRemindersHeader />,
+              current: (
+                <SectionHeaderReminderFrame>
+                  <CurrentPendingRemindersHeader />
+                </SectionHeaderReminderFrame>
+              ),
               sourceCode: code.sourcePendingReminders,
               currentCode: code.currentPendingReminders,
               compositionCode: code.currentPendingReminders,
@@ -243,9 +258,15 @@ function SectionHeaderDoc() {
               status: "difference",
               note: "Source used icon and label props in settings panels. Current keeps the exact visual layout with content and icon slots.",
               source: (
-                <LegacySectionHeader className="mb-3" icon={<User size={16} />} label="Account" />
+                <SectionHeaderSettingsFrame>
+                  <LegacySectionHeader className="mb-3" icon={<User size={16} />} label="Account" />
+                </SectionHeaderSettingsFrame>
               ),
-              current: <CurrentAccountHeader />,
+              current: (
+                <SectionHeaderSettingsFrame>
+                  <CurrentAccountHeader />
+                </SectionHeaderSettingsFrame>
+              ),
               sourceCode: code.sourceAccount,
               currentCode: code.currentAccount,
               compositionCode: code.currentAccount,
@@ -257,6 +278,80 @@ function SectionHeaderDoc() {
         />
       </DocSection>
     </DocPage>
+  );
+}
+
+function SectionHeaderListFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      {children}
+      <div className="grid gap-px border-2 border-black bg-black [[data-theme=elegant]_&]:overflow-hidden [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-line-subtle">
+        {["Atlas", "Avery", "Design notes"].map((name) => (
+          <div
+            key={name}
+            className="flex items-center justify-between bg-white px-3 py-2 text-xs font-medium text-black [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:text-foreground"
+          >
+            <span>{name}</span>
+            <span className="font-mono text-black/40 [[data-theme=elegant]_&]:text-foreground-muted">
+              active
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SectionHeaderReminderFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      {children}
+      <div className="grid gap-2">
+        {["Review dialog source comparison", "Ship release notes"].map((title) => (
+          <div
+            key={title}
+            className="border border-black/20 bg-black/[0.03] px-3 py-2 [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-muted"
+          >
+            <div className="text-xs font-medium text-black [[data-theme=elegant]_&]:text-foreground">
+              {title}
+            </div>
+            <div className="mt-1 font-mono text-[10px] text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
+              Today at 09:30
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SectionHeaderSettingsFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      {children}
+      <div className="grid gap-3">
+        <label className="grid gap-1.5">
+          <span className="text-xs font-bold text-black [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground">
+            Workspace
+          </span>
+          <input
+            value="raft-design"
+            readOnly
+            className="h-9 border-2 border-black bg-white px-3 text-sm text-black outline-none [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:text-foreground"
+          />
+        </label>
+        <label className="grid gap-1.5">
+          <span className="text-xs font-bold text-black [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground">
+            Project URL
+          </span>
+          <input
+            value="raft.local"
+            readOnly
+            className="h-9 border-2 border-black bg-white px-3 text-sm text-black outline-none [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:text-foreground"
+          />
+        </label>
+      </div>
+    </div>
   );
 }
 

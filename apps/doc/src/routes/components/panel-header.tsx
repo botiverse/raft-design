@@ -12,6 +12,7 @@ import {
   PanelHeaderVisual,
 } from "raft-ui/wip";
 import { ArrowLeft, Bookmark, Search, Settings, X } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -272,15 +273,21 @@ function PanelHeaderDoc() {
               status: "difference",
               note: "Source packed title, subtitle, icon, and back behavior into props. Current composes the same layout with explicit slots.",
               source: (
-                <LegacyPanelHeader
-                  title="Saved"
-                  subtitle="3 saved"
-                  icon={<Bookmark size={18} />}
-                  iconBg="bg-brutal-yellow"
-                  onMobileBack={() => {}}
-                />
+                <PanelHeaderComparisonFrame>
+                  <LegacyPanelHeader
+                    title="Saved"
+                    subtitle="3 saved"
+                    icon={<Bookmark size={18} />}
+                    iconBg="bg-brutal-yellow"
+                    onMobileBack={() => {}}
+                  />
+                </PanelHeaderComparisonFrame>
               ),
-              current: <CurrentSavedPanelHeader />,
+              current: (
+                <PanelHeaderComparisonFrame>
+                  <CurrentSavedPanelHeader />
+                </PanelHeaderComparisonFrame>
+              ),
               sourceCode: code.sourceSaved,
               currentCode: code.currentSaved,
               compositionCode: code.currentSaved,
@@ -292,16 +299,22 @@ function PanelHeaderDoc() {
               status: "difference",
               note: "Source used iconSlot and titleSuffix props for identity panels. Current exposes visual, suffix, and actions as normal children.",
               source: (
-                <LegacyPanelHeader
-                  iconSlot={<Avatar size="md" type="agent" />}
-                  iconAlwaysVisible
-                  title="Atlas"
-                  titleSuffix={<Status variant="success" />}
-                  subtitle="claude-opus · online"
-                  actions={<Badge.Experimental />}
-                />
+                <PanelHeaderComparisonFrame>
+                  <LegacyPanelHeader
+                    iconSlot={<Avatar size="md" type="agent" />}
+                    iconAlwaysVisible
+                    title="Atlas"
+                    titleSuffix={<Status variant="success" />}
+                    subtitle="claude-opus · online"
+                    actions={<Badge.Experimental />}
+                  />
+                </PanelHeaderComparisonFrame>
               ),
-              current: <CurrentIdentityPanelHeader />,
+              current: (
+                <PanelHeaderComparisonFrame>
+                  <CurrentIdentityPanelHeader />
+                </PanelHeaderComparisonFrame>
+              ),
               sourceCode: code.sourceIdentity,
               currentCode: code.currentIdentity,
               compositionCode: code.currentIdentity,
@@ -313,8 +326,16 @@ function PanelHeaderDoc() {
               label: "Search title slot",
               status: "difference",
               note: "Source used titleSlot as a full replacement escape hatch. Current keeps the same freedom by composing arbitrary content inside PanelHeaderContent.",
-              source: <LegacySearchPanelHeader />,
-              current: <CurrentSearchPanelHeader />,
+              source: (
+                <PanelHeaderComparisonFrame>
+                  <LegacySearchPanelHeader />
+                </PanelHeaderComparisonFrame>
+              ),
+              current: (
+                <PanelHeaderComparisonFrame>
+                  <CurrentSearchPanelHeader />
+                </PanelHeaderComparisonFrame>
+              ),
               sourceCode: code.sourceSearch,
               currentCode: code.currentSearch,
               compositionCode: code.currentSearch,
@@ -326,6 +347,28 @@ function PanelHeaderDoc() {
         />
       </DocSection>
     </DocPage>
+  );
+}
+
+function PanelHeaderComparisonFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm overflow-hidden border-2 border-black bg-white shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      {children}
+      <div className="grid gap-px border-t-2 border-black bg-black/10 p-3 [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-line-subtle/40">
+        <div className="flex items-center justify-between bg-white px-3 py-2 text-xs font-medium text-black [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:bg-layer-muted [[data-theme=elegant]_&]:text-foreground">
+          <span>Design handoff</span>
+          <span className="font-mono text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
+            12
+          </span>
+        </div>
+        <div className="flex items-center justify-between bg-white px-3 py-2 text-xs font-medium text-black [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:bg-layer-muted [[data-theme=elegant]_&]:text-foreground">
+          <span>Migration notes</span>
+          <span className="font-mono text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
+            08
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }
 

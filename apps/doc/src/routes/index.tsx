@@ -1013,13 +1013,13 @@ function AlertDialogPreview() {
           initialFocus={false}
           finalFocus={false}
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="relative top-auto left-auto z-0 w-[248px] max-w-[248px] translate-x-0 translate-y-0"
+          className="relative top-auto left-auto z-0 w-[264px] max-w-[264px] translate-x-0 translate-y-0"
         >
           <AlertDialogHeader>
             <AlertDialogTitle>Delete task</AlertDialogTitle>
-            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogBody>
+          <AlertDialogBody className="grid gap-2">
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
             <p className="m-0 text-sm leading-5 text-foreground/60 [[data-theme=brutal]_&]:text-black/70">
               Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
               <strong className="font-bold text-foreground">"Review dialog migration"</strong>?

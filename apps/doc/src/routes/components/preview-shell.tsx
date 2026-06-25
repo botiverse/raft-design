@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PreviewShell } from "raft-ui/wip";
 import { Eye } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -172,24 +173,28 @@ function PreviewShellDoc() {
               status: "difference",
               note: "Source made onClick switch the root to button. Current preserves the same skin and layout but makes the button root explicit through render.",
               source: (
-                <LegacyPreviewShell
-                  onClick={() => {}}
-                  data-testid="quoted-message-card"
-                  className="group block w-full text-left"
-                >
-                  <QuotedPreviewShellContent />
-                </LegacyPreviewShell>
+                <MessageComparisonFrame>
+                  <LegacyPreviewShell
+                    onClick={() => {}}
+                    data-testid="quoted-message-card"
+                    className="group block w-full text-left"
+                  >
+                    <QuotedPreviewShellContent />
+                  </LegacyPreviewShell>
+                </MessageComparisonFrame>
               ),
               current: (
-                <PreviewShell
-                  render={
-                    <button type="button" aria-label="Open quoted message" onClick={() => {}} />
-                  }
-                  data-testid="quoted-message-card"
-                  className="group block w-full text-left"
-                >
-                  <QuotedPreviewShellContent />
-                </PreviewShell>
+                <MessageComparisonFrame>
+                  <PreviewShell
+                    render={
+                      <button type="button" aria-label="Open quoted message" onClick={() => {}} />
+                    }
+                    data-testid="quoted-message-card"
+                    className="group block w-full text-left"
+                  >
+                    <QuotedPreviewShellContent />
+                  </PreviewShell>
+                </MessageComparisonFrame>
               ),
               sourceCode: code.sourceQuoted,
               currentCode: code.currentQuoted,
@@ -203,24 +208,32 @@ function PreviewShellDoc() {
               status: "difference",
               note: "Source reused PreviewShell for attachment chip border/bg/hover while AttachmentChip owned width and content layout. Current keeps the same split; clickable state is explicit via render.",
               source: (
-                <LegacyPreviewShell
-                  onClick={() => {}}
-                  title="specification.pdf"
-                  className={COMPACT_CHIP_LAYOUT}
-                >
-                  <AttachmentPreviewShellContent />
-                </LegacyPreviewShell>
+                <AttachmentComparisonFrame>
+                  <LegacyPreviewShell
+                    onClick={() => {}}
+                    title="specification.pdf"
+                    className={COMPACT_CHIP_LAYOUT}
+                  >
+                    <AttachmentPreviewShellContent />
+                  </LegacyPreviewShell>
+                </AttachmentComparisonFrame>
               ),
               current: (
-                <PreviewShell
-                  render={
-                    <button type="button" aria-label="Open attachment preview" onClick={() => {}} />
-                  }
-                  title="specification.pdf"
-                  className={COMPACT_CHIP_LAYOUT}
-                >
-                  <AttachmentPreviewShellContent />
-                </PreviewShell>
+                <AttachmentComparisonFrame>
+                  <PreviewShell
+                    render={
+                      <button
+                        type="button"
+                        aria-label="Open attachment preview"
+                        onClick={() => {}}
+                      />
+                    }
+                    title="specification.pdf"
+                    className={COMPACT_CHIP_LAYOUT}
+                  >
+                    <AttachmentPreviewShellContent />
+                  </PreviewShell>
+                </AttachmentComparisonFrame>
               ),
               sourceCode: code.sourceAttachment,
               currentCode: code.currentAttachment,
@@ -233,6 +246,43 @@ function PreviewShellDoc() {
         />
       </DocSection>
     </DocPage>
+  );
+}
+
+function MessageComparisonFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      <div className="mb-3 flex items-center justify-between border-b-2 border-black pb-2 [[data-theme=elegant]_&]:border-line-subtle">
+        <span className="font-heading text-xs font-bold tracking-wide text-black uppercase [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground-muted [[data-theme=elegant]_&]:normal-case [[data-theme=elegant]_&]:tracking-[-0.005em]">
+          Thread excerpt
+        </span>
+        <span className="font-mono text-[10px] text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
+          #design-system
+        </span>
+      </div>
+      <div className="grid gap-2">
+        <div className="rounded-none border border-black/10 bg-black/[0.03] px-3 py-2 text-xs text-black/55 [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-muted [[data-theme=elegant]_&]:text-foreground-muted">
+          Atlas linked the latest migration note.
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function AttachmentComparisonFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full max-w-sm border-2 border-black bg-white p-4 shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+      <div className="mb-3 grid gap-1">
+        <div className="font-heading text-xs font-bold tracking-wide text-black uppercase [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground [[data-theme=elegant]_&]:normal-case [[data-theme=elegant]_&]:tracking-[-0.005em]">
+          Attachments
+        </div>
+        <div className="text-xs text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
+          Compact preview chips sit in a horizontal media rail.
+        </div>
+      </div>
+      <div className="flex gap-3 overflow-hidden">{children}</div>
+    </div>
   );
 }
 
