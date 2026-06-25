@@ -271,6 +271,7 @@ export function SortableTabsList<T extends string = string>({
 
   return (
     <DndContext
+      autoScroll={false}
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragStart={handleDragStart}

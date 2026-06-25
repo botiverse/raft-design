@@ -131,7 +131,12 @@ export default function ReorderablePanelTabs<T extends string>({
 
   return (
     <div className="overflow-x-auto border-b-2 border-black bg-white scrollbar-none">
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        autoScroll={false}
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={tabIds} strategy={horizontalListSortingStrategy}>
           <div className="flex min-w-max">
             {tabs.map((tab) => (
