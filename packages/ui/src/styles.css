@@ -2,8 +2,6 @@
 
 /* Pure token contract. No legacy action/surface/destructive/component aliases. */
 
-@source "./components";
-
 @theme {
   --shadow-*: initial;
 

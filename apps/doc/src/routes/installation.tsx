@@ -66,8 +66,9 @@ export function App() {
   portalRootCss: `.root {
   isolation: isolate;
 }`,
-  globalCss: `@import "tailwindcss";
-@import "raft-ui/styles.css";`,
+  globalCss: `@source "../node_modules/raft-ui/dist/**/*.{js,mjs}";
+@import "raft-ui/styles.css";
+@import "tailwindcss";`,
   appShell: `import { ThemeProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
@@ -114,8 +115,7 @@ export function ThemeStatus() {
 >
   Billing
 </section>`,
-  manualSource: `@import "tailwindcss";
-@source "../node_modules/raft-ui/src";`,
+  manualSource: `@source "../../node_modules/raft-ui/dist/**/*.{js,mjs}";`,
 } as const;
 
 export const Route = createFileRoute("/installation")({
@@ -170,8 +170,8 @@ function InstallationDoc() {
                 Import the stylesheet.
               </span>
               <p>
-                Load Tailwind and <InlineCode>raft-ui/styles.css</InlineCode> once from your global
-                stylesheet.
+                Load the package source hint, <InlineCode>raft-ui/styles.css</InlineCode>, and
+                Tailwind once from your global stylesheet.
               </p>
               <CodeSnippet
                 path="src/styles.css"
@@ -243,10 +243,10 @@ function InstallationDoc() {
 
           <div className="space-y-3 border-l-2 border-line-subtle pl-4">
             <p className="text-sm leading-relaxed text-foreground-muted">
-              <InlineCode>raft-ui/styles.css</InlineCode> already includes the package source hint.
+              <InlineCode>@source</InlineCode> is relative to this CSS file.
             </p>
             <p className="text-sm leading-relaxed text-foreground-muted">
-              Add this only if you build your own Tailwind entry and skip the package stylesheet.
+              Adjust the path when your global stylesheet lives deeper in the app.
             </p>
             <CodeSnippet
               path="src/styles.css"

@@ -10,8 +10,7 @@
   },
   "files": [
     "CHANGELOG.md",
-    "dist",
-    "src"
+    "dist"
   ],
   "type": "module",
   "exports": {
@@ -27,7 +26,7 @@
       "types": "./dist/wip.d.mts",
       "default": "./dist/wip.mjs"
     },
-    "./styles.css": "./src/styles.css",
+    "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
