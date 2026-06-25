@@ -14,6 +14,7 @@ import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MigrationIndexRouteImport } from './routes/migration.index'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
@@ -105,6 +106,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const MigrationIndexRoute = MigrationIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MigrationRoute,
 } as any)
 const TokensTypographyRoute = TokensTypographyRouteImport.update({
   id: '/tokens/typography',
@@ -500,6 +506,7 @@ export interface FileRoutesByFullPath {
   '/tokens/colors': typeof TokensColorsRouteWithChildren
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/migration/': typeof MigrationIndexRoute
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
@@ -524,7 +531,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
-  '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -573,6 +579,7 @@ export interface FileRoutesByTo {
   '/tokens/colors': typeof TokensColorsRouteWithChildren
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/migration': typeof MigrationIndexRoute
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
@@ -647,6 +654,7 @@ export interface FileRoutesById {
   '/tokens/colors': typeof TokensColorsRouteWithChildren
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/migration/': typeof MigrationIndexRoute
   '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/banner_/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
@@ -722,6 +730,7 @@ export interface FileRouteTypes {
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/migration/'
     | '/components/badge/matrix'
     | '/components/banner/matrix'
     | '/components/button/matrix'
@@ -746,7 +755,6 @@ export interface FileRouteTypes {
     | '/'
     | '/components'
     | '/installation'
-    | '/migration'
     | '/playground'
     | '/components/attention-dot'
     | '/components/avatar'
@@ -795,6 +803,7 @@ export interface FileRouteTypes {
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/migration'
     | '/components/badge/matrix'
     | '/components/banner/matrix'
     | '/components/button/matrix'
@@ -868,6 +877,7 @@ export interface FileRouteTypes {
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/migration/'
     | '/components/badge_/matrix'
     | '/components/banner_/matrix'
     | '/components/button_/matrix'
@@ -938,6 +948,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/migration/': {
+      id: '/migration/'
+      path: '/'
+      fullPath: '/migration/'
+      preLoaderRoute: typeof MigrationIndexRouteImport
+      parentRoute: typeof MigrationRoute
     }
     '/tokens/typography': {
       id: '/tokens/typography'
@@ -1525,10 +1542,12 @@ const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
 
 interface MigrationRouteChildren {
   MigrationSourceFileRoute: typeof MigrationSourceFileRoute
+  MigrationIndexRoute: typeof MigrationIndexRoute
 }
 
 const MigrationRouteChildren: MigrationRouteChildren = {
   MigrationSourceFileRoute: MigrationSourceFileRoute,
+  MigrationIndexRoute: MigrationIndexRoute,
 }
 
 const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
