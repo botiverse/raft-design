@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from "react";
-import { Badge } from "./Badge.tsx";
+import { Badge } from "./Badge";
 
 export interface ExperimentalBadgeProps extends HTMLAttributes<HTMLSpanElement> {
   // Callers can add positional tweaks (e.g. `-translate-y-px` inside a

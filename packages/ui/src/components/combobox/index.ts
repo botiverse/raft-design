@@ -49,4 +49,4 @@ export {
   type ComboboxTriggerIndicatorProps,
   type ComboboxTriggerProps,
   type ComboboxValueProps,
-} from "./combobox.tsx";
+} from "./combobox";

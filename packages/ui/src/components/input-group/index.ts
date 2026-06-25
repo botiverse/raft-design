@@ -1,7 +1,7 @@
-export { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group.tsx";
+export { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 export type {
   InputGroupProps,
   InputGroupAddonProps,
   InputGroupInputProps,
   InputGroupAddonTextProps,
-} from "./input-group.tsx";
+} from "./input-group";

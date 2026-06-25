@@ -9,7 +9,7 @@ export {
   SortableTabsList,
   SortableTabsTab,
   useOrderedTabs,
-} from "./tabs.tsx";
+} from "./tabs";
 export type {
   OrderedTabItem,
   SortableTabsListProps,
@@ -21,4 +21,4 @@ export type {
   TabsPanelProps,
   TabsProps,
   TabsTabProps,
-} from "./tabs.tsx";
+} from "./tabs";

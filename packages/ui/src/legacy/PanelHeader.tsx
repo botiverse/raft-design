@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import type { HTMLAttributes, ReactNode } from "react";
-import Button from "./button.tsx";
+import Button from "./button";
 
 type DivPassthroughProps = HTMLAttributes<HTMLDivElement> &
   Record<`data-${string}`, string | undefined>;

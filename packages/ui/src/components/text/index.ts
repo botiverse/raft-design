@@ -1,2 +1,2 @@
-export { Text, TextHeading, TextMono, TextSans } from "./text.tsx";
-export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./text.tsx";
+export { Text, TextHeading, TextMono, TextSans } from "./text";
+export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./text";

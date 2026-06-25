@@ -12,7 +12,7 @@ export {
   PopoverTitle,
   PopoverTrigger,
   PopoverViewport,
-} from "./popover.tsx";
+} from "./popover";
 export type {
   PopoverArrowProps,
   PopoverBackdropProps,
@@ -27,4 +27,4 @@ export type {
   PopoverTitleProps,
   PopoverTriggerProps,
   PopoverViewportProps,
-} from "./popover.tsx";
+} from "./popover";

@@ -15,7 +15,7 @@ export {
   QuotedMessageCardThread,
   QuotedMessageCardTimestamp,
   QuotedMessageCardUnavailable,
-} from "./quoted-message-card.tsx";
+} from "./quoted-message-card";
 export type {
   QuotedMessageCardAttachmentsProps,
   QuotedMessageCardAuthorNameProps,
@@ -33,4 +33,4 @@ export type {
   QuotedMessageCardThreadProps,
   QuotedMessageCardTimestampProps,
   QuotedMessageCardUnavailableProps,
-} from "./quoted-message-card.tsx";
+} from "./quoted-message-card";

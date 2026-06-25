@@ -8,7 +8,7 @@ export {
   PanelHeaderTitle,
   PanelHeaderTitleRow,
   PanelHeaderVisual,
-} from "./panel-header.tsx";
+} from "./panel-header";
 export type {
   PanelHeaderActionsProps,
   PanelHeaderContentProps,
@@ -19,4 +19,4 @@ export type {
   PanelHeaderTitleProps,
   PanelHeaderTitleRowProps,
   PanelHeaderVisualProps,
-} from "./panel-header.tsx";
+} from "./panel-header";

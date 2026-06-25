@@ -1,8 +1,8 @@
 import { Input as BaseInput } from "@base-ui/react/input";
-import { tv } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
-import type { WithoutChildren } from "../../lib/without-children.ts";
+import { tv } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { WithoutChildren } from "../../lib/without-children";
 
 // The brutal field visual (formerly the app's `.input-brutal` class). The error
 // state is driven by `aria-invalid` so the control styles itself while Field /

@@ -1,18 +1,76 @@
 export {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/dialog/index";
+export type {
+  DialogBodyProps,
+  DialogCloseProps,
+  DialogContentProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
+  DialogOverlayProps,
+  DialogPortalProps,
+  DialogProps,
+  DialogTitleProps,
+  DialogTriggerProps,
+} from "./components/dialog/index";
+
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogBody,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./components/alert-dialog/index";
+export type {
+  AlertDialogActionProps,
+  AlertDialogBodyProps,
+  AlertDialogCancelProps,
+  AlertDialogContentProps,
+  AlertDialogDescriptionProps,
+  AlertDialogFooterProps,
+  AlertDialogHeaderProps,
+  AlertDialogMediaProps,
+  AlertDialogOverlayProps,
+  AlertDialogPortalProps,
+  AlertDialogProps,
+  AlertDialogTitleProps,
+  AlertDialogTriggerProps,
+} from "./components/alert-dialog/index";
+
+export {
   ToggleGroup,
   ToggleGroupCount,
   ToggleGroupItem,
   ToggleGroupLabel,
-} from "./components/toggle-group/index.ts";
+} from "./components/toggle-group/index";
 export type {
   ToggleGroupCountProps,
   ToggleGroupItemProps,
   ToggleGroupLabelProps,
   ToggleGroupProps,
-} from "./components/toggle-group/index.ts";
+} from "./components/toggle-group/index";
 
-export { PreviewShell } from "./components/preview-shell/index.ts";
-export type { PreviewShellProps } from "./components/preview-shell/index.ts";
+export { PreviewShell } from "./components/preview-shell/index";
+export type { PreviewShellProps } from "./components/preview-shell/index";
 
 export {
   MediaListItem,
@@ -23,7 +81,7 @@ export {
   MediaListItemText,
   MediaListItemTitle,
   MediaListItemVisual,
-} from "./components/media-list-item/index.ts";
+} from "./components/media-list-item/index";
 export type {
   MediaListItemActionGroupProps,
   MediaListItemAsideProps,
@@ -33,7 +91,7 @@ export type {
   MediaListItemTextProps,
   MediaListItemTitleProps,
   MediaListItemVisualProps,
-} from "./components/media-list-item/index.ts";
+} from "./components/media-list-item/index";
 
 export {
   PanelHeader,
@@ -45,7 +103,7 @@ export {
   PanelHeaderTitle,
   PanelHeaderTitleRow,
   PanelHeaderVisual,
-} from "./components/panel-header/index.ts";
+} from "./components/panel-header/index";
 export type {
   PanelHeaderActionsProps,
   PanelHeaderContentProps,
@@ -56,7 +114,7 @@ export type {
   PanelHeaderTitleProps,
   PanelHeaderTitleRowProps,
   PanelHeaderVisualProps,
-} from "./components/panel-header/index.ts";
+} from "./components/panel-header/index";
 
 export {
   QuotedMessageCard,
@@ -75,7 +133,7 @@ export {
   QuotedMessageCardThread,
   QuotedMessageCardTimestamp,
   QuotedMessageCardUnavailable,
-} from "./components/quoted-message-card/index.ts";
+} from "./components/quoted-message-card/index";
 export type {
   QuotedMessageCardAttachmentsProps,
   QuotedMessageCardAuthorNameProps,
@@ -93,7 +151,7 @@ export type {
   QuotedMessageCardThreadProps,
   QuotedMessageCardTimestampProps,
   QuotedMessageCardUnavailableProps,
-} from "./components/quoted-message-card/index.ts";
+} from "./components/quoted-message-card/index";
 
 export {
   ConversationPreviewCard,
@@ -110,7 +168,7 @@ export {
   ConversationPreviewCardPreviewLeading,
   ConversationPreviewCardSecondaryPreview,
   ConversationPreviewCardTimestamp,
-} from "./components/conversation-preview-card/index.ts";
+} from "./components/conversation-preview-card/index";
 export type {
   ConversationPreviewCardActionProps,
   ConversationPreviewCardAuthorNameProps,
@@ -126,10 +184,10 @@ export type {
   ConversationPreviewCardProps,
   ConversationPreviewCardSecondaryPreviewProps,
   ConversationPreviewCardTimestampProps,
-} from "./components/conversation-preview-card/index.ts";
+} from "./components/conversation-preview-card/index";
 
-export { SectionLabel } from "./components/section-label/index.ts";
-export type { SectionLabelProps } from "./components/section-label/index.ts";
+export { SectionLabel } from "./components/section-label/index";
+export type { SectionLabelProps } from "./components/section-label/index";
 
 export {
   SectionHeader,
@@ -138,7 +196,7 @@ export {
   SectionHeaderCount,
   SectionHeaderIcon,
   SectionHeaderTitle,
-} from "./components/section-header/index.ts";
+} from "./components/section-header/index";
 export type {
   SectionHeaderActionsProps,
   SectionHeaderContentProps,
@@ -146,7 +204,7 @@ export type {
   SectionHeaderIconProps,
   SectionHeaderProps,
   SectionHeaderTitleProps,
-} from "./components/section-header/index.ts";
+} from "./components/section-header/index";
 
 export {
   DescriptionAction,
@@ -154,14 +212,14 @@ export {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "./components/description-list/index.ts";
+} from "./components/description-list/index";
 export type {
   DescriptionActionProps,
   DescriptionDetailsProps,
   DescriptionItemProps,
   DescriptionListProps,
   DescriptionTermProps,
-} from "./components/description-list/index.ts";
+} from "./components/description-list/index";
 
 export {
   ListItem,
@@ -172,7 +230,7 @@ export {
   ListItemMeta,
   ListItemRow,
   ListItemTitle,
-} from "./components/list-item/index.ts";
+} from "./components/list-item/index";
 export type {
   ListItemActionGroupProps,
   ListItemBodyProps,
@@ -182,7 +240,7 @@ export type {
   ListItemProps,
   ListItemRowProps,
   ListItemTitleProps,
-} from "./components/list-item/index.ts";
+} from "./components/list-item/index";
 
 export {
   Lightbox,
@@ -195,7 +253,7 @@ export {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "./components/lightbox/index.ts";
+} from "./components/lightbox/index";
 export type {
   LightboxActionsProps,
   LightboxCloseProps,
@@ -207,7 +265,7 @@ export type {
   LightboxStageProps,
   LightboxTitleProps,
   LightboxTriggerProps,
-} from "./components/lightbox/index.ts";
+} from "./components/lightbox/index";
 
 export {
   BottomSheet,
@@ -219,7 +277,7 @@ export {
   BottomSheetPortal,
   BottomSheetTitle,
   BottomSheetTrigger,
-} from "./components/bottom-sheet/index.ts";
+} from "./components/bottom-sheet/index";
 export type {
   BottomSheetCloseProps,
   BottomSheetContentProps,
@@ -230,4 +288,4 @@ export type {
   BottomSheetProps,
   BottomSheetTitleProps,
   BottomSheetTriggerProps,
-} from "./components/bottom-sheet/index.ts";
+} from "./components/bottom-sheet/index";

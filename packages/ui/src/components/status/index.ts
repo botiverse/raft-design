@@ -1,2 +1,2 @@
-export { Status } from "./status.tsx";
-export type { StatusProps } from "./status.tsx";
+export { Status } from "./status";
+export type { StatusProps } from "./status";

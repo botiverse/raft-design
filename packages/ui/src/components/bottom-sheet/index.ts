@@ -8,7 +8,7 @@ export {
   BottomSheetFooter,
   BottomSheetTitle,
   BottomSheetDescription,
-} from "./bottom-sheet.tsx";
+} from "./bottom-sheet";
 export type {
   BottomSheetProps,
   BottomSheetTriggerProps,
@@ -19,4 +19,4 @@ export type {
   BottomSheetFooterProps,
   BottomSheetTitleProps,
   BottomSheetDescriptionProps,
-} from "./bottom-sheet.tsx";
+} from "./bottom-sheet";

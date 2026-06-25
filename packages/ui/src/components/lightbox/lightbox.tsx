@@ -3,9 +3,9 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
-import { tv } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const lightbox = tv({
   slots: {

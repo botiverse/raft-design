@@ -2,11 +2,11 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
-import { tv, type VariantProps } from "../../lib/tv.ts";
-import { EmptyState, type EmptyStateProps } from "../empty-state/empty-state.tsx";
-import { Button, type ButtonProps } from "../button/button.tsx";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv, type VariantProps } from "../../lib/tv";
+import { EmptyState, type EmptyStateProps } from "../empty-state/empty-state";
+import { Button, type ButtonProps } from "../button/button";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const notificationCenter = tv({
   slots: {

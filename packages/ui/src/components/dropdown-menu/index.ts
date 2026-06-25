@@ -16,7 +16,7 @@ export {
   DropdownMenuSubmenuTrigger,
   DropdownMenuPopup,
   DropdownMenuTrigger,
-} from "./dropdown-menu.tsx";
+} from "./dropdown-menu";
 export type {
   DropdownMenuCheckboxItemIndicatorProps,
   DropdownMenuCheckboxItemProps,
@@ -35,4 +35,4 @@ export type {
   DropdownMenuSubmenuTriggerProps,
   DropdownMenuPopupProps,
   DropdownMenuTriggerProps,
-} from "./dropdown-menu.tsx";
+} from "./dropdown-menu";

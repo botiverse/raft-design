@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "../../lib/tv.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const panelHeader = tv({
   slots: {

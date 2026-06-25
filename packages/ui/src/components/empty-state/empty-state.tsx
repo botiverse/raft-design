@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "../../lib/tv.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 // EmptyState family: a quiet "nothing here yet" surface — muted icon, muted
 // title, optional description + action. Composed from a centered root, a

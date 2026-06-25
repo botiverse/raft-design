@@ -17,7 +17,7 @@ export type {
   NotificationCenterScrollerProps,
   NotificationCenterTitleProps,
   NotificationCenterTriggerProps,
-} from "./notification-center.tsx";
+} from "./notification-center";
 export {
   NotificationCenter,
   NotificationCenterActionButton,
@@ -36,4 +36,4 @@ export {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
-} from "./notification-center.tsx";
+} from "./notification-center";

@@ -7,7 +7,7 @@ export {
   MediaListItemSubtitle,
   MediaListItemAside,
   MediaListItemVisual,
-} from "./media-list-item.tsx";
+} from "./media-list-item";
 export type {
   MediaListItemProps,
   MediaListItemActionGroupProps,
@@ -17,4 +17,4 @@ export type {
   MediaListItemSubtitleProps,
   MediaListItemAsideProps,
   MediaListItemVisualProps,
-} from "./media-list-item.tsx";
+} from "./media-list-item";

@@ -3,10 +3,10 @@ export {
   SegmentedControlCount,
   SegmentedControlItem,
   SegmentedControlLabel,
-} from "./segmented-control.tsx";
+} from "./segmented-control";
 export type {
   SegmentedControlCountProps,
   SegmentedControlItemProps,
   SegmentedControlLabelProps,
   SegmentedControlProps,
-} from "./segmented-control.tsx";
+} from "./segmented-control";

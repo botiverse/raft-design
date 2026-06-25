@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
-import SurfaceListItem from "./SurfaceListItem.tsx";
+import SurfaceListItem from "./SurfaceListItem";
 
 export interface AvatarListRowProps {
   avatar: ReactNode;

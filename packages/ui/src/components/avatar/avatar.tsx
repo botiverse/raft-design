@@ -1,8 +1,8 @@
 import type { ComponentPropsWithRef } from "react";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
-import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
+import { tv, type VariantProps } from "../../lib/tv";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { StyledProps } from "../../lib/styled-props";
 
 // Avatar family built on Base UI's Avatar primitive. Compose `<AvatarImage>`,
 // `<AvatarFallback>`, and `<AvatarBadge>` as children; with no children a

@@ -1,20 +1,18 @@
 import {
-  Banner,
-  BannerDescription,
-  Button,
   DialogBody,
   DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "raft-ui";
+} from "raft-ui/wip";
+import { Banner, BannerDescription, Button } from "raft-ui";
 import { Copy, Terminal, X } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
-import { Dialog } from "raft-ui";
+import { Dialog } from "raft-ui/wip";
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 const PREVIEW_CONTENT_CLASS =

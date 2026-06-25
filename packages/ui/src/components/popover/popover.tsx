@@ -1,8 +1,8 @@
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import { tv } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const popover = tv({
   slots: {

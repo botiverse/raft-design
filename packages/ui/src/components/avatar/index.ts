@@ -6,7 +6,7 @@ export {
   AvatarBadge,
   AvatarGroup,
   AvatarGroupCount,
-} from "./avatar.tsx";
+} from "./avatar";
 export type {
   AvatarProps,
   AvatarImageProps,
@@ -14,4 +14,4 @@ export type {
   AvatarBadgeProps,
   AvatarGroupProps,
   AvatarGroupCountProps,
-} from "./avatar.tsx";
+} from "./avatar";

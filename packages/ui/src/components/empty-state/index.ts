@@ -5,7 +5,7 @@ export {
   EmptyStateTitle,
   EmptyStateDescription,
   EmptyStateActions,
-} from "./empty-state.tsx";
+} from "./empty-state";
 export type {
   EmptyStateProps,
   EmptyStateContentProps,
@@ -13,4 +13,4 @@ export type {
   EmptyStateTitleProps,
   EmptyStateDescriptionProps,
   EmptyStateActionsProps,
-} from "./empty-state.tsx";
+} from "./empty-state";

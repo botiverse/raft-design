@@ -1,10 +1,10 @@
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
-import { tv } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
-import { Button } from "../button/index.ts";
+import { tv } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button } from "../button/index";
 
 const select = tv({
   slots: {

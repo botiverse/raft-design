@@ -17,7 +17,7 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "./select.tsx";
+} from "./select";
 export type {
   SelectArrowProps,
   SelectContentProps,
@@ -37,4 +37,4 @@ export type {
   SelectSeparatorProps,
   SelectTriggerProps,
   SelectValueProps,
-} from "./select.tsx";
+} from "./select";

@@ -6,7 +6,7 @@ export {
   FieldItem,
   FieldLabel,
   FieldValidity,
-} from "./field.tsx";
+} from "./field";
 export type {
   FieldControlProps,
   FieldProps,
@@ -15,4 +15,4 @@ export type {
   FieldErrorProps,
   FieldItemProps,
   FieldValidityProps,
-} from "./field.tsx";
+} from "./field";

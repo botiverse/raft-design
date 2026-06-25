@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "../../lib/tv.ts";
-import { SectionLabel, type SectionLabelProps } from "../section-label/section-label.tsx";
+import { tv } from "../../lib/tv";
+import { SectionLabel, type SectionLabelProps } from "../section-label/section-label";
 
 const sectionHeader = tv({
   slots: {

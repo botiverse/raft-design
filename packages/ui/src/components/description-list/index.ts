@@ -4,11 +4,11 @@ export {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-} from "./description-list.tsx";
+} from "./description-list";
 export type {
   DescriptionActionProps,
   DescriptionDetailsProps,
   DescriptionItemProps,
   DescriptionListProps,
   DescriptionTermProps,
-} from "./description-list.tsx";
+} from "./description-list";

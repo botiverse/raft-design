@@ -7,7 +7,7 @@ export {
   ListItemRow,
   ListItemMeta,
   ListItemTitle,
-} from "./list-item.tsx";
+} from "./list-item";
 export type {
   ListItemActionGroupProps,
   ListItemBodyProps,
@@ -17,4 +17,4 @@ export type {
   ListItemMetaProps,
   ListItemProps,
   ListItemTitleProps,
-} from "./list-item.tsx";
+} from "./list-item";

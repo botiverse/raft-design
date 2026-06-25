@@ -1,9 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import type { ComponentPropsWithRef } from "react";
-import { tv } from "../../lib/tv.ts";
-import { Kbd, type KbdProps } from "../kbd/index.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import { Kbd, type KbdProps } from "../kbd/index";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const contextMenu = tv({
   slots: {

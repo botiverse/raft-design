@@ -16,12 +16,15 @@ export function SourceComparisonPreview({
   const gapClassName = gap === "loose" ? "gap-4" : "gap-2.5";
   const layoutClassName =
     layout === "grid"
-      ? `grid w-full grid-cols-[max-content_max-content] grid-rows-[max-content_max-content] place-items-center justify-center ${gapClassName}`
-      : `flex w-full flex-wrap items-center justify-center ${gapClassName}`;
+      ? `grid min-w-0 w-full max-w-full grid-cols-[max-content_max-content] grid-rows-[max-content_max-content] place-items-center justify-center ${gapClassName}`
+      : `flex min-w-0 w-full max-w-full flex-wrap items-center justify-center ${gapClassName}`;
 
   return (
     <div
-      className={["flex h-full min-h-28 w-full items-center justify-center px-3 py-4", className]
+      className={[
+        "flex h-full min-h-28 w-full min-w-0 items-center justify-center px-3 py-4",
+        className,
+      ]
         .filter(Boolean)
         .join(" ")}
     >

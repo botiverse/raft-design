@@ -7,9 +7,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  Banner,
-  BannerDescription,
-} from "raft-ui";
+} from "raft-ui/wip";
+import { Banner, BannerDescription } from "raft-ui";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";

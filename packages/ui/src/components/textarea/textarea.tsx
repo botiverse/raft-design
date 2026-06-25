@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef } from "react";
-import { tv } from "../../lib/tv.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
-import type { WithoutChildren } from "../../lib/without-children.ts";
+import { tv } from "../../lib/tv";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { WithoutChildren } from "../../lib/without-children";
 
 const textarea = tv({
   slots: {

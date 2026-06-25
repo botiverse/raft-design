@@ -14,7 +14,7 @@ export {
   ContextMenuSubmenu,
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
-} from "./context-menu.tsx";
+} from "./context-menu";
 export type {
   ContextMenuCheckboxItemIndicatorProps,
   ContextMenuCheckboxItemProps,
@@ -31,4 +31,4 @@ export type {
   ContextMenuSubmenuProps,
   ContextMenuSubmenuTriggerProps,
   ContextMenuTriggerProps,
-} from "./context-menu.tsx";
+} from "./context-menu";

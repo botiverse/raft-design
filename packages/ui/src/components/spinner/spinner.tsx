@@ -1,8 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv, type VariantProps } from "../../lib/tv.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
-import type { WithoutChildren } from "../../lib/without-children.ts";
+import { tv, type VariantProps } from "../../lib/tv";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { WithoutChildren } from "../../lib/without-children";
 
 const BRAILLE_SPINNER_STYLE = `
 @keyframes raft-braille-spinner {

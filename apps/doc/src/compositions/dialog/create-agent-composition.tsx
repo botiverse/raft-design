@@ -1,11 +1,13 @@
 import {
-  Button,
   DialogBody,
   DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+} from "raft-ui/wip";
+import {
+  Button,
   Field,
   FieldDescription,
   FieldLabel,
@@ -24,7 +26,7 @@ import { X } from "lucide-react";
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
-import { Dialog } from "raft-ui";
+import { Dialog } from "raft-ui/wip";
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 const PREVIEW_CONTENT_CLASS =

@@ -24,9 +24,9 @@ import {
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
-import { tv, type VariantProps } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv, type VariantProps } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const tabs = tv({
   slots: {

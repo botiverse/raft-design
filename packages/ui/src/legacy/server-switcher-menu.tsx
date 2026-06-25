@@ -1,8 +1,8 @@
 import { useEffect, useRef, type ComponentPropsWithRef, type ReactNode } from "react";
 import { Button as BaseButton } from "@base-ui/react/button";
 import { Check, Plus } from "lucide-react";
-import { tv } from "../lib/tv.ts";
-import { useThemeFamily } from "../lib/theme/use-theme.ts";
+import { tv } from "../lib/tv";
+import { useThemeFamily } from "../lib/theme/use-theme";
 
 // "Switch server" dropdown content: joined servers + join-community actions + a
 // "switch or create" action. App-domain data and navigation stay caller-owned,

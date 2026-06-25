@@ -1,5 +1,5 @@
 import { use } from "react";
-import { ThemeContext, ThemeStateContext, type Theme, type ThemeState } from "./theme-context.ts";
+import { ThemeContext, ThemeStateContext, type Theme, type ThemeState } from "./theme-context";
 
 /** Read the active style family for theme-aware component recipes. */
 export function useThemeFamily(): Theme {

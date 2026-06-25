@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Hash, MessageSquare } from "lucide-react";
-import AvatarSlot from "./AvatarSlot.tsx";
+import AvatarSlot from "./AvatarSlot";
 
 export interface QuotedMessageCardProps {
   channelName: string;

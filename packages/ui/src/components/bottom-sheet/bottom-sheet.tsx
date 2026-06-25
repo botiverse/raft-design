@@ -1,9 +1,9 @@
 import { Dialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 // Mobile bottom sheet, composed from base-ui Dialog parts and slot parts
 // (`BottomSheetTrigger`, `BottomSheetContent`, `BottomSheetHeader`,

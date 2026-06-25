@@ -30,7 +30,7 @@
  */
 
 import type { ReactNode } from "react";
-import SectionEyebrow from "./SectionEyebrow.tsx";
+import SectionEyebrow from "./SectionEyebrow";
 
 export type SectionHeaderProps = {
   label: ReactNode;

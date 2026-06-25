@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { MouseEvent, ReactNode } from "react";
-import AvatarSlot from "./AvatarSlot.tsx";
+import AvatarSlot from "./AvatarSlot";
 
 type ConversationAuthor =
   | {

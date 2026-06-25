@@ -1,9 +1,9 @@
 import { MessageSquare } from "lucide-react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "../../lib/tv.ts";
-import { PreviewShell, type PreviewShellProps } from "../preview-shell/preview-shell.tsx";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import { PreviewShell, type PreviewShellProps } from "../preview-shell/preview-shell";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 // A quoted-message preview routed through PreviewShell. The source's app-domain
 // fields (channel object, author fetching, markdown rendering, attachments

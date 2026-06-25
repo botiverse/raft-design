@@ -1,2 +1,2 @@
-export { InlineCode } from "./inline-code.tsx";
-export type { InlineCodeProps } from "./inline-code.tsx";
+export { InlineCode } from "./inline-code";
+export type { InlineCodeProps } from "./inline-code";

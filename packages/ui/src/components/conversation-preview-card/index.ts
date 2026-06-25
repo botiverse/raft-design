@@ -13,7 +13,7 @@ export {
   ConversationPreviewCardPreviewLeading,
   ConversationPreviewCardSecondaryPreview,
   ConversationPreviewCardTimestamp,
-} from "./conversation-preview-card.tsx";
+} from "./conversation-preview-card";
 export type {
   ConversationPreviewCardActionProps,
   ConversationPreviewCardAuthorNameProps,
@@ -29,4 +29,4 @@ export type {
   ConversationPreviewCardProps,
   ConversationPreviewCardSecondaryPreviewProps,
   ConversationPreviewCardTimestampProps,
-} from "./conversation-preview-card.tsx";
+} from "./conversation-preview-card";

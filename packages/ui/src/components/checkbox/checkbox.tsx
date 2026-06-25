@@ -1,9 +1,9 @@
 import { useId } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
-import { tv, type VariantProps } from "../../lib/tv.ts";
-import { CheckboxIndicator } from "./checkbox-indicator.tsx";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv, type VariantProps } from "../../lib/tv";
+import { CheckboxIndicator } from "./checkbox-indicator";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const checkbox = tv({
   slots: {

@@ -1,23 +1,18 @@
 import {
-  Button,
   DialogBody,
   DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Field,
-  FieldDescription,
-  FieldLabel,
-  InlineCode,
-  Input,
-} from "raft-ui";
+} from "raft-ui/wip";
+import { Button, Field, FieldDescription, FieldLabel, InlineCode, Input } from "raft-ui";
 import { Copy, Mail, X } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
-import { Dialog } from "raft-ui";
+import { Dialog } from "raft-ui/wip";
 
 const PREVIEW_CONTENT_CLASS =
   "!relative !top-auto !left-auto !z-0 !max-w-sm !translate-x-0 !translate-y-0 !p-6";

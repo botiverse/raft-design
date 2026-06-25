@@ -9,7 +9,7 @@ export {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "./lightbox.tsx";
+} from "./lightbox";
 export type {
   LightboxActionsProps,
   LightboxCloseProps,
@@ -21,4 +21,4 @@ export type {
   LightboxStageProps,
   LightboxTitleProps,
   LightboxTriggerProps,
-} from "./lightbox.tsx";
+} from "./lightbox";

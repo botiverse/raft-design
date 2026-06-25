@@ -1,10 +1,10 @@
 import type { ComponentPropsWithRef } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { tv } from "../../lib/tv.ts";
-import { Badge, type BadgeProps } from "../badge/index.ts";
-import { Kbd, type KbdProps } from "../kbd/index.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
+import { tv } from "../../lib/tv";
+import { Badge, type BadgeProps } from "../badge/index";
+import { Kbd, type KbdProps } from "../kbd/index";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const dropdownMenu = tv({
   slots: {

@@ -22,7 +22,7 @@
 // and forcing one row layout would just push complexity into props.
 
 import type { InputHTMLAttributes } from "react";
-import CheckMarker, { type CheckMarkerSize } from "./CheckMarker.tsx";
+import CheckMarker, { type CheckMarkerSize } from "./CheckMarker";
 
 type Size = Extract<CheckMarkerSize, "sm" | "md">;
 

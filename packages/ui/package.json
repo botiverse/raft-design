@@ -15,18 +15,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "development": "./src/index.ts",
+      "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
     "./cn": {
-      "types": "./src/lib/cn.ts",
-      "development": "./src/lib/cn.ts",
+      "types": "./dist/cn.d.mts",
       "default": "./dist/cn.mjs"
     },
     "./wip": {
-      "types": "./src/wip.ts",
-      "development": "./src/wip.ts",
+      "types": "./dist/wip.d.mts",
       "default": "./dist/wip.mjs"
     },
     "./styles.css": "./src/styles.css",

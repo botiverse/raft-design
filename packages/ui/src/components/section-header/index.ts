@@ -5,7 +5,7 @@ export {
   SectionHeaderCount,
   SectionHeaderIcon,
   SectionHeaderTitle,
-} from "./section-header.tsx";
+} from "./section-header";
 export type {
   SectionHeaderActionsProps,
   SectionHeaderContentProps,
@@ -13,4 +13,4 @@ export type {
   SectionHeaderIconProps,
   SectionHeaderProps,
   SectionHeaderTitleProps,
-} from "./section-header.tsx";
+} from "./section-header";

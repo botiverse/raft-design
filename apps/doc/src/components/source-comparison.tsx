@@ -142,7 +142,7 @@ function ComparisonPreview({
             ) : null}
           </span>
         ) : null}
-        {children}
+        <div className="flex w-full min-w-0 max-w-full items-center justify-center">{children}</div>
       </PreviewThemeScope>
       {code ? (
         <div className={`border-t ${horizontalDividerClass} bg-[oklch(0.986_0_0)] px-4 py-4`}>

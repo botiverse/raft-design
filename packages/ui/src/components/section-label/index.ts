@@ -1,2 +1,2 @@
-export { SectionLabel } from "./section-label.tsx";
-export type { SectionLabelProps } from "./section-label.tsx";
+export { SectionLabel } from "./section-label";
+export type { SectionLabelProps } from "./section-label";

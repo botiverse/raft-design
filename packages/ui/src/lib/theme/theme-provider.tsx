@@ -17,7 +17,7 @@ import {
   type Theme,
   type ThemeState,
   type ThemeMode,
-} from "./theme-context.ts";
+} from "./theme-context";
 
 export interface ThemeProviderProps {
   /**

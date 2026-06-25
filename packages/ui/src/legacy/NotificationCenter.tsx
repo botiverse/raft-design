@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, type HTMLAttributes, type ReactNode } from "react";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
-import EmptyState from "./EmptyState.tsx";
-import SectionEyebrow from "./SectionEyebrow.tsx";
+import EmptyState from "./EmptyState";
+import SectionEyebrow from "./SectionEyebrow";
 
 export type NotificationCenterKind = "error" | "warning" | "info" | "success";
 export type NotificationCenterViewport = "desktop" | "mobile";
