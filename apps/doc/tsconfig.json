@@ -6,7 +6,11 @@
     "module": "ESNext",
     "paths": {
       "#/*": ["./src/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "raft-ui": ["../../packages/ui/src/index.ts"],
+      "raft-ui/cn": ["../../packages/ui/src/lib/cn.ts"],
+      "raft-ui/styles.css": ["../../packages/ui/src/styles.css"],
+      "raft-ui/wip": ["../../packages/ui/src/wip.ts"]
     },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite-plus/client"],

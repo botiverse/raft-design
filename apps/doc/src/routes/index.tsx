@@ -1,6 +1,15 @@
 import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogBody,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -160,7 +169,8 @@ type ComponentRoute =
   | "/components/banner"
   | "/components/empty-state"
   | "/components/notification-center"
-  | "/components/popover";
+  | "/components/popover"
+  | "/components/alert-dialog";
 
 type ComponentGridItem = {
   label: string;
@@ -304,6 +314,11 @@ const COMPONENT_GRID = [
     label: "Popover",
     to: "/components/popover",
     preview: <PopoverPreview />,
+  },
+  {
+    label: "AlertDialog",
+    to: "/components/alert-dialog",
+    preview: <AlertDialogPreview />,
   },
   {
     label: "Label",
@@ -983,6 +998,41 @@ function PopoverPreview() {
           </div>
         </PopoverContent>
       </Popover>
+    </div>
+  );
+}
+
+function AlertDialogPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
+      <AlertDialog open modal={false}>
+        <AlertDialogContent
+          overlay={false}
+          initialFocus={false}
+          finalFocus={false}
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="relative top-auto left-auto z-0 w-[248px] max-w-[248px] translate-x-0 translate-y-0"
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete task</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <p className="m-0 text-sm leading-5 text-foreground/60 [[data-theme=brutal]_&]:text-black/70">
+              Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+              <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
+            </p>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <AlertDialogCancel size="sm">Cancel</AlertDialogCancel>
+            <AlertDialogAction variant="danger" size="sm">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

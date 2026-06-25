@@ -33,10 +33,7 @@ const dialog = tv({
       },
       elegant: {
         overlay: ["bg-black/20"],
-        content: [
-          "gap-5 rounded-lg bg-layer-popover p-5",
-          "shadow-[0_24px_48px_-24px_oklch(0.21_0.006_285_/_0.30),0_0_0_1px_oklch(0.21_0.006_285_/_0.08),0_1px_2px_oklch(0.21_0.006_285_/_0.08)]",
-        ],
+        content: ["gap-5 rounded-lg bg-layer-popover p-5 shadow-xl"],
         title: ["font-sans text-base leading-5 font-medium tracking-[-0.005em]"],
         description: [
           "font-sans text-sm leading-5 text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",

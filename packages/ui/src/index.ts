@@ -1,3 +1,34 @@
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogBody,
+  AlertDialogCancel,
+  AlertDialogClose,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./components/alert-dialog/index";
+export type {
+  AlertDialogActionProps,
+  AlertDialogBodyProps,
+  AlertDialogCancelProps,
+  AlertDialogCloseProps,
+  AlertDialogContentProps,
+  AlertDialogDescriptionProps,
+  AlertDialogFooterProps,
+  AlertDialogHeaderProps,
+  AlertDialogOverlayProps,
+  AlertDialogPortalProps,
+  AlertDialogProps,
+  AlertDialogTitleProps,
+  AlertDialogTriggerProps,
+} from "./components/alert-dialog/index";
+
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
 

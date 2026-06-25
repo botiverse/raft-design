@@ -3,19 +3,21 @@ import {
   AlertDialogAction,
   AlertDialogBody,
   AlertDialogCancel,
+  AlertDialogClose,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "raft-ui/wip";
-import { Banner, BannerDescription, Field, FieldLabel, InlineCode, Input } from "raft-ui";
+} from "raft-ui";
+import { Field, FieldLabel, InlineCode, Input } from "raft-ui";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
-const PREVIEW_CONTENT_CLASS = "!relative !top-auto !left-auto !z-0 !translate-x-0 !translate-y-0";
+const PREVIEW_CONTENT_CLASS =
+  "!relative !top-auto !left-auto !z-0 !w-full !translate-x-0 !translate-y-0";
 // @docs-source-strip-end
 
 function TypedDeleteAlertDialogParts() {
@@ -23,14 +25,13 @@ function TypedDeleteAlertDialogParts() {
     <>
       <AlertDialogHeader>
         <AlertDialogTitle>Delete Server</AlertDialogTitle>
+        <AlertDialogClose />
       </AlertDialogHeader>
-      <AlertDialogBody className="grid gap-4">
-        <Banner status="destructive" size="md">
-          <BannerDescription>
-            This will permanently delete Raft and all its data (agents, channels, messages). This
-            cannot be undone.
-          </BannerDescription>
-        </Banner>
+      <AlertDialogBody className="grid gap-5">
+        <p className="m-0 text-sm leading-5 text-foreground/60">
+          This will permanently delete <strong className="font-bold text-foreground">Raft</strong>{" "}
+          and all its data (agents, channels, messages). This cannot be undone.
+        </p>
         <Field>
           <FieldLabel htmlFor="alert-dialog-delete-server">
             Type <InlineCode>raft</InlineCode> to confirm:
@@ -44,8 +45,8 @@ function TypedDeleteAlertDialogParts() {
         </Field>
       </AlertDialogBody>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction variant="danger" size="sm">
+        <AlertDialogCancel size="md">Cancel</AlertDialogCancel>
+        <AlertDialogAction variant="danger" size="md">
           Delete Server
         </AlertDialogAction>
       </AlertDialogFooter>
@@ -67,7 +68,7 @@ export function TypedDeleteAlertDialogComposition({ className }: { className?: s
 
   return (
     <SourceComparisonPreview className={className}>
-      <div ref={portalRef} className="relative min-w-0 w-full max-w-sm">
+      <div ref={portalRef} className="relative min-w-0 w-full max-w-[408px]">
         <AlertDialog open modal={false}>
           <AlertDialogContent
             overlay={false}

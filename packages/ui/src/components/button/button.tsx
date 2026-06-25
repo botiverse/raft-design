@@ -115,13 +115,13 @@ export const buttonVariants = tv({
       },
       md: {
         root: [
-          "gap-2 px-3 py-2 text-sm",
+          "gap-2 px-3 py-[7px] text-sm",
           "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
         ],
       },
       lg: {
         root: [
-          "gap-2 px-3.5 py-2.5 text-base",
+          "gap-2 px-3.5 py-2 text-base",
           "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
           "[&_svg:not([class*='size-'])]:size-4",
         ],
@@ -154,8 +154,18 @@ export const buttonVariants = tv({
     },
     {
       theme: "elegant",
+      size: "md",
+      class: { root: "py-1.5" },
+    },
+    {
+      theme: "elegant",
       size: ["lg", "icon-lg"],
       class: { root: "rounded-md" },
+    },
+    {
+      theme: "elegant",
+      size: "lg",
+      class: { root: "py-[7px]" },
     },
     {
       theme: "brutal",

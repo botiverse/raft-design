@@ -155,7 +155,7 @@ const NAV = [
   {
     title: "Overlays",
     items: [
-      { label: "AlertDialog", to: "/components/alert-dialog", progress: { theme: "in-progress" } },
+      { label: "AlertDialog", to: "/components/alert-dialog", progress: { theme: "done" } },
       { label: "BottomSheet", to: "/components/bottom-sheet", progress: { theme: "todo" } },
       { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "done" } },
       { label: "Dialog", to: "/components/dialog", progress: { theme: "in-progress" } },

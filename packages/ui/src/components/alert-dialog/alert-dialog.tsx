@@ -1,5 +1,7 @@
+import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type { ComponentPropsWithRef } from "react";
+import { X } from "lucide-react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -13,13 +15,12 @@ const alertDialog = tv({
       "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
     ],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2",
+      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[408px] -translate-x-1/2 -translate-y-1/2",
       "outline-none transition-[opacity,transform] duration-100",
       "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
     ],
-    header: ["grid min-w-0 gap-1"],
-    media: ["flex size-10 shrink-0 items-center justify-center"],
+    header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
     body: ["min-w-0"],
     footer: ["flex items-center justify-end gap-3"],
     title: ["m-0 min-w-0 text-foreground-strong"],
@@ -29,35 +30,23 @@ const alertDialog = tv({
     theme: {
       brutal: {
         overlay: ["bg-black/60"],
-        content: ["gap-4 border-2 border-line-strong bg-layer-panel p-6 shadow-xl"],
-        media: ["border-2 border-line-strong bg-warning-base text-foreground-inverse"],
+        content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-xl"],
+        body: ["py-2 font-medium"],
         title: ["font-heading text-lg leading-none font-bold uppercase"],
         description: ["font-sans text-sm leading-5 text-foreground/60"],
       },
       elegant: {
         overlay: ["bg-black/20"],
-        content: [
-          "gap-5 rounded-lg bg-layer-popover p-5",
-          "shadow-[0_24px_48px_-24px_oklch(0.21_0.006_285_/_0.30),0_0_0_1px_oklch(0.21_0.006_285_/_0.08),0_1px_2px_oklch(0.21_0.006_285_/_0.08)]",
-        ],
-        media: ["rounded-md bg-danger-lighter text-danger-base"],
-        title: ["font-sans text-base leading-5 font-medium tracking-[-0.005em]"],
+        content: ["overflow-clip rounded-lg bg-layer-popover shadow-xl"],
+        header: ["border-b border-line-subtle bg-black/[0.02] px-3 py-2"],
+        body: ["px-6 py-5"],
+        footer: ["border-t border-line-subtle bg-black/[0.015] px-3 py-3"],
+        title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
         description: [
           "font-sans text-sm leading-5 text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",
         ],
       },
     },
-    size: {
-      sm: {
-        content: ["max-w-sm"],
-      },
-      md: {
-        content: ["max-w-md"],
-      },
-    },
-  },
-  defaultVariants: {
-    size: "sm",
   },
 });
 
@@ -79,6 +68,44 @@ export function AlertDialogPortal(props: AlertDialogPortalProps) {
   return <BaseDialog.Portal data-slot="alert-dialog-portal" {...props} />;
 }
 
+export type AlertDialogCloseProps = Omit<BaseDialog.Close.Props, "render"> &
+  Pick<ButtonProps, "variant" | "size"> & {
+    className?: string;
+    children?: ReactNode;
+  };
+
+export function AlertDialogClose({
+  className,
+  variant,
+  size,
+  children,
+  ...props
+}: AlertDialogCloseProps) {
+  const theme = useThemeFamily();
+  const isBrutal = theme === "brutal";
+
+  return (
+    <BaseDialog.Close
+      data-slot="alert-dialog-close"
+      render={
+        <Button
+          variant={variant ?? (isBrutal ? "outline" : "ghost")}
+          size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
+          aria-label="Close"
+          className={
+            isBrutal
+              ? className
+              : cn("text-foreground-placeholder hover:text-foreground", className)
+          }
+        />
+      }
+      {...props}
+    >
+      {children ?? <X className={isBrutal ? "size-5" : "size-4"} />}
+    </BaseDialog.Close>
+  );
+}
+
 export type AlertDialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
 
 export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayProps) {
@@ -97,7 +124,6 @@ export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayPr
 export type AlertDialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
   portalProps?: AlertDialogPortalProps;
   overlay?: false | AlertDialogOverlayProps;
-  size?: "sm" | "md";
 };
 
 export function AlertDialogContent({
@@ -105,11 +131,10 @@ export function AlertDialogContent({
   children,
   portalProps,
   overlay,
-  size,
   ...props
 }: AlertDialogContentProps) {
   const theme = useThemeFamily();
-  const { content } = alertDialog({ theme, size });
+  const { content } = alertDialog({ theme });
 
   return (
     <AlertDialogPortal {...portalProps}>
@@ -133,15 +158,6 @@ export function AlertDialogHeader({ className, ...props }: AlertDialogHeaderProp
   const { header } = alertDialog({ theme });
 
   return <div data-slot="alert-dialog-header" className={header({ className })} {...props} />;
-}
-
-export type AlertDialogMediaProps = ComponentPropsWithRef<"div">;
-
-export function AlertDialogMedia({ className, ...props }: AlertDialogMediaProps) {
-  const theme = useThemeFamily();
-  const { media } = alertDialog({ theme });
-
-  return <div data-slot="alert-dialog-media" className={media({ className })} {...props} />;
 }
 
 export type AlertDialogBodyProps = ComponentPropsWithRef<"div">;

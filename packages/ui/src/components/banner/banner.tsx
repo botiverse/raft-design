@@ -26,7 +26,7 @@ const banner = tv({
           "group-data-[size=sm]/banner:text-xs",
         ],
         description: [
-          "col-start-2 min-w-0 text-sm text-foreground-strong",
+          "col-start-2 min-w-0 text-sm font-semibold text-foreground-strong",
           "group-data-[size=sm]/banner:text-xs",
         ],
         action: ["col-start-3 row-span-2 row-start-1 shrink-0"],

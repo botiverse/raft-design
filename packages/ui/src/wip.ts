@@ -26,37 +26,6 @@ export type {
 } from "./components/dialog/index";
 
 export {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogBody,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogOverlay,
-  AlertDialogPortal,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./components/alert-dialog/index";
-export type {
-  AlertDialogActionProps,
-  AlertDialogBodyProps,
-  AlertDialogCancelProps,
-  AlertDialogContentProps,
-  AlertDialogDescriptionProps,
-  AlertDialogFooterProps,
-  AlertDialogHeaderProps,
-  AlertDialogMediaProps,
-  AlertDialogOverlayProps,
-  AlertDialogPortalProps,
-  AlertDialogProps,
-  AlertDialogTitleProps,
-  AlertDialogTriggerProps,
-} from "./components/alert-dialog/index";
-
-export {
   ToggleGroup,
   ToggleGroupCount,
   ToggleGroupItem,

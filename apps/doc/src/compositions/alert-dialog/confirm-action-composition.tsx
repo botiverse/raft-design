@@ -3,19 +3,20 @@ import {
   AlertDialogAction,
   AlertDialogBody,
   AlertDialogCancel,
+  AlertDialogClose,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "raft-ui/wip";
-import { Banner, BannerDescription } from "raft-ui";
+} from "raft-ui";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
-const PREVIEW_CONTENT_CLASS = "!relative !top-auto !left-auto !z-0 !translate-x-0 !translate-y-0";
+const PREVIEW_CONTENT_CLASS =
+  "!relative !top-auto !left-auto !z-0 !w-full !translate-x-0 !translate-y-0";
 // @docs-source-strip-end
 
 function ConfirmActionAlertDialogParts() {
@@ -23,17 +24,18 @@ function ConfirmActionAlertDialogParts() {
     <>
       <AlertDialogHeader>
         <AlertDialogTitle>Delete Task</AlertDialogTitle>
+        <AlertDialogClose />
       </AlertDialogHeader>
       <AlertDialogBody>
-        <Banner status="destructive" size="md">
-          <BannerDescription>
-            Delete task #42 "Review dialog migration"? This cannot be undone.
-          </BannerDescription>
-        </Banner>
+        <p className="m-0 text-sm leading-5 text-foreground/60">
+          Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+          <strong className="font-bold text-foreground">"Review dialog migration"</strong>? This
+          cannot be undone.
+        </p>
       </AlertDialogBody>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction variant="danger" size="sm">
+        <AlertDialogCancel size="md">Cancel</AlertDialogCancel>
+        <AlertDialogAction variant="danger" size="md">
           Delete Task
         </AlertDialogAction>
       </AlertDialogFooter>
@@ -55,7 +57,7 @@ export function ConfirmActionAlertDialogComposition({ className }: { className?:
 
   return (
     <SourceComparisonPreview className={className}>
-      <div ref={portalRef} className="relative min-w-0 w-full max-w-sm">
+      <div ref={portalRef} className="relative min-w-0 w-full max-w-[408px]">
         <AlertDialog open modal={false}>
           <AlertDialogContent
             overlay={false}

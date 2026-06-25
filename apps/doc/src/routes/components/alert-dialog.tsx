@@ -5,15 +5,16 @@ import {
   AlertDialogAction,
   AlertDialogBody,
   AlertDialogCancel,
+  AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "raft-ui/wip";
-import { Banner, BannerDescription, Button, Text } from "raft-ui";
-import { AlertTriangle } from "lucide-react";
+} from "raft-ui";
+import { Button, Text } from "raft-ui";
+import { AlertTriangle, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -60,8 +61,6 @@ const SNIPPETS = {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  Banner,
-  BannerDescription,
   Button,
 } from "raft-ui";
 
@@ -77,11 +76,10 @@ const SNIPPETS = {
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogBody>
-      <Banner status="destructive" size="md">
-        <BannerDescription>
-          Delete task #42 "Review dialog migration"?
-        </BannerDescription>
-      </Banner>
+      <p className="m-0 text-sm leading-5 text-foreground/60">
+        Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+        <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
+      </p>
     </AlertDialogBody>
     <AlertDialogFooter>
       <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -121,7 +119,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "AlertDialogContent",
     type: "Base UI Dialog.Popup.Props",
-    description: "Portaled centered alertdialog surface. Pass size for sm/md width.",
+    description: "Portaled centered alertdialog surface. Use className for one-off width changes.",
   },
   {
     name: "AlertDialogContent.overlay",
@@ -208,15 +206,29 @@ function SourceModalCard({
   title,
   children,
   footer,
+  closeButton = false,
 }: {
   title: string;
   children: ReactNode;
   footer: ReactNode;
+  closeButton?: boolean;
 }) {
   return (
     <div className="min-w-0 w-full max-w-sm border-2 border-black bg-white p-6 font-sans text-black shadow-[6px_6px_0_#000]">
-      <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
-      <div className="mt-4">{children}</div>
+      {closeButton ? (
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
+          <button
+            type="button"
+            className="inline-flex size-8 items-center justify-center border-2 border-black bg-white shadow-[2px_2px_0_#000]"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
+      ) : (
+        <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
+      )}
+      <div className={closeButton ? undefined : "mt-4"}>{children}</div>
       <div className="mt-5 flex justify-end gap-3">{footer}</div>
     </div>
   );
@@ -236,7 +248,7 @@ function SourceInput({ placeholder }: { placeholder?: string }) {
     <input
       readOnly
       placeholder={placeholder}
-      className="h-10 w-full border-2 border-black bg-white px-3 text-sm shadow-[2px_2px_0_#000]"
+      className="h-10 w-full border-2 border-black bg-white px-3 font-mono text-sm shadow-[2px_2px_0_#000]"
     />
   );
 }
@@ -245,6 +257,7 @@ function SourceTypedDelete() {
   return (
     <SourceModalCard
       title="Delete Server"
+      closeButton
       footer={
         <>
           <SourceButton size="xs">Cancel</SourceButton>
@@ -254,7 +267,7 @@ function SourceTypedDelete() {
         </>
       }
     >
-      <div className="grid gap-4">
+      <div className="grid gap-5">
         <SourceBanner>
           This will permanently delete <span className="font-bold">Raft</span> and all its data
           (agents, channels, messages). This cannot be undone.
@@ -274,6 +287,7 @@ function SourceConfirmAction() {
   return (
     <SourceModalCard
       title="Delete Task"
+      closeButton
       footer={
         <>
           <SourceButton>Cancel</SourceButton>
@@ -319,12 +333,14 @@ function AlertDialogDoc() {
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Delete Task</AlertDialogTitle>
-                <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                <AlertDialogClose />
               </AlertDialogHeader>
-              <AlertDialogBody>
-                <Banner status="destructive" size="md">
-                  <BannerDescription>Delete task #42 "Review dialog migration"?</BannerDescription>
-                </Banner>
+              <AlertDialogBody className="grid gap-2">
+                <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                <p className="m-0 text-sm leading-5 text-foreground/60">
+                  Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+                  <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
+                </p>
               </AlertDialogBody>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
