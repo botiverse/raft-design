@@ -124,6 +124,33 @@ export type {
   PopoverViewportProps,
 } from "./components/popover/index";
 
+export {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/dialog/index";
+export type {
+  DialogBodyProps,
+  DialogCloseProps,
+  DialogContentProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
+  DialogOverlayProps,
+  DialogPortalProps,
+  DialogProps,
+  DialogTitleProps,
+  DialogTriggerProps,
+} from "./components/dialog/index";
+
 export { Label, LabelAsterisk, LabelOptional, LabelSub } from "./components/label/index";
 export type {
   LabelAsteriskProps,

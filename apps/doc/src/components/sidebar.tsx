@@ -157,18 +157,13 @@ const NAV = [
     items: [
       { label: "BottomSheet", to: "/components/bottom-sheet", progress: { theme: "todo" } },
       { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "done" } },
+      { label: "Dialog", to: "/components/dialog", progress: { theme: "done" } },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
       { label: "Popover", to: "/components/popover", progress: { theme: "done" } },
       { label: "Tooltip", to: "/components/tooltip", progress: { theme: "done" } },
     ],
     planned: [
-      {
-        label: "Dialog",
-        priority: "P0",
-        docsHref: "https://base-ui.com/react/components/dialog",
-        reason: "Expose the generic modal primitive behind several current overlay surfaces.",
-      },
       {
         label: "AlertDialog",
         priority: "P0",
