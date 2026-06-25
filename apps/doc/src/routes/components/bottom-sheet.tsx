@@ -240,6 +240,10 @@ function BottomSheetDoc() {
               current: <BottomSheetSurfacePreview />,
               sourceCode: code.sourceBottom,
               currentCode: code.currentBottom,
+              compositionCode: code.currentBottom,
+              compositionPath:
+                "apps/doc/src/compositions/bottom-sheet/bottom-surface-composition.tsx",
+              compositionSource: SNIPPETS.currentBottom,
             },
           ]}
         />

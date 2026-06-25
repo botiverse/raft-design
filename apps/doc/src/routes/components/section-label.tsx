@@ -156,6 +156,10 @@ function SectionLabelDoc() {
               ),
               sourceCode: code.sourceDiv,
               currentCode: code.currentDiv,
+              compositionCode: code.currentDiv,
+              compositionPath:
+                "apps/doc/src/compositions/section-label/block-section-label-composition.tsx",
+              compositionSource: SNIPPETS.currentDiv,
             },
             {
               label: "Form label element",
@@ -169,6 +173,10 @@ function SectionLabelDoc() {
               current: <SectionLabel render={<label htmlFor="name" />}>Name</SectionLabel>,
               sourceCode: code.sourceLabel,
               currentCode: code.currentLabel,
+              compositionCode: code.currentLabel,
+              compositionPath:
+                "apps/doc/src/compositions/section-label/form-label-element-composition.tsx",
+              compositionSource: SNIPPETS.currentLabel,
             },
           ]}
         />

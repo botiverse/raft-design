@@ -283,6 +283,9 @@ function PanelHeaderDoc() {
               current: <CurrentSavedPanelHeader />,
               sourceCode: code.sourceSaved,
               currentCode: code.currentSaved,
+              compositionCode: code.currentSaved,
+              compositionPath: "apps/doc/src/compositions/panel-header/saved-panel-composition.tsx",
+              compositionSource: SNIPPETS.currentSaved,
             },
             {
               label: "Identity panel",
@@ -301,6 +304,10 @@ function PanelHeaderDoc() {
               current: <CurrentIdentityPanelHeader />,
               sourceCode: code.sourceIdentity,
               currentCode: code.currentIdentity,
+              compositionCode: code.currentIdentity,
+              compositionPath:
+                "apps/doc/src/compositions/panel-header/identity-panel-composition.tsx",
+              compositionSource: SNIPPETS.currentIdentity,
             },
             {
               label: "Search title slot",
@@ -310,6 +317,10 @@ function PanelHeaderDoc() {
               current: <CurrentSearchPanelHeader />,
               sourceCode: code.sourceSearch,
               currentCode: code.currentSearch,
+              compositionCode: code.currentSearch,
+              compositionPath:
+                "apps/doc/src/compositions/panel-header/search-title-slot-composition.tsx",
+              compositionSource: SNIPPETS.currentSearch,
             },
           ]}
         />

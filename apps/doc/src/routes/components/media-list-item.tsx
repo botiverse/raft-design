@@ -359,6 +359,10 @@ function MediaListItemDoc() {
               current: <CurrentAgentRowPreview />,
               sourceCode: code.sourceAgentRow,
               currentCode: code.currentAgentRow,
+              compositionCode: code.currentAgentRow,
+              compositionPath:
+                "apps/doc/src/compositions/media-list-item/agent-row-composition.tsx",
+              compositionSource: SNIPPETS.currentAgentRow,
             },
             {
               label: "Admin row",
@@ -368,6 +372,10 @@ function MediaListItemDoc() {
               current: <CurrentAdminRowPreview />,
               sourceCode: code.sourceAdminRow,
               currentCode: code.currentAdminRow,
+              compositionCode: code.currentAdminRow,
+              compositionPath:
+                "apps/doc/src/compositions/media-list-item/admin-row-composition.tsx",
+              compositionSource: SNIPPETS.currentAdminRow,
             },
             {
               label: "File row",
@@ -377,6 +385,9 @@ function MediaListItemDoc() {
               current: <CurrentFileRowPreview />,
               sourceCode: code.sourceFileRow,
               currentCode: code.currentFileRow,
+              compositionCode: code.currentFileRow,
+              compositionPath: "apps/doc/src/compositions/media-list-item/file-row-composition.tsx",
+              compositionSource: SNIPPETS.currentFileRow,
             },
           ]}
         />

@@ -375,6 +375,10 @@ function QuotedMessageCardDoc() {
               current: <CurrentQuotedMessage />,
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
+              compositionCode: code.currentDefault,
+              compositionPath:
+                "apps/doc/src/compositions/quoted-message-card/permalink-preview-composition.tsx",
+              compositionSource: SNIPPETS.currentDefault,
             },
             {
               label: "Thread, archived, attachments",
@@ -402,6 +406,10 @@ function QuotedMessageCardDoc() {
               ),
               sourceCode: code.sourceThread,
               currentCode: code.currentThread,
+              compositionCode: code.currentThread,
+              compositionPath:
+                "apps/doc/src/compositions/quoted-message-card/thread-archived-attachments-composition.tsx",
+              compositionSource: SNIPPETS.currentThread,
             },
             {
               label: "Unavailable",
@@ -435,6 +443,10 @@ function QuotedMessageCardDoc() {
               ),
               sourceCode: code.sourceUnavailable,
               currentCode: code.currentUnavailable,
+              compositionCode: code.currentUnavailable,
+              compositionPath:
+                "apps/doc/src/compositions/quoted-message-card/unavailable-composition.tsx",
+              compositionSource: SNIPPETS.currentUnavailable,
             },
           ]}
         />

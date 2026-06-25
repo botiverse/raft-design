@@ -1,0 +1,3 @@
+// Generated source-comparison composition fixture.
+export const compositionSource =
+  '<MediaListItem align="start" interactive={false}>\n  <MediaListItemBody>\n    <MediaListItemVisual>\n      <Avatar className="self-start" />\n    </MediaListItemVisual>\n    <MediaListItemText>\n      <MediaListItemTitle>Ada Lovelace</MediaListItemTitle>\n      <MediaListItemSubtitle>ada@example.com · admin</MediaListItemSubtitle>\n    </MediaListItemText>\n    <MediaListItemAside>\n      <button className="btn-brutal-sm shrink-0 bg-white px-2 py-1 text-xs">Remove Admin</button>\n    </MediaListItemAside>\n  </MediaListItemBody>\n</MediaListItem>;';

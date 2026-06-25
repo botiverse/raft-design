@@ -90,6 +90,10 @@ function StatusDotMigrationDoc() {
               current: <Status variant="success" />,
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
+              compositionCode: code.currentDefault,
+              compositionPath:
+                "apps/doc/src/compositions/status-dot/explicit-color-composition.tsx",
+              compositionSource: SNIPPETS.currentDefault,
             },
             {
               label: "Pulse",
@@ -99,6 +103,9 @@ function StatusDotMigrationDoc() {
               current: <Status variant="primary" pulse />,
               sourceCode: code.sourcePulse,
               currentCode: code.currentPulse,
+              compositionCode: code.currentPulse,
+              compositionPath: "apps/doc/src/compositions/status-dot/pulse-composition.tsx",
+              compositionSource: SNIPPETS.currentPulse,
             },
           ]}
         />

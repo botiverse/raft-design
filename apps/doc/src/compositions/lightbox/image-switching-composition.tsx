@@ -1,0 +1,3 @@
+// Generated source-comparison composition fixture.
+export const compositionSource =
+  'const [open, setOpen] = useState(false);\nconst [imageIndex, setImageIndex] = useState(0);\nconst updateOpen = (nextOpen) => {\n  setOpen(nextOpen);\n  if (!nextOpen) setImageIndex(0);\n};\n\n<Lightbox open={open} onOpenChange={updateOpen}>\n  <LightboxContent className="flex flex-col">\n    <LightboxHeader>\n      ...{imageIndex + 1} / {images.length}\n    </LightboxHeader>\n    <LightboxStage>\n      <button onClick={() => setImageIndex((i) => Math.max(0, i - 1))}>...</button>\n      <LightboxMedia>...</LightboxMedia>\n      <button onClick={() => setImageIndex((i) => Math.min(images.length - 1, i + 1))}>...</button>\n    </LightboxStage>\n  </LightboxContent>\n</Lightbox>;';

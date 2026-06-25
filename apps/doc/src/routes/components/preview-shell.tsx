@@ -193,6 +193,10 @@ function PreviewShellDoc() {
               ),
               sourceCode: code.sourceQuoted,
               currentCode: code.currentQuoted,
+              compositionCode: code.currentQuoted,
+              compositionPath:
+                "apps/doc/src/compositions/preview-shell/quoted-message-shell-composition.tsx",
+              compositionSource: SNIPPETS.currentQuoted,
             },
             {
               label: "Attachment chip shell",
@@ -220,6 +224,10 @@ function PreviewShellDoc() {
               ),
               sourceCode: code.sourceAttachment,
               currentCode: code.currentAttachment,
+              compositionCode: code.currentAttachment,
+              compositionPath:
+                "apps/doc/src/compositions/preview-shell/attachment-chip-shell-composition.tsx",
+              compositionSource: SNIPPETS.currentAttachment,
             },
           ]}
         />

@@ -15,7 +15,7 @@ export function DocSection({
   id,
   title,
   badge,
-  showThemeSwitcher = true,
+  showThemeSwitcher = id !== "source-comparison",
   children,
 }: DocSectionProps) {
   const resolvedBadge =

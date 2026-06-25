@@ -544,6 +544,10 @@ function LightboxDoc() {
               current: <LightboxShellPreview />,
               sourceCode: code.sourceBackdrop,
               currentCode: code.currentBackdrop,
+              compositionCode: code.currentBackdrop,
+              compositionPath:
+                "apps/doc/src/compositions/lightbox/image-lightbox-shell-composition.tsx",
+              compositionSource: SNIPPETS.currentBackdrop,
             },
             {
               label: "Overlay mechanics",
@@ -553,6 +557,10 @@ function LightboxDoc() {
               current: <LightboxShellPreview />,
               sourceCode: code.sourceMechanics,
               currentCode: code.currentMechanics,
+              compositionCode: code.currentMechanics,
+              compositionPath:
+                "apps/doc/src/compositions/lightbox/overlay-mechanics-composition.tsx",
+              compositionSource: SNIPPETS.currentMechanics,
             },
             {
               label: "Root children boundary",
@@ -562,6 +570,10 @@ function LightboxDoc() {
               current: <LightboxShellPreview />,
               sourceCode: code.sourceChildren,
               currentCode: code.currentChildren,
+              compositionCode: code.currentChildren,
+              compositionPath:
+                "apps/doc/src/compositions/lightbox/root-children-boundary-composition.tsx",
+              compositionSource: SNIPPETS.currentChildren,
             },
             {
               label: "Content portal",
@@ -571,6 +583,9 @@ function LightboxDoc() {
               current: <LightboxShellPreview />,
               sourceCode: code.sourceMechanics,
               currentCode: code.currentContent,
+              compositionCode: code.currentContent,
+              compositionPath: "apps/doc/src/compositions/lightbox/content-portal-composition.tsx",
+              compositionSource: SNIPPETS.currentContent,
             },
             {
               label: "Root composition",
@@ -580,6 +595,10 @@ function LightboxDoc() {
               current: <LightboxShellPreview semantic />,
               sourceCode: code.sourceRender,
               currentCode: code.currentRender,
+              compositionCode: code.currentRender,
+              compositionPath:
+                "apps/doc/src/compositions/lightbox/root-composition-composition.tsx",
+              compositionSource: SNIPPETS.currentRender,
             },
             {
               label: "Image switching",
@@ -589,6 +608,9 @@ function LightboxDoc() {
               current: <LightboxShellPreview />,
               sourceCode: code.sourceSwitching,
               currentCode: code.currentSwitching,
+              compositionCode: code.currentSwitching,
+              compositionPath: "apps/doc/src/compositions/lightbox/image-switching-composition.tsx",
+              compositionSource: SNIPPETS.currentSwitching,
             },
           ]}
         />

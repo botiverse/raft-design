@@ -340,6 +340,10 @@ function ConversationPreviewCardDoc() {
               current: <CurrentSearchPreview />,
               sourceCode: code.sourceSearch,
               currentCode: code.currentSearch,
+              compositionCode: code.currentSearch,
+              compositionPath:
+                "apps/doc/src/compositions/conversation-preview-card/search-result-composition.tsx",
+              compositionSource: SNIPPETS.currentSearch,
             },
             {
               label: "Threads inbox",
@@ -349,6 +353,10 @@ function ConversationPreviewCardDoc() {
               current: <CurrentThreadPreview />,
               sourceCode: code.sourceThread,
               currentCode: code.currentThread,
+              compositionCode: code.currentThread,
+              compositionPath:
+                "apps/doc/src/compositions/conversation-preview-card/threads-inbox-composition.tsx",
+              compositionSource: SNIPPETS.currentThread,
             },
             {
               label: "Agent DM",
@@ -358,6 +366,10 @@ function ConversationPreviewCardDoc() {
               current: <CurrentDmPreview />,
               sourceCode: code.sourceDm,
               currentCode: code.currentDm,
+              compositionCode: code.currentDm,
+              compositionPath:
+                "apps/doc/src/compositions/conversation-preview-card/agent-dm-composition.tsx",
+              compositionSource: SNIPPETS.currentDm,
             },
           ]}
         />

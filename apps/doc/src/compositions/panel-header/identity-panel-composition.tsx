@@ -1,0 +1,3 @@
+// Generated source-comparison composition fixture.
+export const compositionSource =
+  '<PanelHeader>\n  <PanelHeaderVisual className="flex">\n    <Avatar size="md" type="agent" />\n  </PanelHeaderVisual>\n  <PanelHeaderContent>\n    <PanelHeaderTitleRow>\n      <PanelHeaderTitle>Atlas</PanelHeaderTitle>\n      <PanelHeaderSuffix>\n        <Status variant="success" />\n      </PanelHeaderSuffix>\n    </PanelHeaderTitleRow>\n    <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>\n  </PanelHeaderContent>\n  <PanelHeaderActions>\n    <Badge.Experimental />\n  </PanelHeaderActions>\n</PanelHeader>;';

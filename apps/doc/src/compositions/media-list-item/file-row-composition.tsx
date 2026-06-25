@@ -1,0 +1,3 @@
+// Generated source-comparison composition fixture.
+export const compositionSource =
+  '<MediaListItem align="start">\n  <MediaListItemBody onClick={() => void openPreview(file)} title="Preview file">\n    <MediaListItemVisual>\n      <FileVisual />\n    </MediaListItemVisual>\n    <MediaListItemText>\n      <MediaListItemTitle>report.pdf</MediaListItemTitle>\n      <MediaListItemSubtitle>\n        <span>2.4 MB</span>\n        <span className="inline-flex items-center gap-1">\n          <Clock3 />\n          Jun 5, 09:14\n        </span>\n      </MediaListItemSubtitle>\n    </MediaListItemText>\n  </MediaListItemBody>\n  <MediaListItemActionGroup>{actions}</MediaListItemActionGroup>\n</MediaListItem>;';

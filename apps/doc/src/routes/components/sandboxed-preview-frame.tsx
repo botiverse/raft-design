@@ -268,6 +268,10 @@ function SandboxedPreviewFrameDoc() {
               ),
               sourceCode: code.sourceHtml,
               currentCode: code.currentHtml,
+              compositionCode: code.currentHtml,
+              compositionPath:
+                "apps/doc/src/compositions/sandboxed-preview-frame/html-attachment-preview-composition.tsx",
+              compositionSource: SNIPPETS.currentHtml,
             },
             {
               label: "PDF preview",
@@ -297,6 +301,10 @@ function SandboxedPreviewFrameDoc() {
               ),
               sourceCode: code.sourcePdf,
               currentCode: code.currentPdf,
+              compositionCode: code.currentPdf,
+              compositionPath:
+                "apps/doc/src/compositions/sandboxed-preview-frame/pdf-preview-composition.tsx",
+              compositionSource: SNIPPETS.currentPdf,
             },
             {
               label: "Mermaid diagram",
@@ -328,6 +336,10 @@ function SandboxedPreviewFrameDoc() {
               ),
               sourceCode: code.sourceMermaid,
               currentCode: code.currentMermaid,
+              compositionCode: code.currentMermaid,
+              compositionPath:
+                "apps/doc/src/compositions/sandboxed-preview-frame/mermaid-diagram-composition.tsx",
+              compositionSource: SNIPPETS.currentMermaid,
             },
           ]}
         />

@@ -1,0 +1,3 @@
+// Generated source-comparison composition fixture.
+export const compositionSource =
+  '<DescriptionList>\n  <DescriptionItem>\n    <DescriptionTerm>Creator</DescriptionTerm>\n    <DescriptionDetails className="flex items-center gap-2">\n      <button type="button" className="flex items-center gap-2 text-sm text-black hover:underline">\n        <span className="size-5 border-2 border-black bg-brutal-yellow" />\n        <span className="font-bold">Ada Lovelace</span>\n        <span className="font-mono text-xs text-black/50">@ada</span>\n      </button>\n    </DescriptionDetails>\n  </DescriptionItem>\n</DescriptionList>;';

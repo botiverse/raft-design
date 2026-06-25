@@ -95,6 +95,9 @@ function AttentionDotMigrationDoc() {
               current: <Status variant="accent" />,
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
+              compositionCode: code.currentDefault,
+              compositionPath: "apps/doc/src/compositions/attention-dot/default-composition.tsx",
+              compositionSource: SNIPPETS.currentDefault,
             },
             {
               label: "Compact",
@@ -104,6 +107,9 @@ function AttentionDotMigrationDoc() {
               current: <Status variant="accent" size="xs" />,
               sourceCode: code.sourceCompact,
               currentCode: code.currentCompact,
+              compositionCode: code.currentCompact,
+              compositionPath: "apps/doc/src/compositions/attention-dot/compact-composition.tsx",
+              compositionSource: SNIPPETS.currentCompact,
             },
             {
               label: "Explicit color",
@@ -113,6 +119,10 @@ function AttentionDotMigrationDoc() {
               current: <Status variant="warning" />,
               sourceCode: code.sourceTone,
               currentCode: code.currentTone,
+              compositionCode: code.currentTone,
+              compositionPath:
+                "apps/doc/src/compositions/attention-dot/explicit-color-composition.tsx",
+              compositionSource: SNIPPETS.currentTone,
             },
           ]}
         />

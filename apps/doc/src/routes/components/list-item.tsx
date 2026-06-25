@@ -357,6 +357,9 @@ function ListItemDoc() {
               current: <ListItemPreview />,
               sourceCode: code.sourceApi,
               currentCode: code.currentApi,
+              compositionCode: code.currentApi,
+              compositionPath: "apps/doc/src/compositions/list-item/api-name-composition.tsx",
+              compositionSource: SNIPPETS.currentApi,
             },
             {
               label: "Skill card",
@@ -366,6 +369,9 @@ function ListItemDoc() {
               current: <ListItemSkillCardPreview />,
               sourceCode: code.sourceSkill,
               currentCode: code.currentSkill,
+              compositionCode: code.currentSkill,
+              compositionPath: "apps/doc/src/compositions/list-item/skill-card-composition.tsx",
+              compositionSource: SNIPPETS.currentSkill,
             },
             {
               label: "Reminder metadata",
@@ -375,6 +381,10 @@ function ListItemDoc() {
               current: <ListItemReminderCardPreview />,
               sourceCode: code.sourceReminder,
               currentCode: code.currentReminder,
+              compositionCode: code.currentReminder,
+              compositionPath:
+                "apps/doc/src/compositions/list-item/reminder-metadata-composition.tsx",
+              compositionSource: SNIPPETS.currentReminder,
             },
             {
               label: "Connected app actions",
@@ -384,6 +394,10 @@ function ListItemDoc() {
               current: <ListItemConnectedAppPreview />,
               sourceCode: code.sourceConnectedApp,
               currentCode: code.currentConnectedApp,
+              compositionCode: code.currentConnectedApp,
+              compositionPath:
+                "apps/doc/src/compositions/list-item/connected-app-actions-composition.tsx",
+              compositionSource: SNIPPETS.currentConnectedApp,
             },
             {
               label: "Selected action bar",
@@ -393,6 +407,10 @@ function ListItemDoc() {
               current: <ListItemBulkSelectionPreview />,
               sourceCode: code.sourceBulkSelection,
               currentCode: code.currentBulkSelection,
+              compositionCode: code.currentBulkSelection,
+              compositionPath:
+                "apps/doc/src/compositions/list-item/selected-action-bar-composition.tsx",
+              compositionSource: SNIPPETS.currentBulkSelection,
             },
           ]}
         />

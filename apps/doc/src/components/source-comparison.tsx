@@ -154,7 +154,14 @@ function ComparisonPreview({
 }
 
 function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
-  if (item.brutal || item.elegant || item.elegantDark) {
+  if (item.brutal || item.elegant || item.elegantDark || item.current) {
+    const brutal = item.brutal ?? item.current;
+    const elegant = item.elegant ?? item.current;
+    const elegantDark = item.elegantDark ?? item.current;
+    const brutalCode = item.brutalCode ?? item.currentCode;
+    const elegantCode = item.elegantCode ?? item.currentCode;
+    const elegantDarkCode = item.elegantDarkCode ?? item.currentCode;
+
     return [
       {
         label: "Source",
@@ -165,22 +172,22 @@ function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
       },
       {
         label: "Brutal",
-        children: item.brutal,
-        code: item.brutalCode,
+        children: brutal,
+        code: brutalCode,
         family: "brutal" as Theme,
         mode: "light" as PreviewMode,
       },
       {
         label: "Elegant",
-        children: item.elegant,
-        code: item.elegantCode,
+        children: elegant,
+        code: elegantCode,
         family: "elegant" as Theme,
         mode: "light" as PreviewMode,
       },
       {
         label: "Elegant dark",
-        children: item.elegantDark,
-        code: item.elegantDarkCode,
+        children: elegantDark,
+        code: elegantDarkCode,
         family: "elegant" as Theme,
         mode: "dark" as PreviewMode,
       },
@@ -283,7 +290,7 @@ export function SourceComparison({
         const StatusIcon = STATUS_ICON[status];
         const panes = getComparisonPanes(item);
         const itemSourceScenes = item.sourceScenes ?? sourceScenes;
-        const isGridLayout = layout === "grid" && panes.length >= 4;
+        const isGridLayout = (layout === "grid" || panes.length >= 4) && panes.length >= 4;
         const columnClass = isGridLayout
           ? "md:grid-cols-2"
           : panes.length >= 4
@@ -340,7 +347,7 @@ export function SourceComparison({
                     <ComparisonPreview
                       key={pane.label}
                       label={pane.label}
-                      code={pane.code}
+                      code={isGridLayout ? undefined : pane.code}
                       family={pane.family}
                       mode={pane.mode}
                       labelPlacement={isGridLayout ? "corner" : "header"}

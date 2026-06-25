@@ -212,6 +212,10 @@ function SectionHeaderDoc() {
               current: <CurrentCreatedAgentsHeader />,
               sourceCode: code.sourceCreatedAgents,
               currentCode: code.currentCreatedAgents,
+              compositionCode: code.currentCreatedAgents,
+              compositionPath:
+                "apps/doc/src/compositions/section-header/created-agents-composition.tsx",
+              compositionSource: SNIPPETS.currentCreatedAgents,
             },
             {
               label: "Pending reminders",
@@ -229,6 +233,10 @@ function SectionHeaderDoc() {
               current: <CurrentPendingRemindersHeader />,
               sourceCode: code.sourcePendingReminders,
               currentCode: code.currentPendingReminders,
+              compositionCode: code.currentPendingReminders,
+              compositionPath:
+                "apps/doc/src/compositions/section-header/pending-reminders-composition.tsx",
+              compositionSource: SNIPPETS.currentPendingReminders,
             },
             {
               label: "Settings section",
@@ -240,6 +248,10 @@ function SectionHeaderDoc() {
               current: <CurrentAccountHeader />,
               sourceCode: code.sourceAccount,
               currentCode: code.currentAccount,
+              compositionCode: code.currentAccount,
+              compositionPath:
+                "apps/doc/src/compositions/section-header/settings-section-composition.tsx",
+              compositionSource: SNIPPETS.currentAccount,
             },
           ]}
         />

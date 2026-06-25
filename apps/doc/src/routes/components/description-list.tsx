@@ -227,6 +227,10 @@ function DescriptionListDoc() {
               ),
               sourceCode: code.sourceCreated,
               currentCode: code.currentCreated,
+              compositionCode: code.currentCreated,
+              compositionPath:
+                "apps/doc/src/compositions/description-list/detail-metadata-composition.tsx",
+              compositionSource: SNIPPETS.currentCreated,
             },
             {
               label: "Long monospace value",
@@ -245,6 +249,10 @@ function DescriptionListDoc() {
               ),
               sourceCode: code.sourceEmail,
               currentCode: code.currentEmail,
+              compositionCode: code.currentEmail,
+              compositionPath:
+                "apps/doc/src/compositions/description-list/long-monospace-value-composition.tsx",
+              compositionSource: SNIPPETS.currentEmail,
             },
             {
               label: "Rich creator value",
@@ -285,6 +293,10 @@ function DescriptionListDoc() {
               ),
               sourceCode: code.sourceCreator,
               currentCode: code.currentCreator,
+              compositionCode: code.currentCreator,
+              compositionPath:
+                "apps/doc/src/compositions/description-list/rich-creator-value-composition.tsx",
+              compositionSource: SNIPPETS.currentCreator,
             },
           ]}
         />

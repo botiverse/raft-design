@@ -250,6 +250,9 @@ function ToggleGroupDoc() {
               ),
               sourceCode: code.sourceDefault,
               currentCode: code.currentDefault,
+              compositionCode: code.currentDefault,
+              compositionPath: "apps/doc/src/compositions/toggle-group/default-composition.tsx",
+              compositionSource: SNIPPETS.currentDefault,
             },
             {
               label: "Disabled",
@@ -278,6 +281,9 @@ function ToggleGroupDoc() {
               ),
               sourceCode: code.sourceDisabled,
               currentCode: code.currentDisabled,
+              compositionCode: code.currentDisabled,
+              compositionPath: "apps/doc/src/compositions/toggle-group/disabled-composition.tsx",
+              compositionSource: SNIPPETS.currentDisabled,
             },
           ]}
         />
