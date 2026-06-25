@@ -151,8 +151,19 @@ export const MIGRATION_GUIDES = [
           "`value` / filter text stay controlled.",
           "Render badges as `ComboboxItem` rows.",
         ],
-        write:
-          "<Combobox items={items} value={value} onValueChange={setValue}><ComboboxTrigger /><ComboboxContent><ComboboxInput /><ComboboxList>{(item) => <ComboboxItem value={item}>{item.label}</ComboboxItem>}</ComboboxList></ComboboxContent></Combobox>",
+        write: `<Combobox items={items} value={value} onValueChange={setValue}>
+  <ComboboxTrigger />
+  <ComboboxContent>
+    <ComboboxInput />
+    <ComboboxList>
+      {(item) => (
+        <ComboboxItem value={item}>
+          {item.label}
+        </ComboboxItem>
+      )}
+    </ComboboxList>
+  </ComboboxContent>
+</Combobox>`,
       },
     ],
   },
@@ -170,8 +181,12 @@ export const MIGRATION_GUIDES = [
           "Use `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`.",
           "Use `Select` instead when the value is a form field.",
         ],
-        write:
-          "<DropdownMenu><DropdownMenuTrigger render={trigger} /><DropdownMenuContent><DropdownMenuItem>Open</DropdownMenuItem></DropdownMenuContent></DropdownMenu>",
+        write: `<DropdownMenu>
+  <DropdownMenuTrigger render={trigger} />
+  <DropdownMenuContent>
+    <DropdownMenuItem>Open</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
       },
       {
         component: "select",
@@ -183,8 +198,14 @@ export const MIGRATION_GUIDES = [
           "Use `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`.",
           "Use `DropdownMenu` for action menus.",
         ],
-        write:
-          '<Select value={value} onValueChange={setValue}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All</SelectItem></SelectContent></Select>',
+        write: `<Select value={value} onValueChange={setValue}>
+  <SelectTrigger>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="all">All</SelectItem>
+  </SelectContent>
+</Select>`,
       },
     ],
   },

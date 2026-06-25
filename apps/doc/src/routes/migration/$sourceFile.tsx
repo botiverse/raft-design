@@ -3,13 +3,28 @@ import { Badge, InlineCode, Text } from "raft-ui";
 import { ArrowLeft } from "lucide-react";
 import { Fragment, type ReactNode } from "react";
 
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { getMigrationGuide } from "#/data/migration.ts";
+import { highlightSnippets } from "#/lib/highlight.tsx";
 
-export const Route = createFileRoute("/migration/$sourceFile")({ component: MigrationGuidePage });
+export const Route = createFileRoute("/migration/$sourceFile")({
+  component: MigrationGuidePage,
+  loader: ({ params }) => {
+    const guide = getMigrationGuide(params.sourceFile);
+    const snippets = Object.fromEntries(
+      guide?.components
+        .filter((component) => component.write)
+        .map((component) => [writeSnippetId(component.component), component.write ?? ""]) ?? [],
+    );
+
+    return highlightSnippets({ data: snippets });
+  },
+});
 
 function MigrationGuidePage() {
   const { sourceFile } = Route.useParams();
+  const code = Route.useLoaderData();
   const guide = getMigrationGuide(sourceFile);
 
   if (!guide) {
@@ -67,12 +82,10 @@ function MigrationGuidePage() {
               <h2 className="font-heading text-2xl font-medium text-foreground-strong">
                 {component.componentLabel}
               </h2>
-              <a
+              <SourceComparisonLink
                 href={component.docsHref}
                 className="text-sm font-medium text-foreground-muted underline underline-offset-4 transition-colors hover:text-foreground-strong"
-              >
-                Source comparison
-              </a>
+              />
             </div>
 
             <div className="grid gap-3">
@@ -93,9 +106,12 @@ function MigrationGuidePage() {
                 <Text.Mono size="eyebrow" variant="placeholder">
                   Write
                 </Text.Mono>
-                <pre className="overflow-x-auto rounded-lg bg-[oklch(0.986_0_0)] p-4 font-mono text-sm leading-relaxed text-foreground-strong shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]">
-                  <code>{component.write}</code>
-                </pre>
+                <DocsCodeBlock.Panel
+                  path={`migration/${guide.slug}/${component.component}.tsx`}
+                  source={component.write}
+                  html={code[writeSnippetId(component.component)]}
+                  collapsible={false}
+                />
               </div>
             ) : null}
 
@@ -106,6 +122,20 @@ function MigrationGuidePage() {
         ))}
       </div>
     </DocPage>
+  );
+}
+
+function writeSnippetId(component: string) {
+  return `write-${component}`;
+}
+
+function SourceComparisonLink({ href, className }: { href: string; className?: string }) {
+  const [to, hash] = href.split("#");
+
+  return (
+    <Link to={to} hash={hash} className={className}>
+      Source comparison
+    </Link>
   );
 }
 
