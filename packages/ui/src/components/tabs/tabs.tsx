@@ -16,6 +16,7 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
+  type DragStartEvent,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -46,6 +47,7 @@ const tabs = tv({
       brutal: {
         list: [
           "flex w-max max-w-full overflow-x-auto border-2 border-line-strong bg-layer-panel",
+          "data-[sorting=true]:[overflow-x:hidden]",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         ],
         background: "hidden",
@@ -79,6 +81,8 @@ const tabs = tv({
           "group/tabs-list relative flex h-12 w-max max-w-full items-center gap-6 px-4",
           "overflow-x-auto overflow-y-hidden overscroll-contain whitespace-nowrap",
           "border-b border-line-muted",
+          "data-[sorting=true]:[overflow-x:hidden]",
+          "data-[sorting=true]:[&_[data-slot=tabs-indicator]]:opacity-0 data-[sorting=true]:[&_[data-slot=tabs-indicator]]:transition-none",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         ],
         background: ["pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-line-muted"],
@@ -112,6 +116,8 @@ const tabs = tv({
           "group/tabs-list relative isolate flex h-auto w-max max-w-full items-center gap-1",
           "overflow-x-auto overflow-y-visible overscroll-contain whitespace-nowrap",
           "p-px",
+          "data-[sorting=true]:[overflow-x:hidden]",
+          "data-[sorting=true]:[&_[data-slot=tabs-indicator]]:opacity-0 data-[sorting=true]:[&_[data-slot=tabs-indicator]]:transition-none",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         ],
         background: ["pointer-events-none absolute inset-0 z-0 rounded-[7px] bg-layer-muted"],
@@ -123,6 +129,11 @@ const tabs = tv({
           "data-[active]:text-[oklch(38%_.006_285)]",
           "data-[active]:hover:text-[oklch(38%_.006_285)]",
           "data-[active]:[&_[data-slot=tabs-label]]:text-[0.8125rem]",
+          "data-[reorderable=true]:data-[active]:bg-layer-panel",
+          "data-[reorderable=true]:data-[active]:shadow-[0_0_0_1px_oklch(0%_0_0/.1),0_1px_1px_-1px_oklch(0%_0_0/.04),0_1px_2px_oklch(0%_0_0/.03)]",
+          "group-has-[>[data-slot=tabs-background]]/tabs-list:data-[reorderable=true]:data-[active]:shadow-[0_0_0_1px_oklch(0%_0_0/.045),0_1px_1px_-1px_oklch(0%_0_0/.025),0_1px_2px_oklch(0%_0_0/.02)]",
+          "data-[dragging-active=true]:bg-layer-panel",
+          "data-[dragging-active=true]:shadow-[0_0_0_1px_oklch(0%_0_0/.1),0_1px_1px_-1px_oklch(0%_0_0/.04),0_1px_2px_oklch(0%_0_0/.03)]",
           "[&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:[stroke-width:1.5]",
           "[&_svg]:text-foreground-placeholder [&_svg]:transition-colors [&_svg]:duration-150 [&_svg]:ease-out",
           "hover:[&_svg]:text-[oklch(42%_.006_285)]",
@@ -145,6 +156,7 @@ const tabs = tv({
 
 type TabsReorderContextValue = {
   enabled: boolean;
+  activeId?: string | undefined;
 };
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
@@ -152,7 +164,6 @@ const TabsValueContext = createContext<string | undefined>(undefined);
 type TabsListVariant = "default" | "underline";
 
 const TabsListVariantContext = createContext<TabsListVariant>("default");
-const REORDER_ENABLED_CONTEXT = { enabled: true } as const satisfies TabsReorderContextValue;
 
 export type TabsProps<T extends string = string> = StyledProps<
   Omit<BaseTabs.Root.Props, "defaultValue" | "onValueChange" | "value">
@@ -199,6 +210,7 @@ export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
 
 export function TabsList({ className, children, variant = "default", ...props }: TabsListProps) {
   const theme = useThemeFamily();
+  const reorder = use(TabsReorderContext);
   const resolvedVariant = theme === "elegant" ? variant : "underline";
   const { list } = tabs({ theme, variant: resolvedVariant });
 
@@ -211,7 +223,7 @@ export function TabsList({ className, children, variant = "default", ...props }:
         {...props}
       >
         {children}
-        {theme === "elegant" ? <TabsIndicator /> : null}
+        {theme === "elegant" && !reorder.enabled ? <TabsIndicator /> : null}
       </BaseTabs.List>
     </TabsListVariantContext.Provider>
   );
@@ -229,13 +241,25 @@ export function SortableTabsList<T extends string = string>({
   variant = "default",
   ...props
 }: SortableTabsListProps<T>) {
+  const [activeId, setActiveId] = useState<string | undefined>(undefined);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
   );
   const tabIds = useMemo(() => value.map(String), [value]);
+  const reorderContext = useMemo(
+    () => ({ enabled: true, activeId }) as const satisfies TabsReorderContextValue,
+    [activeId],
+  );
+  const handleDragStart = useCallback(({ active }: DragStartEvent) => {
+    setActiveId(String(active.id));
+  }, []);
+  const handleDragCancel = useCallback(() => {
+    setActiveId(undefined);
+  }, []);
   const handleDragEnd = useCallback(
     ({ active, over }: DragEndEvent) => {
+      setActiveId(undefined);
       if (!over || active.id === over.id) return;
       const oldIndex = tabIds.indexOf(String(active.id));
       const newIndex = tabIds.indexOf(String(over.id));
@@ -246,10 +270,16 @@ export function SortableTabsList<T extends string = string>({
   );
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragCancel={handleDragCancel}
+      onDragEnd={handleDragEnd}
+    >
       <SortableContext items={tabIds} strategy={horizontalListSortingStrategy}>
-        <TabsReorderContext.Provider value={REORDER_ENABLED_CONTEXT}>
-          <TabsList variant={variant} {...props}>
+        <TabsReorderContext.Provider value={reorderContext}>
+          <TabsList variant={variant} {...props} data-sorting={activeId ? "true" : undefined}>
             {children}
           </TabsList>
         </TabsReorderContext.Provider>
@@ -273,10 +303,12 @@ export function SortableTabsTab<T extends string = string>({
   ...props
 }: SortableTabsTabProps<T>) {
   const reorder = use(TabsReorderContext);
+  const activeValue = use(TabsValueContext);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: value,
     disabled: !reorder.enabled,
   });
+  const isDraggingActive = isDragging && activeValue === String(value);
 
   if (!reorder.enabled) {
     return <TabsTabButton value={value} {...props} />;
@@ -295,10 +327,11 @@ export function SortableTabsTab<T extends string = string>({
     <TabsTabButton
       value={value}
       sortableRef={setNodeRef}
+      {...props}
+      data-dragging-active={isDraggingActive ? "true" : undefined}
       data-dragging-source={isDragging ? "true" : undefined}
       data-reorderable="true"
       style={style}
-      {...props}
       {...sortableAttributes}
       {...listeners}
     />
