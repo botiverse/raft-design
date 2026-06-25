@@ -64,6 +64,7 @@ import { Route as ComponentsBannerRouteImport } from './routes/components/banner
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
 import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
+import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typography/elegant'
 import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
 import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
@@ -365,6 +366,11 @@ const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
   path: '/attention-dot',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
+  id: '/alert-dialog',
+  path: '/alert-dialog',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const TokensTypographyElegantRoute = TokensTypographyElegantRouteImport.update({
   id: '/elegant',
   path: '/elegant',
@@ -471,6 +477,7 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRoute
+  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -546,6 +553,7 @@ export interface FileRoutesByTo {
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/playground': typeof PlaygroundRoute
+  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -623,6 +631,7 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRoute
+  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -701,6 +710,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/migration'
     | '/playground'
+    | '/components/alert-dialog'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -776,6 +786,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/installation'
     | '/playground'
+    | '/components/alert-dialog'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -852,6 +863,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/migration'
     | '/playground'
+    | '/components/alert-dialog'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -1323,6 +1335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsAttentionDotRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/alert-dialog': {
+      id: '/components/alert-dialog'
+      path: '/alert-dialog'
+      fullPath: '/components/alert-dialog'
+      preLoaderRoute: typeof ComponentsAlertDialogRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/tokens/typography/elegant': {
       id: '/tokens/typography/elegant'
       path: '/elegant'
@@ -1460,6 +1479,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface ComponentsRouteChildren {
+  ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
   ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
   ComponentsAvatarRoute: typeof ComponentsAvatarRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
@@ -1519,6 +1539,7 @@ interface ComponentsRouteChildren {
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
+  ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
   ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
   ComponentsAvatarRoute: ComponentsAvatarRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,

@@ -55,14 +55,10 @@ import agreementCompositionSource from "#/compositions/dialog/agreement-composit
 import { AgreementDialogComposition } from "#/compositions/dialog/agreement-composition.tsx";
 import announcementCompositionSource from "#/compositions/dialog/announcement-composition.tsx?raw";
 import { AnnouncementDialogComposition } from "#/compositions/dialog/announcement-composition.tsx";
-import confirmActionCompositionSource from "#/compositions/dialog/confirm-action-composition.tsx?raw";
-import { ConfirmActionDialogComposition } from "#/compositions/dialog/confirm-action-composition.tsx";
 import createAgentCompositionSource from "#/compositions/dialog/create-agent-composition.tsx?raw";
 import { CreateAgentDialogComposition } from "#/compositions/dialog/create-agent-composition.tsx";
 import createChannelCompositionSource from "#/compositions/dialog/create-channel-composition.tsx?raw";
 import { CreateChannelDialogComposition } from "#/compositions/dialog/create-channel-composition.tsx";
-import deleteServerCompositionSource from "#/compositions/dialog/delete-server-composition.tsx?raw";
-import { DeleteServerDialogComposition } from "#/compositions/dialog/delete-server-composition.tsx";
 import editChannelCompositionSource from "#/compositions/dialog/edit-channel-composition.tsx?raw";
 import { EditChannelDialogComposition } from "#/compositions/dialog/edit-channel-composition.tsx";
 import inviteHumanCompositionSource from "#/compositions/dialog/invite-human-composition.tsx?raw";
@@ -90,8 +86,6 @@ const TOC = [
       { id: "source-comparison-agreement", title: "Agreement" },
       { id: "source-comparison-onboarding", title: "Onboarding" },
       { id: "source-comparison-announcement", title: "Announcement" },
-      { id: "source-comparison-delete-server", title: "Delete server" },
-      { id: "source-comparison-confirm-action", title: "Confirm action" },
     ],
   },
 ] as const;
@@ -212,8 +206,6 @@ const DIALOG_COMPOSITION_RAW_SOURCES = {
   Agreement: agreementCompositionSource,
   Onboarding: onboardingCompositionSource,
   Announcement: announcementCompositionSource,
-  DeleteServer: deleteServerCompositionSource,
-  ConfirmAction: confirmActionCompositionSource,
 } as const;
 
 const DIALOG_COMPOSITION_SOURCES = createCompositionSourceMap(DIALOG_COMPOSITION_RAW_SOURCES);
@@ -228,8 +220,6 @@ const DIALOG_COMPOSITION_SNIPPET_IDS = {
   Agreement: "dialogAgreementComposition",
   Onboarding: "dialogOnboardingComposition",
   Announcement: "dialogAnnouncementComposition",
-  DeleteServer: "dialogDeleteServerComposition",
-  ConfirmAction: "dialogConfirmActionComposition",
 } as const;
 
 const DIALOG_COMPOSITION_PATHS = {
@@ -242,8 +232,6 @@ const DIALOG_COMPOSITION_PATHS = {
   Agreement: "apps/doc/src/compositions/dialog/agreement-composition.tsx",
   Onboarding: "apps/doc/src/compositions/dialog/onboarding-composition.tsx",
   Announcement: "apps/doc/src/compositions/dialog/announcement-composition.tsx",
-  DeleteServer: "apps/doc/src/compositions/dialog/delete-server-composition.tsx",
-  ConfirmAction: "apps/doc/src/compositions/dialog/confirm-action-composition.tsx",
 } as const;
 
 type DialogCompositionKey = keyof typeof DIALOG_COMPOSITION_SOURCES;
@@ -878,55 +866,6 @@ function SourceAnnouncement() {
   );
 }
 
-function SourceDeleteServer() {
-  return (
-    <SourceModalCard
-      title="Delete Server"
-      className="max-w-sm"
-      footer={
-        <>
-          <SourceButton size="xs">Cancel</SourceButton>
-          <SourceButton tone="red" size="xs" className="opacity-50">
-            Delete Server
-          </SourceButton>
-        </>
-      }
-    >
-      <div className="grid gap-4">
-        <SourceBanner tone="danger" withIcon>
-          This will permanently delete <span className="font-bold">Raft</span> and all its data
-          (agents, channels, messages). This cannot be undone.
-        </SourceBanner>
-        <div>
-          <p className="mb-2 mt-0 text-sm text-black/60">
-            Type <span className="font-mono font-bold text-black">raft</span> to confirm:
-          </p>
-          <SourceInput placeholder="raft" />
-        </div>
-      </div>
-    </SourceModalCard>
-  );
-}
-
-function SourceConfirmAction() {
-  return (
-    <SourceModalCard
-      title="Delete Task"
-      className="max-w-sm"
-      footer={
-        <>
-          <SourceButton>Cancel</SourceButton>
-          <SourceButton tone="red">Delete Task</SourceButton>
-        </>
-      }
-    >
-      <SourceBanner tone="danger" withIcon className="mb-1">
-        Delete task #42 "Review dialog migration"? This cannot be undone.
-      </SourceBanner>
-    </SourceModalCard>
-  );
-}
-
 export const Route = createFileRoute("/components/dialog")({
   component: DialogDoc,
   loader: () =>
@@ -999,7 +938,7 @@ function DialogDoc() {
         <div className="grid gap-4">
           <Text.Sans size="body" variant="placeholder" className="max-w-3xl">
             Use Dialog for content surfaces that need focus trapping and a centered modal frame. Use
-            the future AlertDialog for irreversible confirms once that primitive lands.
+            AlertDialog for irreversible confirms and destructive confirmation flows.
           </Text.Sans>
           <DocsCodeBlock.Panel
             path="DialogStructure.tsx"
@@ -1255,93 +1194,6 @@ function DialogDoc() {
                 },
               ],
               ...compositionPanelProps(code, "Announcement"),
-            },
-            {
-              id: "source-comparison-delete-server",
-              label: "Typed delete",
-              note: "Source used an inline Modal instead of ConfirmDialog when the user must type the server slug.",
-              source: <SourceDeleteServer />,
-              brutal: <DeleteServerDialogComposition />,
-              elegant: <DeleteServerDialogComposition />,
-              elegantDark: <DeleteServerDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Typed destructive confirmation",
-                  scenes: [
-                    {
-                      label: "SettingsPanel.tsx:2319",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:2319",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "DeleteServer"),
-            },
-            {
-              id: "source-comparison-confirm-action",
-              label: "Confirm action",
-              status: "difference",
-              note: "Source ConfirmDialog is built on Modal. Current shows the same shell with Dialog until AlertDialog is introduced.",
-              source: <SourceConfirmAction />,
-              brutal: <ConfirmActionDialogComposition />,
-              elegant: <ConfirmActionDialogComposition />,
-              elegantDark: <ConfirmActionDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "ConfirmDialog call sites",
-                  scenes: [
-                    {
-                      label: "ConfirmDialog.tsx:53",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ConfirmDialog.tsx:53",
-                    },
-                    {
-                      label: "TaskItem.tsx:172",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TaskItem.tsx:172",
-                    },
-                    {
-                      label: "ChatPanel.tsx:866",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:866",
-                    },
-                    {
-                      label: "AgentDetailPanel.tsx:1961,1973",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1961,1973",
-                    },
-                    {
-                      label: "MachineDetailPanel.tsx:559,963",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:559,963",
-                    },
-                    {
-                      label: "SettingsPanel.tsx:535,1434,1618,2303",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:535,1434,1618,2303",
-                    },
-                    {
-                      label: "SOSDialog.tsx:55",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/SOSDialog.tsx:55",
-                    },
-                    {
-                      label: "ReportIssueDialog.tsx:246,276",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:246,276",
-                    },
-                    {
-                      label: "MachineDetailPanel.tsx:184,559,944,963",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:184,559,944,963",
-                    },
-                    {
-                      label: "HumanDetailPanel.tsx:551",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:551",
-                    },
-                    {
-                      label: "Sidebar.tsx:1926,1955,1975,1995",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1926,1955,1975,1995",
-                    },
-                    {
-                      label: "AgentDetailPanel.tsx:1081,1961,1973",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1081,1961,1973",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "ConfirmAction"),
             },
           ]}
         />

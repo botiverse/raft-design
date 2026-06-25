@@ -155,21 +155,16 @@ const NAV = [
   {
     title: "Overlays",
     items: [
+      { label: "AlertDialog", to: "/components/alert-dialog", progress: { theme: "in-progress" } },
       { label: "BottomSheet", to: "/components/bottom-sheet", progress: { theme: "todo" } },
       { label: "ContextMenu", to: "/components/context-menu", progress: { theme: "done" } },
-      { label: "Dialog", to: "/components/dialog", progress: { theme: "done" } },
+      { label: "Dialog", to: "/components/dialog", progress: { theme: "in-progress" } },
       { label: "DropdownMenu", to: "/components/dropdown-menu", progress: { theme: "done" } },
       { label: "Lightbox", to: "/components/lightbox", progress: { theme: "todo" } },
       { label: "Popover", to: "/components/popover", progress: { theme: "done" } },
       { label: "Tooltip", to: "/components/tooltip", progress: { theme: "done" } },
     ],
     planned: [
-      {
-        label: "AlertDialog",
-        priority: "P0",
-        docsHref: "https://base-ui.com/react/components/alert-dialog",
-        reason: "Use for destructive confirmations instead of app-specific confirm shells.",
-      },
       {
         label: "Drawer",
         priority: "Later",

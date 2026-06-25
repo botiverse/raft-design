@@ -1,9 +1,9 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import type { ReactElement } from "react";
-import { tv, type VariantProps } from "../../lib/tv.ts";
-import type { StyledProps } from "../../lib/styled-props.ts";
-import { useThemeFamily } from "../../lib/theme/use-theme.ts";
-import { Spinner } from "../spinner/index.ts";
+import { tv, type VariantProps } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Spinner } from "../spinner/index";
 
 export const buttonVariants = tv({
   slots: {
@@ -195,7 +195,9 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "warning",
-      class: { root: "bg-warning-base text-black hover:bg-warning-base" },
+      class: {
+        root: "bg-[oklch(0.785_0.123_50.11)] text-black hover:bg-[oklch(0.785_0.123_50.11)]",
+      },
     },
     {
       theme: "brutal",
