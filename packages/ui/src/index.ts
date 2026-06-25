@@ -1,8 +1,8 @@
-export { Button, buttonVariants } from "./components/button/index.ts";
-export type { ButtonProps } from "./components/button/index.ts";
+export { Button, buttonVariants } from "./components/button/index";
+export type { ButtonProps } from "./components/button/index";
 
-export { Checkbox } from "./components/checkbox/index.ts";
-export type { CheckboxProps } from "./components/checkbox/index.ts";
+export { Checkbox } from "./components/checkbox/index";
+export type { CheckboxProps } from "./components/checkbox/index";
 
 export {
   ContextMenu,
@@ -20,7 +20,7 @@ export {
   ContextMenuSubmenu,
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
-} from "./components/context-menu/index.ts";
+} from "./components/context-menu/index";
 export type {
   ContextMenuCheckboxItemIndicatorProps,
   ContextMenuCheckboxItemProps,
@@ -37,7 +37,7 @@ export type {
   ContextMenuSubmenuProps,
   ContextMenuSubmenuTriggerProps,
   ContextMenuTriggerProps,
-} from "./components/context-menu/index.ts";
+} from "./components/context-menu/index";
 
 export {
   DropdownMenu,
@@ -57,7 +57,7 @@ export {
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
-} from "./components/dropdown-menu/index.ts";
+} from "./components/dropdown-menu/index";
 export type {
   DropdownMenuCheckboxItemIndicatorProps,
   DropdownMenuCheckboxItemProps,
@@ -76,7 +76,7 @@ export type {
   DropdownMenuSubmenuProps,
   DropdownMenuSubmenuTriggerProps,
   DropdownMenuTriggerProps,
-} from "./components/dropdown-menu/index.ts";
+} from "./components/dropdown-menu/index";
 
 export {
   Tooltip,
@@ -84,14 +84,14 @@ export {
   TooltipPortal,
   TooltipProvider,
   TooltipTrigger,
-} from "./components/tooltip/index.ts";
+} from "./components/tooltip/index";
 export type {
   TooltipContentProps,
   TooltipPortalProps,
   TooltipProps,
   TooltipProviderProps,
   TooltipTriggerProps,
-} from "./components/tooltip/index.ts";
+} from "./components/tooltip/index";
 
 export {
   Popover,
@@ -107,7 +107,7 @@ export {
   PopoverTitle,
   PopoverTrigger,
   PopoverViewport,
-} from "./components/popover/index.ts";
+} from "./components/popover/index";
 export type {
   PopoverArrowProps,
   PopoverBackdropProps,
@@ -122,18 +122,18 @@ export type {
   PopoverTitleProps,
   PopoverTriggerProps,
   PopoverViewportProps,
-} from "./components/popover/index.ts";
+} from "./components/popover/index";
 
-export { Label, LabelAsterisk, LabelOptional, LabelSub } from "./components/label/index.ts";
+export { Label, LabelAsterisk, LabelOptional, LabelSub } from "./components/label/index";
 export type {
   LabelAsteriskProps,
   LabelOptionalProps,
   LabelProps,
   LabelSubProps,
-} from "./components/label/index.ts";
+} from "./components/label/index";
 
-export { Input } from "./components/input/index.ts";
-export type { InputProps } from "./components/input/index.ts";
+export { Input } from "./components/input/index";
+export type { InputProps } from "./components/input/index";
 
 export {
   Field,
@@ -143,7 +143,7 @@ export {
   FieldItem,
   FieldLabel,
   FieldValidity,
-} from "./components/field/index.ts";
+} from "./components/field/index";
 export type {
   FieldControlProps,
   FieldDescriptionProps,
@@ -152,15 +152,15 @@ export type {
   FieldLabelProps,
   FieldProps,
   FieldValidityProps,
-} from "./components/field/index.ts";
+} from "./components/field/index";
 
-export { InputGroup, InputGroupAddon, InputGroupInput } from "./components/input-group/index.ts";
+export { InputGroup, InputGroupAddon, InputGroupInput } from "./components/input-group/index";
 export type {
   InputGroupAddonProps,
   InputGroupAddonTextProps,
   InputGroupInputProps,
   InputGroupProps,
-} from "./components/input-group/index.ts";
+} from "./components/input-group/index";
 
 export {
   Combobox,
@@ -188,7 +188,7 @@ export {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
   ComboboxValue,
-} from "./components/combobox/index.ts";
+} from "./components/combobox/index";
 export type {
   ComboboxChipProps,
   ComboboxChipRemoveProps,
@@ -215,7 +215,7 @@ export type {
   ComboboxTriggerIndicatorProps,
   ComboboxTriggerProps,
   ComboboxValueProps,
-} from "./components/combobox/index.ts";
+} from "./components/combobox/index";
 
 export {
   Select,
@@ -236,7 +236,7 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "./components/select/index.ts";
+} from "./components/select/index";
 export type {
   SelectArrowProps,
   SelectContentProps,
@@ -256,37 +256,37 @@ export type {
   SelectSeparatorProps,
   SelectTriggerProps,
   SelectValueProps,
-} from "./components/select/index.ts";
+} from "./components/select/index";
 
-export { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "./components/radio-group/index.ts";
+export { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "./components/radio-group/index";
 export type {
   RadioGroupIndicatorProps,
   RadioGroupItemProps,
   RadioGroupProps,
-} from "./components/radio-group/index.ts";
+} from "./components/radio-group/index";
 
 export {
   SegmentedControl,
   SegmentedControlCount,
   SegmentedControlItem,
   SegmentedControlLabel,
-} from "./components/segmented-control/index.ts";
+} from "./components/segmented-control/index";
 export type {
   SegmentedControlCountProps,
   SegmentedControlItemProps,
   SegmentedControlLabelProps,
   SegmentedControlProps,
-} from "./components/segmented-control/index.ts";
+} from "./components/segmented-control/index";
 
-export { Textarea, TextareaCounter, TextareaGroup } from "./components/textarea/index.ts";
+export { Textarea, TextareaCounter, TextareaGroup } from "./components/textarea/index";
 export type {
   TextareaCounterProps,
   TextareaGroupProps,
   TextareaProps,
-} from "./components/textarea/index.ts";
+} from "./components/textarea/index";
 
-export { Badge } from "./components/badge/index.ts";
-export type { BadgeProps } from "./components/badge/index.ts";
+export { Badge } from "./components/badge/index";
+export type { BadgeProps } from "./components/badge/index";
 
 export {
   Avatar,
@@ -296,7 +296,7 @@ export {
   AvatarGroupCount,
   AvatarImage,
   type AvatarSize,
-} from "./components/avatar/index.ts";
+} from "./components/avatar/index";
 export type {
   AvatarBadgeProps,
   AvatarFallbackProps,
@@ -304,31 +304,31 @@ export type {
   AvatarGroupProps,
   AvatarImageProps,
   AvatarProps,
-} from "./components/avatar/index.ts";
+} from "./components/avatar/index";
 
-export { InlineCode } from "./components/inline-code/index.ts";
-export type { InlineCodeProps } from "./components/inline-code/index.ts";
+export { InlineCode } from "./components/inline-code/index";
+export type { InlineCodeProps } from "./components/inline-code/index";
 
-export { Kbd, KbdGroup } from "./components/kbd/index.ts";
-export type { KbdGroupProps, KbdProps } from "./components/kbd/index.ts";
+export { Kbd, KbdGroup } from "./components/kbd/index";
+export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 
-export { Text, TextHeading, TextMono, TextSans } from "./components/text/index.ts";
-export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index.ts";
+export { Text, TextHeading, TextMono, TextSans } from "./components/text/index";
+export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index";
 
-export { Status } from "./components/status/index.ts";
-export type { StatusProps } from "./components/status/index.ts";
+export { Status } from "./components/status/index";
+export type { StatusProps } from "./components/status/index";
 
-export { Spinner } from "./components/spinner/index.ts";
-export type { SpinnerProps } from "./components/spinner/index.ts";
+export { Spinner } from "./components/spinner/index";
+export type { SpinnerProps } from "./components/spinner/index";
 
-export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index.ts";
+export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index";
 export type {
   BannerActionProps,
   BannerDescriptionProps,
   BannerProps,
   BannerStatus,
   BannerTitleProps,
-} from "./components/banner/index.ts";
+} from "./components/banner/index";
 
 export {
   EmptyState,
@@ -337,7 +337,7 @@ export {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "./components/empty-state/index.ts";
+} from "./components/empty-state/index";
 export type {
   EmptyStateActionsProps,
   EmptyStateContentProps,
@@ -345,7 +345,7 @@ export type {
   EmptyStateIconProps,
   EmptyStateProps,
   EmptyStateTitleProps,
-} from "./components/empty-state/index.ts";
+} from "./components/empty-state/index";
 
 export {
   NotificationCenter,
@@ -365,7 +365,7 @@ export {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
-} from "./components/notification-center/index.ts";
+} from "./components/notification-center/index";
 export type {
   NotificationCenterActionButtonProps,
   NotificationCenterCountProps,
@@ -385,7 +385,7 @@ export type {
   NotificationCenterScrollerProps,
   NotificationCenterTitleProps,
   NotificationCenterTriggerProps,
-} from "./components/notification-center/index.ts";
+} from "./components/notification-center/index";
 
 export {
   SortableTabsList,
@@ -398,7 +398,7 @@ export {
   TabsPanel,
   TabsTab,
   useOrderedTabs,
-} from "./components/tabs/index.ts";
+} from "./components/tabs/index";
 export type {
   OrderedTabItem,
   SortableTabsListProps,
@@ -410,12 +410,15 @@ export type {
   TabsPanelProps,
   TabsProps,
   TabsTabProps,
-} from "./components/tabs/index.ts";
+} from "./components/tabs/index";
 
-export { cn } from "./lib/cn.ts";
-export { ThemeProvider } from "./lib/theme/theme-provider.tsx";
-export type { ThemeProviderProps } from "./lib/theme/theme-provider.tsx";
-export { useTheme, useThemeFamily } from "./lib/theme/use-theme.ts";
+export { Separator } from "./components/separator/index";
+export type { SeparatorProps } from "./components/separator/index";
+
+export { cn } from "./lib/cn";
+export { ThemeProvider } from "./lib/theme/theme-provider";
+export type { ThemeProviderProps } from "./lib/theme/theme-provider";
+export { useTheme, useThemeFamily } from "./lib/theme/use-theme";
 export type {
   ResolvedThemeMode,
   SetTheme,
@@ -423,4 +426,4 @@ export type {
   Theme,
   ThemeMode,
   ThemeState,
-} from "./lib/theme/theme-context.ts";
+} from "./lib/theme/theme-context";

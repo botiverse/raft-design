@@ -72,6 +72,7 @@ import {
   PopoverTrigger,
   RadioGroup,
   RadioGroupItem,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -153,6 +154,7 @@ type ComponentRoute =
   | "/components/tooltip"
   | "/components/status"
   | "/components/spinner"
+  | "/components/separator"
   | "/components/tabs"
   | "/components/text"
   | "/components/banner"
@@ -565,6 +567,28 @@ const COMPONENT_GRID = [
           <Spinner data-icon="inline-start" />
           Syncing
         </Badge>
+      </div>
+    ),
+  },
+  {
+    label: "Separator",
+    to: "/components/separator",
+    preview: (
+      <div className="grid w-64 gap-5">
+        <div className="grid gap-3">
+          <Text.Sans size="small" className="font-medium">
+            Channel details
+          </Text.Sans>
+          <Separator />
+          <Text.Sans size="small" variant="muted">
+            Shared dividers for panels, menus, and form breaks.
+          </Text.Sans>
+        </div>
+        <div className="flex h-14 items-stretch justify-center gap-5">
+          <Separator orientation="vertical" />
+          <Separator orientation="vertical" />
+          <Separator orientation="vertical" />
+        </div>
       </div>
     ),
   },

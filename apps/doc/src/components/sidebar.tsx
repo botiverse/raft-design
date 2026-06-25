@@ -294,14 +294,9 @@ const NAV = [
         to: "/components/section-header",
         progress: { theme: "todo" },
       },
+      { label: "Separator", to: "/components/separator", progress: { theme: "done" } },
     ],
     planned: [
-      {
-        label: "Separator",
-        priority: "P1",
-        docsHref: "https://base-ui.com/react/components/separator",
-        reason: "Centralize menu, list, and dialog dividers instead of border literals.",
-      },
       {
         label: "Collapsible",
         priority: "P2",

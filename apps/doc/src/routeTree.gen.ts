@@ -29,6 +29,7 @@ import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
+import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSectionLabelRouteImport } from './routes/components/section-label'
@@ -51,6 +52,7 @@ import { Route as ComponentsInlineCodeRouteImport } from './routes/components/in
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
+import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
@@ -182,6 +184,11 @@ const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   path: '/spinner',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
+  id: '/separator',
+  path: '/separator',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
   id: '/select',
   path: '/select',
@@ -294,6 +301,11 @@ const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
 const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
   id: '/dropdown-menu',
   path: '/dropdown-menu',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
+  id: '/dialog',
+  path: '/dialog',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsDescriptionListRoute =
@@ -470,6 +482,7 @@ export interface FileRoutesByFullPath {
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
+  '/components/dialog': typeof ComponentsDialogRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
@@ -492,6 +505,7 @@ export interface FileRoutesByFullPath {
   '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
+  '/components/separator': typeof ComponentsSeparatorRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -543,6 +557,7 @@ export interface FileRoutesByTo {
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
+  '/components/dialog': typeof ComponentsDialogRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
@@ -565,6 +580,7 @@ export interface FileRoutesByTo {
   '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
+  '/components/separator': typeof ComponentsSeparatorRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -618,6 +634,7 @@ export interface FileRoutesById {
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
+  '/components/dialog': typeof ComponentsDialogRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
@@ -640,6 +657,7 @@ export interface FileRoutesById {
   '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
+  '/components/separator': typeof ComponentsSeparatorRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -694,6 +712,7 @@ export interface FileRouteTypes {
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/description-list'
+    | '/components/dialog'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
@@ -716,6 +735,7 @@ export interface FileRouteTypes {
     | '/components/section-label'
     | '/components/segmented-control'
     | '/components/select'
+    | '/components/separator'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -767,6 +787,7 @@ export interface FileRouteTypes {
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/description-list'
+    | '/components/dialog'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
@@ -789,6 +810,7 @@ export interface FileRouteTypes {
     | '/components/section-label'
     | '/components/segmented-control'
     | '/components/select'
+    | '/components/separator'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -841,6 +863,7 @@ export interface FileRouteTypes {
     | '/components/context-menu'
     | '/components/conversation-preview-card'
     | '/components/description-list'
+    | '/components/dialog'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
@@ -863,6 +886,7 @@ export interface FileRouteTypes {
     | '/components/section-label'
     | '/components/segmented-control'
     | '/components/select'
+    | '/components/separator'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -1054,6 +1078,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/separator': {
+      id: '/components/separator'
+      path: '/separator'
+      fullPath: '/components/separator'
+      preLoaderRoute: typeof ComponentsSeparatorRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/select': {
       id: '/components/select'
       path: '/select'
@@ -1206,6 +1237,13 @@ declare module '@tanstack/react-router' {
       path: '/dropdown-menu'
       fullPath: '/components/dropdown-menu'
       preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/dialog': {
+      id: '/components/dialog'
+      path: '/dialog'
+      fullPath: '/components/dialog'
+      preLoaderRoute: typeof ComponentsDialogRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/description-list': {
@@ -1433,6 +1471,7 @@ interface ComponentsRouteChildren {
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
+  ComponentsDialogRoute: typeof ComponentsDialogRoute
   ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
@@ -1455,6 +1494,7 @@ interface ComponentsRouteChildren {
   ComponentsSectionLabelRoute: typeof ComponentsSectionLabelRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
+  ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
@@ -1491,6 +1531,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
+  ComponentsDialogRoute: ComponentsDialogRoute,
   ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
@@ -1513,6 +1554,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSectionLabelRoute: ComponentsSectionLabelRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
+  ComponentsSeparatorRoute: ComponentsSeparatorRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
