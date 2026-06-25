@@ -22,14 +22,13 @@ const INSTALLATION_PROMPT = `Add raft-ui to this React app.
 
 Tasks:
 1. Run: pnpm add raft-ui
-2. Import raft-ui/styles.css once from the global CSS file or root entry.
+2. Import tailwindcss and raft-ui/styles.css once from the global CSS file.
 3. Put the app inside an isolated layout root so body portals stack above app content.
 4. Wrap the app root with ThemeProvider.
 5. Add TooltipProvider when the app uses Tooltip.
 6. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
 
 Minimal setup:
-import "raft-ui/styles.css";
 import { ThemeProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
@@ -67,9 +66,9 @@ export function App() {
   portalRootCss: `.root {
   isolation: isolate;
 }`,
-  appShell: `import "raft-ui/styles.css";
-
-import { ThemeProvider, TooltipProvider } from "raft-ui";
+  globalCss: `@import "tailwindcss";
+@import "raft-ui/styles.css";`,
+  appShell: `import { ThemeProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
   return (
@@ -171,9 +170,14 @@ function InstallationDoc() {
                 Import the stylesheet.
               </span>
               <p>
-                Load <InlineCode>raft-ui/styles.css</InlineCode> once from your global stylesheet or
-                root entry.
+                Load Tailwind and <InlineCode>raft-ui/styles.css</InlineCode> once from your global
+                stylesheet.
               </p>
+              <CodeSnippet
+                path="src/styles.css"
+                source={SNIPPETS.globalCss}
+                html={code.globalCss}
+              />
             </li>
             <li className="space-y-3">
               <span className="block font-medium text-foreground-strong">Wrap the app.</span>

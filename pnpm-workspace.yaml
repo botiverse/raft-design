@@ -7,8 +7,6 @@ catalogMode: prefer
 
 catalog:
   "@types/node": ^26.0.0
-  "@fontsource-variable/geist-mono": ^5.2.8
-  "@fontsource-variable/space-grotesk": ^5.2.10
   typescript: ^6.0.3
   vite: npm:@voidzero-dev/vite-plus-core@0.2.1
   vitest: npm:@voidzero-dev/vite-plus-test@0.1.24

@@ -1,6 +1,7 @@
+@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap");
 
-/* Pulls in Tailwind + the raft-ui semantic theme tokens (single Tailwind entry). */
+/* Pulls in the raft-ui semantic theme tokens and package source hint. */
 @import "raft-ui/styles.css";
 @import "../../../packages/ui/src/legacy/source.css";
 

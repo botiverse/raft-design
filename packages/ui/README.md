@@ -6,7 +6,11 @@ React UI components for rui, styled with Tailwind CSS v4.
 
 ```tsx
 import { Button } from "raft-ui";
-import "raft-ui/styles.css";
+```
+
+```css
+@import "tailwindcss";
+@import "raft-ui/styles.css";
 ```
 
 ## Development

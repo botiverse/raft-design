@@ -1,5 +1,4 @@
-@import "tailwindcss";
-@import "./fonts/brutal.css";
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300..700&family=Hanken+Grotesk:wght@300..700&display=swap");
 
 /* Pure token contract. No legacy action/surface/destructive/component aliases. */
 
@@ -303,9 +302,9 @@
   --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
 
-  --heading-font: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
-  --sans-font: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
-  --mono-font: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
+  --heading-font: "Hanken Grotesk", system-ui, sans-serif;
+  --sans-font: "Hanken Grotesk", system-ui, sans-serif;
+  --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
 [data-theme="elegant"] {
@@ -408,7 +407,7 @@
 
   --heading-font: "Inter", system-ui, sans-serif;
   --sans-font: "Geist", system-ui, sans-serif;
-  --mono-font: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
+  --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -19,13 +19,13 @@ const FAMILIES = [
     theme: "Brutal",
     themeId: "brutal",
     status: undefined,
-    heading: "Space Grotesk",
-    sans: "Space Grotesk",
+    heading: "Hanken Grotesk",
+    sans: "Hanken Grotesk",
     mono: "Geist Mono",
     samples: [
       {
         title: "Heading",
-        family: "Space Grotesk",
+        family: "Hanken Grotesk",
         utility: "font-heading",
         px: "24px",
         className:
@@ -34,7 +34,7 @@ const FAMILIES = [
       },
       {
         title: "Sans",
-        family: "Space Grotesk",
+        family: "Hanken Grotesk",
         utility: "font-sans",
         px: "14px",
         className: "font-sans text-sm leading-5 text-[var(--foreground-muted)]",
@@ -193,7 +193,7 @@ const THEME_TYPOGRAPHY = {
     body: [
       {
         title: "Large",
-        family: "Space Grotesk",
+        family: "Hanken Grotesk",
         utility: "font-sans text-lg",
         size: "1.125rem",
         px: "18px",
@@ -205,7 +205,7 @@ const THEME_TYPOGRAPHY = {
       },
       {
         title: "Body",
-        family: "Space Grotesk",
+        family: "Hanken Grotesk",
         utility: "font-sans text-base",
         size: "1rem",
         px: "16px",
@@ -217,7 +217,7 @@ const THEME_TYPOGRAPHY = {
       },
       {
         title: "Small",
-        family: "Space Grotesk",
+        family: "Hanken Grotesk",
         utility: "font-sans text-sm",
         size: "0.875rem",
         px: "14px",
@@ -229,7 +229,7 @@ const THEME_TYPOGRAPHY = {
       },
       {
         title: "Caption",
-        family: "Space Grotesk",
+        family: "Hanken Grotesk",
         utility: "font-sans text-xs",
         size: "0.75rem",
         px: "12px",
