@@ -20,7 +20,7 @@ import {
   SegmentedControlLabel,
   Textarea,
 } from "raft-ui";
-import { Check, Hash, Lock, Search, X } from "lucide-react";
+import { Check, Hash, Lock, Search } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -41,11 +41,9 @@ const members = [
 function CreateChannelDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <DialogTitle>Create Channel</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Banner status="warning" size="sm">

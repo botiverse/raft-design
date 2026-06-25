@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Banner, BannerDescription, Button, RadioGroup, RadioGroupItem, Text } from "raft-ui";
-import { RotateCcw, X } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -35,11 +35,9 @@ const resetOptions = [
 function ResetAgentDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <DialogTitle>Restart Atlas</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <RadioGroup defaultValue="soft" ariaLabel="Restart mode" className="grid gap-3">

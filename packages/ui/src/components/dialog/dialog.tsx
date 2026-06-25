@@ -1,8 +1,11 @@
+import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type { ComponentPropsWithRef } from "react";
+import { X } from "lucide-react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button, type ButtonProps } from "../button/index";
 
 const dialog = tv({
   slots: {
@@ -17,7 +20,7 @@ const dialog = tv({
       "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
     ],
-    header: ["flex min-w-0 flex-col gap-1"],
+    header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
     body: ["min-w-0"],
     footer: ["flex items-center justify-end gap-3"],
     title: ["m-0 min-w-0 text-foreground-strong"],
@@ -27,14 +30,18 @@ const dialog = tv({
     theme: {
       brutal: {
         overlay: ["bg-black/60"],
-        content: ["gap-4 border-2 border-line-strong bg-layer-panel p-6 shadow-xl"],
+        content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-xl"],
+        body: ["py-2 font-medium"],
         title: ["font-heading text-lg leading-none font-bold uppercase"],
         description: ["font-sans text-sm leading-5 text-foreground/60"],
       },
       elegant: {
         overlay: ["bg-black/20"],
-        content: ["gap-5 rounded-lg bg-layer-popover p-5 shadow-xl"],
-        title: ["font-sans text-base leading-5 font-medium tracking-[-0.005em]"],
+        content: ["overflow-clip rounded-lg bg-layer-popover shadow-xl"],
+        header: ["border-b border-line-subtle bg-black/[0.02] px-6 py-2"],
+        body: ["px-6 py-5"],
+        footer: ["border-t border-line-subtle bg-black/[0.015] px-6 py-3"],
+        title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
         description: [
           "font-sans text-sm leading-5 text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",
         ],
@@ -96,10 +103,51 @@ export function DialogContent({
   );
 }
 
-export type DialogCloseProps = BaseDialog.Close.Props;
+export type DialogCloseProps = BaseDialog.Close.Props &
+  Pick<ButtonProps, "variant" | "size"> & {
+    className?: string;
+    children?: ReactNode;
+  };
 
-export function DialogClose(props: DialogCloseProps) {
-  return <BaseDialog.Close data-slot="dialog-close" {...props} />;
+export function DialogClose({
+  className,
+  variant,
+  size,
+  children,
+  render,
+  ...props
+}: DialogCloseProps) {
+  const theme = useThemeFamily();
+  const isBrutal = theme === "brutal";
+
+  if (render) {
+    return (
+      <BaseDialog.Close data-slot="dialog-close" render={render} {...props}>
+        {children}
+      </BaseDialog.Close>
+    );
+  }
+
+  return (
+    <BaseDialog.Close
+      data-slot="dialog-close"
+      render={
+        <Button
+          variant={variant ?? (isBrutal ? "outline" : "ghost")}
+          size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
+          aria-label="Close"
+          className={
+            isBrutal
+              ? className
+              : cn("text-foreground-placeholder hover:text-foreground", className)
+          }
+        />
+      }
+      {...props}
+    >
+      {children ?? <X className={isBrutal ? "size-5" : "size-4"} />}
+    </BaseDialog.Close>
+  );
 }
 
 export type DialogHeaderProps = ComponentPropsWithRef<"div">;

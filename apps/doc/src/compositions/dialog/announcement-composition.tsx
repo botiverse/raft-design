@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Button, Status } from "raft-ui";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -22,11 +22,9 @@ const PREVIEW_CONTENT_CLASS =
 function AnnouncementDialogParts() {
   return (
     <>
-      <DialogHeader className="flex-row items-start justify-between gap-3 border-b-2 border-line-strong bg-primary-400 px-5 py-3">
+      <DialogHeader className="border-b-2 border-line-strong bg-primary-400 px-5 py-3">
         <DialogTitle>Workspace Update</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid max-h-[18rem] gap-3 overflow-y-auto px-6 py-5 text-sm leading-6">
         <h3 className="m-0 text-base font-bold uppercase text-foreground-strong">

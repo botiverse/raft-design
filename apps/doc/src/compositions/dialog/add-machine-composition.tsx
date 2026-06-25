@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Banner, BannerDescription, Button } from "raft-ui";
-import { Copy, Terminal, X } from "lucide-react";
+import { Copy, Terminal } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -22,11 +22,9 @@ const PREVIEW_CONTENT_CLASS =
 function AddMachineDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <DialogTitle>Connect Computer</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground-strong">

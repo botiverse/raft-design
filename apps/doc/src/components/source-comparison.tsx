@@ -14,7 +14,7 @@ import {
   type BadgeProps,
   type Theme,
 } from "raft-ui";
-import { CircleAlert, CircleCheck, Search, Star } from "lucide-react";
+import { Circle, CircleAlert, CircleCheck, Search, Star } from "lucide-react";
 import { CodeBlock } from "./code-block.tsx";
 import { DocsCodeBlock } from "./docs-code-block.tsx";
 import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
@@ -47,7 +47,7 @@ type SourceComparisonItem = {
   compositionPath?: string;
   compositionSource?: string;
   compositionShowLineNumbers?: boolean;
-  status?: "match" | "difference" | "review" | "new";
+  status?: "match" | "difference" | "review" | "new" | "todo";
   note?: ReactNode;
   sourceScenes?: readonly SourceSceneGroup[];
 };
@@ -72,6 +72,7 @@ const STATUS = {
   difference: "Intentional difference",
   review: "Review",
   new: "New",
+  todo: "Todo",
 } as const;
 
 const STATUS_VARIANT = {
@@ -79,6 +80,7 @@ const STATUS_VARIANT = {
   difference: "information",
   review: "primary",
   new: "accent",
+  todo: "muted",
 } as const;
 
 const STATUS_ICON = {
@@ -86,6 +88,7 @@ const STATUS_ICON = {
   difference: CircleAlert,
   review: Search,
   new: Star,
+  todo: Circle,
 } as const;
 
 const frameClass = "overflow-clip bg-[oklch(0.991_0_0)] shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";

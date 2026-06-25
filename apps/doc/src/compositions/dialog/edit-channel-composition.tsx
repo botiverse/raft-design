@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Button, Field, FieldDescription, FieldLabel, Input, Separator, Textarea } from "raft-ui";
-import { EyeOff, X } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -22,11 +22,9 @@ const PREVIEW_CONTENT_CLASS =
 function EditChannelDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <DialogTitle>Edit Channel</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
@@ -46,18 +44,22 @@ function EditChannelDialogParts() {
             className="min-h-20"
           />
         </Field>
+        <div className="grid gap-3 pb-3">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 py-3">
+            <Separator />
+            <span className="font-mono text-xs font-medium text-foreground-muted">Actions</span>
+            <Separator />
+          </div>
+          <Button variant="warning" className="w-full">
+            <EyeOff />
+            Hide #all
+          </Button>
+        </div>
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
         <Button variant="accent">Save Changes</Button>
       </DialogFooter>
-      <div className="grid gap-5">
-        <Separator />
-        <Button variant="warning" className="w-full">
-          <EyeOff />
-          Hide #all
-        </Button>
-      </div>
     </>
   );
 }

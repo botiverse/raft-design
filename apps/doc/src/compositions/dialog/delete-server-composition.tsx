@@ -7,7 +7,6 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Banner, BannerDescription, Button, Field, FieldLabel, InlineCode, Input } from "raft-ui";
-import { X } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -22,11 +21,9 @@ const PREVIEW_CONTENT_CLASS =
 function DeleteServerDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <DialogTitle>Delete Server</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Banner status="destructive" size="md">

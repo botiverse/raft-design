@@ -6,52 +6,88 @@ import {
   DialogHeader,
   DialogTitle,
 } from "raft-ui/wip";
-import { Button, Field, FieldDescription, FieldLabel, InlineCode, Input } from "raft-ui";
-import { Copy, Mail, X } from "lucide-react";
+import { cn } from "raft-ui/cn";
+import {
+  Button,
+  Field,
+  FieldDescription,
+  FieldLabel,
+  InlineCode,
+  Input,
+  Separator,
+  useThemeFamily,
+} from "raft-ui";
+import { Copy, Link2, Mail, Plus } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
 import { Dialog } from "raft-ui/wip";
+import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 const PREVIEW_CONTENT_CLASS =
-  "!relative !top-auto !left-auto !z-0 !max-w-sm !translate-x-0 !translate-y-0 !p-6";
+  "!relative !top-auto !left-auto !z-0 !w-full !max-w-[calc(24rem+48px)] !translate-x-0 !translate-y-0";
 // @docs-source-strip-end
+
+function JoinLinkCode() {
+  const theme = useThemeFamily();
+
+  return (
+    <InlineCode
+      className={cn(
+        "w-0 min-w-full truncate px-3 py-2 text-foreground-strong",
+        theme === "brutal"
+          ? "rounded-none border-2 border-line-strong bg-layer-panel shadow-sm"
+          : "rounded bg-layer-muted shadow-none",
+      )}
+    >
+      http://localhost:5173/join/slk_invite_8k2
+    </InlineCode>
+  );
+}
 
 function InviteHumanDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <DialogTitle>Invite Human</DialogTitle>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
           <FieldLabel>Join link</FieldLabel>
           <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-            <InlineCode className="w-0 min-w-full truncate py-2">
-              http://localhost:5173/join/slk_invite_8k2
-            </InlineCode>
+            <JoinLinkCode />
             <Button
               type="button"
-              variant="default"
-              size="icon-sm"
+              variant="ghost"
+              size="icon-md"
               aria-label="Copy join link"
-              className="shrink-0"
+              className="self-stretch shrink-0"
             >
               <Copy />
             </Button>
           </div>
-          <FieldDescription>Anyone with this link can join this server.</FieldDescription>
+          <FieldDescription className="inline-flex items-center gap-1">
+            <Link2 className="size-3" />
+            Anyone with this link can join this server.
+          </FieldDescription>
         </Field>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 py-3">
+          <Separator />
+          <span className="font-mono text-xs font-medium text-foreground-muted">OR</span>
+          <Separator />
+        </div>
         <Field>
           <FieldLabel htmlFor="dialog-invite-email-1">Emails</FieldLabel>
           <div className="grid gap-2">
             <Input id="dialog-invite-email-1" type="email" placeholder="teammate@example.com" />
             <Input type="email" placeholder="optional" />
             <Input type="email" placeholder="optional" />
+            <Button type="button" variant="outline" className="w-full">
+              <Plus />
+              Invite more
+            </Button>
           </div>
         </Field>
       </DialogBody>
@@ -68,7 +104,7 @@ function InviteHumanDialogParts() {
 
 export function InviteHumanDialogContent() {
   return (
-    <DialogContent className="max-w-sm">
+    <DialogContent className="max-w-[calc(24rem+48px)]">
       <InviteHumanDialogParts />
     </DialogContent>
   );
@@ -79,15 +115,8 @@ export function InviteHumanDialogComposition({ className }: { className?: string
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      className={[
-        "flex h-full min-h-28 w-full min-w-0 items-center justify-center px-3 py-4",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
-      <div ref={portalRef} className="relative flex min-w-0 w-full max-w-sm justify-center">
+    <SourceComparisonPreview className={className}>
+      <div ref={portalRef} className="relative min-w-0 w-full max-w-[calc(24rem+48px)]">
         <Dialog open modal={false}>
           <DialogContent
             overlay={false}
@@ -95,13 +124,12 @@ export function InviteHumanDialogComposition({ className }: { className?: string
             finalFocus={false}
             portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
             className={PREVIEW_CONTENT_CLASS}
-            style={{ width: "384px" }}
           >
             <InviteHumanDialogParts />
           </DialogContent>
         </Dialog>
       </div>
-    </div>
+    </SourceComparisonPreview>
   );
 }
 // @docs-source-strip-end

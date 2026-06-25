@@ -14,6 +14,7 @@ import {
 import { Button, Field, FieldDescription, FieldLabel, Input, Text, Textarea } from "raft-ui";
 import {
   AlertTriangle,
+  Archive,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -27,6 +28,7 @@ import {
   RotateCcw,
   Search,
   Terminal,
+  Trash2,
   X,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
@@ -55,6 +57,8 @@ import createChannelCompositionSource from "#/compositions/dialog/create-channel
 import { CreateChannelDialogComposition } from "#/compositions/dialog/create-channel-composition.tsx";
 import editChannelCompositionSource from "#/compositions/dialog/edit-channel-composition.tsx?raw";
 import { EditChannelDialogComposition } from "#/compositions/dialog/edit-channel-composition.tsx";
+import editChannelManagementCompositionSource from "#/compositions/dialog/edit-channel-management-composition.tsx?raw";
+import { EditChannelManagementDialogComposition } from "#/compositions/dialog/edit-channel-management-composition.tsx";
 import inviteHumanCompositionSource from "#/compositions/dialog/invite-human-composition.tsx?raw";
 import { InviteHumanDialogComposition } from "#/compositions/dialog/invite-human-composition.tsx";
 import onboardingCompositionSource from "#/compositions/dialog/onboarding-composition.tsx?raw";
@@ -72,6 +76,7 @@ const TOC = [
     title: "Source comparison",
     children: [
       { id: "source-comparison-edit-channel", title: "Edit channel" },
+      { id: "source-comparison-edit-channel-management", title: "Edit channel actions" },
       { id: "source-comparison-invite-human", title: "Invite human" },
       { id: "source-comparison-create-channel", title: "Create channel" },
       { id: "source-comparison-create-agent", title: "Create agent" },
@@ -102,25 +107,20 @@ const SNIPPETS = {
   Input,
   Textarea,
 } from "raft-ui";
-import { X } from "lucide-react";
 
 <Dialog>
   <DialogTrigger render={<Button variant="primary" />}>
     Edit channel
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader className="flex-row items-start justify-between gap-3">
-      <div className="grid gap-1">
-        <DialogTitle>Edit Channel</DialogTitle>
-        <DialogDescription>
-          Update the channel name and short description.
-        </DialogDescription>
-      </div>
-      <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-        <X />
-      </DialogClose>
+    <DialogHeader>
+      <DialogTitle>Edit Channel</DialogTitle>
+      <DialogClose />
     </DialogHeader>
     <DialogBody className="grid gap-4">
+      <DialogDescription className="pb-1">
+        Update the channel name and short description.
+      </DialogDescription>
       <Field>
         <FieldLabel htmlFor="channel-name">Name</FieldLabel>
         <Input id="channel-name" defaultValue="design-system" />
@@ -141,8 +141,11 @@ import { X } from "lucide-react";
   <DialogTrigger />
   <DialogContent>
     <DialogHeader>
-      <DialogTitle />
-      <DialogDescription />
+      <div>
+        <DialogTitle />
+        <DialogDescription />
+      </div>
+      <DialogClose />
     </DialogHeader>
     <DialogBody />
     <DialogFooter>
@@ -176,7 +179,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "DialogHeader / DialogBody / DialogFooter",
     type: "div props",
-    description: "Layout slots for title rows, form/content body, and actions.",
+    description:
+      "Header defaults to title/action columns. Footer defaults to an aligned action row.",
   },
   {
     name: "DialogTitle / DialogDescription",
@@ -185,13 +189,15 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "DialogClose",
-    type: "Base UI Dialog.Close.Props",
-    description: "Closes the dialog. Compose buttons or icon actions with render.",
+    type: "Base UI Dialog.Close.Props + Button variant/size",
+    description:
+      "Closes the dialog. Defaults to a themed icon button; pass render for footer actions.",
   },
 ];
 
 const DIALOG_COMPOSITION_RAW_SOURCES = {
   EditChannel: editChannelCompositionSource,
+  EditChannelManagement: editChannelManagementCompositionSource,
   InviteHuman: inviteHumanCompositionSource,
   CreateChannel: createChannelCompositionSource,
   CreateAgent: createAgentCompositionSource,
@@ -206,6 +212,7 @@ const DIALOG_COMPOSITION_SOURCES = createCompositionSourceMap(DIALOG_COMPOSITION
 
 const DIALOG_COMPOSITION_SNIPPET_IDS = {
   EditChannel: "dialogEditChannelComposition",
+  EditChannelManagement: "dialogEditChannelManagementComposition",
   InviteHuman: "dialogInviteHumanComposition",
   CreateChannel: "dialogCreateChannelComposition",
   CreateAgent: "dialogCreateAgentComposition",
@@ -218,6 +225,7 @@ const DIALOG_COMPOSITION_SNIPPET_IDS = {
 
 const DIALOG_COMPOSITION_PATHS = {
   EditChannel: "apps/doc/src/compositions/dialog/edit-channel-composition.tsx",
+  EditChannelManagement: "apps/doc/src/compositions/dialog/edit-channel-management-composition.tsx",
   InviteHuman: "apps/doc/src/compositions/dialog/invite-human-composition.tsx",
   CreateChannel: "apps/doc/src/compositions/dialog/create-channel-composition.tsx",
   CreateAgent: "apps/doc/src/compositions/dialog/create-agent-composition.tsx",
@@ -445,11 +453,56 @@ function SourceEditChannel() {
   );
 }
 
+function SourceEditChannelManagement() {
+  return (
+    <div className="min-w-0 w-full max-w-full max-w-md border-2 border-black bg-white p-6 font-sans text-black shadow-[6px_6px_0_#000]">
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <h3 className="m-0 text-lg font-bold uppercase leading-none">Edit Channel</h3>
+        <button
+          type="button"
+          className="border-2 border-black bg-white p-1 shadow-[2px_2px_0_#000]"
+        >
+          <X className="size-5" />
+        </button>
+      </div>
+
+      <div className="grid gap-4">
+        <SourceField label="Name" required>
+          <SourceInput value="onboarding-willxiang" />
+        </SourceField>
+        <SourceField label="Description" optional>
+          <SourceTextarea value="Owner onboarding workspace (system-managed)." />
+        </SourceField>
+        <div className="flex justify-end gap-3">
+          <SourceButton>Cancel</SourceButton>
+          <SourceButton tone="pink">Save Changes</SourceButton>
+        </div>
+        <div className="border-t-2 border-black pt-5">
+          <div className="grid gap-3">
+            <SourceButton tone="orange" className="w-full">
+              <Lock className="size-4" />
+              Make Private
+            </SourceButton>
+            <SourceButton tone="orange" className="w-full">
+              <Archive className="size-4" />
+              Archive Channel
+            </SourceButton>
+            <SourceButton tone="red" className="w-full">
+              <Trash2 className="size-4" />
+              Delete Channel
+            </SourceButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SourceInviteHuman() {
   return (
     <SourceModalCard
       title="Invite Human"
-      className="max-w-sm"
+      className="max-w-[calc(24rem+48px)]"
       footer={
         <>
           <SourceButton>Cancel</SourceButton>
@@ -886,20 +939,14 @@ function DialogDoc() {
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>
             <DialogContent>
-              <DialogHeader className="flex-row items-start justify-between gap-3">
-                <div className="grid gap-1">
-                  <DialogTitle>Edit Channel</DialogTitle>
-                  <DialogDescription>
-                    Update the channel name and short description.
-                  </DialogDescription>
-                </div>
-                <DialogClose
-                  render={<Button variant="outline" size="icon-sm" aria-label="Close" />}
-                >
-                  <X />
-                </DialogClose>
+              <DialogHeader>
+                <DialogTitle>Edit Channel</DialogTitle>
+                <DialogClose />
               </DialogHeader>
               <DialogBody className="grid gap-4">
+                <DialogDescription className="pb-1">
+                  Update the channel name and short description.
+                </DialogDescription>
                 <Field>
                   <FieldLabel htmlFor="channel-name">Name</FieldLabel>
                   <Input id="channel-name" defaultValue="design-system" />
@@ -955,7 +1002,8 @@ function DialogDoc() {
             {
               id: "source-comparison-edit-channel",
               label: "Edit channel",
-              note: "Source opened a centered Modal from the channel header. Current keeps the same form shape and header action.",
+              status: "difference",
+              note: "Remaining differences: actions are grouped inside DialogBody; current uses Dialog default chrome and themed Button variants instead of exact source post-footer action styling.",
               source: <SourceEditChannel />,
               brutal: <EditChannelDialogComposition />,
               elegant: <EditChannelDialogComposition />,
@@ -978,9 +1026,32 @@ function DialogDoc() {
               ...compositionPanelProps(code, "EditChannel"),
             },
             {
+              id: "source-comparison-edit-channel-management",
+              label: "Edit channel actions",
+              status: "difference",
+              note: "Remaining differences: management actions are grouped inside DialogBody with an Actions separator; source places them below the save footer and uses exact brutal utility colors.",
+              source: <SourceEditChannelManagement />,
+              brutal: <EditChannelManagementDialogComposition />,
+              elegant: <EditChannelManagementDialogComposition />,
+              elegantDark: <EditChannelManagementDialogComposition />,
+              sourceScenes: [
+                {
+                  label: "Channel management actions",
+                  scenes: [
+                    {
+                      label: "EditChannelDialog.tsx:210,266",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:210,266",
+                    },
+                  ],
+                },
+              ],
+              ...compositionPanelProps(code, "EditChannelManagement"),
+            },
+            {
               id: "source-comparison-invite-human",
               label: "Invite human",
-              note: "Source uses Modal for join-link copy plus fixed email rows. Current keeps that mixed copy/input form shape.",
+              status: "difference",
+              note: "Remaining differences: current adds an or separator and Invite more action; elegant uses a token gray URL container while source keeps fixed email rows and source-styled URL input.",
               source: <SourceInviteHuman />,
               brutal: <InviteHumanDialogComposition />,
               elegant: <InviteHumanDialogComposition />,
@@ -1005,6 +1076,7 @@ function DialogDoc() {
             {
               id: "source-comparison-create-channel",
               label: "Create channel",
+              status: "todo",
               note: "Source Modal hosts dense channel forms with visibility toggles, member search, selectable rows, and archive warnings.",
               source: <SourceCreateChannel />,
               brutal: <CreateChannelDialogComposition />,
@@ -1038,6 +1110,7 @@ function DialogDoc() {
             {
               id: "source-comparison-create-agent",
               label: "Create agent",
+              status: "todo",
               note: "Source used Modal for a dense creation form with a warning/info panel and footer actions.",
               source: <SourceCreateAgent />,
               brutal: <CreateAgentDialogComposition />,
@@ -1071,6 +1144,7 @@ function DialogDoc() {
             {
               id: "source-comparison-add-machine",
               label: "Add computer",
+              status: "todo",
               note: "Source used Modal for a setup step with command copy affordances and connection state.",
               source: <SourceAddMachine />,
               brutal: <AddMachineDialogComposition />,
@@ -1096,6 +1170,7 @@ function DialogDoc() {
             {
               id: "source-comparison-reset-agent",
               label: "Reset agent",
+              status: "todo",
               note: "Source Modal uses selectable reset rows and a stronger warning once full reset is chosen.",
               source: <SourceResetAgent />,
               brutal: <ResetAgentDialogComposition />,
@@ -1125,6 +1200,7 @@ function DialogDoc() {
             {
               id: "source-comparison-agreement",
               label: "Agreement",
+              status: "todo",
               note: "Source agreement dialog combines a header, scrollable markdown body, warning state, and compact footer buttons.",
               source: <SourceAgreement />,
               brutal: <AgreementDialogComposition />,
@@ -1146,6 +1222,7 @@ function DialogDoc() {
             {
               id: "source-comparison-onboarding",
               label: "Onboarding step",
+              status: "todo",
               note: "Source onboarding modal has eyebrow, title, optional icon intro, error/banner, content, and caller-supplied footer.",
               source: <SourceOnboarding />,
               brutal: <OnboardingDialogComposition />,
@@ -1167,6 +1244,7 @@ function DialogDoc() {
             {
               id: "source-comparison-announcement",
               label: "Announcement",
+              status: "todo",
               note: "Source announcement modal has a colored header, markdown body, page indicator, and Back / Next footer.",
               source: <SourceAnnouncement />,
               brutal: <AnnouncementDialogComposition />,

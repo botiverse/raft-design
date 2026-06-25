@@ -15,7 +15,7 @@ const PREVIEW_CONTENT_CLASS =
 function OnboardingDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <div className="grid gap-1">
           <Text.Mono size="meta" className="uppercase text-foreground-muted">
             Meet Slock

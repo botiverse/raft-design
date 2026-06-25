@@ -7,7 +7,6 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Banner, BannerDescription, Button, Text } from "raft-ui";
-import { X } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -22,16 +21,14 @@ const PREVIEW_CONTENT_CLASS =
 function AgreementDialogParts() {
   return (
     <>
-      <DialogHeader className="mb-1 flex-row items-start justify-between gap-3">
+      <DialogHeader>
         <div className="grid gap-1">
           <DialogTitle>Community Guidelines</DialogTitle>
           <Text.Sans size="caption" variant="placeholder">
             Version 2026.06
           </Text.Sans>
         </div>
-        <DialogClose render={<Button variant="outline" size="icon-sm" aria-label="Close" />}>
-          <X />
-        </DialogClose>
+        <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <div className="max-h-56 overflow-y-auto border border-line-subtle bg-layer-panel p-4 text-sm leading-6">
