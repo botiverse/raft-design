@@ -28,7 +28,7 @@ const dropdownMenu = tv({
     ],
     label: [],
     shortcut: ["ml-auto"],
-    itemCount: ["ml-auto tabular-nums"],
+    itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
     separator: ["border-t-2"],
     indicator: ["pointer-events-none ml-auto flex size-3 shrink-0 items-center justify-center"],
   },
@@ -63,7 +63,7 @@ const dropdownMenu = tv({
         ],
         shortcut: ["font-sans text-sm font-semibold leading-6"],
         itemCount: [
-          "rounded border border-black bg-brutal-pink px-1.5 py-0.5",
+          "rounded border border-black bg-brutal-pink px-1 py-0.5",
           "font-sans text-[10px] leading-none font-bold text-white",
         ],
         separator: ["border-black"],

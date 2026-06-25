@@ -1,5 +1,12 @@
 import { AlertTriangle } from "lucide-react";
-import { Button, PopoverHeader, PopoverPopup, PopoverSeparator, Status } from "raft-ui";
+import {
+  Button,
+  PopoverHeader,
+  PopoverPopup,
+  PopoverSeparator,
+  Status,
+  useThemeFamily,
+} from "raft-ui";
 
 const notifications = [
   {
@@ -17,12 +24,15 @@ const notifications = [
 ] as const;
 
 export function PopoverNotificationComposition() {
+  const theme = useThemeFamily();
+  const triggerVariant = theme === "brutal" ? "warning" : "outline";
+
   return (
     <div className="flex h-full min-h-72 w-full items-start justify-center pt-8">
       <div className="grid w-80 justify-items-start gap-2">
         <span className="relative inline-flex">
           <Button
-            variant="warning"
+            variant={triggerVariant}
             size="icon-md"
             aria-label="Notification center (2 active)"
             className="size-9"
