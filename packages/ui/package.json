@@ -9,6 +9,7 @@
     "directory": "packages/ui"
   },
   "files": [
+    "CHANGELOG.md",
     "dist",
     "src"
   ],

@@ -7,10 +7,14 @@
     "dev": "vp run doc#dev",
     "docs:build": "vp run doc#build",
     "docs:preview": "vp run doc#preview",
+    "release:ui": "bumpp",
     "ready": "vp check && vp run -r test && vp run -r build",
     "prepare": "vp config"
   },
   "devDependencies": {
+    "bumpp": "catalog:",
+    "conventional-changelog": "catalog:",
+    "conventional-changelog-conventionalcommits": "catalog:",
     "vite-plus": "catalog:"
   },
   "engines": {
