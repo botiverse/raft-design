@@ -3,6 +3,10 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
   Badge,
   InlineCode,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -109,6 +113,7 @@ function ComparisonPreview({
     tall: "min-h-56",
     popover: "min-h-80",
   }[previewSize];
+  const showWipBadge = family === "elegant" && mode === "dark";
 
   return (
     <div
@@ -121,8 +126,20 @@ function ComparisonPreview({
         className={`relative flex h-full min-h-0 w-full ${previewMinHeight} items-center justify-center bg-background px-5 py-6 text-foreground`}
       >
         {labelPlacement === "corner" ? (
-          <span className="pointer-events-none absolute top-4 left-4 font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
-            {label}
+          <span className="pointer-events-none absolute top-4 left-4 inline-flex items-center gap-1.5">
+            <span className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
+              {label}
+            </span>
+            {showWipBadge ? (
+              <Badge
+                appearance="soft"
+                variant="warning"
+                uppercase
+                className="h-4 px-1.5 text-[9px]"
+              >
+                WIP
+              </Badge>
+            ) : null}
           </span>
         ) : null}
         {children}
@@ -207,44 +224,48 @@ function getSceneCount(groups: readonly SourceSceneGroup[]) {
 
 function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[] }) {
   const sceneCount = getSceneCount(groups);
+  const triggerLabel = `${sceneCount} source ${sceneCount === 1 ? "ref" : "refs"}`;
 
   return (
     <TooltipProvider>
-      <div className="mt-3 w-full overflow-hidden bg-white shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]">
-        <div className="flex items-center justify-between gap-3 border-b border-[oklch(0_0_0_/_0.06)] bg-[oklch(0.988_0.002_286)] px-3 py-2.5">
-          <p className="font-mono text-xs leading-snug font-semibold text-foreground-muted uppercase">
-            Source refs
-          </p>
-          <span className="font-mono text-xs leading-snug font-semibold text-foreground-placeholder uppercase">
-            {sceneCount} {sceneCount === 1 ? "location" : "locations"}
-          </span>
-        </div>
-        <div className="grid gap-6 px-3 py-2.5">
-          {groups.map((group) => (
-            <div key={group.label} className="grid min-w-0 gap-2">
-              <span className="text-sm leading-5 font-medium text-foreground-muted">
-                {group.label}
-              </span>
-              <span className="flex min-w-0 flex-wrap items-center gap-1.5">
-                {group.scenes.map((scene) => (
-                  <Tooltip key={getScenePath(scene)}>
-                    <TooltipTrigger
-                      render={<span tabIndex={0} className="inline-flex select-none" />}
-                    >
-                      <InlineCode className="!text-[14px] leading-5">
-                        {getSceneLabel(scene)}
-                      </InlineCode>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-[36rem] font-mono">
-                      {getDisplayScenePath(scene)}
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Popover>
+        <PopoverTrigger
+          className="font-mono text-[11px] leading-none font-semibold text-foreground-placeholder uppercase hover:text-foreground-muted"
+          aria-label={triggerLabel}
+        >
+          {triggerLabel}
+        </PopoverTrigger>
+        <PopoverContent align="end" sideOffset={8} className="w-[min(34rem,calc(100vw-2rem))] p-0">
+          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_286)] px-3 py-2.5">
+            <p className="font-mono text-xs leading-snug font-semibold text-foreground-muted uppercase">
+              Source refs
+            </p>
+          </div>
+          <div className="grid gap-6 px-3 py-3">
+            {groups.map((group) => (
+              <div key={group.label} className="grid min-w-0 gap-2">
+                <span className="text-sm leading-5 font-medium text-foreground-muted">
+                  {group.label}
+                </span>
+                <span className="flex min-w-0 flex-wrap items-center gap-1.5">
+                  {group.scenes.map((scene) => (
+                    <Tooltip key={getScenePath(scene)}>
+                      <TooltipTrigger
+                        render={<span tabIndex={0} className="inline-flex select-none" />}
+                      >
+                        <InlineCode className="leading-5">{getSceneLabel(scene)}</InlineCode>
+                      </TooltipTrigger>
+                      <TooltipContent variant="inverse" className="max-w-[36rem] font-mono">
+                        {getDisplayScenePath(scene)}
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </span>
+              </div>
+            ))}
+          </div>
+        </PopoverContent>
+      </Popover>
     </TooltipProvider>
   );
 }
@@ -281,18 +302,27 @@ export function SourceComparison({
             data-source-comparison-status={status}
             className={`space-y-5${item.id ? " scroll-mt-8" : ""}`}
           >
-            <div className="flex flex-wrap items-center gap-2 px-1">
-              <h3 className="text-sm font-medium text-foreground-strong">{item.label}</h3>
-              <Badge appearance="soft" variant={STATUS_VARIANT[status] as BadgeProps["variant"]}>
-                <StatusIcon aria-hidden className="size-3" />
-                {STATUS[status]}
-              </Badge>
+            <div className="grid gap-2 px-1">
+              <div className="flex min-w-0 items-center justify-between gap-4">
+                <div className="flex min-w-0 items-center gap-2">
+                  <h3 className="truncate text-sm font-medium text-foreground-strong">
+                    {item.label}
+                  </h3>
+                  <Badge
+                    appearance="soft"
+                    variant={STATUS_VARIANT[status] as BadgeProps["variant"]}
+                  >
+                    <StatusIcon aria-hidden className="size-3" />
+                    {STATUS[status]}
+                  </Badge>
+                </div>
+                {itemSourceScenes ? <SourceSceneReferences groups={itemSourceScenes} /> : null}
+              </div>
               {item.note ? (
-                <p className="mt-2 w-full text-sm leading-relaxed text-foreground-muted">
+                <Text.Sans size="body" variant="placeholder">
                   {item.note}
-                </p>
+                </Text.Sans>
               ) : null}
-              {itemSourceScenes ? <SourceSceneReferences groups={itemSourceScenes} /> : null}
             </div>
             <div className="space-y-2">
               <div className="space-y-2">

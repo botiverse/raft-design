@@ -5,12 +5,12 @@ import {
   PopoverClose,
   PopoverContent,
   PopoverHeader,
-  PopoverPopup,
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
+  Status,
 } from "raft-ui";
-import { AtSign, Bell, CheckCircle2, Grid2X2, Info, Search, X } from "lucide-react";
+import { AlertTriangle, Grid2X2, Info, X } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
 
@@ -22,6 +22,10 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
+import popoverMentionCardCompositionSource from "#/compositions/popover-mention-card-composition.tsx?raw";
+import { PopoverMentionCardComposition } from "#/compositions/popover-mention-card-composition.tsx";
+import popoverNotificationCompositionSource from "#/compositions/popover-notification-composition.tsx?raw";
+import { PopoverNotificationComposition } from "#/compositions/popover-notification-composition.tsx";
 import { SourceComparisonPreview } from "#/compositions/source-comparison-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -30,16 +34,15 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "details", title: "Details" },
+  { id: "api", title: "API" },
   {
     id: "source-comparison",
     title: "Source comparison",
     children: [
       { id: "source-comparison-notification-popover", title: "Notification popover" },
       { id: "source-comparison-mention-card", title: "Mention card" },
-      { id: "source-comparison-composer-popover", title: "Composer popover" },
     ],
   },
-  { id: "api", title: "API" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -67,25 +70,8 @@ const SOURCE_SCENES = [
         path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:35,99,102",
       },
       {
-        label: "MessageInput.tsx:928",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:928",
-      },
-      {
         label: "MessageItem.tsx:2808,2860,2862,2890",
         path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:2808,2860,2862,2890",
-      },
-    ],
-  },
-  {
-    label: "Inline editors and selection popovers",
-    scenes: [
-      {
-        label: "InlineBadgeEditor.tsx:209",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/InlineBadgeEditor.tsx:209",
-      },
-      {
-        label: "SelectionPopover.tsx:105,157",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SelectionPopover.tsx:105,157",
       },
     ],
   },
@@ -195,9 +181,21 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+const POPOVER_NOTIFICATION_COMPOSITION_PATH =
+  "apps/doc/src/compositions/popover-notification-composition.tsx" as const;
+const POPOVER_MENTION_CARD_COMPOSITION_PATH =
+  "apps/doc/src/compositions/popover-mention-card-composition.tsx" as const;
+
 export const Route = createFileRoute("/components/popover")({
   component: PopoverDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        popoverNotificationComposition: popoverNotificationCompositionSource,
+        popoverMentionCardComposition: popoverMentionCardCompositionSource,
+      },
+    }),
 });
 
 function OpenPopoverExample({
@@ -284,203 +282,102 @@ function SearchGuidePreview({ open }: { open: boolean }) {
 function SourceNotificationPopoverPreview() {
   return (
     <SourceComparisonPreview className="min-h-72 items-start pt-8">
-      <div className="grid w-[17rem] justify-items-start gap-2">
-        <button
-          type="button"
-          className="relative inline-flex h-9 items-center gap-2 border-2 border-black bg-white px-3 text-xs font-bold uppercase tracking-wide shadow-[3px_3px_0_#000]"
-        >
-          <Bell className="size-4" />
-          Alerts
-          <span className="absolute -top-1 -right-1 size-2.5 rounded-full border-2 border-white bg-red-500" />
-        </button>
-        <div className="w-full border-2 border-black bg-white shadow-[4px_4px_0_#000]">
-          <div className="flex items-center justify-between border-b-2 border-black px-3 py-2">
+      <div className="grid w-80 justify-items-start gap-2">
+        <span className="relative inline-flex">
+          <button
+            type="button"
+            aria-label="Notification center (2 active)"
+            className="inline-flex size-9 items-center justify-center border-2 border-black bg-brutal-orange text-black shadow-[2px_2px_0_#141111] transition-all duration-100 hover:shadow-[4px_4px_0_#141111]"
+          >
+            <AlertTriangle className="size-[18px]" />
+          </button>
+          <Status
+            aria-hidden
+            size="md"
+            variant="warning"
+            className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2"
+          />
+        </span>
+        <div className="flex h-72 w-full flex-col overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
+          <div className="flex items-center gap-2 border-b-2 border-black bg-brutal-cream px-3 py-2">
             <span className="text-[10px] font-bold uppercase tracking-wide text-black/60">
               Notifications
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-wide text-black/40">
-              Clear
-            </span>
+            <span className="ml-auto font-mono text-xs text-black/40">2 items</span>
           </div>
-          <div className="grid divide-y-2 divide-black/10">
-            <div className="grid gap-1 px-3 py-2">
-              <span className="text-xs font-bold text-black">Build finished</span>
-              <span className="text-[11px] leading-4 text-black/60">Docs preview is ready.</span>
-            </div>
-            <div className="grid gap-1 px-3 py-2">
-              <span className="text-xs font-bold text-black">Thread mentioned you</span>
-              <span className="text-[11px] leading-4 text-black/60">Atlas in #design</span>
-            </div>
-          </div>
+          <ul className="divide-y-2 divide-black">
+            <SourceNotificationItem
+              title="Sync needs attention"
+              body="Retry source sync before publishing docs."
+              action="Retry"
+            />
+            <SourceNotificationItem
+              title="Thread mentioned you"
+              body="Atlas left a note in #design-system."
+              action="Open"
+            />
+          </ul>
         </div>
       </div>
     </SourceComparisonPreview>
   );
 }
 
-function CurrentNotificationPopoverPreview() {
+function SourceNotificationItem({
+  title,
+  body,
+  action,
+}: {
+  title: string;
+  body: string;
+  action: string;
+}) {
   return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-8">
-      <div className="grid w-[17rem] justify-items-start gap-2">
-        <Button variant="outline" size="sm">
-          <Bell className="size-4" />
-          Alerts
-        </Button>
-        <PopoverPopup className="w-full">
-          <PopoverHeader>
-            <PopoverTitle>Notifications</PopoverTitle>
-            <PopoverClose aria-label="Close notifications">
-              <X className="size-3" />
-            </PopoverClose>
-          </PopoverHeader>
-          <PopoverSeparator />
-          <div className="grid divide-y divide-line-muted">
-            <div className="grid gap-1 px-3 py-2">
-              <span className="text-sm font-medium text-foreground-strong">Build finished</span>
-              <span className="text-xs leading-5 text-foreground-muted">
-                Docs preview is ready.
-              </span>
-            </div>
-            <div className="grid gap-1 px-3 py-2">
-              <span className="text-sm font-medium text-foreground-strong">
-                Thread mentioned you
-              </span>
-              <span className="text-xs leading-5 text-foreground-muted">Atlas in #design</span>
-            </div>
+    <li className="px-3 py-3">
+      <div className="flex items-start gap-2">
+        <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center border-2 border-black bg-brutal-orange">
+          <AlertTriangle className="size-4 text-black" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="break-words text-sm font-bold text-black">{title}</div>
+          <div className="mt-0.5 break-words text-sm text-black">{body}</div>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="border-2 border-black bg-brutal-pink px-3 py-1.5 text-xs font-bold text-black shadow-[2px_2px_0_#141111]">
+              {action}
+            </span>
+            <span className="border-2 border-black bg-white px-3 py-1.5 text-xs font-bold text-black shadow-[2px_2px_0_#141111]">
+              Dismiss
+            </span>
           </div>
-        </PopoverPopup>
+        </div>
       </div>
-    </SourceComparisonPreview>
+    </li>
   );
 }
 
 function SourceMentionCardPreview() {
   return (
     <SourceComparisonPreview className="min-h-72 items-start pt-10">
-      <div className="w-[17rem] border-2 border-black bg-white p-3 shadow-[4px_4px_0_#000]">
-        <div className="flex items-start gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full border-2 border-black bg-yellow-200 text-sm font-bold">
+      <div className="w-[17.5rem] overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
+        <div className="flex items-start gap-3 px-3 pt-3 pb-2">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-black bg-brutal-yellow text-sm font-bold text-black">
             AT
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
               <span className="truncate text-sm font-bold text-black">Atlas</span>
-              <span className="size-2 rounded-full bg-emerald-500" />
+              <Status aria-hidden size="sm" variant="success" />
+              <span className="truncate font-mono text-xs text-black/60">Online</span>
             </div>
-            <p className="mt-1 text-xs leading-5 text-black/60">
-              Reviewing the token migration in #design-system.
-            </p>
+            <div className="truncate font-mono text-xs text-black/60">@atlas</div>
           </div>
         </div>
-        <div className="mt-3 flex gap-2 border-t-2 border-black/10 pt-3">
-          <span className="rounded-none border border-black bg-black px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
-            Message
-          </span>
-          <span className="rounded-none border border-black bg-white px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-black">
-            View profile
-          </span>
+        <div
+          className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70"
+          title="Reviewing the token migration in #design-system."
+        >
+          Reviewing the token migration in #design-system.
         </div>
-      </div>
-    </SourceComparisonPreview>
-  );
-}
-
-function CurrentMentionCardPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-10">
-      <PopoverPopup className="w-[17rem]">
-        <div className="p-3">
-          <div className="flex items-start gap-3">
-            <div className="flex size-10 items-center justify-center rounded-full bg-accent-100 text-sm font-medium text-accent-700">
-              AT
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <span className="truncate text-sm font-medium text-foreground-strong">Atlas</span>
-                <span className="size-2 rounded-full bg-success-base" />
-              </div>
-              <p className="mt-1 text-xs leading-5 text-foreground-muted">
-                Reviewing the token migration in #design-system.
-              </p>
-            </div>
-          </div>
-        </div>
-        <PopoverSeparator />
-        <div className="flex gap-2 px-3 py-3">
-          <Button size="sm">Message</Button>
-          <Button variant="outline" size="sm">
-            View profile
-          </Button>
-        </div>
-      </PopoverPopup>
-    </SourceComparisonPreview>
-  );
-}
-
-function SourceComposerPopoverPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-8">
-      <div className="grid w-[18rem] gap-2">
-        <div className="flex h-9 items-center gap-2 border-2 border-black bg-white px-3 text-xs text-black/50 shadow-[3px_3px_0_#000]">
-          <AtSign className="size-4 text-black" />
-          Search people or saved snippets
-        </div>
-        <div className="border-2 border-black bg-white shadow-[4px_4px_0_#000]">
-          <div className="flex items-center gap-2 border-b-2 border-black px-3 py-2">
-            <Search className="size-3.5" />
-            <span className="text-[10px] font-bold uppercase tracking-wide text-black/50">
-              Suggestions
-            </span>
-          </div>
-          <div className="grid">
-            {["Atlas", "Design notes", "Token audit"].map((item, index) => (
-              <div
-                key={item}
-                className={`flex items-center justify-between px-3 py-2 text-xs font-bold ${
-                  index === 0 ? "bg-yellow-200" : "bg-white"
-                }`}
-              >
-                {item}
-                {index === 0 ? <CheckCircle2 className="size-3.5" /> : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </SourceComparisonPreview>
-  );
-}
-
-function CurrentComposerPopoverPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-8">
-      <div className="grid w-[18rem] gap-2">
-        <Button variant="outline" size="sm">
-          <AtSign className="size-4" />
-          Insert
-        </Button>
-        <PopoverPopup className="w-full">
-          <PopoverHeader>
-            <PopoverTitle>Suggestions</PopoverTitle>
-          </PopoverHeader>
-          <PopoverSeparator />
-          <div className="grid p-1">
-            {["Atlas", "Design notes", "Token audit"].map((item, index) => (
-              <button
-                key={item}
-                type="button"
-                className={`flex items-center justify-between px-2 py-2 text-left text-sm ${
-                  index === 0
-                    ? "bg-primary-50 text-primary-700 [[data-theme=brutal]_&]:bg-brutal-yellow [[data-theme=brutal]_&]:text-black"
-                    : "text-foreground-muted"
-                }`}
-              >
-                {item}
-                {index === 0 ? <CheckCircle2 className="size-3.5" /> : null}
-              </button>
-            ))}
-          </div>
-        </PopoverPopup>
       </div>
     </SourceComparisonPreview>
   );
@@ -540,9 +437,14 @@ function PopoverDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="source-comparison" title="Source comparison">
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison" showThemeSwitcher={false}>
         <SourceComparison
           sourceScenes={SOURCE_SCENES}
+          layout="grid"
           items={[
             {
               id: "source-comparison-notification-popover",
@@ -550,7 +452,14 @@ function PopoverDoc() {
               status: "difference",
               note: "Source scenes: NotificationTrigger.tsx:58,126,166; LeftRail.tsx:162; Sidebar.tsx:1226.",
               source: <SourceNotificationPopoverPreview />,
-              current: <CurrentNotificationPopoverPreview />,
+              brutal: <PopoverNotificationComposition />,
+              elegant: <PopoverNotificationComposition />,
+              elegantDark: <PopoverNotificationComposition />,
+              compositionCode: code.popoverNotificationComposition,
+              compositionCollapsedCode: code.popoverNotificationCompositionBody,
+              compositionPath: POPOVER_NOTIFICATION_COMPOSITION_PATH,
+              compositionSource: popoverNotificationCompositionSource,
+              compositionShowLineNumbers: false,
             },
             {
               id: "source-comparison-mention-card",
@@ -558,23 +467,18 @@ function PopoverDoc() {
               status: "difference",
               note: "Source scenes: MentionHoverCard.tsx:35,99,102; MessageItem.tsx:2808,2860,2862,2890.",
               source: <SourceMentionCardPreview />,
-              current: <CurrentMentionCardPreview />,
-            },
-            {
-              id: "source-comparison-composer-popover",
-              label: "Composer and selection popover",
-              status: "difference",
-              note: "Source scenes: MessageInput.tsx:928; InlineBadgeEditor.tsx:209; SelectionPopover.tsx:105,157.",
-              source: <SourceComposerPopoverPreview />,
-              current: <CurrentComposerPopoverPreview />,
+              brutal: <PopoverMentionCardComposition />,
+              elegant: <PopoverMentionCardComposition />,
+              elegantDark: <PopoverMentionCardComposition />,
+              compositionCode: code.popoverMentionCardComposition,
+              compositionCollapsedCode: code.popoverMentionCardCompositionBody,
+              compositionPath: POPOVER_MENTION_CARD_COMPOSITION_PATH,
+              compositionSource: popoverMentionCardCompositionSource,
+              compositionShowLineNumbers: false,
             },
           ]}
           previewSize="popover"
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

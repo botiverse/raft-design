@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Text } from "raft-ui";
 import { Toc, type TocItem } from "./toc.tsx";
 
 type DocPageProps = {
@@ -40,7 +41,9 @@ export function DocPage({
                     {title}
                   </h1>
                   {description ? (
-                    <p className="mt-3 text-sm text-foreground-muted">{description}</p>
+                    <Text.Sans size="body" variant="muted" className="mt-3">
+                      {description}
+                    </Text.Sans>
                   ) : null}
                 </div>
                 {headerAction ? <div className="shrink-0 pt-1">{headerAction}</div> : null}

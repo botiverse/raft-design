@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { PreviewThemeScope } from "./preview-theme.tsx";
-import { ThemeSwitcher } from "./theme-switcher.tsx";
 
 type ComponentDemoFrameProps = {
   children: ReactNode;
@@ -28,10 +27,7 @@ export function ComponentDemoFrame({
 
   if (layout === "split") {
     return (
-      <div className="relative min-w-0">
-        <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
-          <ThemeSwitcher />
-        </div>
+      <div data-component-demo-frame className="relative min-w-0">
         <div className={`grid md:grid-cols-[minmax(0,1fr)_20rem] ${frameClass}`}>
           <PreviewThemeScope className="bg-background text-foreground">
             <div
@@ -53,10 +49,7 @@ export function ComponentDemoFrame({
   }
 
   return (
-    <div className="relative min-w-0">
-      <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
-        <ThemeSwitcher />
-      </div>
+    <div data-component-demo-frame className="relative min-w-0">
       <div className={frameClass}>
         <PreviewThemeScope className="bg-background text-foreground">
           <div

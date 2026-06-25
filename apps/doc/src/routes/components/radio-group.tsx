@@ -5,7 +5,6 @@ import { Field, FieldDescription, FieldLabel } from "raft-ui";
 import { Check } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -246,17 +245,6 @@ function RadioGroupDoc() {
     <DocPage
       title="RadioGroup"
       description="A mutually exclusive choice control for forms, option lists, and descriptive cards."
-      overview={
-        <Differences from="source hand-rolled radio rows">
-          <li>
-            uses Base UI RadioGroup and Radio for hidden inputs, keyboard behavior, and form state
-          </li>
-          <li>keeps labels and descriptions at the call site instead of forcing a row component</li>
-          <li>
-            reserves SegmentedControl for compact immediate filters, views, and preference switches
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">

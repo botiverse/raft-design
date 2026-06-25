@@ -11,6 +11,7 @@ import {
 import { Bell, Bookmark, Info, MessageSquare, SmilePlus } from "lucide-react";
 import { useId, useRef, type ReactNode, type RefObject } from "react";
 
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -41,6 +42,16 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+
+const PREVIEW_VARIANTS = ["default", "inverse"] as const;
+const PREVIEW_SIDES = ["top", "right", "bottom", "left"] as const;
+
+type PlaygroundValues = {
+  variant: (typeof PREVIEW_VARIANTS)[number];
+  side: (typeof PREVIEW_SIDES)[number];
+  label: string;
+};
+
 const SOURCE_SCENES = [
   {
     label: "Message, sidebar, and detail hints",
@@ -146,6 +157,16 @@ import { Info } from "lucide-react";
       <Info aria-hidden />
       Only admins can change this
     </TooltipContent>
+  </Tooltip>
+</TooltipProvider>`,
+  usageInverse: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+      Source path
+    </TooltipTrigger>
+    <TooltipContent variant="inverse">packages/web/src/components/message/MessageItem.tsx:695</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
   usageTimestamp: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
@@ -302,6 +323,12 @@ const TOOLTIP_TRIGGER_PROPS: readonly PropRow[] = [
 
 const TOOLTIP_CONTENT_PROPS: readonly PropRow[] = [
   {
+    name: "variant",
+    type: '"default" | "inverse"',
+    default: '"default"',
+    description: "Visual tone. Use inverse for dark tooltips on light chrome.",
+  },
+  {
     name: "side",
     type: '"top" | "bottom" | "left" | "right" | "inline-start" | "inline-end"',
     default: '"top"',
@@ -394,10 +421,12 @@ function TooltipExample({
   children,
   content,
   open = false,
+  variant,
 }: {
   children: (triggerId: string) => ReactNode;
   content: ReactNode;
   open?: boolean;
+  variant?: "default" | "inverse";
 }) {
   const triggerId = useId();
 
@@ -408,6 +437,7 @@ function TooltipExample({
           <Tooltip {...(open ? { open: true, triggerId } : {})}>
             {children(triggerId)}
             <TooltipContent
+              variant={variant}
               positionMethod="absolute"
               portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
             >
@@ -417,6 +447,27 @@ function TooltipExample({
         </TooltipProvider>
       )}
     </TooltipFrame>
+  );
+}
+
+function TooltipPlaygroundPreview({ label, side, variant }: PlaygroundValues) {
+  const triggerId = useId();
+  const content = label.trim() || "Tooltip";
+
+  return (
+    <TooltipProvider>
+      <Tooltip open triggerId={triggerId}>
+        <TooltipTrigger
+          id={triggerId}
+          render={<Button variant="ghost" size="icon-sm" aria-label={content} />}
+        >
+          <SmilePlus />
+        </TooltipTrigger>
+        <TooltipContent side={side} variant={variant}>
+          {content}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
@@ -570,18 +621,19 @@ function TooltipDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
-        <Example html={code.preview}>
-          <TooltipExample content="Add reaction" open>
-            {(triggerId) => (
-              <TooltipTrigger
-                id={triggerId}
-                render={<Button variant="ghost" size="icon-sm" aria-label="Add reaction" />}
-              >
-                <SmilePlus />
-              </TooltipTrigger>
-            )}
-          </TooltipExample>
-        </Example>
+        <ComponentPlayground<PlaygroundValues>
+          defaultValues={{
+            variant: "default",
+            side: "top",
+            label: "Add reaction",
+          }}
+          controls={[
+            { name: "variant", label: "Variant", type: "select", options: PREVIEW_VARIANTS },
+            { name: "side", label: "Side", type: "select", options: PREVIEW_SIDES },
+            { name: "label", label: "Label", type: "text" },
+          ]}
+          render={(values) => <TooltipPlaygroundPreview {...values} />}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -648,6 +700,21 @@ function TooltipDoc() {
             </Example>
           </div>
           <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Inverse tone</h3>
+            <Example html={code.usageInverse}>
+              <TooltipExample
+                variant="inverse"
+                content="packages/web/src/components/message/MessageItem.tsx:695"
+              >
+                {(triggerId) => (
+                  <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
+                    Source path
+                  </TooltipTrigger>
+                )}
+              </TooltipExample>
+            </Example>
+          </div>
+          <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">Timestamp detail</h3>
             <Example html={code.usageTimestamp}>
               <TooltipExample content="Jun 23, 2026, 09:30">
@@ -692,9 +759,7 @@ function TooltipDoc() {
           </div>
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">Arrow placement</h3>
-            <p className="text-xs leading-5 text-foreground-muted">
-              Brutal renders tooltip hints without arrows.
-            </p>
+            <DocNote>Brutal renders tooltip hints without arrows.</DocNote>
             <Example html={code.usagePlacement}>
               <ArrowPlacementExample />
             </Example>

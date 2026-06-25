@@ -7,6 +7,7 @@ const textColorVariants = {
   primary: ["text-primary-700"],
   information: ["text-info-dark"],
   muted: ["text-foreground-muted"],
+  placeholder: ["text-foreground-placeholder"],
   accent: ["text-accent-700"],
   success: ["text-success-base"],
   warning: ["text-warning-base"],

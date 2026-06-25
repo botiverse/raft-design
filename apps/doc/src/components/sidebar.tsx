@@ -6,10 +6,7 @@ import { Globe2 } from "lucide-react";
 
 const SKILLS = {
   title: "Skills",
-  items: [
-    { label: "migration.md", to: "/skills/migration" },
-    { label: "new-component.md", to: "/skills/new-component" },
-  ],
+  items: [{ label: "new-component.md", to: "/skills/new-component" }],
 } as const;
 
 const TOKENS = {
@@ -924,6 +921,9 @@ export function Sidebar() {
           </li>
           <li>
             <NavLink to="/playground" label="Playground" />
+          </li>
+          <li>
+            <NavLink to="/migration" label="Migration" />
           </li>
         </ul>
 

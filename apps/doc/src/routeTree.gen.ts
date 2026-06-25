@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlaygroundRouteImport } from './routes/playground'
+import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +19,7 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
+import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
@@ -84,6 +86,11 @@ const PlaygroundRoute = PlaygroundRouteImport.update({
   path: '/playground',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MigrationRoute = MigrationRouteImport.update({
+  id: '/migration',
+  path: '/migration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstallationRoute = InstallationRouteImport.update({
   id: '/installation',
   path: '/installation',
@@ -123,6 +130,11 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   id: '/skills/migration',
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
+} as any)
+const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
+  id: '/$sourceFile',
+  path: '/$sourceFile',
+  getParentRoute: () => MigrationRoute,
 } as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
   id: '/tooltip',
@@ -439,6 +451,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -481,6 +494,7 @@ export interface FileRoutesByFullPath {
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -510,6 +524,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -552,6 +567,7 @@ export interface FileRoutesByTo {
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -582,6 +598,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -624,6 +641,7 @@ export interface FileRoutesById {
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -655,6 +673,7 @@ export interface FileRouteTypes {
     | '/'
     | '/components'
     | '/installation'
+    | '/migration'
     | '/playground'
     | '/components/attention-dot'
     | '/components/avatar'
@@ -697,6 +716,7 @@ export interface FileRouteTypes {
     | '/components/textarea'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -726,6 +746,7 @@ export interface FileRouteTypes {
     | '/'
     | '/components'
     | '/installation'
+    | '/migration'
     | '/playground'
     | '/components/attention-dot'
     | '/components/avatar'
@@ -768,6 +789,7 @@ export interface FileRouteTypes {
     | '/components/textarea'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -797,6 +819,7 @@ export interface FileRouteTypes {
     | '/'
     | '/components'
     | '/installation'
+    | '/migration'
     | '/playground'
     | '/components/attention-dot'
     | '/components/avatar'
@@ -839,6 +862,7 @@ export interface FileRouteTypes {
     | '/components/textarea'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -869,6 +893,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
+  MigrationRoute: typeof MigrationRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
@@ -884,6 +909,13 @@ declare module '@tanstack/react-router' {
       path: '/playground'
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/migration': {
+      id: '/migration'
+      path: '/migration'
+      fullPath: '/migration'
+      preLoaderRoute: typeof MigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation': {
@@ -941,6 +973,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/skills/migration'
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/migration/$sourceFile': {
+      id: '/migration/$sourceFile'
+      path: '/$sourceFile'
+      fullPath: '/migration/$sourceFile'
+      preLoaderRoute: typeof MigrationSourceFileRouteImport
+      parentRoute: typeof MigrationRoute
     }
     '/components/tooltip': {
       id: '/components/tooltip'
@@ -1484,6 +1523,18 @@ const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
   ComponentsRouteChildren,
 )
 
+interface MigrationRouteChildren {
+  MigrationSourceFileRoute: typeof MigrationSourceFileRoute
+}
+
+const MigrationRouteChildren: MigrationRouteChildren = {
+  MigrationSourceFileRoute: MigrationSourceFileRoute,
+}
+
+const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
+  MigrationRouteChildren,
+)
+
 interface TokensColorsRouteChildren {
   TokensColorsBrutalRoute: typeof TokensColorsBrutalRoute
   TokensColorsElegantRoute: typeof TokensColorsElegantRoute
@@ -1529,6 +1580,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
+  MigrationRoute: MigrationRouteWithChildren,
   PlaygroundRoute: PlaygroundRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,

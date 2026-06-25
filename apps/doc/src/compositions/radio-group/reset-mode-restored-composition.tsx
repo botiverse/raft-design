@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { RadioGroup, RadioGroupItem, useThemeFamily } from "raft-ui";
-import { cn } from "raft-ui/cn";
+import { tv } from "tailwind-variants/lite";
 
 const RESET_MODE_OPTIONS = [
   {
@@ -26,26 +26,41 @@ type RadioGroupResetModeRestoredCompositionProps = {
   disabled?: boolean;
 };
 
-const brutalResetModeCardClassName = cn(
-  "flex w-full cursor-pointer items-start gap-2 border-2 border-black/30 bg-white p-4 text-left",
-  "hover:bg-brutal-cyan/10",
-  "has-[[data-slot=radio-group-item][data-checked]]:border-black has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-cyan/20 has-[[data-slot=radio-group-item][data-checked]]:shadow-brutal-sm",
-  "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-focus has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-background",
-  "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
-  "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-none has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
-  "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-layer-muted",
-);
-
-const elegantResetModeCardClassName = cn(
-  "flex w-full cursor-pointer items-start gap-2.5 rounded-md bg-layer-panel p-3.5 text-left",
-  "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
-  "hover:bg-foreground/[0.04]",
-  "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground/[0.04]",
-  "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.05),0_0_0_1px_oklch(0_0_0_/_0.14)]",
-  "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-focus has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-background",
-  "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
-  "has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-subtle)]",
-);
+const resetModeOption = tv({
+  slots: {
+    card: [
+      "flex w-full cursor-pointer items-start text-left",
+      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-focus has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-background",
+      "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
+    ],
+    label: "text-foreground-strong",
+  },
+  variants: {
+    theme: {
+      brutal: {
+        card: [
+          "gap-2 border-2 border-black/30 bg-white p-4",
+          "hover:bg-brutal-cyan/10",
+          "has-[[data-slot=radio-group-item][data-checked]]:border-black has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-cyan/20 has-[[data-slot=radio-group-item][data-checked]]:shadow-brutal-sm",
+          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-none has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
+          "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-layer-muted",
+        ],
+        label: "text-sm font-bold leading-none",
+      },
+      elegant: {
+        card: [
+          "gap-2.5 rounded-md bg-layer-panel p-3.5",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
+          "hover:bg-foreground/[0.04]",
+          "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground/[0.04]",
+          "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.05),0_0_0_1px_oklch(0_0_0_/_0.14)]",
+          "has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-subtle)]",
+        ],
+        label: "text-[13px] font-medium tracking-[-0.005em]",
+      },
+    },
+  },
+});
 
 export function RadioGroupResetModeRestoredComposition({
   value,
@@ -55,7 +70,7 @@ export function RadioGroupResetModeRestoredComposition({
   const [selectedValue, setSelectedValue] = useState(value ?? "restart");
   const currentValue = value ?? selectedValue;
   const theme = useThemeFamily();
-  const isElegant = theme === "elegant";
+  const styles = resetModeOption({ theme });
 
   function handleValueChange(nextValue: string) {
     if (value === undefined) {
@@ -73,22 +88,10 @@ export function RadioGroupResetModeRestoredComposition({
       className="w-[22rem] max-w-full"
     >
       {RESET_MODE_OPTIONS.map((option) => (
-        <label
-          key={option.value}
-          className={isElegant ? elegantResetModeCardClassName : brutalResetModeCardClassName}
-        >
+        <label key={option.value} className={styles.card()}>
           <RadioGroupItem value={option.value} appearance="none" />
           <span className="grid min-w-0 gap-1">
-            <span
-              className={cn(
-                "text-foreground-strong",
-                isElegant
-                  ? "text-[13px] font-medium tracking-[-0.005em]"
-                  : "text-sm font-bold leading-none",
-              )}
-            >
-              {option.label}
-            </span>
+            <span className={styles.label()}>{option.label}</span>
             <span className="text-xs leading-5 text-foreground-muted">{option.description}</span>
           </span>
         </label>

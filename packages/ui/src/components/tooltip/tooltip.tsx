@@ -1,6 +1,6 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { ComponentProps } from "react";
-import { tv } from "../../lib/tv.ts";
+import { tv, type VariantProps } from "../../lib/tv.ts";
 import type { StyledProps } from "../../lib/styled-props.ts";
 import { useThemeFamily } from "../../lib/theme/use-theme.ts";
 
@@ -53,8 +53,23 @@ const tooltip = tv({
         arrow: [],
       },
     },
+    variant: {
+      default: {},
+      inverse: {
+        content: [
+          "bg-foreground-strong text-foreground-inverse",
+          "!shadow-[0_12px_24px_0_oklch(0.21_0.006_285_/_0.045),0_1px_2px_0_oklch(0.21_0.006_285_/_0.035)]",
+          "[&_[data-slot=kbd]]:bg-white/10 [&_[data-slot=kbd]]:text-foreground-inverse [&_[data-slot=kbd]]:ring-0",
+        ],
+      },
+    },
+  },
+  defaultVariants: {
+    variant: "default",
   },
 });
+
+type TooltipStyleProps = VariantProps<typeof tooltip>;
 
 export type TooltipProviderProps = BaseTooltip.Provider.Props;
 
@@ -88,25 +103,35 @@ export function TooltipPortal(props: TooltipPortalProps) {
   return <BaseTooltip.Portal data-slot="tooltip-portal" {...props} />;
 }
 
-type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;
+type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props> & Pick<TooltipStyleProps, "variant">;
 
-function TooltipArrow({ className, ...props }: TooltipArrowProps) {
+function TooltipArrow({ className, variant, ...props }: TooltipArrowProps) {
   const theme = useThemeFamily();
-  const { arrow } = tooltip({ theme });
+  const { arrow } = tooltip({ theme, variant });
   return (
     <BaseTooltip.Arrow data-slot="tooltip-arrow" className={arrow({ className })} {...props}>
-      <TooltipArrowSvg />
+      <TooltipArrowSvg variant={variant} />
     </BaseTooltip.Arrow>
   );
 }
 
-function TooltipArrowSvg(props: ComponentProps<"svg">) {
+function TooltipArrowSvg({
+  variant,
+  ...props
+}: ComponentProps<"svg"> & Pick<TooltipStyleProps, "variant">) {
+  const isInverse = variant === "inverse";
+
   return (
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
-      <path d="M1 0H11L6 5.25Z" className="fill-layer-popover" />
+      <path
+        d="M1 0H11L6 5.25Z"
+        className={isInverse ? "fill-foreground-strong" : "fill-layer-popover"}
+      />
       <path
         d="M1 0.5L6 5.25L11 0.5"
-        className="stroke-[oklch(0.21_0.006_285_/_0.10)]"
+        className={
+          isInverse ? "stroke-[oklch(0_0_0_/_0.18)]" : "stroke-[oklch(0.21_0.006_285_/_0.10)]"
+        }
         strokeLinecap="round"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
@@ -132,7 +157,7 @@ export type TooltipContentProps = StyledProps<BaseTooltip.Popup.Props> &
     | "sticky"
   > & {
     portalProps?: TooltipPortalProps;
-  };
+  } & Pick<TooltipStyleProps, "variant">;
 
 export function TooltipContent({
   align = "center",
@@ -148,12 +173,13 @@ export function TooltipContent({
   sideOffset = 6,
   sticky,
   portalProps,
+  variant,
   className,
   children,
   ...props
 }: TooltipContentProps) {
   const theme = useThemeFamily();
-  const { positioner, content } = tooltip({ theme });
+  const { positioner, content } = tooltip({ theme, variant });
 
   return (
     <BaseTooltip.Portal {...portalProps}>
@@ -178,7 +204,7 @@ export function TooltipContent({
           {...props}
         >
           {children}
-          <TooltipArrow />
+          <TooltipArrow variant={variant} />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>
     </BaseTooltip.Portal>

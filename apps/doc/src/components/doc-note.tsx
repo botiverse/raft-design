@@ -1,13 +1,18 @@
-import type { ComponentPropsWithoutRef } from "react";
+import { Text, type TextSansProps } from "raft-ui";
 
-type DocNoteProps = ComponentPropsWithoutRef<"p">;
+type DocNoteProps = TextSansProps;
 
-export function DocNote({ className, ...props }: DocNoteProps) {
+export function DocNote({
+  className,
+  size = "body",
+  variant = "placeholder",
+  ...props
+}: DocNoteProps) {
   return (
-    <p
-      className={["max-w-2xl text-sm leading-6 text-foreground-muted", className]
-        .filter(Boolean)
-        .join(" ")}
+    <Text.Sans
+      size={size}
+      variant={variant}
+      className={["pb-6", className].filter(Boolean).join(" ")}
       {...props}
     />
   );

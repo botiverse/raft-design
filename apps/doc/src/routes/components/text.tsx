@@ -101,6 +101,7 @@ const SNIPPETS = {
   variants: `<div>
   <Text.Sans variant="default">Default</Text.Sans>
   <Text.Sans variant="muted">Muted</Text.Sans>
+  <Text.Sans variant="placeholder">Placeholder</Text.Sans>
   <Text.Sans variant="primary">Primary</Text.Sans>
   <Text.Sans variant="success">Success</Text.Sans>
   <Text.Sans variant="danger">Danger</Text.Sans>
@@ -125,7 +126,7 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "variant",
-    type: '"default" | "primary" | "information" | "muted" | "accent" | "success" | "warning" | "danger"',
+    type: '"default" | "primary" | "information" | "muted" | "placeholder" | "accent" | "success" | "warning" | "danger"',
     description: "Optional semantic color. Leave unset to use each size recipe default.",
   },
   {
@@ -335,6 +336,7 @@ function TextDoc() {
           <div className="grid max-w-sm gap-2">
             <Text.Sans variant="default">Default</Text.Sans>
             <Text.Sans variant="muted">Muted</Text.Sans>
+            <Text.Sans variant="placeholder">Placeholder</Text.Sans>
             <Text.Sans variant="primary">Primary</Text.Sans>
             <Text.Sans variant="success">Success</Text.Sans>
             <Text.Sans variant="danger">Danger</Text.Sans>

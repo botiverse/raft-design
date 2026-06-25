@@ -48,10 +48,14 @@ import {
   runMockMutation,
   useMockQuery,
 } from "#/lib/mock-query.ts";
+import composerMentionComboboxCompositionSource from "#/compositions/composer-mention-combobox-composition.tsx?raw";
+import { ComposerMentionComboboxComposition } from "#/compositions/composer-mention-combobox-composition.tsx";
 import messageSearchChannelFilterCompositionSource from "#/compositions/message-search-channel-filter-composition.tsx?raw";
 import { MessageSearchChannelFilterComposition } from "#/compositions/message-search-channel-filter-composition.tsx";
 import messageSearchSenderFilterCompositionSource from "#/compositions/message-search-sender-filter-composition.tsx?raw";
 import { MessageSearchSenderFilterComposition } from "#/compositions/message-search-sender-filter-composition.tsx";
+import selectionPopoverComboboxCompositionSource from "#/compositions/selection-popover-combobox-composition.tsx?raw";
+import { SelectionPopoverComboboxComposition } from "#/compositions/selection-popover-combobox-composition.tsx";
 import tasksChannelFilterCompositionSource from "#/compositions/tasks-channel-filter-composition.tsx?raw";
 import { TasksChannelFilterComposition } from "#/compositions/tasks-channel-filter-composition.tsx";
 import tasksIdentityFilterCompositionSource from "#/compositions/tasks-identity-filter-composition.tsx?raw";
@@ -85,6 +89,8 @@ const TOC = [
     children: [
       { id: "source-comparison-message-channel", title: "Message channel" },
       { id: "source-comparison-message-sender", title: "Message sender" },
+      { id: "source-comparison-composer-mention", title: "Composer mention" },
+      { id: "source-comparison-selection-popover", title: "Selection popover" },
       { id: "source-comparison-tasks-channel", title: "Tasks channel" },
       { id: "source-comparison-tasks-identity", title: "Tasks identity" },
     ],
@@ -114,6 +120,23 @@ const SOURCE_SCENES = [
       {
         label: "TasksPanel.tsx:865",
         path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:865",
+      },
+    ],
+  },
+  {
+    label: "Composer and selection popovers",
+    scenes: [
+      {
+        label: "MessageInput.tsx:928",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:928",
+      },
+      {
+        label: "InlineBadgeEditor.tsx:209",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/InlineBadgeEditor.tsx:209",
+      },
+      {
+        label: "SelectionPopover.tsx:105,157",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SelectionPopover.tsx:105,157",
       },
     ],
   },
@@ -757,6 +780,10 @@ const MESSAGE_SEARCH_CHANNEL_FILTER_COMPOSITION_PATH =
   "apps/doc/src/compositions/message-search-channel-filter-composition.tsx" as const;
 const MESSAGE_SEARCH_SENDER_FILTER_COMPOSITION_PATH =
   "apps/doc/src/compositions/message-search-sender-filter-composition.tsx" as const;
+const COMPOSER_MENTION_COMBOBOX_COMPOSITION_PATH =
+  "apps/doc/src/compositions/composer-mention-combobox-composition.tsx" as const;
+const SELECTION_POPOVER_COMBOBOX_COMPOSITION_PATH =
+  "apps/doc/src/compositions/selection-popover-combobox-composition.tsx" as const;
 const TASKS_CHANNEL_FILTER_COMPOSITION_PATH =
   "apps/doc/src/compositions/tasks-channel-filter-composition.tsx" as const;
 const TASKS_IDENTITY_FILTER_COMPOSITION_PATH =
@@ -778,8 +805,10 @@ export const Route = createFileRoute("/components/combobox")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
+        composerMentionComboboxComposition: composerMentionComboboxCompositionSource,
         messageSearchChannelFilterComposition: messageSearchChannelFilterCompositionSource,
         messageSearchSenderFilterComposition: messageSearchSenderFilterCompositionSource,
+        selectionPopoverComboboxComposition: selectionPopoverComboboxCompositionSource,
         tasksChannelFilterComposition: tasksChannelFilterCompositionSource,
         tasksIdentityFilterComposition: tasksIdentityFilterCompositionSource,
       },
@@ -864,6 +893,64 @@ function SourceMessageSearchSenderComparison() {
             avatar: COMPACT_LIST_AVATAR,
             onClick: noop,
           },
+        ]}
+      />
+    </SourcePanelMount>
+  );
+}
+
+function SourceComposerMentionComparison() {
+  return (
+    <SourcePanelMount contentClassName="w-[18rem]">
+      <LegacySelectionPopover
+        title="Mentions"
+        searchable
+        search="at"
+        onSearchChange={noop}
+        options={[
+          {
+            key: "atlas",
+            checked: true,
+            label: "Atlas",
+            reserveLeadingSlot: true,
+            avatar: COMPACT_LIST_AVATAR,
+            onClick: noop,
+          },
+          {
+            key: "avery",
+            checked: false,
+            label: "Avery",
+            reserveLeadingSlot: true,
+            avatar: COMPACT_LIST_AVATAR,
+            onClick: noop,
+          },
+          {
+            key: "design-notes",
+            checked: false,
+            label: "Design notes",
+            reserveLeadingSlot: true,
+            onClick: noop,
+          },
+        ]}
+      />
+    </SourcePanelMount>
+  );
+}
+
+function SourceSelectionPopoverComparison() {
+  return (
+    <SourcePanelMount contentClassName="w-[18rem]">
+      <LegacySelectionPopover
+        title="Labels"
+        searchable
+        search=""
+        onSearchChange={noop}
+        showClear
+        onClear={noop}
+        options={[
+          { key: "design", checked: true, label: "Design", leading: HASH_LEADING, onClick: noop },
+          { key: "bug", checked: false, label: "Bug", leading: HASH_LEADING, onClick: noop },
+          { key: "review", checked: false, label: "Review", leading: HASH_LEADING, onClick: noop },
         ]}
       />
     </SourcePanelMount>
@@ -1502,6 +1589,47 @@ function ComboboxDoc() {
               compositionCollapsedCode: code.messageSearchSenderFilterCompositionBody,
               compositionPath: MESSAGE_SEARCH_SENDER_FILTER_COMPOSITION_PATH,
               compositionSource: messageSearchSenderFilterCompositionSource,
+              compositionShowLineNumbers: false,
+            },
+            {
+              id: "source-comparison-composer-mention",
+              label: "Composer — mention autocomplete",
+              status: "difference",
+              note: (
+                <>
+                  <InlineCode>MessageInput.tsx</InlineCode>. Mention suggestions need search text,
+                  active row, and selected value ownership.
+                </>
+              ),
+              source: <SourceComposerMentionComparison />,
+              brutal: <ComposerMentionComboboxComposition />,
+              elegant: <ComposerMentionComboboxComposition />,
+              elegantDark: <ComposerMentionComboboxComposition />,
+              compositionCode: code.composerMentionComboboxComposition,
+              compositionCollapsedCode: code.composerMentionComboboxCompositionBody,
+              compositionPath: COMPOSER_MENTION_COMBOBOX_COMPOSITION_PATH,
+              compositionSource: composerMentionComboboxCompositionSource,
+              compositionShowLineNumbers: false,
+            },
+            {
+              id: "source-comparison-selection-popover",
+              label: "Selection popover",
+              status: "difference",
+              note: (
+                <>
+                  <InlineCode>SelectionPopover.tsx</InlineCode> /{" "}
+                  <InlineCode>InlineBadgeEditor.tsx</InlineCode>. Searchable option lists map to
+                  Combobox, not Popover.
+                </>
+              ),
+              source: <SourceSelectionPopoverComparison />,
+              brutal: <SelectionPopoverComboboxComposition />,
+              elegant: <SelectionPopoverComboboxComposition />,
+              elegantDark: <SelectionPopoverComboboxComposition />,
+              compositionCode: code.selectionPopoverComboboxComposition,
+              compositionCollapsedCode: code.selectionPopoverComboboxCompositionBody,
+              compositionPath: SELECTION_POPOVER_COMBOBOX_COMPOSITION_PATH,
+              compositionSource: selectionPopoverComboboxCompositionSource,
               compositionShowLineNumbers: false,
             },
             {
