@@ -8,6 +8,7 @@ const exec = promisify(execFile);
 
 export default defineConfig({
   files: ["packages/ui/package.json"],
+  all: true,
   commit: "chore(release): v%s",
   tag: "v%s",
   push: true,

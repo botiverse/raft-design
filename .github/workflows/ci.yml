@@ -23,11 +23,11 @@ jobs:
       - name: Install dependencies
         run: vp install
 
-      - name: Check workspace
-        run: vp check
-
       - name: Build package
         run: vp run raft-ui#build
+
+      - name: Check workspace
+        run: vp check
 
       - name: Pack package
         run: vp pm pack --filter raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
