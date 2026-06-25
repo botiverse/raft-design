@@ -50,6 +50,79 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Auth and server fields",
+    scenes: [
+      {
+        label: "DeviceLoginPage.tsx:89",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/DeviceLoginPage.tsx:89",
+      },
+      {
+        label: "ServerSelector.tsx:60,74",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ServerSelector.tsx:60,74",
+      },
+      {
+        label: "ResetPasswordPage.tsx:82,95",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ResetPasswordPage.tsx:82,95",
+      },
+      {
+        label: "ForgotPasswordPage.tsx:68",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ForgotPasswordPage.tsx:68",
+      },
+      {
+        label: "LoginPage.tsx:113,125",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LoginPage.tsx:113,125",
+      },
+      {
+        label: "RegisterPage.tsx:70,83,95",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/RegisterPage.tsx:70,83,95",
+      },
+    ],
+  },
+  {
+    label: "Channel, agent, and settings forms",
+    scenes: [
+      {
+        label: "AddMachineDialog.tsx:330",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:330",
+      },
+      {
+        label: "CreateJointChannelDialog.tsx:196,208,218,231,245",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:196,208,218,231,245",
+      },
+      {
+        label: "CreateChannelDialog.tsx:260,271,280,291",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:260,271,280,291",
+      },
+      {
+        label: "EditChannelDialog.tsx:143,165",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:143,165",
+      },
+      {
+        label:
+          "SettingsPanel.tsx:339,344,355,446,455,465,1125,1145,1533,1545,2531,2541,2550,2559,2568,2602,2611,2620,2629,2788,2800",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:339,344,355,446,455,465,1125,1145,1533,1545,2531,2541,2550,2559,2568,2602,2611,2620,2629,2788,2800",
+      },
+      {
+        label: "CreateAgentDialog.tsx:340,387,415",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:340,387,415",
+      },
+      {
+        label: "RuntimeConfigFields.tsx:73,172,182,207,221,295,315",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:73,172,182,207,221,295,315",
+      },
+      {
+        label: "ChannelMembers.tsx:262",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:262",
+      },
+      {
+        label: "ReportIssueDialog.tsx:293",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:293",
+      },
+    ],
+  },
+] as const;
 
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
 
@@ -479,6 +552,7 @@ function FieldDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

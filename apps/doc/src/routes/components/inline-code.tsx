@@ -27,6 +27,53 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Inline technical tokens",
+    scenes: [
+      {
+        label: "PaletteAuditPage.tsx:93,105,485,487,488,503,511,513,520,523,524",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/PaletteAuditPage.tsx:93,105,485,487,488,503,511,513,520,523,524",
+      },
+      {
+        label: "AnnouncementModal.tsx:153",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:153",
+      },
+      {
+        label: "AddMachineDialog.tsx:248,269",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:248,269",
+      },
+      {
+        label: "MachineDetailPanel.tsx:845,865",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:845,865",
+      },
+      {
+        label: "InlineMarkdownPreview.tsx:22",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/InlineMarkdownPreview.tsx:22",
+      },
+      {
+        label: "MermaidDiagram.tsx:28",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/MermaidDiagram.tsx:28",
+      },
+      {
+        label: "MarkdownContent.tsx:62,68",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/MarkdownContent.tsx:62,68",
+      },
+      {
+        label: "AgentScopesPanel.tsx:158",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentScopesPanel.tsx:158",
+      },
+      {
+        label: "AgentWorkspace.tsx:487,492",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentWorkspace.tsx:487,492",
+      },
+      {
+        label: "AgentSkills.tsx:46",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentSkills.tsx:46",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   preview: `import { InlineCode } from "raft-ui";
@@ -160,6 +207,7 @@ function InlineCodeDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Inline prose token",

@@ -1,12 +1,28 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Badge, type BadgeProps, type Theme } from "raft-ui";
+import {
+  Badge,
+  InlineCode,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  type BadgeProps,
+  type Theme,
+} from "raft-ui";
 import { CircleAlert, CircleCheck, Search, Star } from "lucide-react";
 import { CodeBlock } from "./code-block.tsx";
 import { DocsCodeBlock } from "./docs-code-block.tsx";
 import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type SourceScene = string | { label: string; path: string };
+
+type SourceSceneGroup = {
+  label: string;
+  scenes: readonly SourceScene[];
+};
 
 type SourceComparisonItem = {
   id?: string;
@@ -29,12 +45,14 @@ type SourceComparisonItem = {
   compositionShowLineNumbers?: boolean;
   status?: "match" | "difference" | "review" | "new";
   note?: ReactNode;
+  sourceScenes?: readonly SourceSceneGroup[];
 };
 
 type SourceComparisonProps = {
   items: readonly SourceComparisonItem[];
   layout?: "auto" | "grid";
   previewSize?: "default" | "tall" | "popover";
+  sourceScenes?: readonly SourceSceneGroup[];
 };
 
 type ComparisonPane = {
@@ -164,13 +182,86 @@ function getComparisonPanes(item: SourceComparisonItem): ComparisonPane[] {
   ].filter((pane) => pane.children);
 }
 
-export function SourceComparison({ items, layout = "auto", previewSize }: SourceComparisonProps) {
+function getSceneLabel(scene: SourceScene) {
+  return typeof scene === "string" ? scene : scene.label;
+}
+
+function getScenePath(scene: SourceScene) {
+  if (typeof scene !== "string") {
+    return scene.path;
+  }
+
+  return `/Users/cuvii/Development/zolplay/slock-ui-backup/${scene}`;
+}
+
+function getDisplayScenePath(scene: SourceScene) {
+  const path = getScenePath(scene);
+  const packagesIndex = path.indexOf("packages/");
+
+  return packagesIndex >= 0 ? path.slice(packagesIndex) : path;
+}
+
+function getSceneCount(groups: readonly SourceSceneGroup[]) {
+  return groups.reduce((count, group) => count + group.scenes.length, 0);
+}
+
+function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[] }) {
+  const sceneCount = getSceneCount(groups);
+
+  return (
+    <TooltipProvider>
+      <div className="mt-3 w-full overflow-hidden bg-white shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]">
+        <div className="flex items-center justify-between gap-3 border-b border-[oklch(0_0_0_/_0.06)] bg-[oklch(0.988_0.002_286)] px-3 py-2.5">
+          <p className="font-mono text-xs leading-snug font-semibold text-foreground-muted uppercase">
+            Source refs
+          </p>
+          <span className="font-mono text-xs leading-snug font-semibold text-foreground-placeholder uppercase">
+            {sceneCount} {sceneCount === 1 ? "location" : "locations"}
+          </span>
+        </div>
+        <div className="grid gap-6 px-3 py-2.5">
+          {groups.map((group) => (
+            <div key={group.label} className="grid min-w-0 gap-2">
+              <span className="text-sm leading-5 font-medium text-foreground-muted">
+                {group.label}
+              </span>
+              <span className="flex min-w-0 flex-wrap items-center gap-1.5">
+                {group.scenes.map((scene) => (
+                  <Tooltip key={getScenePath(scene)}>
+                    <TooltipTrigger
+                      render={<span tabIndex={0} className="inline-flex select-none" />}
+                    >
+                      <InlineCode className="!text-[14px] leading-5">
+                        {getSceneLabel(scene)}
+                      </InlineCode>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-[36rem] font-mono">
+                      {getDisplayScenePath(scene)}
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </TooltipProvider>
+  );
+}
+
+export function SourceComparison({
+  items,
+  layout = "auto",
+  previewSize,
+  sourceScenes,
+}: SourceComparisonProps) {
   return (
     <div data-source-comparison className="space-y-16">
       {items.map((item) => {
         const status = item.status ?? "review";
         const StatusIcon = STATUS_ICON[status];
         const panes = getComparisonPanes(item);
+        const itemSourceScenes = item.sourceScenes ?? sourceScenes;
         const isGridLayout = layout === "grid" && panes.length >= 4;
         const columnClass = isGridLayout
           ? "md:grid-cols-2"
@@ -201,6 +292,7 @@ export function SourceComparison({ items, layout = "auto", previewSize }: Source
                   {item.note}
                 </p>
               ) : null}
+              {itemSourceScenes ? <SourceSceneReferences groups={itemSourceScenes} /> : null}
             </div>
             <div className="space-y-2">
               <div className="space-y-2">

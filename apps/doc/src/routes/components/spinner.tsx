@@ -28,6 +28,41 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Loading indicators",
+    scenes: [
+      {
+        label: "AttachmentChip.tsx:81,103",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/AttachmentChip.tsx:81,103",
+      },
+      {
+        label: "MessageInput.tsx:151,1165",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:151,1165",
+      },
+      {
+        label: "ImageLightbox.tsx:194",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ImageLightbox.tsx:194",
+      },
+      {
+        label: "MessageItem.tsx:579,2584",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:579,2584",
+      },
+      {
+        label: "SelectModeToolbar.tsx:118",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/SelectModeToolbar.tsx:118",
+      },
+      {
+        label: "AgentWorkspace.tsx:92",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentWorkspace.tsx:92",
+      },
+      {
+        label: "MermaidDiagram.tsx:87",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/MermaidDiagram.tsx:87",
+      },
+    ],
+  },
+] as const;
 
 const SIZES = ["sm", "lg"] as const;
 const VARIANTS = ["default", "inverse"] as const;
@@ -215,6 +250,7 @@ function SpinnerDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Default",

@@ -49,6 +49,36 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Status and semantic badges",
+    scenes: [
+      {
+        label: "ActionCard.tsx:272",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/actions/ActionCard.tsx:272",
+      },
+      {
+        label: "StatusBadge.tsx:48",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/StatusBadge.tsx:48",
+      },
+      {
+        label: "ExperimentalBadge.tsx:13",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/ExperimentalBadge.tsx:13",
+      },
+      {
+        label: "MessageItem.tsx:40",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:40",
+      },
+      {
+        label: "taskStatusUi.ts:4",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/taskStatusUi.ts:4",
+      },
+      "InlineBadgeEditor consumers: TaskItem.tsx, TaskCard.tsx, HumanDetailPanel.tsx",
+      "JointPeerBadge",
+      "AgentStatusBadge",
+    ],
+  },
+] as const;
 
 const VARIANTS = [
   "default",
@@ -485,6 +515,7 @@ function BadgeDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Default",

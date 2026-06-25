@@ -30,6 +30,25 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Keyboard shortcuts",
+    scenes: [
+      {
+        label: "Sidebar.tsx:1397",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1397",
+      },
+      {
+        label: "MessageItem.tsx:1116",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1116",
+      },
+      {
+        label: "MenuItem.tsx:37",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/MenuItem.tsx:37",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   preview: `import { Kbd, KbdGroup } from "raft-ui";
@@ -232,6 +251,7 @@ function KbdDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

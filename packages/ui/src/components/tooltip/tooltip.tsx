@@ -9,8 +9,8 @@ const tooltip = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "relative inline-flex max-w-xs items-center gap-1.5 px-2.5 py-1.5",
-      "text-xs leading-4 whitespace-normal",
+      "relative inline-flex max-w-xs items-center gap-1.5 px-3 py-2",
+      "text-[13px] leading-[18px] whitespace-normal",
       "origin-[var(--transform-origin)] outline-none",
       "transition-[opacity,transform] duration-100",
       "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
@@ -46,7 +46,7 @@ const tooltip = tv({
       elegant: {
         content: [
           "rounded-md bg-layer-popover",
-          "font-sans text-xs font-medium tracking-[-0.005em] text-foreground-strong",
+          "font-sans text-[13px] font-medium tracking-[-0.005em] text-foreground-strong",
           "shadow-[0_0_0_1px_oklch(0.21_0.006_285_/_0.10),0_1px_1px_oklch(0.21_0.006_285_/_0.04),0_1px_4px_-3px_oklch(0.21_0.006_285_/_0.10)]",
           "[&_[data-slot=kbd]]:bg-foreground-muted/10 [&_[data-slot=kbd]]:text-foreground-muted [&_[data-slot=kbd]]:ring-0",
         ],

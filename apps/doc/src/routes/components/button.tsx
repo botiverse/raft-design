@@ -44,6 +44,50 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Icon and lightbox actions",
+    scenes: [
+      {
+        label: "ImageLightbox.tsx:136,144",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ImageLightbox.tsx:136,144",
+      },
+      {
+        label: "MobileComputersPanel.tsx:49",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MobileComputersPanel.tsx:49",
+      },
+      {
+        label: "ChannelMembers.tsx:107",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:107",
+      },
+      {
+        label: "SelectShareLightbox.tsx:37",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/SelectShareLightbox.tsx:37",
+      },
+      {
+        label: "PanelHeader.tsx:141",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/PanelHeader.tsx:141",
+      },
+    ],
+  },
+  {
+    label: "Chat and message actions",
+    scenes: [
+      {
+        label: "LegacyTaskPanel.tsx:94",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/LegacyTaskPanel.tsx:94",
+      },
+      {
+        label: "ChatPanel.tsx:695,705,715",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:695,705,715",
+      },
+      {
+        label: "MessageItem.tsx:953,956",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:953,956",
+      },
+    ],
+  },
+] as const;
 
 const VARIANTS = [
   "default",
@@ -436,6 +480,7 @@ function ButtonDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Default",

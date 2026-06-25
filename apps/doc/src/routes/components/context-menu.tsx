@@ -59,6 +59,30 @@ const TOC = [
     ],
   },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Saved, thread, sidebar, and message menus",
+    scenes: [
+      {
+        label: "SavedPanel.tsx:151,157,163,164",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:151,157,163,164",
+      },
+      {
+        label: "ThreadsInbox.tsx:466,481",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/thread/ThreadsInbox.tsx:466,481",
+      },
+      {
+        label:
+          "Sidebar.tsx:807,818,1158,2040,2051,2052,2077,2089,2090,2113,2122,2123,2141,2152,2153,2172,2200,2216,2217,2230,2252,2263,2264",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:807,818,1158,2040,2051,2052,2077,2089,2090,2113,2122,2123,2141,2152,2153,2172,2200,2216,2217,2230,2252,2263,2264",
+      },
+      {
+        label: "MessageItem.tsx:2917,2923,2966,2969,2975,3032,3040,3042,3049,3056,3064,3068,3075",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:2917,2923,2966,2969,2975,3032,3040,3042,3049,3056,3064,3068,3075",
+      },
+    ],
+  },
+] as const;
 
 const CONTEXT_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
   contextMenuComposition: contextMenuCompositionSource,
@@ -458,6 +482,7 @@ function ContextMenuDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

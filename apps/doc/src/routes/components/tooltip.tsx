@@ -41,6 +41,38 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Message, sidebar, and detail hints",
+    scenes: [
+      {
+        label:
+          "MessageItem.tsx:695,1220,1383,1397,2314,2317,2377,2400,2415,2451,2565,2686,2723,2770,2796,2826,2862,2959",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:695,1220,1383,1397,2314,2317,2377,2400,2415,2451,2565,2686,2723,2770,2796,2826,2862,2959",
+      },
+      {
+        label: "MentionHoverCard.tsx:102",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:102",
+      },
+      {
+        label: "ChatPanel.tsx:60,61",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:60,61",
+      },
+      {
+        label: "Sidebar.tsx:1080,1152,1673",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1080,1152,1673",
+      },
+      {
+        label: "MachineDetailPanel.tsx:426,699",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:426,699",
+      },
+      {
+        label: "HumanDetailPanel.tsx:523",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:523",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   preview: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
@@ -693,6 +725,7 @@ function TooltipDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

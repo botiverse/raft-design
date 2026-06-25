@@ -33,6 +33,66 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Native and form labels",
+    scenes: [
+      {
+        label: "HumanLoginSetupPage.tsx:107",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/HumanLoginSetupPage.tsx:107",
+      },
+      {
+        label: "InviteHumanDialog.tsx:116,140",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/InviteHumanDialog.tsx:116,140",
+      },
+      {
+        label: "SettingsPanel.tsx:307,1010,1830,1919,2767",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:307,1010,1830,1919,2767",
+      },
+      {
+        label: "LegalAcceptanceCheckbox.tsx:15",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LegalAcceptanceCheckbox.tsx:15",
+      },
+      {
+        label: "AgentScopesPanel.tsx:145",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentScopesPanel.tsx:145",
+      },
+      {
+        label: "RuntimeConfigFields.tsx:241,316",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:241,316",
+      },
+      {
+        label: "ReportIssueDialog.tsx:307,315,323,339",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:307,315,323,339",
+      },
+      {
+        label: "AgentDetailPanel.tsx:1797",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1797",
+      },
+      {
+        label: "MessageInput.tsx:1137",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:1137",
+      },
+      {
+        label: "OwnerOnboardingModal.tsx:1045,1067,1119",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/OwnerOnboardingModal.tsx:1045,1067,1119",
+      },
+      {
+        label: "FormField.tsx:91",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/FormField.tsx:91",
+      },
+    ],
+  },
+  {
+    label: "Eyebrow labels",
+    scenes: [
+      {
+        label: "SectionEyebrow.tsx:51",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SectionEyebrow.tsx:51",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   preview: `import { Label } from "raft-ui";
@@ -281,6 +341,7 @@ function LabelDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Inline form label",

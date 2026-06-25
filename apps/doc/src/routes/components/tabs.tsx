@@ -49,6 +49,21 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Panel tab sets",
+    scenes: [
+      {
+        label: "ChatPanel.tsx:736",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:736",
+      },
+      {
+        label: "AgentDetailPanel.tsx:1739",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1739",
+      },
+    ],
+  },
+] as const;
 
 const VARIANTS = ["default", "underline"] as const;
 
@@ -670,6 +685,7 @@ function TabsDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

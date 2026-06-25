@@ -55,6 +55,29 @@ const TOC = [
     children: [{ id: "source-comparison-notification-trigger", title: "Notification trigger" }],
   },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Notification trigger wrappers",
+    scenes: [
+      {
+        label: "NotificationTrigger.tsx:125,165",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/NotificationTrigger.tsx:125,165",
+      },
+      {
+        label: "LeftRail.tsx:162",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:162",
+      },
+      {
+        label: "Sidebar.tsx:1226",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1226",
+      },
+      {
+        label: "layout/NotificationCenter.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/NotificationCenter.tsx",
+      },
+    ],
+  },
+] as const;
 
 const NOTIFICATION_CENTER_COMPOSITION_SOURCES = createCompositionSourceMap({
   notificationCenterComposition: notificationCenterCompositionSource,
@@ -583,6 +606,7 @@ function NotificationCenterDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           previewSize="popover"
           items={[

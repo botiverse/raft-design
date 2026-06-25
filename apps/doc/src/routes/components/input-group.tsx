@@ -39,6 +39,37 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Search, slug, and prefixed inputs",
+    scenes: [
+      {
+        label: "SearchInput.tsx:15,17",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SearchInput.tsx:15,17",
+      },
+      {
+        label: "SlugInput.tsx:15,23",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SlugInput.tsx:15,23",
+      },
+      {
+        label: "ServerSelector.tsx:75",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ServerSelector.tsx:75",
+      },
+      {
+        label: "CreateJointChannelDialog.tsx:219",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:219",
+      },
+      {
+        label: "SettingsPanel.tsx:2335",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:2335",
+      },
+      {
+        label: "SelectionPopover.tsx:136,146",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SelectionPopover.tsx:136,146",
+      },
+    ],
+  },
+] as const;
 
 const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
@@ -505,6 +536,7 @@ function InputGroupDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

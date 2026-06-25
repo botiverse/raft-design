@@ -44,6 +44,46 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Settings and scoped options",
+    scenes: [
+      {
+        label: "SettingsPanel.tsx:1011,1831,1920,2768",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:1011,1831,1920,2768",
+      },
+      {
+        label: "AgentScopesPanel.tsx:149",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentScopesPanel.tsx:149",
+      },
+      {
+        label: "RuntimeConfigFields.tsx:317",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:317",
+      },
+    ],
+  },
+  {
+    label: "Dialogs and acceptance flows",
+    scenes: [
+      {
+        label: "MessageInput.tsx:1138",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:1138",
+      },
+      {
+        label: "ReportIssueDialog.tsx:308,316,324,340",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:308,316,324,340",
+      },
+      {
+        label: "OwnerOnboardingModal.tsx:1120",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/OwnerOnboardingModal.tsx:1120",
+      },
+      {
+        label: "LegalAcceptanceCheckbox.tsx:16",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LegalAcceptanceCheckbox.tsx:16",
+      },
+    ],
+  },
+] as const;
 
 const SIZES = ["sm", "md"] as const;
 const VARIANTS = ["default", "primary"] as const;
@@ -397,6 +437,7 @@ function CheckboxDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Unchecked",

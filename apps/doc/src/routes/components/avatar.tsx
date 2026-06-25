@@ -44,6 +44,99 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Avatar identity surfaces",
+    scenes: [
+      {
+        label: "PaletteAuditPage.tsx:297,303,394,415,421",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/PaletteAuditPage.tsx:297,303,394,415,421",
+      },
+      {
+        label: "HumanDetailPanel.tsx:199,258,264,520",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:199,258,264,520",
+      },
+      {
+        label: "MessageItem.tsx:1302,1328",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1302,1328",
+      },
+      {
+        label: "AgentDetailPanel.tsx:980,987,1189,1297,1767,1773",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:980,987,1189,1297,1767,1773",
+      },
+      {
+        label: "Sidebar.tsx:1072,1106,1145,1644,1646,1857",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1072,1106,1145,1644,1646,1857",
+      },
+      {
+        label: "MessageInput.tsx:245,255",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:245,255",
+      },
+      {
+        label: "MentionHoverCard.tsx:50,76",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:50,76",
+      },
+      {
+        label: "ChannelMembers.tsx:291,315",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:291,315",
+      },
+      {
+        label: "ChatPanel.tsx:663,676",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:663,676",
+      },
+      {
+        label: "SavedPanel.tsx:120,122",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:120,122",
+      },
+      {
+        label: "LiveAgentActivityBar.tsx:50",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LiveAgentActivityBar.tsx:50",
+      },
+      {
+        label: "QuotedMessageCard.tsx:51,54",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/cards/QuotedMessageCard.tsx:51,54",
+      },
+      {
+        label: "ConversationPreviewCard.tsx:99,101",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/cards/ConversationPreviewCard.tsx:99,101",
+      },
+      {
+        label: "MemberGraphSection.tsx:110,119,174,181",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/MemberGraphSection.tsx:110,119,174,181",
+      },
+      {
+        label: "CreateChannelDialog.tsx:323,349",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:323,349",
+      },
+      {
+        label: "TasksPanel.tsx:409",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:409",
+      },
+      "SearchPage.tsx:669,671,757,958,964,970,979",
+      {
+        label: "ChannelMemberList.tsx:60",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/ChannelMemberList.tsx:60",
+      },
+      {
+        label: "CreateJointChannelDialog.tsx:276,301",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:276,301",
+      },
+    ],
+  },
+  {
+    label: "Gravatar wrapper",
+    scenes: [
+      {
+        label: "AvatarSlot.tsx:239",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/AvatarSlot.tsx:239",
+      },
+      {
+        label: "GravatarAvatar.tsx:33",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/GravatarAvatar.tsx:33",
+      },
+    ],
+  },
+] as const;
 
 const SAMPLE_AGENT_PIXEL =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' shape-rendering='crispEdges'><rect width='64' height='64' fill='%2327CCF3'/><rect x='8' y='0' width='48' height='8' fill='%23141111'/><rect x='0' y='8' width='8' height='24' fill='%23141111'/><rect x='56' y='8' width='8' height='24' fill='%23141111'/><rect x='8' y='32' width='48' height='8' fill='%23141111'/><rect x='16' y='16' width='8' height='8' fill='%23FFFFFF'/><rect x='40' y='16' width='8' height='8' fill='%23FFFFFF'/><rect x='16' y='48' width='8' height='16' fill='%23141111'/><rect x='40' y='48' width='8' height='16' fill='%23141111'/></svg>";
@@ -432,6 +525,7 @@ function AvatarDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

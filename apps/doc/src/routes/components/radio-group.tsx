@@ -40,6 +40,21 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Onboarding and reset choices",
+    scenes: [
+      {
+        label: "OwnerOnboardingModal.tsx:914",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/OwnerOnboardingModal.tsx:914",
+      },
+      {
+        label: "ResetAgentDialog.tsx:83,94,113,117",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ResetAgentDialog.tsx:83,94,113,117",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   anatomy: `import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "raft-ui";
@@ -354,6 +369,7 @@ function RadioGroupDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

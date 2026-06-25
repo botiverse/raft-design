@@ -51,6 +51,34 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Agent/runtime selects",
+    scenes: [
+      {
+        label: "CreateAgentDialog.tsx:346",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:346",
+      },
+      {
+        label: "RuntimeConfigFields.tsx:173,186,254,296",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:173,186,254,296",
+      },
+    ],
+  },
+  {
+    label: "Settings and generic option list",
+    scenes: [
+      {
+        label: "SettingsPanel.tsx:687,756,1252,1265,1717,1744",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:687,756,1252,1265,1717,1744",
+      },
+      {
+        label: "Select.tsx:80",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/Select.tsx:80",
+      },
+    ],
+  },
+] as const;
 
 const SORT_OPTIONS = [
   { value: "relevance", label: "Relevance" },
@@ -697,6 +725,7 @@ function SelectDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

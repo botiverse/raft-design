@@ -92,6 +92,29 @@ const TOC = [
     ],
   },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Switcher, filter, sort, and option menus",
+    scenes: [
+      {
+        label: "LeftRail.tsx:110",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:110",
+      },
+      {
+        label: "Sidebar.tsx:751,1242",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:751,1242",
+      },
+      {
+        label: "MessageSearchPage.tsx:863",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:863",
+      },
+      {
+        label: "Select.tsx:80",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/Select.tsx:80",
+      },
+    ],
+  },
+] as const;
 
 const TODOS = ["Add group part when a source callsite needs it"] as const;
 
@@ -740,6 +763,7 @@ function DropdownMenuDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

@@ -48,6 +48,57 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Inbox, tasks, activity, and saved states",
+    scenes: [
+      {
+        label: "ThreadsInbox.tsx:424",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/thread/ThreadsInbox.tsx:424",
+      },
+      {
+        label: "TasksPanel.tsx:959",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:959",
+      },
+      {
+        label: "AgentRemindersSection.tsx:146",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentRemindersSection.tsx:146",
+      },
+      {
+        label: "AgentDetailPanel.tsx:186",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:186",
+      },
+      {
+        label: "AgentActivityLog.tsx:328",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentActivityLog.tsx:328",
+      },
+      {
+        label: "ChannelFilesPanel.tsx:254",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChannelFilesPanel.tsx:254",
+      },
+      {
+        label: "ThreadPanel.tsx:1080",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ThreadPanel.tsx:1080",
+      },
+      {
+        label: "ChatPanel.tsx:765",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:765",
+      },
+      {
+        label: "NotificationCenter.tsx:169",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/NotificationCenter.tsx:169",
+      },
+      {
+        label: "MobileComputersPanel.tsx:65",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MobileComputersPanel.tsx:65",
+      },
+      {
+        label: "SavedPanel.tsx:207",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:207",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   anatomy: `import {
@@ -386,6 +437,7 @@ function EmptyStateDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

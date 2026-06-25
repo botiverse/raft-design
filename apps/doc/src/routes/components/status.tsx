@@ -40,6 +40,78 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "StatusDot scenes",
+    scenes: [
+      {
+        label: "AnnouncementModal.tsx:170",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:170",
+      },
+      {
+        label: "AddMachineDialog.tsx:287",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:287",
+      },
+      {
+        label: "MachineDetailPanel.tsx:426,699",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:426,699",
+      },
+      {
+        label: "MobileComputersPanel.tsx:86",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MobileComputersPanel.tsx:86",
+      },
+      {
+        label: "AgentActivityDot.tsx:24",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentActivityDot.tsx:24",
+      },
+      {
+        label: "MentionHoverCard.tsx:54",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:54",
+      },
+      {
+        label: "AgentDetailPanel.tsx:951,1206,1233,1708",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:951,1206,1233,1708",
+      },
+      {
+        label: "AgentActivityLog.tsx:63,96,116,152,188,228,249",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentActivityLog.tsx:63,96,116,152,188,228,249",
+      },
+      {
+        label: "ChatPanel.tsx:60",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:60",
+      },
+      {
+        label: "HumanDetailPanel.tsx:523",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:523",
+      },
+      {
+        label: "MessageItem.tsx:1218",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1218",
+      },
+      {
+        label: "LiveAgentActivityBar.tsx:56",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LiveAgentActivityBar.tsx:56",
+      },
+      {
+        label: "Sidebar.tsx:1080,1152,1364,1673",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1080,1152,1364,1673",
+      },
+    ],
+  },
+  {
+    label: "AttentionDot scenes",
+    scenes: [
+      {
+        label: "LeftRail.tsx:101,222",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:101,222",
+      },
+      {
+        label: "Sidebar.tsx:1212,1481,1532,1575,1705",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1212,1481,1532,1575,1705",
+      },
+    ],
+  },
+] as const;
 
 const VARIANTS = [
   "default",
@@ -296,6 +368,7 @@ function StatusDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Default",

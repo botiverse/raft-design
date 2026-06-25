@@ -38,6 +38,62 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Channel, agent, and report textareas",
+    scenes: [
+      {
+        label: "HumanDetailPanel.tsx:309",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:309",
+      },
+      {
+        label: "CreateJointChannelDialog.tsx:209,232",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:209,232",
+      },
+      {
+        label: "CreateChannelDialog.tsx:272",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:272",
+      },
+      {
+        label: "EditChannelDialog.tsx:166",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:166",
+      },
+      {
+        label: "ReportIssueDialog.tsx:294",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:294",
+      },
+      {
+        label: "CreateAgentDialog.tsx:416",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:416",
+      },
+      {
+        label: "AgentDetailPanel.tsx:876",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:876",
+      },
+      {
+        label: "SettingsPanel.tsx:2569,2630",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:2569,2630",
+      },
+    ],
+  },
+  {
+    label: "Composer and wrappers",
+    scenes: [
+      {
+        label: "SOSDialog.tsx:102",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/SOSDialog.tsx:102",
+      },
+      {
+        label: "MessageInput.tsx:1106",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:1106",
+      },
+      {
+        label: "Textarea.tsx:114",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/Textarea.tsx:114",
+      },
+    ],
+  },
+] as const;
 
 const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
 
@@ -420,6 +476,7 @@ function TextareaDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

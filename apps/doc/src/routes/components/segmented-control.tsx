@@ -30,6 +30,37 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Filters, views, and preferences",
+    scenes: [
+      {
+        label: "ThreadsInbox.tsx:379",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/thread/ThreadsInbox.tsx:379",
+      },
+      {
+        label: "TaskBoard.tsx:117,129",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TaskBoard.tsx:117,129",
+      },
+      {
+        label: "TasksPanel.tsx:942",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:942",
+      },
+      {
+        label: "SettingsPanel.tsx:708,775,2963",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:708,775,2963",
+      },
+      {
+        label: "CreateChannelDialog.tsx:281",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:281",
+      },
+      {
+        label: "MessageSearchPage.tsx:888",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:888",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   anatomy: `import {
@@ -358,6 +389,7 @@ function SegmentedControlDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

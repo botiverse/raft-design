@@ -37,6 +37,123 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Auth, identity, and search inputs",
+    scenes: [
+      {
+        label: "DeviceLoginPage.tsx:90",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/DeviceLoginPage.tsx:90",
+      },
+      {
+        label: "HumanDetailPanel.tsx:185",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:185",
+      },
+      {
+        label: "CreateTaskDialog.tsx:77",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/CreateTaskDialog.tsx:77",
+      },
+      {
+        label: "InviteHumanDialog.tsx:145",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/InviteHumanDialog.tsx:145",
+      },
+      {
+        label: "MessageSearchPage.tsx:697",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:697",
+      },
+      {
+        label: "SearchInput.tsx:17",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SearchInput.tsx:17",
+      },
+      {
+        label: "EmailVerificationPage.tsx:143",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/EmailVerificationPage.tsx:143",
+      },
+      {
+        label: "ForgotPasswordPage.tsx:69",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ForgotPasswordPage.tsx:69",
+      },
+      {
+        label: "RegisterPage.tsx:71,84,96",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/RegisterPage.tsx:71,84,96",
+      },
+      {
+        label: "LoginPage.tsx:114,126",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LoginPage.tsx:114,126",
+      },
+      {
+        label: "ResetPasswordPage.tsx:83,96",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ResetPasswordPage.tsx:83,96",
+      },
+    ],
+  },
+  {
+    label: "Channel, agent, message, and settings inputs",
+    scenes: [
+      {
+        label: "AddMachineDialog.tsx:335",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:335",
+      },
+      {
+        label: "MessageInput.tsx:1032,1044",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:1032,1044",
+      },
+      {
+        label: "MachineDetailPanel.tsx:732",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:732",
+      },
+      {
+        label: "ServerSelector.tsx:61",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ServerSelector.tsx:61",
+      },
+      {
+        label: "ChannelMembers.tsx:265",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:265",
+      },
+      {
+        label: "SelectionPopover.tsx:136",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SelectionPopover.tsx:136",
+      },
+      {
+        label: "CreateAgentDialog.tsx:400",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:400",
+      },
+      {
+        label: "RuntimeConfigFields.tsx:78,90,208,222,273",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:78,90,208,222,273",
+      },
+      {
+        label: "AgentDetailPanel.tsx:354,366,800,1810",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:354,366,800,1810",
+      },
+      {
+        label: "CreateJointChannelDialog.tsx:197,250",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:197,250",
+      },
+      {
+        label:
+          "SettingsPanel.tsx:318,345,447,456,466,1127,1534,1546,2532,2542,2551,2560,2603,2612,2621,2789",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:318,345,447,456,466,1127,1534,1546,2532,2542,2551,2560,2603,2612,2621,2789",
+      },
+      {
+        label: "OwnerOnboardingModal.tsx:936,1070",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/OwnerOnboardingModal.tsx:936,1070",
+      },
+      {
+        label: "EditChannelDialog.tsx:154",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:154",
+      },
+      {
+        label: "SlugInput.tsx:23",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SlugInput.tsx:23",
+      },
+      {
+        label: "CreateChannelDialog.tsx:261,296",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:261,296",
+      },
+    ],
+  },
+] as const;
 
 const SNIPPETS = {
   anatomy: `import { Input } from "raft-ui";
@@ -333,6 +450,7 @@ function InputDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {

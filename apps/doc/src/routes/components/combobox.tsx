@@ -90,6 +90,34 @@ const TOC = [
     ],
   },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Message search filters",
+    scenes: [
+      {
+        label: "MessageSearchPage.tsx:742",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:742",
+      },
+      {
+        label: "MessageSearchPage.tsx:816",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:816",
+      },
+    ],
+  },
+  {
+    label: "Task filters",
+    scenes: [
+      {
+        label: "TasksPanel.tsx:442",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:442",
+      },
+      {
+        label: "TasksPanel.tsx:865",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:865",
+      },
+    ],
+  },
+] as const;
 
 const channels = [
   { id: "all", label: "All messages", Icon: MessagesSquare },
@@ -1432,6 +1460,7 @@ function ComboboxDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           previewSize="popover"
           items={[

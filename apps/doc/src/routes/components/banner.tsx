@@ -42,6 +42,146 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+const SOURCE_SCENES = [
+  {
+    label: "Auth, setup, dialogs, and settings banners",
+    scenes: [
+      {
+        label: "DeviceLoginPage.tsx:85",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/DeviceLoginPage.tsx:85",
+      },
+      {
+        label: "OnboardingStepDialog.tsx:55",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/onboarding/OnboardingStepDialog.tsx:55",
+      },
+      {
+        label: "ConfirmDialog.tsx:70,80",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ConfirmDialog.tsx:70,80",
+      },
+      {
+        label: "ActionCard.tsx:304",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/actions/ActionCard.tsx:304",
+      },
+      {
+        label: "MemberGraphSection.tsx:704",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/MemberGraphSection.tsx:704",
+      },
+      {
+        label: "CreateTaskDialog.tsx:69",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/CreateTaskDialog.tsx:69",
+      },
+      {
+        label:
+          "SettingsPanel.tsx:371,476,725,792,971,1152,1341,1557,1761,1847,1936,1942,2328,2347,2503,2817,2831,2980",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:371,476,725,792,971,1152,1341,1557,1761,1847,1936,1942,2328,2347,2503,2817,2831,2980",
+      },
+      {
+        label: "AddMembersDialog.tsx:231",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/AddMembersDialog.tsx:231",
+      },
+      {
+        label: "AgentRemindersSection.tsx:129",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentRemindersSection.tsx:129",
+      },
+      {
+        label: "CommunityAgreementDialog.tsx:64",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/server/CommunityAgreementDialog.tsx:64",
+      },
+      {
+        label: "InviteHumanDialog.tsx:110",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/InviteHumanDialog.tsx:110",
+      },
+      {
+        label: "CreateJointChannelDialog.tsx:164,169",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:164,169",
+      },
+      {
+        label: "ResetAgentDialog.tsx:71,95",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ResetAgentDialog.tsx:71,95",
+      },
+      {
+        label: "CreateChannelDialog.tsx:222,227",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:222,227",
+      },
+      {
+        label: "CreateAgentDialog.tsx:320",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:320",
+      },
+      {
+        label: "ReportIssueDialog.tsx:334,350",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:334,350",
+      },
+      {
+        label: "EditChannelDialog.tsx:139",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:139",
+      },
+      {
+        label: "AddMachineDialog.tsx:167,284",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:167,284",
+      },
+      {
+        label: "AgentScopesPanel.tsx:121,176",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentScopesPanel.tsx:121,176",
+      },
+      {
+        label: "AgentDetailPanel.tsx:179,246",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:179,246",
+      },
+      {
+        label: "ChatPanel.tsx:75,498",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:75,498",
+      },
+      {
+        label: "MachineDetailPanel.tsx:98,414,530,952",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:98,414,530,952",
+      },
+      {
+        label: "ServerSelector.tsx:56",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ServerSelector.tsx:56",
+      },
+      {
+        label: "SocialAuthCallbackPage.tsx:141,161",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/SocialAuthCallbackPage.tsx:141,161",
+      },
+      {
+        label: "ResetPasswordPage.tsx:78",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ResetPasswordPage.tsx:78",
+      },
+      {
+        label: "EmailVerificationPage.tsx:102",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/EmailVerificationPage.tsx:102",
+      },
+      {
+        label: "ForgotPasswordPage.tsx:64",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ForgotPasswordPage.tsx:64",
+      },
+      {
+        label: "InviteAcceptPage.tsx:204",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/InviteAcceptPage.tsx:204",
+      },
+      {
+        label: "LoginPage.tsx:109",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LoginPage.tsx:109",
+      },
+      {
+        label: "Sidebar.tsx:1934",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1934",
+      },
+      {
+        label: "RegisterPage.tsx:66",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/RegisterPage.tsx:66",
+      },
+      {
+        label: "SOSDialog.tsx:70,96",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/SOSDialog.tsx:70,96",
+      },
+      {
+        label: "MessageItem.tsx:1108",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1108",
+      },
+    ],
+  },
+] as const;
 
 const STATUSES = ["default", "destructive", "warning", "info", "success"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
@@ -462,6 +602,7 @@ function BannerDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           layout="grid"
           items={[
             {
