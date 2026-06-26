@@ -15,7 +15,8 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 // All styled parts share one `tv()` slots config so theme styling lives in a
 // single place, ready for the elegant family to add per-slot overrides under
 // `theme`. Each part resolves its own slot with the active theme, so they stay
-// independently composable. `shadow-brutal-lg` maps to the --shadow-lg token.
+// independently composable. Source `shadow-brutal-lg` maps to the 6px brutal
+// shadow carried by `shadow-xl`.
 const bottomSheet = tv({
   slots: {
     content: [
@@ -28,7 +29,7 @@ const bottomSheet = tv({
   },
   variants: {
     theme: {
-      brutal: { content: ["border-2 border-line-strong bg-layer-panel shadow-xl"] },
+      brutal: { content: ["border-2 border-black bg-white text-black shadow-xl"] },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
