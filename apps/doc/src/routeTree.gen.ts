@@ -55,6 +55,7 @@ import { Route as ComponentsEmptyStateRouteImport } from './routes/components/em
 import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
+import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
@@ -321,6 +322,11 @@ const ComponentsDescriptionListRoute =
     path: '/description-list',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsCopyableCodeRoute = ComponentsCopyableCodeRouteImport.update({
+  id: '/copyable-code',
+  path: '/copyable-code',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsConversationPreviewCardRoute =
   ComponentsConversationPreviewCardRouteImport.update({
     id: '/conversation-preview-card',
@@ -494,6 +500,7 @@ export interface FileRoutesByFullPath {
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
@@ -571,6 +578,7 @@ export interface FileRoutesByTo {
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
@@ -650,6 +658,7 @@ export interface FileRoutesById {
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
+  '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
@@ -730,6 +739,7 @@ export interface FileRouteTypes {
     | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
+    | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
     | '/components/dropdown-menu'
@@ -807,6 +817,7 @@ export interface FileRouteTypes {
     | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
+    | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
     | '/components/dropdown-menu'
@@ -885,6 +896,7 @@ export interface FileRouteTypes {
     | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
+    | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
     | '/components/dropdown-menu'
@@ -1284,6 +1296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsDescriptionListRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/copyable-code': {
+      id: '/components/copyable-code'
+      path: '/copyable-code'
+      fullPath: '/components/copyable-code'
+      preLoaderRoute: typeof ComponentsCopyableCodeRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/conversation-preview-card': {
       id: '/components/conversation-preview-card'
       path: '/conversation-preview-card'
@@ -1509,6 +1528,7 @@ interface ComponentsRouteChildren {
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
+  ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
   ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
@@ -1571,6 +1591,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
+  ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
   ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,

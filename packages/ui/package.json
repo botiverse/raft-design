@@ -45,6 +45,7 @@
     "@dnd-kit/utilities": "catalog:",
     "@tanstack/react-hotkeys": "catalog:",
     "cnfast": "catalog:",
+    "foxact": "^0.3.7",
     "lucide-react": "catalog:",
     "tailwind-variants": "catalog:"
   },

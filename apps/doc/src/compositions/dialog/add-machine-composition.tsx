@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "raft-ui/wip";
-import { Banner, BannerDescription, Button } from "raft-ui";
-import { Circle, Copy, Terminal } from "lucide-react";
+import { Banner, BannerDescription, Button, CopyableCode } from "raft-ui";
+import { Circle, Terminal } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -34,14 +34,10 @@ function AddMachineDialogParts() {
           <Terminal className="size-4" />
           Run this command on your computer to connect:
         </div>
-        <div className="mb-7 flex min-w-0 items-center gap-2">
-          <code className="min-w-0 flex-1 break-all border-2 border-line-strong bg-black px-3 py-2 font-mono text-xs leading-5 text-[oklch(0.88_0.18_132)] shadow-sm">
-            {CONNECT_COMMAND}
-          </code>
-          <Button variant="outline" size="icon-sm" aria-label="Copy daemon command">
-            <Copy />
-          </Button>
-        </div>
+        <CopyableCode.Root className="mb-7">
+          <CopyableCode.Code>{CONNECT_COMMAND}</CopyableCode.Code>
+          <CopyableCode.Action ariaLabel="Copy daemon command" />
+        </CopyableCode.Root>
         <Banner status="warning" size="md" className="mb-5">
           <Circle className="size-3 fill-[oklch(0.84_0.08_54)] text-[oklch(0.55_0.11_52)]" />
           <BannerDescription className="font-bold">

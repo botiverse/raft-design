@@ -202,6 +202,9 @@ importers:
       cnfast:
         specifier: 'catalog:'
         version: 0.0.7
+      foxact:
+        specifier: ^0.3.7
+        version: 0.3.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       lucide-react:
         specifier: 'catalog:'
         version: 1.21.0(react@19.2.7)

@@ -1135,7 +1135,7 @@ function DialogDoc() {
               id: "source-comparison-add-machine",
               label: "Add computer",
               status: "todo",
-              note: "Source used Modal for a single daemon command copy step and yellow waiting state.",
+              note: "Source repeats the same command copy row in AddMachineDialog and MachineDetailPanel; current extracts it to CopyableCode and keeps the waiting state in Banner.",
               source: <SourceAddMachine />,
               brutal: <AddMachineDialogComposition />,
               elegant: <AddMachineDialogComposition />,
@@ -1145,12 +1145,12 @@ function DialogDoc() {
                   label: "Computer setup dialog",
                   scenes: [
                     {
-                      label: "AddMachineDialog.tsx:134",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:134",
+                      label: "AddMachineDialog.tsx:247-277",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:247-277",
                     },
                     {
-                      label: "MainLayout.tsx:1398",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1398",
+                      label: "MachineDetailPanel.tsx:844-873",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:844-873",
                     },
                   ],
                 },

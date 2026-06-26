@@ -33,6 +33,7 @@ import {
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
+  CopyableCode,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -148,6 +149,7 @@ type ComponentRoute =
   | "/components/checkbox"
   | "/components/combobox"
   | "/components/context-menu"
+  | "/components/copyable-code"
   | "/components/dropdown-menu"
   | "/components/field"
   | "/components/label"
@@ -528,6 +530,20 @@ const COMPONENT_GRID = [
         <span>with</span>
         <InlineCode>disabled</InlineCode>
         <span>state.</span>
+      </div>
+    ),
+  },
+  {
+    label: "CopyableCode",
+    to: "/components/copyable-code",
+    preview: (
+      <div className="grid w-72 gap-3">
+        <CopyableCode.Root size="sm">
+          <CopyableCode.Code truncate>
+            npx @botiverse/raft-daemon@latest --server-url https://api.raft.build
+          </CopyableCode.Code>
+          <CopyableCode.Action ariaLabel="Copy daemon command" />
+        </CopyableCode.Root>
       </div>
     ),
   },

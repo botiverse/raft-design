@@ -32,6 +32,14 @@ export type {
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
 
+export { CopyableCode } from "./components/copyable-code/index";
+export type {
+  CopyableCodeActionProps,
+  CopyableCodeCodeProps,
+  CopyableCodeProps,
+  CopyableCodeRootProps,
+} from "./components/copyable-code/index";
+
 export { Checkbox } from "./components/checkbox/index";
 export type { CheckboxProps } from "./components/checkbox/index";
 
