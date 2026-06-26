@@ -232,6 +232,31 @@ function getSceneCount(groups: readonly SourceSceneGroup[]) {
   return groups.reduce((count, group) => count + group.scenes.length, 0);
 }
 
+function slugifyComparisonLabel(label: string) {
+  return label
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function getSourceComparisonItemIds(items: readonly SourceComparisonItem[]) {
+  const counts = new Map<string, number>();
+
+  return items.map((item) => {
+    if (item.id) {
+      return item.id;
+    }
+
+    const slug = slugifyComparisonLabel(item.label) || "item";
+    const baseId = `source-comparison-${slug}`;
+    const count = (counts.get(baseId) ?? 0) + 1;
+    counts.set(baseId, count);
+
+    return count === 1 ? baseId : `${baseId}-${count}`;
+  });
+}
+
 function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[] }) {
   const sceneCount = getSceneCount(groups);
   const triggerLabel = `${sceneCount} source ${sceneCount === 1 ? "ref" : "refs"}`;
@@ -286,9 +311,12 @@ export function SourceComparison({
   previewSize,
   sourceScenes,
 }: SourceComparisonProps) {
+  const itemIds = getSourceComparisonItemIds(items);
+
   return (
     <div data-source-comparison className="space-y-16">
-      {items.map((item) => {
+      {items.map((item, index) => {
+        const itemId = itemIds[index];
         const status = item.status ?? "review";
         const StatusIcon = STATUS_ICON[status];
         const panes = getComparisonPanes(item);
@@ -306,11 +334,11 @@ export function SourceComparison({
           : `grid divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
         return (
           <section
-            key={item.id ?? item.label}
-            id={item.id}
+            key={item.id ?? `${item.label}-${index}`}
+            id={itemId}
             data-source-comparison-item={item.label}
             data-source-comparison-status={status}
-            className={`space-y-5${item.id ? " scroll-mt-8" : ""}`}
+            className="scroll-mt-8 space-y-5"
           >
             <div className="grid gap-2 px-1">
               <div className="flex min-w-0 items-center justify-between gap-4">
