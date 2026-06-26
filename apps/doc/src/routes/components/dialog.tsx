@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Button, Field, FieldDescription, FieldLabel, Input, Text, Textarea } from "raft-ui";
 import {
   AlertTriangle,

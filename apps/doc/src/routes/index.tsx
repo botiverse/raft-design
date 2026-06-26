@@ -10,6 +10,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -174,6 +182,7 @@ type ComponentRoute =
   | "/components/empty-state"
   | "/components/notification-center"
   | "/components/popover"
+  | "/components/dialog"
   | "/components/alert-dialog";
 
 type ComponentGridItem = {
@@ -334,6 +343,11 @@ const COMPONENT_GRID = [
     label: "Popover",
     to: "/components/popover",
     preview: <PopoverPreview />,
+  },
+  {
+    label: "Dialog",
+    to: "/components/dialog",
+    preview: <DialogPreview />,
   },
   {
     label: "AlertDialog",
@@ -1067,6 +1081,42 @@ function AlertDialogPreview() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    </div>
+  );
+}
+
+function DialogPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-10">
+      <Dialog open modal={false}>
+        <DialogContent
+          overlay={false}
+          initialFocus={false}
+          finalFocus={false}
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="relative top-auto left-auto z-0 w-[264px] max-w-[264px] translate-x-0 translate-y-0"
+        >
+          <DialogHeader>
+            <DialogTitle>Edit channel</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+          <DialogBody className="grid gap-3">
+            <DialogDescription>Update channel details for the workspace.</DialogDescription>
+            <Field>
+              <FieldLabel htmlFor="home-dialog-name">Name</FieldLabel>
+              <Input id="home-dialog-name" defaultValue="design-system" />
+            </Field>
+          </DialogBody>
+          <DialogFooter>
+            <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
+            <Button variant="primary" size="sm">
+              Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

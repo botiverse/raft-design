@@ -1,11 +1,11 @@
-import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "raft-ui/wip";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "raft-ui";
 import { Button, Text } from "raft-ui";
 import { Monitor } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
-import { Dialog } from "raft-ui/wip";
+import { Dialog } from "raft-ui";
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 const PREVIEW_CONTENT_CLASS =

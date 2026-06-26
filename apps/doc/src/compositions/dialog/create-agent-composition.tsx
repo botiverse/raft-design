@@ -5,7 +5,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   Button,
   Field,
@@ -25,7 +25,7 @@ import {
 // @docs-source-strip-start
 import type { RefObject } from "react";
 import { useRef } from "react";
-import { Dialog } from "raft-ui/wip";
+import { Dialog } from "raft-ui";
 import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 const PREVIEW_CONTENT_CLASS =
