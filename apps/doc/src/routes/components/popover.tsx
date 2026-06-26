@@ -21,7 +21,6 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import popoverMentionCardCompositionSource from "#/compositions/popover-mention-card-composition.tsx?raw";
 import { PopoverMentionCardComposition } from "#/compositions/popover-mention-card-composition.tsx";
 import popoverNotificationCompositionSource from "#/compositions/popover-notification-composition.tsx?raw";
@@ -30,7 +29,6 @@ import { SourceComparisonPreview } from "#/compositions/source-comparison-previe
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "details", title: "Details" },
@@ -66,6 +64,14 @@ const SOURCE_SCENES = [
     label: "Hover cards and message popovers",
     scenes: [
       {
+        label: "MentionLink.tsx:15-33",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionLink.tsx:15-33",
+      },
+      {
+        label: "useProfileHoverCard.tsx:49-83",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/hooks/useProfileHoverCard.tsx:49-83",
+      },
+      {
         label: "MentionHoverCard.tsx:35,99,102",
         path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:35,99,102",
       },
@@ -76,8 +82,6 @@ const SOURCE_SCENES = [
     ],
   },
 ] as const;
-
-const TODOS = ["Keep trigger labels aligned with the panel's actual content."] as const;
 
 type PlaygroundValues = {
   open: boolean;
@@ -357,26 +361,39 @@ function SourceNotificationItem({
 
 function SourceMentionCardPreview() {
   return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-10">
-      <div className="w-[17.5rem] overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
-        <div className="flex items-start gap-3 px-3 pt-3 pb-2">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-black bg-brutal-yellow text-sm font-bold text-black">
-            AT
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
-              <span className="truncate text-sm font-bold text-black">Atlas</span>
-              <Status aria-hidden size="sm" variant="success" />
-              <span className="truncate font-mono text-xs text-black/60">Online</span>
+    <SourceComparisonPreview className="min-h-72 items-start pt-8">
+      <div className="grid w-[20rem] justify-items-start gap-2">
+        <p className="m-0 max-w-full text-sm leading-6 text-black">
+          <span>Follow up with </span>
+          <a
+            href="#"
+            onClick={(event) => event.preventDefault()}
+            className="cursor-default select-text font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2 hover:text-brutal-pink hover:decoration-brutal-pink"
+          >
+            @Atlas
+          </a>
+          <span> about the token migration.</span>
+        </p>
+        <div className="ml-16 w-[17.5rem] overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
+          <div className="flex items-start gap-3 px-3 pt-3 pb-2">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-black bg-brutal-yellow text-sm font-bold text-black">
+              AT
             </div>
-            <div className="truncate font-mono text-xs text-black/60">@atlas</div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="truncate text-sm font-bold text-black">Atlas</span>
+                <Status aria-hidden size="sm" variant="success" />
+                <span className="truncate font-mono text-xs text-black/60">Online</span>
+              </div>
+              <div className="truncate font-mono text-xs text-black/60">@atlas</div>
+            </div>
           </div>
-        </div>
-        <div
-          className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70"
-          title="Reviewing the token migration in #design-system."
-        >
-          Reviewing the token migration in #design-system.
+          <div
+            className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70"
+            title="Reviewing the token migration in #design-system."
+          >
+            Reviewing the token migration in #design-system.
+          </div>
         </div>
       </div>
     </SourceComparisonPreview>
@@ -402,10 +419,6 @@ function PopoverDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Preview keeps the surface to one trigger and its supporting guidance panel.
@@ -465,7 +478,7 @@ function PopoverDoc() {
               id: "source-comparison-mention-card",
               label: "Mention card",
               status: "difference",
-              note: "Source scenes: MentionHoverCard.tsx:35,99,102; MessageItem.tsx:2808,2860,2862,2890.",
+              note: "Source trigger is the @mention anchor in MentionLink.tsx:15-33; useProfileHoverCard.tsx:49-83 opens the card on hover/focus. This comparison freezes the opened MentionHoverCard.tsx:35,99,102 state.",
               source: <SourceMentionCardPreview />,
               brutal: <PopoverMentionCardComposition />,
               elegant: <PopoverMentionCardComposition />,
