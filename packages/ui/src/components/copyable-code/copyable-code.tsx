@@ -14,9 +14,9 @@ import { Button, type ButtonProps } from "../button/index";
 
 const copyableCode = tv({
   slots: {
-    root: ["group/copyable-code flex min-w-0 items-center gap-2"],
+    root: ["group/copyable-code flex w-full min-w-0 items-center gap-2"],
     code: ["min-w-0 flex-1 font-mono text-xs"],
-    codeInner: ["block min-w-0 break-all"],
+    codeInner: ["block w-full min-w-0 max-w-full break-all"],
     action: [
       "shrink-0",
       "[&_[data-slot=button]]:transition-[color,background-color,box-shadow]",

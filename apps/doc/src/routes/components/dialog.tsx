@@ -78,9 +78,9 @@ const TOC = [
       { id: "source-comparison-edit-channel", title: "Edit channel" },
       { id: "source-comparison-edit-channel-management", title: "Edit channel actions" },
       { id: "source-comparison-invite-human", title: "Invite human" },
+      { id: "source-comparison-add-machine", title: "Add computer" },
       { id: "source-comparison-create-channel", title: "Create channel" },
       { id: "source-comparison-create-agent", title: "Create agent" },
-      { id: "source-comparison-add-machine", title: "Add computer" },
       { id: "source-comparison-reset-agent", title: "Reset agent" },
       { id: "source-comparison-agreement", title: "Agreement" },
       { id: "source-comparison-onboarding", title: "Onboarding" },
@@ -1064,6 +1064,32 @@ function DialogDoc() {
               ...compositionPanelProps(code, "InviteHuman"),
             },
             {
+              id: "source-comparison-add-machine",
+              label: "Add computer",
+              status: "difference",
+              note: "Intentional differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status. This docs scene is static and is not wired to the live computer connection flow.",
+              source: <SourceAddMachine />,
+              brutal: <AddMachineDialogComposition />,
+              elegant: <AddMachineDialogComposition />,
+              elegantDark: <AddMachineDialogComposition />,
+              sourceScenes: [
+                {
+                  label: "Computer setup dialog",
+                  scenes: [
+                    {
+                      label: "AddMachineDialog.tsx:247-277",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:247-277",
+                    },
+                    {
+                      label: "MachineDetailPanel.tsx:844-873",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:844-873",
+                    },
+                  ],
+                },
+              ],
+              ...compositionPanelProps(code, "AddMachine"),
+            },
+            {
               id: "source-comparison-create-channel",
               label: "Create channel",
               status: "todo",
@@ -1130,32 +1156,6 @@ function DialogDoc() {
                 },
               ],
               ...compositionPanelProps(code, "CreateAgent"),
-            },
-            {
-              id: "source-comparison-add-machine",
-              label: "Add computer",
-              status: "todo",
-              note: "Source repeats the same command copy row in AddMachineDialog and MachineDetailPanel; current extracts it to CopyableCode and keeps the waiting state in Banner.",
-              source: <SourceAddMachine />,
-              brutal: <AddMachineDialogComposition />,
-              elegant: <AddMachineDialogComposition />,
-              elegantDark: <AddMachineDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Computer setup dialog",
-                  scenes: [
-                    {
-                      label: "AddMachineDialog.tsx:247-277",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:247-277",
-                    },
-                    {
-                      label: "MachineDetailPanel.tsx:844-873",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:844-873",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "AddMachine"),
             },
             {
               id: "source-comparison-reset-agent",

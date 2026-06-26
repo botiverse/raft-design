@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "raft-ui/wip";
-import { Banner, BannerDescription, Button, CopyableCode } from "raft-ui";
-import { Circle, Terminal } from "lucide-react";
+import { Banner, BannerDescription, Button, CopyableCode, Status } from "raft-ui";
+import { Terminal } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -35,14 +35,12 @@ function AddMachineDialogParts() {
           Run this command on your computer to connect:
         </div>
         <CopyableCode.Root className="mb-7">
-          <CopyableCode.Code>{CONNECT_COMMAND}</CopyableCode.Code>
+          <CopyableCode.Code truncate>{CONNECT_COMMAND}</CopyableCode.Code>
           <CopyableCode.Action ariaLabel="Copy daemon command" />
         </CopyableCode.Root>
         <Banner status="warning" size="md" className="mb-5">
-          <Circle className="size-3 fill-[oklch(0.84_0.08_54)] text-[oklch(0.55_0.11_52)]" />
-          <BannerDescription className="font-bold">
-            Waiting for computer to connect...
-          </BannerDescription>
+          <Status variant="warning" size="sm" pulse />
+          <BannerDescription>Waiting for computer to connect...</BannerDescription>
         </Banner>
       </DialogBody>
       <DialogFooter>

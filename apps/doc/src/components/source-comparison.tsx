@@ -126,7 +126,7 @@ function ComparisonPreview({
       <PreviewThemeScope
         family={family}
         mode={mode}
-        className={`relative flex h-full min-h-0 w-full ${previewMinHeight} items-center justify-center bg-background px-5 py-6 text-foreground`}
+        className={`relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-background px-5 py-6 text-foreground`}
       >
         {labelPlacement === "corner" ? (
           <span className="pointer-events-none absolute top-4 left-4 inline-flex items-center gap-1.5">
