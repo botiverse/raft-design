@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, Badge, Button, Status } from "raft-ui";
+import { Avatar, Button, Status } from "raft-ui";
 import {
   PanelHeader,
   PanelHeaderActions,
@@ -11,7 +11,21 @@ import {
   PanelHeaderTitleRow,
   PanelHeaderVisual,
 } from "raft-ui/wip";
-import { ArrowLeft, Bookmark, Search, Settings, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Bookmark,
+  BookmarkMinus,
+  CalendarRange,
+  ChevronDown,
+  Hash,
+  MessageSquare,
+  RotateCcw,
+  Search,
+  Settings,
+  Square,
+  UserCircle2,
+  X,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -70,7 +84,22 @@ const SNIPPETS = {
     </Button>
   </PanelHeaderActions>
 </PanelHeader>`,
-  sourceSaved: `<PanelHeader
+  sourceSaved: `<div className="flex min-h-0 flex-1 flex-col">
+  <PanelHeader
+    title="Saved"
+    subtitle={\`\${saved.length} saved\`}
+    icon={<Bookmark size={18} />}
+    iconBg="bg-brutal-yellow"
+    onMobileBack={onMobileBack}
+  />
+
+  <div className="flex-1 overflow-y-auto bg-white p-4 safe-bottom">
+    <div className="flex flex-col gap-2">
+      <SavedItem />
+    </div>
+  </div>
+</div>`,
+  sourceSavedHeader: `<PanelHeader
   title="Saved"
   subtitle={\`\${saved.length} saved\`}
   icon={<Bookmark size={18} />}
@@ -91,47 +120,69 @@ const SNIPPETS = {
     <PanelHeaderSubtitle>{saved.length} saved</PanelHeaderSubtitle>
   </PanelHeaderContent>
 </PanelHeader>`,
-  sourceIdentity: `<PanelHeader
-  iconSlot={<AvatarSlot context="panel-header" type="agent" />}
-  iconAlwaysVisible
-  title="Atlas"
-  titleSuffix={<StatusDot tone="bg-brutal-lime" />}
-  subtitle="claude-opus · online"
-  actions={<ExperimentalBadge />}
-/>`,
-  currentIdentity: `<PanelHeader>
-  <PanelHeaderVisual className="flex">
-    <Avatar size="md" type="agent" />
-  </PanelHeaderVisual>
-  <PanelHeaderContent>
-    <PanelHeaderTitleRow>
-      <PanelHeaderTitle>Atlas</PanelHeaderTitle>
-      <PanelHeaderSuffix>
-        <Status variant="success" />
-      </PanelHeaderSuffix>
-    </PanelHeaderTitleRow>
-    <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>
-  </PanelHeaderContent>
-  <PanelHeaderActions>
-    <Badge.Experimental />
-  </PanelHeaderActions>
-</PanelHeader>`,
-  sourceSearch: `<PanelHeader
-  titleSlot={
-    <div className="flex items-center gap-3">
-      <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-brutal-yellow">
-        <Search size={18} />
+  sourceIdentity: `<div className="flex min-h-0 flex-1 flex-col">
+  <PanelHeader
+    iconSlot={<AvatarSlot context="panel-header" type="agent" />}
+    iconAlwaysVisible
+    title="Atlas"
+    titleSuffix={<StatusDot tone="bg-brutal-lime" />}
+    subtitle="claude-opus · online"
+    actions={<AgentHeaderActions />}
+  />
+
+  <div className="flex-1 overflow-y-auto bg-white p-4">
+    <AgentSummary />
+  </div>
+</div>`,
+  currentIdentity: `<div className="flex min-h-0 flex-1 flex-col">
+  <PanelHeader>
+    <PanelHeaderVisual className="flex">
+      <Avatar size="md" type="agent" />
+    </PanelHeaderVisual>
+    <PanelHeaderContent>
+      <PanelHeaderTitleRow>
+        <PanelHeaderTitle>Atlas</PanelHeaderTitle>
+        <PanelHeaderSuffix>
+          <Status variant="success" />
+        </PanelHeaderSuffix>
+      </PanelHeaderTitleRow>
+      <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>
+    </PanelHeaderContent>
+    <PanelHeaderActions>
+      <AgentHeaderActions />
+    </PanelHeaderActions>
+  </PanelHeader>
+
+  <div className="flex-1 overflow-y-auto bg-white p-4">
+    <AgentSummary />
+  </div>
+</div>`,
+  sourceSearch: `<div className="flex min-h-0 flex-1 flex-col bg-white">
+  <PanelHeader
+    titleSlot={
+      <div className="flex items-center gap-3">
+        <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-brutal-yellow">
+          <Search size={18} />
+        </div>
+        <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">
+          <input value="design system" readOnly />
+          <button className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
+            <X size={12} />
+          </button>
+          <span className="hidden border border-black px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase text-black/50 sm:inline">
+            ESC
+          </span>
+        </div>
       </div>
-      <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">
-        <input value="design system" readOnly />
-        <button className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
-          <X size={12} />
-        </button>
-      </div>
-    </div>
-  }
-/>`,
-  currentSearch: `<PanelHeader>
+    }
+  />
+
+  <SearchFilterToolbar />
+
+  <SearchResultsContext />
+</div>`,
+  currentSearch: `<div className="flex min-h-0 flex-1 flex-col bg-white">
+  <PanelHeader>
   <PanelHeaderContent>
     <div className="flex items-center gap-3">
       <PanelHeaderIcon className="flex bg-brutal-yellow">
@@ -142,10 +193,18 @@ const SNIPPETS = {
         <button className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
           <X size={12} />
         </button>
+        <span className="hidden border border-black px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase text-black/50 sm:inline">
+          ESC
+        </span>
       </div>
     </div>
   </PanelHeaderContent>
-</PanelHeader>`,
+</PanelHeader>
+
+  <SearchFilterToolbar />
+
+  <SearchResultsContext />
+</div>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -157,7 +216,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "PanelHeaderIcon",
     type: 'useRender.ComponentProps<"div">',
-    description: "Framed 36px icon container. Pass the background token via className.",
+    description:
+      "Framed 36px icon container. Pass the exact source background class via className.",
   },
   {
     name: "PanelHeaderVisual",
@@ -269,11 +329,26 @@ function PanelHeaderDoc() {
         <SourceComparison
           items={[
             {
-              label: "Saved panel",
+              label: "Saved panel header",
               status: "difference",
               note: "Source packed title, subtitle, icon, and back behavior into props. Current composes the same layout with explicit slots.",
+              sourceScenes: [
+                {
+                  label: "Saved panel source",
+                  scenes: [
+                    {
+                      label: "SavedPanel.tsx:96",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:96",
+                    },
+                    {
+                      label: "SavedPanel.tsx:196",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:196",
+                    },
+                  ],
+                },
+              ],
               source: (
-                <PanelHeaderComparisonFrame>
+                <SavedPanelComparisonFrame>
                   <LegacyPanelHeader
                     title="Saved"
                     subtitle="3 saved"
@@ -281,12 +356,12 @@ function PanelHeaderDoc() {
                     iconBg="bg-brutal-yellow"
                     onMobileBack={() => {}}
                   />
-                </PanelHeaderComparisonFrame>
+                </SavedPanelComparisonFrame>
               ),
               current: (
-                <PanelHeaderComparisonFrame>
+                <SavedPanelComparisonFrame>
                   <CurrentSavedPanelHeader />
-                </PanelHeaderComparisonFrame>
+                </SavedPanelComparisonFrame>
               ),
               sourceCode: code.sourceSaved,
               currentCode: code.currentSaved,
@@ -298,22 +373,37 @@ function PanelHeaderDoc() {
               label: "Identity panel",
               status: "difference",
               note: "Source used iconSlot and titleSuffix props for identity panels. Current exposes visual, suffix, and actions as normal children.",
+              sourceScenes: [
+                {
+                  label: "Agent detail source",
+                  scenes: [
+                    {
+                      label: "AgentDetailPanel.tsx:1293",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1293",
+                    },
+                    {
+                      label: "AgentDetailPanel.tsx:1334",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1334",
+                    },
+                  ],
+                },
+              ],
               source: (
-                <PanelHeaderComparisonFrame>
+                <IdentityPanelComparisonFrame>
                   <LegacyPanelHeader
                     iconSlot={<Avatar size="md" type="agent" />}
                     iconAlwaysVisible
                     title="Atlas"
                     titleSuffix={<Status variant="success" />}
                     subtitle="claude-opus · online"
-                    actions={<Badge.Experimental />}
+                    actions={<AgentHeaderActions />}
                   />
-                </PanelHeaderComparisonFrame>
+                </IdentityPanelComparisonFrame>
               ),
               current: (
-                <PanelHeaderComparisonFrame>
+                <IdentityPanelComparisonFrame>
                   <CurrentIdentityPanelHeader />
-                </PanelHeaderComparisonFrame>
+                </IdentityPanelComparisonFrame>
               ),
               sourceCode: code.sourceIdentity,
               currentCode: code.currentIdentity,
@@ -326,15 +416,34 @@ function PanelHeaderDoc() {
               label: "Search title slot",
               status: "difference",
               note: "Source used titleSlot as a full replacement escape hatch. Current keeps the same freedom by composing arbitrary content inside PanelHeaderContent.",
+              sourceScenes: [
+                {
+                  label: "Message search source",
+                  scenes: [
+                    {
+                      label: "MessageSearchPage.tsx:686",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:686",
+                    },
+                    {
+                      label: "MessageSearchPage.tsx:722",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:722",
+                    },
+                    {
+                      label: "MessageSearchPage.tsx:917",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:917",
+                    },
+                  ],
+                },
+              ],
               source: (
-                <PanelHeaderComparisonFrame>
+                <SearchPanelComparisonFrame>
                   <LegacySearchPanelHeader />
-                </PanelHeaderComparisonFrame>
+                </SearchPanelComparisonFrame>
               ),
               current: (
-                <PanelHeaderComparisonFrame>
+                <SearchPanelComparisonFrame>
                   <CurrentSearchPanelHeader />
-                </PanelHeaderComparisonFrame>
+                </SearchPanelComparisonFrame>
               ),
               sourceCode: code.sourceSearch,
               currentCode: code.currentSearch,
@@ -350,24 +459,177 @@ function PanelHeaderDoc() {
   );
 }
 
-function PanelHeaderComparisonFrame({ children }: { children: ReactNode }) {
+function SavedPanelComparisonFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="w-full max-w-sm overflow-hidden border-2 border-black bg-white shadow-brutal-sm [[data-theme=elegant]_&]:rounded-lg [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-panel [[data-theme=elegant]_&]:shadow-sm">
+    <div className="flex h-56 w-full max-w-sm min-h-0 flex-col overflow-hidden bg-white [[data-theme=elegant]_&]:bg-layer-panel">
       {children}
-      <div className="grid gap-px border-t-2 border-black bg-black/10 p-3 [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-line-subtle/40">
-        <div className="flex items-center justify-between bg-white px-3 py-2 text-xs font-medium text-black [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:bg-layer-muted [[data-theme=elegant]_&]:text-foreground">
-          <span>Design handoff</span>
-          <span className="font-mono text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
-            12
-          </span>
-        </div>
-        <div className="flex items-center justify-between bg-white px-3 py-2 text-xs font-medium text-black [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:bg-layer-muted [[data-theme=elegant]_&]:text-foreground">
-          <span>Migration notes</span>
-          <span className="font-mono text-black/45 [[data-theme=elegant]_&]:text-foreground-muted">
-            08
-          </span>
+      <div className="flex-1 overflow-y-auto bg-white p-4">
+        <div className="flex flex-col gap-2">
+          <SourceSavedItem />
         </div>
       </div>
+    </div>
+  );
+}
+
+function SourceSavedItem() {
+  return (
+    <button
+      type="button"
+      className="relative flex w-full items-start gap-3 border-2 border-black/30 bg-white p-3 text-left transition-colors hover:border-black hover:shadow-brutal-sm active:border-black active:shadow-brutal-sm"
+    >
+      <div className="min-w-0 flex-1">
+        <div className="mb-1 flex items-center gap-2 text-xs">
+          <span className="font-bold text-black/50">#design-system</span>
+          <span className="inline-flex items-center gap-1 font-bold text-black">
+            <span>Cindy</span>
+          </span>
+          <span className="font-mono text-xs text-black/40">2h ago</span>
+        </div>
+        <p className="line-clamp-3 text-sm">
+          Panel header should keep the original saved-message surface rhythm.
+        </p>
+      </div>
+      <div
+        className="btn-brutal-sm shrink-0 bg-white p-1.5"
+        title="Remove from Saved"
+        role="button"
+      >
+        <BookmarkMinus size={14} />
+      </div>
+    </button>
+  );
+}
+
+function IdentityPanelComparisonFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex h-56 w-full max-w-sm min-h-0 flex-col overflow-hidden bg-white [[data-theme=elegant]_&]:bg-layer-panel">
+      {children}
+      <div className="flex-1 overflow-y-auto bg-white p-4">
+        <AgentSummary />
+      </div>
+    </div>
+  );
+}
+
+function AgentHeaderActions() {
+  return (
+    <>
+      <button
+        type="button"
+        className="btn-brutal-sm flex h-7 items-center justify-center gap-1.5 bg-white px-2 text-xs font-bold sm:px-2.5"
+        title="Message"
+      >
+        <MessageSquare size={14} />
+        <span>Message</span>
+      </button>
+      <button
+        type="button"
+        className="btn-brutal-sm hidden size-7 items-center justify-center bg-white md:flex"
+        title="Stop Agent"
+      >
+        <Square size={14} />
+      </button>
+      <button
+        type="button"
+        className="btn-brutal-sm hidden size-7 items-center justify-center bg-white md:flex"
+        title="Restart / Reset"
+      >
+        <RotateCcw size={14} />
+      </button>
+    </>
+  );
+}
+
+function AgentSummary() {
+  return (
+    <div className="grid gap-2">
+      <div className="grid grid-cols-2 gap-2">
+        <div className="border-2 border-black/20 bg-white p-3">
+          <div className="font-mono text-[10px] font-bold text-black/40 uppercase">Runtime</div>
+          <div className="mt-1 text-sm font-bold text-black">codex</div>
+        </div>
+        <div className="border-2 border-black/20 bg-white p-3">
+          <div className="font-mono text-[10px] font-bold text-black/40 uppercase">Model</div>
+          <div className="mt-1 text-sm font-bold text-black">gpt-5</div>
+        </div>
+      </div>
+      <div className="border-2 border-black/20 bg-white p-3 text-sm text-black">
+        Handles design-system migration checks and component parity notes.
+      </div>
+    </div>
+  );
+}
+
+function SearchPanelComparisonFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex h-56 w-full max-w-sm min-h-0 flex-col overflow-hidden bg-white [[data-theme=elegant]_&]:bg-layer-panel">
+      {children}
+      <SearchFilterToolbar />
+      <SearchResultsContext />
+    </div>
+  );
+}
+
+function SearchFilterToolbar() {
+  return (
+    <div className="shrink-0 border-b-2 border-black bg-white px-4 py-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <SearchFilterChip icon={<UserCircle2 size={14} />} label="From" />
+        <SearchFilterChip icon={<Hash size={14} />} label="Channel" />
+        <SearchFilterChip icon={<CalendarRange size={14} />} label="Any time" />
+        <div className="ml-auto flex border-2 border-black/30 bg-white text-xs font-bold uppercase tracking-wide text-black/70">
+          <button type="button" className="bg-brutal-yellow px-3 py-1.5 text-black">
+            Relevant
+          </button>
+          <button type="button" className="border-l-2 border-black/30 px-3 py-1.5">
+            Recent
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SearchFilterChip({ icon, label }: { icon: ReactNode; label: string }) {
+  return (
+    <button
+      type="button"
+      className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold tracking-wide text-black/70 uppercase transition-colors hover:border-black"
+    >
+      {icon}
+      <span>{label}</span>
+      <ChevronDown size={12} />
+    </button>
+  );
+}
+
+function SearchResultsContext() {
+  return (
+    <div className="min-h-0 flex-1 overflow-y-auto bg-white p-4">
+      <div className="mb-3 px-1">
+        <div className="font-mono text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase">
+          3 results
+        </div>
+      </div>
+      <div className="px-1 py-2 font-mono text-[10px] font-bold tracking-[0.2em] text-black/50 uppercase">
+        Messages
+      </div>
+      <button
+        type="button"
+        className="w-full border-2 border-black/30 bg-white p-3 text-left transition-colors hover:border-black hover:shadow-brutal-sm active:border-black active:shadow-brutal-sm"
+      >
+        <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
+          <span className="font-bold text-black/50">#design-system</span>
+          <span className="inline-flex items-center gap-1 font-bold text-black">
+            <span>Cindy</span>
+          </span>
+          <span className="font-mono text-black/40">2h ago</span>
+        </div>
+        <div className="line-clamp-2 text-sm leading-relaxed text-black/70">
+          PanelHeader titleSlot keeps search input, clear action, and shortcut in one row.
+        </div>
+      </button>
     </div>
   );
 }
@@ -414,7 +676,7 @@ function CurrentIdentityPanelHeader() {
         <PanelHeaderSubtitle>claude-opus · online</PanelHeaderSubtitle>
       </PanelHeaderContent>
       <PanelHeaderActions>
-        <Badge.Experimental />
+        <AgentHeaderActions />
       </PanelHeaderActions>
     </PanelHeader>
   );
@@ -462,6 +724,9 @@ function SearchInputCluster() {
       <button type="button" className="btn-brutal-sm bg-white p-1" aria-label="Clear search">
         <X size={12} />
       </button>
+      <span className="hidden border border-black px-1.5 py-0.5 font-mono text-[10px] font-bold text-black/50 uppercase sm:inline">
+        ESC
+      </span>
     </div>
   );
 }
