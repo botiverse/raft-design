@@ -75,15 +75,10 @@ const NAV = [
         to: "/components/segmented-control",
         progress: { theme: "done" },
       },
+      { label: "Switch", to: "/components/switch", progress: { theme: "done" } },
       { label: "Textarea", to: "/components/textarea", progress: { theme: "done" } },
     ],
     planned: [
-      {
-        label: "Switch",
-        priority: "P1",
-        docsHref: "https://base-ui.com/react/components/switch",
-        reason: "Use for binary settings where Checkbox is the wrong semantic control.",
-      },
       {
         label: "ToggleGroup",
         priority: "Later",

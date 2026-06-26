@@ -26,6 +26,7 @@ import { Route as ComponentsToggleGroupRouteImport } from './routes/components/t
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
+import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
@@ -168,6 +169,11 @@ const ComponentsTextRoute = ComponentsTextRouteImport.update({
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
   id: '/tabs',
   path: '/tabs',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
+  id: '/switch',
+  path: '/switch',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
@@ -516,6 +522,7 @@ export interface FileRoutesByFullPath {
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -592,6 +599,7 @@ export interface FileRoutesByTo {
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -670,6 +678,7 @@ export interface FileRoutesById {
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
+  '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -749,6 +758,7 @@ export interface FileRouteTypes {
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
+    | '/components/switch'
     | '/components/tabs'
     | '/components/text'
     | '/components/textarea'
@@ -825,6 +835,7 @@ export interface FileRouteTypes {
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
+    | '/components/switch'
     | '/components/tabs'
     | '/components/text'
     | '/components/textarea'
@@ -902,6 +913,7 @@ export interface FileRouteTypes {
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
+    | '/components/switch'
     | '/components/tabs'
     | '/components/text'
     | '/components/textarea'
@@ -1067,6 +1079,13 @@ declare module '@tanstack/react-router' {
       path: '/tabs'
       fullPath: '/components/tabs'
       preLoaderRoute: typeof ComponentsTabsRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/switch': {
+      id: '/components/switch'
+      path: '/switch'
+      fullPath: '/components/switch'
+      preLoaderRoute: typeof ComponentsSwitchRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/status-dot': {
@@ -1518,6 +1537,7 @@ interface ComponentsRouteChildren {
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
+  ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
@@ -1579,6 +1599,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
+  ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,

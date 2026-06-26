@@ -296,6 +296,9 @@ export type {
   RadioGroupProps,
 } from "./components/radio-group/index";
 
+export { Switch, SwitchThumb } from "./components/switch/index";
+export type { SwitchProps, SwitchThumbProps } from "./components/switch/index";
+
 export {
   SegmentedControl,
   SegmentedControlCount,

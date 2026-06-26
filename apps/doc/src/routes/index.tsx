@@ -100,6 +100,7 @@ import {
   SegmentedControlLabel,
   Spinner,
   Status,
+  Switch,
   Tabs,
   TabsBackground,
   TabsLabel,
@@ -155,6 +156,7 @@ type ComponentRoute =
   | "/components/radio-group"
   | "/components/select"
   | "/components/segmented-control"
+  | "/components/switch"
   | "/components/textarea"
   | "/components/avatar"
   | "/components/badge"
@@ -292,6 +294,22 @@ const COMPONENT_GRID = [
         <Checkbox aria-label="Unchecked checkbox" />
         <Checkbox indeterminate aria-label="Indeterminate checkbox" />
         <Checkbox defaultChecked variant="primary" aria-label="Primary checked checkbox" />
+      </div>
+    ),
+  },
+  {
+    label: "Switch",
+    to: "/components/switch",
+    preview: (
+      <div className="grid gap-3">
+        <div className="flex w-56 items-center justify-between gap-4 text-sm font-medium">
+          Desktop notifications
+          <Switch defaultChecked aria-label="Desktop notifications" />
+        </div>
+        <div className="flex w-56 items-center justify-between gap-4 text-sm font-medium text-foreground-muted">
+          Marketing updates
+          <Switch aria-label="Marketing updates" />
+        </div>
       </div>
     ),
   },

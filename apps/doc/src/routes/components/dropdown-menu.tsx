@@ -15,6 +15,7 @@ import {
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
   InlineCode,
+  Switch,
 } from "raft-ui";
 import {
   Bell,
@@ -40,7 +41,6 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { StatusBadge } from "#/components/status-badge.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
@@ -175,15 +175,11 @@ const SWITCH_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="switch-
   <DropdownMenuContent className="flex w-64 flex-col">
     <DropdownMenuItem>
       <span className="min-w-0 flex-1 truncate">Desktop notifications</span>
-      <span className="ml-auto inline-flex h-4 w-7 items-center justify-end rounded-full bg-foreground-strong p-0.5">
-        <span className="size-3 rounded-full bg-layer-popover shadow-sm" />
-      </span>
+      <Switch className="pointer-events-none ml-auto" checked readOnly tabIndex={-1} aria-hidden />
     </DropdownMenuItem>
     <DropdownMenuItem>
       <span className="min-w-0 flex-1 truncate">Marketing updates</span>
-      <span className="ml-auto inline-flex h-4 w-7 items-center rounded-full bg-foreground/[0.12] p-0.5">
-        <span className="size-3 rounded-full bg-layer-popover shadow-sm" />
-      </span>
+      <Switch className="pointer-events-none ml-auto" readOnly tabIndex={-1} aria-hidden />
     </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`;
@@ -387,15 +383,17 @@ function SwitchMenuRows() {
     <>
       <DropdownMenuItem>
         <span className="min-w-0 flex-1 truncate">Desktop notifications</span>
-        <span className="ml-auto inline-flex h-4 w-7 items-center justify-end rounded-full bg-foreground-strong p-0.5">
-          <span className="size-3 rounded-full bg-layer-popover shadow-sm" />
-        </span>
+        <Switch
+          className="pointer-events-none ml-auto"
+          checked
+          readOnly
+          tabIndex={-1}
+          aria-hidden
+        />
       </DropdownMenuItem>
       <DropdownMenuItem>
         <span className="min-w-0 flex-1 truncate">Marketing updates</span>
-        <span className="ml-auto inline-flex h-4 w-7 items-center rounded-full bg-foreground/[0.12] p-0.5">
-          <span className="size-3 rounded-full bg-layer-popover shadow-sm" />
-        </span>
+        <Switch className="pointer-events-none ml-auto" readOnly tabIndex={-1} aria-hidden />
       </DropdownMenuItem>
     </>
   );
@@ -749,7 +747,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="switch" title="Switch" badge={<StatusBadge status="in-progress" />}>
+      <DocSection id="switch" title="Switch">
         <Example html={code.switchMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
             <SwitchMenuRows />
