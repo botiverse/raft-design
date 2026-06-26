@@ -680,6 +680,9 @@ function SourceCreateAgent() {
 }
 
 function SourceAddMachine() {
+  const connectCommand =
+    "npx @botiverse/raft-daemon@latest --server-url https://api.raft.build --api-key sk_machine_0000000000000000000000000000000000000000000000000000000000000000 # Zolplay";
+
   return (
     <SourceModalCard
       title="Connect Computer"
@@ -693,40 +696,27 @@ function SourceAddMachine() {
         </>
       }
     >
-      <div className="grid gap-4">
-        <div className="flex items-center gap-2">
+      <div>
+        <div className="mb-6 flex items-center gap-2">
           <Terminal className="size-4" />
           <span className="text-sm font-bold">Run this command on your computer to connect:</span>
         </div>
-        <div className="flex min-w-0 items-center gap-2">
-          <code className="min-w-0 flex-1 break-all border-2 border-black bg-black px-3 py-2 font-mono text-xs text-[oklch(0.827_0.135_130.07)] shadow-[2px_2px_0_#000]">
-            npx @slock-ai/daemon@latest --server-url https://app.slock.dev --api-key sk_live...
+        <div className="mb-7 flex min-w-0 items-center gap-2">
+          <code className="min-w-0 flex-1 break-all border-2 border-black bg-black px-3 py-2 font-mono text-xs leading-5 text-[oklch(0.827_0.135_130.07)] shadow-[2px_2px_0_#000]">
+            {connectCommand}
           </code>
           <SourceIconButton>
             <Copy className="size-3.5" />
           </SourceIconButton>
         </div>
-        <div>
-          <div className="mb-2 flex items-center gap-2">
-            <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-black/50">
-              Computer
-            </span>
-            <span className="rounded-full bg-[oklch(0.883_0.162_91.89)] px-2 py-0.5 text-[10px] font-bold">
-              WIP
-            </span>
-          </div>
-          <div className="flex min-w-0 items-center gap-2">
-            <code className="min-w-0 flex-1 break-all border-2 border-black bg-black px-3 py-2 font-mono text-xs text-[oklch(0.827_0.135_130.07)] shadow-[2px_2px_0_#000]">
-              npx @slock-ai/computer setup --server raft --api-key sk_live...
-            </code>
-            <SourceIconButton>
-              <Copy className="size-3.5" />
-            </SourceIconButton>
-          </div>
-        </div>
-        <SourceBanner tone="info" className="items-center">
-          <span className="inline-flex size-2 rounded-full bg-[oklch(0.785_0.123_50.11)] shadow-[0_0_0_4px_oklch(0.785_0.123_50.11_/_0.22)]" />
-          Waiting for computer to connect...
+        <SourceBanner
+          tone="warning"
+          className="mb-5 items-center bg-[oklch(0.965_0.067_93.6)] px-4 py-3"
+        >
+          <span className="flex min-w-0 items-center gap-2">
+            <span className="inline-flex size-3 shrink-0 rounded-full border-2 border-[oklch(0.55_0.11_52)] bg-[oklch(0.84_0.08_54)]" />
+            <span className="min-w-0">Waiting for computer to connect...</span>
+          </span>
         </SourceBanner>
       </div>
     </SourceModalCard>
@@ -1145,7 +1135,7 @@ function DialogDoc() {
               id: "source-comparison-add-machine",
               label: "Add computer",
               status: "todo",
-              note: "Source used Modal for a setup step with command copy affordances and connection state.",
+              note: "Source used Modal for a single daemon command copy step and yellow waiting state.",
               source: <SourceAddMachine />,
               brutal: <AddMachineDialogComposition />,
               elegant: <AddMachineDialogComposition />,

@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "raft-ui/wip";
 import { Banner, BannerDescription, Button } from "raft-ui";
-import { Copy, Terminal } from "lucide-react";
+import { Circle, Copy, Terminal } from "lucide-react";
 
 // @docs-source-strip-start
 import type { RefObject } from "react";
@@ -19,6 +19,9 @@ const PREVIEW_CONTENT_CLASS =
   "!relative !top-auto !left-auto !z-0 !w-full !max-w-lg !translate-x-0 !translate-y-0";
 // @docs-source-strip-end
 
+const CONNECT_COMMAND =
+  "npx @botiverse/raft-daemon@latest --server-url https://api.raft.build --api-key sk_machine_0000000000000000000000000000000000000000000000000000000000000000 # Zolplay";
+
 function AddMachineDialogParts() {
   return (
     <>
@@ -26,43 +29,24 @@ function AddMachineDialogParts() {
         <DialogTitle>Connect Computer</DialogTitle>
         <DialogClose />
       </DialogHeader>
-      <DialogBody className="grid gap-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-foreground-strong">
+      <DialogBody>
+        <div className="mb-6 flex items-center gap-2 text-sm font-medium text-foreground-strong">
           <Terminal className="size-4" />
           Run this command on your computer to connect:
         </div>
-        <div className="grid gap-2">
-          <div className="flex min-w-0 items-center gap-2">
-            <pre className="min-w-0 flex-1 overflow-x-auto border-2 border-line-strong bg-black p-3 font-mono text-xs leading-5 text-[oklch(0.88_0.18_132)]">
-              <code>
-                npx @slock-ai/daemon@latest --server-url https://app.slock.dev --api-key sk_live...
-              </code>
-            </pre>
-            <Button variant="outline" size="icon-sm" aria-label="Copy daemon command">
-              <Copy />
-            </Button>
-          </div>
+        <div className="mb-7 flex min-w-0 items-center gap-2">
+          <code className="min-w-0 flex-1 break-all border-2 border-line-strong bg-black px-3 py-2 font-mono text-xs leading-5 text-[oklch(0.88_0.18_132)] shadow-sm">
+            {CONNECT_COMMAND}
+          </code>
+          <Button variant="outline" size="icon-sm" aria-label="Copy daemon command">
+            <Copy />
+          </Button>
         </div>
-        <div className="grid gap-2">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-[11px] font-bold uppercase text-foreground-muted">
-              Computer
-            </span>
-            <span className="rounded-full bg-primary-400 px-2 py-0.5 text-[10px] font-bold text-primary-950">
-              WIP
-            </span>
-          </div>
-          <div className="flex min-w-0 items-center gap-2">
-            <pre className="min-w-0 flex-1 overflow-x-auto border-2 border-line-strong bg-black p-3 font-mono text-xs leading-5 text-[oklch(0.88_0.18_132)]">
-              <code>npx @slock-ai/computer setup --server raft --api-key sk_live...</code>
-            </pre>
-            <Button variant="outline" size="icon-sm" aria-label="Copy computer command">
-              <Copy />
-            </Button>
-          </div>
-        </div>
-        <Banner status="info" size="sm">
-          <BannerDescription>Waiting for computer to connect...</BannerDescription>
+        <Banner status="warning" size="md" className="mb-5">
+          <Circle className="size-3 fill-[oklch(0.84_0.08_54)] text-[oklch(0.55_0.11_52)]" />
+          <BannerDescription className="font-bold">
+            Waiting for computer to connect...
+          </BannerDescription>
         </Banner>
       </DialogBody>
       <DialogFooter>
