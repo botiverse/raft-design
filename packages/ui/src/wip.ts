@@ -217,6 +217,7 @@ export {
   BottomSheetFooter,
   BottomSheetHeader,
   BottomSheetPortal,
+  BottomSheetPositioner,
   BottomSheetTitle,
   BottomSheetTrigger,
 } from "./components/bottom-sheet/index";
@@ -227,6 +228,7 @@ export type {
   BottomSheetFooterProps,
   BottomSheetHeaderProps,
   BottomSheetPortalProps,
+  BottomSheetPositionerProps,
   BottomSheetProps,
   BottomSheetTitleProps,
   BottomSheetTriggerProps,

@@ -1,27 +1,19 @@
 import { Dialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { X } from "lucide-react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button, type ButtonProps } from "../button/index";
 
-// Mobile bottom sheet, composed from base-ui Dialog parts and slot parts
-// (`BottomSheetTrigger`, `BottomSheetContent`, `BottomSheetHeader`,
-// `BottomSheetFooter`, `BottomSheetTitle`, `BottomSheetDescription`,
-// `BottomSheetClose`). Dialog owns open state, the modal scroll-lock, ESC, and
-// native outside-press dismissal, so unlike Lightbox there's no dim layer and
-// no manual backdrop onClick: the sheet card carries the brutal frame itself.
-//
-// All styled parts share one `tv()` slots config so theme styling lives in a
-// single place, ready for the elegant family to add per-slot overrides under
-// `theme`. Each part resolves its own slot with the active theme, so they stay
-// independently composable. Source `shadow-brutal-lg` maps to the 6px brutal
-// shadow carried by `shadow-xl`.
 const bottomSheet = tv({
   slots: {
-    content: [
-      "fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-50 mx-auto max-w-md",
-    ],
+    portal: [],
+    positioner: ["fixed inset-x-0 bottom-0 z-50", "p-3 pb-[max(12px,env(safe-area-inset-bottom))]"],
+    content: ["relative mx-auto max-w-md outline-none"],
     header: ["flex flex-col gap-1 p-4"],
     footer: ["mt-auto flex flex-col gap-2 p-4"],
     title: ["text-base font-bold text-foreground-strong"],
@@ -29,7 +21,7 @@ const bottomSheet = tv({
   },
   variants: {
     theme: {
-      brutal: { content: ["border-2 border-black bg-white text-black shadow-xl"] },
+      brutal: { content: ["border-2 border-black bg-white text-black shadow-[var(--shadow-lg)]"] },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},
     },
@@ -51,39 +43,87 @@ export function BottomSheetTrigger(props: BottomSheetTriggerProps) {
   return <Dialog.Trigger data-slot="bottom-sheet-trigger" {...props} />;
 }
 
-export type BottomSheetPortalProps = Dialog.Portal.Props;
+export type BottomSheetPortalProps = StyledProps<Dialog.Portal.Props>;
 
-// Portals the sheet to the document body. BottomSheetContent wraps this for you.
-export function BottomSheetPortal(props: BottomSheetPortalProps) {
-  return <Dialog.Portal data-slot="bottom-sheet-portal" {...props} />;
+export function BottomSheetPortal({ className, ...props }: BottomSheetPortalProps) {
+  const theme = useThemeFamily();
+  const { portal } = bottomSheet({ theme });
+  return (
+    <Dialog.Portal data-slot="bottom-sheet-portal" className={portal({ className })} {...props} />
+  );
+}
+
+export type BottomSheetPositionerProps = ComponentPropsWithRef<"div">;
+
+export function BottomSheetPositioner({ className, ...props }: BottomSheetPositionerProps) {
+  const theme = useThemeFamily();
+  const { positioner } = bottomSheet({ theme });
+  return (
+    <div data-slot="bottom-sheet-positioner" className={positioner({ className })} {...props} />
+  );
 }
 
 export type BottomSheetContentProps = StyledProps<Dialog.Popup.Props>;
 
-// The sheet card: portaled, anchored to the bottom safe area, centered up to
-// `max-w-md`, carrying the brutal frame. `inset-x-3` + the safe-area bottom inset
-// reproduce the original 12px gutter. Close affordances are composed in by the
-// caller via `BottomSheetClose`.
 export function BottomSheetContent({ className, ...props }: BottomSheetContentProps) {
   const theme = useThemeFamily();
   const { content } = bottomSheet({ theme });
   return (
-    <BottomSheetPortal>
-      <Dialog.Popup
-        data-slot="bottom-sheet-content"
-        data-side="bottom"
-        className={content({ className })}
-        {...props}
-      />
-    </BottomSheetPortal>
+    <Dialog.Popup
+      data-slot="bottom-sheet-content"
+      data-side="bottom"
+      className={content({ className })}
+      {...props}
+    />
   );
 }
 
-export type BottomSheetCloseProps = Dialog.Close.Props;
+export type BottomSheetCloseProps = Dialog.Close.Props &
+  Pick<ButtonProps, "variant" | "size"> & {
+    className?: string;
+    children?: ReactNode;
+  };
 
 // Closes the sheet. Compose your own affordance via `render` (e.g. a Button).
-export function BottomSheetClose(props: BottomSheetCloseProps) {
-  return <Dialog.Close data-slot="bottom-sheet-close" {...props} />;
+export function BottomSheetClose({
+  className,
+  variant,
+  size,
+  children,
+  render,
+  ...props
+}: BottomSheetCloseProps) {
+  const theme = useThemeFamily();
+  const isBrutal = theme === "brutal";
+
+  if (render) {
+    return (
+      <Dialog.Close data-slot="bottom-sheet-close" render={render} {...props}>
+        {children}
+      </Dialog.Close>
+    );
+  }
+
+  return (
+    <Dialog.Close
+      data-slot="bottom-sheet-close"
+      render={
+        <Button
+          variant={variant ?? (isBrutal ? "outline" : "ghost")}
+          size={size ?? (isBrutal ? "icon-sm" : "icon-sm")}
+          aria-label="Close"
+          className={cn(
+            "absolute top-3 right-3",
+            isBrutal ? "bg-white" : "text-foreground-placeholder hover:text-foreground",
+            className,
+          )}
+        />
+      }
+      {...props}
+    >
+      {children ?? <X className={isBrutal ? "size-4" : "size-4"} />}
+    </Dialog.Close>
+  );
 }
 
 export type BottomSheetHeaderProps = useRender.ComponentProps<"div">;
