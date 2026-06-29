@@ -73,22 +73,27 @@ const SNIPPETS = {
     ...
   </div>
 </div>`,
-  currentBottom: `<BottomSheetPortal>
-  <BottomSheetPositioner>
-    <BottomSheetContent>
-      <BottomSheetHeader>
-        <BottomSheetTitle>Leave channel?</BottomSheetTitle>
-        <BottomSheetDescription>
-          You can rejoin anytime from the directory.
-        </BottomSheetDescription>
-      </BottomSheetHeader>
-      <BottomSheetFooter>
-        <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
-        <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
-      </BottomSheetFooter>
-    </BottomSheetContent>
-  </BottomSheetPositioner>
-</BottomSheetPortal>`,
+  currentBottom: `<BottomSheet>
+  <BottomSheetTrigger render={<Button variant="primary" />}>
+    Open sheet
+  </BottomSheetTrigger>
+  <BottomSheetPortal>
+    <BottomSheetPositioner>
+      <BottomSheetContent>
+        <BottomSheetHeader>
+          <BottomSheetTitle>Leave channel?</BottomSheetTitle>
+          <BottomSheetDescription>
+            You can rejoin anytime from the directory.
+          </BottomSheetDescription>
+        </BottomSheetHeader>
+        <BottomSheetFooter>
+          <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
+          <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
+        </BottomSheetFooter>
+      </BottomSheetContent>
+    </BottomSheetPositioner>
+  </BottomSheetPortal>
+</BottomSheet>`,
   sourceAdaptive: `<BottomSheet
   className="md:hidden"
   sheetClassName="p-4"
@@ -257,19 +262,81 @@ const PROPS: readonly PropRow[] = [
 ];
 
 function BottomSheetSurfacePreview({ viewport = "mobile" }: { viewport?: "mobile" | "desktop" }) {
+  const [open, setOpen] = useState(true);
+
   return (
-    <ViewportFrame viewport={viewport}>
-      <LeaveChannelSheetContent />
+    <ViewportFrame
+      viewport={viewport}
+      open={open}
+      trigger={
+        <button
+          type="button"
+          className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
+          onClick={() => setOpen(true)}
+        >
+          Open sheet
+        </button>
+      }
+      onOpenChange={setOpen}
+    >
+      <LeaveChannelSheetContent onClose={() => setOpen(false)} />
     </ViewportFrame>
   );
 }
 
 function PwaInstallSheetPreview({ variant = "safari" }: { variant?: "safari" | "other" }) {
+  const [open, setOpen] = useState(true);
+
   return (
     <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
-      <ViewportFrame viewport="mobile" sheetClassName="p-4">
-        <PwaInstallSheetContent variant={variant} />
-      </ViewportFrame>
+      <PwaInstallViewportFrame open={open} onOpenChange={setOpen}>
+        <PwaInstallSheetContent variant={variant} onClose={() => setOpen(false)} />
+      </PwaInstallViewportFrame>
+    </div>
+  );
+}
+
+function PwaInstallViewportFrame({
+  open,
+  onOpenChange,
+  children,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  children: ReactNode;
+}) {
+  return (
+    <div className="grid h-[26rem] w-[375px] overflow-hidden border-2 border-black bg-white shadow-[var(--shadow)]">
+      <div className="flex h-7 items-center justify-between border-b-2 border-black bg-white px-3 font-mono text-[9px] leading-none font-bold text-black/45 uppercase">
+        <span>mobile viewport</span>
+        <span>375px</span>
+      </div>
+      <div className="relative min-h-0 bg-gray-50">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <button
+            type="button"
+            className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
+            onClick={() => onOpenChange(true)}
+          >
+            Install
+          </button>
+        </div>
+        {open ? (
+          <div
+            className="absolute inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) onOpenChange(false);
+            }}
+          >
+            <div
+              className="mx-auto max-w-md border-2 border-black bg-white p-4 shadow-[var(--shadow-lg)]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              {children}
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -277,10 +344,16 @@ function PwaInstallSheetPreview({ variant = "safari" }: { variant?: "safari" | "
 function ViewportFrame({
   viewport,
   sheetClassName,
+  trigger,
+  open = true,
+  onOpenChange,
   children,
 }: {
   viewport: "mobile" | "desktop";
   sheetClassName?: string;
+  trigger?: ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   children: ReactNode;
 }) {
   const isDesktop = viewport === "desktop";
@@ -297,19 +370,30 @@ function ViewportFrame({
         <span>{frameWidth}</span>
       </div>
       <div className="relative min-h-0 bg-gray-50">
-        <div className="absolute inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
+        {trigger ? (
+          <div className="absolute inset-0 flex items-center justify-center">{trigger}</div>
+        ) : null}
+        {open ? (
           <div
-            className={`mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${sheetClassName ?? ""}`}
+            className="absolute inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) onOpenChange?.(false);
+            }}
           >
-            {children}
+            <div
+              className={`mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${sheetClassName ?? ""}`}
+              onClick={(event) => event.stopPropagation()}
+            >
+              {children}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );
 }
 
-function LeaveChannelSheetContent() {
+function LeaveChannelSheetContent({ onClose }: { onClose?: () => void }) {
   return (
     <>
       <div className="flex flex-col gap-1 p-4">
@@ -317,14 +401,24 @@ function LeaveChannelSheetContent() {
         <div className="text-sm text-black/60">You can rejoin anytime from the directory.</div>
       </div>
       <div className="mt-auto flex flex-col gap-2 p-4">
-        <Button variant="danger">Leave</Button>
-        <Button variant="default">Cancel</Button>
+        <Button variant="danger" onClick={onClose}>
+          Leave
+        </Button>
+        <Button variant="default" onClick={onClose}>
+          Cancel
+        </Button>
       </div>
     </>
   );
 }
 
-function PwaInstallSheetContent({ variant = "safari" }: { variant?: "safari" | "other" }) {
+function PwaInstallSheetContent({
+  variant = "safari",
+  onClose,
+}: {
+  variant?: "safari" | "other";
+  onClose?: () => void;
+}) {
   const isSafari = variant === "safari";
 
   return (
@@ -344,6 +438,7 @@ function PwaInstallSheetContent({ variant = "safari" }: { variant?: "safari" | "
           type="button"
           className="btn-brutal-sm bg-white p-1"
           aria-label="Close install instructions"
+          onClick={onClose}
         >
           <X size={16} />
         </button>
@@ -370,7 +465,7 @@ function PwaInstallSheetContent({ variant = "safari" }: { variant?: "safari" | "
             Copy Link
           </button>
         )}
-        <button type="button" className="btn-brutal bg-white px-3 py-2 text-xs">
+        <button type="button" className="btn-brutal bg-white px-3 py-2 text-xs" onClick={onClose}>
           {isSafari ? "Got it" : "Close"}
         </button>
       </div>
