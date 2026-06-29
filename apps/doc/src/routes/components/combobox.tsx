@@ -15,6 +15,8 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
+  Field,
+  FieldLabel,
   InlineCode,
 } from "raft-ui";
 import {
@@ -262,9 +264,10 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxItemIndicator,
-  ComboboxLabel,
   ComboboxList,
   ComboboxTriggerIndicator,
+  Field,
+  FieldLabel,
 } from "raft-ui";
 
 const models = [
@@ -285,8 +288,8 @@ function ModelCombobox() {
       onValueChange={setValue}
       autoHighlight
     >
-      <div className="grid w-56 gap-1.5">
-        <ComboboxLabel>Model</ComboboxLabel>
+      <Field className="w-56 gap-1.5">
+        <FieldLabel>Model</FieldLabel>
         <ComboboxControl>
           <Sparkles aria-hidden className="text-foreground-muted" />
           <ComboboxInput aria-label="Search models" placeholder="Search models..." />
@@ -295,7 +298,7 @@ function ModelCombobox() {
             <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxControl>
-      </div>
+      </Field>
       <ComboboxContent className="w-[var(--anchor-width)]">
 ${MODEL_LIST_SNIPPET}
       </ComboboxContent>
@@ -466,9 +469,10 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxItemIndicator,
-  ComboboxLabel,
   ComboboxList,
   ComboboxTriggerIndicator,
+  Field,
+  FieldLabel,
 } from "raft-ui";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
@@ -553,8 +557,8 @@ function AsyncModelSearch() {
       }}
       autoHighlight
     >
-      <div className="grid w-56 gap-1.5">
-        <ComboboxLabel>Model</ComboboxLabel>
+      <Field className="w-56 gap-1.5">
+        <FieldLabel>Model</FieldLabel>
         <ComboboxControl>
           <Sparkles aria-hidden className="text-foreground-muted" />
           <ComboboxInput aria-label="Search models" placeholder="Search models..." />
@@ -563,7 +567,7 @@ function AsyncModelSearch() {
             <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxControl>
-      </div>
+      </Field>
       <ComboboxContent className="w-[var(--anchor-width)]">
         {renderModelItems()}
       </ComboboxContent>
@@ -1091,8 +1095,8 @@ function PreviewCombobox() {
         onValueChange={setSelectedModel}
         autoHighlight
       >
-        <div className="grid w-56 gap-1.5">
-          <ComboboxLabel>Model</ComboboxLabel>
+        <Field className="w-56 gap-1.5">
+          <FieldLabel>Model</FieldLabel>
           <ComboboxControl>
             <Sparkles
               aria-hidden
@@ -1108,7 +1112,7 @@ function PreviewCombobox() {
               <ChevronDown aria-hidden />
             </ComboboxTriggerIndicator>
           </ComboboxControl>
-        </div>
+        </Field>
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
@@ -1304,8 +1308,8 @@ function AsyncSearchCombobox() {
         }}
         autoHighlight
       >
-        <div className="grid w-56 gap-1.5">
-          <ComboboxLabel>Model</ComboboxLabel>
+        <Field className="w-56 gap-1.5">
+          <FieldLabel>Model</FieldLabel>
           <ComboboxControl>
             <Sparkles
               aria-hidden
@@ -1321,7 +1325,7 @@ function AsyncSearchCombobox() {
               <ChevronDown aria-hidden />
             </ComboboxTriggerIndicator>
           </ComboboxControl>
-        </div>
+        </Field>
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}

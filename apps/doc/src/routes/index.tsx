@@ -39,7 +39,6 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxItemIndicator,
-  ComboboxLabel,
   ComboboxList,
   CopyableCode,
   DropdownMenu,
@@ -786,8 +785,8 @@ function ComboboxPreview() {
         value={selectedModel}
         onValueChange={setSelectedModel}
       >
-        <div className="grid w-[240px] gap-1.5">
-          <ComboboxLabel>Model</ComboboxLabel>
+        <Field className="w-[240px] gap-1.5">
+          <FieldLabel>Model</FieldLabel>
           <ComboboxControl>
             <Sparkles
               aria-hidden
@@ -800,7 +799,7 @@ function ComboboxPreview() {
             />
             <ComboboxClear aria-label="Clear model" />
           </ComboboxControl>
-        </div>
+        </Field>
         <ComboboxContent
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
