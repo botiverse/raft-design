@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Text } from "raft-ui";
+import { Button, Text, useThemeFamily } from "raft-ui";
 import {
   BottomSheet,
   BottomSheetClose,
@@ -21,18 +21,14 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
-
-const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
   anatomy: `import {
@@ -313,7 +309,7 @@ function PwaInstallSheetPreview({ variant = "safari" }: { variant?: "safari" | "
   const [open, setOpen] = useState(true);
 
   return (
-    <BottomSheet open={open} onOpenChange={setOpen}>
+    <BottomSheet modal={false} open={open} onOpenChange={setOpen}>
       <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
         <PwaInstallViewportFrame
           open={open}
@@ -366,6 +362,12 @@ function PwaInstallViewportFrame({
   trigger: ReactNode;
   children: ReactNode;
 }) {
+  const theme = useThemeFamily();
+  const sheetClassName =
+    theme === "elegant"
+      ? "mx-auto max-w-md overflow-clip rounded-lg bg-layer-popover p-4 text-foreground shadow-xl"
+      : "mx-auto max-w-md border-2 border-black bg-white p-4 shadow-[var(--shadow-lg)]";
+
   return (
     <div className="grid h-[26rem] w-[375px] overflow-hidden border-2 border-black bg-white shadow-[var(--shadow)]">
       <div className="flex h-7 items-center justify-between border-b-2 border-black bg-white px-3 font-mono text-[9px] leading-none font-bold text-black/45 uppercase">
@@ -381,10 +383,7 @@ function PwaInstallViewportFrame({
               if (event.target === event.currentTarget) onOpenChange(false);
             }}
           >
-            <div
-              className="mx-auto max-w-md border-2 border-black bg-white p-4 shadow-[var(--shadow-lg)]"
-              onClick={(event) => event.stopPropagation()}
-            >
+            <div className={sheetClassName} onClick={(event) => event.stopPropagation()}>
               {children}
             </div>
           </div>
@@ -413,6 +412,11 @@ function ViewportFrame({
   const frameClass = isDesktop ? "h-[24rem] w-full max-w-[34rem]" : "h-[26rem] w-[375px]";
   const frameLabel = isDesktop ? "desktop viewport" : "mobile viewport";
   const frameWidth = isDesktop ? "1024px" : "375px";
+  const theme = useThemeFamily();
+  const resolvedSheetClassName =
+    theme === "elegant"
+      ? `mx-auto max-w-md overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl ${sheetClassName ?? ""}`
+      : `mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${sheetClassName ?? ""}`;
 
   return (
     <div
@@ -433,10 +437,7 @@ function ViewportFrame({
               if (event.target === event.currentTarget) onOpenChange?.(false);
             }}
           >
-            <div
-              className={`mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${sheetClassName ?? ""}`}
-              onClick={(event) => event.stopPropagation()}
-            >
+            <div className={resolvedSheetClassName} onClick={(event) => event.stopPropagation()}>
               {children}
             </div>
           </div>
@@ -613,13 +614,9 @@ function BottomSheetDoc() {
   return (
     <DocPage
       title="BottomSheet"
-      description="A mobile bottom sheet with no dim backdrop; the sheet carries the brutal frame."
+      description="A mobile bottom sheet with no dim backdrop; the sheet carries the active theme frame."
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <div className="space-y-4">
           <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
@@ -700,7 +697,7 @@ function BottomSheetDoc() {
               currentCode: code.currentBottom,
               compositionCode: code.currentBottom,
               compositionPath:
-                "apps/doc/src/compositions/bottom-sheet/bottom-surface-composition.tsx",
+                "apps/doc/src/compositions/bottom-sheet/leave-channel-composition.tsx",
               compositionSource: SNIPPETS.currentBottom,
             },
             {
@@ -730,7 +727,7 @@ function BottomSheetDoc() {
               currentCode: code.currentBottom,
               compositionCode: code.currentBottom,
               compositionPath:
-                "apps/doc/src/compositions/bottom-sheet/bottom-surface-composition.tsx",
+                "apps/doc/src/compositions/bottom-sheet/leave-channel-composition.tsx",
               compositionSource: SNIPPETS.currentBottom,
             },
             {

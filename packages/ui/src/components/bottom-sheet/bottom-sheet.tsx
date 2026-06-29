@@ -22,8 +22,17 @@ const bottomSheet = tv({
   variants: {
     theme: {
       brutal: { content: ["border-2 border-black bg-white text-black shadow-[var(--shadow-lg)]"] },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        content: ["overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl"],
+        header: ["border-b border-line-subtle bg-black/[0.02] px-6 py-3"],
+        footer: [
+          "mt-0 flex-row items-center justify-end gap-3 border-t border-line-subtle bg-black/[0.015] px-6 py-3",
+        ],
+        title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
+        description: [
+          "font-sans text-sm leading-5 text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",
+        ],
+      },
     },
   },
 });
@@ -113,8 +122,10 @@ export function BottomSheetClose({
           size={size ?? (isBrutal ? "icon-sm" : "icon-sm")}
           aria-label="Close"
           className={cn(
-            "absolute top-3 right-3",
-            isBrutal ? "bg-white" : "text-foreground-placeholder hover:text-foreground",
+            isBrutal ? "absolute top-3 right-3" : "absolute top-2.5 right-5",
+            isBrutal
+              ? "bg-white"
+              : "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground",
             className,
           )}
         />
