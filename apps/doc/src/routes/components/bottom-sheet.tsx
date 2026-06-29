@@ -7,6 +7,7 @@ import {
   BottomSheetDescription,
   BottomSheetFooter,
   BottomSheetHeader,
+  BottomSheetOverlay,
   BottomSheetPortal,
   BottomSheetPositioner,
   BottomSheetTitle,
@@ -36,6 +37,7 @@ const SNIPPETS = {
   BottomSheetTrigger,
   BottomSheetContent,
   BottomSheetPortal,
+  BottomSheetOverlay,
   BottomSheetPositioner,
   BottomSheetHeader,
   BottomSheetTitle,
@@ -47,6 +49,7 @@ const SNIPPETS = {
 <BottomSheet>
   <BottomSheetTrigger render={<Button variant="primary" />}>Open sheet</BottomSheetTrigger>
   <BottomSheetPortal>
+    <BottomSheetOverlay />
     <BottomSheetPositioner>
       <BottomSheetContent>
         <BottomSheetClose />
@@ -74,6 +77,7 @@ const SNIPPETS = {
     Open sheet
   </BottomSheetTrigger>
   <BottomSheetPortal>
+    <BottomSheetOverlay />
     <BottomSheetPositioner>
       <BottomSheetContent>
         <BottomSheetHeader>
@@ -154,6 +158,7 @@ const SNIPPETS = {
     Install
   </BottomSheetTrigger>
   <BottomSheetPortal className="md:hidden">
+    <BottomSheetOverlay />
     <BottomSheetPositioner>
       <BottomSheetContent className="p-4">
         <div className="mb-3 flex items-start justify-between gap-3">
@@ -188,6 +193,7 @@ const SNIPPETS = {
     Install
   </BottomSheetTrigger>
   <BottomSheetPortal className="md:hidden">
+    <BottomSheetOverlay />
     <BottomSheetPositioner>
       <BottomSheetContent className="p-4">
         <div className="mb-3 flex items-start justify-between gap-3">
@@ -237,25 +243,36 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "modal",
-    type: 'boolean | "trap-focus"',
+    type: "boolean",
     default: "true",
-    description: "Traps focus + locks body scroll while open (on BottomSheet).",
+    description: "Vaul modal behavior. Locks body scroll and controls outside interaction.",
+  },
+  {
+    name: "direction",
+    type: '"bottom" | "top" | "left" | "right"',
+    default: '"bottom"',
+    description: "Vaul drawer direction. BottomSheet defaults it to bottom.",
   },
   {
     name: "BottomSheetPortal",
-    type: "Dialog.Portal",
+    type: "Drawer.Portal",
     description: "Portal slot. Use this for whole-sheet gates such as md:hidden.",
+  },
+  {
+    name: "BottomSheetOverlay",
+    type: "Drawer.Overlay",
+    description: "Transparent outside-interaction layer. Style it when a dim backdrop is needed.",
   },
   {
     name: "BottomSheetPositioner",
     type: 'ComponentPropsWithRef<"div">',
-    description: "Outer fixed bottom placement with side gutter and safe-area bottom padding.",
+    description: "Compatibility wrapper for composition structure; Vaul content owns placement.",
   },
   {
     name: "BottomSheetContent",
-    type: "Dialog.Popup",
+    type: "Drawer.Content",
     description:
-      "Sheet card surface. Owns max-width, frame, shadow, relative positioning, and content padding overrides.",
+      "Sheet card surface. Owns Vaul direction placement, max-width, frame, shadow, and content padding overrides.",
   },
 ];
 
@@ -288,6 +305,7 @@ function BottomSheetSurfaceSourcePreview({
   return (
     <ViewportFrame
       viewport={viewport}
+      source
       open={open}
       trigger={
         <button
@@ -333,6 +351,7 @@ function PwaInstallSheetSourcePreview({ variant = "safari" }: { variant?: "safar
   return (
     <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
       <PwaInstallViewportFrame
+        source
         open={open}
         onOpenChange={setOpen}
         trigger={
@@ -356,17 +375,21 @@ function PwaInstallViewportFrame({
   onOpenChange,
   trigger,
   children,
+  source = false,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   trigger: ReactNode;
   children: ReactNode;
+  source?: boolean;
 }) {
   const theme = useThemeFamily();
-  const sheetClassName =
-    theme === "elegant"
-      ? "mx-auto max-w-md overflow-clip rounded-lg bg-layer-popover p-4 text-foreground shadow-xl"
-      : "mx-auto max-w-md border-2 border-black bg-white p-4 shadow-[var(--shadow-lg)]";
+  const sheetClassName = source
+    ? "mx-auto max-w-md border-2 border-black bg-white p-4 shadow-[var(--shadow-lg)]"
+    : theme === "elegant"
+      ? "mx-auto max-w-md overflow-clip rounded-t-lg rounded-b-none bg-layer-popover p-4 text-foreground shadow-xl"
+      : "mx-auto max-w-md border-t-2 border-x-0 border-b-0 border-black bg-white p-4 shadow-[var(--shadow-lg)]";
+  const overlayClassName = source ? null : "bg-layer-backdrop";
 
   return (
     <div className="grid h-[26rem] w-[375px] overflow-hidden border-2 border-black bg-white shadow-[var(--shadow)]">
@@ -376,9 +399,19 @@ function PwaInstallViewportFrame({
       </div>
       <div className="relative min-h-0 bg-gray-50">
         <div className="absolute inset-0 z-0 flex items-center justify-center">{trigger}</div>
+        {open && overlayClassName ? (
+          <div
+            className={`absolute inset-0 z-[5] ${overlayClassName}`}
+            onClick={() => onOpenChange(false)}
+          />
+        ) : null}
         {open ? (
           <div
-            className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+            className={
+              source
+                ? "absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+                : "absolute inset-x-0 bottom-0 z-10"
+            }
             onClick={(event) => {
               if (event.target === event.currentTarget) onOpenChange(false);
             }}
@@ -400,6 +433,7 @@ function ViewportFrame({
   open = true,
   onOpenChange,
   children,
+  source = false,
 }: {
   viewport: "mobile" | "desktop";
   sheetClassName?: string;
@@ -407,16 +441,25 @@ function ViewportFrame({
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   children: ReactNode;
+  source?: boolean;
 }) {
   const isDesktop = viewport === "desktop";
   const frameClass = isDesktop ? "h-[24rem] w-full max-w-[34rem]" : "h-[26rem] w-[375px]";
   const frameLabel = isDesktop ? "desktop viewport" : "mobile viewport";
   const frameWidth = isDesktop ? "1024px" : "375px";
   const theme = useThemeFamily();
-  const resolvedSheetClassName =
-    theme === "elegant"
-      ? `mx-auto max-w-md overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl ${sheetClassName ?? ""}`
-      : `mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${sheetClassName ?? ""}`;
+  const resolvedSheetClassName = source
+    ? `mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${
+        sheetClassName ?? ""
+      }`
+    : theme === "elegant"
+      ? `mx-auto overflow-clip rounded-t-lg rounded-b-none bg-layer-popover text-foreground shadow-xl ${
+          isDesktop ? "max-w-xl" : "max-w-md"
+        } ${sheetClassName ?? ""}`
+      : `mx-auto max-w-md border-black bg-white shadow-[var(--shadow-lg)] ${
+          isDesktop ? "border-2" : "border-t-2 border-x-0 border-b-0"
+        } ${sheetClassName ?? ""}`;
+  const overlayClassName = source ? null : "bg-layer-backdrop";
 
   return (
     <div
@@ -430,9 +473,21 @@ function ViewportFrame({
         {trigger ? (
           <div className="absolute inset-0 z-0 flex items-center justify-center">{trigger}</div>
         ) : null}
+        {open && overlayClassName ? (
+          <div
+            className={`absolute inset-0 z-[5] ${overlayClassName}`}
+            onClick={() => onOpenChange?.(false)}
+          />
+        ) : null}
         {open ? (
           <div
-            className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+            className={
+              source
+                ? "absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+                : isDesktop
+                  ? "absolute inset-x-0 bottom-0 z-10 px-3"
+                  : "absolute inset-x-0 bottom-0 z-10"
+            }
             onClick={(event) => {
               if (event.target === event.currentTarget) onOpenChange?.(false);
             }}
@@ -630,6 +685,7 @@ function BottomSheetDoc() {
                 Open sheet
               </BottomSheetTrigger>
               <BottomSheetPortal>
+                <BottomSheetOverlay />
                 <BottomSheetPositioner>
                   <BottomSheetContent>
                     <BottomSheetClose />
@@ -672,8 +728,8 @@ function BottomSheetDoc() {
           items={[
             {
               label: "Leave channel mobile",
-              status: "match",
-              note: "Mobile viewport behavior: source anchors the sheet to the bottom safe area with 12px side gutter. The default max-w-md sheet nearly fills a 375px viewport while keeping the black frame, white surface, and large brutal shadow.",
+              status: "difference",
+              note: "Intentional differences: source anchors the sheet to the bottom safe area with a 12px side gutter and no visible overlay. Current mobile removes the outer side and bottom inset, keeps the safe area inside the sheet content, and shows the themed overlay.",
               sourceScenes: [
                 {
                   label: "Primitive source",
@@ -702,8 +758,8 @@ function BottomSheetDoc() {
             },
             {
               label: "Leave channel desktop",
-              status: "match",
-              note: "Desktop viewport behavior: source still anchors to the bottom, but max-w-md keeps the card narrow and centered inside the wider viewport instead of stretching edge to edge.",
+              status: "difference",
+              note: "Intentional differences: source keeps the same outer safe-area wrapper on desktop. Current desktop preserves the side inset only, removes the bottom inset, and uses the themed overlay while keeping the sheet narrow and centered.",
               sourceScenes: [
                 {
                   label: "Primitive source",

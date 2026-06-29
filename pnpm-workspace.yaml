@@ -28,6 +28,7 @@ catalog:
   "@tanstack/react-hotkeys": ^0.10.0
   "@vitejs/plugin-rsc": ^0.5.27
   "@cloudflare/vite-plugin": ^1.42.1
+  vaul: ^1.1.2
 overrides:
   vite: "catalog:"
   vitest: "catalog:"

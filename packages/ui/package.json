@@ -47,7 +47,8 @@
     "cnfast": "catalog:",
     "foxact": "^0.3.7",
     "lucide-react": "catalog:",
-    "tailwind-variants": "catalog:"
+    "tailwind-variants": "catalog:",
+    "vaul": "catalog:"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",

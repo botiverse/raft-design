@@ -2,6 +2,84 @@
 
 /* Pure token contract. No legacy action/surface/destructive/component aliases. */
 
+[data-vaul-drawer] {
+  touch-action: none;
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+  animation-duration: 0.2s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+[data-vaul-drawer][data-vaul-snap-points="false"][data-vaul-drawer-direction="bottom"][data-state="open"] {
+  animation-name: slideFromBottom;
+}
+
+[data-vaul-drawer][data-vaul-snap-points="false"][data-vaul-drawer-direction="bottom"][data-state="closed"] {
+  animation-name: slideToBottom;
+}
+
+[data-vaul-overlay][data-vaul-snap-points="false"] {
+  animation-duration: 0.2s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+[data-vaul-overlay][data-vaul-snap-points="false"][data-state="open"] {
+  animation-name: fadeIn;
+}
+
+[data-vaul-overlay][data-state="closed"] {
+  animation-name: fadeOut;
+}
+
+[data-vaul-animate="false"] {
+  animation: none !important;
+}
+
+[data-vaul-drawer]:not([data-vaul-custom-container="true"])::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  background-color: inherit;
+}
+
+[data-vaul-drawer][data-vaul-drawer-direction="bottom"]::after {
+  top: 100%;
+  bottom: initial;
+  left: 0;
+  right: 0;
+  height: 200%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideFromBottom {
+  from {
+    transform: translate3d(0, var(--initial-transform, 100%), 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideToBottom {
+  to {
+    transform: translate3d(0, var(--initial-transform, 100%), 0);
+  }
+}
+
 @theme {
   --shadow-*: initial;
 
