@@ -42,6 +42,7 @@ const TOC = [
   { id: "group", title: "Group" },
   { id: "sizes", title: "Sizes" },
   { id: "api", title: "API" },
+  { id: "source-differences", title: "Source differences" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
@@ -175,6 +176,173 @@ const LEGACY_CONTEXTS = [
   "compact-list",
   "sidebar-list",
   "preview-mini",
+] as const;
+
+const LEGACY_CONTEXT_MARKERS = {
+  "profile-tile": {
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+  },
+  "account-tile": {
+    label: "dropped",
+    className: "border-warning-base/40 bg-warning-base/10 text-warning-dark",
+  },
+  "mention-card": {
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+  },
+  "panel-header": {
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+  },
+  "surface-list": {
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+  },
+  "members-row": {
+    label: "dropped",
+    className: "border-warning-base/40 bg-warning-base/10 text-warning-dark",
+  },
+  "creator-link": {
+    label: "dropped",
+    className: "border-warning-base/40 bg-warning-base/10 text-warning-dark",
+  },
+  "compact-list": {
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+  },
+  "sidebar-list": {
+    label: "collapsed",
+    className: "border-info-base/40 bg-info-base/10 text-info-dark",
+  },
+  "preview-mini": {
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+  },
+} as const;
+
+const SOURCE_SIZE_ROWS = [
+  {
+    context: "profile-tile",
+    sourceFrame: "64px frame, 2px border",
+    sourceInner: "agent 60 / human 60 / icon 32",
+    current: "xl / 64px",
+    reason: "This is a stable profile/detail scale, not a one-off layout adjustment.",
+    implementation: 'Use <Avatar size="xl">; image/fallback fills the 64px frame.',
+  },
+  {
+    context: "account-tile",
+    sourceFrame: "56px frame, 2px border",
+    sourceInner: "agent 52 / human 52 / icon 24",
+    current: "No exact public step",
+    reason:
+      "Only existed for account settings density, so keeping it would expose a layout-specific size as public API.",
+    implementation:
+      "Use lg inside compact account rows or xl for profile emphasis; let the row/card own surrounding spacing.",
+  },
+  {
+    context: "mention-card",
+    sourceFrame: "48px frame, 2px border",
+    sourceInner: "agent 44 / human 44 / icon 24",
+    current: "lg / 48px",
+    reason: "Mention cards and identity popovers share this visual weight.",
+    implementation: 'Use <Avatar size="lg"> inside hover-card or identity header compositions.',
+  },
+  {
+    context: "panel-header",
+    sourceFrame: "36px frame, 2px border",
+    sourceInner: "agent 32 / human 32 / icon 18",
+    current: "md / 36px",
+    reason: "Panel headers need a distinct step between list rows and mention cards.",
+    implementation: 'Use <Avatar size="md"> in PanelHeader visual/icon slots.',
+  },
+  {
+    context: "surface-list",
+    sourceFrame: "32px frame, 2px border",
+    sourceInner: "agent 28 / human 28 / icon 16",
+    current: "sm / 32px",
+    reason: "This is the common list-row avatar size across source callsites.",
+    implementation: 'Use <Avatar size="sm"> for list item leading media.',
+  },
+  {
+    context: "members-row",
+    sourceFrame: "28px frame, 1px border",
+    sourceInner: "agent 26 / human 24 / icon 14",
+    current: "No exact public step",
+    reason:
+      "It was a narrow density correction for member rows and sits too close to both sm and xs.",
+    implementation:
+      "Use sm when the row has normal text rhythm; use xs when the member avatar is secondary metadata.",
+  },
+  {
+    context: "creator-link",
+    sourceFrame: "22px frame, 1px border",
+    sourceInner: "agent 20 / human 20 / icon 12",
+    current: "No exact public step",
+    reason: "It belongs to inline link composition, not the avatar primitive scale.",
+    implementation:
+      "Use xs and tune the link's gap/line-height in the parent composition instead of adding a 22px avatar size.",
+  },
+  {
+    context: "sidebar-list",
+    sourceFrame: "18px frame, 1px border",
+    sourceInner: "agent 16 / human 16 / icon 10",
+    current: "xs / 20px",
+    reason:
+      "18px is too small to carry the elegant fallback/badge behavior reliably and duplicates compact-list.",
+    implementation:
+      "Use xs for sidebar rows; keep the row height and text alignment in the sidebar/list composition.",
+  },
+  {
+    context: "compact-list",
+    sourceFrame: "20px frame, 1px border",
+    sourceInner: "agent 18 / human 18 / icon 12",
+    current: "xs / 20px",
+    reason: "This is the reusable compact size that also absorbs sidebar-list.",
+    implementation: 'Use <Avatar size="xs"> for compact rows and dense metadata.',
+  },
+  {
+    context: "preview-mini",
+    sourceFrame: "14px frame, 1px border",
+    sourceInner: "agent 14 / human 14 / icon 10",
+    current: "2xs / 14px",
+    reason: "Inline previews need a true miniature avatar rather than shrinking xs ad hoc.",
+    implementation: 'Use <Avatar size="2xs"> in quoted/preview chip compositions.',
+  },
+] as const;
+
+const SOURCE_DIFFERENCE_ROWS = [
+  {
+    area: "API surface",
+    source: "AvatarSlot(context, type, agentAvatarUrl, humanAvatarUrl, gravatarHash, email)",
+    current: "Avatar(size, type) plus AvatarImage, AvatarFallback, AvatarBadge children",
+  },
+  {
+    area: "Identity lookup",
+    source: "AgentAvatar and GravatarAvatar are resolved inside AvatarSlot.",
+    current: "Callers resolve URLs; Avatar only owns image/fallback rendering state.",
+  },
+  {
+    area: "Size model",
+    source: "Ten callsite contexts, including 56px, 28px, 22px, and 18px one-offs.",
+    current: "Six public sizes: xl, lg, md, sm, xs, 2xs.",
+  },
+  {
+    area: "Inner sizing",
+    source: "Each context carries separate agent pixel, gravatar, and placeholder icon numbers.",
+    current: "Fallback, icon, badge, and border scale from the parent size.",
+  },
+  {
+    area: "Theme surface",
+    source: "Brutal square frame with role background and black border.",
+    current:
+      "Theme-aware frame: brutal keeps square border; elegant uses the avatar family surface.",
+  },
+  {
+    area: "Extra parts",
+    source: "No badge or group primitive in AvatarSlot.",
+    current: "Badge and group are first-class composition parts.",
+  },
 ] as const;
 
 const SNIPPETS = {
@@ -523,6 +691,20 @@ function AvatarDoc() {
         </div>
       </DocSection>
 
+      <DocSection id="source-differences" title="Source differences" showThemeSwitcher={false}>
+        <div className="space-y-8">
+          <DocNote>
+            Source <code>AvatarSlot</code> was a product-specific identity slot. Current{" "}
+            <code>Avatar</code> is the reusable UI primitive: it keeps the frame, theme, image,
+            fallback, badge, and group behavior, while app-domain lookup stays outside. Dropped
+            exact sizes are handled by parent compositions, not by leaking every source callsite
+            density into the public avatar API.
+          </DocNote>
+          <SourceDifferenceTable />
+          <SourceSizeTable />
+        </div>
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
           sourceScenes={SOURCE_SCENES}
@@ -541,7 +723,7 @@ function AvatarDoc() {
             {
               label: "Context scale",
               status: "difference",
-              note: "Source exposed ten context-specific frame sizes. Current keeps the reusable steps and collapses one-off contexts out of the public API.",
+              note: <ContextScaleNote />,
               source: <LegacyAvatarScalePreview />,
               brutal: <AvatarCurrent.Scale />,
               elegant: <AvatarCurrent.Scale />,
@@ -581,9 +763,26 @@ function IdentityAvatarExample({ label, children }: { label: string; children: R
 function LegacyAvatarScalePreview() {
   return (
     <div className="flex flex-wrap items-end gap-4">
-      {LEGACY_CONTEXTS.map((context) => (
-        <LegacyAvatarSlot key={context} context={context} type="agent" />
-      ))}
+      {LEGACY_CONTEXTS.map((context) => {
+        const marker = LEGACY_CONTEXT_MARKERS[context];
+
+        return (
+          <div key={context} className="flex flex-col items-center gap-1.5">
+            <LegacyAvatarSlot context={context} type="agent" />
+            <span className="max-w-20 text-center font-mono text-[10px] leading-tight text-black/70">
+              {context}
+            </span>
+            <span
+              className={[
+                "rounded-sm border px-1 py-0.5 font-mono text-[8px] leading-none uppercase",
+                marker.className,
+              ].join(" ")}
+            >
+              {marker.label}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -594,6 +793,77 @@ function LegacyAvatarIdentityPreview() {
       <LegacyAvatarSlot context="surface-list" type="agent" />
       <LegacyAvatarSlot context="surface-list" type="human" humanPlaceholder />
       <LegacyAvatarSlot context="surface-list" type="human" humanAvatarUrl={AVATAR_PHOTOS[1]} />
+    </div>
+  );
+}
+
+function SourceDifferenceTable() {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse text-left text-sm">
+        <thead>
+          <tr className="border-b border-line-subtle text-foreground-muted">
+            <th className="py-2 pr-6 font-medium">Area</th>
+            <th className="py-2 pr-6 font-medium">Source</th>
+            <th className="py-2 font-medium">Current</th>
+          </tr>
+        </thead>
+        <tbody>
+          {SOURCE_DIFFERENCE_ROWS.map((row) => (
+            <tr key={row.area} className="border-b border-line-subtle align-top">
+              <td className="py-3 pr-6 font-medium text-foreground-strong">{row.area}</td>
+              <td className="py-3 pr-6 text-foreground-muted">{row.source}</td>
+              <td className="py-3 text-foreground-muted">{row.current}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ContextScaleNote() {
+  return (
+    <>
+      Source has ten context sizes. Current keeps six public sizes. Kept:{" "}
+      <code>profile-tile 64px</code>, <code>mention-card 48px</code>, <code>panel-header 36px</code>
+      , <code>surface-list 32px</code>, <code>compact-list 20px</code>, and{" "}
+      <code>preview-mini 14px</code>. Dropped exact sizes: <code>account-tile 56px</code> maps to{" "}
+      <code>lg/xl</code>, <code>members-row 28px</code> maps to <code>sm/xs</code>, and{" "}
+      <code>creator-link 22px</code> maps to <code>xs</code>. Collapsed:{" "}
+      <code>sidebar-list 18px</code> maps up to <code>xs 20px</code>. Parent row/card compositions
+      own the remaining spacing.
+    </>
+  );
+}
+
+function SourceSizeTable() {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse text-left text-sm">
+        <thead>
+          <tr className="border-b border-line-subtle text-foreground-muted">
+            <th className="py-2 pr-6 font-medium">Source context</th>
+            <th className="py-2 pr-6 font-medium">Source frame</th>
+            <th className="py-2 pr-6 font-medium">Source inner</th>
+            <th className="py-2 pr-6 font-medium">Current size</th>
+            <th className="py-2 pr-6 font-medium">Reason</th>
+            <th className="py-2 font-medium">Implementation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {SOURCE_SIZE_ROWS.map((row) => (
+            <tr key={row.context} className="border-b border-line-subtle align-top">
+              <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.context}</td>
+              <td className="py-3 pr-6 text-foreground-muted">{row.sourceFrame}</td>
+              <td className="py-3 pr-6 text-foreground-muted">{row.sourceInner}</td>
+              <td className="py-3 pr-6 font-mono text-xs text-foreground-strong">{row.current}</td>
+              <td className="py-3 pr-6 text-foreground-muted">{row.reason}</td>
+              <td className="py-3 text-foreground-muted">{row.implementation}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
