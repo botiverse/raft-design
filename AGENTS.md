@@ -15,6 +15,14 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 
 <!--VITE PLUS END-->
 
+# Browser Validation Boundary
+
+Do not use Browser, the in-app browser, screenshots, visual browser checks, or browser automation for validation unless the user explicitly asks for browser testing in the current turn.
+
+Browser permission is never sticky. A previous user request to open or test with Browser does not authorize Browser use in later turns. Each Browser validation pass requires a fresh, explicit user instruction in that same turn.
+
+If a visual check would be helpful but the user has not explicitly authorized Browser use, ask first or continue with code-side inspection only.
+
 # Styling Conventions
 
 ## tailwind-variants
