@@ -20,6 +20,7 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
+import { Route as PreviewsBottomSheetRouteImport } from './routes/previews/bottom-sheet'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
@@ -140,6 +141,11 @@ const SkillsNewComponentRoute = SkillsNewComponentRouteImport.update({
 const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   id: '/skills/migration',
   path: '/skills/migration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreviewsBottomSheetRoute = PreviewsBottomSheetRouteImport.update({
+  id: '/previews/bottom-sheet',
+  path: '/previews/bottom-sheet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
@@ -536,6 +542,7 @@ export interface FileRoutesByFullPath {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
+  '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -614,6 +621,7 @@ export interface FileRoutesByTo {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
+  '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -694,6 +702,7 @@ export interface FileRoutesById {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
+  '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRouteWithChildren
@@ -775,6 +784,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
+    | '/previews/bottom-sheet'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -853,6 +863,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
+    | '/previews/bottom-sheet'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -932,6 +943,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
+    | '/previews/bottom-sheet'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -965,6 +977,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRoute
+  PreviewsBottomSheetRoute: typeof PreviewsBottomSheetRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRouteWithChildren
@@ -1049,6 +1062,13 @@ declare module '@tanstack/react-router' {
       path: '/skills/migration'
       fullPath: '/skills/migration'
       preLoaderRoute: typeof SkillsMigrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/previews/bottom-sheet': {
+      id: '/previews/bottom-sheet'
+      path: '/previews/bottom-sheet'
+      fullPath: '/previews/bottom-sheet'
+      preLoaderRoute: typeof PreviewsBottomSheetRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/migration/$sourceFile': {
@@ -1706,6 +1726,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
   PlaygroundRoute: PlaygroundRoute,
+  PreviewsBottomSheetRoute: PreviewsBottomSheetRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRouteWithChildren,

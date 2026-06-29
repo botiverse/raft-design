@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Text, useThemeFamily } from "raft-ui";
+import { Button } from "raft-ui";
 import {
   BottomSheet,
   BottomSheetClose,
@@ -13,8 +13,7 @@ import {
   BottomSheetTitle,
   BottomSheetTrigger,
 } from "raft-ui/wip";
-import { X } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { useState } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -276,384 +275,39 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function BottomSheetSurfacePreview({ viewport = "mobile" }: { viewport?: "mobile" | "desktop" }) {
-  const [open, setOpen] = useState(true);
-
-  return (
-    <ViewportFrame
-      viewport={viewport}
-      open={open}
-      trigger={
-        <Button variant="primary" size="sm" onClick={() => setOpen(true)}>
-          Open sheet
-        </Button>
-      }
-      onOpenChange={setOpen}
-    >
-      <LeaveChannelSheetContent onClose={() => setOpen(false)} />
-    </ViewportFrame>
-  );
-}
-
-function BottomSheetSurfaceSourcePreview({
+function BottomSheetComparisonIframe({
+  scene,
+  variant,
   viewport = "mobile",
+  theme = "brutal",
+  mode = "light",
 }: {
+  scene: "leave-channel" | "pwa-install" | "pwa-install-other";
+  variant: "source" | "current";
   viewport?: "mobile" | "desktop";
+  theme?: "brutal" | "elegant";
+  mode?: "light" | "dark";
 }) {
-  const [open, setOpen] = useState(true);
+  const instance = [scene, variant, viewport, theme, mode].join("-");
+  const params = new URLSearchParams({
+    scene,
+    variant,
+    viewport,
+    theme,
+    mode,
+    instance,
+  });
+  const height = viewport === "desktop" ? "h-[27rem]" : "h-[45rem]";
 
   return (
-    <ViewportFrame
-      viewport={viewport}
-      source
-      open={open}
-      trigger={
-        <button
-          type="button"
-          className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
-          onClick={() => setOpen(true)}
-        >
-          Open sheet
-        </button>
-      }
-      onOpenChange={setOpen}
-    >
-      <LeaveChannelSheetSourceContent onClose={() => setOpen(false)} />
-    </ViewportFrame>
-  );
-}
-
-function PwaInstallSheetPreview({ variant = "safari" }: { variant?: "safari" | "other" }) {
-  const [open, setOpen] = useState(true);
-
-  return (
-    <BottomSheet modal={false} open={open} onOpenChange={setOpen}>
-      <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
-        <PwaInstallViewportFrame
-          open={open}
-          onOpenChange={setOpen}
-          trigger={
-            <BottomSheetTrigger render={<Button variant="primary" size="sm" />}>
-              Install
-            </BottomSheetTrigger>
-          }
-        >
-          <PwaInstallSheetContent variant={variant} />
-        </PwaInstallViewportFrame>
-      </div>
-    </BottomSheet>
-  );
-}
-
-function PwaInstallSheetSourcePreview({ variant = "safari" }: { variant?: "safari" | "other" }) {
-  const [open, setOpen] = useState(true);
-
-  return (
-    <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
-      <PwaInstallViewportFrame
-        source
-        open={open}
-        onOpenChange={setOpen}
-        trigger={
-          <button
-            type="button"
-            className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
-            onClick={() => setOpen(true)}
-          >
-            Install
-          </button>
-        }
-      >
-        <PwaInstallSheetSourceContent variant={variant} onClose={() => setOpen(false)} />
-      </PwaInstallViewportFrame>
-    </div>
-  );
-}
-
-function PwaInstallViewportFrame({
-  open,
-  onOpenChange,
-  trigger,
-  children,
-  source = false,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  trigger: ReactNode;
-  children: ReactNode;
-  source?: boolean;
-}) {
-  const theme = useThemeFamily();
-  const sheetClassName = source
-    ? "mx-auto max-w-md border-2 border-black bg-white p-4 shadow-[var(--shadow-lg)]"
-    : theme === "elegant"
-      ? "mx-auto max-w-md overflow-clip rounded-t-lg rounded-b-none bg-layer-popover p-4 text-foreground shadow-xl"
-      : "mx-auto max-w-md border-t-2 border-x-0 border-b-0 border-black bg-white p-4 shadow-[var(--shadow-lg)]";
-  const overlayClassName = source ? null : "bg-layer-backdrop";
-
-  return (
-    <div className="grid h-[26rem] w-[375px] overflow-hidden border-2 border-black bg-white shadow-[var(--shadow)]">
-      <div className="flex h-7 items-center justify-between border-b-2 border-black bg-white px-3 font-mono text-[9px] leading-none font-bold text-black/45 uppercase">
-        <span>mobile viewport</span>
-        <span>375px</span>
-      </div>
-      <div className="relative min-h-0 bg-gray-50">
-        <div className="absolute inset-0 z-0 flex items-center justify-center">{trigger}</div>
-        {open && overlayClassName ? (
-          <div
-            className={`absolute inset-0 z-[5] ${overlayClassName}`}
-            onClick={() => onOpenChange(false)}
-          />
-        ) : null}
-        {open ? (
-          <div
-            className={
-              source
-                ? "absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
-                : "absolute inset-x-0 bottom-0 z-10"
-            }
-            onClick={(event) => {
-              if (event.target === event.currentTarget) onOpenChange(false);
-            }}
-          >
-            <div className={sheetClassName} onClick={(event) => event.stopPropagation()}>
-              {children}
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-function ViewportFrame({
-  viewport,
-  sheetClassName,
-  trigger,
-  open = true,
-  onOpenChange,
-  children,
-  source = false,
-}: {
-  viewport: "mobile" | "desktop";
-  sheetClassName?: string;
-  trigger?: ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  children: ReactNode;
-  source?: boolean;
-}) {
-  const isDesktop = viewport === "desktop";
-  const frameClass = isDesktop ? "h-[24rem] w-full max-w-[34rem]" : "h-[26rem] w-[375px]";
-  const frameLabel = isDesktop ? "desktop viewport" : "mobile viewport";
-  const frameWidth = isDesktop ? "1024px" : "375px";
-  const theme = useThemeFamily();
-  const resolvedSheetClassName = source
-    ? `mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)] ${
-        sheetClassName ?? ""
-      }`
-    : theme === "elegant"
-      ? `mx-auto overflow-clip rounded-t-lg rounded-b-none bg-layer-popover text-foreground shadow-xl ${
-          isDesktop ? "max-w-xl" : "max-w-md"
-        } ${sheetClassName ?? ""}`
-      : `mx-auto max-w-md border-black bg-white shadow-[var(--shadow-lg)] ${
-          isDesktop ? "border-2" : "border-t-2 border-x-0 border-b-0"
-        } ${sheetClassName ?? ""}`;
-  const overlayClassName = source ? null : "bg-layer-backdrop";
-
-  return (
-    <div
-      className={`grid overflow-hidden border-2 border-black bg-white shadow-[var(--shadow)] ${frameClass}`}
-    >
-      <div className="flex h-7 items-center justify-between border-b-2 border-black bg-white px-3 font-mono text-[9px] leading-none font-bold text-black/45 uppercase">
-        <span>{frameLabel}</span>
-        <span>{frameWidth}</span>
-      </div>
-      <div className="relative min-h-0 bg-gray-50">
-        {trigger ? (
-          <div className="absolute inset-0 z-0 flex items-center justify-center">{trigger}</div>
-        ) : null}
-        {open && overlayClassName ? (
-          <div
-            className={`absolute inset-0 z-[5] ${overlayClassName}`}
-            onClick={() => onOpenChange?.(false)}
-          />
-        ) : null}
-        {open ? (
-          <div
-            className={
-              source
-                ? "absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
-                : isDesktop
-                  ? "absolute inset-x-0 bottom-0 z-10 px-3"
-                  : "absolute inset-x-0 bottom-0 z-10"
-            }
-            onClick={(event) => {
-              if (event.target === event.currentTarget) onOpenChange?.(false);
-            }}
-          >
-            <div className={resolvedSheetClassName} onClick={(event) => event.stopPropagation()}>
-              {children}
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-function LeaveChannelSheetContent({ onClose }: { onClose?: () => void }) {
-  return (
-    <>
-      <div className="flex flex-col gap-1 p-4">
-        <Text.Sans render={<div />} size="body" className="font-bold text-black">
-          Leave channel?
-        </Text.Sans>
-        <Text.Sans size="small" className="text-black/60">
-          You can rejoin anytime from the directory.
-        </Text.Sans>
-      </div>
-      <div className="mt-auto flex flex-col gap-2 p-4">
-        <Button variant="danger" onClick={onClose}>
-          Leave
-        </Button>
-        <Button variant="default" onClick={onClose}>
-          Cancel
-        </Button>
-      </div>
-    </>
-  );
-}
-
-function LeaveChannelSheetSourceContent({ onClose }: { onClose?: () => void }) {
-  return (
-    <>
-      <div className="flex flex-col gap-1 p-4">
-        <div className="text-base font-bold text-black">Leave channel?</div>
-        <div className="text-sm text-black/60">You can rejoin anytime from the directory.</div>
-      </div>
-      <div className="mt-auto flex flex-col gap-2 p-4">
-        <Button variant="danger" onClick={onClose}>
-          Leave
-        </Button>
-        <Button variant="default" onClick={onClose}>
-          Cancel
-        </Button>
-      </div>
-    </>
-  );
-}
-
-function PwaInstallSheetContent({ variant = "safari" }: { variant?: "safari" | "other" }) {
-  const isSafari = variant === "safari";
-
-  return (
-    <>
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
-            Add Slock to your Home Screen
-          </Text.Sans>
-          <Text.Sans size="small" className="mt-1 text-black/60">
-            {isSafari
-              ? "Open Slock as a fullscreen app — faster, more focused."
-              : "Open this page in Safari first, then add it to your Home Screen."}
-          </Text.Sans>
-        </div>
-        <BottomSheetClose className="static shrink-0" aria-label="Close install instructions" />
-      </div>
-
-      {isSafari ? (
-        <div className="border-2 border-black bg-brutal-cream p-2">
-          <img
-            src="/pwa/ios-add-to-home-screen-3step.svg"
-            alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
-            className="block w-full"
-          />
-        </div>
-      ) : (
-        <Text.Sans
-          render={<div />}
-          size="small"
-          className="border-2 border-black bg-brutal-cream p-3 text-black"
-        >
-          iOS only allows Home Screen installation from Safari. Copy this page link, open Safari,
-          then use Share → Add to Home Screen.
-        </Text.Sans>
-      )}
-
-      <div className="mt-4 flex gap-2">
-        {isSafari ? null : (
-          <Button variant="primary" size="sm">
-            Copy Link
-          </Button>
-        )}
-        <BottomSheetClose render={<Button variant="default" size="sm" />}>
-          {isSafari ? "Got it" : "Close"}
-        </BottomSheetClose>
-      </div>
-    </>
-  );
-}
-
-function PwaInstallSheetSourceContent({
-  variant = "safari",
-  onClose,
-}: {
-  variant?: "safari" | "other";
-  onClose?: () => void;
-}) {
-  const isSafari = variant === "safari";
-
-  return (
-    <>
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <div className="text-lg leading-tight font-black text-black">
-            Add Slock to your Home Screen
-          </div>
-          <div className="mt-1 text-sm text-black/60">
-            {isSafari
-              ? "Open Slock as a fullscreen app — faster, more focused."
-              : "Open this page in Safari first, then add it to your Home Screen."}
-          </div>
-        </div>
-        <button
-          type="button"
-          className="btn-brutal-sm bg-white p-1"
-          aria-label="Close install instructions"
-          onClick={onClose}
-        >
-          <X size={16} />
-        </button>
-      </div>
-
-      {isSafari ? (
-        <div className="border-2 border-black bg-brutal-cream p-2">
-          <img
-            src="/pwa/ios-add-to-home-screen-3step.svg"
-            alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
-            className="block w-full"
-          />
-        </div>
-      ) : (
-        <div className="border-2 border-black bg-brutal-cream p-3 text-sm text-black">
-          iOS only allows Home Screen installation from Safari. Copy this page link, open Safari,
-          then use Share → Add to Home Screen.
-        </div>
-      )}
-
-      <div className="mt-4 flex gap-2">
-        {isSafari ? null : (
-          <button type="button" className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs">
-            Copy Link
-          </button>
-        )}
-        <button type="button" className="btn-brutal bg-white px-3 py-2 text-xs" onClick={onClose}>
-          {isSafari ? "Got it" : "Close"}
-        </button>
-      </div>
-    </>
+    <iframe
+      key={instance}
+      data-bottom-sheet-comparison-frame={instance}
+      title={`${scene} ${variant} ${theme} ${mode} ${viewport}`}
+      src={`/previews/bottom-sheet?${params.toString()}`}
+      loading="eager"
+      className={`block w-full border-0 bg-transparent ${height}`}
+    />
   );
 }
 
@@ -745,10 +399,37 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <BottomSheetSurfaceSourcePreview viewport="mobile" />,
-              brutal: <BottomSheetSurfacePreview viewport="mobile" />,
-              elegant: <BottomSheetSurfacePreview viewport="mobile" />,
-              elegantDark: <BottomSheetSurfacePreview viewport="mobile" />,
+              source: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="source"
+                  viewport="mobile"
+                />
+              ),
+              brutal: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="current"
+                  viewport="mobile"
+                />
+              ),
+              elegant: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="current"
+                  viewport="mobile"
+                  theme="elegant"
+                />
+              ),
+              elegantDark: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="current"
+                  viewport="mobile"
+                  theme="elegant"
+                  mode="dark"
+                />
+              ),
               sourceCode: code.sourceBottom,
               currentCode: code.currentBottom,
               compositionCode: code.currentBottom,
@@ -775,10 +456,37 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <BottomSheetSurfaceSourcePreview viewport="desktop" />,
-              brutal: <BottomSheetSurfacePreview viewport="desktop" />,
-              elegant: <BottomSheetSurfacePreview viewport="desktop" />,
-              elegantDark: <BottomSheetSurfacePreview viewport="desktop" />,
+              source: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="source"
+                  viewport="desktop"
+                />
+              ),
+              brutal: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="current"
+                  viewport="desktop"
+                />
+              ),
+              elegant: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="current"
+                  viewport="desktop"
+                  theme="elegant"
+                />
+              ),
+              elegantDark: (
+                <BottomSheetComparisonIframe
+                  scene="leave-channel"
+                  variant="current"
+                  viewport="desktop"
+                  theme="elegant"
+                  mode="dark"
+                />
+              ),
               sourceCode: code.sourceBottom,
               currentCode: code.currentBottom,
               compositionCode: code.currentBottom,
@@ -838,10 +546,23 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <PwaInstallSheetSourcePreview />,
-              brutal: <PwaInstallSheetPreview />,
-              elegant: <PwaInstallSheetPreview />,
-              elegantDark: <PwaInstallSheetPreview />,
+              source: <BottomSheetComparisonIframe scene="pwa-install" variant="source" />,
+              brutal: <BottomSheetComparisonIframe scene="pwa-install" variant="current" />,
+              elegant: (
+                <BottomSheetComparisonIframe
+                  scene="pwa-install"
+                  variant="current"
+                  theme="elegant"
+                />
+              ),
+              elegantDark: (
+                <BottomSheetComparisonIframe
+                  scene="pwa-install"
+                  variant="current"
+                  theme="elegant"
+                  mode="dark"
+                />
+              ),
               sourceCode: code.sourceAdaptive,
               currentCode: code.currentAdaptive,
               compositionCode: code.currentAdaptive,
@@ -872,10 +593,23 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <PwaInstallSheetSourcePreview variant="other" />,
-              brutal: <PwaInstallSheetPreview variant="other" />,
-              elegant: <PwaInstallSheetPreview variant="other" />,
-              elegantDark: <PwaInstallSheetPreview variant="other" />,
+              source: <BottomSheetComparisonIframe scene="pwa-install-other" variant="source" />,
+              brutal: <BottomSheetComparisonIframe scene="pwa-install-other" variant="current" />,
+              elegant: (
+                <BottomSheetComparisonIframe
+                  scene="pwa-install-other"
+                  variant="current"
+                  theme="elegant"
+                />
+              ),
+              elegantDark: (
+                <BottomSheetComparisonIframe
+                  scene="pwa-install-other"
+                  variant="current"
+                  theme="elegant"
+                  mode="dark"
+                />
+              ),
               sourceCode: code.sourceAdaptiveOther,
               currentCode: code.currentAdaptiveOther,
               compositionCode: code.currentAdaptiveOther,
