@@ -1,10 +1,12 @@
 export {
   BottomSheet,
+  BottomSheetActions,
   BottomSheetTrigger,
   BottomSheetPortal,
   BottomSheetOverlay,
   BottomSheetPositioner,
   BottomSheetContent,
+  BottomSheetBody,
   BottomSheetClose,
   BottomSheetHeader,
   BottomSheetFooter,
@@ -13,11 +15,13 @@ export {
 } from "./bottom-sheet";
 export type {
   BottomSheetProps,
+  BottomSheetActionsProps,
   BottomSheetTriggerProps,
   BottomSheetPortalProps,
   BottomSheetOverlayProps,
   BottomSheetPositionerProps,
   BottomSheetContentProps,
+  BottomSheetBodyProps,
   BottomSheetCloseProps,
   BottomSheetHeaderProps,
   BottomSheetFooterProps,

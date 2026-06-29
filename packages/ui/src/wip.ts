@@ -211,6 +211,8 @@ export type {
 
 export {
   BottomSheet,
+  BottomSheetActions,
+  BottomSheetBody,
   BottomSheetClose,
   BottomSheetContent,
   BottomSheetDescription,
@@ -224,6 +226,8 @@ export {
 } from "./components/bottom-sheet/index";
 export type {
   BottomSheetCloseProps,
+  BottomSheetActionsProps,
+  BottomSheetBodyProps,
   BottomSheetContentProps,
   BottomSheetDescriptionProps,
   BottomSheetFooterProps,

@@ -1,7 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import type { ReactNode } from "react";
-import { Button, Text, type Theme, type ThemeMode, useThemeFamily } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  Button,
+  Text,
+  type Theme,
+  type ThemeMode,
+  useThemeFamily,
+} from "raft-ui";
+import { BottomSheetActions } from "raft-ui/wip";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 
@@ -57,12 +66,12 @@ function BottomSheetScenePreview({
   const pwaVariant = scene === "pwa-install-other" ? "other" : "safari";
 
   return (
-    <ViewportFrame viewport={viewport} source={isSource} padded={isPwa}>
+    <ViewportFrame viewport={viewport} source={isSource} padded={isSource && isPwa}>
       {scene === "leave-channel" ? (
         isSource ? (
           <LeaveChannelSourceContent onClose={noop} />
         ) : (
-          <LeaveChannelContent onClose={noop} />
+          <LeaveChannelContent viewport={viewport} onClose={noop} />
         )
       ) : isSource ? (
         <PwaInstallSourceContent variant={pwaVariant} onClose={noop} />
@@ -138,8 +147,8 @@ function ViewportFrame({
 
 function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: boolean) {
   return [
-    "absolute bottom-0 z-10 mx-auto mt-0 flex h-auto max-h-[calc(100%-1.75rem)] max-w-md flex-col outline-none",
-    isDesktop ? "inset-x-3" : "inset-x-0",
+    "absolute bottom-0 z-10 mx-auto mt-0 flex h-auto min-h-64 max-h-[calc(100%-1.75rem)] max-w-lg flex-col outline-none",
+    isDesktop ? "inset-x-3 max-w-md" : "inset-x-0",
     padded ? "p-4" : null,
     theme === "brutal"
       ? [
@@ -148,7 +157,7 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
         ]
       : [
           "overflow-clip rounded-lg rounded-b-none bg-layer-popover text-foreground shadow-xl",
-          isDesktop ? "max-w-xl" : null,
+          isDesktop ? "max-w-md rounded-xl rounded-b-none" : null,
         ],
   ]
     .flat()
@@ -156,24 +165,63 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     .join(" ");
 }
 
-function LeaveChannelContent({ onClose }: { onClose: () => void }) {
+function LeaveChannelContent({
+  viewport,
+  onClose,
+}: {
+  viewport: BottomSheetPreviewViewport;
+  onClose: () => void;
+}) {
+  const isDesktop = viewport === "desktop";
+  const theme = useThemeFamily();
+  const titleClassName =
+    theme === "brutal"
+      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-black"
+      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-foreground-strong";
+
   return (
     <>
-      <div className="flex flex-col gap-1 p-4">
-        <Text.Sans render={<div />} size="body" className="font-bold text-black">
+      <div className="flex flex-col items-center px-6 pt-8 pb-3 text-center">
+        <Text.Sans render={<div />} size="large" className={titleClassName}>
           Leave channel?
         </Text.Sans>
-        <Text.Sans size="small" className="text-black/60">
+      </div>
+      <div className="flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center">
+        <Text.Sans
+          size="small"
+          className="max-w-sm text-pretty text-center text-foreground/60 [[data-theme=brutal]_&]:text-black/60"
+        >
           You can rejoin anytime from the directory.
         </Text.Sans>
+        <div className="mt-6 flex items-center gap-3 text-left">
+          <Avatar size="md" type="agent">
+            <AvatarFallback>DS</AvatarFallback>
+          </Avatar>
+          <div className="min-w-0">
+            <Text.Sans
+              size="small"
+              className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black"
+            >
+              #design-system
+            </Text.Sans>
+            <Text.Sans
+              size="caption"
+              className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+            >
+              Joined June 12, 2026
+            </Text.Sans>
+          </div>
+        </div>
       </div>
-      <div className="mt-auto flex flex-col gap-2 p-4">
-        <Button variant="danger" onClick={onClose}>
-          Leave
-        </Button>
-        <Button variant="default" onClick={onClose}>
-          Cancel
-        </Button>
+      <div className={`mt-auto flex flex-col gap-2.5 px-6 pt-5 ${isDesktop ? "pb-11" : "pb-5"}`}>
+        <BottomSheetActions>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={onClose}>
+            Leave
+          </Button>
+        </BottomSheetActions>
       </div>
     </>
   );
@@ -205,66 +253,74 @@ function PwaInstallContent({
   variant: "safari" | "other";
   onClose: () => void;
 }) {
-  const theme = useThemeFamily();
   const isSafari = variant === "safari";
-  const isBrutal = theme === "brutal";
+  const theme = useThemeFamily();
+  const titleClassName =
+    theme === "brutal"
+      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-black"
+      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-foreground-strong";
+  const actionSize = !isSafari && theme === "elegant" ? "md" : "lg";
 
   return (
     <>
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
-            Add Slock to your Home Screen
-          </Text.Sans>
-          <Text.Sans size="small" className="mt-1 text-black/60">
-            {isSafari
-              ? "Open Slock as a fullscreen app - faster, more focused."
-              : "Open this page in Safari first, then add it to your Home Screen."}
-          </Text.Sans>
-        </div>
-        <Button
-          variant={isBrutal ? "outline" : "ghost"}
-          size="icon-sm"
-          className={
-            isBrutal
-              ? "static shrink-0 bg-white"
-              : "static shrink-0 p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground"
-          }
-          aria-label="Close install instructions"
-          onClick={onClose}
+      <div className="flex flex-col items-center px-6 pt-8 pb-2 text-center">
+        <Text.Sans render={<div />} size="large" className={titleClassName}>
+          Add Raft to your Home Screen
+        </Text.Sans>
+      </div>
+      <div className="flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center">
+        <Text.Sans
+          size="small"
+          className="max-w-sm text-pretty text-center text-foreground/60 [[data-theme=brutal]_&]:text-black/60"
         >
-          <X className="size-4" />
-        </Button>
+          {isSafari
+            ? "Open Raft as a fullscreen app - faster, more focused."
+            : "Open this page in Safari first, then add it to your Home Screen."}
+        </Text.Sans>
+
+        {isSafari ? (
+          <div className="mt-6 rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
+            <img
+              src="/pwa/ios-add-to-home-screen-3step.svg"
+              alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
+              className="block w-full"
+            />
+          </div>
+        ) : (
+          <Text.Sans
+            render={<div />}
+            size="small"
+            className="mt-6 rounded-md border border-line-subtle bg-layer-panel p-4 text-foreground [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:text-black"
+          >
+            iOS only allows Home Screen installation from Safari. Copy this page link, open Safari,
+            then use Share - Add to Home Screen.
+          </Text.Sans>
+        )}
       </div>
 
-      {isSafari ? (
-        <div className="border-2 border-black bg-brutal-cream p-2">
-          <img
-            src="/pwa/ios-add-to-home-screen-3step.svg"
-            alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
-            className="block w-full"
-          />
-        </div>
-      ) : (
-        <Text.Sans
-          render={<div />}
-          size="small"
-          className="border-2 border-black bg-brutal-cream p-3 text-black"
+      <div className="mt-auto flex flex-col gap-2.5 px-6 py-5">
+        <BottomSheetActions
+          className={
+            isSafari
+              ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
+              : "w-full max-w-[24rem] grid-cols-2 [&_[data-slot=button]]:w-full"
+          }
         >
-          iOS only allows Home Screen installation from Safari. Copy this page link, open Safari,
-          then use Share - Add to Home Screen.
-        </Text.Sans>
-      )}
-
-      <div className="mt-4 flex gap-2">
-        {isSafari ? null : (
-          <Button variant="primary" size="sm">
-            Copy Link
-          </Button>
-        )}
-        <Button variant="default" size="sm" onClick={onClose}>
-          {isSafari ? "Got it" : "Close"}
-        </Button>
+          {isSafari ? (
+            <Button variant="primary" size="lg" onClick={onClose}>
+              Got it
+            </Button>
+          ) : (
+            <>
+              <Button variant="outline" size={actionSize} onClick={onClose}>
+                Close
+              </Button>
+              <Button variant="primary" size={actionSize}>
+                Copy Link
+              </Button>
+            </>
+          )}
+        </BottomSheetActions>
       </div>
     </>
   );
@@ -284,11 +340,11 @@ function PwaInstallSourceContent({
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <div className="text-lg leading-tight font-black text-black">
-            Add Slock to your Home Screen
+            Add Raft to your Home Screen
           </div>
           <div className="mt-1 text-sm text-black/60">
             {isSafari
-              ? "Open Slock as a fullscreen app - faster, more focused."
+              ? "Open Raft as a fullscreen app - faster, more focused."
               : "Open this page in Safari first, then add it to your Home Screen."}
           </div>
         </div>

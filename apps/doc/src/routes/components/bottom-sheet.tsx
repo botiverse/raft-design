@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "raft-ui";
+import { Avatar, AvatarFallback, Button, Text } from "raft-ui";
 import {
   BottomSheet,
+  BottomSheetActions,
+  BottomSheetBody,
   BottomSheetClose,
   BottomSheetContent,
   BottomSheetDescription,
@@ -32,6 +34,9 @@ const TOC = [
 
 const SNIPPETS = {
   anatomy: `import {
+  Avatar,
+  AvatarFallback,
+  Button,
   BottomSheet,
   BottomSheetTrigger,
   BottomSheetContent,
@@ -41,8 +46,11 @@ const SNIPPETS = {
   BottomSheetHeader,
   BottomSheetTitle,
   BottomSheetDescription,
+  BottomSheetBody,
   BottomSheetFooter,
+  BottomSheetActions,
   BottomSheetClose,
+  Text,
 } from "raft-ui";
 
 <BottomSheet>
@@ -51,16 +59,36 @@ const SNIPPETS = {
     <BottomSheetOverlay />
     <BottomSheetPositioner>
       <BottomSheetContent>
-        <BottomSheetClose />
-        <BottomSheetHeader className="pr-14">
+        <BottomSheetHeader>
           <BottomSheetTitle>Leave channel?</BottomSheetTitle>
+        </BottomSheetHeader>
+        <BottomSheetBody>
           <BottomSheetDescription>
             You can rejoin anytime from the directory.
           </BottomSheetDescription>
-        </BottomSheetHeader>
+          <div className="mt-6 flex items-center gap-3 text-left">
+            <Avatar size="md" type="agent">
+              <AvatarFallback>DS</AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              <Text.Sans size="small" className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black">
+                #design-system
+              </Text.Sans>
+              <Text.Sans size="caption" className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+                Joined June 12, 2026
+              </Text.Sans>
+            </div>
+          </div>
+        </BottomSheetBody>
         <BottomSheetFooter>
-          <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
-          <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
+          <BottomSheetActions>
+            <BottomSheetClose render={<Button variant="outline" />}>
+              Cancel
+            </BottomSheetClose>
+            <BottomSheetClose render={<Button variant="danger" />}>
+              Leave
+            </BottomSheetClose>
+          </BottomSheetActions>
         </BottomSheetFooter>
       </BottomSheetContent>
     </BottomSheetPositioner>
@@ -81,13 +109,34 @@ const SNIPPETS = {
       <BottomSheetContent>
         <BottomSheetHeader>
           <BottomSheetTitle>Leave channel?</BottomSheetTitle>
+        </BottomSheetHeader>
+        <BottomSheetBody>
           <BottomSheetDescription>
             You can rejoin anytime from the directory.
           </BottomSheetDescription>
-        </BottomSheetHeader>
+          <div className="mt-6 flex items-center gap-3 text-left">
+            <Avatar size="md" type="agent">
+              <AvatarFallback>DS</AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              <Text.Sans size="small" className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black">
+                #design-system
+              </Text.Sans>
+              <Text.Sans size="caption" className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+                Joined June 12, 2026
+              </Text.Sans>
+            </div>
+          </div>
+        </BottomSheetBody>
         <BottomSheetFooter>
-          <BottomSheetClose render={<Button variant="danger" />}>Leave</BottomSheetClose>
-          <BottomSheetClose render={<Button variant="default" />}>Cancel</BottomSheetClose>
+          <BottomSheetActions>
+            <BottomSheetClose render={<Button variant="outline" />}>
+              Cancel
+            </BottomSheetClose>
+            <BottomSheetClose render={<Button variant="danger" />}>
+              Leave
+            </BottomSheetClose>
+          </BottomSheetActions>
         </BottomSheetFooter>
       </BottomSheetContent>
     </BottomSheetPositioner>
@@ -100,10 +149,10 @@ const SNIPPETS = {
   <div className="mb-3 flex items-start justify-between gap-3">
     <div>
       <div className="text-lg font-black leading-tight text-black">
-        Add Slock to your Home Screen
+        Add Raft to your Home Screen
       </div>
       <div className="mt-1 text-sm text-black/60">
-        Open Slock as a fullscreen app — faster, more focused.
+        Open Raft as a fullscreen app — faster, more focused.
       </div>
     </div>
     <button type="button" className="btn-brutal-sm bg-white p-1" aria-label="Close install instructions">
@@ -130,7 +179,7 @@ const SNIPPETS = {
   <div className="mb-3 flex items-start justify-between gap-3">
     <div>
       <div className="text-lg font-black leading-tight text-black">
-        Add Slock to your Home Screen
+        Add Raft to your Home Screen
       </div>
       <div className="mt-1 text-sm text-black/60">
         Open this page in Safari first, then add it to your Home Screen.
@@ -159,30 +208,29 @@ const SNIPPETS = {
   <BottomSheetPortal className="md:hidden">
     <BottomSheetOverlay />
     <BottomSheetPositioner>
-      <BottomSheetContent className="p-4">
-        <div className="mb-3 flex items-start justify-between gap-3">
-          <div>
-            <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
-              Add Slock to your Home Screen
-            </Text.Sans>
-            <Text.Sans size="small" className="mt-1 text-black/60">
-              Open Slock as a fullscreen app — faster, more focused.
-            </Text.Sans>
-          </div>
-          <BottomSheetClose className="static shrink-0" aria-label="Close install instructions" />
-        </div>
-        <div className="border-2 border-black bg-brutal-cream p-2">
+      <BottomSheetContent>
+        <BottomSheetHeader>
+          <BottomSheetTitle>Add Raft to your Home Screen</BottomSheetTitle>
+        </BottomSheetHeader>
+        <BottomSheetBody>
+          <BottomSheetDescription>
+            Open Raft as a fullscreen app — faster, more focused.
+          </BottomSheetDescription>
+          <div className="mt-6 rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
           <img
             src="/pwa/ios-add-to-home-screen-3step.svg"
             alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
             className="block w-full"
           />
-        </div>
-        <div className="mt-4 flex gap-2">
-          <BottomSheetClose render={<Button variant="default" size="sm" />}>
-            Got it
-          </BottomSheetClose>
-        </div>
+          </div>
+        </BottomSheetBody>
+        <BottomSheetFooter>
+          <BottomSheetActions className="w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full">
+            <BottomSheetClose render={<Button variant="primary" size="lg" />}>
+              Got it
+            </BottomSheetClose>
+          </BottomSheetActions>
+        </BottomSheetFooter>
       </BottomSheetContent>
     </BottomSheetPositioner>
   </BottomSheetPortal>
@@ -194,29 +242,28 @@ const SNIPPETS = {
   <BottomSheetPortal className="md:hidden">
     <BottomSheetOverlay />
     <BottomSheetPositioner>
-      <BottomSheetContent className="p-4">
-        <div className="mb-3 flex items-start justify-between gap-3">
-          <div>
-            <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
-              Add Slock to your Home Screen
-            </Text.Sans>
-            <Text.Sans size="small" className="mt-1 text-black/60">
-              Open this page in Safari first, then add it to your Home Screen.
-            </Text.Sans>
-          </div>
-          <BottomSheetClose className="static shrink-0" aria-label="Close install instructions" />
-        </div>
-        <Text.Sans render={<div />} size="small" className="border-2 border-black bg-brutal-cream p-3 text-black">
+      <BottomSheetContent>
+        <BottomSheetHeader>
+          <BottomSheetTitle>Add Raft to your Home Screen</BottomSheetTitle>
+        </BottomSheetHeader>
+        <BottomSheetBody>
+          <BottomSheetDescription>
+            Open this page in Safari first, then add it to your Home Screen.
+          </BottomSheetDescription>
+          <Text.Sans render={<div />} size="small" className="mt-6 rounded-md border border-line-subtle bg-layer-panel p-4 text-foreground [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:text-black">
           iOS only allows Home Screen installation from Safari. Copy this page link, open Safari, then use Share → Add to Home Screen.
-        </Text.Sans>
-        <div className="mt-4 flex gap-2">
-          <Button variant="primary" size="sm">
-            Copy Link
-          </Button>
-          <BottomSheetClose render={<Button variant="default" size="sm" />}>
-            Close
-          </BottomSheetClose>
-        </div>
+          </Text.Sans>
+        </BottomSheetBody>
+        <BottomSheetFooter>
+          <BottomSheetActions className="w-full max-w-[24rem] grid-cols-2 [&_[data-slot=button]]:w-full">
+            <BottomSheetClose render={<Button variant="outline" size="lg" />}>
+              Close
+            </BottomSheetClose>
+            <Button variant="primary" size="lg">
+              Copy Link
+            </Button>
+          </BottomSheetActions>
+        </BottomSheetFooter>
       </BottomSheetContent>
     </BottomSheetPositioner>
   </BottomSheetPortal>
@@ -272,6 +319,18 @@ const PROPS: readonly PropRow[] = [
     type: "Drawer.Content",
     description:
       "Sheet card surface. Owns Vaul direction placement, max-width, frame, shadow, and content padding overrides.",
+  },
+  {
+    name: "BottomSheetBody",
+    type: 'ComponentPropsWithRef<"div">',
+    description:
+      "Main content area between header and footer. Use it for descriptions, guidance, media, or business content.",
+  },
+  {
+    name: "BottomSheetActions",
+    type: 'ComponentPropsWithRef<"div">',
+    description:
+      "Width-aware action cluster. Centers one action and sizes paired actions without making them full-width.",
   },
 ];
 
@@ -342,20 +401,42 @@ function BottomSheetDoc() {
                 <BottomSheetOverlay />
                 <BottomSheetPositioner>
                   <BottomSheetContent>
-                    <BottomSheetClose />
-                    <BottomSheetHeader className="pr-14">
+                    <BottomSheetHeader>
                       <BottomSheetTitle>Leave channel?</BottomSheetTitle>
+                    </BottomSheetHeader>
+                    <BottomSheetBody>
                       <BottomSheetDescription>
                         You can rejoin anytime from the directory.
                       </BottomSheetDescription>
-                    </BottomSheetHeader>
+                      <div className="mt-6 flex items-center gap-3 text-left">
+                        <Avatar size="md" type="agent">
+                          <AvatarFallback>DS</AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0">
+                          <Text.Sans
+                            size="small"
+                            className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black"
+                          >
+                            #design-system
+                          </Text.Sans>
+                          <Text.Sans
+                            size="caption"
+                            className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+                          >
+                            Joined June 12, 2026
+                          </Text.Sans>
+                        </div>
+                      </div>
+                    </BottomSheetBody>
                     <BottomSheetFooter>
-                      <BottomSheetClose render={<Button variant="danger" />}>
-                        Leave
-                      </BottomSheetClose>
-                      <BottomSheetClose render={<Button variant="default" />}>
-                        Cancel
-                      </BottomSheetClose>
+                      <BottomSheetActions>
+                        <BottomSheetClose render={<Button variant="outline" />}>
+                          Cancel
+                        </BottomSheetClose>
+                        <BottomSheetClose render={<Button variant="danger" />}>
+                          Leave
+                        </BottomSheetClose>
+                      </BottomSheetActions>
                     </BottomSheetFooter>
                   </BottomSheetContent>
                 </BottomSheetPositioner>
@@ -497,7 +578,7 @@ function BottomSheetDoc() {
             {
               label: "PWA install mobile",
               status: "difference",
-              note: "Mobile-only behavior for the real PWA install callsite. Current keeps the same mobile gate and p-4 sheet padding, but expresses the scene through composition primitives: BottomSheetTrigger/Close for behavior, Button for actions, and Text for copy.",
+              note: "Mobile-only behavior for the real PWA install callsite. Current keeps the same mobile gate, then maps the scene onto the current BottomSheet structure: default Close, Header, Body, Footer, BottomSheetActions, Button actions, and Text copy.",
               sourceScenes: [
                 {
                   label: "Primitive style hooks",
@@ -573,7 +654,7 @@ function BottomSheetDoc() {
             {
               label: "PWA install non-Safari mobile",
               status: "difference",
-              note: "The same PWA install composition also renders a non-Safari branch. It keeps the mobile-only portal and p-4 sheet padding, then uses Text for the instruction panel plus Button actions for Copy Link and Close.",
+              note: "The same PWA install composition also renders a non-Safari branch. Current uses the same BottomSheet Header/Body/Footer structure, with Text for the instruction panel and Button actions for Copy Link and Close.",
               sourceScenes: [
                 {
                   label: "PWA install alternate branch",

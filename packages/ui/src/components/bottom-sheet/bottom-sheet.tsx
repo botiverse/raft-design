@@ -4,6 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import {
   Children,
+  Fragment,
   cloneElement,
   type ComponentProps,
   type ComponentPropsWithRef,
@@ -25,22 +26,28 @@ const bottomSheet = tv({
     content: [
       "fixed z-50 flex h-auto flex-col outline-none",
       "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 md:data-[vaul-drawer-direction=bottom]:inset-x-3",
-      "data-[vaul-drawer-direction=bottom]:mx-auto data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:max-w-md",
+      "data-[vaul-drawer-direction=bottom]:mx-auto data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:min-h-64 data-[vaul-drawer-direction=bottom]:max-h-[82vh] data-[vaul-drawer-direction=bottom]:max-w-lg md:data-[vaul-drawer-direction=bottom]:max-w-md",
       "data-[vaul-drawer-direction=top]:inset-x-3 data-[vaul-drawer-direction=top]:top-3",
       "data-[vaul-drawer-direction=top]:mx-auto data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:max-w-md",
       "data-[vaul-drawer-direction=left]:inset-y-3 data-[vaul-drawer-direction=left]:left-3 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:max-w-sm",
       "data-[vaul-drawer-direction=right]:inset-y-3 data-[vaul-drawer-direction=right]:right-3 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:max-w-sm",
       "!duration-200 ![animation-duration:0.2s]",
     ],
-    header: ["flex flex-col gap-1 p-4"],
-    footer: ["mt-auto flex flex-col gap-2 p-4"],
-    title: ["text-base font-bold text-foreground-strong"],
-    description: ["text-sm text-foreground/60"],
+    header: ["flex flex-col items-center px-6 pt-8 pb-2 text-center"],
+    body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
+    footer: ["mt-auto px-6 py-5 md:pb-11"],
+    actions: [
+      "mx-auto grid w-full items-center justify-center gap-2.5",
+      "[&_[data-slot=button]]:w-full",
+    ],
+    title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground-strong"],
+    description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground/60"],
   },
   variants: {
     theme: {
       brutal: {
         overlay: ["bg-layer-backdrop"],
+        title: ["font-bold"],
         content: [
           "border-2 border-black bg-white text-black shadow-[var(--shadow-lg)]",
           "data-[vaul-drawer-direction=bottom]:border-x-0 md:data-[vaul-drawer-direction=bottom]:border-x-2",
@@ -50,16 +57,21 @@ const bottomSheet = tv({
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         content: [
-          "overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl",
+          "overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl md:rounded-xl",
           "data-[vaul-drawer-direction=bottom]:rounded-b-none",
-          "md:data-[vaul-drawer-direction=bottom]:max-w-xl",
-          "md:data-[vaul-drawer-direction=top]:max-w-xl",
+          "md:data-[vaul-drawer-direction=bottom]:max-w-md",
+          "md:data-[vaul-drawer-direction=top]:max-w-md",
           "md:data-[vaul-drawer-direction=left]:max-w-md",
           "md:data-[vaul-drawer-direction=right]:max-w-md",
         ],
-        header: ["border-b border-[oklch(0.91_0_0)] bg-white px-6 py-4"],
-        footer: ["mt-0 flex-row items-center justify-end gap-2 bg-white px-6 py-4"],
-        title: ["font-sans text-base leading-6 font-semibold text-[oklch(0.22_0_0)]"],
+        header: ["bg-white px-8 pt-9 pb-2"],
+        body: ["bg-white px-8 pt-4 pb-7"],
+        footer: ["mt-0 px-8 py-5 md:pb-11"],
+        actions: [
+          "inline-grid w-auto max-w-none grid-flow-col justify-center",
+          "[&_[data-slot=button]]:w-auto",
+        ],
+        title: ["font-sans text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]"],
         description: ["font-sans text-sm leading-5 text-[oklch(0.48_0_0)]"],
       },
     },
@@ -248,6 +260,71 @@ export function BottomSheetFooter({ className, render, ...props }: BottomSheetFo
       slot: "bottom-sheet-footer",
     },
   });
+}
+
+export type BottomSheetBodyProps = useRender.ComponentProps<"div">;
+
+// Main content area between the title header and trailing actions.
+export function BottomSheetBody({ className, render, ...props }: BottomSheetBodyProps) {
+  const theme = useThemeFamily();
+  const { body } = bottomSheet({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: body({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "bottom-sheet-body",
+    },
+  });
+}
+
+export type BottomSheetActionsProps = useRender.ComponentProps<"div">;
+
+// Width-aware action cluster for single or paired bottom-sheet actions.
+export function BottomSheetActions({
+  className,
+  render,
+  children,
+  ...props
+}: BottomSheetActionsProps) {
+  const theme = useThemeFamily();
+  const { actions } = bottomSheet({ theme });
+  const count = Math.min(3, countActionChildren(children));
+  const countClassName =
+    theme === "elegant"
+      ? "grid-cols-none auto-cols-max"
+      : count <= 1
+        ? "max-w-64 grid-cols-1"
+        : count === 2
+          ? "max-w-[24rem] grid-cols-2"
+          : "max-w-[32rem] grid-cols-3";
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: actions({ className: cn(countClassName, className) }),
+    children,
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "bottom-sheet-actions",
+    },
+  });
+}
+
+function countActionChildren(children: ReactNode): number {
+  return Children.toArray(children).reduce<number>((count, child) => {
+    if (isValidElement<{ children?: ReactNode }>(child) && child.type === Fragment) {
+      return count + countActionChildren(child.props.children);
+    }
+
+    return count + 1;
+  }, 0);
 }
 
 export type BottomSheetTitleProps = StyledProps<ComponentProps<typeof Drawer.Title>>;
