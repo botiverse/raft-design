@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "raft-ui";
+import { Button, Text } from "raft-ui";
 import {
   BottomSheet,
   BottomSheetClose,
@@ -153,71 +153,73 @@ const SNIPPETS = {
     </button>
   </div>
 </BottomSheet>`,
-  currentAdaptive: `<BottomSheetPortal className="md:hidden">
-  <BottomSheetPositioner>
-    <BottomSheetContent className="p-4">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <div className="text-lg leading-tight font-black text-black">
-            Add Slock to your Home Screen
+  currentAdaptive: `<BottomSheet>
+  <BottomSheetTrigger render={<Button variant="primary" size="sm" />}>
+    Install
+  </BottomSheetTrigger>
+  <BottomSheetPortal className="md:hidden">
+    <BottomSheetPositioner>
+      <BottomSheetContent className="p-4">
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
+              Add Slock to your Home Screen
+            </Text.Sans>
+            <Text.Sans size="small" className="mt-1 text-black/60">
+              Open Slock as a fullscreen app — faster, more focused.
+            </Text.Sans>
           </div>
-          <div className="mt-1 text-sm text-black/60">
-            Open Slock as a fullscreen app — faster, more focused.
-          </div>
+          <BottomSheetClose className="static shrink-0" aria-label="Close install instructions" />
         </div>
-        <BottomSheetClose
-          render={<button className="btn-brutal-sm bg-white p-1" aria-label="Close install instructions" />}
-        >
-          <X size={16} />
-        </BottomSheetClose>
-      </div>
-      <div className="border-2 border-black bg-brutal-cream p-2">
-        <img
-          src="/pwa/ios-add-to-home-screen-3step.svg"
-          alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
-          className="block w-full"
-        />
-      </div>
-      <div className="mt-4 flex gap-2">
-        <BottomSheetClose render={<button className="btn-brutal bg-white px-3 py-2 text-xs" />}>
-          Got it
-        </BottomSheetClose>
-      </div>
-    </BottomSheetContent>
-  </BottomSheetPositioner>
-</BottomSheetPortal>`,
-  currentAdaptiveOther: `<BottomSheetPortal className="md:hidden">
-  <BottomSheetPositioner>
-    <BottomSheetContent className="p-4">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <div className="text-lg leading-tight font-black text-black">
-            Add Slock to your Home Screen
-          </div>
-          <div className="mt-1 text-sm text-black/60">
-            Open this page in Safari first, then add it to your Home Screen.
-          </div>
+        <div className="border-2 border-black bg-brutal-cream p-2">
+          <img
+            src="/pwa/ios-add-to-home-screen-3step.svg"
+            alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
+            className="block w-full"
+          />
         </div>
-        <BottomSheetClose
-          render={<button className="btn-brutal-sm bg-white p-1" aria-label="Close install instructions" />}
-        >
-          <X size={16} />
-        </BottomSheetClose>
-      </div>
-      <div className="border-2 border-black bg-brutal-cream p-3 text-sm text-black">
-        iOS only allows Home Screen installation from Safari. Copy this page link, open Safari, then use Share → Add to Home Screen.
-      </div>
-      <div className="mt-4 flex gap-2">
-        <button type="button" className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs">
-          Copy Link
-        </button>
-        <BottomSheetClose render={<button className="btn-brutal bg-white px-3 py-2 text-xs" />}>
-          Close
-        </BottomSheetClose>
-      </div>
-    </BottomSheetContent>
-  </BottomSheetPositioner>
-</BottomSheetPortal>`,
+        <div className="mt-4 flex gap-2">
+          <BottomSheetClose render={<Button variant="default" size="sm" />}>
+            Got it
+          </BottomSheetClose>
+        </div>
+      </BottomSheetContent>
+    </BottomSheetPositioner>
+  </BottomSheetPortal>
+</BottomSheet>`,
+  currentAdaptiveOther: `<BottomSheet>
+  <BottomSheetTrigger render={<Button variant="primary" size="sm" />}>
+    Install
+  </BottomSheetTrigger>
+  <BottomSheetPortal className="md:hidden">
+    <BottomSheetPositioner>
+      <BottomSheetContent className="p-4">
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
+              Add Slock to your Home Screen
+            </Text.Sans>
+            <Text.Sans size="small" className="mt-1 text-black/60">
+              Open this page in Safari first, then add it to your Home Screen.
+            </Text.Sans>
+          </div>
+          <BottomSheetClose className="static shrink-0" aria-label="Close install instructions" />
+        </div>
+        <Text.Sans render={<div />} size="small" className="border-2 border-black bg-brutal-cream p-3 text-black">
+          iOS only allows Home Screen installation from Safari. Copy this page link, open Safari, then use Share → Add to Home Screen.
+        </Text.Sans>
+        <div className="mt-4 flex gap-2">
+          <Button variant="primary" size="sm">
+            Copy Link
+          </Button>
+          <BottomSheetClose render={<Button variant="default" size="sm" />}>
+            Close
+          </BottomSheetClose>
+        </div>
+      </BottomSheetContent>
+    </BottomSheetPositioner>
+  </BottomSheetPortal>
+</BottomSheet>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -269,6 +271,29 @@ function BottomSheetSurfacePreview({ viewport = "mobile" }: { viewport?: "mobile
       viewport={viewport}
       open={open}
       trigger={
+        <Button variant="primary" size="sm" onClick={() => setOpen(true)}>
+          Open sheet
+        </Button>
+      }
+      onOpenChange={setOpen}
+    >
+      <LeaveChannelSheetContent onClose={() => setOpen(false)} />
+    </ViewportFrame>
+  );
+}
+
+function BottomSheetSurfaceSourcePreview({
+  viewport = "mobile",
+}: {
+  viewport?: "mobile" | "desktop";
+}) {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <ViewportFrame
+      viewport={viewport}
+      open={open}
+      trigger={
         <button
           type="button"
           className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
@@ -279,7 +304,7 @@ function BottomSheetSurfacePreview({ viewport = "mobile" }: { viewport?: "mobile
       }
       onOpenChange={setOpen}
     >
-      <LeaveChannelSheetContent onClose={() => setOpen(false)} />
+      <LeaveChannelSheetSourceContent onClose={() => setOpen(false)} />
     </ViewportFrame>
   );
 }
@@ -288,9 +313,43 @@ function PwaInstallSheetPreview({ variant = "safari" }: { variant?: "safari" | "
   const [open, setOpen] = useState(true);
 
   return (
+    <BottomSheet open={open} onOpenChange={setOpen}>
+      <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
+        <PwaInstallViewportFrame
+          open={open}
+          onOpenChange={setOpen}
+          trigger={
+            <BottomSheetTrigger render={<Button variant="primary" size="sm" />}>
+              Install
+            </BottomSheetTrigger>
+          }
+        >
+          <PwaInstallSheetContent variant={variant} />
+        </PwaInstallViewportFrame>
+      </div>
+    </BottomSheet>
+  );
+}
+
+function PwaInstallSheetSourcePreview({ variant = "safari" }: { variant?: "safari" | "other" }) {
+  const [open, setOpen] = useState(true);
+
+  return (
     <div className="flex min-h-[30rem] w-full items-center justify-center overflow-hidden bg-gray-50 px-4 py-4">
-      <PwaInstallViewportFrame open={open} onOpenChange={setOpen}>
-        <PwaInstallSheetContent variant={variant} onClose={() => setOpen(false)} />
+      <PwaInstallViewportFrame
+        open={open}
+        onOpenChange={setOpen}
+        trigger={
+          <button
+            type="button"
+            className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
+            onClick={() => setOpen(true)}
+          >
+            Install
+          </button>
+        }
+      >
+        <PwaInstallSheetSourceContent variant={variant} onClose={() => setOpen(false)} />
       </PwaInstallViewportFrame>
     </div>
   );
@@ -299,10 +358,12 @@ function PwaInstallSheetPreview({ variant = "safari" }: { variant?: "safari" | "
 function PwaInstallViewportFrame({
   open,
   onOpenChange,
+  trigger,
   children,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  trigger: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -312,18 +373,10 @@ function PwaInstallViewportFrame({
         <span>375px</span>
       </div>
       <div className="relative min-h-0 bg-gray-50">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <button
-            type="button"
-            className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs"
-            onClick={() => onOpenChange(true)}
-          >
-            Install
-          </button>
-        </div>
+        <div className="absolute inset-0 z-0 flex items-center justify-center">{trigger}</div>
         {open ? (
           <div
-            className="absolute inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+            className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
             onClick={(event) => {
               if (event.target === event.currentTarget) onOpenChange(false);
             }}
@@ -371,11 +424,11 @@ function ViewportFrame({
       </div>
       <div className="relative min-h-0 bg-gray-50">
         {trigger ? (
-          <div className="absolute inset-0 flex items-center justify-center">{trigger}</div>
+          <div className="absolute inset-0 z-0 flex items-center justify-center">{trigger}</div>
         ) : null}
         {open ? (
           <div
-            className="absolute inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+            className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]"
             onClick={(event) => {
               if (event.target === event.currentTarget) onOpenChange?.(false);
             }}
@@ -397,6 +450,29 @@ function LeaveChannelSheetContent({ onClose }: { onClose?: () => void }) {
   return (
     <>
       <div className="flex flex-col gap-1 p-4">
+        <Text.Sans render={<div />} size="body" className="font-bold text-black">
+          Leave channel?
+        </Text.Sans>
+        <Text.Sans size="small" className="text-black/60">
+          You can rejoin anytime from the directory.
+        </Text.Sans>
+      </div>
+      <div className="mt-auto flex flex-col gap-2 p-4">
+        <Button variant="danger" onClick={onClose}>
+          Leave
+        </Button>
+        <Button variant="default" onClick={onClose}>
+          Cancel
+        </Button>
+      </div>
+    </>
+  );
+}
+
+function LeaveChannelSheetSourceContent({ onClose }: { onClose?: () => void }) {
+  return (
+    <>
+      <div className="flex flex-col gap-1 p-4">
         <div className="text-base font-bold text-black">Leave channel?</div>
         <div className="text-sm text-black/60">You can rejoin anytime from the directory.</div>
       </div>
@@ -412,7 +488,59 @@ function LeaveChannelSheetContent({ onClose }: { onClose?: () => void }) {
   );
 }
 
-function PwaInstallSheetContent({
+function PwaInstallSheetContent({ variant = "safari" }: { variant?: "safari" | "other" }) {
+  const isSafari = variant === "safari";
+
+  return (
+    <>
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div>
+          <Text.Sans render={<div />} size="large" className="leading-tight font-black text-black">
+            Add Slock to your Home Screen
+          </Text.Sans>
+          <Text.Sans size="small" className="mt-1 text-black/60">
+            {isSafari
+              ? "Open Slock as a fullscreen app — faster, more focused."
+              : "Open this page in Safari first, then add it to your Home Screen."}
+          </Text.Sans>
+        </div>
+        <BottomSheetClose className="static shrink-0" aria-label="Close install instructions" />
+      </div>
+
+      {isSafari ? (
+        <div className="border-2 border-black bg-brutal-cream p-2">
+          <img
+            src="/pwa/ios-add-to-home-screen-3step.svg"
+            alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
+            className="block w-full"
+          />
+        </div>
+      ) : (
+        <Text.Sans
+          render={<div />}
+          size="small"
+          className="border-2 border-black bg-brutal-cream p-3 text-black"
+        >
+          iOS only allows Home Screen installation from Safari. Copy this page link, open Safari,
+          then use Share → Add to Home Screen.
+        </Text.Sans>
+      )}
+
+      <div className="mt-4 flex gap-2">
+        {isSafari ? null : (
+          <Button variant="primary" size="sm">
+            Copy Link
+          </Button>
+        )}
+        <BottomSheetClose render={<Button variant="default" size="sm" />}>
+          {isSafari ? "Got it" : "Close"}
+        </BottomSheetClose>
+      </div>
+    </>
+  );
+}
+
+function PwaInstallSheetSourceContent({
   variant = "safari",
   onClose,
 }: {
@@ -564,8 +692,10 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <BottomSheetSurfacePreview viewport="mobile" />,
-              current: <BottomSheetSurfacePreview viewport="mobile" />,
+              source: <BottomSheetSurfaceSourcePreview viewport="mobile" />,
+              brutal: <BottomSheetSurfacePreview viewport="mobile" />,
+              elegant: <BottomSheetSurfacePreview viewport="mobile" />,
+              elegantDark: <BottomSheetSurfacePreview viewport="mobile" />,
               sourceCode: code.sourceBottom,
               currentCode: code.currentBottom,
               compositionCode: code.currentBottom,
@@ -592,8 +722,10 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <BottomSheetSurfacePreview viewport="desktop" />,
-              current: <BottomSheetSurfacePreview viewport="desktop" />,
+              source: <BottomSheetSurfaceSourcePreview viewport="desktop" />,
+              brutal: <BottomSheetSurfacePreview viewport="desktop" />,
+              elegant: <BottomSheetSurfacePreview viewport="desktop" />,
+              elegantDark: <BottomSheetSurfacePreview viewport="desktop" />,
               sourceCode: code.sourceBottom,
               currentCode: code.currentBottom,
               compositionCode: code.currentBottom,
@@ -604,7 +736,7 @@ function BottomSheetDoc() {
             {
               label: "PWA install mobile",
               status: "difference",
-              note: "Mobile-only behavior for the real PWA install callsite. Source only renders this sheet below md, then adds p-4 to the sheet card and a source-styled header close button. Current keeps the same visual structure while mapping the old outer className to BottomSheetPortal and sheetClassName to BottomSheetContent.",
+              note: "Mobile-only behavior for the real PWA install callsite. Current keeps the same mobile gate and p-4 sheet padding, but expresses the scene through composition primitives: BottomSheetTrigger/Close for behavior, Button for actions, and Text for copy.",
               sourceScenes: [
                 {
                   label: "Primitive style hooks",
@@ -653,8 +785,10 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <PwaInstallSheetPreview />,
-              current: <PwaInstallSheetPreview />,
+              source: <PwaInstallSheetSourcePreview />,
+              brutal: <PwaInstallSheetPreview />,
+              elegant: <PwaInstallSheetPreview />,
+              elegantDark: <PwaInstallSheetPreview />,
               sourceCode: code.sourceAdaptive,
               currentCode: code.currentAdaptive,
               compositionCode: code.currentAdaptive,
@@ -665,7 +799,7 @@ function BottomSheetDoc() {
             {
               label: "PWA install non-Safari mobile",
               status: "difference",
-              note: "The same source BottomSheet callsite also renders a non-Safari branch. It keeps the mobile-only portal and p-4 sheet padding, but swaps the image for an instructional cream panel and adds a Copy Link action before Close.",
+              note: "The same PWA install composition also renders a non-Safari branch. It keeps the mobile-only portal and p-4 sheet padding, then uses Text for the instruction panel plus Button actions for Copy Link and Close.",
               sourceScenes: [
                 {
                   label: "PWA install alternate branch",
@@ -685,8 +819,10 @@ function BottomSheetDoc() {
                   ],
                 },
               ],
-              source: <PwaInstallSheetPreview variant="other" />,
-              current: <PwaInstallSheetPreview variant="other" />,
+              source: <PwaInstallSheetSourcePreview variant="other" />,
+              brutal: <PwaInstallSheetPreview variant="other" />,
+              elegant: <PwaInstallSheetPreview variant="other" />,
+              elegantDark: <PwaInstallSheetPreview variant="other" />,
               sourceCode: code.sourceAdaptiveOther,
               currentCode: code.currentAdaptiveOther,
               compositionCode: code.currentAdaptiveOther,
