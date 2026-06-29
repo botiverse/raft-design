@@ -46,7 +46,7 @@ const popover = tv({
           "text-foreground-muted transition-colors duration-150 hover:text-foreground-strong",
         ],
         arrow: ["border-l border-t border-line-muted bg-layer-popover"],
-        backdrop: ["bg-black/20"],
+        backdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
       },
     },
   },
@@ -241,6 +241,7 @@ export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
   return (
     <BasePopover.Backdrop
       data-slot="popover-backdrop"
+      data-theme={theme}
       className={backdrop({ className })}
       {...props}
     />

@@ -307,7 +307,7 @@
   --layer-muted: oklch(0.18 0.006 25 / 0.05);
   --layer-field: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
-  --layer-backdrop: oklch(0 0 0 / 0.75);
+  --layer-backdrop: oklch(0 0 0 / 0.65);
 
   --line-strong: oklch(0.18 0.006 25);
   --line: oklch(0.18 0.006 25);
@@ -396,7 +396,7 @@
   --layer-muted: oklch(0.967 0.001 286);
   --layer-field: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
-  --layer-backdrop: oklch(0 0 0 / 0.75);
+  --layer-backdrop: oklch(0 0 0 / 0.15);
 
   --line-strong: oklch(0.21 0.006 285);
   --line: oklch(0.84 0.006 285);

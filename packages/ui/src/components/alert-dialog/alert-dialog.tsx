@@ -29,14 +29,14 @@ const alertDialog = tv({
   variants: {
     theme: {
       brutal: {
-        overlay: ["bg-black/60"],
+        overlay: ["bg-layer-backdrop"],
         content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-xl"],
         body: ["py-2 font-medium"],
         title: ["font-heading text-lg leading-none font-bold uppercase"],
         description: ["font-sans text-sm leading-5 text-foreground/60"],
       },
       elegant: {
-        overlay: ["bg-black/20"],
+        overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         content: ["overflow-clip rounded-lg bg-layer-popover shadow-xl"],
         header: ["border-b border-line-subtle bg-black/[0.02] px-5 py-3"],
         body: ["px-6 py-5"],
@@ -118,6 +118,7 @@ export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayPr
   return (
     <BaseDialog.Backdrop
       data-slot="alert-dialog-overlay"
+      data-theme={theme}
       className={overlay({ className })}
       {...props}
     />

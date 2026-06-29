@@ -27,7 +27,9 @@ const lightbox = tv({
         title: ["text-foreground-strong"],
         media: ["border-line-strong bg-layer-panel shadow-xl"],
       },
-      elegant: {},
+      elegant: {
+        backdrop: ["backdrop-blur-[2px]"],
+      },
     },
   },
 });
@@ -128,7 +130,7 @@ export function LightboxContent({
   const { backdrop, content } = lightbox({ theme });
   return (
     <LightboxPortal>
-      <Dialog.Backdrop data-slot="lightbox-backdrop" className={backdrop()} />
+      <Dialog.Backdrop data-slot="lightbox-backdrop" data-theme={theme} className={backdrop()} />
       <Dialog.Popup
         data-slot="lightbox-content"
         initialFocus={initialFocus}
