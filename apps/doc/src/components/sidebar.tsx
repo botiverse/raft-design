@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Badge } from "raft-ui";
 import { Globe2 } from "lucide-react";
 
@@ -593,6 +593,19 @@ type BadgeVariant =
 const sectionTitleClassName = "mb-2.5 text-[13px] font-medium text-foreground-strong";
 const sidebarItemFocusClassName =
   "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
+const sidebarItemActiveClassName = "bg-layer-muted text-foreground-strong";
+const sidebarItemInactiveClassName = "text-foreground-muted";
+const sidebarItemActiveProps = { className: sidebarItemActiveClassName };
+const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
+const sidebarPathActiveOptions = { exact: true, includeSearch: false };
+const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
+const priorityBadgeVariants = {
+  P0: "danger",
+  P1: "primary",
+  P2: "information",
+  Later: "accent",
+  Parked: "default",
+} satisfies Record<PlannedPriority, BadgeVariant>;
 
 function NavLink({
   to,
@@ -601,17 +614,16 @@ function NavLink({
   badge,
   depth = 0,
 }: NavItem & { to: string; badge?: ReactNode; depth?: 0 | 1 }) {
-  const location = useLocation();
-  const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
-
   return (
     <Link
       to={to}
       hash={hash}
-      aria-current={isActive ? "page" : undefined}
+      activeOptions={sidebarPathActiveOptions}
+      activeProps={sidebarItemActiveProps}
+      inactiveProps={sidebarItemInactiveProps}
       className={`flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
         depth === 1 ? "text-xs" : "text-[13px]"
-      } ${isActive ? "bg-layer-muted text-foreground-strong" : "text-foreground-muted"} ${sidebarItemFocusClassName}`}
+      } ${sidebarItemFocusClassName}`}
     >
       <span className="min-w-0 flex-1 truncate">{label}</span>
       {badge}
@@ -667,9 +679,7 @@ function NavItemBadge({ item }: { item: NavItem }) {
 }
 
 function MigratedLink({ to, label, hash, target }: MigratedItem) {
-  const location = useLocation();
   const [tooltip, setTooltip] = useState<{ left: number; top: number } | null>(null);
-  const isActive = location.pathname === to && (hash ? location.hash === hash : !location.hash);
 
   const showTooltip = (element: HTMLElement) => {
     const rect = element.getBoundingClientRect();
@@ -686,7 +696,9 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         hash={hash}
         title={`${label} migrated to ${target}`}
         aria-label={`${label} migrated to ${target}`}
-        aria-current={isActive ? "page" : undefined}
+        activeOptions={hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
+        activeProps={sidebarItemActiveProps}
+        inactiveProps={sidebarItemInactiveProps}
         onMouseEnter={(event) => showTooltip(event.currentTarget)}
         onMouseMove={(event) => showTooltip(event.currentTarget)}
         onMouseLeave={() => setTooltip(null)}
@@ -695,9 +707,7 @@ function MigratedLink({ to, label, hash, target }: MigratedItem) {
         onPointerLeave={() => setTooltip(null)}
         onFocus={(event) => showTooltip(event.currentTarget)}
         onBlur={() => setTooltip(null)}
-        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-foreground-placeholder decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
-          isActive ? "bg-layer-muted text-foreground-strong" : "text-foreground-muted"
-        } ${sidebarItemFocusClassName}`}
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] line-through decoration-foreground-placeholder decoration-2 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${sidebarItemFocusClassName}`}
       >
         <span className="min-w-0 flex-1 truncate">{label}</span>
       </Link>
@@ -870,14 +880,7 @@ function PlannedRow({ label, priority, docsHref, reason }: PlannedItem) {
 }
 
 function PriorityBadge({ priority }: { priority: PlannedPriority }) {
-  const variants = {
-    P0: "danger",
-    P1: "primary",
-    P2: "information",
-    Later: "accent",
-    Parked: "default",
-  } satisfies Record<PlannedPriority, BadgeVariant>;
-  const variant = variants[priority];
+  const variant = priorityBadgeVariants[priority];
 
   return (
     <Badge appearance="solid" variant={variant} uppercase className="h-4 shrink-0 px-1 text-[9px]">
