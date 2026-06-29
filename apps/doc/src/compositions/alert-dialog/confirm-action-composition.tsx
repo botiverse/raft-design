@@ -11,12 +11,8 @@ import {
 } from "raft-ui";
 
 // @docs-source-strip-start
-import type { RefObject } from "react";
-import { useRef } from "react";
-import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
+import { SourceComparisonModalPreview } from "../source-comparison-preview.tsx";
 
-const PREVIEW_CONTENT_CLASS =
-  "!relative !top-auto !left-auto !z-0 !w-full !translate-x-0 !translate-y-0";
 // @docs-source-strip-end
 
 function ConfirmActionAlertDialogParts() {
@@ -53,24 +49,22 @@ export function ConfirmActionAlertDialogContent() {
 
 // @docs-source-strip-start
 export function ConfirmActionAlertDialogComposition({ className }: { className?: string }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <SourceComparisonPreview className={className}>
-      <div ref={portalRef} className="relative min-w-0 w-full max-w-[408px]">
+    <SourceComparisonModalPreview className={className}>
+      {({ portalProps, contentClassName }) => (
         <AlertDialog open modal={false}>
           <AlertDialogContent
             overlay={false}
             initialFocus={false}
             finalFocus={false}
-            portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-            className={PREVIEW_CONTENT_CLASS}
+            portalProps={portalProps}
+            className={contentClassName}
           >
             <ConfirmActionAlertDialogParts />
           </AlertDialogContent>
         </AlertDialog>
-      </div>
-    </SourceComparisonPreview>
+      )}
+    </SourceComparisonModalPreview>
   );
 }
 // @docs-source-strip-end

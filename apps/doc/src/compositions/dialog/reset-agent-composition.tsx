@@ -10,13 +10,9 @@ import { Banner, BannerDescription, Button, RadioGroup, RadioGroupItem, Text } f
 import { RotateCcw } from "lucide-react";
 
 // @docs-source-strip-start
-import type { RefObject } from "react";
-import { useRef } from "react";
 import { Dialog } from "raft-ui";
-import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
+import { SourceComparisonModalPreview } from "../source-comparison-preview.tsx";
 
-const PREVIEW_CONTENT_CLASS =
-  "!relative !top-auto !left-auto !z-0 !w-full !max-w-md !translate-x-0 !translate-y-0";
 // @docs-source-strip-end
 
 const resetOptions = [
@@ -85,24 +81,22 @@ export function ResetAgentDialogContent() {
 
 // @docs-source-strip-start
 export function ResetAgentDialogComposition({ className }: { className?: string }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <SourceComparisonPreview className={className}>
-      <div ref={portalRef} className="relative min-w-0 w-full max-w-full max-w-md">
+    <SourceComparisonModalPreview className={className} contentClassName="!max-w-md">
+      {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
             overlay={false}
             initialFocus={false}
             finalFocus={false}
-            portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-            className={PREVIEW_CONTENT_CLASS}
+            portalProps={portalProps}
+            className={contentClassName}
           >
             <ResetAgentDialogParts />
           </DialogContent>
         </Dialog>
-      </div>
-    </SourceComparisonPreview>
+      )}
+    </SourceComparisonModalPreview>
   );
 }
 // @docs-source-strip-end
