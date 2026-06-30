@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "raft-ui";
 import { Button, Field, FieldDescription, FieldLabel, Input, Text, Textarea } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import {
   AlertTriangle,
   Archive,
@@ -266,12 +267,10 @@ function SourceModalCard({
 }) {
   return (
     <div
-      className={[
+      className={cn(
         "min-w-0 w-full max-w-full max-w-md border-2 border-black bg-white p-6 font-sans text-black shadow-[6px_6px_0_#000]",
         className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
     >
       <div className="mb-4 flex items-center justify-between gap-3">
         <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
@@ -315,7 +314,12 @@ function SourceButton({
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center gap-1.5 border-2 border-black ${toneClass} ${sizeClass} font-bold shadow-[2px_2px_0_#000] ${className ?? ""}`}
+      className={cn(
+        "inline-flex items-center justify-center gap-1.5 border-2 border-black font-bold shadow-[2px_2px_0_#000]",
+        toneClass,
+        sizeClass,
+        className,
+      )}
     >
       {children}
     </button>
@@ -352,7 +356,11 @@ function SourceBanner({
   }[tone];
   return (
     <div
-      className={`flex items-start gap-2 border-2 border-black ${toneClass} p-3 text-sm font-bold text-black ${className ?? ""}`}
+      className={cn(
+        "flex items-start gap-2 border-2 border-black p-3 text-sm font-bold text-black",
+        toneClass,
+        className,
+      )}
     >
       {withIcon ? <AlertTriangle className="mt-0.5 size-4 shrink-0" /> : null}
       <div className="min-w-0 flex-1">{children}</div>
@@ -621,9 +629,10 @@ function SourceCreateChannel() {
             {["Avery", "Sam"].map((member, index) => (
               <div
                 key={member}
-                className={`flex items-center gap-2 border-t border-black/15 px-3 py-1.5 text-sm font-medium text-black ${
-                  index === 0 ? "bg-[oklch(0.749_0.162_0.71_/_0.2)]" : ""
-                }`}
+                className={cn(
+                  "flex items-center gap-2 border-t border-black/15 px-3 py-1.5 text-sm font-medium text-black",
+                  index === 0 && "bg-[oklch(0.749_0.162_0.71_/_0.2)]",
+                )}
               >
                 <span className="size-5 border border-black bg-white" />
                 <span className="min-w-0 flex-1 truncate">{member}</span>
@@ -766,11 +775,12 @@ function SourceResetAgent() {
           <button
             key={option.title}
             type="button"
-            className={`border-2 p-4 text-left transition-colors ${
+            className={cn(
+              "border-2 p-4 text-left transition-colors",
               option.selected
-                ? `border-black ${option.tone} shadow-[2px_2px_0_#000]`
-                : "border-black/30"
-            }`}
+                ? ["border-black", option.tone, "shadow-[2px_2px_0_#000]"]
+                : "border-black/30",
+            )}
           >
             <div className="text-sm font-bold uppercase">{option.title}</div>
             <p className="m-0 mt-1 text-xs text-black/60">{option.description}</p>
@@ -801,13 +811,15 @@ function SourceAgreement() {
         </button>
       </div>
       <div className="grid gap-4">
-        <div className="max-h-56 overflow-y-auto border-2 border-black bg-white p-4 text-sm leading-6">
-          <p className="m-0 font-bold">Before joining, review the workspace rules.</p>
-          <ul className="mb-0 mt-3 grid gap-2 pl-5 text-black/70">
-            <li>Keep sensitive customer data out of public channels.</li>
-            <li>Use design-system components for shared product surfaces.</li>
-            <li>Report unsafe automation or missing audit context immediately.</li>
-          </ul>
+        <div className="max-h-[50vh] overflow-y-auto border-2 border-black bg-white p-4 text-sm">
+          <div className="space-y-2 whitespace-pre-wrap break-words">
+            <p className="m-0">Before joining, review the workspace rules.</p>
+            <ul className="m-0 list-disc space-y-1 pl-5">
+              <li>Keep sensitive customer data out of public channels.</li>
+              <li>Use design-system components for shared product surfaces.</li>
+              <li>Report unsafe automation or missing audit context immediately.</li>
+            </ul>
+          </div>
         </div>
         <div className="flex justify-end gap-3">
           <SourceButton size="xs">Cancel</SourceButton>
@@ -1158,8 +1170,8 @@ function DialogDoc() {
             {
               id: "source-comparison-create-agent",
               label: "Create agent",
-              status: "todo",
-              note: "Source used Modal for a dense creation form with a warning/info panel and footer actions.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Field/Select/Button primitives and themed primary/outline actions; source uses inline brutal form controls and source-specific conditional warning/limit states.",
               source: <SourceCreateAgent />,
               brutal: <CreateAgentDialogComposition />,
               elegant: <CreateAgentDialogComposition />,
@@ -1192,8 +1204,8 @@ function DialogDoc() {
             {
               id: "source-comparison-reset-agent",
               label: "Reset agent",
-              status: "todo",
-              note: "Source Modal uses selectable reset rows and a stronger warning once full reset is chosen.",
+              status: "difference",
+              note: "Remaining differences: current uses controlled Dialog/RadioGroup/Banner/Button primitives, dynamic footer action variants, and an elegant radio-card treatment; source uses inline brutal buttons, source-local reset mode state, and only shows the full-reset warning when full reset is selected.",
               source: <SourceResetAgent />,
               brutal: <ResetAgentDialogComposition />,
               elegant: <ResetAgentDialogComposition />,
@@ -1222,8 +1234,8 @@ function DialogDoc() {
             {
               id: "source-comparison-agreement",
               label: "Agreement",
-              status: "todo",
-              note: "Source agreement dialog combines a header, scrollable markdown body, warning state, and compact footer buttons.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Text/Button primitives with larger themed actions, separates the intro line from the guideline list, and lets elegant render the list without a container; source uses the card-brutal shell, source pink submit button, rendered markdown body, submitting label, and conditional join-error warning state.",
               source: <SourceAgreement />,
               brutal: <AgreementDialogComposition />,
               elegant: <AgreementDialogComposition />,
@@ -1244,8 +1256,8 @@ function DialogDoc() {
             {
               id: "source-comparison-onboarding",
               label: "Onboarding step",
-              status: "todo",
-              note: "Source onboarding modal has eyebrow, title, optional icon intro, error/banner, content, and caller-supplied footer.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Checkbox/Button primitives and themed primary/outline actions; source uses a card-brutal shell with caller-supplied footer and optional error banner.",
               source: <SourceOnboarding />,
               brutal: <OnboardingDialogComposition />,
               elegant: <OnboardingDialogComposition />,

@@ -6,7 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "raft-ui";
-import { Banner, BannerDescription, Button, Text } from "raft-ui";
+import { Button, Text, useThemeFamily } from "raft-ui";
+import { cn } from "raft-ui/cn";
+import { X } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
@@ -15,29 +17,44 @@ import { SourceComparisonModalPreview } from "../source-comparison-preview.tsx";
 // @docs-source-strip-end
 
 function AgreementDialogParts() {
+  const theme = useThemeFamily();
+  const isBrutal = theme === "brutal";
+  const isElegant = theme === "elegant";
+
   return (
     <>
-      <DialogHeader>
-        <div className="grid gap-1">
-          <DialogTitle>Community Guidelines</DialogTitle>
-          <Text.Sans size="caption" variant="placeholder">
-            Version 2026.06
+      <DialogHeader className={cn(isBrutal && "items-start")}>
+        <div className="grid gap-0.5">
+          <DialogTitle className={cn(isBrutal && "font-sans normal-case leading-tight")}>
+            Community Guidelines
+          </DialogTitle>
+          <Text.Sans
+            size="caption"
+            variant="placeholder"
+            className={cn(isBrutal && "text-black/50")}
+          >
+            Version 3
           </Text.Sans>
         </div>
-        <DialogClose />
+        <DialogClose size="icon-sm" className={cn(isBrutal && "p-1")}>
+          <X className={cn("size-4", isBrutal && "size-[18px]")} />
+        </DialogClose>
       </DialogHeader>
-      <DialogBody className="grid gap-4">
-        <div className="max-h-56 overflow-y-auto border border-line-subtle bg-layer-panel p-4 text-sm leading-6">
-          <p className="m-0 font-medium">Before joining, review the workspace rules.</p>
-          <ul className="mb-0 mt-3 grid gap-2 pl-5">
+      <DialogBody className={cn("grid gap-3", isBrutal && "py-6 font-normal", isElegant && "py-7")}>
+        <p className="m-0 text-sm">Before joining, review the workspace rules.</p>
+        <div
+          className={cn(
+            "max-h-[50vh] overflow-y-auto border border-line-subtle bg-layer-panel p-4 text-sm",
+            isBrutal && "border-2 border-line-strong bg-white",
+            isElegant && "max-h-none overflow-visible border-0 bg-transparent p-0",
+          )}
+        >
+          <ul className="m-0 list-disc space-y-1 pl-5 whitespace-pre-wrap break-words">
             <li>Keep sensitive customer data out of public channels.</li>
             <li>Use design-system components for shared product surfaces.</li>
             <li>Report unsafe automation or missing audit context immediately.</li>
           </ul>
         </div>
-        <Banner status="warning" size="sm">
-          <BannerDescription>You need to agree before joining this community.</BannerDescription>
-        </Banner>
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
@@ -50,8 +67,10 @@ function AgreementDialogParts() {
 }
 
 export function AgreementDialogContent() {
+  const theme = useThemeFamily();
+
   return (
-    <DialogContent className="max-w-lg">
+    <DialogContent className={cn("max-w-lg", theme === "brutal" && "p-5")}>
       <AgreementDialogParts />
     </DialogContent>
   );
@@ -60,7 +79,12 @@ export function AgreementDialogContent() {
 // @docs-source-strip-start
 export function AgreementDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="!max-w-lg">
+    <SourceComparisonModalPreview
+      className={className}
+      contentClassName="max-w-lg data-[theme=brutal]:p-5"
+      placementPaddingClassName="px-0 py-6"
+      backdrop={false}
+    >
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

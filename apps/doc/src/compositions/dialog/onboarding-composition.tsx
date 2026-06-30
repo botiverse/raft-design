@@ -1,5 +1,5 @@
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "raft-ui";
-import { Button, Text } from "raft-ui";
+import { Button, Checkbox, Field, FieldItem, FieldLabel, Text } from "raft-ui";
 import { Monitor } from "lucide-react";
 
 // @docs-source-strip-start
@@ -36,16 +36,26 @@ function OnboardingDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
-        <label className="inline-flex min-w-0 select-none items-center gap-1.5">
-          <span className="inline-flex size-4 border border-line-strong bg-layer-panel" />
-          <Text.Sans size="caption" variant="placeholder" className="truncate font-medium">
-            Don&apos;t remind me again
-          </Text.Sans>
-        </label>
+        <Field className="min-w-0">
+          <FieldItem className="min-w-0">
+            <Checkbox
+              id="dialog-onboarding-reminder"
+              size="sm"
+              aria-labelledby="dialog-onboarding-reminder-label"
+            />
+            <FieldLabel
+              id="dialog-onboarding-reminder-label"
+              size="sm"
+              className="min-w-0 truncate text-foreground-muted"
+            >
+              Don&apos;t remind me again
+            </FieldLabel>
+          </FieldItem>
+        </Field>
         <div className="flex shrink-0 items-center gap-2">
           <Button variant="outline">Skip</Button>
-          <Button variant="accent">
-            <Monitor />
+          <Button variant="primary">
+            <Monitor data-icon="inline-start" />
             Add Computer
           </Button>
         </div>
@@ -65,7 +75,11 @@ export function OnboardingDialogContent() {
 // @docs-source-strip-start
 export function OnboardingDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="!max-w-lg">
+    <SourceComparisonModalPreview
+      className={className}
+      contentClassName="!max-w-lg"
+      portalClassName="!px-0"
+    >
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

@@ -14,6 +14,7 @@ import {
   Input,
   Select,
   SelectContent,
+  SelectIcon,
   SelectItem,
   SelectItemText,
   SelectList,
@@ -21,6 +22,7 @@ import {
   SelectValue,
   Textarea,
 } from "raft-ui";
+import { cn } from "raft-ui/cn";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
@@ -40,14 +42,18 @@ function CreateAgentDialogParts() {
           <FieldLabel htmlFor="dialog-agent-machine" required>
             Computer
           </FieldLabel>
-          <Select defaultValue="studio" items={[{ value: "studio", label: "Studio Mac" }]}>
+          <Select
+            defaultValue="studio"
+            items={[{ value: "studio", label: "Studio Mac (atlas.local)" }]}
+          >
             <SelectTrigger id="dialog-agent-machine">
               <SelectValue />
+              <SelectIcon />
             </SelectTrigger>
             <SelectContent>
               <SelectList>
                 <SelectItem value="studio">
-                  <SelectItemText>Studio Mac</SelectItemText>
+                  <SelectItemText>Studio Mac (atlas.local)</SelectItemText>
                 </SelectItem>
               </SelectList>
             </SelectContent>
@@ -71,23 +77,37 @@ function CreateAgentDialogParts() {
           />
           <div className="text-right font-mono text-xs text-foreground-muted">0/240</div>
         </Field>
-        <div className="grid gap-2 border border-line-subtle bg-layer-panel p-3">
+        <div
+          className={cn(
+            "grid gap-2 rounded-md border border-[oklch(0.94_0_0)] bg-layer-field p-3 shadow-none",
+            "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-layer-panel [[data-theme=brutal]_&]:shadow-sm",
+          )}
+        >
           <div className="flex items-center justify-between gap-3">
-            <span className="text-sm font-medium text-foreground-strong">Runtime</span>
+            <span className="text-sm font-medium text-foreground-strong [[data-theme=brutal]_&]:font-bold">
+              Runtime
+            </span>
             <span className="font-mono text-xs text-foreground-muted">codex</span>
           </div>
-          <div className="flex items-center justify-between gap-3 border-t border-line-subtle pt-2">
-            <span className="text-sm font-medium text-foreground-strong">Model</span>
+          <div className="flex items-center justify-between gap-3 border-t border-line-subtle pt-2 [[data-theme=brutal]_&]:border-black/15">
+            <span className="text-sm font-medium text-foreground-strong [[data-theme=brutal]_&]:font-bold">
+              Model
+            </span>
             <span className="font-mono text-xs text-foreground-muted">auto</span>
           </div>
-          <button type="button" className="mt-1 text-left text-xs font-medium underline">
+          <Button
+            type="button"
+            variant="link"
+            size="sm"
+            className="mt-1 justify-self-start px-0 text-xs underline underline-offset-2 [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-foreground-strong"
+          >
             Advanced environment
-          </button>
+          </Button>
         </div>
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Create Agent</Button>
+        <Button variant="primary">Create Agent</Button>
       </DialogFooter>
     </>
   );
@@ -104,7 +124,11 @@ export function CreateAgentDialogContent() {
 // @docs-source-strip-start
 export function CreateAgentDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="!max-w-md">
+    <SourceComparisonModalPreview
+      className={className}
+      contentClassName="!max-w-md"
+      portalClassName="!px-0"
+    >
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

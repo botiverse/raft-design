@@ -38,9 +38,9 @@ const dialog = tv({
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         content: ["overflow-clip rounded-lg bg-layer-popover shadow-xl"],
-        header: ["border-b border-line-subtle bg-black/[0.02] px-5 py-3"],
+        header: ["border-b border-line-subtle bg-black/[0.02] px-6 py-3"],
         body: ["px-6 py-5"],
-        footer: ["border-t border-line-subtle bg-black/[0.015] px-5 py-3"],
+        footer: ["border-t border-line-subtle bg-black/[0.015] px-6 py-3"],
         title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
         description: [
           "font-sans text-sm leading-5 text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",

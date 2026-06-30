@@ -110,7 +110,7 @@ function CreateChannelDialogParts() {
             itemToStringLabel={(member) => member.name}
           >
             <ComboboxControl className="w-full">
-              <Search className="text-foreground-muted" />
+              <Search className="text-foreground-muted [[data-theme=brutal]_&]:!stroke-2 [[data-theme=brutal]_&_*]:!stroke-2" />
               <ComboboxInput
                 aria-label="Search members"
                 placeholder="Search members by name"
