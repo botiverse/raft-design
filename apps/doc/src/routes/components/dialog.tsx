@@ -837,7 +837,7 @@ function SourceOnboarding() {
     <div className="min-w-0 w-full max-w-full max-w-lg border-2 border-black bg-white p-6 font-sans text-black shadow-[6px_6px_0_#000]">
       <div className="mb-4">
         <div className="mb-1 font-mono text-[11px] font-bold uppercase tracking-widest text-black/50">
-          Meet Slock
+          Meet RAFT
         </div>
         <h3 className="m-0 text-lg font-bold uppercase leading-tight">Add a computer</h3>
       </div>
