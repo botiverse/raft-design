@@ -1124,8 +1124,8 @@ function DialogDoc() {
             {
               id: "source-comparison-create-channel",
               label: "Create channel",
-              status: "todo",
-              note: "Source Modal hosts dense channel forms with visibility toggles, searchable member selection, and archived-name recovery actions.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Banner/Field/Combobox primitives and themed button variants; source uses inline brutal form controls, a static expanded member list, and source-specific post-submit archive collision wiring.",
               source: <SourceCreateChannel />,
               brutal: <CreateChannelDialogComposition />,
               elegant: <CreateChannelDialogComposition />,
