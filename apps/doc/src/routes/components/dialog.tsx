@@ -1125,7 +1125,7 @@ function DialogDoc() {
               id: "source-comparison-create-channel",
               label: "Create channel",
               status: "todo",
-              note: "Source Modal hosts dense channel forms with visibility toggles, member search, selectable rows, and archive warnings.",
+              note: "Source Modal hosts dense channel forms with visibility toggles, searchable member selection, and archived-name recovery actions.",
               source: <SourceCreateChannel />,
               brutal: <CreateChannelDialogComposition />,
               elegant: <CreateChannelDialogComposition />,
