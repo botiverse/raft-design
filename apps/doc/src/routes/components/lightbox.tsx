@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "raft-ui";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
+import { Badge, Button } from "raft-ui";
 import {
   Lightbox,
   LightboxActions,
@@ -12,51 +13,82 @@ import {
   LightboxTrigger,
 } from "raft-ui/wip";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
-import { useCallback, useEffect, useEffectEvent, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useState,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
+import { cn } from "tailwind-variants";
 
-import { Callout } from "#/components/callout.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
+import {
+  createCompositionPanelProps,
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import attachmentPreviewShellCompositionSource from "#/compositions/lightbox/attachment-preview-shell-composition.tsx?raw";
+import imageLightboxShellCompositionSource from "#/compositions/lightbox/image-lightbox-shell-composition.tsx?raw";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "structure", title: "Structure" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
+  {
+    id: "source-comparison",
+    title: "Source comparison",
+    children: [
+      { id: "source-comparison-image-lightbox-shell", title: "Image shell" },
+      { id: "source-comparison-attachment-preview-shell", title: "Attachment shell" },
+    ],
+  },
 ] as const;
-
-const TODOS = ["Add elegant family styling (if any beyond the dim backdrop)"] as const;
 
 const DEMO_IMAGES = [
   {
     filename: "product-shot.png",
-    cells: ["bg-brutal-cyan/35", "bg-brutal-yellow/45"],
+    src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1440&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=160&q=80",
   },
   {
-    filename: "wireframe-board.png",
-    cells: ["bg-brutal-lime/45", "bg-brutal-pink/35"],
+    filename: "ui.png",
+    src: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1440&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=160&q=80",
   },
   {
-    filename: "release-card.png",
-    cells: ["bg-brutal-lavender/45", "bg-brutal-orange/40"],
+    filename: "release-card-final-approved-for-directory-cover.png",
+    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1440&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=160&q=80",
+  },
+  {
+    filename: "design-system-token-migration-before-after-comparison-v3.png",
+    src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1440&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=160&q=80",
+  },
+  {
+    filename: "status-board.png",
+    src: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1440&q=80",
+    thumb:
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=160&q=80",
   },
 ] as const;
 
-const lightboxArrowButtonClassName = (disabled: boolean) =>
-  disabled
-    ? "pointer-events-auto flex size-12 cursor-default items-center justify-center border-2 border-white/10 bg-white/5 text-white/20"
-    : "pointer-events-auto flex size-12 items-center justify-center border-2 border-black bg-white text-black transition-colors duration-100 hover:bg-brutal-yellow";
-
 const SNIPPETS = {
-  anatomy: `import {
+  anatomy: `import { Button } from "raft-ui";
+import {
   Lightbox,
   LightboxActions,
   LightboxClose,
@@ -66,268 +98,186 @@ const SNIPPETS = {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "raft-ui";
+} from "raft-ui/wip";
+import { Download, X } from "lucide-react";
 
 <Lightbox>
-  <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
+  <LightboxTrigger render={<Button variant="default" />}>
+    Open lightbox
+  </LightboxTrigger>
   <LightboxContent className="flex flex-col">
-    <LightboxHeader>
-      <div className="flex h-14 items-center gap-3 px-4">
-        <LightboxTitle>product-shot.png</LightboxTitle>
-        <LightboxActions>
-          <LightboxClose render={<Button type="button" size="icon-sm" aria-label="Close" />}>
-            <X />
-          </LightboxClose>
-        </LightboxActions>
+    <LightboxHeader className="pointer-events-none absolute inset-x-0 top-0 z-20">
+      <div className="flex justify-end px-4 pt-4">
+        <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
+        <LightboxClose
+          render={<Button type="button" variant="outline" size="icon-md" aria-label="Close" className="pointer-events-auto" />}
+        >
+          <X className="size-4" />
+        </LightboxClose>
       </div>
     </LightboxHeader>
     <LightboxStage>
-      <LightboxMedia render={<img src={url} alt="" />} />
+      <LightboxMedia className="border-0 bg-transparent shadow-none" render={<img src={url} alt="" />} />
+      <div className="absolute right-6 bottom-20 left-6 flex justify-center">
+        <div className="flex w-[clamp(10.5rem,25vw,18rem)] max-w-[calc(100vw-3rem)] min-w-[10.5rem] items-center gap-3 rounded-md bg-white px-3 py-2 text-black shadow-[0_12px_32px_-18px_oklch(0_0_0_/_0.55)]">
+          <div className="min-w-0 flex-1 truncate text-sm font-bold">
+            product-shot.png
+          </div>
+          <LightboxActions>
+            <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
+              <Download />
+            </Button>
+          </LightboxActions>
+        </div>
+      </div>
     </LightboxStage>
   </LightboxContent>
-</Lightbox>
-`,
-  sourceBackdrop: `<Lightbox
-  onClose={close}
-  className="flex flex-col"
-  data-testid="image-lightbox"
->
+</Lightbox>`,
+  structure: `<Lightbox>
+  <LightboxTrigger />
+  <LightboxContent>
+    <LightboxHeader>
+      <LightboxTitle />
+      <LightboxActions>
+        <LightboxClose />
+      </LightboxActions>
+    </LightboxHeader>
+    <LightboxStage>
+      <LightboxMedia />
+    </LightboxStage>
+  </LightboxContent>
+</Lightbox>`,
+  sourceImageShell: `<Lightbox onClose={close} className="flex flex-col" data-testid="image-lightbox">
   <div className="safe-top safe-left safe-right pointer-events-auto shrink-0 border-b-2 border-black bg-white">
-    ...
+    <div className="flex h-14 items-center gap-3 px-4">
+      <div className="min-w-0 flex-1 truncate text-sm font-bold font-display text-black">
+        {current.filename}
+      </div>
+      <Button shape="icon" title="Download" />
+      <Button shape="icon" title="Close" />
+    </div>
   </div>
   <div className="relative flex flex-1 items-center justify-center overflow-hidden">
+    <img src={displaySrc} alt={current.filename} />
+  </div>
+</Lightbox>`,
+  sourceAttachmentShell: `<Lightbox
+  onClose={onClose}
+  backdropClass={browserFindLayout ? "bg-brutal-cream" : undefined}
+  positionClass={browserFindLayout ? "absolute left-0 right-0 top-0 min-h-screen" : undefined}
+  lockBodyScroll={!browserFindLayout}
+  scrollIntoViewOnMount={browserFindLayout}
+  className={browserFindLayout ? "bg-brutal-cream" : "flex flex-col items-center justify-center"}
+>
+  <div className="safe-top safe-left pointer-events-auto absolute left-0 right-0 top-0 border-b-2 border-black bg-white">
     ...
   </div>
-</Lightbox>`,
-  currentBackdrop: `<Lightbox open onOpenChange={(open) => { if (!open) close() }}>
-  <LightboxContent className="flex flex-col" data-testid="image-lightbox">
-    <LightboxHeader>...</LightboxHeader>
-    <LightboxStage>...</LightboxStage>
-  </LightboxContent>
-</Lightbox>`,
-  sourceRender: `<div
-  className={\`\${positionClass} \${backdropClass} \${className}\`}
->
-  ...
-</div>`,
-  currentRender: `<LightboxContent render={<section aria-label="Attachment preview" />}>
-  ...
-</LightboxContent>`,
-  sourceMechanics: `return createPortal(
-  <div
-    ref={rootRef}
-    className={\`\${positionClass} \${backdropClass} \${className}\`}
-    style={{ zIndex }}
-    onClick={dismissOnBackdrop ? handleBackdropClick : undefined}
-  >
-    {children}
-  </div>,
-  document.body
-)`,
-  currentMechanics: `const dialogRef = useRef<Dialog.Root.Actions>(null);
-const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-const effectiveOpen = open ?? uncontrolledOpen;
-
-function LightboxModWClose({ dialogRef }) {
-  useHotkey("Mod+W", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    dialogRef.current?.close();
-  });
-  return null;
-}
-
-<Dialog.Root
-  actionsRef={dialogRef}
-  open={open}
-  modal
-  onOpenChange={onOpenChange}
->
-  {closeOnModW && effectiveOpen ? <LightboxModWClose dialogRef={dialogRef} /> : null}
   {children}
-</Dialog.Root>`,
-  sourceChildren: `<Lightbox onClose={close} className="flex flex-col">
-  <Header />
-  <Stage />
-</Lightbox>`,
-  currentChildren: `function Lightbox({ closeOnModW = true, children, ...props }) {
-  const dialogRef = useRef<Dialog.Root.Actions>(null);
-  const modWClose = closeOnModW && effectiveOpen
-    ? <LightboxModWClose dialogRef={dialogRef} />
-    : null;
-
-  return (
-    <Dialog.Root actionsRef={dialogRef} {...props}>
-      {modWClose}
-      {children}
-    </Dialog.Root>
-  );
-}`,
-  currentContent: `function LightboxContent({ className, ...props }) {
-  return (
-    <Dialog.Portal>
-      <Dialog.Backdrop className={backdrop()} />
-      <Dialog.Popup className={content({ className })} {...props} />
-    </Dialog.Portal>
-  );
-}`,
-  sourceSwitching: `const { images, currentIndex, next, prev, goTo } = useImageLightboxStore();
-const current = images[currentIndex];
-
-useEffect(() => {
-  if (!isOpen) return;
-  document.addEventListener("keydown", handleKeyDown);
-  return () => document.removeEventListener("keydown", handleKeyDown);
-}, [isOpen, handleKeyDown]);
-
-<Lightbox onClose={close} className="flex flex-col">
-  <div onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
-    <button onClick={() => !isFirst && prev()}>...</button>
-    <img src={displaySrc} alt={current.filename} />
-    <button onClick={() => !isLast && next()}>...</button>
-    {images.map((img, idx) => <button onClick={() => goTo(idx)}>...</button>)}
-  </div>
-</Lightbox>`,
-  currentSwitching: `const [open, setOpen] = useState(false);
-const [imageIndex, setImageIndex] = useState(0);
-const updateOpen = (nextOpen) => {
-  setOpen(nextOpen);
-  if (!nextOpen) setImageIndex(0);
-};
-
-<Lightbox open={open} onOpenChange={updateOpen}>
-  <LightboxContent className="flex flex-col">
-    <LightboxHeader>...{imageIndex + 1} / {images.length}</LightboxHeader>
-    <LightboxStage>
-      <button onClick={() => setImageIndex((i) => Math.max(0, i - 1))}>...</button>
-      <LightboxMedia>...</LightboxMedia>
-      <button onClick={() => setImageIndex((i) => Math.min(images.length - 1, i + 1))}>...</button>
-    </LightboxStage>
-  </LightboxContent>
 </Lightbox>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
-  {
-    name: "children",
-    type: "ReactNode",
-    description:
-      "Compound Lightbox parts. Intentionally narrowed from Base UI Dialog.Root render children because Lightbox inserts the Mod+W close helper before user content.",
-  },
-  {
-    name: "open",
-    type: "boolean",
-    description: "Controlled open state. Passed to Base UI Dialog.Root.",
-  },
-  {
-    name: "defaultOpen",
-    type: "boolean",
-    default: "false",
-    description: "Initial uncontrolled open state.",
-  },
-  {
-    name: "onOpenChange",
-    type: "Dialog.Root.Props['onOpenChange']",
-    description: "Base UI open-change handler. Lightbox does not rewrite the details signature.",
-  },
-  {
-    name: "modal",
-    type: "boolean | 'trap-focus'",
-    default: "true",
-    description: "Base UI modal behavior. true locks page scroll and traps focus.",
-  },
-  {
-    name: "closeOnModW",
-    type: "boolean",
-    default: "true",
-    description:
-      "Mounts the internal TanStack Hotkeys close helper while the lightbox is open. Set false to opt out of the source Cmd/Ctrl+W interception.",
-  },
-  {
-    name: "disablePointerDismissal",
-    type: "boolean",
-    default: "false",
-    description:
-      "Base UI Dialog.Root outside-click control. Leave false to close from the backdrop; set true to keep pointer dismissal disabled.",
-  },
-];
+const LIGHTBOX_COMPOSITION_RAW_SOURCES = {
+  AttachmentPreviewShell: attachmentPreviewShellCompositionSource,
+  ImageLightboxShell: imageLightboxShellCompositionSource,
+} as const;
 
-const ROOT_OMITTED_PROPS: readonly PropRow[] = [
-  {
-    name: "actionsRef",
-    type: "never",
-    description:
-      "Reserved internally so the Mod+W close helper can close the Dialog without exposing an imperative handle API.",
-  },
-  {
-    name: "handle",
-    type: "never",
-    description:
-      "Not exposed. Lightbox keeps Dialog state inside the root instead of asking callers to provide a Dialog handle.",
-  },
-  {
-    name: "children render function",
-    type: "never",
-    description:
-      "Base UI payload render children are intentionally not supported; compose normal React children from the Lightbox parts.",
-  },
-];
+const LIGHTBOX_COMPOSITION_SOURCES = createCompositionSourceMap(LIGHTBOX_COMPOSITION_RAW_SOURCES);
 
-const TRIGGER_PROPS: readonly PropRow[] = [
-  {
-    name: "render",
-    type: "Dialog.Trigger render prop",
-    description: "Base UI trigger composition hook. Commonly render a Button as the trigger.",
-  },
-];
+const LIGHTBOX_COMPOSITION_SNIPPET_IDS = {
+  AttachmentPreviewShell: "lightboxAttachmentPreviewShellComposition",
+  ImageLightboxShell: "lightboxImageLightboxShellComposition",
+} as const;
 
-const CONTENT_PROPS: readonly PropRow[] = [
-  {
-    name: "render",
-    type: "Dialog.Popup render prop",
-    description: "Optional Base UI popup root composition hook. Defaults to a div overlay.",
-  },
-  {
-    name: "initialFocus",
-    type: "Dialog.Popup.Props['initialFocus']",
-    default: "false",
-    description:
-      "Defaulted to false to match the source overlay: opening the image preview does not force focus into the popup.",
-  },
-  {
-    name: "finalFocus",
-    type: "Dialog.Popup.Props['finalFocus']",
-    default: "false",
-    description:
-      "Defaulted to false so close focus behavior stays caller/browser-owned, matching the source portal.",
-  },
-];
+const LIGHTBOX_COMPOSITION_SNIPPETS = createCompositionSnippetMap(
+  LIGHTBOX_COMPOSITION_SOURCES,
+  LIGHTBOX_COMPOSITION_SNIPPET_IDS,
+);
 
-const SLOT_RENDER_PROPS: readonly PropRow[] = [
-  {
-    name: "render",
-    type: "useRender.ComponentProps<'div'>['render']",
-    description:
-      "Optional composition hook for changing the rendered element while preserving Lightbox slot classes and state.",
-  },
-  {
-    name: "className",
-    type: "string",
-    description: "Merged into the slot class through tv() and Base UI mergeProps.",
-  },
-];
+const LIGHTBOX_COMPOSITION_PATHS = {
+  AttachmentPreviewShell:
+    "apps/doc/src/compositions/lightbox/attachment-preview-shell-composition.tsx",
+  ImageLightboxShell: "apps/doc/src/compositions/lightbox/image-lightbox-shell-composition.tsx",
+} as const;
 
-const CLOSE_PROPS: readonly PropRow[] = [
+type LightboxCompositionKey = keyof typeof LIGHTBOX_COMPOSITION_SOURCES;
+
+function compositionPanelProps(
+  code: Record<string, ReactNode | AnyRenderableServerComponent>,
+  key: LightboxCompositionKey,
+) {
+  return createCompositionPanelProps({
+    code,
+    key,
+    paths: LIGHTBOX_COMPOSITION_PATHS,
+    snippetIds: LIGHTBOX_COMPOSITION_SNIPPET_IDS,
+    sources: LIGHTBOX_COMPOSITION_SOURCES,
+  });
+}
+
+const SOURCE_SCENES = [
   {
-    name: "render",
-    type: "Dialog.Close render prop",
-    description: "Base UI close composition hook. Commonly render a Button as the close control.",
+    label: "Primitive and global image shell",
+    scenes: [
+      {
+        label: "Lightbox primitive",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/Lightbox.tsx:39",
+      },
+      {
+        label: "ImageLightbox shell",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ImageLightbox.tsx:116",
+      },
+    ],
+  },
+  {
+    label: "Business lightbox callsites",
+    scenes: [
+      {
+        label: "Attachment preview shell",
+        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:915",
+      },
+    ],
+  },
+] as const;
+
+const PROPS: readonly PropRow[] = [
+  {
+    name: "Lightbox",
+    type: "Base UI Dialog.Root props",
+    description:
+      "Owns open state, modal behavior, Escape, pointer dismissal, and the optional Mod+W close helper.",
+  },
+  {
+    name: "LightboxTrigger",
+    type: "Base UI Dialog.Trigger props",
+    description: "Opens the lightbox. Compose Button through render for visible triggers.",
+  },
+  {
+    name: "LightboxContent",
+    type: "Base UI Dialog.Popup props",
+    description:
+      "Renders Portal, Backdrop, and Popup. Defaults initialFocus/finalFocus to false for preview-like surfaces.",
+  },
+  {
+    name: "LightboxHeader / LightboxActions / LightboxStage / LightboxMedia",
+    type: "div props",
+    description:
+      "Layout slots for the title bar, action cluster, remaining preview stage, and media element.",
+  },
+  {
+    name: "LightboxTitle",
+    type: "div props",
+    description: "Truncating title slot, usually filename or preview label.",
+  },
+  {
+    name: "LightboxClose",
+    type: "Base UI Dialog.Close props",
+    description: "Close primitive. Compose Button through render for icon or footer actions.",
   },
 ];
 
 export const Route = createFileRoute("/components/lightbox")({
   component: LightboxDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...LIGHTBOX_COMPOSITION_SNIPPETS } }),
 });
 
 function LightboxDoc() {
@@ -353,6 +303,30 @@ function LightboxDoc() {
     setImageIndex((current) => Math.min(DEMO_IMAGES.length - 1, current + 1));
   }, []);
 
+  const handlePreviousImageClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      if (isFirstImage) {
+        event.preventDefault();
+        return;
+      }
+      showPreviousImage();
+    },
+    [isFirstImage, showPreviousImage],
+  );
+
+  const handleNextImageClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      if (isLastImage) {
+        event.preventDefault();
+        return;
+      }
+      showNextImage();
+    },
+    [isLastImage, showNextImage],
+  );
+
   const switchImageWithArrowKey = useEffectEvent((event: KeyboardEvent) => {
     if (event.key === "ArrowLeft" && !isFirstImage) {
       showPreviousImage();
@@ -371,125 +345,91 @@ function LightboxDoc() {
   return (
     <DocPage
       title="Lightbox"
-      description="A full-screen dark-backdrop overlay for lightboxes and sheets."
-      overview={
-        <Differences from="Lightbox">
-          <li>
-            source used a hand-rolled portal; current moves portal, modal scroll lock, focus
-            containment, Escape, and pointer dismissal to Base UI <code>Dialog</code>
-          </li>
-          <li>
-            styling is split across <code>tv()</code> slots: content, header, title, actions, stage,
-            media, and close
-          </li>
-          <li>
-            source <code>Cmd/Ctrl+W</code> close interception is preserved as the only custom
-            keyboard behavior, now opt-out through <code>closeOnModW</code>
-          </li>
-          <li>
-            root <code>children</code> are intentionally narrowed to normal React children; Base UI
-            payload render children are not exposed because Lightbox inserts an internal close
-            helper before user content
-          </li>
-        </Differences>
-      }
+      description="A full-screen preview surface for image, screenshot, and attachment review."
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
-        <div className="space-y-4">
-          <Example html={code.anatomy}>
-            <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
-              <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
-              <LightboxContent className="flex flex-col" data-testid="lightbox-demo">
-                <LightboxHeader>
-                  <div className="flex h-14 items-center gap-3 px-4">
-                    <LightboxTitle>{currentImage.filename}</LightboxTitle>
-                    <div className="shrink-0 border-2 border-black bg-brutal-yellow px-3 py-1 font-heading text-xs font-bold text-black">
-                      {imageIndex + 1} / {DEMO_IMAGES.length}
+        <Example html={code.anatomy}>
+          <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
+            <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
+            <LightboxContent className="flex flex-col" data-testid="lightbox-demo">
+              <LightboxHeader className="pointer-events-none absolute inset-x-0 top-0 z-20">
+                <div className="flex justify-end px-4 pt-4">
+                  <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
+                  <LightboxClose
+                    render={
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon-md"
+                        aria-label="Close"
+                        className="pointer-events-auto"
+                      />
+                    }
+                  >
+                    <X className="size-4" />
+                  </LightboxClose>
+                </div>
+              </LightboxHeader>
+              <LightboxStage data-testid="image-lightbox-stage">
+                <LightboxArrowButton
+                  direction="previous"
+                  disabled={isFirstImage}
+                  onPress={handlePreviousImageClick}
+                />
+                <LightboxArrowButton
+                  direction="next"
+                  disabled={isLastImage}
+                  onPress={handleNextImageClick}
+                />
+                <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center border-0 bg-transparent shadow-none">
+                  <img
+                    src={currentImage.src}
+                    alt={currentImage.filename}
+                    className="size-full object-cover"
+                    draggable={false}
+                  />
+                </LightboxMedia>
+                <div className="pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center">
+                  <div className="pointer-events-auto flex w-[clamp(10.5rem,25vw,18rem)] max-w-[calc(100vw-3rem)] min-w-[10.5rem] items-center gap-3 rounded-md bg-white px-3 py-2 text-black shadow-[0_12px_32px_-18px_oklch(0_0_0_/_0.55)] [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:shadow-[var(--shadow)]">
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-heading text-sm font-bold [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium">
+                        {currentImage.filename}
+                      </div>
                     </div>
-                    <LightboxActions>
-                      <Button type="button" size="icon-sm" aria-label="Download">
+                    <LightboxActions className="shrink-0">
+                      <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
                         <Download />
                       </Button>
-                      <LightboxClose
-                        render={<Button type="button" size="icon-sm" aria-label="Close" />}
-                      >
-                        <X />
-                      </LightboxClose>
                     </LightboxActions>
                   </div>
-                </LightboxHeader>
-                <LightboxStage data-testid="image-lightbox-stage">
-                  <button
-                    type="button"
-                    disabled={isFirstImage}
-                    className={`${lightboxArrowButtonClassName(isFirstImage)} absolute left-8 z-10`}
-                    aria-label="Previous image"
-                    onClick={showPreviousImage}
-                  >
-                    <ChevronLeft />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={isLastImage}
-                    className={`${lightboxArrowButtonClassName(isLastImage)} absolute right-8 z-10`}
-                    aria-label="Next image"
-                    onClick={showNextImage}
-                  >
-                    <ChevronRight />
-                  </button>
-                  <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center border-2 border-black bg-white shadow-[var(--shadow-lg)]">
-                    <div className="grid size-full grid-cols-6 grid-rows-4">
-                      {Array.from({ length: 24 }, (_, index) => (
-                        <div
-                          key={index}
-                          className={currentImage.cells[index % currentImage.cells.length]}
+                </div>
+                <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
+                  {DEMO_IMAGES.map((image, index) => {
+                    const active = index === imageIndex;
+                    return (
+                      <button
+                        key={image.filename}
+                        type="button"
+                        className={lightboxThumbnailButton({ active })}
+                        aria-label={`Show ${image.filename}`}
+                        onClick={() => setImageIndex(index)}
+                      >
+                        <img
+                          src={image.thumb}
+                          alt=""
+                          className="size-full object-cover"
+                          draggable={false}
                         />
-                      ))}
-                    </div>
-                  </LightboxMedia>
-                  <div className="pointer-events-none absolute bottom-4 left-0 right-0 z-10 flex items-center justify-center gap-1.5">
-                    {DEMO_IMAGES.map((image, index) => {
-                      const active = index === imageIndex;
-                      return (
-                        <button
-                          key={image.filename}
-                          type="button"
-                          className={`pointer-events-auto size-12 overflow-hidden border-2 transition-all duration-100 ${
-                            active
-                              ? "border-brutal-yellow shadow-[var(--shadow)]"
-                              : "border-white/30 opacity-60 hover:border-white/60 hover:opacity-100"
-                          }`}
-                          aria-label={`Show ${image.filename}`}
-                          onClick={() => setImageIndex(index)}
-                        >
-                          <span className="grid size-full grid-cols-2 grid-rows-2">
-                            {Array.from({ length: 4 }, (_, cellIndex) => (
-                              <span
-                                key={cellIndex}
-                                className={image.cells[cellIndex % image.cells.length]}
-                              />
-                            ))}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </LightboxStage>
-              </LightboxContent>
-            </Lightbox>
-          </Example>
-          <Callout>
-            Lightbox is a Dialog composition family. The root delegates open state and modal
-            mechanics to Base UI; the content renders the Base UI backdrop and popup; header,
-            actions, stage, media, and close are separate parts. Image switching stays caller-owned,
-            matching source <code>ImageLightbox</code>.
-          </Callout>
-        </div>
+                        <span className={lightboxThumbnailOverlay({ active })} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </LightboxStage>
+            </LightboxContent>
+          </Lightbox>
+        </Example>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -500,117 +440,45 @@ function LightboxDoc() {
           collapsedHtml={code.anatomyBody}
         />
       </DocSection>
+
+      <DocSection id="structure" title="Structure">
+        <DocsCodeBlock.Panel
+          path="Lightbox.tsx"
+          source={SNIPPETS.structure}
+          html={code.structure}
+          collapsedHtml={code.structureBody}
+        />
+      </DocSection>
+
       <DocSection id="api" title="API">
-        <div className="space-y-6">
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">Lightbox root</h3>
-            <PropsTable rows={ROOT_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">
-              Lightbox root omitted props
-            </h3>
-            <PropsTable rows={ROOT_OMITTED_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">LightboxTrigger</h3>
-            <PropsTable rows={TRIGGER_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">LightboxContent</h3>
-            <PropsTable rows={CONTENT_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">
-              LightboxHeader / LightboxTitle / LightboxActions / LightboxStage / LightboxMedia
-            </h3>
-            <PropsTable rows={SLOT_RENDER_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">LightboxClose</h3>
-            <PropsTable rows={CLOSE_PROPS} />
-          </div>
-        </div>
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          sourceScenes={SOURCE_SCENES}
           items={[
             {
               label: "Image lightbox shell",
-              status: "match",
-              note: "Source and current keep the same visual shell: fixed inset root, black dim, caller-owned title bar, caller-owned stage, backdrop pointer dismissal, and the same z-index family.",
-              source: <LightboxShellPreview />,
-              current: <LightboxShellPreview />,
-              sourceCode: code.sourceBackdrop,
-              currentCode: code.currentBackdrop,
-              compositionCode: code.currentBackdrop,
-              compositionPath:
-                "apps/doc/src/compositions/lightbox/image-lightbox-shell-composition.tsx",
-              compositionSource: SNIPPETS.currentBackdrop,
-            },
-            {
-              label: "Overlay mechanics",
               status: "difference",
-              note: "Source hand-rolled portal and scroll lock. Current delegates modal scroll lock, focus containment, Escape, pointer dismissal, and imperative close to Base UI Dialog. Mod+W is registered through TanStack Hotkeys.",
-              source: <LightboxShellPreview />,
-              current: <LightboxShellPreview />,
-              sourceCode: code.sourceMechanics,
-              currentCode: code.currentMechanics,
-              compositionCode: code.currentMechanics,
-              compositionPath:
-                "apps/doc/src/compositions/lightbox/overlay-mechanics-composition.tsx",
-              compositionSource: SNIPPETS.currentMechanics,
+              note: "Source mixed the visual shell and image switching into ImageLightbox. Current keeps the same caller-owned navigation boundary while expressing the header, action cluster, stage, and media slots through the Lightbox composition family.",
+              source: <SourceImageLightboxPreview />,
+              brutal: <CurrentImageLightboxPreview />,
+              elegant: <CurrentImageLightboxPreview />,
+              elegantDark: <CurrentImageLightboxPreview />,
+              sourceCode: code.sourceImageShell,
+              ...compositionPanelProps(code, "ImageLightboxShell"),
             },
             {
-              label: "Root children boundary",
+              label: "Attachment preview shell",
               status: "difference",
-              note: "Source passed children directly into the overlay div. Current root must insert the internal Mod+W close helper before caller content, so children are pulled out of props and re-rendered explicitly. Base UI payload render children are intentionally not exposed.",
-              source: <LightboxShellPreview />,
-              current: <LightboxShellPreview />,
-              sourceCode: code.sourceChildren,
-              currentCode: code.currentChildren,
-              compositionCode: code.currentChildren,
-              compositionPath:
-                "apps/doc/src/compositions/lightbox/root-children-boundary-composition.tsx",
-              compositionSource: SNIPPETS.currentChildren,
-            },
-            {
-              label: "Content portal",
-              status: "difference",
-              note: "Source put the portal root and visual content in one component. Current keeps root state in Lightbox and moves Portal, Backdrop, and Popup into LightboxContent, matching the compound composition boundary.",
-              source: <LightboxShellPreview />,
-              current: <LightboxShellPreview />,
-              sourceCode: code.sourceMechanics,
-              currentCode: code.currentContent,
-              compositionCode: code.currentContent,
-              compositionPath: "apps/doc/src/compositions/lightbox/content-portal-composition.tsx",
-              compositionSource: SNIPPETS.currentContent,
-            },
-            {
-              label: "Root composition",
-              status: "difference",
-              note: "Source hard-coded the div root. Current keeps the default div but exposes Dialog.Popup render composition through LightboxContent.",
-              source: <LightboxShellPreview />,
-              current: <LightboxShellPreview semantic />,
-              sourceCode: code.sourceRender,
-              currentCode: code.currentRender,
-              compositionCode: code.currentRender,
-              compositionPath:
-                "apps/doc/src/compositions/lightbox/root-composition-composition.tsx",
-              compositionSource: SNIPPETS.currentRender,
-            },
-            {
-              label: "Image switching",
-              status: "match",
-              note: "Source Lightbox did not own carousel state. Source ImageLightbox kept next, previous, and thumbnail selection in the caller; the current demo keeps the same boundary with local caller state.",
-              source: <LightboxShellPreview />,
-              current: <LightboxShellPreview />,
-              sourceCode: code.sourceSwitching,
-              currentCode: code.currentSwitching,
-              compositionCode: code.currentSwitching,
-              compositionPath: "apps/doc/src/compositions/lightbox/image-switching-composition.tsx",
-              compositionSource: SNIPPETS.currentSwitching,
+              note: "Source passed positioning, scroll locking, and backdrop classes directly to the primitive for attachment previews. Current keeps those concerns at the composition boundary instead of expanding the public root API.",
+              source: <SourceAttachmentPreview />,
+              brutal: <CurrentAttachmentPreview />,
+              elegant: <CurrentAttachmentPreview />,
+              elegantDark: <CurrentAttachmentPreview />,
+              sourceCode: code.sourceAttachmentShell,
+              ...compositionPanelProps(code, "AttachmentPreviewShell"),
             },
           ]}
         />
@@ -619,43 +487,240 @@ function LightboxDoc() {
   );
 }
 
-function LightboxShellPreview({ semantic = false }: { semantic?: boolean }) {
-  const Root = semantic ? "section" : "div";
+type LightboxArrowButtonProps = {
+  direction: "next" | "previous";
+  disabled: boolean;
+  onPress: (event: MouseEvent<HTMLButtonElement>) => void;
+};
+
+function LightboxArrowButton({ direction, disabled, onPress }: LightboxArrowButtonProps) {
+  const Icon = direction === "previous" ? ChevronLeft : ChevronRight;
+
   return (
-    <Root
-      aria-label={semantic ? "Attachment preview" : undefined}
-      className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-black/75"
+    <Button
+      type="button"
+      variant="outline"
+      size="icon-lg"
+      aria-disabled={disabled}
+      data-disabled={disabled ? "true" : undefined}
+      className={cn(
+        "pointer-events-auto absolute z-10",
+        direction === "previous" ? "left-8" : "right-8",
+        disabled
+          ? "text-black/35 [[data-theme=elegant]_&]:text-foreground-disabled"
+          : "text-black [[data-theme=elegant]_&]:text-foreground-muted [[data-theme=elegant]_&]:hover:text-foreground-strong",
+      )}
+      aria-label={direction === "previous" ? "Previous image" : "Next image"}
+      onClick={onPress}
     >
-      <div className="shrink-0 border-b-2 border-black bg-white">
-        <div className="flex h-10 items-center gap-2 px-3">
-          <div className="min-w-0 flex-1 truncate font-heading text-xs font-bold text-black">
-            product-shot.png
-          </div>
-          <div className="border-2 border-black bg-brutal-yellow px-2 py-0.5 font-heading text-[10px] font-bold text-black">
-            1 / 3
-          </div>
-          <div className="flex gap-1">
-            <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
-              <Download size={12} aria-hidden />
-            </span>
-            <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
-              <X size={12} aria-hidden />
-            </span>
-          </div>
-        </div>
-      </div>
+      <Icon className="size-5" />
+    </Button>
+  );
+}
+
+function lightboxThumbnailButton({ active }: { active: boolean }) {
+  return cn(
+    "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden border-2 transition-[border-color,opacity,box-shadow] duration-150",
+    active
+      ? "border-brutal-yellow shadow-[var(--shadow)]"
+      : "border-white/30 opacity-60 hover:border-white/60 hover:opacity-100",
+    "[[data-theme=elegant]_&]:rounded-sm [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:opacity-100 [[data-theme=elegant]_&]:shadow-none",
+    active
+      ? "[[data-theme=elegant]_&]:border-white/90"
+      : "[[data-theme=elegant]_&]:border-white/25 [[data-theme=elegant]_&]:hover:border-white/60",
+  );
+}
+
+function lightboxThumbnailOverlay({ active }: { active: boolean }) {
+  return cn(
+    "pointer-events-none absolute inset-0 hidden transition-colors duration-150",
+    active
+      ? "[[data-theme=elegant]_&]:block [[data-theme=elegant]_&]:bg-transparent"
+      : "[[data-theme=elegant]_&]:block [[data-theme=elegant]_&]:bg-black/45 [[data-theme=elegant]_&]:group-hover/lightbox-thumb:bg-black/28",
+  );
+}
+
+function SourceImageLightboxPreview() {
+  return (
+    <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-black/75">
+      <SourceLightboxHeader title="product-shot.png" />
+      <SourceLightboxStage />
+    </div>
+  );
+}
+
+function CurrentImageLightboxPreview() {
+  return (
+    <div className="relative flex h-44 w-full max-w-sm flex-col overflow-hidden bg-layer-backdrop [[data-theme=elegant]_&]:bg-[oklch(0_0_0_/_0.72)]">
+      <CurrentImageLightboxChrome />
+      <CurrentLightboxStage />
+    </div>
+  );
+}
+
+function SourceAttachmentPreview() {
+  return (
+    <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-brutal-cream">
+      <SourceLightboxHeader title="diagram-export.html" label="HTML preview" />
       <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-        <div className="aspect-[4/3] h-full max-h-24 border-2 border-black bg-white shadow-[var(--shadow)]">
-          <div className="grid size-full grid-cols-4 grid-rows-3">
-            {Array.from({ length: 12 }, (_, index) => (
-              <div
-                key={index}
-                className={index % 2 === 0 ? "bg-brutal-cyan/35" : "bg-brutal-yellow/45"}
-              />
-            ))}
+        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--shadow)]" />
+      </div>
+    </div>
+  );
+}
+
+function CurrentAttachmentPreview() {
+  return (
+    <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-layer-backdrop [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:bg-[oklch(0_0_0_/_0.72)]">
+      <CurrentLightboxHeader title="diagram-export.html" label="HTML preview" />
+      <div className="flex min-h-0 flex-1 items-center justify-center p-4">
+        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--shadow)] [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:shadow-none" />
+      </div>
+    </div>
+  );
+}
+
+function SourceLightboxHeader({
+  title,
+  label,
+  compact,
+}: {
+  title: string;
+  label?: string;
+  compact?: boolean;
+}) {
+  return (
+    <div className="shrink-0 border-b-2 border-black bg-white">
+      <div className={`${compact ? "h-9" : "h-10"} flex items-center gap-2 px-3`}>
+        <div className="min-w-0 flex-1 truncate font-heading text-xs font-bold text-black">
+          {title}
+        </div>
+        {label ? (
+          <div className="shrink-0 rounded-full border border-black/20 bg-black/5 px-2 py-0.5 text-[10px] font-bold text-black/60 uppercase">
+            {label}
           </div>
+        ) : null}
+        <SourceIconGroup />
+      </div>
+    </div>
+  );
+}
+
+function SourceIconGroup() {
+  return (
+    <div className="flex gap-1">
+      <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
+        <Download size={12} aria-hidden />
+      </span>
+      <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
+        <X size={12} aria-hidden />
+      </span>
+    </div>
+  );
+}
+
+function CurrentLightboxHeader({
+  title,
+  label,
+  compact,
+}: {
+  title: string;
+  label?: string;
+  compact?: boolean;
+}) {
+  return (
+    <div className="shrink-0 border-b-2 border-black bg-white shadow-none [[data-theme=elegant]_&]:border-b [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-popover">
+      <div className={`${compact ? "h-9" : "h-10"} flex items-center gap-2 px-3`}>
+        <div className="min-w-0 flex-1 truncate font-heading text-xs font-bold text-black [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground-strong">
+          {title}
+        </div>
+        {label ? (
+          <Badge appearance="soft" uppercase className="shrink-0">
+            {label}
+          </Badge>
+        ) : null}
+        <CurrentIconGroup />
+      </div>
+    </div>
+  );
+}
+
+function CurrentIconGroup() {
+  return (
+    <div className="flex gap-1">
+      <Button type="button" variant="outline" size="icon-xs" aria-label="Download">
+        <Download />
+      </Button>
+      <Button type="button" variant="outline" size="icon-xs" aria-label="Close">
+        <X />
+      </Button>
+    </div>
+  );
+}
+
+function CurrentImageLightboxChrome() {
+  return (
+    <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-end p-2">
+      <Button
+        type="button"
+        variant="outline"
+        size="icon-sm"
+        aria-label="Close"
+        className="pointer-events-auto"
+      >
+        <X className="size-4" />
+      </Button>
+    </div>
+  );
+}
+
+function CurrentImageInfoRail() {
+  return (
+    <div className="absolute right-3 bottom-3 left-3 z-10 mx-auto flex w-[clamp(7rem,45%,10rem)] max-w-[calc(100%-1.5rem)] min-w-[7rem] items-center gap-2 rounded bg-white px-2 py-1.5 text-black shadow-[0_10px_24px_-16px_oklch(0_0_0_/_0.55)] [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:shadow-[var(--shadow)]">
+      <div className="min-w-0 flex-1">
+        <div className="truncate font-heading text-[11px] font-bold [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium">
+          release-card-final-approved-for-directory-cover.png
         </div>
       </div>
-    </Root>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon-xs"
+        aria-label="Download"
+        className="shrink-0"
+      >
+        <Download />
+      </Button>
+    </div>
+  );
+}
+
+function CurrentLightboxStage() {
+  const image = DEMO_IMAGES[0];
+
+  return (
+    <div className="relative flex min-h-0 flex-1 items-center justify-center p-4">
+      <div className="aspect-[4/3] h-full max-h-24 bg-white shadow-none">
+        <img src={image.thumb} alt={image.filename} className="size-full object-cover" />
+      </div>
+      <CurrentImageInfoRail />
+    </div>
+  );
+}
+
+function SourceLightboxStage() {
+  return (
+    <div className="flex min-h-0 flex-1 items-center justify-center p-4">
+      <div className="aspect-[4/3] h-full max-h-24 border-2 border-black bg-white shadow-[var(--shadow)]">
+        <div className="grid size-full grid-cols-4 grid-rows-3">
+          {Array.from({ length: 12 }, (_, index) => (
+            <div
+              key={index}
+              className={index % 2 === 0 ? "bg-brutal-cyan/35" : "bg-brutal-yellow/45"}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

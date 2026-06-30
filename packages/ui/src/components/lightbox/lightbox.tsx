@@ -23,12 +23,16 @@ const lightbox = tv({
   variants: {
     theme: {
       brutal: {
-        header: ["border-b-2 border-line-strong bg-layer-panel"],
+        header: ["bg-transparent shadow-none"],
         title: ["text-foreground-strong"],
         media: ["border-line-strong bg-layer-panel shadow-xl"],
       },
       elegant: {
-        backdrop: ["backdrop-blur-[2px]"],
+        backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
+        header: ["bg-transparent shadow-none"],
+        title: ["font-sans font-medium text-foreground-strong"],
+        actions: ["gap-2"],
+        media: ["border border-line-subtle bg-layer-panel shadow-none"],
       },
     },
   },

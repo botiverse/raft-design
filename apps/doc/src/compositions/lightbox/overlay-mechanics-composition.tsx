@@ -1,3 +1,0 @@
-// Generated source-comparison composition fixture.
-export const compositionSource =
-  'const dialogRef = useRef<Dialog.Root.Actions>(null);\nconst [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);\nconst effectiveOpen = open ?? uncontrolledOpen;\n\nfunction LightboxModWClose({ dialogRef }) {\n  useHotkey("Mod+W", (event) => {\n    event.preventDefault();\n    event.stopPropagation();\n    dialogRef.current?.close();\n  });\n  return null;\n}\n\n<Dialog.Root actionsRef={dialogRef} open={open} modal onOpenChange={onOpenChange}>\n  {closeOnModW && effectiveOpen ? <LightboxModWClose dialogRef={dialogRef} /> : null}\n  {children}\n</Dialog.Root>;';
