@@ -262,7 +262,9 @@ function PwaInstallContent({
   const actionSize = !isSafari && theme === "elegant" ? "md" : "lg";
   const actionsClassName = isSafari
     ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
-    : "w-full max-w-[24rem] [&_[data-slot=button]]:w-full";
+    : theme === "elegant"
+      ? "w-full max-w-[24rem] [&_[data-slot=button]]:min-w-0 [&_[data-slot=button]]:flex-1"
+      : "w-full max-w-[24rem] [&_[data-slot=button]]:w-full";
 
   return (
     <>

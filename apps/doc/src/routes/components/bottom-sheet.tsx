@@ -255,7 +255,7 @@ const SNIPPETS = {
           </Text.Sans>
         </BottomSheetBody>
         <BottomSheetFooter>
-          <BottomSheetActions className="w-full max-w-[24rem] [&_[data-slot=button]]:w-full">
+          <BottomSheetActions className="w-full max-w-[24rem]">
             <BottomSheetClose
               render={
                 <Button variant="outline" size="lg" />
