@@ -36,13 +36,15 @@ export function SourceComparisonPreview({
 
 type SourceComparisonModalPreviewProps = {
   children: (props: {
-    portalProps: { container: RefObject<HTMLElement | null> };
+    portalProps: { container: RefObject<HTMLElement | null>; className: string };
     contentClassName: string;
   }) => ReactNode;
   className?: string;
   contentClassName?: string;
   placement?: "center" | "bottom";
   minHeightClassName?: string;
+  portalClassName?: string;
+  backdrop?: boolean;
 };
 
 const modalContentClassName =
@@ -54,6 +56,8 @@ export function SourceComparisonModalPreview({
   contentClassName,
   placement = "center",
   minHeightClassName = "min-h-80",
+  portalClassName,
+  backdrop = true,
 }: SourceComparisonModalPreviewProps) {
   const portalRef = useRef<HTMLDivElement>(null);
   const placementClassName =
@@ -66,23 +70,29 @@ export function SourceComparisonModalPreview({
     <SourceComparisonPreview className={["px-0 py-0", className].filter(Boolean).join(" ")}>
       <div
         className={[
-          "relative grid w-full min-w-0 overflow-hidden bg-background",
+          "relative grid w-full min-w-0 overflow-visible bg-background",
           minHeightClassName,
         ].join(" ")}
       >
-        <div
-          className="absolute inset-0 z-0 [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
-          style={{ backgroundColor: "var(--layer-backdrop)" }}
-        />
+        {backdrop ? (
+          <div
+            className="absolute inset-0 z-0 [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+            style={{ backgroundColor: "var(--layer-backdrop)" }}
+          />
+        ) : null}
         <div
           ref={portalRef}
           className={[
             "relative z-10 flex min-h-0 w-full min-w-0 justify-center",
             placementClassName,
+            portalClassName,
           ].join(" ")}
         />
         {children({
-          portalProps: { container: portalRef as RefObject<HTMLElement | null> },
+          portalProps: {
+            container: portalRef as RefObject<HTMLElement | null>,
+            className: "flex w-full min-w-0 justify-center",
+          },
           contentClassName: resolvedContentClassName,
         })}
       </div>

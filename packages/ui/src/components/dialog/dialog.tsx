@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 
 const dialog = tv({
@@ -96,12 +96,18 @@ export function DialogContent({
   ...props
 }: DialogContentProps) {
   const theme = useThemeFamily();
+  const { resolvedMode } = useTheme();
   const { content } = dialog({ theme });
 
   return (
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay {...overlay} />}
-      <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
+      <BaseDialog.Popup
+        data-slot="dialog-content"
+        data-theme={theme}
+        className={cn(content({ className }), resolvedMode === "dark" && "dark")}
+        {...props}
+      >
         {children}
       </BaseDialog.Popup>
     </DialogPortal>

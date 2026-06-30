@@ -100,7 +100,7 @@ function InviteHumanDialogParts() {
 
 export function InviteHumanDialogContent() {
   return (
-    <DialogContent className="max-w-[calc(24rem+48px)]">
+    <DialogContent className="max-w-md">
       <InviteHumanDialogParts />
     </DialogContent>
   );
@@ -111,7 +111,8 @@ export function InviteHumanDialogComposition({ className }: { className?: string
   return (
     <SourceComparisonModalPreview
       className={className}
-      contentClassName="!max-w-[calc(24rem+48px)]"
+      contentClassName="!max-w-md"
+      portalClassName="!px-0"
     >
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>

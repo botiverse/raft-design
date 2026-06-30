@@ -238,6 +238,8 @@ const DIALOG_COMPOSITION_PATHS = {
 
 type DialogCompositionKey = keyof typeof DIALOG_COMPOSITION_SOURCES;
 
+const modalComparisonPreviewClassName = "!px-0 !py-0";
+
 function compositionPanelProps(
   code: Record<string, ReactNode | AnyRenderableServerComponent>,
   key: DialogCompositionKey,
@@ -998,6 +1000,7 @@ function DialogDoc() {
               brutal: <EditChannelDialogComposition />,
               elegant: <EditChannelDialogComposition />,
               elegantDark: <EditChannelDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Channel settings dialog",
@@ -1024,6 +1027,7 @@ function DialogDoc() {
               brutal: <EditChannelManagementDialogComposition />,
               elegant: <EditChannelManagementDialogComposition />,
               elegantDark: <EditChannelManagementDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Channel management actions",
@@ -1046,6 +1050,7 @@ function DialogDoc() {
               brutal: <InviteHumanDialogComposition />,
               elegant: <InviteHumanDialogComposition />,
               elegantDark: <InviteHumanDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Invite dialog",
@@ -1072,6 +1077,7 @@ function DialogDoc() {
               brutal: <AddMachineDialogComposition />,
               elegant: <AddMachineDialogComposition />,
               elegantDark: <AddMachineDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Computer setup dialog",
@@ -1088,6 +1094,32 @@ function DialogDoc() {
                 },
               ],
               ...compositionPanelProps(code, "AddMachine"),
+            },
+            {
+              id: "source-comparison-announcement",
+              label: "Announcement",
+              status: "difference",
+              note: "Remaining differences: current adds a header icon and uses themed Dialog chrome/button styling; the docs body is static markdown-shaped content rather than the live announcement markdown renderer.",
+              source: <SourceAnnouncement />,
+              brutal: <AnnouncementDialogComposition />,
+              elegant: <AnnouncementDialogComposition />,
+              elegantDark: <AnnouncementDialogComposition />,
+              sourceScenes: [
+                {
+                  label: "Account announcement modal",
+                  scenes: [
+                    {
+                      label: "AnnouncementModal.tsx:119",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:119",
+                    },
+                    {
+                      label: "MainLayout.tsx:1406",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1406",
+                    },
+                  ],
+                },
+              ],
+              ...compositionPanelProps(code, "Announcement"),
             },
             {
               id: "source-comparison-create-channel",
@@ -1230,32 +1262,6 @@ function DialogDoc() {
                 },
               ],
               ...compositionPanelProps(code, "Onboarding"),
-            },
-            {
-              id: "source-comparison-announcement",
-              label: "Announcement",
-              status: "todo",
-              note: "Source announcement modal has a colored header, markdown body, page indicator, and Back / Next footer.",
-              source: <SourceAnnouncement />,
-              brutal: <AnnouncementDialogComposition />,
-              elegant: <AnnouncementDialogComposition />,
-              elegantDark: <AnnouncementDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Account announcement modal",
-                  scenes: [
-                    {
-                      label: "AnnouncementModal.tsx:119",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:119",
-                    },
-                    {
-                      label: "MainLayout.tsx:1406",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1406",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "Announcement"),
             },
           ]}
         />
