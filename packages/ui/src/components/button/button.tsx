@@ -236,22 +236,42 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       size: "xs",
-      class: { root: "h-6 px-2 py-0 text-[11px]" },
+      class: {
+        root: [
+          "h-6 px-2 py-0 text-[11px]",
+          "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
+        ],
+      },
     },
     {
       theme: "brutal",
       size: "sm",
-      class: { root: "h-7 px-2.5 py-0 text-xs" },
+      class: {
+        root: [
+          "h-7 px-2.5 py-0 text-xs",
+          "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
+        ],
+      },
     },
     {
       theme: "brutal",
       size: "md",
-      class: { root: "h-8 px-3 py-0 text-sm" },
+      class: {
+        root: [
+          "h-8 px-3 py-0 text-sm",
+          "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+        ],
+      },
     },
     {
       theme: "brutal",
       size: "lg",
-      class: { root: "h-10 px-4 py-0 text-sm" },
+      class: {
+        root: [
+          "h-10 px-4 py-0 text-sm",
+          "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
+        ],
+      },
     },
     {
       theme: "brutal",

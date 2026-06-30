@@ -93,12 +93,12 @@ function AnnouncementDialogParts() {
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="md" className="gap-1">
-            <ChevronLeft />
+            <ChevronLeft data-icon="inline-start" />
             Back
           </Button>
           <Button variant="primary" size="md" className="gap-1">
             Next
-            <ChevronRight />
+            <ChevronRight data-icon="inline-end" />
           </Button>
         </div>
       </DialogFooter>
