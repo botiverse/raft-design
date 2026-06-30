@@ -168,6 +168,30 @@ export const buttonVariants = tv({
       class: { root: "py-[7px]" },
     },
     {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "xs",
+      class: { root: "py-[5.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "sm",
+      class: { root: "py-[6.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "md",
+      class: { root: "py-[6.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "lg",
+      class: { root: "py-[7.75px]" },
+    },
+    {
       theme: "brutal",
       variant: "primary",
       class: { root: "bg-brutal-yellow text-black hover:bg-brutal-yellow" },
