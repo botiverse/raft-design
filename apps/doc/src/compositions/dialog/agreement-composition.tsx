@@ -20,6 +20,7 @@ function AgreementDialogParts() {
   const theme = useThemeFamily();
   const isBrutal = theme === "brutal";
   const isElegant = theme === "elegant";
+  const actionButtonSize = isBrutal ? "md" : "sm";
 
   return (
     <>
@@ -57,8 +58,10 @@ function AgreementDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
-        <Button variant="primary" size="sm">
+        <DialogClose render={<Button variant="outline" size={actionButtonSize} />}>
+          Cancel
+        </DialogClose>
+        <Button variant="primary" size={actionButtonSize}>
           Agree & Continue
         </Button>
       </DialogFooter>

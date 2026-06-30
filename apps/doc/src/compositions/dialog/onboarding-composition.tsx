@@ -16,7 +16,7 @@ function OnboardingDialogParts() {
 
   return (
     <>
-      <DialogBody className={cn("grid gap-4", isBrutal && "py-4", isElegant && "py-7")}>
+      <DialogBody className={cn("grid gap-4", isBrutal && "pt-3 pb-4", isElegant && "py-7")}>
         <Text.Mono
           size="meta"
           className={cn("uppercase text-foreground-muted", isBrutal && "text-black/50")}
@@ -45,11 +45,7 @@ function OnboardingDialogParts() {
           </DialogTitle>
         </div>
         <div className="grid gap-2">
-          <Text.Sans
-            size="body"
-            variant="placeholder"
-            className={cn("text-pretty", (isBrutal || isElegant) && "text-black")}
-          >
+          <Text.Sans size="body" variant="placeholder" className="text-pretty text-black">
             Your agents need somewhere to run. Connect a computer and they&apos;ll come online
             there.
           </Text.Sans>

@@ -1084,7 +1084,7 @@ function DialogDoc() {
               id: "source-comparison-add-machine",
               label: "Add computer",
               status: "difference",
-              note: "Intentional differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status. This docs scene is static and is not wired to the live computer connection flow.",
+              note: "Remaining differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status; source keeps the inline install command and live computer connection flow.",
               source: <SourceAddMachine />,
               brutal: <AddMachineDialogComposition />,
               elegant: <AddMachineDialogComposition />,
