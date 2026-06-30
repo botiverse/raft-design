@@ -31,6 +31,7 @@ import {
   Terminal,
   Trash2,
   X,
+  Download,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
@@ -52,6 +53,8 @@ import agreementCompositionSource from "#/compositions/dialog/agreement-composit
 import { AgreementDialogComposition } from "#/compositions/dialog/agreement-composition.tsx";
 import announcementCompositionSource from "#/compositions/dialog/announcement-composition.tsx?raw";
 import { AnnouncementDialogComposition } from "#/compositions/dialog/announcement-composition.tsx";
+import attachmentPreviewCompositionSource from "#/compositions/dialog/attachment-preview-composition.tsx?raw";
+import { AttachmentPreviewDialogComposition } from "#/compositions/dialog/attachment-preview-composition.tsx";
 import createAgentCompositionSource from "#/compositions/dialog/create-agent-composition.tsx?raw";
 import { CreateAgentDialogComposition } from "#/compositions/dialog/create-agent-composition.tsx";
 import createChannelCompositionSource from "#/compositions/dialog/create-channel-composition.tsx?raw";
@@ -80,6 +83,7 @@ const TOC = [
       { id: "source-comparison-edit-channel-management", title: "Edit channel actions" },
       { id: "source-comparison-invite-human", title: "Invite human" },
       { id: "source-comparison-add-machine", title: "Add computer" },
+      { id: "source-comparison-attachment-preview", title: "Attachment preview" },
       { id: "source-comparison-create-channel", title: "Create channel" },
       { id: "source-comparison-create-agent", title: "Create agent" },
       { id: "source-comparison-reset-agent", title: "Reset agent" },
@@ -203,6 +207,7 @@ const DIALOG_COMPOSITION_RAW_SOURCES = {
   CreateChannel: createChannelCompositionSource,
   CreateAgent: createAgentCompositionSource,
   AddMachine: addMachineCompositionSource,
+  AttachmentPreview: attachmentPreviewCompositionSource,
   ResetAgent: resetAgentCompositionSource,
   Agreement: agreementCompositionSource,
   Onboarding: onboardingCompositionSource,
@@ -218,6 +223,7 @@ const DIALOG_COMPOSITION_SNIPPET_IDS = {
   CreateChannel: "dialogCreateChannelComposition",
   CreateAgent: "dialogCreateAgentComposition",
   AddMachine: "dialogAddMachineComposition",
+  AttachmentPreview: "dialogAttachmentPreviewComposition",
   ResetAgent: "dialogResetAgentComposition",
   Agreement: "dialogAgreementComposition",
   Onboarding: "dialogOnboardingComposition",
@@ -231,6 +237,7 @@ const DIALOG_COMPOSITION_PATHS = {
   CreateChannel: "apps/doc/src/compositions/dialog/create-channel-composition.tsx",
   CreateAgent: "apps/doc/src/compositions/dialog/create-agent-composition.tsx",
   AddMachine: "apps/doc/src/compositions/dialog/add-machine-composition.tsx",
+  AttachmentPreview: "apps/doc/src/compositions/dialog/attachment-preview-composition.tsx",
   ResetAgent: "apps/doc/src/compositions/dialog/reset-agent-composition.tsx",
   Agreement: "apps/doc/src/compositions/dialog/agreement-composition.tsx",
   Onboarding: "apps/doc/src/compositions/dialog/onboarding-composition.tsx",
@@ -734,6 +741,38 @@ function SourceAddMachine() {
   );
 }
 
+function SourceAttachmentPreview() {
+  return (
+    <div className="flex h-80 w-full max-w-3xl flex-col overflow-hidden border-2 border-black bg-white font-sans text-black shadow-[6px_6px_0_#000]">
+      <div className="safe-top safe-left pointer-events-auto shrink-0 border-b-2 border-black bg-white">
+        <div className="flex h-14 items-center gap-3 px-4">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="min-w-0 flex-1 truncate text-sm font-medium text-black">
+              diagram-export.html
+            </span>
+            <span className="shrink-0 rounded-full border border-black/20 bg-black/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black/60">
+              HTML preview
+            </span>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <SourceIconButton>
+              <Download className="size-3.5" />
+            </SourceIconButton>
+            <SourceIconButton>
+              <X className="size-3.5" />
+            </SourceIconButton>
+          </div>
+        </div>
+      </div>
+      <div className="min-h-0 flex-1 overflow-hidden bg-white p-4">
+        <div className="grid h-full min-h-0 w-full place-items-center border-2 border-black bg-white font-mono text-xs text-black/50 shadow-[2px_2px_0_#000]">
+          Sandboxed HTML preview
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SourceResetAgent() {
   return (
     <SourceModalCard
@@ -1106,6 +1145,37 @@ function DialogDoc() {
                 },
               ],
               ...compositionPanelProps(code, "AddMachine"),
+            },
+            {
+              id: "source-comparison-attachment-preview",
+              label: "Attachment preview",
+              status: "difference",
+              note: "Remaining differences: source uses the Lightbox overlay for HTML/PDF/document attachment previews, including custom scroll-lock and browser-find behavior; current represents the same content-preview shell with Dialog primitives, themed header actions, and a sandboxed preview frame body.",
+              source: <SourceAttachmentPreview />,
+              brutal: <AttachmentPreviewDialogComposition />,
+              elegant: <AttachmentPreviewDialogComposition />,
+              elegantDark: <AttachmentPreviewDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
+              sourceScenes: [
+                {
+                  label: "Attachment preview lightbox",
+                  scenes: [
+                    {
+                      label: "MessageItem.tsx:885",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:885",
+                    },
+                    {
+                      label: "MessageItem.tsx:993",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:993",
+                    },
+                    {
+                      label: "MessageItem.tsx:1167",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1167",
+                    },
+                  ],
+                },
+              ],
+              ...compositionPanelProps(code, "AttachmentPreview"),
             },
             {
               id: "source-comparison-announcement",
