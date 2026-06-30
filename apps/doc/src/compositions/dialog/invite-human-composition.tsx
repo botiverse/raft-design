@@ -81,7 +81,7 @@ function InviteHumanDialogParts() {
             <Input type="email" placeholder="optional" />
             <Input type="email" placeholder="optional" />
             <Button type="button" variant="outline" className="w-full">
-              <Plus />
+              <Plus data-icon="inline-start" />
               Invite more
             </Button>
           </div>
@@ -90,7 +90,7 @@ function InviteHumanDialogParts() {
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
         <Button variant="accent">
-          <Mail />
+          <Mail data-icon="inline-start" />
           Send invites
         </Button>
       </DialogFooter>
