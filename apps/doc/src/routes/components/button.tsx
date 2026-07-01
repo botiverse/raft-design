@@ -36,6 +36,7 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "variants", title: "Variants" },
+  { id: "height-alignment", title: "Height alignment" },
   { id: "states", title: "States" },
   { id: "sizes", title: "Sizes" },
   { id: "icons", title: "Icons" },
@@ -106,6 +107,12 @@ const VARIANTS = [
 
 const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
 const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
+const HEIGHT_ALIGNMENT_SIZES = ["xs", "sm", "md", "lg"] as const;
+const HEIGHT_ALIGNMENT_VARIANTS = [
+  { variant: "outline", label: "Outline" },
+  { variant: "primary", label: "Primary" },
+  { variant: "danger-outline", label: "Danger outline" },
+] as const;
 const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
   "outline outline-[1px] outline-offset-2 outline-[var(--button-focus-outline,transparent)]";
 
@@ -125,6 +132,32 @@ const SNIPPETS = {
 <Button variant="danger-outline">Remove</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
+  heightAlignment: `const sizes = ["xs", "sm", "md", "lg"] as const;
+const variants = [
+  { variant: "outline", label: "Outline" },
+  { variant: "primary", label: "Primary" },
+  { variant: "danger-outline", label: "Danger outline" },
+] as const;
+
+{sizes.map((size) => (
+  <div key={size}>
+    {variants.map(({ variant, label }) => (
+      <div key={variant}>
+        <Button variant={variant} size={size}>
+          {label}
+        </Button>
+        <Button variant={variant} size={size}>
+          <Plus data-icon="inline-start" />
+          {label}
+        </Button>
+        <Button variant={variant} size={size}>
+          {label}
+          <Plus data-icon="inline-end" />
+        </Button>
+      </div>
+    ))}
+  </div>
+))}`,
   states: `<Button>Default</Button>
 <Button>Focus visible</Button>
 <Button disabled>Disabled</Button>`,
@@ -397,6 +430,38 @@ function ButtonDoc() {
             </div>
           </Example>
         </div>
+      </DocSection>
+
+      <DocSection id="height-alignment" title="Height alignment">
+        <Example html={code.heightAlignment}>
+          <div className="-m-1 max-w-full overflow-x-auto p-1">
+            <div className="grid min-w-max gap-3">
+              {HEIGHT_ALIGNMENT_SIZES.map((size) => (
+                <div
+                  key={size}
+                  className="grid grid-cols-[2.5rem_repeat(9,max-content)] items-center gap-2"
+                >
+                  <span className="font-mono text-xs text-foreground-muted">{size}</span>
+                  {HEIGHT_ALIGNMENT_VARIANTS.map(({ variant, label }) => (
+                    <div key={variant} className="contents">
+                      <Button variant={variant} size={size}>
+                        {label}
+                      </Button>
+                      <Button variant={variant} size={size}>
+                        <Plus data-icon="inline-start" />
+                        {label}
+                      </Button>
+                      <Button variant={variant} size={size}>
+                        {label}
+                        <Plus data-icon="inline-end" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Example>
       </DocSection>
 
       <DocSection id="states" title="States">

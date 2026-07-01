@@ -11,6 +11,13 @@ import {
   Banner,
   BannerDescription,
   Button,
+  Combobox,
+  ComboboxContent,
+  ComboboxControl,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxList,
   Field,
   FieldDescription,
   FieldLabel,
@@ -19,8 +26,9 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
   Textarea,
+  useThemeFamily,
 } from "raft-ui";
-import { Check, Hash, Lock, Search } from "lucide-react";
+import { Hash, Lock, Search } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
@@ -32,9 +40,14 @@ const members = [
   { id: "atlas", name: "Atlas", kind: "agent" },
   { id: "avery", name: "Avery", kind: "human" },
   { id: "mira", name: "Mira", kind: "agent" },
-];
+] as const;
+
+type DialogMember = (typeof members)[number];
 
 function CreateChannelDialogParts() {
+  const theme = useThemeFamily();
+  const archiveActionSize = theme === "brutal" ? "sm" : "xs";
+
   return (
     <>
       <DialogHeader>
@@ -43,8 +56,20 @@ function CreateChannelDialogParts() {
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Banner status="warning" size="sm">
-          <BannerDescription>
-            The name <span className="font-mono">#archive</span> is held by an archived channel.
+          <BannerDescription className="grid gap-2">
+            <span className="font-medium">
+              The name <span className="font-mono font-bold">#archive</span> is held by an archived
+              channel.
+            </span>
+            <span>Unarchive it to keep its history, or choose a different name.</span>
+            <span className="flex flex-wrap justify-end gap-2">
+              <Button type="button" variant="accent" size={archiveActionSize}>
+                Unarchive
+              </Button>
+              <Button type="button" variant="outline" size={archiveActionSize}>
+                Change name
+              </Button>
+            </span>
           </BannerDescription>
         </Banner>
         <Field>
@@ -76,24 +101,36 @@ function CreateChannelDialogParts() {
         </Field>
         <Field>
           <FieldLabel>Members</FieldLabel>
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-foreground-muted" />
-            <Input placeholder="Search members by name" className="pl-9" />
-          </div>
-          <div className="grid overflow-hidden border border-line-subtle bg-layer-panel">
-            {members.map((member) => (
-              <button
-                key={member.id}
-                type="button"
-                className="flex items-center gap-2 border-b border-line-subtle px-3 py-2 text-left text-sm last:border-b-0 data-[selected=true]:bg-primary/15"
-                data-selected={member.id !== "avery" ? "true" : undefined}
-              >
-                <Avatar type={member.kind === "agent" ? "agent" : "human"} size="xs" />
-                <span className="min-w-0 flex-1 truncate">{member.name}</span>
-                {member.id !== "avery" ? <Check className="size-4" /> : null}
-              </button>
-            ))}
-          </div>
+          <Combobox<DialogMember, true>
+            multiple
+            autoHighlight
+            items={members}
+            defaultValue={[members[0], members[2]]}
+            isItemEqualToValue={(item, value) => item.id === value.id}
+            itemToStringLabel={(member) => member.name}
+          >
+            <ComboboxControl className="w-full">
+              <Search className="text-foreground-muted [[data-theme=brutal]_&]:!stroke-2 [[data-theme=brutal]_&_*]:!stroke-2" />
+              <ComboboxInput
+                aria-label="Search members"
+                placeholder="Search members by name"
+                suppressPasswordManager
+              />
+            </ComboboxControl>
+            <ComboboxContent className="w-[var(--anchor-width)]">
+              <ComboboxList className="max-h-none">
+                {(member: DialogMember) => (
+                  <ComboboxItem key={member.id} value={member}>
+                    <span className="flex min-w-0 items-center gap-2">
+                      <Avatar type={member.kind === "agent" ? "agent" : "human"} size="xs" />
+                      <span className="min-w-0 truncate">{member.name}</span>
+                    </span>
+                    <ComboboxItemIndicator />
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
           <FieldDescription>
             Select the people and agents that should join immediately.
           </FieldDescription>
@@ -101,7 +138,7 @@ function CreateChannelDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Create Channel</Button>
+        <Button variant="primary">Create Channel</Button>
       </DialogFooter>
     </>
   );

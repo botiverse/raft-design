@@ -81,7 +81,7 @@ function InviteHumanDialogParts() {
             <Input type="email" placeholder="optional" />
             <Input type="email" placeholder="optional" />
             <Button type="button" variant="outline" className="w-full">
-              <Plus />
+              <Plus data-icon="inline-start" />
               Invite more
             </Button>
           </div>
@@ -90,7 +90,7 @@ function InviteHumanDialogParts() {
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
         <Button variant="accent">
-          <Mail />
+          <Mail data-icon="inline-start" />
           Send invites
         </Button>
       </DialogFooter>
@@ -100,7 +100,7 @@ function InviteHumanDialogParts() {
 
 export function InviteHumanDialogContent() {
   return (
-    <DialogContent className="max-w-[calc(24rem+48px)]">
+    <DialogContent className="max-w-md">
       <InviteHumanDialogParts />
     </DialogContent>
   );
@@ -111,7 +111,8 @@ export function InviteHumanDialogComposition({ className }: { className?: string
   return (
     <SourceComparisonModalPreview
       className={className}
-      contentClassName="!max-w-[calc(24rem+48px)]"
+      contentClassName="!max-w-md"
+      portalClassName="!px-0"
     >
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>

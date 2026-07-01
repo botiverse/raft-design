@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 
 const alertDialog = tv({
@@ -138,6 +138,7 @@ export function AlertDialogContent({
   ...props
 }: AlertDialogContentProps) {
   const theme = useThemeFamily();
+  const { resolvedMode } = useTheme();
   const { content } = alertDialog({ theme });
 
   return (
@@ -145,7 +146,8 @@ export function AlertDialogContent({
       {overlay === false ? null : <AlertDialogOverlay {...overlay} />}
       <BaseDialog.Popup
         data-slot="alert-dialog-content"
-        className={content({ className })}
+        data-theme={theme}
+        className={cn(content({ className }), resolvedMode === "dark" && "dark")}
         {...props}
         role="alertdialog"
       >

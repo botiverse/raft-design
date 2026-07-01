@@ -1,5 +1,6 @@
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
+import { cn } from "raft-ui/cn";
 
 type SourceComparisonPreviewProps = {
   children: ReactNode;
@@ -17,17 +18,18 @@ export function SourceComparisonPreview({
   const gapClassName = gap === "loose" ? "gap-4" : "gap-2.5";
   const layoutClassName =
     layout === "grid"
-      ? `grid min-w-0 w-full max-w-full grid-cols-[max-content_max-content] grid-rows-[max-content_max-content] place-items-center justify-center ${gapClassName}`
-      : `flex min-w-0 w-full max-w-full flex-wrap items-center justify-center ${gapClassName}`;
+      ? cn(
+          "grid min-w-0 w-full max-w-full grid-cols-[max-content_max-content] grid-rows-[max-content_max-content] place-items-center justify-center",
+          gapClassName,
+        )
+      : cn("flex min-w-0 w-full max-w-full flex-wrap items-center justify-center", gapClassName);
 
   return (
     <div
-      className={[
+      className={cn(
         "flex h-full min-h-28 w-full min-w-0 items-center justify-center px-3 py-4",
         className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
     >
       <div className={layoutClassName}>{children}</div>
     </div>
@@ -36,13 +38,16 @@ export function SourceComparisonPreview({
 
 type SourceComparisonModalPreviewProps = {
   children: (props: {
-    portalProps: { container: RefObject<HTMLElement | null> };
+    portalProps: { container: RefObject<HTMLElement | null>; className: string };
     contentClassName: string;
   }) => ReactNode;
   className?: string;
   contentClassName?: string;
   placement?: "center" | "bottom";
+  placementPaddingClassName?: string;
   minHeightClassName?: string;
+  portalClassName?: string;
+  backdrop?: boolean;
 };
 
 const modalContentClassName =
@@ -53,36 +58,45 @@ export function SourceComparisonModalPreview({
   className,
   contentClassName,
   placement = "center",
+  placementPaddingClassName,
   minHeightClassName = "min-h-80",
+  portalClassName,
+  backdrop = true,
 }: SourceComparisonModalPreviewProps) {
   const portalRef = useRef<HTMLDivElement>(null);
-  const placementClassName =
-    placement === "bottom" ? "items-end px-4 pt-12 pb-6" : "items-center p-6";
-  const resolvedContentClassName = [modalContentClassName, contentClassName]
-    .filter(Boolean)
-    .join(" ");
+  const placementClassName = placement === "bottom" ? "items-end" : "items-center";
+  const resolvedPlacementPaddingClassName =
+    placementPaddingClassName ?? (placement === "bottom" ? "px-4 pt-12 pb-6" : "p-6");
+  const resolvedContentClassName = cn(modalContentClassName, contentClassName);
 
   return (
-    <SourceComparisonPreview className={["px-0 py-0", className].filter(Boolean).join(" ")}>
+    <SourceComparisonPreview className={cn("px-0 py-0", className)}>
       <div
-        className={[
-          "relative grid w-full min-w-0 overflow-hidden bg-background",
+        className={cn(
+          "relative grid w-full min-w-0 overflow-visible bg-background",
           minHeightClassName,
-        ].join(" ")}
+        )}
       >
-        <div
-          className="absolute inset-0 z-0 [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
-          style={{ backgroundColor: "var(--layer-backdrop)" }}
-        />
+        {backdrop ? (
+          <div
+            className="absolute inset-0 z-0 [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+            style={{ backgroundColor: "var(--layer-backdrop)" }}
+          />
+        ) : null}
         <div
           ref={portalRef}
-          className={[
+          className={cn(
             "relative z-10 flex min-h-0 w-full min-w-0 justify-center",
             placementClassName,
-          ].join(" ")}
+            resolvedPlacementPaddingClassName,
+            portalClassName,
+          )}
         />
         {children({
-          portalProps: { container: portalRef as RefObject<HTMLElement | null> },
+          portalProps: {
+            container: portalRef as RefObject<HTMLElement | null>,
+            className: "flex w-full min-w-0 justify-center",
+          },
           contentClassName: resolvedContentClassName,
         })}
       </div>

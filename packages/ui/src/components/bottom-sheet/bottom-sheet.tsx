@@ -37,7 +37,7 @@ const bottomSheet = tv({
     body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
     footer: ["mt-auto px-6 py-5 md:pb-11"],
     actions: [
-      "mx-auto grid w-full items-center justify-center gap-2.5",
+      "mx-auto w-full items-center justify-center gap-2.5",
       "[&_[data-slot=button]]:w-full",
     ],
     title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground-strong"],
@@ -67,10 +67,7 @@ const bottomSheet = tv({
         header: ["bg-white px-8 pt-9 pb-2"],
         body: ["bg-white px-8 pt-4 pb-7"],
         footer: ["mt-0 px-8 py-5 md:pb-11"],
-        actions: [
-          "inline-grid w-auto max-w-none grid-flow-col justify-center",
-          "[&_[data-slot=button]]:w-auto",
-        ],
+        actions: ["flex w-fit max-w-none flex-row justify-center", "[&_[data-slot=button]]:w-auto"],
         title: ["font-sans text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]"],
         description: ["font-sans text-sm leading-5 text-[oklch(0.48_0_0)]"],
       },
@@ -296,12 +293,12 @@ export function BottomSheetActions({
   const count = Math.min(3, countActionChildren(children));
   const countClassName =
     theme === "elegant"
-      ? "grid-cols-none auto-cols-max"
+      ? "flex-row"
       : count <= 1
-        ? "max-w-64 grid-cols-1"
+        ? "flex max-w-64 flex-col"
         : count === 2
-          ? "max-w-[24rem] grid-cols-2"
-          : "max-w-[32rem] grid-cols-3";
+          ? "flex max-w-64 flex-col-reverse"
+          : "grid max-w-[32rem] grid-cols-3";
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actions({ className: cn(countClassName, className) }),
     children,

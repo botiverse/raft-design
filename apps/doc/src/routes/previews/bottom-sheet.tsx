@@ -260,6 +260,11 @@ function PwaInstallContent({
       ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-black"
       : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-foreground-strong";
   const actionSize = !isSafari && theme === "elegant" ? "md" : "lg";
+  const actionsClassName = isSafari
+    ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
+    : theme === "elegant"
+      ? "w-full max-w-[24rem] [&_[data-slot=button]]:min-w-0 [&_[data-slot=button]]:flex-1"
+      : "w-full max-w-[24rem] [&_[data-slot=button]]:w-full";
 
   return (
     <>
@@ -299,13 +304,7 @@ function PwaInstallContent({
       </div>
 
       <div className="mt-auto flex flex-col gap-2.5 px-6 py-5">
-        <BottomSheetActions
-          className={
-            isSafari
-              ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
-              : "w-full max-w-[24rem] grid-cols-2 [&_[data-slot=button]]:w-full"
-          }
-        >
+        <BottomSheetActions className={actionsClassName}>
           {isSafari ? (
             <Button variant="primary" size="lg" onClick={onClose}>
               Got it

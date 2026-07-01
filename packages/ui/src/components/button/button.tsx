@@ -103,26 +103,30 @@ export const buttonVariants = tv({
         root: [
           "gap-1 px-2 py-[5px] text-[11px]",
           "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
+          "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-3",
         ],
       },
       sm: {
         root: [
-          "gap-1.5 px-2.5 py-[6px] text-xs",
+          "gap-[5px] px-2.5 py-[6px] text-xs",
           "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
+          "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-3.5",
         ],
       },
       md: {
         root: [
-          "gap-2 px-3 py-[7px] text-sm",
+          "gap-[5.5px] px-3 py-[7px] text-sm",
           "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+          "[&_[data-icon]]:size-[1em]",
         ],
       },
       lg: {
         root: [
-          "gap-2 px-3.5 py-2 text-base",
+          "gap-[6px] px-3.5 py-2 text-base",
           "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
+          "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-4",
         ],
       },
@@ -166,6 +170,90 @@ export const buttonVariants = tv({
       theme: "elegant",
       size: "lg",
       class: { root: "py-[7px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "xs",
+      class: { root: "py-[6px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "sm",
+      class: { root: "py-[6.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "md",
+      class: { root: "py-[7.25px]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["outline", "danger-outline"],
+      size: "lg",
+      class: { root: "py-[7.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: [
+        "primary",
+        "default",
+        "information",
+        "muted",
+        "accent",
+        "warning",
+        "danger-secondary",
+        "danger",
+      ],
+      size: "xs",
+      class: { root: "py-[5.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: [
+        "primary",
+        "default",
+        "information",
+        "muted",
+        "accent",
+        "warning",
+        "danger-secondary",
+        "danger",
+      ],
+      size: "sm",
+      class: { root: "py-[6.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: [
+        "primary",
+        "default",
+        "information",
+        "muted",
+        "accent",
+        "warning",
+        "danger-secondary",
+        "danger",
+      ],
+      size: "md",
+      class: { root: "py-[6.75px]" },
+    },
+    {
+      theme: "elegant",
+      variant: [
+        "primary",
+        "default",
+        "information",
+        "muted",
+        "accent",
+        "warning",
+        "danger-secondary",
+        "danger",
+      ],
+      size: "lg",
+      class: { root: "py-[7.75px]" },
     },
     {
       theme: "brutal",
@@ -212,22 +300,42 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       size: "xs",
-      class: { root: "h-6 px-2 py-0 text-[11px]" },
+      class: {
+        root: [
+          "h-6 px-2 py-0 text-[11px]",
+          "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
+        ],
+      },
     },
     {
       theme: "brutal",
       size: "sm",
-      class: { root: "h-7 px-2.5 py-0 text-xs" },
+      class: {
+        root: [
+          "h-7 px-2.5 py-0 text-xs",
+          "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
+        ],
+      },
     },
     {
       theme: "brutal",
       size: "md",
-      class: { root: "h-8 px-3 py-0 text-sm" },
+      class: {
+        root: [
+          "h-8 px-3 py-0 text-sm",
+          "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+        ],
+      },
     },
     {
       theme: "brutal",
       size: "lg",
-      class: { root: "h-10 px-4 py-0 text-sm" },
+      class: {
+        root: [
+          "h-10 px-4 py-0 text-sm",
+          "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
+        ],
+      },
     },
     {
       theme: "brutal",

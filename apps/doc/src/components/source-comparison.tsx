@@ -50,6 +50,7 @@ type SourceComparisonItem = {
   status?: "match" | "difference" | "review" | "new" | "todo";
   note?: ReactNode;
   sourceScenes?: readonly SourceSceneGroup[];
+  previewClassName?: string;
 };
 
 type SourceComparisonProps = {
@@ -102,6 +103,7 @@ function ComparisonPreview({
   mode,
   labelPlacement = "header",
   previewSize = "default",
+  previewClassName,
 }: {
   label: string;
   children: ReactNode;
@@ -110,6 +112,7 @@ function ComparisonPreview({
   mode?: PreviewMode;
   labelPlacement?: "header" | "corner";
   previewSize?: "default" | "tall" | "popover";
+  previewClassName?: string;
 }) {
   const previewMinHeight = {
     default: "min-h-28",
@@ -126,7 +129,12 @@ function ComparisonPreview({
       <PreviewThemeScope
         family={family}
         mode={mode}
-        className={`relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-background px-5 py-6 text-foreground`}
+        className={[
+          `relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-background px-5 py-6 text-foreground`,
+          previewClassName,
+        ]
+          .filter(Boolean)
+          .join(" ")}
       >
         {labelPlacement === "corner" ? (
           <span className="pointer-events-none absolute top-4 left-4 inline-flex items-center gap-1.5">
@@ -383,6 +391,7 @@ export function SourceComparison({
                       mode={pane.mode}
                       labelPlacement={isGridLayout ? "corner" : "header"}
                       previewSize={previewSize ?? (isGridLayout ? "tall" : "default")}
+                      previewClassName={item.previewClassName}
                     >
                       {pane.children}
                     </ComparisonPreview>

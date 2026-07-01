@@ -43,7 +43,7 @@ const TOC = [
     id: "source-comparison",
     title: "Source comparison",
     children: [
-      { id: "source-comparison-typed-delete", title: "Typed delete" },
+      { id: "source-comparison-delete-server", title: "Delete server" },
       { id: "source-comparison-confirm-action", title: "Confirm action" },
     ],
   },
@@ -139,7 +139,7 @@ const PROPS: readonly PropRow[] = [
 ];
 
 const ALERT_DIALOG_COMPOSITION_RAW_SOURCES = {
-  TypedDelete: typedDeleteCompositionSource,
+  DeleteServer: typedDeleteCompositionSource,
   ConfirmAction: confirmActionCompositionSource,
 } as const;
 
@@ -148,12 +148,12 @@ const ALERT_DIALOG_COMPOSITION_SOURCES = createCompositionSourceMap(
 );
 
 const ALERT_DIALOG_COMPOSITION_SNIPPET_IDS = {
-  TypedDelete: "alertDialogTypedDeleteComposition",
+  DeleteServer: "alertDialogDeleteServerComposition",
   ConfirmAction: "alertDialogConfirmActionComposition",
 } as const;
 
 const ALERT_DIALOG_COMPOSITION_PATHS = {
-  TypedDelete: "apps/doc/src/compositions/alert-dialog/typed-delete-composition.tsx",
+  DeleteServer: "apps/doc/src/compositions/alert-dialog/typed-delete-composition.tsx",
   ConfirmAction: "apps/doc/src/compositions/alert-dialog/confirm-action-composition.tsx",
 } as const;
 
@@ -253,7 +253,7 @@ function SourceInput({ placeholder }: { placeholder?: string }) {
   );
 }
 
-function SourceTypedDelete() {
+function SourceDeleteServer() {
   return (
     <SourceModalCard
       title="Delete Server"
@@ -387,16 +387,16 @@ function AlertDialogDoc() {
           previewSize="tall"
           items={[
             {
-              id: "source-comparison-typed-delete",
-              label: "Typed delete",
-              note: "Source used an inline Modal when the user must type the server slug. Current maps it to AlertDialog.",
-              source: <SourceTypedDelete />,
+              id: "source-comparison-delete-server",
+              label: "Delete server",
+              note: "Source used an inline Modal when the user must type the server slug to delete a server. Current maps it to AlertDialog.",
+              source: <SourceDeleteServer />,
               brutal: <TypedDeleteAlertDialogComposition />,
               elegant: <TypedDeleteAlertDialogComposition />,
               elegantDark: <TypedDeleteAlertDialogComposition />,
               sourceScenes: [
                 {
-                  label: "Typed destructive confirmation",
+                  label: "Delete server typed confirmation",
                   scenes: [
                     {
                       label: "SettingsPanel.tsx:2319",
@@ -405,7 +405,7 @@ function AlertDialogDoc() {
                   ],
                 },
               ],
-              ...compositionPanelProps(code, "TypedDelete"),
+              ...compositionPanelProps(code, "DeleteServer"),
             },
             {
               id: "source-comparison-confirm-action",

@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "raft-ui";
 import { Button, Field, FieldDescription, FieldLabel, Input, Text, Textarea } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import {
   AlertTriangle,
   Archive,
@@ -30,6 +31,7 @@ import {
   Terminal,
   Trash2,
   X,
+  Download,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
@@ -51,6 +53,8 @@ import agreementCompositionSource from "#/compositions/dialog/agreement-composit
 import { AgreementDialogComposition } from "#/compositions/dialog/agreement-composition.tsx";
 import announcementCompositionSource from "#/compositions/dialog/announcement-composition.tsx?raw";
 import { AnnouncementDialogComposition } from "#/compositions/dialog/announcement-composition.tsx";
+import attachmentPreviewCompositionSource from "#/compositions/dialog/attachment-preview-composition.tsx?raw";
+import { AttachmentPreviewDialogComposition } from "#/compositions/dialog/attachment-preview-composition.tsx";
 import createAgentCompositionSource from "#/compositions/dialog/create-agent-composition.tsx?raw";
 import { CreateAgentDialogComposition } from "#/compositions/dialog/create-agent-composition.tsx";
 import createChannelCompositionSource from "#/compositions/dialog/create-channel-composition.tsx?raw";
@@ -79,6 +83,7 @@ const TOC = [
       { id: "source-comparison-edit-channel-management", title: "Edit channel actions" },
       { id: "source-comparison-invite-human", title: "Invite human" },
       { id: "source-comparison-add-machine", title: "Add computer" },
+      { id: "source-comparison-attachment-preview", title: "Attachment preview" },
       { id: "source-comparison-create-channel", title: "Create channel" },
       { id: "source-comparison-create-agent", title: "Create agent" },
       { id: "source-comparison-reset-agent", title: "Reset agent" },
@@ -202,6 +207,7 @@ const DIALOG_COMPOSITION_RAW_SOURCES = {
   CreateChannel: createChannelCompositionSource,
   CreateAgent: createAgentCompositionSource,
   AddMachine: addMachineCompositionSource,
+  AttachmentPreview: attachmentPreviewCompositionSource,
   ResetAgent: resetAgentCompositionSource,
   Agreement: agreementCompositionSource,
   Onboarding: onboardingCompositionSource,
@@ -217,6 +223,7 @@ const DIALOG_COMPOSITION_SNIPPET_IDS = {
   CreateChannel: "dialogCreateChannelComposition",
   CreateAgent: "dialogCreateAgentComposition",
   AddMachine: "dialogAddMachineComposition",
+  AttachmentPreview: "dialogAttachmentPreviewComposition",
   ResetAgent: "dialogResetAgentComposition",
   Agreement: "dialogAgreementComposition",
   Onboarding: "dialogOnboardingComposition",
@@ -230,6 +237,7 @@ const DIALOG_COMPOSITION_PATHS = {
   CreateChannel: "apps/doc/src/compositions/dialog/create-channel-composition.tsx",
   CreateAgent: "apps/doc/src/compositions/dialog/create-agent-composition.tsx",
   AddMachine: "apps/doc/src/compositions/dialog/add-machine-composition.tsx",
+  AttachmentPreview: "apps/doc/src/compositions/dialog/attachment-preview-composition.tsx",
   ResetAgent: "apps/doc/src/compositions/dialog/reset-agent-composition.tsx",
   Agreement: "apps/doc/src/compositions/dialog/agreement-composition.tsx",
   Onboarding: "apps/doc/src/compositions/dialog/onboarding-composition.tsx",
@@ -237,6 +245,8 @@ const DIALOG_COMPOSITION_PATHS = {
 } as const;
 
 type DialogCompositionKey = keyof typeof DIALOG_COMPOSITION_SOURCES;
+
+const modalComparisonPreviewClassName = "!px-0 !py-0";
 
 function compositionPanelProps(
   code: Record<string, ReactNode | AnyRenderableServerComponent>,
@@ -264,12 +274,10 @@ function SourceModalCard({
 }) {
   return (
     <div
-      className={[
+      className={cn(
         "min-w-0 w-full max-w-full max-w-md border-2 border-black bg-white p-6 font-sans text-black shadow-[6px_6px_0_#000]",
         className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
     >
       <div className="mb-4 flex items-center justify-between gap-3">
         <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
@@ -313,7 +321,12 @@ function SourceButton({
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center gap-1.5 border-2 border-black ${toneClass} ${sizeClass} font-bold shadow-[2px_2px_0_#000] ${className ?? ""}`}
+      className={cn(
+        "inline-flex items-center justify-center gap-1.5 border-2 border-black font-bold shadow-[2px_2px_0_#000]",
+        toneClass,
+        sizeClass,
+        className,
+      )}
     >
       {children}
     </button>
@@ -350,7 +363,11 @@ function SourceBanner({
   }[tone];
   return (
     <div
-      className={`flex items-start gap-2 border-2 border-black ${toneClass} p-3 text-sm font-bold text-black ${className ?? ""}`}
+      className={cn(
+        "flex items-start gap-2 border-2 border-black p-3 text-sm font-bold text-black",
+        toneClass,
+        className,
+      )}
     >
       {withIcon ? <AlertTriangle className="mt-0.5 size-4 shrink-0" /> : null}
       <div className="min-w-0 flex-1">{children}</div>
@@ -619,9 +636,10 @@ function SourceCreateChannel() {
             {["Avery", "Sam"].map((member, index) => (
               <div
                 key={member}
-                className={`flex items-center gap-2 border-t border-black/15 px-3 py-1.5 text-sm font-medium text-black ${
-                  index === 0 ? "bg-[oklch(0.749_0.162_0.71_/_0.2)]" : ""
-                }`}
+                className={cn(
+                  "flex items-center gap-2 border-t border-black/15 px-3 py-1.5 text-sm font-medium text-black",
+                  index === 0 && "bg-[oklch(0.749_0.162_0.71_/_0.2)]",
+                )}
               >
                 <span className="size-5 border border-black bg-white" />
                 <span className="min-w-0 flex-1 truncate">{member}</span>
@@ -723,6 +741,38 @@ function SourceAddMachine() {
   );
 }
 
+function SourceAttachmentPreview() {
+  return (
+    <div className="flex h-80 w-full max-w-3xl flex-col overflow-hidden border-2 border-black bg-white font-sans text-black shadow-[6px_6px_0_#000]">
+      <div className="safe-top safe-left pointer-events-auto shrink-0 border-b-2 border-black bg-white">
+        <div className="flex h-14 items-center gap-3 px-4">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="min-w-0 flex-1 truncate text-sm font-medium text-black">
+              diagram-export.html
+            </span>
+            <span className="shrink-0 rounded-full border border-black/20 bg-black/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black/60">
+              HTML preview
+            </span>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <SourceIconButton>
+              <Download className="size-3.5" />
+            </SourceIconButton>
+            <SourceIconButton>
+              <X className="size-3.5" />
+            </SourceIconButton>
+          </div>
+        </div>
+      </div>
+      <div className="min-h-0 flex-1 overflow-hidden bg-white p-4">
+        <div className="grid h-full min-h-0 w-full place-items-center border-2 border-black bg-white font-mono text-xs text-black/50 shadow-[2px_2px_0_#000]">
+          Sandboxed HTML preview
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SourceResetAgent() {
   return (
     <SourceModalCard
@@ -764,11 +814,12 @@ function SourceResetAgent() {
           <button
             key={option.title}
             type="button"
-            className={`border-2 p-4 text-left transition-colors ${
+            className={cn(
+              "border-2 p-4 text-left transition-colors",
               option.selected
-                ? `border-black ${option.tone} shadow-[2px_2px_0_#000]`
-                : "border-black/30"
-            }`}
+                ? ["border-black", option.tone, "shadow-[2px_2px_0_#000]"]
+                : "border-black/30",
+            )}
           >
             <div className="text-sm font-bold uppercase">{option.title}</div>
             <p className="m-0 mt-1 text-xs text-black/60">{option.description}</p>
@@ -799,13 +850,15 @@ function SourceAgreement() {
         </button>
       </div>
       <div className="grid gap-4">
-        <div className="max-h-56 overflow-y-auto border-2 border-black bg-white p-4 text-sm leading-6">
-          <p className="m-0 font-bold">Before joining, review the workspace rules.</p>
-          <ul className="mb-0 mt-3 grid gap-2 pl-5 text-black/70">
-            <li>Keep sensitive customer data out of public channels.</li>
-            <li>Use design-system components for shared product surfaces.</li>
-            <li>Report unsafe automation or missing audit context immediately.</li>
-          </ul>
+        <div className="max-h-[50vh] overflow-y-auto border-2 border-black bg-white p-4 text-sm">
+          <div className="space-y-2 whitespace-pre-wrap break-words">
+            <p className="m-0">Before joining, review the workspace rules.</p>
+            <ul className="m-0 list-disc space-y-1 pl-5">
+              <li>Keep sensitive customer data out of public channels.</li>
+              <li>Use design-system components for shared product surfaces.</li>
+              <li>Report unsafe automation or missing audit context immediately.</li>
+            </ul>
+          </div>
         </div>
         <div className="flex justify-end gap-3">
           <SourceButton size="xs">Cancel</SourceButton>
@@ -823,7 +876,7 @@ function SourceOnboarding() {
     <div className="min-w-0 w-full max-w-full max-w-lg border-2 border-black bg-white p-6 font-sans text-black shadow-[6px_6px_0_#000]">
       <div className="mb-4">
         <div className="mb-1 font-mono text-[11px] font-bold uppercase tracking-widest text-black/50">
-          Meet Slock
+          Meet RAFT
         </div>
         <h3 className="m-0 text-lg font-bold uppercase leading-tight">Add a computer</h3>
       </div>
@@ -998,6 +1051,7 @@ function DialogDoc() {
               brutal: <EditChannelDialogComposition />,
               elegant: <EditChannelDialogComposition />,
               elegantDark: <EditChannelDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Channel settings dialog",
@@ -1024,6 +1078,7 @@ function DialogDoc() {
               brutal: <EditChannelManagementDialogComposition />,
               elegant: <EditChannelManagementDialogComposition />,
               elegantDark: <EditChannelManagementDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Channel management actions",
@@ -1046,6 +1101,7 @@ function DialogDoc() {
               brutal: <InviteHumanDialogComposition />,
               elegant: <InviteHumanDialogComposition />,
               elegantDark: <InviteHumanDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Invite dialog",
@@ -1067,11 +1123,12 @@ function DialogDoc() {
               id: "source-comparison-add-machine",
               label: "Add computer",
               status: "difference",
-              note: "Intentional differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status. This docs scene is static and is not wired to the live computer connection flow.",
+              note: "Remaining differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status; source keeps the inline install command and live computer connection flow.",
               source: <SourceAddMachine />,
               brutal: <AddMachineDialogComposition />,
               elegant: <AddMachineDialogComposition />,
               elegantDark: <AddMachineDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
               sourceScenes: [
                 {
                   label: "Computer setup dialog",
@@ -1090,10 +1147,67 @@ function DialogDoc() {
               ...compositionPanelProps(code, "AddMachine"),
             },
             {
+              id: "source-comparison-attachment-preview",
+              label: "Attachment preview",
+              status: "difference",
+              note: "Remaining differences: source uses the Lightbox overlay for HTML/PDF/document attachment previews, including custom scroll-lock and browser-find behavior; current represents the same content-preview shell with Dialog primitives, themed header actions, and a sandboxed preview frame body.",
+              source: <SourceAttachmentPreview />,
+              brutal: <AttachmentPreviewDialogComposition />,
+              elegant: <AttachmentPreviewDialogComposition />,
+              elegantDark: <AttachmentPreviewDialogComposition />,
+              previewClassName: modalComparisonPreviewClassName,
+              sourceScenes: [
+                {
+                  label: "Attachment preview lightbox",
+                  scenes: [
+                    {
+                      label: "MessageItem.tsx:885",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:885",
+                    },
+                    {
+                      label: "MessageItem.tsx:993",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:993",
+                    },
+                    {
+                      label: "MessageItem.tsx:1167",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1167",
+                    },
+                  ],
+                },
+              ],
+              ...compositionPanelProps(code, "AttachmentPreview"),
+            },
+            {
+              id: "source-comparison-announcement",
+              label: "Announcement",
+              status: "difference",
+              note: "Remaining differences: current adds a header icon and uses themed Dialog chrome/button styling; the docs body is static markdown-shaped content rather than the live announcement markdown renderer.",
+              source: <SourceAnnouncement />,
+              brutal: <AnnouncementDialogComposition />,
+              elegant: <AnnouncementDialogComposition />,
+              elegantDark: <AnnouncementDialogComposition />,
+              sourceScenes: [
+                {
+                  label: "Account announcement modal",
+                  scenes: [
+                    {
+                      label: "AnnouncementModal.tsx:119",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:119",
+                    },
+                    {
+                      label: "MainLayout.tsx:1406",
+                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1406",
+                    },
+                  ],
+                },
+              ],
+              ...compositionPanelProps(code, "Announcement"),
+            },
+            {
               id: "source-comparison-create-channel",
               label: "Create channel",
-              status: "todo",
-              note: "Source Modal hosts dense channel forms with visibility toggles, member search, selectable rows, and archive warnings.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Banner/Field/Combobox primitives and themed button variants; source uses inline brutal form controls, a static expanded member list, and source-specific post-submit archive collision wiring.",
               source: <SourceCreateChannel />,
               brutal: <CreateChannelDialogComposition />,
               elegant: <CreateChannelDialogComposition />,
@@ -1126,8 +1240,8 @@ function DialogDoc() {
             {
               id: "source-comparison-create-agent",
               label: "Create agent",
-              status: "todo",
-              note: "Source used Modal for a dense creation form with a warning/info panel and footer actions.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Field/Select/Button primitives and themed primary/outline actions; source uses inline brutal form controls and source-specific conditional warning/limit states.",
               source: <SourceCreateAgent />,
               brutal: <CreateAgentDialogComposition />,
               elegant: <CreateAgentDialogComposition />,
@@ -1160,8 +1274,8 @@ function DialogDoc() {
             {
               id: "source-comparison-reset-agent",
               label: "Reset agent",
-              status: "todo",
-              note: "Source Modal uses selectable reset rows and a stronger warning once full reset is chosen.",
+              status: "difference",
+              note: "Remaining differences: current uses controlled Dialog/RadioGroup/Banner/Button primitives, dynamic footer action variants, and an elegant radio-card treatment; source uses inline brutal buttons, source-local reset mode state, and only shows the full-reset warning when full reset is selected.",
               source: <SourceResetAgent />,
               brutal: <ResetAgentDialogComposition />,
               elegant: <ResetAgentDialogComposition />,
@@ -1190,8 +1304,8 @@ function DialogDoc() {
             {
               id: "source-comparison-agreement",
               label: "Agreement",
-              status: "todo",
-              note: "Source agreement dialog combines a header, scrollable markdown body, warning state, and compact footer buttons.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Text/Button primitives with larger themed actions, separates the intro line from the guideline list, and lets elegant render the list without a container; source uses the card-brutal shell, source pink submit button, rendered markdown body, submitting label, and conditional join-error warning state.",
               source: <SourceAgreement />,
               brutal: <AgreementDialogComposition />,
               elegant: <AgreementDialogComposition />,
@@ -1212,8 +1326,8 @@ function DialogDoc() {
             {
               id: "source-comparison-onboarding",
               label: "Onboarding step",
-              status: "todo",
-              note: "Source onboarding modal has eyebrow, title, optional icon intro, error/banner, content, and caller-supplied footer.",
+              status: "difference",
+              note: "Remaining differences: current uses Dialog/Checkbox/Button primitives and themed primary/outline actions; source uses a card-brutal shell with caller-supplied footer and optional error banner.",
               source: <SourceOnboarding />,
               brutal: <OnboardingDialogComposition />,
               elegant: <OnboardingDialogComposition />,
@@ -1230,32 +1344,6 @@ function DialogDoc() {
                 },
               ],
               ...compositionPanelProps(code, "Onboarding"),
-            },
-            {
-              id: "source-comparison-announcement",
-              label: "Announcement",
-              status: "todo",
-              note: "Source announcement modal has a colored header, markdown body, page indicator, and Back / Next footer.",
-              source: <SourceAnnouncement />,
-              brutal: <AnnouncementDialogComposition />,
-              elegant: <AnnouncementDialogComposition />,
-              elegantDark: <AnnouncementDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Account announcement modal",
-                  scenes: [
-                    {
-                      label: "AnnouncementModal.tsx:119",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:119",
-                    },
-                    {
-                      label: "MainLayout.tsx:1406",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1406",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "Announcement"),
             },
           ]}
         />
