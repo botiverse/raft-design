@@ -1,5 +1,5 @@
 import { Download, X } from "lucide-react";
-import { Button } from "raft-ui";
+import { Button, cn, useThemeFamily } from "raft-ui";
 import {
   Lightbox,
   LightboxClose,
@@ -14,6 +14,8 @@ import {
 } from "raft-ui/wip";
 
 export function ImageLightboxShellComposition() {
+  const theme = useThemeFamily();
+
   return (
     <Lightbox open onOpenChange={() => {}}>
       <LightboxContent className="flex flex-col" data-testid="image-lightbox">
@@ -25,13 +27,13 @@ export function ImageLightboxShellComposition() {
                 <Button
                   type="button"
                   variant="outline"
-                  size="icon-md"
+                  size={theme === "elegant" ? "icon-sm" : "icon-md"}
                   aria-label="Close"
-                  className="pointer-events-auto"
+                  className={cn("pointer-events-auto", theme === "elegant" && "rounded-full p-1.5")}
                 />
               }
             >
-              <X className="size-4" />
+              <X className={theme === "elegant" ? "size-3.5" : "size-4"} />
             </LightboxClose>
           </div>
         </LightboxHeader>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Badge, Button } from "raft-ui";
+import { Badge, Button, useThemeFamily, type Theme } from "raft-ui";
 import {
   Lightbox,
   LightboxClose,
@@ -292,6 +292,76 @@ export const Route = createFileRoute("/components/lightbox")({
 
 function LightboxDoc() {
   const code = Route.useLoaderData();
+
+  return (
+    <DocPage
+      title="Lightbox"
+      description="A full-screen preview surface for image, screenshot, and attachment review."
+      toc={TOC}
+    >
+      <DocSection id="preview" title="Preview">
+        <Example html={code.anatomy}>
+          <LightboxPreviewDemo />
+        </Example>
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock.Panel
+          path="Lightbox.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+        />
+      </DocSection>
+
+      <DocSection id="structure" title="Structure">
+        <DocsCodeBlock.Panel
+          path="Lightbox.tsx"
+          source={SNIPPETS.structure}
+          html={code.structure}
+          collapsedHtml={code.structureBody}
+        />
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          sourceScenes={SOURCE_SCENES}
+          items={[
+            {
+              label: "Image lightbox shell",
+              status: "difference",
+              note: "Source mixed the visual shell and image switching into ImageLightbox. Current keeps the same caller-owned navigation boundary while expressing the header, action cluster, stage, and media slots through the Lightbox composition family.",
+              source: <SourceImageLightboxPreview />,
+              brutal: <CurrentImageLightboxPreview />,
+              elegant: <CurrentImageLightboxPreview />,
+              elegantDark: <CurrentImageLightboxPreview />,
+              sourceCode: code.sourceImageShell,
+              ...compositionPanelProps(code, "ImageLightboxShell"),
+            },
+            {
+              label: "Attachment preview shell",
+              status: "todo",
+              note: "Source passed positioning, scroll locking, and backdrop classes directly to the primitive for attachment previews. Current keeps those concerns at the composition boundary instead of expanding the public root API.",
+              source: <SourceAttachmentPreview />,
+              brutal: <CurrentAttachmentPreview />,
+              elegant: <CurrentAttachmentPreview />,
+              elegantDark: <CurrentAttachmentPreview />,
+              sourceCode: code.sourceAttachmentShell,
+              ...compositionPanelProps(code, "AttachmentPreviewShell"),
+            },
+          ]}
+        />
+      </DocSection>
+    </DocPage>
+  );
+}
+
+function LightboxPreviewDemo() {
+  const theme = useThemeFamily();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const currentImage = DEMO_IMAGES[imageIndex];
@@ -353,171 +423,114 @@ function LightboxDoc() {
   }, [lightboxOpen]);
 
   return (
-    <DocPage
-      title="Lightbox"
-      description="A full-screen preview surface for image, screenshot, and attachment review."
-      toc={TOC}
-    >
-      <DocSection id="preview" title="Preview">
-        <Example html={code.anatomy}>
-          <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
-            <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
-            <LightboxContent className="flex flex-col" data-testid="lightbox-demo">
-              <LightboxHeader className="pointer-events-none absolute inset-x-0 top-0 z-20">
-                <div className="flex justify-end px-4 pt-4">
-                  <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
-                  <LightboxClose
-                    render={
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon-md"
-                        aria-label="Close"
-                        className="pointer-events-auto"
-                      />
-                    }
-                  >
-                    <X className="size-4" />
-                  </LightboxClose>
-                </div>
-              </LightboxHeader>
-              <LightboxStage data-testid="image-lightbox-stage">
-                <LightboxNavigationButton
-                  direction="previous"
-                  disabled={isFirstImage}
-                  aria-label="Previous image"
-                  onClick={handlePreviousImageClick}
+    <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
+      <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
+      <LightboxContent className="flex flex-col" data-testid="lightbox-demo">
+        <LightboxHeader className="pointer-events-none absolute inset-x-0 top-0 z-20">
+          <div className="flex justify-end px-4 pt-4">
+            <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
+            <LightboxClose
+              render={
+                <Button
+                  type="button"
+                  variant="outline"
+                  size={theme === "elegant" ? "icon-sm" : "icon-md"}
+                  aria-label="Close"
+                  className={cn("pointer-events-auto", theme === "elegant" && "rounded-full p-1.5")}
+                />
+              }
+            >
+              <X className={theme === "elegant" ? "size-3.5" : "size-4"} />
+            </LightboxClose>
+          </div>
+        </LightboxHeader>
+        <LightboxStage data-testid="image-lightbox-stage">
+          <LightboxNavigationButton
+            direction="previous"
+            disabled={isFirstImage}
+            aria-label="Previous image"
+            onClick={handlePreviousImageClick}
+          >
+            <ChevronLeft />
+          </LightboxNavigationButton>
+          <LightboxNavigationButton
+            direction="next"
+            disabled={isLastImage}
+            aria-label="Next image"
+            onClick={handleNextImageClick}
+          >
+            <ChevronRight />
+          </LightboxNavigationButton>
+          <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center border-0 bg-transparent shadow-none">
+            <img
+              src={currentImage.src}
+              alt={currentImage.filename}
+              className="size-full object-cover"
+              draggable={false}
+            />
+          </LightboxMedia>
+          <div className="pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center">
+            <LightboxInfoBar>
+              <LightboxInfoTitle>{currentImage.filename}</LightboxInfoTitle>
+              <LightboxInfoActions>
+                <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
+                  <Download />
+                </Button>
+              </LightboxInfoActions>
+            </LightboxInfoBar>
+          </div>
+          <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
+            {DEMO_IMAGES.map((image, index) => {
+              const active = index === imageIndex;
+              return (
+                <button
+                  key={image.filename}
+                  type="button"
+                  className={lightboxThumbnailButton({ active, theme })}
+                  aria-label={`Show ${image.filename}`}
+                  onClick={() => setImageIndex(index)}
                 >
-                  <ChevronLeft />
-                </LightboxNavigationButton>
-                <LightboxNavigationButton
-                  direction="next"
-                  disabled={isLastImage}
-                  aria-label="Next image"
-                  onClick={handleNextImageClick}
-                >
-                  <ChevronRight />
-                </LightboxNavigationButton>
-                <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center border-0 bg-transparent shadow-none">
                   <img
-                    src={currentImage.src}
-                    alt={currentImage.filename}
+                    src={image.thumb}
+                    alt=""
                     className="size-full object-cover"
                     draggable={false}
                   />
-                </LightboxMedia>
-                <div className="pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center">
-                  <LightboxInfoBar>
-                    <LightboxInfoTitle>{currentImage.filename}</LightboxInfoTitle>
-                    <LightboxInfoActions>
-                      <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
-                        <Download />
-                      </Button>
-                    </LightboxInfoActions>
-                  </LightboxInfoBar>
-                </div>
-                <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
-                  {DEMO_IMAGES.map((image, index) => {
-                    const active = index === imageIndex;
-                    return (
-                      <button
-                        key={image.filename}
-                        type="button"
-                        className={lightboxThumbnailButton({ active })}
-                        aria-label={`Show ${image.filename}`}
-                        onClick={() => setImageIndex(index)}
-                      >
-                        <img
-                          src={image.thumb}
-                          alt=""
-                          className="size-full object-cover"
-                          draggable={false}
-                        />
-                        <span className={lightboxThumbnailOverlay({ active })} />
-                      </button>
-                    );
-                  })}
-                </div>
-              </LightboxStage>
-            </LightboxContent>
-          </Lightbox>
-        </Example>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Lightbox.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
-      </DocSection>
-
-      <DocSection id="structure" title="Structure">
-        <DocsCodeBlock.Panel
-          path="Lightbox.tsx"
-          source={SNIPPETS.structure}
-          html={code.structure}
-          collapsedHtml={code.structureBody}
-        />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Image lightbox shell",
-              status: "difference",
-              note: "Source mixed the visual shell and image switching into ImageLightbox. Current keeps the same caller-owned navigation boundary while expressing the header, action cluster, stage, and media slots through the Lightbox composition family.",
-              source: <SourceImageLightboxPreview />,
-              brutal: <CurrentImageLightboxPreview />,
-              elegant: <CurrentImageLightboxPreview />,
-              elegantDark: <CurrentImageLightboxPreview />,
-              sourceCode: code.sourceImageShell,
-              ...compositionPanelProps(code, "ImageLightboxShell"),
-            },
-            {
-              label: "Attachment preview shell",
-              status: "todo",
-              note: "Source passed positioning, scroll locking, and backdrop classes directly to the primitive for attachment previews. Current keeps those concerns at the composition boundary instead of expanding the public root API.",
-              source: <SourceAttachmentPreview />,
-              brutal: <CurrentAttachmentPreview />,
-              elegant: <CurrentAttachmentPreview />,
-              elegantDark: <CurrentAttachmentPreview />,
-              sourceCode: code.sourceAttachmentShell,
-              ...compositionPanelProps(code, "AttachmentPreviewShell"),
-            },
-          ]}
-        />
-      </DocSection>
-    </DocPage>
+                  <span className={lightboxThumbnailOverlay({ active, theme })} />
+                </button>
+              );
+            })}
+          </div>
+        </LightboxStage>
+      </LightboxContent>
+    </Lightbox>
   );
 }
 
-function lightboxThumbnailButton({ active }: { active: boolean }) {
+function lightboxThumbnailButton({ active, theme }: { active: boolean; theme: Theme }) {
+  if (theme === "elegant") {
+    return cn(
+      "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden rounded-sm border opacity-100 shadow-none transition-[border-color,opacity,box-shadow] duration-150",
+      active ? "border-white/90" : "border-white/25 hover:border-white/60",
+    );
+  }
+
   return cn(
     "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden border-2 transition-[border-color,opacity,box-shadow] duration-150",
     active
-      ? "border-brutal-yellow shadow-[var(--shadow)]"
-      : "border-white/30 opacity-60 hover:border-white/60 hover:opacity-100",
-    "[[data-theme=elegant]_&]:rounded-sm [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:opacity-100 [[data-theme=elegant]_&]:shadow-none",
-    active
-      ? "[[data-theme=elegant]_&]:border-white/90"
-      : "[[data-theme=elegant]_&]:border-white/25 [[data-theme=elegant]_&]:hover:border-white/60",
+      ? "border-[3px] border-white shadow-[4px_4px_0_0_black]"
+      : "border-white/70 opacity-70 shadow-[2px_2px_0_0_black] hover:border-white hover:opacity-100 hover:shadow-[3px_3px_0_0_black]",
   );
 }
 
-function lightboxThumbnailOverlay({ active }: { active: boolean }) {
+function lightboxThumbnailOverlay({ active, theme }: { active: boolean; theme: Theme }) {
+  if (theme !== "elegant") {
+    return "hidden";
+  }
+
   return cn(
-    "pointer-events-none absolute inset-0 hidden transition-colors duration-150",
-    active
-      ? "[[data-theme=elegant]_&]:block [[data-theme=elegant]_&]:bg-transparent"
-      : "[[data-theme=elegant]_&]:block [[data-theme=elegant]_&]:bg-black/45 [[data-theme=elegant]_&]:group-hover/lightbox-thumb:bg-black/28",
+    "pointer-events-none absolute inset-0 block transition-colors duration-150",
+    active ? "bg-transparent" : "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
   );
 }
 
@@ -679,7 +692,7 @@ function CurrentLightboxStage() {
 
   return (
     <div className="relative flex min-h-0 flex-1 items-center justify-center p-4">
-      <div className="aspect-[4/3] h-full max-h-24 bg-white shadow-none">
+      <div className="aspect-[4/3] h-full max-h-24 bg-white shadow-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-white [[data-theme=brutal]_&]:shadow-[6px_6px_0_0_oklch(0_0_0)] [[data-theme=elegant]_&]:border-0 [[data-theme=elegant]_&]:shadow-none">
         <img src={image.thumb} alt={image.filename} className="size-full object-cover" />
       </div>
       <CurrentImageInfoRail />

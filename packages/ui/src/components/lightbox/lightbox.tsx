@@ -3,6 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -44,14 +45,16 @@ const lightbox = tv({
         title: ["text-foreground-strong"],
         media: ["border-line-strong bg-layer-panel shadow-xl"],
         navigationButton: [
-          "size-10 rounded-none",
+          "size-8 rounded-none",
           "hover:bg-layer-panel data-[disabled=true]:text-black/35",
+          "[&_svg]:size-6",
         ],
         infoBar: [
-          "w-[clamp(10.5rem,25vw,18rem)] max-w-[calc(100vw-3rem)] min-w-[10.5rem]",
-          "gap-3 rounded-none border-2 border-black px-3 py-2 shadow-[var(--shadow)]",
+          "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
+          "gap-2 rounded-none border-2 border-black py-0.5 pr-0.5 pl-2.5 shadow-[var(--shadow)]",
+          "[&_[data-slot=button]_svg]:stroke-2",
         ],
-        infoTitle: ["text-black"],
+        infoTitle: ["text-xs text-black"],
       },
       elegant: {
         backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
@@ -72,7 +75,7 @@ const lightbox = tv({
         ],
         infoBar: [
           "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
-          "gap-2 rounded px-2.5 py-0.5",
+          "gap-2 rounded py-0.5 pr-0.5 pl-2.5",
           "bg-[rgba(245,245,245,0.8)] text-neutral-900 shadow-none backdrop-blur-[10px]",
           "[&_[data-slot=button]]:text-neutral-600 [&_[data-slot=button]]:hover:bg-neutral-900/10 [&_[data-slot=button]]:hover:text-neutral-800",
         ],
@@ -182,6 +185,7 @@ export function LightboxContent({
       <Dialog.Backdrop data-slot="lightbox-backdrop" data-theme={theme} className={backdrop()} />
       <Dialog.Popup
         data-slot="lightbox-content"
+        data-theme={theme}
         initialFocus={initialFocus}
         finalFocus={finalFocus}
         className={content({ className })}
@@ -321,9 +325,7 @@ export function LightboxNavigationButton({
     <Button
       aria-disabled={disabled}
       className={navigationButton({
-        className: [direction === "previous" ? "left-8" : "right-8", className]
-          .filter(Boolean)
-          .join(" "),
+        className: cn(direction === "previous" ? "left-8" : "right-8", className),
       })}
       data-disabled={disabled ? "true" : undefined}
       data-slot="lightbox-navigation-button"
