@@ -23,7 +23,7 @@ const separator = tv({
           "data-[orientation=vertical]:w-0 data-[orientation=vertical]:border-l-2 data-[orientation=vertical]:border-black",
         ],
         labeledLine: ["h-0 border-t-2 border-black"],
-        labeledContent: ["text-black/70"],
+        labeledContent: ["font-medium text-black/70"],
       },
       elegant: {
         root: [

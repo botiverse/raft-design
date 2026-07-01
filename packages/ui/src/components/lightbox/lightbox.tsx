@@ -73,9 +73,10 @@ const lightbox = tv({
         infoBar: [
           "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
           "gap-2 rounded px-2.5 py-0.5",
-          "shadow-[0_10px_24px_-16px_oklch(0_0_0_/_0.55)]",
+          "bg-[rgba(245,245,245,0.8)] text-neutral-900 shadow-none backdrop-blur-[10px]",
+          "[&_[data-slot=button]]:text-neutral-600 [&_[data-slot=button]]:hover:bg-neutral-900/10 [&_[data-slot=button]]:hover:text-neutral-800",
         ],
-        infoTitle: ["font-sans text-xs font-medium"],
+        infoTitle: ["font-sans text-xs font-medium text-neutral-800"],
         infoActions: ["gap-1"],
       },
     },
