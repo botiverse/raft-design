@@ -6,6 +6,7 @@ import { useCallback, useRef, useState, type ReactNode, type RefObject } from "r
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button, type ButtonProps } from "../button/button";
 
 const lightbox = tv({
   slots: {
@@ -18,6 +19,22 @@ const lightbox = tv({
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
     media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-2"],
+    navigationButton: [
+      "pointer-events-auto absolute z-10 inline-flex items-center justify-center",
+      "border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-sm",
+      "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
+      "outline outline-[1px] outline-offset-2 outline-transparent",
+      "focus-visible:outline-foreground-strong",
+      "data-[disabled=true]:cursor-default",
+      "[&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0",
+    ],
+    infoBar: [
+      "pointer-events-auto flex min-w-0 items-center",
+      "bg-layer-panel text-foreground-strong",
+      "shadow-[0_12px_32px_-18px_oklch(0_0_0_/_0.55)]",
+    ],
+    infoTitle: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
+    infoActions: ["flex shrink-0 items-center gap-1.5"],
     close: [],
   },
   variants: {
@@ -26,6 +43,15 @@ const lightbox = tv({
         header: ["bg-transparent shadow-none"],
         title: ["text-foreground-strong"],
         media: ["border-line-strong bg-layer-panel shadow-xl"],
+        navigationButton: [
+          "size-10 rounded-none",
+          "hover:bg-layer-panel data-[disabled=true]:text-black/35",
+        ],
+        infoBar: [
+          "w-[clamp(10.5rem,25vw,18rem)] max-w-[calc(100vw-3rem)] min-w-[10.5rem]",
+          "gap-3 rounded-none border-2 border-black px-3 py-2 shadow-[var(--shadow)]",
+        ],
+        infoTitle: ["text-black"],
       },
       elegant: {
         backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
@@ -33,6 +59,24 @@ const lightbox = tv({
         title: ["font-sans font-medium text-foreground-strong"],
         actions: ["gap-2"],
         media: ["border border-line-subtle bg-layer-panel shadow-none"],
+        navigationButton: [
+          "size-8 rounded-full border-0",
+          "bg-white/75 backdrop-blur-md",
+          "text-foreground-muted",
+          "shadow-none",
+          "hover:bg-white/85 hover:text-foreground-strong",
+          "active:scale-[0.97]",
+          "data-[disabled=true]:bg-white/35 data-[disabled=true]:text-black/30 data-[disabled=true]:shadow-none",
+          "data-[disabled=true]:hover:bg-white/35 data-[disabled=true]:active:scale-100",
+          "[&_svg]:size-5",
+        ],
+        infoBar: [
+          "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
+          "gap-2 rounded px-2.5 py-0.5",
+          "shadow-[0_10px_24px_-16px_oklch(0_0_0_/_0.55)]",
+        ],
+        infoTitle: ["font-sans text-xs font-medium"],
+        infoActions: ["gap-1"],
       },
     },
   },
@@ -237,6 +281,114 @@ export function LightboxMedia({ render, className, ...props }: LightboxMediaProp
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "lightbox-media",
+    },
+  });
+}
+
+export type LightboxNavigationButtonProps = Omit<
+  ButtonProps,
+  "disabled" | "loading" | "size" | "variant"
+> & {
+  direction: "next" | "previous";
+  disabled?: boolean;
+};
+
+export function LightboxNavigationButton({
+  className,
+  direction,
+  disabled,
+  onClick,
+  type = "button",
+  ...props
+}: LightboxNavigationButtonProps) {
+  const theme = useThemeFamily();
+  const { navigationButton } = lightbox({ theme });
+
+  const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
+    (event) => {
+      event.stopPropagation();
+      if (disabled) {
+        event.preventDefault();
+        return;
+      }
+      onClick?.(event);
+    },
+    [disabled, onClick],
+  );
+
+  return (
+    <Button
+      aria-disabled={disabled}
+      className={navigationButton({
+        className: [direction === "previous" ? "left-8" : "right-8", className]
+          .filter(Boolean)
+          .join(" "),
+      })}
+      data-disabled={disabled ? "true" : undefined}
+      data-slot="lightbox-navigation-button"
+      data-direction={direction}
+      onClick={handleClick}
+      size="icon-lg"
+      type={type}
+      variant="outline"
+      {...props}
+    />
+  );
+}
+
+export type LightboxInfoBarProps = useRender.ComponentProps<"div">;
+
+export function LightboxInfoBar({ render, className, ...props }: LightboxInfoBarProps) {
+  const theme = useThemeFamily();
+  const { infoBar } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: infoBar({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-info-bar",
+    },
+  });
+}
+
+export type LightboxInfoTitleProps = useRender.ComponentProps<"div">;
+
+export function LightboxInfoTitle({ render, className, ...props }: LightboxInfoTitleProps) {
+  const theme = useThemeFamily();
+  const { infoTitle } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: infoTitle({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-info-title",
+    },
+  });
+}
+
+export type LightboxInfoActionsProps = useRender.ComponentProps<"div">;
+
+export function LightboxInfoActions({ render, className, ...props }: LightboxInfoActionsProps) {
+  const theme = useThemeFamily();
+  const { infoActions } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: infoActions({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-info-actions",
     },
   });
 }

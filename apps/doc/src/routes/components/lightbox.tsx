@@ -3,11 +3,14 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { Badge, Button } from "raft-ui";
 import {
   Lightbox,
-  LightboxActions,
   LightboxClose,
   LightboxContent,
   LightboxHeader,
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoTitle,
   LightboxMedia,
+  LightboxNavigationButton,
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
@@ -90,11 +93,14 @@ const SNIPPETS = {
   anatomy: `import { Button } from "raft-ui";
 import {
   Lightbox,
-  LightboxActions,
   LightboxClose,
   LightboxContent,
   LightboxHeader,
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoTitle,
   LightboxMedia,
+  LightboxNavigationButton,
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
@@ -118,17 +124,15 @@ import { Download, X } from "lucide-react";
     </LightboxHeader>
     <LightboxStage>
       <LightboxMedia className="border-0 bg-transparent shadow-none" render={<img src={url} alt="" />} />
-      <div className="absolute right-6 bottom-20 left-6 flex justify-center">
-        <div className="flex w-[clamp(10.5rem,25vw,18rem)] max-w-[calc(100vw-3rem)] min-w-[10.5rem] items-center gap-3 rounded-md bg-white px-3 py-2 text-black shadow-[0_12px_32px_-18px_oklch(0_0_0_/_0.55)]">
-          <div className="min-w-0 flex-1 truncate text-sm font-bold">
-            product-shot.png
-          </div>
-          <LightboxActions>
+      <div className="pointer-events-none absolute right-6 bottom-20 left-6 flex justify-center">
+        <LightboxInfoBar>
+          <LightboxInfoTitle>product-shot.png</LightboxInfoTitle>
+          <LightboxInfoActions>
             <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
               <Download />
             </Button>
-          </LightboxActions>
-        </div>
+          </LightboxInfoActions>
+        </LightboxInfoBar>
       </div>
     </LightboxStage>
   </LightboxContent>
@@ -143,7 +147,13 @@ import { Download, X } from "lucide-react";
       </LightboxActions>
     </LightboxHeader>
     <LightboxStage>
+      <LightboxNavigationButton direction="previous" />
       <LightboxMedia />
+      <LightboxNavigationButton direction="next" />
+      <LightboxInfoBar>
+        <LightboxInfoTitle />
+        <LightboxInfoActions />
+      </LightboxInfoBar>
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
@@ -258,10 +268,10 @@ const PROPS: readonly PropRow[] = [
       "Renders Portal, Backdrop, and Popup. Defaults initialFocus/finalFocus to false for preview-like surfaces.",
   },
   {
-    name: "LightboxHeader / LightboxActions / LightboxStage / LightboxMedia",
+    name: "LightboxHeader / LightboxActions / LightboxStage / LightboxMedia / LightboxNavigationButton / LightboxInfoBar",
     type: "div props",
     description:
-      "Layout slots for the title bar, action cluster, remaining preview stage, and media element.",
+      "Layout slots for the title bar, action cluster, preview stage, media element, image navigation, and compact filename/action rail.",
   },
   {
     name: "LightboxTitle",
@@ -372,16 +382,22 @@ function LightboxDoc() {
                 </div>
               </LightboxHeader>
               <LightboxStage data-testid="image-lightbox-stage">
-                <LightboxArrowButton
+                <LightboxNavigationButton
                   direction="previous"
                   disabled={isFirstImage}
-                  onPress={handlePreviousImageClick}
-                />
-                <LightboxArrowButton
+                  aria-label="Previous image"
+                  onClick={handlePreviousImageClick}
+                >
+                  <ChevronLeft />
+                </LightboxNavigationButton>
+                <LightboxNavigationButton
                   direction="next"
                   disabled={isLastImage}
-                  onPress={handleNextImageClick}
-                />
+                  aria-label="Next image"
+                  onClick={handleNextImageClick}
+                >
+                  <ChevronRight />
+                </LightboxNavigationButton>
                 <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center border-0 bg-transparent shadow-none">
                   <img
                     src={currentImage.src}
@@ -391,18 +407,14 @@ function LightboxDoc() {
                   />
                 </LightboxMedia>
                 <div className="pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center">
-                  <div className="pointer-events-auto flex w-[clamp(10.5rem,25vw,18rem)] max-w-[calc(100vw-3rem)] min-w-[10.5rem] items-center gap-3 rounded-md bg-white px-3 py-2 text-black shadow-[0_12px_32px_-18px_oklch(0_0_0_/_0.55)] [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:shadow-[var(--shadow)]">
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate font-heading text-sm font-bold [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium">
-                        {currentImage.filename}
-                      </div>
-                    </div>
-                    <LightboxActions className="shrink-0">
+                  <LightboxInfoBar>
+                    <LightboxInfoTitle>{currentImage.filename}</LightboxInfoTitle>
+                    <LightboxInfoActions>
                       <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
                         <Download />
                       </Button>
-                    </LightboxActions>
-                  </div>
+                    </LightboxInfoActions>
+                  </LightboxInfoBar>
                 </div>
                 <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
                   {DEMO_IMAGES.map((image, index) => {
@@ -484,37 +496,6 @@ function LightboxDoc() {
         />
       </DocSection>
     </DocPage>
-  );
-}
-
-type LightboxArrowButtonProps = {
-  direction: "next" | "previous";
-  disabled: boolean;
-  onPress: (event: MouseEvent<HTMLButtonElement>) => void;
-};
-
-function LightboxArrowButton({ direction, disabled, onPress }: LightboxArrowButtonProps) {
-  const Icon = direction === "previous" ? ChevronLeft : ChevronRight;
-
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      size="icon-lg"
-      aria-disabled={disabled}
-      data-disabled={disabled ? "true" : undefined}
-      className={cn(
-        "pointer-events-auto absolute z-10",
-        direction === "previous" ? "left-8" : "right-8",
-        disabled
-          ? "text-black/35 [[data-theme=elegant]_&]:text-foreground-disabled"
-          : "text-black [[data-theme=elegant]_&]:text-foreground-muted [[data-theme=elegant]_&]:hover:text-foreground-strong",
-      )}
-      aria-label={direction === "previous" ? "Previous image" : "Next image"}
-      onClick={onPress}
-    >
-      <Icon className="size-5" />
-    </Button>
   );
 }
 
@@ -676,22 +657,20 @@ function CurrentImageLightboxChrome() {
 
 function CurrentImageInfoRail() {
   return (
-    <div className="absolute right-3 bottom-3 left-3 z-10 mx-auto flex w-[clamp(7rem,45%,10rem)] max-w-[calc(100%-1.5rem)] min-w-[7rem] items-center gap-2 rounded bg-white px-2 py-1.5 text-black shadow-[0_10px_24px_-16px_oklch(0_0_0_/_0.55)] [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:shadow-[var(--shadow)]">
-      <div className="min-w-0 flex-1">
-        <div className="truncate font-heading text-[11px] font-bold [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium">
-          release-card-final-approved-for-directory-cover.png
-        </div>
-      </div>
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon-xs"
-        aria-label="Download"
-        className="shrink-0"
-      >
-        <Download />
-      </Button>
-    </div>
+    <LightboxInfoBar className="absolute right-3 bottom-3 left-3 z-10 mx-auto">
+      <LightboxInfoTitle>release-card-final-approved-for-directory-cover.png</LightboxInfoTitle>
+      <LightboxInfoActions>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-xs"
+          aria-label="Download"
+          className="shrink-0"
+        >
+          <Download />
+        </Button>
+      </LightboxInfoActions>
+    </LightboxInfoBar>
   );
 }
 
