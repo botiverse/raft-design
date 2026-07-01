@@ -69,11 +69,7 @@ function InviteHumanDialogParts() {
             Anyone with this link can join this server.
           </FieldDescription>
         </Field>
-        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 py-3">
-          <Separator />
-          <span className="font-mono text-xs font-medium text-foreground-muted">OR</span>
-          <Separator />
-        </div>
+        <Separator>OR</Separator>
         <Field>
           <FieldLabel htmlFor="dialog-invite-email-1">Emails</FieldLabel>
           <div className="grid gap-2">

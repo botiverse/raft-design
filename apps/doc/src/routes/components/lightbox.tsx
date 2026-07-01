@@ -483,7 +483,7 @@ function LightboxDoc() {
             },
             {
               label: "Attachment preview shell",
-              status: "difference",
+              status: "todo",
               note: "Source passed positioning, scroll locking, and backdrop classes directly to the primitive for attachment previews. Current keeps those concerns at the composition boundary instead of expanding the public root API.",
               source: <SourceAttachmentPreview />,
               brutal: <CurrentAttachmentPreview />,

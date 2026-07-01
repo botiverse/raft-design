@@ -6,7 +6,7 @@ import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 export function SeparatorVerticalContent() {
   return (
-    <div className="flex h-14 items-center gap-4">
+    <div className="flex h-14 items-center gap-4 [[data-theme=elegant]_&]:text-foreground-muted">
       <Text.Sans size="small">Filters</Text.Sans>
       <Separator orientation="vertical" />
       <Text.Sans size="small">Sort</Text.Sans>

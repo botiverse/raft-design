@@ -6,7 +6,7 @@ import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 
 export function SeparatorHorizontalContent() {
   return (
-    <div className="grid w-56 gap-3">
+    <div className="grid w-56 gap-3 [[data-theme=elegant]_&]:text-foreground-muted">
       <Text.Sans size="small">Channel settings</Text.Sans>
       <Separator />
       <Text.Sans size="small">Visibility actions</Text.Sans>

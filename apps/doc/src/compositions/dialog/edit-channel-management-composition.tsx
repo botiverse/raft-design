@@ -40,11 +40,7 @@ function EditChannelManagementDialogParts() {
           />
         </Field>
         <div className="grid gap-3 pb-3">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 py-3">
-            <Separator />
-            <span className="font-mono text-xs font-medium text-foreground-muted">Actions</span>
-            <Separator />
-          </div>
+          <Separator>Actions</Separator>
           <Button variant="warning" className="w-full">
             <Lock />
             Make Private

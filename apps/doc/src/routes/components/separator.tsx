@@ -59,11 +59,13 @@ const SNIPPETS = {
 <div className="grid gap-3">
   <span>Channel settings</span>
   <Separator />
+  <Separator>Actions</Separator>
   <span>Visibility actions</span>
 </div>`,
   anatomy: `import { Separator } from "raft-ui";
 
-<Separator />`,
+<Separator />
+<Separator>Actions</Separator>`,
   orientation: `import { Separator } from "raft-ui";
 
 <Separator />
@@ -76,6 +78,12 @@ const PROPS: readonly PropRow[] = [
     type: '"horizontal" | "vertical"',
     default: '"horizontal"',
     description: "Separator direction. Vertical separators stretch to the parent height.",
+  },
+  {
+    name: "children",
+    type: "ReactNode",
+    description:
+      "Optional centered content for horizontal separators, such as text, icons, or compact metadata.",
   },
   {
     name: "className",
@@ -141,6 +149,7 @@ function SeparatorDoc() {
           <div className="grid w-64 gap-3">
             <Text.Sans size="small">Channel settings</Text.Sans>
             <Separator />
+            <Separator>Actions</Separator>
             <Text.Sans size="small">Visibility actions</Text.Sans>
           </div>
         </Example>
@@ -166,6 +175,7 @@ function SeparatorDoc() {
               <div className="grid w-64 gap-3">
                 <Text.Sans size="small">Channel settings</Text.Sans>
                 <Separator />
+                <Separator>Actions</Separator>
                 <Text.Sans size="small">Visibility actions</Text.Sans>
               </div>
               <div className="flex h-14 items-center gap-4">
