@@ -27,8 +27,8 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import toastCompositionSource from "#/compositions/toast-source-comparison.tsx?raw";
 import {
+  ImageActionErrorComposition,
   SourceImageActionErrorPreview,
   SourceSelectionToastPreview,
   TOAST_COMPOSITION_PATH,
@@ -94,6 +94,14 @@ const ANATOMY_VARIANTS = [
     hasAction: true,
     hasClose: true,
     actionLoading: true,
+  },
+  {
+    id: "variant-icon-title",
+    title: "Icon + title",
+    description: undefined,
+    icon: true,
+    hasAction: false,
+    hasClose: false,
   },
   {
     id: "variant-minimal",
@@ -260,6 +268,14 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
+  variantIconTitle: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+    </ToastBody>
+  </ToastContent>
+</ToastRoot>`,
   variantMinimal: `<ToastRoot toast={toast} layout="anchored">
   <ToastContent>
     <ToastBody>
@@ -340,6 +356,111 @@ function MessageActions() {
 >
   Image action failed: {picError} — click to dismiss.
 </div>`,
+  imageActionErrorComposition: `function ImageActionErrorComposition({ message = "Clipboard write blocked" }) {
+  const theme = useThemeFamily();
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
+  return (
+    <div ref={setPortalContainer} className="relative h-36 w-full overflow-hidden">
+      <ToastPreviewScene />
+      <ToastProvider key={theme} timeout={0} limit={1}>
+        <SeedImageActionErrorToast message={message} />
+        {portalContainer ? (
+          <ToastPortal container={portalContainer}>
+            <ToastViewport strategy="absolute" placement="bottom-center">
+              <ImageActionErrorToastList />
+            </ToastViewport>
+          </ToastPortal>
+        ) : null}
+      </ToastProvider>
+    </div>
+  );
+}
+
+function SeedImageActionErrorToast({ message }: { message: string }) {
+  const seededRef = useRef(false);
+  const toastManager = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
+
+  useEffect(() => {
+    if (seededRef.current) return;
+    seededRef.current = true;
+
+    toastManager.add({
+      id: "image-action-failed",
+      type: "error",
+      title: "Image action failed",
+      description: message,
+      priority: "high",
+      data: { icon: "alert", hasClose: true },
+    });
+  }, [message, toastManager]);
+
+  return null;
+}
+
+function ImageActionErrorToastList() {
+  const toastManager = useToastManager<{ icon?: "alert"; hasClose?: boolean }>();
+
+  return toastManager.toasts.map((toast) => (
+    <ToastRoot key={toast.id} toast={toast} layout="anchored">
+      <ToastContent>
+        <ToastIcon />
+        <ToastBody>
+          <ToastTitle />
+          <ToastDescription />
+        </ToastBody>
+        <ToastActions>
+          <ToastClose />
+        </ToastActions>
+      </ToastContent>
+    </ToastRoot>
+  ));
+}`,
+  selectionToastComposition: `function SelectionFeedbackToastComposition() {
+  return (
+    <ToastProvider timeout={0} limit={3}>
+      <SeedSelectionToast />
+      <ToastPortal>
+        <ToastViewport placement="bottom-center">
+          <SelectionToastList />
+        </ToastViewport>
+      </ToastPortal>
+    </ToastProvider>
+  );
+}
+
+function SeedSelectionToast() {
+  const seededRef = useRef(false);
+  const toastManager = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
+
+  useEffect(() => {
+    if (seededRef.current) return;
+    seededRef.current = true;
+
+    toastManager.add({
+      id: "copy-links",
+      type: "info",
+      title: "3 links copied.",
+      data: { hasIcon: false, hasClose: false },
+    });
+  }, [toastManager]);
+
+  return null;
+}
+
+function SelectionToastList() {
+  const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
+
+  return toasts.map((toast) => (
+    <ToastRoot key={toast.id} toast={toast} layout="anchored">
+      <ToastContent>
+        <ToastBody>
+          <ToastTitle />
+        </ToastBody>
+      </ToastContent>
+    </ToastRoot>
+  ));
+}`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -415,7 +536,6 @@ export const Route = createFileRoute("/components/toast")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        toastComposition: toastCompositionSource,
       },
     }),
 });
@@ -501,9 +621,19 @@ function ToastDoc() {
               </Example>
             </div>
             <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">Icon + title</h3>
+              <Example
+                html={code.variantIconTitle}
+                previewClassName="min-h-32"
+                previewInset="flush"
+              >
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
               <h3 className="text-sm font-medium text-foreground-strong">Minimal</h3>
               <Example html={code.variantMinimal} previewClassName="min-h-32" previewInset="flush">
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
               </Example>
             </div>
           </div>
@@ -541,28 +671,28 @@ function ToastDoc() {
               source: <SourceSelectionToastPreview message="3 links copied." />,
               sourceCode: code.sourceToast,
               brutal: <ToastComposition seed="copy" />,
-              elegant: <ToastComposition seed="forward" />,
-              elegantDark: <ToastComposition seed="clipboard-error" />,
-              compositionCode: code.toastComposition,
-              compositionCollapsedCode: code.toastCompositionBody,
+              elegant: <ToastComposition seed="copy" />,
+              elegantDark: <ToastComposition seed="copy" />,
+              compositionCode: code.selectionToastComposition,
+              compositionCollapsedCode: code.selectionToastCompositionBody,
               compositionPath: TOAST_COMPOSITION_PATH,
-              compositionSource: toastCompositionSource,
+              compositionSource: SNIPPETS.selectionToastComposition,
               compositionShowLineNumbers: false,
               previewClassName: "min-h-72",
             },
             {
               id: "source-comparison-image-action-error",
               label: "Image action error",
-              status: "match",
-              note: "Source uses a separate fixed alert for image/share failures: orange surface, higher bottom offset, smaller text, smaller brutal shadow, and click-to-dismiss behavior.",
+              status: "review",
+              note: "Source is a hand-rolled fixed alert. The composition keeps the image failure feedback in shared Toast primitives with status icon and visible dismiss.",
               sourceScenes: IMAGE_ACTION_ERROR_SCENES,
               source: <SourceImageActionErrorPreview />,
               sourceCode: code.sourceErrorToast,
-              brutal: <ToastComposition seed="image-error" />,
-              compositionCode: code.toastComposition,
-              compositionCollapsedCode: code.toastCompositionBody,
+              current: <ImageActionErrorComposition />,
+              compositionCode: code.imageActionErrorComposition,
+              compositionCollapsedCode: code.imageActionErrorCompositionBody,
               compositionPath: TOAST_COMPOSITION_PATH,
-              compositionSource: toastCompositionSource,
+              compositionSource: SNIPPETS.imageActionErrorComposition,
               compositionShowLineNumbers: false,
               previewClassName: "min-h-72",
             },

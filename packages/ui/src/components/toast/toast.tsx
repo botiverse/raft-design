@@ -69,7 +69,11 @@ const toast = tv({
           "border-2 border-black bg-soft-signal text-black shadow-[var(--shadow-brutal)]",
           "focus-visible:outline-transparent",
         ],
-        content: ["min-h-0 min-w-0 grid-cols-1 px-3 py-2 font-sans", "gap-y-1.5"],
+        content: [
+          "min-h-0 min-w-0 grid-cols-1 px-3 py-2 font-sans",
+          "gap-y-1.5",
+          "[&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
+        ],
         icon: ["border border-line-strong bg-brutal-yellow text-black"],
         title: ["font-bold text-black"],
         description: ["font-semibold text-black/75"],
@@ -92,9 +96,13 @@ const toast = tv({
         ],
         content: [
           "min-h-14 gap-x-3.5 py-3 pl-3.5 font-sans",
-          "[&:has([data-slot=toast-icon])]:min-w-[18rem] [&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
+          "[&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
           "[&:has([data-slot=toast-actions])]:min-w-[18rem]",
           "[&:has([data-slot=toast-description])]:min-w-[18rem] [&:has([data-slot=toast-close])]:pr-3",
+          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-0",
+          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-10",
+          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-2",
+          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pr-3.5",
           "[&:has([data-slot=toast-actions])]:grid-cols-[minmax(0,1fr)]",
           "[&:has([data-slot=toast-actions])]:gap-y-2",
           "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)]",
@@ -153,7 +161,7 @@ const toast = tv({
       },
       anchored: {
         root: [
-          "relative w-max max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))]",
+          "relative mx-auto w-max max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))]",
           "origin-[var(--transform-origin)]",
           "data-[starting-style]:[transform:scale(0.97)]",
           "data-[ending-style]:[transform:scale(0.99)]",

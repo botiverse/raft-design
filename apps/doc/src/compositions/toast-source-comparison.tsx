@@ -23,6 +23,8 @@ export const TOAST_COMPOSITION_PATH =
 
 type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
+  hasIcon?: boolean;
+  hasClose?: boolean;
 };
 
 const ICONS = {
@@ -65,12 +67,79 @@ export function SourceImageActionErrorPreview({
   );
 }
 
+export function ImageActionErrorComposition({
+  message = "Clipboard write blocked",
+}: {
+  message?: string;
+}) {
+  const theme = useThemeFamily();
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
+  return (
+    <div ref={setPortalContainer} className="relative h-36 w-full overflow-hidden">
+      <ToastPreviewScene />
+      <ToastProvider key={theme} timeout={0} limit={1}>
+        <SeedImageActionErrorToast message={message} />
+        {portalContainer ? (
+          <ToastPortal container={portalContainer}>
+            <ToastViewport strategy="absolute" placement="bottom-center">
+              <ImageActionErrorToastList />
+            </ToastViewport>
+          </ToastPortal>
+        ) : null}
+      </ToastProvider>
+    </div>
+  );
+}
+
+function SeedImageActionErrorToast({ message }: { message: string }) {
+  const seededRef = useRef(false);
+  const toastManager = useToastManager<ToastDemoData>();
+
+  useEffect(() => {
+    if (seededRef.current) return;
+    seededRef.current = true;
+
+    toastManager.add({
+      id: "image-action-failed",
+      type: "error",
+      title: "Image action failed",
+      description: message,
+      priority: "high",
+      data: { icon: "alert", hasClose: true },
+    });
+  }, [message, toastManager]);
+
+  return null;
+}
+
+function ImageActionErrorToastList() {
+  const toastManager = useToastManager<ToastDemoData>();
+
+  return toastManager.toasts.map((toast) => (
+    <ToastRoot key={toast.id} toast={toast} layout="anchored">
+      <ToastContent>
+        <ToastIcon>
+          <ToastIconGlyph toast={toast} />
+        </ToastIcon>
+        <ToastBody>
+          <ToastTitle />
+          <ToastDescription />
+        </ToastBody>
+        <ToastActions>
+          <ToastClose />
+        </ToastActions>
+      </ToastContent>
+    </ToastRoot>
+  ));
+}
+
 export function ToastComposition({
   seed = "copy",
   controls = false,
   className,
 }: {
-  seed?: "copy" | "forward" | "clipboard-error" | "image-error";
+  seed?: "copy" | "forward" | "clipboard-error";
   controls?: boolean;
   className?: string;
 }) {
@@ -125,7 +194,7 @@ export function ToastPreviewScene() {
   );
 }
 
-function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" | "image-error" }) {
+function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" }) {
   const seededRef = useRef(false);
   const toastManager = useToastManager<ToastDemoData>();
 
@@ -138,12 +207,7 @@ function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" | "i
         id: "copy-links",
         type: "info",
         title: "3 links copied.",
-        description: "3 message links are ready to paste.",
-        data: { icon: "copy" },
-        actionProps: {
-          children: "Copy again",
-          onClick: () => toastManager.close("copy-links"),
-        },
+        data: { hasIcon: false, hasClose: false },
       });
       return;
     }
@@ -164,22 +228,15 @@ function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" | "i
     }
 
     toastManager.add({
-      id: seed === "image-error" ? "image-action-failed" : "blocked",
+      id: "blocked",
       type: "error",
-      title:
-        seed === "image-error"
-          ? "Image action failed: Clipboard write blocked."
-          : "Clipboard write blocked.",
-      description:
-        seed === "image-error"
-          ? "Click to dismiss."
-          : "Grant clipboard access or copy the links manually.",
+      title: "Clipboard write blocked.",
+      description: "Grant clipboard access or copy the links manually.",
       priority: "high",
       data: { icon: "alert" },
       actionProps: {
         children: "Retry",
-        onClick: () =>
-          toastManager.close(seed === "image-error" ? "image-action-failed" : "blocked"),
+        onClick: () => toastManager.close("blocked"),
       },
     });
   }, [seed, toastManager]);
@@ -262,38 +319,50 @@ function ToastList() {
 
 function DemoToast({ toast }: { toast: ToastObject<ToastDemoData> }) {
   const theme = useThemeFamily();
+  const showDescription = Boolean(toast.description);
+  const showAction = Boolean(toast.actionProps?.children);
+  const showIcon = toast.data?.hasIcon !== false;
+  const showClose = toast.data?.hasClose !== false;
+  const layout =
+    !showIcon && !showDescription && !showAction && !showClose ? "anchored" : "stacked";
 
   if (theme === "brutal") {
     return (
-      <ToastRoot toast={toast}>
+      <ToastRoot toast={toast} layout={layout}>
         <ToastContent>
           <ToastBody>
             <ToastTitle />
-            <ToastDescription />
+            {showDescription ? <ToastDescription /> : null}
           </ToastBody>
-          <ToastActions>
-            <ToastAction />
-            <ToastClose />
-          </ToastActions>
+          {showAction || showClose ? (
+            <ToastActions>
+              {showClose ? <ToastClose /> : null}
+              {showAction ? <ToastAction /> : null}
+            </ToastActions>
+          ) : null}
         </ToastContent>
       </ToastRoot>
     );
   }
 
   return (
-    <ToastRoot toast={toast}>
+    <ToastRoot toast={toast} layout={layout}>
       <ToastContent>
-        <ToastIcon>
-          <ToastIconGlyph toast={toast} />
-        </ToastIcon>
+        {showIcon ? (
+          <ToastIcon>
+            <ToastIconGlyph toast={toast} />
+          </ToastIcon>
+        ) : null}
         <ToastBody>
           <ToastTitle />
-          <ToastDescription />
+          {showDescription ? <ToastDescription /> : null}
         </ToastBody>
-        <ToastActions>
-          <ToastAction />
-          <ToastClose />
-        </ToastActions>
+        {showAction || showClose ? (
+          <ToastActions>
+            {showClose ? <ToastClose /> : null}
+            {showAction ? <ToastAction /> : null}
+          </ToastActions>
+        ) : null}
       </ToastContent>
     </ToastRoot>
   );
