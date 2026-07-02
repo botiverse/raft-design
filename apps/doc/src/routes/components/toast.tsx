@@ -87,6 +87,15 @@ const ANATOMY_VARIANTS = [
     hasClose: false,
   },
   {
+    id: "variant-loading-action",
+    title: "Loading action",
+    description: "Keeps the action width stable while the retry is pending.",
+    icon: true,
+    hasAction: true,
+    hasClose: true,
+    actionLoading: true,
+  },
+  {
     id: "variant-minimal",
     title: "Minimal",
     description: undefined,
@@ -100,6 +109,7 @@ type AnatomyVariantData = {
   icon: boolean;
   hasAction: boolean;
   hasClose: boolean;
+  actionLoading?: boolean;
 };
 
 const SELECTION_TOAST_SCENES = [
@@ -167,8 +177,8 @@ const SNIPPETS = {
               <ToastDescription />
             </ToastBody>
             <ToastActions>
-              <ToastAction />
               <ToastClose />
+              <ToastAction />
             </ToastActions>
           </ToastContent>
         </ToastRoot>
@@ -184,8 +194,8 @@ const SNIPPETS = {
       <ToastDescription />
     </ToastBody>
     <ToastActions>
-      <ToastAction />
       <ToastClose />
+      <ToastAction />
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
@@ -196,8 +206,8 @@ const SNIPPETS = {
       <ToastDescription />
     </ToastBody>
     <ToastActions>
-      <ToastAction />
       <ToastClose />
+      <ToastAction />
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
@@ -208,8 +218,8 @@ const SNIPPETS = {
       <ToastTitle />
     </ToastBody>
     <ToastActions>
-      <ToastAction />
       <ToastClose />
+      <ToastAction />
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
@@ -234,6 +244,19 @@ const SNIPPETS = {
     </ToastBody>
     <ToastActions>
       <ToastAction />
+    </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantLoadingAction: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+      <ToastDescription />
+    </ToastBody>
+    <ToastActions>
+      <ToastClose />
+      <ToastAction loading loadingLabel="Retrying" />
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
@@ -360,13 +383,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ToastContent",
     type: "Base UI Toast.Content.Props",
-    description: "Grid shell for icon, title/description, right-side action, and pinned dismiss.",
+    description: "Grid shell for icon, title/description, and a right-aligned action row.",
   },
   {
     name: "ToastActions",
     type: "React.HTMLAttributes<HTMLDivElement>",
     description:
-      "Right-side action container. Place ToastAction and ToastClose here; ToastClose pins itself to the upper-right corner.",
+      "Action row container. Place ToastClose before ToastAction so dismiss appears before the primary action.",
   },
   {
     name: "ToastTitle / ToastDescription",
@@ -375,13 +398,14 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ToastAction",
-    type: "Base UI Toast.Action.Props",
-    description: "Renders only when actionProps.children exists on the toast object.",
+    type: "Base UI Toast.Action.Props & { loading?, loadingLabel? }",
+    description:
+      "Renders only when actionProps.children exists on the toast object. Set loading to keep the action disabled with a spinner while work is pending.",
   },
   {
     name: "ToastClose",
     type: "Base UI Toast.Close.Props",
-    description: "Dismiss button with a default icon and accessible label.",
+    description: "Dismiss button. Renders a default text label unless children are provided.",
   },
 ];
 
@@ -407,7 +431,7 @@ function ToastDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
-        <Example html={code.preview} previewClassName="min-h-84 !items-stretch !gap-0 !p-0">
+        <Example html={code.preview} previewClassName="min-h-84" previewInset="flush">
           <ToastComposition controls className="h-full min-h-84 w-full" />
         </Example>
       </DocSection>
@@ -430,38 +454,56 @@ function ToastDoc() {
           <div className="space-y-5">
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-foreground-strong">Full</h3>
-              <Example html={code.variantFull} previewClassName="min-h-32">
+              <Example html={code.variantFull} previewClassName="min-h-32" previewInset="flush">
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[0]} />
               </Example>
             </div>
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-foreground-strong">No icon</h3>
-              <Example html={code.variantNoIcon} previewClassName="min-h-32">
+              <Example html={code.variantNoIcon} previewClassName="min-h-32" previewInset="flush">
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[1]} />
               </Example>
             </div>
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-foreground-strong">No description</h3>
-              <Example html={code.variantNoDescription} previewClassName="min-h-32">
+              <Example
+                html={code.variantNoDescription}
+                previewClassName="min-h-32"
+                previewInset="flush"
+              >
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[2]} />
               </Example>
             </div>
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-foreground-strong">No action</h3>
-              <Example html={code.variantNoAction} previewClassName="min-h-32">
+              <Example html={code.variantNoAction} previewClassName="min-h-32" previewInset="flush">
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[3]} />
               </Example>
             </div>
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-foreground-strong">No dismiss</h3>
-              <Example html={code.variantNoDismiss} previewClassName="min-h-32">
+              <Example
+                html={code.variantNoDismiss}
+                previewClassName="min-h-32"
+                previewInset="flush"
+              >
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[4]} />
               </Example>
             </div>
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">Minimal</h3>
-              <Example html={code.variantMinimal} previewClassName="min-h-32">
+              <h3 className="text-sm font-medium text-foreground-strong">Loading action</h3>
+              <Example
+                html={code.variantLoadingAction}
+                previewClassName="min-h-32"
+                previewInset="flush"
+              >
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">Minimal</h3>
+              <Example html={code.variantMinimal} previewClassName="min-h-32" previewInset="flush">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
               </Example>
             </div>
           </div>
@@ -475,7 +517,7 @@ function ToastDoc() {
             or historical notifications in NotificationCenter; use Toast for immediate feedback that
             can disappear.
           </DocNote>
-          <Example html={code.usage} previewClassName="min-h-72">
+          <Example html={code.usage} previewClassName="min-h-72" previewInset="flush">
             <InlineUsageToast />
           </Example>
         </div>
@@ -536,7 +578,7 @@ function InlineUsageToast() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div ref={setPortalContainer} className="relative h-44 w-full overflow-hidden">
+    <div ref={setPortalContainer} className="relative min-h-72 w-full overflow-hidden">
       <ToastPreviewScene />
       <ToastProvider key={theme} timeout={3600} limit={3}>
         <div className="relative z-10">
@@ -617,8 +659,8 @@ function InlineUsageToastList() {
               <ToastDescription />
             </ToastBody>
             <ToastActions>
-              <ToastAction />
               <ToastClose />
+              <ToastAction />
             </ToastActions>
           </ToastContent>
         </ToastRoot>
@@ -639,8 +681,8 @@ function InlineUsageToastList() {
             <ToastDescription />
           </ToastBody>
           <ToastActions>
-            <ToastAction />
             <ToastClose />
+            <ToastAction />
           </ToastActions>
         </ToastContent>
       </ToastRoot>
@@ -652,20 +694,25 @@ function ToastAnatomyVariantPreview({ variant }: { variant: (typeof ANATOMY_VARI
   const theme = useThemeFamily();
 
   return (
-    <ToastProvider key={theme} timeout={0} limit={1}>
-      <ToastAnatomyVariantSeed variant={variant} />
-      <ToastAnatomyVariantItem />
-    </ToastProvider>
+    <div className="relative flex min-h-32 w-full items-center justify-center overflow-hidden">
+      <ToastPreviewScene />
+      <ToastProvider key={theme} timeout={0} limit={1}>
+        <ToastAnatomyVariantSeed variant={variant} />
+        <div className="relative z-10">
+          <ToastAnatomyVariantItem />
+        </div>
+      </ToastProvider>
+    </div>
   );
 }
 
 function ToastAnatomyVariantSeed({ variant }: { variant: (typeof ANATOMY_VARIANTS)[number] }) {
-  const seededRef = useRef(false);
+  const seededVariantRef = useRef<string | null>(null);
   const toastManager = useToastManager<AnatomyVariantData>();
 
   useEffect(() => {
-    if (seededRef.current) return;
-    seededRef.current = true;
+    if (seededVariantRef.current === variant.id) return;
+    seededVariantRef.current = variant.id;
 
     toastManager.add({
       id: variant.id,
@@ -673,7 +720,12 @@ function ToastAnatomyVariantSeed({ variant }: { variant: (typeof ANATOMY_VARIANT
       title: variant.title,
       description: variant.description,
       timeout: 0,
-      data: { icon: variant.icon, hasAction: variant.hasAction, hasClose: variant.hasClose },
+      data: {
+        icon: variant.icon,
+        hasAction: variant.hasAction,
+        hasClose: variant.hasClose,
+        actionLoading: "actionLoading" in variant ? variant.actionLoading : undefined,
+      },
       actionProps: variant.hasAction ? { children: "Retry" } : undefined,
     });
   }, [toastManager, variant]);
@@ -707,8 +759,10 @@ function ToastAnatomyVariantItem() {
         </ToastBody>
         {showAction || showClose ? (
           <ToastActions>
-            {showAction ? <ToastAction /> : null}
             {showClose ? <ToastClose /> : null}
+            {showAction ? (
+              <ToastAction loading={toast.data?.actionLoading} loadingLabel="Retrying" />
+            ) : null}
           </ToastActions>
         ) : null}
       </ToastContent>

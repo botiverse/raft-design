@@ -1,9 +1,17 @@
-import type { ComponentPropsWithRef } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  type ComponentPropsWithRef,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
-import { X } from "lucide-react";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { buttonVariants } from "../button/index";
+import { Spinner } from "../spinner/index";
+import { cn } from "../../lib/cn";
 
 const toast = tv({
   slots: {
@@ -29,15 +37,11 @@ const toast = tv({
     ],
     content: [
       "relative grid min-h-12 min-w-36 grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden px-3 py-3",
-      "[&:has([data-slot=toast-icon])]:min-w-[18rem] [&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
-      "[&:has([data-slot=toast-actions])]:min-w-[18rem] [&:has([data-slot=toast-actions])]:grid-cols-[minmax(0,1fr)_auto]",
-      "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)_auto]",
-      "[&:has([data-slot=toast-description])]:min-w-[18rem] [&:has([data-slot=toast-close])]:pr-10",
       "[&:has([data-slot=toast-description])_[data-slot=toast-body]]:self-start [&:has([data-slot=toast-description])_[data-slot=toast-icon]]:self-start",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!min-h-9",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!min-w-28",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!px-3",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!py-2",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-9",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-28",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:px-3",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-2",
       "[&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:justify-self-center [&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[behind]:opacity-0 data-[expanded]:opacity-100",
@@ -48,13 +52,6 @@ const toast = tv({
     title: ["m-0 truncate text-sm leading-5"],
     description: ["m-0 text-sm leading-5"],
     actions: ["flex items-center justify-end gap-1.5"],
-    action: [
-      "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs leading-none",
-      "outline outline-1 outline-offset-2 outline-transparent",
-      "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
-      "disabled:pointer-events-none disabled:opacity-40",
-      "focus-visible:outline-line-strong",
-    ],
     close: [
       "absolute top-1.5 right-1.5 inline-flex size-7 shrink-0 items-center justify-center",
       "outline outline-1 outline-offset-2 outline-transparent",
@@ -72,46 +69,47 @@ const toast = tv({
           "border-2 border-black bg-soft-signal text-black shadow-[var(--shadow-brutal)]",
           "focus-visible:outline-transparent",
         ],
-        content: ["min-h-0 px-3 py-2 font-sans"],
+        content: ["min-h-0 min-w-0 grid-cols-1 px-3 py-2 font-sans", "gap-y-1.5"],
         icon: ["border border-line-strong bg-brutal-yellow text-black"],
         title: ["font-bold text-black"],
         description: ["font-semibold text-black/75"],
-        actions: ["gap-1"],
-        action: [
-          "border-2 border-line-strong bg-black font-bold text-white shadow-xs",
-          "hover:bg-black/85 active:translate-x-px active:translate-y-px active:shadow-none",
+        actions: [
+          "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
         ],
         close: [
-          "top-1 right-1 size-6 border-2 border-line-strong bg-white p-0 text-black/70 shadow-xs",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-white px-2 text-xs font-bold text-black/70 shadow-xs",
           "hover:bg-brutal-yellow hover:text-black active:translate-x-px active:translate-y-px active:shadow-none",
-          "[&_svg]:size-3",
         ],
         arrow: ["border-l-2 border-t-2 border-line-strong bg-soft-signal"],
       },
       elegant: {
         root: [
-          "relative rounded-lg bg-[#252429]/50 text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
-          "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.62)]",
-          "only:bg-[#211f25]/62 data-[expanded]:bg-[#211f25]/62 data-[expanded]:shadow-[0_18px_42px_-16px_oklch(0_0_0_/_0.68)]",
-          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/60 after:mix-blend-overlay after:content-['']",
-          "dark:bg-[#1d1c21]/58 dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.78)] dark:only:bg-[#18171c]/66 dark:data-[expanded]:bg-[#18171c]/66",
+          "relative rounded-xl bg-[oklch(0.263_0.009_294.9_/_0.50)] text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
+          "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
+          "data-[expanded]:bg-[oklch(0.244_0.012_300.7_/_0.58)] data-[expanded]:shadow-[0_18px_42px_-16px_oklch(0_0_0_/_0.58)]",
+          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
+          "dark:bg-[oklch(0.230_0.010_294.8_/_0.50)] dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:bg-[oklch(0.208_0.010_294.7_/_0.58)]",
         ],
-        content: ["min-h-14 gap-x-3.5 py-3 pl-3.5 font-sans"],
+        content: [
+          "min-h-14 gap-x-3.5 py-3 pl-3.5 font-sans",
+          "[&:has([data-slot=toast-icon])]:min-w-[18rem] [&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
+          "[&:has([data-slot=toast-actions])]:min-w-[18rem]",
+          "[&:has([data-slot=toast-description])]:min-w-[18rem] [&:has([data-slot=toast-close])]:pr-3",
+          "[&:has([data-slot=toast-actions])]:grid-cols-[minmax(0,1fr)]",
+          "[&:has([data-slot=toast-actions])]:gap-y-2",
+          "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)]",
+        ],
         icon: ["text-white/85", "[&_svg]:size-5 [&_svg]:stroke-[1.5]"],
         title: ["font-medium text-[oklch(0.985_0.001_286)]"],
         description: ["text-white/62"],
-        action: [
-          "min-h-7 rounded-full bg-white/[0.09] px-3 font-medium text-white/74 ring-1 ring-inset ring-white/10",
-          "hover:bg-white/[0.14] hover:text-white active:scale-[0.985]",
-        ],
+        actions: ["col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end"],
         close: [
-          "size-auto rounded-sm border-0 bg-transparent p-1 text-white/45 shadow-none",
-          "hover:bg-transparent hover:text-white/82 active:scale-[0.96]",
-          "[&_svg]:size-4",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/52 shadow-none",
+          "hover:bg-white/[0.08] hover:text-white/82 active:scale-[0.985]",
         ],
         arrow: [
-          "border-l border-t border-white/20 bg-[#252429]/50 backdrop-blur-2xl group-data-[expanded]/toast:bg-[#211f25]/62",
-          "dark:bg-[#1d1c21]/58 dark:group-data-[expanded]/toast:bg-[#18171c]/66",
+          "border-l border-t border-white/20 bg-[oklch(0.263_0.009_294.9_/_0.50)] backdrop-blur-2xl group-data-[expanded]/toast:bg-[oklch(0.244_0.012_300.7_/_0.58)]",
+          "dark:bg-[oklch(0.230_0.010_294.8_/_0.50)] dark:group-data-[expanded]/toast:bg-[oklch(0.208_0.010_294.7_/_0.58)]",
         ],
       },
     },
@@ -204,6 +202,42 @@ const toast = tv({
       },
     },
   ],
+});
+
+const toastAction = tv({
+  extend: buttonVariants,
+  slots: {
+    root: [
+      "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs leading-none",
+      "font-sans shadow-none",
+      "outline outline-1 outline-offset-2 outline-transparent",
+      "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
+      "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
+      "focus-visible:outline-line-strong",
+      "[&_[data-icon]]:size-[1em] [&_svg:not([class*='size-'])]:size-3",
+    ],
+  },
+  variants: {
+    toastTheme: {
+      brutal: {
+        root: [
+          "order-2 border-2 border-line-strong bg-black font-bold text-white shadow-xs",
+          "hover:bg-black/85 active:translate-x-px active:translate-y-px active:shadow-none",
+        ],
+      },
+      elegant: {
+        root: [
+          "toast-gradient-border order-2 min-h-7 rounded-full bg-white/[0.06] px-3 font-medium text-white/74",
+          "[--toast-gradient-border-angle:to_bottom] [--toast-gradient-border-from:rgb(255_255_255_/_0.1)] [--toast-gradient-border-to:rgb(255_255_255_/_0)] [--toast-gradient-border-via:rgb(255_255_255_/_0.05)]",
+          "hover:bg-white/[0.1] hover:text-white hover:[--toast-gradient-border-from:rgb(255_255_255_/_0.42)] hover:[--toast-gradient-border-via:rgb(255_255_255_/_0.14)] active:scale-[0.985]",
+        ],
+      },
+    },
+  },
+  defaultVariants: {
+    variant: undefined,
+    size: undefined,
+  },
 });
 
 export const createToastManager = BaseToast.createToastManager;
@@ -348,13 +382,84 @@ export function ToastDescription({ className, ...props }: ToastDescriptionProps)
   );
 }
 
-export type ToastActionProps = StyledProps<BaseToast.Action.Props>;
+export type ToastActionProps = StyledProps<BaseToast.Action.Props> & {
+  loading?: boolean;
+  loadingLabel?: string;
+};
 
-export function ToastAction({ className, ...props }: ToastActionProps) {
+type ToastActionRenderFn = Exclude<BaseToast.Action.Props["render"], ReactElement | undefined>;
+type ToastActionRenderProps = Parameters<ToastActionRenderFn>[0];
+type ToastActionRenderState = Parameters<ToastActionRenderFn>[1];
+
+export function ToastAction({
+  className,
+  children,
+  disabled,
+  loading = false,
+  loadingLabel = "Loading",
+  render,
+  ...props
+}: ToastActionProps) {
   const theme = useThemeFamily();
-  const { action } = toast({ theme });
+  const { root, content, loadingIndicator } = toastAction({ toastTheme: theme });
 
-  return <BaseToast.Action data-slot="toast-action" className={action({ className })} {...props} />;
+  const renderActionContent = (actionChildren: ReactNode) => (
+    <>
+      {loading ? (
+        <span data-slot="toast-action-loading-indicator" className={loadingIndicator()}>
+          <Spinner aria-label={loadingLabel} />
+        </span>
+      ) : null}
+      <span
+        data-slot="toast-action-content"
+        data-loading={loading ? "true" : undefined}
+        className={content()}
+      >
+        {actionChildren}
+      </span>
+    </>
+  );
+
+  const renderAction = (renderProps: ToastActionRenderProps, state: ToastActionRenderState) => {
+    const actionChildren = renderActionContent(renderProps.children);
+    const nextRenderProps = {
+      ...renderProps,
+      children: actionChildren,
+    };
+
+    if (typeof render === "function") {
+      return render(nextRenderProps, state);
+    }
+
+    if (isValidElement(render)) {
+      const renderElement = render as ReactElement<{
+        className?: string;
+        children?: ReactNode;
+      }>;
+
+      return cloneElement(renderElement, {
+        ...nextRenderProps,
+        className: cn(renderProps.className, renderElement.props.className),
+        children: actionChildren,
+      });
+    }
+
+    return <button {...nextRenderProps} />;
+  };
+
+  return (
+    <BaseToast.Action
+      data-slot="toast-action"
+      data-loading={loading ? "true" : undefined}
+      className={root({ className })}
+      disabled={disabled || loading}
+      aria-disabled={loading || undefined}
+      render={renderAction}
+      {...props}
+    >
+      {children}
+    </BaseToast.Action>
+  );
 }
 
 export type ToastCloseProps = StyledProps<BaseToast.Close.Props>;
@@ -362,15 +467,16 @@ export type ToastCloseProps = StyledProps<BaseToast.Close.Props>;
 export function ToastClose({ className, children, ...props }: ToastCloseProps) {
   const theme = useThemeFamily();
   const { close } = toast({ theme });
+  const usesDefaultText = children == null;
 
   return (
     <BaseToast.Close
-      aria-label="Dismiss toast"
+      aria-label={usesDefaultText ? undefined : "Dismiss toast"}
       data-slot="toast-close"
       className={close({ className })}
       {...props}
     >
-      {children ?? <X aria-hidden />}
+      {children ?? "Dismiss"}
     </BaseToast.Close>
   );
 }

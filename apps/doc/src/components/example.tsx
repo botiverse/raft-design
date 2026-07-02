@@ -11,13 +11,21 @@ type ExampleProps = {
   collapsedHtml?: ReactNode | AnyRenderableServerComponent;
   children: ReactNode;
   previewClassName?: string;
+  previewInset?: "default" | "flush";
 };
 
 /** A rendered demo above its Shiki-highlighted source. */
-export function Example({ html, collapsedHtml, children, previewClassName }: ExampleProps) {
+export function Example({
+  html,
+  collapsedHtml,
+  children,
+  previewClassName,
+  previewInset,
+}: ExampleProps) {
   return (
     <ComponentDemoFrame
       previewClassName={previewClassName}
+      previewInset={previewInset}
       footer={
         <Collapsible.Root className="min-w-0">
           <div className="flex h-10 items-center justify-end px-6">

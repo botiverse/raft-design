@@ -6,6 +6,7 @@ type ComponentDemoFrameProps = {
   footer?: ReactNode;
   layout?: "stack" | "split";
   previewClassName?: string;
+  previewInset?: "default" | "flush";
   footerClassName?: string;
   footerInset?: "default" | "flush";
   footerTone?: "chrome" | "white";
@@ -16,10 +17,13 @@ export function ComponentDemoFrame({
   footer,
   layout = "stack",
   previewClassName = "",
+  previewInset = "default",
   footerClassName = "",
   footerInset = "default",
   footerTone = "chrome",
 }: ComponentDemoFrameProps) {
+  const previewInsetClass =
+    previewInset === "flush" ? "items-stretch gap-0 p-0" : "items-center gap-4 px-6 py-4";
   const footerInsetClass = footerInset === "flush" ? "p-0" : "px-8 py-8";
   const footerToneClass = footerTone === "white" ? "bg-white" : "bg-[oklch(0.986_0_0)]";
   const frameClass =
@@ -31,7 +35,7 @@ export function ComponentDemoFrame({
         <div className={`grid md:grid-cols-[minmax(0,1fr)_20rem] ${frameClass}`}>
           <PreviewThemeScope className="bg-background text-foreground">
             <div
-              className={`flex min-h-84 w-full flex-wrap items-center justify-center gap-4 px-6 py-4 ${previewClassName}`}
+              className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
             >
               {children}
             </div>
@@ -53,7 +57,7 @@ export function ComponentDemoFrame({
       <div className={frameClass}>
         <PreviewThemeScope className="bg-background text-foreground">
           <div
-            className={`flex min-h-84 w-full flex-wrap items-center justify-center gap-4 px-6 py-4 ${previewClassName}`}
+            className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
           >
             {children}
           </div>
