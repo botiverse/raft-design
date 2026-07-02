@@ -41,6 +41,7 @@ import { Route as ComponentsRadioGroupRouteImport } from './routes/components/ra
 import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
+import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
@@ -250,6 +251,11 @@ const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
 const ComponentsPreviewShellRoute = ComponentsPreviewShellRouteImport.update({
   id: '/preview-shell',
   path: '/preview-shell',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
+  id: '/preview-card',
+  path: '/preview-card',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
@@ -529,6 +535,7 @@ export interface FileRoutesByFullPath {
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
+  '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
@@ -609,6 +616,7 @@ export interface FileRoutesByTo {
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
+  '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
@@ -691,6 +699,7 @@ export interface FileRoutesById {
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
+  '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
@@ -774,6 +783,7 @@ export interface FileRouteTypes {
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
+    | '/components/preview-card'
     | '/components/preview-shell'
     | '/components/progress'
     | '/components/quoted-message-card'
@@ -854,6 +864,7 @@ export interface FileRouteTypes {
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
+    | '/components/preview-card'
     | '/components/preview-shell'
     | '/components/progress'
     | '/components/quoted-message-card'
@@ -935,6 +946,7 @@ export interface FileRouteTypes {
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
+    | '/components/preview-card'
     | '/components/preview-shell'
     | '/components/progress'
     | '/components/quoted-message-card'
@@ -1221,6 +1233,13 @@ declare module '@tanstack/react-router' {
       path: '/preview-shell'
       fullPath: '/components/preview-shell'
       preLoaderRoute: typeof ComponentsPreviewShellRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/preview-card': {
+      id: '/components/preview-card'
+      path: '/preview-card'
+      fullPath: '/components/preview-card'
+      preLoaderRoute: typeof ComponentsPreviewCardRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/popover': {
@@ -1584,6 +1603,7 @@ interface ComponentsRouteChildren {
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
+  ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
@@ -1648,6 +1668,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
+  ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,

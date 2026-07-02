@@ -478,7 +478,7 @@ function PopoverDoc() {
               id: "source-comparison-mention-card",
               label: "Mention card",
               status: "difference",
-              note: "Source trigger is the @mention anchor in MentionLink.tsx:15-33; useProfileHoverCard.tsx:49-83 opens the card on hover/focus. This comparison freezes the opened MentionHoverCard.tsx:35,99,102 state.",
+              note: "Source trigger is the @mention anchor in MentionLink.tsx:15-33; useProfileHoverCard.tsx:49-83 opens the card on hover/focus. This comparison freezes the opened MentionHoverCard.tsx:35,99,102 state because Popover only opens on click/press. See PreviewCard for the hover-native migration of this scene.",
               source: <SourceMentionCardPreview />,
               brutal: <PopoverMentionCardComposition />,
               elegant: <PopoverMentionCardComposition />,

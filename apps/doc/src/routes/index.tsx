@@ -87,6 +87,13 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
+  PreviewCard,
+  PreviewCardContent,
+  PreviewCardDescription,
+  PreviewCardHeader,
+  PreviewCardSeparator,
+  PreviewCardTitle,
+  PreviewCardTrigger,
   RadioGroup,
   RadioGroupItem,
   Separator,
@@ -181,6 +188,7 @@ type ComponentRoute =
   | "/components/empty-state"
   | "/components/notification-center"
   | "/components/popover"
+  | "/components/preview-card"
   | "/components/dialog"
   | "/components/alert-dialog";
 
@@ -342,6 +350,11 @@ const COMPONENT_GRID = [
     label: "Popover",
     to: "/components/popover",
     preview: <PopoverPreview />,
+  },
+  {
+    label: "PreviewCard",
+    to: "/components/preview-card",
+    preview: <PreviewCardPreview />,
   },
   {
     label: "Dialog",
@@ -1045,6 +1058,65 @@ function PopoverPreview() {
           </div>
         </PopoverContent>
       </Popover>
+    </div>
+  );
+}
+
+function PreviewCardPreview() {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const triggerId = useId();
+
+  return (
+    <div
+      ref={portalRef}
+      className="relative flex h-64 w-full max-w-[22rem] min-w-0 items-start justify-center px-1 pt-14"
+    >
+      <PreviewCard open triggerId={triggerId}>
+        <p className="m-0 max-w-full text-center text-sm leading-6 text-foreground">
+          Follow up with{" "}
+          <PreviewCardTrigger
+            id={triggerId}
+            render={
+              <a
+                href="/people/atlas"
+                className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
+              />
+            }
+          >
+            @Atlas
+          </PreviewCardTrigger>
+        </p>
+        <PreviewCardContent
+          align="center"
+          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          className="w-[17.5rem] max-w-[calc(100vw-2rem)]"
+        >
+          <PreviewCardHeader>
+            <Avatar size="md" type="agent">
+              <AvatarImage src={HOME_AVATAR_IMAGES[0]} alt="" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
+            <div className="min-w-0 flex-1">
+              <div className="flex min-w-0 items-center gap-1.5">
+                <PreviewCardTitle>Atlas</PreviewCardTitle>
+                <Status aria-hidden size="sm" variant="success" />
+                <span className="truncate font-mono text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+                  Online
+                </span>
+              </div>
+              <div className="truncate font-mono text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+                @atlas
+              </div>
+            </div>
+          </PreviewCardHeader>
+          <PreviewCardSeparator />
+          <PreviewCardDescription title="Reviewing the token migration in #design-system.">
+            Reviewing the token migration in #design-system.
+          </PreviewCardDescription>
+        </PreviewCardContent>
+      </PreviewCard>
     </div>
   );
 }

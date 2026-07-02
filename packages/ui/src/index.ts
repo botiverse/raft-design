@@ -190,6 +190,31 @@ export type {
   PopoverViewportProps,
 } from "./components/popover/index";
 
+export {
+  PreviewCard,
+  PreviewCardArrow,
+  PreviewCardContent,
+  PreviewCardDescription,
+  PreviewCardHeader,
+  PreviewCardPopup,
+  PreviewCardPortal,
+  PreviewCardSeparator,
+  PreviewCardTitle,
+  PreviewCardTrigger,
+} from "./components/preview-card/index";
+export type {
+  PreviewCardArrowProps,
+  PreviewCardContentProps,
+  PreviewCardDescriptionProps,
+  PreviewCardHeaderProps,
+  PreviewCardPopupProps,
+  PreviewCardPortalProps,
+  PreviewCardProps,
+  PreviewCardSeparatorProps,
+  PreviewCardTitleProps,
+  PreviewCardTriggerProps,
+} from "./components/preview-card/index";
+
 export { Label, LabelAsterisk, LabelOptional, LabelSub } from "./components/label/index";
 export type {
   LabelAsteriskProps,
