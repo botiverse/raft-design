@@ -62,7 +62,6 @@ const NAV = [
       { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
       { label: "Switch", to: "/components/switch", status: "done" },
       { label: "Textarea", to: "/components/textarea", status: "done" },
-      { label: "ToggleGroup", to: "/components/toggle-group", status: "todo" },
       {
         label: "NumberField",
         status: "later",
@@ -123,11 +122,11 @@ const NAV = [
     title: "Overlays",
     items: [
       { label: "AlertDialog", to: "/components/alert-dialog", status: "done" },
-      { label: "BottomSheet", to: "/components/bottom-sheet", status: "wip" },
+      { label: "BottomSheet", to: "/components/bottom-sheet", status: "done" },
       { label: "ContextMenu", to: "/components/context-menu", status: "done" },
       { label: "Dialog", to: "/components/dialog", status: "done" },
       { label: "DropdownMenu", to: "/components/dropdown-menu", status: "done" },
-      { label: "Lightbox", to: "/components/lightbox", status: "wip" },
+      { label: "Lightbox", to: "/components/lightbox", status: "done" },
       { label: "Popover", to: "/components/popover", status: "done" },
       { label: "PreviewCard", to: "/components/preview-card", status: "done" },
       { label: "Tooltip", to: "/components/tooltip", status: "done" },
@@ -147,12 +146,7 @@ const NAV = [
       { label: "NotificationCenter", to: "/components/notification-center", status: "done" },
       { label: "Progress", to: "/components/progress", status: "done" },
       { label: "Spinner", to: "/components/spinner", status: "done" },
-      {
-        label: "Toast",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/toast",
-        reason: "Transient feedback only; keep it separate from NotificationCenter history.",
-      },
+      { label: "Toast", to: "/components/toast", status: "wip" },
     ],
   },
   {

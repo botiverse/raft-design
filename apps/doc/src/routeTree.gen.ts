@@ -24,6 +24,7 @@ import { Route as PreviewsBottomSheetRouteImport } from './routes/previews/botto
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
+import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
@@ -163,6 +164,11 @@ const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
 const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
   id: '/toggle-group',
   path: '/toggle-group',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsToastRoute = ComponentsToastRouteImport.update({
+  id: '/toast',
+  path: '/toast',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
@@ -553,6 +559,7 @@ export interface FileRoutesByFullPath {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
@@ -634,6 +641,7 @@ export interface FileRoutesByTo {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
@@ -717,6 +725,7 @@ export interface FileRoutesById {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
@@ -801,6 +810,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/text'
     | '/components/textarea'
+    | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
@@ -882,6 +892,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/text'
     | '/components/textarea'
+    | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
@@ -964,6 +975,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/text'
     | '/components/textarea'
+    | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
@@ -1114,6 +1126,13 @@ declare module '@tanstack/react-router' {
       path: '/toggle-group'
       fullPath: '/components/toggle-group'
       preLoaderRoute: typeof ComponentsToggleGroupRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/toast': {
+      id: '/components/toast'
+      path: '/toast'
+      fullPath: '/components/toast'
+      preLoaderRoute: typeof ComponentsToastRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/textarea': {
@@ -1621,6 +1640,7 @@ interface ComponentsRouteChildren {
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
+  ComponentsToastRoute: typeof ComponentsToastRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
   ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
@@ -1686,6 +1706,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
+  ComponentsToastRoute: ComponentsToastRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,
   ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,

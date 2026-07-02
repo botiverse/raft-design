@@ -264,6 +264,7 @@
   --color-info-base: var(--state-info-base);
   --color-info-light: var(--state-info-light);
   --color-info-lighter: var(--state-info-lighter);
+  --color-soft-signal: var(--soft-signal);
 
   --color-success-dark: var(--state-success-dark);
   --color-success-base: var(--state-success-base);
@@ -285,6 +286,9 @@
   --shadow-md: var(--theme-shadow-md);
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
+  --shadow-brutal-sm: var(--theme-shadow-sm);
+  --shadow-brutal: var(--theme-shadow-md);
+  --shadow-brutal-lg: var(--theme-shadow-xl);
 
   --font-heading: var(--heading-font);
   --font-sans: var(--sans-font);
@@ -353,6 +357,7 @@
   --state-info-base: var(--color-brutal-cyan);
   --state-info-light: var(--color-brutal-cyan-200);
   --state-info-lighter: var(--color-brutal-cyan-100);
+  --soft-signal: var(--color-brutal-yellow);
 
   --state-success-dark: oklch(0.366 0.09 153.079);
   --state-success-base: oklch(0.714 0.176 153.079);
@@ -375,6 +380,11 @@
   --theme-shadow-md: 4px 4px 0px var(--line-strong);
   --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
+  --shadow-brutal-active: 1px 1px 0px #141111;
+  --shadow-brutal-hover: 2px 2px 0px #141111;
+  --shadow-brutal-sm: 2px 2px 0px #141111;
+  --shadow-brutal: 4px 4px 0px #141111;
+  --shadow-brutal-lg: 6px 6px 0px #141111;
 
   --heading-font: "Hanken Grotesk", system-ui, sans-serif;
   --sans-font: "Hanken Grotesk", system-ui, sans-serif;
