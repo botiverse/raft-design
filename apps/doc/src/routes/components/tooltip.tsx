@@ -343,7 +343,7 @@ const TOOLTIP_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "sideOffset / alignOffset",
     type: "number",
-    default: "6 / 0",
+    default: "8 elegant, 6 brutal / 0",
     description: "Offsets passed to Base UI Positioner.",
   },
   {

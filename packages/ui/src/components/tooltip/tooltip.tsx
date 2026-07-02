@@ -170,7 +170,7 @@ export function TooltipContent({
   disableAnchorTracking = false,
   positionMethod = "fixed",
   side = "top",
-  sideOffset = 6,
+  sideOffset,
   sticky,
   portalProps,
   variant,
@@ -180,6 +180,7 @@ export function TooltipContent({
 }: TooltipContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = tooltip({ theme, variant });
+  const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
 
   return (
     <BaseTooltip.Portal {...portalProps}>
@@ -194,7 +195,7 @@ export function TooltipContent({
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
-        sideOffset={sideOffset}
+        sideOffset={resolvedSideOffset}
         sticky={sticky}
         className={positioner()}
       >
