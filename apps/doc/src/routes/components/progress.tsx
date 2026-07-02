@@ -43,15 +43,7 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const VARIANTS = [
-  "default",
-  "primary",
-  "information",
-  "accent",
-  "success",
-  "warning",
-  "danger",
-] as const;
+const VARIANTS = ["primary", "information", "accent", "success", "warning", "danger"] as const;
 
 const SIZES = ["sm", "md", "lg"] as const;
 

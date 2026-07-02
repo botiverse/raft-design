@@ -70,12 +70,6 @@ const progress = tv({
       },
     },
     variant: {
-      default: {
-        root: [
-          "[--progress-color:var(--foreground-strong)]",
-          "[--progress-light:var(--layer-muted)]",
-        ],
-      },
       primary: {
         root: [
           "[--progress-color:var(--color-primary-400)]",
