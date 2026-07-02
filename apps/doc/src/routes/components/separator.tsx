@@ -34,20 +34,20 @@ const SOURCE_SCENES = [
     label: "Literal dividers",
     scenes: [
       {
-        label: "EditChannelDialog.tsx:208",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:208",
+        label: "EditChannelDialog.tsx:397",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/channel/EditChannelDialog.tsx:397",
       },
       {
         label: "ContextMenuDivider.tsx:11",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/ContextMenuDivider.tsx:11",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/ui/ContextMenuDivider.tsx:11",
       },
       {
-        label: "MarkdownContent.tsx:102",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/MarkdownContent.tsx:102",
+        label: "MarkdownContent.tsx:103",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/markdown/MarkdownContent.tsx:103",
       },
       {
-        label: "SettingsPanel.tsx:386,427",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:386,427",
+        label: "SettingsPanel.tsx:438,479",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/settings/SettingsPanel.tsx:438,479",
       },
     ],
   },

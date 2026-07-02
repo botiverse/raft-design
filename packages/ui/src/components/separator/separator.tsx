@@ -1,5 +1,5 @@
 import { Separator as BaseSeparator } from "@base-ui/react/separator";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -19,11 +19,11 @@ const separator = tv({
     theme: {
       brutal: {
         root: [
-          "data-[orientation=horizontal]:h-0 data-[orientation=horizontal]:border-t-2 data-[orientation=horizontal]:border-black",
-          "data-[orientation=vertical]:w-0 data-[orientation=vertical]:border-l-2 data-[orientation=vertical]:border-black",
+          "data-[orientation=horizontal]:h-0 data-[orientation=horizontal]:border-t-2 data-[orientation=horizontal]:border-line-strong",
+          "data-[orientation=vertical]:w-0 data-[orientation=vertical]:border-l-2 data-[orientation=vertical]:border-line-strong",
         ],
-        labeledLine: ["h-0 border-t-2 border-black"],
-        labeledContent: ["font-medium text-black/70"],
+        labeledLine: ["h-0 border-t-2 border-line-strong"],
+        labeledContent: ["font-medium text-foreground/70"],
       },
       elegant: {
         root: [
@@ -52,24 +52,19 @@ export function Separator({
   const { labeledContent, labeledLine, labeledRoot, root } = separator({ theme });
 
   if (children != null && orientation === "horizontal") {
-    const { render: _render, ...labeledProps } = props as Omit<
-      ComponentPropsWithoutRef<"div">,
-      "children" | "className"
-    > & { render?: unknown };
-
     return (
-      <div
+      <BaseSeparator
         data-slot="separator"
-        data-orientation={orientation}
+        orientation={orientation}
         className={labeledRoot({ className })}
-        {...labeledProps}
+        {...props}
       >
         <span aria-hidden="true" className={labeledLine()} />
         <span data-slot="separator-content" className={labeledContent()}>
           {children}
         </span>
         <span aria-hidden="true" className={labeledLine()} />
-      </div>
+      </BaseSeparator>
     );
   }
 
