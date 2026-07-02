@@ -184,15 +184,10 @@ const NAV = [
         to: "/components/notification-center",
         progress: { theme: "done" },
       },
+      { label: "Progress", to: "/components/progress", progress: { theme: "done" } },
       { label: "Spinner", to: "/components/spinner", progress: { theme: "done" } },
     ],
     planned: [
-      {
-        label: "Progress",
-        priority: "P1",
-        docsHref: "https://base-ui.com/react/components/progress",
-        reason: "Represent long-running task, upload, and generation progress.",
-      },
       {
         label: "Toast",
         priority: "P2",

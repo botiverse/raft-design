@@ -387,6 +387,23 @@ export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./component
 export { Status } from "./components/status/index";
 export type { StatusProps } from "./components/status/index";
 
+export {
+  Progress,
+  ProgressHeader,
+  ProgressIndicator,
+  ProgressLabel,
+  ProgressTrack,
+  ProgressValue,
+} from "./components/progress/index";
+export type {
+  ProgressHeaderProps,
+  ProgressIndicatorProps,
+  ProgressLabelProps,
+  ProgressProps,
+  ProgressTrackProps,
+  ProgressValueProps,
+} from "./components/progress/index";
+
 export { Spinner } from "./components/spinner/index";
 export type { SpinnerProps } from "./components/spinner/index";
 

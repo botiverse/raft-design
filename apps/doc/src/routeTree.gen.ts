@@ -39,6 +39,7 @@ import { Route as ComponentsSectionHeaderRouteImport } from './routes/components
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
+import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
@@ -241,6 +242,11 @@ const ComponentsQuotedMessageCardRoute =
     path: '/quoted-message-card',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsPreviewShellRoute = ComponentsPreviewShellRouteImport.update({
   id: '/preview-shell',
   path: '/preview-shell',
@@ -524,6 +530,7 @@ export interface FileRoutesByFullPath {
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
+  '/components/progress': typeof ComponentsProgressRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
@@ -603,6 +610,7 @@ export interface FileRoutesByTo {
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
+  '/components/progress': typeof ComponentsProgressRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
@@ -684,6 +692,7 @@ export interface FileRoutesById {
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-shell': typeof ComponentsPreviewShellRoute
+  '/components/progress': typeof ComponentsProgressRoute
   '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
@@ -766,6 +775,7 @@ export interface FileRouteTypes {
     | '/components/panel-header'
     | '/components/popover'
     | '/components/preview-shell'
+    | '/components/progress'
     | '/components/quoted-message-card'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
@@ -845,6 +855,7 @@ export interface FileRouteTypes {
     | '/components/panel-header'
     | '/components/popover'
     | '/components/preview-shell'
+    | '/components/progress'
     | '/components/quoted-message-card'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
@@ -925,6 +936,7 @@ export interface FileRouteTypes {
     | '/components/panel-header'
     | '/components/popover'
     | '/components/preview-shell'
+    | '/components/progress'
     | '/components/quoted-message-card'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
@@ -1195,6 +1207,13 @@ declare module '@tanstack/react-router' {
       path: '/quoted-message-card'
       fullPath: '/components/quoted-message-card'
       preLoaderRoute: typeof ComponentsQuotedMessageCardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/progress': {
+      id: '/components/progress'
+      path: '/progress'
+      fullPath: '/components/progress'
+      preLoaderRoute: typeof ComponentsProgressRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/preview-shell': {
@@ -1566,6 +1585,7 @@ interface ComponentsRouteChildren {
   ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
+  ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
@@ -1629,6 +1649,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
+  ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
