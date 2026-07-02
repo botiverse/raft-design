@@ -1053,27 +1053,32 @@ function AlertDialogPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
+    <div
+      ref={portalRef}
+      className="relative flex h-64 w-full max-w-[22rem] min-w-0 items-start justify-center px-1 pt-12"
+    >
       <AlertDialog open modal={false}>
         <AlertDialogContent
           overlay={false}
           initialFocus={false}
           finalFocus={false}
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="relative top-auto left-auto z-0 w-[264px] max-w-[264px] translate-x-0 translate-y-0"
+          className="relative top-auto left-auto z-0 w-full max-w-[22rem] translate-x-0 translate-y-0"
         >
           <AlertDialogHeader>
             <AlertDialogTitle>Delete task</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogBody className="grid gap-2">
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-            <p className="m-0 text-sm leading-5 text-foreground/60 [[data-theme=brutal]_&]:text-black/70">
+            <p className="m-0 text-sm leading-5 break-words text-foreground/60 [[data-theme=brutal]_&]:text-black/70">
               Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
               <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
             </p>
           </AlertDialogBody>
-          <AlertDialogFooter>
-            <AlertDialogCancel size="sm">Cancel</AlertDialogCancel>
+          <AlertDialogFooter className="grid grid-cols-2 gap-2">
+            <AlertDialogCancel size="sm" className="w-full">
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction variant="danger" size="sm">
               Delete
             </AlertDialogAction>
@@ -1088,14 +1093,17 @@ function DialogPreview() {
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-10">
+    <div
+      ref={portalRef}
+      className="relative flex h-64 w-full max-w-[22rem] min-w-0 items-start justify-center px-1 pt-10"
+    >
       <Dialog open modal={false}>
         <DialogContent
           overlay={false}
           initialFocus={false}
           finalFocus={false}
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="relative top-auto left-auto z-0 w-[264px] max-w-[264px] translate-x-0 translate-y-0"
+          className="relative top-auto left-auto z-0 w-full max-w-[22rem] translate-x-0 translate-y-0"
         >
           <DialogHeader>
             <DialogTitle>Edit channel</DialogTitle>
@@ -1108,9 +1116,11 @@ function DialogPreview() {
               <Input id="home-dialog-name" defaultValue="design-system" />
             </Field>
           </DialogBody>
-          <DialogFooter>
-            <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
-            <Button variant="primary" size="sm">
+          <DialogFooter className="grid grid-cols-2 gap-2">
+            <DialogClose render={<Button variant="outline" size="sm" className="w-full" />}>
+              Cancel
+            </DialogClose>
+            <Button variant="primary" size="sm" className="w-full">
               Save
             </Button>
           </DialogFooter>
@@ -1242,7 +1252,7 @@ function Home() {
         className="min-h-screen bg-background pb-28 text-foreground"
         style={{ colorScheme: themePreset.mode }}
       >
-        <div className="grid grid-cols-1 border-l border-line-subtle bg-background sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 border-l border-line-subtle bg-background md:grid-cols-2 xl:grid-cols-3">
           {COMPONENT_GRID.map((item) => (
             <article
               key={item.label}
