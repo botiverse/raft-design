@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Info, Send } from "lucide-react";
+import { Check, Copy, Info, Send, SendHorizontal } from "lucide-react";
 import { Button, useThemeFamily } from "raft-ui";
 import {
   ToastAction,
+  ToastActions,
   ToastBody,
   ToastClose,
   ToastContent,
@@ -82,6 +83,7 @@ const IMAGE_ACTION_ERROR_SCENES = [
 const SNIPPETS = {
   anatomy: `import {
   ToastAction,
+  ToastActions,
   ToastBody,
   ToastClose,
   ToastContent,
@@ -106,8 +108,10 @@ const SNIPPETS = {
               <ToastTitle />
               <ToastDescription />
             </ToastBody>
-            <ToastAction />
-            <ToastClose />
+            <ToastActions>
+              <ToastAction />
+              <ToastClose />
+            </ToastActions>
           </ToastContent>
         </ToastRoot>
       ))}
@@ -128,6 +132,7 @@ const SNIPPETS = {
           title: "Link copied.",
           description: "The message link is ready to paste.",
           data: { icon: "info" },
+          actionProps: { children: "Copy again" },
         })}
     >
       Copy link
@@ -229,7 +234,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ToastContent",
     type: "Base UI Toast.Content.Props",
-    description: "Grid shell for icon, title/description, action, and close slots.",
+    description: "Grid shell for icon, title/description, right-side action, and pinned dismiss.",
+  },
+  {
+    name: "ToastActions",
+    type: "React.HTMLAttributes<HTMLDivElement>",
+    description:
+      "Right-side action container. Place ToastAction and ToastClose here; ToastClose pins itself to the upper-right corner.",
   },
   {
     name: "ToastTitle / ToastDescription",
@@ -371,7 +382,7 @@ function InlineUsageToast() {
 }
 
 function InlineUsageControls() {
-  const toastManager = useToastManager<{ icon?: "info" | "send" }>();
+  const toastManager = useToastManager<{ icon?: "info" | "send" | "copy" }>();
 
   return (
     <div className="flex w-full items-start justify-center gap-2 pt-2">
@@ -384,7 +395,11 @@ function InlineUsageControls() {
             type: "info",
             title: "Link copied.",
             description: "The message link is ready to paste.",
-            data: { icon: "info" },
+            data: { icon: "copy" },
+            actionProps: {
+              children: "Copy again",
+              onClick: () => toastManager.close(),
+            },
           })
         }
       >
@@ -417,20 +432,28 @@ function InlineUsageControls() {
 
 function InlineUsageToastList() {
   const theme = useThemeFamily();
-  const { toasts } = useToastManager<{ icon?: "info" | "send" }>();
+  const { toasts } = useToastManager<{ icon?: "info" | "send" | "copy" }>();
 
   return toasts.map((toast) => {
     if (theme === "brutal") {
       return (
         <ToastRoot key={toast.id} toast={toast}>
           <ToastContent>
-            <ToastTitle />
+            <ToastBody>
+              <ToastTitle />
+              <ToastDescription />
+            </ToastBody>
+            <ToastActions>
+              <ToastAction />
+              <ToastClose />
+            </ToastActions>
           </ToastContent>
         </ToastRoot>
       );
     }
 
-    const Icon = toast.data?.icon === "send" ? Send : Info;
+    const Icon =
+      toast.data?.icon === "send" ? SendHorizontal : toast.data?.icon === "copy" ? Copy : Info;
 
     return (
       <ToastRoot key={toast.id} toast={toast}>
@@ -442,8 +465,10 @@ function InlineUsageToastList() {
             <ToastTitle />
             <ToastDescription />
           </ToastBody>
-          <ToastAction />
-          <ToastClose />
+          <ToastActions>
+            <ToastAction />
+            <ToastClose />
+          </ToastActions>
         </ToastContent>
       </ToastRoot>
     );

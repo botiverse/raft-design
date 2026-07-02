@@ -1,6 +1,7 @@
 export {
   createToastManager,
   ToastAction,
+  ToastActions,
   ToastArrow,
   ToastBody,
   ToastClose,
@@ -17,6 +18,7 @@ export {
 } from "./components/toast/index";
 export type {
   ToastActionProps,
+  ToastActionsProps,
   ToastArrowProps,
   ToastBodyProps,
   ToastCloseProps,

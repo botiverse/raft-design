@@ -28,18 +28,19 @@ const toast = tv({
       "motion-reduce:transition-none",
     ],
     content: [
-      "grid min-h-12 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-start gap-3 overflow-hidden px-3 py-3",
+      "relative grid min-h-12 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 overflow-hidden py-3 pr-10 pl-3",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[behind]:opacity-0 data-[expanded]:opacity-100",
       "motion-reduce:transition-none",
     ],
     icon: [
-      "mt-0.5 flex size-5 shrink-0 items-center justify-center",
+      "col-start-1 row-start-1 flex size-5 shrink-0 items-center justify-center",
       "[&_svg]:size-3.5 [&_svg]:shrink-0",
     ],
-    body: ["min-w-0"],
+    body: ["col-start-2 row-start-1 min-w-0"],
     title: ["m-0 truncate text-sm leading-5"],
     description: ["m-0 text-sm leading-5"],
+    actions: ["col-start-3 row-start-1 flex items-center justify-end gap-1.5"],
     action: [
       "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs leading-none",
       "outline outline-1 outline-offset-2 outline-transparent",
@@ -48,7 +49,7 @@ const toast = tv({
       "focus-visible:outline-line-strong",
     ],
     close: [
-      "inline-flex size-7 shrink-0 items-center justify-center",
+      "absolute top-1.5 right-1.5 inline-flex size-7 shrink-0 items-center justify-center",
       "outline outline-1 outline-offset-2 outline-transparent",
       "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
       "disabled:pointer-events-none disabled:opacity-40",
@@ -64,16 +65,18 @@ const toast = tv({
           "border-2 border-black bg-soft-signal text-black shadow-[var(--shadow-brutal)]",
           "focus-visible:outline-transparent",
         ],
-        content: ["min-h-0 grid-cols-[minmax(0,1fr)] items-center gap-0 px-3 py-2 font-sans"],
+        content: ["min-h-0 grid-cols-1 gap-y-1.5 px-3 py-2 font-sans"],
         icon: ["border border-line-strong bg-brutal-yellow text-black"],
+        body: ["col-start-1 row-start-1"],
         title: ["font-bold text-black"],
         description: ["font-semibold text-black/75"],
+        actions: ["col-start-1 row-start-2 gap-1"],
         action: [
-          "border-2 border-line-strong bg-white font-bold text-black shadow-xs",
-          "hover:bg-brutal-yellow active:translate-x-px active:translate-y-px active:shadow-none",
+          "order-2 border-2 border-line-strong bg-black font-bold text-white shadow-xs",
+          "hover:bg-black/85 active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         close: [
-          "border-2 border-line-strong bg-white text-black/60 shadow-xs",
+          "static size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-white px-2 text-xs font-bold text-black/70 shadow-xs",
           "hover:bg-brutal-yellow hover:text-black active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         arrow: ["border-l-2 border-t-2 border-line-strong bg-soft-signal"],
@@ -82,23 +85,19 @@ const toast = tv({
         root: [
           "relative rounded-lg bg-[#252429]/50 text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.62)]",
+          "only:bg-[#211f25]/62 data-[expanded]:bg-[#211f25]/62 data-[expanded]:shadow-[0_18px_42px_-16px_oklch(0_0_0_/_0.68)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/60 after:mix-blend-overlay after:content-['']",
-          "dark:bg-[#1d1c21]/58 dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.78)]",
+          "dark:bg-[#1d1c21]/58 dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.78)] dark:only:bg-[#18171c]/66 dark:data-[expanded]:bg-[#18171c]/66",
         ],
         content: [
-          "min-h-14 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3.5 px-3.5 py-3 font-sans",
+          "min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] gap-x-3.5 py-3 pr-10 pl-3.5 font-sans",
         ],
-        icon: [
-          "mt-0 flex size-8 rounded-full bg-white/[0.1] text-white/70 shadow-[inset_0_0_0_1px_oklch(1_0_0_/_0.1)]",
-          "group-data-[toast-type=success]/toast:text-success-light",
-          "group-data-[toast-type=warning]/toast:text-warning-light",
-          "group-data-[toast-type=error]/toast:text-danger-light",
-          "[&_svg]:size-5",
-        ],
+        icon: ["self-start text-white/85", "[&_svg]:size-5 [&_svg]:stroke-[1.5]"],
+        body: ["self-start"],
         title: ["font-medium text-[oklch(0.985_0.001_286)]"],
         description: ["text-white/62"],
         action: [
-          "min-h-7 rounded-full bg-white/[0.09] px-3 font-medium text-white/74 shadow-[inset_0_0_0_1px_oklch(1_0_0_/_0.1)]",
+          "min-h-7 rounded-full bg-white/[0.09] px-3 font-medium text-white/74 ring-1 ring-inset ring-white/10",
           "hover:bg-white/[0.14] hover:text-white active:scale-[0.985]",
         ],
         close: [
@@ -107,8 +106,8 @@ const toast = tv({
           "[&_svg]:size-4",
         ],
         arrow: [
-          "border-l border-t border-white/20 bg-[#252429]/50 backdrop-blur-2xl",
-          "dark:bg-[#1d1c21]/58",
+          "border-l border-t border-white/20 bg-[#252429]/50 backdrop-blur-2xl group-data-[expanded]/toast:bg-[#211f25]/62",
+          "dark:bg-[#1d1c21]/58 dark:group-data-[expanded]/toast:bg-[#18171c]/66",
         ],
       },
     },
@@ -312,6 +311,15 @@ export function ToastBody({ className, ...props }: ToastBodyProps) {
   return <div data-slot="toast-body" className={body({ className })} {...props} />;
 }
 
+export type ToastActionsProps = ComponentPropsWithRef<"div">;
+
+export function ToastActions({ className, ...props }: ToastActionsProps) {
+  const theme = useThemeFamily();
+  const { actions } = toast({ theme });
+
+  return <div data-slot="toast-actions" className={actions({ className })} {...props} />;
+}
+
 export type ToastTitleProps = StyledProps<BaseToast.Title.Props>;
 
 export function ToastTitle({ className, ...props }: ToastTitleProps) {
@@ -351,14 +359,16 @@ export function ToastClose({ className, children, ...props }: ToastCloseProps) {
   const theme = useThemeFamily();
   const { close } = toast({ theme });
 
+  const usesDefaultText = children == null && theme === "brutal";
+
   return (
     <BaseToast.Close
-      aria-label="Dismiss toast"
+      aria-label={usesDefaultText ? undefined : "Dismiss toast"}
       data-slot="toast-close"
       className={close({ className })}
       {...props}
     >
-      {children ?? <X aria-hidden />}
+      {children ?? (theme === "brutal" ? "Dismiss" : <X aria-hidden />)}
     </BaseToast.Close>
   );
 }

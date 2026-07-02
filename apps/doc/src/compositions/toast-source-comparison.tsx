@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Check, CircleAlert, Info, Send } from "lucide-react";
+import { Check, Copy, Info, SendHorizontal, TriangleAlert } from "lucide-react";
 import { Button, useThemeFamily } from "raft-ui";
 import {
   ToastAction,
+  ToastActions,
   ToastBody,
   ToastClose,
   ToastContent,
@@ -21,14 +22,15 @@ export const TOAST_COMPOSITION_PATH =
   "apps/doc/src/compositions/toast-source-comparison.tsx" as const;
 
 type ToastDemoData = {
-  icon?: "check" | "info" | "send" | "alert";
+  icon?: "check" | "info" | "send" | "alert" | "copy";
 };
 
 const ICONS = {
   check: Check,
   info: Info,
-  send: Send,
-  alert: CircleAlert,
+  send: SendHorizontal,
+  alert: TriangleAlert,
+  copy: Copy,
 } as const;
 
 export function SourceSelectionToastPreview({ message = "3 links copied." }: { message?: string }) {
@@ -137,7 +139,11 @@ function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" | "i
         type: "info",
         title: "3 links copied.",
         description: "3 message links are ready to paste.",
-        data: { icon: "info" },
+        data: { icon: "copy" },
+        actionProps: {
+          children: "Copy again",
+          onClick: () => toastManager.close("copy-links"),
+        },
       });
       return;
     }
@@ -170,6 +176,11 @@ function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" | "i
           : "Grant clipboard access or copy the links manually.",
       priority: "high",
       data: { icon: "alert" },
+      actionProps: {
+        children: "Retry",
+        onClick: () =>
+          toastManager.close(seed === "image-error" ? "image-action-failed" : "blocked"),
+      },
     });
   }, [seed, toastManager]);
 
@@ -190,7 +201,11 @@ function ToastDemoControls() {
             type: "info",
             title: "Link copied.",
             description: "The message link is ready to paste.",
-            data: { icon: "info" },
+            data: { icon: "copy" },
+            actionProps: {
+              children: "Copy again",
+              onClick: () => toastManager.close(),
+            },
           })
         }
       >
@@ -226,6 +241,10 @@ function ToastDemoControls() {
             description: "Grant clipboard access or copy the links manually.",
             priority: "high",
             data: { icon: "alert" },
+            actionProps: {
+              children: "Retry",
+              onClick: () => toastManager.close(),
+            },
           })
         }
       >
@@ -248,7 +267,14 @@ function DemoToast({ toast }: { toast: ToastObject<ToastDemoData> }) {
     return (
       <ToastRoot toast={toast}>
         <ToastContent>
-          <ToastTitle />
+          <ToastBody>
+            <ToastTitle />
+            <ToastDescription />
+          </ToastBody>
+          <ToastActions>
+            <ToastAction />
+            <ToastClose />
+          </ToastActions>
         </ToastContent>
       </ToastRoot>
     );
@@ -264,8 +290,10 @@ function DemoToast({ toast }: { toast: ToastObject<ToastDemoData> }) {
           <ToastTitle />
           <ToastDescription />
         </ToastBody>
-        <ToastAction />
-        <ToastClose />
+        <ToastActions>
+          <ToastAction />
+          <ToastClose />
+        </ToastActions>
       </ToastContent>
     </ToastRoot>
   );
