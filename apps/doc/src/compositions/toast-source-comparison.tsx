@@ -80,8 +80,15 @@ export function ToastComposition({
       ref={setPortalContainer}
       className={["relative h-44 w-full overflow-hidden", className].filter(Boolean).join(" ")}
     >
+      <ToastPreviewScene />
       <ToastProvider key={theme} timeout={controls ? 3600 : 0} limit={3}>
-        {controls ? <ToastDemoControls /> : <SeedToast seed={seed} />}
+        {controls ? (
+          <div className="relative z-10">
+            <ToastDemoControls />
+          </div>
+        ) : (
+          <SeedToast seed={seed} />
+        )}
         {portalContainer ? (
           <ToastPortal container={portalContainer}>
             <ToastViewport strategy="absolute" placement="bottom-center">
@@ -90,6 +97,28 @@ export function ToastComposition({
           </ToastPortal>
         ) : null}
       </ToastProvider>
+    </div>
+  );
+}
+
+export function ToastPreviewScene() {
+  const theme = useThemeFamily();
+
+  if (theme === "brutal") return null;
+
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 bg-[oklch(0.966_0.002_286)] dark:bg-[oklch(0.115_0.004_286)]"
+    >
+      <div className="absolute inset-x-8 top-7 h-10 rounded-lg bg-white/60 shadow-[0_1px_0_oklch(1_0_0_/_0.7)_inset] dark:bg-white/[0.06]" />
+      <div className="absolute left-10 top-10 h-2 w-28 rounded-full bg-foreground/[0.08] dark:bg-white/[0.14]" />
+      <div className="absolute right-10 top-10 h-2 w-16 rounded-full bg-foreground/[0.06] dark:bg-white/[0.1]" />
+      <div className="absolute inset-x-8 top-24 grid grid-cols-3 gap-3">
+        <div className="h-9 rounded-md bg-white/45 dark:bg-white/[0.045]" />
+        <div className="h-9 rounded-md bg-white/35 dark:bg-white/[0.035]" />
+        <div className="h-9 rounded-md bg-white/45 dark:bg-white/[0.045]" />
+      </div>
     </div>
   );
 }

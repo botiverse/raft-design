@@ -79,25 +79,37 @@ const toast = tv({
         arrow: ["border-l-2 border-t-2 border-line-strong bg-soft-signal"],
       },
       elegant: {
-        root: ["rounded-md bg-layer-popover text-foreground-strong shadow-xl"],
-        content: ["font-sans"],
-        icon: [
-          "text-foreground-muted",
-          "group-data-[toast-type=success]/toast:text-success-dark",
-          "group-data-[toast-type=warning]/toast:text-warning-dark",
-          "group-data-[toast-type=error]/toast:text-danger-dark",
+        root: [
+          "relative rounded-lg bg-[#252429]/50 text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
+          "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.62)]",
+          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/60 after:mix-blend-overlay after:content-['']",
+          "dark:bg-[#1d1c21]/58 dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.78)]",
         ],
-        title: ["font-medium text-foreground-strong"],
-        description: ["text-foreground-muted"],
+        content: [
+          "min-h-14 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3.5 px-3.5 py-3 font-sans",
+        ],
+        icon: [
+          "mt-0 flex size-8 rounded-full bg-white/[0.1] text-white/70 shadow-[inset_0_0_0_1px_oklch(1_0_0_/_0.1)]",
+          "group-data-[toast-type=success]/toast:text-success-light",
+          "group-data-[toast-type=warning]/toast:text-warning-light",
+          "group-data-[toast-type=error]/toast:text-danger-light",
+          "[&_svg]:size-5",
+        ],
+        title: ["font-medium text-[oklch(0.985_0.001_286)]"],
+        description: ["text-white/62"],
         action: [
-          "rounded-sm bg-transparent font-medium text-foreground-muted",
-          "hover:bg-foreground/5 hover:text-foreground-strong active:scale-[0.985]",
+          "min-h-7 rounded-full bg-white/[0.09] px-3 font-medium text-white/74 shadow-[inset_0_0_0_1px_oklch(1_0_0_/_0.1)]",
+          "hover:bg-white/[0.14] hover:text-white active:scale-[0.985]",
         ],
         close: [
-          "rounded-sm border border-transparent bg-transparent text-foreground-placeholder",
-          "hover:bg-foreground/5 hover:text-foreground-strong active:scale-[0.985]",
+          "size-auto rounded-sm border-0 bg-transparent p-1 text-white/45 shadow-none",
+          "hover:bg-transparent hover:text-white/82 active:scale-[0.96]",
+          "[&_svg]:size-4",
         ],
-        arrow: ["border-l border-t border-line-muted bg-layer-popover"],
+        arrow: [
+          "border-l border-t border-white/20 bg-[#252429]/50 backdrop-blur-2xl",
+          "dark:bg-[#1d1c21]/58",
+        ],
       },
     },
     placement: {

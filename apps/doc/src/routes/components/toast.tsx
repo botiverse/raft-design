@@ -32,6 +32,7 @@ import {
   SourceSelectionToastPreview,
   TOAST_COMPOSITION_PATH,
   ToastComposition,
+  ToastPreviewScene,
 } from "#/compositions/toast-source-comparison.tsx";
 
 const TOC = [
@@ -352,8 +353,11 @@ function InlineUsageToast() {
 
   return (
     <div ref={setPortalContainer} className="relative h-44 w-full overflow-hidden">
+      <ToastPreviewScene />
       <ToastProvider key={theme} timeout={3600} limit={3}>
-        <InlineUsageControls />
+        <div className="relative z-10">
+          <InlineUsageControls />
+        </div>
         {portalContainer ? (
           <ToastPortal container={portalContainer}>
             <ToastViewport strategy="absolute" placement="bottom-center">
