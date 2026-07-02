@@ -32,6 +32,7 @@ import { Route as ComponentsSwitchRouteImport } from './routes/components/switch
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
+import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
@@ -204,6 +205,11 @@ const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
 const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
   id: '/spinner',
   path: '/spinner',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSkeletonRoute = ComponentsSkeletonRouteImport.update({
+  id: '/skeleton',
+  path: '/skeleton',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
@@ -552,6 +558,7 @@ export interface FileRoutesByFullPath {
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -634,6 +641,7 @@ export interface FileRoutesByTo {
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -718,6 +726,7 @@ export interface FileRoutesById {
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
@@ -803,6 +812,7 @@ export interface FileRouteTypes {
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
+    | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -885,6 +895,7 @@ export interface FileRouteTypes {
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
+    | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -968,6 +979,7 @@ export interface FileRouteTypes {
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
+    | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
     | '/components/status-dot'
@@ -1182,6 +1194,13 @@ declare module '@tanstack/react-router' {
       path: '/spinner'
       fullPath: '/components/spinner'
       preLoaderRoute: typeof ComponentsSpinnerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/skeleton': {
+      id: '/components/skeleton'
+      path: '/skeleton'
+      fullPath: '/components/skeleton'
+      preLoaderRoute: typeof ComponentsSkeletonRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/separator': {
@@ -1633,6 +1652,7 @@ interface ComponentsRouteChildren {
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
+  ComponentsSkeletonRoute: typeof ComponentsSkeletonRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
@@ -1699,6 +1719,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,
+  ComponentsSkeletonRoute: ComponentsSkeletonRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,

@@ -145,6 +145,7 @@ const NAV = [
       { label: "EmptyState", to: "/components/empty-state", status: "done" },
       { label: "NotificationCenter", to: "/components/notification-center", status: "done" },
       { label: "Progress", to: "/components/progress", status: "done" },
+      { label: "Skeleton", to: "/components/skeleton", status: "done" },
       { label: "Spinner", to: "/components/spinner", status: "done" },
       { label: "Toast", to: "/components/toast", status: "wip" },
     ],

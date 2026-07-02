@@ -97,6 +97,7 @@ import {
   RadioGroup,
   RadioGroupItem,
   Separator,
+  Skeleton,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -180,6 +181,7 @@ type ComponentRoute =
   | "/components/kbd"
   | "/components/tooltip"
   | "/components/status"
+  | "/components/skeleton"
   | "/components/spinner"
   | "/components/separator"
   | "/components/tabs"
@@ -625,6 +627,25 @@ const COMPONENT_GRID = [
         <Status variant="success" pulse aria-label="Online" />
         <Status variant="primary" aria-label="Queued" />
         <Status variant="accent" aria-label="Unread" />
+      </div>
+    ),
+  },
+  {
+    label: "Skeleton",
+    to: "/components/skeleton",
+    preview: (
+      <div className="grid w-64 gap-4">
+        <div className="flex items-center gap-3">
+          <Skeleton variant="circle" className="size-9 shrink-0" />
+          <div className="grid min-w-0 flex-1 gap-2">
+            <Skeleton variant="line" className="w-28" />
+            <Skeleton variant="line" className="w-40" />
+          </div>
+        </div>
+        <div className="grid gap-2">
+          <Skeleton variant="block" className="h-10 w-full" />
+          <Skeleton variant="line" className="w-3/4" />
+        </div>
       </div>
     ),
   },

@@ -22,8 +22,10 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
         <tbody>
           {rows.map((row) => (
             <tr key={row.name} className="border-b border-line-subtle align-top">
-              <td className="py-3 pr-6">
-                <InlineCode>{row.name}</InlineCode>
+              <td className="py-3 pr-6 whitespace-nowrap">
+                <InlineCode className="whitespace-nowrap [overflow-wrap:normal]">
+                  {row.name}
+                </InlineCode>
               </td>
               <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.type}</td>
               <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">

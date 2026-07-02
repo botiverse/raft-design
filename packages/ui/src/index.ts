@@ -432,6 +432,9 @@ export type {
 export { Spinner } from "./components/spinner/index";
 export type { SpinnerProps } from "./components/spinner/index";
 
+export { Skeleton } from "./components/skeleton/index";
+export type { SkeletonProps, SkeletonVariant } from "./components/skeleton/index";
+
 export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index";
 export type {
   BannerActionProps,
