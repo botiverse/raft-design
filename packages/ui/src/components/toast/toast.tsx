@@ -28,19 +28,26 @@ const toast = tv({
       "motion-reduce:transition-none",
     ],
     content: [
-      "relative grid min-h-12 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 overflow-hidden py-3 pr-10 pl-3",
+      "relative grid min-h-12 min-w-36 grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden px-3 py-3",
+      "[&:has([data-slot=toast-icon])]:min-w-[18rem] [&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
+      "[&:has([data-slot=toast-actions])]:min-w-[18rem] [&:has([data-slot=toast-actions])]:grid-cols-[minmax(0,1fr)_auto]",
+      "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)_auto]",
+      "[&:has([data-slot=toast-description])]:min-w-[18rem] [&:has([data-slot=toast-close])]:pr-10",
+      "[&:has([data-slot=toast-description])_[data-slot=toast-body]]:self-start [&:has([data-slot=toast-description])_[data-slot=toast-icon]]:self-start",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!min-h-9",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!min-w-28",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!px-3",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:!py-2",
+      "[&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:justify-self-center [&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[behind]:opacity-0 data-[expanded]:opacity-100",
       "motion-reduce:transition-none",
     ],
-    icon: [
-      "col-start-1 row-start-1 flex size-5 shrink-0 items-center justify-center",
-      "[&_svg]:size-3.5 [&_svg]:shrink-0",
-    ],
-    body: ["col-start-2 row-start-1 min-w-0"],
+    icon: ["flex size-5 shrink-0 items-center justify-center", "[&_svg]:size-3.5 [&_svg]:shrink-0"],
+    body: ["min-w-0"],
     title: ["m-0 truncate text-sm leading-5"],
     description: ["m-0 text-sm leading-5"],
-    actions: ["col-start-3 row-start-1 flex items-center justify-end gap-1.5"],
+    actions: ["flex items-center justify-end gap-1.5"],
     action: [
       "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs leading-none",
       "outline outline-1 outline-offset-2 outline-transparent",
@@ -65,19 +72,19 @@ const toast = tv({
           "border-2 border-black bg-soft-signal text-black shadow-[var(--shadow-brutal)]",
           "focus-visible:outline-transparent",
         ],
-        content: ["min-h-0 grid-cols-1 gap-y-1.5 px-3 py-2 font-sans"],
+        content: ["min-h-0 px-3 py-2 font-sans"],
         icon: ["border border-line-strong bg-brutal-yellow text-black"],
-        body: ["col-start-1 row-start-1"],
         title: ["font-bold text-black"],
         description: ["font-semibold text-black/75"],
-        actions: ["col-start-1 row-start-2 gap-1"],
+        actions: ["gap-1"],
         action: [
-          "order-2 border-2 border-line-strong bg-black font-bold text-white shadow-xs",
+          "border-2 border-line-strong bg-black font-bold text-white shadow-xs",
           "hover:bg-black/85 active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         close: [
-          "static size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-white px-2 text-xs font-bold text-black/70 shadow-xs",
+          "top-1 right-1 size-6 border-2 border-line-strong bg-white p-0 text-black/70 shadow-xs",
           "hover:bg-brutal-yellow hover:text-black active:translate-x-px active:translate-y-px active:shadow-none",
+          "[&_svg]:size-3",
         ],
         arrow: ["border-l-2 border-t-2 border-line-strong bg-soft-signal"],
       },
@@ -89,11 +96,8 @@ const toast = tv({
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/60 after:mix-blend-overlay after:content-['']",
           "dark:bg-[#1d1c21]/58 dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.78)] dark:only:bg-[#18171c]/66 dark:data-[expanded]:bg-[#18171c]/66",
         ],
-        content: [
-          "min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] gap-x-3.5 py-3 pr-10 pl-3.5 font-sans",
-        ],
-        icon: ["self-start text-white/85", "[&_svg]:size-5 [&_svg]:stroke-[1.5]"],
-        body: ["self-start"],
+        content: ["min-h-14 gap-x-3.5 py-3 pl-3.5 font-sans"],
+        icon: ["text-white/85", "[&_svg]:size-5 [&_svg]:stroke-[1.5]"],
         title: ["font-medium text-[oklch(0.985_0.001_286)]"],
         description: ["text-white/62"],
         action: [
@@ -151,7 +155,7 @@ const toast = tv({
       },
       anchored: {
         root: [
-          "relative min-w-[18rem] max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))]",
+          "relative w-max max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))]",
           "origin-[var(--transform-origin)]",
           "data-[starting-style]:[transform:scale(0.97)]",
           "data-[ending-style]:[transform:scale(0.99)]",
@@ -359,16 +363,14 @@ export function ToastClose({ className, children, ...props }: ToastCloseProps) {
   const theme = useThemeFamily();
   const { close } = toast({ theme });
 
-  const usesDefaultText = children == null && theme === "brutal";
-
   return (
     <BaseToast.Close
-      aria-label={usesDefaultText ? undefined : "Dismiss toast"}
+      aria-label="Dismiss toast"
       data-slot="toast-close"
       className={close({ className })}
       {...props}
     >
-      {children ?? (theme === "brutal" ? "Dismiss" : <X aria-hidden />)}
+      {children ?? <X aria-hidden />}
     </BaseToast.Close>
   );
 }

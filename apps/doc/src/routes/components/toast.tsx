@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, Copy, Info, Send, SendHorizontal } from "lucide-react";
 import { Button, useThemeFamily } from "raft-ui";
 import {
@@ -39,10 +39,68 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "variants", title: "Variants" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+
+const ANATOMY_VARIANTS = [
+  {
+    id: "variant-full",
+    title: "Full example",
+    description: "Icon, description, action, and dismiss all together.",
+    icon: true,
+    hasAction: true,
+    hasClose: true,
+  },
+  {
+    id: "variant-no-icon",
+    title: "No icon",
+    description: "Text-only content without a leading icon.",
+    icon: false,
+    hasAction: true,
+    hasClose: true,
+  },
+  {
+    id: "variant-no-description",
+    title: "No description",
+    description: undefined,
+    icon: true,
+    hasAction: true,
+    hasClose: true,
+  },
+  {
+    id: "variant-no-action",
+    title: "No action",
+    description: "Informational only, no retry or follow-up action.",
+    icon: true,
+    hasAction: false,
+    hasClose: true,
+  },
+  {
+    id: "variant-no-dismiss",
+    title: "No dismiss",
+    description: "Persists until it resolves on its own.",
+    icon: true,
+    hasAction: true,
+    hasClose: false,
+  },
+  {
+    id: "variant-minimal",
+    title: "Minimal",
+    description: undefined,
+    icon: false,
+    hasAction: false,
+    hasClose: false,
+  },
+] as const;
+
+type AnatomyVariantData = {
+  icon: boolean;
+  hasAction: boolean;
+  hasClose: boolean;
+};
 
 const SELECTION_TOAST_SCENES = [
   {
@@ -118,6 +176,74 @@ const SNIPPETS = {
     </ToastViewport>
   </ToastPortal>
 </ToastProvider>`,
+  variantFull: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+      <ToastDescription />
+    </ToastBody>
+    <ToastActions>
+      <ToastAction />
+      <ToastClose />
+    </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantNoIcon: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastBody>
+      <ToastTitle />
+      <ToastDescription />
+    </ToastBody>
+    <ToastActions>
+      <ToastAction />
+      <ToastClose />
+    </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantNoDescription: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+    </ToastBody>
+    <ToastActions>
+      <ToastAction />
+      <ToastClose />
+    </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantNoAction: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+      <ToastDescription />
+    </ToastBody>
+    <ToastActions>
+      <ToastClose />
+    </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantNoDismiss: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+      <ToastDescription />
+    </ToastBody>
+    <ToastActions>
+      <ToastAction />
+    </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantMinimal: `<ToastRoot toast={toast} layout="anchored">
+  <ToastContent>
+    <ToastBody>
+      <ToastTitle />
+    </ToastBody>
+  </ToastContent>
+</ToastRoot>`,
   preview: `function ToastDemo() {
   const toastManager = useToastManager();
 
@@ -293,6 +419,53 @@ function ToastDoc() {
           html={code.anatomy}
           collapsedHtml={code.anatomyBody}
         />
+      </DocSection>
+
+      <DocSection id="variants" title="Variants">
+        <div className="space-y-3">
+          <DocNote>
+            Icon, description, action, and dismiss are all optional. Omit the part you don't need
+            instead of rendering it empty.
+          </DocNote>
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">Full</h3>
+              <Example html={code.variantFull} previewClassName="min-h-32">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[0]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">No icon</h3>
+              <Example html={code.variantNoIcon} previewClassName="min-h-32">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[1]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">No description</h3>
+              <Example html={code.variantNoDescription} previewClassName="min-h-32">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[2]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">No action</h3>
+              <Example html={code.variantNoAction} previewClassName="min-h-32">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[3]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">No dismiss</h3>
+              <Example html={code.variantNoDismiss} previewClassName="min-h-32">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[4]} />
+              </Example>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-foreground-strong">Minimal</h3>
+              <Example html={code.variantMinimal} previewClassName="min-h-32">
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
+              </Example>
+            </div>
+          </div>
+        </div>
       </DocSection>
 
       <DocSection id="usage" title="Usage">
@@ -473,4 +646,72 @@ function InlineUsageToastList() {
       </ToastRoot>
     );
   });
+}
+
+function ToastAnatomyVariantPreview({ variant }: { variant: (typeof ANATOMY_VARIANTS)[number] }) {
+  const theme = useThemeFamily();
+
+  return (
+    <ToastProvider key={theme} timeout={0} limit={1}>
+      <ToastAnatomyVariantSeed variant={variant} />
+      <ToastAnatomyVariantItem />
+    </ToastProvider>
+  );
+}
+
+function ToastAnatomyVariantSeed({ variant }: { variant: (typeof ANATOMY_VARIANTS)[number] }) {
+  const seededRef = useRef(false);
+  const toastManager = useToastManager<AnatomyVariantData>();
+
+  useEffect(() => {
+    if (seededRef.current) return;
+    seededRef.current = true;
+
+    toastManager.add({
+      id: variant.id,
+      type: "info",
+      title: variant.title,
+      description: variant.description,
+      timeout: 0,
+      data: { icon: variant.icon, hasAction: variant.hasAction, hasClose: variant.hasClose },
+      actionProps: variant.hasAction ? { children: "Retry" } : undefined,
+    });
+  }, [toastManager, variant]);
+
+  return null;
+}
+
+function ToastAnatomyVariantItem() {
+  const theme = useThemeFamily();
+  const { toasts } = useToastManager<AnatomyVariantData>();
+  const toast = toasts[0];
+
+  if (!toast) return null;
+
+  const showIcon = theme !== "brutal" && Boolean(toast.data?.icon);
+  const showDescription = Boolean(toast.description);
+  const showAction = Boolean(toast.data?.hasAction);
+  const showClose = Boolean(toast.data?.hasClose);
+
+  return (
+    <ToastRoot toast={toast} layout="anchored">
+      <ToastContent>
+        {showIcon ? (
+          <ToastIcon>
+            <Info aria-hidden />
+          </ToastIcon>
+        ) : null}
+        <ToastBody>
+          <ToastTitle />
+          {showDescription ? <ToastDescription /> : null}
+        </ToastBody>
+        {showAction || showClose ? (
+          <ToastActions>
+            {showAction ? <ToastAction /> : null}
+            {showClose ? <ToastClose /> : null}
+          </ToastActions>
+        ) : null}
+      </ToastContent>
+    </ToastRoot>
+  );
 }
