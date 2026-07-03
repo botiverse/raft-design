@@ -9,23 +9,24 @@ const tooltip = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "relative inline-flex max-w-xs items-center gap-1.5 px-3 py-2",
-      "text-[13px] leading-[18px] whitespace-normal",
+      "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-3 py-2",
+      "text-[13px] leading-[18px] whitespace-normal break-words",
       "origin-[var(--transform-origin)] outline-none",
-      "transition-[opacity,transform] duration-100",
-      "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
-      "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
+      "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
+      "data-[starting-style]:scale-[0.97] data-[starting-style]:opacity-0",
+      "data-[ending-style]:scale-[0.99] data-[ending-style]:opacity-0",
       "data-[instant]:transition-none",
-      "[&>svg]:size-3.5 [&>svg]:shrink-0",
+      "motion-reduce:transition-none",
+      "[&>svg]:mr-1.5 [&>svg]:inline-block [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:align-[-0.125em]",
       "has-[[data-slot=kbd]]:py-1.5 has-[[data-slot=kbd]]:pr-1.5",
-      "[&_[data-slot=kbd]]:relative [&_[data-slot=kbd]]:z-10",
+      "[&_[data-slot=kbd]]:relative [&_[data-slot=kbd]]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
       "[&_[data-slot=kbd]]:text-[10px] [&_[data-slot=kbd]]:font-semibold [&_[data-slot=kbd]]:leading-none",
     ],
     arrow: [
-      "pointer-events-none flex",
-      "data-[side=top]:bottom-[-6px]",
-      "data-[side=bottom]:top-[-6px] data-[side=bottom]:rotate-180",
+      "pointer-events-none flex overflow-visible",
+      "data-[side=top]:bottom-[-5px]",
+      "data-[side=bottom]:top-[-5px] data-[side=bottom]:rotate-180",
       "data-[side=left]:right-[-8px] data-[side=left]:-rotate-90",
       "data-[side=right]:left-[-8px] data-[side=right]:rotate-90",
       "data-[side=inline-start]:right-[-8px] data-[side=inline-start]:-rotate-90",
@@ -36,36 +37,25 @@ const tooltip = tv({
     theme: {
       brutal: {
         content: [
-          "border-2 border-black bg-white",
+          "border-2 border-black bg-soft-signal",
           "font-sans font-bold text-black",
-          "shadow-none",
-          "[&_[data-slot=kbd]]:text-black/60",
+          "shadow-[var(--shadow-brutal-sm)]",
+          "[&_[data-slot=kbd]]:border-black/70 [&_[data-slot=kbd]]:bg-white [&_[data-slot=kbd]]:text-black/70 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: ["hidden"],
       },
       elegant: {
         content: [
-          "rounded-md bg-layer-popover",
-          "font-sans text-[13px] font-medium tracking-[-0.005em] text-foreground-strong",
-          "shadow-[0_0_0_1px_oklch(0.21_0.006_285_/_0.10),0_1px_1px_oklch(0.21_0.006_285_/_0.04),0_1px_4px_-3px_oklch(0.21_0.006_285_/_0.10)]",
-          "[&_[data-slot=kbd]]:bg-foreground-muted/10 [&_[data-slot=kbd]]:text-foreground-muted [&_[data-slot=kbd]]:ring-0",
+          "rounded-xl bg-[oklch(0.263_0.009_294.9)] text-[oklch(0.965_0.002_286)]",
+          "font-sans text-[13px] font-medium tracking-[-0.005em]",
+          "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
+          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
+          "dark:bg-[oklch(0.230_0.010_294.8)] dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)]",
+          "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: [],
       },
     },
-    variant: {
-      default: {},
-      inverse: {
-        content: [
-          "bg-foreground-strong text-foreground-inverse",
-          "!shadow-[0_12px_24px_0_oklch(0.21_0.006_285_/_0.045),0_1px_2px_0_oklch(0.21_0.006_285_/_0.035)]",
-          "[&_[data-slot=kbd]]:bg-white/10 [&_[data-slot=kbd]]:text-foreground-inverse [&_[data-slot=kbd]]:ring-0",
-        ],
-      },
-    },
-  },
-  defaultVariants: {
-    variant: "default",
   },
 });
 
@@ -103,38 +93,33 @@ export function TooltipPortal(props: TooltipPortalProps) {
   return <BaseTooltip.Portal data-slot="tooltip-portal" {...props} />;
 }
 
-type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props> & Pick<TooltipStyleProps, "variant">;
+type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;
 
-function TooltipArrow({ className, variant, ...props }: TooltipArrowProps) {
+function TooltipArrow({ className, ...props }: TooltipArrowProps) {
   const theme = useThemeFamily();
-  const { arrow } = tooltip({ theme, variant });
+  const { arrow } = tooltip({ theme });
   return (
     <BaseTooltip.Arrow data-slot="tooltip-arrow" className={arrow({ className })} {...props}>
-      <TooltipArrowSvg variant={variant} />
+      <TooltipArrowSvg theme={theme} />
     </BaseTooltip.Arrow>
   );
 }
 
 function TooltipArrowSvg({
-  variant,
+  theme,
   ...props
-}: ComponentProps<"svg"> & Pick<TooltipStyleProps, "variant">) {
-  const isInverse = variant === "inverse";
+}: ComponentProps<"svg"> & Pick<TooltipStyleProps, "theme">) {
+  const isElegant = theme === "elegant";
 
   return (
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
       <path
         d="M1 0H11L6 5.25Z"
-        className={isInverse ? "fill-foreground-strong" : "fill-layer-popover"}
-      />
-      <path
-        d="M1 0.5L6 5.25L11 0.5"
         className={
-          isInverse ? "stroke-[oklch(0_0_0_/_0.18)]" : "stroke-[oklch(0.21_0.006_285_/_0.10)]"
+          isElegant
+            ? "fill-[oklch(0.263_0.009_294.9)] dark:fill-[oklch(0.230_0.010_294.8)]"
+            : "fill-layer-popover"
         }
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );
@@ -157,14 +142,14 @@ export type TooltipContentProps = StyledProps<BaseTooltip.Popup.Props> &
     | "sticky"
   > & {
     portalProps?: TooltipPortalProps;
-  } & Pick<TooltipStyleProps, "variant">;
+  };
 
 export function TooltipContent({
   align = "center",
   alignOffset = 0,
   anchor,
   arrowPadding,
-  collisionAvoidance,
+  collisionAvoidance = { side: "shift", align: "shift", fallbackAxisSide: "none" },
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking = false,
@@ -173,13 +158,12 @@ export function TooltipContent({
   sideOffset,
   sticky,
   portalProps,
-  variant,
   className,
   children,
   ...props
 }: TooltipContentProps) {
   const theme = useThemeFamily();
-  const { positioner, content } = tooltip({ theme, variant });
+  const { positioner, content } = tooltip({ theme });
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
 
   return (
@@ -205,7 +189,7 @@ export function TooltipContent({
           {...props}
         >
           {children}
-          <TooltipArrow variant={variant} />
+          <TooltipArrow />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>
     </BaseTooltip.Portal>

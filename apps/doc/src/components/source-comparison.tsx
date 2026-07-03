@@ -298,7 +298,7 @@ function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[]
                       >
                         <InlineCode className="leading-5">{getSceneLabel(scene)}</InlineCode>
                       </TooltipTrigger>
-                      <TooltipContent variant="inverse" className="max-w-[36rem] font-mono">
+                      <TooltipContent className="max-w-[36rem] font-mono">
                         {getDisplayScenePath(scene)}
                       </TooltipContent>
                     </Tooltip>
