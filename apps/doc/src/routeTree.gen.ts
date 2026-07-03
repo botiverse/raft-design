@@ -47,6 +47,7 @@ import { Route as ComponentsPreviewCardRouteImport } from './routes/components/p
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
 import { Route as ComponentsMediaListItemRouteImport } from './routes/components/media-list-item'
 import { Route as ComponentsListItemRouteImport } from './routes/components/list-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
@@ -286,6 +287,11 @@ const ComponentsNotificationCenterRoute =
     path: '/notification-center',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
+  id: '/message-item',
+  path: '/message-item',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsMediaListItemRoute = ComponentsMediaListItemRouteImport.update({
   id: '/media-list-item',
   path: '/media-list-item',
@@ -544,6 +550,7 @@ export interface FileRoutesByFullPath {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
+  '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -627,6 +634,7 @@ export interface FileRoutesByTo {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
+  '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -712,6 +720,7 @@ export interface FileRoutesById {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/list-item': typeof ComponentsListItemRoute
   '/components/media-list-item': typeof ComponentsMediaListItemRoute
+  '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -798,6 +807,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
+    | '/components/message-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
@@ -881,6 +891,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
+    | '/components/message-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
@@ -965,6 +976,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/list-item'
     | '/components/media-list-item'
+    | '/components/message-item'
     | '/components/notification-center'
     | '/components/panel-header'
     | '/components/popover'
@@ -1299,6 +1311,13 @@ declare module '@tanstack/react-router' {
       path: '/notification-center'
       fullPath: '/components/notification-center'
       preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-item': {
+      id: '/components/message-item'
+      path: '/message-item'
+      fullPath: '/components/message-item'
+      preLoaderRoute: typeof ComponentsMessageItemRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/media-list-item': {
@@ -1638,6 +1657,7 @@ interface ComponentsRouteChildren {
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsListItemRoute: typeof ComponentsListItemRoute
   ComponentsMediaListItemRoute: typeof ComponentsMediaListItemRoute
+  ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
@@ -1705,6 +1725,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsListItemRoute: ComponentsListItemRoute,
   ComponentsMediaListItemRoute: ComponentsMediaListItemRoute,
+  ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,

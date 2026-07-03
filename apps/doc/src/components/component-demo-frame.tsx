@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { PreviewThemeScope } from "./preview-theme.tsx";
+import { PreviewThemeScope, type PreviewMode } from "./preview-theme.tsx";
+import type { Theme } from "raft-ui";
 
 type ComponentDemoFrameProps = {
   children: ReactNode;
@@ -10,6 +11,8 @@ type ComponentDemoFrameProps = {
   footerClassName?: string;
   footerInset?: "default" | "flush";
   footerTone?: "chrome" | "white";
+  previewTheme?: Theme;
+  previewMode?: PreviewMode;
 };
 
 export function ComponentDemoFrame({
@@ -21,6 +24,8 @@ export function ComponentDemoFrame({
   footerClassName = "",
   footerInset = "default",
   footerTone = "chrome",
+  previewTheme,
+  previewMode,
 }: ComponentDemoFrameProps) {
   const previewInsetClass =
     previewInset === "flush" ? "items-stretch gap-0 p-0" : "items-center gap-4 px-6 py-4";
@@ -33,7 +38,11 @@ export function ComponentDemoFrame({
     return (
       <div data-component-demo-frame className="relative min-w-0">
         <div className={`grid md:grid-cols-[minmax(0,1fr)_20rem] ${frameClass}`}>
-          <PreviewThemeScope className="bg-background text-foreground">
+          <PreviewThemeScope
+            family={previewTheme}
+            mode={previewMode}
+            className="bg-background text-foreground"
+          >
             <div
               className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
             >
@@ -55,7 +64,11 @@ export function ComponentDemoFrame({
   return (
     <div data-component-demo-frame className="relative min-w-0">
       <div className={frameClass}>
-        <PreviewThemeScope className="bg-background text-foreground">
+        <PreviewThemeScope
+          family={previewTheme}
+          mode={previewMode}
+          className="bg-background text-foreground"
+        >
           <div
             className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
           >

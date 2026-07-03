@@ -5,6 +5,8 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { ChevronDown } from "lucide-react";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import type { PreviewMode } from "#/components/preview-theme.tsx";
+import type { Theme } from "raft-ui";
 
 type ExampleProps = {
   html: ReactNode | AnyRenderableServerComponent;
@@ -12,6 +14,8 @@ type ExampleProps = {
   children: ReactNode;
   previewClassName?: string;
   previewInset?: "default" | "flush";
+  previewTheme?: Theme;
+  previewMode?: PreviewMode;
 };
 
 /** A rendered demo above its Shiki-highlighted source. */
@@ -21,11 +25,15 @@ export function Example({
   children,
   previewClassName,
   previewInset,
+  previewTheme,
+  previewMode,
 }: ExampleProps) {
   return (
     <ComponentDemoFrame
       previewClassName={previewClassName}
       previewInset={previewInset}
+      previewTheme={previewTheme}
+      previewMode={previewMode}
       footer={
         <Collapsible.Root className="min-w-0">
           <div className="flex h-10 items-center justify-end px-6">

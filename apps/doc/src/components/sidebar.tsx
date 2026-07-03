@@ -261,8 +261,10 @@ const NAV = [
       },
       {
         label: "MessageItem",
-        status: "parked",
-        reason: "Large app surface with router, stores, reactions, and mobile overlays.",
+        to: "/components/message-item",
+        status: "wip",
+        reason:
+          "Composition-only visual extraction; app stores, overlays, and side effects stay outside.",
       },
     ],
   },
