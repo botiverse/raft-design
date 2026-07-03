@@ -1,3 +1,9 @@
+## [0.0.12](https://github.com/botiverse/rui/compare/v0.0.11...v0.0.12) (2026-07-03)
+
+### Features
+
+- **dropdown-menu:** refine trigger defaults ([d6d3745](https://github.com/botiverse/rui/commit/d6d3745b90b5d5a3ea56cc19fcffce09077df56e))
+
 ## [0.0.10](https://github.com/botiverse/rui/compare/v0.0.9...v0.0.10) (2026-07-03)
 
 ### Features
