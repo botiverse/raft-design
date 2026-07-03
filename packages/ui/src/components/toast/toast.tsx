@@ -1,6 +1,7 @@
 import {
   cloneElement,
   isValidElement,
+  type ComponentProps,
   type ComponentPropsWithRef,
   type ReactElement,
   type ReactNode,
@@ -36,12 +37,12 @@ const toast = tv({
       "motion-reduce:transition-none",
     ],
     content: [
-      "relative grid min-h-12 min-w-36 grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden px-3 py-3",
+      "relative grid grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden",
       "[&:has([data-slot=toast-description])_[data-slot=toast-body]]:self-start [&:has([data-slot=toast-description])_[data-slot=toast-icon]]:self-start",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-9",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-28",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:px-3",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-2",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-[var(--toast-title-only-min-h,2.25rem)]",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-[var(--toast-title-only-min-w,7rem)]",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:px-[var(--toast-title-only-px,0.75rem)]",
+      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-[var(--toast-title-only-py,0.5rem)]",
       "[&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:justify-self-center [&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[behind]:opacity-0 data-[expanded]:opacity-100",
@@ -60,7 +61,15 @@ const toast = tv({
       "focus-visible:outline-line-strong",
       "[&_svg]:size-3.5",
     ],
-    arrow: ["size-2 rotate-45"],
+    arrow: [
+      "pointer-events-none flex",
+      "data-[side=top]:bottom-[-6px]",
+      "data-[side=bottom]:top-[-6px] data-[side=bottom]:rotate-180",
+      "data-[side=left]:right-[-8px] data-[side=left]:-rotate-90",
+      "data-[side=right]:left-[-8px] data-[side=right]:rotate-90",
+      "data-[side=inline-start]:right-[-8px] data-[side=inline-start]:-rotate-90",
+      "data-[side=inline-end]:left-[-8px] data-[side=inline-end]:rotate-90",
+    ],
   },
   variants: {
     theme: {
@@ -74,7 +83,10 @@ const toast = tv({
           "gap-y-1.5",
           "[&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
         ],
-        icon: ["border border-line-strong bg-brutal-yellow text-black"],
+        icon: [
+          "size-7 border-2 border-black bg-white p-1.5 text-black shadow-[2px_2px_0_0_black]",
+          "[&_svg]:size-4 [&_svg]:stroke-[2.5]",
+        ],
         title: ["font-bold text-black"],
         description: ["font-semibold text-black/75"],
         actions: [
@@ -84,41 +96,54 @@ const toast = tv({
           "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-white px-2 text-xs font-bold text-black/70 shadow-xs",
           "hover:bg-brutal-yellow hover:text-black active:translate-x-px active:translate-y-px active:shadow-none",
         ],
-        arrow: ["border-l-2 border-t-2 border-line-strong bg-soft-signal"],
+        arrow: ["hidden"],
       },
       elegant: {
         root: [
           "relative rounded-xl bg-[oklch(0.263_0.009_294.9_/_0.50)] text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
-          "data-[expanded]:bg-[oklch(0.244_0.012_300.7_/_0.58)] data-[expanded]:shadow-[0_18px_42px_-16px_oklch(0_0_0_/_0.58)]",
+          "data-[expanded]:bg-[oklch(0.254_0.010_298_/_0.54)] data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
-          "dark:bg-[oklch(0.230_0.010_294.8_/_0.50)] dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:bg-[oklch(0.208_0.010_294.7_/_0.58)]",
+          "dark:bg-[oklch(0.230_0.010_294.8_/_0.50)] dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:bg-[oklch(0.220_0.010_294.7_/_0.54)]",
         ],
         content: [
-          "min-h-14 gap-x-3.5 py-3 pl-3.5 font-sans",
+          "gap-x-3.5 font-sans",
           "[&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
           "[&:has([data-slot=toast-actions])]:min-w-[18rem]",
-          "[&:has([data-slot=toast-description])]:min-w-[18rem] [&:has([data-slot=toast-close])]:pr-3",
+          "[&:has([data-slot=toast-actions])]:min-h-14",
+          "[&:has([data-slot=toast-actions])]:py-3",
+          "[&:has([data-slot=toast-actions])]:pl-3.5",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-h-14",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-w-[18rem]",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:py-3",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:pl-3.5",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:min-h-14",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:min-w-[18rem]",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:py-3",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:pl-3.5",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:min-h-14",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:min-w-[18rem]",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:py-3",
+          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:pl-3.5",
+          "[&:has([data-slot=toast-close])]:pr-3",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-0",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-10",
+          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pl-3.5",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-2",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pr-3.5",
           "[&:has([data-slot=toast-actions])]:grid-cols-[minmax(0,1fr)]",
           "[&:has([data-slot=toast-actions])]:gap-y-2",
           "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)]",
         ],
-        icon: ["text-white/85", "[&_svg]:size-5 [&_svg]:stroke-[1.5]"],
+        icon: ["text-white/85", "[&_svg]:size-[1.125rem] [&_svg]:stroke-[1.5]"],
         title: ["font-medium text-[oklch(0.985_0.001_286)]"],
         description: ["text-white/62"],
         actions: ["col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end"],
         close: [
           "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/52 shadow-none",
-          "hover:bg-white/[0.08] hover:text-white/82 active:scale-[0.985]",
+          "hover:bg-white/[0.05] hover:text-white/72 active:scale-[0.985]",
         ],
-        arrow: [
-          "border-l border-t border-white/20 bg-[oklch(0.263_0.009_294.9_/_0.50)] backdrop-blur-2xl group-data-[expanded]/toast:bg-[oklch(0.244_0.012_300.7_/_0.58)]",
-          "dark:bg-[oklch(0.230_0.010_294.8_/_0.50)] dark:group-data-[expanded]/toast:bg-[oklch(0.208_0.010_294.7_/_0.58)]",
-        ],
+        arrow: [],
       },
     },
     placement: {
@@ -133,6 +158,9 @@ const toast = tv({
       },
       "top-right": {
         viewport: "top-4 right-4",
+      },
+      none: {
+        viewport: "contents",
       },
     },
     strategy: {
@@ -159,9 +187,9 @@ const toast = tv({
           "data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-120%))]",
         ],
       },
-      anchored: {
+      inline: {
         root: [
-          "relative mx-auto w-max max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))]",
+          "relative mx-auto w-max max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))] overflow-visible",
           "origin-[var(--transform-origin)]",
           "data-[starting-style]:[transform:scale(0.97)]",
           "data-[ending-style]:[transform:scale(0.99)]",
@@ -237,7 +265,7 @@ const toastAction = tv({
         root: [
           "toast-gradient-border order-2 min-h-7 rounded-full bg-white/[0.06] px-3 font-medium text-white/74",
           "[--toast-gradient-border-angle:to_bottom] [--toast-gradient-border-from:rgb(255_255_255_/_0.1)] [--toast-gradient-border-to:rgb(255_255_255_/_0)] [--toast-gradient-border-via:rgb(255_255_255_/_0.05)]",
-          "hover:bg-white/[0.1] hover:text-white hover:[--toast-gradient-border-from:rgb(255_255_255_/_0.42)] hover:[--toast-gradient-border-via:rgb(255_255_255_/_0.14)] active:scale-[0.985]",
+          "hover:bg-white/[0.075] hover:text-white/88 hover:[--toast-gradient-border-from:rgb(255_255_255_/_0.24)] hover:[--toast-gradient-border-via:rgb(255_255_255_/_0.08)] active:scale-[0.985]",
         ],
       },
     },
@@ -330,12 +358,14 @@ export function ToastRoot({
 
 export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
 
-export function ToastContent({ className, ...props }: ToastContentProps) {
+export function ToastContent({ children, className, ...props }: ToastContentProps) {
   const theme = useThemeFamily();
   const { content } = toast({ theme });
 
   return (
-    <BaseToast.Content data-slot="toast-content" className={content({ className })} {...props} />
+    <BaseToast.Content data-slot="toast-content" className={content({ className })} {...props}>
+      {children}
+    </BaseToast.Content>
   );
 }
 
@@ -495,5 +525,34 @@ export function ToastArrow({ className, ...props }: ToastArrowProps) {
   const theme = useThemeFamily();
   const { arrow } = toast({ theme });
 
-  return <BaseToast.Arrow data-slot="toast-arrow" className={arrow({ className })} {...props} />;
+  return (
+    <BaseToast.Arrow data-slot="toast-arrow" className={arrow({ className })} {...props}>
+      <ToastArrowSvg theme={theme} />
+    </BaseToast.Arrow>
+  );
+}
+
+function ToastArrowSvg({
+  theme,
+  ...props
+}: ComponentProps<"svg"> & { theme: ReturnType<typeof useThemeFamily> }) {
+  return (
+    <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
+      <path
+        d="M1 0H11L6 5.25Z"
+        className={
+          theme === "elegant"
+            ? "fill-[oklch(0.263_0.009_294.9_/_0.50)] dark:fill-[oklch(0.230_0.010_294.8_/_0.50)]"
+            : "fill-soft-signal"
+        }
+      />
+      <path
+        d="M1 0.5L6 5.25L11 0.5"
+        className={theme === "elegant" ? "stroke-white/28" : "stroke-line-strong"}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
 }

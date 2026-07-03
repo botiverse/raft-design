@@ -3,14 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import { Check, Copy, Info, Send, SendHorizontal } from "lucide-react";
 import { Button, useThemeFamily } from "raft-ui";
 import {
+  createToastManager,
   ToastAction,
   ToastActions,
+  ToastArrow,
   ToastBody,
   ToastClose,
   ToastContent,
   ToastDescription,
   ToastIcon,
   ToastPortal,
+  ToastPositioner,
   ToastProvider,
   ToastRoot,
   ToastTitle,
@@ -44,6 +47,8 @@ const TOC = [
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
+
+const anchoredUsageToastManager = createToastManager();
 
 const ANATOMY_VARIANTS = [
   {
@@ -194,7 +199,7 @@ const SNIPPETS = {
     </ToastViewport>
   </ToastPortal>
 </ToastProvider>`,
-  variantFull: `<ToastRoot toast={toast} layout="anchored">
+  variantFull: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastIcon />
     <ToastBody>
@@ -207,7 +212,7 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
-  variantNoIcon: `<ToastRoot toast={toast} layout="anchored">
+  variantNoIcon: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastBody>
       <ToastTitle />
@@ -219,7 +224,7 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
-  variantNoDescription: `<ToastRoot toast={toast} layout="anchored">
+  variantNoDescription: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastIcon />
     <ToastBody>
@@ -231,7 +236,7 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
-  variantNoAction: `<ToastRoot toast={toast} layout="anchored">
+  variantNoAction: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastIcon />
     <ToastBody>
@@ -243,7 +248,7 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
-  variantNoDismiss: `<ToastRoot toast={toast} layout="anchored">
+  variantNoDismiss: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastIcon />
     <ToastBody>
@@ -255,7 +260,7 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
-  variantLoadingAction: `<ToastRoot toast={toast} layout="anchored">
+  variantLoadingAction: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastIcon />
     <ToastBody>
@@ -268,7 +273,7 @@ const SNIPPETS = {
     </ToastActions>
   </ToastContent>
 </ToastRoot>`,
-  variantIconTitle: `<ToastRoot toast={toast} layout="anchored">
+  variantIconTitle: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastIcon />
     <ToastBody>
@@ -276,7 +281,7 @@ const SNIPPETS = {
     </ToastBody>
   </ToastContent>
 </ToastRoot>`,
-  variantMinimal: `<ToastRoot toast={toast} layout="anchored">
+  variantMinimal: `<ToastRoot toast={toast} layout="inline">
   <ToastContent>
     <ToastBody>
       <ToastTitle />
@@ -306,8 +311,16 @@ const SNIPPETS = {
 }`,
   usage: `import { Button } from "raft-ui";
 import {
+  ToastAction,
+  ToastActions,
+  ToastBody,
+  ToastContent,
+  ToastDescription,
+  ToastClose,
   ToastProvider,
   ToastPortal,
+  ToastRoot,
+  ToastTitle,
   ToastViewport,
   useToastManager,
 } from "raft-ui/wip";
@@ -317,7 +330,9 @@ function AppToastLayer() {
     <ToastProvider timeout={3600} limit={3}>
       <MessageActions />
       <ToastPortal>
-        <ToastViewport placement="bottom-center" />
+        <ToastViewport placement="bottom-center">
+          <ToastList />
+        </ToastViewport>
       </ToastPortal>
     </ToastProvider>
   );
@@ -339,6 +354,98 @@ function MessageActions() {
     >
       Forward
     </Button>
+  );
+}
+
+function ToastList() {
+  const { toasts } = useToastManager();
+
+  return toasts.map((toast) => (
+    <ToastRoot key={toast.id} toast={toast}>
+      <ToastContent>
+        <ToastBody>
+          <ToastTitle />
+          <ToastDescription />
+        </ToastBody>
+        <ToastActions>
+          <ToastClose />
+          <ToastAction />
+        </ToastActions>
+      </ToastContent>
+    </ToastRoot>
+  ));
+}`,
+  anchoredUsage: `import { useRef } from "react";
+import { Button } from "raft-ui";
+import {
+  createToastManager,
+  ToastArrow,
+  ToastContent,
+  ToastPortal,
+  ToastPositioner,
+  ToastProvider,
+  ToastRoot,
+  ToastViewport,
+  useToastManager,
+} from "raft-ui/wip";
+
+const anchoredToastManager = createToastManager();
+
+function AppToastLayer() {
+  return (
+    <ToastProvider toastManager={anchoredToastManager} timeout={1500} limit={1}>
+      <CopyButton />
+      <AnchoredToasts />
+    </ToastProvider>
+  );
+}
+
+function CopyButton() {
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+  return (
+    <Button
+      ref={buttonRef}
+      type="button"
+      onClick={() =>
+        anchoredToastManager.add({
+          id: "copy-link",
+          title: "Copied",
+          positionerProps: {
+            anchor: buttonRef.current,
+            side: "top",
+            align: "center",
+            sideOffset: 8,
+          },
+        })}
+    >
+      Copy link
+    </Button>
+  );
+}
+
+function AnchoredToasts() {
+  const { toasts } = useToastManager();
+
+  return (
+    <ToastPortal>
+      <ToastViewport placement="none">
+        {toasts.map((toast) => (
+          <ToastPositioner key={toast.id} toast={toast}>
+            <ToastRoot
+              toast={toast}
+              layout="inline"
+              className="[--toast-title-only-min-h:1.875rem] [--toast-title-only-min-w:0px] [--toast-title-only-px:0.625rem] [--toast-title-only-py:0.375rem]"
+            >
+              <ToastArrow />
+              <ToastContent className="min-h-0 min-w-0 px-2.5 py-1.5">
+                <ToastTitle className="text-[13px] leading-[18px]" />
+              </ToastContent>
+            </ToastRoot>
+          </ToastPositioner>
+        ))}
+      </ToastViewport>
+    </ToastPortal>
   );
 }`,
   sourceToast: `<div
@@ -379,7 +486,11 @@ function MessageActions() {
 
 function SeedImageActionErrorToast({ message }: { message: string }) {
   const seededRef = useRef(false);
-  const toastManager = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
+  const toastManager = useToastManager<{
+    icon?: "alert";
+    hasClose?: boolean;
+    contentClassName?: string;
+  }>();
 
   useEffect(() => {
     if (seededRef.current) return;
@@ -391,7 +502,11 @@ function SeedImageActionErrorToast({ message }: { message: string }) {
       title: "Image action failed",
       description: message,
       priority: "high",
-      data: { icon: "alert", hasClose: true },
+      data: {
+        icon: "alert",
+        hasClose: true,
+        contentClassName: "[[data-theme=brutal]_&]:min-w-72",
+      },
     });
   }, [message, toastManager]);
 
@@ -399,11 +514,15 @@ function SeedImageActionErrorToast({ message }: { message: string }) {
 }
 
 function ImageActionErrorToastList() {
-  const toastManager = useToastManager<{ icon?: "alert"; hasClose?: boolean }>();
+  const toastManager = useToastManager<{
+    icon?: "alert";
+    hasClose?: boolean;
+    contentClassName?: string;
+  }>();
 
   return toastManager.toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast} layout="anchored">
-      <ToastContent>
+    <ToastRoot key={toast.id} toast={toast} layout="inline">
+      <ToastContent className={toast.data?.contentClassName}>
         <ToastIcon />
         <ToastBody>
           <ToastTitle />
@@ -452,7 +571,7 @@ function SelectionToastList() {
   const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
 
   return toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast} layout="anchored">
+    <ToastRoot key={toast.id} toast={toast} layout="inline">
       <ToastContent>
         <ToastBody>
           <ToastTitle />
@@ -492,14 +611,25 @@ const PROPS: readonly PropRow[] = [
     type: "Base UI Toast.Viewport.Props & { placement, strategy }",
     default: 'placement="bottom-center", strategy="fixed"',
     description:
-      "Viewport landmark and stack anchor. Use strategy=absolute inside contained previews.",
+      "Viewport landmark for toasts. Use placement=none for ToastPositioner anchored toasts, and strategy=absolute inside contained previews.",
+  },
+  {
+    name: "ToastPositioner",
+    type: "Base UI Toast.Positioner.Props",
+    description:
+      "Positions contextual toasts against the anchor supplied through toastManager.add({ positionerProps }).",
+  },
+  {
+    name: "ToastArrow",
+    type: "Base UI Toast.Arrow.Props",
+    description: "Optional arrow rendered inside an anchored toast positioned by ToastPositioner.",
   },
   {
     name: "ToastRoot",
-    type: 'Base UI Toast.Root.Props & { layout?: "stacked" | "anchored" }',
+    type: 'Base UI Toast.Root.Props & { layout?: "stacked" | "inline" }',
     default: 'layout="stacked"',
     description:
-      "Individual toast frame. Reads toast.type for status styling and Base UI stack/swipe state.",
+      "Individual toast frame. Use layout=inline for ToastPositioner children and non-stacked local previews.",
   },
   {
     name: "ToastContent",
@@ -647,9 +777,24 @@ function ToastDoc() {
             or historical notifications in NotificationCenter; use Toast for immediate feedback that
             can disappear.
           </DocNote>
-          <Example html={code.usage} previewClassName="min-h-72" previewInset="flush">
-            <InlineUsageToast />
-          </Example>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-foreground-strong">Stacked</h3>
+            <Example html={code.usage} previewClassName="min-h-72" previewInset="flush">
+              <InlineUsageToast />
+            </Example>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-foreground-strong">Anchored</h3>
+            <DocNote>
+              Anchored toasts use <code>ToastPositioner</code> with the <code>positionerProps</code>{" "}
+              supplied to <code>toastManager.add</code>. Keep anchored and stacked toasts in
+              separate <code>ToastProvider</code> instances when both patterns appear in the same
+              app.
+            </DocNote>
+            <Example html={code.anchoredUsage} previewClassName="min-h-56" previewInset="flush">
+              <AnchoredUsageToast />
+            </Example>
+          </div>
         </div>
       </DocSection>
 
@@ -776,27 +921,9 @@ function InlineUsageControls() {
 }
 
 function InlineUsageToastList() {
-  const theme = useThemeFamily();
   const { toasts } = useToastManager<{ icon?: "info" | "send" | "copy" }>();
 
   return toasts.map((toast) => {
-    if (theme === "brutal") {
-      return (
-        <ToastRoot key={toast.id} toast={toast}>
-          <ToastContent>
-            <ToastBody>
-              <ToastTitle />
-              <ToastDescription />
-            </ToastBody>
-            <ToastActions>
-              <ToastClose />
-              <ToastAction />
-            </ToastActions>
-          </ToastContent>
-        </ToastRoot>
-      );
-    }
-
     const Icon =
       toast.data?.icon === "send" ? SendHorizontal : toast.data?.icon === "copy" ? Copy : Info;
 
@@ -818,6 +945,76 @@ function InlineUsageToastList() {
       </ToastRoot>
     );
   });
+}
+
+function AnchoredUsageToast() {
+  const theme = useThemeFamily();
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
+  return (
+    <div ref={setPortalContainer} className="relative min-h-56 w-full overflow-hidden">
+      <ToastPreviewScene />
+      <ToastProvider key={theme} toastManager={anchoredUsageToastManager} timeout={1500} limit={1}>
+        <div className="relative z-10 flex min-h-56 w-full items-center justify-center gap-2">
+          <AnchoredUsageButton />
+        </div>
+        {portalContainer ? (
+          <ToastPortal container={portalContainer}>
+            <ToastViewport strategy="absolute" placement="none">
+              <AnchoredUsageToastList />
+            </ToastViewport>
+          </ToastPortal>
+        ) : null}
+      </ToastProvider>
+    </div>
+  );
+}
+
+function AnchoredUsageButton() {
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+  return (
+    <Button
+      ref={buttonRef}
+      type="button"
+      size="sm"
+      variant="primary"
+      onClick={() =>
+        anchoredUsageToastManager.add({
+          id: "copy-link",
+          title: "Copied",
+          positionerProps: {
+            anchor: buttonRef.current,
+            side: "top",
+            align: "center",
+            sideOffset: 8,
+          },
+        })
+      }
+    >
+      <Copy aria-hidden />
+      Copy link
+    </Button>
+  );
+}
+
+function AnchoredUsageToastList() {
+  const { toasts } = useToastManager();
+
+  return toasts.map((toast) => (
+    <ToastPositioner key={toast.id} toast={toast}>
+      <ToastRoot
+        toast={toast}
+        layout="inline"
+        className="[--toast-title-only-min-h:1.875rem] [--toast-title-only-min-w:0px] [--toast-title-only-px:0.625rem] [--toast-title-only-py:0.375rem]"
+      >
+        <ToastArrow />
+        <ToastContent className="min-h-0 min-w-0 px-2.5 py-1.5">
+          <ToastTitle className="text-[13px] leading-[18px]" />
+        </ToastContent>
+      </ToastRoot>
+    </ToastPositioner>
+  ));
 }
 
 function ToastAnatomyVariantPreview({ variant }: { variant: (typeof ANATOMY_VARIANTS)[number] }) {
@@ -864,19 +1061,18 @@ function ToastAnatomyVariantSeed({ variant }: { variant: (typeof ANATOMY_VARIANT
 }
 
 function ToastAnatomyVariantItem() {
-  const theme = useThemeFamily();
   const { toasts } = useToastManager<AnatomyVariantData>();
   const toast = toasts[0];
 
   if (!toast) return null;
 
-  const showIcon = theme !== "brutal" && Boolean(toast.data?.icon);
+  const showIcon = Boolean(toast.data?.icon);
   const showDescription = Boolean(toast.description);
   const showAction = Boolean(toast.data?.hasAction);
   const showClose = Boolean(toast.data?.hasClose);
 
   return (
-    <ToastRoot toast={toast} layout="anchored">
+    <ToastRoot toast={toast} layout="inline">
       <ToastContent>
         {showIcon ? (
           <ToastIcon>

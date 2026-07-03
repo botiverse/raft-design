@@ -25,6 +25,7 @@ type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
   hasIcon?: boolean;
   hasClose?: boolean;
+  contentClassName?: string;
 };
 
 const ICONS = {
@@ -106,7 +107,11 @@ function SeedImageActionErrorToast({ message }: { message: string }) {
       title: "Image action failed",
       description: message,
       priority: "high",
-      data: { icon: "alert", hasClose: true },
+      data: {
+        icon: "alert",
+        hasClose: true,
+        contentClassName: "[[data-theme=brutal]_&]:min-w-72",
+      },
     });
   }, [message, toastManager]);
 
@@ -117,8 +122,8 @@ function ImageActionErrorToastList() {
   const toastManager = useToastManager<ToastDemoData>();
 
   return toastManager.toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast} layout="anchored">
-      <ToastContent>
+    <ToastRoot key={toast.id} toast={toast} layout="inline">
+      <ToastContent className={toast.data?.contentClassName}>
         <ToastIcon>
           <ToastIconGlyph toast={toast} />
         </ToastIcon>
@@ -323,13 +328,17 @@ function DemoToast({ toast }: { toast: ToastObject<ToastDemoData> }) {
   const showAction = Boolean(toast.actionProps?.children);
   const showIcon = toast.data?.hasIcon !== false;
   const showClose = toast.data?.hasClose !== false;
-  const layout =
-    !showIcon && !showDescription && !showAction && !showClose ? "anchored" : "stacked";
+  const layout = !showIcon && !showDescription && !showAction && !showClose ? "inline" : "stacked";
 
   if (theme === "brutal") {
     return (
       <ToastRoot toast={toast} layout={layout}>
         <ToastContent>
+          {showIcon ? (
+            <ToastIcon>
+              <ToastIconGlyph toast={toast} />
+            </ToastIcon>
+          ) : null}
           <ToastBody>
             <ToastTitle />
             {showDescription ? <ToastDescription /> : null}
