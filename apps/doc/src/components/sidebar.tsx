@@ -147,7 +147,7 @@ const NAV = [
       { label: "Progress", to: "/components/progress", status: "done" },
       { label: "Skeleton", to: "/components/skeleton", status: "done" },
       { label: "Spinner", to: "/components/spinner", status: "done" },
-      { label: "Toast", to: "/components/toast", status: "wip" },
+      { label: "Toast", to: "/components/toast", status: "done" },
     ],
   },
   {

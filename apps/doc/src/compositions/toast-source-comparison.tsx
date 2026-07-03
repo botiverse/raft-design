@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Check, Copy, Info, SendHorizontal, TriangleAlert } from "lucide-react";
-import { Button, useThemeFamily } from "raft-ui";
 import {
+  Button,
+  createToastManager,
   ToastAction,
   ToastActions,
   ToastBody,
@@ -15,8 +16,9 @@ import {
   ToastTitle,
   ToastViewport,
   useToastManager,
+  useThemeFamily,
   type ToastObject,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export const TOAST_COMPOSITION_PATH =
   "apps/doc/src/compositions/toast-source-comparison.tsx" as const;
@@ -75,11 +77,18 @@ export function ImageActionErrorComposition({
 }) {
   const theme = useThemeFamily();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [toastManager] = useState(() => createToastManager<ToastDemoData>());
 
   return (
     <div ref={setPortalContainer} className="relative h-36 w-full overflow-hidden">
       <ToastPreviewScene />
-      <ToastProvider key={theme} timeout={0} limit={1}>
+      <ToastProvider
+        key={theme}
+        toastManager={toastManager}
+        timeout={0}
+        limit={1}
+        renderViewport={false}
+      >
         <SeedImageActionErrorToast message={message} />
         {portalContainer ? (
           <ToastPortal container={portalContainer}>
@@ -150,6 +159,7 @@ export function ToastComposition({
 }) {
   const theme = useThemeFamily();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [toastManager] = useState(() => createToastManager<ToastDemoData>());
 
   return (
     <div
@@ -157,7 +167,13 @@ export function ToastComposition({
       className={["relative h-44 w-full overflow-hidden", className].filter(Boolean).join(" ")}
     >
       <ToastPreviewScene />
-      <ToastProvider key={theme} timeout={controls ? 3600 : 0} limit={3}>
+      <ToastProvider
+        key={theme}
+        toastManager={toastManager}
+        timeout={controls ? 3600 : 0}
+        limit={3}
+        renderViewport={false}
+      >
         {controls ? (
           <div className="relative z-10">
             <ToastDemoControls />
@@ -390,8 +406,10 @@ function iconForType(type: string | undefined): keyof typeof ICONS {
 }
 
 export function ToastUsageExample({ children }: { children?: ReactNode }) {
+  const [toastManager] = useState(() => createToastManager<ToastDemoData>());
+
   return (
-    <ToastProvider timeout={3600}>
+    <ToastProvider toastManager={toastManager} timeout={3600} renderViewport={false}>
       {children ?? <ToastDemoControls />}
       <ToastPortal>
         <ToastViewport>

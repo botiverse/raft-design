@@ -12,6 +12,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const TOC = [
   { id: "install", title: "Install" },
   { id: "app-shell", title: "App shell" },
+  { id: "toast", title: "Toast" },
   { id: "tailwind", title: "Tailwind" },
   { id: "usage", title: "Usage" },
   { id: "theme", title: "Theme" },
@@ -26,18 +27,21 @@ Tasks:
 3. Put the app inside an isolated layout root so body portals stack above app content.
 4. Wrap the app root with ThemeProvider.
 5. Add TooltipProvider when the app uses Tooltip.
-6. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
+6. Add ToastProvider once when the app uses toast.info, toast.success, toast.warning, or toast.error.
+7. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
 
 Minimal setup:
-import { ThemeProvider, TooltipProvider } from "raft-ui";
+import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
   return (
     <div className="isolate">
       <ThemeProvider>
-        <TooltipProvider>
-          <YourApp />
-        </TooltipProvider>
+        <ToastProvider>
+          <TooltipProvider>
+            <YourApp />
+          </TooltipProvider>
+        </ToastProvider>
       </ThemeProvider>
     </div>
   );
@@ -69,15 +73,49 @@ export function App() {
   globalCss: `@source "../node_modules/raft-ui/dist/**/*.{js,mjs}";
 @import "raft-ui/styles.css";
 @import "tailwindcss";`,
-  appShell: `import { ThemeProvider, TooltipProvider } from "raft-ui";
+  appShell: `import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
   return (
     <ThemeProvider>
-      <TooltipProvider>
-        <YourApp />
-      </TooltipProvider>
+      <ToastProvider>
+        <TooltipProvider>
+          <YourApp />
+        </TooltipProvider>
+      </ToastProvider>
     </ThemeProvider>
+  );
+}`,
+  toastProvider: `import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";
+
+export function App() {
+  return (
+    <ThemeProvider>
+      <ToastProvider timeout={3600} limit={3}>
+        <TooltipProvider>
+          <YourApp />
+        </TooltipProvider>
+      </ToastProvider>
+    </ThemeProvider>
+  );
+}`,
+  toastUsage: `import { Button, toast } from "raft-ui";
+
+export function CopyLinkButton() {
+  return (
+    <Button
+      onClick={() => {
+        toast.success("Link copied.", {
+          description: "Ready to paste into the thread.",
+          action: {
+            label: "Undo",
+            onClick: () => toast.dismiss(),
+          },
+        });
+      }}
+    >
+      Copy link
+    </Button>
   );
 }`,
   themeSwitching: `import { Button, useTheme } from "raft-ui";
@@ -183,7 +221,8 @@ function InstallationDoc() {
               <span className="block font-medium text-foreground-strong">Wrap the app.</span>
               <p>
                 <InlineCode>ThemeProvider</InlineCode> syncs theme attributes to the document root.
-                Add <InlineCode>TooltipProvider</InlineCode> when the app uses Tooltip.
+                Add <InlineCode>TooltipProvider</InlineCode> when the app uses Tooltip. Add{" "}
+                <InlineCode>ToastProvider</InlineCode> once when the app uses toast feedback.
               </p>
               <CodeSnippet path="src/App.tsx" source={SNIPPETS.appShell} html={code.appShell} />
             </li>
@@ -217,6 +256,30 @@ function InstallationDoc() {
               </p>
             </li>
           </StepList>
+        </div>
+      </DocSection>
+
+      <DocSection id="toast" title="Toast">
+        <div className="space-y-6">
+          <Lead>
+            Add <InlineCode>ToastProvider</InlineCode> near the app root, then call{" "}
+            <InlineCode>toast.info</InlineCode>, <InlineCode>toast.success</InlineCode>,{" "}
+            <InlineCode>toast.warning</InlineCode>, or <InlineCode>toast.error</InlineCode> from
+            event handlers.
+          </Lead>
+
+          <div className="grid gap-3 lg:grid-cols-2">
+            <CodeSnippet
+              path="src/App.tsx"
+              source={SNIPPETS.toastProvider}
+              html={code.toastProvider}
+            />
+            <CodeSnippet
+              path="src/CopyLinkButton.tsx"
+              source={SNIPPETS.toastUsage}
+              html={code.toastUsage}
+            />
+          </div>
         </div>
       </DocSection>
 

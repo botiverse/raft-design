@@ -128,6 +128,18 @@ import {
   TextareaCounter,
   TextareaGroup,
   ThemeProvider,
+  createToastManager,
+  ToastAction,
+  ToastActions,
+  ToastBody,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastIcon,
+  ToastProvider,
+  ToastRoot,
+  ToastTitle,
+  useToastManager,
   type Theme,
 } from "raft-ui";
 import {
@@ -189,6 +201,7 @@ type ComponentRoute =
   | "/components/banner"
   | "/components/empty-state"
   | "/components/notification-center"
+  | "/components/toast"
   | "/components/popover"
   | "/components/preview-card"
   | "/components/dialog"
@@ -729,6 +742,11 @@ const COMPONENT_GRID = [
     label: "NotificationCenter",
     to: "/components/notification-center",
     preview: <NotificationCenterPreview />,
+  },
+  {
+    label: "Toast",
+    to: "/components/toast",
+    preview: <ToastPreview />,
   },
   {
     label: "Tabs",
@@ -1312,6 +1330,75 @@ function NotificationCenterPreview() {
             </NotificationCenterItem>
           </NotificationCenterList>
         </NotificationCenterScroller>
+      </div>
+    </div>
+  );
+}
+
+function ToastPreview() {
+  const [toastManager] = useState(() => createToastManager());
+
+  return (
+    <ToastProvider toastManager={toastManager} timeout={0} renderViewport={false}>
+      <SeedHomeToast />
+      <HomeToastList />
+    </ToastProvider>
+  );
+}
+
+function SeedHomeToast() {
+  const seededRef = useRef(false);
+  const toastManager = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
+
+  useEffect(() => {
+    if (seededRef.current) return;
+    seededRef.current = true;
+
+    toastManager.add({
+      id: "home-toast",
+      type: "success",
+      title: "Link copied.",
+      description: "Ready to paste into the thread.",
+      actionProps: {
+        children: "Undo",
+        onClick: () => toastManager.close("home-toast"),
+      },
+      data: { hasIcon: true, hasClose: true },
+    });
+  }, [toastManager]);
+
+  return null;
+}
+
+function HomeToastList() {
+  const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
+
+  return (
+    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-muted/60 p-4 [[data-theme=brutal]_&]:bg-white">
+      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-background/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-blue/20" />
+      <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
+        <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+      </div>
+      <div className="relative z-10">
+        {toasts.map((toastObject) => (
+          <ToastRoot key={toastObject.id} toast={toastObject} layout="inline">
+            <ToastContent>
+              <ToastIcon>
+                <CircleCheck aria-hidden />
+              </ToastIcon>
+              <ToastBody>
+                <ToastTitle />
+                <ToastDescription />
+              </ToastBody>
+              <ToastActions>
+                <ToastClose />
+                <ToastAction />
+              </ToastActions>
+            </ToastContent>
+          </ToastRoot>
+        ))}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 export {
   createToastManager,
+  toast,
   ToastAction,
   ToastActions,
   ToastArrow,
@@ -17,6 +18,8 @@ export {
   useToastManager,
 } from "./toast";
 export type {
+  ToastData,
+  ToastIntent,
   ToastActionProps,
   ToastActionsProps,
   ToastArrowProps,

@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
+import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -14,7 +15,7 @@ import { buttonVariants } from "../button/index";
 import { Spinner } from "../spinner/index";
 import { cn } from "../../lib/cn";
 
-const toast = tv({
+const toastStyles = tv({
   slots: {
     viewport: [
       "pointer-events-none isolate z-[70] w-[min(24rem,calc(100vw-2rem))]",
@@ -279,8 +280,85 @@ const toastAction = tv({
 export const createToastManager = BaseToast.createToastManager;
 export const useToastManager = BaseToast.useToastManager;
 
+export type ToastIntent = "info" | "success" | "warning" | "error";
+export type ToastData = {
+  intent?: ToastIntent;
+  hasClose?: boolean;
+  hasIcon?: boolean;
+  contentClassName?: string;
+};
 export type ToastObject<Data extends object = object> = BaseToast.Root.ToastObject<Data>;
-export type ToastProviderProps = BaseToast.Provider.Props;
+
+type ToastCommandOptions<Data extends object = ToastData> = Omit<
+  Partial<ToastObject<Data>>,
+  "actionProps" | "data" | "title" | "type"
+> & {
+  action?: {
+    label: ReactNode;
+    onClick?: ComponentPropsWithRef<"button">["onClick"];
+  };
+  dismissible?: boolean;
+  icon?: boolean;
+};
+
+const defaultToastManager = createToastManager<ToastData>();
+
+function addDefaultToast(
+  intent: ToastIntent,
+  title: string,
+  options: ToastCommandOptions<ToastData> = {},
+) {
+  const { action, dismissible, icon, priority, ...toastOptions } = options;
+
+  return defaultToastManager.add({
+    ...toastOptions,
+    actionProps: action
+      ? {
+          children: action.label,
+          onClick: action.onClick,
+        }
+      : undefined,
+    title,
+    type: intent,
+    priority: priority ?? (intent === "error" ? "high" : undefined),
+    data: {
+      intent,
+      hasClose: dismissible,
+      hasIcon: icon,
+    },
+  });
+}
+
+export const toast = {
+  add(options: ToastCommandOptions<ToastData> & { title: string; type?: ToastIntent }) {
+    const { title, type = "info", ...toastOptions } = options;
+
+    return addDefaultToast(type, title, toastOptions);
+  },
+  info(title: string, options?: ToastCommandOptions<ToastData>) {
+    return addDefaultToast("info", title, options);
+  },
+  success(title: string, options?: ToastCommandOptions<ToastData>) {
+    return addDefaultToast("success", title, options);
+  },
+  warning(title: string, options?: ToastCommandOptions<ToastData>) {
+    return addDefaultToast("warning", title, options);
+  },
+  error(title: string, options?: ToastCommandOptions<ToastData>) {
+    return addDefaultToast("error", title, options);
+  },
+  dismiss(id?: string) {
+    return defaultToastManager.close(id);
+  },
+};
+
+export type ToastProviderProps = BaseToast.Provider.Props & {
+  portalContainer?: BaseToast.Portal.Props["container"];
+  renderViewport?: boolean;
+  viewportClassName?: string;
+  viewportPlacement?: ToastViewportProps["placement"];
+  viewportStrategy?: ToastViewportProps["strategy"];
+};
 
 function getToastTone(type: string | undefined) {
   if (type === "success" || type === "warning" || type === "error") {
@@ -290,8 +368,29 @@ function getToastTone(type: string | undefined) {
   return "info";
 }
 
-export function ToastProvider(props: ToastProviderProps) {
-  return <BaseToast.Provider {...props} />;
+export function ToastProvider({
+  children,
+  portalContainer,
+  renderViewport = true,
+  toastManager = defaultToastManager,
+  viewportClassName,
+  viewportPlacement = "bottom-center",
+  viewportStrategy = "fixed",
+  ...props
+}: ToastProviderProps) {
+  return (
+    <BaseToast.Provider toastManager={toastManager} {...props}>
+      {children}
+      {renderViewport ? (
+        <DefaultToastLayer
+          placement={viewportPlacement}
+          portalContainer={portalContainer}
+          strategy={viewportStrategy}
+          viewportClassName={viewportClassName}
+        />
+      ) : null}
+    </BaseToast.Provider>
+  );
 }
 
 export type ToastPortalProps = BaseToast.Portal.Props;
@@ -301,7 +400,7 @@ export function ToastPortal(props: ToastPortalProps) {
 }
 
 export type ToastViewportProps = StyledProps<BaseToast.Viewport.Props> &
-  Pick<VariantProps<typeof toast>, "placement" | "strategy">;
+  Pick<VariantProps<typeof toastStyles>, "placement" | "strategy">;
 
 export function ToastViewport({
   placement = "bottom-center",
@@ -310,7 +409,7 @@ export function ToastViewport({
   ...props
 }: ToastViewportProps) {
   const theme = useThemeFamily();
-  const { viewport } = toast({ theme, placement, strategy });
+  const { viewport } = toastStyles({ theme, placement, strategy });
 
   return (
     <BaseToast.Viewport data-slot="toast-viewport" className={viewport({ className })} {...props} />
@@ -321,7 +420,7 @@ export type ToastPositionerProps = StyledProps<BaseToast.Positioner.Props>;
 
 export function ToastPositioner({ className, ...props }: ToastPositionerProps) {
   const theme = useThemeFamily();
-  const { positioner } = toast({ theme });
+  const { positioner } = toastStyles({ theme });
 
   return (
     <BaseToast.Positioner
@@ -333,7 +432,7 @@ export function ToastPositioner({ className, ...props }: ToastPositionerProps) {
 }
 
 export type ToastRootProps = StyledProps<BaseToast.Root.Props> &
-  Pick<VariantProps<typeof toast>, "layout">;
+  Pick<VariantProps<typeof toastStyles>, "layout">;
 
 export function ToastRoot({
   layout = "stacked",
@@ -343,7 +442,7 @@ export function ToastRoot({
 }: ToastRootProps) {
   const theme = useThemeFamily();
   const tone = getToastTone(toastObject.type);
-  const { root } = toast({ theme, layout, tone });
+  const { root } = toastStyles({ theme, layout, tone });
 
   return (
     <BaseToast.Root
@@ -360,7 +459,7 @@ export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
 
 export function ToastContent({ children, className, ...props }: ToastContentProps) {
   const theme = useThemeFamily();
-  const { content } = toast({ theme });
+  const { content } = toastStyles({ theme });
 
   return (
     <BaseToast.Content data-slot="toast-content" className={content({ className })} {...props}>
@@ -373,7 +472,7 @@ export type ToastIconProps = ComponentPropsWithRef<"div">;
 
 export function ToastIcon({ className, ...props }: ToastIconProps) {
   const theme = useThemeFamily();
-  const { icon } = toast({ theme });
+  const { icon } = toastStyles({ theme });
 
   return <div data-slot="toast-icon" className={icon({ className })} {...props} />;
 }
@@ -382,7 +481,7 @@ export type ToastBodyProps = ComponentPropsWithRef<"div">;
 
 export function ToastBody({ className, ...props }: ToastBodyProps) {
   const theme = useThemeFamily();
-  const { body } = toast({ theme });
+  const { body } = toastStyles({ theme });
 
   return <div data-slot="toast-body" className={body({ className })} {...props} />;
 }
@@ -391,7 +490,7 @@ export type ToastActionsProps = ComponentPropsWithRef<"div">;
 
 export function ToastActions({ className, ...props }: ToastActionsProps) {
   const theme = useThemeFamily();
-  const { actions } = toast({ theme });
+  const { actions } = toastStyles({ theme });
 
   return <div data-slot="toast-actions" className={actions({ className })} {...props} />;
 }
@@ -400,7 +499,7 @@ export type ToastTitleProps = StyledProps<BaseToast.Title.Props>;
 
 export function ToastTitle({ className, ...props }: ToastTitleProps) {
   const theme = useThemeFamily();
-  const { title } = toast({ theme });
+  const { title } = toastStyles({ theme });
 
   return <BaseToast.Title data-slot="toast-title" className={title({ className })} {...props} />;
 }
@@ -409,7 +508,7 @@ export type ToastDescriptionProps = StyledProps<BaseToast.Description.Props>;
 
 export function ToastDescription({ className, ...props }: ToastDescriptionProps) {
   const theme = useThemeFamily();
-  const { description } = toast({ theme });
+  const { description } = toastStyles({ theme });
 
   return (
     <BaseToast.Description
@@ -504,7 +603,7 @@ export type ToastCloseProps = StyledProps<BaseToast.Close.Props>;
 
 export function ToastClose({ className, children, ...props }: ToastCloseProps) {
   const theme = useThemeFamily();
-  const { close } = toast({ theme });
+  const { close } = toastStyles({ theme });
   const usesDefaultText = children == null;
 
   return (
@@ -523,12 +622,80 @@ export type ToastArrowProps = StyledProps<BaseToast.Arrow.Props>;
 
 export function ToastArrow({ className, ...props }: ToastArrowProps) {
   const theme = useThemeFamily();
-  const { arrow } = toast({ theme });
+  const { arrow } = toastStyles({ theme });
 
   return (
     <BaseToast.Arrow data-slot="toast-arrow" className={arrow({ className })} {...props}>
       <ToastArrowSvg theme={theme} />
     </BaseToast.Arrow>
+  );
+}
+
+function DefaultToastLayer({
+  placement,
+  portalContainer,
+  strategy,
+  viewportClassName,
+}: {
+  placement: ToastViewportProps["placement"];
+  portalContainer?: BaseToast.Portal.Props["container"];
+  strategy: ToastViewportProps["strategy"];
+  viewportClassName?: string;
+}) {
+  return (
+    <ToastPortal container={portalContainer}>
+      <ToastViewport placement={placement} strategy={strategy} className={viewportClassName}>
+        <DefaultToastList />
+      </ToastViewport>
+    </ToastPortal>
+  );
+}
+
+function DefaultToastList() {
+  const { toasts } = useToastManager<ToastData>();
+
+  return toasts.map((toastObject) => <DefaultToastItem key={toastObject.id} toast={toastObject} />);
+}
+
+function DefaultToastItem({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
+  const showDescription = Boolean(toastObject.description);
+  const showAction = Boolean(toastObject.actionProps?.children);
+  const showClose = toastObject.data?.hasClose !== false;
+  const showIcon = toastObject.data?.hasIcon !== false;
+  const layout = !showIcon && !showDescription && !showAction && !showClose ? "inline" : "stacked";
+
+  return (
+    <ToastRoot toast={toastObject} layout={layout}>
+      <ToastContent className={toastObject.data?.contentClassName}>
+        {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}
+        <ToastBody>
+          <ToastTitle />
+          {showDescription ? <ToastDescription /> : null}
+        </ToastBody>
+        {showAction || showClose ? (
+          <ToastActions>
+            {showClose ? <ToastClose /> : null}
+            {showAction ? <ToastAction /> : null}
+          </ToastActions>
+        ) : null}
+      </ToastContent>
+    </ToastRoot>
+  );
+}
+
+function DefaultToastIcon({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
+  const intent = toastObject.data?.intent ?? getToastTone(toastObject.type);
+  const Icon =
+    intent === "success"
+      ? CheckCircle2
+      : intent === "warning" || intent === "error"
+        ? AlertTriangle
+        : Info;
+
+  return (
+    <ToastIcon>
+      <Icon aria-hidden />
+    </ToastIcon>
   );
 }
 

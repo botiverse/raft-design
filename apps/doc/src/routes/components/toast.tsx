@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Check, Copy, Info, Send, SendHorizontal } from "lucide-react";
-import { Button, useThemeFamily } from "raft-ui";
+import { Check, Copy, Info, Send } from "lucide-react";
 import {
+  Button,
   createToastManager,
+  toast,
   ToastAction,
   ToastActions,
   ToastArrow,
@@ -19,7 +20,8 @@ import {
   ToastTitle,
   ToastViewport,
   useToastManager,
-} from "raft-ui/wip";
+  useThemeFamily,
+} from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -28,7 +30,6 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { StatusBadge } from "#/components/status-badge.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   ImageActionErrorComposition,
@@ -163,6 +164,7 @@ const IMAGE_ACTION_ERROR_SCENES = [
 
 const SNIPPETS = {
   anatomy: `import {
+  createToastManager,
   ToastAction,
   ToastActions,
   ToastBody,
@@ -176,9 +178,11 @@ const SNIPPETS = {
   ToastTitle,
   ToastViewport,
   useToastManager,
-} from "raft-ui/wip";
+} from "raft-ui";
 
-<ToastProvider timeout={3600} limit={3}>
+const customToastManager = createToastManager();
+
+<ToastProvider toastManager={customToastManager} timeout={3600} limit={3} renderViewport={false}>
   <ToastPortal>
     <ToastViewport>
       {toasts.map((toast) => (
@@ -288,21 +292,18 @@ const SNIPPETS = {
     </ToastBody>
   </ToastContent>
 </ToastRoot>`,
-  preview: `function ToastDemo() {
-  const toastManager = useToastManager();
+  preview: `import { toast } from "raft-ui";
 
+function ToastDemo() {
   return (
     <Button
       type="button"
       size="sm"
       variant="primary"
       onClick={() =>
-        toastManager.add({
-          type: "info",
-          title: "Link copied.",
+        toast.success("Link copied.", {
           description: "The message link is ready to paste.",
-          data: { icon: "info" },
-          actionProps: { children: "Copy again" },
+          action: { label: "Copy again" },
         })}
     >
       Copy link
@@ -310,70 +311,29 @@ const SNIPPETS = {
   );
 }`,
   usage: `import { Button } from "raft-ui";
-import {
-  ToastAction,
-  ToastActions,
-  ToastBody,
-  ToastContent,
-  ToastDescription,
-  ToastClose,
-  ToastProvider,
-  ToastPortal,
-  ToastRoot,
-  ToastTitle,
-  ToastViewport,
-  useToastManager,
-} from "raft-ui/wip";
+import { ToastProvider, toast } from "raft-ui";
 
 function AppToastLayer() {
   return (
     <ToastProvider timeout={3600} limit={3}>
       <MessageActions />
-      <ToastPortal>
-        <ToastViewport placement="bottom-center">
-          <ToastList />
-        </ToastViewport>
-      </ToastPortal>
     </ToastProvider>
   );
 }
 
 function MessageActions() {
-  const toastManager = useToastManager();
-
   return (
     <Button
       type="button"
       onClick={() =>
-        toastManager.add({
-          type: "info",
-          title: "Forwarded to #design-system",
+        toast.info("Forwarded to #design-system", {
           description: "The selected messages were sent.",
-          actionProps: { children: "View" },
+          action: { label: "View" },
         })}
     >
       Forward
     </Button>
   );
-}
-
-function ToastList() {
-  const { toasts } = useToastManager();
-
-  return toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast}>
-      <ToastContent>
-        <ToastBody>
-          <ToastTitle />
-          <ToastDescription />
-        </ToastBody>
-        <ToastActions>
-          <ToastClose />
-          <ToastAction />
-        </ToastActions>
-      </ToastContent>
-    </ToastRoot>
-  ));
 }`,
   anchoredUsage: `import { useRef } from "react";
 import { Button } from "raft-ui";
@@ -387,13 +347,18 @@ import {
   ToastRoot,
   ToastViewport,
   useToastManager,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 const anchoredToastManager = createToastManager();
 
 function AppToastLayer() {
   return (
-    <ToastProvider toastManager={anchoredToastManager} timeout={1500} limit={1}>
+    <ToastProvider
+      toastManager={anchoredToastManager}
+      timeout={1500}
+      limit={1}
+      renderViewport={false}
+    >
       <CopyButton />
       <AnchoredToasts />
     </ToastProvider>
@@ -466,11 +431,18 @@ function AnchoredToasts() {
   imageActionErrorComposition: `function ImageActionErrorComposition({ message = "Clipboard write blocked" }) {
   const theme = useThemeFamily();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [toastManager] = useState(() => createToastManager());
 
   return (
     <div ref={setPortalContainer} className="relative h-36 w-full overflow-hidden">
       <ToastPreviewScene />
-      <ToastProvider key={theme} timeout={0} limit={1}>
+      <ToastProvider
+        key={theme}
+        toastManager={toastManager}
+        timeout={0}
+        limit={1}
+        renderViewport={false}
+      >
         <SeedImageActionErrorToast message={message} />
         {portalContainer ? (
           <ToastPortal container={portalContainer}>
@@ -539,66 +511,52 @@ function ImageActionErrorToastList() {
   return (
     <ToastProvider timeout={0} limit={3}>
       <SeedSelectionToast />
-      <ToastPortal>
-        <ToastViewport placement="bottom-center">
-          <SelectionToastList />
-        </ToastViewport>
-      </ToastPortal>
     </ToastProvider>
   );
 }
 
 function SeedSelectionToast() {
   const seededRef = useRef(false);
-  const toastManager = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
 
   useEffect(() => {
     if (seededRef.current) return;
     seededRef.current = true;
 
-    toastManager.add({
+    toast.info("3 links copied.", {
       id: "copy-links",
-      type: "info",
-      title: "3 links copied.",
-      data: { hasIcon: false, hasClose: false },
+      icon: false,
+      dismissible: false,
     });
-  }, [toastManager]);
+  }, []);
 
   return null;
-}
-
-function SelectionToastList() {
-  const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
-
-  return toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast} layout="inline">
-      <ToastContent>
-        <ToastBody>
-          <ToastTitle />
-        </ToastBody>
-      </ToastContent>
-    </ToastRoot>
-  ));
 }`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
     name: "ToastProvider",
-    type: "Base UI Toast.Provider.Props",
+    type: "Base UI Toast.Provider.Props & { portalContainer?, renderViewport?, viewportPlacement?, viewportStrategy? }",
     description:
-      "Provides toast state, timeout, limit, keyboard navigation, and optional global toastManager.",
+      "Provides toast state and renders the default viewport/list. Pass renderViewport=false when composing a custom viewport.",
+  },
+  {
+    name: "toast",
+    type: "{ info, success, warning, error, add, dismiss }",
+    description:
+      "Default imperative toast channel for app code. Use toast.success(title, options) without reading the manager.",
   },
   {
     name: "useToastManager",
     type: "() => { toasts, add, close, update, promise }",
     description:
-      "Creates or reads the active manager inside ToastProvider. Use add/update/promise for transient feedback.",
+      "Advanced hook for custom toast lists, seeded docs previews, and anchored composition.",
   },
   {
     name: "createToastManager",
     type: "Base UI createToastManager",
-    description: "Creates an external manager for app-level toast calls outside React render.",
+    description:
+      "Advanced escape hatch for isolated channels, local previews, and multiple independent toast roots.",
   },
   {
     name: "ToastPortal",
@@ -651,7 +609,7 @@ const PROPS: readonly PropRow[] = [
     name: "ToastAction",
     type: "Base UI Toast.Action.Props & { loading?, loadingLabel? }",
     description:
-      "Renders only when actionProps.children exists on the toast object. Set loading to keep the action disabled with a spinner while work is pending.",
+      "Renders the toast action. The default toast channel maps action.label to ToastAction; custom managers can still pass Base UI actionProps.",
   },
   {
     name: "ToastClose",
@@ -677,7 +635,6 @@ function ToastDoc() {
     <DocPage
       title="Toast"
       description="A transient feedback layer for copy, forward, sync, and action-result messages."
-      headerAction={<StatusBadge status="in-progress" />}
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
@@ -773,9 +730,8 @@ function ToastDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-3">
           <DocNote>
-            Toast lives in <code>raft-ui/wip</code> while the public API settles. Keep long-running
-            or historical notifications in NotificationCenter; use Toast for immediate feedback that
-            can disappear.
+            Keep long-running or historical notifications in NotificationCenter; use Toast for
+            immediate feedback that can disappear.
           </DocNote>
           <div className="space-y-2">
             <h3 className="text-sm font-medium text-foreground-strong">Stacked</h3>
@@ -811,7 +767,7 @@ function ToastDoc() {
               id: "source-comparison-selection-toast",
               label: "Selection feedback toast",
               status: "match",
-              note: "Source keeps one hand-rolled bottom-center status region in ChatPanel. The WIP Toast keeps that transient feedback shape but moves lifecycle, stacking, swipe dismiss, and live-region semantics into Base UI.",
+              note: "Source keeps one hand-rolled bottom-center status region in ChatPanel. Toast keeps that transient feedback shape but moves lifecycle, stacking, swipe dismiss, and live-region semantics into Base UI.",
               sourceScenes: SELECTION_TOAST_SCENES,
               source: <SourceSelectionToastPreview message="3 links copied." />,
               sourceCode: code.sourceToast,
@@ -855,25 +811,23 @@ function InlineUsageToast() {
   return (
     <div ref={setPortalContainer} className="relative min-h-72 w-full overflow-hidden">
       <ToastPreviewScene />
-      <ToastProvider key={theme} timeout={3600} limit={3}>
+      <ToastProvider
+        key={theme}
+        timeout={3600}
+        limit={3}
+        portalContainer={portalContainer}
+        viewportPlacement="bottom-center"
+        viewportStrategy="absolute"
+      >
         <div className="relative z-10">
           <InlineUsageControls />
         </div>
-        {portalContainer ? (
-          <ToastPortal container={portalContainer}>
-            <ToastViewport strategy="absolute" placement="bottom-center">
-              <InlineUsageToastList />
-            </ToastViewport>
-          </ToastPortal>
-        ) : null}
       </ToastProvider>
     </div>
   );
 }
 
 function InlineUsageControls() {
-  const toastManager = useToastManager<{ icon?: "info" | "send" | "copy" }>();
-
   return (
     <div className="flex w-full items-start justify-center gap-2 pt-2">
       <Button
@@ -881,14 +835,11 @@ function InlineUsageControls() {
         size="sm"
         variant="primary"
         onClick={() =>
-          toastManager.add({
-            type: "info",
-            title: "Link copied.",
+          toast.success("Link copied.", {
             description: "The message link is ready to paste.",
-            data: { icon: "copy" },
-            actionProps: {
-              children: "Copy again",
-              onClick: () => toastManager.close(),
+            action: {
+              label: "Copy again",
+              onClick: () => toast.dismiss(),
             },
           })
         }
@@ -901,14 +852,11 @@ function InlineUsageControls() {
         size="sm"
         variant="outline"
         onClick={() =>
-          toastManager.add({
-            type: "info",
-            title: "Forwarded to #design-system.",
+          toast.info("Forwarded to #design-system.", {
             description: "The selected messages were sent.",
-            data: { icon: "send" },
-            actionProps: {
-              children: "View",
-              onClick: () => toastManager.close(),
+            action: {
+              label: "View",
+              onClick: () => toast.dismiss(),
             },
           })
         }
@@ -916,35 +864,24 @@ function InlineUsageControls() {
         <Send aria-hidden />
         Forward
       </Button>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={() =>
+          toast.error("Clipboard write blocked.", {
+            description: "Grant clipboard access or copy the links manually.",
+            action: {
+              label: "Retry",
+              onClick: () => toast.dismiss(),
+            },
+          })
+        }
+      >
+        Error
+      </Button>
     </div>
   );
-}
-
-function InlineUsageToastList() {
-  const { toasts } = useToastManager<{ icon?: "info" | "send" | "copy" }>();
-
-  return toasts.map((toast) => {
-    const Icon =
-      toast.data?.icon === "send" ? SendHorizontal : toast.data?.icon === "copy" ? Copy : Info;
-
-    return (
-      <ToastRoot key={toast.id} toast={toast}>
-        <ToastContent>
-          <ToastIcon>
-            <Icon aria-hidden />
-          </ToastIcon>
-          <ToastBody>
-            <ToastTitle />
-            <ToastDescription />
-          </ToastBody>
-          <ToastActions>
-            <ToastClose />
-            <ToastAction />
-          </ToastActions>
-        </ToastContent>
-      </ToastRoot>
-    );
-  });
 }
 
 function AnchoredUsageToast() {
@@ -954,7 +891,13 @@ function AnchoredUsageToast() {
   return (
     <div ref={setPortalContainer} className="relative min-h-56 w-full overflow-hidden">
       <ToastPreviewScene />
-      <ToastProvider key={theme} toastManager={anchoredUsageToastManager} timeout={1500} limit={1}>
+      <ToastProvider
+        key={theme}
+        toastManager={anchoredUsageToastManager}
+        timeout={1500}
+        limit={1}
+        renderViewport={false}
+      >
         <div className="relative z-10 flex min-h-56 w-full items-center justify-center gap-2">
           <AnchoredUsageButton />
         </div>
@@ -1019,11 +962,18 @@ function AnchoredUsageToastList() {
 
 function ToastAnatomyVariantPreview({ variant }: { variant: (typeof ANATOMY_VARIANTS)[number] }) {
   const theme = useThemeFamily();
+  const [toastManager] = useState(() => createToastManager<AnatomyVariantData>());
 
   return (
     <div className="relative flex min-h-32 w-full items-center justify-center overflow-hidden">
       <ToastPreviewScene />
-      <ToastProvider key={theme} timeout={0} limit={1}>
+      <ToastProvider
+        key={theme}
+        toastManager={toastManager}
+        timeout={0}
+        limit={1}
+        renderViewport={false}
+      >
         <ToastAnatomyVariantSeed variant={variant} />
         <div className="relative z-10">
           <ToastAnatomyVariantItem />
