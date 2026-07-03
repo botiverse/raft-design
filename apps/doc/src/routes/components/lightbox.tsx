@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Badge, Button, useThemeFamily, type Theme } from "raft-ui";
 import {
+  Badge,
+  Button,
   Lightbox,
   LightboxClose,
   LightboxContent,
@@ -14,7 +15,9 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "raft-ui/wip";
+  useThemeFamily,
+  type Theme,
+} from "raft-ui";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
 import {
   useCallback,
@@ -104,7 +107,7 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Download, X } from "lucide-react";
 
 <Lightbox>

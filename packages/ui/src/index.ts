@@ -56,6 +56,37 @@ export type {
   DialogTriggerProps,
 } from "./components/dialog/index";
 
+export {
+  BottomSheet,
+  BottomSheetActions,
+  BottomSheetBody,
+  BottomSheetClose,
+  BottomSheetContent,
+  BottomSheetDescription,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  BottomSheetOverlay,
+  BottomSheetPortal,
+  BottomSheetPositioner,
+  BottomSheetTitle,
+  BottomSheetTrigger,
+} from "./components/bottom-sheet/index";
+export type {
+  BottomSheetActionsProps,
+  BottomSheetBodyProps,
+  BottomSheetCloseProps,
+  BottomSheetContentProps,
+  BottomSheetDescriptionProps,
+  BottomSheetFooterProps,
+  BottomSheetHeaderProps,
+  BottomSheetOverlayProps,
+  BottomSheetPortalProps,
+  BottomSheetPositionerProps,
+  BottomSheetProps,
+  BottomSheetTitleProps,
+  BottomSheetTriggerProps,
+} from "./components/bottom-sheet/index";
+
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
 
@@ -143,6 +174,39 @@ export type {
   DropdownMenuSubmenuTriggerProps,
   DropdownMenuTriggerProps,
 } from "./components/dropdown-menu/index";
+
+export {
+  Lightbox,
+  LightboxActions,
+  LightboxClose,
+  LightboxContent,
+  LightboxHeader,
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoTitle,
+  LightboxMedia,
+  LightboxNavigationButton,
+  LightboxPortal,
+  LightboxStage,
+  LightboxTitle,
+  LightboxTrigger,
+} from "./components/lightbox/index";
+export type {
+  LightboxActionsProps,
+  LightboxCloseProps,
+  LightboxContentProps,
+  LightboxHeaderProps,
+  LightboxInfoActionsProps,
+  LightboxInfoBarProps,
+  LightboxInfoTitleProps,
+  LightboxMediaProps,
+  LightboxNavigationButtonProps,
+  LightboxPortalProps,
+  LightboxProps,
+  LightboxStageProps,
+  LightboxTitleProps,
+  LightboxTriggerProps,
+} from "./components/lightbox/index";
 
 export {
   Tooltip,

@@ -46,7 +46,7 @@ const tooltip = tv({
       },
       elegant: {
         content: [
-          "rounded-xl bg-[oklch(0.263_0.009_294.9)] text-[oklch(0.965_0.002_286)]",
+          "rounded-md bg-[oklch(0.263_0.009_294.9)] text-[oklch(0.965_0.002_286)]",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",

@@ -4,13 +4,13 @@ import type { ReactNode } from "react";
 import {
   Avatar,
   AvatarFallback,
+  BottomSheetActions,
   Button,
   Text,
   type Theme,
   type ThemeMode,
   useThemeFamily,
 } from "raft-ui";
-import { BottomSheetActions } from "raft-ui/wip";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 

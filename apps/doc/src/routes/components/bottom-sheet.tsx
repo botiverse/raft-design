@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, AvatarFallback, Button, Text } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
   BottomSheet,
   BottomSheetActions,
   BottomSheetBody,
@@ -14,7 +15,9 @@ import {
   BottomSheetPositioner,
   BottomSheetTitle,
   BottomSheetTrigger,
-} from "raft-ui/wip";
+  Button,
+  Text,
+} from "raft-ui";
 import { useState } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";

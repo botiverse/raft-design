@@ -8,7 +8,7 @@ import {
   LightboxHeader,
   LightboxStage,
   LightboxTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function AttachmentPreviewShellComposition() {
   return (

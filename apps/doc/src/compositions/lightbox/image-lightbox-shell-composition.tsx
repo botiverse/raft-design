@@ -11,7 +11,7 @@ import {
   LightboxMedia,
   LightboxStage,
   LightboxTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function ImageLightboxShellComposition() {
   const theme = useThemeFamily();
