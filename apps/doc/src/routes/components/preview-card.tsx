@@ -90,7 +90,7 @@ const SNIPPETS = {
 } from "raft-ui";
 
 <PreviewCard>
-  <PreviewCardTrigger render={<a href="/people/atlas" />}>@atlas</PreviewCardTrigger>
+  <PreviewCardTrigger render={<a href="/components/avatar" />}>@atlas</PreviewCardTrigger>
   <PreviewCardContent>
     <PreviewCardHeader>
       <PreviewCardTitle>Atlas</PreviewCardTitle>
@@ -104,7 +104,7 @@ const SNIPPETS = {
     <PreviewCardTrigger
       render={
         <a
-          href="/people/atlas"
+          href="/components/avatar"
           className="font-bold underline decoration-foreground/30 decoration-2 underline-offset-2"
         />
       }
@@ -223,7 +223,7 @@ function DefaultOpenPreviewCard() {
           id="preview-card-preview-trigger"
           render={
             <a
-              href="/people/atlas"
+              href="/components/avatar"
               className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30"
             />
           }
@@ -249,7 +249,7 @@ function SourceMentionCardPreview() {
         <p className="m-0 max-w-full text-sm leading-6 text-black">
           <span>Follow up with </span>
           <a
-            href="/people/atlas"
+            href="/components/avatar"
             className="cursor-default select-text font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2 hover:text-brutal-pink hover:decoration-brutal-pink"
           >
             @Atlas
