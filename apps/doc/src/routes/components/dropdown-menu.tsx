@@ -34,14 +34,12 @@ import {
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
 import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
@@ -70,7 +68,6 @@ import {
 } from "#/compositions/sidebar-sort-menu.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "submenu", title: "Submenu" },
@@ -116,19 +113,12 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const TODOS = ["Add group part when a source callsite needs it"] as const;
-
 const DROPDOWN_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
   messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
   selectOptionsListComposition: selectOptionsListCompositionSource,
   serverSwitcherComposition: serverSwitcherMenuCompositionSource,
   sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
 } as const);
-
-type PlaygroundValues = {
-  open: boolean;
-  label: string;
-};
 
 const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
     <DropdownMenuItem>
@@ -169,7 +159,7 @@ const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
     </DropdownMenuItem>`;
 
 const SWITCH_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="switch-menu-trigger">
-  <DropdownMenuTrigger id="switch-menu-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="switch-menu-trigger">
     Switch
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
@@ -185,7 +175,7 @@ const SWITCH_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="switch-
 </DropdownMenu>`;
 
 const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="checkboxes-menu-trigger">
-  <DropdownMenuTrigger id="checkboxes-menu-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="checkboxes-menu-trigger">
     Checkboxes
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
@@ -201,7 +191,7 @@ const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="che
 const RADIO_GROUP_MENU_SNIPPET = `import { Monitor, Sun } from "lucide-react";
 
 <DropdownMenu open modal={false} triggerId="radio-group-menu-trigger">
-  <DropdownMenuTrigger id="radio-group-menu-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="radio-group-menu-trigger">
     Radio group
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
@@ -219,7 +209,7 @@ const RADIO_GROUP_MENU_SNIPPET = `import { Monitor, Sun } from "lucide-react";
 </DropdownMenu>`;
 
 const PLAIN_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="plain-picker-trigger">
-  <DropdownMenuTrigger id="plain-picker-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="plain-picker-trigger">
     Time
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex min-w-[220px] flex-col">
@@ -233,7 +223,7 @@ const PLAIN_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="plain-
 </DropdownMenu>`;
 
 const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="headerless-picker-trigger">
-  <DropdownMenuTrigger id="headerless-picker-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="headerless-picker-trigger">
     Sort
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex min-w-[136px] flex-col">
@@ -246,7 +236,7 @@ const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="h
 </DropdownMenu>`;
 
 const OPTIONS_LIST_SNIPPET = `<DropdownMenu open modal={false} triggerId="options-list-trigger">
-  <DropdownMenuTrigger id="options-list-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="options-list-trigger">
     Options
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex min-w-[220px] flex-col">
@@ -258,7 +248,7 @@ const OPTIONS_LIST_SNIPPET = `<DropdownMenu open modal={false} triggerId="option
 </DropdownMenu>`;
 
 const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-trigger">
-  <DropdownMenuTrigger id="submenu-trigger" render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger id="submenu-trigger">
     Submenu
   </DropdownMenuTrigger>
   <DropdownMenuContent className="flex w-64 flex-col">
@@ -282,8 +272,29 @@ const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-tri
 </DropdownMenu>`;
 
 const SNIPPETS = {
+  preview: `import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuItemCount,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSubmenu,
+  DropdownMenuSubmenuTrigger,
+  DropdownMenuTrigger,
+} from "raft-ui";
+
+<DropdownMenu defaultOpen modal={false} triggerId="preview-profile-trigger">
+  <DropdownMenuTrigger id="preview-profile-trigger">
+    <ChartNoAxesCombined />
+    Profile
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="flex w-64 flex-col">
+${PROFILE_MENU_SNIPPET}
+  </DropdownMenuContent>
+</DropdownMenu>`,
   anatomy: `import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -297,7 +308,7 @@ const SNIPPETS = {
 } from "raft-ui";
 
 <DropdownMenu>
-  <DropdownMenuTrigger render={<Button variant="outline" size="md" />}>
+  <DropdownMenuTrigger>
     <ChartNoAxesCombined />
     Profile
   </DropdownMenuTrigger>
@@ -499,9 +510,7 @@ function OpenMenuExample({
   return (
     <div ref={portalRef} className="relative flex justify-center">
       <DropdownMenu open modal={false} triggerId={triggerId}>
-        <DropdownMenuTrigger id={triggerId} render={<Button variant="outline" size="md" />}>
-          {label}
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger id={triggerId}>{label}</DropdownMenuTrigger>
         <DropdownMenuContent
           positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
@@ -514,18 +523,15 @@ function OpenMenuExample({
   );
 }
 
-function ProfilePreviewMenu({ open, label }: { open: boolean; label: string }) {
+function ProfilePreviewMenu() {
   const portalRef = useRef<HTMLDivElement>(null);
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
-      <DropdownMenu open={open} modal={false} triggerId="preview-profile-trigger">
-        <DropdownMenuTrigger
-          id="preview-profile-trigger"
-          render={<Button variant="outline" size="md" />}
-        >
+      <DropdownMenu defaultOpen modal={false} triggerId="preview-profile-trigger">
+        <DropdownMenuTrigger id="preview-profile-trigger">
           <ChartNoAxesCombined />
-          {label}
+          Profile
         </DropdownMenuTrigger>
         <DropdownMenuContent
           positionMethod="absolute"
@@ -548,7 +554,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenuTrigger",
     type: "Base UI Menu.Trigger.Props",
-    description: "Button-like trigger. Compose custom controls with Base UI's render prop.",
+    description:
+      "Button-like trigger. Defaults to an outline md Button; pass render for a custom control.",
   },
   {
     name: "DropdownMenuContent",
@@ -654,28 +661,15 @@ function DropdownMenuDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview">
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Preview models a profile menu. Icons, trailing chevrons, shortcuts, counters, and selected
           state indicators are composed as children so product code can choose its own visual
           language without a dedicated icon prop.
         </p>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            open: true,
-            label: "Profile",
-          }}
-          controls={[
-            { name: "open", label: "Open", type: "boolean" },
-            { name: "label", label: "Label", type: "text" },
-          ]}
-          previewClassName="min-h-[30rem] items-start pt-24"
-          render={(values) => <ProfilePreviewMenu open={values.open} label={values.label} />}
-        />
+        <Example html={code.preview} previewClassName="min-h-[30rem] items-start pt-24">
+          <ProfilePreviewMenu />
+        </Example>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

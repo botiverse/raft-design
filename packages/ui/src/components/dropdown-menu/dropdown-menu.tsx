@@ -2,6 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { tv } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge/index";
+import { Button } from "../button/index";
 import { Kbd, type KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -70,6 +71,11 @@ const dropdownMenu = tv({
         indicator: [],
       },
       elegant: {
+        trigger: [
+          "hover:bg-[color-mix(in_oklch,var(--line-subtle)_22%,var(--layer-panel))]",
+          "data-[popup-open]:[--button-focus-outline:transparent] focus-visible:[--button-focus-outline:transparent]",
+          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_35%,transparent)] focus-visible:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_35%,transparent)]",
+        ],
         content: [
           "gap-0.5 rounded-md bg-layer-popover p-1",
           "shadow-lg outline-none",
@@ -143,12 +149,17 @@ export function DropdownMenuSubmenu(props: DropdownMenuSubmenuProps) {
 
 export type DropdownMenuTriggerProps = StyledProps<BaseMenu.Trigger.Props>;
 
-export function DropdownMenuTrigger({ className, ...props }: DropdownMenuTriggerProps) {
+export function DropdownMenuTrigger({
+  className,
+  render = <Button variant="outline" size="md" />,
+  ...props
+}: DropdownMenuTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = dropdownMenu({ theme });
   return (
     <BaseMenu.Trigger
       data-slot="dropdown-menu-trigger"
+      render={render}
       className={trigger({ className })}
       {...props}
     />
@@ -199,13 +210,14 @@ export function DropdownMenuContent({
   disableAnchorTracking = false,
   positionMethod = "fixed",
   side = "bottom",
-  sideOffset = 4,
+  sideOffset,
   sticky,
   portalProps,
   className,
   ...props
 }: DropdownMenuContentProps) {
   const theme = useThemeFamily();
+  const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 6 : 4);
   const { positioner, content } = dropdownMenu({ theme });
   return (
     <BaseMenu.Portal {...portalProps}>
@@ -220,7 +232,7 @@ export function DropdownMenuContent({
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
-        sideOffset={sideOffset}
+        sideOffset={resolvedSideOffset}
         sticky={sticky}
         className={positioner()}
       >
