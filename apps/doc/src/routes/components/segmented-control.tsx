@@ -279,9 +279,6 @@ function SegmentedControlDoc() {
       compositionSource: SEGMENTED_CONTROL_COMPOSITION_SOURCES[key],
     };
   };
-  const [filter, setFilter] = useState<string>("all");
-  const [view, setView] = useState<string>("board");
-  const [timeFormat, setTimeFormat] = useState<string>("24h");
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [brutalFilter, setBrutalFilter] = useState<string>("all");
   const [elegantFilter, setElegantFilter] = useState<string>("all");
@@ -290,7 +287,6 @@ function SegmentedControlDoc() {
   const [brutalView, setBrutalView] = useState<string>("board");
   const [elegantView, setElegantView] = useState<string>("board");
   const [elegantDarkView, setElegantDarkView] = useState<string>("board");
-  const [searchSort, setSearchSort] = useState<string>("relevance");
   const [sourceSearchSort, setSourceSearchSort] = useState<string>("relevance");
   const [brutalSearchSort, setBrutalSearchSort] = useState<string>("relevance");
   const [elegantSearchSort, setElegantSearchSort] = useState<string>("relevance");
@@ -320,7 +316,7 @@ function SegmentedControlDoc() {
     >
       <DocSection id="preview" title="Preview">
         <Example html={code.filters}>
-          <SegmentedControlFiltersComposition value={filter} onValueChange={setFilter} />
+          <SegmentedControlFiltersExample />
         </Example>
       </DocSection>
 
@@ -343,34 +339,28 @@ function SegmentedControlDoc() {
           <section className="grid gap-3">
             <h3 className="text-sm font-medium text-foreground-strong">Filters with counts</h3>
             <Example html={code.filters}>
-              <SegmentedControlFiltersComposition value={filter} onValueChange={setFilter} />
+              <SegmentedControlFiltersExample />
             </Example>
           </section>
 
           <section className="grid gap-3">
             <h3 className="text-sm font-medium text-foreground-strong">View mode</h3>
             <Example html={code.viewMode}>
-              <SegmentedControlViewModeComposition value={view} onValueChange={setView} />
+              <SegmentedControlViewModeExample />
             </Example>
           </section>
 
           <section className="grid gap-3">
             <h3 className="text-sm font-medium text-foreground-strong">Search sort</h3>
             <Example html={code.searchSort}>
-              <SegmentedControlSearchSortComposition
-                value={searchSort}
-                onValueChange={setSearchSort}
-              />
+              <SegmentedControlSearchSortExample />
             </Example>
           </section>
 
           <section className="grid gap-3">
             <h3 className="text-sm font-medium text-foreground-strong">Preference choice</h3>
             <Example html={code.preferences}>
-              <SegmentedControlTimeFormatComposition
-                value={timeFormat}
-                onValueChange={setTimeFormat}
-              />
+              <SegmentedControlTimeFormatExample />
             </Example>
           </section>
 
@@ -554,4 +544,24 @@ function SegmentedControlDoc() {
       </DocSection>
     </DocPage>
   );
+}
+
+function SegmentedControlFiltersExample() {
+  const [filter, setFilter] = useState<string>("all");
+  return <SegmentedControlFiltersComposition value={filter} onValueChange={setFilter} />;
+}
+
+function SegmentedControlViewModeExample() {
+  const [view, setView] = useState<string>("board");
+  return <SegmentedControlViewModeComposition value={view} onValueChange={setView} />;
+}
+
+function SegmentedControlSearchSortExample() {
+  const [searchSort, setSearchSort] = useState<string>("relevance");
+  return <SegmentedControlSearchSortComposition value={searchSort} onValueChange={setSearchSort} />;
+}
+
+function SegmentedControlTimeFormatExample() {
+  const [timeFormat, setTimeFormat] = useState<string>("24h");
+  return <SegmentedControlTimeFormatComposition value={timeFormat} onValueChange={setTimeFormat} />;
 }
