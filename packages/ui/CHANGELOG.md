@@ -1,3 +1,9 @@
+## [0.0.14](https://github.com/botiverse/rui/compare/v0.0.13...v0.0.14) (2026-07-06)
+
+### Bug Fixes
+
+- **toast:** refine anchored and stacked behavior ([cc53edb](https://github.com/botiverse/rui/commit/cc53edbb7365ee452a27ec04ffbf6f306fe8bb47))
+
 ## [0.0.13](https://github.com/botiverse/rui/compare/v0.0.12...v0.0.13) (2026-07-06)
 
 ### Features
