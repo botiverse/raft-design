@@ -9,7 +9,7 @@ const tooltip = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-3 py-2",
+      "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
       "text-[13px] leading-[18px] whitespace-normal break-words",
       "origin-[var(--transform-origin)] outline-none",
       "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
