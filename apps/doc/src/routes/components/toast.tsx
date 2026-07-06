@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { Check, Copy, Info, Send } from "lucide-react";
 import {
   Button,
@@ -27,6 +27,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -38,6 +39,7 @@ import {
   TOAST_COMPOSITION_PATH,
   ToastComposition,
   ToastPreviewScene,
+  type ToastDemoOptions,
 } from "#/compositions/toast-source-comparison.tsx";
 
 const TOC = [
@@ -50,6 +52,8 @@ const TOC = [
 ] as const;
 
 const anchoredUsageToastManager = createToastManager();
+
+type PreviewPlaygroundValues = ToastDemoOptions;
 
 const ANATOMY_VARIANTS = [
   {
@@ -335,7 +339,7 @@ function MessageActions() {
     </Button>
   );
 }`,
-  anchoredUsage: `import { useRef } from "react";
+  anchoredUsage: `import { useEffect, useRef, type RefObject } from "react";
 import { Button } from "raft-ui";
 import {
   createToastManager,
@@ -352,22 +356,42 @@ import {
 const anchoredToastManager = createToastManager();
 
 function AppToastLayer() {
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
   return (
     <ToastProvider
       toastManager={anchoredToastManager}
-      timeout={1500}
+      timeout={0}
       limit={1}
       renderViewport={false}
     >
-      <CopyButton />
+      <SeedAnchoredToast buttonRef={buttonRef} />
+      <CopyButton buttonRef={buttonRef} />
       <AnchoredToasts />
     </ToastProvider>
   );
 }
 
-function CopyButton() {
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
+function SeedAnchoredToast({ buttonRef }: { buttonRef: RefObject<HTMLButtonElement | null> }) {
+  useEffect(() => {
+    if (!buttonRef.current) return;
 
+    anchoredToastManager.add({
+      id: "copy-link",
+      title: "Copied",
+      positionerProps: {
+        anchor: buttonRef.current,
+        side: "top",
+        align: "center",
+        sideOffset: 8,
+      },
+    });
+  }, [buttonRef]);
+
+  return null;
+}
+
+function CopyButton({ buttonRef }: { buttonRef: RefObject<HTMLButtonElement | null> }) {
   return (
     <Button
       ref={buttonRef}
@@ -376,6 +400,7 @@ function CopyButton() {
         anchoredToastManager.add({
           id: "copy-link",
           title: "Copied",
+          timeout: 1500,
           positionerProps: {
             anchor: buttonRef.current,
             side: "top",
@@ -587,7 +612,7 @@ const PROPS: readonly PropRow[] = [
     type: 'Base UI Toast.Root.Props & { layout?: "stacked" | "inline" }',
     default: 'layout="stacked"',
     description:
-      "Individual toast frame. Use layout=inline for ToastPositioner children and non-stacked local previews.",
+      "Individual toast frame. Keep stacked by default; use layout=inline only inside ToastPositioner anchored toasts or isolated one-off previews.",
   },
   {
     name: "ToastContent",
@@ -638,9 +663,31 @@ function ToastDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
-        <Example html={code.preview} previewClassName="min-h-84" previewInset="flush">
-          <ToastComposition controls className="h-full min-h-84 w-full" />
-        </Example>
+        <ComponentPlayground<PreviewPlaygroundValues>
+          defaultValues={{
+            mode: "stacked",
+            icon: true,
+            description: true,
+            action: true,
+            dismissible: true,
+          }}
+          controls={[
+            { name: "mode", label: "Mode", type: "radio", options: ["stacked", "anchored"] },
+            { name: "icon", label: "Icon", type: "boolean" },
+            { name: "description", label: "Description", type: "boolean" },
+            { name: "action", label: "Action", type: "boolean" },
+            { name: "dismissible", label: "Dismiss", type: "boolean" },
+          ]}
+          previewClassName="min-h-84"
+          render={(values) => (
+            <ToastComposition
+              key={values.mode}
+              controls
+              demoOptions={values}
+              className="h-full min-h-84 w-full"
+            />
+          )}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -740,7 +787,7 @@ function ToastDoc() {
             </Example>
           </div>
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-foreground-strong">Anchored</h3>
+            <h3 className="text-sm font-medium text-foreground-strong">Anchored with arrow</h3>
             <DocNote>
               Anchored toasts use <code>ToastPositioner</code> with the <code>positionerProps</code>{" "}
               supplied to <code>toastManager.add</code>. Keep anchored and stacked toasts in
@@ -886,6 +933,7 @@ function InlineUsageControls() {
 
 function AnchoredUsageToast() {
   const theme = useThemeFamily();
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
@@ -894,12 +942,13 @@ function AnchoredUsageToast() {
       <ToastProvider
         key={theme}
         toastManager={anchoredUsageToastManager}
-        timeout={1500}
+        timeout={0}
         limit={1}
         renderViewport={false}
       >
+        <SeedAnchoredUsageToast buttonRef={buttonRef} />
         <div className="relative z-10 flex min-h-56 w-full items-center justify-center gap-2">
-          <AnchoredUsageButton />
+          <AnchoredUsageButton buttonRef={buttonRef} />
         </div>
         {portalContainer ? (
           <ToastPortal container={portalContainer}>
@@ -913,9 +962,26 @@ function AnchoredUsageToast() {
   );
 }
 
-function AnchoredUsageButton() {
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
+function SeedAnchoredUsageToast({ buttonRef }: { buttonRef: RefObject<HTMLButtonElement | null> }) {
+  useEffect(() => {
+    if (!buttonRef.current) return;
 
+    anchoredUsageToastManager.add({
+      id: "copy-link",
+      title: "Copied",
+      positionerProps: {
+        anchor: buttonRef.current,
+        side: "top",
+        align: "center",
+        sideOffset: 8,
+      },
+    });
+  }, [buttonRef]);
+
+  return null;
+}
+
+function AnchoredUsageButton({ buttonRef }: { buttonRef: RefObject<HTMLButtonElement | null> }) {
   return (
     <Button
       ref={buttonRef}
@@ -926,6 +992,7 @@ function AnchoredUsageButton() {
         anchoredUsageToastManager.add({
           id: "copy-link",
           title: "Copied",
+          timeout: 1500,
           positionerProps: {
             anchor: buttonRef.current,
             side: "top",

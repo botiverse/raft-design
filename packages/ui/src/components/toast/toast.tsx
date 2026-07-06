@@ -21,7 +21,7 @@ const toastStyles = tv({
       "pointer-events-none isolate z-[70] w-[min(24rem,calc(100vw-2rem))]",
       "outline-none",
     ],
-    positioner: ["isolate z-[70] outline-none"],
+    positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
       "select-text overflow-hidden text-foreground-strong",
@@ -46,7 +46,6 @@ const toastStyles = tv({
       "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-[var(--toast-title-only-py,0.5rem)]",
       "[&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:justify-self-center [&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
-      "data-[behind]:opacity-0 data-[expanded]:opacity-100",
       "motion-reduce:transition-none",
     ],
     icon: ["flex size-5 shrink-0 items-center justify-center", "[&_svg]:size-3.5 [&_svg]:shrink-0"],
@@ -64,12 +63,12 @@ const toastStyles = tv({
     ],
     arrow: [
       "pointer-events-none flex",
-      "data-[side=top]:bottom-[-6px]",
-      "data-[side=bottom]:top-[-6px] data-[side=bottom]:rotate-180",
-      "data-[side=left]:right-[-8px] data-[side=left]:-rotate-90",
-      "data-[side=right]:left-[-8px] data-[side=right]:rotate-90",
-      "data-[side=inline-start]:right-[-8px] data-[side=inline-start]:-rotate-90",
-      "data-[side=inline-end]:left-[-8px] data-[side=inline-end]:rotate-90",
+      "data-[side=top]:bottom-[-5px]",
+      "data-[side=bottom]:top-[-5px] data-[side=bottom]:rotate-180",
+      "data-[side=left]:right-[-7px] data-[side=left]:-rotate-90",
+      "data-[side=right]:left-[-7px] data-[side=right]:rotate-90",
+      "data-[side=inline-start]:right-[-7px] data-[side=inline-start]:-rotate-90",
+      "data-[side=inline-end]:left-[-7px] data-[side=inline-end]:rotate-90",
     ],
   },
   variants: {
@@ -114,6 +113,7 @@ const toastStyles = tv({
           "[&:has([data-slot=toast-actions])]:min-h-14",
           "[&:has([data-slot=toast-actions])]:py-3",
           "[&:has([data-slot=toast-actions])]:pl-3.5",
+          "[&:has([data-slot=toast-actions])]:pr-3",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-h-14",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-w-[18rem]",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:py-3",
@@ -186,6 +186,7 @@ const toastStyles = tv({
           "data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-120%))_translateY(var(--toast-y))]",
           "data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+120%))]",
           "data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-120%))]",
+          "[&_[data-slot=toast-content][data-behind]]:opacity-0 [&_[data-slot=toast-content][data-expanded]]:opacity-100",
         ],
       },
       inline: {
@@ -194,6 +195,7 @@ const toastStyles = tv({
           "origin-[var(--transform-origin)]",
           "data-[starting-style]:[transform:scale(0.97)]",
           "data-[ending-style]:[transform:scale(0.99)]",
+          "[&_[data-slot=toast-content]]:opacity-100",
         ],
       },
     },
@@ -236,6 +238,20 @@ const toastStyles = tv({
       layout: "stacked",
       class: {
         root: "w-max max-w-full",
+      },
+    },
+    {
+      theme: "elegant",
+      layout: "stacked",
+      class: {
+        root: "w-max max-w-full",
+      },
+    },
+    {
+      theme: "elegant",
+      layout: "inline",
+      class: {
+        root: "bg-[oklch(0.263_0.009_294.9_/_0.62)] after:hidden dark:bg-[oklch(0.230_0.010_294.8_/_0.62)]",
       },
     },
   ],
@@ -624,6 +640,10 @@ export function ToastArrow({ className, ...props }: ToastArrowProps) {
   const theme = useThemeFamily();
   const { arrow } = toastStyles({ theme });
 
+  if (theme === "elegant") {
+    return null;
+  }
+
   return (
     <BaseToast.Arrow data-slot="toast-arrow" className={arrow({ className })} {...props}>
       <ToastArrowSvg theme={theme} />
@@ -662,10 +682,9 @@ function DefaultToastItem({ toast: toastObject }: { toast: ToastObject<ToastData
   const showAction = Boolean(toastObject.actionProps?.children);
   const showClose = toastObject.data?.hasClose !== false;
   const showIcon = toastObject.data?.hasIcon !== false;
-  const layout = !showIcon && !showDescription && !showAction && !showClose ? "inline" : "stacked";
 
   return (
-    <ToastRoot toast={toastObject} layout={layout}>
+    <ToastRoot toast={toastObject}>
       <ToastContent className={toastObject.data?.contentClassName}>
         {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}
         <ToastBody>
@@ -713,13 +732,15 @@ function ToastArrowSvg({
             : "fill-soft-signal"
         }
       />
-      <path
-        d="M1 0.5L6 5.25L11 0.5"
-        className={theme === "elegant" ? "stroke-white/28" : "stroke-line-strong"}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
+      {theme === "elegant" ? null : (
+        <path
+          d="M1 0.5L6 5.25L11 0.5"
+          className="stroke-line-strong"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      )}
     </svg>
   );
 }

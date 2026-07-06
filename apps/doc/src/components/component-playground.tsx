@@ -2,6 +2,8 @@ import { useRef, useState, type ReactNode, type RefObject } from "react";
 import {
   Checkbox,
   Input,
+  RadioGroup,
+  RadioGroupItem,
   Select,
   SelectContent,
   SelectIcon,
@@ -19,7 +21,12 @@ type ControlValue = string | boolean;
 type Control<T> = {
   name: keyof T & string;
   label: string;
-} & ({ type: "select"; options: readonly string[] } | { type: "boolean" } | { type: "text" });
+} & (
+  | { type: "select"; options: readonly string[] }
+  | { type: "radio"; options: readonly string[] }
+  | { type: "boolean" }
+  | { type: "text" }
+);
 
 type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   defaultValues: T;
@@ -75,6 +82,38 @@ function SelectControlInput({ id, label, options, value, onValueChange }: Select
   );
 }
 
+type RadioControlInputProps = {
+  label: string;
+  options: readonly string[];
+  value: string;
+  onValueChange: (value: string) => void;
+};
+
+function RadioControlInput({ label, options, value, onValueChange }: RadioControlInputProps) {
+  return (
+    <RadioGroup
+      ariaLabel={label}
+      value={value}
+      onValueChange={(nextValue) => {
+        if (nextValue) {
+          onValueChange(nextValue);
+        }
+      }}
+      className="flex flex-wrap items-center gap-x-3 gap-y-2"
+    >
+      {options.map((option) => (
+        <label
+          key={option}
+          className="flex items-center gap-1.5 text-xs font-medium text-foreground-muted"
+        >
+          <RadioGroupItem value={option} />
+          {option}
+        </label>
+      ))}
+    </RadioGroup>
+  );
+}
+
 /**
  * Storybook-style preview: renders the live component above an editable control
  * panel. `controls` describe how to edit the typed `values` shape `T`, and
@@ -108,6 +147,15 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
               input = (
                 <SelectControlInput
                   id={control.name}
+                  label={control.label}
+                  options={control.options}
+                  value={String(values[control.name])}
+                  onValueChange={(nextValue) => update(control.name, nextValue)}
+                />
+              );
+            } else if (control.type === "radio") {
+              input = (
+                <RadioControlInput
                   label={control.label}
                   options={control.options}
                   value={String(values[control.name])}

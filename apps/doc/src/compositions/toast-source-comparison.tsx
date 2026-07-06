@@ -9,8 +9,10 @@ import {
   ToastClose,
   ToastContent,
   ToastDescription,
+  ToastArrow,
   ToastIcon,
   ToastPortal,
+  ToastPositioner,
   ToastProvider,
   ToastRoot,
   ToastTitle,
@@ -28,6 +30,22 @@ type ToastDemoData = {
   hasIcon?: boolean;
   hasClose?: boolean;
   contentClassName?: string;
+};
+
+export type ToastDemoOptions = {
+  mode: "stacked" | "anchored";
+  icon: boolean;
+  description: boolean;
+  action: boolean;
+  dismissible: boolean;
+};
+
+const DEFAULT_TOAST_DEMO_OPTIONS: ToastDemoOptions = {
+  mode: "stacked",
+  icon: true,
+  description: true,
+  action: true,
+  dismissible: true,
 };
 
 const ICONS = {
@@ -151,10 +169,12 @@ function ImageActionErrorToastList() {
 export function ToastComposition({
   seed = "copy",
   controls = false,
+  demoOptions = DEFAULT_TOAST_DEMO_OPTIONS,
   className,
 }: {
   seed?: "copy" | "forward" | "clipboard-error";
   controls?: boolean;
+  demoOptions?: ToastDemoOptions;
   className?: string;
 }) {
   const theme = useThemeFamily();
@@ -176,14 +196,17 @@ export function ToastComposition({
       >
         {controls ? (
           <div className="relative z-10">
-            <ToastDemoControls />
+            <ToastDemoControls options={demoOptions} />
           </div>
         ) : (
           <SeedToast seed={seed} />
         )}
         {portalContainer ? (
           <ToastPortal container={portalContainer}>
-            <ToastViewport strategy="absolute" placement="bottom-center">
+            <ToastViewport
+              strategy="absolute"
+              placement={demoOptions.mode === "anchored" ? "none" : "bottom-center"}
+            >
               <ToastList />
             </ToastViewport>
           </ToastPortal>
@@ -265,12 +288,26 @@ function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" }) {
   return null;
 }
 
-function ToastDemoControls() {
+function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
   const toastManager = useToastManager<ToastDemoData>();
+  const copyButtonRef = useRef<HTMLButtonElement | null>(null);
+  const forwardButtonRef = useRef<HTMLButtonElement | null>(null);
+  const errorButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const getPositionerProps = (anchor: HTMLButtonElement | null) =>
+    options.mode === "anchored" && anchor
+      ? {
+          anchor,
+          side: "bottom" as const,
+          align: "center" as const,
+          sideOffset: 8,
+        }
+      : undefined;
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 pt-3">
+    <div className="relative z-10 flex flex-wrap items-center justify-center gap-2 pt-3">
       <Button
+        ref={copyButtonRef}
         type="button"
         size="sm"
         variant="primary"
@@ -278,18 +315,26 @@ function ToastDemoControls() {
           toastManager.add({
             type: "info",
             title: "Link copied.",
-            description: "The message link is ready to paste.",
-            data: { icon: "copy" },
-            actionProps: {
-              children: "Copy again",
-              onClick: () => toastManager.close(),
+            description: options.description ? "The message link is ready to paste." : undefined,
+            positionerProps: getPositionerProps(copyButtonRef.current),
+            data: {
+              icon: "copy",
+              hasIcon: options.icon,
+              hasClose: options.dismissible,
             },
+            actionProps: options.action
+              ? {
+                  children: "Copy again",
+                  onClick: () => toastManager.close(),
+                }
+              : undefined,
           })
         }
       >
         Copy link
       </Button>
       <Button
+        ref={forwardButtonRef}
         type="button"
         size="sm"
         variant="outline"
@@ -297,18 +342,26 @@ function ToastDemoControls() {
           toastManager.add({
             type: "info",
             title: "Forwarded to #design-system.",
-            description: "The selected messages were sent.",
-            data: { icon: "send" },
-            actionProps: {
-              children: "View",
-              onClick: () => toastManager.close(),
+            description: options.description ? "The selected messages were sent." : undefined,
+            positionerProps: getPositionerProps(forwardButtonRef.current),
+            data: {
+              icon: "send",
+              hasIcon: options.icon,
+              hasClose: options.dismissible,
             },
+            actionProps: options.action
+              ? {
+                  children: "View",
+                  onClick: () => toastManager.close(),
+                }
+              : undefined,
           })
         }
       >
         Forward
       </Button>
       <Button
+        ref={errorButtonRef}
         type="button"
         size="sm"
         variant="danger-outline"
@@ -316,13 +369,22 @@ function ToastDemoControls() {
           toastManager.add({
             type: "error",
             title: "Clipboard write blocked.",
-            description: "Grant clipboard access or copy the links manually.",
+            description: options.description
+              ? "Grant clipboard access or copy the links manually."
+              : undefined,
+            positionerProps: getPositionerProps(errorButtonRef.current),
             priority: "high",
-            data: { icon: "alert" },
-            actionProps: {
-              children: "Retry",
-              onClick: () => toastManager.close(),
+            data: {
+              icon: "alert",
+              hasIcon: options.icon,
+              hasClose: options.dismissible,
             },
+            actionProps: options.action
+              ? {
+                  children: "Retry",
+                  onClick: () => toastManager.close(),
+                }
+              : undefined,
           })
         }
       >
@@ -335,20 +397,36 @@ function ToastDemoControls() {
 function ToastList() {
   const { toasts } = useToastManager<ToastDemoData>();
 
-  return toasts.map((toast) => <DemoToast key={toast.id} toast={toast} />);
+  return toasts.map((toast) =>
+    toast.positionerProps ? (
+      <ToastPositioner key={toast.id} toast={toast}>
+        <DemoToast toast={toast} layout="inline" showArrow />
+      </ToastPositioner>
+    ) : (
+      <DemoToast key={toast.id} toast={toast} />
+    ),
+  );
 }
 
-function DemoToast({ toast }: { toast: ToastObject<ToastDemoData> }) {
+function DemoToast({
+  toast,
+  layout,
+  showArrow = false,
+}: {
+  toast: ToastObject<ToastDemoData>;
+  layout?: "stacked" | "inline";
+  showArrow?: boolean;
+}) {
   const theme = useThemeFamily();
   const showDescription = Boolean(toast.description);
   const showAction = Boolean(toast.actionProps?.children);
   const showIcon = toast.data?.hasIcon !== false;
   const showClose = toast.data?.hasClose !== false;
-  const layout = !showIcon && !showDescription && !showAction && !showClose ? "inline" : "stacked";
 
   if (theme === "brutal") {
     return (
       <ToastRoot toast={toast} layout={layout}>
+        {showArrow ? <ToastArrow /> : null}
         <ToastContent>
           {showIcon ? (
             <ToastIcon>
@@ -372,6 +450,7 @@ function DemoToast({ toast }: { toast: ToastObject<ToastDemoData> }) {
 
   return (
     <ToastRoot toast={toast} layout={layout}>
+      {showArrow ? <ToastArrow /> : null}
       <ToastContent>
         {showIcon ? (
           <ToastIcon>
@@ -410,7 +489,7 @@ export function ToastUsageExample({ children }: { children?: ReactNode }) {
 
   return (
     <ToastProvider toastManager={toastManager} timeout={3600} renderViewport={false}>
-      {children ?? <ToastDemoControls />}
+      {children ?? <ToastDemoControls options={DEFAULT_TOAST_DEMO_OPTIONS} />}
       <ToastPortal>
         <ToastViewport>
           <ToastList />
