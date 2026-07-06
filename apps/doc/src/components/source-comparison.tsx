@@ -126,9 +126,7 @@ function ComparisonPreview({
       data-source-comparison-pane={label.toLowerCase()}
       className="grid min-w-0 grid-rows-[minmax(6rem,1fr)_auto]"
     >
-      <PreviewThemeScope
-        family={family}
-        mode={mode}
+      <div
         className={[
           `relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-background px-5 py-6 text-foreground`,
           previewClassName,
@@ -153,8 +151,12 @@ function ComparisonPreview({
             ) : null}
           </span>
         ) : null}
-        <div className="flex w-full min-w-0 max-w-full items-center justify-center">{children}</div>
-      </PreviewThemeScope>
+        <div className="flex w-full min-w-0 max-w-full items-center justify-center">
+          <PreviewThemeScope family={family} mode={mode} className="contents">
+            {children}
+          </PreviewThemeScope>
+        </div>
+      </div>
       {code ? (
         <div className={`border-t ${horizontalDividerClass} bg-[oklch(0.986_0_0)] px-4 py-4`}>
           <CodeBlock html={code} variant="embedded" />

@@ -1,18 +1,40 @@
-import type { ReactNode } from "react";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
 
 export type PreviewMode = ThemeMode;
 
+type PreviewThemeValue = {
+  theme: Theme;
+  mode: PreviewMode;
+  setTheme: (theme: Theme, options?: { mode?: PreviewMode }) => void;
+};
+
+const PreviewThemeContext = createContext<PreviewThemeValue | null>(null);
+
 export function PreviewThemeProvider({ children }: { children: ReactNode }) {
-  return (
-    <ThemeProvider defaultTheme="elegant" defaultMode="light" syncDom={false}>
-      {children}
-    </ThemeProvider>
+  const [selected, setSelected] = useState<{ theme: Theme; mode: PreviewMode }>({
+    theme: "elegant",
+    mode: "light",
+  });
+  const value = useMemo<PreviewThemeValue>(
+    () => ({
+      ...selected,
+      setTheme: (theme, options) => setSelected({ theme, mode: options?.mode ?? "light" }),
+    }),
+    [selected],
   );
+
+  return <PreviewThemeContext.Provider value={value}>{children}</PreviewThemeContext.Provider>;
 }
 
 export function usePreviewTheme() {
-  return useTheme();
+  const context = useContext(PreviewThemeContext);
+
+  if (!context) {
+    throw new Error("usePreviewTheme must be used inside PreviewThemeProvider.");
+  }
+
+  return context;
 }
 
 export function PreviewThemeScope({
