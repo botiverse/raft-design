@@ -18,8 +18,9 @@ import {
   NotificationCenterTrigger,
   Status,
   type NotificationCenterPopupProps,
+  useThemeFamily,
 } from "raft-ui";
-import { AlertTriangle, CircleGauge } from "lucide-react";
+import { AlertTriangle, Bell, CircleGauge } from "lucide-react";
 import { useId, useRef, type RefObject } from "react";
 import { cn } from "raft-ui/cn";
 
@@ -119,29 +120,7 @@ export function NotificationCenterComposition({ className }: { className?: strin
       )}
     >
       <NotificationCenter open modal={false} triggerId={triggerId}>
-        <div className="relative size-9">
-          <NotificationCenterTrigger
-            id={triggerId}
-            render={
-              <Button
-                variant="outline"
-                size="icon-md"
-                className={cn(
-                  "size-9 overflow-visible p-0",
-                  "[[data-theme=brutal]_&]:bg-brutal-orange [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:hover:bg-brutal-orange",
-                )}
-              />
-            }
-          >
-            <AlertTriangle aria-hidden size={18} />
-          </NotificationCenterTrigger>
-          <Status
-            aria-hidden
-            variant="primary"
-            size="md"
-            className="pointer-events-none absolute -top-1 -right-1"
-          />
-        </div>
+        <NotificationCenterDemoTrigger triggerId={triggerId} />
         <NotificationCenterContent
           initialFocus={false}
           finalFocus={false}
@@ -152,6 +131,55 @@ export function NotificationCenterComposition({ className }: { className?: strin
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
         />
       </NotificationCenter>
+    </div>
+  );
+}
+
+function NotificationCenterDemoTrigger({ triggerId }: { triggerId: string }) {
+  const theme = useThemeFamily();
+
+  if (theme === "brutal") {
+    return (
+      <div className="relative size-9">
+        <NotificationCenterTrigger
+          id={triggerId}
+          render={
+            <Button
+              variant="outline"
+              size="icon-md"
+              className={cn(
+                "size-9 overflow-visible p-0",
+                "bg-brutal-orange text-black hover:bg-brutal-orange",
+              )}
+            />
+          }
+        >
+          <AlertTriangle aria-hidden size={18} />
+        </NotificationCenterTrigger>
+        <Status
+          aria-hidden
+          variant="primary"
+          size="md"
+          className="pointer-events-none absolute -top-1 -right-1"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative size-9">
+      <NotificationCenterTrigger
+        id={triggerId}
+        render={<button type="button" aria-label="Notification center" />}
+      >
+        <Bell aria-hidden />
+      </NotificationCenterTrigger>
+      <Status
+        aria-hidden
+        variant="accent"
+        size="sm"
+        className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
+      />
     </div>
   );
 }

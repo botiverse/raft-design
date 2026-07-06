@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId, useRef, type ReactNode, type RefObject } from "react";
-import { AlertTriangle, CheckCircle2, CircleGauge } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, CircleGauge } from "lucide-react";
 import {
   Button,
   EmptyStateContent,
@@ -25,6 +25,8 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
+  Status,
+  useThemeFamily,
 } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -188,12 +190,23 @@ const SNIPPETS = {
     </NotificationCenterScroller>
   </NotificationCenterPopup>
 </NotificationCenter>`,
-  preview: `import { AlertTriangle, CircleGauge } from "lucide-react";
+  preview: `import { Bell, CircleGauge } from "lucide-react";
 
 <NotificationCenter open modal={false} triggerId={triggerId}>
-  <NotificationCenterTrigger id={triggerId} render={<Button variant="outline" size="icon-md" />}>
-    <AlertTriangle aria-hidden size={18} />
-  </NotificationCenterTrigger>
+  <div className="relative size-9">
+    <NotificationCenterTrigger
+      id={triggerId}
+      render={<button type="button" aria-label="Notification center" />}
+    >
+      <Bell aria-hidden />
+    </NotificationCenterTrigger>
+    <Status
+      aria-hidden
+      variant="accent"
+      size="sm"
+      className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
+    />
+  </div>
   <NotificationCenterPopup
     viewport="desktop"
     side="bottom"
@@ -270,9 +283,20 @@ const SNIPPETS = {
   </NotificationCenterPopup>
 </NotificationCenter>`,
   empty: `<NotificationCenter open modal={false} triggerId={triggerId}>
-  <NotificationCenterTrigger id={triggerId} render={<Button variant="outline" size="icon-md" />}>
-    <AlertTriangle aria-hidden size={18} />
-  </NotificationCenterTrigger>
+  <div className="relative size-9">
+    <NotificationCenterTrigger
+      id={triggerId}
+      render={<button type="button" aria-label="Notification center" />}
+    >
+      <Bell aria-hidden />
+    </NotificationCenterTrigger>
+    <Status
+      aria-hidden
+      variant="accent"
+      size="sm"
+      className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
+    />
+  </div>
   <NotificationCenterPopup viewport="desktop" size="sm" side="bottom" align="center">
     <NotificationCenterHeader>
       <NotificationCenterTitle>Notifications</NotificationCenterTitle>
@@ -663,12 +687,7 @@ function NotificationCenterExample({
       }
     >
       <NotificationCenter open modal={false} triggerId={triggerId}>
-        <NotificationCenterTrigger
-          id={triggerId}
-          render={<Button variant="outline" size="icon-md" className="size-9" />}
-        >
-          <AlertTriangle aria-hidden size={18} />
-        </NotificationCenterTrigger>
+        <NotificationCenterDemoTrigger triggerId={triggerId} />
         <NotificationCenterPopup
           viewport="desktop"
           size={size}
@@ -738,6 +757,52 @@ function NotificationCenterExample({
 
 function NotificationCenterBasicExample() {
   return <NotificationCenterExample entries={ENTRIES} />;
+}
+
+function NotificationCenterDemoTrigger({ triggerId }: { triggerId: string }) {
+  const theme = useThemeFamily();
+
+  if (theme === "brutal") {
+    return (
+      <div className="relative size-9">
+        <NotificationCenterTrigger
+          id={triggerId}
+          render={
+            <Button
+              variant="outline"
+              size="icon-md"
+              className="size-9 overflow-visible bg-brutal-orange p-0 text-black hover:bg-brutal-orange"
+            />
+          }
+        >
+          <AlertTriangle aria-hidden size={18} />
+        </NotificationCenterTrigger>
+        <Status
+          aria-hidden
+          variant="primary"
+          size="md"
+          className="pointer-events-none absolute -top-1 -right-1"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative size-9">
+      <NotificationCenterTrigger
+        id={triggerId}
+        render={<button type="button" aria-label="Notification center" />}
+      >
+        <Bell aria-hidden />
+      </NotificationCenterTrigger>
+      <Status
+        aria-hidden
+        variant="accent"
+        size="sm"
+        className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
+      />
+    </div>
+  );
 }
 
 function defaultCountLabel(count: number) {

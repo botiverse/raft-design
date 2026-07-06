@@ -10,6 +10,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const notificationCenter = tv({
   slots: {
+    trigger: [],
     popup: ["flex flex-col overflow-hidden bg-layer-panel"],
     header: ["flex items-center gap-2 px-4 py-2"],
     title: ["text-xs"],
@@ -42,6 +43,12 @@ const notificationCenter = tv({
         actionButton: [],
       },
       elegant: {
+        trigger: [
+          "relative inline-flex size-9 items-center justify-center overflow-visible border-0 bg-transparent p-0",
+          "select-none text-foreground-muted transition-colors hover:text-foreground-strong",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400/35",
+          "[&>svg]:size-5 [&>svg]:shrink-0",
+        ],
         popup: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["border-b border-line-muted bg-white pt-2.5"],
         title: ["text-sm font-medium normal-case tracking-normal text-foreground-strong"],
@@ -138,10 +145,19 @@ export function NotificationCenter({ modal = false, ...props }: NotificationCent
   return <BasePopover.Root modal={modal} {...props} />;
 }
 
-export type NotificationCenterTriggerProps = BasePopover.Trigger.Props;
+export type NotificationCenterTriggerProps = StyledProps<BasePopover.Trigger.Props>;
 
-export function NotificationCenterTrigger(props: NotificationCenterTriggerProps) {
-  return <BasePopover.Trigger data-slot="notification-center-trigger" {...props} />;
+export function NotificationCenterTrigger({ className, ...props }: NotificationCenterTriggerProps) {
+  const theme = useThemeFamily();
+  const { trigger } = notificationCenter({ theme });
+
+  return (
+    <BasePopover.Trigger
+      data-slot="notification-center-trigger"
+      className={trigger({ className })}
+      {...props}
+    />
+  );
 }
 
 export type NotificationCenterPortalProps = BasePopover.Portal.Props;
