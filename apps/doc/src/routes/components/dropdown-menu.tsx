@@ -48,12 +48,6 @@ import {
   MessageSearchTimeFilterComposition,
   MessageSearchTimeFilterSourcePreview,
 } from "#/compositions/message-search-time-filter.tsx";
-import selectOptionsListCompositionSource from "#/compositions/select-options-list-composition.tsx?raw";
-import {
-  SELECT_OPTIONS_LIST_COMPOSITION_PATH,
-  SelectOptionsListComposition,
-  SelectOptionsListSourcePreview,
-} from "#/compositions/select-options-list.tsx";
 import serverSwitcherMenuCompositionSource from "#/compositions/server-switcher-menu-composition.tsx?raw";
 import {
   SERVER_SWITCHER_MENU_COMPOSITION_PATH,
@@ -74,7 +68,6 @@ const TOC = [
   { id: "radio-group", title: "Radio group" },
   { id: "plain-picker", title: "Plain picker" },
   { id: "headerless-picker", title: "Headerless picker" },
-  { id: "options-list", title: "Options list" },
   { id: "checkboxes", title: "Checkboxes" },
   { id: "switch", title: "Switch" },
   { id: "api", title: "API" },
@@ -85,7 +78,6 @@ const TOC = [
       { id: "source-comparison-server-switcher", title: "Server switcher" },
       { id: "source-comparison-time-filter", title: "Time filter" },
       { id: "source-comparison-sort-menu", title: "Sort menu" },
-      { id: "source-comparison-options-list", title: "Options list" },
     ],
   },
 ] as const;
@@ -115,7 +107,6 @@ const SOURCE_SCENES = [
 
 const DROPDOWN_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
   messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
-  selectOptionsListComposition: selectOptionsListCompositionSource,
   serverSwitcherComposition: serverSwitcherMenuCompositionSource,
   sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
 } as const);
@@ -235,18 +226,6 @@ const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="h
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const OPTIONS_LIST_SNIPPET = `<DropdownMenu open modal={false} triggerId="options-list-trigger">
-  <DropdownMenuTrigger id="options-list-trigger">
-    Options
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="flex min-w-[220px] flex-col">
-    <DropdownMenuRadioGroup defaultValue="relevance">
-      <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
-  </DropdownMenuContent>
-</DropdownMenu>`;
-
 const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-trigger">
   <DropdownMenuTrigger id="submenu-trigger">
     Submenu
@@ -322,7 +301,6 @@ ${PROFILE_MENU_SNIPPET}
   radioGroupMenu: RADIO_GROUP_MENU_SNIPPET,
   plainPicker: PLAIN_PICKER_SNIPPET,
   headerlessPicker: HEADERLESS_PICKER_SNIPPET,
-  optionsList: OPTIONS_LIST_SNIPPET,
 } as const;
 
 function ProfileMenuRows() {
@@ -453,15 +431,6 @@ function HeaderlessSortRows() {
       <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
       <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
-  );
-}
-
-function OptionsListRows() {
-  return (
-    <DropdownMenuRadioGroup defaultValue="relevance">
-      <DropdownMenuRadioItem value="relevance">Relevance</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="recent">Most recent</DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   );
 }
@@ -721,18 +690,6 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="options-list" title="Options list">
-        <Example html={code.optionsList} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample
-            triggerId="options-list-trigger"
-            label="Options"
-            contentClassName="flex min-w-[220px] flex-col"
-          >
-            <OptionsListRows />
-          </OpenMenuExample>
-        </Example>
-      </DocSection>
-
       <DocSection id="checkboxes" title="Checkboxes">
         <Example html={code.checkboxesMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
@@ -822,27 +779,6 @@ function DropdownMenuDoc() {
               compositionCollapsedCode: code.sidebarSortMenuCompositionBody,
               compositionPath: SIDEBAR_SORT_MENU_COMPOSITION_PATH,
               compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.sidebarSortMenuComposition,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-options-list",
-              label: "Options list",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>Select.tsx</InlineCode>. Headerless options surface mounted under a
-                  brutal select trigger. Rows reserve the leading slot for baseline alignment even
-                  without avatars.
-                </>
-              ),
-              source: <SelectOptionsListSourcePreview />,
-              brutal: <SelectOptionsListComposition />,
-              elegant: <SelectOptionsListComposition />,
-              elegantDark: <SelectOptionsListComposition />,
-              compositionCode: code.selectOptionsListComposition,
-              compositionCollapsedCode: code.selectOptionsListCompositionBody,
-              compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
-              compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.selectOptionsListComposition,
               compositionShowLineNumbers: false,
             },
           ]}

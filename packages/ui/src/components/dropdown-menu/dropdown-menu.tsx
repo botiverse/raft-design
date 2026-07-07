@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef } from "react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { tv } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge/index";
@@ -48,13 +48,13 @@ const dropdownMenu = tv({
           "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
         radioItem: [
-          "h-9 overflow-hidden font-sans text-black",
+          "overflow-hidden py-2 font-sans text-sm font-medium leading-5 text-black",
           "border-b border-black/10 last:border-b-0",
           "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
-        radioLabel: ["min-w-0 flex-1 truncate text-xs font-bold leading-4"],
+        radioLabel: ["min-w-0 flex-1 truncate"],
         submenuTrigger: [
           "py-2 font-sans text-sm font-medium text-black hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30 data-[popup-open]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
@@ -353,9 +353,7 @@ export function DropdownMenuRadioItem({
       className={radioItem({ className })}
       {...props}
     >
-      <span data-slot="dropdown-menu-radio-item-label" className={radioLabel()}>
-        {children}
-      </span>
+      {renderRadioItemChildren(children, radioLabel())}
       <span className={indicator()}>
         <BaseMenu.RadioItemIndicator>
           <DropdownMenuCheckIcon />
@@ -363,6 +361,26 @@ export function DropdownMenuRadioItem({
       </span>
     </BaseMenu.RadioItem>
   );
+}
+
+function renderRadioItemChildren(children: ReactNode, className: string) {
+  if (typeof children === "string" || typeof children === "number") {
+    return (
+      <span data-slot="dropdown-menu-radio-item-label" className={className}>
+        {children}
+      </span>
+    );
+  }
+
+  if (Array.isArray(children) && children.every((child) => typeof child === "string")) {
+    return (
+      <span data-slot="dropdown-menu-radio-item-label" className={className}>
+        {children}
+      </span>
+    );
+  }
+
+  return children;
 }
 
 export type DropdownMenuRadioItemIndicatorProps = StyledProps<BaseMenu.RadioItemIndicator.Props>;
