@@ -412,7 +412,7 @@ export function ColorsDoc({ theme }: { theme: TokenTheme }) {
   return (
     <TokenThemeScope theme={theme}>
       <DocPage title={title} description="The color token contract." toc={TOC}>
-        <DocSection id="primitive" title="Primitive palette">
+        <DocSection id="primitive" title="Primitive palette" showThemeSwitcher={false}>
           <div className="space-y-5">
             <div className="grid gap-4">
               {PALETTES.map((palette) => (
@@ -422,7 +422,7 @@ export function ColorsDoc({ theme }: { theme: TokenTheme }) {
           </div>
         </DocSection>
 
-        <DocSection id="aliases" title="Theme aliases">
+        <DocSection id="aliases" title="Theme aliases" showThemeSwitcher={false}>
           <div className="space-y-5">
             <div className="grid gap-3 lg:grid-cols-2">
               {ALIASES.map((alias) => (
@@ -432,7 +432,7 @@ export function ColorsDoc({ theme }: { theme: TokenTheme }) {
           </div>
         </DocSection>
 
-        <DocSection id="states" title="State tones">
+        <DocSection id="states" title="State tones" showThemeSwitcher={false}>
           <div className="grid gap-3 lg:grid-cols-2">
             {STATES.map((state) => (
               <StateCard key={state.role} state={state} />
@@ -440,7 +440,7 @@ export function ColorsDoc({ theme }: { theme: TokenTheme }) {
           </div>
         </DocSection>
 
-        <DocSection id="theme" title="Theme tokens">
+        <DocSection id="theme" title="Theme tokens" showThemeSwitcher={false}>
           <div className="space-y-5">
             <div className="grid gap-4 lg:grid-cols-2">
               {contexts.map((context) => (
