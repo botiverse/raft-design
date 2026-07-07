@@ -1,16 +1,5 @@
-## [0.0.14](https://github.com/botiverse/rui/compare/v0.0.13...v0.0.14) (2026-07-06)
-
-### Bug Fixes
-
-- **toast:** refine anchored and stacked behavior ([cc53edb](https://github.com/botiverse/rui/commit/cc53edbb7365ee452a27ec04ffbf6f306fe8bb47))
-
-## [0.0.13](https://github.com/botiverse/rui/compare/v0.0.12...v0.0.13) (2026-07-06)
+## [0.0.15](https://github.com/botiverse/rui/compare/v0.0.14...v0.0.15) (2026-07-07)
 
 ### Features
 
-- **message-item:** add wip composition docs ([e122875](https://github.com/botiverse/rui/commit/e1228758f553d343bb9ff0212d996b9caca19e08))
-
-### Bug Fixes
-
-- **segmented-control:** make selection updates immediate ([87e1d05](https://github.com/botiverse/rui/commit/87e1d05e6b6a0c2e9a911898d18d0d9f9fcde91d))
-- **tooltip:** tighten content padding ([ce37fde](https://github.com/botiverse/rui/commit/ce37fde21b8be7adab49e81723b331e01a87c2df))
+- **select:** align source comparison parity ([eb03e29](https://github.com/botiverse/rui/commit/eb03e293e058d3a4a73c1dd83338096ad5810169))
