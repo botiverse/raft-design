@@ -28,12 +28,18 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
 import selectOptionsListCompositionSource from "#/compositions/select-options-list-composition.tsx?raw";
+import selectPreferenceCompositionSource from "#/compositions/select-preference-composition.tsx?raw";
 import selectTimeRangeCompositionSource from "#/compositions/select-time-range-composition.tsx?raw";
 import {
   SELECT_OPTIONS_LIST_COMPOSITION_PATH,
   SelectOptionsListComposition,
   SelectOptionsListSourcePreview,
 } from "#/compositions/select-options-list.tsx";
+import {
+  SELECT_PREFERENCE_COMPOSITION_PATH,
+  SelectPreferenceComposition,
+  SelectPreferenceSourcePreview,
+} from "#/compositions/select-preference.tsx";
 import {
   SELECT_TIME_RANGE_COMPOSITION_PATH,
   SelectTimeRangeComposition,
@@ -49,32 +55,57 @@ const TOC = [
   { id: "scrolling", title: "Scrolling" },
   { id: "field", title: "With Field" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
+  {
+    id: "source-comparison",
+    title: "Source comparison",
+    children: [
+      { id: "source-comparison-options-list", title: "Options list" },
+      { id: "source-comparison-preference-select", title: "Preference select" },
+      { id: "source-comparison-time-range", title: "Time range dropdown" },
+    ],
+  },
 ] as const;
 const SOURCE_SCENES = [
   {
-    label: "Agent/runtime selects",
+    label: "Select primitive and preference fields",
     scenes: [
       {
-        label: "CreateAgentDialog.tsx:346",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:346",
+        label: "Select.tsx:64,81",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/Select.tsx:64,81",
       },
       {
-        label: "RuntimeConfigFields.tsx:173,186,254,296",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:173,186,254,296",
+        label: "SettingsPanel.tsx:792,839",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/settings/SettingsPanel.tsx:792,839",
       },
     ],
   },
   {
-    label: "Settings and generic option list",
+    label: "Agent, runtime, and model selects",
     scenes: [
       {
-        label: "SettingsPanel.tsx:687,756,1252,1265,1717,1744",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:687,756,1252,1265,1717,1744",
+        label: "CreateAgentDialog.tsx:459",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/agent/CreateAgentDialog.tsx:459",
       },
       {
-        label: "Select.tsx:80",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/Select.tsx:80",
+        label: "RuntimeConfigFields.tsx:272,285,344,393,448,494",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/agent/RuntimeConfigFields.tsx:272,285,344,393,448,494",
+      },
+    ],
+  },
+  {
+    label: "Server admin and install target selects",
+    scenes: [
+      {
+        label: "SettingsPanel.tsx:1449,1462,1923,1950,4038,4475",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/settings/SettingsPanel.tsx:1449,1462,1923,1950,4038,4475",
+      },
+      {
+        label: "HumanLoginSetupPage.tsx:300",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/pages/HumanLoginSetupPage.tsx:300",
+      },
+      {
+        label: "IntegrationInvitePage.tsx:158",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/pages/IntegrationInvitePage.tsx:158",
       },
     ],
   },
@@ -363,6 +394,7 @@ function RegionSelect() {
 
 const SELECT_COMPOSITION_SOURCES = createCompositionSourceMap({
   selectOptionsListComposition: selectOptionsListCompositionSource,
+  selectPreferenceComposition: selectPreferenceCompositionSource,
   selectTimeRangeComposition: selectTimeRangeCompositionSource,
 } as const);
 
@@ -400,6 +432,12 @@ const PROPS: readonly PropRow[] = [
     type: "Base UI Select.Item.Props",
     description:
       "Option row. Selection, highlight, and disabled states are exposed through Base UI data attributes.",
+  },
+  {
+    name: "SelectItemLeading",
+    type: "React.ComponentPropsWithRef<'span'>",
+    description:
+      "Optional leading slot for icons, avatars, or a reserved source-parity column before SelectItemText.",
   },
   {
     name: "SelectItemIndicator",
@@ -747,6 +785,27 @@ function SelectDoc() {
               compositionCollapsedCode: code.selectOptionsListCompositionBody,
               compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
               compositionSource: SELECT_COMPOSITION_SOURCES.selectOptionsListComposition,
+              compositionShowLineNumbers: false,
+            },
+            {
+              id: "source-comparison-preference-select",
+              label: "Preference select",
+              status: "difference",
+              note: (
+                <>
+                  <InlineCode>SettingsPanel.tsx</InlineCode>. Account preferences use the legacy{" "}
+                  <InlineCode>Select</InlineCode> trigger and a headerless option list with the
+                  selected value hidden from the popup.
+                </>
+              ),
+              source: <SelectPreferenceSourcePreview />,
+              brutal: <SelectPreferenceComposition />,
+              elegant: <SelectPreferenceComposition />,
+              elegantDark: <SelectPreferenceComposition />,
+              compositionCode: code.selectPreferenceComposition,
+              compositionCollapsedCode: code.selectPreferenceCompositionBody,
+              compositionPath: SELECT_PREFERENCE_COMPOSITION_PATH,
+              compositionSource: SELECT_COMPOSITION_SOURCES.selectPreferenceComposition,
               compositionShowLineNumbers: false,
             },
             {

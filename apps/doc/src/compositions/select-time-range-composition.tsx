@@ -5,6 +5,7 @@ import {
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
+  SelectItemLeading,
   SelectItemText,
   SelectList,
   SelectTrigger,
@@ -39,6 +40,7 @@ export function SelectTimeRangeComposition({ className }: { className?: string }
           <SelectList>
             {TIME_RANGE_OPTIONS.map((option) => (
               <SelectItem key={option.value} value={option.value}>
+                <SelectItemLeading />
                 <SelectItemText>{option.label}</SelectItemText>
                 <SelectItemIndicator />
               </SelectItem>

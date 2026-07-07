@@ -18,7 +18,7 @@ const select = tv({
       "[&_[data-slot='select-trigger-content']_svg]:!size-3.5 [&_[data-slot='select-trigger-content']_svg]:shrink-0 [&_[data-slot='select-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='select-trigger-content']_svg_*]:!stroke-[1.5]",
       "[&_[data-slot='select-icon']]:!stroke-[1.5] [&_[data-slot='select-icon']_*]:!stroke-[1.5]",
     ],
-    icon: ["ml-auto flex shrink-0 items-center justify-center opacity-80"],
+    icon: ["ml-auto flex shrink-0 items-center justify-center opacity-80 transition-transform"],
     value: ["flex min-w-0 flex-1 truncate text-left"],
     positioner: ["isolate z-50 outline-none"],
     content: [
@@ -29,6 +29,10 @@ const select = tv({
     item: [
       "flex h-8 w-full shrink-0 cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3",
       "text-left outline-none transition-colors",
+    ],
+    itemLeading: [
+      "flex shrink-0 items-center justify-center",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0",
     ],
     itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
     itemText: ["min-w-0 flex-1 truncate font-normal"],
@@ -47,22 +51,27 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "font-sans text-sm font-semibold text-black",
-          "[&_[data-slot='button-content']]:font-semibold [&_[data-slot='select-value']]:font-semibold",
+          "flex w-full items-center justify-between gap-2 border-2 border-black bg-white p-2 text-sm text-black shadow-[var(--shadow-brutal-sm)] focus:outline-none",
+          "hover:bg-white hover:shadow-[var(--shadow-brutal-sm)]",
+          "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100",
           "[&_[data-slot='select-value']_svg]:!stroke-2 [&_[data-slot='select-value']_svg_*]:!stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
+          "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
         ],
-        content: ["border-2 border-black bg-white shadow-lg"],
+        content: [
+          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-black bg-white shadow-[var(--shadow-brutal)]",
+        ],
         item: [
-          "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-black last:border-b-0",
-          "[&_[data-slot='select-item-text']]:font-semibold",
-          "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
-          "data-[selected]:bg-brutal-yellow/30",
+          "h-auto border-b border-black/10 bg-white py-1.5 text-xs font-bold leading-6 text-black last:border-b-0",
+          "[&_[data-slot='select-item-text']]:font-bold",
+          "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
+          "data-[selected]:bg-white data-[selected]:hover:bg-soft-signal/30 data-[selected][data-highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3",
           "[&>svg]:!stroke-2 [&>svg_*]:!stroke-2",
         ],
+        itemLeading: ["size-5 text-black [&_svg]:size-3.5 [&_svg]:stroke-2 [&_svg_*]:stroke-2"],
         itemIndicator: ["text-black [&_svg]:!stroke-[2.25] [&_svg_*]:!stroke-[2.25]"],
         label: [
           "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-black",
@@ -94,6 +103,9 @@ const select = tv({
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3.5",
         ],
+        itemLeading: [
+          "size-4 text-foreground-muted [&_svg]:size-3.5 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+        ],
         itemIndicator: ["text-foreground-strong"],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
         groupLabel: [
@@ -120,18 +132,16 @@ export function Select<Value, Multiple extends boolean | undefined = false>(
 
 export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props>;
 
-export function SelectTrigger({
-  className,
-  children,
-  render = <Button variant="outline" size="md" />,
-  ...props
-}: SelectTriggerProps) {
+export function SelectTrigger({ className, children, render, ...props }: SelectTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = select({ theme });
+  const defaultRender = theme === "brutal" ? undefined : <Button variant="outline" size="md" />;
+  const renderProp = render ?? defaultRender;
+
   return (
     <BaseSelect.Trigger
       data-slot="select-trigger"
-      render={render}
+      {...(renderProp ? { render: renderProp } : {})}
       className={trigger({ className })}
       {...props}
     >
@@ -254,6 +264,14 @@ export function SelectItem({ className, ...props }: SelectItemProps) {
   const theme = useThemeFamily();
   const { item } = select({ theme });
   return <BaseSelect.Item data-slot="select-item" className={item({ className })} {...props} />;
+}
+
+export type SelectItemLeadingProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+export function SelectItemLeading({ className, ...props }: SelectItemLeadingProps) {
+  const theme = useThemeFamily();
+  const { itemLeading } = select({ theme });
+  return <span data-slot="select-item-leading" className={itemLeading({ className })} {...props} />;
 }
 
 export type SelectItemIndicatorProps = StyledProps<BaseSelect.ItemIndicator.Props>;
