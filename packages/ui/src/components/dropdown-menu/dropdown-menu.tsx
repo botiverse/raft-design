@@ -32,6 +32,7 @@ const dropdownMenu = tv({
     itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
     separator: ["border-t-2"],
     indicator: ["pointer-events-none ml-auto flex size-3 shrink-0 items-center justify-center"],
+    radioLabel: [],
   },
   variants: {
     theme: {
@@ -42,27 +43,28 @@ const dropdownMenu = tv({
         ],
         content: ["border-2 border-black bg-white shadow-lg"],
         item: [
-          "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
+          "py-2 font-sans text-sm font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
         radioItem: [
-          "h-9 overflow-hidden font-sans text-sm font-semibold leading-6 text-black",
+          "h-9 overflow-hidden font-sans text-black",
           "border-b border-black/10 last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
+        radioLabel: ["min-w-0 flex-1 truncate text-xs font-bold leading-4"],
         submenuTrigger: [
-          "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
+          "py-2 font-sans text-sm font-medium text-black hover:bg-brutal-yellow data-[highlighted]:bg-brutal-yellow data-[popup-open]:bg-brutal-yellow",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
         label: [
           "border-b border-black px-3 py-2",
           "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
         ],
-        shortcut: ["font-sans text-sm font-semibold leading-6"],
+        shortcut: ["font-sans text-sm font-medium"],
         itemCount: [
           "rounded border border-black bg-brutal-pink px-1 py-0.5",
           "font-sans text-[10px] leading-none font-bold text-white",
@@ -107,6 +109,7 @@ const dropdownMenu = tv({
           "hover:[&>svg]:text-foreground-strong",
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
+        radioLabel: ["min-w-0 flex-1 truncate"],
         submenuTrigger: [
           "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
@@ -343,14 +346,16 @@ export function DropdownMenuRadioItem({
   ...props
 }: DropdownMenuRadioItemProps) {
   const theme = useThemeFamily();
-  const { radioItem, indicator } = dropdownMenu({ theme });
+  const { radioItem, radioLabel, indicator } = dropdownMenu({ theme });
   return (
     <BaseMenu.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={radioItem({ className })}
       {...props}
     >
-      {children}
+      <span data-slot="dropdown-menu-radio-item-label" className={radioLabel()}>
+        {children}
+      </span>
       <span className={indicator()}>
         <BaseMenu.RadioItemIndicator>
           <DropdownMenuCheckIcon />
