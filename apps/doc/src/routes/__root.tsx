@@ -10,6 +10,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider } from "raft-ui";
 
+import { PreviewThemeProvider } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
 import appCss from "../styles.css?url";
 
@@ -97,16 +98,18 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body className="bg-background text-foreground antialiased">
         <ThemeProvider theme="elegant" mode="light">
-          <div
-            className={
-              isStandalonePage
-                ? "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem]"
-                : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
-            }
-          >
-            {isStandalonePage ? null : <Sidebar />}
-            <main className="min-h-screen pl-[var(--sidebar-w)]">{children}</main>
-          </div>
+          <PreviewThemeProvider>
+            <div
+              className={
+                isStandalonePage
+                  ? "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem]"
+                  : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
+              }
+            >
+              {isStandalonePage ? null : <Sidebar />}
+              <main className="min-h-screen pl-[var(--sidebar-w)]">{children}</main>
+            </div>
+          </PreviewThemeProvider>
         </ThemeProvider>
         {isStandalonePage ? null : (
           <TanStackDevtools
