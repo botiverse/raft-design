@@ -37,6 +37,10 @@ const TOKENS = {
 
 const NAV = [
   {
+    title: "App Shell",
+    items: [{ label: "ChatShell", to: "/components/chat-shell", status: "wip" }],
+  },
+  {
     title: "Actions",
     items: [
       { label: "Button", to: "/components/button", status: "done" },
