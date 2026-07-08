@@ -49,3 +49,15 @@ const button = tv({
   },
 });
 ```
+
+## Color tokens
+
+Token contract lives in `packages/ui/src/styles.css`; the docs render it at `/tokens/colors`.
+
+- All colors are authored in oklch. Never use hex/rgb/hsl or Tailwind default palette classes (`gray-*`, `neutral-*`, ...).
+- Reach for semantic tokens first: `layer-*` (surfaces), `line-*` (borders), `foreground-*` (text), state families, and the ink overlay ramp (`ink-2`...`ink-40`, step = alpha %) for neutral washes, hairlines, and hover/pressed fills on transparent surfaces.
+- Interaction colors on solid fills come from the hover/active pairs (`bg-primary-hover`, `bg-danger-active`, ...), derived as base + ink via `color-mix` in the token layer. Opting a new family in means adding the full hover/active pair.
+- One-off precision values (tuned tints, glass surfaces, terminal blacks) are allowed as inline `oklch()` literals — do not invent a token for a single consumer. Tokenize when a value repeats across components (rule of three).
+- Opaque values and alpha washes composite differently on non-white backgrounds — never swap one for the other during refactors without checking the actual backdrop.
+- Never write `shadow-[var(--x),...]` (tailwind-merge misclassifies var-first shadows as shadow-color and conflict resolution breaks). Use named `@theme inline` shadow utilities (e.g. `shadow-field-hover`) or keep the shadow literal inline.
+- Brutal renders must stay pixel-identical when re-expressing styles via tokens; elegant may take small token-driven adjustments.
