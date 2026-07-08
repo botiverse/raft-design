@@ -41,10 +41,10 @@ const tooltip = tv({
     theme: {
       brutal: {
         content: [
-          "border-2 border-black bg-soft-signal",
-          "font-sans font-bold text-black",
+          "border-2 border-line-strong bg-soft-signal",
+          "font-sans font-bold text-foreground",
           "shadow-[var(--shadow-brutal-sm)]",
-          "[&_[data-slot=kbd]]:border-black/70 [&_[data-slot=kbd]]:bg-white [&_[data-slot=kbd]]:text-black/70 [&_[data-slot=kbd]]:ring-0",
+          "[&_[data-slot=kbd]]:border-line-strong/70 [&_[data-slot=kbd]]:bg-layer-panel [&_[data-slot=kbd]]:text-foreground/70 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: ["hidden"],
       },

@@ -10,8 +10,8 @@ const inlineCode = tv({
     theme: {
       brutal: {
         root: [
-          "border border-black bg-brutal-yellow/50 px-1.5",
-          "font-mono text-sm font-medium text-black [overflow-wrap:anywhere]",
+          "border border-line-strong bg-brutal-yellow/50 px-1.5",
+          "font-mono text-sm font-medium text-foreground [overflow-wrap:anywhere]",
         ],
       },
       elegant: {

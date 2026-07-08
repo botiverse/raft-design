@@ -33,30 +33,30 @@ const contextMenu = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-black bg-white shadow-lg"],
+        content: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
         item: [
-          "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "py-1.5 font-sans text-sm font-semibold leading-6 text-foreground hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         radioItem: [
-          "h-9 overflow-hidden font-sans text-sm font-semibold leading-6 text-black",
-          "border-b border-black/10 last:border-b-0",
+          "h-9 overflow-hidden font-sans text-sm font-semibold leading-6 text-foreground",
+          "border-b border-ink-10 last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         submenuTrigger: [
-          "py-1.5 font-sans text-sm font-semibold leading-6 text-black hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30 data-[popup-open]:bg-brutal-yellow/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "py-1.5 font-sans text-sm font-semibold leading-6 text-foreground hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30 data-[popup-open]:bg-brutal-yellow/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
         ],
         label: [
-          "border-b border-black px-3 py-2",
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
+          "border-b border-line-strong px-3 py-2",
+          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground/60",
         ],
         shortcut: ["font-sans text-sm font-semibold leading-6"],
-        separator: ["border-black"],
+        separator: ["border-line-strong"],
         indicator: [],
       },
       elegant: {

@@ -19,7 +19,7 @@ const label = tv({
     theme: {
       brutal: {
         root: "font-bold text-foreground-strong",
-        sub: "font-bold tracking-wide text-black/40",
+        sub: "font-bold tracking-wide text-foreground/40",
       },
       elegant: {
         root: "font-medium text-foreground",

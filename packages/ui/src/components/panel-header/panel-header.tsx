@@ -21,10 +21,10 @@ const panelHeader = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border-b-2 border-black bg-white",
-        icon: "border-black",
-        title: "text-black",
-        subtitle: "text-black/50",
+        root: "border-b-2 border-line-strong bg-layer-panel",
+        icon: "border-line-strong",
+        title: "text-foreground",
+        subtitle: "text-foreground/50",
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

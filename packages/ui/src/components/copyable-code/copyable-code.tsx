@@ -50,7 +50,7 @@ const copyableCode = tv({
           "dark:bg-layer-panel dark:text-[oklch(0.82_0.06_90)] dark:shadow-[0_0_0_0.5px_oklch(1_0_0_/_0.16)]",
         ],
         codeInner: [
-          "border-x border-dashed border-[oklch(0_0_0_/_0.12)] bg-white px-1",
+          "border-x border-dashed border-[oklch(0_0_0_/_0.12)] bg-layer-panel px-1",
           "dark:border-[oklch(1_0_0_/_0.14)] dark:bg-layer-popover",
         ],
         action: [

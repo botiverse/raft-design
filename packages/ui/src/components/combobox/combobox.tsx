@@ -60,49 +60,53 @@ const combobox = tv({
     theme: {
       brutal: {
         trigger: [
-          "font-sans text-sm font-semibold text-black",
+          "font-sans text-sm font-semibold text-foreground",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        inputGroup: ["border-black bg-white"],
+        inputGroup: ["border-line-strong bg-layer-field"],
         input: [
           "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
           "shadow-brutal-sm focus:shadow-brutal",
         ],
-        content: ["border-2 border-black bg-white shadow-lg"],
-        separator: ["bg-black"],
+        content: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        separator: ["bg-line-strong"],
         item: [
-          "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-black last:border-b-0",
+          "border-b border-ink-10 bg-layer-popover font-sans text-sm font-semibold leading-6 text-foreground last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
         ],
-        itemIndicator: ["text-black"],
-        label: ["font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black"],
+        itemIndicator: ["text-foreground"],
+        label: [
+          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground",
+        ],
         clear: [
-          "font-sans text-[10px] font-bold uppercase tracking-wide text-black hover:text-black",
+          "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground hover:text-foreground",
           "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
         ],
         triggerIndicator: [
-          "text-black opacity-100",
+          "text-foreground opacity-100",
           "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
         ],
         control: [
-          "border-2 border-line-strong bg-white px-2 py-1",
-          "font-sans text-sm font-semibold text-black shadow-brutal-sm",
+          "border-2 border-line-strong bg-layer-field px-2 py-1",
+          "font-sans text-sm font-semibold text-foreground shadow-brutal-sm",
           "focus-within:shadow-brutal",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5] [&_svg_*]:fill-none",
-          "[&_[data-slot='combobox-input']]:font-sans [&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-semibold [&_[data-slot='combobox-input']]:text-black",
-          "[&_[data-slot='combobox-input']::placeholder]:text-black/40",
+          "[&_[data-slot='combobox-input']]:font-sans [&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-semibold [&_[data-slot='combobox-input']]:text-foreground",
+          "[&_[data-slot='combobox-input']::placeholder]:text-foreground/40",
         ],
-        empty: ["font-sans text-sm font-semibold text-black/50"],
+        empty: ["font-sans text-sm font-semibold text-foreground/50"],
         groupLabel: [
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-black/60",
+          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground/60",
         ],
-        chips: ["border-2 border-line-strong bg-white px-2 py-1"],
-        chip: ["border border-black bg-brutal-yellow px-1.5 py-0.5 font-sans text-xs font-bold"],
-        chipRemove: ["text-black/50 hover:text-black"],
+        chips: ["border-2 border-line-strong bg-layer-field px-2 py-1"],
+        chip: [
+          "border border-line-strong bg-brutal-yellow px-1.5 py-0.5 font-sans text-xs font-bold",
+        ],
+        chipRemove: ["text-foreground/50 hover:text-foreground"],
       },
       elegant: {
         trigger: [

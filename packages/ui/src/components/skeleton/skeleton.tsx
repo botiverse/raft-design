@@ -9,7 +9,7 @@ const skeleton = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["data-[variant=line]:bg-black/10", "data-[variant=block]:bg-black/10"],
+        root: ["data-[variant=line]:bg-ink-10", "data-[variant=block]:bg-ink-10"],
       },
       elegant: {
         root: [
@@ -35,7 +35,7 @@ const skeleton = tv({
       theme: "brutal",
       variant: "circle",
       class: {
-        root: "bg-black/10",
+        root: "bg-ink-10",
       },
     },
     {

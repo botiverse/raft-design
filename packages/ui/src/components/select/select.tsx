@@ -51,40 +51,42 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "flex w-full items-center justify-between gap-2 border-2 border-black bg-white p-2 text-sm text-black shadow-[var(--shadow-brutal-sm)] focus:outline-none",
-          "hover:bg-white hover:shadow-[var(--shadow-brutal-sm)]",
-          "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100",
+          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-field p-2 text-sm text-foreground shadow-[var(--shadow-brutal-sm)] focus:outline-none",
+          "hover:bg-layer-field hover:shadow-[var(--shadow-brutal-sm)]",
+          "disabled:cursor-not-allowed disabled:bg-[oklch(0.967_0.003_264.542)] disabled:text-foreground/50 disabled:opacity-100",
           "[&_[data-slot='select-value']_svg]:!stroke-2 [&_[data-slot='select-value']_svg_*]:!stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
           "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
         ],
         content: [
-          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-black bg-white shadow-[var(--shadow-brutal)]",
+          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-[var(--shadow-brutal)]",
         ],
         item: [
-          "h-auto border-b border-black/10 bg-white py-1.5 text-xs font-bold leading-6 text-black last:border-b-0",
+          "h-auto border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground last:border-b-0",
           "[&_[data-slot='select-item-text']]:font-bold",
           "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
-          "data-[selected]:bg-white data-[selected]:hover:bg-soft-signal/30 data-[selected][data-highlighted]:bg-soft-signal/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
+          "data-[selected]:bg-layer-popover data-[selected]:hover:bg-soft-signal/30 data-[selected][data-highlighted]:bg-soft-signal/30",
+          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3",
           "[&>svg]:!stroke-2 [&>svg_*]:!stroke-2",
         ],
-        itemLeading: ["size-5 text-black [&_svg]:size-3.5 [&_svg]:stroke-2 [&_svg_*]:stroke-2"],
-        itemIndicator: ["text-black [&_svg]:!stroke-[2.25] [&_svg_*]:!stroke-[2.25]"],
+        itemLeading: [
+          "size-5 text-foreground [&_svg]:size-3.5 [&_svg]:stroke-2 [&_svg_*]:stroke-2",
+        ],
+        itemIndicator: ["text-foreground [&_svg]:!stroke-[2.25] [&_svg_*]:!stroke-[2.25]"],
         label: [
-          "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-black",
+          "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-foreground",
         ],
         groupLabel: [
-          "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-black/60",
+          "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-foreground/60",
         ],
-        separator: ["bg-black"],
+        separator: ["bg-line-strong"],
         scrollArrow: [
-          "border-black bg-white text-black",
+          "border-line-strong bg-layer-popover text-foreground",
           "data-[direction=up]:border-b data-[direction=down]:border-t",
         ],
-        empty: ["font-sans text-sm font-semibold text-black/50"],
+        empty: ["font-sans text-sm font-semibold text-foreground/50"],
       },
       elegant: {
         trigger: [
