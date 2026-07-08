@@ -342,6 +342,12 @@
   --color-danger-lighter: var(--state-danger-lighter);
   --color-danger-hover: var(--state-danger-hover);
   --color-danger-active: var(--state-danger-active);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-warning-hover: var(--state-warning-hover);
+  --color-warning-active: var(--state-warning-active);
+  --color-info-hover: var(--state-info-hover);
+  --color-info-active: var(--state-info-active);
 
   --shadow-xs: var(--theme-shadow-xs);
   --shadow-sm: var(--theme-shadow-sm);
@@ -422,11 +428,15 @@
   --primary-active: color-mix(in srgb-linear, var(--primary-400) 84%, var(--ink));
   --state-danger-hover: color-mix(in srgb-linear, var(--state-danger-base) 84%, var(--ink));
   --state-danger-active: color-mix(in srgb-linear, var(--state-danger-base) 76%, var(--ink));
+  --accent-hover: color-mix(in srgb-linear, var(--accent-400) 92%, var(--ink));
+  --accent-active: color-mix(in srgb-linear, var(--accent-400) 84%, var(--ink));
+  --state-warning-hover: color-mix(in srgb-linear, var(--state-warning-base) 84%, var(--ink));
+  --state-warning-active: color-mix(in srgb-linear, var(--state-warning-base) 76%, var(--ink));
+  --state-info-hover: color-mix(in srgb-linear, var(--state-info-base) 84%, var(--ink));
+  --state-info-active: color-mix(in srgb-linear, var(--state-info-base) 76%, var(--ink));
 
   --layer-hover: var(--ink-4);
   --layer-active: var(--ink-8);
-
-  --shadow-inset-highlight: inset 0 1px 0.5px oklch(1 0 0 / var(--highlight-alpha, 0.05));
 }
 
 :where(:root),
