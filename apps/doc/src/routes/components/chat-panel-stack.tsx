@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  ChatPanelResizeHandle,
-  ChatPanelStackContent,
-  ChatPanelStackItem,
-  ChatPanelStackRoot,
-  ChatShellPanelStack,
-} from "raft-ui/wip";
 import { X } from "lucide-react";
+import {
+  AppPanelResizeHandle,
+  AppPanelStackContent,
+  AppPanelStackItem,
+  AppPanelStackRoot,
+  AppShellPanelStack,
+} from "raft-ui/wip";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -16,6 +16,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
+import { ChatThreadPanelComposition } from "#/compositions/chat-thread-panel-composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -26,42 +27,42 @@ const TOC = [
 
 const SNIPPETS = {
   anatomy: `import {
-  ChatShellPanelStack,
-  ChatPanelStackRoot,
-  ChatPanelStackItem,
-  ChatPanelStackContent,
-  ChatPanelResizeHandle,
+  AppShellPanelStack,
+  AppPanelStackRoot,
+  AppPanelStackItem,
+  AppPanelStackContent,
+  AppPanelResizeHandle,
 } from "raft-ui/wip";
 
-<ChatShellPanelStack>
-  <ChatPanelStackRoot resizable>
-    <ChatPanelStackItem>
-      <ChatPanelResizeHandle />
-      <ChatPanelStackContent>{threadPanel}</ChatPanelStackContent>
-    </ChatPanelStackItem>
-  </ChatPanelStackRoot>
-</ChatShellPanelStack>`,
+<AppShellPanelStack>
+  <AppPanelStackRoot resizable>
+    <AppPanelStackItem>
+      <AppPanelResizeHandle />
+      <AppPanelStackContent>{panelSurface}</AppPanelStackContent>
+    </AppPanelStackItem>
+  </AppPanelStackRoot>
+</AppShellPanelStack>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "ChatShellPanelStack",
+    name: "AppShellPanelStack",
     type: "aside props & { hidden?: boolean; resizable?: boolean }",
     description:
       "Desktop right-panel host. Hidden below lg to match the source side-thread column.",
   },
   {
-    name: "ChatPanelStackRoot",
+    name: "AppPanelStackRoot",
     type: "div props & { resizable?: boolean }",
     description: "Stack container. It only exposes visual structure; stack order stays app-owned.",
   },
   {
-    name: "ChatPanelStackItem",
+    name: "AppPanelStackItem",
     type: "section props & { open?: boolean }",
     description: "One right-panel column. Width and persistence are owned by the consumer.",
   },
   {
-    name: "ChatPanelStackContent / ResizeHandle",
+    name: "AppPanelStackContent / ResizeHandle",
     type: "div props",
     description:
       "Scrollable content host and visual resize affordance. Pointer behavior is app-owned.",
@@ -69,16 +70,16 @@ const PROPS: readonly PropRow[] = [
 ];
 
 export const Route = createFileRoute("/components/chat-panel-stack")({
-  component: ChatPanelStackDoc,
+  component: AppPanelStackDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function ChatPanelStackDoc() {
+function AppPanelStackDoc() {
   const code = Route.useLoaderData();
 
   return (
     <DocPage
-      title="ChatPanelStack"
+      title="AppPanelStack"
       description="Right-side panel stack structure for thread, profile, task, and search-detail side columns."
       overview={
         <Differences from="ThreadPanelWrapper, SideThreadColumn, RightPanel">
@@ -89,7 +90,10 @@ function ChatPanelStackDoc() {
             keeps source side-column chrome: white panel, left divider, and left-edge resize
             affordance
           </li>
-          <li>content surfaces such as ThreadPanel remain children owned by the consuming app</li>
+          <li>
+            content surfaces remain children; ChatThreadPanel is documented as a separate panel
+            surface
+          </li>
         </Differences>
       }
       toc={TOC}
@@ -121,7 +125,7 @@ function ChatPanelStackDoc() {
 
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock.Panel
-          path="chat-panel-stack.tsx"
+          path="app-panel-stack.tsx"
           source={SNIPPETS.anatomy}
           html={code.anatomy}
           showLineNumbers={false}
@@ -156,97 +160,61 @@ function PanelStackPreview() {
   return (
     <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=brutal]_&]:border-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cream [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle">
       <CurrentMainContext />
-      <ChatShellPanelStack className="flex h-full w-[400px] lg:flex">
-        <ChatPanelStackRoot resizable>
-          <ChatPanelStackItem>
-            <ChatPanelResizeHandle />
-            <PanelHeader title="Thread" />
-            <ChatPanelStackContent>
-              <div className="space-y-3 p-3">
-                <MessageBlock author="Cindy">
-                  The host owns width, breakpoint presentation, and persistence.
-                </MessageBlock>
-                <MessageBlock author="Atlas">
-                  ThreadPanel content stays a child of the reusable panel column.
-                </MessageBlock>
-                <div className="border-t-2 border-line-strong pt-3 text-xs text-foreground-muted [[data-preview-theme=elegant]_&]:border-line-subtle">
-                  Reply composer slot
-                </div>
-              </div>
-            </ChatPanelStackContent>
-          </ChatPanelStackItem>
-        </ChatPanelStackRoot>
-      </ChatShellPanelStack>
-    </div>
-  );
-}
-
-function PanelHeader({ title }: { title: string }) {
-  return (
-    <div className="flex h-[62px] shrink-0 items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-preview-theme=elegant]_&]:border-line-subtle">
-      <div className="min-w-0 flex-1 truncate text-sm font-bold text-foreground-strong">
-        {title}
-      </div>
-      <button
-        type="button"
-        className="flex size-7 items-center justify-center border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle"
-        aria-label="Close thread"
-      >
-        <X className="size-3.5" />
-      </button>
-    </div>
-  );
-}
-
-function MessageBlock({ author, children }: { author: string; children: ReactNode }) {
-  return (
-    <div className="border-2 border-line-strong bg-layer-panel p-3 text-sm shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle">
-      <div className="mb-1 font-mono text-[11px] font-bold text-foreground-muted">{author}</div>
-      <div className="leading-relaxed text-foreground-strong">{children}</div>
+      <AppShellPanelStack className="flex h-full w-[400px] lg:flex">
+        <AppPanelStackRoot resizable>
+          <AppPanelStackItem>
+            <AppPanelResizeHandle />
+            <AppPanelStackContent>
+              <ChatThreadPanelComposition />
+            </AppPanelStackContent>
+          </AppPanelStackItem>
+        </AppPanelStackRoot>
+      </AppShellPanelStack>
     </div>
   );
 }
 
 function SourcePanelStackPreview() {
   return (
-    <div className="flex h-full min-w-[920px] overflow-hidden border-2 border-black bg-brutal-cream font-display text-black">
+    <div className="flex h-full min-w-[920px] overflow-hidden border-2 border-black bg-brutal-cream font-sans text-black">
       <SourceMainContext />
       <div className="relative flex h-full w-[400px] shrink-0 flex-col border-l-2 border-black bg-white text-black">
         <div className="absolute bottom-0 left-0 top-0 z-10 hidden w-2 -translate-x-1 cursor-col-resize select-none md:block" />
-        <div className="flex h-[62px] shrink-0 items-center gap-2 border-b-2 border-black bg-white px-3">
-          <div className="min-w-0 flex-1 truncate text-sm font-bold">Thread</div>
-          <button
-            type="button"
-            className="btn-brutal-sm flex size-7 items-center justify-center bg-white"
-            aria-label="Close thread"
-          >
-            <X className="size-3.5" />
-          </button>
-        </div>
-        <div className="min-h-0 flex-1 overflow-hidden">
-          <div className="space-y-3 p-3">
-            <SourceMessageBlock author="Cindy">
-              SideThreadColumn owns persisted width and desktop resize chrome.
-            </SourceMessageBlock>
-            <SourceMessageBlock author="Atlas">
-              ThreadPanel renders inside the host wrapper.
-            </SourceMessageBlock>
-            <div className="border-t-2 border-black pt-3 text-xs text-black/50">
-              Reply composer slot
-            </div>
-          </div>
-        </div>
+        <SourceThreadPanelSurface />
       </div>
     </div>
   );
 }
 
-function SourceMessageBlock({ author, children }: { author: string; children: ReactNode }) {
+function SourceThreadPanelSurface() {
   return (
-    <div className="border-2 border-black bg-white p-3 text-sm shadow-brutal-sm">
-      <div className="mb-1 font-mono text-[11px] font-bold text-black/50">{author}</div>
-      <div>{children}</div>
-    </div>
+    <>
+      <div className="flex h-[62px] shrink-0 items-center gap-2 border-b-2 border-black bg-white px-3">
+        <div className="min-w-0 flex-1 truncate text-sm font-bold">Thread</div>
+        <button
+          type="button"
+          className="btn-brutal-sm flex size-7 items-center justify-center bg-white"
+          aria-label="Close thread"
+        >
+          <X className="size-3.5" />
+        </button>
+      </div>
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="space-y-3 p-3">
+          <div className="border-2 border-black bg-white p-3 text-sm shadow-brutal-sm">
+            <div className="mb-1 font-mono text-[11px] font-bold text-black/50">Cindy</div>
+            <div>SideThreadColumn owns persisted width and desktop resize chrome.</div>
+          </div>
+          <div className="border-2 border-black bg-brutal-yellow/30 p-3 text-sm shadow-brutal-sm">
+            <div className="mb-1 font-mono text-[11px] font-bold text-black/50">Atlas</div>
+            <div>ThreadPanel renders as a separate child surface inside the host wrapper.</div>
+          </div>
+        </div>
+      </div>
+      <div className="shrink-0 border-t-2 border-black p-3 text-xs text-black/50">
+        Reply composer slot
+      </div>
+    </>
   );
 }
 

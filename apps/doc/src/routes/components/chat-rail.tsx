@@ -8,12 +8,12 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { ChatRailComposition } from "#/compositions/chat-rail-composition.tsx";
+import { AppRailComposition } from "#/compositions/chat-rail-composition.tsx";
 import chatRailCompositionSource from "#/compositions/chat-rail-composition.tsx?raw";
-import { SourceChatRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
+import { SourceAppRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const CHAT_RAIL_COMPOSITION_PATH = "apps/doc/src/compositions/chat-rail-composition.tsx";
+const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/compositions/chat-rail-composition.tsx";
 
 const TOC = [
   { id: "anatomy", title: "Anatomy" },
@@ -24,77 +24,77 @@ const TOC = [
 const SNIPPETS = {
   chatRailComposition: chatRailCompositionSource,
   anatomy: `import {
-  ChatShellRail,
-  ChatRailRoot,
-  ChatRailHeader,
-  ChatRailServerButton,
-  ChatRailNav,
-  ChatRailItem,
-  ChatRailItemIcon,
-  ChatRailItemLabel,
-  ChatRailItemBadge,
-  ChatRailItemIndicator,
-  ChatRailFooter,
+  AppShellRail,
+  AppRailRoot,
+  AppRailHeader,
+  AppRailServerButton,
+  AppRailNav,
+  AppRailItem,
+  AppRailItemIcon,
+  AppRailItemLabel,
+  AppRailItemBadge,
+  AppRailItemIndicator,
+  AppRailFooter,
 } from "raft-ui/wip";
 
-<ChatShellRail>
-  <ChatRailRoot value={value} onValueChange={setValue}>
-    <ChatRailHeader>
-      <ChatRailServerButton aria-label="Switch server">R</ChatRailServerButton>
-    </ChatRailHeader>
-    <ChatRailNav>
-      <ChatRailItem value="chat">
-        <ChatRailItemIcon><MessageSquare /></ChatRailItemIcon>
-        <ChatRailItemLabel>Chat</ChatRailItemLabel>
-        <ChatRailItemBadge>3</ChatRailItemBadge>
-      </ChatRailItem>
-    </ChatRailNav>
-    <ChatRailFooter>
-      <ChatRailItem value="settings">
-        <ChatRailItemIcon><Settings /></ChatRailItemIcon>
-        <ChatRailItemLabel>Settings</ChatRailItemLabel>
-      </ChatRailItem>
-    </ChatRailFooter>
-  </ChatRailRoot>
-</ChatShellRail>`,
+<AppShellRail>
+  <AppRailRoot value={value} onValueChange={setValue}>
+    <AppRailHeader>
+      <AppRailServerButton aria-label="Switch server">R</AppRailServerButton>
+    </AppRailHeader>
+    <AppRailNav>
+      <AppRailItem value="chat">
+        <AppRailItemIcon><MessageSquare /></AppRailItemIcon>
+        <AppRailItemLabel>Chat</AppRailItemLabel>
+        <AppRailItemBadge>3</AppRailItemBadge>
+      </AppRailItem>
+    </AppRailNav>
+    <AppRailFooter>
+      <AppRailItem value="settings">
+        <AppRailItemIcon><Settings /></AppRailItemIcon>
+        <AppRailItemLabel>Settings</AppRailItemLabel>
+      </AppRailItem>
+    </AppRailFooter>
+  </AppRailRoot>
+</AppShellRail>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "ChatShellRail",
+    name: "AppShellRail",
     type: "aside props & { hidden?: boolean }",
     description:
       "Desktop rail column. Hidden by default below md to match source mobile ownership.",
   },
   {
-    name: "ChatRailRoot",
+    name: "AppRailRoot",
     type: "{ value?: string; onValueChange?: (value: string) => void }",
     description: "Optional controlled selection context. Routing and tab memory stay app-owned.",
   },
   {
-    name: "ChatRailHeader / Nav / Footer",
+    name: "AppRailHeader / Nav / Footer",
     type: "div / nav props",
     description:
       "Source-faithful vertical regions for server switcher, rail actions, and settings.",
   },
   {
-    name: "ChatRailItem*",
+    name: "AppRailItem*",
     type: "button + span props",
     description: "Composable icon, label, badge, and indicator parts for app-owned rail actions.",
   },
 ];
 
 export const Route = createFileRoute("/components/chat-rail")({
-  component: ChatRailDoc,
+  component: AppRailDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function ChatRailDoc() {
+function AppRailDoc() {
   const code = Route.useLoaderData();
 
   return (
     <DocPage
-      title="ChatRail"
+      title="AppRail"
       description="Controlled rail structure for server switching, app mode navigation, unread badges, and footer actions."
       overview={
         <Differences from="LeftRail">
@@ -113,7 +113,7 @@ function ChatRailDoc() {
     >
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock.Panel
-          path="chat-rail.tsx"
+          path="app-rail.tsx"
           source={SNIPPETS.anatomy}
           html={code.anatomy}
           showLineNumbers={false}
@@ -128,27 +128,27 @@ function ChatRailDoc() {
         <PreviewGrid>
           <PreviewPane label="Source">
             <SourceThemeScope className="h-full">
-              <SourceChatRailPreview />
+              <SourceAppRailPreview />
             </SourceThemeScope>
           </PreviewPane>
           <PreviewPane label="Brutal">
             <PreviewThemeScope family="brutal" className="h-full">
-              <ChatRailComposition />
+              <AppRailComposition />
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Elegant">
             <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ChatRailComposition />
+              <AppRailComposition />
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Elegant dark">
             <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <ChatRailComposition />
+              <AppRailComposition />
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
         <DocsCodeBlock.Panel
-          path={CHAT_RAIL_COMPOSITION_PATH}
+          path={APP_RAIL_COMPOSITION_PATH}
           source={chatRailCompositionSource}
           html={code.chatRailComposition}
           collapsedHtml={code.chatRailCompositionBody}
@@ -160,7 +160,7 @@ function ChatRailDoc() {
 }
 
 function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-4">{children}</div>;
+  return <div className="grid grid-cols-4 gap-4">{children}</div>;
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {

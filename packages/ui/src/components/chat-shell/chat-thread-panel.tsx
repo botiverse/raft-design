@@ -1,0 +1,179 @@
+import { Button as BaseButton } from "@base-ui/react/button";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { tv } from "../../lib/tv";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { DataAttributes } from "./chat-shell";
+
+const chatThreadPanel = tv({
+  slots: {
+    root: ["flex h-full min-h-0 w-full flex-col", "text-foreground"],
+    header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
+    title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
+    actions: ["flex shrink-0 items-center gap-1.5"],
+    action: [
+      "relative inline-flex size-7 shrink-0 items-center justify-center",
+      "font-sans font-bold leading-none outline-none",
+      "transition-all duration-100",
+      "active:translate-x-[1px] active:translate-y-[1px]",
+      "disabled:pointer-events-none disabled:opacity-40 disabled:transform-none",
+      "[&_svg]:size-3.5 [&_svg]:shrink-0",
+    ],
+    body: ["min-h-0 flex-1 overflow-y-auto"],
+    footer: [
+      "relative flex shrink-0 items-center px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]",
+      "text-xs",
+    ],
+  },
+  variants: {
+    theme: {
+      brutal: {
+        root: "bg-white font-sans text-black",
+        header: "border-b-2 border-black bg-white",
+        title: "text-black",
+        action: [
+          "rounded-none border-2 border-black bg-white text-black",
+          "shadow-brutal-sm",
+          "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
+          "active:shadow-[var(--shadow-brutal-active)]",
+          "disabled:shadow-brutal-sm",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        ],
+        footer: "border-t-2 border-black bg-white text-black/50",
+      },
+      elegant: {
+        root: "bg-layer-panel font-sans text-foreground",
+        header: "border-b border-line-subtle bg-layer-panel",
+        title: "text-foreground-strong",
+        action: [
+          "rounded-md border border-line-subtle bg-layer-panel text-foreground-strong",
+          "shadow-xs",
+          "hover:bg-layer-muted",
+          "focus-visible:ring-2 focus-visible:ring-line-focus",
+        ],
+        footer: "border-t border-line-subtle bg-layer-panel text-foreground-muted",
+      },
+    },
+  },
+});
+
+export type ChatThreadPanelRootProps = useRender.ComponentProps<"section">;
+
+export function ChatThreadPanelRoot({ className, render, ...props }: ChatThreadPanelRootProps) {
+  const theme = useThemeFamily();
+  const { root } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"section"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-root",
+    className: root({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "section",
+    render,
+    props: mergeProps<"section">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelHeaderProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelHeader({ className, render, ...props }: ChatThreadPanelHeaderProps) {
+  const theme = useThemeFamily();
+  const { header } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-header",
+    className: header({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelTitleProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelTitle({ className, render, ...props }: ChatThreadPanelTitleProps) {
+  const theme = useThemeFamily();
+  const { title } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-title",
+    className: title({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelActionsProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelActions({
+  className,
+  render,
+  ...props
+}: ChatThreadPanelActionsProps) {
+  const { actions } = chatThreadPanel();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-actions",
+    className: actions({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelActionProps = useRender.ComponentProps<"button">;
+
+export function ChatThreadPanelAction({ className, render, ...props }: ChatThreadPanelActionProps) {
+  const theme = useThemeFamily();
+  const { action } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+    type: "button",
+    "data-slot": "chat-thread-panel-action",
+    className: action({ className }),
+  };
+
+  return useRender({
+    render: render ?? <BaseButton />,
+    props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelBodyProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelBody({ className, render, ...props }: ChatThreadPanelBodyProps) {
+  const { body } = chatThreadPanel();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-body",
+    className: body({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelFooterProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelFooter({ className, render, ...props }: ChatThreadPanelFooterProps) {
+  const theme = useThemeFamily();
+  const { footer } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-footer",
+    className: footer({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}

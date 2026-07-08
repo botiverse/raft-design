@@ -15,12 +15,12 @@ import {
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge, type BadgeProps } from "../badge";
 import { Status, type StatusProps } from "../status";
-import { chatShell, type DataAttributes } from "./chat-shell";
+import { appShell, type DataAttributes } from "./chat-shell";
 
 export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarRoot({ className, render, ...props }: ChatSidebarRootProps) {
-  const { sidebarRoot } = chatShell();
+  const { sidebarRoot } = appShell();
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-root",
     className: sidebarRoot({ className }),
@@ -37,7 +37,7 @@ export type ChatSidebarHeaderProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarHeader({ className, render, ...props }: ChatSidebarHeaderProps) {
   const theme = useThemeFamily();
-  const { sidebarHeader } = chatShell({ theme });
+  const { sidebarHeader } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-header",
     className: sidebarHeader({ className }),
@@ -54,7 +54,7 @@ export type ChatSidebarBodyProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBodyProps) {
   const theme = useThemeFamily();
-  const { sidebarBody } = chatShell({ theme });
+  const { sidebarBody } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-body",
     className: sidebarBody({ className }),
@@ -77,7 +77,7 @@ export function ChatSidebarSection({
   render,
   ...props
 }: ChatSidebarSectionProps) {
-  const { sidebarSection } = chatShell();
+  const { sidebarSection } = appShell();
   const defaultProps: ComponentProps<typeof Collapsible.Root> & DataAttributes = {
     "data-slot": "chat-sidebar-section",
     defaultOpen,
@@ -92,7 +92,7 @@ export type ChatSidebarListProps = Omit<ComponentProps<typeof Collapsible.Panel>
 };
 
 export function ChatSidebarList({ className, render, ...props }: ChatSidebarListProps) {
-  const { sidebarList } = chatShell();
+  const { sidebarList } = appShell();
   const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
     "data-slot": "chat-sidebar-list",
     className: sidebarList({ className }),
@@ -108,7 +108,7 @@ export function ChatSidebarSectionHeader({
   render,
   ...props
 }: ChatSidebarSectionHeaderProps) {
-  const { sidebarSectionHeader } = chatShell();
+  const { sidebarSectionHeader } = appShell();
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-section-header",
     className: sidebarSectionHeader({ className }),
@@ -129,7 +129,7 @@ export function ChatSidebarSectionButton({
   ...props
 }: ChatSidebarSectionButtonProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionButton } = chatShell({ theme });
+  const { sidebarSectionButton } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
     "data-slot": "chat-sidebar-section-button",
@@ -149,7 +149,7 @@ export function ChatSidebarSectionTitle({
   render,
   ...props
 }: ChatSidebarSectionTitleProps) {
-  const { sidebarSectionTitle } = chatShell();
+  const { sidebarSectionTitle } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-section-title",
     className: sidebarSectionTitle({ className }),
@@ -170,7 +170,7 @@ export function ChatSidebarSectionCount({
   ...props
 }: ChatSidebarSectionCountProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionCount } = chatShell({ theme });
+  const { sidebarSectionCount } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-section-count",
     className: sidebarSectionCount({ className }),
@@ -187,11 +187,11 @@ export type ChatSidebarSectionIndicatorProps = StatusProps;
 
 export function ChatSidebarSectionIndicator({
   className,
-  size = "lg",
+  size = "md",
   variant = "accent",
   ...props
 }: ChatSidebarSectionIndicatorProps) {
-  const { sidebarSectionIndicator } = chatShell();
+  const { sidebarSectionIndicator } = appShell();
   return (
     <Status
       aria-hidden
@@ -211,7 +211,7 @@ export function ChatSidebarSectionActions({
   render,
   ...props
 }: ChatSidebarSectionActionsProps) {
-  const { sidebarSectionActions } = chatShell();
+  const { sidebarSectionActions } = appShell();
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-section-actions",
     className: sidebarSectionActions({ className }),
@@ -232,7 +232,7 @@ export function ChatSidebarSectionAction({
   ...props
 }: ChatSidebarSectionActionProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionAction } = chatShell({ theme });
+  const { sidebarSectionAction } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
     "data-slot": "chat-sidebar-section-action",
@@ -258,7 +258,7 @@ export function ChatSidebarItem({
   ...props
 }: ChatSidebarItemProps) {
   const theme = useThemeFamily();
-  const { sidebarItem } = chatShell({ theme });
+  const { sidebarItem } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
     "data-menu-open": menuOpen ? "true" : undefined,
@@ -276,7 +276,7 @@ export function ChatSidebarItem({
 export type ChatSidebarItemIconProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemIcon({ className, render, ...props }: ChatSidebarItemIconProps) {
-  const { sidebarItemIcon } = chatShell();
+  const { sidebarItemIcon } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-icon",
     className: sidebarItemIcon({ className }),
@@ -302,7 +302,7 @@ export function ChatSidebarItemChannelIcon({
   type = "channel",
   ...props
 }: ChatSidebarItemChannelIconProps) {
-  const { sidebarItemIcon } = chatShell();
+  const { sidebarItemIcon } = appShell();
   const Icon = type === "joint" ? GitBranch : type === "private" ? Lock : Hash;
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "aria-hidden": true,
@@ -329,7 +329,7 @@ export function ChatSidebarItemText({
   stacked,
   ...props
 }: ChatSidebarItemTextProps) {
-  const { sidebarItemText, sidebarItemTextStack } = chatShell();
+  const { sidebarItemText, sidebarItemTextStack } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-text",
     className: stacked ? sidebarItemTextStack({ className }) : sidebarItemText({ className }),
@@ -345,7 +345,7 @@ export function ChatSidebarItemText({
 export type ChatSidebarItemTitleProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemTitle({ className, render, ...props }: ChatSidebarItemTitleProps) {
-  const { sidebarItemTitle } = chatShell();
+  const { sidebarItemTitle } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-title",
     className: sidebarItemTitle({ className }),
@@ -366,7 +366,7 @@ export function ChatSidebarItemSubtitle({
   ...props
 }: ChatSidebarItemSubtitleProps) {
   const theme = useThemeFamily();
-  const { sidebarItemSubtitle } = chatShell({ theme });
+  const { sidebarItemSubtitle } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-subtitle",
     className: sidebarItemSubtitle({ className }),
@@ -383,7 +383,7 @@ export type ChatSidebarItemMetaProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemMeta({ className, render, ...props }: ChatSidebarItemMetaProps) {
   const theme = useThemeFamily();
-  const { sidebarItemMeta } = chatShell({ theme });
+  const { sidebarItemMeta } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-meta",
     className: sidebarItemMeta({ className }),
@@ -403,7 +403,7 @@ export function ChatSidebarItemIndicator({
   render,
   ...props
 }: ChatSidebarItemIndicatorProps) {
-  const { sidebarItemIndicator } = chatShell();
+  const { sidebarItemIndicator } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-indicator",
     className: sidebarItemIndicator({ className }),
@@ -425,7 +425,7 @@ export function ChatSidebarItemMention({
   ...props
 }: ChatSidebarItemMentionProps) {
   const theme = useThemeFamily();
-  const { sidebarItemMention } = chatShell({ theme });
+  const { sidebarItemMention } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "aria-label": "Mentioned you",
     "data-slot": "chat-sidebar-item-mention",
@@ -449,7 +449,7 @@ export function ChatSidebarItemMuted({
   ...props
 }: ChatSidebarItemMutedProps) {
   const theme = useThemeFamily();
-  const { sidebarItemMuted } = chatShell({ theme });
+  const { sidebarItemMuted } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "aria-label": "Activity muted",
     "data-slot": "chat-sidebar-item-muted",
@@ -474,7 +474,7 @@ export function ChatSidebarItemDraft({
   ...props
 }: ChatSidebarItemDraftProps) {
   const theme = useThemeFamily();
-  const { sidebarItemDraft } = chatShell({ theme });
+  const { sidebarItemDraft } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "aria-label": "Draft",
     "data-slot": "chat-sidebar-item-draft",
@@ -492,7 +492,7 @@ export function ChatSidebarItemDraft({
 export type ChatSidebarItemAsideProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemAside({ className, render, ...props }: ChatSidebarItemAsideProps) {
-  const { sidebarItemAside } = chatShell();
+  const { sidebarItemAside } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-aside",
     className: sidebarItemAside({ className }),
@@ -513,7 +513,7 @@ export function ChatSidebarItemBadge({
   ...props
 }: ChatSidebarItemBadgeProps) {
   const theme = useThemeFamily();
-  const { sidebarItemBadge } = chatShell({ theme });
+  const { sidebarItemBadge } = appShell({ theme });
   return (
     <Badge
       data-slot="chat-sidebar-item-badge"
@@ -528,7 +528,7 @@ export type ChatSidebarFooterProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFooterProps) {
   const theme = useThemeFamily();
-  const { sidebarFooter } = chatShell({ theme });
+  const { sidebarFooter } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-footer",
     className: sidebarFooter({ className }),
@@ -550,7 +550,7 @@ export function ChatSidebarResizeGroup({
   orientation = "horizontal",
   ...props
 }: ChatSidebarResizeGroupProps) {
-  const { sidebarResizeGroup } = chatShell();
+  const { sidebarResizeGroup } = appShell();
 
   return (
     <ResizablePanelGroup
@@ -567,7 +567,7 @@ export type ChatSidebarResizePanelProps = Omit<ResizablePanelProps, "className">
 };
 
 export function ChatSidebarResizePanel({ className, ...props }: ChatSidebarResizePanelProps) {
-  const { sidebarResizePanel } = chatShell();
+  const { sidebarResizePanel } = appShell();
 
   return (
     <ResizablePanel
@@ -584,7 +584,7 @@ export type ChatSidebarResizeHandleProps = Omit<ResizablePanelSeparatorProps, "c
 
 export function ChatSidebarResizeHandle({ className, ...props }: ChatSidebarResizeHandleProps) {
   const theme = useThemeFamily();
-  const { sidebarResizeHandle } = chatShell({ theme });
+  const { sidebarResizeHandle } = appShell({ theme });
 
   return (
     <ResizablePanelSeparator

@@ -1,7 +1,9 @@
 import { ArrowUpDown, Bookmark, ChevronRight, MessageSquare, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
-  ChatShellSidebar,
+  AppShellMain,
+  AppShellSidebar,
+  AppShellRoot,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
   ChatSidebarBody,
@@ -9,7 +11,6 @@ import {
   ChatSidebarItem,
   ChatSidebarItemIcon,
   ChatSidebarItemChannelIcon,
-  ChatSidebarItemIndicator,
   ChatSidebarItemDraft,
   ChatSidebarItemMention,
   ChatSidebarItemMeta,
@@ -32,12 +33,13 @@ import {
   ChatSidebarSectionTitle,
 } from "raft-ui/wip";
 
-import { ChatRailComposition } from "./chat-rail-composition.tsx";
+import { AppRailComposition } from "./chat-rail-composition.tsx";
+import { ChatMainPanelComposition } from "./chat-main-panel-composition.tsx";
 
 export function ChatSidebarComposition() {
   return (
-    <div className="flex h-full w-full min-w-0">
-      <ChatRailComposition />
+    <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm [[data-preview-theme=brutal]_&]:border-2 [[data-preview-theme=brutal]_&]:border-black">
+      <AppRailComposition />
       <ChatSidebarResizeGroup className="min-w-0 flex-1" orientation="horizontal">
         <ChatSidebarResizePanel
           id="chat-sidebar"
@@ -47,20 +49,18 @@ export function ChatSidebarComposition() {
           maxSize={320}
           groupResizeBehavior="preserve-pixel-size"
         >
-          <ChatShellSidebar resizable className="flex h-full md:flex">
+          <AppShellSidebar resizable className="flex h-full md:flex">
             <ChatSidebarRoot>
               <ChatSidebarHeader>
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-lg font-bold text-foreground-strong">Chat</div>
                 </div>
               </ChatSidebarHeader>
-              <ChatSidebarBody className="relative flex min-h-0 flex-1 overflow-hidden p-0">
+              <ChatSidebarBody>
                 <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3">
                   <div className="min-h-full">
                     <ChatSidebarItem type="button">
-                      <ChatSidebarItemIcon>
-                        <Bookmark className="size-3.5" />
-                      </ChatSidebarItemIcon>
+                      <Bookmark className="size-3.5 shrink-0" />
                       <ChatSidebarItemTitle className="flex-1">Saved</ChatSidebarItemTitle>
                       <ChatSidebarItemMeta>2</ChatSidebarItemMeta>
                     </ChatSidebarItem>
@@ -85,9 +85,7 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemTitle className="shrink-0">
                               #proj-uiux
                             </ChatSidebarItemTitle>
-                            <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
-                              Cindy replied
-                            </ChatSidebarItemSubtitle>
+                            <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
                           </ChatSidebarItemText>
                         </ChatSidebarItem>
                         <ChatSidebarItem type="button" menuOpen>
@@ -100,12 +98,10 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
                               Atlas
                             </ChatSidebarItemTitle>
-                            <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
-                              planning
-                            </ChatSidebarItemSubtitle>
+                            <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
                           </ChatSidebarItemText>
                           <ChatSidebarItemAside>
-                            <Status aria-hidden variant="accent" size="sm" />
+                            <Status aria-hidden variant="success" size="md" />
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
                         <ChatSidebarItem type="button">
@@ -169,19 +165,15 @@ export function ChatSidebarComposition() {
                               #general
                             </ChatSidebarItemTitle>
                           </ChatSidebarItemText>
-                          <ChatSidebarItemIndicator>
-                            <ChatSidebarItemMention />
-                          </ChatSidebarItemIndicator>
-                          <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
+                          <ChatSidebarItemMention />
+                          <ChatSidebarItemBadge className="ml-auto">12</ChatSidebarItemBadge>
                         </ChatSidebarItem>
                         <ChatSidebarItem type="button">
                           <ChatSidebarItemChannelIcon />
-                          <ChatSidebarItemText>
+                          <ChatSidebarItemText className="items-center gap-0">
                             <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
-                          </ChatSidebarItemText>
-                          <ChatSidebarItemIndicator>
                             <ChatSidebarItemMuted />
-                          </ChatSidebarItemIndicator>
+                          </ChatSidebarItemText>
                           <ChatSidebarItemAside>
                             <ChatSidebarItemDraft />
                           </ChatSidebarItemAside>
@@ -213,12 +205,10 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemTitle className="max-w-[70%] shrink-0 font-bold">
                               Cindy
                             </ChatSidebarItemTitle>
-                            <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
-                              design
-                            </ChatSidebarItemSubtitle>
+                            <ChatSidebarItemSubtitle>design</ChatSidebarItemSubtitle>
                           </ChatSidebarItemText>
                           <ChatSidebarItemAside>
-                            <Status aria-hidden variant="accent" size="sm" />
+                            <Status aria-hidden variant="success" size="md" />
                             <ChatSidebarItemBadge>4</ChatSidebarItemBadge>
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
@@ -230,9 +220,7 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
                               Atlas
                             </ChatSidebarItemTitle>
-                            <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
-                              idle
-                            </ChatSidebarItemSubtitle>
+                            <ChatSidebarItemSubtitle>idle</ChatSidebarItemSubtitle>
                           </ChatSidebarItemText>
                           <ChatSidebarItemAside>
                             <MessageSquare className="size-3 text-foreground-muted" />
@@ -244,11 +232,15 @@ export function ChatSidebarComposition() {
                 </div>
               </ChatSidebarBody>
             </ChatSidebarRoot>
-          </ChatShellSidebar>
+          </AppShellSidebar>
         </ChatSidebarResizePanel>
         <ChatSidebarResizeHandle />
-        <ChatSidebarResizePanel id="chat-sidebar-fill" minSize={0} />
+        <ChatSidebarResizePanel id="chat-main-panel" minSize={0} className="min-w-0">
+          <AppShellMain className="flex h-full">
+            <ChatMainPanelComposition />
+          </AppShellMain>
+        </ChatSidebarResizePanel>
       </ChatSidebarResizeGroup>
-    </div>
+    </AppShellRoot>
   );
 }

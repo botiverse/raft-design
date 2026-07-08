@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
-export function SourceChatRailPreview() {
+export function SourceAppRailPreview() {
   return (
     <div className="relative flex h-full w-[64px] shrink-0 select-none flex-col items-center border-r-2 border-[var(--source-ink)] bg-soft-signal text-[var(--source-ink)] [@media(max-height:600px)]:w-[50px]">
       <div className="relative flex h-[62px] w-full items-center justify-center border-b-2 border-[var(--source-ink)]">

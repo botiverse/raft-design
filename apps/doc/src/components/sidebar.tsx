@@ -39,10 +39,12 @@ const NAV = [
   {
     title: "App Shell",
     items: [
-      { label: "ChatShell", to: "/components/chat-shell", status: "wip" },
-      { label: "ChatRail", to: "/components/chat-rail", status: "wip" },
+      { label: "AppShell", to: "/components/chat-shell", status: "wip" },
+      { label: "AppRail", to: "/components/chat-rail", status: "wip" },
+      { label: "AppPanelStack", to: "/components/chat-panel-stack", status: "wip" },
       { label: "ChatSidebar", to: "/components/chat-sidebar", status: "wip" },
-      { label: "ChatPanelStack", to: "/components/chat-panel-stack", status: "wip" },
+      { label: "ChatMainPanel", to: "/components/chat-main-panel", status: "wip" },
+      { label: "ChatThreadPanel", to: "/components/chat-thread-panel", status: "wip" },
     ],
   },
   {

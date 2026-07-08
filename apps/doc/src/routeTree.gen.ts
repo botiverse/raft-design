@@ -66,10 +66,12 @@ import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
+import { Route as ComponentsChatThreadPanelRouteImport } from './routes/components/chat-thread-panel'
 import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
 import { Route as ComponentsChatShellRouteImport } from './routes/components/chat-shell'
 import { Route as ComponentsChatRailRouteImport } from './routes/components/chat-rail'
 import { Route as ComponentsChatPanelStackRouteImport } from './routes/components/chat-panel-stack'
+import { Route as ComponentsChatMainPanelRouteImport } from './routes/components/chat-main-panel'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -388,6 +390,12 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   path: '/checkbox',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsChatThreadPanelRoute =
+  ComponentsChatThreadPanelRouteImport.update({
+    id: '/chat-thread-panel',
+    path: '/chat-thread-panel',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
   id: '/chat-sidebar',
   path: '/chat-sidebar',
@@ -409,6 +417,11 @@ const ComponentsChatPanelStackRoute =
     path: '/chat-panel-stack',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsChatMainPanelRoute = ComponentsChatMainPanelRouteImport.update({
+  id: '/chat-main-panel',
+  path: '/chat-main-panel',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
@@ -557,10 +570,12 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
   '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
   '/components/chat-rail': typeof ComponentsChatRailRoute
   '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
+  '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -645,10 +660,12 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
   '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
   '/components/chat-rail': typeof ComponentsChatRailRoute
   '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
+  '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -735,10 +752,12 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
   '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
   '/components/chat-rail': typeof ComponentsChatRailRoute
   '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
+  '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -826,10 +845,12 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-main-panel'
     | '/components/chat-panel-stack'
     | '/components/chat-rail'
     | '/components/chat-shell'
     | '/components/chat-sidebar'
+    | '/components/chat-thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
@@ -914,10 +935,12 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-main-panel'
     | '/components/chat-panel-stack'
     | '/components/chat-rail'
     | '/components/chat-shell'
     | '/components/chat-sidebar'
+    | '/components/chat-thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
@@ -1003,10 +1026,12 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-main-panel'
     | '/components/chat-panel-stack'
     | '/components/chat-rail'
     | '/components/chat-shell'
     | '/components/chat-sidebar'
+    | '/components/chat-thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
@@ -1495,6 +1520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/chat-thread-panel': {
+      id: '/components/chat-thread-panel'
+      path: '/chat-thread-panel'
+      fullPath: '/components/chat-thread-panel'
+      preLoaderRoute: typeof ComponentsChatThreadPanelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/chat-sidebar': {
       id: '/components/chat-sidebar'
       path: '/chat-sidebar'
@@ -1521,6 +1553,13 @@ declare module '@tanstack/react-router' {
       path: '/chat-panel-stack'
       fullPath: '/components/chat-panel-stack'
       preLoaderRoute: typeof ComponentsChatPanelStackRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/chat-main-panel': {
+      id: '/components/chat-main-panel'
+      path: '/chat-main-panel'
+      fullPath: '/components/chat-main-panel'
+      preLoaderRoute: typeof ComponentsChatMainPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/button': {
@@ -1716,10 +1755,12 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsChatMainPanelRoute: typeof ComponentsChatMainPanelRoute
   ComponentsChatPanelStackRoute: typeof ComponentsChatPanelStackRoute
   ComponentsChatRailRoute: typeof ComponentsChatRailRoute
   ComponentsChatShellRoute: typeof ComponentsChatShellRoute
   ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
+  ComponentsChatThreadPanelRoute: typeof ComponentsChatThreadPanelRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
@@ -1787,10 +1828,12 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsChatMainPanelRoute: ComponentsChatMainPanelRoute,
   ComponentsChatPanelStackRoute: ComponentsChatPanelStackRoute,
   ComponentsChatRailRoute: ComponentsChatRailRoute,
   ComponentsChatShellRoute: ComponentsChatShellRoute,
   ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
+  ComponentsChatThreadPanelRoute: ComponentsChatThreadPanelRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,

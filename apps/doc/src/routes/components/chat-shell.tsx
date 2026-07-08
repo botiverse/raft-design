@@ -1,25 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
+import { NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
 import {
-  ChatPanelResizeHandle,
-  ChatPanelStackContent,
-  ChatPanelStackItem,
-  ChatPanelStackRoot,
-  ChatRailFooter,
-  ChatRailHeader,
-  ChatRailItem,
-  ChatRailItemBadge,
-  ChatRailItemIcon,
-  ChatRailItemIndicator,
-  ChatRailItemLabel,
-  ChatRailNav,
-  ChatRailRoot,
-  ChatShellMain,
-  ChatShellMobileBar,
-  ChatShellPanelStack,
-  ChatShellRail,
-  ChatShellRoot,
-  ChatShellSidebar,
+  AppPanelResizeHandle,
+  AppPanelStackItem,
+  AppPanelStackRoot,
+  AppRailFooter,
+  AppRailHeader,
+  AppRailItem,
+  AppRailItemBadge,
+  AppRailItemIcon,
+  AppRailItemIndicator,
+  AppRailItemLabel,
+  AppRailNav,
+  AppRailRoot,
+  AppShellMain,
+  AppShellMobileBar,
+  AppShellPanelStack,
+  AppShellRail,
+  AppShellRoot,
+  AppShellSidebar,
   ChatSidebarBody,
   ChatSidebarFooter,
   ChatSidebarHeader,
@@ -49,7 +48,6 @@ import {
   Search,
   Settings,
   Users,
-  X,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -60,8 +58,8 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { SourceChatRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
+import { ChatMainPanelComposition } from "#/compositions/chat-main-panel-composition.tsx";
+import { ChatThreadPanelComposition } from "#/compositions/chat-thread-panel-composition.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -80,80 +78,83 @@ const TODOS = [
 
 const SNIPPETS = {
   anatomy: `import {
-  ChatShellRoot,
-  ChatShellRail,
-  ChatShellSidebar,
-  ChatShellMain,
-  ChatShellPanelStack,
-  ChatRailRoot,
-  ChatRailNav,
-  ChatRailItem,
-  ChatRailItemIcon,
-  ChatRailItemLabel,
+  AppShellRoot,
+  AppShellRail,
+  AppShellSidebar,
+  AppShellMain,
+  AppShellPanelStack,
+  AppRailRoot,
+  AppRailNav,
+  AppRailItem,
+  AppRailItemIcon,
+  AppRailItemLabel,
   ChatSidebarRoot,
-  ChatPanelStackRoot,
-  ChatPanelStackItem,
-  ChatPanelStackContent,
+  AppPanelStackRoot,
+  AppPanelStackItem,
+  ChatMainPanelRoot,
+  ChatThreadPanelRoot,
 } from "raft-ui/wip";
 
-<ChatShellRoot>
-  <ChatShellRail>
-    <ChatRailRoot value={mode} onValueChange={setMode}>
-      <ChatRailNav>
-        <ChatRailItem value="chat">
-          <ChatRailItemIcon><MessageSquare /></ChatRailItemIcon>
-          <ChatRailItemLabel>Chat</ChatRailItemLabel>
-        </ChatRailItem>
-      </ChatRailNav>
-    </ChatRailRoot>
-  </ChatShellRail>
+<AppShellRoot>
+  <AppShellRail>
+    <AppRailRoot value={mode} onValueChange={setMode}>
+      <AppRailNav>
+        <AppRailItem value="chat">
+          <AppRailItemIcon><MessageSquare /></AppRailItemIcon>
+          <AppRailItemLabel>Chat</AppRailItemLabel>
+        </AppRailItem>
+      </AppRailNav>
+    </AppRailRoot>
+  </AppShellRail>
 
-  <ChatShellSidebar>
+  <AppShellSidebar>
     <ChatSidebarRoot>...</ChatSidebarRoot>
-  </ChatShellSidebar>
+  </AppShellSidebar>
 
-  <ChatShellMain>...</ChatShellMain>
+  <AppShellMain>
+    <ChatMainPanelRoot>...</ChatMainPanelRoot>
+  </AppShellMain>
 
-  <ChatShellPanelStack>
-    <ChatPanelStackRoot>
-      <ChatPanelStackItem>
-        <ChatPanelStackContent>...</ChatPanelStackContent>
-      </ChatPanelStackItem>
-    </ChatPanelStackRoot>
-  </ChatShellPanelStack>
-</ChatShellRoot>`,
-  mobile: `<ChatShellMobileBar>
+  <AppShellPanelStack>
+    <AppPanelStackRoot>
+      <AppPanelStackItem>
+        <ChatThreadPanelRoot>...</ChatThreadPanelRoot>
+      </AppPanelStackItem>
+    </AppPanelStackRoot>
+  </AppShellPanelStack>
+</AppShellRoot>`,
+  mobile: `<AppShellMobileBar>
   <div className="flex">
-    <ChatRailItem selected>
-      <ChatRailItemIcon><Home /></ChatRailItemIcon>
-      <ChatRailItemLabel className="not-sr-only">Home</ChatRailItemLabel>
-    </ChatRailItem>
-    <ChatRailItem>
-      <ChatRailItemIcon><CheckSquare /></ChatRailItemIcon>
-      <ChatRailItemLabel className="not-sr-only">Tasks</ChatRailItemLabel>
-    </ChatRailItem>
+    <AppRailItem selected>
+      <AppRailItemIcon><Home /></AppRailItemIcon>
+      <AppRailItemLabel className="not-sr-only">Home</AppRailItemLabel>
+    </AppRailItem>
+    <AppRailItem>
+      <AppRailItemIcon><CheckSquare /></AppRailItemIcon>
+      <AppRailItemLabel className="not-sr-only">Tasks</AppRailItemLabel>
+    </AppRailItem>
   </div>
-</ChatShellMobileBar>`,
+</AppShellMobileBar>`,
 } as const;
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatShellRoot",
+    name: "AppShellRoot",
     type: 'div props & { hidden?: boolean; presentation?: "desktop" | "mobile" }',
     description: "Owns the app-shell flex layout and theme-aware background contract.",
   },
   {
-    name: "ChatShellRail / Sidebar / Main / PanelStack / MobileBar",
+    name: "AppShellRail / Sidebar / Main / PanelStack / MobileBar",
     type: "region props",
     description: "Layout regions. Content remains caller-owned children.",
   },
   {
-    name: "ChatRailRoot",
+    name: "AppRailRoot",
     type: "{ value?: string; onValueChange?: (value: string) => void }",
     description: "Optional controlled rail selection. It does not own routing or data.",
   },
   {
-    name: "ChatRailItem",
+    name: "AppRailItem",
     type: "button props & { value?: string; selected?: boolean; onSelect?: (value: string) => void }",
     description: "Selectable rail action. Icons, labels, badges, and indicators are child parts.",
   },
@@ -163,25 +164,37 @@ const ROOT_PROPS: readonly PropRow[] = [
     description: "Header, body, section, list, and footer slots for app-owned navigation rows.",
   },
   {
-    name: "ChatPanelStack*",
+    name: "ChatMainPanel*",
+    type: "section / div / button props",
+    description:
+      "Active conversation surface composed inside AppShellMain; messages and composer behavior stay app-owned.",
+  },
+  {
+    name: "AppPanelStack*",
     type: "div / section props",
     description:
       "Right-side panel stack pieces. Width, open order, URL sync, and resize persistence stay app-owned.",
   },
+  {
+    name: "ChatThreadPanel*",
+    type: "section / div / button props",
+    description:
+      "Thread panel surface composed inside AppPanelStackItem; message data and close behavior stay app-owned.",
+  },
 ];
 
 export const Route = createFileRoute("/components/chat-shell")({
-  component: ChatShellDoc,
+  component: AppShellDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function ChatShellDoc() {
+function AppShellDoc() {
   const code = Route.useLoaderData();
 
   return (
     <DocPage
-      title="ChatShell"
-      description="App-level chat shell foundations for rail, sidebar, main content, right panels, and mobile tab chrome."
+      title="AppShell"
+      description="Reusable app shell foundations for rail, sidebar, main content, right panels, and mobile tab chrome."
       overview={
         <Differences from="MainLayout, LeftRail, Sidebar, ThreadPanel">
           <li>
@@ -204,24 +217,19 @@ function ChatShellDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <div className="flex flex-col gap-4">
-          <PreviewPane label="Source">
-            <SourceThemeScope className="h-full">
-              <SourceShellPreview />
-            </SourceThemeScope>
-          </PreviewPane>
           <PreviewPane label="Brutal">
             <PreviewThemeScope family="brutal" className="h-full">
-              <ChatShellPreview />
+              <AppShellPreview />
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Elegant">
             <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ChatShellPreview />
+              <AppShellPreview />
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Elegant dark">
             <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <ChatShellPreview />
+              <AppShellPreview />
             </PreviewThemeScope>
           </PreviewPane>
         </div>
@@ -229,7 +237,7 @@ function ChatShellDoc() {
 
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock.Panel
-          path="chat-shell.tsx"
+          path="app-shell.tsx"
           source={SNIPPETS.anatomy}
           html={code.anatomy}
           showLineNumbers={false}
@@ -259,34 +267,34 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
       <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </div>
-      <div className="h-[420px] overflow-x-auto bg-background p-2">{children}</div>
+      <div className="h-[840px] overflow-x-auto bg-background p-2">{children}</div>
     </div>
   );
 }
 
-function ChatShellPreview() {
+function AppShellPreview() {
   return (
-    <ChatShellRoot className="h-full min-w-[920px] border border-line-strong shadow-sm">
-      <ChatShellRail className="flex md:flex">
-        <ChatRailRoot value="chat">
-          <ChatRailHeader>
+    <AppShellRoot className="h-full min-w-[920px] border border-line-strong shadow-sm">
+      <AppShellRail className="flex md:flex">
+        <AppRailRoot value="chat">
+          <AppRailHeader>
             <button
               type="button"
               className="relative inline-flex size-10 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=elegant]_&]:bg-foreground-strong"
               aria-label="Switch server"
             >
               R
-              <ChatRailItemIndicator className="right-0 top-0" />
+              <AppRailItemIndicator className="right-0 top-0" />
             </button>
-          </ChatRailHeader>
-          <ChatRailNav>
+          </AppRailHeader>
+          <AppRailNav>
             <RailItem value="search" label="Search" icon={<Search />} />
             <RailItem value="chat" label="Chat" icon={<MessageSquare />} />
             <RailItem value="activity" label="Activity" icon={<Activity />} indicator />
             <RailItem value="tasks" label="Tasks" icon={<CheckSquare />} />
             <RailItem value="members" label="Members" icon={<Users />} />
             <RailItem value="computers" label="Computers" icon={<Monitor />} indicator />
-          </ChatRailNav>
+          </AppRailNav>
           <div className="flex w-full items-center justify-center pb-1">
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center">
@@ -300,13 +308,13 @@ function ChatShellPreview() {
               </NotificationCenterTrigger>
             </NotificationCenter>
           </div>
-          <ChatRailFooter>
+          <AppRailFooter>
             <RailItem value="settings" label="Settings" icon={<Settings />} />
-          </ChatRailFooter>
-        </ChatRailRoot>
-      </ChatShellRail>
+          </AppRailFooter>
+        </AppRailRoot>
+      </AppShellRail>
 
-      <ChatShellSidebar className="flex md:flex">
+      <AppShellSidebar className="flex md:flex">
         <ChatSidebarRoot>
           <ChatSidebarHeader>
             <div className="min-w-0 flex-1">
@@ -330,60 +338,21 @@ function ChatShellPreview() {
             </div>
           </ChatSidebarFooter>
         </ChatSidebarRoot>
-      </ChatShellSidebar>
+      </AppShellSidebar>
 
-      <ChatShellMain className="flex">
-        <div className="flex h-[62px] shrink-0 items-center border-b-2 border-line-strong bg-layer-panel px-4 [[data-preview-theme=elegant]_&]:border-line-subtle">
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-bold text-foreground-strong">#proj-uiux</div>
-            <div className="truncate font-mono text-[11px] text-foreground-muted">
-              Controlled layout shell, data-free content
-            </div>
-          </div>
-          <Badge appearance="solid" variant="information" className="shrink-0">
-            WIP
-          </Badge>
-        </div>
-        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-layer-panel p-4">
-          <MessageBubble author="Cindy" tone="pink">
-            Rail state should be controlled by product routing, not hidden inside the shell.
-          </MessageBubble>
-          <MessageBubble author="Atlas" tone="cyan">
-            Panel stack stays data-free, but it exposes the resize handle affordance.
-          </MessageBubble>
-        </div>
-      </ChatShellMain>
+      <AppShellMain className="flex">
+        <ChatMainPanelComposition />
+      </AppShellMain>
 
-      <ChatShellPanelStack className="flex lg:flex">
-        <ChatPanelStackRoot resizable>
-          <ChatPanelStackItem>
-            <ChatPanelResizeHandle />
-            <div className="flex h-[62px] items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-preview-theme=elegant]_&]:border-line-subtle">
-              <div className="min-w-0 flex-1 truncate text-sm font-bold text-foreground-strong">
-                Thread
-              </div>
-              <button
-                type="button"
-                className="flex size-7 items-center justify-center border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle"
-                aria-label="Close thread"
-              >
-                <X className="size-3.5" />
-              </button>
-            </div>
-            <ChatPanelStackContent>
-              <div className="space-y-3 p-3">
-                <MessageBubble author="Thread" tone="yellow">
-                  Source ThreadPanel content lives inside a host-owned right column.
-                </MessageBubble>
-                <div className="border-t-2 border-line-strong pt-3 text-xs text-foreground-muted [[data-preview-theme=elegant]_&]:border-line-subtle">
-                  Reply composer slot
-                </div>
-              </div>
-            </ChatPanelStackContent>
-          </ChatPanelStackItem>
-        </ChatPanelStackRoot>
-      </ChatShellPanelStack>
-    </ChatShellRoot>
+      <AppShellPanelStack className="flex lg:flex">
+        <AppPanelStackRoot resizable>
+          <AppPanelStackItem>
+            <AppPanelResizeHandle />
+            <ChatThreadPanelComposition />
+          </AppPanelStackItem>
+        </AppPanelStackRoot>
+      </AppShellPanelStack>
+    </AppShellRoot>
   );
 }
 
@@ -401,12 +370,12 @@ function RailItem({
   indicator?: boolean;
 }) {
   return (
-    <ChatRailItem value={value} title={label} aria-label={label}>
-      <ChatRailItemIcon>{icon}</ChatRailItemIcon>
-      <ChatRailItemLabel>{label}</ChatRailItemLabel>
-      {badge ? <ChatRailItemBadge>{badge}</ChatRailItemBadge> : null}
-      {indicator ? <ChatRailItemIndicator /> : null}
-    </ChatRailItem>
+    <AppRailItem value={value} title={label} aria-label={label}>
+      <AppRailItemIcon>{icon}</AppRailItemIcon>
+      <AppRailItemLabel>{label}</AppRailItemLabel>
+      {badge ? <AppRailItemBadge>{badge}</AppRailItemBadge> : null}
+      {indicator ? <AppRailItemIndicator /> : null}
+    </AppRailItem>
   );
 }
 
@@ -451,41 +420,16 @@ function SidebarRow({
   );
 }
 
-function MessageBubble({
-  author,
-  tone,
-  children,
-}: {
-  author: string;
-  tone: "pink" | "cyan" | "yellow";
-  children: ReactNode;
-}) {
-  const toneClassName = {
-    pink: "bg-accent-400/30",
-    cyan: "bg-info-base/25",
-    yellow: "bg-primary-400/25",
-  }[tone];
-
-  return (
-    <div
-      className={`border-2 border-line-strong bg-layer-panel p-3 text-sm shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle ${toneClassName}`}
-    >
-      <div className="mb-1 font-mono text-[11px] font-bold text-foreground-muted">{author}</div>
-      <div className="leading-relaxed text-foreground-strong">{children}</div>
-    </div>
-  );
-}
-
 function MobileBarExample() {
   return (
-    <ChatShellMobileBar>
+    <AppShellMobileBar>
       <div className="flex">
         <MobileBarItem selected icon={<Home />} label="Home" />
         <MobileBarItem icon={<CheckSquare />} label="Tasks" />
         <MobileBarItem icon={<Users />} label="Members" />
         <MobileBarItem icon={<Settings />} label="Settings" />
       </div>
-    </ChatShellMobileBar>
+    </AppShellMobileBar>
   );
 }
 
@@ -499,116 +443,13 @@ function MobileBarItem({
   selected?: boolean;
 }) {
   return (
-    <ChatRailItem
+    <AppRailItem
       selected={selected}
       className="h-14 flex-1 flex-col gap-1 border-0 border-r-2 border-line-strong text-[10px] font-bold tracking-wide last:border-r-0 data-[selected=true]:bg-primary-400 data-[selected=true]:shadow-none"
       aria-label={label}
     >
-      <ChatRailItemIcon>{icon}</ChatRailItemIcon>
-      <ChatRailItemLabel className="not-sr-only">{label}</ChatRailItemLabel>
-    </ChatRailItem>
-  );
-}
-
-function SourceShellPreview() {
-  return (
-    <div className="flex h-full min-w-[920px] min-h-0 overflow-hidden border-2 border-black bg-brutal-cream font-display text-black">
-      <SourceChatRailPreview />
-      <div className="hidden w-60 shrink-0 flex-col border-r-2 border-black bg-brutal-cream md:flex">
-        <div className="flex h-[62px] items-center border-b-2 border-black px-5">
-          <div className="text-lg font-bold text-black">Chat</div>
-        </div>
-        <div className="min-h-0 flex-1 overflow-y-auto py-2">
-          <SourceSection title="Pinned">
-            <SourceSidebarRow selected title="#proj-uiux" meta="Cindy replied" />
-            <SourceSidebarRow title="#proj-theme" meta="Atlas is typing" />
-          </SourceSection>
-          <SourceSection title="Agents">
-            <SourceSidebarRow title="Cindy" meta="online" />
-            <SourceSidebarRow title="Atlas" meta="idle" />
-          </SourceSection>
-        </div>
-      </div>
-      <div className="min-w-0 flex-1 bg-white">
-        <div className="flex h-[62px] items-center border-b-2 border-black px-4">
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-bold">#proj-uiux</div>
-            <div className="truncate font-mono text-[11px] text-black/50">Source main panel</div>
-          </div>
-        </div>
-        <div className="space-y-3 p-4">
-          <SourceMessage author="Cindy">
-            Existing app code owns behavior and data loading.
-          </SourceMessage>
-          <SourceMessage author="Atlas">
-            The reusable shell keeps only the visual contract.
-          </SourceMessage>
-        </div>
-      </div>
-      <div className="hidden w-[400px] shrink-0 border-l-2 border-black bg-white lg:block">
-        <div className="flex h-[62px] items-center border-b-2 border-black px-3">
-          <div className="min-w-0 flex-1 truncate text-sm font-bold">Thread</div>
-          <button
-            type="button"
-            className="btn-brutal-sm flex size-7 items-center justify-center bg-white"
-            aria-label="Close thread"
-          >
-            <X className="size-3.5" />
-          </button>
-        </div>
-        <div className="p-3">
-          <SourceMessage author="Thread">
-            ThreadPanel content sits inside a host wrapper.
-          </SourceMessage>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SourceSection({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className="mb-3 px-2">
-      <div className="mb-1 flex h-6 items-center px-1 text-[11px] font-bold uppercase tracking-wider text-black/50">
-        {title}
-      </div>
-      <div className="space-y-1">{children}</div>
-    </div>
-  );
-}
-
-function SourceSidebarRow({
-  title,
-  meta,
-  selected,
-}: {
-  title: string;
-  meta: string;
-  selected?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      className={`flex w-full items-center gap-2 border-2 px-2 py-2 text-left text-sm ${
-        selected
-          ? "border-black bg-brutal-pink font-bold shadow-brutal-sm"
-          : "border-transparent hover:border-black hover:bg-white hover:shadow-brutal-sm"
-      }`}
-    >
-      <span className="size-3 border border-black bg-brutal-yellow" />
-      <span className="min-w-0 flex-1">
-        <span className="block truncate">{title}</span>
-        <span className="block truncate font-mono text-[11px] text-black/50">{meta}</span>
-      </span>
-    </button>
-  );
-}
-
-function SourceMessage({ author, children }: { author: string; children: ReactNode }) {
-  return (
-    <div className="border-2 border-black bg-white p-3 text-sm shadow-brutal-sm">
-      <div className="mb-1 font-mono text-[11px] font-bold text-black/50">{author}</div>
-      <div>{children}</div>
-    </div>
+      <AppRailItemIcon>{icon}</AppRailItemIcon>
+      <AppRailItemLabel className="not-sr-only">{label}</AppRailItemLabel>
+    </AppRailItem>
   );
 }

@@ -1,14 +1,14 @@
 import { NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
 import {
-  ChatRailFooter,
-  ChatRailHeader,
-  ChatRailItem,
-  ChatRailItemIcon,
-  ChatRailItemLabel,
-  ChatRailNav,
-  ChatRailRoot,
-  ChatRailServerButton,
-  ChatShellRail,
+  AppRailFooter,
+  AppRailHeader,
+  AppRailItem,
+  AppRailItemIcon,
+  AppRailItemLabel,
+  AppRailNav,
+  AppRailRoot,
+  AppRailServerButton,
+  AppShellRail,
 } from "raft-ui/wip";
 import {
   Activity,
@@ -21,12 +21,12 @@ import {
   Users,
 } from "lucide-react";
 
-export function ChatRailComposition() {
+export function AppRailComposition() {
   return (
-    <ChatShellRail className="flex md:flex">
-      <ChatRailRoot value="chat">
-        <ChatRailHeader>
-          <ChatRailServerButton aria-label="Switch server">
+    <AppShellRail className="flex md:flex">
+      <AppRailRoot value="chat">
+        <AppRailHeader>
+          <AppRailServerButton aria-label="Switch server">
             R
             <Status
               aria-hidden
@@ -34,58 +34,58 @@ export function ChatRailComposition() {
               size="md"
               className="pointer-events-none absolute -top-1 -right-1"
             />
-          </ChatRailServerButton>
-        </ChatRailHeader>
-        <ChatRailNav>
-          <ChatRailItem value="search" title="Search" aria-label="Search">
-            <ChatRailItemIcon>
+          </AppRailServerButton>
+        </AppRailHeader>
+        <AppRailNav>
+          <AppRailItem value="search" title="Search" aria-label="Search">
+            <AppRailItemIcon>
               <Search />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Search</ChatRailItemLabel>
-          </ChatRailItem>
-          <ChatRailItem value="chat" title="Chat" aria-label="Chat">
-            <ChatRailItemIcon>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Search</AppRailItemLabel>
+          </AppRailItem>
+          <AppRailItem value="chat" title="Chat" aria-label="Chat">
+            <AppRailItemIcon>
               <MessageSquare />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Chat</ChatRailItemLabel>
-          </ChatRailItem>
-          <ChatRailItem value="activity" title="Activity" aria-label="Activity">
-            <ChatRailItemIcon>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Chat</AppRailItemLabel>
+          </AppRailItem>
+          <AppRailItem value="activity" title="Activity" aria-label="Activity">
+            <AppRailItemIcon>
               <Activity />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Activity</ChatRailItemLabel>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Activity</AppRailItemLabel>
             <Status
               aria-hidden
               variant="accent"
               size="md"
               className="pointer-events-none absolute -top-1 -right-1"
             />
-          </ChatRailItem>
-          <ChatRailItem value="tasks" title="Tasks" aria-label="Tasks">
-            <ChatRailItemIcon>
+          </AppRailItem>
+          <AppRailItem value="tasks" title="Tasks" aria-label="Tasks">
+            <AppRailItemIcon>
               <CheckSquare />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Tasks</ChatRailItemLabel>
-          </ChatRailItem>
-          <ChatRailItem value="members" title="Members" aria-label="Members">
-            <ChatRailItemIcon>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Tasks</AppRailItemLabel>
+          </AppRailItem>
+          <AppRailItem value="members" title="Members" aria-label="Members">
+            <AppRailItemIcon>
               <Users />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Members</ChatRailItemLabel>
-          </ChatRailItem>
-          <ChatRailItem value="computers" title="Computers" aria-label="Computers">
-            <ChatRailItemIcon>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Members</AppRailItemLabel>
+          </AppRailItem>
+          <AppRailItem value="computers" title="Computers" aria-label="Computers">
+            <AppRailItemIcon>
               <Monitor />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Computers</ChatRailItemLabel>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Computers</AppRailItemLabel>
             <Status
               aria-hidden
               variant="accent"
               size="md"
               className="pointer-events-none absolute -top-1 -right-1"
             />
-          </ChatRailItem>
-        </ChatRailNav>
+          </AppRailItem>
+        </AppRailNav>
         <div className="flex w-full items-center justify-center pb-1">
           <NotificationCenter modal={false}>
             <NotificationCenterTrigger type="button" aria-label="Notification center">
@@ -99,15 +99,15 @@ export function ChatRailComposition() {
             </NotificationCenterTrigger>
           </NotificationCenter>
         </div>
-        <ChatRailFooter>
-          <ChatRailItem value="settings" title="Settings" aria-label="Settings">
-            <ChatRailItemIcon>
+        <AppRailFooter>
+          <AppRailItem value="settings" title="Settings" aria-label="Settings">
+            <AppRailItemIcon>
               <Settings />
-            </ChatRailItemIcon>
-            <ChatRailItemLabel>Settings</ChatRailItemLabel>
-          </ChatRailItem>
-        </ChatRailFooter>
-      </ChatRailRoot>
-    </ChatShellRail>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Settings</AppRailItemLabel>
+          </AppRailItem>
+        </AppRailFooter>
+      </AppRailRoot>
+    </AppShellRail>
   );
 }

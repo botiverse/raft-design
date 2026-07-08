@@ -5,7 +5,7 @@ import { createContext, use, useMemo, type MouseEvent } from "react";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
-export const chatShell = tv({
+export const appShell = tv({
   slots: {
     root: [
       "flex min-h-0 w-full overflow-hidden",
@@ -44,36 +44,36 @@ export const chatShell = tv({
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
     sidebarSection: ["px-2"],
-    sidebarList: ["space-y-1"],
+    sidebarList: [],
     sidebarSectionHeader: ["mt-3 mb-1 flex h-6 items-center justify-between px-2"],
     sidebarSectionButton: [
       "flex h-6 min-w-0 flex-1 items-center gap-1",
       "text-xs font-bold tracking-widest uppercase",
-      "[&[data-panel-open]_svg]:rotate-90",
+      "[&_svg]:transition-transform [&[data-panel-open]_svg]:rotate-90",
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],
-    sidebarSectionCount: ["font-mono text-[10px] font-normal tracking-normal"],
+    sidebarSectionCount: ["font-mono normal-case tracking-normal"],
     sidebarSectionIndicator: ["ml-1", "[[data-panel-open]_&]:hidden"],
     sidebarSectionActions: ["flex shrink-0 items-center gap-1"],
     sidebarSectionAction: ["flex size-6 items-center justify-center p-0"],
     sidebarItem: [
       "mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
-      "border-2 text-sm font-medium",
+      "border-2 text-sm font-medium transition-colors",
       "[@media(max-height:600px)]:py-1 md:py-1",
     ],
     sidebarItemIcon: ["flex size-[18px] shrink-0 items-center justify-center"],
     sidebarItemText: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"],
     sidebarItemTextStack: ["min-w-0 flex-1 text-left"],
     sidebarItemTitle: ["block min-w-0 truncate"],
-    sidebarItemSubtitle: ["block truncate font-mono text-[11px]"],
+    sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs"],
     sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
     sidebarItemIndicator: ["ml-1 shrink-0"],
     sidebarItemMention: [
-      "inline-flex size-4 shrink-0 items-center justify-center",
+      "ml-1 inline-flex size-4 shrink-0 items-center justify-center",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
     sidebarItemMuted: [
-      "inline-flex size-4 shrink-0 items-center justify-center",
+      "ml-1 inline-flex size-4 shrink-0 items-center justify-center",
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     sidebarItemDraft: [
@@ -109,49 +109,51 @@ export const chatShell = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-brutal-cream font-display text-black",
+        root: "bg-brutal-cream font-sans text-black",
         shellRail:
-          "w-16 border-r-2 border-[#141111] bg-soft-signal font-display text-[#141111] [@media(max-height:600px)]:w-[50px]",
+          "w-16 border-r-2 border-black bg-soft-signal font-sans text-foreground [@media(max-height:600px)]:w-[50px]",
         shellSidebar: "w-60 border-r-2 border-black bg-brutal-cream",
         shellMain: "bg-white",
         shellPanelStack: "border-l-2 border-black bg-white",
         mobileBar: "border-t-2 border-black bg-white text-black",
-        railHeader: "h-[62px] border-b-2 border-[#141111] [@media(max-height:600px)]:h-12",
+        railHeader: "h-[62px] border-b-2 border-black [@media(max-height:600px)]:h-12",
         railServerButton: [
-          "rounded-none border-2 border-[#141111] bg-[#141111]",
-          "font-display text-base font-bold text-soft-signal",
-          "shadow-[2px_2px_0_#141111] hover:shadow-[4px_4px_0_#141111]",
+          "rounded-none border-2 border-black bg-black",
+          "font-sans text-base font-bold text-soft-signal",
+          "shadow-brutal-sm hover:shadow-brutal",
+          "transition-all duration-100",
         ],
         railFooter: "h-[62px] [@media(max-height:600px)]:h-12",
         railItem: [
-          "size-10 border-2 border-transparent text-[#141111]",
-          "hover:border-[#141111] hover:bg-white",
-          "active:border-[#141111] active:bg-white active:shadow-[var(--shadow-brutal-sm)]",
-          "data-[selected=true]:border-[#141111] data-[selected=true]:bg-white data-[selected=true]:shadow-[var(--shadow-brutal-sm)]",
+          "size-10 border-2 border-transparent text-foreground",
+          "transition-colors",
+          "hover:border-black hover:bg-white",
+          "data-[selected=true]:border-black data-[selected=true]:bg-white data-[selected=true]:shadow-brutal-sm",
           "[@media(max-height:600px)]:size-9",
         ],
         railItemBadge: "border-2 border-black bg-brutal-pink text-black",
-        railItemIndicator: "rounded-full border border-[#141111] bg-brutal-pink",
+        railItemIndicator: "rounded-full border border-black bg-brutal-pink",
         sidebarHeader:
           "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
         sidebarBody: "bg-brutal-cream",
-        sidebarSectionButton: "text-black hover:text-black/70",
+        sidebarSectionButton: "text-black transition-colors hover:text-black/70",
         sidebarSectionCount: "text-black/40",
         sidebarSectionAction: [
-          "font-display font-bold text-black/70",
+          "font-sans font-bold text-black/70",
+          "transition-colors duration-100",
           "hover:bg-black/5 hover:text-black active:bg-black/10",
           "focus:outline-none focus-visible:bg-black/5 focus-visible:text-black focus-visible:outline-none",
         ],
         sidebarItem: [
           "border-transparent text-black",
-          "hover:border-black hover:bg-white hover:shadow-[var(--shadow-brutal-sm)]",
-          "active:border-black active:bg-white active:shadow-[var(--shadow-brutal-sm)]",
+          "hover:border-black hover:bg-white hover:shadow-brutal-sm",
+          "active:border-black active:bg-white active:shadow-brutal-sm",
           "data-[selected=true]:border-black data-[selected=true]:bg-brutal-pink",
-          "data-[selected=true]:font-bold data-[selected=true]:shadow-[var(--shadow-brutal-sm)]",
+          "data-[selected=true]:font-bold data-[selected=true]:shadow-brutal-sm",
           "data-[menu-open=true]:border-black data-[menu-open=true]:bg-white",
-          "data-[menu-open=true]:shadow-[var(--shadow-brutal-sm)]",
+          "data-[menu-open=true]:shadow-brutal-sm",
         ],
-        sidebarItemSubtitle: "text-black/50",
+        sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-black/40",
         sidebarItemMention: "rounded border border-black bg-soft-signal text-black",
         sidebarItemMuted: "text-black/40",
@@ -250,39 +252,39 @@ type HiddenProp = {
   hidden?: boolean;
 };
 
-type ChatShellVariantProps = Omit<VariantProps<typeof chatShell>, "theme">;
+type AppShellVariantProps = Omit<VariantProps<typeof appShell>, "theme">;
 
 export type DataAttributes = {
   [key: `data-${string}`]: string | undefined;
 };
 
-type ChatRailContextValue = {
+type AppRailContextValue = {
   value?: string;
   onValueChange?: (value: string) => void;
 };
 
-const ChatRailContext = createContext<ChatRailContextValue | null>(null);
+const AppRailContext = createContext<AppRailContextValue | null>(null);
 
-function useChatRail() {
-  return use(ChatRailContext);
+function useAppRail() {
+  return use(AppRailContext);
 }
 
-export type ChatShellRootProps = useRender.ComponentProps<"div"> &
+export type AppShellRootProps = useRender.ComponentProps<"div"> &
   HiddenProp &
-  Pick<ChatShellVariantProps, "presentation">;
+  Pick<AppShellVariantProps, "presentation">;
 
-export function ChatShellRoot({
+export function AppShellRoot({
   presentation,
   hidden,
   className,
   render,
   ...props
-}: ChatShellRootProps) {
+}: AppShellRootProps) {
   const theme = useThemeFamily();
-  const { root } = chatShell({ theme, presentation });
+  const { root } = appShell({ theme, presentation });
 
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-shell-root",
+    "data-slot": "app-shell-root",
     "data-presentation": presentation ?? "desktop",
     className: root({ className }),
   };
@@ -297,14 +299,14 @@ export function ChatShellRoot({
   return element;
 }
 
-export type ChatShellRailProps = useRender.ComponentProps<"aside"> & HiddenProp;
+export type AppShellRailProps = useRender.ComponentProps<"aside"> & HiddenProp;
 
-export function ChatShellRail({ hidden, className, render, ...props }: ChatShellRailProps) {
+export function AppShellRail({ hidden, className, render, ...props }: AppShellRailProps) {
   const theme = useThemeFamily();
-  const { shellRail } = chatShell({ theme });
+  const { shellRail } = appShell({ theme });
 
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
-    "data-slot": "chat-shell-rail",
+    "data-slot": "app-shell-rail",
     className: shellRail({ className }),
   };
 
@@ -318,22 +320,22 @@ export function ChatShellRail({ hidden, className, render, ...props }: ChatShell
   return element;
 }
 
-export type ChatShellSidebarProps = useRender.ComponentProps<"aside"> &
+export type AppShellSidebarProps = useRender.ComponentProps<"aside"> &
   HiddenProp &
-  Pick<ChatShellVariantProps, "resizable">;
+  Pick<AppShellVariantProps, "resizable">;
 
-export function ChatShellSidebar({
+export function AppShellSidebar({
   hidden,
   resizable,
   className,
   render,
   ...props
-}: ChatShellSidebarProps) {
+}: AppShellSidebarProps) {
   const theme = useThemeFamily();
-  const { shellSidebar } = chatShell({ theme, resizable });
+  const { shellSidebar } = appShell({ theme, resizable });
 
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
-    "data-slot": "chat-shell-sidebar",
+    "data-slot": "app-shell-sidebar",
     "data-resizable": resizable ? "true" : undefined,
     className: shellSidebar({ className }),
   };
@@ -348,14 +350,14 @@ export function ChatShellSidebar({
   return element;
 }
 
-export type ChatShellMainProps = useRender.ComponentProps<"main"> & HiddenProp;
+export type AppShellMainProps = useRender.ComponentProps<"main"> & HiddenProp;
 
-export function ChatShellMain({ hidden, className, render, ...props }: ChatShellMainProps) {
+export function AppShellMain({ hidden, className, render, ...props }: AppShellMainProps) {
   const theme = useThemeFamily();
-  const { shellMain } = chatShell({ theme });
+  const { shellMain } = appShell({ theme });
 
   const defaultProps: useRender.ElementProps<"main"> & DataAttributes = {
-    "data-slot": "chat-shell-main",
+    "data-slot": "app-shell-main",
     className: shellMain({ className }),
   };
 
@@ -369,22 +371,22 @@ export function ChatShellMain({ hidden, className, render, ...props }: ChatShell
   return element;
 }
 
-export type ChatShellPanelStackProps = useRender.ComponentProps<"aside"> &
+export type AppShellPanelStackProps = useRender.ComponentProps<"aside"> &
   HiddenProp &
-  Pick<ChatShellVariantProps, "resizable">;
+  Pick<AppShellVariantProps, "resizable">;
 
-export function ChatShellPanelStack({
+export function AppShellPanelStack({
   hidden,
   resizable,
   className,
   render,
   ...props
-}: ChatShellPanelStackProps) {
+}: AppShellPanelStackProps) {
   const theme = useThemeFamily();
-  const { shellPanelStack } = chatShell({ theme, resizable });
+  const { shellPanelStack } = appShell({ theme, resizable });
 
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
-    "data-slot": "chat-shell-panel-stack",
+    "data-slot": "app-shell-panel-stack",
     "data-resizable": resizable ? "true" : undefined,
     className: shellPanelStack({ className }),
   };
@@ -399,19 +401,14 @@ export function ChatShellPanelStack({
   return element;
 }
 
-export type ChatShellMobileBarProps = useRender.ComponentProps<"nav"> & HiddenProp;
+export type AppShellMobileBarProps = useRender.ComponentProps<"nav"> & HiddenProp;
 
-export function ChatShellMobileBar({
-  hidden,
-  className,
-  render,
-  ...props
-}: ChatShellMobileBarProps) {
+export function AppShellMobileBar({ hidden, className, render, ...props }: AppShellMobileBarProps) {
   const theme = useThemeFamily();
-  const { mobileBar } = chatShell({ theme });
+  const { mobileBar } = appShell({ theme });
 
   const defaultProps: useRender.ElementProps<"nav"> & DataAttributes = {
-    "data-slot": "chat-shell-mobile-bar",
+    "data-slot": "app-shell-mobile-bar",
     className: mobileBar({ className }),
   };
 
@@ -425,22 +422,22 @@ export function ChatShellMobileBar({
   return element;
 }
 
-export type ChatRailRootProps = useRender.ComponentProps<"div"> & {
+export type AppRailRootProps = useRender.ComponentProps<"div"> & {
   value?: string;
   onValueChange?: (value: string) => void;
 };
 
-export function ChatRailRoot({
+export function AppRailRoot({
   value,
   onValueChange,
   className,
   render,
   ...props
-}: ChatRailRootProps) {
-  const { railRoot } = chatShell();
+}: AppRailRootProps) {
+  const { railRoot } = appShell();
   const contextValue = useMemo(() => ({ value, onValueChange }), [value, onValueChange]);
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-rail-root",
+    "data-slot": "app-rail-root",
     className: railRoot({ className }),
   };
 
@@ -450,16 +447,16 @@ export function ChatRailRoot({
     props: mergeProps<"div">(defaultProps, props),
   });
 
-  return <ChatRailContext.Provider value={contextValue}>{element}</ChatRailContext.Provider>;
+  return <AppRailContext.Provider value={contextValue}>{element}</AppRailContext.Provider>;
 }
 
-export type ChatRailHeaderProps = useRender.ComponentProps<"div">;
+export type AppRailHeaderProps = useRender.ComponentProps<"div">;
 
-export function ChatRailHeader({ className, render, ...props }: ChatRailHeaderProps) {
+export function AppRailHeader({ className, render, ...props }: AppRailHeaderProps) {
   const theme = useThemeFamily();
-  const { railHeader } = chatShell({ theme });
+  const { railHeader } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-rail-header",
+    "data-slot": "app-rail-header",
     className: railHeader({ className }),
   };
 
@@ -470,14 +467,14 @@ export function ChatRailHeader({ className, render, ...props }: ChatRailHeaderPr
   });
 }
 
-export type ChatRailServerButtonProps = useRender.ComponentProps<"button">;
+export type AppRailServerButtonProps = useRender.ComponentProps<"button">;
 
-export function ChatRailServerButton({ className, render, ...props }: ChatRailServerButtonProps) {
+export function AppRailServerButton({ className, render, ...props }: AppRailServerButtonProps) {
   const theme = useThemeFamily();
-  const { railServerButton } = chatShell({ theme });
+  const { railServerButton } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
-    "data-slot": "chat-rail-server-button",
+    "data-slot": "app-rail-server-button",
     className: railServerButton({ className }),
   };
 
@@ -487,12 +484,12 @@ export function ChatRailServerButton({ className, render, ...props }: ChatRailSe
   });
 }
 
-export type ChatRailNavProps = useRender.ComponentProps<"nav">;
+export type AppRailNavProps = useRender.ComponentProps<"nav">;
 
-export function ChatRailNav({ className, render, ...props }: ChatRailNavProps) {
-  const { railNav } = chatShell();
+export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
+  const { railNav } = appShell();
   const defaultProps: useRender.ElementProps<"nav"> & DataAttributes = {
-    "data-slot": "chat-rail-nav",
+    "data-slot": "app-rail-nav",
     className: railNav({ className }),
   };
 
@@ -503,13 +500,13 @@ export function ChatRailNav({ className, render, ...props }: ChatRailNavProps) {
   });
 }
 
-export type ChatRailItemProps = Omit<useRender.ComponentProps<"button">, "value"> & {
+export type AppRailItemProps = Omit<useRender.ComponentProps<"button">, "value"> & {
   value?: string;
   selected?: boolean;
   onSelect?: (value: string) => void;
 };
 
-export function ChatRailItem({
+export function AppRailItem({
   value,
   selected,
   disabled,
@@ -518,11 +515,11 @@ export function ChatRailItem({
   className,
   render,
   ...props
-}: ChatRailItemProps) {
+}: AppRailItemProps) {
   const theme = useThemeFamily();
-  const context = useChatRail();
+  const context = useAppRail();
   const isSelected = selected ?? (value !== undefined && context?.value === value);
-  const { railItem } = chatShell({ theme });
+  const { railItem } = appShell({ theme });
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
     if (event.defaultPrevented || disabled || value === undefined) return;
@@ -534,7 +531,7 @@ export function ChatRailItem({
     disabled,
     onClick: handleClick,
     "aria-pressed": isSelected,
-    "data-slot": "chat-rail-item",
+    "data-slot": "app-rail-item",
     "data-selected": isSelected ? "true" : undefined,
     "data-disabled": disabled ? "true" : undefined,
     className: railItem({ className }),
@@ -546,12 +543,12 @@ export function ChatRailItem({
   });
 }
 
-export type ChatRailItemIconProps = useRender.ComponentProps<"span">;
+export type AppRailItemIconProps = useRender.ComponentProps<"span">;
 
-export function ChatRailItemIcon({ className, render, ...props }: ChatRailItemIconProps) {
-  const { railItemIcon } = chatShell();
+export function AppRailItemIcon({ className, render, ...props }: AppRailItemIconProps) {
+  const { railItemIcon } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "chat-rail-item-icon",
+    "data-slot": "app-rail-item-icon",
     className: railItemIcon({ className }),
   };
 
@@ -562,12 +559,12 @@ export function ChatRailItemIcon({ className, render, ...props }: ChatRailItemIc
   });
 }
 
-export type ChatRailItemLabelProps = useRender.ComponentProps<"span">;
+export type AppRailItemLabelProps = useRender.ComponentProps<"span">;
 
-export function ChatRailItemLabel({ className, render, ...props }: ChatRailItemLabelProps) {
-  const { railItemLabel } = chatShell();
+export function AppRailItemLabel({ className, render, ...props }: AppRailItemLabelProps) {
+  const { railItemLabel } = appShell();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "chat-rail-item-label",
+    "data-slot": "app-rail-item-label",
     className: railItemLabel({ className }),
   };
 
@@ -578,13 +575,13 @@ export function ChatRailItemLabel({ className, render, ...props }: ChatRailItemL
   });
 }
 
-export type ChatRailItemBadgeProps = useRender.ComponentProps<"span">;
+export type AppRailItemBadgeProps = useRender.ComponentProps<"span">;
 
-export function ChatRailItemBadge({ className, render, ...props }: ChatRailItemBadgeProps) {
+export function AppRailItemBadge({ className, render, ...props }: AppRailItemBadgeProps) {
   const theme = useThemeFamily();
-  const { railItemBadge } = chatShell({ theme });
+  const { railItemBadge } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "chat-rail-item-badge",
+    "data-slot": "app-rail-item-badge",
     className: railItemBadge({ className }),
   };
 
@@ -595,13 +592,13 @@ export function ChatRailItemBadge({ className, render, ...props }: ChatRailItemB
   });
 }
 
-export type ChatRailItemIndicatorProps = useRender.ComponentProps<"span">;
+export type AppRailItemIndicatorProps = useRender.ComponentProps<"span">;
 
-export function ChatRailItemIndicator({ className, render, ...props }: ChatRailItemIndicatorProps) {
+export function AppRailItemIndicator({ className, render, ...props }: AppRailItemIndicatorProps) {
   const theme = useThemeFamily();
-  const { railItemIndicator } = chatShell({ theme });
+  const { railItemIndicator } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "chat-rail-item-indicator",
+    "data-slot": "app-rail-item-indicator",
     className: railItemIndicator({ className }),
   };
 
@@ -612,13 +609,13 @@ export function ChatRailItemIndicator({ className, render, ...props }: ChatRailI
   });
 }
 
-export type ChatRailFooterProps = useRender.ComponentProps<"div">;
+export type AppRailFooterProps = useRender.ComponentProps<"div">;
 
-export function ChatRailFooter({ className, render, ...props }: ChatRailFooterProps) {
+export function AppRailFooter({ className, render, ...props }: AppRailFooterProps) {
   const theme = useThemeFamily();
-  const { railFooter } = chatShell({ theme });
+  const { railFooter } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-rail-footer",
+    "data-slot": "app-rail-footer",
     className: railFooter({ className }),
   };
 
@@ -629,18 +626,18 @@ export function ChatRailFooter({ className, render, ...props }: ChatRailFooterPr
   });
 }
 
-export type ChatPanelStackRootProps = useRender.ComponentProps<"div"> &
-  Pick<ChatShellVariantProps, "resizable">;
+export type AppPanelStackRootProps = useRender.ComponentProps<"div"> &
+  Pick<AppShellVariantProps, "resizable">;
 
-export function ChatPanelStackRoot({
+export function AppPanelStackRoot({
   resizable,
   className,
   render,
   ...props
-}: ChatPanelStackRootProps) {
-  const { panelStackRoot } = chatShell({ resizable });
+}: AppPanelStackRootProps) {
+  const { panelStackRoot } = appShell({ resizable });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-panel-stack-root",
+    "data-slot": "app-panel-stack-root",
     "data-resizable": resizable ? "true" : undefined,
     className: panelStackRoot({ className }),
   };
@@ -652,14 +649,14 @@ export function ChatPanelStackRoot({
   });
 }
 
-export type ChatPanelStackItemProps = useRender.ComponentProps<"section"> &
-  Pick<ChatShellVariantProps, "open">;
+export type AppPanelStackItemProps = useRender.ComponentProps<"section"> &
+  Pick<AppShellVariantProps, "open">;
 
-export function ChatPanelStackItem({ open, className, render, ...props }: ChatPanelStackItemProps) {
+export function AppPanelStackItem({ open, className, render, ...props }: AppPanelStackItemProps) {
   const theme = useThemeFamily();
-  const { panelStackItem } = chatShell({ theme, open });
+  const { panelStackItem } = appShell({ theme, open });
   const defaultProps: useRender.ElementProps<"section"> & DataAttributes = {
-    "data-slot": "chat-panel-stack-item",
+    "data-slot": "app-panel-stack-item",
     "data-open": open === false ? "false" : "true",
     className: panelStackItem({ className }),
   };
@@ -671,12 +668,12 @@ export function ChatPanelStackItem({ open, className, render, ...props }: ChatPa
   });
 }
 
-export type ChatPanelStackContentProps = useRender.ComponentProps<"div">;
+export type AppPanelStackContentProps = useRender.ComponentProps<"div">;
 
-export function ChatPanelStackContent({ className, render, ...props }: ChatPanelStackContentProps) {
-  const { panelStackContent } = chatShell();
+export function AppPanelStackContent({ className, render, ...props }: AppPanelStackContentProps) {
+  const { panelStackContent } = appShell();
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-panel-stack-content",
+    "data-slot": "app-panel-stack-content",
     className: panelStackContent({ className }),
   };
 
@@ -687,25 +684,25 @@ export function ChatPanelStackContent({ className, render, ...props }: ChatPanel
   });
 }
 
-export type ChatPanelResizeHandleProps = useRender.ComponentProps<"div"> & {
+export type AppPanelResizeHandleProps = useRender.ComponentProps<"div"> & {
   disabled?: boolean;
   orientation?: "vertical" | "horizontal";
 };
 
-export function ChatPanelResizeHandle({
+export function AppPanelResizeHandle({
   disabled,
   orientation = "vertical",
   className,
   render,
   ...props
-}: ChatPanelResizeHandleProps) {
+}: AppPanelResizeHandleProps) {
   const theme = useThemeFamily();
-  const { resizeHandle } = chatShell({ theme });
+  const { resizeHandle } = appShell({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     role: "separator",
     "aria-orientation": orientation,
     "aria-disabled": disabled,
-    "data-slot": "chat-panel-resize-handle",
+    "data-slot": "app-panel-resize-handle",
     "data-disabled": disabled ? "true" : undefined,
     className: resizeHandle({ className }),
   };
@@ -716,3 +713,45 @@ export function ChatPanelResizeHandle({
     props: mergeProps<"div">(defaultProps, props),
   });
 }
+
+export const ChatShellRoot = AppShellRoot;
+export const ChatShellRail = AppShellRail;
+export const ChatShellSidebar = AppShellSidebar;
+export const ChatShellMain = AppShellMain;
+export const ChatShellPanelStack = AppShellPanelStack;
+export const ChatShellMobileBar = AppShellMobileBar;
+export const ChatRailRoot = AppRailRoot;
+export const ChatRailHeader = AppRailHeader;
+export const ChatRailServerButton = AppRailServerButton;
+export const ChatRailNav = AppRailNav;
+export const ChatRailItem = AppRailItem;
+export const ChatRailItemIcon = AppRailItemIcon;
+export const ChatRailItemLabel = AppRailItemLabel;
+export const ChatRailItemBadge = AppRailItemBadge;
+export const ChatRailItemIndicator = AppRailItemIndicator;
+export const ChatRailFooter = AppRailFooter;
+export const ChatPanelStackRoot = AppPanelStackRoot;
+export const ChatPanelStackItem = AppPanelStackItem;
+export const ChatPanelStackContent = AppPanelStackContent;
+export const ChatPanelResizeHandle = AppPanelResizeHandle;
+
+export type ChatShellRootProps = AppShellRootProps;
+export type ChatShellRailProps = AppShellRailProps;
+export type ChatShellSidebarProps = AppShellSidebarProps;
+export type ChatShellMainProps = AppShellMainProps;
+export type ChatShellPanelStackProps = AppShellPanelStackProps;
+export type ChatShellMobileBarProps = AppShellMobileBarProps;
+export type ChatRailRootProps = AppRailRootProps;
+export type ChatRailHeaderProps = AppRailHeaderProps;
+export type ChatRailServerButtonProps = AppRailServerButtonProps;
+export type ChatRailNavProps = AppRailNavProps;
+export type ChatRailItemProps = AppRailItemProps;
+export type ChatRailItemIconProps = AppRailItemIconProps;
+export type ChatRailItemLabelProps = AppRailItemLabelProps;
+export type ChatRailItemBadgeProps = AppRailItemBadgeProps;
+export type ChatRailItemIndicatorProps = AppRailItemIndicatorProps;
+export type ChatRailFooterProps = AppRailFooterProps;
+export type ChatPanelStackRootProps = AppPanelStackRootProps;
+export type ChatPanelStackItemProps = AppPanelStackItemProps;
+export type ChatPanelStackContentProps = AppPanelStackContentProps;
+export type ChatPanelResizeHandleProps = AppPanelResizeHandleProps;
