@@ -86,7 +86,6 @@ function PreviewThemeScopeContent({
       data-preview-theme-scope
       data-preview-theme={family}
       data-preview-mode={resolvedMode}
-      data-theme={family}
       className={scopeClassName}
       style={{ colorScheme: resolvedMode }}
     >

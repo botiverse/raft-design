@@ -1,5 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bookmark, Hash, MessageSquare, User } from "lucide-react";
+import {
+  ArrowUpDown,
+  AtSign,
+  BellOff,
+  Bookmark,
+  ChevronRight,
+  Hash,
+  MessageSquare,
+  Pencil,
+  Plus,
+  User,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -11,6 +22,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarComposition } from "#/compositions/chat-sidebar-composition.tsx";
 import chatSidebarCompositionSource from "#/compositions/chat-sidebar-composition.tsx?raw";
+import { SourceChatRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_SIDEBAR_COMPOSITION_PATH = "apps/doc/src/compositions/chat-sidebar-composition.tsx";
@@ -23,25 +35,97 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  anatomy: `import {
+  anatomy: `import { ChevronRight } from "lucide-react";
+import { Avatar, AvatarFallback } from "raft-ui";
+import {
   ChatShellSidebar,
+  ChatShellRail,
+  ChatRailRoot,
   ChatSidebarRoot,
   ChatSidebarHeader,
   ChatSidebarBody,
   ChatSidebarSection,
+  ChatSidebarSectionHeader,
+  ChatSidebarSectionButton,
+  ChatSidebarSectionTitle,
+  ChatSidebarSectionCount,
+  ChatSidebarSectionActions,
+  ChatSidebarSectionAction,
+  ChatSidebarSectionIndicator,
   ChatSidebarList,
+  ChatSidebarItem,
+  ChatSidebarItemAside,
+  ChatSidebarItemBadge,
+  ChatSidebarItemChannelIcon,
+  ChatSidebarItemDraft,
+  ChatSidebarItemIndicator,
+  ChatSidebarItemMention,
+  ChatSidebarItemMuted,
+  ChatSidebarItemSubtitle,
+  ChatSidebarItemText,
+  ChatSidebarItemTitle,
+  ChatSidebarResizeHandle,
 } from "raft-ui/wip";
 
-<ChatShellSidebar resizable>
-  <ChatSidebarRoot>
-    <ChatSidebarHeader>{header}</ChatSidebarHeader>
-    <ChatSidebarBody>
-      <ChatSidebarSection>
-        <ChatSidebarList>{rows}</ChatSidebarList>
-      </ChatSidebarSection>
-    </ChatSidebarBody>
-  </ChatSidebarRoot>
-</ChatShellSidebar>`,
+<>
+  <ChatShellRail>
+    <ChatRailRoot>{rail}</ChatRailRoot>
+  </ChatShellRail>
+  <ChatShellSidebar resizable>
+    <ChatSidebarResizeHandle
+      onPointerDown={handleSidebarResizeStart}
+      onPointerMove={handleSidebarResizeMove}
+      onPointerUp={handleSidebarResizeEnd}
+      onPointerCancel={handleSidebarResizeEnd}
+    />
+    <ChatSidebarRoot>
+      <ChatSidebarHeader>{header}</ChatSidebarHeader>
+      <ChatSidebarBody>
+        <ChatSidebarSection defaultOpen>
+          <ChatSidebarSectionHeader>
+            <ChatSidebarSectionButton>
+              <ChevronRight />
+              <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
+              <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+              <ChatSidebarSectionIndicator />
+            </ChatSidebarSectionButton>
+            <ChatSidebarSectionActions>
+              <ChatSidebarSectionAction aria-label="Sort channels" />
+            </ChatSidebarSectionActions>
+          </ChatSidebarSectionHeader>
+          <ChatSidebarList>
+            <ChatSidebarItem selected>
+              <ChatSidebarItemChannelIcon />
+              <ChatSidebarItemText>
+                <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
+                <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
+              </ChatSidebarItemText>
+              <ChatSidebarItemIndicator>
+                <ChatSidebarItemMention />
+              </ChatSidebarItemIndicator>
+              <ChatSidebarItemAside>
+                <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
+                <ChatSidebarItemDraft />
+                <ChatSidebarItemMuted />
+              </ChatSidebarItemAside>
+            </ChatSidebarItem>
+            <ChatSidebarItem menuOpen>
+              <ChatSidebarItemIcon>
+                <Avatar size="sidebar" type="agent">
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+              </ChatSidebarItemIcon>
+              <ChatSidebarItemText>
+                <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
+                <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
+              </ChatSidebarItemText>
+            </ChatSidebarItem>
+          </ChatSidebarList>
+        </ChatSidebarSection>
+      </ChatSidebarBody>
+    </ChatSidebarRoot>
+  </ChatShellSidebar>
+</>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -49,6 +133,12 @@ const PROPS: readonly PropRow[] = [
     name: "ChatShellSidebar",
     type: "aside props & { hidden?: boolean; resizable?: boolean }",
     description: "Sidebar column host. The consumer owns width state and resize persistence.",
+  },
+  {
+    name: "ChatSidebarResizeHandle",
+    type: "div props",
+    description:
+      "Right-edge desktop resize affordance. Pointer behavior and persisted width stay app-owned.",
   },
   {
     name: "ChatSidebarRoot",
@@ -63,7 +153,19 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarSection / List",
     type: "section / div props",
-    description: "Section and list wrappers for app-owned saved, pinned, channel, and DM rows.",
+    description: "Section and list wrappers for saved, pinned, channel, joint, and DM groups.",
+  },
+  {
+    name: "ChatSidebarSectionHeader*",
+    type: "div + button + span props",
+    description:
+      "Base UI Collapsible header parts for chevron, title, count, collapsed unread indicator, and action slots.",
+  },
+  {
+    name: "ChatSidebarItem*",
+    type: "button + span props",
+    description:
+      "Source-density row parts for visual/icon, channel icon, text, title, subtitle, meta, badge, indicator, and aside slots.",
   },
 ];
 
@@ -160,7 +262,8 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function SourceSidebarPreview() {
   return (
-    <div className="flex h-full min-w-[640px] overflow-hidden border-2 border-black bg-brutal-cream font-display text-black">
+    <div className="relative flex h-full w-[304px] shrink-0 overflow-hidden bg-brutal-cream font-display text-black">
+      <SourceChatRailPreview />
       <div className="flex h-full w-60 shrink-0 flex-col border-r-2 border-black bg-brutal-cream text-black">
         <div className="flex h-[62px] shrink-0 items-center border-b-2 border-black bg-brutal-cream px-5">
           <div className="text-lg font-bold text-black">Chat</div>
@@ -168,56 +271,84 @@ function SourceSidebarPreview() {
         <div className="relative flex min-h-0 flex-1 overflow-hidden">
           <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3">
             <div className="min-h-full">
-              <button
-                type="button"
-                className="mb-1 flex w-full items-center gap-2 border-2 border-transparent px-2 py-2 text-left text-sm font-medium hover:border-black hover:bg-white hover:shadow-brutal-sm"
+              <SourceSidebarNavRow icon={<Bookmark className="size-3.5" />} label="Saved">
+                <span className="ml-auto font-mono text-[10px] text-black/40">2</span>
+              </SourceSidebarNavRow>
+              <SourceSection
+                title="Pinned"
+                count="3"
+                actions={<SourceSectionIcon icon={<ArrowUpDown size={14} />} />}
               >
-                <span className="flex size-5 shrink-0 items-center justify-center border border-black bg-brutal-yellow">
-                  <Bookmark className="size-3.5" />
-                </span>
-                <span className="min-w-0 flex-1 truncate">Saved</span>
-                <span className="font-mono text-[10px] text-black/40">2</span>
-              </button>
-              <SourceSection title="Pinned" count="2">
                 <SourceSidebarRow selected title="#proj-uiux" meta="Cindy replied" />
-                <SourceSidebarRow title="#proj-theme" meta="Atlas is typing" />
-              </SourceSection>
-              <SourceSection title="Joint Channels" count="1">
-                <SourceSidebarRow title="#partners" meta="3 unread" />
-              </SourceSection>
-              <SourceSection title="Channels" count="2">
-                <SourceSidebarRow dot title="#general" meta="12 unread" />
-                <SourceSidebarRow title="#release" meta="No unread" />
-              </SourceSection>
-              <SourceSection title="Direct Messages" count="2">
                 <SourceSidebarRow
-                  icon={<User className="size-3.5" />}
-                  title="Cindy"
-                  meta="online"
+                  title="Atlas"
+                  description="planning"
+                  menuOpen
+                  visual={<span className="text-[9px] font-bold">A</span>}
+                  aside={
+                    <span className="size-2 rounded-full border border-black bg-brutal-lime" />
+                  }
                 />
                 <SourceSidebarRow
-                  icon={<MessageSquare className="size-3.5" />}
+                  title="#proj-theme"
+                  aside={<Pencil className="size-3 text-black/40" />}
+                />
+              </SourceSection>
+              <SourceSection
+                title="Joint Channels"
+                count="1"
+                collapsed
+                unread
+                actions={<SourceSectionIcon icon={<ArrowUpDown size={14} />} />}
+              />
+              <SourceSection
+                title="Channels"
+                count="2"
+                actions={
+                  <>
+                    <SourceSectionIcon icon={<ArrowUpDown size={14} />} />
+                    <SourceSectionIcon icon={<Plus size={14} />} />
+                  </>
+                }
+              >
+                <SourceSidebarRow title="#general" bold badge="12" mention />
+                <SourceSidebarRow
+                  title="#release"
+                  muted
+                  aside={<Pencil className="size-3 text-black/40" />}
+                />
+              </SourceSection>
+              <SourceSection
+                title="Direct Messages"
+                count="2"
+                actions={<SourceSectionIcon icon={<ArrowUpDown size={14} />} />}
+              >
+                <SourceSidebarRow
+                  title="Cindy"
+                  description="design"
+                  bold
+                  visual={<span className="text-[9px] font-bold">C</span>}
+                  aside={
+                    <span className="flex shrink-0 items-center gap-1.5">
+                      <span className="size-2 rounded-full border border-black bg-brutal-lime" />
+                      <span className="rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] leading-none font-bold text-white">
+                        4
+                      </span>
+                    </span>
+                  }
+                />
+                <SourceSidebarRow
                   title="Atlas"
-                  meta="idle"
+                  description="idle"
+                  visual={<User className="size-2.5" />}
+                  aside={<MessageSquare className="size-3 text-black/40" />}
                 />
               </SourceSection>
             </div>
           </div>
         </div>
       </div>
-      <SourceMainContext />
-    </div>
-  );
-}
-
-function SourceMainContext() {
-  return (
-    <div className="min-w-0 flex-1 bg-white p-4">
-      <div className="mb-4 h-8 w-48 border-b-2 border-black text-lg font-bold">#proj-uiux</div>
-      <div className="space-y-3">
-        <div className="h-14 border-2 border-black bg-white shadow-brutal-sm" />
-        <div className="h-20 border-2 border-black bg-white shadow-brutal-sm" />
-      </div>
+      <div className="absolute top-0 right-0 bottom-0 z-10 hidden w-2 -mr-1 cursor-col-resize select-none md:block" />
     </div>
   );
 }
@@ -225,20 +356,67 @@ function SourceMainContext() {
 function SourceSection({
   title,
   count,
+  actions,
   children,
+  collapsed,
+  unread,
 }: {
   title: string;
   count: string;
-  children: ReactNode;
+  actions?: ReactNode;
+  children?: ReactNode;
+  collapsed?: boolean;
+  unread?: boolean;
 }) {
   return (
-    <div className="mb-3">
-      <div className="mb-1 flex h-6 items-center justify-between px-2 text-[11px] font-bold uppercase tracking-wider text-black/50">
-        <span>{title}</span>
-        <span className="font-mono text-[10px] font-normal tracking-normal">{count}</span>
+    <div>
+      <div className="mt-3 mb-1 flex h-6 items-center justify-between px-2">
+        <button
+          type="button"
+          className="flex h-6 min-w-0 flex-1 items-center gap-1 text-xs font-bold tracking-widest text-black uppercase transition-colors hover:text-black/70"
+        >
+          <ChevronRight className={`size-3 transition-transform ${collapsed ? "" : "rotate-90"}`} />
+          <span className="truncate">{title}</span>
+          <span className="font-mono text-[10px] font-normal tracking-normal text-black/40">
+            {count}
+          </span>
+          {collapsed && unread && (
+            <span className="ml-1 size-[11px] rounded-full border border-black bg-brutal-pink" />
+          )}
+        </button>
+        {actions && <div className="flex shrink-0 items-center gap-1">{actions}</div>}
       </div>
-      <div className="space-y-1">{children}</div>
+      {!collapsed && <div className="space-y-1">{children}</div>}
     </div>
+  );
+}
+
+function SourceSectionIcon({ icon }: { icon: ReactNode }) {
+  return (
+    <button type="button" className="btn-flat-sm flex size-6 items-center justify-center p-0">
+      {icon}
+    </button>
+  );
+}
+
+function SourceSidebarNavRow({
+  icon,
+  label,
+  children,
+}: {
+  icon: ReactNode;
+  label: string;
+  children?: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className="mb-1 flex w-full items-center gap-1.5 border-2 border-transparent px-2 py-2 text-left text-sm font-medium transition-colors hover:border-black hover:bg-white hover:shadow-brutal-sm active:border-black active:bg-white active:shadow-brutal-sm [@media(max-height:600px)]:py-1 md:py-1"
+    >
+      <span className="flex size-[18px] shrink-0 items-center justify-center">{icon}</span>
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {children}
+    </button>
   );
 }
 
@@ -246,37 +424,64 @@ function SourceSidebarRow({
   title,
   meta,
   selected,
-  icon,
-  dot,
+  menuOpen,
+  visual,
+  bold,
+  muted,
+  badge,
+  mention,
+  description,
+  aside,
 }: {
   title: string;
-  meta: string;
+  meta?: string;
   selected?: boolean;
-  icon?: ReactNode;
-  dot?: boolean;
+  menuOpen?: boolean;
+  visual?: ReactNode;
+  bold?: boolean;
+  muted?: boolean;
+  badge?: string;
+  mention?: boolean;
+  description?: string;
+  aside?: ReactNode;
 }) {
   return (
     <button
       type="button"
-      className={`flex w-full items-center gap-2 border-2 px-2 py-2 text-left text-sm ${
+      className={`mb-1 flex w-full items-center gap-1.5 border-2 px-2 py-2 text-sm font-medium [@media(max-height:600px)]:py-1 md:py-1 ${
         selected
-          ? "border-black bg-brutal-pink font-bold shadow-brutal-sm"
-          : "border-transparent hover:border-black hover:bg-white hover:shadow-brutal-sm"
+          ? "border-black bg-brutal-pink font-bold text-black shadow-brutal-sm"
+          : menuOpen
+            ? "border-black bg-white shadow-brutal-sm"
+            : "border-transparent transition-colors hover:border-black hover:bg-white hover:shadow-brutal-sm active:border-black active:bg-white active:shadow-brutal-sm"
       }`}
     >
-      <span className="flex size-5 shrink-0 items-center justify-center border border-black bg-brutal-yellow">
-        {icon ?? <Hash className="size-3.5" />}
+      <span className="flex size-[18px] shrink-0 items-center justify-center">
+        {visual ?? <Hash className="size-3.5" />}
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="block truncate">{title}</span>
-        <span className="block truncate font-mono text-[11px] text-black/50">{meta}</span>
-      </span>
-      {dot && (
+      <span className="flex min-w-0 flex-1 items-baseline gap-1 text-left">
         <span
-          aria-hidden
-          className="size-2.5 shrink-0 rounded-full border border-black bg-brutal-pink"
-        />
+          className={`min-w-0 truncate ${bold ? "font-bold" : ""} ${muted ? "text-black/70" : ""}`}
+        >
+          {title}
+        </span>
+        {description && (
+          <span className="min-w-0 flex-1 truncate text-xs text-black/40">{description}</span>
+        )}
+        {meta && <span className="block truncate font-mono text-[11px] text-black/50">{meta}</span>}
+      </span>
+      {mention && (
+        <span className="ml-1 inline-flex size-4 shrink-0 items-center justify-center rounded border border-black bg-soft-signal text-black">
+          <AtSign className="size-2.5" />
+        </span>
       )}
+      {muted && <BellOff className="size-3 shrink-0 text-black/40" />}
+      {badge && (
+        <span className="ml-auto shrink-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] leading-none font-bold text-white">
+          {badge}
+        </span>
+      )}
+      {aside}
     </button>
   );
 }

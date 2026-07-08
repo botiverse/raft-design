@@ -15,9 +15,9 @@ import type { StyledProps } from "../../lib/styled-props";
 //
 // `size` is a compact t-shirt scale distilled from the original call-site
 // contexts: xl profile/detail (64), lg mention/large identity (48), md panel
-// header (36), sm list rows (32), xs compact/sidebar rows (20), and 2xs inline
-// preview chips (14). One-off source contexts such as account-tile, members-row,
-// and creator-link no longer get public size names.
+// header (36), sm list rows (32), xs compact rows (20), sidebar rows (18), and
+// 2xs inline preview chips (14). One-off source contexts such as account-tile,
+// members-row, and creator-link no longer get public size names.
 // Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
 // `border`; elegant uses a pseudo-element hairline. `AvatarFallback` /
 // `AvatarBadge` auto-scale to the parent via its `data-size` + `group/avatar`
@@ -34,6 +34,7 @@ const avatar = tv({
       "group-data-[size=md]/avatar:[&>svg]:size-[18px]",
       "group-data-[size=sm]/avatar:[&>svg]:size-4",
       "group-data-[size=xs]/avatar:[&>svg]:size-3",
+      "group-data-[size=sidebar]/avatar:[&>svg]:size-2.5",
       "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
     ],
     badge: [
@@ -45,6 +46,7 @@ const avatar = tv({
       "group-data-[size=md]/avatar:size-2.5 group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=sm]/avatar:size-2",
       "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:outline",
+      "group-data-[size=sidebar]/avatar:size-1.5 group-data-[size=sidebar]/avatar:outline",
       "group-data-[size=2xs]/avatar:size-1.5 group-data-[size=2xs]/avatar:outline",
     ],
     group: ["group/avatar-group flex items-center"],
@@ -68,6 +70,7 @@ const avatar = tv({
           "overflow-hidden bg-layer-muted text-foreground-placeholder/70 text-sm",
           "rounded-full",
           "group-data-[size=xs]/avatar:text-xs",
+          "group-data-[size=sidebar]/avatar:text-[10px]",
           "group-data-[size=2xs]/avatar:text-[10px]",
         ],
         badge: [
@@ -93,6 +96,7 @@ const avatar = tv({
       md: { root: "size-9" },
       sm: { root: "size-8" },
       xs: { root: "size-5" },
+      sidebar: { root: "size-[18px]" },
       "2xs": { root: "size-[14px]" },
     },
   },
@@ -104,7 +108,7 @@ const avatar = tv({
     },
     {
       theme: "brutal",
-      size: ["xs", "2xs"],
+      size: ["xs", "sidebar", "2xs"],
       class: { root: "border" },
     },
     {
@@ -147,7 +151,7 @@ const avatar = tv({
     },
     {
       theme: "elegant",
-      size: "2xs",
+      size: ["sidebar", "2xs"],
       class: {
         root: "rounded-full",
       },

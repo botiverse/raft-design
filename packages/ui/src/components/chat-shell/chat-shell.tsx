@@ -5,7 +5,7 @@ import { createContext, use, useMemo, type MouseEvent } from "react";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
-const chatShell = tv({
+export const chatShell = tv({
   slots: {
     root: [
       "flex min-h-0 w-full overflow-hidden",
@@ -21,7 +21,7 @@ const chatShell = tv({
     railHeader: ["relative flex w-full shrink-0 items-center justify-center"],
     railServerButton: [
       "relative inline-flex size-10 items-center justify-center",
-      "outline-none transition-all duration-100",
+      "outline-none",
       "disabled:pointer-events-none disabled:opacity-45",
       "[@media(max-height:600px)]:size-9",
     ],
@@ -29,7 +29,7 @@ const chatShell = tv({
     railFooter: ["flex w-full shrink-0 flex-col items-center justify-center gap-1.5"],
     railItem: [
       "relative inline-flex shrink-0 items-center justify-center",
-      "outline-none transition-colors",
+      "outline-none",
       "disabled:pointer-events-none disabled:opacity-45",
       "[&_svg]:size-[18px] [&_svg]:shrink-0",
     ],
@@ -42,10 +42,50 @@ const chatShell = tv({
     railItemIndicator: ["pointer-events-none absolute -right-1 -top-1 size-2.5"],
     sidebarRoot: ["flex h-full min-h-0 w-full select-none flex-col"],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
-    sidebarBody: ["min-h-0 flex-1 overflow-y-auto"],
+    sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
     sidebarSection: ["px-2"],
     sidebarList: ["space-y-1"],
+    sidebarSectionHeader: ["mt-3 mb-1 flex h-6 items-center justify-between px-2"],
+    sidebarSectionButton: [
+      "flex h-6 min-w-0 flex-1 items-center gap-1",
+      "text-xs font-bold tracking-widest uppercase",
+      "[&[data-panel-open]_svg]:rotate-90",
+    ],
+    sidebarSectionTitle: ["min-w-0 truncate"],
+    sidebarSectionCount: ["font-mono text-[10px] font-normal tracking-normal"],
+    sidebarSectionIndicator: ["ml-1", "[[data-panel-open]_&]:hidden"],
+    sidebarSectionActions: ["flex shrink-0 items-center gap-1"],
+    sidebarSectionAction: ["flex size-6 items-center justify-center p-0"],
+    sidebarItem: [
+      "mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
+      "border-2 text-sm font-medium",
+      "[@media(max-height:600px)]:py-1 md:py-1",
+    ],
+    sidebarItemIcon: ["flex size-[18px] shrink-0 items-center justify-center"],
+    sidebarItemText: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"],
+    sidebarItemTextStack: ["min-w-0 flex-1 text-left"],
+    sidebarItemTitle: ["block min-w-0 truncate"],
+    sidebarItemSubtitle: ["block truncate font-mono text-[11px]"],
+    sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
+    sidebarItemIndicator: ["ml-1 shrink-0"],
+    sidebarItemMention: [
+      "inline-flex size-4 shrink-0 items-center justify-center",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0",
+    ],
+    sidebarItemMuted: [
+      "inline-flex size-4 shrink-0 items-center justify-center",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
+    ],
+    sidebarItemDraft: [
+      "inline-flex size-4 shrink-0 items-center justify-center",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
+    ],
+    sidebarItemAside: ["flex shrink-0 items-center gap-1.5"],
+    sidebarItemBadge: ["shrink-0 px-1.5 py-0.5 text-[10px] leading-none", "font-bold"],
     sidebarFooter: ["shrink-0"],
+    sidebarResizeHandle: [
+      "absolute top-0 right-0 bottom-0 z-10 hidden w-2 -mr-1 cursor-col-resize select-none md:block",
+    ],
     panelStackRoot: ["flex h-full min-h-0 w-full"],
     panelStackItem: ["relative flex h-full min-h-0 shrink-0 flex-col"],
     panelStackContent: ["min-h-0 flex-1 overflow-hidden"],
@@ -81,8 +121,31 @@ const chatShell = tv({
         railItemIndicator: "rounded-full border border-[#141111] bg-brutal-pink",
         sidebarHeader:
           "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
-        sidebarBody: "bg-brutal-cream py-2",
+        sidebarBody: "bg-brutal-cream",
+        sidebarSectionButton: "text-black hover:text-black/70",
+        sidebarSectionCount: "text-black/40",
+        sidebarSectionAction: [
+          "font-display font-bold text-black/70",
+          "hover:bg-black/5 hover:text-black active:bg-black/10",
+          "focus:outline-none focus-visible:bg-black/5 focus-visible:text-black focus-visible:outline-none",
+        ],
+        sidebarItem: [
+          "border-transparent text-black",
+          "hover:border-black hover:bg-white hover:shadow-[var(--shadow-brutal-sm)]",
+          "active:border-black active:bg-white active:shadow-[var(--shadow-brutal-sm)]",
+          "data-[selected=true]:border-black data-[selected=true]:bg-brutal-pink",
+          "data-[selected=true]:font-bold data-[selected=true]:shadow-[var(--shadow-brutal-sm)]",
+          "data-[menu-open=true]:border-black data-[menu-open=true]:bg-white",
+          "data-[menu-open=true]:shadow-[var(--shadow-brutal-sm)]",
+        ],
+        sidebarItemSubtitle: "text-black/50",
+        sidebarItemMeta: "text-black/40",
+        sidebarItemMention: "rounded border border-black bg-soft-signal text-black",
+        sidebarItemMuted: "text-black/40",
+        sidebarItemDraft: "text-black/40",
+        sidebarItemBadge: "rounded border border-black bg-brutal-pink text-white",
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
+        sidebarResizeHandle: "hover:bg-black/5",
         panelStackItem: "w-[400px] border-l-2 border-black bg-white first:border-l-0",
         resizeHandle: "hover:bg-black/5",
       },
@@ -112,8 +175,29 @@ const chatShell = tv({
         railItemIndicator: "rounded-full bg-danger-base",
         sidebarHeader:
           "h-[62px] shrink-0 border-b border-line-subtle px-5 [@media(max-height:600px)]:h-12",
-        sidebarBody: "bg-layer-panel py-2",
+        sidebarBody: "bg-layer-panel",
+        sidebarSectionButton: "text-foreground-muted hover:text-foreground-strong",
+        sidebarSectionCount: "text-foreground-muted",
+        sidebarSectionAction:
+          "rounded-md text-foreground-muted hover:bg-layer-muted hover:text-foreground-strong",
+        sidebarItem: [
+          "rounded-md border border-transparent text-foreground-strong",
+          "hover:border-line-subtle hover:bg-layer-muted",
+          "active:border-line-subtle active:bg-layer-muted",
+          "data-[selected=true]:border-line-subtle data-[selected=true]:bg-layer-muted",
+          "data-[selected=true]:font-semibold data-[selected=true]:shadow-xs",
+          "data-[menu-open=true]:border-line-subtle data-[menu-open=true]:bg-layer-muted",
+          "data-[menu-open=true]:shadow-xs",
+        ],
+        sidebarItemSubtitle: "text-foreground-muted",
+        sidebarItemMeta: "text-foreground-muted",
+        sidebarItemMention:
+          "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
+        sidebarItemMuted: "text-foreground-muted",
+        sidebarItemDraft: "text-foreground-muted",
+        sidebarItemBadge: "rounded-full bg-accent-400 text-accent-950",
         sidebarFooter: "border-t border-line-subtle p-3",
+        sidebarResizeHandle: "hover:bg-layer-muted",
         panelStackItem: "w-[400px] border-l border-line-subtle bg-layer-panel first:border-l-0",
         resizeHandle: "hover:bg-layer-muted",
       },
@@ -523,105 +607,6 @@ export function ChatRailFooter({ className, render, ...props }: ChatRailFooterPr
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-rail-footer",
     className: railFooter({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
-
-export function ChatSidebarRoot({ className, render, ...props }: ChatSidebarRootProps) {
-  const { sidebarRoot } = chatShell();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-sidebar-root",
-    className: sidebarRoot({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarHeaderProps = useRender.ComponentProps<"div">;
-
-export function ChatSidebarHeader({ className, render, ...props }: ChatSidebarHeaderProps) {
-  const theme = useThemeFamily();
-  const { sidebarHeader } = chatShell({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-sidebar-header",
-    className: sidebarHeader({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarBodyProps = useRender.ComponentProps<"div">;
-
-export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBodyProps) {
-  const theme = useThemeFamily();
-  const { sidebarBody } = chatShell({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-sidebar-body",
-    className: sidebarBody({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarSectionProps = useRender.ComponentProps<"section">;
-
-export function ChatSidebarSection({ className, render, ...props }: ChatSidebarSectionProps) {
-  const { sidebarSection } = chatShell();
-  const defaultProps: useRender.ElementProps<"section"> & DataAttributes = {
-    "data-slot": "chat-sidebar-section",
-    className: sidebarSection({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "section",
-    render,
-    props: mergeProps<"section">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarListProps = useRender.ComponentProps<"div">;
-
-export function ChatSidebarList({ className, render, ...props }: ChatSidebarListProps) {
-  const { sidebarList } = chatShell();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-sidebar-list",
-    className: sidebarList({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarFooterProps = useRender.ComponentProps<"div">;
-
-export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFooterProps) {
-  const theme = useThemeFamily();
-  const { sidebarFooter } = chatShell({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-sidebar-footer",
-    className: sidebarFooter({ className }),
   };
 
   return useRender({

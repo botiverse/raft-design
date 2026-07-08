@@ -154,7 +154,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function PanelStackPreview() {
   return (
-    <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
+    <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=brutal]_&]:border-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cream [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle">
       <CurrentMainContext />
       <ChatShellPanelStack className="flex h-full w-[400px] lg:flex">
         <ChatPanelStackRoot resizable>
@@ -169,7 +169,7 @@ function PanelStackPreview() {
                 <MessageBlock author="Atlas">
                   ThreadPanel content stays a child of the reusable panel column.
                 </MessageBlock>
-                <div className="border-t-2 border-line-strong pt-3 text-xs text-foreground-muted [[data-theme=elegant]_&]:border-line-subtle">
+                <div className="border-t-2 border-line-strong pt-3 text-xs text-foreground-muted [[data-preview-theme=elegant]_&]:border-line-subtle">
                   Reply composer slot
                 </div>
               </div>
@@ -183,13 +183,13 @@ function PanelStackPreview() {
 
 function PanelHeader({ title }: { title: string }) {
   return (
-    <div className="flex h-[62px] shrink-0 items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-theme=elegant]_&]:border-line-subtle">
+    <div className="flex h-[62px] shrink-0 items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-preview-theme=elegant]_&]:border-line-subtle">
       <div className="min-w-0 flex-1 truncate text-sm font-bold text-foreground-strong">
         {title}
       </div>
       <button
         type="button"
-        className="flex size-7 items-center justify-center border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xs [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle"
+        className="flex size-7 items-center justify-center border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle"
         aria-label="Close thread"
       >
         <X className="size-3.5" />
@@ -200,7 +200,7 @@ function PanelHeader({ title }: { title: string }) {
 
 function MessageBlock({ author, children }: { author: string; children: ReactNode }) {
   return (
-    <div className="border-2 border-line-strong bg-layer-panel p-3 text-sm shadow-xs [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
+    <div className="border-2 border-line-strong bg-layer-panel p-3 text-sm shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle">
       <div className="mb-1 font-mono text-[11px] font-bold text-foreground-muted">{author}</div>
       <div className="leading-relaxed text-foreground-strong">{children}</div>
     </div>
@@ -252,14 +252,14 @@ function SourceMessageBlock({ author, children }: { author: string; children: Re
 
 function CurrentMainContext() {
   return (
-    <div className="min-w-0 flex-1 bg-layer-panel p-4 [[data-theme=brutal]_&]:bg-white">
-      <div className="mb-4 h-8 w-48 border-b-2 border-line-strong text-lg font-bold text-foreground-strong [[data-theme=elegant]_&]:border-line-subtle">
+    <div className="min-w-0 flex-1 bg-layer-panel p-4 [[data-preview-theme=brutal]_&]:bg-white">
+      <div className="mb-4 h-8 w-48 border-b-2 border-line-strong text-lg font-bold text-foreground-strong [[data-preview-theme=elegant]_&]:border-line-subtle">
         #proj-uiux
       </div>
       <div className="space-y-3">
-        <div className="h-14 border-2 border-line-strong bg-layer-panel shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=brutal]_&]:bg-white" />
-        <div className="h-20 border-2 border-line-strong bg-layer-panel shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=brutal]_&]:bg-white" />
-        <div className="h-10 border-2 border-line-strong bg-layer-muted [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle" />
+        <div className="h-14 border-2 border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=brutal]_&]:bg-white" />
+        <div className="h-20 border-2 border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=brutal]_&]:bg-white" />
+        <div className="h-10 border-2 border-line-strong bg-layer-muted [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle" />
       </div>
     </div>
   );

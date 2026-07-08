@@ -25,8 +25,28 @@ const REQUIRED_PARTS = [
   "ChatSidebarHeader",
   "ChatSidebarBody",
   "ChatSidebarSection",
+  "ChatSidebarSectionHeader",
+  "ChatSidebarSectionButton",
+  "ChatSidebarSectionTitle",
+  "ChatSidebarSectionCount",
+  "ChatSidebarSectionActions",
+  "ChatSidebarSectionAction",
   "ChatSidebarList",
+  "ChatSidebarItem",
+  "ChatSidebarItemChannelIcon",
+  "ChatSidebarItemIcon",
+  "ChatSidebarItemText",
+  "ChatSidebarItemTitle",
+  "ChatSidebarItemSubtitle",
+  "ChatSidebarItemMeta",
+  "ChatSidebarItemIndicator",
+  "ChatSidebarItemMention",
+  "ChatSidebarItemMuted",
+  "ChatSidebarItemDraft",
+  "ChatSidebarItemAside",
+  "ChatSidebarItemBadge",
   "ChatSidebarFooter",
+  "ChatSidebarResizeHandle",
   "ChatPanelStackRoot",
   "ChatPanelStackItem",
   "ChatPanelStackContent",
@@ -88,8 +108,64 @@ describe("chat-shell component family", () => {
     expect(slot(container, "chat-sidebar-body").className).toContain("bg-brutal-cream");
   });
 
+  it("exposes source-shaped sidebar row and section slots", () => {
+    const { container } = render(
+      <ChatShellParts.ChatSidebarSection>
+        <ChatShellParts.ChatSidebarSectionHeader>
+          <ChatShellParts.ChatSidebarSectionButton>
+            <ChatShellParts.ChatSidebarSectionTitle>
+              Channels
+            </ChatShellParts.ChatSidebarSectionTitle>
+            <ChatShellParts.ChatSidebarSectionCount>2</ChatShellParts.ChatSidebarSectionCount>
+          </ChatShellParts.ChatSidebarSectionButton>
+          <ChatShellParts.ChatSidebarSectionActions>
+            <ChatShellParts.ChatSidebarSectionAction aria-label="Sort" />
+          </ChatShellParts.ChatSidebarSectionActions>
+        </ChatShellParts.ChatSidebarSectionHeader>
+        <ChatShellParts.ChatSidebarList>
+          <ChatShellParts.ChatSidebarItem selected menuOpen>
+            <ChatShellParts.ChatSidebarItemChannelIcon type="joint" />
+            <ChatShellParts.ChatSidebarResizeHandle />
+            <ChatShellParts.ChatSidebarItemText>
+              <ChatShellParts.ChatSidebarItemTitle>#general</ChatShellParts.ChatSidebarItemTitle>
+              <ChatShellParts.ChatSidebarItemSubtitle>
+                active
+              </ChatShellParts.ChatSidebarItemSubtitle>
+            </ChatShellParts.ChatSidebarItemText>
+            <ChatShellParts.ChatSidebarItemIndicator>
+              <ChatShellParts.ChatSidebarItemMention />
+            </ChatShellParts.ChatSidebarItemIndicator>
+            <ChatShellParts.ChatSidebarItemAside>
+              <ChatShellParts.ChatSidebarItemBadge>12</ChatShellParts.ChatSidebarItemBadge>
+              <ChatShellParts.ChatSidebarItemMuted />
+              <ChatShellParts.ChatSidebarItemDraft />
+            </ChatShellParts.ChatSidebarItemAside>
+          </ChatShellParts.ChatSidebarItem>
+        </ChatShellParts.ChatSidebarList>
+      </ChatShellParts.ChatSidebarSection>,
+    );
+
+    expect(slot(container, "chat-sidebar-section-header").className).toContain("mt-3");
+    expect(slot(container, "chat-sidebar-section-button").className).toContain("tracking-widest");
+    expect(slot(container, "chat-sidebar-section-actions").className).toContain("shrink-0");
+    expect(slot(container, "chat-sidebar-item").dataset.selected).toBe("true");
+    expect(slot(container, "chat-sidebar-item").dataset.menuOpen).toBe("true");
+    expect(slot(container, "chat-sidebar-resize-handle").className).toContain("right-0");
+    expect(slot(container, "chat-sidebar-resize-handle").className).toContain("cursor-col-resize");
+    expect(slot(container, "chat-sidebar-item-channel-icon").className).toContain("size-[18px]");
+    expect(slot(container, "chat-sidebar-item-channel-icon").dataset.channelType).toBe("joint");
+    expect(slot(container, "chat-sidebar-item-mention").className).toContain("bg-soft-signal");
+    expect(slot(container, "chat-sidebar-item-muted").className).toContain("text-black/40");
+    expect(slot(container, "chat-sidebar-item-draft").className).toContain("text-black/40");
+    expect(slot(container, "chat-sidebar-item-aside").className).toContain("gap-1.5");
+    expect(slot(container, "chat-sidebar-item-badge").className).toContain("bg-brutal-pink");
+  });
+
   it("keeps chat-shell data-free and out of docs composition fixtures", () => {
-    const source = readSource("../../../../packages/ui/src/components/chat-shell/chat-shell.tsx");
+    const source = [
+      readSource("../../../../packages/ui/src/components/chat-shell/chat-shell.tsx"),
+      readSource("../../../../packages/ui/src/components/chat-shell/chat-sidebar.tsx"),
+    ].join("\n");
 
     expect(source).not.toMatch(/useChannelStore|useServerStore|useAppNavigate/);
     expect(source).not.toMatch(/packages\/web|packages\\web/);

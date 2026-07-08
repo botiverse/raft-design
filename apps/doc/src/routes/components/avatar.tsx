@@ -154,7 +154,8 @@ const SIZES = [
   { size: "lg", context: "large identity", px: 48 },
   { size: "md", context: "panel header", px: 36 },
   { size: "sm", context: "list rows", px: 32 },
-  { size: "xs", context: "compact/sidebar", px: 20 },
+  { size: "xs", context: "compact rows", px: 20 },
+  { size: "sidebar", context: "sidebar rows", px: 18 },
   { size: "2xs", context: "inline preview", px: 14 },
 ] as const;
 
@@ -287,18 +288,17 @@ const SOURCE_SIZE_ROWS = [
     context: "sidebar-list",
     sourceFrame: "18px frame, 1px border",
     sourceInner: "agent 16 / human 16 / icon 10",
-    current: "xs / 20px",
+    current: "sidebar / 18px",
     reason:
-      "18px is too small to carry the elegant fallback/badge behavior reliably and duplicates compact-list.",
-    implementation:
-      "Use xs for sidebar rows; keep the row height and text alignment in the sidebar/list composition.",
+      "Sidebar rows need exact source density, so this context is promoted to a public compact step.",
+    implementation: 'Use <Avatar size="sidebar"> inside ChatSidebarItemIcon.',
   },
   {
     context: "compact-list",
     sourceFrame: "20px frame, 1px border",
     sourceInner: "agent 18 / human 18 / icon 12",
     current: "xs / 20px",
-    reason: "This is the reusable compact size that also absorbs sidebar-list.",
+    reason: "This is the reusable compact size for dense rows and metadata.",
     implementation: 'Use <Avatar size="xs"> for compact rows and dense metadata.',
   },
   {
@@ -413,7 +413,7 @@ import { Check } from "lucide-react";
   ))}
   <AvatarGroupCount size="sm">+3</AvatarGroupCount>
 </AvatarGroup>`,
-  sizes: `{(["xl", "lg", "md", "sm", "xs", "2xs"] as const).map((size, index) => (
+  sizes: `{(["xl", "lg", "md", "sm", "xs", "sidebar", "2xs"] as const).map((size, index) => (
   <Avatar key={size} size={size} type="agent">
     <AvatarImage src={avatarPhotoUrls[index % avatarPhotoUrls.length]} alt="" />
     <AvatarFallback />
@@ -424,7 +424,8 @@ import { Check } from "lucide-react";
 <Avatar size="lg" type="agent" />  // mention-card
 <Avatar size="md" type="agent" />  // panel-header
 <Avatar size="sm" type="agent" />  // surface-list
-<Avatar size="xs" type="agent" />  // compact-list / sidebar-list
+<Avatar size="xs" type="agent" />  // compact-list
+<Avatar size="sidebar" type="agent" /> // sidebar-list
 <Avatar size="2xs" type="agent" /> // preview-mini`,
   sourceContexts: `const SPEC = {
   "profile-tile": { size: "size-16", border: "border-2", agentPixel: 60, gravatarSize: 60, placeholderIcon: 32 },
@@ -825,14 +826,13 @@ function SourceDifferenceTable() {
 function ContextScaleNote() {
   return (
     <>
-      Source has ten context sizes. Current keeps six public sizes. Kept:{" "}
+      Source has ten context sizes. Current keeps seven public sizes. Kept:{" "}
       <code>profile-tile 64px</code>, <code>mention-card 48px</code>, <code>panel-header 36px</code>
       , <code>surface-list 32px</code>, <code>compact-list 20px</code>, and{" "}
-      <code>preview-mini 14px</code>. Dropped exact sizes: <code>account-tile 56px</code> maps to{" "}
-      <code>lg/xl</code>, <code>members-row 28px</code> maps to <code>sm/xs</code>, and{" "}
-      <code>creator-link 22px</code> maps to <code>xs</code>. Collapsed:{" "}
-      <code>sidebar-list 18px</code> maps up to <code>xs 20px</code>. Parent row/card compositions
-      own the remaining spacing.
+      <code>sidebar-list 18px</code>, and <code>preview-mini 14px</code>. Dropped exact sizes:{" "}
+      <code>account-tile 56px</code> maps to <code>lg/xl</code>, <code>members-row 28px</code> maps
+      to <code>sm/xs</code>, and <code>creator-link 22px</code> maps to <code>xs</code>. Parent
+      row/card compositions own the remaining spacing.
     </>
   );
 }

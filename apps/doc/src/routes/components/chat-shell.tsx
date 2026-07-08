@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge } from "raft-ui";
+import { Badge, NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
 import {
   ChatPanelResizeHandle,
   ChatPanelStackContent,
@@ -23,14 +23,26 @@ import {
   ChatSidebarBody,
   ChatSidebarFooter,
   ChatSidebarHeader,
+  ChatSidebarItem,
+  ChatSidebarItemAside,
+  ChatSidebarItemIcon,
+  ChatSidebarItemSubtitle,
+  ChatSidebarItemText,
+  ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarRoot,
   ChatSidebarSection,
+  ChatSidebarSectionButton,
+  ChatSidebarSectionCount,
+  ChatSidebarSectionHeader,
+  ChatSidebarSectionTitle,
 } from "raft-ui/wip";
 import {
   Activity,
+  AlertTriangle,
   Bot,
   CheckSquare,
+  Hash,
   Home,
   MessageSquare,
   Monitor,
@@ -49,6 +61,7 @@ import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
+import { SourceChatRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -259,7 +272,7 @@ function ChatShellPreview() {
           <ChatRailHeader>
             <button
               type="button"
-              className="relative inline-flex size-10 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-foreground-strong"
+              className="relative inline-flex size-10 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=elegant]_&]:bg-foreground-strong"
               aria-label="Switch server"
             >
               R
@@ -274,6 +287,19 @@ function ChatShellPreview() {
             <RailItem value="members" label="Members" icon={<Users />} />
             <RailItem value="computers" label="Computers" icon={<Monitor />} indicator />
           </ChatRailNav>
+          <div className="flex w-full items-center justify-center pb-1">
+            <NotificationCenter modal={false}>
+              <NotificationCenterTrigger type="button" aria-label="Notification center">
+                <AlertTriangle aria-hidden className="size-[18px]" />
+                <Status
+                  aria-hidden
+                  variant="accent"
+                  size="md"
+                  className="pointer-events-none absolute -top-1 -right-1"
+                />
+              </NotificationCenterTrigger>
+            </NotificationCenter>
+          </div>
           <ChatRailFooter>
             <RailItem value="settings" label="Settings" icon={<Settings />} />
           </ChatRailFooter>
@@ -290,10 +316,10 @@ function ChatShellPreview() {
           <ChatSidebarBody>
             <SidebarGroup title="Pinned">
               <SidebarRow selected title="#proj-uiux" meta="Cindy replied" />
-              <SidebarRow title="#proj-theme" meta="Atlas is typing" tone="cyan" />
+              <SidebarRow title="#proj-theme" meta="Atlas is typing" />
             </SidebarGroup>
             <SidebarGroup title="Agents">
-              <SidebarRow title="Cindy" meta="online" tone="lime" />
+              <SidebarRow title="Cindy" meta="online" />
               <SidebarRow title="Atlas" meta="idle" />
             </SidebarGroup>
           </ChatSidebarBody>
@@ -307,7 +333,7 @@ function ChatShellPreview() {
       </ChatShellSidebar>
 
       <ChatShellMain className="flex">
-        <div className="flex h-[62px] shrink-0 items-center border-b-2 border-line-strong bg-layer-panel px-4 [[data-theme=elegant]_&]:border-line-subtle">
+        <div className="flex h-[62px] shrink-0 items-center border-b-2 border-line-strong bg-layer-panel px-4 [[data-preview-theme=elegant]_&]:border-line-subtle">
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-bold text-foreground-strong">#proj-uiux</div>
             <div className="truncate font-mono text-[11px] text-foreground-muted">
@@ -332,13 +358,13 @@ function ChatShellPreview() {
         <ChatPanelStackRoot resizable>
           <ChatPanelStackItem>
             <ChatPanelResizeHandle />
-            <div className="flex h-[62px] items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-theme=elegant]_&]:border-line-subtle">
+            <div className="flex h-[62px] items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-preview-theme=elegant]_&]:border-line-subtle">
               <div className="min-w-0 flex-1 truncate text-sm font-bold text-foreground-strong">
                 Thread
               </div>
               <button
                 type="button"
-                className="flex size-7 items-center justify-center border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xs [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle"
+                className="flex size-7 items-center justify-center border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle"
                 aria-label="Close thread"
               >
                 <X className="size-3.5" />
@@ -349,7 +375,7 @@ function ChatShellPreview() {
                 <MessageBubble author="Thread" tone="yellow">
                   Source ThreadPanel content lives inside a host-owned right column.
                 </MessageBubble>
-                <div className="border-t-2 border-line-strong pt-3 text-xs text-foreground-muted [[data-theme=elegant]_&]:border-line-subtle">
+                <div className="border-t-2 border-line-strong pt-3 text-xs text-foreground-muted [[data-preview-theme=elegant]_&]:border-line-subtle">
                   Reply composer slot
                 </div>
               </div>
@@ -386,10 +412,13 @@ function RailItem({
 
 function SidebarGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <ChatSidebarSection className="mb-3">
-      <div className="mb-1 flex h-6 items-center px-1 text-[11px] font-bold uppercase tracking-wider text-foreground-muted">
-        {title}
-      </div>
+    <ChatSidebarSection>
+      <ChatSidebarSectionHeader>
+        <ChatSidebarSectionButton>
+          <ChatSidebarSectionTitle>{title}</ChatSidebarSectionTitle>
+          <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+        </ChatSidebarSectionButton>
+      </ChatSidebarSectionHeader>
       <ChatSidebarList>{children}</ChatSidebarList>
     </ChatSidebarSection>
   );
@@ -399,31 +428,26 @@ function SidebarRow({
   title,
   meta,
   selected,
-  tone = "yellow",
 }: {
   title: string;
   meta: string;
   selected?: boolean;
-  tone?: "yellow" | "cyan" | "lime";
 }) {
-  const toneClassName = {
-    yellow: "bg-primary-400",
-    cyan: "bg-info-base",
-    lime: "bg-success-base",
-  }[tone];
-
   return (
-    <button
-      type="button"
-      data-selected={selected ? "true" : undefined}
-      className="flex w-full items-center gap-2 border-2 border-transparent px-2 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm data-[selected=true]:border-line-strong data-[selected=true]:bg-accent-400/80 data-[selected=true]:font-bold data-[selected=true]:shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-transparent [[data-theme=elegant]_&]:data-[selected=true]:border-line-subtle [[data-theme=elegant]_&]:data-[selected=true]:bg-layer-muted"
-    >
-      <span className={`size-3 shrink-0 border border-line-strong ${toneClassName}`} />
-      <span className="min-w-0 flex-1">
-        <span className="block truncate text-foreground-strong">{title}</span>
-        <span className="block truncate font-mono text-[11px] text-foreground-muted">{meta}</span>
-      </span>
-    </button>
+    <ChatSidebarItem type="button" selected={selected}>
+      <ChatSidebarItemIcon>
+        <Hash className="size-3.5" />
+      </ChatSidebarItemIcon>
+      <ChatSidebarItemText stacked>
+        <ChatSidebarItemTitle>{title}</ChatSidebarItemTitle>
+        <ChatSidebarItemSubtitle>{meta}</ChatSidebarItemSubtitle>
+      </ChatSidebarItemText>
+      {meta === "online" ? (
+        <ChatSidebarItemAside>
+          <Status aria-hidden variant="accent" size="sm" />
+        </ChatSidebarItemAside>
+      ) : null}
+    </ChatSidebarItem>
   );
 }
 
@@ -444,7 +468,7 @@ function MessageBubble({
 
   return (
     <div
-      className={`border-2 border-line-strong bg-layer-panel p-3 text-sm shadow-xs [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle ${toneClassName}`}
+      className={`border-2 border-line-strong bg-layer-panel p-3 text-sm shadow-xs [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle ${toneClassName}`}
     >
       <div className="mb-1 font-mono text-[11px] font-bold text-foreground-muted">{author}</div>
       <div className="leading-relaxed text-foreground-strong">{children}</div>
@@ -489,25 +513,7 @@ function MobileBarItem({
 function SourceShellPreview() {
   return (
     <div className="flex h-full min-w-[920px] min-h-0 overflow-hidden border-2 border-black bg-brutal-cream font-display text-black">
-      <div className="hidden w-16 shrink-0 flex-col items-center border-r-2 border-black bg-soft-signal md:flex">
-        <div className="flex h-[62px] w-full items-center justify-center border-b-2 border-black">
-          <div className="flex size-10 items-center justify-center border-2 border-black bg-black font-display text-base font-bold text-soft-signal shadow-[var(--shadow-brutal-sm)]">
-            R
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col items-center gap-1.5 py-2">
-          <SourceRailButton icon={<Search size={18} />} />
-          <SourceRailButton active icon={<MessageSquare size={18} />} />
-          <SourceRailButton icon={<Activity size={18} />} dot />
-          <SourceRailButton icon={<CheckSquare size={18} />} />
-          <SourceRailButton icon={<Users size={18} />} />
-          <SourceRailButton icon={<Monitor size={18} />} dot />
-        </div>
-        <div className="flex w-full items-center justify-center pb-1" />
-        <div className="flex h-[62px] w-full shrink-0 items-center justify-center">
-          <SourceRailButton icon={<Settings size={18} />} />
-        </div>
-      </div>
+      <SourceChatRailPreview />
       <div className="hidden w-60 shrink-0 flex-col border-r-2 border-black bg-brutal-cream md:flex">
         <div className="flex h-[62px] items-center border-b-2 border-black px-5">
           <div className="text-lg font-bold text-black">Chat</div>
@@ -557,32 +563,6 @@ function SourceShellPreview() {
         </div>
       </div>
     </div>
-  );
-}
-
-function SourceRailButton({
-  icon,
-  active,
-  dot,
-}: {
-  icon: ReactNode;
-  active?: boolean;
-  dot?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      className={`relative flex size-10 items-center justify-center border-2 ${
-        active
-          ? "border-black bg-white shadow-[var(--shadow-brutal-sm)]"
-          : "border-transparent hover:border-black hover:bg-white"
-      }`}
-    >
-      {icon}
-      {dot ? (
-        <span className="absolute -right-1 -top-1 size-2.5 rounded-full border border-black bg-brutal-pink" />
-      ) : null}
-    </button>
   );
 }
 

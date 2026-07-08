@@ -1,18 +1,78 @@
+import { ArrowUpDown, Bookmark, ChevronRight, MessageSquare, Plus } from "lucide-react";
+import { useCallback, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   ChatShellSidebar,
+  ChatSidebarItemAside,
+  ChatSidebarItemBadge,
   ChatSidebarBody,
   ChatSidebarHeader,
+  ChatSidebarItem,
+  ChatSidebarItemIcon,
+  ChatSidebarItemChannelIcon,
+  ChatSidebarItemIndicator,
+  ChatSidebarItemDraft,
+  ChatSidebarItemMention,
+  ChatSidebarItemMeta,
+  ChatSidebarItemMuted,
+  ChatSidebarItemSubtitle,
+  ChatSidebarItemText,
+  ChatSidebarItemTitle,
   ChatSidebarList,
+  ChatSidebarResizeHandle,
   ChatSidebarRoot,
   ChatSidebarSection,
+  ChatSidebarSectionAction,
+  ChatSidebarSectionActions,
+  ChatSidebarSectionButton,
+  ChatSidebarSectionCount,
+  ChatSidebarSectionHeader,
+  ChatSidebarSectionIndicator,
+  ChatSidebarSectionTitle,
 } from "raft-ui/wip";
-import { Bookmark, Hash, MessageSquare, User } from "lucide-react";
-import { Status } from "raft-ui";
+
+import { ChatRailComposition } from "./chat-rail-composition.tsx";
 
 export function ChatSidebarComposition() {
+  const [sidebarWidth, setSidebarWidth] = useState(240);
+  const dragRef = useRef({ startX: 0, startWidth: 240, dragging: false });
+
+  const handleResizeStart = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      dragRef.current = { startX: event.clientX, startWidth: sidebarWidth, dragging: true };
+      event.currentTarget.setPointerCapture(event.pointerId);
+    },
+    [sidebarWidth],
+  );
+
+  const handleResizeMove = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current.dragging) return;
+    const nextWidth = dragRef.current.startWidth + event.clientX - dragRef.current.startX;
+    setSidebarWidth(Math.max(180, Math.min(320, nextWidth)));
+  }, []);
+
+  const handleResizeEnd = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current.dragging) return;
+    dragRef.current.dragging = false;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  }, []);
+
   return (
-    <div className="flex h-full min-w-[640px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=brutal]_&]:border-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cream [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle">
-      <ChatShellSidebar className="flex h-full w-60 md:flex">
+    <div
+      className="flex h-full shrink-0 overflow-hidden bg-layer-panel [[data-preview-theme=brutal]_&]:bg-brutal-cream"
+      style={{ width: 64 + sidebarWidth }}
+    >
+      <ChatRailComposition />
+      <ChatShellSidebar resizable className="flex h-full md:flex" style={{ width: sidebarWidth }}>
+        <ChatSidebarResizeHandle
+          onPointerCancel={handleResizeEnd}
+          onPointerDown={handleResizeStart}
+          onPointerMove={handleResizeMove}
+          onPointerUp={handleResizeEnd}
+        />
         <ChatSidebarRoot>
           <ChatSidebarHeader>
             <div className="min-w-0 flex-1">
@@ -22,146 +82,183 @@ export function ChatSidebarComposition() {
           <ChatSidebarBody className="relative flex min-h-0 flex-1 overflow-hidden p-0">
             <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3">
               <div className="min-h-full">
-                <button
-                  type="button"
-                  className="mb-1 flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                >
-                  <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-primary-400 [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                    <Bookmark className="size-3" />
-                  </span>
-                  <span className="min-w-0 flex-1 truncate text-foreground-strong">Saved</span>
-                  <span className="font-mono text-[10px] text-foreground-muted">2</span>
-                </button>
-                <ChatSidebarSection className="mb-3 px-0">
-                  <div className="mb-1 flex h-6 items-center justify-between px-2 text-xs font-bold tracking-widest text-foreground-muted uppercase">
-                    <span>Pinned</span>
-                    <span className="font-mono text-[10px] font-normal tracking-normal">2</span>
-                  </div>
+                <ChatSidebarItem type="button">
+                  <ChatSidebarItemIcon>
+                    <Bookmark className="size-3.5" />
+                  </ChatSidebarItemIcon>
+                  <ChatSidebarItemTitle className="flex-1">Saved</ChatSidebarItemTitle>
+                  <ChatSidebarItemMeta>2</ChatSidebarItemMeta>
+                </ChatSidebarItem>
+
+                <ChatSidebarSection className="px-0">
+                  <ChatSidebarSectionHeader>
+                    <ChatSidebarSectionButton type="button">
+                      <ChevronRight className="size-3" />
+                      <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
+                      <ChatSidebarSectionCount>3</ChatSidebarSectionCount>
+                    </ChatSidebarSectionButton>
+                    <ChatSidebarSectionActions>
+                      <ChatSidebarSectionAction type="button" aria-label="Sort pinned">
+                        <ArrowUpDown className="size-3.5" />
+                      </ChatSidebarSectionAction>
+                    </ChatSidebarSectionActions>
+                  </ChatSidebarSectionHeader>
                   <ChatSidebarList>
-                    <button
-                      type="button"
-                      data-selected="true"
-                      className="flex w-full items-center gap-2 border-2 border-line-strong bg-accent-400 px-2.5 py-2 text-left text-sm font-bold shadow-sm transition-colors [[data-preview-theme=brutal]_&]:bg-brutal-pink [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=elegant]_&]:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-primary-400 [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <Hash className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">#proj-uiux</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
+                    <ChatSidebarItem type="button" selected>
+                      <ChatSidebarItemChannelIcon />
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle className="shrink-0">#proj-uiux</ChatSidebarItemTitle>
+                        <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
                           Cindy replied
-                        </span>
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-info-base [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <Hash className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">#proj-theme</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
-                          Atlas is typing
-                        </span>
-                      </span>
-                    </button>
+                        </ChatSidebarItemSubtitle>
+                      </ChatSidebarItemText>
+                    </ChatSidebarItem>
+                    <ChatSidebarItem type="button" menuOpen>
+                      <ChatSidebarItemIcon>
+                        <Avatar size="sidebar" type="agent">
+                          <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
+                        </Avatar>
+                      </ChatSidebarItemIcon>
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
+                          Atlas
+                        </ChatSidebarItemTitle>
+                        <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
+                          planning
+                        </ChatSidebarItemSubtitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemAside>
+                        <Status aria-hidden variant="accent" size="sm" />
+                      </ChatSidebarItemAside>
+                    </ChatSidebarItem>
+                    <ChatSidebarItem type="button">
+                      <ChatSidebarItemChannelIcon />
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle>#proj-theme</ChatSidebarItemTitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemAside>
+                        <ChatSidebarItemDraft />
+                      </ChatSidebarItemAside>
+                    </ChatSidebarItem>
                   </ChatSidebarList>
                 </ChatSidebarSection>
-                <ChatSidebarSection className="mb-3 px-0">
-                  <div className="mb-1 flex h-6 items-center justify-between px-2 text-xs font-bold tracking-widest text-foreground-muted uppercase">
-                    <span>Joint Channels</span>
-                    <span className="font-mono text-[10px] font-normal tracking-normal">1</span>
-                  </div>
+
+                <ChatSidebarSection defaultOpen={false} className="px-0">
+                  <ChatSidebarSectionHeader>
+                    <ChatSidebarSectionButton type="button">
+                      <ChevronRight className="size-3" />
+                      <ChatSidebarSectionTitle>Joint Channels</ChatSidebarSectionTitle>
+                      <ChatSidebarSectionCount>1</ChatSidebarSectionCount>
+                      <ChatSidebarSectionIndicator />
+                    </ChatSidebarSectionButton>
+                    <ChatSidebarSectionActions>
+                      <ChatSidebarSectionAction type="button" aria-label="Sort joint channels">
+                        <ArrowUpDown className="size-3.5" />
+                      </ChatSidebarSectionAction>
+                    </ChatSidebarSectionActions>
+                  </ChatSidebarSectionHeader>
                   <ChatSidebarList>
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-info-base [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <Hash className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">#partners</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
-                          3 unread
-                        </span>
-                      </span>
-                    </button>
+                    <ChatSidebarItem type="button">
+                      <ChatSidebarItemChannelIcon type="joint" />
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle>#partners</ChatSidebarItemTitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemBadge>3</ChatSidebarItemBadge>
+                    </ChatSidebarItem>
                   </ChatSidebarList>
                 </ChatSidebarSection>
-                <ChatSidebarSection className="mb-3 px-0">
-                  <div className="mb-1 flex h-6 items-center justify-between px-2 text-xs font-bold tracking-widest text-foreground-muted uppercase">
-                    <span>Channels</span>
-                    <span className="font-mono text-[10px] font-normal tracking-normal">2</span>
-                  </div>
+
+                <ChatSidebarSection className="px-0">
+                  <ChatSidebarSectionHeader>
+                    <ChatSidebarSectionButton type="button">
+                      <ChevronRight className="size-3" />
+                      <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
+                      <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                    </ChatSidebarSectionButton>
+                    <ChatSidebarSectionActions>
+                      <ChatSidebarSectionAction type="button" aria-label="Sort channels">
+                        <ArrowUpDown className="size-3.5" />
+                      </ChatSidebarSectionAction>
+                      <ChatSidebarSectionAction type="button" aria-label="Add channel">
+                        <Plus className="size-3.5" />
+                      </ChatSidebarSectionAction>
+                    </ChatSidebarSectionActions>
+                  </ChatSidebarSectionHeader>
                   <ChatSidebarList>
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-primary-400 [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <Hash className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">#general</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
-                          12 unread
-                        </span>
-                      </span>
-                      <Status aria-hidden variant="accent" size="sm" />
-                    </button>
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-success-base [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <Hash className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">#release</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
-                          No unread
-                        </span>
-                      </span>
-                    </button>
+                    <ChatSidebarItem type="button">
+                      <ChatSidebarItemChannelIcon />
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle className="font-bold">#general</ChatSidebarItemTitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemIndicator>
+                        <ChatSidebarItemMention />
+                      </ChatSidebarItemIndicator>
+                      <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
+                    </ChatSidebarItem>
+                    <ChatSidebarItem type="button">
+                      <ChatSidebarItemChannelIcon />
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemIndicator>
+                        <ChatSidebarItemMuted />
+                      </ChatSidebarItemIndicator>
+                      <ChatSidebarItemAside>
+                        <ChatSidebarItemDraft />
+                      </ChatSidebarItemAside>
+                    </ChatSidebarItem>
                   </ChatSidebarList>
                 </ChatSidebarSection>
-                <ChatSidebarSection className="mb-3 px-0">
-                  <div className="mb-1 flex h-6 items-center justify-between px-2 text-xs font-bold tracking-widest text-foreground-muted uppercase">
-                    <span>Direct Messages</span>
-                    <span className="font-mono text-[10px] font-normal tracking-normal">2</span>
-                  </div>
+
+                <ChatSidebarSection className="px-0">
+                  <ChatSidebarSectionHeader>
+                    <ChatSidebarSectionButton type="button">
+                      <ChevronRight className="size-3" />
+                      <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
+                      <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                    </ChatSidebarSectionButton>
+                    <ChatSidebarSectionActions>
+                      <ChatSidebarSectionAction type="button" aria-label="Sort direct messages">
+                        <ArrowUpDown className="size-3.5" />
+                      </ChatSidebarSectionAction>
+                    </ChatSidebarSectionActions>
+                  </ChatSidebarSectionHeader>
                   <ChatSidebarList>
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-success-base [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <User className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">Cindy</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
-                          online
-                        </span>
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 border-2 border-transparent px-2.5 py-2 text-left text-sm font-medium transition-colors hover:border-line-strong hover:bg-layer-panel hover:shadow-sm [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-transparent [[data-preview-theme=elegant]_&]:hover:border-line-subtle [[data-preview-theme=elegant]_&]:hover:bg-layer-muted"
-                    >
-                      <span className="flex size-[18px] shrink-0 items-center justify-center border border-line-strong bg-primary-400 [[data-preview-theme=elegant]_&]:rounded-sm [[data-preview-theme=elegant]_&]:border-line-subtle">
-                        <MessageSquare className="size-3" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-foreground-strong">Atlas</span>
-                        <span className="block truncate font-mono text-[11px] text-foreground-muted">
+                    <ChatSidebarItem type="button">
+                      <ChatSidebarItemIcon>
+                        <Avatar size="sidebar" type="human">
+                          <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
+                        </Avatar>
+                      </ChatSidebarItemIcon>
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle className="max-w-[70%] shrink-0 font-bold">
+                          Cindy
+                        </ChatSidebarItemTitle>
+                        <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
+                          design
+                        </ChatSidebarItemSubtitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemAside>
+                        <Status aria-hidden variant="accent" size="sm" />
+                        <ChatSidebarItemBadge>4</ChatSidebarItemBadge>
+                      </ChatSidebarItemAside>
+                    </ChatSidebarItem>
+                    <ChatSidebarItem type="button">
+                      <ChatSidebarItemIcon>
+                        <Avatar size="sidebar" type="agent" />
+                      </ChatSidebarItemIcon>
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
+                          Atlas
+                        </ChatSidebarItemTitle>
+                        <ChatSidebarItemSubtitle className="min-w-0 flex-1 text-xs">
                           idle
-                        </span>
-                      </span>
-                    </button>
+                        </ChatSidebarItemSubtitle>
+                      </ChatSidebarItemText>
+                      <ChatSidebarItemAside>
+                        <MessageSquare className="size-3 text-foreground-muted" />
+                      </ChatSidebarItemAside>
+                    </ChatSidebarItem>
                   </ChatSidebarList>
                 </ChatSidebarSection>
               </div>
@@ -169,15 +266,6 @@ export function ChatSidebarComposition() {
           </ChatSidebarBody>
         </ChatSidebarRoot>
       </ChatShellSidebar>
-      <div className="min-w-0 flex-1 bg-layer-panel p-4 [[data-preview-theme=brutal]_&]:bg-white">
-        <div className="mb-4 h-8 w-48 border-b-2 border-line-strong text-lg font-bold text-foreground-strong [[data-preview-theme=elegant]_&]:border-line-subtle">
-          #proj-uiux
-        </div>
-        <div className="space-y-3">
-          <div className="h-14 border-2 border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle" />
-          <div className="h-20 border-2 border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle" />
-        </div>
-      </div>
     </div>
   );
 }
