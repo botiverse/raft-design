@@ -127,7 +127,7 @@ function PreviewShellDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.anatomy}>
           <div className="w-96">
             <QuotedPreviewShell />

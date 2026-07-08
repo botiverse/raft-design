@@ -259,7 +259,7 @@ function LabelDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.preview}>
           <div className="grid w-80 gap-2">
             <Label htmlFor="label-preview-email">Email address</Label>

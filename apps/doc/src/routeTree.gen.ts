@@ -63,10 +63,10 @@ import { Route as ComponentsDialogRouteImport } from './routes/components/dialog
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
 import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
-import { Route as ComponentsChatShellRouteImport } from './routes/components/chat-shell'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
+import { Route as ComponentsChatShellRouteImport } from './routes/components/chat-shell'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -370,11 +370,6 @@ const ComponentsConversationPreviewCardRoute =
     path: '/conversation-preview-card',
     getParentRoute: () => ComponentsRoute,
   } as any)
-const ComponentsChatShellRoute = ComponentsChatShellRouteImport.update({
-  id: '/chat-shell',
-  path: '/chat-shell',
-  getParentRoute: () => ComponentsRoute,
-} as any)
 const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
   id: '/context-menu',
   path: '/context-menu',
@@ -388,6 +383,11 @@ const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   id: '/checkbox',
   path: '/checkbox',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsChatShellRoute = ComponentsChatShellRouteImport.update({
+  id: '/chat-shell',
+  path: '/chat-shell',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
@@ -538,11 +538,11 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
-  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -623,11 +623,11 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
-  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -710,11 +710,11 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
-  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -798,11 +798,11 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-shell'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
-    | '/components/chat-shell'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -883,11 +883,11 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-shell'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
-    | '/components/chat-shell'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -969,11 +969,11 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-shell'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
     | '/components/conversation-preview-card'
-    | '/components/chat-shell'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -1437,13 +1437,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsConversationPreviewCardRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/chat-shell': {
-      id: '/components/chat-shell'
-      path: '/chat-shell'
-      fullPath: '/components/chat-shell'
-      preLoaderRoute: typeof ComponentsChatShellRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/context-menu': {
       id: '/components/context-menu'
       path: '/context-menu'
@@ -1463,6 +1456,13 @@ declare module '@tanstack/react-router' {
       path: '/checkbox'
       fullPath: '/components/checkbox'
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/chat-shell': {
+      id: '/components/chat-shell'
+      path: '/chat-shell'
+      fullPath: '/components/chat-shell'
+      preLoaderRoute: typeof ComponentsChatShellRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/button': {
@@ -1658,11 +1658,11 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsChatShellRoute: typeof ComponentsChatShellRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
-  ComponentsChatShellRoute: typeof ComponentsChatShellRoute
   ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
@@ -1726,12 +1726,12 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsChatShellRoute: ComponentsChatShellRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPreviewCardRoute:
     ComponentsConversationPreviewCardRoute,
-  ComponentsChatShellRoute: ComponentsChatShellRoute,
   ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,

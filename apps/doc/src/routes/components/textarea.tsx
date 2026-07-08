@@ -328,7 +328,7 @@ function TextareaDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
           previewClassName={TEXTAREA_PREVIEW_CLASS}
           defaultValues={{

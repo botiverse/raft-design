@@ -94,7 +94,7 @@ function SectionLabelDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.anatomy}>
           <SectionLabel>Members</SectionLabel>
         </Example>

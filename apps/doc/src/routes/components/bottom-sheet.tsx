@@ -392,7 +392,7 @@ function BottomSheetDoc() {
       description="A mobile bottom sheet with no dim backdrop; the sheet carries the active theme frame."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <div className="space-y-4">
           <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
             Trigger and footer actions compose their button shell through <code>render</code>. The

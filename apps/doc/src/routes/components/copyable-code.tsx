@@ -167,7 +167,7 @@ function CopyableCodeDoc() {
       description="A command or code row with a built-in copy action."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use CopyableCode for machine setup commands and other copy-first code rows. Use

@@ -707,7 +707,7 @@ function SelectDoc() {
       description="A single-select field built on Base UI Select for value display, typeahead, keyboard navigation, and form submission."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             disabled: false,

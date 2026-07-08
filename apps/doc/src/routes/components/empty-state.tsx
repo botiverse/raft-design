@@ -303,7 +303,7 @@ function EmptyStateDoc() {
       description="A quiet feedback surface for empty collections, filtered results, and first-run states."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <QuietPreview>
           <EmptyState>
             <EmptyStateContent>

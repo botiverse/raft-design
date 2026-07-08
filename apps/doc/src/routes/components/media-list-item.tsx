@@ -268,7 +268,7 @@ function MediaListItemDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.interactive}>
           <div className="flex w-80 flex-col gap-3">
             <MediaListItem>

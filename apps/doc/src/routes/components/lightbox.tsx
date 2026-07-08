@@ -302,7 +302,7 @@ function LightboxDoc() {
       description="A full-screen preview surface for image, screenshot, and attachment review."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.anatomy}>
           <LightboxPreviewDemo />
         </Example>

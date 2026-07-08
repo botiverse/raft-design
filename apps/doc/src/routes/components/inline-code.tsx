@@ -158,7 +158,7 @@ function InlineCodeDoc() {
       description="A semantic inline code token for docs prose."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use InlineCode inside explanatory prose when naming props, attributes, classes, or

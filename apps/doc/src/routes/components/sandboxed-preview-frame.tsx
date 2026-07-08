@@ -187,7 +187,7 @@ function SandboxedPreviewFrameDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.anatomy}>
           <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
             <AppSandboxedPreviewFrame

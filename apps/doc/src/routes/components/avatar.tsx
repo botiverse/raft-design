@@ -552,7 +552,7 @@ function AvatarDoc() {
       description="A black-bordered avatar frame with a role-keyed background, managed image, and placeholder."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{ size: "lg", type: "agent" }}
           controls={[

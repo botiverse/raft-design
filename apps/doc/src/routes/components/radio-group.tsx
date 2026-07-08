@@ -247,7 +247,7 @@ function RadioGroupDoc() {
       description="A mutually exclusive choice control for forms, option lists, and descriptive cards."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground
           defaultValues={{ disabled: false }}
           controls={[{ name: "disabled", label: "Disabled", type: "boolean" }]}

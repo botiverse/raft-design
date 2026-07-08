@@ -289,7 +289,7 @@ function PanelHeaderDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.slots}>
           <div className="w-full max-w-md border-2 border-black">
             <CurrentSavedPanelHeader showAction />

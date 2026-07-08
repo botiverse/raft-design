@@ -977,7 +977,7 @@ function DialogDoc() {
       description="A centered modal surface for forms, setup steps, announcements, and blocking detail panels."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.anatomy}>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>

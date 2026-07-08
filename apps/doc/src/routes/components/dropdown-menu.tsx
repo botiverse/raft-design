@@ -630,7 +630,7 @@ function DropdownMenuDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Preview models a profile menu. Icons, trailing chevrons, shortcuts, counters, and selected
           state indicators are composed as children so product code can choose its own visual

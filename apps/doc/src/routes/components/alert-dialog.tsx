@@ -324,7 +324,7 @@ function AlertDialogDoc() {
       description="A modal confirmation surface for irreversible or destructive actions."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.anatomy}>
           <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger render={<Button variant="danger" />}>

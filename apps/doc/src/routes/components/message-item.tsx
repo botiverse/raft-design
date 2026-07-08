@@ -48,7 +48,7 @@ function MessageItemDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example
           html={code.anatomy}
           previewTheme="brutal"

@@ -291,7 +291,7 @@ function PreviewCardDoc() {
       description="A hover/focus-triggered floating card for glanceable link, user, and message previews."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Opens by default so the anatomy is inspectable without hovering, but stays fully
           interactive: move away and it closes on hover/focus intent like any other trigger.

@@ -103,7 +103,7 @@ function SwitchDoc() {
       description="A binary setting control for immediate on/off preferences."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             size: "sm",

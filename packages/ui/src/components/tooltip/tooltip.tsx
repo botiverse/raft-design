@@ -1,5 +1,5 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import type { ComponentProps } from "react";
+import { Children, Fragment, isValidElement, type ComponentProps, type ReactNode } from "react";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -10,19 +10,23 @@ const tooltip = tv({
     positioner: ["isolate z-50 outline-none"],
     content: [
       "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
-      "text-[13px] leading-[18px] whitespace-normal break-words",
       "origin-[var(--transform-origin)] outline-none",
       "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[starting-style]:scale-[0.97] data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-[0.99] data-[ending-style]:opacity-0",
       "data-[instant]:transition-none",
       "motion-reduce:transition-none",
-      "[&>svg]:mr-1.5 [&>svg]:inline-block [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:align-[-0.125em]",
       "has-[[data-slot=kbd]]:py-1.5 has-[[data-slot=kbd]]:pr-1.5",
+    ],
+    body: [
+      "block min-w-0 text-[13px] leading-[18px] whitespace-normal break-words",
+      "[&:has(>[data-slot=tooltip-body-text])]:flex [&:has(>[data-slot=tooltip-body-text])]:items-start [&:has(>[data-slot=tooltip-body-text])]:gap-x-1.5",
       "[&_[data-slot=kbd]]:relative [&_[data-slot=kbd]]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
       "[&_[data-slot=kbd]]:text-[10px] [&_[data-slot=kbd]]:font-semibold [&_[data-slot=kbd]]:leading-none",
     ],
+    bodyIcon: ["shrink-0 [&>svg]:mt-1 [&>svg]:block [&>svg]:size-3.5 [&>svg]:shrink-0"],
+    bodyText: ["min-w-0 flex-1"],
     arrow: [
       "pointer-events-none flex overflow-visible",
       "data-[side=top]:bottom-[-5px]",
@@ -48,9 +52,8 @@ const tooltip = tv({
         content: [
           "rounded-md bg-[oklch(0.263_0.009_294.9)] text-[oklch(0.965_0.002_286)]",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
-          "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
-          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
-          "dark:bg-[oklch(0.230_0.010_294.8)] dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)]",
+          "shadow-lg",
+          "dark:bg-[oklch(0.230_0.010_294.8)]",
           "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: [],
@@ -125,6 +128,84 @@ function TooltipArrowSvg({
   );
 }
 
+function flattenTooltipChildren(children: ReactNode): ReactNode[] {
+  return Children.toArray(children).flatMap((child) => {
+    if (isValidElement<{ children?: ReactNode }>(child) && child.type === Fragment) {
+      return flattenTooltipChildren(child.props.children);
+    }
+
+    return [child];
+  });
+}
+
+function isTooltipLeadingIcon(child: ReactNode) {
+  if (!isValidElement<{ "data-slot"?: string }>(child)) {
+    return false;
+  }
+
+  if (child.props["data-slot"] === "kbd") {
+    return false;
+  }
+
+  if (child.type === "svg") {
+    return true;
+  }
+
+  return typeof child.type !== "string";
+}
+
+function partitionTooltipBodyChildren(children: ReactNode) {
+  const items = flattenTooltipChildren(children);
+  const icons: ReactNode[] = [];
+  const rest: ReactNode[] = [];
+  let seenNonIcon = false;
+
+  for (const item of items) {
+    if (!seenNonIcon && isTooltipLeadingIcon(item)) {
+      icons.push(item);
+      continue;
+    }
+
+    seenNonIcon = true;
+    rest.push(item);
+  }
+
+  return { icons, rest };
+}
+
+function TooltipBodyContent({
+  children,
+  className,
+  iconClassName,
+  textClassName,
+}: {
+  children: ReactNode;
+  className: string;
+  iconClassName: string;
+  textClassName: string;
+}) {
+  const { icons, rest } = partitionTooltipBodyChildren(children);
+
+  if (icons.length === 0) {
+    return (
+      <span data-slot="tooltip-body" className={className}>
+        {children}
+      </span>
+    );
+  }
+
+  return (
+    <span data-slot="tooltip-body" className={className}>
+      <span data-slot="tooltip-body-icon" className={iconClassName}>
+        {icons}
+      </span>
+      <span data-slot="tooltip-body-text" className={textClassName}>
+        {rest}
+      </span>
+    </span>
+  );
+}
+
 export type TooltipContentProps = StyledProps<BaseTooltip.Popup.Props> &
   Pick<
     BaseTooltip.Positioner.Props,
@@ -163,7 +244,7 @@ export function TooltipContent({
   ...props
 }: TooltipContentProps) {
   const theme = useThemeFamily();
-  const { positioner, content } = tooltip({ theme });
+  const { positioner, content, body, bodyIcon, bodyText } = tooltip({ theme });
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
 
   return (
@@ -188,7 +269,13 @@ export function TooltipContent({
           className={content({ className })}
           {...props}
         >
-          {children}
+          <TooltipBodyContent
+            className={body()}
+            iconClassName={bodyIcon()}
+            textClassName={bodyText()}
+          >
+            {children}
+          </TooltipBodyContent>
           <TooltipArrow />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>

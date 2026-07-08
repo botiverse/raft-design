@@ -420,7 +420,7 @@ function ContextMenuDoc() {
       description="A right-click menu family for compact action, selection, and nested action surfaces."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Preview defaults the menu open so the row styling, density, and theme differences are
           visible immediately; dismiss it and right-click the trigger to reopen it.

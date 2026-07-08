@@ -369,7 +369,7 @@ function ButtonDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             variant: "default",

@@ -144,7 +144,7 @@ function SeparatorDoc() {
       description="A themed divider for grouping nearby content."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.preview}>
           <div className="grid w-64 gap-3">
             <Text.Sans size="small">Channel settings</Text.Sans>

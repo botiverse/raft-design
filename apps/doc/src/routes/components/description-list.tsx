@@ -167,7 +167,7 @@ function DescriptionListDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.examples}>
           <DescriptionList className="flex w-full max-w-xl flex-wrap gap-x-8 gap-y-3">
             <DescriptionItem>

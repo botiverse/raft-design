@@ -170,7 +170,7 @@ function KbdDoc() {
       description="A compact keyboard hint for row shortcuts, command prompts, and input affordances."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.preview}>
           <div className="flex flex-wrap items-center gap-4">
             <Kbd>⌫</Kbd>

@@ -574,7 +574,7 @@ function NotificationCenterDoc() {
       description="A notification-center frame composed from header, scroller, list, item, and action parts."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.preview} previewClassName="!min-h-[38rem] items-start pt-16">
           <NotificationCenterBasicExample />
         </Example>

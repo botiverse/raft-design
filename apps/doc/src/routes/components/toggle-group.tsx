@@ -172,7 +172,7 @@ function ToggleGroupDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.counts}>
           <ToggleGroup ariaLabel="Filter" value={value} onValueChange={setValue}>
             {OPTIONS.map((option) => (

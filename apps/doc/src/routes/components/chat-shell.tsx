@@ -189,7 +189,7 @@ function ChatShellDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <div className="grid gap-4 xl:grid-cols-[0.9fr_1fr_1fr_1fr]">
           <PreviewPane label="Source">
             <SourceShellPreview />

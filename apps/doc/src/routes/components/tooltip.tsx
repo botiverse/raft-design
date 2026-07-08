@@ -623,7 +623,7 @@ function TooltipDoc() {
       description="A short contextual hint for icon controls, status details, timestamps, and compact metadata."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
           defaultValues={{
             side: "top",

@@ -291,7 +291,7 @@ function TextDoc() {
       description="Semantic text primitives for headings, product copy, and compact metadata."
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.preview}>
           <div className="grid max-w-sm gap-2">
             <Text.Heading level={4}>Workspace updates</Text.Heading>
