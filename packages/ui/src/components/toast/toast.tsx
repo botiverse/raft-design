@@ -75,7 +75,7 @@ const toastStyles = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-black bg-soft-signal text-foreground shadow-[var(--shadow-brutal)]",
+          "border-2 border-line-strong bg-soft-signal text-foreground shadow-[var(--shadow-brutal)]",
           "focus-visible:outline-transparent",
         ],
         content: [
@@ -84,7 +84,7 @@ const toastStyles = tv({
           "[&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
         ],
         icon: [
-          "size-7 border-2 border-black bg-white p-1.5 text-foreground shadow-[2px_2px_0_0_black]",
+          "size-7 border-2 border-line-strong bg-layer-panel p-1.5 text-foreground shadow-[2px_2px_0_0_black]",
           "[&_svg]:size-4 [&_svg]:stroke-[2.5]",
         ],
         title: ["font-bold text-foreground"],
@@ -93,7 +93,7 @@ const toastStyles = tv({
           "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
         ],
         close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-white px-2 text-xs font-bold text-foreground/70 shadow-xs",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground/70 shadow-xs",
           "hover:bg-brutal-yellow hover:text-foreground active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         arrow: ["hidden"],
@@ -274,8 +274,8 @@ const toastAction = tv({
     toastTheme: {
       brutal: {
         root: [
-          "order-2 border-2 border-line-strong bg-black font-bold text-white shadow-xs",
-          "hover:bg-black/85 active:translate-x-px active:translate-y-px active:shadow-none",
+          "order-2 border-2 border-line-strong bg-foreground font-bold text-white shadow-xs",
+          "hover:bg-foreground/85 active:translate-x-px active:translate-y-px active:shadow-none",
         ],
       },
       elegant: {

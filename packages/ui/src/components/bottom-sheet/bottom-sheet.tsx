@@ -49,7 +49,7 @@ const bottomSheet = tv({
         overlay: ["bg-layer-backdrop"],
         title: ["font-bold"],
         content: [
-          "border-2 border-black bg-white text-foreground shadow-[var(--shadow-lg)]",
+          "border-2 border-line-strong bg-layer-panel text-foreground shadow-[var(--shadow-lg)]",
           "data-[vaul-drawer-direction=bottom]:border-x-0 md:data-[vaul-drawer-direction=bottom]:border-x-2",
           "data-[vaul-drawer-direction=bottom]:border-b-0 md:data-[vaul-drawer-direction=bottom]:border-b-2",
         ],
@@ -64,8 +64,8 @@ const bottomSheet = tv({
           "md:data-[vaul-drawer-direction=left]:max-w-md",
           "md:data-[vaul-drawer-direction=right]:max-w-md",
         ],
-        header: ["bg-white px-8 pt-9 pb-2"],
-        body: ["bg-white px-8 pt-4 pb-7"],
+        header: ["bg-layer-panel px-8 pt-9 pb-2"],
+        body: ["bg-layer-panel px-8 pt-4 pb-7"],
         footer: ["mt-0 px-8 py-5 md:pb-11"],
         actions: ["flex w-fit max-w-none flex-row justify-center", "[&_[data-slot=button]]:w-auto"],
         title: ["font-sans text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]"],
@@ -208,7 +208,7 @@ export function BottomSheetClose({
         className={cn(
           isBrutal ? "absolute top-3 right-3" : "absolute top-4 right-6",
           isBrutal
-            ? "bg-white"
+            ? "bg-layer-panel"
             : "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground",
           className,
         )}

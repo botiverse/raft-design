@@ -264,12 +264,12 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "default",
-      class: { root: "bg-white text-foreground hover:bg-white" },
+      class: { root: "bg-layer-panel text-foreground hover:bg-layer-panel" },
     },
     {
       theme: "brutal",
       variant: "outline",
-      class: { root: "bg-white text-foreground shadow-sm hover:bg-white" },
+      class: { root: "bg-layer-panel text-foreground shadow-sm hover:bg-layer-panel" },
     },
     {
       theme: "brutal",

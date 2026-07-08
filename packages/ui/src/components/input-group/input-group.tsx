@@ -109,7 +109,7 @@ const inputGroup = tv({
       theme: "brutal",
       variant: "container",
       align: "inline-start",
-      class: { addon: "border-r-2 border-black", text: "border-r-2 border-black" },
+      class: { addon: "border-r-2 border-line-strong", text: "border-r-2 border-line-strong" },
     },
     {
       variant: "container",
@@ -120,7 +120,7 @@ const inputGroup = tv({
       theme: "brutal",
       variant: "container",
       align: "inline-end",
-      class: { addon: "border-l-2 border-black", text: "border-l-2 border-black" },
+      class: { addon: "border-l-2 border-line-strong", text: "border-l-2 border-line-strong" },
     },
   ],
   defaultVariants: {

@@ -64,15 +64,15 @@ const combobox = tv({
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        inputGroup: ["border-black bg-white"],
+        inputGroup: ["border-line-strong bg-layer-field"],
         input: [
           "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
           "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
         ],
-        content: ["border-2 border-black bg-white shadow-lg"],
-        separator: ["bg-black"],
+        content: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        separator: ["bg-line-strong"],
         item: [
-          "border-b border-black/10 bg-white font-sans text-sm font-semibold leading-6 text-foreground last:border-b-0",
+          "border-b border-ink-10 bg-layer-popover font-sans text-sm font-semibold leading-6 text-foreground last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
@@ -90,7 +90,7 @@ const combobox = tv({
           "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
         ],
         control: [
-          "border-2 border-line-strong bg-white px-2 py-1",
+          "border-2 border-line-strong bg-layer-field px-2 py-1",
           "font-sans text-sm font-semibold text-foreground shadow-[var(--shadow)]",
           "focus-within:shadow-[var(--shadow-hover)]",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
@@ -102,8 +102,10 @@ const combobox = tv({
         groupLabel: [
           "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground/60",
         ],
-        chips: ["border-2 border-line-strong bg-white px-2 py-1"],
-        chip: ["border border-black bg-brutal-yellow px-1.5 py-0.5 font-sans text-xs font-bold"],
+        chips: ["border-2 border-line-strong bg-layer-field px-2 py-1"],
+        chip: [
+          "border border-line-strong bg-brutal-yellow px-1.5 py-0.5 font-sans text-xs font-bold",
+        ],
         chipRemove: ["text-foreground/50 hover:text-foreground"],
       },
       elegant: {

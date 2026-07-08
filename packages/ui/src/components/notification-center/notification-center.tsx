@@ -17,7 +17,7 @@ const notificationCenter = tv({
     count: ["ml-auto text-xs"],
     scroller: [
       "min-h-0 flex-1 overflow-y-auto overscroll-contain",
-      "[[data-theme=elegant]_&]:bg-white",
+      "[[data-theme=elegant]_&]:bg-layer-panel",
     ],
     list: ["divide-y"],
     item: ["px-4 py-4"],
@@ -32,7 +32,7 @@ const notificationCenter = tv({
   variants: {
     theme: {
       brutal: {
-        popup: ["border-2 border-black bg-white shadow-lg"],
+        popup: ["border-2 border-line-strong bg-layer-panel shadow-lg"],
         header: ["border-b-2 border-line-strong bg-brutal-cream"],
         title: ["font-bold uppercase tracking-widest text-foreground/60"],
         count: ["font-mono text-foreground/40"],
@@ -50,7 +50,7 @@ const notificationCenter = tv({
           "[&>svg]:size-5 [&>svg]:shrink-0",
         ],
         popup: ["rounded-md bg-layer-popover", "shadow-lg"],
-        header: ["border-b border-line-muted bg-white pt-2.5"],
+        header: ["border-b border-line-muted bg-layer-panel pt-2.5"],
         title: ["text-sm font-medium normal-case tracking-normal text-foreground-strong"],
         count: ["font-sans text-[11px] font-medium text-foreground-placeholder"],
         list: ["divide-line-muted"],

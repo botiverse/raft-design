@@ -25,12 +25,12 @@ const previewCard = tv({
   },
   variants: {
     theme: {
-      // Matches slock's hand-rolled `.card-brutal` (border-2 border-black
+      // Matches slock's hand-rolled `.card-brutal` (border-2 border-line-strong
       // bg-white shadow-lg) so the migrated MentionHoverCard keeps its exact
       // silhouette. Source never rendered an arrow, so brutal hides it too.
       brutal: {
-        popup: ["border-2 border-black bg-white shadow-lg"],
-        separator: ["border-black"],
+        popup: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        separator: ["border-line-strong"],
         title: ["font-sans font-bold text-foreground"],
         description: ["font-sans text-foreground/70"],
         arrow: ["hidden"],
