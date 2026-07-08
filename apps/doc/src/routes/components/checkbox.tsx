@@ -115,7 +115,7 @@ const SNIPPETS = {
   Accept terms
 </Label>`,
   selection: `<div className="grid gap-2">
-  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--shadow)]">
+  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
     <Checkbox defaultChecked aria-label="Select conversation" />
     <span className="text-sm font-bold">Customer handoff</span>
   </label>
@@ -409,7 +409,7 @@ function CheckboxDoc() {
         <div className="space-y-4">
           <Example html={code.selection}>
             <div className="grid min-w-64 gap-2">
-              <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--shadow)]">
+              <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
                 <Checkbox defaultChecked aria-label="Select conversation" />
                 <span className="text-sm font-bold">Customer handoff</span>
               </label>

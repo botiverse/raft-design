@@ -18,8 +18,8 @@ const selectionPopover = tv({
     searchWrap: ["border-b border-black px-2 py-2"],
     searchInput: [
       "w-full border-2 border-black bg-white px-2 py-1",
-      "font-mono text-xs shadow-[var(--shadow)]",
-      "focus:shadow-[var(--shadow-hover)] focus:outline-none",
+      "font-mono text-xs shadow-brutal-sm",
+      "focus:shadow-brutal focus:outline-none",
     ],
     list: ["max-h-64 overflow-y-auto"],
     empty: ["px-3 py-3 text-center font-mono text-[11px] text-black/40"],
@@ -35,7 +35,7 @@ const selectionPopover = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 border-black bg-white shadow-[var(--shadow-hover)]"],
+        root: ["border-2 border-black bg-white shadow-brutal"],
         row: ["border-black/10"],
       },
       // Elegant styling is deferred; see the component TODO.

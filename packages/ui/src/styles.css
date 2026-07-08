@@ -139,6 +139,8 @@
   --color-brutal-purple-900: oklch(0.25 0.09 293.19);
   --color-brutal-purple-950: oklch(0.195 0.07 292.41);
   --color-brutal-purple: var(--color-brutal-purple-400);
+  /* Semantic alias for source "Soft Haze" callsites (matches slock #BBAFE6). */
+  --color-brutal-lavender: var(--color-brutal-purple-400);
 
   --color-brutal-pink-50: oklch(0.968 0.017 359.4);
   --color-brutal-pink-100: oklch(0.936 0.034 2.02);

@@ -163,7 +163,7 @@ import { Download, X } from "lucide-react";
   sourceImageShell: `<Lightbox onClose={close} className="flex flex-col" data-testid="image-lightbox">
   <div className="safe-top safe-left safe-right pointer-events-auto shrink-0 border-b-2 border-black bg-white">
     <div className="flex h-14 items-center gap-3 px-4">
-      <div className="min-w-0 flex-1 truncate text-sm font-bold font-display text-black">
+      <div className="min-w-0 flex-1 truncate text-sm font-bold font-sans text-black">
         {current.filename}
       </div>
       <Button shape="icon" title="Download" />
@@ -560,7 +560,7 @@ function SourceAttachmentPreview() {
     <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-brutal-cream">
       <SourceLightboxHeader title="diagram-export.html" label="HTML preview" />
       <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--shadow)]" />
+        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--source-shadow)]" />
       </div>
     </div>
   );
@@ -571,7 +571,7 @@ function CurrentAttachmentPreview() {
     <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-layer-backdrop [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:bg-[oklch(0_0_0_/_0.72)]">
       <CurrentLightboxHeader title="diagram-export.html" label="HTML preview" />
       <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--shadow)] [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:shadow-none" />
+        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--source-shadow)] [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:shadow-none" />
       </div>
     </div>
   );
@@ -706,7 +706,7 @@ function CurrentLightboxStage() {
 function SourceLightboxStage() {
   return (
     <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-      <div className="aspect-[4/3] h-full max-h-24 border-2 border-black bg-white shadow-[var(--shadow)]">
+      <div className="aspect-[4/3] h-full max-h-24 border-2 border-black bg-white shadow-[var(--source-shadow)]">
         <div className="grid size-full grid-cols-4 grid-rows-3">
           {Array.from({ length: 12 }, (_, index) => (
             <div

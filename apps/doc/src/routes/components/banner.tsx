@@ -378,7 +378,7 @@ function DismissIconButton() {
     <button
       type="button"
       aria-label="Dismiss"
-      className="inline-flex size-6 shrink-0 items-center justify-center border-2 border-black bg-white text-black transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-hover)] [&>svg]:size-3.5"
+      className="inline-flex size-6 shrink-0 items-center justify-center border-2 border-black bg-white text-black transition-transform hover:-translate-y-0.5 hover:shadow-[var(--source-shadow-hover)] [&>svg]:size-3.5"
     >
       <X />
     </button>

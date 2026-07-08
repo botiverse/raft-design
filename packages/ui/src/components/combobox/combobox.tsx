@@ -67,7 +67,7 @@ const combobox = tv({
         inputGroup: ["border-black bg-white"],
         input: [
           "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
-          "shadow-[var(--shadow)] focus:shadow-[var(--shadow-hover)]",
+          "shadow-brutal-sm focus:shadow-brutal",
         ],
         content: ["border-2 border-black bg-white shadow-lg"],
         separator: ["bg-black"],
@@ -89,8 +89,8 @@ const combobox = tv({
         ],
         control: [
           "border-2 border-line-strong bg-white px-2 py-1",
-          "font-sans text-sm font-semibold text-black shadow-[var(--shadow)]",
-          "focus-within:shadow-[var(--shadow-hover)]",
+          "font-sans text-sm font-semibold text-black shadow-brutal-sm",
+          "focus-within:shadow-brutal",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5] [&_svg_*]:fill-none",
           "[&_[data-slot='combobox-input']]:font-sans [&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-semibold [&_[data-slot='combobox-input']]:text-black",

@@ -51,7 +51,7 @@ const lightbox = tv({
         ],
         infoBar: [
           "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
-          "gap-2 rounded-none border-2 border-black py-0.5 pr-0.5 pl-2.5 shadow-[var(--shadow)]",
+          "gap-2 rounded-none border-2 border-black py-0.5 pr-0.5 pl-2.5 shadow-brutal-sm",
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
         infoTitle: ["text-xs text-black"],

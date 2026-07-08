@@ -100,7 +100,7 @@ function ViewportFrame({
   const frameClassName = isDesktop ? "h-[24rem] w-[34rem]" : "h-[42rem] w-[375px]";
   const sheetClassName = source
     ? [
-        "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--shadow-lg)]",
+        "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--source-shadow-lg)]",
         padded ? "p-4" : null,
       ]
         .filter(Boolean)
@@ -128,7 +128,7 @@ function ViewportFrame({
 
   const frame = (
     <div
-      className={`grid grid-rows-[auto_minmax(0,1fr)] border-2 border-black bg-white shadow-[var(--shadow)] ${frameClassName}`}
+      className={`grid grid-rows-[auto_minmax(0,1fr)] border-2 border-black bg-white shadow-[var(--source-shadow)] ${frameClassName}`}
     >
       <div className="flex h-7 items-center justify-between border-b-2 border-black bg-white px-3 font-mono text-[9px] leading-none font-bold text-black/45 uppercase">
         <span>{isDesktop ? "desktop viewport" : "mobile viewport"}</span>
@@ -152,7 +152,7 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     padded ? "p-4" : null,
     theme === "brutal"
       ? [
-          "border-2 border-black bg-white text-black shadow-[var(--shadow-lg)]",
+          "border-2 border-black bg-white text-black shadow-[var(--source-shadow-lg)]",
           !isDesktop ? "border-x-0 border-b-0 border-t-2" : null,
         ]
       : [

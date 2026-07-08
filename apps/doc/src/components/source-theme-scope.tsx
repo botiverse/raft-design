@@ -10,8 +10,9 @@ export function SourceThemeScope({ children, className }: SourceThemeScopeProps)
   return (
     <div
       data-source-theme="slock"
+      data-theme="brutal"
       className={cn(
-        "font-display text-[var(--source-ink)]",
+        "font-sans text-[var(--source-ink)]",
         "[--source-ink:#141111]",
         "[--source-ink-muted:color-mix(in_oklch,var(--source-ink)_50%,transparent)]",
         "[--source-shadow-sm:2px_2px_0_#141111]",
