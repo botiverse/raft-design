@@ -320,9 +320,9 @@
   --shadow-brutal: var(--theme-shadow-md);
   --shadow-brutal-lg: var(--theme-shadow-xl);
 
-  --font-heading: var(--heading-font);
-  --font-sans: var(--sans-font);
-  --font-mono: var(--mono-font);
+  --font-heading: var(--heading-font, system-ui, sans-serif);
+  --font-sans: var(--sans-font, system-ui, sans-serif);
+  --font-mono: var(--mono-font, ui-monospace, monospace);
 }
 
 :where(:root),
@@ -415,10 +415,6 @@
   --shadow-brutal-sm: 2px 2px 0px #141111;
   --shadow-brutal: 4px 4px 0px #141111;
   --shadow-brutal-lg: 6px 6px 0px #141111;
-
-  --heading-font: "Hanken Grotesk", system-ui, sans-serif;
-  --sans-font: "Hanken Grotesk", system-ui, sans-serif;
-  --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
 [data-theme="elegant"] {
@@ -518,10 +514,6 @@
     oklch(0.145 0.002 286.131 / 0.031) 0px 18px 24px -12px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 12px 12px -6px,
     oklch(0.145 0.002 286.131 / 0.039) 0px 4px 6px -3px;
-
-  --heading-font: "Inter", system-ui, sans-serif;
-  --sans-font: "Geist", system-ui, sans-serif;
-  --mono-font: "Geist Mono", ui-monospace, monospace;
 }
 
 @media (prefers-color-scheme: dark) {

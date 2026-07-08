@@ -7,7 +7,10 @@ export default defineConfig({
       cn: "src/lib/cn.ts",
       wip: "src/wip.ts",
     },
-    copy: [{ from: "src/styles.css", to: "dist", rename: "styles.css" }],
+    copy: [
+      { from: "src/styles.css", to: "dist", rename: "styles.css" },
+      { from: "src/fonts.css", to: "dist", rename: "fonts.css" },
+    ],
     dts: {
       tsgo: true,
     },

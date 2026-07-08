@@ -24,11 +24,12 @@ const INSTALLATION_PROMPT = `Add raft-ui to this React app.
 Tasks:
 1. Run: pnpm add raft-ui
 2. Import tailwindcss and raft-ui/styles.css once from the global CSS file.
-3. Put the app inside an isolated layout root so body portals stack above app content.
-4. Wrap the app root with ThemeProvider.
-5. Add TooltipProvider when the app uses Tooltip.
-6. Add ToastProvider once when the app uses toast.info, toast.success, toast.warning, or toast.error.
-7. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
+3. Decide how to load fonts. You can load raft-ui/fonts.css as a separate stylesheet or provide your own font files.
+4. Put the app inside an isolated layout root so body portals stack above app content.
+5. Wrap the app root with ThemeProvider.
+6. Add TooltipProvider when the app uses Tooltip.
+7. Add ToastProvider once when the app uses toast.info, toast.success, toast.warning, or toast.error.
+8. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
 
 Minimal setup:
 import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";
@@ -73,6 +74,8 @@ export function App() {
   globalCss: `@source "../node_modules/raft-ui/dist/**/*.{js,mjs}";
 @import "raft-ui/styles.css";
 @import "tailwindcss";`,
+  fontCss: `import "raft-ui/fonts.css";
+import "./styles.css";`,
   appShell: `import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";
 
 export function App() {
@@ -216,6 +219,17 @@ function InstallationDoc() {
                 source={SNIPPETS.globalCss}
                 html={code.globalCss}
               />
+              <p>
+                Font loading and default family assignments are intentionally separate from{" "}
+                <InlineCode>raft-ui/styles.css</InlineCode>. Load{" "}
+                <InlineCode>raft-ui/fonts.css</InlineCode> as its own stylesheet if you want the
+                package default font setup. Do not nest it inside your main CSS file; it contains a
+                font <InlineCode>@import</InlineCode>. If you prefer self-hosted fonts, skip this
+                file and assign your own <InlineCode>--heading-font</InlineCode>,{" "}
+                <InlineCode>--sans-font</InlineCode>, and <InlineCode>--mono-font</InlineCode>{" "}
+                values.
+              </p>
+              <CodeSnippet path="src/main.tsx" source={SNIPPETS.fontCss} html={code.fontCss} />
             </li>
             <li className="space-y-3">
               <span className="block font-medium text-foreground-strong">Wrap the app.</span>
@@ -385,6 +399,12 @@ function InstallationDoc() {
           <li>
             <span className="font-medium text-foreground-strong">CSS:</span> import{" "}
             <InlineCode>raft-ui/styles.css</InlineCode> once.
+          </li>
+          <li>
+            <span className="font-medium text-foreground-strong">Fonts:</span>{" "}
+            <InlineCode>raft-ui/fonts.css</InlineCode> is optional. It loads the package default
+            fonts and assigns the default font-family tokens. Use it, replace it, or self-host the
+            font families your app wants.
           </li>
           <li>
             <span className="font-medium text-foreground-strong">Build:</span> use a Tailwind

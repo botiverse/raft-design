@@ -26,6 +26,7 @@
       "types": "./dist/wip.d.mts",
       "default": "./dist/wip.mjs"
     },
+    "./fonts.css": "./dist/fonts.css",
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
