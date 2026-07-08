@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { createContext, useContext, useMemo, type MouseEvent } from "react";
+import { createContext, use, useMemo, type MouseEvent } from "react";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
@@ -9,17 +9,23 @@ const chatShell = tv({
   slots: {
     root: [
       "flex min-h-0 w-full overflow-hidden",
-      "font-sans text-foreground",
+      "text-foreground",
       "data-[presentation=mobile]:flex-col",
     ],
-    shellRail: ["hidden h-full shrink-0 select-none md:flex"],
+    shellRail: ["relative hidden h-full shrink-0 flex-col items-center select-none md:flex"],
     shellSidebar: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     shellMain: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     shellPanelStack: ["hidden min-h-0 shrink-0 lg:flex"],
     mobileBar: ["shrink-0 md:hidden"],
     railRoot: ["flex h-full w-full flex-col items-center"],
     railHeader: ["relative flex w-full shrink-0 items-center justify-center"],
-    railNav: ["flex min-h-0 flex-1 flex-col items-center gap-1.5 overflow-y-auto py-2"],
+    railServerButton: [
+      "relative inline-flex size-10 items-center justify-center",
+      "outline-none transition-all duration-100",
+      "disabled:pointer-events-none disabled:opacity-45",
+      "[@media(max-height:600px)]:size-9",
+    ],
+    railNav: ["flex w-full flex-1 flex-col items-center gap-1.5 py-2"],
     railFooter: ["flex w-full shrink-0 flex-col items-center justify-center gap-1.5"],
     railItem: [
       "relative inline-flex shrink-0 items-center justify-center",
@@ -34,7 +40,7 @@ const chatShell = tv({
       "px-1 text-[10px] font-bold leading-4",
     ],
     railItemIndicator: ["pointer-events-none absolute -right-1 -top-1 size-2.5"],
-    sidebarRoot: ["flex h-full min-h-0 w-full flex-col"],
+    sidebarRoot: ["flex h-full min-h-0 w-full select-none flex-col"],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarBody: ["min-h-0 flex-1 overflow-y-auto"],
     sidebarSection: ["px-2"],
@@ -50,38 +56,51 @@ const chatShell = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-brutal-cream text-black",
-        shellRail: "w-16 border-r-2 border-black bg-soft-signal",
-        shellSidebar: "w-72 border-r-2 border-black bg-brutal-cream",
+        root: "bg-brutal-cream font-display text-black",
+        shellRail:
+          "w-16 border-r-2 border-[#141111] bg-soft-signal font-display text-[#141111] [@media(max-height:600px)]:w-[50px]",
+        shellSidebar: "w-60 border-r-2 border-black bg-brutal-cream",
         shellMain: "bg-white",
         shellPanelStack: "border-l-2 border-black bg-white",
         mobileBar: "border-t-2 border-black bg-white text-black",
-        railHeader: "h-[62px] border-b-2 border-black [@media(max-height:600px)]:h-12",
-        railFooter: "min-h-[62px] pb-2 [@media(max-height:600px)]:min-h-12",
+        railHeader: "h-[62px] border-b-2 border-[#141111] [@media(max-height:600px)]:h-12",
+        railServerButton: [
+          "rounded-none border-2 border-[#141111] bg-[#141111]",
+          "font-display text-base font-bold text-soft-signal",
+          "shadow-[2px_2px_0_#141111] hover:shadow-[4px_4px_0_#141111]",
+        ],
+        railFooter: "h-[62px] [@media(max-height:600px)]:h-12",
         railItem: [
-          "size-10 border-2 border-transparent text-black",
-          "hover:border-black hover:bg-white",
-          "active:border-black active:bg-white active:shadow-xs",
-          "data-[selected=true]:border-black data-[selected=true]:bg-white data-[selected=true]:shadow-sm",
+          "size-10 border-2 border-transparent text-[#141111]",
+          "hover:border-[#141111] hover:bg-white",
+          "active:border-[#141111] active:bg-white active:shadow-[var(--shadow-brutal-sm)]",
+          "data-[selected=true]:border-[#141111] data-[selected=true]:bg-white data-[selected=true]:shadow-[var(--shadow-brutal-sm)]",
           "[@media(max-height:600px)]:size-9",
         ],
         railItemBadge: "border-2 border-black bg-brutal-pink text-black",
-        railItemIndicator: "border-2 border-black bg-brutal-red",
-        sidebarHeader: "min-h-[62px] border-b-2 border-black bg-brutal-cream px-3",
+        railItemIndicator: "rounded-full border border-[#141111] bg-brutal-pink",
+        sidebarHeader:
+          "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
         sidebarBody: "bg-brutal-cream py-2",
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
-        panelStackItem: "w-80 border-l-2 border-black bg-white first:border-l-0",
+        panelStackItem: "w-[400px] border-l-2 border-black bg-white first:border-l-0",
         resizeHandle: "hover:bg-black/5",
       },
       elegant: {
-        root: "bg-layer-muted text-foreground",
-        shellRail: "w-16 border-r border-line-subtle bg-layer-panel",
-        shellSidebar: "w-72 border-r border-line-subtle bg-layer-panel",
+        root: "bg-layer-muted font-sans text-foreground",
+        shellRail:
+          "w-16 border-r border-line-subtle bg-layer-panel [@media(max-height:600px)]:w-[50px]",
+        shellSidebar: "w-60 border-r border-line-subtle bg-layer-panel",
         shellMain: "bg-layer-panel",
         shellPanelStack: "border-l border-line-subtle bg-layer-panel",
         mobileBar: "border-t border-line-subtle bg-layer-panel text-foreground",
         railHeader: "h-[62px] border-b border-line-subtle",
-        railFooter: "min-h-[62px] pb-2",
+        railServerButton: [
+          "rounded-md border-2 border-[#141111] bg-[#141111]",
+          "font-heading text-sm font-bold text-primary-400",
+          "shadow-sm",
+        ],
+        railFooter: "h-[62px]",
         railItem: [
           "size-10 rounded-md border border-transparent text-foreground-muted",
           "hover:bg-layer-muted hover:text-foreground-strong",
@@ -91,10 +110,11 @@ const chatShell = tv({
         ],
         railItemBadge: "rounded-full bg-accent-400 text-accent-950",
         railItemIndicator: "rounded-full bg-danger-base",
-        sidebarHeader: "min-h-[62px] border-b border-line-subtle px-4",
+        sidebarHeader:
+          "h-[62px] shrink-0 border-b border-line-subtle px-5 [@media(max-height:600px)]:h-12",
         sidebarBody: "bg-layer-panel py-2",
         sidebarFooter: "border-t border-line-subtle p-3",
-        panelStackItem: "w-80 border-l border-line-subtle bg-layer-panel first:border-l-0",
+        panelStackItem: "w-[400px] border-l border-line-subtle bg-layer-panel first:border-l-0",
         resizeHandle: "hover:bg-layer-muted",
       },
     },
@@ -147,7 +167,7 @@ type ChatRailContextValue = {
 const ChatRailContext = createContext<ChatRailContextValue | null>(null);
 
 function useChatRail() {
-  return useContext(ChatRailContext);
+  return use(ChatRailContext);
 }
 
 export type ChatShellRootProps = useRender.ComponentProps<"div"> &
@@ -164,19 +184,20 @@ export function ChatShellRoot({
   const theme = useThemeFamily();
   const { root } = chatShell({ theme, presentation });
 
-  if (hidden) return null;
-
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-shell-root",
     "data-presentation": presentation ?? "desktop",
     className: root({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+
+  if (hidden) return null;
+  return element;
 }
 
 export type ChatShellRailProps = useRender.ComponentProps<"aside"> & HiddenProp;
@@ -185,18 +206,19 @@ export function ChatShellRail({ hidden, className, render, ...props }: ChatShell
   const theme = useThemeFamily();
   const { shellRail } = chatShell({ theme });
 
-  if (hidden) return null;
-
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
     "data-slot": "chat-shell-rail",
     className: shellRail({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "aside",
     render,
     props: mergeProps<"aside">(defaultProps, props),
   });
+
+  if (hidden) return null;
+  return element;
 }
 
 export type ChatShellSidebarProps = useRender.ComponentProps<"aside"> &
@@ -213,19 +235,20 @@ export function ChatShellSidebar({
   const theme = useThemeFamily();
   const { shellSidebar } = chatShell({ theme, resizable });
 
-  if (hidden) return null;
-
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
     "data-slot": "chat-shell-sidebar",
     "data-resizable": resizable ? "true" : undefined,
     className: shellSidebar({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "aside",
     render,
     props: mergeProps<"aside">(defaultProps, props),
   });
+
+  if (hidden) return null;
+  return element;
 }
 
 export type ChatShellMainProps = useRender.ComponentProps<"main"> & HiddenProp;
@@ -234,18 +257,19 @@ export function ChatShellMain({ hidden, className, render, ...props }: ChatShell
   const theme = useThemeFamily();
   const { shellMain } = chatShell({ theme });
 
-  if (hidden) return null;
-
   const defaultProps: useRender.ElementProps<"main"> & DataAttributes = {
     "data-slot": "chat-shell-main",
     className: shellMain({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "main",
     render,
     props: mergeProps<"main">(defaultProps, props),
   });
+
+  if (hidden) return null;
+  return element;
 }
 
 export type ChatShellPanelStackProps = useRender.ComponentProps<"aside"> &
@@ -262,19 +286,20 @@ export function ChatShellPanelStack({
   const theme = useThemeFamily();
   const { shellPanelStack } = chatShell({ theme, resizable });
 
-  if (hidden) return null;
-
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
     "data-slot": "chat-shell-panel-stack",
     "data-resizable": resizable ? "true" : undefined,
     className: shellPanelStack({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "aside",
     render,
     props: mergeProps<"aside">(defaultProps, props),
   });
+
+  if (hidden) return null;
+  return element;
 }
 
 export type ChatShellMobileBarProps = useRender.ComponentProps<"nav"> & HiddenProp;
@@ -288,18 +313,19 @@ export function ChatShellMobileBar({
   const theme = useThemeFamily();
   const { mobileBar } = chatShell({ theme });
 
-  if (hidden) return null;
-
   const defaultProps: useRender.ElementProps<"nav"> & DataAttributes = {
     "data-slot": "chat-shell-mobile-bar",
     className: mobileBar({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "nav",
     render,
     props: mergeProps<"nav">(defaultProps, props),
   });
+
+  if (hidden) return null;
+  return element;
 }
 
 export type ChatRailRootProps = useRender.ComponentProps<"div"> & {
@@ -344,6 +370,23 @@ export function ChatRailHeader({ className, render, ...props }: ChatRailHeaderPr
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatRailServerButtonProps = useRender.ComponentProps<"button">;
+
+export function ChatRailServerButton({ className, render, ...props }: ChatRailServerButtonProps) {
+  const theme = useThemeFamily();
+  const { railServerButton } = chatShell({ theme });
+  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+    type: "button",
+    "data-slot": "chat-rail-server-button",
+    className: railServerButton({ className }),
+  };
+
+  return useRender({
+    render: render ?? <BaseButton />,
+    props: mergeProps<"button">(defaultProps, props),
   });
 }
 

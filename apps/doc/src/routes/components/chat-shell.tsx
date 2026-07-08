@@ -28,10 +28,9 @@ import {
   ChatSidebarSection,
 } from "raft-ui/wip";
 import {
-  Bell,
+  Activity,
   Bot,
   CheckSquare,
-  Hash,
   Home,
   MessageSquare,
   Monitor,
@@ -49,12 +48,13 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
   { id: "todo", title: "Todo" },
-  { id: "preview", title: "Preview" },
+  { id: "source-comparison", title: "Source comparison" },
   { id: "anatomy", title: "Anatomy" },
   { id: "mobile", title: "Mobile bar" },
   { id: "api", title: "API" },
@@ -153,7 +153,7 @@ const ROOT_PROPS: readonly PropRow[] = [
     name: "ChatPanelStack*",
     type: "div / section props",
     description:
-      "Right-side panel stack pieces. Resize behavior is app-owned; the handle is only the visual/DOM affordance.",
+      "Right-side panel stack pieces. Width, open order, URL sync, and resize persistence stay app-owned.",
   },
 ];
 
@@ -172,8 +172,8 @@ function ChatShellDoc() {
       overview={
         <Differences from="MainLayout, LeftRail, Sidebar, ThreadPanel">
           <li>
-            source app stores, route memory, sockets, and resize persistence stay outside the UI
-            package
+            source app stores, route memory, sockets, right-panel ordering, and resize persistence
+            stay outside the UI package
           </li>
           <li>visible structure is children and flat parts; no icon props or config-object rows</li>
           <li>
@@ -189,10 +189,12 @@ function ChatShellDoc() {
         <TodoList items={TODOS} />
       </DocSection>
 
-      <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <div className="grid gap-4 xl:grid-cols-[0.9fr_1fr_1fr_1fr]">
+      <DocSection id="source-comparison" title="Source comparison">
+        <div className="flex flex-col gap-4">
           <PreviewPane label="Source">
-            <SourceShellPreview />
+            <SourceThemeScope className="h-full">
+              <SourceShellPreview />
+            </SourceThemeScope>
           </PreviewPane>
           <PreviewPane label="Brutal">
             <PreviewThemeScope family="brutal" className="h-full">
@@ -244,20 +246,20 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
       <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </div>
-      <div className="h-[420px] bg-background p-2">{children}</div>
+      <div className="h-[420px] overflow-x-auto bg-background p-2">{children}</div>
     </div>
   );
 }
 
 function ChatShellPreview() {
   return (
-    <ChatShellRoot className="h-full border border-line-strong shadow-sm">
-      <ChatShellRail className="flex w-14 md:flex">
+    <ChatShellRoot className="h-full min-w-[920px] border border-line-strong shadow-sm">
+      <ChatShellRail className="flex md:flex">
         <ChatRailRoot value="chat">
-          <ChatRailHeader className="h-14">
+          <ChatRailHeader>
             <button
               type="button"
-              className="relative inline-flex size-9 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-foreground-strong"
+              className="relative inline-flex size-10 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-foreground-strong"
               aria-label="Switch server"
             >
               R
@@ -266,33 +268,23 @@ function ChatShellPreview() {
           </ChatRailHeader>
           <ChatRailNav>
             <RailItem value="search" label="Search" icon={<Search />} />
-            <RailItem value="chat" label="Chat" icon={<MessageSquare />} badge="3" />
+            <RailItem value="chat" label="Chat" icon={<MessageSquare />} />
+            <RailItem value="activity" label="Activity" icon={<Activity />} indicator />
             <RailItem value="tasks" label="Tasks" icon={<CheckSquare />} />
             <RailItem value="members" label="Members" icon={<Users />} />
             <RailItem value="computers" label="Computers" icon={<Monitor />} indicator />
           </ChatRailNav>
           <ChatRailFooter>
-            <RailItem value="notifications" label="Notifications" icon={<Bell />} indicator />
             <RailItem value="settings" label="Settings" icon={<Settings />} />
           </ChatRailFooter>
         </ChatRailRoot>
       </ChatShellRail>
 
-      <ChatShellSidebar className="flex w-56 md:flex">
+      <ChatShellSidebar className="flex md:flex">
         <ChatSidebarRoot>
-          <ChatSidebarHeader className="min-h-14">
-            <div className="flex min-w-0 flex-1 items-center gap-2">
-              <div className="flex size-8 shrink-0 items-center justify-center border-2 border-line-strong bg-primary-400 text-foreground-strong [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
-                <Hash className="size-4" />
-              </div>
-              <div className="min-w-0">
-                <div className="truncate text-sm font-bold text-foreground-strong">
-                  Design system
-                </div>
-                <div className="truncate font-mono text-[11px] text-foreground-muted">
-                  18 members
-                </div>
-              </div>
+          <ChatSidebarHeader>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-lg font-bold text-foreground-strong">Chat</div>
             </div>
           </ChatSidebarHeader>
           <ChatSidebarBody>
@@ -315,7 +307,7 @@ function ChatShellPreview() {
       </ChatShellSidebar>
 
       <ChatShellMain className="flex">
-        <div className="flex h-14 shrink-0 items-center border-b-2 border-line-strong bg-layer-panel px-4 [[data-theme=elegant]_&]:border-line-subtle">
+        <div className="flex h-[62px] shrink-0 items-center border-b-2 border-line-strong bg-layer-panel px-4 [[data-theme=elegant]_&]:border-line-subtle">
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-bold text-foreground-strong">#proj-uiux</div>
             <div className="truncate font-mono text-[11px] text-foreground-muted">
@@ -336,11 +328,11 @@ function ChatShellPreview() {
         </div>
       </ChatShellMain>
 
-      <ChatShellPanelStack className="flex w-64 lg:flex">
+      <ChatShellPanelStack className="flex lg:flex">
         <ChatPanelStackRoot resizable>
-          <ChatPanelStackItem className="w-full">
+          <ChatPanelStackItem>
             <ChatPanelResizeHandle />
-            <div className="flex h-14 items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-theme=elegant]_&]:border-line-subtle">
+            <div className="flex h-[62px] items-center gap-2 border-b-2 border-line-strong bg-layer-panel px-3 [[data-theme=elegant]_&]:border-line-subtle">
               <div className="min-w-0 flex-1 truncate text-sm font-bold text-foreground-strong">
                 Thread
               </div>
@@ -496,34 +488,29 @@ function MobileBarItem({
 
 function SourceShellPreview() {
   return (
-    <div className="flex h-full min-h-0 overflow-hidden border-2 border-black bg-brutal-cream font-sans text-black">
-      <div className="hidden w-14 shrink-0 flex-col items-center border-r-2 border-black bg-soft-signal md:flex">
-        <div className="flex h-14 w-full items-center justify-center border-b-2 border-black">
-          <div className="flex size-9 items-center justify-center border-2 border-black bg-black font-bold text-soft-signal shadow-brutal-sm">
+    <div className="flex h-full min-w-[920px] min-h-0 overflow-hidden border-2 border-black bg-brutal-cream font-display text-black">
+      <div className="hidden w-16 shrink-0 flex-col items-center border-r-2 border-black bg-soft-signal md:flex">
+        <div className="flex h-[62px] w-full items-center justify-center border-b-2 border-black">
+          <div className="flex size-10 items-center justify-center border-2 border-black bg-black font-display text-base font-bold text-soft-signal shadow-[var(--shadow-brutal-sm)]">
             R
           </div>
         </div>
         <div className="flex flex-1 flex-col items-center gap-1.5 py-2">
-          <SourceRailButton icon={<Search />} />
-          <SourceRailButton active icon={<MessageSquare />} dot />
-          <SourceRailButton icon={<CheckSquare />} />
-          <SourceRailButton icon={<Users />} />
-          <SourceRailButton icon={<Monitor />} />
+          <SourceRailButton icon={<Search size={18} />} />
+          <SourceRailButton active icon={<MessageSquare size={18} />} />
+          <SourceRailButton icon={<Activity size={18} />} dot />
+          <SourceRailButton icon={<CheckSquare size={18} />} />
+          <SourceRailButton icon={<Users size={18} />} />
+          <SourceRailButton icon={<Monitor size={18} />} dot />
         </div>
-        <div className="flex min-h-14 flex-col items-center justify-center gap-1.5 pb-2">
-          <SourceRailButton icon={<Bell />} dot />
-          <SourceRailButton icon={<Settings />} />
+        <div className="flex w-full items-center justify-center pb-1" />
+        <div className="flex h-[62px] w-full shrink-0 items-center justify-center">
+          <SourceRailButton icon={<Settings size={18} />} />
         </div>
       </div>
-      <div className="hidden w-56 shrink-0 flex-col border-r-2 border-black bg-brutal-cream md:flex">
-        <div className="flex h-14 items-center gap-3 border-b-2 border-black px-3">
-          <div className="flex size-8 items-center justify-center border-2 border-black bg-brutal-yellow">
-            <Hash className="size-4" />
-          </div>
-          <div className="min-w-0">
-            <div className="truncate text-sm font-bold">Design system</div>
-            <div className="truncate font-mono text-[11px] text-black/50">18 members</div>
-          </div>
+      <div className="hidden w-60 shrink-0 flex-col border-r-2 border-black bg-brutal-cream md:flex">
+        <div className="flex h-[62px] items-center border-b-2 border-black px-5">
+          <div className="text-lg font-bold text-black">Chat</div>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto py-2">
           <SourceSection title="Pinned">
@@ -537,7 +524,7 @@ function SourceShellPreview() {
         </div>
       </div>
       <div className="min-w-0 flex-1 bg-white">
-        <div className="flex h-14 items-center border-b-2 border-black px-4">
+        <div className="flex h-[62px] items-center border-b-2 border-black px-4">
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-bold">#proj-uiux</div>
             <div className="truncate font-mono text-[11px] text-black/50">Source main panel</div>
@@ -552,8 +539,8 @@ function SourceShellPreview() {
           </SourceMessage>
         </div>
       </div>
-      <div className="hidden w-64 shrink-0 border-l-2 border-black bg-white lg:block">
-        <div className="flex h-14 items-center border-b-2 border-black px-3">
+      <div className="hidden w-[400px] shrink-0 border-l-2 border-black bg-white lg:block">
+        <div className="flex h-[62px] items-center border-b-2 border-black px-3">
           <div className="min-w-0 flex-1 truncate text-sm font-bold">Thread</div>
           <button
             type="button"
@@ -587,13 +574,13 @@ function SourceRailButton({
       type="button"
       className={`relative flex size-10 items-center justify-center border-2 ${
         active
-          ? "border-black bg-white shadow-brutal-sm"
+          ? "border-black bg-white shadow-[var(--shadow-brutal-sm)]"
           : "border-transparent hover:border-black hover:bg-white"
       }`}
     >
       {icon}
       {dot ? (
-        <span className="absolute -right-1 -top-1 size-2.5 border-2 border-black bg-brutal-red" />
+        <span className="absolute -right-1 -top-1 size-2.5 rounded-full border border-black bg-brutal-pink" />
       ) : null}
     </button>
   );

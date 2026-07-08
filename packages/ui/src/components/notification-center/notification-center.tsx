@@ -32,6 +32,12 @@ const notificationCenter = tv({
   variants: {
     theme: {
       brutal: {
+        trigger: [
+          "relative inline-flex size-9 items-center justify-center overflow-visible rounded-none border-2 border-line-strong bg-brutal-orange p-0 text-foreground-strong",
+          "select-none shadow-sm transition-all duration-100 hover:bg-brutal-orange hover:shadow-md",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-line-focus",
+          "[&>svg]:size-[18px] [&>svg]:shrink-0",
+        ],
         popup: ["border-2 border-black bg-white shadow-lg"],
         header: ["border-b-2 border-line-strong bg-brutal-cream"],
         title: ["font-bold uppercase tracking-widest text-foreground/60"],

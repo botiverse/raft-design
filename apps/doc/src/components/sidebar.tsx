@@ -38,7 +38,12 @@ const TOKENS = {
 const NAV = [
   {
     title: "App Shell",
-    items: [{ label: "ChatShell", to: "/components/chat-shell", status: "wip" }],
+    items: [
+      { label: "ChatShell", to: "/components/chat-shell", status: "wip" },
+      { label: "ChatRail", to: "/components/chat-rail", status: "wip" },
+      { label: "ChatSidebar", to: "/components/chat-sidebar", status: "wip" },
+      { label: "ChatPanelStack", to: "/components/chat-panel-stack", status: "wip" },
+    ],
   },
   {
     title: "Actions",
@@ -459,7 +464,7 @@ export function Sidebar() {
         ))}
 
         {NAV.map((group) => (
-          <NavGroup key={group.title} {...group} />
+          <NavGroup {...group} key={group.title} />
         ))}
       </nav>
     </aside>
