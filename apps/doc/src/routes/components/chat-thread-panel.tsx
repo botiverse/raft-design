@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { User, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Search, User, X } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -73,6 +73,12 @@ const PROPS: readonly PropRow[] = [
     name: "ChatThreadPanelAction",
     type: "button props",
     description: "Icon action slot for close and future thread-panel commands.",
+  },
+  {
+    name: "ChatThreadPanelSearch / SearchInput / SearchCount",
+    type: "div / input props",
+    description:
+      "In-thread search row under the header: input, match counter, and prev/next/close actions via ChatThreadPanelAction.",
   },
   {
     name: "ChatThreadPanelParent / ReplyCount",
@@ -201,6 +207,37 @@ function SourceThreadPanelPreview() {
             <X className="size-3.5" />
           </button>
         </div>
+      </div>
+      <div className="flex shrink-0 items-center gap-1.5 border-b-2 border-black bg-white px-2 py-2">
+        <Search className="size-3.5 shrink-0 text-black/50" />
+        <input
+          aria-label="Search in thread"
+          readOnly
+          value="chrome"
+          className="min-w-0 flex-1 border-2 border-black bg-white px-2 py-1 text-sm font-medium outline-none focus:shadow-brutal-sm"
+        />
+        <div className="w-20 shrink-0 text-center font-mono text-xs text-black/50">1/2</div>
+        <button
+          type="button"
+          className="btn-brutal-sm flex size-7 items-center justify-center bg-white"
+          aria-label="Previous match"
+        >
+          <ChevronUp className="size-3.5" />
+        </button>
+        <button
+          type="button"
+          className="btn-brutal-sm flex size-7 items-center justify-center bg-white"
+          aria-label="Next match"
+        >
+          <ChevronDown className="size-3.5" />
+        </button>
+        <button
+          type="button"
+          className="btn-brutal-sm flex size-7 items-center justify-center bg-white"
+          aria-label="Close thread search"
+        >
+          <X className="size-3.5" />
+        </button>
       </div>
       <div className="shrink-0 border-b-2 border-black bg-white px-3 py-1">
         <div className="group/message relative mt-1.5 mb-1 flex h-fit min-h-12 gap-3 border-2 border-transparent px-2 py-1 hover:border-black hover:bg-white active:border-black active:bg-white">

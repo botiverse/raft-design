@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
 import { Avatar } from "raft-ui";
 import {
   ChatThreadPanelAction,
@@ -9,6 +9,9 @@ import {
   ChatThreadPanelParent,
   ChatThreadPanelReplyCount,
   ChatThreadPanelRoot,
+  ChatThreadPanelSearch,
+  ChatThreadPanelSearchCount,
+  ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
   MessageItem,
   MessageItemAvatarSlot,
@@ -32,6 +35,25 @@ export function ChatThreadPanelComposition() {
           </ChatThreadPanelAction>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
+      <ChatThreadPanelSearch>
+        <Search className="size-3.5" />
+        <ChatThreadPanelSearchInput
+          aria-label="Search in thread"
+          placeholder="Search in thread"
+          readOnly
+          value="chrome"
+        />
+        <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
+        <ChatThreadPanelAction aria-label="Previous match">
+          <ChevronUp />
+        </ChatThreadPanelAction>
+        <ChatThreadPanelAction aria-label="Next match">
+          <ChevronDown />
+        </ChatThreadPanelAction>
+        <ChatThreadPanelAction aria-label="Close thread search">
+          <X />
+        </ChatThreadPanelAction>
+      </ChatThreadPanelSearch>
       <ChatThreadPanelParent>
         <MessageItem>
           <MessageItemAvatarSlot>

@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  ArrowDown,
   Bell,
+  FileText,
   Hash,
   ImagePlus,
   ListTodo,
@@ -12,8 +14,10 @@ import {
   Square,
   User,
   Users,
+  X,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import { Spinner } from "raft-ui";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -23,6 +27,11 @@ import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatMainPanelComposition } from "#/compositions/chat-main-panel-composition.tsx";
+import {
+  ChatMainPanelDropOverlayComposition,
+  ChatMainPanelStatesComposition,
+  COMPOSER_IMAGE_SRC,
+} from "#/compositions/chat-main-panel-states-composition.tsx";
 import chatMainPanelCompositionSource from "#/compositions/chat-main-panel-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -31,6 +40,7 @@ const CHAT_MAIN_PANEL_COMPOSITION_PATH =
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
+  { id: "states", title: "Alert, jump, and composer states" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
 ] as const;
@@ -118,6 +128,28 @@ const PROPS: readonly PropRow[] = [
     description: "Source tab strip, message timeline host, and composer/footer boundary.",
   },
   {
+    name: "ChatMainPanelAlert / AlertAction",
+    type: "div / button props",
+    description:
+      "Inline error banner under the header (activity-mute failures) with its dismiss action.",
+  },
+  {
+    name: "ChatMainPanelJumpToLatest",
+    type: "button props",
+    description: "Floating jump-to-latest button anchored to the bottom of the timeline body.",
+  },
+  {
+    name: "ChatMainPanelComposerAttachment*",
+    type: "div / span / img / button props",
+    description:
+      "Pending-upload strip above the composer: image and file tiles, uploading/failed overlays, progress bar, and remove affordance.",
+  },
+  {
+    name: "ChatMainPanelComposerDropOverlay / Label",
+    type: "div / span props",
+    description: "Drag-and-drop overlay covering the composer form while files hover over it.",
+  },
+  {
     name: "ChatMainPanelMessageList / Composer*",
     type: "div / span / textarea / button props",
     description:
@@ -166,6 +198,38 @@ function ChatMainPanelDoc() {
           <PreviewPane label="Elegant dark">
             <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
               <CurrentMainPanelPreview />
+            </PreviewThemeScope>
+          </PreviewPane>
+        </PreviewGrid>
+      </DocSection>
+
+      <DocSection id="states" title="Alert, jump, and composer states">
+        <PreviewGrid>
+          <PreviewPane label="Source">
+            <SourceThemeScope className="h-full">
+              <SourceStatesPreview />
+            </SourceThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <CurrentStatesPreview />
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <CurrentStatesPreview />
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Source · drop overlay">
+            <SourceThemeScope className="h-full">
+              <SourceDropOverlayPreview />
+            </SourceThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Brutal · drop overlay">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
+                <ChatMainPanelDropOverlayComposition />
+              </div>
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
@@ -400,6 +464,175 @@ function SourceMainPanelPreview() {
               </button>
             </div>
           </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+function CurrentStatesPreview() {
+  return (
+    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
+      <ChatMainPanelStatesComposition />
+    </div>
+  );
+}
+
+function SourceStatesPreview() {
+  return (
+    <div className="flex h-full min-h-0 w-[560px] min-w-0 shrink-0 flex-1 flex-col overflow-hidden bg-white font-sans text-black">
+      <div
+        className="flex items-center justify-between gap-3 border-b-2 border-black bg-brutal-orange/20 px-5 py-2 text-xs font-bold text-black"
+        role="alert"
+      >
+        <span>Couldn&apos;t update Activity mute for this channel.</span>
+        <button
+          type="button"
+          className="btn-brutal-sm inline-flex size-6 shrink-0 items-center justify-center bg-white"
+          aria-label="Dismiss Activity mute error"
+        >
+          <X className="size-3" />
+        </button>
+      </div>
+      <div className="relative min-h-0 flex-1 overflow-hidden bg-white">
+        <div className="relative h-full overflow-y-auto bg-white">
+          <div className="flex min-h-full flex-col">
+            <div className="flex-1" aria-hidden />
+            <div className="pb-2 text-center font-mono text-xs text-black/40">
+              Older messages above
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          className="btn-brutal-sm absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 bg-white px-3 py-1.5 text-xs font-bold"
+        >
+          <ArrowDown className="size-3" />3 new messages
+        </button>
+      </div>
+      <form
+        className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <div className="flex w-full flex-col gap-2">
+          <div className="flex flex-wrap gap-2">
+            <div className="group relative">
+              <img
+                src={COMPOSER_IMAGE_SRC}
+                alt=""
+                className="size-16 border-2 border-black object-cover"
+              />
+              <span className="absolute inset-0 z-10 flex flex-col items-center justify-center border-2 border-black bg-white/85 px-1 text-center text-[10px] font-bold text-black">
+                <Spinner size="sm" className="mb-1" />
+                64%
+              </span>
+              <span className="absolute bottom-0 left-0 h-1 w-full bg-black/15">
+                <span className="block h-full w-[64%] bg-brutal-pink" />
+              </span>
+              <button
+                type="button"
+                aria-label="Remove screenshot.png"
+                className="absolute -top-1.5 -right-1.5 z-20 flex size-4 items-center justify-center rounded-full bg-black text-white opacity-0 transition-opacity group-hover:opacity-100"
+              >
+                <X className="size-2.5" />
+              </button>
+            </div>
+            <div className="group relative">
+              <span className="flex h-16 w-32 items-center gap-2 border-2 border-black bg-white px-2">
+                <FileText className="size-4 shrink-0 text-black/70" />
+                <span className="min-w-0">
+                  <span className="block truncate text-xs font-bold text-black">
+                    release-notes.pdf
+                  </span>
+                  <span className="block truncate text-[10px] text-black/50">application/pdf</span>
+                </span>
+              </span>
+              <button
+                type="button"
+                aria-label="Remove release-notes.pdf"
+                className="absolute -top-1.5 -right-1.5 z-20 flex size-4 items-center justify-center rounded-full bg-black text-white opacity-0 transition-opacity group-hover:opacity-100"
+              >
+                <X className="size-2.5" />
+              </button>
+            </div>
+            <div className="group relative">
+              <span className="flex h-16 w-32 items-center gap-2 border-2 border-black bg-white px-2">
+                <FileText className="size-4 shrink-0 text-black/70" />
+                <span className="min-w-0">
+                  <span className="block truncate text-xs font-bold text-black">deck.key</span>
+                  <span className="block truncate text-[10px] text-black/50">
+                    application/octet-stream
+                  </span>
+                </span>
+              </span>
+              <span className="absolute inset-0 z-10 flex flex-col items-center justify-center border-2 border-black bg-brutal-orange/90 px-1 text-center text-[10px] leading-3 font-bold text-black">
+                Upload failed
+                <span className="underline">Tap to retry</span>
+              </span>
+            </div>
+          </div>
+          <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-brutal-sm">
+            <textarea
+              aria-label="Message #proj-uiux"
+              readOnly
+              rows={1}
+              placeholder="Message #proj-uiux"
+              className="min-h-5 max-h-32 w-full resize-none bg-transparent font-sans text-base leading-5 text-black outline-none placeholder:text-black/35 md:min-h-10 md:text-sm"
+            />
+            <div className="flex items-center justify-between gap-3">
+              <button type="button" className="btn-brutal-sm bg-white p-1" aria-label="Attach file">
+                <Paperclip className="size-3.5" />
+              </button>
+              <button
+                type="submit"
+                className="btn-brutal-sm flex size-7 items-center justify-center bg-brutal-pink p-0"
+                aria-label="Send"
+              >
+                <Send className="size-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function SourceDropOverlayPreview() {
+  return (
+    <div className="flex h-full min-h-0 w-[560px] min-w-0 shrink-0 flex-1 flex-col overflow-hidden bg-white font-sans text-black">
+      <div className="min-h-0 flex-1 bg-white" />
+      <form
+        className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-brutal-sm">
+          <textarea
+            aria-label="Message #proj-uiux"
+            readOnly
+            rows={1}
+            placeholder="Message #proj-uiux"
+            className="min-h-5 max-h-32 w-full resize-none bg-transparent font-sans text-base leading-5 text-black outline-none placeholder:text-black/35 md:min-h-10 md:text-sm"
+          />
+          <div className="flex items-center justify-between gap-3">
+            <button type="button" className="btn-brutal-sm bg-white p-1" aria-label="Attach file">
+              <Paperclip className="size-3.5" />
+            </button>
+            <button
+              type="submit"
+              className="btn-brutal-sm flex size-7 items-center justify-center bg-brutal-pink p-0"
+              aria-label="Send"
+            >
+              <Send className="size-3.5" />
+            </button>
+          </div>
+        </div>
+        <div
+          aria-hidden
+          className="absolute inset-0 z-30 flex items-center justify-center border-2 border-dashed border-brutal-pink bg-brutal-pink/15"
+        >
+          <span className="border-2 border-black bg-white px-3 py-1.5 text-sm font-bold text-black shadow-brutal-sm">
+            Drop files to attach
+          </span>
         </div>
       </form>
     </div>

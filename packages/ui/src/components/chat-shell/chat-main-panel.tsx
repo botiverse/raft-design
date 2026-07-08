@@ -27,6 +27,21 @@ const chatMainPanel = tv({
       "[&_svg]:size-3.5 [&_svg]:shrink-0",
     ],
     tabs: ["shrink-0"],
+    alert: ["flex shrink-0 items-center justify-between gap-3 px-5 py-2", "text-xs font-bold"],
+    alertAction: [
+      "inline-flex size-6 shrink-0 items-center justify-center",
+      "font-sans font-bold leading-none outline-none",
+      "transition-all duration-100",
+      "active:translate-x-[1px] active:translate-y-[1px]",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
+    ],
+    jumpToLatest: [
+      "absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5",
+      "px-3 py-1.5 font-sans text-xs font-bold outline-none",
+      "transition-all duration-100",
+      "active:translate-x-[1px] active:translate-y-[1px]",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
+    ],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
     timeline: [
       "relative h-full overflow-y-auto overscroll-contain",
@@ -58,6 +73,32 @@ const chatMainPanel = tv({
       "disabled:pointer-events-none disabled:opacity-30 disabled:transform-none",
       "[&_svg]:size-3.5 [&_svg]:shrink-0",
     ],
+    composerAttachments: ["flex flex-wrap gap-2"],
+    composerAttachment: ["group/composer-attachment relative"],
+    composerAttachmentImage: ["size-16 border-2 object-cover"],
+    composerAttachmentFile: [
+      "flex h-16 w-32 items-center gap-2 border-2 px-2",
+      "[&_svg]:size-4 [&_svg]:shrink-0",
+    ],
+    composerAttachmentBody: ["block min-w-0"],
+    composerAttachmentTitle: ["block truncate text-xs font-bold"],
+    composerAttachmentMeta: ["block truncate text-[10px]"],
+    composerAttachmentOverlay: [
+      "absolute inset-0 z-10 flex flex-col items-center justify-center border-2 px-1",
+      "text-center text-[10px] font-bold",
+    ],
+    composerAttachmentProgress: ["absolute bottom-0 left-0 h-1 w-full"],
+    composerAttachmentProgressFill: ["h-full"],
+    composerAttachmentRemove: [
+      "absolute -top-1.5 -right-1.5 z-20 flex size-4 items-center justify-center rounded-full",
+      "opacity-0 transition-opacity group-hover/composer-attachment:opacity-100",
+      "[@media(hover:none)]:h-6 [@media(hover:none)]:w-6 [@media(hover:none)]:opacity-100",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0",
+    ],
+    composerDropOverlay: [
+      "absolute inset-0 z-30 flex items-center justify-center border-2 border-dashed",
+    ],
+    composerDropOverlayLabel: ["border-2 px-3 py-1.5 text-sm font-bold"],
   },
   variants: {
     theme: {
@@ -76,6 +117,17 @@ const chatMainPanel = tv({
           "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
         tabs: "border-b-2 border-black bg-white",
+        alert: "border-b-2 border-black bg-brutal-orange/20 text-black",
+        alertAction: [
+          "rounded-none border-2 border-black bg-white text-black shadow-brutal-sm",
+          "hover:-translate-y-px hover:shadow-brutal",
+          "active:shadow-[var(--shadow-brutal-active)]",
+        ],
+        jumpToLatest: [
+          "border-2 border-black bg-white text-black shadow-brutal-sm",
+          "hover:-translate-y-px hover:shadow-brutal",
+          "active:shadow-[var(--shadow-brutal-active)]",
+        ],
         body: "bg-white",
         timeline: "bg-white",
         footer: "border-t-2 border-black bg-white",
@@ -92,6 +144,15 @@ const chatMainPanel = tv({
           "active:shadow-[var(--shadow-brutal-active)]",
           "disabled:shadow-brutal-sm",
         ],
+        composerAttachmentImage: "border-black",
+        composerAttachmentFile: "border-black bg-white [&_svg]:text-black/70",
+        composerAttachmentTitle: "text-black",
+        composerAttachmentMeta: "text-black/50",
+        composerAttachmentProgress: "bg-black/15",
+        composerAttachmentProgressFill: "bg-brutal-pink",
+        composerAttachmentRemove: "bg-black text-white",
+        composerDropOverlay: "border-brutal-pink bg-brutal-pink/15",
+        composerDropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
       },
       elegant: {
         root: "bg-layer-panel font-sans text-foreground",
@@ -106,6 +167,15 @@ const chatMainPanel = tv({
           "focus-visible:ring-2 focus-visible:ring-line-focus",
         ],
         tabs: "border-b border-line-subtle bg-layer-panel",
+        alert: "border-b border-line-subtle bg-warning-lighter text-foreground-strong",
+        alertAction: [
+          "rounded-md border border-line-subtle bg-layer-panel text-foreground-strong shadow-xs",
+          "hover:bg-layer-muted",
+        ],
+        jumpToLatest: [
+          "rounded-md border border-line-subtle bg-layer-panel text-foreground-strong shadow-sm",
+          "hover:bg-layer-muted",
+        ],
         body: "bg-layer-panel",
         timeline: "bg-layer-panel",
         footer: "border-t border-line-subtle bg-layer-panel",
@@ -119,9 +189,54 @@ const chatMainPanel = tv({
           "rounded-md border-line-subtle bg-accent-400 text-accent-950 shadow-xs",
           "hover:bg-accent-500",
         ],
+        composerAttachmentImage: "rounded-md border-line-subtle",
+        composerAttachmentFile:
+          "rounded-md border-line-subtle bg-layer-panel [&_svg]:text-foreground-muted",
+        composerAttachmentTitle: "text-foreground-strong",
+        composerAttachmentMeta: "text-foreground-muted",
+        composerAttachmentProgress: "bg-line-muted",
+        composerAttachmentProgressFill: "bg-accent-400",
+        composerAttachmentRemove: "bg-foreground-strong text-white",
+        composerDropOverlay: "rounded-md border-accent-400 bg-accent-400/15",
+        composerDropOverlayLabel:
+          "rounded-md border-line-subtle bg-layer-panel text-foreground-strong shadow-sm",
+      },
+    },
+    attachmentTone: {
+      uploading: {},
+      failed: {
+        composerAttachmentOverlay: "leading-3",
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      attachmentTone: "uploading",
+      class: { composerAttachmentOverlay: "border-black bg-white/85 text-black" },
+    },
+    {
+      theme: "brutal",
+      attachmentTone: "failed",
+      class: { composerAttachmentOverlay: "border-black bg-brutal-orange/90 text-black" },
+    },
+    {
+      theme: "elegant",
+      attachmentTone: "uploading",
+      class: {
+        composerAttachmentOverlay:
+          "rounded-md border-line-subtle bg-layer-panel/85 text-foreground-strong",
+      },
+    },
+    {
+      theme: "elegant",
+      attachmentTone: "failed",
+      class: {
+        composerAttachmentOverlay:
+          "rounded-md border-line-subtle bg-warning-light text-foreground-strong",
+      },
+    },
+  ],
 });
 
 export type ChatMainPanelRootProps = useRender.ComponentProps<"section">;
@@ -491,5 +606,328 @@ export function ChatMainPanelComposerSubmit({
   return useRender({
     render: render ?? <BaseButton />,
     props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelAlertProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelAlert({ className, render, ...props }: ChatMainPanelAlertProps) {
+  const theme = useThemeFamily();
+  const { alert } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-alert",
+    className: alert({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelAlertActionProps = useRender.ComponentProps<"button">;
+
+export function ChatMainPanelAlertAction({
+  className,
+  render,
+  ...props
+}: ChatMainPanelAlertActionProps) {
+  const theme = useThemeFamily();
+  const { alertAction } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+    type: "button",
+    "data-slot": "chat-main-panel-alert-action",
+    className: alertAction({ className }),
+  };
+
+  return useRender({
+    render: render ?? <BaseButton />,
+    props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelJumpToLatestProps = useRender.ComponentProps<"button">;
+
+export function ChatMainPanelJumpToLatest({
+  className,
+  render,
+  ...props
+}: ChatMainPanelJumpToLatestProps) {
+  const theme = useThemeFamily();
+  const { jumpToLatest } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+    type: "button",
+    "data-slot": "chat-main-panel-jump-to-latest",
+    className: jumpToLatest({ className }),
+  };
+
+  return useRender({
+    render: render ?? <BaseButton />,
+    props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentsProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelComposerAttachments({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentsProps) {
+  const { composerAttachments } = chatMainPanel();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachments",
+    className: composerAttachments({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelComposerAttachment({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentProps) {
+  const { composerAttachment } = chatMainPanel();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment",
+    className: composerAttachment({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentImageProps = useRender.ComponentProps<"img">;
+
+export function ChatMainPanelComposerAttachmentImage({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentImageProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentImage } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"img"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-image",
+    className: composerAttachmentImage({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "img",
+    render,
+    props: mergeProps<"img">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentFileProps = useRender.ComponentProps<"span">;
+
+export function ChatMainPanelComposerAttachmentFile({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentFileProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentFile } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-file",
+    className: composerAttachmentFile({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentBodyProps = useRender.ComponentProps<"span">;
+
+export function ChatMainPanelComposerAttachmentBody({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentBodyProps) {
+  const { composerAttachmentBody } = chatMainPanel();
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-body",
+    className: composerAttachmentBody({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentTitleProps = useRender.ComponentProps<"span">;
+
+export function ChatMainPanelComposerAttachmentTitle({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentTitleProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentTitle } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-title",
+    className: composerAttachmentTitle({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentMetaProps = useRender.ComponentProps<"span">;
+
+export function ChatMainPanelComposerAttachmentMeta({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentMetaProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentMeta } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-meta",
+    className: composerAttachmentMeta({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentRemoveProps = useRender.ComponentProps<"button">;
+
+export function ChatMainPanelComposerAttachmentRemove({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerAttachmentRemoveProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentRemove } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+    type: "button",
+    "data-slot": "chat-main-panel-composer-attachment-remove",
+    className: composerAttachmentRemove({ className }),
+  };
+
+  return useRender({
+    render: render ?? <BaseButton />,
+    props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerDropOverlayProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelComposerDropOverlay({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerDropOverlayProps) {
+  const theme = useThemeFamily();
+  const { composerDropOverlay } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-drop-overlay",
+    className: composerDropOverlay({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerDropOverlayLabelProps = useRender.ComponentProps<"span">;
+
+export function ChatMainPanelComposerDropOverlayLabel({
+  className,
+  render,
+  ...props
+}: ChatMainPanelComposerDropOverlayLabelProps) {
+  const theme = useThemeFamily();
+  const { composerDropOverlayLabel } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-drop-overlay-label",
+    className: composerDropOverlayLabel({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentOverlayProps = useRender.ComponentProps<"span"> & {
+  tone?: "uploading" | "failed";
+};
+
+export function ChatMainPanelComposerAttachmentOverlay({
+  className,
+  render,
+  tone = "uploading",
+  ...props
+}: ChatMainPanelComposerAttachmentOverlayProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentOverlay } = chatMainPanel({ theme, attachmentTone: tone });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-overlay",
+    "data-tone": tone,
+    className: composerAttachmentOverlay({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelComposerAttachmentProgressProps = useRender.ComponentProps<"span"> & {
+  value?: number;
+};
+
+export function ChatMainPanelComposerAttachmentProgress({
+  className,
+  render,
+  style,
+  value = 0,
+  ...props
+}: ChatMainPanelComposerAttachmentProgressProps) {
+  const theme = useThemeFamily();
+  const { composerAttachmentProgress, composerAttachmentProgressFill } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-composer-attachment-progress",
+    className: composerAttachmentProgress({ className }),
+    children: (
+      <span
+        className={composerAttachmentProgressFill()}
+        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+      />
+    ),
+    style,
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
   });
 }
