@@ -108,6 +108,19 @@
   }
 }
 
+/* `dark:` tracks the elegant theme's dark context (forced .dark class, or system
+   preference unless forced .light) instead of Tailwind's bare media-query default. */
+@custom-variant dark {
+  &:where([data-theme="elegant"].dark, [data-theme="elegant"].dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where([data-theme="elegant"]:not(.light), [data-theme="elegant"]:not(.light) *) {
+      @slot;
+    }
+  }
+}
+
 @theme {
   --shadow-*: initial;
 
