@@ -224,13 +224,13 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info-base text-foreground-inverse" },
+      class: { root: "bg-info-base text-brutal-cyan-950" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "accent",
-      class: { root: "bg-accent-400 text-foreground-inverse" },
+      class: { root: "bg-accent-400 text-accent-950" },
     },
     {
       theme: "elegant",
