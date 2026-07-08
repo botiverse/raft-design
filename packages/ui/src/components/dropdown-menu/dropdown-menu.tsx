@@ -43,12 +43,12 @@ const dropdownMenu = tv({
         ],
         content: ["border-2 border-black bg-white shadow-lg"],
         item: [
-          "py-2 font-sans text-sm font-medium text-black hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
+          "py-2 font-sans text-sm font-bold text-black hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
         radioItem: [
-          "overflow-hidden py-2 font-sans text-sm font-medium leading-5 text-black",
+          "overflow-hidden py-2 font-sans text-sm font-bold leading-5 text-black",
           "border-b border-black/10 last:border-b-0",
           "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
@@ -56,7 +56,7 @@ const dropdownMenu = tv({
         ],
         radioLabel: ["min-w-0 flex-1 truncate"],
         submenuTrigger: [
-          "py-2 font-sans text-sm font-medium text-black hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30 data-[popup-open]:bg-soft-signal/30",
+          "py-2 font-sans text-sm font-bold text-black hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30 data-[popup-open]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-black/30",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
