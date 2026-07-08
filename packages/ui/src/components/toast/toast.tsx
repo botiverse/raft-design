@@ -281,8 +281,8 @@ const toastAction = tv({
       elegant: {
         root: [
           "toast-gradient-border order-2 min-h-7 rounded-full bg-white/[0.06] px-3 font-medium text-white/74",
-          "[--toast-gradient-border-angle:to_bottom] [--toast-gradient-border-from:rgb(255_255_255_/_0.1)] [--toast-gradient-border-to:rgb(255_255_255_/_0)] [--toast-gradient-border-via:rgb(255_255_255_/_0.05)]",
-          "hover:bg-white/[0.075] hover:text-white/88 hover:[--toast-gradient-border-from:rgb(255_255_255_/_0.24)] hover:[--toast-gradient-border-via:rgb(255_255_255_/_0.08)] active:scale-[0.985]",
+          "[--toast-gradient-border-angle:to_bottom] [--toast-gradient-border-from:oklch(1_0_0_/_0.1)] [--toast-gradient-border-to:oklch(1_0_0_/_0)] [--toast-gradient-border-via:oklch(1_0_0_/_0.05)]",
+          "hover:bg-white/[0.075] hover:text-white/88 hover:[--toast-gradient-border-from:oklch(1_0_0_/_0.24)] hover:[--toast-gradient-border-via:oklch(1_0_0_/_0.08)] active:scale-[0.985]",
         ],
       },
     },

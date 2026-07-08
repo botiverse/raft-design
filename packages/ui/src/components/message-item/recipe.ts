@@ -125,8 +125,8 @@ export const messageItem = tv({
     ],
     reactionChip: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded px-1.5",
-      "whitespace-nowrap bg-[#EEEDE6] text-[12px] font-bold leading-none text-foreground-strong",
-      "transition-colors duration-100 hover:bg-[#E0DED4]",
+      "whitespace-nowrap bg-[oklch(0.9449_0.0094_99.99)] text-[12px] font-bold leading-none text-foreground-strong",
+      "transition-colors duration-100 hover:bg-[oklch(0.8994_0.0136_97.46)]",
       "data-[reacted=true]:bg-brutal-pink/20 data-[reacted=true]:hover:bg-brutal-pink/30",
       "data-[failed=true]:bg-brutal-orange/30",
     ],
