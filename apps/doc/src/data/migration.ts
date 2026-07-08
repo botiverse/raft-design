@@ -46,17 +46,6 @@ export const MIGRATION_GUIDES = [
     slug: "components-announcementmodal",
     components: [
       {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["153"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
-      {
         component: "status",
         componentLabel: "Status",
         refs: ["170"],
@@ -188,44 +177,12 @@ export const MIGRATION_GUIDES = [
   </DropdownMenuContent>
 </DropdownMenu>`,
       },
-      {
-        component: "select",
-        componentLabel: "Select",
-        refs: ["80"],
-        docsHref: "/components/select#source-comparison",
-        migration: [
-          "`Select` replaces single-value dropdown fields.",
-          "Use `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`.",
-          "Use `DropdownMenu` for action menus.",
-        ],
-        write: `<Select value={value} onValueChange={setValue}>
-  <SelectTrigger>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="all">All</SelectItem>
-  </SelectContent>
-</Select>`,
-      },
     ],
   },
   {
     sourceFile: "packages/web/src/components/actions/ActionCard.tsx",
     slug: "components-actions-actioncard",
     components: [
-      {
-        component: "badge",
-        componentLabel: "Badge",
-        refs: ["272"],
-        docsHref: "/components/badge#source-comparison",
-        migration: [
-          "`Badge` replaces legacy pill/status chips.",
-          "`tone` -> `variant`; soft/outline styles -> `appearance`.",
-          "Use `render` only when the badge must become a button/link.",
-        ],
-        write: '<Badge variant="success" appearance="soft">Ready</Badge>',
-        noDirect: ["Legacy experimental presets are removed. Pick `variant` + `appearance`."],
-      },
       {
         component: "banner",
         componentLabel: "Banner",
@@ -385,19 +342,6 @@ export const MIGRATION_GUIDES = [
         write: '<Status variant="success">Online</Status>',
       },
       {
-        component: "tabs",
-        componentLabel: "Tabs",
-        refs: ["1739"],
-        docsHref: "/components/tabs#source-comparison",
-        migration: [
-          "`Tabs` replaces tab state containers.",
-          "Use `TabsList`, `TabsTab`, `TabsPanel` for normal tabs.",
-          "Use `SortableTabsList` / `SortableTabsTab` only when reorder is required.",
-        ],
-        write:
-          '<Tabs value={value} onValueChange={setValue}><TabsList><TabsTab value="chat">Chat</TabsTab></TabsList><TabsPanel value="chat">...</TabsPanel></Tabs>',
-      },
-      {
         component: "textarea",
         componentLabel: "Textarea",
         refs: ["876"],
@@ -474,17 +418,6 @@ export const MIGRATION_GUIDES = [
         write: "<Checkbox checked={checked} onCheckedChange={setChecked} />",
       },
       {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["158"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
-      {
         component: "label",
         componentLabel: "Label",
         refs: ["145"],
@@ -499,37 +432,9 @@ export const MIGRATION_GUIDES = [
     ],
   },
   {
-    sourceFile: "packages/web/src/components/agent/AgentSkills.tsx",
-    slug: "components-agent-agentskills",
-    components: [
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["46"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
-    ],
-  },
-  {
     sourceFile: "packages/web/src/components/agent/AgentWorkspace.tsx",
     slug: "components-agent-agentworkspace",
     components: [
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["487,492"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
       {
         component: "spinner",
         componentLabel: "Spinner",
@@ -650,19 +555,6 @@ export const MIGRATION_GUIDES = [
           "Use `suppressPasswordManager` only for password-manager overlays.",
         ],
         write: "<Input value={value} onChange={onChange} aria-invalid={hasError} />",
-      },
-      {
-        component: "select",
-        componentLabel: "Select",
-        refs: ["346"],
-        docsHref: "/components/select#source-comparison",
-        migration: [
-          "`Select` replaces single-value dropdown fields.",
-          "Use `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`.",
-          "Use `DropdownMenu` for action menus.",
-        ],
-        write:
-          '<Select value={value} onValueChange={setValue}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All</SelectItem></SelectContent></Select>',
       },
       {
         component: "textarea",
@@ -832,19 +724,6 @@ export const MIGRATION_GUIDES = [
           "Optional/custom suffix -> `LabelOptional` or `LabelSub`.",
         ],
         write: "<Label>Email <LabelAsterisk /></Label>",
-      },
-      {
-        component: "select",
-        componentLabel: "Select",
-        refs: ["173,186,254,296"],
-        docsHref: "/components/select#source-comparison",
-        migration: [
-          "`Select` replaces single-value dropdown fields.",
-          "Use `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`.",
-          "Use `DropdownMenu` for action menus.",
-        ],
-        write:
-          '<Select value={value} onValueChange={setValue}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All</SelectItem></SelectContent></Select>',
       },
     ],
   },
@@ -1280,19 +1159,6 @@ export const MIGRATION_GUIDES = [
         write: "<Input value={value} onChange={onChange} aria-invalid={hasError} />",
       },
       {
-        component: "segmented-control",
-        componentLabel: "Segmented Control",
-        refs: ["281"],
-        docsHref: "/components/segmented-control#source-comparison",
-        migration: [
-          "`SegmentedControl` replaces filter/view toggles.",
-          "Each option is `SegmentedControlItem`.",
-          "Counts use `SegmentedControlCount`.",
-        ],
-        write:
-          '<SegmentedControl value={value} onValueChange={setValue}><SegmentedControlItem value="all">All</SegmentedControlItem></SegmentedControl>',
-      },
-      {
         component: "textarea",
         componentLabel: "Textarea",
         refs: ["272"],
@@ -1712,14 +1578,6 @@ export const MIGRATION_GUIDES = [
           "<DropdownMenu><DropdownMenuTrigger render={trigger} /><DropdownMenuContent><DropdownMenuItem>Open</DropdownMenuItem></DropdownMenuContent></DropdownMenu>",
       },
       {
-        component: "kbd",
-        componentLabel: "Kbd",
-        refs: ["1397"],
-        docsHref: "/components/kbd#source-comparison",
-        migration: ["Shortcut text -> `Kbd`.", "Multiple keys -> `KbdGroup`."],
-        write: "<KbdGroup><Kbd>Command</Kbd><Kbd>K</Kbd></KbdGroup>",
-      },
-      {
         component: "notification-center",
         componentLabel: "Notification Center",
         refs: ["1226"],
@@ -1758,19 +1616,6 @@ export const MIGRATION_GUIDES = [
         ],
         write: '<Status variant="success">Online</Status>',
       },
-      {
-        component: "tooltip",
-        componentLabel: "Tooltip",
-        refs: ["1080,1152,1673"],
-        docsHref: "/components/tooltip#source-comparison",
-        migration: [
-          "Native `title` hints -> `Tooltip`.",
-          "Use `TooltipTrigger` around the target and `TooltipContent` for text.",
-          "Keep `aria-label` on icon-only controls.",
-        ],
-        write:
-          "<Tooltip><TooltipTrigger render={button} /><TooltipContent>Hint</TooltipContent></Tooltip>",
-      },
     ],
   },
   {
@@ -1802,17 +1647,6 @@ export const MIGRATION_GUIDES = [
         ],
         write:
           "<Field><FieldLabel>Email</FieldLabel><FieldControl><Input /></FieldControl><FieldError>Error</FieldError></Field>",
-      },
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["248,269"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
       },
       {
         component: "input",
@@ -1858,17 +1692,6 @@ export const MIGRATION_GUIDES = [
           '<Banner status="warning"><BannerTitle>Heads up</BannerTitle><BannerDescription>Copy</BannerDescription></Banner>',
       },
       {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["845,865"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
-      {
         component: "input",
         componentLabel: "Input",
         refs: ["732"],
@@ -1891,19 +1714,6 @@ export const MIGRATION_GUIDES = [
           "Use `pulse` only for live/activity state.",
         ],
         write: '<Status variant="success">Online</Status>',
-      },
-      {
-        component: "tooltip",
-        componentLabel: "Tooltip",
-        refs: ["426,699"],
-        docsHref: "/components/tooltip#source-comparison",
-        migration: [
-          "Native `title` hints -> `Tooltip`.",
-          "Use `TooltipTrigger` around the target and `TooltipContent` for text.",
-          "Keep `aria-label` on icon-only controls.",
-        ],
-        write:
-          "<Tooltip><TooltipTrigger render={button} /><TooltipContent>Hint</TooltipContent></Tooltip>",
       },
     ],
   },
@@ -1957,54 +1767,9 @@ export const MIGRATION_GUIDES = [
     ],
   },
   {
-    sourceFile: "packages/web/src/components/markdown/InlineMarkdownPreview.tsx",
-    slug: "components-markdown-inlinemarkdownpreview",
-    components: [
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["22"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
-    ],
-  },
-  {
-    sourceFile: "packages/web/src/components/markdown/MarkdownContent.tsx",
-    slug: "components-markdown-markdowncontent",
-    components: [
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["62,68"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
-    ],
-  },
-  {
     sourceFile: "packages/web/src/components/markdown/MermaidDiagram.tsx",
     slug: "components-markdown-mermaiddiagram",
     components: [
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["28"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
-      },
       {
         component: "spinner",
         componentLabel: "Spinner",
@@ -2109,19 +1874,6 @@ export const MIGRATION_GUIDES = [
         ],
         write: "<Textarea value={value} onChange={onChange} aria-invalid={hasError} />",
         noDirect: ["No old wrapper API. Compose `TextareaGroup` + `TextareaCounter`."],
-      },
-      {
-        component: "tooltip",
-        componentLabel: "Tooltip",
-        refs: ["523"],
-        docsHref: "/components/tooltip#source-comparison",
-        migration: [
-          "Native `title` hints -> `Tooltip`.",
-          "Use `TooltipTrigger` around the target and `TooltipContent` for text.",
-          "Keep `aria-label` on icon-only controls.",
-        ],
-        write:
-          "<Tooltip><TooltipTrigger render={button} /><TooltipContent>Hint</TooltipContent></Tooltip>",
       },
     ],
   },
@@ -2281,32 +2033,6 @@ export const MIGRATION_GUIDES = [
         ],
         write: '<Status variant="success">Online</Status>',
       },
-      {
-        component: "tabs",
-        componentLabel: "Tabs",
-        refs: ["736"],
-        docsHref: "/components/tabs#source-comparison",
-        migration: [
-          "`Tabs` replaces tab state containers.",
-          "Use `TabsList`, `TabsTab`, `TabsPanel` for normal tabs.",
-          "Use `SortableTabsList` / `SortableTabsTab` only when reorder is required.",
-        ],
-        write:
-          '<Tabs value={value} onValueChange={setValue}><TabsList><TabsTab value="chat">Chat</TabsTab></TabsList><TabsPanel value="chat">...</TabsPanel></Tabs>',
-      },
-      {
-        component: "tooltip",
-        componentLabel: "Tooltip",
-        refs: ["60,61"],
-        docsHref: "/components/tooltip#source-comparison",
-        migration: [
-          "Native `title` hints -> `Tooltip`.",
-          "Use `TooltipTrigger` around the target and `TooltipContent` for text.",
-          "Keep `aria-label` on icon-only controls.",
-        ],
-        write:
-          "<Tooltip><TooltipTrigger render={button} /><TooltipContent>Hint</TooltipContent></Tooltip>",
-      },
     ],
   },
   {
@@ -2353,19 +2079,6 @@ export const MIGRATION_GUIDES = [
           "Use `pulse` only for live/activity state.",
         ],
         write: '<Status variant="success">Online</Status>',
-      },
-      {
-        component: "tooltip",
-        componentLabel: "Tooltip",
-        refs: ["102"],
-        docsHref: "/components/tooltip#source-comparison",
-        migration: [
-          "Native `title` hints -> `Tooltip`.",
-          "Use `TooltipTrigger` around the target and `TooltipContent` for text.",
-          "Keep `aria-label` on icon-only controls.",
-        ],
-        write:
-          "<Tooltip><TooltipTrigger render={button} /><TooltipContent>Hint</TooltipContent></Tooltip>",
       },
     ],
   },
@@ -2486,19 +2199,6 @@ export const MIGRATION_GUIDES = [
         ],
       },
       {
-        component: "badge",
-        componentLabel: "Badge",
-        refs: ["40"],
-        docsHref: "/components/badge#source-comparison",
-        migration: [
-          "`Badge` replaces legacy pill/status chips.",
-          "`tone` -> `variant`; soft/outline styles -> `appearance`.",
-          "Use `render` only when the badge must become a button/link.",
-        ],
-        write: '<Badge variant="success" appearance="soft">Ready</Badge>',
-        noDirect: ["Legacy experimental presets are removed. Pick `variant` + `appearance`."],
-      },
-      {
         component: "banner",
         componentLabel: "Banner",
         refs: ["1108"],
@@ -2543,14 +2243,6 @@ export const MIGRATION_GUIDES = [
           "<ContextMenu><ContextMenuTrigger render={target} /><ContextMenuContent><ContextMenuItem>Copy</ContextMenuItem></ContextMenuContent></ContextMenu>",
       },
       {
-        component: "kbd",
-        componentLabel: "Kbd",
-        refs: ["1116"],
-        docsHref: "/components/kbd#source-comparison",
-        migration: ["Shortcut text -> `Kbd`.", "Multiple keys -> `KbdGroup`."],
-        write: "<KbdGroup><Kbd>Command</Kbd><Kbd>K</Kbd></KbdGroup>",
-      },
-      {
         component: "popover",
         componentLabel: "Popover",
         refs: ["2808,2860,2862,2890"],
@@ -2586,21 +2278,6 @@ export const MIGRATION_GUIDES = [
           "Use `pulse` only for live/activity state.",
         ],
         write: '<Status variant="success">Online</Status>',
-      },
-      {
-        component: "tooltip",
-        componentLabel: "Tooltip",
-        refs: [
-          "695,1220,1383,1397,2314,2317,2377,2400,2415,2451,2565,2686,2723,2770,2796,2826,2862,2959",
-        ],
-        docsHref: "/components/tooltip#source-comparison",
-        migration: [
-          "Native `title` hints -> `Tooltip`.",
-          "Use `TooltipTrigger` around the target and `TooltipContent` for text.",
-          "Keep `aria-label` on icon-only controls.",
-        ],
-        write:
-          "<Tooltip><TooltipTrigger render={button} /><TooltipContent>Hint</TooltipContent></Tooltip>",
       },
     ],
   },
@@ -2818,19 +2495,6 @@ export const MIGRATION_GUIDES = [
         ],
         write: "<Input value={value} onChange={onChange} aria-invalid={hasError} />",
       },
-      {
-        component: "segmented-control",
-        componentLabel: "Segmented Control",
-        refs: ["888"],
-        docsHref: "/components/segmented-control#source-comparison",
-        migration: [
-          "`SegmentedControl` replaces filter/view toggles.",
-          "Each option is `SegmentedControlItem`.",
-          "Counts use `SegmentedControlCount`.",
-        ],
-        write:
-          '<SegmentedControl value={value} onValueChange={setValue}><SegmentedControlItem value="all">All</SegmentedControlItem></SegmentedControl>',
-      },
     ],
   },
   {
@@ -2971,32 +2635,6 @@ export const MIGRATION_GUIDES = [
         write: "<Label>Email <LabelAsterisk /></Label>",
       },
       {
-        component: "segmented-control",
-        componentLabel: "Segmented Control",
-        refs: ["708,775,2963"],
-        docsHref: "/components/segmented-control#source-comparison",
-        migration: [
-          "`SegmentedControl` replaces filter/view toggles.",
-          "Each option is `SegmentedControlItem`.",
-          "Counts use `SegmentedControlCount`.",
-        ],
-        write:
-          '<SegmentedControl value={value} onValueChange={setValue}><SegmentedControlItem value="all">All</SegmentedControlItem></SegmentedControl>',
-      },
-      {
-        component: "select",
-        componentLabel: "Select",
-        refs: ["687,756,1252,1265,1717,1744"],
-        docsHref: "/components/select#source-comparison",
-        migration: [
-          "`Select` replaces single-value dropdown fields.",
-          "Use `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`.",
-          "Use `DropdownMenu` for action menus.",
-        ],
-        write:
-          '<Select value={value} onValueChange={setValue}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All</SelectItem></SelectContent></Select>',
-      },
-      {
         component: "textarea",
         componentLabel: "Textarea",
         refs: ["2569,2630"],
@@ -3091,44 +2729,6 @@ export const MIGRATION_GUIDES = [
     ],
   },
   {
-    sourceFile: "packages/web/src/components/task/StatusBadge.tsx",
-    slug: "components-task-statusbadge",
-    components: [
-      {
-        component: "badge",
-        componentLabel: "Badge",
-        refs: ["48"],
-        docsHref: "/components/badge#source-comparison",
-        migration: [
-          "`Badge` replaces legacy pill/status chips.",
-          "`tone` -> `variant`; soft/outline styles -> `appearance`.",
-          "Use `render` only when the badge must become a button/link.",
-        ],
-        write: '<Badge variant="success" appearance="soft">Ready</Badge>',
-        noDirect: ["Legacy experimental presets are removed. Pick `variant` + `appearance`."],
-      },
-    ],
-  },
-  {
-    sourceFile: "packages/web/src/components/task/TaskBoard.tsx",
-    slug: "components-task-taskboard",
-    components: [
-      {
-        component: "segmented-control",
-        componentLabel: "Segmented Control",
-        refs: ["117,129"],
-        docsHref: "/components/segmented-control#source-comparison",
-        migration: [
-          "`SegmentedControl` replaces filter/view toggles.",
-          "Each option is `SegmentedControlItem`.",
-          "Counts use `SegmentedControlCount`.",
-        ],
-        write:
-          '<SegmentedControl value={value} onValueChange={setValue}><SegmentedControlItem value="all">All</SegmentedControlItem></SegmentedControl>',
-      },
-    ],
-  },
-  {
     sourceFile: "packages/web/src/components/task/TaskItem.tsx",
     slug: "components-task-taskitem",
     components: [
@@ -3193,19 +2793,6 @@ export const MIGRATION_GUIDES = [
           "<EmptyState><EmptyStateTitle>No results</EmptyStateTitle><EmptyStateDescription>Try another filter.</EmptyStateDescription></EmptyState>",
       },
       {
-        component: "segmented-control",
-        componentLabel: "Segmented Control",
-        refs: ["942"],
-        docsHref: "/components/segmented-control#source-comparison",
-        migration: [
-          "`SegmentedControl` replaces filter/view toggles.",
-          "Each option is `SegmentedControlItem`.",
-          "Counts use `SegmentedControlCount`.",
-        ],
-        write:
-          '<SegmentedControl value={value} onValueChange={setValue}><SegmentedControlItem value="all">All</SegmentedControlItem></SegmentedControl>',
-      },
-      {
         component: "text",
         componentLabel: "Text",
         refs: ["135,241,824"],
@@ -3216,25 +2803,6 @@ export const MIGRATION_GUIDES = [
           "Use heading/mono variants only when semantic.",
         ],
         write: '<Text.Sans size="body" variant="placeholder">Copy</Text.Sans>',
-      },
-    ],
-  },
-  {
-    sourceFile: "packages/web/src/components/task/taskStatusUi.ts",
-    slug: "components-task-taskstatusui",
-    components: [
-      {
-        component: "badge",
-        componentLabel: "Badge",
-        refs: ["4"],
-        docsHref: "/components/badge#source-comparison",
-        migration: [
-          "`Badge` replaces legacy pill/status chips.",
-          "`tone` -> `variant`; soft/outline styles -> `appearance`.",
-          "Use `render` only when the badge must become a button/link.",
-        ],
-        write: '<Badge variant="success" appearance="soft">Ready</Badge>',
-        noDirect: ["Legacy experimental presets are removed. Pick `variant` + `appearance`."],
       },
     ],
   },
@@ -3267,19 +2835,6 @@ export const MIGRATION_GUIDES = [
         ],
         write:
           "<EmptyState><EmptyStateTitle>No results</EmptyStateTitle><EmptyStateDescription>Try another filter.</EmptyStateDescription></EmptyState>",
-      },
-      {
-        component: "segmented-control",
-        componentLabel: "Segmented Control",
-        refs: ["379"],
-        docsHref: "/components/segmented-control#source-comparison",
-        migration: [
-          "`SegmentedControl` replaces filter/view toggles.",
-          "Each option is `SegmentedControlItem`.",
-          "Counts use `SegmentedControlCount`.",
-        ],
-        write:
-          '<SegmentedControl value={value} onValueChange={setValue}><SegmentedControlItem value="all">All</SegmentedControlItem></SegmentedControl>',
       },
       {
         component: "text",
@@ -3318,25 +2873,6 @@ export const MIGRATION_GUIDES = [
     ],
   },
   {
-    sourceFile: "packages/web/src/components/ui/ExperimentalBadge.tsx",
-    slug: "components-ui-experimentalbadge",
-    components: [
-      {
-        component: "badge",
-        componentLabel: "Badge",
-        refs: ["13"],
-        docsHref: "/components/badge#source-comparison",
-        migration: [
-          "`Badge` replaces legacy pill/status chips.",
-          "`tone` -> `variant`; soft/outline styles -> `appearance`.",
-          "Use `render` only when the badge must become a button/link.",
-        ],
-        write: '<Badge variant="success" appearance="soft">Ready</Badge>',
-        noDirect: ["Legacy experimental presets are removed. Pick `variant` + `appearance`."],
-      },
-    ],
-  },
-  {
     sourceFile: "packages/web/src/components/ui/FormField.tsx",
     slug: "components-ui-formfield",
     components: [
@@ -3351,20 +2887,6 @@ export const MIGRATION_GUIDES = [
           "Optional/custom suffix -> `LabelOptional` or `LabelSub`.",
         ],
         write: "<Label>Email <LabelAsterisk /></Label>",
-      },
-    ],
-  },
-  {
-    sourceFile: "packages/web/src/components/ui/MenuItem.tsx",
-    slug: "components-ui-menuitem",
-    components: [
-      {
-        component: "kbd",
-        componentLabel: "Kbd",
-        refs: ["37"],
-        docsHref: "/components/kbd#source-comparison",
-        migration: ["Shortcut text -> `Kbd`.", "Multiple keys -> `KbdGroup`."],
-        write: "<KbdGroup><Kbd>Command</Kbd><Kbd>K</Kbd></KbdGroup>",
       },
     ],
   },
@@ -3679,17 +3201,6 @@ export const MIGRATION_GUIDES = [
         noDirect: [
           "No identity resolver API. Resolve `src`, `name`, and `initials` before rendering.",
         ],
-      },
-      {
-        component: "inline-code",
-        componentLabel: "Inline Code",
-        refs: ["93,105,485,487,488,503,511,513,520,523,524"],
-        docsHref: "/components/inline-code#source-comparison",
-        migration: [
-          "Inline code tokens -> `InlineCode`.",
-          "Do not set component-level font size unless the local context needs it.",
-        ],
-        write: '<InlineCode>shape="icon"</InlineCode>',
       },
     ],
   },

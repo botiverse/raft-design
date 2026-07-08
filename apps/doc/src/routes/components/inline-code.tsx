@@ -7,72 +7,13 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import inlineCodeInlineProseTokenCompositionSource from "#/compositions/inline-code/inline-prose-token-composition.tsx?raw";
-import {
-  INLINE_CODE_SOURCE_COMPARISON_COMPOSITION,
-  INLINE_CODE_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/inline-code-source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Inline technical tokens",
-    scenes: [
-      {
-        label: "PaletteAuditPage.tsx:93,105,485,487,488,503,511,513,520,523,524",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/PaletteAuditPage.tsx:93,105,485,487,488,503,511,513,520,523,524",
-      },
-      {
-        label: "AnnouncementModal.tsx:153",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:153",
-      },
-      {
-        label: "AddMachineDialog.tsx:248,269",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:248,269",
-      },
-      {
-        label: "MachineDetailPanel.tsx:845,865",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:845,865",
-      },
-      {
-        label: "InlineMarkdownPreview.tsx:22",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/InlineMarkdownPreview.tsx:22",
-      },
-      {
-        label: "MermaidDiagram.tsx:28",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/MermaidDiagram.tsx:28",
-      },
-      {
-        label: "MarkdownContent.tsx:62,68",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/markdown/MarkdownContent.tsx:62,68",
-      },
-      {
-        label: "AgentScopesPanel.tsx:158",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentScopesPanel.tsx:158",
-      },
-      {
-        label: "AgentWorkspace.tsx:487,492",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentWorkspace.tsx:487,492",
-      },
-      {
-        label: "AgentSkills.tsx:46",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentSkills.tsx:46",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -91,11 +32,6 @@ const SNIPPETS = {
 <p>
   Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
 </p>`,
-  migrationNative: `// Before
-<code>aria-invalid</code>
-
-// After
-<InlineCode>aria-invalid</InlineCode>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -111,46 +47,13 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const InlineCodeCurrent = INLINE_CODE_SOURCE_COMPARISON_COMPOSITION;
-
-const INLINE_CODE_COMPOSITION_RAW_SOURCES = {
-  InlineProseToken: inlineCodeInlineProseTokenCompositionSource,
-} as const;
-
-const INLINE_CODE_COMPOSITION_SOURCES = createCompositionSourceMap(
-  INLINE_CODE_COMPOSITION_RAW_SOURCES,
-);
-
-const INLINE_CODE_COMPOSITION_SNIPPET_IDS = {
-  InlineProseToken: "inlineCodeInlineProseTokenComposition",
-} as const;
-
-type InlineCodeCompositionKey = keyof typeof INLINE_CODE_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/inline-code")({
   component: InlineCodeDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...createCompositionSnippetMap(
-          INLINE_CODE_COMPOSITION_SOURCES,
-          INLINE_CODE_COMPOSITION_SNIPPET_IDS,
-        ),
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function InlineCodeDoc() {
   const code = Route.useLoaderData();
-  const inlineCodeComposition = (key: InlineCodeCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: INLINE_CODE_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: INLINE_CODE_COMPOSITION_SNIPPET_IDS,
-      sources: INLINE_CODE_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -203,27 +106,6 @@ function InlineCodeDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Inline prose token",
-              note: "Source rendered inline code inside MarkdownContent. Current turns the same brutal recipe into a reusable InlineCode primitive and adds elegant theme coverage.",
-              source: (
-                <code className="border border-black bg-brutal-yellow/40 px-1 text-sm font-mono [overflow-wrap:anywhere]">
-                  aria-invalid
-                </code>
-              ),
-              brutal: <InlineCodeCurrent.InlineProseToken />,
-              elegant: <InlineCodeCurrent.InlineProseToken />,
-              elegantDark: <InlineCodeCurrent.InlineProseToken />,
-              ...inlineCodeComposition("InlineProseToken"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

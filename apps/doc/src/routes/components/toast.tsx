@@ -30,17 +30,12 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
-  ImageActionErrorComposition,
-  SourceImageActionErrorPreview,
-  SourceSelectionToastPreview,
-  TOAST_COMPOSITION_PATH,
   ToastComposition,
   ToastPreviewScene,
   type ToastDemoOptions,
-} from "#/compositions/toast-source-comparison.tsx";
+} from "#/compositions/toast-composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -48,7 +43,6 @@ const TOC = [
   { id: "variants", title: "Variants" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const anchoredUsageToastManager = createToastManager();
@@ -129,42 +123,6 @@ type AnatomyVariantData = {
   hasClose: boolean;
   actionLoading?: boolean;
 };
-
-const SELECTION_TOAST_SCENES = [
-  {
-    label: "Selection toast",
-    scenes: [
-      {
-        label: "ChatPanel.tsx:832-835",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ChatPanel.tsx:832-835",
-      },
-      {
-        label: "ChatPanel.tsx:1213-1220",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ChatPanel.tsx:1213-1220",
-      },
-      {
-        label: "forwardSelectionUtils.ts:40-52",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/forwardSelectionUtils.ts:40-52",
-      },
-    ],
-  },
-] as const;
-
-const IMAGE_ACTION_ERROR_SCENES = [
-  {
-    label: "Image action error",
-    scenes: [
-      {
-        label: "ChatPanel.tsx:1271-1279",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ChatPanel.tsx:1271-1279",
-      },
-      {
-        label: "ThreadPanel.tsx:1517-1525",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ThreadPanel.tsx:1517-1525",
-      },
-    ],
-  },
-] as const;
 
 const SNIPPETS = {
   anatomy: `import {
@@ -438,124 +396,6 @@ function AnchoredToasts() {
     </ToastPortal>
   );
 }`,
-  sourceToast: `<div
-  className="fixed bottom-4 left-1/2 z-[70] -translate-x-1/2 border-2 border-black bg-soft-signal px-3 py-2 text-sm font-bold text-black shadow-[var(--shadow-brutal)]"
-  role="status"
-  data-testid="forward-toast"
->
-  {selectionToast}
-</div>`,
-  sourceErrorToast: `<div
-  role="alert"
-  className="fixed bottom-20 left-1/2 z-[110] -translate-x-1/2 border-2 border-black bg-brutal-orange px-3 py-2 text-xs font-bold shadow-[var(--shadow-brutal-sm)]"
-  onClick={() => setPicError(null)}
-  data-testid="select-share-error"
->
-  Image action failed: {picError} — click to dismiss.
-</div>`,
-  imageActionErrorComposition: `function ImageActionErrorComposition({ message = "Clipboard write blocked" }) {
-  const theme = useThemeFamily();
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const [toastManager] = useState(() => createToastManager());
-
-  return (
-    <div ref={setPortalContainer} className="relative h-36 w-full overflow-hidden">
-      <ToastPreviewScene />
-      <ToastProvider
-        key={theme}
-        toastManager={toastManager}
-        timeout={0}
-        limit={1}
-        renderViewport={false}
-      >
-        <SeedImageActionErrorToast message={message} />
-        {portalContainer ? (
-          <ToastPortal container={portalContainer}>
-            <ToastViewport strategy="absolute" placement="bottom-center">
-              <ImageActionErrorToastList />
-            </ToastViewport>
-          </ToastPortal>
-        ) : null}
-      </ToastProvider>
-    </div>
-  );
-}
-
-function SeedImageActionErrorToast({ message }: { message: string }) {
-  const seededRef = useRef(false);
-  const toastManager = useToastManager<{
-    icon?: "alert";
-    hasClose?: boolean;
-    contentClassName?: string;
-  }>();
-
-  useEffect(() => {
-    if (seededRef.current) return;
-    seededRef.current = true;
-
-    toastManager.add({
-      id: "image-action-failed",
-      type: "error",
-      title: "Image action failed",
-      description: message,
-      priority: "high",
-      data: {
-        icon: "alert",
-        hasClose: true,
-        contentClassName: "[[data-theme=brutal]_&]:min-w-72",
-      },
-    });
-  }, [message, toastManager]);
-
-  return null;
-}
-
-function ImageActionErrorToastList() {
-  const toastManager = useToastManager<{
-    icon?: "alert";
-    hasClose?: boolean;
-    contentClassName?: string;
-  }>();
-
-  return toastManager.toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast} layout="inline">
-      <ToastContent className={toast.data?.contentClassName}>
-        <ToastIcon />
-        <ToastBody>
-          <ToastTitle />
-          <ToastDescription />
-        </ToastBody>
-        <ToastActions>
-          <ToastClose />
-        </ToastActions>
-      </ToastContent>
-    </ToastRoot>
-  ));
-}`,
-  selectionToastComposition: `function SelectionFeedbackToastComposition() {
-  return (
-    <ToastProvider timeout={0} limit={3}>
-      <SeedSelectionToast />
-    </ToastProvider>
-  );
-}
-
-function SeedSelectionToast() {
-  const seededRef = useRef(false);
-
-  useEffect(() => {
-    if (seededRef.current) return;
-    seededRef.current = true;
-
-    toast.info("3 links copied.", {
-      id: "copy-links",
-      icon: false,
-      dismissible: false,
-    });
-  }, []);
-
-  return null;
-}`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -645,12 +485,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/toast")({
   component: ToastDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function ToastDoc() {
@@ -803,49 +638,6 @@ function ToastDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison" showThemeSwitcher={false}>
-        <SourceComparison
-          layout="grid"
-          previewSize="tall"
-          items={[
-            {
-              id: "source-comparison-selection-toast",
-              label: "Selection feedback toast",
-              status: "match",
-              note: "Source keeps one hand-rolled bottom-center status region in ChatPanel. Toast keeps that transient feedback shape but moves lifecycle, stacking, swipe dismiss, and live-region semantics into Base UI.",
-              sourceScenes: SELECTION_TOAST_SCENES,
-              source: <SourceSelectionToastPreview message="3 links copied." />,
-              sourceCode: code.sourceToast,
-              brutal: <ToastComposition seed="copy" />,
-              elegant: <ToastComposition seed="copy" />,
-              elegantDark: <ToastComposition seed="copy" />,
-              compositionCode: code.selectionToastComposition,
-              compositionCollapsedCode: code.selectionToastCompositionBody,
-              compositionPath: TOAST_COMPOSITION_PATH,
-              compositionSource: SNIPPETS.selectionToastComposition,
-              compositionShowLineNumbers: false,
-              previewClassName: "min-h-72",
-            },
-            {
-              id: "source-comparison-image-action-error",
-              label: "Image action error",
-              status: "review",
-              note: "Source is a hand-rolled fixed alert. The composition keeps the image failure feedback in shared Toast primitives with status icon and visible dismiss.",
-              sourceScenes: IMAGE_ACTION_ERROR_SCENES,
-              source: <SourceImageActionErrorPreview />,
-              sourceCode: code.sourceErrorToast,
-              current: <ImageActionErrorComposition />,
-              compositionCode: code.imageActionErrorComposition,
-              compositionCollapsedCode: code.imageActionErrorCompositionBody,
-              compositionPath: TOAST_COMPOSITION_PATH,
-              compositionSource: SNIPPETS.imageActionErrorComposition,
-              compositionShowLineNumbers: false,
-              previewClassName: "min-h-72",
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

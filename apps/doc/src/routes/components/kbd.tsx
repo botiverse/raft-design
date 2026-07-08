@@ -8,46 +8,13 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import {
-  KBD_SOURCE_COMPARISON_COMPOSITION,
-  KBD_SOURCE_COMPARISON_COMPOSITION_PATHS,
-  KBD_SOURCE_COMPARISON_SOURCE,
-} from "#/compositions/kbd-source-comparison.tsx";
-import kbdMenuShortcutCompositionSource from "#/compositions/kbd/menu-shortcut-composition.tsx?raw";
-import kbdShortcutGroupCompositionSource from "#/compositions/kbd/shortcut-group-composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Keyboard shortcuts",
-    scenes: [
-      {
-        label: "Sidebar.tsx:1397",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1397",
-      },
-      {
-        label: "MessageItem.tsx:1116",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1116",
-      },
-      {
-        label: "MenuItem.tsx:37",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/MenuItem.tsx:37",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -125,44 +92,13 @@ const KBD_GROUP_PROPS: readonly PropRow[] = [
   },
 ];
 
-const KbdCurrent = KBD_SOURCE_COMPARISON_COMPOSITION;
-const KbdSource = KBD_SOURCE_COMPARISON_SOURCE;
-
-const KBD_COMPOSITION_RAW_SOURCES = {
-  DeleteShortcut: kbdMenuShortcutCompositionSource,
-  CommandShortcut: kbdShortcutGroupCompositionSource,
-} as const;
-
-const KBD_COMPOSITION_SOURCES = createCompositionSourceMap(KBD_COMPOSITION_RAW_SOURCES);
-
-const KBD_COMPOSITION_SNIPPET_IDS = {
-  DeleteShortcut: "kbdDeleteShortcutComposition",
-  CommandShortcut: "kbdCommandShortcutComposition",
-} as const;
-
-type KbdCompositionKey = keyof typeof KBD_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/kbd")({
   component: KbdDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...createCompositionSnippetMap(KBD_COMPOSITION_SOURCES, KBD_COMPOSITION_SNIPPET_IDS),
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function KbdDoc() {
   const code = Route.useLoaderData();
-  const kbdComposition = (key: KbdCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: KBD_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: KBD_COMPOSITION_SNIPPET_IDS,
-      sources: KBD_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -247,33 +183,6 @@ function KbdDoc() {
             <PropsTable rows={KBD_GROUP_PROPS} />
           </div>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "Delete shortcut",
-              status: "match",
-              source: <KbdSource.DeleteShortcut />,
-              brutal: <KbdCurrent.DeleteShortcut />,
-              elegant: <KbdCurrent.DeleteShortcut />,
-              elegantDark: <KbdCurrent.DeleteShortcut />,
-              ...kbdComposition("DeleteShortcut"),
-            },
-            {
-              label: "Command shortcut",
-              status: "match",
-              source: <KbdSource.CommandShortcut />,
-              brutal: <KbdCurrent.CommandShortcut />,
-              elegant: <KbdCurrent.CommandShortcut />,
-              elegantDark: <KbdCurrent.CommandShortcut />,
-              ...kbdComposition("CommandShortcut"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

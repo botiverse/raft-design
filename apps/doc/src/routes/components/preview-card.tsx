@@ -20,8 +20,6 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import previewCardMentionCompositionSource from "#/compositions/preview-card-mention-composition.tsx?raw";
 import { PreviewCardMentionComposition } from "#/compositions/preview-card-mention-composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -30,35 +28,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Mention hover card",
-    scenes: [
-      {
-        label: "MentionLink.tsx:12-40",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionLink.tsx:12-40",
-      },
-      {
-        label: "useProfileHoverCard.tsx:4-5,40-97",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/hooks/useProfileHoverCard.tsx:4-5,40-97",
-      },
-      {
-        label: "MentionHoverCard.tsx:12-13,105-117",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:12-13,105-117",
-      },
-      {
-        label: "MessageItem.tsx:2157",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:2157",
-      },
-      {
-        label: "MemberGraphSection.tsx:144",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/MemberGraphSection.tsx:144",
-      },
-    ],
-  },
 ] as const;
 
 const MENTION_CARD_BODY_SNIPPET = `    <PreviewCardHeader>
@@ -171,18 +140,9 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const PREVIEW_CARD_MENTION_COMPOSITION_PATH =
-  "apps/doc/src/compositions/preview-card-mention-composition.tsx" as const;
-
 export const Route = createFileRoute("/components/preview-card")({
   component: PreviewCardDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        previewCardMentionComposition: previewCardMentionCompositionSource,
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function MentionCardBody() {
@@ -242,46 +202,6 @@ function DefaultOpenPreviewCard() {
   );
 }
 
-function SourceMentionCardPreview() {
-  return (
-    <div className="flex min-h-72 w-full items-start justify-center pt-8">
-      <div className="grid w-[20rem] justify-items-start gap-2">
-        <p className="m-0 max-w-full text-sm leading-6 text-black">
-          <span>Follow up with </span>
-          <a
-            href="/components/avatar"
-            className="cursor-default select-text font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2 hover:text-brutal-pink hover:decoration-brutal-pink"
-          >
-            @Atlas
-          </a>
-          <span> about the token migration.</span>
-        </p>
-        <div className="ml-16 w-[17.5rem] overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
-          <div className="flex items-start gap-3 px-3 pt-3 pb-2">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-black bg-brutal-yellow text-sm font-bold text-black">
-              AT
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <span className="truncate text-sm font-bold text-black">Atlas</span>
-                <Status aria-hidden size="sm" variant="success" />
-                <span className="truncate font-mono text-xs text-black/60">Online</span>
-              </div>
-              <div className="truncate font-mono text-xs text-black/60">@atlas</div>
-            </div>
-          </div>
-          <div
-            className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70"
-            title="Reviewing the token migration in #design-system."
-          >
-            Reviewing the token migration in #design-system.
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PreviewCardDoc() {
   const code = Route.useLoaderData();
 
@@ -325,32 +245,6 @@ function PreviewCardDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison" showThemeSwitcher={false}>
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              id: "source-comparison-mention-card",
-              label: "Mention hover card",
-              status: "match",
-              note: "Source opens MentionHoverCard on hover/focus via useProfileHoverCard timers (MentionLink.tsx:12-40). PreviewCardTrigger keeps that intent native, with snappier defaults for dense message previews instead of freezing an opened state.",
-              source: <SourceMentionCardPreview />,
-              brutal: <PreviewCardMentionComposition defaultOpen />,
-              elegant: <PreviewCardMentionComposition defaultOpen />,
-              elegantDark: <PreviewCardMentionComposition defaultOpen />,
-              compositionCode: code.previewCardMentionComposition,
-              compositionCollapsedCode: code.previewCardMentionCompositionBody,
-              compositionPath: PREVIEW_CARD_MENTION_COMPOSITION_PATH,
-              compositionSource: previewCardMentionCompositionSource,
-              compositionShowLineNumbers: false,
-              previewClassName: "min-h-72 items-start pt-8",
-            },
-          ]}
-          previewSize="popover"
-        />
       </DocSection>
     </DocPage>
   );

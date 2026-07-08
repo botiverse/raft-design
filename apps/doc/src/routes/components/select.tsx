@@ -2,7 +2,6 @@ import { useRef, useState, type RefObject } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock, MessageSquare, Search } from "lucide-react";
 import {
-  InlineCode,
   Select,
   SelectContent,
   SelectGroup,
@@ -24,27 +23,7 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import selectOptionsListCompositionSource from "#/compositions/select-options-list-composition.tsx?raw";
-import selectPreferenceCompositionSource from "#/compositions/select-preference-composition.tsx?raw";
-import selectTimeRangeCompositionSource from "#/compositions/select-time-range-composition.tsx?raw";
-import {
-  SELECT_OPTIONS_LIST_COMPOSITION_PATH,
-  SelectOptionsListComposition,
-  SelectOptionsListSourcePreview,
-} from "#/compositions/select-options-list.tsx";
-import {
-  SELECT_PREFERENCE_COMPOSITION_PATH,
-  SelectPreferenceComposition,
-  SelectPreferenceSourcePreview,
-} from "#/compositions/select-preference.tsx";
-import {
-  SELECT_TIME_RANGE_COMPOSITION_PATH,
-  SelectTimeRangeComposition,
-  SelectTimeRangeSourcePreview,
-} from "#/compositions/select-time-range.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -55,60 +34,6 @@ const TOC = [
   { id: "scrolling", title: "Scrolling" },
   { id: "field", title: "With Field" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-options-list", title: "Options list" },
-      { id: "source-comparison-preference-select", title: "Preference select" },
-      { id: "source-comparison-time-range", title: "Time range dropdown" },
-    ],
-  },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Select primitive and preference fields",
-    scenes: [
-      {
-        label: "Select.tsx:64,81",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/Select.tsx:64,81",
-      },
-      {
-        label: "SettingsPanel.tsx:792,839",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/settings/SettingsPanel.tsx:792,839",
-      },
-    ],
-  },
-  {
-    label: "Agent, runtime, and model selects",
-    scenes: [
-      {
-        label: "CreateAgentDialog.tsx:459",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/agent/CreateAgentDialog.tsx:459",
-      },
-      {
-        label: "RuntimeConfigFields.tsx:272,285,344,393,448,494",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/agent/RuntimeConfigFields.tsx:272,285,344,393,448,494",
-      },
-    ],
-  },
-  {
-    label: "Server admin and install target selects",
-    scenes: [
-      {
-        label: "SettingsPanel.tsx:1449,1462,1923,1950,4038,4475",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/settings/SettingsPanel.tsx:1449,1462,1923,1950,4038,4475",
-      },
-      {
-        label: "HumanLoginSetupPage.tsx:300",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/pages/HumanLoginSetupPage.tsx:300",
-      },
-      {
-        label: "IntegrationInvitePage.tsx:158",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/pages/IntegrationInvitePage.tsx:158",
-      },
-    ],
-  },
 ] as const;
 
 const SORT_OPTIONS = [
@@ -392,12 +317,6 @@ function RegionSelect() {
 </Field>`,
 } as const;
 
-const SELECT_COMPOSITION_SOURCES = createCompositionSourceMap({
-  selectOptionsListComposition: selectOptionsListCompositionSource,
-  selectPreferenceComposition: selectPreferenceCompositionSource,
-  selectTimeRangeComposition: selectTimeRangeCompositionSource,
-} as const);
-
 type PlaygroundValues = {
   disabled: boolean;
 };
@@ -459,13 +378,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/select")({
   component: SelectDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...SELECT_COMPOSITION_SOURCES,
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function SortSelect({ disabled = false, open }: { disabled?: boolean; open?: boolean }) {
@@ -759,78 +672,6 @@ function SelectDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              id: "source-comparison-options-list",
-              label: "Options list",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>Select.tsx</InlineCode>. Headerless legacy options now map to Select
-                  items, with the selected row owned by Base UI value state instead of a menu radio
-                  group.
-                </>
-              ),
-              source: <SelectOptionsListSourcePreview />,
-              brutal: <SelectOptionsListComposition />,
-              elegant: <SelectOptionsListComposition />,
-              elegantDark: <SelectOptionsListComposition />,
-              compositionCode: code.selectOptionsListComposition,
-              compositionCollapsedCode: code.selectOptionsListCompositionBody,
-              compositionPath: SELECT_OPTIONS_LIST_COMPOSITION_PATH,
-              compositionSource: SELECT_COMPOSITION_SOURCES.selectOptionsListComposition,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-preference-select",
-              label: "Preference select",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>SettingsPanel.tsx</InlineCode>. Account preferences use the legacy{" "}
-                  <InlineCode>Select</InlineCode> trigger and a headerless option list with the
-                  selected value hidden from the popup.
-                </>
-              ),
-              source: <SelectPreferenceSourcePreview />,
-              brutal: <SelectPreferenceComposition />,
-              elegant: <SelectPreferenceComposition />,
-              elegantDark: <SelectPreferenceComposition />,
-              compositionCode: code.selectPreferenceComposition,
-              compositionCollapsedCode: code.selectPreferenceCompositionBody,
-              compositionPath: SELECT_PREFERENCE_COMPOSITION_PATH,
-              compositionSource: SELECT_COMPOSITION_SOURCES.selectPreferenceComposition,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-time-range",
-              label: "Time range dropdown",
-              status: "difference",
-              note: (
-                <>
-                  Source search filters used <InlineCode>SelectionPopover</InlineCode> as a dropdown
-                  single-select surface. In the design system, closed value fields use Select while
-                  the selected option stays a trailing indicator.
-                </>
-              ),
-              source: <SelectTimeRangeSourcePreview />,
-              brutal: <SelectTimeRangeComposition />,
-              elegant: <SelectTimeRangeComposition />,
-              elegantDark: <SelectTimeRangeComposition />,
-              compositionCode: code.selectTimeRangeComposition,
-              compositionCollapsedCode: code.selectTimeRangeCompositionBody,
-              compositionPath: SELECT_TIME_RANGE_COMPOSITION_PATH,
-              compositionSource: SELECT_COMPOSITION_SOURCES.selectTimeRangeComposition,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

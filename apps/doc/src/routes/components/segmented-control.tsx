@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Columns3 as LucideColumns3, LayoutList as LucideLayoutList } from "lucide-react";
 import { useState } from "react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -9,57 +8,18 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SegmentedControlDisabledComposition } from "#/compositions/segmented-control/disabled-composition.tsx";
-import segmentedControlDisabledCompositionSource from "#/compositions/segmented-control/disabled-composition.tsx?raw";
 import { SegmentedControlFiltersComposition } from "#/compositions/segmented-control/filters-composition.tsx";
-import segmentedControlFiltersCompositionSource from "#/compositions/segmented-control/filters-composition.tsx?raw";
 import { SegmentedControlSearchSortComposition } from "#/compositions/segmented-control/search-sort-composition.tsx";
-import segmentedControlSearchSortCompositionSource from "#/compositions/segmented-control/search-sort-composition.tsx?raw";
 import { SegmentedControlTimeFormatComposition } from "#/compositions/segmented-control/time-format-composition.tsx";
-import segmentedControlTimeFormatCompositionSource from "#/compositions/segmented-control/time-format-composition.tsx?raw";
 import { SegmentedControlViewModeComposition } from "#/compositions/segmented-control/view-mode-composition.tsx";
-import segmentedControlViewModeCompositionSource from "#/compositions/segmented-control/view-mode-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import LegacySegmentedControl from "../../../../../packages/ui/src/legacy/SegmentedControl.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Filters, views, and preferences",
-    scenes: [
-      {
-        label: "ThreadsInbox.tsx:379",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/thread/ThreadsInbox.tsx:379",
-      },
-      {
-        label: "TaskBoard.tsx:117,129",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TaskBoard.tsx:117,129",
-      },
-      {
-        label: "TasksPanel.tsx:942",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:942",
-      },
-      {
-        label: "SettingsPanel.tsx:708,775,2963",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:708,775,2963",
-      },
-      {
-        label: "CreateChannelDialog.tsx:281",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:281",
-      },
-      {
-        label: "MessageSearchPage.tsx:888",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:888",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -155,68 +115,6 @@ const SNIPPETS = {
     <SegmentedControlLabel>Original</SegmentedControlLabel>
   </SegmentedControlItem>
 </SegmentedControl>`,
-  sourceFilters: `<SegmentedControl
-  ariaLabel="Filter messages"
-  value="all"
-  onChange={setValue}
-  options={[
-    { value: "all", label: "All", count: 12 },
-    { value: "unread", label: "Unread", count: 3 },
-    { value: "mentions", label: "Mentions" },
-  ]}
-/>`,
-  sourceViewMode: `<SegmentedControl
-  ariaLabel="Task view"
-  value="board"
-  onChange={setValue}
-  options={[
-    { value: "board", label: "Board", icon: <Columns3 size={12} /> },
-    { value: "list", label: "List", icon: <LayoutList size={12} /> },
-  ]}
-/>`,
-  sourceSearchSort: `<SegmentedControl
-  ariaLabel="Sort search results"
-  value="relevance"
-  onChange={setValue}
-  options={[
-    { value: "relevance", label: "Relevant" },
-    { value: "recent", label: "Recent" },
-  ]}
-/>`,
-  sourcePreferences: `<SegmentedControl
-  ariaLabel="Time format"
-  value="24h"
-  onChange={setValue}
-  options={[
-    { value: "12h", label: "12h" },
-    { value: "24h", label: "24h" },
-  ]}
-/>`,
-  sourceDisabled: `<SegmentedControl
-  disabled
-  value="translated"
-  onChange={() => {}}
-  options={[
-    { value: "translated", label: "Translated" },
-    { value: "original", label: "Original" },
-  ]}
-/>`,
-} as const;
-
-const SEGMENTED_CONTROL_COMPOSITION_PATHS = {
-  disabled: "apps/doc/src/compositions/segmented-control/disabled-composition.tsx",
-  filters: "apps/doc/src/compositions/segmented-control/filters-composition.tsx",
-  searchSort: "apps/doc/src/compositions/segmented-control/search-sort-composition.tsx",
-  timeFormat: "apps/doc/src/compositions/segmented-control/time-format-composition.tsx",
-  viewMode: "apps/doc/src/compositions/segmented-control/view-mode-composition.tsx",
-} as const;
-
-const SEGMENTED_CONTROL_COMPOSITION_SOURCES = {
-  disabled: segmentedControlDisabledCompositionSource,
-  filters: segmentedControlFiltersCompositionSource,
-  searchSort: segmentedControlSearchSortCompositionSource,
-  timeFormat: segmentedControlTimeFormatCompositionSource,
-  viewMode: segmentedControlViewModeCompositionSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -248,53 +146,11 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/segmented-control")({
   component: SegmentedControlDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        disabledComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.disabled,
-        filtersComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.filters,
-        searchSortComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.searchSort,
-        timeFormatComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.timeFormat,
-        viewModeComposition: SEGMENTED_CONTROL_COMPOSITION_SOURCES.viewMode,
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
-
-const FILTER_OPTIONS = [
-  { value: "all", label: "All", count: 12 },
-  { value: "unread", label: "Unread", count: 3 },
-  { value: "mentions", label: "Mentions" },
-] as const;
 
 function SegmentedControlDoc() {
   const code = Route.useLoaderData();
-  const composition = (key: keyof typeof SEGMENTED_CONTROL_COMPOSITION_SOURCES) => {
-    const snippetId = `${key}Composition` as const;
-
-    return {
-      compositionCode: code[snippetId],
-      compositionCollapsedCode: code[`${snippetId}Body`],
-      compositionPath: SEGMENTED_CONTROL_COMPOSITION_PATHS[key],
-      compositionSource: SEGMENTED_CONTROL_COMPOSITION_SOURCES[key],
-    };
-  };
-  const [sourceFilter, setSourceFilter] = useState<string>("all");
-  const [brutalFilter, setBrutalFilter] = useState<string>("all");
-  const [elegantFilter, setElegantFilter] = useState<string>("all");
-  const [elegantDarkFilter, setElegantDarkFilter] = useState<string>("all");
-  const [sourceView, setSourceView] = useState<string>("board");
-  const [brutalView, setBrutalView] = useState<string>("board");
-  const [elegantView, setElegantView] = useState<string>("board");
-  const [elegantDarkView, setElegantDarkView] = useState<string>("board");
-  const [sourceSearchSort, setSourceSearchSort] = useState<string>("relevance");
-  const [brutalSearchSort, setBrutalSearchSort] = useState<string>("relevance");
-  const [elegantSearchSort, setElegantSearchSort] = useState<string>("relevance");
-  const [elegantDarkSearchSort, setElegantDarkSearchSort] = useState<string>("relevance");
-  const [sourceTime, setSourceTime] = useState<string>("24h");
-  const [brutalTime, setBrutalTime] = useState<string>("24h");
-  const [elegantTime, setElegantTime] = useState<string>("24h");
-  const [elegantDarkTime, setElegantDarkTime] = useState<string>("24h");
 
   return (
     <DocPage
@@ -375,172 +231,6 @@ function SegmentedControlDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "Filters with counts",
-              status: "match",
-              note: "Used by inbox and task filters. The migration keeps visible counts and compact wrapping, while moving each segment into explicit children.",
-              source: (
-                <LegacySegmentedControl
-                  ariaLabel="Filter messages"
-                  value={sourceFilter}
-                  onChange={setSourceFilter}
-                  options={FILTER_OPTIONS.map((option) => ({ ...option }))}
-                />
-              ),
-              brutal: (
-                <SegmentedControlFiltersComposition
-                  value={brutalFilter}
-                  onValueChange={setBrutalFilter}
-                />
-              ),
-              elegant: (
-                <SegmentedControlFiltersComposition
-                  value={elegantFilter}
-                  onValueChange={setElegantFilter}
-                />
-              ),
-              elegantDark: (
-                <SegmentedControlFiltersComposition
-                  value={elegantDarkFilter}
-                  onValueChange={setElegantDarkFilter}
-                />
-              ),
-              ...composition("filters"),
-            },
-            {
-              label: "View mode",
-              status: "match",
-              note: "Used by task board/list controls. Icons remain part of the segment label, not separate icon buttons.",
-              source: (
-                <LegacySegmentedControl
-                  ariaLabel="Task view"
-                  value={sourceView}
-                  onChange={setSourceView}
-                  options={[
-                    { value: "board", label: "Board", icon: <LucideColumns3 size={12} /> },
-                    { value: "list", label: "List", icon: <LucideLayoutList size={12} /> },
-                  ]}
-                />
-              ),
-              brutal: (
-                <SegmentedControlViewModeComposition
-                  value={brutalView}
-                  onValueChange={setBrutalView}
-                />
-              ),
-              elegant: (
-                <SegmentedControlViewModeComposition
-                  value={elegantView}
-                  onValueChange={setElegantView}
-                />
-              ),
-              elegantDark: (
-                <SegmentedControlViewModeComposition
-                  value={elegantDarkView}
-                  onValueChange={setElegantDarkView}
-                />
-              ),
-              ...composition("viewMode"),
-            },
-            {
-              label: "Search sort",
-              status: "match",
-              note: "Used by message search relevance/recent sorting. It stays a compact immediate view choice, so it belongs with SegmentedControl rather than Select or RadioGroup.",
-              source: (
-                <LegacySegmentedControl
-                  ariaLabel="Sort search results"
-                  value={sourceSearchSort}
-                  onChange={setSourceSearchSort}
-                  options={[
-                    { value: "relevance", label: "Relevant" },
-                    { value: "recent", label: "Recent" },
-                  ]}
-                />
-              ),
-              brutal: (
-                <SegmentedControlSearchSortComposition
-                  value={brutalSearchSort}
-                  onValueChange={setBrutalSearchSort}
-                />
-              ),
-              elegant: (
-                <SegmentedControlSearchSortComposition
-                  value={elegantSearchSort}
-                  onValueChange={setElegantSearchSort}
-                />
-              ),
-              elegantDark: (
-                <SegmentedControlSearchSortComposition
-                  value={elegantDarkSearchSort}
-                  onValueChange={setElegantDarkSearchSort}
-                />
-              ),
-              ...composition("searchSort"),
-            },
-            {
-              label: "Persistent preference",
-              status: "match",
-              note: "Used by settings such as translated/original and 12h/24h. SegmentedControl is for immediate persistent choice changes, not deferred form submission.",
-              source: (
-                <LegacySegmentedControl
-                  ariaLabel="Time format"
-                  value={sourceTime}
-                  onChange={setSourceTime}
-                  options={[
-                    { value: "12h", label: "12h" },
-                    { value: "24h", label: "24h" },
-                  ]}
-                />
-              ),
-              brutal: (
-                <SegmentedControlTimeFormatComposition
-                  value={brutalTime}
-                  onValueChange={setBrutalTime}
-                />
-              ),
-              elegant: (
-                <SegmentedControlTimeFormatComposition
-                  value={elegantTime}
-                  onValueChange={setElegantTime}
-                />
-              ),
-              elegantDark: (
-                <SegmentedControlTimeFormatComposition
-                  value={elegantDarkTime}
-                  onValueChange={setElegantDarkTime}
-                />
-              ),
-              ...composition("timeFormat"),
-            },
-            {
-              label: "Disabled",
-              status: "match",
-              note: "Disabled remains group-owned so every segment dims and ignores interaction together.",
-              source: (
-                <LegacySegmentedControl
-                  disabled
-                  value="translated"
-                  onChange={() => {}}
-                  options={[
-                    { value: "translated", label: "Translated" },
-                    { value: "original", label: "Original" },
-                  ]}
-                />
-              ),
-              brutal: <SegmentedControlDisabledComposition />,
-              elegant: <SegmentedControlDisabledComposition />,
-              elegantDark: <SegmentedControlDisabledComposition />,
-              ...composition("disabled"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

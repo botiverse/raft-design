@@ -8,34 +8,7 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import badgeAccentCompositionSource from "#/compositions/badge/accent-composition.tsx?raw";
-import badgeButtonRenderCompositionSource from "#/compositions/badge/button-render-composition.tsx?raw";
-import badgeDangerCompositionSource from "#/compositions/badge/danger-composition.tsx?raw";
-import badgeDefaultCompositionSource from "#/compositions/badge/default-composition.tsx?raw";
-import badgeDefaultPreservedCasingCompositionSource from "#/compositions/badge/default-preserved-casing-composition.tsx?raw";
-import badgeExperimentalPresetCompositionSource from "#/compositions/badge/experimental-preset-composition.tsx?raw";
-import badgeInformationCompositionSource from "#/compositions/badge/information-composition.tsx?raw";
-import badgeMutedCompositionSource from "#/compositions/badge/muted-composition.tsx?raw";
-import badgeOutlineAppearanceCompositionSource from "#/compositions/badge/outline-appearance-composition.tsx?raw";
-import badgePrimaryCompositionSource from "#/compositions/badge/primary-composition.tsx?raw";
-import badgeSoftAppearanceCompositionSource from "#/compositions/badge/soft-appearance-composition.tsx?raw";
-import badgeSuccessCompositionSource from "#/compositions/badge/success-composition.tsx?raw";
-import badgeWarningCompositionSource from "#/compositions/badge/warning-composition.tsx?raw";
-import {
-  BADGE_SOURCE_COMPARISON_COMPOSITION,
-  BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/badge-source-comparison.tsx";
-import LegacyBadge, {
-  BadgeButton as LegacyBadgeButton,
-} from "../../../../../packages/ui/src/legacy/Badge.tsx";
-import LegacyExperimentalBadge from "../../../../../packages/ui/src/legacy/ExperimentalBadge.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -47,37 +20,6 @@ const TOC = [
   { id: "spinner", title: "Spinner" },
   { id: "composition", title: "Composition" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Status and semantic badges",
-    scenes: [
-      {
-        label: "ActionCard.tsx:272",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/actions/ActionCard.tsx:272",
-      },
-      {
-        label: "StatusBadge.tsx:48",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/StatusBadge.tsx:48",
-      },
-      {
-        label: "ExperimentalBadge.tsx:13",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/ExperimentalBadge.tsx:13",
-      },
-      {
-        label: "MessageItem.tsx:40",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:40",
-      },
-      {
-        label: "taskStatusUi.ts:4",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/taskStatusUi.ts:4",
-      },
-      "InlineBadgeEditor consumers: TaskItem.tsx, TaskCard.tsx, HumanDetailPanel.tsx",
-      "JointPeerBadge",
-      "AgentStatusBadge",
-    ],
-  },
 ] as const;
 
 const VARIANTS = [
@@ -188,40 +130,6 @@ const SNIPPETS = {
     </div>
   </div>
 </div>`,
-  migrationToneToVariant: `// Source
-<Badge tone="white">Default</Badge>
-<Badge tone="yellow">In Progress</Badge>
-<Badge tone="cyan">Open</Badge>
-<Badge tone="stone">Saved</Badge>
-<Badge tone="pink">New</Badge>
-<Badge tone="lime">Experimental</Badge>
-<Badge tone="orange">Warning</Badge>
-<Badge tone="red">Error</Badge>
-
-// Current
-<Badge appearance="outline" uppercase>Default</Badge>
-<Badge variant="primary" uppercase>In Progress</Badge>
-<Badge variant="information" uppercase>Open</Badge>
-<Badge variant="muted" uppercase>Saved</Badge>
-<Badge variant="accent" uppercase>New</Badge>
-<Badge variant="success" uppercase>Experimental</Badge>
-<Badge variant="warning" uppercase>Warning</Badge>
-<Badge variant="danger" uppercase>Error</Badge>`,
-  migrationCasing: `// Source opt-out
-<Badge uppercase={false}>task #42 @bugen</Badge>
-
-// Current default preserves casing
-<Badge appearance="outline">task #42 @bugen</Badge>
-
-// Current old brutal casing recipe
-<Badge appearance="outline" uppercase>In Progress</Badge>`,
-  migrationLavender: `// Source
-<Badge tone="lavender">Human</Badge>
-
-// Current, identity/attachment tag escape hatch
-<Badge className="bg-brutal-lavender text-black" uppercase>
-  Human
-</Badge>`,
 } as const;
 
 type PlaygroundValues = {
@@ -266,73 +174,13 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function MissingSource() {
-  return (
-    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
-      Missing
-    </span>
-  );
-}
-
-const BadgeCurrent = BADGE_SOURCE_COMPARISON_COMPOSITION;
-
-const BADGE_COMPOSITION_RAW_SOURCES = {
-  Accent: badgeAccentCompositionSource,
-  ButtonRender: badgeButtonRenderCompositionSource,
-  Danger: badgeDangerCompositionSource,
-  Default: badgeDefaultCompositionSource,
-  DefaultPreservedCasing: badgeDefaultPreservedCasingCompositionSource,
-  ExperimentalPreset: badgeExperimentalPresetCompositionSource,
-  Information: badgeInformationCompositionSource,
-  Muted: badgeMutedCompositionSource,
-  OutlineAppearance: badgeOutlineAppearanceCompositionSource,
-  Primary: badgePrimaryCompositionSource,
-  SoftAppearance: badgeSoftAppearanceCompositionSource,
-  Success: badgeSuccessCompositionSource,
-  Warning: badgeWarningCompositionSource,
-} as const;
-
-const BADGE_COMPOSITION_SOURCES = createCompositionSourceMap(BADGE_COMPOSITION_RAW_SOURCES);
-
-const BADGE_COMPOSITION_SNIPPET_IDS = {
-  Accent: "badgeAccentComposition",
-  ButtonRender: "badgeButtonRenderComposition",
-  Danger: "badgeDangerComposition",
-  Default: "badgeDefaultComposition",
-  DefaultPreservedCasing: "badgeDefaultPreservedCasingComposition",
-  ExperimentalPreset: "badgeExperimentalPresetComposition",
-  Information: "badgeInformationComposition",
-  Muted: "badgeMutedComposition",
-  OutlineAppearance: "badgeOutlineAppearanceComposition",
-  Primary: "badgePrimaryComposition",
-  SoftAppearance: "badgeSoftAppearanceComposition",
-  Success: "badgeSuccessComposition",
-  Warning: "badgeWarningComposition",
-} as const;
-
-type BadgeCompositionKey = keyof typeof BADGE_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/badge")({
   component: BadgeDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...createCompositionSnippetMap(BADGE_COMPOSITION_SOURCES, BADGE_COMPOSITION_SNIPPET_IDS),
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function BadgeDoc() {
   const code = Route.useLoaderData();
-  const badgeComposition = (key: BadgeCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: BADGE_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: BADGE_COMPOSITION_SNIPPET_IDS,
-      sources: BADGE_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -511,131 +359,6 @@ function BadgeDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Default",
-              status: "match",
-              source: <LegacyBadge>In Progress</LegacyBadge>,
-              brutal: <BadgeCurrent.Default />,
-              elegant: <BadgeCurrent.Default />,
-              elegantDark: <BadgeCurrent.Default />,
-              ...badgeComposition("Default"),
-            },
-            {
-              label: "Primary",
-              status: "match",
-              source: <LegacyBadge tone="yellow">Pending</LegacyBadge>,
-              brutal: <BadgeCurrent.Primary />,
-              elegant: <BadgeCurrent.Primary />,
-              elegantDark: <BadgeCurrent.Primary />,
-              ...badgeComposition("Primary"),
-            },
-            {
-              label: "Information",
-              status: "match",
-              source: <LegacyBadge tone="cyan">Open</LegacyBadge>,
-              brutal: <BadgeCurrent.Information />,
-              elegant: <BadgeCurrent.Information />,
-              elegantDark: <BadgeCurrent.Information />,
-              ...badgeComposition("Information"),
-            },
-            {
-              label: "Muted",
-              status: "match",
-              source: <LegacyBadge tone="stone">Saved</LegacyBadge>,
-              brutal: <BadgeCurrent.Muted />,
-              elegant: <BadgeCurrent.Muted />,
-              elegantDark: <BadgeCurrent.Muted />,
-              ...badgeComposition("Muted"),
-            },
-            {
-              label: "Accent",
-              status: "match",
-              source: <LegacyBadge tone="pink">New</LegacyBadge>,
-              brutal: <BadgeCurrent.Accent />,
-              elegant: <BadgeCurrent.Accent />,
-              elegantDark: <BadgeCurrent.Accent />,
-              ...badgeComposition("Accent"),
-            },
-            {
-              label: "Success",
-              status: "match",
-              source: <LegacyBadge tone="lime">Live</LegacyBadge>,
-              brutal: <BadgeCurrent.Success />,
-              elegant: <BadgeCurrent.Success />,
-              elegantDark: <BadgeCurrent.Success />,
-              ...badgeComposition("Success"),
-            },
-            {
-              label: "Warning",
-              status: "match",
-              source: <LegacyBadge tone="orange">Warning</LegacyBadge>,
-              brutal: <BadgeCurrent.Warning />,
-              elegant: <BadgeCurrent.Warning />,
-              elegantDark: <BadgeCurrent.Warning />,
-              ...badgeComposition("Warning"),
-            },
-            {
-              label: "Danger",
-              status: "match",
-              source: <LegacyBadge tone="red">Failed</LegacyBadge>,
-              brutal: <BadgeCurrent.Danger />,
-              elegant: <BadgeCurrent.Danger />,
-              elegantDark: <BadgeCurrent.Danger />,
-              ...badgeComposition("Danger"),
-            },
-            {
-              label: "Soft appearance",
-              status: "new",
-              source: <MissingSource />,
-              brutal: <BadgeCurrent.SoftAppearance />,
-              elegant: <BadgeCurrent.SoftAppearance />,
-              elegantDark: <BadgeCurrent.SoftAppearance />,
-              ...badgeComposition("SoftAppearance"),
-            },
-            {
-              label: "Outline appearance",
-              status: "new",
-              source: <MissingSource />,
-              brutal: <BadgeCurrent.OutlineAppearance />,
-              elegant: <BadgeCurrent.OutlineAppearance />,
-              elegantDark: <BadgeCurrent.OutlineAppearance />,
-              ...badgeComposition("OutlineAppearance"),
-            },
-            {
-              label: "Default preserved casing",
-              status: "match",
-              source: <LegacyBadge uppercase={false}>task #42 @bugen</LegacyBadge>,
-              brutal: <BadgeCurrent.DefaultPreservedCasing />,
-              elegant: <BadgeCurrent.DefaultPreservedCasing />,
-              elegantDark: <BadgeCurrent.DefaultPreservedCasing />,
-              ...badgeComposition("DefaultPreservedCasing"),
-            },
-            {
-              label: "Button render",
-              status: "difference",
-              source: <LegacyBadgeButton tone="cyan">3 replies</LegacyBadgeButton>,
-              brutal: <BadgeCurrent.ButtonRender />,
-              elegant: <BadgeCurrent.ButtonRender />,
-              elegantDark: <BadgeCurrent.ButtonRender />,
-              ...badgeComposition("ButtonRender"),
-            },
-            {
-              label: "Experimental preset",
-              status: "match",
-              source: <LegacyExperimentalBadge />,
-              brutal: <BadgeCurrent.ExperimentalPreset />,
-              elegant: <BadgeCurrent.ExperimentalPreset />,
-              elegantDark: <BadgeCurrent.ExperimentalPreset />,
-              ...badgeComposition("ExperimentalPreset"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

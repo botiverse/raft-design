@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, Copy, Info, SendHorizontal, TriangleAlert } from "lucide-react";
 import {
   Button,
@@ -21,9 +21,6 @@ import {
   useThemeFamily,
   type ToastObject,
 } from "raft-ui";
-
-export const TOAST_COMPOSITION_PATH =
-  "apps/doc/src/compositions/toast-source-comparison.tsx" as const;
 
 type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
@@ -55,116 +52,6 @@ const ICONS = {
   alert: TriangleAlert,
   copy: Copy,
 } as const;
-
-export function SourceSelectionToastPreview({ message = "3 links copied." }: { message?: string }) {
-  return (
-    <div className="relative h-36 w-full overflow-hidden bg-white">
-      <div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 border-2 border-black bg-soft-signal px-3 py-2 text-sm font-bold text-black shadow-[var(--shadow-brutal)]"
-        role="status"
-        data-testid="forward-toast"
-      >
-        {message}
-      </div>
-    </div>
-  );
-}
-
-export function SourceImageActionErrorPreview({
-  message = "Clipboard write blocked",
-}: {
-  message?: string;
-}) {
-  return (
-    <div className="relative h-36 w-full overflow-hidden bg-white">
-      <div
-        className="absolute bottom-20 left-1/2 -translate-x-1/2 border-2 border-black bg-brutal-orange px-3 py-2 text-xs font-bold text-black shadow-[var(--shadow-brutal-sm)]"
-        role="alert"
-        data-testid="select-share-error"
-      >
-        Image action failed: {message} — click to dismiss.
-      </div>
-    </div>
-  );
-}
-
-export function ImageActionErrorComposition({
-  message = "Clipboard write blocked",
-}: {
-  message?: string;
-}) {
-  const theme = useThemeFamily();
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const [toastManager] = useState(() => createToastManager<ToastDemoData>());
-
-  return (
-    <div ref={setPortalContainer} className="relative h-36 w-full overflow-hidden">
-      <ToastPreviewScene />
-      <ToastProvider
-        key={theme}
-        toastManager={toastManager}
-        timeout={0}
-        limit={1}
-        renderViewport={false}
-      >
-        <SeedImageActionErrorToast message={message} />
-        {portalContainer ? (
-          <ToastPortal container={portalContainer}>
-            <ToastViewport strategy="absolute" placement="bottom-center">
-              <ImageActionErrorToastList />
-            </ToastViewport>
-          </ToastPortal>
-        ) : null}
-      </ToastProvider>
-    </div>
-  );
-}
-
-function SeedImageActionErrorToast({ message }: { message: string }) {
-  const seededRef = useRef(false);
-  const toastManager = useToastManager<ToastDemoData>();
-
-  useEffect(() => {
-    if (seededRef.current) return;
-    seededRef.current = true;
-
-    toastManager.add({
-      id: "image-action-failed",
-      type: "error",
-      title: "Image action failed",
-      description: message,
-      priority: "high",
-      data: {
-        icon: "alert",
-        hasClose: true,
-        contentClassName: "[[data-theme=brutal]_&]:min-w-72",
-      },
-    });
-  }, [message, toastManager]);
-
-  return null;
-}
-
-function ImageActionErrorToastList() {
-  const toastManager = useToastManager<ToastDemoData>();
-
-  return toastManager.toasts.map((toast) => (
-    <ToastRoot key={toast.id} toast={toast} layout="inline">
-      <ToastContent className={toast.data?.contentClassName}>
-        <ToastIcon>
-          <ToastIconGlyph toast={toast} />
-        </ToastIcon>
-        <ToastBody>
-          <ToastTitle />
-          <ToastDescription />
-        </ToastBody>
-        <ToastActions>
-          <ToastClose />
-        </ToastActions>
-      </ToastContent>
-    </ToastRoot>
-  ));
-}
 
 export function ToastComposition({
   seed = "copy",
@@ -482,19 +369,4 @@ function iconForType(type: string | undefined): keyof typeof ICONS {
   if (type === "error") return "alert";
   if (type === "warning") return "alert";
   return "info";
-}
-
-export function ToastUsageExample({ children }: { children?: ReactNode }) {
-  const [toastManager] = useState(() => createToastManager<ToastDemoData>());
-
-  return (
-    <ToastProvider toastManager={toastManager} timeout={3600} renderViewport={false}>
-      {children ?? <ToastDemoControls options={DEFAULT_TOAST_DEMO_OPTIONS} />}
-      <ToastPortal>
-        <ToastViewport>
-          <ToastList />
-        </ToastViewport>
-      </ToastPortal>
-    </ToastProvider>
-  );
 }

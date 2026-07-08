@@ -18,29 +18,13 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import {
-  TOOLTIP_SOURCE_COMPARISON_COMPOSITION,
-  TOOLTIP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-  TOOLTIP_SOURCE_COMPARISON_SOURCE,
-} from "#/compositions/tooltip-source-comparison.tsx";
-import tooltipIconActionCompositionSource from "#/compositions/tooltip/icon-action-composition.tsx?raw";
-import tooltipReactionNamesCompositionSource from "#/compositions/tooltip/reaction-names-composition.tsx?raw";
-import tooltipStatusHintCompositionSource from "#/compositions/tooltip/status-hint-composition.tsx?raw";
-import tooltipTimestampDetailCompositionSource from "#/compositions/tooltip/timestamp-detail-composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const PREVIEW_SIDES = ["top", "right", "bottom", "left"] as const;
@@ -49,39 +33,6 @@ type PlaygroundValues = {
   side: (typeof PREVIEW_SIDES)[number];
   label: string;
 };
-
-const SOURCE_SCENES = [
-  {
-    label: "Message, sidebar, and detail hints",
-    scenes: [
-      {
-        label:
-          "MessageItem.tsx:695,1220,1383,1397,2314,2317,2377,2400,2415,2451,2565,2686,2723,2770,2796,2826,2862,2959",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:695,1220,1383,1397,2314,2317,2377,2400,2415,2451,2565,2686,2723,2770,2796,2826,2862,2959",
-      },
-      {
-        label: "MentionHoverCard.tsx:102",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:102",
-      },
-      {
-        label: "ChatPanel.tsx:60,61",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:60,61",
-      },
-      {
-        label: "Sidebar.tsx:1080,1152,1673",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1080,1152,1673",
-      },
-      {
-        label: "MachineDetailPanel.tsx:426,699",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:426,699",
-      },
-      {
-        label: "HumanDetailPanel.tsx:523",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:523",
-      },
-    ],
-  },
-] as const;
 
 const SNIPPETS = {
   preview: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
@@ -364,39 +315,9 @@ const TOOLTIP_CONTENT_PROPS: readonly PropRow[] = [
   },
 ];
 
-const TooltipCurrent = TOOLTIP_SOURCE_COMPARISON_COMPOSITION;
-const TooltipSource = TOOLTIP_SOURCE_COMPARISON_SOURCE;
-
-const TOOLTIP_COMPOSITION_RAW_SOURCES = {
-  IconAction: tooltipIconActionCompositionSource,
-  ReactionNames: tooltipReactionNamesCompositionSource,
-  StatusHint: tooltipStatusHintCompositionSource,
-  TimestampDetail: tooltipTimestampDetailCompositionSource,
-} as const;
-
-const TOOLTIP_COMPOSITION_SOURCES = createCompositionSourceMap(TOOLTIP_COMPOSITION_RAW_SOURCES);
-
-const TOOLTIP_COMPOSITION_SNIPPET_IDS = {
-  IconAction: "tooltipIconActionComposition",
-  ReactionNames: "tooltipReactionNamesComposition",
-  StatusHint: "tooltipStatusHintComposition",
-  TimestampDetail: "tooltipTimestampDetailComposition",
-} as const;
-
-type TooltipCompositionKey = keyof typeof TOOLTIP_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/tooltip")({
   component: TooltipDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...createCompositionSnippetMap(
-          TOOLTIP_COMPOSITION_SOURCES,
-          TOOLTIP_COMPOSITION_SNIPPET_IDS,
-        ),
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function TooltipFrame({
@@ -608,14 +529,6 @@ function ArrowPlacementExample() {
 
 function TooltipDoc() {
   const code = Route.useLoaderData();
-  const tooltipComposition = (key: TooltipCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: TOOLTIP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: TOOLTIP_COMPOSITION_SNIPPET_IDS,
-      sources: TOOLTIP_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -809,55 +722,6 @@ function TooltipDoc() {
             <PropsTable rows={TOOLTIP_CONTENT_PROPS} />
           </div>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "Icon action",
-              status: "difference",
-              note: "Source used a native title on an icon button; Tooltip makes the hint themeable and focus-visible.",
-              source: <TooltipSource.IconAction />,
-              brutal: <TooltipCurrent.IconAction />,
-              elegant: <TooltipCurrent.IconAction />,
-              elegantDark: <TooltipCurrent.IconAction />,
-              ...tooltipComposition("IconAction"),
-            },
-            {
-              label: "Status hint",
-              status: "difference",
-              note: "Status text can keep the compact source layout while moving the explanatory copy out of title.",
-              source: <TooltipSource.StatusHint />,
-              brutal: <TooltipCurrent.StatusHint />,
-              elegant: <TooltipCurrent.StatusHint />,
-              elegantDark: <TooltipCurrent.StatusHint />,
-              ...tooltipComposition("StatusHint"),
-            },
-            {
-              label: "Timestamp detail",
-              status: "difference",
-              note: "Short visible time stays scannable; Tooltip carries the full timestamp.",
-              source: <TooltipSource.TimestampDetail />,
-              brutal: <TooltipCurrent.TimestampDetail />,
-              elegant: <TooltipCurrent.TimestampDetail />,
-              elegantDark: <TooltipCurrent.TimestampDetail />,
-              ...tooltipComposition("TimestampDetail"),
-            },
-            {
-              label: "Reaction names",
-              status: "match",
-              note: "Source already rendered a role=tooltip popover for reaction names; the component replaces the hand-rolled positioning.",
-              source: <TooltipSource.ReactionNames />,
-              brutal: <TooltipCurrent.ReactionNames />,
-              elegant: <TooltipCurrent.ReactionNames />,
-              elegantDark: <TooltipCurrent.ReactionNames />,
-              ...tooltipComposition("ReactionNames"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );
