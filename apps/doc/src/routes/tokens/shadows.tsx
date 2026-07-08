@@ -175,7 +175,9 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
         {SHADOW_TOKENS.map((shadow) => (
           <div key={shadow.sourceToken} className="flex h-28 items-center justify-center">
             <div
-              className="flex h-16 w-24 items-center justify-center rounded text-xs font-normal"
+              className={`flex h-16 w-24 items-center justify-center text-xs font-normal ${
+                isBrutal ? "rounded-none" : "rounded"
+              }`}
               style={{
                 background: isBrutal ? "var(--layer-panel)" : "var(--layer-muted)",
                 boxShadow: `var(${shadow.sourceToken})`,

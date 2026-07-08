@@ -15,7 +15,7 @@ const TOKENS = {
       label: "Colors",
       children: [
         { label: "Brutal", to: "/tokens/colors/brutal" },
-        { label: "Elegant", to: "/tokens/colors/elegant", status: "wip" },
+        { label: "Elegant", to: "/tokens/colors/elegant" },
       ],
     },
     {

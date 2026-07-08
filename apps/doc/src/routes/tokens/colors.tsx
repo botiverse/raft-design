@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
-import { StatusBadge } from "#/components/status-badge.tsx";
 
 const SHADES = [
   "50",
@@ -192,29 +191,25 @@ const ALIASES = [
     role: "primary",
     scale: "yellow",
     baseShade: "400",
-    utilities: "bg-primary-400, text-primary-950",
-    note: "Default brutal action fill. Button, tabs, toggles, and highlighted rows consume this role.",
+    summary: "Primary action fill.",
   },
   {
     role: "accent",
     scale: "pink",
     baseShade: "400",
-    utilities: "bg-accent-400, text-accent-950",
-    note: "Secondary emphasis. Use only when the product meaning is accent, not state.",
+    summary: "Secondary emphasis.",
   },
   {
     role: "secondary",
     scale: "stone",
     baseShade: "400",
-    utilities: "bg-secondary-400, text-secondary-950",
-    note: "Neutral support scale. Good for quiet grouping and subdued controls.",
+    summary: "Neutral support scale.",
   },
   {
     role: "cream surface",
     scale: "cream",
     baseShade: "200",
-    utilities: "bg-brutal-cream",
-    note: "Cream's unsuffixed base resolves to cream-200 for warm brutal cotton surfaces.",
+    summary: "Warm brutal surface.",
   },
 ] as const;
 
@@ -330,24 +325,16 @@ const THEME_CONTEXTS = [
     label: "Brutal",
     theme: "brutal",
     mode: undefined,
-    status: undefined,
-    description: "White page, hard black ink, tints.dev brutal palette scales, square geometry.",
   },
   {
     label: "Elegant",
     theme: "elegant",
     mode: undefined,
-    status: "in-progress",
-    description:
-      "Neutral product surfaces while primary/accent/state still point at the same brutal palette.",
   },
   {
     label: "Elegant dark",
     theme: "elegant",
     mode: "dark",
-    status: "in-progress",
-    description:
-      "Dark foreground, layer, and line tokens. Palette aliases remain shared with light themes.",
   },
 ] as const;
 
@@ -411,47 +398,41 @@ export function ColorsDoc({ theme }: { theme: TokenTheme }) {
 
   return (
     <TokenThemeScope theme={theme}>
-      <DocPage title={title} description="The color token contract." toc={TOC}>
+      <DocPage
+        title={title}
+        description="Core color scales, semantic aliases, state tones, and theme-aware surface tokens."
+        articleClassName="max-w-none xl:max-w-6xl 2xl:max-w-7xl"
+        toc={TOC}
+      >
         <DocSection id="primitive" title="Primitive palette" showThemeSwitcher={false}>
-          <div className="space-y-5">
-            <div className="grid gap-4">
-              {PALETTES.map((palette) => (
-                <PaletteRow key={palette.name} palette={palette} />
-              ))}
-            </div>
+          <div className="space-y-14">
+            {PALETTES.map((palette) => (
+              <PaletteSection key={palette.name} palette={palette} />
+            ))}
           </div>
         </DocSection>
 
         <DocSection id="aliases" title="Theme aliases" showThemeSwitcher={false}>
-          <div className="space-y-5">
-            <div className="grid gap-3 lg:grid-cols-2">
-              {ALIASES.map((alias) => (
-                <AliasCard key={alias.role} alias={alias} />
-              ))}
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {ALIASES.map((alias) => (
+              <AliasCard key={alias.role} alias={alias} />
+            ))}
           </div>
         </DocSection>
 
         <DocSection id="states" title="State tones" showThemeSwitcher={false}>
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className="space-y-10">
             {STATES.map((state) => (
-              <StateCard key={state.role} state={state} />
+              <StateSection key={state.role} state={state} />
             ))}
           </div>
         </DocSection>
 
         <DocSection id="theme" title="Theme tokens" showThemeSwitcher={false}>
-          <div className="space-y-5">
-            <div className="grid gap-4 lg:grid-cols-2">
-              {contexts.map((context) => (
-                <ThemePreview key={context.label} theme={context} />
-              ))}
-            </div>
-            <div className="grid gap-4 lg:grid-cols-3">
-              {THEME_TOKEN_GROUPS.map((group) => (
-                <ThemeTokenGroup key={group.label} group={group} contexts={contexts} />
-              ))}
-            </div>
+          <div className="space-y-14">
+            {THEME_TOKEN_GROUPS.map((group) => (
+              <ThemeTokenSection key={group.label} group={group} contexts={contexts} />
+            ))}
           </div>
         </DocSection>
       </DocPage>
@@ -477,169 +458,118 @@ function TokenThemeScope({ theme, children }: { theme: TokenTheme; children: Rea
 }
 
 function getThemeContexts(theme: TokenTheme) {
-  return THEME_CONTEXTS.filter((context) => context.theme === theme);
+  return THEME_CONTEXTS.filter((context) => context.theme === theme && context.mode !== "dark");
 }
 
-function PaletteRow({ palette }: { palette: (typeof PALETTES)[number] }) {
-  const baseValue = PALETTE_VALUES[palette.name][palette.baseShade];
+function PaletteSection({ palette }: { palette: (typeof PALETTES)[number] }) {
   const familyToken = `--color-brutal-${palette.name}`;
-  const shadeToken = `${familyToken}-${palette.baseShade}`;
 
   return (
-    <div className="overflow-hidden bg-white">
-      <div className="grid gap-4 py-3 lg:grid-cols-[400px_minmax(0,1fr)]">
-        <div className="flex items-start gap-3">
-          <div
-            className="size-16 shrink-0 border border-gray-200"
-            style={{ background: baseValue }}
-            title={`${familyToken}: var(${shadeToken})`}
-          />
-          <div className="min-w-0">
-            <p className="whitespace-nowrap text-sm font-semibold capitalize text-gray-950">
-              {palette.name}
-            </p>
-            <p className="mt-1 overflow-x-auto whitespace-nowrap font-mono text-[11px] text-gray-500">
-              {familyToken}
-              {" -> "}
-              {shadeToken}
-            </p>
-            <p className="mt-1 overflow-x-auto whitespace-nowrap font-mono text-[11px] leading-tight text-gray-700">
-              {baseValue}
-            </p>
-          </div>
-        </div>
-        <div className="grid min-w-0 grid-cols-11 overflow-hidden rounded border border-gray-200">
-          {SHADES.map((shade) => {
-            const value = PALETTE_VALUES[palette.name][shade];
-
-            return (
-              <div key={shade} className="min-w-0">
-                <div
-                  className="h-14 border-b border-gray-200"
-                  style={{ background: value }}
-                  title={`--color-brutal-${palette.name}-${shade}: ${value}`}
-                />
-                <div className="bg-white px-1.5 py-1 text-center font-mono text-[10px] text-gray-500">
-                  {shade}
-                </div>
-              </div>
-            );
-          })}
+    <section className="border-t border-line-subtle pt-8 first:border-t-0 first:pt-0">
+      <div className="mb-6">
+        <div>
+          <h3 className="text-xl font-semibold capitalize tracking-tight text-foreground-strong">
+            {palette.name}
+          </h3>
+          <p className="mt-1 font-mono text-xs text-foreground-muted">{familyToken}</p>
         </div>
       </div>
-    </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
+        {SHADES.map((shade) => {
+          const value = PALETTE_VALUES[palette.name][shade];
+          return <ColorTokenCard key={shade} name={`${palette.name}-${shade}`} value={value} />;
+        })}
+      </div>
+    </section>
   );
 }
 
 function AliasCard({ alias }: { alias: (typeof ALIASES)[number] }) {
+  const value = PALETTE_VALUES[alias.scale][alias.baseShade];
+
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4">
-      <div className="flex items-start gap-3">
-        <div
-          className="h-12 w-12 shrink-0 border border-gray-200"
-          style={{
-            background: PALETTE_VALUES[alias.scale][alias.baseShade],
-          }}
-        />
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-gray-950">{alias.role}</p>
-          <p className="mt-1 font-mono text-xs text-gray-500">{alias.utilities}</p>
-          <p className="mt-2 text-sm leading-relaxed text-gray-600">{alias.note}</p>
-        </div>
-      </div>
-    </div>
+    <ColorTokenCard
+      name={alias.role}
+      value={value}
+      description={alias.summary}
+      showValue={false}
+      swatchClassName="h-28"
+    />
   );
 }
 
-function StateCard({ state }: { state: (typeof STATES)[number] }) {
+function StateSection({ state }: { state: (typeof STATES)[number] }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <p className="text-sm font-semibold capitalize text-gray-950">{state.role}</p>
-          <p className="mt-1 font-mono text-xs text-gray-500">{state.scale}</p>
-        </div>
-        <span
-          className="border px-2 py-1 font-mono text-xs"
-          style={{
-            background: state.tones[1].value,
-            borderColor: "var(--line-strong)",
-            color: "var(--foreground-strong)",
-          }}
-        >
-          base
-        </span>
+    <section className="border-t border-line-subtle pt-8 first:border-t-0 first:pt-0">
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold capitalize tracking-tight text-foreground-strong">
+          {state.role}
+        </h3>
+        <p className="mt-1 font-mono text-xs text-foreground-muted">{state.scale}</p>
       </div>
-      <div className="mt-4 grid grid-cols-4 overflow-hidden rounded border border-gray-200">
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {state.tones.map((tone) => (
-          <div key={tone.token}>
-            <div
-              className="h-12 border-b border-gray-200"
-              style={{ background: tone.value }}
-              title={`${tone.token}: ${tone.value}`}
-            />
-            <div className="min-h-11 bg-white px-1 py-1.5">
-              <p className="text-center text-[10px] font-semibold text-gray-600">{tone.label}</p>
-              <p className="break-all text-center font-mono text-[9px] leading-tight text-gray-400">
-                {tone.token}
-              </p>
-            </div>
-          </div>
+          <ColorTokenCard
+            key={tone.token}
+            name={`${state.role}-${tone.label}`}
+            value={tone.value}
+            swatchClassName="h-28"
+          />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
-function ThemePreview({ theme }: { theme: (typeof THEME_CONTEXTS)[number] }) {
+function ColorTokenCard({
+  name,
+  value,
+  description,
+  meta,
+  showValue = true,
+  swatchClassName = "h-24",
+}: {
+  name: string;
+  value: string;
+  description?: string;
+  meta?: string;
+  showValue?: boolean;
+  swatchClassName?: string;
+}) {
   return (
-    <div data-theme={theme.theme} className={theme.mode === "dark" ? "dark" : undefined}>
-      <div
-        className="border p-4"
-        style={{
-          background: "var(--layer-panel)",
-          borderColor: "var(--line)",
-          color: "var(--foreground)",
-        }}
-      >
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold">{theme.label}</p>
-              <StatusBadge status={theme.status} />
-            </div>
-            <p className="mt-2 text-xs leading-relaxed text-[color:var(--foreground-muted)]">
-              {theme.description}
-            </p>
+    <article className="min-w-0 overflow-hidden rounded-md bg-layer-panel shadow-[0_0_0_1px_color-mix(in_oklch,var(--line-subtle)_75%,transparent),var(--theme-shadow-sm)]">
+      <div className={swatchClassName} style={{ background: value }} />
+      <div className="border-t border-line-muted px-4 py-3">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold capitalize text-foreground-strong">{name}</p>
+        </div>
+
+        {showValue || meta ? (
+          <div className="mt-3 grid min-w-0 gap-1">
+            {showValue ? (
+              <p className="truncate font-mono text-[11px] leading-4 text-foreground-muted">
+                {value}
+              </p>
+            ) : null}
+            {meta ? (
+              <p className="truncate font-mono text-[11px] leading-4 text-foreground-muted">
+                {meta}
+              </p>
+            ) : null}
           </div>
-          <span
-            className="inline-flex shrink-0 border px-2 py-1 text-xs font-semibold"
-            style={{
-              background: "var(--primary-400)",
-              borderColor: "var(--line-strong)",
-              color: "var(--primary-950)",
-            }}
-          >
-            primary
-          </span>
-        </div>
-        <div className="mt-4 grid grid-cols-3 gap-2">
-          {["primary", "accent", "secondary"].map((name) => (
-            <div key={name}>
-              <div
-                className="h-8 border"
-                style={{ background: `var(--${name}-400)`, borderColor: "var(--line)" }}
-              />
-              <p className="mt-1 text-[10px] text-[color:var(--foreground-muted)]">{name}</p>
-            </div>
-          ))}
-        </div>
+        ) : null}
+
+        {description ? (
+          <p className="mt-3 line-clamp-3 text-xs leading-5 text-foreground-muted">{description}</p>
+        ) : null}
       </div>
-    </div>
+    </article>
   );
 }
 
-function ThemeTokenGroup({
+function ThemeTokenSection({
   group,
   contexts,
 }: {
@@ -647,31 +577,63 @@ function ThemeTokenGroup({
   contexts: ReturnType<typeof getThemeContexts>;
 }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4">
-      <p className="text-sm font-semibold text-gray-950">{group.label}</p>
-      <div className="mt-3 space-y-2">
+    <section className="border-t border-line-subtle pt-8 first:border-t-0 first:pt-0">
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold capitalize tracking-tight text-foreground-strong">
+          {group.label}
+        </h3>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {group.tokens.map(([label, token]) => (
-          <div key={token} className="flex items-center gap-2">
-            <div className="grid grid-cols-3 gap-1">
-              {contexts.map((theme) => (
-                <span
-                  key={theme.label}
-                  data-theme={theme.theme}
-                  className={
-                    theme.mode === "dark"
-                      ? "dark size-5 border border-gray-200"
-                      : "size-5 border border-gray-200"
-                  }
-                  style={{ background: `var(${token})` }}
-                  title={`${theme.label}: ${token}`}
-                />
-              ))}
-            </div>
-            <span className="min-w-0 flex-1 text-xs text-gray-600">{label}</span>
-            <span className="font-mono text-[10px] text-gray-400">{token}</span>
-          </div>
+          <ThemeTokenCard key={token} label={label} token={token} contexts={contexts} />
         ))}
       </div>
-    </div>
+    </section>
+  );
+}
+
+function ThemeTokenCard({
+  label,
+  token,
+  contexts,
+}: {
+  label: string;
+  token: string;
+  contexts: ReturnType<typeof getThemeContexts>;
+}) {
+  return (
+    <article className="min-w-0 overflow-hidden rounded-md bg-layer-panel shadow-[0_0_0_1px_color-mix(in_oklch,var(--line-subtle)_75%,transparent),var(--theme-shadow-sm)]">
+      <div className={contexts.length > 1 ? "grid grid-cols-2" : "grid"}>
+        {contexts.map((context) => (
+          <div
+            key={context.label}
+            data-theme={context.theme}
+            className={context.mode === "dark" ? "dark h-28" : "h-28"}
+            style={{ background: `var(${token})` }}
+            title={`${context.label}: ${token}`}
+          />
+        ))}
+      </div>
+
+      <div className="border-t border-line-muted px-4 py-3">
+        <p className="truncate text-sm font-semibold capitalize text-foreground-strong">{label}</p>
+        <p className="mt-3 truncate font-mono text-[11px] leading-4 text-foreground-muted">
+          {token}
+        </p>
+        {contexts.length > 1 ? (
+          <div className="mt-3 grid gap-1">
+            {contexts.map((context) => (
+              <p
+                key={context.label}
+                className="truncate font-mono text-[11px] leading-4 text-foreground-muted"
+              >
+                {context.label}
+              </p>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </article>
   );
 }
