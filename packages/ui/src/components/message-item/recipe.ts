@@ -1,15 +1,14 @@
 import { tv, type VariantProps } from "../../lib/tv";
 
 export type DataAttributes = Record<`data-${string}`, string | undefined>;
-export type MessageItemRowState = "active" | "search-match";
+export type MessageItemRowState = "active" | "search-match" | "select";
 export type MessageItemBadgeTone = "default" | "cyan";
 
 export const messageItem = tv({
   slots: {
     root: [
-      "group/message relative mb-1 mt-1.5 flex h-fit min-h-[3rem] min-w-0 gap-3 px-2 py-1",
-      "border-2 border-transparent text-left",
-      "transition-colors duration-100",
+      "group/message relative mb-1 mt-1.5 flex h-fit min-h-[3rem] gap-3 px-2 py-1",
+      "border-2 border-transparent",
       "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
     ],
     gutter: ["relative w-9 shrink-0 self-stretch"],
@@ -28,8 +27,8 @@ export const messageItem = tv({
     header: ["flex min-w-0 items-center gap-2 overflow-hidden pr-24"],
     sender: ["min-w-0 shrink-0 truncate text-sm font-bold text-foreground-strong"],
     senderState: [
-      "inline-flex shrink-0 items-center border border-line-strong bg-gray-300 px-1.5 py-0.5",
-      "text-[10px] font-bold uppercase leading-none text-foreground/60",
+      "inline-flex items-center border border-line-strong bg-gray-300 px-1.5 py-0.5",
+      "text-[10px] font-bold uppercase text-foreground/60",
     ],
     meta: ["min-w-0 truncate font-mono text-xs text-foreground/40"],
     time: ["shrink-0 whitespace-nowrap font-mono text-xs text-foreground/40"],
@@ -49,9 +48,9 @@ export const messageItem = tv({
     ],
     toolbarButton: [
       "inline-flex size-6 shrink-0 items-center justify-center",
-      "text-black/50 transition-colors duration-100 hover:bg-soft-signal/30 hover:text-black",
-      "data-[active=true]:text-foreground-strong",
-      "data-[saved=true]:text-brutal-orange",
+      "text-black/50 hover:bg-soft-signal/30 hover:text-black",
+      "data-[active=true]:text-foreground-strong data-[active=true]:hover:text-foreground-strong",
+      "data-[saved=true]:text-brutal-orange data-[saved=true]:hover:text-brutal-orange",
       "[&_svg]:size-[13px] [&_svg]:shrink-0",
     ],
     savedIndicator: [
@@ -67,7 +66,8 @@ export const messageItem = tv({
     imageGalleryItem: [
       "group/img relative overflow-hidden border-2 border-line-strong text-left",
       "bg-brutal-cream/60 hover:brightness-95",
-      "data-[optimistic=true]:opacity-70 data-[single=true]:inline-block data-[single=true]:w-fit data-[single=true]:max-w-[26rem] data-[single=true]:justify-self-start",
+      "data-[optimistic=true]:opacity-70 data-[optimistic=true]:hover:brightness-100",
+      "data-[single=true]:inline-block data-[single=true]:w-fit data-[single=true]:max-w-[26rem] data-[single=true]:justify-self-start",
     ],
     imageGalleryMedia: [
       "block h-full w-full",
@@ -84,7 +84,6 @@ export const messageItem = tv({
     videoPreview: [
       "group/video relative w-full max-w-[min(28rem,calc(100vw-7rem))] overflow-hidden",
       "border-2 border-line-strong bg-black text-left",
-      "data-[optimistic=true]:opacity-70",
     ],
     videoPreviewFrame: ["relative aspect-video w-full bg-black"],
     videoPreviewMedia: ["block h-full w-full bg-black object-contain"],
@@ -101,42 +100,51 @@ export const messageItem = tv({
     attachmentCard: [
       "group/img relative inline-flex h-20 w-44 min-w-44 max-w-44 shrink-0 flex-col justify-between overflow-hidden",
       "border border-black/15 bg-white px-2.5 py-2 text-left",
-      "text-black transition-colors duration-100 hover:border-black/30 hover:bg-black/5",
+      "text-black transition-colors hover:border-black/30 hover:bg-black/5",
       "data-[loading=true]:!bg-soft-signal/30 data-[loading=true]:cursor-wait data-[optimistic=true]:opacity-70",
-      "[&_svg]:size-4 [&_svg]:shrink-0",
     ],
     attachmentIcon: [
-      "absolute bottom-1.5 right-1.5 flex items-center justify-center",
+      "absolute bottom-1.5 right-1.5 flex size-5 items-center justify-center",
       "text-black/60 group-hover/img:text-black",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     attachmentBody: ["w-full min-w-0 max-w-full overflow-hidden"],
     attachmentTitle: ["block w-full max-w-full truncate text-xs font-bold text-black"],
-    attachmentMeta: ["mt-0.5 block truncate text-[10px] leading-4 text-black/45"],
+    attachmentMeta: ["mt-0.5 block truncate text-[10px] text-black/45"],
     attachmentAction: [
-      "absolute bottom-1.5 right-1.5 flex items-center justify-center",
+      "absolute bottom-1.5 right-1.5 flex size-5 items-center justify-center",
       "text-black/60 group-hover/img:text-black",
-      "[&_svg]:size-3",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
+    ],
+    attachmentLoadingBar: [
+      "absolute inset-x-0 bottom-0 flex h-6 items-center gap-1.5",
+      "border-t-2 border-line-strong bg-soft-signal px-2",
+      "text-[10px] font-bold uppercase tracking-wide text-black",
     ],
     badge: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
       "border border-line-strong px-1.5 text-[10px] font-bold leading-none",
-      "text-foreground-strong transition-colors duration-100",
+      "text-foreground-strong transition-colors",
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     reactionChip: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded px-1.5",
-      "whitespace-nowrap bg-[#EEEDE6] text-[12px] font-bold leading-none text-foreground-strong",
-      "transition-colors duration-100 hover:bg-[#E0DED4]",
+      "whitespace-nowrap bg-[oklch(0.945_0.009_100)] text-[12px] font-bold leading-none text-foreground-strong",
+      "transition-colors hover:bg-[oklch(0.899_0.014_97.5)]",
       "data-[reacted=true]:bg-brutal-pink/20 data-[reacted=true]:hover:bg-brutal-pink/30",
-      "data-[failed=true]:bg-brutal-orange/30",
+      "data-[failed=true]:bg-brutal-orange/30 data-[failed=true]:hover:bg-brutal-orange/30",
     ],
     reactionGlyph: [
       "inline-flex items-center justify-center leading-none",
       "data-[emoji=true]:shrink-0",
       "[&>svg]:size-[13px] [&>svg]:shrink-0",
     ],
-    reactionCount: [
-      "inline-flex min-w-[1ch] items-center justify-center font-mono leading-none tabular-nums",
+    reactionCount: ["font-mono tabular-nums"],
+    reactionAddButton: [
+      "inline-flex h-5 min-w-0 items-center justify-center rounded px-1.5",
+      "bg-[oklch(0.945_0.009_100)] text-foreground-strong",
+      "transition-colors hover:bg-[oklch(0.899_0.014_97.5)] active:bg-[oklch(0.899_0.014_97.5)]",
+      "[&_svg]:size-[13px] [&_svg]:shrink-0",
     ],
     reactionQuickRow: ["flex h-9 items-center gap-1 bg-white px-2"],
     reactionQuickButton: [
@@ -145,6 +153,7 @@ export const messageItem = tv({
     ],
     reactionPicker: [
       "inline-flex items-center gap-0.5 border-2 border-line-strong bg-white px-1.5 py-1",
+      "shadow-lg",
     ],
     reactionPopover: [
       "inline-block max-w-[280px] border-2 border-line-strong bg-white px-2 py-1.5",
@@ -163,10 +172,16 @@ export const messageItem = tv({
       "search-match": {
         root: "border-line-strong bg-brutal-cyan/25 shadow-brutal",
       },
+      select: {
+        root: [
+          "hover:border-transparent active:border-transparent",
+          "hover:bg-layer-panel active:bg-layer-panel",
+        ],
+      },
     },
     badgeTone: {
       default: {
-        badge: "bg-white",
+        badge: "bg-white hover:bg-brutal-cyan/40",
       },
       cyan: {
         badge: "bg-brutal-cyan/20 hover:bg-brutal-cyan/40",

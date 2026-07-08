@@ -126,6 +126,29 @@ export function MessageReactionCount({ className, render, ...props }: MessageRea
   });
 }
 
+export type MessageReactionAddButtonProps = useRender.ComponentProps<"button">;
+
+export function MessageReactionAddButton({
+  className,
+  render,
+  ...props
+}: MessageReactionAddButtonProps) {
+  const { reactionAddButton } = messageItem();
+  const defaultProps: useRender.ElementProps<"button"> = {
+    type: "button",
+    className: reactionAddButton({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
+    state: {
+      slot: "message-reaction-add-button",
+    },
+  });
+}
+
 export type MessageReactionQuickRowProps = useRender.ComponentProps<"div">;
 
 export function MessageReactionQuickRow({

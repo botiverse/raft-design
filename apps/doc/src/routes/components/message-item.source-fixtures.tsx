@@ -1,5 +1,5 @@
 import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge } from "raft-ui";
+import { Avatar, AvatarFallback, Badge, Spinner } from "raft-ui";
 import { IMAGE_SRC } from "./message-item.fixtures";
 
 const SOURCE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
@@ -118,7 +118,7 @@ export function SourceConsecutiveMessageRow() {
   return (
     <div className="group/message relative mb-1 flex w-full gap-3 border-2 border-transparent px-2 py-1 hover:border-black hover:bg-white">
       <div className="relative w-9 shrink-0 self-stretch">
-        <span className="absolute top-1 right-1 font-mono text-[10px] leading-none text-black/0 group-hover/message:text-black/40">
+        <span className="absolute top-1 right-1 font-mono text-[10px] leading-none select-none tabular-nums text-black/0 group-hover/message:text-black/40">
           2:15
         </span>
       </div>
@@ -145,7 +145,7 @@ export function SourceRemovedSenderMessageRow() {
       <div className="min-w-0 flex-1">
         <div className="flex min-w-0 items-center gap-2 overflow-hidden pr-24">
           <span className="min-w-0 shrink-0 truncate text-sm font-bold text-black">Mx. Chen</span>
-          <span className="inline-flex shrink-0 items-center border border-black bg-gray-300 px-1.5 py-0.5 text-[10px] leading-none font-bold text-black/60 uppercase">
+          <span className="inline-flex shrink-0 items-center border border-black bg-gray-300 px-1.5 py-0.5 text-[10px] font-bold text-black/60 uppercase">
             removed
           </span>
           <span className="shrink-0 font-mono text-xs text-black/40">Yesterday</span>
@@ -244,9 +244,7 @@ export function SourceImageGalleryMessageRow() {
             <div className="group/img relative h-32 overflow-hidden border-2 border-black bg-brutal-cream/60 text-left opacity-70 sm:h-36">
               <img src={IMAGE_SRC} alt="" className="block h-full w-full object-cover" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <Badge variant="warning" appearance="solid">
-                  Uploading
-                </Badge>
+                <Spinner size="lg" className="text-white" />
               </div>
             </div>
           </div>
@@ -412,9 +410,7 @@ export function SourceRichAttachmentMessageRow() {
               <div className="group/img relative h-32 overflow-hidden border-2 border-black bg-brutal-cream/60 text-left opacity-70 sm:h-36">
                 <img src={IMAGE_SRC} alt="" className="block h-full w-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Badge variant="warning" appearance="solid">
-                    Uploading
-                  </Badge>
+                  <Spinner size="lg" className="text-white" />
                 </div>
               </div>
             </div>

@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
-import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus, X } from "lucide-react";
-import { Avatar, AvatarFallback, Badge } from "raft-ui";
+import { Bookmark, Download, Eye, MessageSquare, Play, Plus, SmilePlus, X } from "lucide-react";
+import { Avatar, AvatarFallback, Spinner } from "raft-ui";
 import {
   MESSAGE_QUICK_REACTIONS,
   MessageAttachmentAction,
   MessageAttachmentBody,
   MessageAttachmentCard,
+  MessageAttachmentLoadingBar,
   MessageAttachmentMeta,
   MessageAttachmentTitle,
   MessageImageGallery,
@@ -34,6 +35,7 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
+  MessageReactionAddButton,
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionGlyph,
@@ -119,7 +121,7 @@ function StateRow({
   inlineStatus?: string;
   meta?: string;
   notice?: ReactNode;
-  rowState?: "active" | "search-match";
+  rowState?: "active" | "search-match" | "select";
   saved?: boolean;
   selectMark?: "off" | "checked";
   sender?: string;
@@ -205,9 +207,16 @@ function AttachmentState({
           {loading ? "Uploading · 18 KB" : "Diff · 18 KB"}
         </MessageAttachmentMeta>
       </MessageAttachmentBody>
-      <MessageAttachmentAction>
-        <Download />
-      </MessageAttachmentAction>
+      {loading ? (
+        <MessageAttachmentLoadingBar>
+          <Spinner size="sm" />
+          <span className="truncate">Preparing preview</span>
+        </MessageAttachmentLoadingBar>
+      ) : (
+        <MessageAttachmentAction>
+          <Download />
+        </MessageAttachmentAction>
+      )}
     </MessageAttachmentCard>
   );
 }
@@ -245,9 +254,7 @@ function ImageGalleryState({
               />
               {optimistic ? (
                 <MessageImageGalleryOverlay>
-                  <Badge variant="warning" appearance="solid">
-                    Uploading
-                  </Badge>
+                  <Spinner size="lg" className="text-white" />
                 </MessageImageGalleryOverlay>
               ) : (
                 <MessageImageGalleryAction aria-label="Download image">
@@ -348,10 +355,18 @@ export function MessageItemStateMatrix() {
 
       <MatrixSection title="selection and sender">
         <MatrixCell label="select mark unchecked">
-          <StateRow selectMark="off" body="Selection affordance before the row is checked." />
+          <StateRow
+            rowState="select"
+            selectMark="off"
+            body="Selection affordance before the row is checked."
+          />
         </MatrixCell>
         <MatrixCell label="select mark checked">
-          <StateRow selectMark="checked" body="Selection affordance after the row is checked." />
+          <StateRow
+            rowState="select"
+            selectMark="checked"
+            body="Selection affordance after the row is checked."
+          />
         </MatrixCell>
         <MatrixCell label="sender state removed">
           <StateRow sender="Mx. Chen" senderState="removed" body="Human sender removed state." />
@@ -369,8 +384,8 @@ export function MessageItemStateMatrix() {
         <MatrixCell label="meta + inline status">
           <StateRow
             meta="claude-opus"
-            inlineStatus="edited"
-            body="Model/channel metadata and edited marker."
+            inlineStatus="Converting…"
+            body="Model/channel metadata and converting status."
           />
         </MatrixCell>
         <MatrixCell label="toolbar visible">
@@ -419,11 +434,9 @@ export function MessageItemStateMatrix() {
                 <ReactionChipState />
                 <ReactionChipState emoji="🔥" reacted />
                 <ReactionChipState emoji="❤️" failed />
-                <MessageReactionChip aria-label="Add reaction">
-                  <MessageReactionGlyph>
-                    <SmilePlus />
-                  </MessageReactionGlyph>
-                </MessageReactionChip>
+                <MessageReactionAddButton aria-label="Add reaction">
+                  <Plus strokeWidth={2.5} />
+                </MessageReactionAddButton>
               </>
             }
           />

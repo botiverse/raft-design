@@ -109,6 +109,28 @@ export function MessageAttachmentMeta({ className, render, ...props }: MessageAt
   });
 }
 
+export type MessageAttachmentLoadingBarProps = useRender.ComponentProps<"span">;
+
+export function MessageAttachmentLoadingBar({
+  className,
+  render,
+  ...props
+}: MessageAttachmentLoadingBarProps) {
+  const { attachmentLoadingBar } = messageItem();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: attachmentLoadingBar({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-attachment-loading-bar",
+    },
+  });
+}
+
 export type MessageAttachmentActionProps = useRender.ComponentProps<"span">;
 
 export function MessageAttachmentAction({
