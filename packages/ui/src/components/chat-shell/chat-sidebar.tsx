@@ -4,6 +4,14 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AtSign, BellOff, GitBranch, Hash, Lock, Pencil } from "lucide-react";
 import type { ComponentProps } from "react";
+import {
+  Group as ResizablePanelGroup,
+  Panel as ResizablePanel,
+  Separator as ResizablePanelSeparator,
+  type GroupProps as ResizablePanelGroupProps,
+  type PanelProps as ResizablePanelProps,
+  type SeparatorProps as ResizablePanelSeparatorProps,
+} from "react-resizable-panels";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge, type BadgeProps } from "../badge";
 import { Status, type StatusProps } from "../status";
@@ -533,23 +541,56 @@ export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFo
   });
 }
 
-export type ChatSidebarResizeHandleProps = useRender.ComponentProps<"div">;
+export type ChatSidebarResizeGroupProps = Omit<ResizablePanelGroupProps, "className"> & {
+  className?: string;
+};
 
-export function ChatSidebarResizeHandle({
+export function ChatSidebarResizeGroup({
   className,
-  render,
+  orientation = "horizontal",
   ...props
-}: ChatSidebarResizeHandleProps) {
+}: ChatSidebarResizeGroupProps) {
+  const { sidebarResizeGroup } = chatShell();
+
+  return (
+    <ResizablePanelGroup
+      data-slot="chat-sidebar-resize-group"
+      orientation={orientation}
+      className={sidebarResizeGroup({ className })}
+      {...props}
+    />
+  );
+}
+
+export type ChatSidebarResizePanelProps = Omit<ResizablePanelProps, "className"> & {
+  className?: string;
+};
+
+export function ChatSidebarResizePanel({ className, ...props }: ChatSidebarResizePanelProps) {
+  const { sidebarResizePanel } = chatShell();
+
+  return (
+    <ResizablePanel
+      data-slot="chat-sidebar-resize-panel"
+      className={sidebarResizePanel({ className })}
+      {...props}
+    />
+  );
+}
+
+export type ChatSidebarResizeHandleProps = Omit<ResizablePanelSeparatorProps, "className"> & {
+  className?: string;
+};
+
+export function ChatSidebarResizeHandle({ className, ...props }: ChatSidebarResizeHandleProps) {
   const theme = useThemeFamily();
   const { sidebarResizeHandle } = chatShell({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-sidebar-resize-handle",
-    className: sidebarResizeHandle({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <ResizablePanelSeparator
+      data-slot="chat-sidebar-resize-handle"
+      className={sidebarResizeHandle({ className })}
+      {...props}
+    />
+  );
 }

@@ -48,6 +48,7 @@
     "cnfast": "catalog:",
     "foxact": "^0.3.7",
     "lucide-react": "catalog:",
+    "react-resizable-panels": "catalog:",
     "tailwind-variants": "catalog:",
     "vaul": "catalog:"
   },

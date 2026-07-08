@@ -64,67 +64,69 @@ import {
   ChatSidebarItemSubtitle,
   ChatSidebarItemText,
   ChatSidebarItemTitle,
+  ChatSidebarResizeGroup,
   ChatSidebarResizeHandle,
+  ChatSidebarResizePanel,
 } from "raft-ui/wip";
 
 <>
   <ChatShellRail>
     <ChatRailRoot>{rail}</ChatRailRoot>
   </ChatShellRail>
-  <ChatShellSidebar resizable>
-    <ChatSidebarResizeHandle
-      onPointerDown={handleSidebarResizeStart}
-      onPointerMove={handleSidebarResizeMove}
-      onPointerUp={handleSidebarResizeEnd}
-      onPointerCancel={handleSidebarResizeEnd}
-    />
-    <ChatSidebarRoot>
-      <ChatSidebarHeader>{header}</ChatSidebarHeader>
-      <ChatSidebarBody>
-        <ChatSidebarSection defaultOpen>
-          <ChatSidebarSectionHeader>
-            <ChatSidebarSectionButton>
-              <ChevronRight />
-              <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-              <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
-              <ChatSidebarSectionIndicator />
-            </ChatSidebarSectionButton>
-            <ChatSidebarSectionActions>
-              <ChatSidebarSectionAction aria-label="Sort channels" />
-            </ChatSidebarSectionActions>
-          </ChatSidebarSectionHeader>
-          <ChatSidebarList>
-            <ChatSidebarItem selected>
-              <ChatSidebarItemChannelIcon />
-              <ChatSidebarItemText>
-                <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
-                <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
-              </ChatSidebarItemText>
-              <ChatSidebarItemIndicator>
-                <ChatSidebarItemMention />
-              </ChatSidebarItemIndicator>
-              <ChatSidebarItemAside>
-                <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
-                <ChatSidebarItemDraft />
-                <ChatSidebarItemMuted />
-              </ChatSidebarItemAside>
-            </ChatSidebarItem>
-            <ChatSidebarItem menuOpen>
-              <ChatSidebarItemIcon>
-                <Avatar size="sidebar" type="agent">
-                  <AvatarFallback>A</AvatarFallback>
-                </Avatar>
-              </ChatSidebarItemIcon>
-              <ChatSidebarItemText>
-                <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
-                <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
-              </ChatSidebarItemText>
-            </ChatSidebarItem>
-          </ChatSidebarList>
-        </ChatSidebarSection>
-      </ChatSidebarBody>
-    </ChatSidebarRoot>
-  </ChatShellSidebar>
+  <ChatSidebarResizeGroup orientation="horizontal">
+    <ChatSidebarResizePanel defaultSize={240} minSize={180} maxSize={320}>
+      <ChatShellSidebar resizable>
+        <ChatSidebarRoot>
+          <ChatSidebarHeader>{header}</ChatSidebarHeader>
+          <ChatSidebarBody>
+            <ChatSidebarSection defaultOpen>
+              <ChatSidebarSectionHeader>
+                <ChatSidebarSectionButton>
+                  <ChevronRight />
+                  <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
+                  <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                  <ChatSidebarSectionIndicator />
+                </ChatSidebarSectionButton>
+                <ChatSidebarSectionActions>
+                  <ChatSidebarSectionAction aria-label="Sort channels" />
+                </ChatSidebarSectionActions>
+              </ChatSidebarSectionHeader>
+              <ChatSidebarList>
+                <ChatSidebarItem selected>
+                  <ChatSidebarItemChannelIcon />
+                  <ChatSidebarItemText>
+                    <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
+                    <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
+                  </ChatSidebarItemText>
+                  <ChatSidebarItemIndicator>
+                    <ChatSidebarItemMention />
+                  </ChatSidebarItemIndicator>
+                  <ChatSidebarItemAside>
+                    <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
+                    <ChatSidebarItemDraft />
+                    <ChatSidebarItemMuted />
+                  </ChatSidebarItemAside>
+                </ChatSidebarItem>
+                <ChatSidebarItem menuOpen>
+                  <ChatSidebarItemIcon>
+                    <Avatar size="sidebar" type="agent">
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                  </ChatSidebarItemIcon>
+                  <ChatSidebarItemText>
+                    <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
+                    <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
+                  </ChatSidebarItemText>
+                </ChatSidebarItem>
+              </ChatSidebarList>
+            </ChatSidebarSection>
+          </ChatSidebarBody>
+        </ChatSidebarRoot>
+      </ChatShellSidebar>
+    </ChatSidebarResizePanel>
+    <ChatSidebarResizeHandle />
+    <ChatSidebarResizePanel minSize={0} />
+  </ChatSidebarResizeGroup>
 </>`,
 } as const;
 
@@ -132,13 +134,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ChatShellSidebar",
     type: "aside props & { hidden?: boolean; resizable?: boolean }",
-    description: "Sidebar column host. The consumer owns width state and resize persistence.",
+    description: "Sidebar column host. Use inside the resize panel when desktop width can change.",
   },
   {
-    name: "ChatSidebarResizeHandle",
-    type: "div props",
+    name: "ChatSidebarResizeGroup / Panel / Handle",
+    type: "react-resizable-panels group / panel / separator props",
     description:
-      "Right-edge desktop resize affordance. Pointer behavior and persisted width stay app-owned.",
+      "Sidebar-owned resize primitives. Keep rail outside the group and resize only the sidebar column.",
   },
   {
     name: "ChatSidebarRoot",
