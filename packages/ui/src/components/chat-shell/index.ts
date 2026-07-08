@@ -68,9 +68,21 @@ export {
   ChatThreadPanelBody,
   ChatThreadPanelFooter,
   ChatThreadPanelHeader,
+  ChatThreadPanelParent,
+  ChatThreadPanelReplyCount,
   ChatThreadPanelRoot,
   ChatThreadPanelTitle,
 } from "./chat-thread-panel";
+export {
+  MessageTimelineDateDivider,
+  MessageTimelineHistoryLimited,
+  MessageTimelineNotice,
+} from "./message-timeline";
+export type {
+  MessageTimelineDateDividerProps,
+  MessageTimelineHistoryLimitedProps,
+  MessageTimelineNoticeProps,
+} from "./message-timeline";
 export {
   ChatSidebarBody,
   ChatSidebarFooter,
@@ -172,6 +184,8 @@ export type {
   ChatThreadPanelBodyProps,
   ChatThreadPanelFooterProps,
   ChatThreadPanelHeaderProps,
+  ChatThreadPanelParentProps,
+  ChatThreadPanelReplyCountProps,
   ChatThreadPanelRootProps,
   ChatThreadPanelTitleProps,
 } from "./chat-thread-panel";

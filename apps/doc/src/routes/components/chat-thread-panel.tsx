@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { X } from "lucide-react";
+import { User, X } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
@@ -30,8 +30,12 @@ const SNIPPETS = {
   ChatThreadPanelTitle,
   ChatThreadPanelActions,
   ChatThreadPanelAction,
+  ChatThreadPanelParent,
   ChatThreadPanelBody,
+  ChatThreadPanelReplyCount,
   ChatThreadPanelFooter,
+  MessageTimelineDateDivider,
+  MessageTimelineNotice,
 } from "raft-ui/wip";
 
 <ChatThreadPanelRoot>
@@ -43,7 +47,13 @@ const SNIPPETS = {
       </ChatThreadPanelAction>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
-  <ChatThreadPanelBody>{messages}</ChatThreadPanelBody>
+  <ChatThreadPanelParent>{parentMessage}</ChatThreadPanelParent>
+  <ChatThreadPanelBody>
+    <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
+    <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
+    <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
+    {replies}
+  </ChatThreadPanelBody>
   <ChatThreadPanelFooter>{composer}</ChatThreadPanelFooter>
 </ChatThreadPanelRoot>`,
 } as const;
@@ -65,10 +75,22 @@ const PROPS: readonly PropRow[] = [
     description: "Icon action slot for close and future thread-panel commands.",
   },
   {
+    name: "ChatThreadPanelParent / ReplyCount",
+    type: "div props",
+    description:
+      "Pinned parent-message container above the scroll body, and the reply-count divider from the source thread header block.",
+  },
+  {
     name: "ChatThreadPanelBody / Footer",
     type: "div props",
     description:
       "Scrollable message body and composer/footer slot. Message rows remain caller-owned children.",
+  },
+  {
+    name: "MessageTimelineDateDivider / Notice / HistoryLimited",
+    type: "div / span props",
+    description:
+      "Shared timeline chrome: day-boundary divider (inline or sticky), history/loading notices, and the plan-limited history tag.",
   },
 ];
 
@@ -180,8 +202,44 @@ function SourceThreadPanelPreview() {
           </button>
         </div>
       </div>
+      <div className="shrink-0 border-b-2 border-black bg-white px-3 py-1">
+        <div className="group/message relative mt-1.5 mb-1 flex h-fit min-h-12 gap-3 border-2 border-transparent px-2 py-1 hover:border-black hover:bg-white active:border-black active:bg-white">
+          <div className="relative mt-0.5 shrink-0 self-start">
+            <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden border-2 border-black bg-brutal-lavender text-black">
+              <User className="size-4" />
+            </div>
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex min-w-0 items-center gap-2 overflow-hidden pr-24">
+              <span className="min-w-0 shrink-0 truncate text-sm font-bold text-black">Cindy</span>
+              <span className="shrink-0 whitespace-nowrap font-mono text-xs text-black/40">
+                10:08
+              </span>
+            </div>
+            <div className="break-words text-sm text-black">
+              Should ThreadPanel own the right-panel chrome?
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="space-y-3 p-3">
+        <div className="px-3 pt-2">
+          <div className="pb-2 text-center font-mono text-xs text-black/40">
+            Beginning of replies
+          </div>
+          <div className="mb-1 border-b border-black/10 pb-2 text-center font-mono text-xs text-black/40">
+            2 replies
+          </div>
+        </div>
+        <div className="relative flex items-center justify-center px-3 py-2 select-none">
+          <div className="absolute inset-x-3 top-1/2 border-t-2 border-black/15" aria-hidden />
+          <div className="relative bg-white">
+            <span className="inline-flex items-center bg-white px-2 text-[10px] font-bold tracking-widest text-black/50 uppercase">
+              Today
+            </span>
+          </div>
+        </div>
+        <div className="space-y-3 px-3 pb-3">
           <div className="border-2 border-black bg-white p-3 text-sm shadow-brutal-sm">
             <div className="mb-1 font-mono text-[11px] font-bold text-black/50">Cindy</div>
             <div>SideThreadColumn owns persisted width and desktop resize chrome.</div>

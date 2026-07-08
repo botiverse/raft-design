@@ -40,6 +40,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
+  MessageTimelineNotice,
 } from "raft-ui/wip";
 
 export function ChatMainPanelComposition() {
@@ -104,9 +105,7 @@ export function ChatMainPanelComposition() {
         <ChatMainPanelTimeline>
           <ChatMainPanelMessageList>
             <div className="px-3 pt-3">
-              <div className="pb-2 text-center font-mono text-xs text-foreground/40 [[data-preview-theme=brutal]_&]:text-black/40">
-                Beginning of messages
-              </div>
+              <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
             </div>
             <div className="h-px" aria-hidden />
             <div className="flex-1" aria-hidden />

@@ -20,6 +20,8 @@ const chatThreadPanel = tv({
       "[&_svg]:size-3.5 [&_svg]:shrink-0",
     ],
     body: ["min-h-0 flex-1 overflow-y-auto"],
+    parent: ["shrink-0 px-3 py-1"],
+    replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
     footer: [
       "relative flex shrink-0 items-center px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]",
       "text-xs",
@@ -39,6 +41,8 @@ const chatThreadPanel = tv({
           "disabled:shadow-brutal-sm",
           "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
+        parent: "border-b-2 border-black bg-white",
+        replyCount: "border-black/10 text-black/40",
         footer: "border-t-2 border-black bg-white text-black/50",
       },
       elegant: {
@@ -51,6 +55,8 @@ const chatThreadPanel = tv({
           "hover:bg-layer-muted",
           "focus-visible:ring-2 focus-visible:ring-line-focus",
         ],
+        parent: "border-b border-line-subtle bg-layer-panel",
+        replyCount: "border-line-muted text-foreground-muted",
         footer: "border-t border-line-subtle bg-layer-panel text-foreground-muted",
       },
     },
@@ -152,6 +158,44 @@ export function ChatThreadPanelBody({ className, render, ...props }: ChatThreadP
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-thread-panel-body",
     className: body({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelParentProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelParent({ className, render, ...props }: ChatThreadPanelParentProps) {
+  const theme = useThemeFamily();
+  const { parent } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-parent",
+    className: parent({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelReplyCountProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelReplyCount({
+  className,
+  render,
+  ...props
+}: ChatThreadPanelReplyCountProps) {
+  const theme = useThemeFamily();
+  const { replyCount } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-reply-count",
+    className: replyCount({ className }),
   };
 
   return useRender({
