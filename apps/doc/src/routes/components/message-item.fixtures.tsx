@@ -46,7 +46,6 @@ import {
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInlineStatus,
   MessageItemMeta,
   MessageItemNotice,
   MessageItemSavedIndicator,
@@ -92,7 +91,6 @@ export function AuthoredMessageRow() {
           <MessageItemSender>Atlas</MessageItemSender>
           <MessageItemMeta>claude-opus</MessageItemMeta>
           <MessageItemTime>2:14 PM</MessageItemTime>
-          <MessageItemInlineStatus>edited</MessageItemInlineStatus>
         </MessageItemHeader>
         <MessageItemBody>
           Shipped the token fixture pass. The markdown renderer, mentions, and links stay outside

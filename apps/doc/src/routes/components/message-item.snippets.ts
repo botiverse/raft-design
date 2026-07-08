@@ -157,7 +157,6 @@ import {
         <MessageItemSender>Atlas</MessageItemSender>
         <MessageItemMeta>claude-opus</MessageItemMeta>
         <MessageItemTime>2:14 PM</MessageItemTime>
-        <MessageItemInlineStatus>edited</MessageItemInlineStatus>
       </MessageItemHeader>
       <MessageItemBody>Shipped the token fixture pass.</MessageItemBody>
       <MessageItemFooter>
