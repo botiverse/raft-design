@@ -49,7 +49,7 @@ const bottomSheet = tv({
         overlay: ["bg-layer-backdrop"],
         title: ["font-bold"],
         content: [
-          "border-2 border-black bg-white text-black shadow-[var(--shadow-lg)]",
+          "border-2 border-black bg-white text-foreground shadow-[var(--shadow-lg)]",
           "data-[vaul-drawer-direction=bottom]:border-x-0 md:data-[vaul-drawer-direction=bottom]:border-x-2",
           "data-[vaul-drawer-direction=bottom]:border-b-0 md:data-[vaul-drawer-direction=bottom]:border-b-2",
         ],

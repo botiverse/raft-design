@@ -259,43 +259,43 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "primary",
-      class: { root: "bg-brutal-yellow text-black hover:bg-brutal-yellow" },
+      class: { root: "bg-brutal-yellow text-foreground hover:bg-brutal-yellow" },
     },
     {
       theme: "brutal",
       variant: "default",
-      class: { root: "bg-white text-black hover:bg-white" },
+      class: { root: "bg-white text-foreground hover:bg-white" },
     },
     {
       theme: "brutal",
       variant: "outline",
-      class: { root: "bg-white text-black shadow-sm hover:bg-white" },
+      class: { root: "bg-white text-foreground shadow-sm hover:bg-white" },
     },
     {
       theme: "brutal",
       variant: "information",
-      class: { root: "bg-brutal-cyan text-black hover:bg-brutal-cyan" },
+      class: { root: "bg-brutal-cyan text-foreground hover:bg-brutal-cyan" },
     },
     {
       theme: "brutal",
       variant: "muted",
-      class: { root: "bg-brutal-stone text-black hover:bg-brutal-stone" },
+      class: { root: "bg-brutal-stone text-foreground hover:bg-brutal-stone" },
     },
     {
       theme: "brutal",
       variant: "accent",
-      class: { root: "bg-brutal-pink text-black hover:bg-brutal-pink" },
+      class: { root: "bg-brutal-pink text-foreground hover:bg-brutal-pink" },
     },
     {
       theme: "brutal",
       variant: "danger",
-      class: { root: "bg-brutal-red text-black hover:bg-brutal-red" },
+      class: { root: "bg-brutal-red text-foreground hover:bg-brutal-red" },
     },
     {
       theme: "brutal",
       variant: "warning",
       class: {
-        root: "bg-[oklch(0.785_0.123_50.11)] text-black hover:bg-[oklch(0.785_0.123_50.11)]",
+        root: "bg-[oklch(0.785_0.123_50.11)] text-foreground hover:bg-[oklch(0.785_0.123_50.11)]",
       },
     },
     {
@@ -445,7 +445,7 @@ export const buttonVariants = tv({
       variant: "danger",
       class: {
         root: [
-          "border-line-strong bg-brutal-red text-black",
+          "border-line-strong bg-brutal-red text-foreground",
           "shadow-sm",
           "hover:border-line-strong hover:bg-brutal-red",
           "hover:-translate-y-px hover:shadow-md",

@@ -31,8 +31,8 @@ const previewCard = tv({
       brutal: {
         popup: ["border-2 border-black bg-white shadow-lg"],
         separator: ["border-black"],
-        title: ["font-sans font-bold text-black"],
-        description: ["font-sans text-black/70"],
+        title: ["font-sans font-bold text-foreground"],
+        description: ["font-sans text-foreground/70"],
         arrow: ["hidden"],
       },
       elegant: {

@@ -46,7 +46,7 @@ const lightbox = tv({
         media: ["border-line-strong bg-layer-panel shadow-xl"],
         navigationButton: [
           "size-8 rounded-none",
-          "hover:bg-layer-panel data-[disabled=true]:text-black/35",
+          "hover:bg-layer-panel data-[disabled=true]:text-foreground/35",
           "[&_svg]:size-6",
         ],
         infoBar: [
@@ -54,7 +54,7 @@ const lightbox = tv({
           "gap-2 rounded-none border-2 border-black py-0.5 pr-0.5 pl-2.5 shadow-[var(--shadow)]",
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
-        infoTitle: ["text-xs text-black"],
+        infoTitle: ["text-xs text-foreground"],
       },
       elegant: {
         backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
@@ -69,7 +69,7 @@ const lightbox = tv({
           "shadow-none",
           "hover:bg-white/85 hover:text-foreground-strong",
           "active:scale-[0.97]",
-          "data-[disabled=true]:bg-white/35 data-[disabled=true]:text-black/30 data-[disabled=true]:shadow-none",
+          "data-[disabled=true]:bg-white/35 data-[disabled=true]:text-foreground/30 data-[disabled=true]:shadow-none",
           "data-[disabled=true]:hover:bg-white/35 data-[disabled=true]:active:scale-100",
           "[&_svg]:size-5",
         ],

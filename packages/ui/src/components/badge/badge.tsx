@@ -84,13 +84,13 @@ export const badge = tv({
       theme: "brutal",
       appearance: "solid",
       variant: "success",
-      class: { root: "bg-brutal-lime text-black" },
+      class: { root: "bg-brutal-lime text-foreground" },
     },
     {
       theme: "brutal",
       appearance: "solid",
       variant: "danger",
-      class: { root: "bg-brutal-red text-black" },
+      class: { root: "bg-brutal-red text-foreground" },
     },
     {
       theme: "brutal",
@@ -102,7 +102,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "solid",
       variant: "warning",
-      class: { root: "bg-warning-base text-black" },
+      class: { root: "bg-warning-base text-foreground" },
     },
     {
       theme: "brutal",

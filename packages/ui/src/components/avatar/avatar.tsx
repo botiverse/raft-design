@@ -53,7 +53,7 @@ const avatar = tv({
     theme: {
       brutal: {
         root: "border-line-strong",
-        fallback: "text-black",
+        fallback: "text-foreground",
         badge: ["bg-success-base text-foreground-strong"],
         group: [
           "-space-x-1.5",

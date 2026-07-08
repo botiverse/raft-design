@@ -88,8 +88,8 @@ const inputGroup = tv({
       theme: "brutal",
       variant: "container",
       class: {
-        addon: "bg-brutal-yellow/30 font-bold text-black/70",
-        text: "bg-brutal-yellow/30 font-bold text-black/70",
+        addon: "bg-brutal-yellow/30 font-bold text-foreground/70",
+        text: "bg-brutal-yellow/30 font-bold text-foreground/70",
       },
     },
     {

@@ -30,9 +30,9 @@ const popover = tv({
       brutal: {
         content: ["border-2 border-black bg-white shadow-lg"],
         separator: ["border-black"],
-        title: ["font-sans uppercase tracking-wide text-black/60"],
-        description: ["font-sans text-black"],
-        close: ["font-sans uppercase tracking-wide text-black/60 hover:text-black"],
+        title: ["font-sans uppercase tracking-wide text-foreground/60"],
+        description: ["font-sans text-foreground"],
+        close: ["font-sans uppercase tracking-wide text-foreground/60 hover:text-foreground"],
         arrow: ["border-l-2 border-t-2 border-black bg-white"],
         backdrop: ["bg-transparent"],
       },
