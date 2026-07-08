@@ -32,10 +32,10 @@ const input = tv({
       theme: "elegant",
       class: {
         root: [
-          "rounded-md border border-[oklch(0.94_0_0)] bg-layer-field",
-          "px-3 py-2 text-sm text-[oklch(0.205_0_0)] transition duration-200 ease-out dark:text-foreground",
+          "rounded-md border border-line-field bg-layer-field",
+          "px-3 py-2 text-sm text-foreground-strong transition duration-200 ease-out dark:text-foreground",
           "placeholder:text-foreground-placeholder/70",
-          "shadow-none hover:not-aria-invalid:border-[oklch(0.91_0_0)] hover:shadow-[oklch(0_0_0_/_0)_0px_0px_0px_0px,oklch(0_0_0_/_0)_0px_0px_0px_0px,oklch(0.159_0.016_266.594_/_0.03)_0px_1px_2px_0px]",
+          "shadow-none hover:not-aria-invalid:border-line-field-hover hover:shadow-field-hover",
           "focus:border-line-strong/25 focus:bg-layer-field",
           "focus-visible:ring-2 focus-visible:ring-line-strong/8",
           "aria-invalid:border-danger-base/45 aria-invalid:hover:border-danger-base/75 aria-invalid:focus-visible:border-danger-base/75 aria-invalid:focus-visible:ring-3 aria-invalid:focus-visible:ring-danger-base/12",

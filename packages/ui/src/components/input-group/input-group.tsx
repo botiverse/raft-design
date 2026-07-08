@@ -37,9 +37,9 @@ const inputGroup = tv({
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-md border border-[oklch(0.94_0_0)] bg-layer-field shadow-none",
-          "text-[oklch(0.205_0_0)] transition duration-200 ease-out dark:text-foreground",
-          "hover:border-[oklch(0.91_0_0)] hover:shadow-[oklch(0_0_0_/_0)_0px_0px_0px_0px,oklch(0_0_0_/_0)_0px_0px_0px_0px,oklch(0.159_0.016_266.594_/_0.03)_0px_1px_2px_0px]",
+          "overflow-hidden rounded-md border border-line-field bg-layer-field shadow-none",
+          "text-foreground-strong transition duration-200 ease-out dark:text-foreground",
+          "hover:border-line-field-hover hover:shadow-field-hover",
           "has-[[data-slot=input-group-control]:focus]:border-line-subtle/30 has-[[data-slot=input-group-control]:focus]:bg-layer-field",
           "has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] has-[[data-slot=input-group-control]:focus-visible]:ring-offset-1 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-background",
           "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base/45 has-[[data-slot=input-group-control][aria-invalid=true]]:hover:border-danger-base/75 has-[[data-slot=input-group-control][aria-invalid=true]:focus]:border-danger-base/75",
@@ -59,7 +59,7 @@ const inputGroup = tv({
           "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
         control: [
-          "text-[oklch(0.205_0_0)] placeholder:text-foreground-placeholder/70 dark:text-foreground",
+          "text-foreground-strong placeholder:text-foreground-placeholder/70 dark:text-foreground",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
           "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],

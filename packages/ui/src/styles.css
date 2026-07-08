@@ -270,6 +270,8 @@
   --color-line-subtle: var(--line-subtle);
   --color-line-muted: var(--line-muted);
   --color-line-focus: var(--line-focus);
+  --color-line-field: var(--line-field);
+  --color-line-field-hover: var(--line-field-hover);
 
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
@@ -354,6 +356,7 @@
   --shadow-md: var(--theme-shadow-md);
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
+  --shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
   --shadow-brutal-sm: var(--theme-shadow-sm);
   --shadow-brutal: var(--theme-shadow-md);
   --shadow-brutal-lg: var(--theme-shadow-xl);
@@ -437,6 +440,9 @@
 
   --layer-hover: var(--ink-4);
   --layer-active: var(--ink-8);
+
+  --line-field: oklch(0.94 0 0);
+  --line-field-hover: oklch(0.91 0 0);
 }
 
 :where(:root),
