@@ -107,6 +107,8 @@ const combobox = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "data-[popup-open]:[--button-focus-outline:transparent]",
+          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         inputGroup: ["border-line-muted bg-layer-popover px-1.5 pt-1 pb-2"],
@@ -114,7 +116,7 @@ const combobox = tv({
           "rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-sm",
           "text-foreground outline-none transition duration-150",
           "placeholder:text-foreground-placeholder/70",
-          "focus:border-line-strong/25 focus-visible:ring-2 focus-visible:ring-line-strong/8",
+          "focus:border-line-subtle/30 focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         ],
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["pl-2 pr-1.5 pt-2.5 pb-0.5"],
@@ -141,7 +143,7 @@ const combobox = tv({
         control: [
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
           "text-sm font-normal text-foreground shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.05)]",
-          "focus-within:border-line-strong/25 focus-within:ring-2 focus-within:ring-line-strong/8",
+          "focus-within:border-line-subtle/30 focus-within:ring-2 focus-within:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-within:ring-offset-1 focus-within:ring-offset-background",
           "[&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
           "[&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-normal [&_[data-slot='combobox-input']]:text-foreground",
           "[&_[data-slot='combobox-input']::placeholder]:text-foreground-placeholder/70",
@@ -150,7 +152,7 @@ const combobox = tv({
         groupLabel: ["text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45"],
         chips: [
           "rounded-md border border-line-subtle bg-layer-field px-2 py-1",
-          "focus-within:border-line-strong/25 focus-within:ring-2 focus-within:ring-line-strong/8",
+          "focus-within:border-line-subtle/30 focus-within:ring-2 focus-within:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-within:ring-offset-1 focus-within:ring-offset-background",
         ],
         chip: ["rounded-sm bg-layer-muted px-1.5 py-0.5 text-xs font-medium text-foreground"],
         chipRemove: ["text-foreground-muted hover:text-foreground-strong"],

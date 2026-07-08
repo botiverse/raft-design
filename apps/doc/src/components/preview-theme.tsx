@@ -11,6 +11,12 @@ type PreviewThemeValue = {
 
 const PreviewThemeContext = createContext<PreviewThemeValue | null>(null);
 
+const DEFAULT_PREVIEW_THEME_VALUE: PreviewThemeValue = {
+  theme: "elegant",
+  mode: "light",
+  setTheme: () => undefined,
+};
+
 export function PreviewThemeProvider({ children }: { children: ReactNode }) {
   const [selected, setSelected] = useState<{ theme: Theme; mode: PreviewMode }>({
     theme: "elegant",
@@ -31,7 +37,7 @@ export function usePreviewTheme() {
   const context = useContext(PreviewThemeContext);
 
   if (!context) {
-    throw new Error("usePreviewTheme must be used inside PreviewThemeProvider.");
+    return DEFAULT_PREVIEW_THEME_VALUE;
   }
 
   return context;

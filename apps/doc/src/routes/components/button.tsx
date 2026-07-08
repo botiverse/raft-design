@@ -114,7 +114,7 @@ const HEIGHT_ALIGNMENT_VARIANTS = [
   { variant: "danger-outline", label: "Danger outline" },
 ] as const;
 const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
-  "outline outline-[1px] outline-offset-2 outline-[var(--button-focus-outline,transparent)]";
+  "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-background";
 
 const SNIPPETS = {
   anatomy: `import { Button } from "raft-ui";

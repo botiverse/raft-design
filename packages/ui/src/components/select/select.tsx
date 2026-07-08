@@ -12,7 +12,7 @@ const select = tv({
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
       "data-[placeholder]:text-foreground-placeholder",
-      "aria-invalid:border-danger-base/45 aria-invalid:hover:border-danger-base/75 aria-invalid:focus-visible:border-danger-base/75 aria-invalid:focus-visible:ring-3 aria-invalid:focus-visible:ring-danger-base/12",
+      "aria-invalid:border-danger-base/45 aria-invalid:hover:border-danger-base/75 aria-invalid:focus-visible:border-danger-base/75 aria-invalid:focus-visible:ring-2 aria-invalid:focus-visible:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)] aria-invalid:focus-visible:ring-offset-1 aria-invalid:focus-visible:ring-offset-background",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:!size-3.5 [&_[data-slot='select-trigger-content']_svg]:shrink-0 [&_[data-slot='select-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='select-trigger-content']_svg_*]:!stroke-[1.5]",
@@ -89,6 +89,8 @@ const select = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "data-[popup-open]:[--button-focus-outline:transparent]",
+          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],

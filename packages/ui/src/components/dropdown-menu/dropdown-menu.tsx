@@ -76,7 +76,7 @@ const dropdownMenu = tv({
         trigger: [
           "hover:bg-[color-mix(in_oklch,var(--line-subtle)_22%,var(--layer-panel))]",
           "data-[popup-open]:[--button-focus-outline:transparent] focus-visible:[--button-focus-outline:transparent]",
-          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_35%,transparent)] focus-visible:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_35%,transparent)]",
+          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)] focus-visible:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
         ],
         content: [
           "gap-0.5 rounded-md bg-layer-popover p-1",

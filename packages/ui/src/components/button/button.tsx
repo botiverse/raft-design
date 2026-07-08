@@ -30,7 +30,8 @@ export const buttonVariants = tv({
       elegant: {
         root: [
           "overflow-clip border-0 font-sans font-medium antialiased",
-          "focus-visible:outline-[var(--button-focus-outline,transparent)]",
+          "focus-visible:outline-transparent",
+          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
           "active:not-aria-[haspopup]:scale-[0.985]",
@@ -364,6 +365,7 @@ export const buttonVariants = tv({
         root: [
           "bg-foreground-strong text-foreground-inverse",
           "[--button-focus-outline:var(--foreground-strong)]",
+          "[--button-focus-ring:var(--foreground-strong)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground-strong)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.31_0.006_285)]",
@@ -377,6 +379,7 @@ export const buttonVariants = tv({
         root: [
           "bg-primary-400 text-primary-950",
           "[--button-focus-outline:var(--primary-400)]",
+          "[--button-focus-ring:var(--primary-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.15),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.83)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_11%)_0%,oklab(100%_0_0_/_0%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.86_0.15_91.89)]",
@@ -390,6 +393,7 @@ export const buttonVariants = tv({
         root: [
           "bg-layer-panel text-foreground-strong",
           "[--button-focus-outline:var(--layer-panel)]",
+          "[--button-focus-ring:var(--foreground-strong)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-layer-muted",
@@ -403,6 +407,7 @@ export const buttonVariants = tv({
         root: [
           "bg-transparent text-foreground-muted shadow-none",
           "[--button-focus-outline:var(--line-muted)]",
+          "[--button-focus-ring:var(--line-muted)]",
           "before:bg-transparent hover:bg-line-muted",
         ],
       },
@@ -414,6 +419,7 @@ export const buttonVariants = tv({
         root: [
           "bg-danger-lighter text-danger-base",
           "[--button-focus-outline:var(--state-danger-lighter)]",
+          "[--button-focus-ring:var(--state-danger-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.18),0_0_0_1px_var(--state-danger-light)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_9%)_0%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-danger-light",
@@ -427,6 +433,7 @@ export const buttonVariants = tv({
         root: [
           "bg-danger-base text-foreground-inverse",
           "[--button-focus-outline:var(--state-danger-base)]",
+          "[--button-focus-ring:var(--state-danger-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--state-danger-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.56_0.23_26.758)]",
@@ -468,6 +475,7 @@ export const buttonVariants = tv({
         root: [
           "bg-layer-panel text-danger-base",
           "[--button-focus-outline:var(--layer-panel)]",
+          "[--button-focus-ring:var(--state-danger-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--state-danger-light)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-danger-lighter",
@@ -481,6 +489,7 @@ export const buttonVariants = tv({
         root: [
           "bg-accent-400 text-white",
           "[--button-focus-outline:var(--accent-400)]",
+          "[--button-focus-ring:var(--accent-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--accent-400)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.72_0.15_0.71)]",
@@ -494,6 +503,7 @@ export const buttonVariants = tv({
         root: [
           "bg-warning-base text-foreground-inverse",
           "[--button-focus-outline:var(--state-warning-base)]",
+          "[--button-focus-ring:var(--state-warning-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.14),0_0_0_1px_var(--state-warning-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.65_0.19_44.441)]",
@@ -507,6 +517,7 @@ export const buttonVariants = tv({
         root: [
           "bg-transparent text-foreground-muted shadow-none",
           "[--button-focus-outline:transparent]",
+          "[--button-focus-ring:var(--line-muted)]",
           "before:bg-transparent hover:bg-transparent hover:text-foreground-muted",
         ],
       },
@@ -518,6 +529,7 @@ export const buttonVariants = tv({
         root: [
           "bg-info-base text-foreground-inverse",
           "[--button-focus-outline:var(--state-info-base)]",
+          "[--button-focus-ring:var(--state-info-base)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--state-info-base)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.74_0.13_219.2)]",
@@ -531,6 +543,7 @@ export const buttonVariants = tv({
         root: [
           "bg-layer-muted text-foreground-placeholder",
           "[--button-focus-outline:var(--layer-muted)]",
+          "[--button-focus-ring:var(--line-muted)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_5%)_0%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-line-subtle",

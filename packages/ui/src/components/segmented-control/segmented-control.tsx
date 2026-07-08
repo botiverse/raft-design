@@ -41,7 +41,7 @@ const segmentedControl = tv({
           "data-[unchecked]:hover:bg-[color-mix(in_oklch,var(--layer-muted)_55%,var(--layer-panel))]",
           "data-[checked]:bg-primary-400 data-[checked]:text-primary-950 data-[checked]:hover:bg-[oklch(0.86_0.15_91.89)]",
           "data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0.85_0.162_91.89_/_0.08),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.68)]",
-          "focus-visible:ring-2 focus-visible:ring-line-focus",
+          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           "data-[disabled]:cursor-not-allowed",
         ],
         count: [
