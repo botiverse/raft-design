@@ -93,9 +93,9 @@ export const chatMainPanel = tv({
           "hover:-translate-y-px hover:shadow-brutal",
           "active:shadow-[var(--shadow-brutal-active)]",
         ],
-        body: "bg-white",
+        body: "border-b-2 border-black bg-white",
         timeline: "bg-white",
-        footer: "border-t-2 border-black bg-white",
+        footer: "bg-white",
         composer: "border-black bg-white shadow-brutal-sm focus-within:shadow-brutal",
         composerInput: "font-sans text-black placeholder:text-black/35",
         composerIconButton: [
