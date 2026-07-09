@@ -27,6 +27,7 @@ import {
   Copy,
   Download,
   Eye,
+  FileText,
   GitBranch,
   Hash,
   Image as ImageIcon,
@@ -93,6 +94,18 @@ import {
   ChatMainPanelBody,
   ChatMainPanelComposer,
   ChatMainPanelComposerActions,
+  ChatMainPanelComposerAttachment,
+  ChatMainPanelComposerAttachmentBody,
+  ChatMainPanelComposerAttachmentFile,
+  ChatMainPanelComposerAttachmentImage,
+  ChatMainPanelComposerAttachmentMeta,
+  ChatMainPanelComposerAttachmentOverlay,
+  ChatMainPanelComposerAttachmentProgress,
+  ChatMainPanelComposerAttachmentRemove,
+  ChatMainPanelComposerAttachmentTitle,
+  ChatMainPanelComposerAttachments,
+  ChatMainPanelComposerDropOverlay,
+  ChatMainPanelComposerDropOverlayLabel,
   ChatMainPanelComposerIconButton,
   ChatMainPanelComposerInput,
   ChatMainPanelComposerMeta,
@@ -166,6 +179,7 @@ import {
   type MessageItemRowState,
 } from "raft-ui/wip";
 
+import { COMPOSER_IMAGE_SRC } from "../compositions/chat-main-panel-states-composition.tsx";
 import type { PlaygroundChannel, PlaygroundChannelId } from "./mock-data.ts";
 
 type PanelTab = "chat" | "tasks" | "files";
@@ -570,7 +584,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
         />
       )}
 
-      <Composer label={composerLabel} />
+      <Composer label={composerLabel} uploads={channel.id === "incident-alerts"} />
       <MessageSelectionShortcut />
     </ChatMainPanelRoot>
   );
@@ -2902,7 +2916,59 @@ function ChannelAutocomplete() {
 
 type ComposerAutocomplete = "mention" | "channel" | null;
 
-function Composer({ label }: { label: string }) {
+// Pending-upload attachment chips (source MessageInput SortableAttachment):
+// an image still uploading (spinner + progress), a resting file chip, and a
+// failed upload with a retry affordance.
+function ComposerAttachments() {
+  return (
+    <ChatMainPanelComposerAttachments>
+      <ChatMainPanelComposerAttachment>
+        <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
+        <ChatMainPanelComposerAttachmentOverlay tone="uploading">
+          <Spinner size="sm" className="mb-1" />
+          64%
+        </ChatMainPanelComposerAttachmentOverlay>
+        <ChatMainPanelComposerAttachmentProgress value={64} />
+        <ChatMainPanelComposerAttachmentRemove aria-label="Remove screenshot.png">
+          <X />
+        </ChatMainPanelComposerAttachmentRemove>
+      </ChatMainPanelComposerAttachment>
+      <ChatMainPanelComposerAttachment>
+        <ChatMainPanelComposerAttachmentFile>
+          <FileText />
+          <ChatMainPanelComposerAttachmentBody>
+            <ChatMainPanelComposerAttachmentTitle>
+              release-notes.pdf
+            </ChatMainPanelComposerAttachmentTitle>
+            <ChatMainPanelComposerAttachmentMeta>
+              application/pdf
+            </ChatMainPanelComposerAttachmentMeta>
+          </ChatMainPanelComposerAttachmentBody>
+        </ChatMainPanelComposerAttachmentFile>
+        <ChatMainPanelComposerAttachmentRemove aria-label="Remove release-notes.pdf">
+          <X />
+        </ChatMainPanelComposerAttachmentRemove>
+      </ChatMainPanelComposerAttachment>
+      <ChatMainPanelComposerAttachment>
+        <ChatMainPanelComposerAttachmentFile>
+          <FileText />
+          <ChatMainPanelComposerAttachmentBody>
+            <ChatMainPanelComposerAttachmentTitle>deck.key</ChatMainPanelComposerAttachmentTitle>
+            <ChatMainPanelComposerAttachmentMeta>
+              application/octet-stream
+            </ChatMainPanelComposerAttachmentMeta>
+          </ChatMainPanelComposerAttachmentBody>
+        </ChatMainPanelComposerAttachmentFile>
+        <ChatMainPanelComposerAttachmentOverlay tone="failed">
+          Upload failed
+          <span className="underline">Tap to retry</span>
+        </ChatMainPanelComposerAttachmentOverlay>
+      </ChatMainPanelComposerAttachment>
+    </ChatMainPanelComposerAttachments>
+  );
+}
+
+function Composer({ label, uploads = false }: { label: string; uploads?: boolean }) {
   const [autocomplete, setAutocomplete] = useState<ComposerAutocomplete>(null);
 
   // Demo trigger: `@` / `#` open the matching panel, Escape closes (source uses
@@ -2918,6 +2984,7 @@ function Composer({ label }: { label: string }) {
       <div className="relative flex w-full flex-col gap-2">
         {autocomplete === "mention" ? <MentionAutocomplete /> : null}
         {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
+        {uploads ? <ComposerAttachments /> : null}
         <ChatMainPanelComposer>
           <ChatMainPanelComposerInput
             aria-label={label}
@@ -2947,6 +3014,13 @@ function Composer({ label }: { label: string }) {
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
       </div>
+      {uploads ? (
+        <ChatMainPanelComposerDropOverlay aria-hidden>
+          <ChatMainPanelComposerDropOverlayLabel>
+            Drop files to attach
+          </ChatMainPanelComposerDropOverlayLabel>
+        </ChatMainPanelComposerDropOverlay>
+      ) : null}
     </ChatMainPanelFooter>
   );
 }
