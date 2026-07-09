@@ -7,13 +7,13 @@ catalogMode: prefer
 
 catalog:
   bumpp: ^11.1.0
-  conventional-changelog: ^7.2.1
-  conventional-changelog-conventionalcommits: ^9.3.1
+  conventional-changelog: ^8.0.1
+  conventional-changelog-conventionalcommits: ^10.2.1
   "@types/node": ^26.0.0
-  typescript: ^6.0.3
+  typescript: ^7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@0.2.1
   vitest: npm:@voidzero-dev/vite-plus-test@0.1.24
-  vite-plus: 0.2.1
+  vite-plus: 0.2.3
   tailwind-variants: ^3.2.2
   "@base-ui-components/react": 1.0.0-rc.0
   "@base-ui/react": ^1.6.0
@@ -50,3 +50,24 @@ minimumReleaseAgeExclude:
   - miniflare@4.20260603.0
   - wrangler@4.98.0
   - cnfast@0.0.7
+  - "@typescript/typescript-aix-ppc64@7.0.2"
+  - "@typescript/typescript-darwin-arm64@7.0.2"
+  - "@typescript/typescript-darwin-x64@7.0.2"
+  - "@typescript/typescript-freebsd-arm64@7.0.2"
+  - "@typescript/typescript-freebsd-x64@7.0.2"
+  - "@typescript/typescript-linux-arm64@7.0.2"
+  - "@typescript/typescript-linux-arm@7.0.2"
+  - "@typescript/typescript-linux-loong64@7.0.2"
+  - "@typescript/typescript-linux-mips64el@7.0.2"
+  - "@typescript/typescript-linux-ppc64@7.0.2"
+  - "@typescript/typescript-linux-riscv64@7.0.2"
+  - "@typescript/typescript-linux-s390x@7.0.2"
+  - "@typescript/typescript-linux-x64@7.0.2"
+  - "@typescript/typescript-netbsd-arm64@7.0.2"
+  - "@typescript/typescript-netbsd-x64@7.0.2"
+  - "@typescript/typescript-openbsd-arm64@7.0.2"
+  - "@typescript/typescript-openbsd-x64@7.0.2"
+  - "@typescript/typescript-sunos-x64@7.0.2"
+  - "@typescript/typescript-win32-arm64@7.0.2"
+  - "@typescript/typescript-win32-x64@7.0.2"
+  - typescript@7.0.2
