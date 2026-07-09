@@ -149,7 +149,7 @@ export const appShell = tv({
           "hover:border-black hover:bg-white hover:shadow-brutal-sm",
           "active:border-black active:bg-white active:shadow-brutal-sm",
           "data-[selected=true]:border-black data-[selected=true]:bg-brutal-pink",
-          "data-[selected=true]:font-bold data-[selected=true]:shadow-brutal-sm",
+          "data-[selected=true]:shadow-brutal-sm",
           "data-[menu-open=true]:border-black data-[menu-open=true]:bg-white",
           "data-[menu-open=true]:shadow-brutal-sm",
         ],
