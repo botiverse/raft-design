@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useId,
   useRef,
   useState,
   type ButtonHTMLAttributes,
@@ -21,7 +22,6 @@ import {
   Check,
   CheckCircle,
   ChevronRight,
-  ChevronUp,
   Circle,
   ClipboardCheck,
   Copy,
@@ -69,6 +69,15 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  Lightbox,
+  LightboxActions,
+  LightboxClose,
+  LightboxContent,
+  LightboxHeader,
+  LightboxMedia,
+  LightboxStage,
+  LightboxTitle,
+  LightboxTrigger,
   PreviewCard,
   PreviewCardContent,
   PreviewCardTrigger,
@@ -364,9 +373,13 @@ function TaskStatusBadge({
           <span className="shrink-0">#{taskNumber}</span>
           {assignee ? <span className="min-w-0 truncate">@{assignee}</span> : null}
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="min-w-[140px]">
+        <DropdownMenuContent align="start" className={`min-w-[140px] ${MENU_CONTENT_CLASS}`}>
           {TASK_STATUS_ORDER.map((id) => (
-            <DropdownMenuItem key={id} className="justify-between" onClick={() => setStatus(id)}>
+            <DropdownMenuItem
+              key={id}
+              className={`justify-between ${MENU_ITEM_CLASS}`}
+              onClick={() => setStatus(id)}
+            >
               <span className="truncate">{TASK_STATUS_CONFIG[id].label}</span>
               <Check size={14} className={id === status ? "opacity-100" : "opacity-0"} />
             </DropdownMenuItem>
@@ -474,58 +487,43 @@ function FileCard({
   return card;
 }
 
-// Full-screen image lightbox (source ImageLightbox on ui/Lightbox): dark
-// backdrop, white brutal header bar (filename + download/close), centered
-// image. Inert demo — download does nothing; backdrop / close X dismiss.
-function ImageLightboxModal({
-  src,
-  name,
-  onClose,
-}: {
-  src: string;
-  name: string;
-  onClose: () => void;
-}) {
-  return createPortal(
-    <div className="fixed inset-0 z-[70] flex flex-col bg-black/75 outline-none" onClick={onClose}>
-      <div
-        className="shrink-0 border-b-2 border-black bg-white"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="flex h-14 items-center gap-3 px-4">
-          <div className="min-w-0 flex-1 truncate text-sm font-bold text-black">{name}</div>
-          <div className="flex shrink-0 items-center gap-1.5">
+// Gallery preview affordance: a full-cover trigger over an image tile that opens
+// the DS Lightbox (the migration of source `ui/Lightbox` → ImageLightbox). Its
+// brutal variant supplies the dark backdrop + bordered contain media; the header
+// carries the filename + inert download and the close affordance.
+function ImagePreviewButton({ src, name }: { src: string; name: string }) {
+  return (
+    <Lightbox>
+      <LightboxTrigger
+        render={
+          <button
+            type="button"
+            aria-label="Preview image"
+            className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-black"
+          />
+        }
+      />
+      <LightboxContent className="flex flex-col">
+        <LightboxHeader className="flex h-14 items-center gap-3 px-4">
+          <LightboxTitle>{name}</LightboxTitle>
+          <LightboxActions>
             <SelectBarButton icon tone="white" aria-label="Download" title="Download">
               <Download size={14} />
             </SelectBarButton>
-            <SelectBarButton icon tone="white" onClick={onClose} aria-label="Close" title="Close">
-              <X size={14} />
-            </SelectBarButton>
-          </div>
-        </div>
-      </div>
-      <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4">
-        <img src={src} alt="" className="max-h-full max-w-full object-contain" />
-      </div>
-    </div>,
-    document.body,
-  );
-}
-
-// Gallery preview affordance: the full-cover button over an image tile that
-// opens the lightbox (source gallery item → useImageLightboxStore.open).
-function ImagePreviewButton({ src, name }: { src: string; name: string }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <button
-        type="button"
-        aria-label="Preview image"
-        onClick={() => setOpen(true)}
-        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-black"
-      />
-      {open ? <ImageLightboxModal src={src} name={name} onClose={() => setOpen(false)} /> : null}
-    </>
+            <LightboxClose
+              render={
+                <SelectBarButton icon tone="white" aria-label="Close" title="Close">
+                  <X size={14} />
+                </SelectBarButton>
+              }
+            />
+          </LightboxActions>
+        </LightboxHeader>
+        <LightboxStage>
+          <LightboxMedia className="object-contain" render={<img src={src} alt="" />} />
+        </LightboxStage>
+      </LightboxContent>
+    </Lightbox>
   );
 }
 
@@ -580,17 +578,21 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
 
 function ChannelHeader({ channel }: { channel: PlaygroundChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
+  const isMuted = channel.id === "component-matrix";
 
   return (
     <ChatMainPanelHeader>
-      <ChatMainPanelHeaderIcon>
+      <ChatMainPanelHeaderIcon className="[&_svg]:size-[14px]">
         <Icon />
       </ChatMainPanelHeaderIcon>
       <ChatMainPanelTitleBlock>
         <div className="flex min-w-0 items-center gap-2">
           <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
-          {channel.id === "component-matrix" ? (
-            <span className="inline-flex shrink-0 items-center gap-1 border-2 border-black bg-brutal-orange/25 px-1.5 py-1 text-[11px] font-bold uppercase text-black">
+          {isMuted ? (
+            <span
+              title="Activity muted. Direct mentions can still notify you."
+              className="inline-flex shrink-0 items-center gap-1 border-2 border-black bg-brutal-orange/25 px-1.5 py-1 text-[11px] font-bold uppercase leading-none text-black"
+            >
               <BellOff size={11} />
               Muted
             </span>
@@ -602,16 +604,28 @@ function ChannelHeader({ channel }: { channel: PlaygroundChannel }) {
         <ChatMainPanelAction aria-label="Search this channel">
           <Search />
         </ChatMainPanelAction>
-        <ChatMainPanelAction aria-label="Mute activity for this channel">
-          <Bell />
-        </ChatMainPanelAction>
+        {isMuted ? (
+          <ChatMainPanelAction
+            aria-label="Unmute activity for this channel"
+            className="bg-brutal-orange text-black"
+          >
+            <BellOff />
+          </ChatMainPanelAction>
+        ) : (
+          <ChatMainPanelAction aria-label="Mute activity for this channel">
+            <Bell />
+          </ChatMainPanelAction>
+        )}
         <ChatMainPanelAction aria-label="Stop all agents in this channel">
           <Square />
         </ChatMainPanelAction>
         <ChatMainPanelAction aria-label="Edit channel">
           <Settings />
         </ChatMainPanelAction>
-        <ChatMainPanelAction aria-label="View participants" className="w-auto min-w-7 gap-1 px-1.5">
+        <ChatMainPanelAction
+          aria-label="View participants"
+          className="w-auto min-w-7 gap-1.5 px-2.5"
+        >
           <Users />
           <span className="min-w-[1ch] text-center font-mono text-[11px] font-bold leading-none tabular-nums">
             7
@@ -1226,20 +1240,12 @@ function SystemGroupDisclosure() {
   );
 }
 
-// History top-of-timeline states (source HistoryTopState): load-older button,
-// the loading notice, and the plan-limited lock notice.
+// History top-of-timeline state (source HistoryTopState). The three variants
+// (load-older button, loading notice, plan-limited lock) are mutually exclusive;
+// source only ever shows one, so render the plan-limited lock at rest.
 function HistoryTopStates() {
   return (
-    <div className="space-y-2 px-3 pt-3">
-      <div className="flex justify-center">
-        <button type="button" className="btn-brutal-sm bg-white px-3 py-1 text-xs font-bold">
-          <ChevronUp size={12} />
-          Load Older Messages
-        </button>
-      </div>
-      <MessageTimelineNotice tone="muted" className="font-mono">
-        Loading older messages...
-      </MessageTimelineNotice>
+    <div className="px-3 pt-3">
       <div className="flex justify-center pb-2">
         <MessageTimelineHistoryLimited className="font-mono text-xs text-black/50">
           <Lock size={12} />
@@ -1272,20 +1278,15 @@ type MessageListApi = {
 
 const MessageListContext = createContext<MessageListApi | null>(null);
 
-// Brutal pins that make the DS DropdownMenu / ContextMenu popups pixel-identical
-// to source's hand-rolled `card-brutal` menus. The DS brutal chrome resolves to
-// a near-black border/shadow (line-strong / shadow-lg); source uses pure black
-// (`card-brutal` + `shadow-brutal`), so pin those. Item text is pinned from the
-// foreground ramp (oklch 0.18) to source's pure black. Hover already matches:
-// the DS `hover:bg-brutal-yellow/30` and source `hover:bg-soft-signal/30` are the
-// same color (soft-signal maps to brutal-yellow). Scoped so elegant is untouched.
-const MENU_CONTENT_CLASS =
-  "[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:shadow-brutal";
-// DropdownMenu rows are already font-medium in brutal, so only the text tone.
-const DROPDOWN_ITEM_CLASS = "[[data-preview-theme=brutal]_&]:text-black";
-// ContextMenu rows are font-semibold in brutal; source ui/MenuItem is font-medium.
-const CTX_ITEM_CLASS =
-  "[[data-preview-theme=brutal]_&]:font-medium [[data-preview-theme=brutal]_&]:text-black";
+// Base UI portals menus/popovers to `document.body`, OUTSIDE the preview's
+// `[data-preview-theme=brutal]` scope, so `[[data-preview-theme=brutal]_&]:`
+// pins never match and the DS token defaults (zinc border, soft shadow,
+// font-semibold) leak through. Author the brutal chrome with literal classes
+// instead — same approach as the text-selection popover, which renders correctly
+// despite the portal: pure-black 2px border + hard `shadow-brutal`, and source
+// `ui/MenuItem` metrics (font-medium, px-3 py-2). Elegant is out of scope.
+const MENU_CONTENT_CLASS = "border-2 border-black shadow-brutal";
+const MENU_ITEM_CLASS = "px-3 py-2 font-medium text-black";
 
 // Source ui/Button, brutal palette — the SelectModeToolbar buttons. The DS
 // Button has no brutal tone axis, so the source classes are composed inline
@@ -1364,11 +1365,11 @@ function SelectModeToolbar({ count, onCancel }: { count: number; onCancel: () =>
               data-testid="select-mode-more-menu"
               className={`min-w-44 ${MENU_CONTENT_CLASS}`}
             >
-              <DropdownMenuItem className={DROPDOWN_ITEM_CLASS}>
+              <DropdownMenuItem className={MENU_ITEM_CLASS}>
                 <ImageIcon size={14} />
                 Generate image
               </DropdownMenuItem>
-              <DropdownMenuItem className={DROPDOWN_ITEM_CLASS}>
+              <DropdownMenuItem className={MENU_ITEM_CLASS}>
                 <Copy size={14} />
                 Copy MD
               </DropdownMenuItem>
@@ -1453,9 +1454,9 @@ function MessageSelectionShortcut() {
   );
 }
 
-// Divider between menu sections — DS ContextMenuSeparator resolves to a near-
-// black `border-line-strong` hairline in brutal; pin to source's pure black.
-const CTX_SEPARATOR_CLASS = "[[data-preview-theme=brutal]_&]:border-black";
+// Divider between menu sections — the portaled DS ContextMenuSeparator escapes
+// the brutal scope, so author its pure-black hairline literally (see MENU_*).
+const CTX_SEPARATOR_CLASS = "border-black";
 
 // Right-click context menu content (source MessageItem handleContextMenu → menu
 // at MessageItem.tsx:4355-4526): quick-reaction row on top, then Copy Link / Copy
@@ -1504,33 +1505,33 @@ function MessageContextMenuContent({
         ))}
       </MessageReactionQuickRow>
       <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
-      <ContextMenuItem className={CTX_ITEM_CLASS}>
+      <ContextMenuItem className={MENU_ITEM_CLASS}>
         <LinkIcon size={14} />
         Copy Link
       </ContextMenuItem>
-      <ContextMenuItem className={CTX_ITEM_CLASS}>
+      <ContextMenuItem className={MENU_ITEM_CLASS}>
         <Copy size={14} />
         Copy Markdown
       </ContextMenuItem>
-      <ContextMenuItem className={CTX_ITEM_CLASS} onClick={onSelectMessage}>
+      <ContextMenuItem className={MENU_ITEM_CLASS} onClick={onSelectMessage}>
         <CheckCircle size={14} />
         Select Message
       </ContextMenuItem>
       <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
-      <ContextMenuItem className={CTX_ITEM_CLASS}>
+      <ContextMenuItem className={MENU_ITEM_CLASS}>
         <MessageSquare size={14} />
         Open Thread
       </ContextMenuItem>
-      <ContextMenuItem className={CTX_ITEM_CLASS}>
+      <ContextMenuItem className={MENU_ITEM_CLASS}>
         {saved ? <BookmarkMinus size={14} /> : <Bookmark size={14} />}
         {saved ? "Remove from Saved" : "Save Message"}
       </ContextMenuItem>
-      <ContextMenuItem className={CTX_ITEM_CLASS}>
+      <ContextMenuItem className={MENU_ITEM_CLASS}>
         <MessageSquare size={14} />
         {followed ? "Unfollow Thread" : "Follow Thread"}
       </ContextMenuItem>
       <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
-      <ContextMenuItem className={CTX_ITEM_CLASS}>
+      <ContextMenuItem className={MENU_ITEM_CLASS}>
         {taskAction.icon}
         {taskAction.label}
       </ContextMenuItem>
@@ -1852,41 +1853,59 @@ function MatrixBody() {
               meta="Design-system agent on the primary online machine."
               status="online"
               time="10:11 AM"
-              body="A few more clips — one idle, one still uploading, one this browser can't decode."
+              body="Idle clip — poster frame with the play affordance."
               attachments={
-                <div className="space-y-2">
-                  <MessageVideoPreview>
-                    <MessageVideoPreviewFrame>
-                      <MessageVideoPreviewFallback>
-                        <Play className="size-8 text-white/80" />
-                      </MessageVideoPreviewFallback>
-                      <MessageVideoPreviewAction aria-label="Open video in preview">
-                        <Eye />
-                      </MessageVideoPreviewAction>
-                    </MessageVideoPreviewFrame>
-                  </MessageVideoPreview>
-                  <MessageVideoPreview optimistic>
-                    <MessageVideoPreviewFrame>
-                      <MessageVideoPreviewFallback>
-                        <Spinner size="lg" className="text-white" />
-                      </MessageVideoPreviewFallback>
-                    </MessageVideoPreviewFrame>
-                  </MessageVideoPreview>
-                  <MessageVideoPreview>
-                    <MessageVideoPreviewFrame>
-                      <MessageVideoPreviewFallback interactive>
-                        <div className="flex max-w-[16rem] flex-col items-center gap-2 px-4 text-center text-xs font-bold">
-                          <AlertTriangle size={24} />
-                          <span>This video may use a codec this browser cannot preview.</span>
-                          <span className="inline-flex items-center gap-1 text-white/75">
-                            <Download size={13} />
-                            Download to view
-                          </span>
-                        </div>
-                      </MessageVideoPreviewFallback>
-                    </MessageVideoPreviewFrame>
-                  </MessageVideoPreview>
-                </div>
+                <MessageVideoPreview>
+                  <MessageVideoPreviewFrame>
+                    <MessageVideoPreviewFallback>
+                      <Play className="size-8 text-white/80" />
+                    </MessageVideoPreviewFallback>
+                    <MessageVideoPreviewAction aria-label="Open video in preview">
+                      <Eye />
+                    </MessageVideoPreviewAction>
+                  </MessageVideoPreviewFrame>
+                </MessageVideoPreview>
+              }
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="10:12 AM"
+              body="This one is still uploading."
+              attachments={
+                <MessageVideoPreview optimistic>
+                  <MessageVideoPreviewFrame>
+                    <MessageVideoPreviewFallback>
+                      <Spinner size="lg" className="text-white" />
+                    </MessageVideoPreviewFallback>
+                  </MessageVideoPreviewFrame>
+                </MessageVideoPreview>
+              }
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="10:13 AM"
+              body="And this one uses a codec this browser can't decode."
+              attachments={
+                <MessageVideoPreview>
+                  <MessageVideoPreviewFrame>
+                    <MessageVideoPreviewFallback interactive>
+                      <div className="flex max-w-[16rem] flex-col items-center gap-2 px-4 text-center text-xs font-bold">
+                        <AlertTriangle size={24} />
+                        <span>This video may use a codec this browser cannot preview.</span>
+                        <span className="inline-flex items-center gap-1 text-white/75">
+                          <Download size={13} />
+                          Download to view
+                        </span>
+                      </div>
+                    </MessageVideoPreviewFallback>
+                  </MessageVideoPreviewFrame>
+                </MessageVideoPreview>
               }
             />
 
@@ -1942,7 +1961,29 @@ function MatrixBody() {
                     meta="application/zip · 4 MB"
                     affordance={<Download />}
                   />
+                </div>
+              }
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:15 AM"
+              body="Uploading one more attachment."
+              attachments={
+                <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
                   <FileCard name="uploading.png" meta="image/png · 1 KB" optimistic />
+                </div>
+              }
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:16 AM"
+              body="Opening the spec preview."
+              attachments={
+                <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
                   <FileCard name="opening.pdf" meta="PDF preview · 1 MB" loading />
                 </div>
               }
@@ -2309,8 +2350,13 @@ function MessageRow({
   selectId?: string;
 }) {
   const list = useContext(MessageListContext);
+  // Every row inside a SelectableMessageList is selectable; an explicit selectId
+  // is optional (the demo passes stable ids to a couple of rows), otherwise a
+  // stable per-row id is generated so the menu's "Select Message" always wires up.
+  const generatedSelectId = useId();
+  const rowSelectId = selectId ?? generatedSelectId;
   const selectMode = list?.selectMode ?? false;
-  const selected = selectId ? (list?.selected.has(selectId) ?? false) : false;
+  const selected = list?.selected.has(rowSelectId) ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
   const [reactionOpen, setReactionOpen] = useState(false);
 
@@ -2339,7 +2385,7 @@ function MessageRow({
           aria-checked={selected}
           aria-label="Select message"
           tabIndex={0}
-          onClick={() => (selectId ? list?.toggleSelect(selectId) : undefined)}
+          onClick={() => list?.toggleSelect(rowSelectId)}
           className="cursor-pointer text-transparent"
         />
       ) : null}
@@ -2418,7 +2464,7 @@ function MessageRow({
           followed={followed}
           task={task}
           onQuickReact={() => setMenuOpen(false)}
-          onSelectMessage={selectId && list ? () => list.enterSelect(selectId) : undefined}
+          onSelectMessage={list ? () => list.enterSelect(rowSelectId) : undefined}
         />
       </ContextMenu>
     </div>
@@ -2603,7 +2649,7 @@ function RowAvatar({
 // menu layout, incl. elegant's `flex-col rounded-md p-1`) so the Base UI
 // positioner renders the plain MessageReactionPicker row instead of a menu box.
 const REACTION_FLYOUT_CLASS =
-  "inline-flex min-w-0 flex-row items-center gap-0.5 rounded-none bg-white px-1.5 py-1 shadow-[0_4px_12px_oklch(0_0_0_/_0.08)] [[data-preview-theme=brutal]_&]:border-black";
+  "inline-flex min-w-0 flex-row items-center gap-0.5 rounded-none border-2 border-black bg-white px-1.5 py-1 shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]";
 
 // Hover-toolbar reaction flyout. Source opens the quick-reaction row on click of
 // the React button and hand-positions it (buggy x/y); here the row is anchored

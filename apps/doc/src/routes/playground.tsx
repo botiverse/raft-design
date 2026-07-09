@@ -46,6 +46,9 @@ function PlaygroundLayout() {
   const [theme, setTheme] = useState<PlaygroundTheme>({ family: "brutal", mode: "light" });
   const [presentation, setPresentation] = useState<PlaygroundPresentation>("desktop");
   const [railValue, setRailValue] = useState("chat");
+  // Mobile is a drill-in flow, mirroring the source app: the channel list and the
+  // conversation are separate full-screen views, never side by side.
+  const [mobileScreen, setMobileScreen] = useState<"list" | "conversation">("list");
 
   const { channelId } = channelRouteApi.useParams();
   const { thread } = Route.useSearch();
@@ -61,10 +64,32 @@ function PlaygroundLayout() {
       <PreviewThemeScope family={theme.family} mode={theme.mode} className="h-full">
         {presentation === "mobile" ? (
           <AppShellRoot presentation="mobile" className="h-full">
-            <AppShellSidebar className="flex w-full flex-1 border-r-0 md:flex">
-              <PlaygroundSidebar activeChannelId={activeChannelId} />
-            </AppShellSidebar>
-            <PlaygroundMobileBar value={railValue} onValueChange={setRailValue} />
+            {mobileScreen === "conversation" ? (
+              <AppShellMain className="flex h-full">
+                <Outlet />
+              </AppShellMain>
+            ) : (
+              <AppShellSidebar
+                className="flex w-full flex-1 border-r-0 md:flex"
+                // Tapping a channel link navigates and drills into its conversation
+                // screen; non-navigation clicks (headers, dialogs) stay on the list.
+                onClick={(event) => {
+                  if (event.target instanceof Element && event.target.closest("a")) {
+                    setMobileScreen("conversation");
+                  }
+                }}
+              >
+                <PlaygroundSidebar activeChannelId={activeChannelId} />
+              </AppShellSidebar>
+            )}
+            <PlaygroundMobileBar
+              value={railValue}
+              onValueChange={(value) => {
+                setRailValue(value);
+                // The "Home" tab returns to the channel list, as in the source tab bar.
+                if (value === "chat") setMobileScreen("list");
+              }}
+            />
           </AppShellRoot>
         ) : (
           <AppShellRoot className="h-full">
