@@ -53,6 +53,7 @@ import {
 import {
   Avatar,
   AvatarFallback,
+  Badge,
   Checkbox,
   ContextMenu,
   ContextMenuContent,
@@ -346,12 +347,16 @@ function TaskStatusBadge({
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
-            <button
-              type="button"
-              disabled={busy}
-              title={`${fullLabel} · Change task status`}
-              aria-label={`Change status for ${fullLabel}`}
-              className={`inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap border border-black px-1.5 text-[10px] font-bold leading-none text-black ${cfg.bg} transition-[filter,opacity] duration-100 hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-60`}
+            <Badge
+              className={`border-black text-black ${cfg.bg} transition-[filter,opacity] duration-100 hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-60`}
+              render={
+                <button
+                  type="button"
+                  disabled={busy}
+                  title={`${fullLabel} · Change task status`}
+                  aria-label={`Change status for ${fullLabel}`}
+                />
+              }
             />
           }
         >
@@ -1533,30 +1538,6 @@ function MessageContextMenuContent({
   );
 }
 
-// Floating quick-reaction picker (source openReactionPicker → MessageItem.tsx:
-// 4246-4271): opens from the hover-toolbar react button, portalled and fixed
-// below the anchor, closed by an outside-click backdrop.
-function ReactionPickerPopover({ pos, onClose }: { pos: PointPos; onClose: () => void }) {
-  return createPortal(
-    <>
-      <div className="fixed inset-0 z-[75]" onClick={onClose} />
-      <MessageReactionPicker className="fixed z-[80]" style={{ left: pos.x, top: pos.y }}>
-        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <MessageReactionQuickButton
-            key={emoji}
-            title={`React with ${emoji}`}
-            aria-label={`React with ${emoji}`}
-            onClick={onClose}
-          >
-            <MessageReactionGlyph emoji={emoji} size={18} className="block" />
-          </MessageReactionQuickButton>
-        ))}
-      </MessageReactionPicker>
-    </>,
-    document.body,
-  );
-}
-
 // Reaction pill with the reactor-name hover popover (source MessageItem.tsx:
 // 4325-4354): hovering the pill portals a pointer-events-none tooltip listing
 // up to five reactor names plus a "+N more" overflow.
@@ -2331,14 +2312,9 @@ function MessageRow({
   const selectMode = list?.selectMode ?? false;
   const selected = selectId ? (list?.selected.has(selectId) ?? false) : false;
   const [menuOpen, setMenuOpen] = useState(false);
-  const [picker, setPicker] = useState<PointPos | null>(null);
+  const [reactionOpen, setReactionOpen] = useState(false);
 
   const effectiveRowState = selectMode ? "select" : rowState;
-
-  const openPicker = (anchor: HTMLElement) => {
-    const rect = anchor.getBoundingClientRect();
-    setPicker({ x: rect.left, y: rect.bottom + 6 });
-  };
 
   // Persist the hover look while this row's context menu is open (source
   // MessageItem.tsx:3692-3693 `ctxMenu` → `border-2 border-black bg-white`).
@@ -2413,23 +2389,18 @@ function MessageRow({
           <Bookmark fill="currentColor" />
         </MessageItemSavedIndicator>
       ) : null}
-      <RowToolbar saved={saved} reactionActive={!!picker} onReact={openPicker} />
+      <RowToolbar
+        saved={saved}
+        reactionOpen={reactionOpen}
+        onReactionOpenChange={setReactionOpen}
+      />
     </MessageItem>
   );
-
-  const pickerPortal = picker ? (
-    <ReactionPickerPopover pos={picker} onClose={() => setPicker(null)} />
-  ) : null;
 
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
   if (selectMode) {
-    return (
-      <div className="px-3">
-        {messageItem}
-        {pickerPortal}
-      </div>
-    );
+    return <div className="px-3">{messageItem}</div>;
   }
 
   return (
@@ -2438,7 +2409,7 @@ function MessageRow({
         open={menuOpen}
         onOpenChange={(open) => {
           setMenuOpen(open);
-          if (open) setPicker(null);
+          if (open) setReactionOpen(false);
         }}
       >
         <ContextMenuTrigger render={messageItem} />
@@ -2450,7 +2421,6 @@ function MessageRow({
           onSelectMessage={selectId && list ? () => list.enterSelect(selectId) : undefined}
         />
       </ContextMenu>
-      {pickerPortal}
     </div>
   );
 }
@@ -2629,27 +2599,58 @@ function RowAvatar({
   );
 }
 
+// Neutralizes the DropdownMenu content chrome (min-width / surface / padding /
+// menu layout, incl. elegant's `flex-col rounded-md p-1`) so the Base UI
+// positioner renders the plain MessageReactionPicker row instead of a menu box.
+const REACTION_FLYOUT_CLASS =
+  "inline-flex min-w-0 flex-row items-center gap-0.5 rounded-none bg-white px-1.5 py-1 shadow-[0_4px_12px_oklch(0_0_0_/_0.08)] [[data-preview-theme=brutal]_&]:border-black";
+
+// Hover-toolbar reaction flyout. Source opens the quick-reaction row on click of
+// the React button and hand-positions it (buggy x/y); here the row is anchored
+// by Base UI's menu positioner (click-to-open trigger, automatic flip/collision)
+// while MessageReactionPicker + MessageReactionQuickButton keep the source
+// picker chrome and per-emoji hover tint pixel-identical.
 function RowToolbar({
   saved,
-  reactionActive,
-  onReact,
+  reactionOpen,
+  onReactionOpenChange,
 }: {
   saved?: boolean;
-  reactionActive?: boolean;
-  onReact?: (anchor: HTMLElement) => void;
+  reactionOpen: boolean;
+  onReactionOpenChange: (open: boolean) => void;
 }) {
   return (
-    <MessageItemToolbar>
+    <MessageItemToolbar visible={reactionOpen}>
       <MessageItemToolbarButton aria-label="Reply in thread">
         <MessageSquare />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton
-        active={reactionActive}
-        aria-label="Add reaction"
-        onClick={onReact ? (event) => onReact(event.currentTarget) : undefined}
-      >
-        <SmilePlus />
-      </MessageItemToolbarButton>
+      <DropdownMenu open={reactionOpen} onOpenChange={onReactionOpenChange}>
+        <DropdownMenuTrigger
+          render={
+            <MessageItemToolbarButton active={reactionOpen} aria-label="Add reaction">
+              <SmilePlus />
+            </MessageItemToolbarButton>
+          }
+        />
+        <DropdownMenuContent
+          side="bottom"
+          align="end"
+          sideOffset={4}
+          className={REACTION_FLYOUT_CLASS}
+          render={<MessageReactionPicker />}
+        >
+          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+            <MessageReactionQuickButton
+              key={emoji}
+              title={`React with ${emoji}`}
+              aria-label={`React with ${emoji}`}
+              onClick={() => onReactionOpenChange(false)}
+            >
+              <MessageReactionGlyph emoji={emoji} size={18} className="block" />
+            </MessageReactionQuickButton>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
       <MessageItemToolbarButton
         saved={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}
