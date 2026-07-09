@@ -2,8 +2,11 @@ import { useRef, useState, type ReactNode, type RefObject } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowDown,
+  Ban,
   Bell,
   Bookmark,
+  CheckCircle,
+  Circle,
   Download,
   Eye,
   GitBranch,
@@ -176,6 +179,38 @@ function PermalinkChip({ label }: { label: string }) {
       {label}
       <span className="text-[10px] font-normal leading-none text-black/50">msg</span>
     </span>
+  );
+}
+
+// Task-status footer badge (source STATUS_BADGE_CONFIG). Task rendering is
+// app-level in source (no raft-ui task badge), so it is composed inline with
+// the exact source classes; every status uses a brutal token background.
+type TaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
+
+const TASK_STATUS_CONFIG: Record<TaskStatus, { bg: string; icon: typeof Circle; label: string }> = {
+  todo: { bg: "bg-brutal-orange", icon: Circle, label: "Todo" },
+  in_progress: { bg: "bg-brutal-cyan", icon: Play, label: "In Progress" },
+  in_review: { bg: "bg-brutal-lavender", icon: Eye, label: "In Review" },
+  done: { bg: "bg-brutal-lime", icon: CheckCircle, label: "Done" },
+  closed: { bg: "bg-brutal-stone", icon: Ban, label: "Closed" },
+};
+
+function TaskStatusBadge({ status, taskNumber }: { status: TaskStatus; taskNumber: number }) {
+  const cfg = TASK_STATUS_CONFIG[status];
+  const Icon = cfg.icon;
+  return (
+    <div
+      className="relative inline-flex min-w-0 max-w-full items-center gap-1.5 overflow-hidden whitespace-nowrap"
+      title={`${cfg.label} #${taskNumber}`}
+      data-task-status={status}
+    >
+      <span
+        className={`inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap border border-black px-1.5 text-[10px] font-bold leading-none text-black ${cfg.bg} transition-[filter,opacity] duration-100 hover:brightness-90`}
+      >
+        <Icon size={10} className="shrink-0" />
+        <span className="shrink-0">#{taskNumber}</span>
+      </span>
+    </div>
   );
 }
 
@@ -424,7 +459,56 @@ function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
             variant="member"
             sender="Developer"
             meta="member"
+            time="08:35 AM"
+            body={
+              <>
+                Todo: check default seed member permissions <RefChip kind="task">#10</RefChip>
+              </>
+            }
+            footer={<TaskStatusBadge status="todo" taskNumber={10} />}
+          />
+          <MessageRow
+            variant="member"
+            sender="Developer"
+            meta="member"
+            time="08:36 AM"
+            body={
+              <>
+                In progress: verify RustFS attachment previews <RefChip kind="task">#11</RefChip>
+              </>
+            }
+            footer={<TaskStatusBadge status="in_progress" taskNumber={11} />}
+          />
+          <MessageRow
+            variant="member"
+            sender="Developer"
+            meta="member"
+            time="08:37 AM"
+            body={
+              <>
+                In review: thread reminder wake regression <RefChip kind="task">#12</RefChip>
+              </>
+            }
+            footer={<TaskStatusBadge status="in_review" taskNumber={12} />}
+          />
+          <MessageRow
+            variant="member"
+            sender="Developer"
+            meta="member"
             time="08:38 AM"
+            body={
+              <>
+                Done: archived-channel smoke check <RefChip kind="task">#13</RefChip>
+              </>
+            }
+            footer={<TaskStatusBadge status="done" taskNumber={13} />}
+          />
+
+          <MessageRow
+            variant="member"
+            sender="Developer"
+            meta="member"
+            time="08:39 AM"
             body={<ChipDemoBody />}
             footer={
               <>
@@ -777,6 +861,7 @@ function MatrixBody() {
                 <RefChip kind="task">#15</RefChip>
               </>
             }
+            footer={<TaskStatusBadge status="closed" taskNumber={15} />}
           />
           <MessageRow compact gutterTime="10:15 AM" body="Ship it once the review passes." />
 
