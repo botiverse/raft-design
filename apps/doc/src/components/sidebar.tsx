@@ -71,7 +71,7 @@ const NAV = [
       { label: "Select", to: "/components/select", status: "done" },
       { label: "RadioGroup", to: "/components/radio-group", status: "done" },
       { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
-      { label: "Switch", to: "/components/switch", status: "done" },
+      { label: "Switch", to: "/components/switch", status: "wip" },
       { label: "Textarea", to: "/components/textarea", status: "done" },
       {
         label: "NumberField",
