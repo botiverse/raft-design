@@ -14,6 +14,7 @@ import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlaygroundIndexRouteImport } from './routes/playground.index'
 import { Route as MigrationIndexRouteImport } from './routes/migration.index'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
@@ -21,6 +22,7 @@ import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as PreviewsBottomSheetRouteImport } from './routes/previews/bottom-sheet'
+import { Route as PlaygroundChannelIdRouteImport } from './routes/playground.$channelId'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
@@ -124,6 +126,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
 const MigrationIndexRoute = MigrationIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -158,6 +165,11 @@ const PreviewsBottomSheetRoute = PreviewsBottomSheetRouteImport.update({
   id: '/previews/bottom-sheet',
   path: '/previews/bottom-sheet',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PlaygroundChannelIdRoute = PlaygroundChannelIdRouteImport.update({
+  id: '/$channelId',
+  path: '/$channelId',
+  getParentRoute: () => PlaygroundRoute,
 } as any)
 const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
   id: '/$sourceFile',
@@ -562,7 +574,7 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/playground': typeof PlaygroundRoute
+  '/playground': typeof PlaygroundRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -621,6 +633,7 @@ export interface FileRoutesByFullPath {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
+  '/playground/$channelId': typeof PlaygroundChannelIdRoute
   '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -628,6 +641,7 @@ export interface FileRoutesByFullPath {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
+  '/playground/': typeof PlaygroundIndexRoute
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
@@ -652,7 +666,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
-  '/playground': typeof PlaygroundRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -711,6 +724,7 @@ export interface FileRoutesByTo {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
+  '/playground/$channelId': typeof PlaygroundChannelIdRoute
   '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -718,6 +732,7 @@ export interface FileRoutesByTo {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration': typeof MigrationIndexRoute
+  '/playground': typeof PlaygroundIndexRoute
   '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button/matrix': typeof ComponentsButtonMatrixRoute
@@ -744,7 +759,7 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/playground': typeof PlaygroundRoute
+  '/playground': typeof PlaygroundRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
@@ -803,6 +818,7 @@ export interface FileRoutesById {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
+  '/playground/$channelId': typeof PlaygroundChannelIdRoute
   '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -810,6 +826,7 @@ export interface FileRoutesById {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
+  '/playground/': typeof PlaygroundIndexRoute
   '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
   '/components/banner_/matrix': typeof ComponentsBannerMatrixRoute
   '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
@@ -896,6 +913,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
+    | '/playground/$channelId'
     | '/previews/bottom-sheet'
     | '/skills/migration'
     | '/skills/new-component'
@@ -903,6 +921,7 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/migration/'
+    | '/playground/'
     | '/components/badge/matrix'
     | '/components/banner/matrix'
     | '/components/button/matrix'
@@ -927,7 +946,6 @@ export interface FileRouteTypes {
     | '/'
     | '/components'
     | '/installation'
-    | '/playground'
     | '/components/alert-dialog'
     | '/components/attention-dot'
     | '/components/avatar'
@@ -986,6 +1004,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
+    | '/playground/$channelId'
     | '/previews/bottom-sheet'
     | '/skills/migration'
     | '/skills/new-component'
@@ -993,6 +1012,7 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/migration'
+    | '/playground'
     | '/components/badge/matrix'
     | '/components/banner/matrix'
     | '/components/button/matrix'
@@ -1077,6 +1097,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/migration/$sourceFile'
+    | '/playground/$channelId'
     | '/previews/bottom-sheet'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1084,6 +1105,7 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/migration/'
+    | '/playground/'
     | '/components/badge_/matrix'
     | '/components/banner_/matrix'
     | '/components/button_/matrix'
@@ -1110,7 +1132,7 @@ export interface RootRouteChildren {
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
-  PlaygroundRoute: typeof PlaygroundRoute
+  PlaygroundRoute: typeof PlaygroundRouteWithChildren
   PreviewsBottomSheetRoute: typeof PreviewsBottomSheetRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
@@ -1155,6 +1177,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/playground/': {
+      id: '/playground/'
+      path: '/'
+      fullPath: '/playground/'
+      preLoaderRoute: typeof PlaygroundIndexRouteImport
+      parentRoute: typeof PlaygroundRoute
     }
     '/migration/': {
       id: '/migration/'
@@ -1204,6 +1233,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/previews/bottom-sheet'
       preLoaderRoute: typeof PreviewsBottomSheetRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/playground/$channelId': {
+      id: '/playground/$channelId'
+      path: '/$channelId'
+      fullPath: '/playground/$channelId'
+      preLoaderRoute: typeof PlaygroundChannelIdRouteImport
+      parentRoute: typeof PlaygroundRoute
     }
     '/migration/$sourceFile': {
       id: '/migration/$sourceFile'
@@ -1912,6 +1948,20 @@ const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
   MigrationRouteChildren,
 )
 
+interface PlaygroundRouteChildren {
+  PlaygroundChannelIdRoute: typeof PlaygroundChannelIdRoute
+  PlaygroundIndexRoute: typeof PlaygroundIndexRoute
+}
+
+const PlaygroundRouteChildren: PlaygroundRouteChildren = {
+  PlaygroundChannelIdRoute: PlaygroundChannelIdRoute,
+  PlaygroundIndexRoute: PlaygroundIndexRoute,
+}
+
+const PlaygroundRouteWithChildren = PlaygroundRoute._addFileChildren(
+  PlaygroundRouteChildren,
+)
+
 interface TokensColorsRouteChildren {
   TokensColorsBrutalRoute: typeof TokensColorsBrutalRoute
   TokensColorsElegantRoute: typeof TokensColorsElegantRoute
@@ -1958,7 +2008,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
-  PlaygroundRoute: PlaygroundRoute,
+  PlaygroundRoute: PlaygroundRouteWithChildren,
   PreviewsBottomSheetRoute: PreviewsBottomSheetRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
