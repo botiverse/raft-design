@@ -1487,7 +1487,12 @@ function MessageContextMenuContent({
         : { icon: <ClipboardCheck size={14} />, label: "Convert to Task" };
 
   return (
-    <ContextMenuContent aria-label="Message context menu" className={MENU_CONTENT_CLASS}>
+    <ContextMenuContent
+      aria-label="Message context menu"
+      className={MENU_CONTENT_CLASS}
+      collisionAvoidance={{ side: "flip", align: "flip" }}
+      collisionPadding={8}
+    >
       {/* Base UI moves focus to the first tabbable child on open; source never
           focuses a quick-reaction button, so suppress the UA focus ring here to
           keep the open menu pixel-identical (the ring is the only artifact the

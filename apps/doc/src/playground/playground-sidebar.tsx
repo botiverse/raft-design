@@ -184,7 +184,11 @@ function RowContextMenu({ trigger, children }: { trigger: ReactElement; children
   return (
     <ContextMenu>
       <ContextMenuTrigger render={trigger} />
-      <ContextMenuContent className={`flex w-48 min-w-48 flex-col ${OVERLAY_CONTENT_CLASS}`}>
+      <ContextMenuContent
+        className={`flex w-48 min-w-48 flex-col ${OVERLAY_CONTENT_CLASS}`}
+        collisionAvoidance={{ side: "flip", align: "flip" }}
+        collisionPadding={8}
+      >
         {children}
       </ContextMenuContent>
     </ContextMenu>
