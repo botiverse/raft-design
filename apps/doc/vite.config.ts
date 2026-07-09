@@ -41,6 +41,10 @@ const config = defineConfig({
     cloudflare({ viteEnvironment: { name: "ssr", childEnvironments: ["rsc"] } }),
     tailwindcss(),
     tanstackStart({
+      router: {
+        // Colocated helper files (fixtures/snippets/comparison) are not routes.
+        routeFileIgnorePattern: "(fixtures|snippets|comparison)",
+      },
       rsc: {
         enabled: true,
       },
