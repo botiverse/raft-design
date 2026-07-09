@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Popover, PopoverContent, PopoverTrigger, type PopoverProps } from "raft-ui";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";

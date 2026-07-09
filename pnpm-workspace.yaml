@@ -11,9 +11,9 @@ catalog:
   conventional-changelog-conventionalcommits: ^10.2.1
   "@types/node": ^26.0.0
   typescript: ^7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.1
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
   vitest: npm:@voidzero-dev/vite-plus-test@0.1.24
-  vite-plus: 0.2.3
+  vite-plus: 0.2.4
   tailwind-variants: ^3.2.2
   "@base-ui-components/react": 1.0.0-rc.0
   "@base-ui/react": ^1.6.0

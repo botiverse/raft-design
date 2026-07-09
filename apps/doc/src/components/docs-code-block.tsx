@@ -1,3 +1,5 @@
+"use client";
+
 import { Collapsible } from "@base-ui/react";
 import { Button } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
