@@ -1,4 +1,11 @@
-import { useRef, useState, type ReactNode, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import {
@@ -9,6 +16,7 @@ import {
   BellOff,
   Bookmark,
   BookmarkMinus,
+  Check,
   CheckCircle,
   ChevronRight,
   ChevronUp,
@@ -19,11 +27,13 @@ import {
   Eye,
   GitBranch,
   Hash,
+  Image as ImageIcon,
   ImagePlus,
   Link as LinkIcon,
   ListTodo,
   Lock,
   MessageSquare,
+  MoreHorizontal,
   Paperclip,
   Pencil,
   Play,
@@ -34,17 +44,27 @@ import {
   Settings,
   SmilePlus,
   Square,
+  TextQuote,
   Users,
+  UserX,
+  X,
 } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   Checkbox,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  PreviewCard,
+  PreviewCardContent,
+  PreviewCardTrigger,
   SortableTabsList,
   SortableTabsTab,
   Spinner,
@@ -228,6 +248,30 @@ function RefChip({
   );
 }
 
+// Self-mention chip with the profile hover preview (source MentionLink wraps
+// every @mention in a PreviewCard). The trigger keeps the self-mention chip
+// classes; hovering opens the human profile card.
+function SelfMentionPreview({ children }: { children: ReactNode }) {
+  return (
+    <PreviewCard>
+      <PreviewCardTrigger
+        delay={200}
+        closeDelay={120}
+        render={
+          <span
+            className={`${MSG_REF_CHIP} cursor-default bg-soft-signal hover:bg-soft-signal/80`}
+          />
+        }
+      >
+        {children}
+      </PreviewCardTrigger>
+      <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[280px]">
+        <ProfileCardBody variant="member" sender="Developer" meta="member" />
+      </PreviewCardContent>
+    </PreviewCard>
+  );
+}
+
 // Unknown-@mention fallback: bold underlined text, no hover-pink, not clickable.
 function UnknownMention({ children }: { children: ReactNode }) {
   return (
@@ -263,8 +307,16 @@ const TASK_STATUS_CONFIG: Record<TaskStatus, { bg: string; icon: typeof Circle; 
   closed: { bg: "bg-brutal-stone", icon: Ban, label: "Closed" },
 };
 
+// Server-manager option order (source getTaskStatusOptions / TASK_STATUS_UI).
+const TASK_STATUS_ORDER: TaskStatus[] = ["todo", "in_progress", "in_review", "done", "closed"];
+
+// Footer task badge → source InlineBadgeEditor: the badge is the trigger for a
+// status-change dropdown (card-brutal rows + trailing Check on the current
+// status). Selecting a row echoes the new status back into the badge (local
+// state only — no real mutation). Composed on the DS DropdownMenu whose brutal
+// theme resolves to the same card-brutal chrome + hover:bg-soft-signal/30 rows.
 function TaskStatusBadge({
-  status,
+  status: initialStatus,
   taskNumber,
   assignee,
   busy,
@@ -274,43 +326,67 @@ function TaskStatusBadge({
   assignee?: string;
   busy?: boolean;
 }) {
+  const [status, setStatus] = useState<TaskStatus>(initialStatus);
   const cfg = TASK_STATUS_CONFIG[status];
   const Icon = cfg.icon;
+  const fullLabel = assignee ? `task #${taskNumber} @${assignee}` : `task #${taskNumber}`;
   return (
     <div
       className={`relative inline-flex min-w-0 max-w-full items-center gap-1.5 overflow-hidden whitespace-nowrap ${
         busy ? "pointer-events-none opacity-60" : ""
       }`}
-      title={`${cfg.label} #${taskNumber}`}
+      title={fullLabel}
       data-task-status={status}
     >
-      <span
-        className={`inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap border border-black px-1.5 text-[10px] font-bold leading-none text-black ${cfg.bg} transition-[filter,opacity] duration-100 hover:brightness-90`}
-      >
-        <Icon size={10} className="shrink-0" />
-        <span className="shrink-0">#{taskNumber}</span>
-        {assignee ? <span className="min-w-0 truncate">@{assignee}</span> : null}
-      </span>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <button
+              type="button"
+              disabled={busy}
+              title={`${fullLabel} · Change task status`}
+              aria-label={`Change status for ${fullLabel}`}
+              className={`inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap border border-black px-1.5 text-[10px] font-bold leading-none text-black ${cfg.bg} transition-[filter,opacity] duration-100 hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-60`}
+            />
+          }
+        >
+          <Icon size={10} className="shrink-0" />
+          <span className="shrink-0">#{taskNumber}</span>
+          {assignee ? <span className="min-w-0 truncate">@{assignee}</span> : null}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="min-w-[140px]">
+          {TASK_STATUS_ORDER.map((id) => (
+            <DropdownMenuItem key={id} className="justify-between" onClick={() => setStatus(id)}>
+              <span className="truncate">{TASK_STATUS_CONFIG[id].label}</span>
+              <Check size={14} className={id === status ? "opacity-100" : "opacity-0"} />
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
 
 // One reaction pill mirroring the design-system fixtures (sprite glyph + count).
+// `title` carries the native reactor-summary tooltip source renders on the pill.
 function ReactionPill({
   emoji,
   count,
   reacted,
   failed,
+  title,
 }: {
   emoji: string;
   count: number;
   reacted?: boolean;
   failed?: boolean;
+  title?: string;
 }) {
   return (
     <MessageReactionChip
       reacted={reacted}
       failed={failed}
+      title={title ?? `${emoji} ${count}`}
       aria-label={`${emoji} ${count}`}
       className={REACTION_CLASS}
     >
@@ -388,6 +464,61 @@ function FileCard({
   return card;
 }
 
+// Full-screen image lightbox (source ImageLightbox on ui/Lightbox): dark
+// backdrop, white brutal header bar (filename + download/close), centered
+// image. Inert demo — download does nothing; backdrop / close X dismiss.
+function ImageLightboxModal({
+  src,
+  name,
+  onClose,
+}: {
+  src: string;
+  name: string;
+  onClose: () => void;
+}) {
+  return createPortal(
+    <div className="fixed inset-0 z-[70] flex flex-col bg-black/75 outline-none" onClick={onClose}>
+      <div
+        className="shrink-0 border-b-2 border-black bg-white"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex h-14 items-center gap-3 px-4">
+          <div className="min-w-0 flex-1 truncate text-sm font-bold text-black">{name}</div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <SelectBarButton icon tone="white" aria-label="Download" title="Download">
+              <Download size={14} />
+            </SelectBarButton>
+            <SelectBarButton icon tone="white" onClick={onClose} aria-label="Close" title="Close">
+              <X size={14} />
+            </SelectBarButton>
+          </div>
+        </div>
+      </div>
+      <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4">
+        <img src={src} alt="" className="max-h-full max-w-full object-contain" />
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+// Gallery preview affordance: the full-cover button over an image tile that
+// opens the lightbox (source gallery item → useImageLightboxStore.open).
+function ImagePreviewButton({ src, name }: { src: string; name: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        aria-label="Preview image"
+        onClick={() => setOpen(true)}
+        className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-black"
+      />
+      {open ? <ImageLightboxModal src={src} name={name} onClose={() => setOpen(false)} /> : null}
+    </>
+  );
+}
+
 export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel }) {
   const [tab, setTab] = useState<PanelTab>("chat");
   const [tabOrder, setTabOrder] = useState<PanelTab[]>(["chat", "tasks", "files"]);
@@ -432,6 +563,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
       )}
 
       <Composer label={composerLabel} />
+      <MessageSelectionShortcut />
     </ChatMainPanelRoot>
   );
 }
@@ -701,8 +833,8 @@ function ChipDemoBody() {
         <strong>Message chip height demo</strong> — compare inline chips in one dense message.
       </p>
       <p>
-        Self mention: <RefChip kind="self">@Developer</RefChip> is the attention chip. Normal
-        mentions like <a className={MENTION_LINK_CLASS}>@Member</a> stay text-link style.
+        Self mention: <SelfMentionPreview>@Developer</SelfMentionPreview> is the attention chip.
+        Normal mentions like <a className={MENTION_LINK_CLASS}>@Member</a> stay text-link style.
       </p>
       <p>
         Refs in one line: <RefChip kind="channel">#general</RefChip>{" "}
@@ -1180,6 +1312,167 @@ function MenuItemRow({
   );
 }
 
+// Source ui/Button, brutal palette — the SelectModeToolbar buttons. The DS
+// Button has no brutal tone axis, so the source classes are composed inline
+// (same pattern as TaskStatusBadge / MenuItemRow).
+const SELECT_BAR_BUTTON_BASE =
+  "btn-brutal-sm inline-flex shrink-0 items-center justify-center whitespace-nowrap font-bold leading-none";
+const SELECT_BAR_BUTTON_TONE: Record<"white" | "pink", string> = {
+  white: "bg-white text-black",
+  pink: "bg-brutal-pink text-black",
+};
+
+function SelectBarButton({
+  tone,
+  icon,
+  className,
+  children,
+  ...props
+}: { tone: "white" | "pink"; icon?: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) {
+  const shape = icon ? "size-7 text-xs" : "h-7 gap-1.5 px-2.5 text-xs";
+  return (
+    <button
+      type="button"
+      className={`${SELECT_BAR_BUTTON_BASE} ${SELECT_BAR_BUTTON_TONE[tone]} ${shape} ${className ?? ""}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+// Bottom sticky bulk-action bar (source SelectModeToolbar): count + Cancel /
+// Forward / Copy-link / More(⋯ → Generate image / Copy MD). Inert demo — only
+// Cancel exits select mode; the More menu toggles locally.
+function SelectModeToolbar({ count, onCancel }: { count: number; onCancel: () => void }) {
+  const [moreOpen, setMoreOpen] = useState(false);
+  return (
+    <div className="border-t-2 border-black bg-soft-signal" data-testid="select-mode-toolbar">
+      <div className="flex items-center gap-1.5 px-2 py-2">
+        <span
+          className="whitespace-nowrap font-mono text-xs font-bold text-black/70"
+          data-testid="select-mode-count"
+        >
+          {count} selected
+        </span>
+        <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1.5">
+          <SelectBarButton tone="white" onClick={onCancel} aria-label="Cancel" title="Cancel">
+            <X size={14} />
+            <span>Cancel</span>
+          </SelectBarButton>
+          <SelectBarButton tone="pink" aria-label="Forward" title="Forward">
+            <Send size={14} />
+            <span>Forward</span>
+          </SelectBarButton>
+          <SelectBarButton tone="white" aria-label="Copy link" title="Copy link">
+            <Copy size={14} />
+            <span>Copy link</span>
+          </SelectBarButton>
+          <div className="relative">
+            <SelectBarButton
+              icon
+              tone="white"
+              onClick={() => setMoreOpen((value) => !value)}
+              aria-label="More selected message actions"
+              aria-expanded={moreOpen}
+              title="More"
+            >
+              <MoreHorizontal size={14} />
+            </SelectBarButton>
+            {moreOpen ? (
+              <div
+                role="menu"
+                data-testid="select-mode-more-menu"
+                className="absolute bottom-[calc(100%+8px)] right-0 z-20 min-w-44 border-2 border-black bg-white shadow-brutal"
+              >
+                <MenuItemRow icon={<ImageIcon size={14} />} onClick={() => setMoreOpen(false)}>
+                  Generate image
+                </MenuItemRow>
+                <MenuItemRow icon={<Copy size={14} />} onClick={() => setMoreOpen(false)}>
+                  Copy MD
+                </MenuItemRow>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Floating text-selection shortcut (source MessageSelectionShortcut): highlight
+// text inside a message body → a Quote / Copy menu above the selection. The
+// document selection is an external system, so a mouseup/selectionchange
+// listener genuinely needs useEffect (the one sanctioned exception here). Inert
+// buttons — trigger + styling only.
+function MessageSelectionShortcut() {
+  const [position, setPosition] = useState<PointPos | null>(null);
+
+  useEffect(() => {
+    const update = () => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
+        setPosition(null);
+        return;
+      }
+      const range = selection.getRangeAt(0);
+      const withinSelectable = (node: Node | null) => {
+        const element = node instanceof Element ? node : (node?.parentElement ?? null);
+        return Boolean(element?.closest("[data-message-selectable='true']"));
+      };
+      if (!withinSelectable(range.startContainer) || !withinSelectable(range.endContainer)) {
+        setPosition(null);
+        return;
+      }
+      const rect = range.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) {
+        setPosition(null);
+        return;
+      }
+      // Estimated menu 124×32, 8px gap, centered above the selection.
+      setPosition({ x: rect.left + rect.width / 2 - 62, y: rect.top - 40 });
+    };
+    const onMouseUp = () => window.setTimeout(update, 0);
+    document.addEventListener("selectionchange", update);
+    document.addEventListener("mouseup", onMouseUp, true);
+    return () => {
+      document.removeEventListener("selectionchange", update);
+      document.removeEventListener("mouseup", onMouseUp, true);
+    };
+  }, []);
+
+  if (!position) return null;
+
+  return createPortal(
+    <div
+      role="menu"
+      aria-label="Selected text actions"
+      data-message-selection-shortcut="true"
+      className="fixed z-[70] flex select-none overflow-hidden border-2 border-black bg-white text-xs font-semibold shadow-brutal-sm"
+      style={{ left: position.x, top: position.y }}
+    >
+      <button
+        type="button"
+        role="menuitem"
+        className="flex h-7 items-center gap-1.5 px-2 text-black transition-colors hover:bg-soft-signal/30"
+      >
+        <TextQuote size={13} />
+        Quote
+      </button>
+      <div className="w-px bg-black/20" aria-hidden />
+      <button
+        type="button"
+        role="menuitem"
+        className="flex h-7 items-center gap-1.5 px-2 text-black transition-colors hover:bg-soft-signal/30"
+      >
+        <Copy size={13} />
+        Copy
+      </button>
+    </div>,
+    document.body,
+  );
+}
+
 // Live interactions: right-click context menu (with the quick-reaction row and
 // every action item), full selection-mode flow, the floating emoji picker, and
 // the reactor-name hover popover.
@@ -1262,31 +1555,19 @@ function InteractiveDemo() {
                 onMouseLeave={() => setReactor(null)}
                 className="inline-flex"
               >
-                <ReactionPill emoji="👍" count={7} reacted />
+                <ReactionPill
+                  emoji="👍"
+                  count={7}
+                  reacted
+                  title={`${REACTOR_NAMES.slice(0, 5).join(", ")} and 2 more reacted with 👍`}
+                />
               </span>
             ) : undefined
           }
         />
       ))}
 
-      {selectMode ? (
-        <div className="px-3 pb-2">
-          <div className="flex items-center gap-3 border-2 border-black bg-white px-3 py-2 shadow-brutal-sm">
-            <span className="text-xs font-bold text-black">{selected.size} selected</span>
-            <button type="button" className="btn-brutal-sm bg-white px-3 py-1 text-xs font-bold">
-              <Copy size={12} />
-              Copy
-            </button>
-            <button
-              type="button"
-              onClick={exitSelection}
-              className="ml-auto text-xs font-bold text-black/50 hover:text-black"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : null}
+      {selectMode ? <SelectModeToolbar count={selected.size} onCancel={exitSelection} /> : null}
 
       {menu && menuRow
         ? createPortal(
@@ -1489,11 +1770,7 @@ function MatrixBody() {
                       fit="contain"
                       style={{ width: "min(320px, 100%)", aspectRatio: "4 / 3" }}
                     />
-                    <button
-                      type="button"
-                      aria-label="Preview image"
-                      className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-black"
-                    />
+                    <ImagePreviewButton src={IMAGE_SRC} name="seed-photo.jpg" />
                     <MessageImageGalleryAction aria-label="Download image">
                       <Download />
                     </MessageImageGalleryAction>
@@ -2076,19 +2353,29 @@ function MessageRow({
         ) : null}
         {compact ? (
           <MessageItemGutter>
-            <MessageItemContinuationTime className={CONTINUATION_TIME_CLASS}>
+            <MessageItemContinuationTime className={CONTINUATION_TIME_CLASS} title={gutterTime}>
               {gutterTime}
             </MessageItemContinuationTime>
           </MessageItemGutter>
         ) : (
-          <RowAvatar variant={variant} status={status} deactivated={deactivated} />
+          <RowAvatar
+            variant={variant}
+            status={status}
+            deactivated={deactivated}
+            sender={sender}
+            meta={meta}
+          />
         )}
         <MessageItemContent>
           {compact ? null : (
             <MessageItemHeader>
               <MessageItemSender className={SENDER_CLASS}>{sender}</MessageItemSender>
               {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
-              {meta ? <MessageItemMeta className={META_CLASS}>{meta}</MessageItemMeta> : null}
+              {meta ? (
+                <MessageItemMeta className={META_CLASS} title={meta}>
+                  {meta}
+                </MessageItemMeta>
+              ) : null}
               <MessageItemTime className={TIME_CLASS}>{time}</MessageItemTime>
               {inlineStatus ? (
                 <MessageItemInlineStatus className={META_CLASS}>
@@ -2097,7 +2384,11 @@ function MessageRow({
               ) : null}
             </MessageItemHeader>
           )}
-          {body ? <MessageItemBody className={BODY_CLASS}>{body}</MessageItemBody> : null}
+          {body ? (
+            <MessageItemBody className={BODY_CLASS} data-message-selectable="true">
+              {body}
+            </MessageItemBody>
+          ) : null}
           {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
           {footer ? <MessageItemFooter>{footer}</MessageItemFooter> : null}
         </MessageItemContent>
@@ -2126,37 +2417,162 @@ const STATUS_DOT: Record<AgentStatus, string> = {
   external: "bg-brutal-cyan",
 };
 
+// Agent presence activity → the profile hover-card's activity text (source
+// displayState.activityText / AgentStatusDot title).
+const STATUS_LABEL: Record<AgentStatus, string> = {
+  online: "Online",
+  thinking: "Thinking…",
+  working: "Working…",
+  error: "Error",
+  offline: "Offline",
+  external: "External",
+};
+
+// Static "RECENT ACTIVITY" trajectory rows for the agent profile card
+// (source MentionHoverActivityPreview).
+const PROFILE_ACTIVITY_ROWS: { time: string; dot: string; text: string }[] = [
+  {
+    time: "08:32:14",
+    dot: "bg-soft-signal animate-pulse",
+    text: "Running visual regression suite",
+  },
+  { time: "08:31:02", dot: "bg-brutal-cyan", text: "Read tokens/colors.css" },
+  { time: "08:30:41", dot: "bg-soft-signal animate-pulse", text: "Thinking about token contract" },
+];
+
+// Profile hover-card body (source ProfilePreviewCardContent): agent variant adds
+// the status dot + activity text + RECENT ACTIVITY block; human variant is just
+// header + description. Rendered inside a DS PreviewCardContent.
+function ProfileCardBody({
+  variant,
+  sender,
+  meta,
+  status = "offline",
+}: {
+  variant: RowVariant;
+  sender: string;
+  meta?: string;
+  status?: AgentStatus;
+}) {
+  const isAgent = variant === "agent";
+  const handle = `@${sender.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+  return (
+    <>
+      <div className="flex items-start gap-3 px-3 py-3">
+        <Avatar
+          size="md"
+          type={isAgent ? "agent" : "human"}
+          className={`mt-0.5 self-start [[data-preview-theme=brutal]_&]:border-black ${
+            isAgent
+              ? "[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
+              : "[[data-preview-theme=brutal]_&]:bg-brutal-lavender"
+          } [[data-preview-theme=brutal]_&]:text-black`}
+        >
+          <AvatarFallback />
+        </Avatar>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5">
+            <span className="truncate text-sm font-bold text-black">{sender}</span>
+            {isAgent ? (
+              <>
+                <span
+                  aria-hidden
+                  className={`inline-block size-2 shrink-0 rounded-full border border-line-strong ${STATUS_DOT[status]} [[data-preview-theme=brutal]_&]:border-black`}
+                />
+                <span className="truncate font-mono text-xs text-black/60">
+                  {STATUS_LABEL[status]}
+                </span>
+              </>
+            ) : null}
+          </div>
+          <div className="truncate font-mono text-xs text-black/60">{handle}</div>
+        </div>
+      </div>
+      {meta ? (
+        <div className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70">
+          {meta}
+        </div>
+      ) : null}
+      {isAgent ? (
+        <div className="border-t-2 border-black px-3 py-2">
+          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-black/50">
+            Recent activity
+          </div>
+          <div className="space-y-1.5">
+            {PROFILE_ACTIVITY_ROWS.map((row) => (
+              <div
+                key={row.time}
+                className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xs"
+              >
+                <span className="shrink-0 whitespace-nowrap font-mono text-[10px] text-black/40">
+                  {row.time}
+                </span>
+                <span
+                  aria-hidden
+                  className={`inline-block size-2 shrink-0 rounded-full border border-line-strong ${row.dot} [[data-preview-theme=brutal]_&]:border-black`}
+                />
+                <span className="min-w-0 flex-1 truncate text-black/70">{row.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 function RowAvatar({
   variant,
   status = "offline",
   deactivated,
+  sender,
+  meta,
 }: {
   variant: RowVariant;
   status?: AgentStatus;
   deactivated?: boolean;
+  sender?: string;
+  meta?: string;
 }) {
   const isAgent = variant === "agent";
   const brutalBg = isAgent
     ? "[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
     : "[[data-preview-theme=brutal]_&]:bg-brutal-lavender";
 
+  const avatar = (
+    <Avatar
+      size="md"
+      type={isAgent ? "agent" : "human"}
+      className={`[[data-preview-theme=brutal]_&]:border-black ${brutalBg} [[data-preview-theme=brutal]_&]:text-black ${
+        deactivated ? "opacity-60 grayscale" : ""
+      }`}
+    >
+      <AvatarFallback />
+      {isAgent && !deactivated ? (
+        <span
+          aria-hidden
+          title={STATUS_LABEL[status]}
+          className={`absolute -bottom-[2px] -right-[2px] inline-block size-[11px] shrink-0 rounded-full border border-line-strong ${STATUS_DOT[status]} [[data-preview-theme=brutal]_&]:border-black`}
+        />
+      ) : null}
+    </Avatar>
+  );
+
+  // Deactivated / removed senders have no profile card in source.
+  if (deactivated || !sender) {
+    return <MessageItemAvatarSlot>{avatar}</MessageItemAvatarSlot>;
+  }
+
   return (
     <MessageItemAvatarSlot>
-      <Avatar
-        size="md"
-        type={isAgent ? "agent" : "human"}
-        className={`[[data-preview-theme=brutal]_&]:border-black ${brutalBg} [[data-preview-theme=brutal]_&]:text-black ${
-          deactivated ? "opacity-60 grayscale" : ""
-        }`}
-      >
-        <AvatarFallback />
-        {isAgent && !deactivated ? (
-          <span
-            aria-hidden
-            className={`absolute -bottom-[2px] -right-[2px] inline-block size-[11px] shrink-0 rounded-full border border-line-strong ${STATUS_DOT[status]} [[data-preview-theme=brutal]_&]:border-black`}
-          />
-        ) : null}
-      </Avatar>
+      <PreviewCard>
+        <PreviewCardTrigger delay={200} closeDelay={120} render={<button type="button" />}>
+          {avatar}
+        </PreviewCardTrigger>
+        <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[280px]">
+          <ProfileCardBody variant={variant} sender={sender} meta={meta} status={status} />
+        </PreviewCardContent>
+      </PreviewCard>
     </MessageItemAvatarSlot>
   );
 }
@@ -2230,12 +2646,180 @@ function UnreadRepliesBadge({
   );
 }
 
+// Composer autocomplete candidates (source MentionCandidate / ChannelCandidate).
+const MENTION_IN_CHANNEL: { name: string; handle: string; variant: RowVariant }[] = [
+  { name: "Atlas", handle: "atlas", variant: "agent" },
+  { name: "Ada", handle: "ada", variant: "member" },
+  { name: "Developer", handle: "developer", variant: "member" },
+];
+const MENTION_NOT_IN_CHANNEL: { name: string; handle: string; variant: RowVariant }[] = [
+  { name: "Cindy", handle: "cindy", variant: "member" },
+  { name: "Mx. Chen", handle: "mxchen", variant: "member" },
+];
+const CHANNEL_CANDIDATES: { name: string; description?: string; archived?: boolean }[] = [
+  { name: "general", description: "Company-wide announcements" },
+  { name: "design-system", description: "Tokens and components" },
+  { name: "releases", description: "Release coordination" },
+  { name: "old-migration", description: "Archived planning", archived: true },
+];
+
+// Section eyebrow (source ui/SectionEyebrow) used by the mention groups.
+function ComboboxEyebrow({ className, children }: { className?: string; children: ReactNode }) {
+  return (
+    <div
+      className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-black/60 ${className ?? ""}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+// @mention autocomplete (source MessageInput mention dropdown): upward panel with
+// In-/Not-in-channel eyebrow groups; the first in-channel row is selected.
+function MentionAutocomplete() {
+  return (
+    <div
+      data-testid="mention-autocomplete-popover"
+      className="card-brutal absolute bottom-full left-3 right-3 mb-1 max-h-48 overflow-y-auto"
+    >
+      <ComboboxEyebrow>In this channel</ComboboxEyebrow>
+      {MENTION_IN_CHANNEL.map((candidate, index) => {
+        const selected = index === 0;
+        return (
+          <button
+            key={candidate.handle}
+            type="button"
+            className={`flex w-full items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
+              selected
+                ? "bg-soft-signal font-bold text-black"
+                : "text-black hover:bg-soft-signal/50"
+            }`}
+          >
+            <Avatar
+              size="sm"
+              type={candidate.variant === "agent" ? "agent" : "human"}
+              className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:text-black"
+            >
+              <AvatarFallback />
+            </Avatar>
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 text-left">
+              <span className="min-w-0 truncate text-black">{candidate.name}</span>
+              {candidate.variant === "agent" ? (
+                <span
+                  aria-hidden
+                  className="inline-block size-2.5 shrink-0 rounded-full border border-line-strong bg-brutal-lime [[data-preview-theme=brutal]_&]:border-black"
+                />
+              ) : null}
+              <span className="ml-auto shrink-0 font-mono text-xs text-black/40">
+                @{candidate.handle}
+              </span>
+            </div>
+          </button>
+        );
+      })}
+      <ComboboxEyebrow className="border-t-2 border-black">Not in this channel</ComboboxEyebrow>
+      {MENTION_NOT_IN_CHANNEL.map((candidate) => (
+        <button
+          key={candidate.handle}
+          type="button"
+          className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-black/50 transition-colors hover:bg-black/5"
+        >
+          <Avatar
+            size="sm"
+            type="human"
+            className="opacity-60 [[data-preview-theme=brutal]_&]:border-black/40 [[data-preview-theme=brutal]_&]:text-black"
+          >
+            <AvatarFallback />
+          </Avatar>
+          <UserX size={12} className="-ml-1 shrink-0 text-black/40" />
+          <div className="flex min-w-0 flex-1 items-center gap-1.5 text-left">
+            <span className="min-w-0 truncate text-black/50">{candidate.name}</span>
+            <span className="ml-auto shrink-0 font-mono text-xs text-black/30">
+              @{candidate.handle}
+            </span>
+          </div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// #channel autocomplete (source MessageInput channel dropdown): bordered Hash box
+// per row; selected row washes pink; archived rows dim with an `archived` badge.
+function ChannelAutocomplete() {
+  return (
+    <div
+      data-testid="channel-autocomplete-popover"
+      className="card-brutal absolute bottom-full left-3 right-3 mb-1 max-h-48 overflow-y-auto"
+    >
+      {CHANNEL_CANDIDATES.map((channel, index) => {
+        const selected = index === 0;
+        const archived = Boolean(channel.archived);
+        return (
+          <button
+            key={channel.name}
+            type="button"
+            className={`flex w-full items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
+              selected
+                ? archived
+                  ? "bg-black/10 font-bold text-black/70"
+                  : "bg-brutal-pink font-bold text-black"
+                : archived
+                  ? "text-black/45 hover:bg-black/5"
+                  : "text-black hover:bg-soft-signal"
+            }`}
+          >
+            <div
+              className={`flex size-5 shrink-0 items-center justify-center border ${
+                archived
+                  ? "border-black/40 bg-black/5 text-black/45"
+                  : "border-black bg-soft-signal text-black"
+              }`}
+            >
+              <Hash size={12} />
+            </div>
+            <span className="truncate">{channel.name}</span>
+            {channel.description ? (
+              <span className={`truncate text-xs ${archived ? "text-black/30" : "text-black/40"}`}>
+                {channel.description}
+              </span>
+            ) : null}
+            {archived ? (
+              <span className="ml-auto shrink-0 border border-black/40 bg-black/5 px-1 py-0.5 text-[9px] font-bold leading-none text-black/45">
+                archived
+              </span>
+            ) : null}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+type ComposerAutocomplete = "mention" | "channel" | null;
+
 function Composer({ label }: { label: string }) {
+  const [autocomplete, setAutocomplete] = useState<ComposerAutocomplete>(null);
+
+  // Demo trigger: `@` / `#` open the matching panel, Escape closes (source uses
+  // a caret regex against the draft; a keydown check is enough for the preview).
+  const handleKeyDown = (event: { key: string }) => {
+    if (event.key === "@") setAutocomplete("mention");
+    else if (event.key === "#") setAutocomplete("channel");
+    else if (event.key === "Escape") setAutocomplete(null);
+  };
+
   return (
     <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-      <div className="flex w-full flex-col gap-2">
+      <div className="relative flex w-full flex-col gap-2">
+        {autocomplete === "mention" ? <MentionAutocomplete /> : null}
+        {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
         <ChatMainPanelComposer>
-          <ChatMainPanelComposerInput aria-label={label} placeholder={label} />
+          <ChatMainPanelComposerInput
+            aria-label={label}
+            placeholder={label}
+            onKeyDown={handleKeyDown}
+          />
           <ChatMainPanelComposerToolbar>
             <ChatMainPanelComposerActions>
               <ChatMainPanelComposerIconButton aria-label="Attach image">
