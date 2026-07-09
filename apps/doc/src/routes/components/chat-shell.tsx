@@ -322,14 +322,18 @@ function AppShellPreview() {
             </div>
           </ChatSidebarHeader>
           <ChatSidebarBody>
-            <SidebarGroup title="Pinned">
-              <SidebarRow selected title="#proj-uiux" meta="Cindy replied" />
-              <SidebarRow title="#proj-theme" meta="Atlas is typing" />
-            </SidebarGroup>
-            <SidebarGroup title="Agents">
-              <SidebarRow title="Cindy" meta="online" />
-              <SidebarRow title="Atlas" meta="idle" />
-            </SidebarGroup>
+            <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3">
+              <div className="min-h-full">
+                <SidebarGroup title="Pinned">
+                  <SidebarRow selected title="#proj-uiux" meta="Cindy replied" />
+                  <SidebarRow title="#proj-theme" meta="Atlas is typing" />
+                </SidebarGroup>
+                <SidebarGroup title="Agents">
+                  <SidebarRow title="Cindy" meta="online" />
+                  <SidebarRow title="Atlas" meta="idle" />
+                </SidebarGroup>
+              </div>
+            </div>
           </ChatSidebarBody>
           <ChatSidebarFooter>
             <div className="flex items-center gap-2 text-xs font-bold text-foreground-muted">
