@@ -54,6 +54,11 @@ import {
   Avatar,
   AvatarFallback,
   Checkbox,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -1262,32 +1267,24 @@ type MessageListApi = {
 
 const MessageListContext = createContext<MessageListApi | null>(null);
 
-// Pure-action context-menu row (source ui/MenuItem).
-function MenuItemRow({
-  icon,
-  children,
-  onClick,
-}: {
-  icon: ReactNode;
-  children: ReactNode;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      role="menuitem"
-      onClick={onClick}
-      className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black transition-colors hover:bg-soft-signal/30"
-    >
-      {icon}
-      <span className="min-w-0 flex-1 truncate">{children}</span>
-    </button>
-  );
-}
+// Brutal pins that make the DS DropdownMenu / ContextMenu popups pixel-identical
+// to source's hand-rolled `card-brutal` menus. The DS brutal chrome resolves to
+// a near-black border/shadow (line-strong / shadow-lg); source uses pure black
+// (`card-brutal` + `shadow-brutal`), so pin those. Item text is pinned from the
+// foreground ramp (oklch 0.18) to source's pure black. Hover already matches:
+// the DS `hover:bg-brutal-yellow/30` and source `hover:bg-soft-signal/30` are the
+// same color (soft-signal maps to brutal-yellow). Scoped so elegant is untouched.
+const MENU_CONTENT_CLASS =
+  "[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:shadow-brutal";
+// DropdownMenu rows are already font-medium in brutal, so only the text tone.
+const DROPDOWN_ITEM_CLASS = "[[data-preview-theme=brutal]_&]:text-black";
+// ContextMenu rows are font-semibold in brutal; source ui/MenuItem is font-medium.
+const CTX_ITEM_CLASS =
+  "[[data-preview-theme=brutal]_&]:font-medium [[data-preview-theme=brutal]_&]:text-black";
 
 // Source ui/Button, brutal palette — the SelectModeToolbar buttons. The DS
 // Button has no brutal tone axis, so the source classes are composed inline
-// (same pattern as TaskStatusBadge / MenuItemRow).
+// (same pattern as TaskStatusBadge).
 const SELECT_BAR_BUTTON_BASE =
   "btn-brutal-sm inline-flex shrink-0 items-center justify-center whitespace-nowrap font-bold leading-none";
 const SELECT_BAR_BUTTON_TONE: Record<"white" | "pink", string> = {
@@ -1316,9 +1313,10 @@ function SelectBarButton({
 
 // Bottom sticky bulk-action bar (source SelectModeToolbar): count + Cancel /
 // Forward / Copy-link / More(⋯ → Generate image / Copy MD). Inert demo — only
-// Cancel exits select mode; the More menu toggles locally.
+// Cancel exits select mode. The More popover is the DS DropdownMenu, whose
+// brutal chrome + `hover:bg-soft-signal/30` rows already match source's inline
+// menu; brutal pins pull the border/shadow/text to source's pure black.
 function SelectModeToolbar({ count, onCancel }: { count: number; onCancel: () => void }) {
-  const [moreOpen, setMoreOpen] = useState(false);
   return (
     <div className="border-t-2 border-black bg-soft-signal" data-testid="select-mode-toolbar">
       <div className="flex items-center gap-1.5 px-2 py-2">
@@ -1341,32 +1339,36 @@ function SelectModeToolbar({ count, onCancel }: { count: number; onCancel: () =>
             <Copy size={14} />
             <span>Copy link</span>
           </SelectBarButton>
-          <div className="relative">
-            <SelectBarButton
-              icon
-              tone="white"
-              onClick={() => setMoreOpen((value) => !value)}
-              aria-label="More selected message actions"
-              aria-expanded={moreOpen}
-              title="More"
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <SelectBarButton
+                  icon
+                  tone="white"
+                  aria-label="More selected message actions"
+                  title="More"
+                >
+                  <MoreHorizontal size={14} />
+                </SelectBarButton>
+              }
+            />
+            <DropdownMenuContent
+              side="top"
+              align="end"
+              sideOffset={8}
+              data-testid="select-mode-more-menu"
+              className={`min-w-44 ${MENU_CONTENT_CLASS}`}
             >
-              <MoreHorizontal size={14} />
-            </SelectBarButton>
-            {moreOpen ? (
-              <div
-                role="menu"
-                data-testid="select-mode-more-menu"
-                className="absolute bottom-[calc(100%+8px)] right-0 z-20 min-w-44 border-2 border-black bg-white shadow-brutal"
-              >
-                <MenuItemRow icon={<ImageIcon size={14} />} onClick={() => setMoreOpen(false)}>
-                  Generate image
-                </MenuItemRow>
-                <MenuItemRow icon={<Copy size={14} />} onClick={() => setMoreOpen(false)}>
-                  Copy MD
-                </MenuItemRow>
-              </div>
-            ) : null}
-          </div>
+              <DropdownMenuItem className={DROPDOWN_ITEM_CLASS}>
+                <ImageIcon size={14} />
+                Generate image
+              </DropdownMenuItem>
+              <DropdownMenuItem className={DROPDOWN_ITEM_CLASS}>
+                <Copy size={14} />
+                Copy MD
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
@@ -1446,25 +1448,29 @@ function MessageSelectionShortcut() {
   );
 }
 
-// Right-click context menu (source MessageItem handleContextMenu → menu at
-// MessageItem.tsx:4355-4526): quick-reaction row on top, then Copy Link / Copy
+// Divider between menu sections — DS ContextMenuSeparator resolves to a near-
+// black `border-line-strong` hairline in brutal; pin to source's pure black.
+const CTX_SEPARATOR_CLASS = "[[data-preview-theme=brutal]_&]:border-black";
+
+// Right-click context menu content (source MessageItem handleContextMenu → menu
+// at MessageItem.tsx:4355-4526): quick-reaction row on top, then Copy Link / Copy
 // Markdown / Select Message | Open Thread | Save/Remove | Follow/Unfollow | task
-// action, split by dividers. Rendered per-row via a portal with a full-screen
-// dismiss backdrop; every action is inert (closes) except Select Message, which
-// enters the list's select mode when one is provided.
-function MessageContextMenu({
-  pos,
+// action, split by dividers. Rendered as the DS ContextMenu content (Base UI),
+// opened from each row's ContextMenuTrigger at the cursor. Every action is inert
+// (auto-closes) except Select Message, which enters the list's select mode when
+// one is provided. `onQuickReact` closes the controlled menu after a quick
+// reaction (those buttons are not menu items, so they do not auto-close).
+function MessageContextMenuContent({
   saved,
   followed,
   task,
-  onClose,
+  onQuickReact,
   onSelectMessage,
 }: {
-  pos: PointPos;
   saved?: boolean;
   followed?: boolean;
   task: MessageTask;
-  onClose: () => void;
+  onQuickReact: () => void;
   onSelectMessage?: () => void;
 }) {
   const taskAction =
@@ -1474,70 +1480,56 @@ function MessageContextMenu({
         ? { icon: <CheckCircle size={14} />, label: "Mark as Done" }
         : { icon: <ClipboardCheck size={14} />, label: "Convert to Task" };
 
-  return createPortal(
-    <>
-      <div
-        className="fixed inset-0 z-[55]"
-        onClick={onClose}
-        onContextMenu={(event) => {
-          event.preventDefault();
-          onClose();
-        }}
-      />
-      <div
-        role="menu"
-        aria-label="Message context menu"
-        className="fixed z-[60] select-none overflow-hidden border-2 border-black bg-white shadow-brutal"
-        style={{ left: pos.x, top: pos.y }}
-      >
-        <MessageReactionQuickRow>
-          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-            <MessageReactionQuickButton
-              key={emoji}
-              title={`React with ${emoji}`}
-              aria-label={`React with ${emoji}`}
-              onClick={onClose}
-            >
-              <MessageReactionGlyph emoji={emoji} size={18} className="block" />
-            </MessageReactionQuickButton>
-          ))}
-        </MessageReactionQuickRow>
-        <div className="border-t-2 border-black" />
-        <MenuItemRow icon={<LinkIcon size={14} />} onClick={onClose}>
-          Copy Link
-        </MenuItemRow>
-        <MenuItemRow icon={<Copy size={14} />} onClick={onClose}>
-          Copy Markdown
-        </MenuItemRow>
-        <MenuItemRow
-          icon={<CheckCircle size={14} />}
-          onClick={() => {
-            onClose();
-            onSelectMessage?.();
-          }}
-        >
-          Select Message
-        </MenuItemRow>
-        <div className="border-t-2 border-black" />
-        <MenuItemRow icon={<MessageSquare size={14} />} onClick={onClose}>
-          Open Thread
-        </MenuItemRow>
-        <MenuItemRow
-          icon={saved ? <BookmarkMinus size={14} /> : <Bookmark size={14} />}
-          onClick={onClose}
-        >
-          {saved ? "Remove from Saved" : "Save Message"}
-        </MenuItemRow>
-        <MenuItemRow icon={<MessageSquare size={14} />} onClick={onClose}>
-          {followed ? "Unfollow Thread" : "Follow Thread"}
-        </MenuItemRow>
-        <div className="border-t-2 border-black" />
-        <MenuItemRow icon={taskAction.icon} onClick={onClose}>
-          {taskAction.label}
-        </MenuItemRow>
-      </div>
-    </>,
-    document.body,
+  return (
+    <ContextMenuContent aria-label="Message context menu" className={MENU_CONTENT_CLASS}>
+      {/* Base UI moves focus to the first tabbable child on open; source never
+          focuses a quick-reaction button, so suppress the UA focus ring here to
+          keep the open menu pixel-identical (the ring is the only artifact the
+          DS focus manager adds — the menu items keep their own highlight). */}
+      <MessageReactionQuickRow className="[&_button]:outline-none">
+        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+          <MessageReactionQuickButton
+            key={emoji}
+            title={`React with ${emoji}`}
+            aria-label={`React with ${emoji}`}
+            onClick={onQuickReact}
+          >
+            <MessageReactionGlyph emoji={emoji} size={18} className="block" />
+          </MessageReactionQuickButton>
+        ))}
+      </MessageReactionQuickRow>
+      <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
+      <ContextMenuItem className={CTX_ITEM_CLASS}>
+        <LinkIcon size={14} />
+        Copy Link
+      </ContextMenuItem>
+      <ContextMenuItem className={CTX_ITEM_CLASS}>
+        <Copy size={14} />
+        Copy Markdown
+      </ContextMenuItem>
+      <ContextMenuItem className={CTX_ITEM_CLASS} onClick={onSelectMessage}>
+        <CheckCircle size={14} />
+        Select Message
+      </ContextMenuItem>
+      <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
+      <ContextMenuItem className={CTX_ITEM_CLASS}>
+        <MessageSquare size={14} />
+        Open Thread
+      </ContextMenuItem>
+      <ContextMenuItem className={CTX_ITEM_CLASS}>
+        {saved ? <BookmarkMinus size={14} /> : <Bookmark size={14} />}
+        {saved ? "Remove from Saved" : "Save Message"}
+      </ContextMenuItem>
+      <ContextMenuItem className={CTX_ITEM_CLASS}>
+        <MessageSquare size={14} />
+        {followed ? "Unfollow Thread" : "Follow Thread"}
+      </ContextMenuItem>
+      <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
+      <ContextMenuItem className={CTX_ITEM_CLASS}>
+        {taskAction.icon}
+        {taskAction.label}
+      </ContextMenuItem>
+    </ContextMenuContent>
   );
 }
 
@@ -2338,103 +2330,127 @@ function MessageRow({
   const list = useContext(MessageListContext);
   const selectMode = list?.selectMode ?? false;
   const selected = selectId ? (list?.selected.has(selectId) ?? false) : false;
-  const [menu, setMenu] = useState<PointPos | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [picker, setPicker] = useState<PointPos | null>(null);
 
   const effectiveRowState = selectMode ? "select" : rowState;
 
   const openPicker = (anchor: HTMLElement) => {
     const rect = anchor.getBoundingClientRect();
-    setMenu(null);
     setPicker({ x: rect.left, y: rect.bottom + 6 });
   };
 
+  // Persist the hover look while this row's context menu is open (source
+  // MessageItem.tsx:3692-3693 `ctxMenu` → `border-2 border-black bg-white`).
+  // Highlight/active rows keep their own rowState (source precedence: isHighlighted
+  // wins over ctxMenu), so only plain rows opt in. Scoped brutal; elegant is
+  // driven by the DS component's own open state and left untouched.
+  const menuOpenRowClass =
+    menuOpen && !rowState
+      ? "[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white"
+      : "";
+
+  const messageItem = (
+    <MessageItem
+      compact={compact}
+      rowState={effectiveRowState}
+      className={`[[data-preview-theme=brutal]_&]:transition-none ${menuOpenRowClass}`}
+    >
+      {selectMode ? (
+        <MessageItemSelectMark
+          checked={selected}
+          role="checkbox"
+          aria-checked={selected}
+          aria-label="Select message"
+          tabIndex={0}
+          onClick={() => (selectId ? list?.toggleSelect(selectId) : undefined)}
+          className="cursor-pointer text-transparent"
+        />
+      ) : null}
+      {compact ? (
+        <MessageItemGutter>
+          <MessageItemContinuationTime className={CONTINUATION_TIME_CLASS} title={gutterTime}>
+            {gutterTime}
+          </MessageItemContinuationTime>
+        </MessageItemGutter>
+      ) : (
+        <RowAvatar
+          variant={variant}
+          status={status}
+          deactivated={deactivated}
+          sender={sender}
+          meta={meta}
+        />
+      )}
+      <MessageItemContent>
+        {compact ? null : (
+          <MessageItemHeader>
+            <MessageItemSender className={SENDER_CLASS}>{sender}</MessageItemSender>
+            {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
+            {meta ? (
+              <MessageItemMeta className={META_CLASS} title={meta}>
+                {meta}
+              </MessageItemMeta>
+            ) : null}
+            <MessageItemTime className={TIME_CLASS}>{time}</MessageItemTime>
+            {inlineStatus ? (
+              <MessageItemInlineStatus className={META_CLASS}>
+                {inlineStatus}
+              </MessageItemInlineStatus>
+            ) : null}
+          </MessageItemHeader>
+        )}
+        {body ? (
+          <MessageItemBody className={BODY_CLASS} data-message-selectable="true">
+            {body}
+          </MessageItemBody>
+        ) : null}
+        {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
+        {footer ? <MessageItemFooter>{footer}</MessageItemFooter> : null}
+      </MessageItemContent>
+      {saved ? (
+        <MessageItemSavedIndicator>
+          <Bookmark fill="currentColor" />
+        </MessageItemSavedIndicator>
+      ) : null}
+      <RowToolbar saved={saved} reactionActive={!!picker} onReact={openPicker} />
+    </MessageItem>
+  );
+
+  const pickerPortal = picker ? (
+    <ReactionPickerPopover pos={picker} onClose={() => setPicker(null)} />
+  ) : null;
+
+  // Select mode disables the right-click menu (source parity), so the row skips
+  // the ContextMenu wrapper entirely.
+  if (selectMode) {
+    return (
+      <div className="px-3">
+        {messageItem}
+        {pickerPortal}
+      </div>
+    );
+  }
+
   return (
     <div className="px-3">
-      <MessageItem
-        compact={compact}
-        rowState={effectiveRowState}
-        onContextMenu={
-          selectMode
-            ? undefined
-            : (event) => {
-                event.preventDefault();
-                setPicker(null);
-                setMenu({ x: event.clientX, y: event.clientY });
-              }
-        }
-        className="[[data-preview-theme=brutal]_&]:transition-none"
+      <ContextMenu
+        open={menuOpen}
+        onOpenChange={(open) => {
+          setMenuOpen(open);
+          if (open) setPicker(null);
+        }}
       >
-        {selectMode ? (
-          <MessageItemSelectMark
-            checked={selected}
-            role="checkbox"
-            aria-checked={selected}
-            aria-label="Select message"
-            tabIndex={0}
-            onClick={() => (selectId ? list?.toggleSelect(selectId) : undefined)}
-            className="cursor-pointer text-transparent"
-          />
-        ) : null}
-        {compact ? (
-          <MessageItemGutter>
-            <MessageItemContinuationTime className={CONTINUATION_TIME_CLASS} title={gutterTime}>
-              {gutterTime}
-            </MessageItemContinuationTime>
-          </MessageItemGutter>
-        ) : (
-          <RowAvatar
-            variant={variant}
-            status={status}
-            deactivated={deactivated}
-            sender={sender}
-            meta={meta}
-          />
-        )}
-        <MessageItemContent>
-          {compact ? null : (
-            <MessageItemHeader>
-              <MessageItemSender className={SENDER_CLASS}>{sender}</MessageItemSender>
-              {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
-              {meta ? (
-                <MessageItemMeta className={META_CLASS} title={meta}>
-                  {meta}
-                </MessageItemMeta>
-              ) : null}
-              <MessageItemTime className={TIME_CLASS}>{time}</MessageItemTime>
-              {inlineStatus ? (
-                <MessageItemInlineStatus className={META_CLASS}>
-                  {inlineStatus}
-                </MessageItemInlineStatus>
-              ) : null}
-            </MessageItemHeader>
-          )}
-          {body ? (
-            <MessageItemBody className={BODY_CLASS} data-message-selectable="true">
-              {body}
-            </MessageItemBody>
-          ) : null}
-          {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
-          {footer ? <MessageItemFooter>{footer}</MessageItemFooter> : null}
-        </MessageItemContent>
-        {saved ? (
-          <MessageItemSavedIndicator>
-            <Bookmark fill="currentColor" />
-          </MessageItemSavedIndicator>
-        ) : null}
-        <RowToolbar saved={saved} reactionActive={!!picker} onReact={openPicker} />
-      </MessageItem>
-      {menu ? (
-        <MessageContextMenu
-          pos={menu}
+        <ContextMenuTrigger render={messageItem} />
+        <MessageContextMenuContent
           saved={saved}
           followed={followed}
           task={task}
-          onClose={() => setMenu(null)}
+          onQuickReact={() => setMenuOpen(false)}
           onSelectMessage={selectId && list ? () => list.enterSelect(selectId) : undefined}
         />
-      ) : null}
-      {picker ? <ReactionPickerPopover pos={picker} onClose={() => setPicker(null)} /> : null}
+      </ContextMenu>
+      {pickerPortal}
     </div>
   );
 }
