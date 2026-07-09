@@ -39,6 +39,7 @@ const NAV = [
       { label: "AppPanelStack", to: "/components/chat-panel-stack", status: "wip" },
       { label: "ChatSidebar", to: "/components/chat-sidebar", status: "wip" },
       { label: "ChatMainPanel", to: "/components/chat-main-panel", status: "wip" },
+      { label: "Composer", to: "/components/chat-composer", status: "wip" },
       { label: "ChatThreadPanel", to: "/components/chat-thread-panel", status: "wip" },
     ],
   },

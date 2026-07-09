@@ -74,6 +74,7 @@ import { Route as ComponentsChatShellRouteImport } from './routes/components/cha
 import { Route as ComponentsChatRailRouteImport } from './routes/components/chat-rail'
 import { Route as ComponentsChatPanelStackRouteImport } from './routes/components/chat-panel-stack'
 import { Route as ComponentsChatMainPanelRouteImport } from './routes/components/chat-main-panel'
+import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -432,6 +433,11 @@ const ComponentsChatMainPanelRoute = ComponentsChatMainPanelRouteImport.update({
   path: '/chat-main-panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
+  id: '/chat-composer',
+  path: '/chat-composer',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
@@ -570,6 +576,7 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
   '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
   '/components/chat-rail': typeof ComponentsChatRailRoute
@@ -659,6 +666,7 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
   '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
   '/components/chat-rail': typeof ComponentsChatRailRoute
@@ -751,6 +759,7 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
   '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
   '/components/chat-rail': typeof ComponentsChatRailRoute
@@ -844,6 +853,7 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-composer'
     | '/components/chat-main-panel'
     | '/components/chat-panel-stack'
     | '/components/chat-rail'
@@ -933,6 +943,7 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-composer'
     | '/components/chat-main-panel'
     | '/components/chat-panel-stack'
     | '/components/chat-rail'
@@ -1024,6 +1035,7 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/bottom-sheet'
     | '/components/button'
+    | '/components/chat-composer'
     | '/components/chat-main-panel'
     | '/components/chat-panel-stack'
     | '/components/chat-rail'
@@ -1574,6 +1586,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsChatMainPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/chat-composer': {
+      id: '/components/chat-composer'
+      path: '/chat-composer'
+      fullPath: '/components/chat-composer'
+      preLoaderRoute: typeof ComponentsChatComposerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/button': {
       id: '/components/button'
       path: '/button'
@@ -1753,6 +1772,7 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
   ComponentsChatMainPanelRoute: typeof ComponentsChatMainPanelRoute
   ComponentsChatPanelStackRoute: typeof ComponentsChatPanelStackRoute
   ComponentsChatRailRoute: typeof ComponentsChatRailRoute
@@ -1826,6 +1846,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsChatComposerRoute: ComponentsChatComposerRoute,
   ComponentsChatMainPanelRoute: ComponentsChatMainPanelRoute,
   ComponentsChatPanelStackRoute: ComponentsChatPanelStackRoute,
   ComponentsChatRailRoute: ComponentsChatRailRoute,
