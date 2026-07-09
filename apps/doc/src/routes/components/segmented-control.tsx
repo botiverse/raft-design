@@ -185,7 +185,7 @@ function SegmentedControlDoc() {
         />
       </DocSection>
 
-      <DocSection id="usage" title="Usage">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="grid gap-10">
           <DocNote>
             Segment items own icon sizing, label truncation, and count line-height. Compose plain

@@ -133,7 +133,7 @@ function SwitchDoc() {
         />
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <Example html={code.sizes}>
           <div className="flex items-center gap-4">
             <Switch size="sm" defaultChecked aria-label="Small switch" />
@@ -142,7 +142,7 @@ function SwitchDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.states}>
           <div className="flex items-center gap-4">
             <Switch aria-label="Off" />
@@ -153,7 +153,7 @@ function SwitchDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="field" title="Field">
+      <DocSection id="field" title="Field" showThemeSwitcher>
         <Example html={code.field}>
           <Field className="max-w-sm">
             <div className="flex items-center justify-between gap-4">

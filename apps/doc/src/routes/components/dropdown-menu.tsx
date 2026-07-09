@@ -650,7 +650,7 @@ function DropdownMenuDoc() {
         />
       </DocSection>
 
-      <DocSection id="submenu" title="Submenu">
+      <DocSection id="submenu" title="Submenu" showThemeSwitcher>
         <Example html={code.submenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="submenu-trigger" label="Submenu">
             <SubmenuRows />
@@ -658,7 +658,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="radio-group" title="Radio group">
+      <DocSection id="radio-group" title="Radio group" showThemeSwitcher>
         <Example html={code.radioGroupMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="radio-group-menu-trigger" label="Radio group">
             <RadioGroupMenuRows />
@@ -666,7 +666,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="plain-picker" title="Plain picker">
+      <DocSection id="plain-picker" title="Plain picker" showThemeSwitcher>
         <Example html={code.plainPicker} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample
             triggerId="plain-picker-trigger"
@@ -678,7 +678,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="headerless-picker" title="Headerless picker">
+      <DocSection id="headerless-picker" title="Headerless picker" showThemeSwitcher>
         <Example html={code.headerlessPicker} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample
             triggerId="headerless-picker-trigger"
@@ -690,7 +690,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="checkboxes" title="Checkboxes">
+      <DocSection id="checkboxes" title="Checkboxes" showThemeSwitcher>
         <Example html={code.checkboxesMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
             <CheckboxesMenuRows />
@@ -698,7 +698,7 @@ function DropdownMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="switch" title="Switch">
+      <DocSection id="switch" title="Switch" showThemeSwitcher>
         <Example html={code.switchMenu} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
             <SwitchMenuRows />

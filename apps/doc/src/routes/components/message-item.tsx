@@ -61,7 +61,7 @@ function MessageItemDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="state-matrix" title="State matrix">
+      <DocSection id="state-matrix" title="State matrix" showThemeSwitcher>
         <Example
           html={code.stateMatrix}
           previewTheme="brutal"
@@ -72,7 +72,7 @@ function MessageItemDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="fixtures" title="Fixtures">
+      <DocSection id="fixtures" title="Fixtures" showThemeSwitcher>
         <Example
           html={code.fixtureRows}
           previewTheme="brutal"

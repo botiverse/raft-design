@@ -306,7 +306,7 @@ function ConversationPreviewCardDoc() {
         />
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.states}>
             <div className="flex w-96 flex-col gap-3">

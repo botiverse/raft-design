@@ -109,7 +109,7 @@ function SectionLabelDoc() {
         />
       </DocSection>
 
-      <DocSection id="render" title="Render">
+      <DocSection id="render" title="Render" showThemeSwitcher>
         <Example html={code.render}>
           <div className="flex flex-col gap-2">
             <SectionLabel>Span</SectionLabel>
@@ -119,7 +119,7 @@ function SectionLabelDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="color" title="Color">
+      <DocSection id="color" title="Color" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.color}>
             <div className="flex flex-col gap-2">

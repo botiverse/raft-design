@@ -470,7 +470,7 @@ function BannerDoc() {
         />
       </DocSection>
 
-      <DocSection id="statuses" title="Statuses">
+      <DocSection id="statuses" title="Statuses" showThemeSwitcher>
         <Example html={code.statuses}>
           <div className="flex w-[28rem] flex-col gap-3">
             <Banner status="default">
@@ -531,7 +531,7 @@ function BannerDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Banners stay iconless by default, matching the dominant inline pattern. Compose a direct
@@ -574,7 +574,7 @@ function BannerDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="composition" title="Composition">
+      <DocSection id="composition" title="Composition" showThemeSwitcher>
         <Example html={code.composition}>
           <div className="w-[28rem]">
             <Banner status="warning">

@@ -244,7 +244,7 @@ function AppShellDoc() {
         />
       </DocSection>
 
-      <DocSection id="mobile" title="Mobile bar">
+      <DocSection id="mobile" title="Mobile bar" showThemeSwitcher>
         <Example html={code.mobile} previewInset="flush">
           <PreviewThemeScope family="brutal">
             <div className="w-full max-w-md border-2 border-black bg-white">

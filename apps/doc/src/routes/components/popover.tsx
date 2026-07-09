@@ -442,7 +442,7 @@ function PopoverDoc() {
         />
       </DocSection>
 
-      <DocSection id="details" title="Details">
+      <DocSection id="details" title="Details" showThemeSwitcher>
         <Example html={code.details} previewClassName="min-h-[18rem] items-start pt-28">
           <OpenPopoverExample triggerId="details-popover-trigger" label="Usage notes">
             <PopoverPanelBody />

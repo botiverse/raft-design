@@ -188,7 +188,7 @@ function SectionHeaderDoc() {
         />
       </DocSection>
 
-      <DocSection id="slots" title="Slots">
+      <DocSection id="slots" title="Slots" showThemeSwitcher>
         <Example html={code.slots}>
           <div className="flex w-96 flex-col gap-4">
             <CurrentCreatedAgentsHeader />

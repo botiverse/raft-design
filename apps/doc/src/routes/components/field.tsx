@@ -437,7 +437,7 @@ function FieldDoc() {
         />
       </DocSection>
 
-      <DocSection id="structure" title="Structure">
+      <DocSection id="structure" title="Structure" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Field owns the form copy structure. Keep the control itself narrow: use{" "}
@@ -464,7 +464,7 @@ function FieldDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.states} previewClassName={PREVIEW_TOP_CLASS}>
           <div className="grid w-80 gap-6">
             <Field>
@@ -486,7 +486,7 @@ function FieldDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="controls" title="Controls">
+      <DocSection id="controls" title="Controls" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use <InlineCode>FieldItem</InlineCode> for choice controls where the label and helper

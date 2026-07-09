@@ -164,7 +164,7 @@ function SeparatorDoc() {
         />
       </DocSection>
 
-      <DocSection id="orientation" title="Orientation">
+      <DocSection id="orientation" title="Orientation" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use horizontal separators between stacked groups. Use vertical separators only inside a

@@ -230,7 +230,7 @@ function PreviewCardDoc() {
         />
       </DocSection>
 
-      <DocSection id="usage" title="Usage">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-foreground-strong">Mention hover card</h3>
           <DocNote>

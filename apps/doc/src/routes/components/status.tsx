@@ -329,7 +329,7 @@ function StatusDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <Example html={code.variants}>
           {VARIANTS.map((variant) => (
             <Status key={variant} variant={variant} />
@@ -337,7 +337,7 @@ function StatusDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <Example html={code.sizes}>
           <Status size="xs" variant="success" />
           <Status size="sm" variant="success" />
@@ -346,7 +346,7 @@ function StatusDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="pulse" title="Pulse">
+      <DocSection id="pulse" title="Pulse" showThemeSwitcher>
         <Example html={code.pulse}>
           <Status size="xs" variant="primary" pulse />
           <Status size="sm" variant="primary" pulse />
@@ -355,7 +355,7 @@ function StatusDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="customize" title="Customize">
+      <DocSection id="customize" title="Customize" showThemeSwitcher>
         <Example html={code.customize}>
           <Status className="[--status-color:var(--color-brutal-purple-300)]" />
           <Status pulse className="[--status-color:var(--color-brutal-purple-300)]" />

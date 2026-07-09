@@ -444,7 +444,7 @@ function ContextMenuDoc() {
         />
       </DocSection>
 
-      <DocSection id="submenu" title="Submenu">
+      <DocSection id="submenu" title="Submenu" showThemeSwitcher>
         <Example html={code.submenu} previewClassName="min-h-[22rem] items-start pt-12">
           <OpenContextMenuExample triggerId="context-submenu-trigger" label="Right click item">
             <SubmenuRows />
@@ -452,7 +452,7 @@ function ContextMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="radio-group" title="Radio group">
+      <DocSection id="radio-group" title="Radio group" showThemeSwitcher>
         <Example html={code.radioGroup} previewClassName="min-h-[24rem] items-start pt-12">
           <OpenContextMenuExample
             triggerId="context-radio-trigger"
@@ -464,7 +464,7 @@ function ContextMenuDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="checkboxes" title="Checkboxes">
+      <DocSection id="checkboxes" title="Checkboxes" showThemeSwitcher>
         <Example html={code.checkboxes} previewClassName="min-h-[22rem] items-start pt-12">
           <OpenContextMenuExample
             triggerId="context-checkbox-trigger"

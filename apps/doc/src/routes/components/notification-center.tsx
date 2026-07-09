@@ -593,7 +593,12 @@ function NotificationCenterDoc() {
         />
       </DocSection>
 
-      <DocSection id="empty" title="Empty" badge={<StatusBadge status="in-progress" />}>
+      <DocSection
+        id="empty"
+        title="Empty"
+        badge={<StatusBadge status="in-progress"></StatusBadge>}
+        showThemeSwitcher
+      >
         <Example html={code.empty}>
           <NotificationCenterExample entries={[]} size="sm" />
         </Example>

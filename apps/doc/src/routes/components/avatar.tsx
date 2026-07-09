@@ -573,7 +573,7 @@ function AvatarDoc() {
         />
       </DocSection>
 
-      <DocSection id="image" title="Avatar image">
+      <DocSection id="image" title="Avatar image" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Source <code>AvatarSlot</code> parsed <code>pixel:*</code>, uploaded human avatars, and
@@ -611,7 +611,7 @@ function AvatarDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="badge" title="Badge">
+      <DocSection id="badge" title="Badge" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             The badge auto-scales with the avatar's <code>size</code> via its <code>data-size</code>{" "}
@@ -646,7 +646,7 @@ function AvatarDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="group" title="Group">
+      <DocSection id="group" title="Group" showThemeSwitcher>
         <Example html={code.group}>
           <AvatarGroup>
             {AVATAR_PHOTOS.slice(0, 3).map((src, index) => (
@@ -660,7 +660,7 @@ function AvatarDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <Example html={code.sizes}>
           <div className="flex flex-wrap items-end gap-4">
             {SIZES.map(({ size, context, px }, index) => (

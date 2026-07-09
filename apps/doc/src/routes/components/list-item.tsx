@@ -332,7 +332,7 @@ function ListItemDoc() {
         />
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.states}>
           <div className="flex w-64 flex-col gap-3">
             <ListItem>Resting (interactive)</ListItem>

@@ -367,7 +367,7 @@ function InputDoc() {
         />
       </DocSection>
 
-      <DocSection id="types" title="Types">
+      <DocSection id="types" title="Types" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.types}>
             <Input
@@ -390,7 +390,7 @@ function InputDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
@@ -409,7 +409,7 @@ function InputDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="field" title="With Field">
+      <DocSection id="field" title="With Field" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Label and message come from <Link to="/components/field">Field</Link>. Input stays a
@@ -426,7 +426,7 @@ function InputDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="password-managers" title="Password managers">
+      <DocSection id="password-managers" title="Password managers" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use <InlineCode>suppressPasswordManager</InlineCode> only for non-credential fields

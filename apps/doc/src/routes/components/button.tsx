@@ -411,7 +411,7 @@ function ButtonDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.variants}>
             <div className="-m-1 grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto p-1">
@@ -432,7 +432,7 @@ function ButtonDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="height-alignment" title="Height alignment">
+      <DocSection id="height-alignment" title="Height alignment" showThemeSwitcher>
         <Example html={code.heightAlignment}>
           <div className="-m-1 max-w-full overflow-x-auto p-1">
             <div className="grid min-w-max gap-3">
@@ -464,7 +464,7 @@ function ButtonDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.states}>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="grid min-w-32 place-items-center">
@@ -480,7 +480,7 @@ function ButtonDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.sizes}>
             <Button size="xs">Extra small</Button>
@@ -491,7 +491,7 @@ function ButtonDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="icons" title="Icons">
+      <DocSection id="icons" title="Icons" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.icons}>
             {ICON_SIZES.map((size) => (
@@ -514,7 +514,7 @@ function ButtonDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="loading" title="Loading">
+      <DocSection id="loading" title="Loading" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.loading}>
             <Button loading>Saving</Button>
@@ -525,7 +525,7 @@ function ButtonDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="disabled" title="Disabled">
+      <DocSection id="disabled" title="Disabled" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.disabled}>
             <Button disabled>Disabled</Button>

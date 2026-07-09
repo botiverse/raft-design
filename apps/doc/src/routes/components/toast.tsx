@@ -534,7 +534,7 @@ function ToastDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <div className="space-y-3">
           <DocNote>
             Icon, description, action, and dismiss are all optional. Omit the part you don't need
@@ -609,7 +609,7 @@ function ToastDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="usage" title="Usage">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-3">
           <DocNote>
             Keep long-running or historical notifications in NotificationCenter; use Toast for

@@ -362,7 +362,7 @@ function TextareaDoc() {
         />
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
@@ -387,7 +387,7 @@ function TextareaDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="counter" title="Counter">
+      <DocSection id="counter" title="Counter" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Place <InlineCode>TextareaCounter</InlineCode> inside{" "}
@@ -413,7 +413,7 @@ function TextareaDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="auto-grow" title="Auto grow">
+      <DocSection id="auto-grow" title="Auto grow" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use <InlineCode>field-sizing-content</InlineCode> when the textarea should grow with its
@@ -431,7 +431,7 @@ function TextareaDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="field" title="With Field">
+      <DocSection id="field" title="With Field" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Label, description, and error copy come from <Link to="/components/field">Field</Link>.

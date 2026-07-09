@@ -144,7 +144,7 @@ function PreviewShellDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <Example html={code.variants}>
           <div className="flex w-72 flex-col gap-3">
             <PreviewShell className="p-3">Default surface</PreviewShell>

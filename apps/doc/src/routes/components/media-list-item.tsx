@@ -311,7 +311,7 @@ function MediaListItemDoc() {
           collapsedHtml={code.anatomyBody}
         />
       </DocSection>
-      <DocSection id="align" title="Align">
+      <DocSection id="align" title="Align" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.align}>
             <div className="w-80">

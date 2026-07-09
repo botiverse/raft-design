@@ -209,7 +209,7 @@ function SandboxedPreviewFrameDoc() {
         />
       </DocSection>
 
-      <DocSection id="usage" title="Usage">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
         <Example html={code.usage}>
           <div className="flex flex-wrap gap-4">
             <MermaidMessagePreview>

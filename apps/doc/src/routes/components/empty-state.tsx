@@ -328,7 +328,7 @@ function EmptyStateDoc() {
         />
       </DocSection>
 
-      <DocSection id="copy" title="Copy">
+      <DocSection id="copy" title="Copy" showThemeSwitcher>
         <Example html={code.copy} previewClassName="items-stretch">
           <div className="grid w-full gap-4 md:grid-cols-2">
             <EmptyState className="min-h-56">
@@ -357,7 +357,7 @@ function EmptyStateDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="actions" title="Actions">
+      <DocSection id="actions" title="Actions" showThemeSwitcher>
         <Example html={code.actions}>
           <EmptyState>
             <EmptyStateContent>
@@ -382,7 +382,7 @@ function EmptyStateDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="customize" title="Customize">
+      <DocSection id="customize" title="Customize" showThemeSwitcher>
         <Example html={code.customize}>
           <EmptyState className="min-h-72">
             <EmptyStateContent>
@@ -412,7 +412,7 @@ function EmptyStateDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="composition" title="Composition">
+      <DocSection id="composition" title="Composition" showThemeSwitcher>
         <Example html={code.composition}>
           <EmptyState render={<section aria-labelledby="empty-state-title" />}>
             <EmptyStateContent>

@@ -374,7 +374,7 @@ function TabsDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.variants}>
             <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
@@ -448,7 +448,7 @@ function TabsDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="icon-only" title="Icons">
+      <DocSection id="icon-only" title="Icons" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.icons}>
             <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
@@ -499,7 +499,7 @@ function TabsDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="reorderable" title="Reorderable">
+      <DocSection id="reorderable" title="Reorderable" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.reorderable}>
             <div className="flex w-full max-w-xl flex-col items-center gap-8 overflow-visible px-1">

@@ -1462,7 +1462,7 @@ function ComboboxDoc() {
       description="Use Combobox when the user searches, highlights, and selects structured options. Use Popover only for generic floating panels."
       toc={TOC}
     >
-      <DocSection id="searchable-combobox" title="Searchable combobox">
+      <DocSection id="searchable-combobox" title="Searchable combobox" showThemeSwitcher>
         <div className="space-y-8">
           <DocNote>
             ComboboxControl owns the searchable field surface. Compose leading icons, input, clear,
@@ -1504,7 +1504,7 @@ function ComboboxDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="dropdown-combobox" title="Dropdown combobox">
+      <DocSection id="dropdown-combobox" title="Dropdown combobox" showThemeSwitcher>
         <div className="space-y-8">
           <div className="space-y-3">
             <h3 id="button-trigger" className="scroll-mt-24 text-sm font-medium">

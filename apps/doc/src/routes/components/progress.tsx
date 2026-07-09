@@ -339,7 +339,7 @@ function ProgressDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <Example html={code.variants}>
           <div className="grid w-full max-w-sm gap-4">
             {["primary", "success", "warning", "danger"].map((variant) => (
@@ -357,7 +357,7 @@ function ProgressDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <Example html={code.sizes}>
           <div className="grid w-full max-w-sm gap-4">
             {SIZES.map((size) => (
@@ -371,7 +371,7 @@ function ProgressDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="indeterminate" title="Indeterminate">
+      <DocSection id="indeterminate" title="Indeterminate" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use indeterminate progress when work has started but a reliable completion percentage is
@@ -389,7 +389,7 @@ function ProgressDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="composition" title="Composition">
+      <DocSection id="composition" title="Composition" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.composition}>
             <div className="w-full max-w-sm">

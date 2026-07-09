@@ -64,7 +64,7 @@ function AttentionDotMigrationDoc() {
       description="Migrated: use Status instead of the old AttentionDot component."
       toc={TOC}
     >
-      <DocSection id="anatomy" title="Anatomy">
+      <DocSection id="anatomy" title="Anatomy" showThemeSwitcher>
         <div className="space-y-4">
           <DocsCodeBlock.Panel
             path="AttentionDot.tsx"

@@ -206,7 +206,7 @@ function SpinnerDoc() {
         />
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <Example html={code.sizes}>
           <div className="flex items-center gap-4">
             <Spinner size="sm" />
@@ -215,7 +215,7 @@ function SpinnerDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="current-color" title="Current color">
+      <DocSection id="current-color" title="Current color" showThemeSwitcher>
         <Example html={code.currentColor}>
           <div className="flex items-center gap-3">
             <Spinner className="text-primary-400" />
@@ -229,7 +229,7 @@ function SpinnerDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="inline" title="Inline">
+      <DocSection id="inline" title="Inline" showThemeSwitcher>
         <Example html={code.inline}>
           <div className="flex flex-wrap items-center gap-3">
             <Button>

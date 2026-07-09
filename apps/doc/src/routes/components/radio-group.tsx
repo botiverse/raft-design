@@ -270,7 +270,7 @@ function RadioGroupDoc() {
         />
       </DocSection>
 
-      <DocSection id="usage" title="Usage">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="grid gap-10">
           <section className="grid gap-3">
             <h3 className="text-sm font-medium text-foreground-strong">Option list</h3>
@@ -345,7 +345,7 @@ function RadioGroupDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.disabled}>
           <RadioGroupReferralSourceComposition disabled />
         </Example>

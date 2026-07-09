@@ -306,7 +306,7 @@ function PanelHeaderDoc() {
         />
       </DocSection>
 
-      <DocSection id="slots" title="Slots">
+      <DocSection id="slots" title="Slots" showThemeSwitcher>
         <div className="grid gap-4 lg:grid-cols-2">
           <Example html={code.currentIdentity}>
             <div className="border-2 border-black">

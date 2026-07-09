@@ -202,7 +202,7 @@ function ChatMainPanelDoc() {
         </PreviewGrid>
       </DocSection>
 
-      <DocSection id="states" title="Alert, jump, and composer states">
+      <DocSection id="states" title="Alert, jump, and composer states" showThemeSwitcher>
         <PreviewGrid>
           <PreviewPane label="Source">
             <SourceThemeScope className="h-full">

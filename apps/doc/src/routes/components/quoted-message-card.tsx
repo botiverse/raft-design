@@ -323,7 +323,7 @@ function QuotedMessageCardDoc() {
         />
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.states}>
           <div className="flex w-96 flex-col gap-3">
             <CurrentQuotedMessage />

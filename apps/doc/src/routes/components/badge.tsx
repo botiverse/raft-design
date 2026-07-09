@@ -233,7 +233,7 @@ function BadgeDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <Example html={code.variants}>
           <Badge appearance="outline" uppercase>
             Default
@@ -250,7 +250,7 @@ function BadgeDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="appearance" title="Appearance">
+      <DocSection id="appearance" title="Appearance" showThemeSwitcher>
         <Example html={code.appearance}>
           {APPEARANCES.map((appearance) => (
             <div
@@ -267,14 +267,14 @@ function BadgeDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="casing" title="Casing">
+      <DocSection id="casing" title="Casing" showThemeSwitcher>
         <Example html={code.casing}>
           <Badge>task #42 @bugen</Badge>
           <Badge uppercase>In Progress</Badge>
         </Example>
       </DocSection>
 
-      <DocSection id="icons" title="Icons">
+      <DocSection id="icons" title="Icons" showThemeSwitcher>
         <Example html={code.icons}>
           <Badge variant="primary">
             <CircleCheck className="size-3" />
@@ -291,7 +291,7 @@ function BadgeDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="spinner" title="Spinner">
+      <DocSection id="spinner" title="Spinner" showThemeSwitcher>
         <Example html={code.spinner}>
           <Badge>
             <Spinner data-icon="inline-start" />
@@ -304,7 +304,7 @@ function BadgeDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="composition" title="Composition">
+      <DocSection id="composition" title="Composition" showThemeSwitcher>
         <Example html={code.composition}>
           <div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
             <div className="flex flex-col items-start gap-3">

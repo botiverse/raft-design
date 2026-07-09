@@ -349,7 +349,7 @@ function CheckboxDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.variants}>
             <Checkbox defaultChecked />
@@ -358,7 +358,7 @@ function CheckboxDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.sizes}>
             <Checkbox size="sm" defaultChecked />
@@ -367,7 +367,7 @@ function CheckboxDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.states}>
             <div className="grid gap-4">
@@ -394,7 +394,7 @@ function CheckboxDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="label" title="Label">
+      <DocSection id="label" title="Label" showThemeSwitcher>
         <div className="space-y-4">
           <Example html={code.label}>
             <Label>
@@ -405,7 +405,12 @@ function CheckboxDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="selection" title="Selection" badge={<StatusBadge status="in-progress" />}>
+      <DocSection
+        id="selection"
+        title="Selection"
+        badge={<StatusBadge status="in-progress"></StatusBadge>}
+        showThemeSwitcher
+      >
         <div className="space-y-4">
           <Example html={code.selection}>
             <div className="grid min-w-64 gap-2">

@@ -200,7 +200,7 @@ function ToggleGroupDoc() {
         <CodeBlock html={code.counts} />
       </DocSection>
 
-      <DocSection id="disabled" title="Disabled">
+      <DocSection id="disabled" title="Disabled" showThemeSwitcher>
         <Example html={code.disabled}>
           <ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
             <ToggleGroupItem value="all">

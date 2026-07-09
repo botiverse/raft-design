@@ -312,7 +312,7 @@ function TextDoc() {
         />
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes">
+      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use Text for repeatable product typography. Use token pages when auditing the full type
@@ -331,7 +331,7 @@ function TextDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <Example html={code.variants}>
           <div className="grid max-w-sm gap-2">
             <Text.Sans variant="default">Default</Text.Sans>

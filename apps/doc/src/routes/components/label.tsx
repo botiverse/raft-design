@@ -277,7 +277,7 @@ function LabelDoc() {
         />
       </DocSection>
 
-      <DocSection id="markers" title="Markers">
+      <DocSection id="markers" title="Markers" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Prefer explicit composition over boolean label props. Use LabelAsterisk for required
@@ -306,7 +306,7 @@ function LabelDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Disabled label styling is only visual and semantic. Disable the actual form control

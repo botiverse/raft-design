@@ -640,31 +640,31 @@ function SelectDoc() {
         />
       </DocSection>
 
-      <DocSection id="icons" title="Icons">
+      <DocSection id="icons" title="Icons" showThemeSwitcher>
         <Example html={code.icons} previewClassName="min-h-[18rem] items-start pt-20">
           <IconSelect />
         </Example>
       </DocSection>
 
-      <DocSection id="groups" title="Groups">
+      <DocSection id="groups" title="Groups" showThemeSwitcher>
         <Example html={code.groups} previewClassName="min-h-[18rem] items-start pt-20">
           <BranchSelect />
         </Example>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <Example html={code.states} previewClassName="min-h-[18rem] items-start pt-20">
           <StateSelects />
         </Example>
       </DocSection>
 
-      <DocSection id="scrolling" title="Scrolling">
+      <DocSection id="scrolling" title="Scrolling" showThemeSwitcher>
         <Example html={code.scrolling} previewClassName="min-h-[18rem] items-start pt-20">
           <RegionSelect />
         </Example>
       </DocSection>
 
-      <DocSection id="field" title="With Field">
+      <DocSection id="field" title="With Field" showThemeSwitcher>
         <Example html={code.field} previewClassName="min-h-[18rem] items-start pt-16">
           <FieldSelect />
         </Example>

@@ -385,7 +385,7 @@ function InputGroupDoc() {
         />
       </DocSection>
 
-      <DocSection id="addons" title="Addons">
+      <DocSection id="addons" title="Addons" showThemeSwitcher>
         <Example html={code.addons}>
           <InputGroup className="w-80">
             <InputGroupAddon>
@@ -400,7 +400,7 @@ function InputGroupDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="text-affixes" title="Text affixes">
+      <DocSection id="text-affixes" title="Text affixes" showThemeSwitcher>
         <Example html={code.textAffixes}>
           <InputGroup className="w-80">
             <InputGroupAddon.Text>$</InputGroupAddon.Text>
@@ -414,7 +414,7 @@ function InputGroupDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="addon-variants" title="Addon variants">
+      <DocSection id="addon-variants" title="Addon variants" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Use <InlineCode>variant="default"</InlineCode> for light inline adornments such as
@@ -446,7 +446,7 @@ function InputGroupDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="actions" title="Actions">
+      <DocSection id="actions" title="Actions" showThemeSwitcher>
         <Example html={code.actions}>
           <InputGroup className="w-80">
             <InputGroupAddon>
@@ -466,7 +466,7 @@ function InputGroupDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="states" title="States" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
             Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on{" "}
@@ -501,7 +501,7 @@ function InputGroupDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="field" title="With Field">
+      <DocSection id="field" title="With Field" showThemeSwitcher>
         <Example html={code.field}>
           <Field className="w-80" invalid>
             <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>

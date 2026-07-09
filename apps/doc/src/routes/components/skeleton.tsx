@@ -154,7 +154,7 @@ function SkeletonDoc() {
         />
       </DocSection>
 
-      <DocSection id="variants" title="Variants">
+      <DocSection id="variants" title="Variants" showThemeSwitcher>
         <Example html={code.variants}>
           <div className="flex items-center gap-4">
             <Skeleton variant="line" className="w-40" />
