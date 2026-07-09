@@ -1,4 +1,6 @@
 import {
+  createContext,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -37,7 +39,6 @@ import {
   Paperclip,
   Pencil,
   Play,
-  Plus,
   RotateCcw,
   Search,
   Send,
@@ -124,7 +125,6 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-  MessageReactionAddButton,
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionGlyph,
@@ -777,9 +777,6 @@ function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
               <>
                 <ReactionPill emoji="👍" count={1} reacted />
                 <ReactionPill emoji="👀" count={1} />
-                <MessageReactionAddButton aria-label="Add reaction" className={REACTION_CLASS}>
-                  <Plus strokeWidth={2.5} />
-                </MessageReactionAddButton>
               </>
             }
           />
@@ -1035,12 +1032,6 @@ const RELEASE_MESSAGES: {
   },
 ];
 
-// Matrix section separator — reuses the source date divider as an organising
-// label so the state matrix reads with native chrome.
-function MatrixSection({ label }: { label: string }) {
-  return <MessageTimelineDateDivider>{label}</MessageTimelineDateDivider>;
-}
-
 // Full markdown skin (source BASE_MARKDOWN_COMPONENTS). Markdown is rendered at
 // the app level in source, so every element carries its exact source class.
 function MarkdownShowcaseBody() {
@@ -1101,9 +1092,6 @@ function MarkdownShowcaseBody() {
       <blockquote className="my-1 border-l-2 border-black/40 pl-3 italic text-black/70">
         Blockquote wraps at the same line height.
       </blockquote>
-      <pre className="overflow-x-auto border-2 border-black bg-gray-900 p-3 pr-12 font-mono text-white [font-size:inherit] [&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0">
-        <code>{"const tokens = load();\nconsole.log(tokens.layerPanel);"}</code>
-      </pre>
       <hr className="my-2 border-t-2 border-black" />
       <div className="my-2 overflow-x-auto">
         <table className="border-collapse border-2 border-black text-sm">
@@ -1130,6 +1118,19 @@ function MarkdownShowcaseBody() {
         </table>
       </div>
       <img className="my-2 max-w-full border-2 border-black" src={IMAGE_SRC} alt="markdown embed" />
+    </div>
+  );
+}
+
+// Fenced code block (source BASE_MARKDOWN_COMPONENTS `pre` → BaseCodePre): dark
+// terminal surface, no syntax highlighting, copy gutter reserved via `pr-12`.
+function CodeBlockBody() {
+  return (
+    <div className="space-y-1">
+      <p>Here is the loader I landed — no highlighting, just the mono block.</p>
+      <pre className="overflow-x-auto border-2 border-black bg-gray-900 p-3 pr-12 font-mono text-white [font-size:inherit] [&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0">
+        <code>{"const tokens = load();\nconsole.log(tokens.layerPanel);"}</code>
+      </pre>
     </div>
   );
 }
@@ -1242,52 +1243,24 @@ function HistoryTopStates() {
 // Named reactor set for the hover popover demo.
 const REACTOR_NAMES = ["Developer", "Ada", "Atlas", "Mx. Chen", "Viewer", "Admin", "Cindy"];
 
-type MenuState = { x: number; y: number; rowId: string };
 type PointPos = { x: number; y: number };
 
-type InteractiveRow = {
-  id: string;
-  sender: string;
-  variant: RowVariant;
-  time: string;
-  body: string;
-  saved: boolean;
-  followed: boolean;
-  task: "none" | "open" | "done";
+// The task-action row of the context menu depends on the message's task link
+// (source: Convert to Task / Mark as Done / Reopen Task).
+type MessageTask = "none" | "open" | "done";
+
+// Optional list-level select-mode wiring shared by every MessageRow in a list.
+// When a list provides it, the menu's "Select Message" enters select mode and
+// rows render checkboxes; without it the item is inert (source parity: select
+// mode is a list concern with a sticky bottom toolbar).
+type MessageListApi = {
+  selectMode: boolean;
+  selected: ReadonlySet<string>;
+  toggleSelect: (id: string) => void;
+  enterSelect: (id: string) => void;
 };
 
-const INTERACTIVE_ROWS: InteractiveRow[] = [
-  {
-    id: "im1",
-    sender: "Developer",
-    variant: "member",
-    time: "11:20 AM",
-    body: "Right-click me for the full context menu (quick reactions + all actions).",
-    saved: false,
-    followed: false,
-    task: "none",
-  },
-  {
-    id: "im2",
-    sender: "Atlas",
-    variant: "agent",
-    time: "11:21 AM",
-    body: "This row is saved and followed — its menu shows Remove / Unfollow / Mark as Done.",
-    saved: true,
-    followed: true,
-    task: "open",
-  },
-  {
-    id: "im3",
-    sender: "Developer",
-    variant: "member",
-    time: "11:22 AM",
-    body: "This row's task is done — its menu offers Reopen Task.",
-    saved: false,
-    followed: false,
-    task: "done",
-  },
-];
+const MessageListContext = createContext<MessageListApi | null>(null);
 
 // Pure-action context-menu row (source ui/MenuItem).
 function MenuItemRow({
@@ -1473,197 +1446,157 @@ function MessageSelectionShortcut() {
   );
 }
 
-// Live interactions: right-click context menu (with the quick-reaction row and
-// every action item), full selection-mode flow, the floating emoji picker, and
-// the reactor-name hover popover.
-function InteractiveDemo() {
-  const [menu, setMenu] = useState<MenuState | null>(null);
-  const [picker, setPicker] = useState<PointPos | null>(null);
-  const [reactor, setReactor] = useState<PointPos | null>(null);
-  const [selectMode, setSelectMode] = useState(false);
-  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set());
+// Right-click context menu (source MessageItem handleContextMenu → menu at
+// MessageItem.tsx:4355-4526): quick-reaction row on top, then Copy Link / Copy
+// Markdown / Select Message | Open Thread | Save/Remove | Follow/Unfollow | task
+// action, split by dividers. Rendered per-row via a portal with a full-screen
+// dismiss backdrop; every action is inert (closes) except Select Message, which
+// enters the list's select mode when one is provided.
+function MessageContextMenu({
+  pos,
+  saved,
+  followed,
+  task,
+  onClose,
+  onSelectMessage,
+}: {
+  pos: PointPos;
+  saved?: boolean;
+  followed?: boolean;
+  task: MessageTask;
+  onClose: () => void;
+  onSelectMessage?: () => void;
+}) {
+  const taskAction =
+    task === "done"
+      ? { icon: <RotateCcw size={14} />, label: "Reopen Task" }
+      : task === "open"
+        ? { icon: <CheckCircle size={14} />, label: "Mark as Done" }
+        : { icon: <ClipboardCheck size={14} />, label: "Convert to Task" };
 
-  const menuRow = menu ? INTERACTIVE_ROWS.find((row) => row.id === menu.rowId) : undefined;
-
-  const openPicker = (anchor: HTMLElement) => {
-    const rect = anchor.getBoundingClientRect();
-    setMenu(null);
-    setPicker({ x: rect.left, y: rect.bottom + 6 });
-  };
-
-  const toggleSelect = (id: string) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const enterSelection = (id: string) => {
-    setSelectMode(true);
-    setSelected(new Set([id]));
-    setMenu(null);
-  };
-
-  const exitSelection = () => {
-    setSelectMode(false);
-    setSelected(new Set());
-  };
-
-  const showReactor = (event: { currentTarget: HTMLElement }) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    setReactor({ x: rect.left, y: rect.bottom + 6 });
-  };
-
-  const taskItem = (row: InteractiveRow) => {
-    if (row.task === "done") return { icon: <RotateCcw size={14} />, label: "Reopen Task" };
-    if (row.task === "open") return { icon: <CheckCircle size={14} />, label: "Mark as Done" };
-    return { icon: <ClipboardCheck size={14} />, label: "Convert to Task" };
-  };
-
-  return (
+  return createPortal(
     <>
-      {INTERACTIVE_ROWS.map((row) => (
-        <MessageRow
-          key={row.id}
-          variant={row.variant}
-          sender={row.sender}
-          meta={
-            row.variant === "agent"
-              ? "Design-system agent on the primary online machine."
-              : "member"
-          }
-          status={row.variant === "agent" ? "online" : undefined}
-          time={row.time}
-          body={row.body}
-          saved={row.saved && !selectMode}
-          selectMode={selectMode}
-          selected={selected.has(row.id)}
-          onToggleSelect={() => toggleSelect(row.id)}
-          onOpenMenu={
-            selectMode
-              ? undefined
-              : ({ clientX, clientY }) => setMenu({ x: clientX, y: clientY, rowId: row.id })
-          }
-          onReact={selectMode ? undefined : openPicker}
-          reactionActive={!!picker}
-          footer={
-            row.id === "im1" ? (
-              <span
-                onMouseEnter={showReactor}
-                onMouseLeave={() => setReactor(null)}
-                className="inline-flex"
-              >
-                <ReactionPill
-                  emoji="👍"
-                  count={7}
-                  reacted
-                  title={`${REACTOR_NAMES.slice(0, 5).join(", ")} and 2 more reacted with 👍`}
-                />
-              </span>
-            ) : undefined
-          }
-        />
-      ))}
+      <div
+        className="fixed inset-0 z-[55]"
+        onClick={onClose}
+        onContextMenu={(event) => {
+          event.preventDefault();
+          onClose();
+        }}
+      />
+      <div
+        role="menu"
+        aria-label="Message context menu"
+        className="fixed z-[60] select-none overflow-hidden border-2 border-black bg-white shadow-brutal"
+        style={{ left: pos.x, top: pos.y }}
+      >
+        <MessageReactionQuickRow>
+          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+            <MessageReactionQuickButton
+              key={emoji}
+              title={`React with ${emoji}`}
+              aria-label={`React with ${emoji}`}
+              onClick={onClose}
+            >
+              <MessageReactionGlyph emoji={emoji} size={18} className="block" />
+            </MessageReactionQuickButton>
+          ))}
+        </MessageReactionQuickRow>
+        <div className="border-t-2 border-black" />
+        <MenuItemRow icon={<LinkIcon size={14} />} onClick={onClose}>
+          Copy Link
+        </MenuItemRow>
+        <MenuItemRow icon={<Copy size={14} />} onClick={onClose}>
+          Copy Markdown
+        </MenuItemRow>
+        <MenuItemRow
+          icon={<CheckCircle size={14} />}
+          onClick={() => {
+            onClose();
+            onSelectMessage?.();
+          }}
+        >
+          Select Message
+        </MenuItemRow>
+        <div className="border-t-2 border-black" />
+        <MenuItemRow icon={<MessageSquare size={14} />} onClick={onClose}>
+          Open Thread
+        </MenuItemRow>
+        <MenuItemRow
+          icon={saved ? <BookmarkMinus size={14} /> : <Bookmark size={14} />}
+          onClick={onClose}
+        >
+          {saved ? "Remove from Saved" : "Save Message"}
+        </MenuItemRow>
+        <MenuItemRow icon={<MessageSquare size={14} />} onClick={onClose}>
+          {followed ? "Unfollow Thread" : "Follow Thread"}
+        </MenuItemRow>
+        <div className="border-t-2 border-black" />
+        <MenuItemRow icon={taskAction.icon} onClick={onClose}>
+          {taskAction.label}
+        </MenuItemRow>
+      </div>
+    </>,
+    document.body,
+  );
+}
 
-      {selectMode ? <SelectModeToolbar count={selected.size} onCancel={exitSelection} /> : null}
+// Floating quick-reaction picker (source openReactionPicker → MessageItem.tsx:
+// 4246-4271): opens from the hover-toolbar react button, portalled and fixed
+// below the anchor, closed by an outside-click backdrop.
+function ReactionPickerPopover({ pos, onClose }: { pos: PointPos; onClose: () => void }) {
+  return createPortal(
+    <>
+      <div className="fixed inset-0 z-[75]" onClick={onClose} />
+      <MessageReactionPicker className="fixed z-[80]" style={{ left: pos.x, top: pos.y }}>
+        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+          <MessageReactionQuickButton
+            key={emoji}
+            title={`React with ${emoji}`}
+            aria-label={`React with ${emoji}`}
+            onClick={onClose}
+          >
+            <MessageReactionGlyph emoji={emoji} size={18} className="block" />
+          </MessageReactionQuickButton>
+        ))}
+      </MessageReactionPicker>
+    </>,
+    document.body,
+  );
+}
 
-      {menu && menuRow
-        ? createPortal(
-            <>
-              <div
-                className="fixed inset-0 z-[55]"
-                onClick={() => setMenu(null)}
-                onContextMenu={(event) => {
-                  event.preventDefault();
-                  setMenu(null);
-                }}
-              />
-              <div
-                role="menu"
-                aria-label="Message context menu"
-                className="fixed z-[60] select-none overflow-hidden border-2 border-black bg-white shadow-brutal"
-                style={{ left: menu.x, top: menu.y }}
-              >
-                <MessageReactionQuickRow>
-                  {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-                    <MessageReactionQuickButton
-                      key={emoji}
-                      title={`React with ${emoji}`}
-                      aria-label={`React with ${emoji}`}
-                      onClick={() => setMenu(null)}
-                    >
-                      <MessageReactionGlyph emoji={emoji} size={18} className="block" />
-                    </MessageReactionQuickButton>
-                  ))}
-                </MessageReactionQuickRow>
-                <div className="border-t-2 border-black" />
-                <MenuItemRow icon={<LinkIcon size={14} />} onClick={() => setMenu(null)}>
-                  Copy Link
-                </MenuItemRow>
-                <MenuItemRow icon={<Copy size={14} />} onClick={() => setMenu(null)}>
-                  Copy Markdown
-                </MenuItemRow>
-                <MenuItemRow
-                  icon={<CheckCircle size={14} />}
-                  onClick={() => enterSelection(menu.rowId)}
-                >
-                  Select Message
-                </MenuItemRow>
-                <div className="border-t-2 border-black" />
-                <MenuItemRow icon={<MessageSquare size={14} />} onClick={() => setMenu(null)}>
-                  Open Thread
-                </MenuItemRow>
-                <MenuItemRow
-                  icon={menuRow.saved ? <BookmarkMinus size={14} /> : <Bookmark size={14} />}
-                  onClick={() => setMenu(null)}
-                >
-                  {menuRow.saved ? "Remove from Saved" : "Save Message"}
-                </MenuItemRow>
-                <MenuItemRow icon={<MessageSquare size={14} />} onClick={() => setMenu(null)}>
-                  {menuRow.followed ? "Unfollow Thread" : "Follow Thread"}
-                </MenuItemRow>
-                <div className="border-t-2 border-black" />
-                <MenuItemRow icon={taskItem(menuRow).icon} onClick={() => setMenu(null)}>
-                  {taskItem(menuRow).label}
-                </MenuItemRow>
-              </div>
-            </>,
-            document.body,
-          )
-        : null}
-
-      {picker
-        ? createPortal(
-            <>
-              <div className="fixed inset-0 z-[75]" onClick={() => setPicker(null)} />
-              <MessageReactionPicker
-                className="fixed z-[80]"
-                style={{ left: picker.x, top: picker.y }}
-              >
-                {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-                  <MessageReactionQuickButton
-                    key={emoji}
-                    title={`React with ${emoji}`}
-                    aria-label={`React with ${emoji}`}
-                    onClick={() => setPicker(null)}
-                  >
-                    <MessageReactionGlyph emoji={emoji} size={18} className="block" />
-                  </MessageReactionQuickButton>
-                ))}
-              </MessageReactionPicker>
-            </>,
-            document.body,
-          )
-        : null}
-
-      {reactor
+// Reaction pill with the reactor-name hover popover (source MessageItem.tsx:
+// 4325-4354): hovering the pill portals a pointer-events-none tooltip listing
+// up to five reactor names plus a "+N more" overflow.
+function ReactionPillWithReactors({
+  emoji,
+  count,
+  reacted,
+}: {
+  emoji: string;
+  count: number;
+  reacted?: boolean;
+}) {
+  const [pos, setPos] = useState<PointPos | null>(null);
+  const summary = `${REACTOR_NAMES.slice(0, 5).join(", ")} and ${
+    REACTOR_NAMES.length - 5
+  } more reacted with ${emoji}`;
+  return (
+    <span
+      className="inline-flex"
+      onMouseEnter={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        setPos({ x: rect.left, y: rect.bottom + 6 });
+      }}
+      onMouseLeave={() => setPos(null)}
+    >
+      <ReactionPill emoji={emoji} count={count} reacted={reacted} title={summary} />
+      {pos
         ? createPortal(
             <MessageReactionPopover
               role="tooltip"
               className="pointer-events-none fixed z-[80]"
-              style={{ left: reactor.x, top: reactor.y }}
+              style={{ left: pos.x, top: pos.y }}
             >
               <MessageReactionPopoverNames>
                 {REACTOR_NAMES.slice(0, 5).map((name, index) => (
@@ -1682,516 +1615,595 @@ function InteractiveDemo() {
             document.body,
           )
         : null}
-    </>
+    </span>
   );
 }
 
-// Scenario 4: component-matrix — the exhaustive state matrix covering every
-// message-item surface the source app renders.
+// List-level select-mode provider (source SelectModeToolbar flow): the context
+// menu's "Select Message" enters select mode, rows render checkboxes, and a
+// sticky bottom toolbar shows the bulk actions until Cancel.
+function SelectableMessageList({ children }: { children: ReactNode }) {
+  const [selectMode, setSelectMode] = useState(false);
+  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set());
+
+  const toggleSelect = (id: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const enterSelect = (id: string) => {
+    setSelectMode(true);
+    setSelected(new Set([id]));
+  };
+
+  const exit = () => {
+    setSelectMode(false);
+    setSelected(new Set());
+  };
+
+  return (
+    <MessageListContext.Provider value={{ selectMode, selected, toggleSelect, enterSelect }}>
+      {children}
+      {selectMode ? <SelectModeToolbar count={selected.size} onCancel={exit} /> : null}
+    </MessageListContext.Provider>
+  );
+}
+
+// Scenario 4: component-matrix — a believable channel that happens to exercise
+// every message-item surface the source app renders, one state per message,
+// wrapped so right-click menus and select mode work on every row.
 function MatrixBody() {
   return (
     <ChatMainPanelBody>
       <ChatMainPanelTimeline>
         <ChatMainPanelMessageList>
-          <MatrixSection label="History (top)" />
-          <HistoryTopStates />
+          <SelectableMessageList>
+            <HistoryTopStates />
 
-          <div className="px-3 pt-1">
-            <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
-          </div>
-          <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
+            <div className="px-3 pt-1">
+              <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
+            </div>
+            <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
 
-          <MatrixSection label="Rich text" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:00 AM"
-            body={<MarkdownShowcaseBody />}
-          />
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="09:58 AM"
+              body={<MarkdownShowcaseBody />}
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="10:00 AM"
+              body={<CodeBlockBody />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:02 AM"
+              body={<ChipDemoBody />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:03 AM"
+              body={
+                <div className="space-y-1">
+                  <p>
+                    Unresolved refs dim to 60%:{" "}
+                    <RefChip kind="channel" unresolved>
+                      #archived
+                    </RefChip>{" "}
+                    <RefChip kind="thread" unresolved>
+                      #general:deadbeef
+                    </RefChip>{" "}
+                    <RefChip kind="task" unresolved>
+                      #404
+                    </RefChip>
+                  </p>
+                  <p>
+                    Resolving:{" "}
+                    <RefChip kind="thread" resolving>
+                      #general:67253b90
+                    </RefChip>{" "}
+                    · message ref <RefChip kind="task">msg #22</RefChip> · unknown mention{" "}
+                    <UnknownMention>@ghost</UnknownMention>
+                  </p>
+                  <p>
+                    Cross-server permalink: <PermalinkChip label="#ops@other" crossServer /> vs
+                    same-server <PermalinkChip label="#general" />
+                  </p>
+                </div>
+              }
+            />
 
-          <MatrixSection label="Inline chips" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:02 AM"
-            body={<ChipDemoBody />}
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:03 AM"
-            body={
-              <div className="space-y-1">
-                <p>
-                  Unresolved refs dim to 60%:{" "}
-                  <RefChip kind="channel" unresolved>
-                    #archived
-                  </RefChip>{" "}
-                  <RefChip kind="thread" unresolved>
-                    #general:deadbeef
-                  </RefChip>{" "}
-                  <RefChip kind="task" unresolved>
-                    #404
-                  </RefChip>
-                </p>
-                <p>
-                  Resolving:{" "}
-                  <RefChip kind="thread" resolving>
-                    #general:67253b90
-                  </RefChip>{" "}
-                  · message ref <RefChip kind="task">msg #22</RefChip> · unknown mention{" "}
-                  <UnknownMention>@ghost</UnknownMention>
-                </p>
-                <p>
-                  Cross-server permalink: <PermalinkChip label="#ops@other" crossServer /> vs
-                  same-server <PermalinkChip label="#general" />
-                </p>
-              </div>
-            }
-          />
-
-          <MatrixSection label="Media — images" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:05 AM"
-            body="Single image (contain, reserved aspect box)."
-            attachments={
-              <MessageImageGallery>
-                <MessageImageGalleryRow className="grid-cols-1">
-                  <MessageImageGalleryItem single>
-                    <MessageImageGalleryMedia
-                      src={IMAGE_SRC}
-                      alt=""
-                      fit="contain"
-                      style={{ width: "min(320px, 100%)", aspectRatio: "4 / 3" }}
-                    />
-                    <ImagePreviewButton src={IMAGE_SRC} name="seed-photo.jpg" />
-                    <MessageImageGalleryAction aria-label="Download image">
-                      <Download />
-                    </MessageImageGalleryAction>
-                  </MessageImageGalleryItem>
-                </MessageImageGalleryRow>
-              </MessageImageGallery>
-            }
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:06 AM"
-            body="2-up row + an optimistic (uploading) tile."
-            attachments={
-              <MessageImageGallery>
-                <MessageImageGalleryRow className="grid-cols-2">
-                  <MessageImageGalleryItem>
-                    <MessageImageGalleryMedia
-                      src={IMAGE_SRC}
-                      alt=""
-                      fit="cover"
-                      className="h-32 sm:h-36"
-                    />
-                    <MessageImageGalleryAction aria-label="Download image">
-                      <Download />
-                    </MessageImageGalleryAction>
-                  </MessageImageGalleryItem>
-                  <MessageImageGalleryItem optimistic>
-                    <MessageImageGalleryMedia
-                      src={IMAGE_SRC}
-                      alt=""
-                      fit="cover"
-                      className="h-32 sm:h-36"
-                    />
-                    <MessageImageGalleryOverlay>
-                      <Spinner size="lg" className="text-white" />
-                    </MessageImageGalleryOverlay>
-                  </MessageImageGalleryItem>
-                </MessageImageGalleryRow>
-              </MessageImageGallery>
-            }
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:07 AM"
-            body="3-up row."
-            attachments={
-              <MessageImageGallery>
-                <MessageImageGalleryRow className="grid-cols-2 md:grid-cols-3">
-                  {[0, 1, 2].map((i) => (
-                    <MessageImageGalleryItem key={i}>
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="10:05 AM"
+              body="Here's the poster for the release banner."
+              attachments={
+                <MessageImageGallery>
+                  <MessageImageGalleryRow className="grid-cols-1">
+                    <MessageImageGalleryItem single>
                       <MessageImageGalleryMedia
                         src={IMAGE_SRC}
                         alt=""
-                        fit="cover"
-                        className="h-28 sm:h-32"
+                        fit="contain"
+                        style={{ width: "min(320px, 100%)", aspectRatio: "4 / 3" }}
                       />
+                      <ImagePreviewButton src={IMAGE_SRC} name="seed-photo.jpg" />
+                      <MessageImageGalleryAction aria-label="Download image">
+                        <Download />
+                      </MessageImageGalleryAction>
                     </MessageImageGalleryItem>
-                  ))}
-                </MessageImageGalleryRow>
-              </MessageImageGallery>
-            }
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:08 AM"
-            body="4 images (chunked into two 2-up rows) then a wide image on its own row."
-            attachments={
-              <MessageImageGallery>
-                <MessageImageGalleryRow className="grid-cols-2">
-                  {[0, 1].map((i) => (
-                    <MessageImageGalleryItem key={i}>
+                  </MessageImageGalleryRow>
+                </MessageImageGallery>
+              }
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:06 AM"
+              body="Dropping the before/after — the second is still uploading."
+              attachments={
+                <MessageImageGallery>
+                  <MessageImageGalleryRow className="grid-cols-2">
+                    <MessageImageGalleryItem>
                       <MessageImageGalleryMedia
                         src={IMAGE_SRC}
                         alt=""
                         fit="cover"
                         className="h-32 sm:h-36"
                       />
+                      <MessageImageGalleryAction aria-label="Download image">
+                        <Download />
+                      </MessageImageGalleryAction>
                     </MessageImageGalleryItem>
-                  ))}
-                </MessageImageGalleryRow>
-                <MessageImageGalleryRow className="grid-cols-2">
-                  {[2, 3].map((i) => (
-                    <MessageImageGalleryItem key={i}>
+                    <MessageImageGalleryItem optimistic>
                       <MessageImageGalleryMedia
                         src={IMAGE_SRC}
                         alt=""
                         fit="cover"
                         className="h-32 sm:h-36"
                       />
+                      <MessageImageGalleryOverlay>
+                        <Spinner size="lg" className="text-white" />
+                      </MessageImageGalleryOverlay>
                     </MessageImageGalleryItem>
-                  ))}
-                </MessageImageGalleryRow>
-                <MessageImageGalleryRow className="grid-cols-1">
-                  <MessageImageGalleryItem>
-                    <MessageImageGalleryMedia
-                      src={IMAGE_SRC}
-                      alt=""
-                      fit="contain"
-                      className="h-32 sm:h-36"
-                    />
-                  </MessageImageGalleryItem>
-                </MessageImageGalleryRow>
-              </MessageImageGallery>
-            }
-          />
+                  </MessageImageGalleryRow>
+                </MessageImageGallery>
+              }
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:07 AM"
+              body="Three crops from the same run."
+              attachments={
+                <MessageImageGallery>
+                  <MessageImageGalleryRow className="grid-cols-2 md:grid-cols-3">
+                    {[0, 1, 2].map((i) => (
+                      <MessageImageGalleryItem key={i}>
+                        <MessageImageGalleryMedia
+                          src={IMAGE_SRC}
+                          alt=""
+                          fit="cover"
+                          className="h-28 sm:h-32"
+                        />
+                      </MessageImageGalleryItem>
+                    ))}
+                  </MessageImageGalleryRow>
+                </MessageImageGallery>
+              }
+            />
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="10:08 AM"
+              body="Full contact sheet — four thumbnails then the wide hero."
+              attachments={
+                <MessageImageGallery>
+                  <MessageImageGalleryRow className="grid-cols-2">
+                    {[0, 1].map((i) => (
+                      <MessageImageGalleryItem key={i}>
+                        <MessageImageGalleryMedia
+                          src={IMAGE_SRC}
+                          alt=""
+                          fit="cover"
+                          className="h-32 sm:h-36"
+                        />
+                      </MessageImageGalleryItem>
+                    ))}
+                  </MessageImageGalleryRow>
+                  <MessageImageGalleryRow className="grid-cols-2">
+                    {[2, 3].map((i) => (
+                      <MessageImageGalleryItem key={i}>
+                        <MessageImageGalleryMedia
+                          src={IMAGE_SRC}
+                          alt=""
+                          fit="cover"
+                          className="h-32 sm:h-36"
+                        />
+                      </MessageImageGalleryItem>
+                    ))}
+                  </MessageImageGalleryRow>
+                  <MessageImageGalleryRow className="grid-cols-1">
+                    <MessageImageGalleryItem>
+                      <MessageImageGalleryMedia
+                        src={IMAGE_SRC}
+                        alt=""
+                        fit="contain"
+                        className="h-32 sm:h-36"
+                      />
+                    </MessageImageGalleryItem>
+                  </MessageImageGalleryRow>
+                </MessageImageGallery>
+              }
+            />
 
-          <MatrixSection label="Media — video" />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Design-system agent on the primary online machine."
-            status="online"
-            time="10:10 AM"
-            body="Real <video controls> (loaded)."
-            attachments={
-              <MessageVideoPreview>
-                <MessageVideoPreviewFrame>
-                  <MessageVideoPreviewMedia controls playsInline preload="metadata" />
-                  <MessageVideoPreviewAction aria-label="Open video in preview">
-                    <Eye />
-                  </MessageVideoPreviewAction>
-                </MessageVideoPreviewFrame>
-              </MessageVideoPreview>
-            }
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Design-system agent on the primary online machine."
-            status="online"
-            time="10:11 AM"
-            body="Idle Play fallback, optimistic (uploading) spinner, and codec-failure fallback."
-            attachments={
-              <div className="space-y-2">
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="10:10 AM"
+              body="Screen recording of the token migration diff."
+              attachments={
                 <MessageVideoPreview>
                   <MessageVideoPreviewFrame>
-                    <MessageVideoPreviewFallback>
-                      <Play className="size-8 text-white/80" />
-                    </MessageVideoPreviewFallback>
+                    <MessageVideoPreviewMedia controls playsInline preload="metadata" />
                     <MessageVideoPreviewAction aria-label="Open video in preview">
                       <Eye />
                     </MessageVideoPreviewAction>
                   </MessageVideoPreviewFrame>
                 </MessageVideoPreview>
-                <MessageVideoPreview optimistic>
-                  <MessageVideoPreviewFrame>
-                    <MessageVideoPreviewFallback>
-                      <Spinner size="lg" className="text-white" />
-                    </MessageVideoPreviewFallback>
-                  </MessageVideoPreviewFrame>
-                </MessageVideoPreview>
-                <MessageVideoPreview>
-                  <MessageVideoPreviewFrame>
-                    <MessageVideoPreviewFallback interactive>
-                      <div className="flex max-w-[16rem] flex-col items-center gap-2 px-4 text-center text-xs font-bold">
-                        <AlertTriangle size={24} />
-                        <span>This video may use a codec this browser cannot preview.</span>
-                        <span className="inline-flex items-center gap-1 text-white/75">
-                          <Download size={13} />
-                          Download to view
-                        </span>
-                      </div>
-                    </MessageVideoPreviewFallback>
-                  </MessageVideoPreviewFrame>
-                </MessageVideoPreview>
-              </div>
-            }
-          />
-
-          <MatrixSection label="Media — file cards" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:14 AM"
-            body="Every file-card mime variant + comment count."
-            attachments={
-              <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-                <FileCard name="seed-pixel.png" meta="image/png · 1 KB" affordance={<Eye />} />
-                <FileCard
-                  name="seed-notes.txt"
-                  meta="Text preview · 1 KB"
-                  summary={<span className="text-black/70">Plain text document</span>}
-                  affordance={<Eye />}
-                  commentCount={3}
-                />
-                <FileCard
-                  name="metrics.csv"
-                  meta="CSV preview · 2 KB"
-                  summary={<span className="text-black/70">Preview 12 rows · 4 columns</span>}
-                  affordance={<Eye />}
-                />
-                <FileCard
-                  name="spec.pdf"
-                  meta="PDF preview · 1.4 MB"
-                  summary={<span className="text-black/70">PDF document</span>}
-                  affordance={<Eye />}
-                />
-                <FileCard
-                  name="feature.diff"
-                  meta="patch · 3 KB"
-                  summary={
-                    <>
-                      <span className="text-black/70">3 files · 8 hunks</span>
-                      <span className="text-[#1f883d]">+124</span>
-                      <span className="text-[#cf222e]">-37</span>
-                    </>
-                  }
-                  affordance={<Download />}
-                />
-                <FileCard
-                  name="voice-note.m4a"
-                  meta="Audio preview · 512 KB"
-                  affordance={<Eye />}
-                  secondaryDownload
-                />
-                <FileCard name="report.html" meta="HTML preview · 6 KB" affordance={<Eye />} />
-                <FileCard
-                  name="archive.zip"
-                  meta="application/zip · 4 MB"
-                  affordance={<Download />}
-                />
-                <FileCard name="uploading.png" meta="image/png · 1 KB" optimistic />
-                <FileCard name="opening.pdf" meta="PDF preview · 1 MB" loading />
-              </div>
-            }
-          />
-
-          <MatrixSection label="Senders & presence" />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Online agent."
-            status="online"
-            time="10:20 AM"
-            body="Agent status dot — online (lime)."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Thinking…"
-            status="thinking"
-            time="10:20 AM"
-            body="Agent status dot — thinking (soft-signal, pulsing)."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Working…"
-            status="working"
-            time="10:20 AM"
-            body="Agent status dot — working (soft-signal, pulsing)."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Error: daemon unreachable."
-            status="error"
-            time="10:20 AM"
-            body="Agent status dot — error (orange)."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Offline."
-            status="offline"
-            time="10:20 AM"
-            body="Agent status dot — offline (gray)."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="External agent."
-            status="external"
-            time="10:20 AM"
-            body="Agent status dot — external (cyan)."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Legacy Bot"
-            senderState="deleted"
-            deactivated
-            meta="Deactivated agent."
-            time="10:21 AM"
-            body="Deactivated agent: grayscale avatar, no status dot, Deleted badge."
-          />
-          <MessageRow
-            variant="member"
-            sender="Mx. Chen"
-            senderState="removed"
-            time="10:22 AM"
-            body="Removed human: Removed badge."
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:23 AM"
-            saved
-            body="Saved message: persistent orange bookmark at rest (hidden on hover), saved toolbar button."
-          />
-
-          <MatrixSection label="Reactions" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:30 AM"
-            body="Reaction pills: neutral, reacted-by-viewer, and the failed-flash."
-            footer={
-              <>
-                <ReactionPill emoji="👀" count={2} />
-                <ReactionPill emoji="👍" count={5} reacted />
-                <ReactionPill emoji="🔥" count={1} failed />
-                <MessageReactionAddButton aria-label="Add reaction" className={REACTION_CLASS}>
-                  <Plus strokeWidth={2.5} />
-                </MessageReactionAddButton>
-              </>
-            }
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:31 AM"
-            body="Quick-reaction row and the floating emoji picker (as they appear inside the menu / on the react button)."
-            footer={
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="w-fit border-2 border-black bg-white">
-                  <MessageReactionQuickRow>
-                    {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-                      <MessageReactionQuickButton key={emoji} aria-label={`React with ${emoji}`}>
-                        <MessageReactionGlyph emoji={emoji} size={18} className="block" />
-                      </MessageReactionQuickButton>
-                    ))}
-                  </MessageReactionQuickRow>
+              }
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="10:11 AM"
+              body="A few more clips — one idle, one still uploading, one this browser can't decode."
+              attachments={
+                <div className="space-y-2">
+                  <MessageVideoPreview>
+                    <MessageVideoPreviewFrame>
+                      <MessageVideoPreviewFallback>
+                        <Play className="size-8 text-white/80" />
+                      </MessageVideoPreviewFallback>
+                      <MessageVideoPreviewAction aria-label="Open video in preview">
+                        <Eye />
+                      </MessageVideoPreviewAction>
+                    </MessageVideoPreviewFrame>
+                  </MessageVideoPreview>
+                  <MessageVideoPreview optimistic>
+                    <MessageVideoPreviewFrame>
+                      <MessageVideoPreviewFallback>
+                        <Spinner size="lg" className="text-white" />
+                      </MessageVideoPreviewFallback>
+                    </MessageVideoPreviewFrame>
+                  </MessageVideoPreview>
+                  <MessageVideoPreview>
+                    <MessageVideoPreviewFrame>
+                      <MessageVideoPreviewFallback interactive>
+                        <div className="flex max-w-[16rem] flex-col items-center gap-2 px-4 text-center text-xs font-bold">
+                          <AlertTriangle size={24} />
+                          <span>This video may use a codec this browser cannot preview.</span>
+                          <span className="inline-flex items-center gap-1 text-white/75">
+                            <Download size={13} />
+                            Download to view
+                          </span>
+                        </div>
+                      </MessageVideoPreviewFallback>
+                    </MessageVideoPreviewFrame>
+                  </MessageVideoPreview>
                 </div>
-                <MessageReactionPicker>
-                  {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-                    <MessageReactionQuickButton key={emoji} aria-label={`React with ${emoji}`}>
-                      <MessageReactionGlyph emoji={emoji} size={18} className="block" />
-                    </MessageReactionQuickButton>
-                  ))}
-                </MessageReactionPicker>
-              </div>
-            }
-          />
+              }
+            />
 
-          <MatrixSection label="Task status" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:35 AM"
-            body="Task status badges — every status, assignee, and the busy (updating) state."
-            footer={
-              <>
-                <TaskStatusBadge status="todo" taskNumber={10} assignee="Ada" />
-                <TaskStatusBadge status="in_progress" taskNumber={11} />
-                <TaskStatusBadge status="in_review" taskNumber={12} />
-                <TaskStatusBadge status="done" taskNumber={13} />
-                <TaskStatusBadge status="closed" taskNumber={15} />
-                <TaskStatusBadge status="in_progress" taskNumber={16} busy />
-              </>
-            }
-          />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:14 AM"
+              body="Attaching the supporting files for review."
+              attachments={
+                <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+                  <FileCard name="seed-pixel.png" meta="image/png · 1 KB" affordance={<Eye />} />
+                  <FileCard
+                    name="seed-notes.txt"
+                    meta="Text preview · 1 KB"
+                    summary={<span className="text-black/70">Plain text document</span>}
+                    affordance={<Eye />}
+                    commentCount={3}
+                  />
+                  <FileCard
+                    name="metrics.csv"
+                    meta="CSV preview · 2 KB"
+                    summary={<span className="text-black/70">Preview 12 rows · 4 columns</span>}
+                    affordance={<Eye />}
+                  />
+                  <FileCard
+                    name="spec.pdf"
+                    meta="PDF preview · 1.4 MB"
+                    summary={<span className="text-black/70">PDF document</span>}
+                    affordance={<Eye />}
+                  />
+                  <FileCard
+                    name="feature.diff"
+                    meta="patch · 3 KB"
+                    summary={
+                      <>
+                        <span className="text-black/70">3 files · 8 hunks</span>
+                        <span className="text-[#1f883d]">+124</span>
+                        <span className="text-[#cf222e]">-37</span>
+                      </>
+                    }
+                    affordance={<Download />}
+                  />
+                  <FileCard
+                    name="voice-note.m4a"
+                    meta="Audio preview · 512 KB"
+                    affordance={<Eye />}
+                    secondaryDownload
+                  />
+                  <FileCard name="report.html" meta="HTML preview · 6 KB" affordance={<Eye />} />
+                  <FileCard
+                    name="archive.zip"
+                    meta="application/zip · 4 MB"
+                    affordance={<Download />}
+                  />
+                  <FileCard name="uploading.png" meta="image/png · 1 KB" optimistic />
+                  <FileCard name="opening.pdf" meta="PDF preview · 1 MB" loading />
+                </div>
+              }
+            />
 
-          <MatrixSection label="Reply badges" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:40 AM"
-            body="Reply badges: plain, unread (cyan), draft-only, and replies + draft."
-            footer={
-              <>
-                <PlainRepliesBadge count={2} />
-                <PlainRepliesBadge count={1} unread={1} />
-                <DraftRepliesBadge />
-                <DraftRepliesBadge count={3} />
-              </>
-            }
-          />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Online agent."
+              status="online"
+              time="10:20 AM"
+              body="On it — pulling the token diff now."
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Thinking…"
+              status="thinking"
+              time="10:21 AM"
+              body="Let me reason about the contract shape before I touch the palette."
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Working…"
+              status="working"
+              time="10:23 AM"
+              body="Regenerating the palette and re-running the visual suite now."
+            />
+            <MessageRow
+              variant="agent"
+              sender="Deploy Bot"
+              meta="Error: daemon unreachable."
+              status="error"
+              time="10:24 AM"
+              body="Deploy webhook is failing — retries are queued."
+            />
+            <MessageRow
+              variant="agent"
+              sender="Nyx"
+              meta="Offline."
+              status="offline"
+              time="10:25 AM"
+              body="Note before I dropped off: the two snapshots still need rebaselining."
+            />
+            <MessageRow
+              variant="agent"
+              sender="Relay"
+              meta="External agent."
+              status="external"
+              time="10:26 AM"
+              body="Mirroring this thread from the ops server."
+            />
+            <MessageRow
+              variant="agent"
+              sender="Legacy Bot"
+              senderState="deleted"
+              deactivated
+              meta="Deactivated agent."
+              time="10:27 AM"
+              body="Old handoff note from the retired build agent."
+            />
+            <MessageRow
+              variant="member"
+              sender="Mx. Chen"
+              senderState="removed"
+              time="10:28 AM"
+              body="Looping in the on-call rotation before the next window."
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:29 AM"
+              saved
+              body="Pinned this one for later — persistent bookmark at rest, saved in the toolbar."
+            />
 
-          <MatrixSection label="Row states" />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:45 AM"
-            rowState="search-match"
-            body="Highlighted / anchored row (jump, thread-focus, search): cyan fill + brutal shadow."
-          />
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="10:46 AM"
-            rowState="active"
-            body="Active row (context-menu open / open-thread parent): bordered white."
-          />
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="10:30 AM"
+              body="Nice, the new palette looks great."
+              footer={
+                <>
+                  <ReactionPill emoji="👀" count={2} />
+                  <ReactionPill emoji="👍" count={5} reacted />
+                  <ReactionPill emoji="🔥" count={1} failed />
+                </>
+              }
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:31 AM"
+              body="Shipping this today — hover the reaction to see who reacted."
+              footer={<ReactionPillWithReactors emoji="👍" count={7} reacted />}
+            />
 
-          <MatrixSection label="System events" />
-          <SystemMessageItem>
-            <SystemMessageItemTime>10:50 AM</SystemMessageItemTime>
-            <SystemMessageItemContent>
-              Atlas restarted on the primary machine.
-            </SystemMessageItemContent>
-          </SystemMessageItem>
-          <SystemGroupDisclosure />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:35 AM"
+              body="Check default seed member permissions."
+              footer={<TaskStatusBadge status="todo" taskNumber={10} assignee="Ada" />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="10:36 AM"
+              body="Verifying the RustFS attachment previews."
+              footer={<TaskStatusBadge status="in_progress" taskNumber={11} />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:37 AM"
+              body="Thread reminder wake regression is up for review."
+              footer={<TaskStatusBadge status="in_review" taskNumber={12} />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="10:38 AM"
+              body="Archived-channel smoke check passed."
+              footer={<TaskStatusBadge status="done" taskNumber={13} />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:39 AM"
+              body="Closing the duplicate migration ticket."
+              footer={<TaskStatusBadge status="closed" taskNumber={15} />}
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="working"
+              time="10:40 AM"
+              body="Updating the status on this one now."
+              footer={<TaskStatusBadge status="in_progress" taskNumber={16} busy />}
+            />
 
-          <MatrixSection label="Interactions (right-click, select, react)" />
-          <InteractiveDemo />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:42 AM"
+              body="Wrote up the rollback plan in the thread."
+              footer={<PlainRepliesBadge count={2} />}
+            />
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="10:43 AM"
+              body="Posted the regression breakdown — new replies since you last looked."
+              footer={<PlainRepliesBadge count={1} unread={1} />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Ada"
+              meta="member"
+              time="10:44 AM"
+              body="Half-written reply saved as a draft on this thread."
+              footer={<DraftRepliesBadge />}
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:45 AM"
+              body="Thread has replies and a draft of mine still pending."
+              footer={<DraftRepliesBadge count={3} />}
+            />
 
-          <div className="pb-3" aria-hidden />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:46 AM"
+              rowState="search-match"
+              body="Jumped-to / thread-focus / search anchor: cyan fill + brutal shadow."
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="10:47 AM"
+              rowState="active"
+              body="Active row (context-menu open / open-thread parent): bordered white."
+            />
+
+            <SystemMessageItem>
+              <SystemMessageItemTime>10:50 AM</SystemMessageItemTime>
+              <SystemMessageItemContent>
+                Atlas restarted on the primary machine.
+              </SystemMessageItemContent>
+            </SystemMessageItem>
+            <SystemGroupDisclosure />
+
+            <MessageRow
+              variant="agent"
+              sender="Atlas"
+              meta="Design-system agent on the primary online machine."
+              status="online"
+              time="11:00 AM"
+              selectId="im-saved"
+              saved
+              followed
+              task="open"
+              body="Right-click this saved + followed row — its menu shows Remove / Unfollow / Mark as Done."
+            />
+            <MessageRow
+              variant="member"
+              sender="Developer"
+              meta="member"
+              time="11:02 AM"
+              selectId="im-done"
+              task="done"
+              body="This row's task is already done, so its menu offers Reopen Task. Right-click any message for the full menu."
+            />
+
+            <div className="pb-3" aria-hidden />
+          </SelectableMessageList>
         </ChatMainPanelMessageList>
       </ChatMainPanelTimeline>
       <ChatMainPanelJumpToLatest>
@@ -2279,6 +2291,11 @@ function TabPlaceholder({
   );
 }
 
+// Shared message row. Every row self-owns its right-click context menu and the
+// floating reaction picker opened from the hover-toolbar react button (source:
+// onContextMenu + openReactionPicker both live on the row), so the menu fires on
+// any message. Select mode + the "Select Message" action come from the optional
+// MessageListContext when a list provides one.
 function MessageRow({
   variant = "agent",
   sender,
@@ -2294,13 +2311,10 @@ function MessageRow({
   status,
   deactivated,
   saved,
-  reactionActive,
+  followed,
+  task = "none",
   rowState,
-  selectMode,
-  selected,
-  onToggleSelect,
-  onOpenMenu,
-  onReact,
+  selectId,
 }: {
   variant?: RowVariant;
   sender?: string;
@@ -2316,27 +2330,38 @@ function MessageRow({
   status?: AgentStatus;
   deactivated?: boolean;
   saved?: boolean;
-  reactionActive?: boolean;
+  followed?: boolean;
+  task?: MessageTask;
   rowState?: MessageItemRowState;
-  selectMode?: boolean;
-  selected?: boolean;
-  onToggleSelect?: () => void;
-  onOpenMenu?: (event: { clientX: number; clientY: number }) => void;
-  onReact?: (anchor: HTMLElement) => void;
+  selectId?: string;
 }) {
+  const list = useContext(MessageListContext);
+  const selectMode = list?.selectMode ?? false;
+  const selected = selectId ? (list?.selected.has(selectId) ?? false) : false;
+  const [menu, setMenu] = useState<PointPos | null>(null);
+  const [picker, setPicker] = useState<PointPos | null>(null);
+
   const effectiveRowState = selectMode ? "select" : rowState;
+
+  const openPicker = (anchor: HTMLElement) => {
+    const rect = anchor.getBoundingClientRect();
+    setMenu(null);
+    setPicker({ x: rect.left, y: rect.bottom + 6 });
+  };
+
   return (
     <div className="px-3">
       <MessageItem
         compact={compact}
         rowState={effectiveRowState}
         onContextMenu={
-          onOpenMenu
-            ? (event) => {
+          selectMode
+            ? undefined
+            : (event) => {
                 event.preventDefault();
-                onOpenMenu({ clientX: event.clientX, clientY: event.clientY });
+                setPicker(null);
+                setMenu({ x: event.clientX, y: event.clientY });
               }
-            : undefined
         }
         className="[[data-preview-theme=brutal]_&]:transition-none"
       >
@@ -2347,7 +2372,7 @@ function MessageRow({
             aria-checked={selected}
             aria-label="Select message"
             tabIndex={0}
-            onClick={onToggleSelect}
+            onClick={() => (selectId ? list?.toggleSelect(selectId) : undefined)}
             className="cursor-pointer text-transparent"
           />
         ) : null}
@@ -2397,8 +2422,19 @@ function MessageRow({
             <Bookmark fill="currentColor" />
           </MessageItemSavedIndicator>
         ) : null}
-        <RowToolbar saved={saved} reactionActive={reactionActive} onReact={onReact} />
+        <RowToolbar saved={saved} reactionActive={!!picker} onReact={openPicker} />
       </MessageItem>
+      {menu ? (
+        <MessageContextMenu
+          pos={menu}
+          saved={saved}
+          followed={followed}
+          task={task}
+          onClose={() => setMenu(null)}
+          onSelectMessage={selectId && list ? () => list.enterSelect(selectId) : undefined}
+        />
+      ) : null}
+      {picker ? <ReactionPickerPopover pos={picker} onClose={() => setPicker(null)} /> : null}
     </div>
   );
 }
