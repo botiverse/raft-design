@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -126,17 +126,17 @@ const PALETTE_VALUES = {
     "950": "oklch(0.187 0.003 67.68)",
   },
   cream: {
-    "50": "oklch(1 0 0)",
+    "50": "oklch(0.995 0.006 87.5)",
     "100": "oklch(0.991 0.01 87.41)",
     "200": "oklch(0.986 0.015 86.39)",
-    "300": "oklch(0.878 0.18 95.13)",
-    "400": "oklch(0.777 0.16 95.27)",
-    "500": "oklch(0.663 0.136 95.2)",
-    "600": "oklch(0.561 0.115 95.02)",
-    "700": "oklch(0.457 0.094 95.72)",
-    "800": "oklch(0.352 0.072 94.83)",
-    "900": "oklch(0.242 0.05 95.07)",
-    "950": "oklch(0.189 0.039 94.73)",
+    "300": "oklch(0.946 0.041 88)",
+    "400": "oklch(0.871 0.09 91)",
+    "500": "oklch(0.766 0.158 95.1)",
+    "600": "oklch(0.646 0.133 95)",
+    "700": "oklch(0.521 0.107 95.2)",
+    "800": "oklch(0.396 0.082 95)",
+    "900": "oklch(0.276 0.057 95.1)",
+    "950": "oklch(0.19 0.039 94.7)",
   },
 } as const satisfies Record<string, Record<Shade, string>>;
 
@@ -338,13 +338,6 @@ const THEME_CONTEXTS = [
   },
 ] as const;
 
-export type TokenTheme = "brutal" | "elegant";
-
-const THEME_LABELS = {
-  brutal: "Brutal",
-  elegant: "Elegant",
-} as const satisfies Record<TokenTheme, string>;
-
 const THEME_TOKEN_GROUPS = [
   {
     label: "Layer",
@@ -414,26 +407,16 @@ const THEME_TOKEN_GROUPS = [
 ] as const;
 
 export const Route = createFileRoute("/tokens/colors")({
-  beforeLoad: ({ location }) => {
-    if (location.pathname === "/tokens/colors") {
-      throw redirect({ to: "/tokens/colors/brutal" });
-    }
-  },
-  component: TokenOutlet,
+  component: ColorsDoc,
 });
 
-function TokenOutlet() {
-  return <Outlet />;
-}
-
-export function ColorsDoc({ theme }: { theme: TokenTheme }) {
-  const contexts = getThemeContexts(theme);
-  const title = `${THEME_LABELS[theme]} colors`;
+function ColorsDoc() {
+  const contexts = getThemeContexts();
 
   return (
-    <TokenThemeScope theme={theme}>
+    <TokenThemeScope>
       <DocPage
-        title={title}
+        title="Colors"
         description="Core color scales, semantic aliases, state tones, and theme-aware surface tokens."
         articleClassName="max-w-none xl:max-w-6xl 2xl:max-w-7xl"
         toc={TOC}
@@ -474,10 +457,9 @@ export function ColorsDoc({ theme }: { theme: TokenTheme }) {
   );
 }
 
-function TokenThemeScope({ theme, children }: { theme: TokenTheme; children: ReactNode }) {
+function TokenThemeScope({ children }: { children: ReactNode }) {
   return (
     <div
-      data-token-theme-scope={theme}
       data-theme="elegant"
       className="light min-h-screen"
       style={{
@@ -491,8 +473,8 @@ function TokenThemeScope({ theme, children }: { theme: TokenTheme; children: Rea
   );
 }
 
-function getThemeContexts(theme: TokenTheme) {
-  return THEME_CONTEXTS.filter((context) => context.theme === theme && context.mode !== "dark");
+function getThemeContexts() {
+  return THEME_CONTEXTS.filter((context) => context.mode !== "dark");
 }
 
 function PaletteSection({ palette }: { palette: (typeof PALETTES)[number] }) {

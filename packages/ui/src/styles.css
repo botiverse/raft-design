@@ -233,17 +233,17 @@
   --color-brutal-stone-950: oklch(0.187 0.003 67.68);
   --color-brutal-stone: var(--color-brutal-stone-400);
 
-  --color-brutal-cream-50: oklch(1 0 0);
+  --color-brutal-cream-50: oklch(0.995 0.006 87.5);
   --color-brutal-cream-100: oklch(0.991 0.01 87.41);
   --color-brutal-cream-200: oklch(0.986 0.015 86.39);
-  --color-brutal-cream-300: oklch(0.878 0.18 95.13);
-  --color-brutal-cream-400: oklch(0.777 0.16 95.27);
-  --color-brutal-cream-500: oklch(0.663 0.136 95.2);
-  --color-brutal-cream-600: oklch(0.561 0.115 95.02);
-  --color-brutal-cream-700: oklch(0.457 0.094 95.72);
-  --color-brutal-cream-800: oklch(0.352 0.072 94.83);
-  --color-brutal-cream-900: oklch(0.242 0.05 95.07);
-  --color-brutal-cream-950: oklch(0.189 0.039 94.73);
+  --color-brutal-cream-300: oklch(0.946 0.041 88);
+  --color-brutal-cream-400: oklch(0.871 0.09 91);
+  --color-brutal-cream-500: oklch(0.766 0.158 95.1);
+  --color-brutal-cream-600: oklch(0.646 0.133 95);
+  --color-brutal-cream-700: oklch(0.521 0.107 95.2);
+  --color-brutal-cream-800: oklch(0.396 0.082 95);
+  --color-brutal-cream-900: oklch(0.276 0.057 95.1);
+  --color-brutal-cream-950: oklch(0.19 0.039 94.7);
   --color-brutal-cream: var(--color-brutal-cream-200);
 
   --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);

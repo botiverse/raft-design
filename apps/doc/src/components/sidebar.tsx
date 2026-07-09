@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Badge } from "raft-ui";
+import { Badge, Separator } from "raft-ui";
 import { Globe2 } from "lucide-react";
 
 const SKILLS = {
@@ -8,32 +8,27 @@ const SKILLS = {
   items: [{ label: "new-component.md", to: "/skills/new-component" }],
 } as const;
 
-const TOKENS = {
-  title: "Tokens",
-  items: [
-    {
-      label: "Colors",
-      children: [
-        { label: "Brutal", to: "/tokens/colors/brutal" },
-        { label: "Elegant", to: "/tokens/colors/elegant" },
-      ],
-    },
-    {
-      label: "Typography",
-      children: [
-        { label: "Brutal", to: "/tokens/typography/brutal" },
-        { label: "Elegant", to: "/tokens/typography/elegant" },
-      ],
-    },
-    {
-      label: "Shadows",
-      children: [
-        { label: "Brutal", to: "/tokens/shadows/brutal" },
-        { label: "Elegant", to: "/tokens/shadows/elegant" },
-      ],
-    },
-  ],
-} as const;
+const TOKENS = [
+  {
+    title: "Colors",
+    to: "/tokens/colors",
+    items: [] as const,
+  },
+  {
+    title: "Typography",
+    items: [
+      { label: "Brutal", to: "/tokens/typography/brutal" },
+      { label: "Elegant", to: "/tokens/typography/elegant" },
+    ],
+  },
+  {
+    title: "Shadows",
+    items: [
+      { label: "Brutal", to: "/tokens/shadows/brutal" },
+      { label: "Elegant", to: "/tokens/shadows/elegant" },
+    ],
+  },
+] as const;
 
 const NAV = [
   {
@@ -324,7 +319,7 @@ const statusMeta = {
   skipped: { label: "Skipped", short: "Skip", variant: "muted" },
 } satisfies Record<NavStatus, { label: string; short: string; variant: BadgeVariant }>;
 
-const sectionTitleClassName = "mb-2.5 text-[13px] font-medium text-foreground-strong";
+const sectionTitleClassName = "mb-2.5 pl-[8px] text-[13px] font-medium text-foreground-strong";
 const sidebarItemFocusClassName =
   "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
 const sidebarItemActiveClassName = "bg-layer-muted text-foreground-strong";
@@ -413,26 +408,59 @@ function StatusBadge({ status }: { status?: NavStatus }) {
   );
 }
 
-function NavGroup({ title, items }: { title?: string; items: readonly NavItem[] }) {
+function NavGroup({
+  title,
+  to,
+  items,
+}: {
+  title?: string;
+  to?: string;
+  items: readonly NavItem[];
+}) {
+  const titleClassName =
+    items.length > 0
+      ? sectionTitleClassName
+      : "pl-[8px] text-[13px] font-medium text-foreground-strong";
+
   return (
     <div>
-      {title ? <p className={sectionTitleClassName}>{title}</p> : null}
-      <ul className="space-y-1">
-        {items.map((item) => (
-          <li key={item.label}>
-            <NavRow item={item} badge={<StatusBadge status={item.status} />} />
-            {item.children ? (
-              <ul className="mt-1 space-y-1 pl-3">
-                {item.children.map((child) => (
-                  <li key={child.label}>
-                    <NavRow item={child} depth={1} badge={<StatusBadge status={child.status} />} />
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </li>
-        ))}
-      </ul>
+      {title ? (
+        to ? (
+          <Link
+            to={to}
+            activeOptions={sidebarPathActiveOptions}
+            activeProps={sidebarItemActiveProps}
+            inactiveProps={{ className: "text-foreground-strong" }}
+            className={`${titleClassName} ${sidebarItemFocusClassName} block rounded-md`}
+          >
+            {title}
+          </Link>
+        ) : (
+          <p className={titleClassName}>{title}</p>
+        )
+      ) : null}
+      {items.length > 0 ? (
+        <ul className="space-y-1">
+          {items.map((item) => (
+            <li key={item.label}>
+              <NavRow item={item} badge={<StatusBadge status={item.status} />} />
+              {item.children ? (
+                <ul className="mt-1 space-y-1">
+                  {item.children.map((child) => (
+                    <li key={child.label}>
+                      <NavRow
+                        item={child}
+                        depth={1}
+                        badge={<StatusBadge status={child.status} />}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }
@@ -461,9 +489,11 @@ export function Sidebar() {
 
         <NavGroup title={SKILLS.title} items={SKILLS.items} />
 
-        {TOKENS.items.map((group) => (
-          <NavGroup key={group.label} title={group.label} items={group.children} />
+        {TOKENS.map((group) => (
+          <NavGroup key={group.title} {...group} />
         ))}
+
+        <Separator className="h-0 bg-transparent border-t border-dashed border-line-muted data-[orientation=horizontal]:w-[65%]" />
 
         {NAV.map((group) => (
           <NavGroup {...group} key={group.title} />

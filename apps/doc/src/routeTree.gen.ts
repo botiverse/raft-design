@@ -85,8 +85,6 @@ import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typ
 import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
 import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
 import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
-import { Route as TokensColorsElegantRouteImport } from './routes/tokens/colors/elegant'
-import { Route as TokensColorsBrutalRouteImport } from './routes/tokens/colors/brutal'
 import { Route as ComponentsTextareaMatrixRouteImport } from './routes/components/textarea_.matrix'
 import { Route as ComponentsTabsMatrixRouteImport } from './routes/components/tabs_.matrix'
 import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
@@ -489,16 +487,6 @@ const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
   path: '/brutal',
   getParentRoute: () => TokensShadowsRoute,
 } as any)
-const TokensColorsElegantRoute = TokensColorsElegantRouteImport.update({
-  id: '/elegant',
-  path: '/elegant',
-  getParentRoute: () => TokensColorsRoute,
-} as any)
-const TokensColorsBrutalRoute = TokensColorsBrutalRouteImport.update({
-  id: '/brutal',
-  path: '/brutal',
-  getParentRoute: () => TokensColorsRoute,
-} as any)
 const ComponentsTextareaMatrixRoute =
   ComponentsTextareaMatrixRouteImport.update({
     id: '/textarea_/matrix',
@@ -637,7 +625,7 @@ export interface FileRoutesByFullPath {
   '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
-  '/tokens/colors': typeof TokensColorsRouteWithChildren
+  '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
@@ -655,8 +643,6 @@ export interface FileRoutesByFullPath {
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
-  '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
-  '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
@@ -728,7 +714,7 @@ export interface FileRoutesByTo {
   '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
-  '/tokens/colors': typeof TokensColorsRouteWithChildren
+  '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration': typeof MigrationIndexRoute
@@ -746,8 +732,6 @@ export interface FileRoutesByTo {
   '/components/status/matrix': typeof ComponentsStatusMatrixRoute
   '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
-  '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
-  '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
@@ -822,7 +806,7 @@ export interface FileRoutesById {
   '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
-  '/tokens/colors': typeof TokensColorsRouteWithChildren
+  '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
@@ -840,8 +824,6 @@ export interface FileRoutesById {
   '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
   '/components/tabs_/matrix': typeof ComponentsTabsMatrixRoute
   '/components/textarea_/matrix': typeof ComponentsTextareaMatrixRoute
-  '/tokens/colors/brutal': typeof TokensColorsBrutalRoute
-  '/tokens/colors/elegant': typeof TokensColorsElegantRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
@@ -935,8 +917,6 @@ export interface FileRouteTypes {
     | '/components/status/matrix'
     | '/components/tabs/matrix'
     | '/components/textarea/matrix'
-    | '/tokens/colors/brutal'
-    | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
@@ -1026,8 +1006,6 @@ export interface FileRouteTypes {
     | '/components/status/matrix'
     | '/components/tabs/matrix'
     | '/components/textarea/matrix'
-    | '/tokens/colors/brutal'
-    | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
@@ -1119,8 +1097,6 @@ export interface FileRouteTypes {
     | '/components/status_/matrix'
     | '/components/tabs_/matrix'
     | '/components/textarea_/matrix'
-    | '/tokens/colors/brutal'
-    | '/tokens/colors/elegant'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
@@ -1136,7 +1112,7 @@ export interface RootRouteChildren {
   PreviewsBottomSheetRoute: typeof PreviewsBottomSheetRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
-  TokensColorsRoute: typeof TokensColorsRouteWithChildren
+  TokensColorsRoute: typeof TokensColorsRoute
   TokensShadowsRoute: typeof TokensShadowsRouteWithChildren
   TokensTypographyRoute: typeof TokensTypographyRouteWithChildren
 }
@@ -1675,20 +1651,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TokensShadowsBrutalRouteImport
       parentRoute: typeof TokensShadowsRoute
     }
-    '/tokens/colors/elegant': {
-      id: '/tokens/colors/elegant'
-      path: '/elegant'
-      fullPath: '/tokens/colors/elegant'
-      preLoaderRoute: typeof TokensColorsElegantRouteImport
-      parentRoute: typeof TokensColorsRoute
-    }
-    '/tokens/colors/brutal': {
-      id: '/tokens/colors/brutal'
-      path: '/brutal'
-      fullPath: '/tokens/colors/brutal'
-      preLoaderRoute: typeof TokensColorsBrutalRouteImport
-      parentRoute: typeof TokensColorsRoute
-    }
     '/components/textarea_/matrix': {
       id: '/components/textarea_/matrix'
       path: '/textarea/matrix'
@@ -1962,20 +1924,6 @@ const PlaygroundRouteWithChildren = PlaygroundRoute._addFileChildren(
   PlaygroundRouteChildren,
 )
 
-interface TokensColorsRouteChildren {
-  TokensColorsBrutalRoute: typeof TokensColorsBrutalRoute
-  TokensColorsElegantRoute: typeof TokensColorsElegantRoute
-}
-
-const TokensColorsRouteChildren: TokensColorsRouteChildren = {
-  TokensColorsBrutalRoute: TokensColorsBrutalRoute,
-  TokensColorsElegantRoute: TokensColorsElegantRoute,
-}
-
-const TokensColorsRouteWithChildren = TokensColorsRoute._addFileChildren(
-  TokensColorsRouteChildren,
-)
-
 interface TokensShadowsRouteChildren {
   TokensShadowsBrutalRoute: typeof TokensShadowsBrutalRoute
   TokensShadowsElegantRoute: typeof TokensShadowsElegantRoute
@@ -2012,7 +1960,7 @@ const rootRouteChildren: RootRouteChildren = {
   PreviewsBottomSheetRoute: PreviewsBottomSheetRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
-  TokensColorsRoute: TokensColorsRouteWithChildren,
+  TokensColorsRoute: TokensColorsRoute,
   TokensShadowsRoute: TokensShadowsRouteWithChildren,
   TokensTypographyRoute: TokensTypographyRouteWithChildren,
 }
