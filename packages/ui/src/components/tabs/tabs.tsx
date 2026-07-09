@@ -2,6 +2,7 @@ import {
   createContext,
   use,
   useCallback,
+  useId,
   useMemo,
   useState,
   type ComponentPropsWithRef,
@@ -242,6 +243,9 @@ export function SortableTabsList<T extends string = string>({
   ...props
 }: SortableTabsListProps<T>) {
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
+  // Stable id keeps dnd-kit's aria-describedby deterministic across SSR/client
+  // (its internal counter-based id otherwise mismatches and breaks hydration).
+  const dndContextId = useId();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
@@ -271,6 +275,7 @@ export function SortableTabsList<T extends string = string>({
 
   return (
     <DndContext
+      id={dndContextId}
       autoScroll={false}
       sensors={sensors}
       collisionDetection={closestCenter}
