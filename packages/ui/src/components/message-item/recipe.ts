@@ -32,7 +32,13 @@ export const messageItem = tv({
       "text-xs font-bold text-foreground/70",
     ],
     attachments: ["mt-1 space-y-2"],
-    footer: ["message-footer-metadata mt-1.5 flex flex-wrap items-center gap-1.5"],
+    footer: [
+      "mt-1.5 flex flex-wrap items-center gap-1.5",
+      "[[data-slot=app-shell-root]_&_[data-slot=badge].inline-flex.h-5]:![border-color:var(--sidebar-chrome-bg-color)]",
+      "[[data-slot=app-shell-root]_&_[data-slot=badge].inline-flex.h-5]:[letter-spacing:-0.025em]",
+      "[[data-slot=app-shell-root]_&_.inline-flex.h-5]:![border-color:var(--sidebar-chrome-bg-color)]",
+      "[[data-slot=app-shell-root]_&_.inline-flex.h-5]:[letter-spacing:-0.025em]",
+    ],
     toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",

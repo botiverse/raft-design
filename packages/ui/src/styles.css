@@ -8,20 +8,6 @@
   animation-timing-function: var(--ease-sheet);
 }
 
-[data-slot="app-shell-root"] [class*="tracking-[0.22px]"].inline-flex.h-5 {
-  letter-spacing: 0.11px;
-}
-
-[data-slot="app-shell-root"] .inline-flex.h-5.uppercase[class*="tracking-wide"] {
-  letter-spacing: 0;
-}
-
-[data-slot="app-shell-root"] .message-footer-metadata [data-slot="badge"].inline-flex.h-5,
-[data-slot="app-shell-root"] .message-footer-metadata .inline-flex.h-5 {
-  border-color: var(--sidebar-chrome-bg-color) !important;
-  letter-spacing: -0.025em;
-}
-
 [data-message-chrome="legacy"] [data-slot="chat-main-panel-surface"] {
   margin-left: 0;
   overflow: hidden;
