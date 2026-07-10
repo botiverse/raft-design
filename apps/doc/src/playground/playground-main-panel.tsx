@@ -7,7 +7,7 @@ import {
   type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   AlertTriangle,
   ArrowDown,
@@ -1264,22 +1264,25 @@ function SelectModeToolbar({ count, onCancel }: { count: number; onCancel: () =>
 // at MessageItem.tsx:4355-4526): quick-reaction row on top, then Copy Link / Copy
 // Markdown / Select Message | Open Thread | Save/Remove | Follow/Unfollow | task
 // action, split by dividers. Rendered as the DS ContextMenu content (Base UI),
-// opened from each row's ContextMenuTrigger at the cursor. Every action is inert
-// (auto-closes) except Select Message, which enters the list's select mode when
-// one is provided. `onQuickReact` closes the controlled menu after a quick
-// reaction (those buttons are not menu items, so they do not auto-close).
+// opened from each row's ContextMenuTrigger at the cursor. Most actions are inert
+// (auto-closes). Select Message enters list select mode when provided; Open Thread
+// navigates when the row has a playground thread. `onQuickReact` closes the
+// controlled menu after a quick reaction (those buttons are not menu items, so
+// they do not auto-close).
 function MessageContextMenuContent({
   saved,
   followed,
   task,
   onQuickReact,
   onSelectMessage,
+  onOpenThread,
 }: {
   saved?: boolean;
   followed?: boolean;
   task: MessageTask;
   onQuickReact: () => void;
   onSelectMessage?: () => void;
+  onOpenThread?: () => void;
 }) {
   const taskAction =
     task === "done"
@@ -1324,7 +1327,7 @@ function MessageContextMenuContent({
         Select Message
       </ContextMenuItem>
       <ContextMenuSeparator />
-      <ContextMenuItem>
+      <ContextMenuItem disabled={!onOpenThread} onClick={onOpenThread}>
         <MessageSquare size={14} />
         Open Thread
       </ContextMenuItem>
@@ -2112,8 +2115,21 @@ function MessageRow({
   const selected = selection?.selected.has(rowSelectId) ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
   const [reactionOpen, setReactionOpen] = useState(false);
+  const navigate = useNavigate();
+  const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
 
   const effectiveRowState = selectMode ? "select" : rowState;
+
+  const openThread =
+    threadId && threadContext
+      ? () => {
+          void navigate({
+            to: "/playground/$channelId",
+            params: { channelId: threadContext.channelId },
+            search: { thread: threadId },
+          });
+        }
+      : undefined;
 
   const messageItem = (
     <MessageItem
@@ -2198,6 +2214,7 @@ function MessageRow({
           task={task}
           onQuickReact={() => setMenuOpen(false)}
           onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
+          onOpenThread={openThread}
         />
       </ContextMenu>
     </div>
@@ -2276,6 +2293,7 @@ function RepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
   return (
     <MessageItemBadge
       tone="default"
+      className="cursor-pointer"
       render={
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
       }
@@ -2296,6 +2314,7 @@ function UnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
   return (
     <MessageItemBadge
       tone="cyan"
+      className="cursor-pointer"
       render={
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
       }

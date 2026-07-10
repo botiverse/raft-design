@@ -98,7 +98,7 @@ function PlaygroundLayout() {
                   groupResizeBehavior="preserve-pixel-size"
                   className="min-w-0"
                 >
-                  <AppShellPanelStack className="flex h-full w-full lg:flex">
+                  <AppShellPanelStack className="flex h-full w-full">
                     <AppPanelStackRoot className="w-full">
                       <AppPanelStackItem className="w-full">
                         <AppPanelStackContent>
