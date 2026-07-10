@@ -174,8 +174,7 @@ export const chatSidebar = tv({
         sidebarItemIndicator: [
           "pointer-events-none absolute top-1/2 right-[calc(100%+8px)] -translate-y-1/2",
         ],
-        sidebarItemMention:
-          "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
+        sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",
         sidebarItemMuted: "text-foreground-muted/68",
         sidebarItemDraft: "text-foreground-muted/68",
         sidebarItemBadge: [
