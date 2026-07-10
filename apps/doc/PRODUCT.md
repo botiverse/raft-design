@@ -1,0 +1,43 @@
+# Product
+
+## Register
+
+product
+
+## Users
+
+The raft-ui documentation app is used by Raft product engineers who are building, migrating, and reviewing React interfaces. They need to compare source behavior, understand stable and WIP component contracts, and verify realistic composed states before adopting a component.
+
+## Product Purpose
+
+The app documents raft-ui and provides source comparisons, component examples, and an interactive product playground for the shared Brutal and Elegant theme families. Success means engineers can understand component behavior and composition without reconstructing product context from isolated primitives.
+
+## Brand Personality
+
+source-faithful / precise / adaptable
+
+The documentation should feel like a trustworthy product-engineering tool: direct, dense enough for expert use, and visibly aligned with the interfaces the library ships.
+
+## Anti-references
+
+- Showcase pages that flatten realistic product states into decorative component galleries.
+- Examples that only work in Elegant and leave Brutal source parity as an afterthought.
+- Invented wrapper abstractions or mock states that drift from the source application.
+- Decorative AI-flavored UI, marketing flourishes, or oversized gestures inside product examples.
+- Documentation that promotes unfinished components beyond the WIP boundary.
+
+## Design Principles
+
+Show real composition. Examples should demonstrate components inside credible product structures and state combinations.
+
+Preserve source meaning. Brutal examples should retain the interaction and information hierarchy of the source application.
+
+Keep one state model. Navigation, routes, panels, and fixtures should resolve from shared canonical records.
+
+Make theme differences explicit. Brutal and Elegant should share component semantics without hiding their distinct visual treatment.
+
+Prefer inspectable evidence. Source comparisons, code paths, and focused examples should make migration decisions easy to verify.
+
+## Accessibility & Inclusion
+
+Examples and interactive playground surfaces should target WCAG AA. Controls need keyboard support, visible focus states, accessible names, disabled and loading semantics, and predictable screen-reader behavior. Motion should remain purposeful and respect reduced-motion preferences, while every theme preserves usable contrast across interactive and semantic states.

@@ -81,6 +81,7 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_INVITABLE_ACTORS,
   PLAYGROUND_JOINT_CHANNELS,
+  PLAYGROUND_PINNED_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
   getPlaygroundDmActor,
   type PlaygroundChannelId,
@@ -199,6 +200,24 @@ function DirectMessageRowContent({
     </>
   );
 }
+
+function PinnedRowContent({
+  row,
+  hideBadge,
+}: {
+  row: PlaygroundRoomChannel | PlaygroundDirectMessage;
+  hideBadge?: boolean;
+}) {
+  return row.kind === "dm" ? (
+    <DirectMessageRowContent row={row} hideBadge={hideBadge} />
+  ) : (
+    <ChannelRowContent row={row} hideBadge={hideBadge} />
+  );
+}
+
+const unpinnedJointChannels = PLAYGROUND_JOINT_CHANNELS.filter((row) => !row.sidebar.pinned);
+const unpinnedRoomChannels = PLAYGROUND_ROOM_CHANNELS.filter((row) => !row.sidebar.pinned);
+const unpinnedDirectMessages = PLAYGROUND_DIRECT_MESSAGES.filter((row) => !row.sidebar.pinned);
 
 // Channels `+` add menu — source `renderChannelActionMenu`.
 function SidebarAddMenu({
@@ -448,18 +467,49 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                 </ChatSidebarSectionHeader>
               </ChatSidebarSection>
 
+              {PLAYGROUND_PINNED_CHANNELS.length > 0 ? (
+                <ChatSidebarSection>
+                  <ChatSidebarSectionHeader>
+                    <ChatSidebarSectionButton type="button" data-panel-open>
+                      <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
+                      <ChevronRight className="size-3" />
+                      <ChatSidebarSectionCount>
+                        {PLAYGROUND_PINNED_CHANNELS.length}
+                      </ChatSidebarSectionCount>
+                    </ChatSidebarSectionButton>
+                  </ChatSidebarSectionHeader>
+                  <ChatSidebarList>
+                    {PLAYGROUND_PINNED_CHANNELS.map((row) => (
+                      <ChatSidebarItem
+                        key={row.id}
+                        selected={activeChannelId === row.id}
+                        render={
+                          <Link
+                            to="/playground/$channelId"
+                            params={{ channelId: row.id }}
+                            search={{}}
+                          />
+                        }
+                      >
+                        <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
+                      </ChatSidebarItem>
+                    ))}
+                  </ChatSidebarList>
+                </ChatSidebarSection>
+              ) : null}
+
               <ChatSidebarSection>
                 <ChatSidebarSectionHeader>
                   <ChatSidebarSectionButton type="button" data-panel-open>
                     <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
                     <ChatSidebarSectionCount>
-                      {PLAYGROUND_JOINT_CHANNELS.length}
+                      {unpinnedJointChannels.length}
                     </ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
-                  {PLAYGROUND_JOINT_CHANNELS.map((row) => (
+                  {unpinnedJointChannels.map((row) => (
                     <ChatSidebarItem
                       key={row.id}
                       selected={activeChannelId === row.id}
@@ -482,13 +532,11 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                   <ChatSidebarSectionButton type="button" data-panel-open>
                     <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>
-                      {PLAYGROUND_ROOM_CHANNELS.length}
-                    </ChatSidebarSectionCount>
+                    <ChatSidebarSectionCount>{unpinnedRoomChannels.length}</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
-                  {PLAYGROUND_ROOM_CHANNELS.map((row) => (
+                  {unpinnedRoomChannels.map((row) => (
                     <ChatSidebarItem
                       key={row.id}
                       selected={activeChannelId === row.id}
@@ -512,12 +560,12 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                     <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
                     <ChatSidebarSectionCount>
-                      {PLAYGROUND_DIRECT_MESSAGES.length}
+                      {unpinnedDirectMessages.length}
                     </ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
-                  {PLAYGROUND_DIRECT_MESSAGES.map((row) => (
+                  {unpinnedDirectMessages.map((row) => (
                     <ChatSidebarItem
                       key={row.id}
                       selected={activeChannelId === row.id}

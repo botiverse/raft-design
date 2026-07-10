@@ -12,6 +12,7 @@ export type PlaygroundSidebarState = {
   mention?: boolean;
   draft?: boolean;
   messageIcon?: boolean;
+  pinned?: boolean;
 };
 
 export type PlaygroundMessage = {
@@ -333,7 +334,7 @@ export const PLAYGROUND_JOINT_CHANNELS = [
     topic: "the shared launch runbook and handoff owners",
     memberCount: 8,
     memberIds: ["avery", "atlas"],
-    sidebar: { badge: "3" },
+    sidebar: { badge: "3", pinned: true },
     opening:
       "Northstar confirmed the handoff window. I added the remaining owners to the shared runbook.",
     reply: "I checked the dependencies and flagged the two items that still need partner approval.",
@@ -428,7 +429,7 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     topic: "the next interaction-pattern review",
     memberCount: 11,
     memberIds: ["cindy", "mira"],
-    sidebar: { badge: "1" },
+    sidebar: { badge: "1", pinned: true },
     opening:
       "The sidebar states are aligned. I still want a pass on empty, muted, and unread combinations.",
     reply: "I prepared a coverage matrix and highlighted states without realistic content.",
@@ -589,7 +590,7 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
     otherActorId: "claudeAssistant",
     subtitle: "Planning on the primary online machine.",
     topic: "the source-parity fixture audit",
-    sidebar: { badge: "1", bold: true },
+    sidebar: { badge: "1", bold: true, pinned: true },
     opening: "The fixture audit is complete. Two component states drifted from source behavior.",
     reply: "Send me the exact files and I will re-sync them before the release cut.",
   }),
@@ -707,6 +708,10 @@ export const PLAYGROUND_CHANNELS = [
   ...PLAYGROUND_ROOM_CHANNELS,
   ...PLAYGROUND_DIRECT_MESSAGES,
 ] as const;
+
+export const PLAYGROUND_PINNED_CHANNELS = PLAYGROUND_CHANNELS.filter(
+  (channel) => channel.sidebar.pinned,
+);
 
 export type PlaygroundChannelId = (typeof PLAYGROUND_CHANNELS)[number]["id"];
 export type PlaygroundThreadId = PlaygroundMessageId;
