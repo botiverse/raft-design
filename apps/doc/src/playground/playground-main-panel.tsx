@@ -696,7 +696,7 @@ function ProjUiuxBody() {
             threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs}
             footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs} />}
           />
-          <MessageRow compact gutterTime="08:34 AM" body="Great work!" />
+          <MessageRow compact gutterTime="08:34" body="Great work!" />
 
           <MessageRow
             variant="member"
@@ -781,7 +781,7 @@ function ProjUiuxBody() {
           />
           <MessageRow
             compact
-            gutterTime="08:42 AM"
+            gutterTime="08:42"
             attachments={
               <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
                 <FileCard
@@ -868,7 +868,7 @@ function IncidentBody() {
             time="09:20 AM"
             body="Looking now. I'll re-enable the webhook once the incident is resolved."
           />
-          <MessageRow compact gutterTime="09:24 AM" body="Retries are draining, back to healthy." />
+          <MessageRow compact gutterTime="09:24" body="Retries are draining, back to healthy." />
 
           <div className="pb-3" aria-hidden />
         </ChatMainPanelMessageList>
@@ -1116,13 +1116,15 @@ function CodeBlockBody() {
 }
 
 // Non-navigating reply badge (plain or cyan-unread) for the state matrix.
+// Source ThreadRepliesBadge: one solid pill, MessageSquare + count, optional "· N new".
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
   return (
     <MessageItemBadge tone={unread ? "cyan" : "default"}>
+      <MessageSquare />
       {count === 1 ? "1 reply" : `${count} replies`}
       {unread ? (
         <>
-          <span aria-hidden className="size-0.5 rounded-full bg-current" />
+          <span className="text-black/45">·</span>
           <span>{unread} new</span>
         </>
       ) : null}
@@ -1137,6 +1139,7 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
     <>
       {count && !unread ? (
         <MessageItemBadge tone="default">
+          <MessageSquare />
           {count === 1 ? "1 reply" : `${count} replies`}
         </MessageItemBadge>
       ) : null}
@@ -2096,6 +2099,7 @@ function MessageRow({
   senderState?: string;
   inlineStatus?: string;
   compact?: boolean;
+  /** Continuation-row hover gutter clock — 24h `HH:MM`, no AM/PM (matches source `formatClock24`). */
   gutterTime?: string;
   status?: AgentStatus;
   deactivated?: boolean;
@@ -2476,12 +2480,13 @@ function RepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
       }
     >
-      {thread.replies.length} replies
+      <MessageSquare />
+      {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
     </MessageItemBadge>
   );
 }
 
-// Cyan reply badge highlighting unread replies.
+// Source ThreadRepliesBadge: one cyan-wash pill with reply count + "· N new".
 function UnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
   const { channelId, thread } = requirePlaygroundThread(threadId);
   if (!thread.unreadCount) {
@@ -2489,23 +2494,16 @@ function UnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
   }
 
   return (
-    <>
-      <MessageItemBadge
-        tone="default"
-        render={
-          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
-        }
-      >
-        {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
-      </MessageItemBadge>
-      <MessageItemBadge
-        tone="cyan"
-        render={
-          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
-        }
-      >
-        {thread.unreadCount} new
-      </MessageItemBadge>
-    </>
+    <MessageItemBadge
+      tone="cyan"
+      render={
+        <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
+      }
+    >
+      <MessageSquare />
+      {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
+      <span className="text-black/45">·</span>
+      <span>{thread.unreadCount} new</span>
+    </MessageItemBadge>
   );
 }

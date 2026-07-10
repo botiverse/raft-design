@@ -33,13 +33,7 @@ export const messageItem = tv({
       "text-xs font-bold text-foreground/70",
     ],
     attachments: ["mt-1 space-y-2"],
-    footer: [
-      "mt-1.5 flex flex-wrap items-center gap-1.5",
-      "[[data-slot=app-shell-root]_&_[data-slot=badge].inline-flex.h-5]:![border-color:var(--sidebar-chrome-bg-color)]",
-      "[[data-slot=app-shell-root]_&_[data-slot=badge].inline-flex.h-5]:[letter-spacing:-0.025em]",
-      "[[data-slot=app-shell-root]_&_.inline-flex.h-5]:![border-color:var(--sidebar-chrome-bg-color)]",
-      "[[data-slot=app-shell-root]_&_.inline-flex.h-5]:[letter-spacing:-0.025em]",
-    ],
+    footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",
@@ -178,19 +172,8 @@ export const messageItem = tv({
       },
     },
     badgeTone: {
-      default: {
-        badge: [
-          "!h-[20px] !border-0 !bg-transparent !px-0 !py-0 !shadow-none !ring-0",
-          "text-[12px] tracking-[-0.01em] text-foreground-muted/76",
-          "hover:!bg-transparent hover:text-foreground-strong",
-        ],
-      },
-      cyan: {
-        badge: [
-          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
-          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
-        ],
-      },
+      default: {},
+      cyan: {},
     },
     theme: {
       brutal: {
@@ -217,7 +200,10 @@ export const messageItem = tv({
           "[&_svg]:size-[13px]",
         ],
         savedIndicator: "right-1 text-brutal-orange",
-        badge: ["border-line-strong px-1.5 text-[10px] font-bold leading-none", "text-black"],
+        badge: [
+          "border-line-strong px-1.5 text-[10px] font-bold leading-none text-black",
+          "transition-colors hover:bg-brutal-cyan/40",
+        ],
         reactionChip: "text-black",
       },
       elegant: {
@@ -225,7 +211,10 @@ export const messageItem = tv({
           "px-7 py-3.5",
           "hover:bg-[color-mix(in_oklch,#EEEEED_35%,transparent)] active:bg-layer-muted/90",
         ],
-        continuationTime: "text-transparent group-hover/message:text-foreground-muted/60",
+        continuationTime: [
+          "top-0 pt-1.5",
+          "text-transparent group-hover/message:text-foreground-muted/60",
+        ],
         header: "items-baseline gap-1.5",
         sender: "text-[14px] font-medium leading-none text-foreground-muted",
         senderState: [
@@ -234,7 +223,12 @@ export const messageItem = tv({
         ],
         meta: "font-sans text-[12px] leading-none text-foreground-muted/60",
         time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted/60",
-        body: "mt-1.5 mb-1.5 text-[15px] leading-[22.5px] tracking-[-0.01em] text-foreground-muted select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
+        body: [
+          "mt-1.5 mb-1.5 text-[15px] leading-[22.5px] tracking-[-0.01em] text-foreground-muted",
+          "select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
+          "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
+          "group-data-[compact=true]/message:[&_p]:pt-0",
+        ],
         toolbar: [
           "top-1 right-[calc(1.75rem-2px)]",
           "gap-[2px] rounded-sm px-1 py-[2px]",
@@ -295,6 +289,39 @@ export const messageItem = tv({
       theme: "brutal",
       avatarStatusBorder: "always",
       class: { avatarStatus: "border-black" },
+    },
+    // Source ThreadRepliesBadge: solid pill, white when read / cyan wash when unread.
+    {
+      theme: "brutal",
+      badgeTone: "default",
+      class: { badge: "!bg-white" },
+    },
+    {
+      theme: "brutal",
+      badgeTone: "cyan",
+      class: { badge: "!bg-brutal-cyan/20" },
+    },
+    // Elegant keeps soft/link-like reply chips (not the brutal solid pill).
+    {
+      theme: "elegant",
+      badgeTone: "default",
+      class: {
+        badge: [
+          "!h-[20px] !border-0 !bg-transparent !px-0 !py-0 !shadow-none !ring-0",
+          "text-[12px] tracking-[-0.01em] text-foreground-muted/76",
+          "hover:!bg-transparent hover:text-foreground-strong",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      badgeTone: "cyan",
+      class: {
+        badge: [
+          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
+          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
+        ],
+      },
     },
   ],
 });

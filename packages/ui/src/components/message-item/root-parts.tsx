@@ -27,6 +27,7 @@ export function MessageItem({
   const theme = useThemeFamily();
   const { root } = messageItem({ compact, menuOpen, rowState, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-compact": compact ? "true" : undefined,
     "data-menu-open": menuOpen ? "true" : undefined,
     "data-row-state": rowState,
     className: root({ className }),
@@ -140,6 +141,7 @@ export function MessageItemSelectMark({
 
 export type MessageItemContinuationTimeProps = useRender.ComponentProps<"span">;
 
+/** Left-gutter hover clock for continuation rows. Pass 24h `HH:MM` (no AM/PM). */
 export function MessageItemContinuationTime({
   className,
   render,
@@ -403,12 +405,16 @@ export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
 export function MessageItemBadge({ className, tone = "default", ...props }: MessageItemBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = messageItem({ badgeTone: tone, theme });
+  // Brutal matches source ThreadRepliesBadge (solid default + bg override).
+  // Elegant keeps soft chips; cyan uses primary soft fill.
+  const appearance = theme === "elegant" ? "soft" : "solid";
+  const variant = theme === "elegant" && tone === "cyan" ? "primary" : "default";
   return (
     <Badge
-      appearance={tone === "cyan" || theme === "elegant" ? "soft" : "outline"}
+      appearance={appearance}
       data-slot="message-item-badge"
       uppercase={false}
-      variant={tone === "cyan" ? "primary" : "default"}
+      variant={variant}
       className={badge({ className })}
       {...props}
     />
