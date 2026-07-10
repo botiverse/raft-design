@@ -1,4 +1,4 @@
-import { NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
+import { NotificationCenter, NotificationCenterTrigger } from "raft-ui";
 import {
   AppRailFooter,
   AppRailHeader,
@@ -12,7 +12,6 @@ import {
 } from "raft-ui/wip";
 import {
   Activity,
-  AlertTriangle,
   CheckSquare,
   MessageSquare,
   Monitor,
@@ -74,16 +73,7 @@ export function PlaygroundRail({
         </AppRailNav>
         <div className="flex w-full items-center justify-center pb-1">
           <NotificationCenter modal={false}>
-            <NotificationCenterTrigger type="button" aria-label="Notification center">
-              <AlertTriangle aria-hidden className="size-[18px]" />
-              {/* Source pip shares the trigger's brutal-orange fill */}
-              <Status
-                aria-hidden
-                variant="warning"
-                size="md"
-                className="pointer-events-none absolute -top-1 -right-1 [--status-color:var(--color-brutal-orange)]"
-              />
-            </NotificationCenterTrigger>
+            <NotificationCenterTrigger type="button" aria-label="Notification center" />
           </NotificationCenter>
         </div>
         <AppRailFooter>

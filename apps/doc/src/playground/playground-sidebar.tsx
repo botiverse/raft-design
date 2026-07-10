@@ -6,6 +6,7 @@ import {
   GitBranch,
   Hash,
   Lock,
+  MessageSquare,
   Plus,
   Search,
 } from "lucide-react";
@@ -22,6 +23,7 @@ import {
   AlertDialogTitle,
   Avatar,
   AvatarFallback,
+  AvatarImage,
   Button,
   Combobox,
   ComboboxContent,
@@ -48,6 +50,7 @@ import {
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
+  Status,
   Textarea,
 } from "raft-ui";
 import {
@@ -57,7 +60,10 @@ import {
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
   ChatSidebarItemChannelIcon,
+  ChatSidebarItemDraft,
   ChatSidebarItemIcon,
+  ChatSidebarItemMention,
+  ChatSidebarItemMuted,
   ChatSidebarItemSubtitle,
   ChatSidebarItemText,
   ChatSidebarItemTitle,
@@ -93,37 +99,195 @@ const dialogMembers = [
 
 type DialogMember = (typeof dialogMembers)[number];
 
-const jointChannelRows = ["partner-ops", "vendor-review", "community-lab"] as const;
-
-const channelRows: readonly {
+type ChannelRow = {
   id: string;
   routeId?: PlaygroundChannelId;
   title: string;
+  /** Channel icon: public hash, private lock, or joint branch. */
+  type?: "channel" | "private" | "joint";
   badge?: string;
-}[] = [
+  bold?: boolean;
+  muted?: boolean;
+  mention?: boolean;
+  draft?: boolean;
+};
+
+const jointChannelRows: readonly ChannelRow[] = [
+  { id: "partner-ops", title: "partner-ops", type: "joint", badge: "3" },
+  { id: "vendor-review", title: "vendor-review", type: "joint" },
+  { id: "community-lab", title: "community-lab", type: "joint", muted: true },
+  { id: "shared-roadmap", title: "shared-roadmap", type: "joint", mention: true, badge: "1" },
+  { id: "cross-team-qa", title: "cross-team-qa", type: "joint", draft: true },
+  { id: "partner-launch", title: "partner-launch", type: "joint", badge: "7", bold: true },
+];
+
+const channelRows: readonly ChannelRow[] = [
   { id: "all", routeId: "proj-uiux", title: "all" },
   { id: "general", routeId: "component-matrix", title: "general" },
   { id: "design", routeId: "incident-alerts", title: "design", badge: "1" },
-  { id: "incidents", routeId: "release", title: "incidents", badge: "12" },
+  {
+    id: "incidents",
+    routeId: "release",
+    title: "incidents",
+    badge: "12",
+    bold: true,
+    mention: true,
+  },
   { id: "launch", routeId: "new-channel", title: "launch", badge: "2" },
   { id: "frontend", title: "frontend", badge: "4" },
   { id: "customer-notes", title: "customer-notes", badge: "2" },
+  { id: "hiring", title: "hiring", type: "private" },
+  { id: "exec", title: "exec", type: "private", badge: "5", bold: true },
+  { id: "release-notes", title: "release-notes", muted: true },
+  { id: "random", title: "random", muted: true, draft: true },
+  { id: "design-crit", title: "design-crit", mention: true },
+  { id: "standup", title: "standup", draft: true },
+  { id: "archive-ops", title: "archive-ops" },
 ];
 
-const directMessageRows: readonly {
+function ChannelRowContent({ row, hideBadge }: { row: ChannelRow; hideBadge?: boolean }) {
+  const showBadge = row.badge && !hideBadge;
+  const showAside = showBadge || row.draft;
+
+  return (
+    <>
+      <ChatSidebarItemChannelIcon type={row.type ?? "channel"} />
+      <ChatSidebarItemText className={row.muted ? "items-center gap-0" : undefined}>
+        <ChatSidebarItemTitle className={row.bold ? "font-bold" : undefined}>
+          {row.title}
+        </ChatSidebarItemTitle>
+        {row.muted ? <ChatSidebarItemMuted /> : null}
+      </ChatSidebarItemText>
+      {row.mention ? <ChatSidebarItemMention /> : null}
+      {showAside ? (
+        <ChatSidebarItemAside>
+          {showBadge ? <ChatSidebarItemBadge>{row.badge}</ChatSidebarItemBadge> : null}
+          {row.draft ? <ChatSidebarItemDraft /> : null}
+        </ChatSidebarItemAside>
+      ) : null}
+    </>
+  );
+}
+
+type DirectMessageRow = {
   id: string;
   routeId?: PlaygroundChannelId;
   title: string;
   subtitle: string;
   type: "human" | "agent";
+  /** Letter initials fallback when the image is loading / fails. */
   fallback?: string;
+  /** Portrait URL for humans; pixel-art data URI for agents. */
+  avatarSrc?: string;
   badge?: string;
-}[] = [
+  bold?: boolean;
+  status?: "online" | "working" | "idle" | "offline";
+  messageIcon?: boolean;
+  muted?: boolean;
+  mention?: boolean;
+  draft?: boolean;
+};
+
+// Human portraits — same Unsplash face-crop pattern as docs `AVATAR_PHOTOS`.
+const HUMAN_AVATARS = {
+  noah: "https://unsplash.com/photos/n4KewLKFOZw/download?force=true&w=160&h=160&fit=crop&crop=faces",
+  samira:
+    "https://unsplash.com/photos/H6FbE_vxaxQ/download?force=true&w=160&h=160&fit=crop&crop=faces",
+  elliot:
+    "https://unsplash.com/photos/mxwcEIqJ63Y/download?force=true&w=160&h=160&fit=crop&crop=faces",
+  olivia:
+    "https://unsplash.com/photos/8CEKQlmnf50/download?force=true&w=160&h=160&fit=crop&crop=faces",
+  mateo:
+    "https://unsplash.com/photos/iFgRcqHznqg/download?force=true&w=160&h=160&fit=crop&crop=faces",
+} as const;
+
+// Agent pixel avatars — same crisp-edge style as docs `SAMPLE_AGENT_PIXEL` /
+// home hero bots. Distinct fills so DM rows don't all share one face.
+const agentPixelAvatar = (fill: string) =>
+  `data:image/svg+xml;utf8,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" shape-rendering="crispEdges"><rect width="64" height="64" fill="${fill}"/><rect x="8" y="0" width="48" height="8" fill="#141111"/><rect x="0" y="8" width="8" height="24" fill="#141111"/><rect x="56" y="8" width="8" height="24" fill="#141111"/><rect x="8" y="32" width="48" height="8" fill="#141111"/><rect x="16" y="16" width="8" height="8" fill="#FFFFFF"/><rect x="40" y="16" width="8" height="8" fill="#FFFFFF"/><rect x="16" y="48" width="8" height="16" fill="#141111"/><rect x="40" y="48" width="8" height="16" fill="#141111"/></svg>`,
+  )}`;
+
+const AGENT_AVATARS = {
+  cyan: agentPixelAvatar("#27CCF3"),
+  yellow: agentPixelAvatar("#F7D358"),
+  pink: agentPixelAvatar("#FF7AB6"),
+  lime: agentPixelAvatar("#A3E86A"),
+  orange: agentPixelAvatar("#FF9F43"),
+  violet: agentPixelAvatar("#B794F4"),
+  mint: agentPixelAvatar("#5EEAD4"),
+  coral: agentPixelAvatar("#FB7185"),
+  sky: agentPixelAvatar("#7DD3FC"),
+  gold: agentPixelAvatar("#FBBF24"),
+  rose: agentPixelAvatar("#F9A8D4"),
+} as const;
+
+function DirectMessageStatus({ status }: { status: NonNullable<DirectMessageRow["status"]> }) {
+  if (status === "online") {
+    return <Status aria-hidden variant="success" size="md" />;
+  }
+  if (status === "working") {
+    return <Status aria-hidden variant="success" size="md" pulse />;
+  }
+  if (status === "idle") {
+    return <Status aria-hidden variant="warning" size="md" />;
+  }
+  return <Status aria-hidden variant="default" size="md" />;
+}
+
+function DirectMessageRowContent({
+  row,
+  hideBadge,
+}: {
+  row: DirectMessageRow;
+  hideBadge?: boolean;
+}) {
+  const showBadge = Boolean(row.badge && !hideBadge);
+  const showAside = showBadge || Boolean(row.status || row.messageIcon || row.draft);
+
+  return (
+    <>
+      <ChatSidebarItemIcon>
+        <Avatar
+          size="sidebar"
+          type={row.type}
+          className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan"
+        >
+          {row.avatarSrc ? <AvatarImage src={row.avatarSrc} alt="" /> : null}
+          {row.fallback ? (
+            <AvatarFallback className="text-[9px] font-bold">{row.fallback}</AvatarFallback>
+          ) : row.avatarSrc ? (
+            <AvatarFallback />
+          ) : null}
+        </Avatar>
+      </ChatSidebarItemIcon>
+      <ChatSidebarItemText className={row.muted ? "items-center gap-0" : undefined}>
+        <ChatSidebarItemTitle className={`max-w-[70%] shrink-0${row.bold ? " font-bold" : ""}`}>
+          {row.title}
+        </ChatSidebarItemTitle>
+        <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
+        {row.muted ? <ChatSidebarItemMuted /> : null}
+      </ChatSidebarItemText>
+      {row.mention ? <ChatSidebarItemMention /> : null}
+      {showAside ? (
+        <ChatSidebarItemAside>
+          {row.status ? <DirectMessageStatus status={row.status} /> : null}
+          {row.messageIcon ? <MessageSquare className="size-3 text-foreground-muted" /> : null}
+          {showBadge ? <ChatSidebarItemBadge>{row.badge}</ChatSidebarItemBadge> : null}
+          {row.draft ? <ChatSidebarItemDraft /> : null}
+        </ChatSidebarItemAside>
+      ) : null}
+    </>
+  );
+}
+
+const directMessageRows: readonly DirectMessageRow[] = [
   {
     id: "dm-noah",
     title: "Noah Bennett",
     subtitle: "Growth experiments and activation metrics.",
     type: "human",
+    avatarSrc: HUMAN_AVATARS.noah,
     fallback: "N",
     badge: "12",
   },
@@ -132,6 +296,7 @@ const directMessageRows: readonly {
     title: "Samira Khan",
     subtitle: "Security review and access policy.",
     type: "human",
+    avatarSrc: HUMAN_AVATARS.samira,
     fallback: "S",
   },
   {
@@ -139,6 +304,7 @@ const directMessageRows: readonly {
     title: "Elliot Park",
     subtitle: "Developer experience and local tooling.",
     type: "human",
+    avatarSrc: HUMAN_AVATARS.elliot,
     fallback: "E",
     badge: "1",
   },
@@ -148,6 +314,9 @@ const directMessageRows: readonly {
     title: "Claude Assistant",
     subtitle: "Seeded Claude agent on the primary online machine.",
     type: "agent",
+    avatarSrc: AGENT_AVATARS.cyan,
+    status: "online",
+    bold: true,
     badge: "1",
   },
   {
@@ -155,6 +324,7 @@ const directMessageRows: readonly {
     title: "Olivia Carter",
     subtitle: "QA lead for desktop and mobile.",
     type: "human",
+    avatarSrc: HUMAN_AVATARS.olivia,
     fallback: "O",
     badge: "1",
   },
@@ -163,49 +333,94 @@ const directMessageRows: readonly {
     title: "Mateo Alvarez",
     subtitle: "Infrastructure and staging deploys.",
     type: "human",
+    avatarSrc: HUMAN_AVATARS.mateo,
     fallback: "M",
     badge: "1",
   },
   {
-    id: "dm-priya",
-    title: "Priya Shah",
-    subtitle: "Lifecycle marketing and onboarding.",
-    type: "human",
-    fallback: "P",
-  },
-  {
-    id: "dm-nadia",
-    title: "Nadia Chen",
-    subtitle: "Engineering manager for platform.",
-    type: "human",
-    fallback: "N",
-  },
-  {
-    id: "dm-lottie",
-    title: "Lottie Coxon",
-    subtitle: "Customer storytelling and launch.",
-    type: "human",
-    fallback: "L",
-  },
-  {
-    id: "dm-cory",
-    title: "Cory Watilo",
-    subtitle: "Design systems and product craft.",
-    type: "human",
-    fallback: "C",
-  },
-  {
     id: "dm-search",
     title: "Search Scout",
-    subtitle: "Search-focused agent for triage.",
+    subtitle: "idle",
     type: "agent",
+    avatarSrc: AGENT_AVATARS.yellow,
+    messageIcon: true,
   },
   {
     id: "dm-release",
     title: "Release Scribe",
     subtitle: "Release-note and changelog agent.",
     type: "agent",
+    avatarSrc: AGENT_AVATARS.pink,
+    status: "working",
     badge: "1",
+  },
+  {
+    id: "dm-code-pilot",
+    title: "Code Pilot",
+    subtitle: "Active — refactoring auth module.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.lime,
+    status: "online",
+    bold: true,
+    badge: "3",
+  },
+  {
+    id: "dm-incident-triage",
+    title: "Incident Triage",
+    subtitle: "On standby — last run 2h ago.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.orange,
+    status: "offline",
+  },
+  {
+    id: "dm-qa-sentinel",
+    title: "QA Sentinel",
+    subtitle: "Regression checks and test plans.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.violet,
+    badge: "5",
+  },
+  {
+    id: "dm-deploy-watch",
+    title: "Deploy Watch",
+    subtitle: "Staging drift detected in us-east.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.mint,
+    bold: true,
+    mention: true,
+  },
+  {
+    id: "dm-research-lark",
+    title: "Research Lark",
+    subtitle: "Market research summaries.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.coral,
+    muted: true,
+  },
+  {
+    id: "dm-spec-writer",
+    title: "Spec Writer",
+    subtitle: "Product requirements drafts.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.sky,
+    draft: true,
+  },
+  {
+    id: "dm-data-weaver",
+    title: "Data Weaver",
+    subtitle: "Synthesizing weekly metrics.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.gold,
+    status: "working",
+  },
+  {
+    id: "dm-support-guide",
+    title: "Support Guide",
+    subtitle: "Customer support playbooks.",
+    type: "agent",
+    avatarSrc: AGENT_AVATARS.rose,
+    status: "idle",
+    badge: "2",
   },
 ];
 
@@ -462,16 +677,13 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                   <ChatSidebarSectionButton type="button" data-panel-open>
                     <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>3</ChatSidebarSectionCount>
+                    <ChatSidebarSectionCount>{jointChannelRows.length}</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
-                  {jointChannelRows.map((title) => (
-                    <ChatSidebarItem key={title} type="button">
-                      <ChatSidebarItemChannelIcon type="joint" />
-                      <ChatSidebarItemText>
-                        <ChatSidebarItemTitle>{title}</ChatSidebarItemTitle>
-                      </ChatSidebarItemText>
+                  {jointChannelRows.map((row) => (
+                    <ChatSidebarItem key={row.id} type="button">
+                      <ChannelRowContent row={row} />
                     </ChatSidebarItem>
                   ))}
                 </ChatSidebarList>
@@ -482,7 +694,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                   <ChatSidebarSectionButton type="button" data-panel-open>
                     <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>21</ChatSidebarSectionCount>
+                    <ChatSidebarSectionCount>{channelRows.length}</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
@@ -495,27 +707,11 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                           <Link to="/playground/$channelId" params={{ channelId: row.routeId }} />
                         }
                       >
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle>{row.title}</ChatSidebarItemTitle>
-                        </ChatSidebarItemText>
-                        {row.badge && activeChannelId !== row.routeId ? (
-                          <ChatSidebarItemBadge className="ml-auto">
-                            {row.badge}
-                          </ChatSidebarItemBadge>
-                        ) : null}
+                        <ChannelRowContent row={row} hideBadge={activeChannelId === row.routeId} />
                       </ChatSidebarItem>
                     ) : (
                       <ChatSidebarItem key={row.id} type="button">
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle>{row.title}</ChatSidebarItemTitle>
-                        </ChatSidebarItemText>
-                        {row.badge ? (
-                          <ChatSidebarItemBadge className="ml-auto">
-                            {row.badge}
-                          </ChatSidebarItemBadge>
-                        ) : null}
+                        <ChannelRowContent row={row} />
                       </ChatSidebarItem>
                     ),
                   )}
@@ -527,7 +723,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                   <ChatSidebarSectionButton type="button" data-panel-open>
                     <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>32</ChatSidebarSectionCount>
+                    <ChatSidebarSectionCount>{directMessageRows.length}</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
@@ -540,57 +736,14 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                           <Link to="/playground/$channelId" params={{ channelId: row.routeId }} />
                         }
                       >
-                        <ChatSidebarItemIcon>
-                          <Avatar
-                            size="sidebar"
-                            type={row.type}
-                            className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-                          >
-                            {row.fallback ? (
-                              <AvatarFallback className="text-[9px] font-bold">
-                                {row.fallback}
-                              </AvatarFallback>
-                            ) : null}
-                          </Avatar>
-                        </ChatSidebarItemIcon>
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
-                            {row.title}
-                          </ChatSidebarItemTitle>
-                          <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
-                        </ChatSidebarItemText>
-                        {row.badge && activeChannelId !== row.routeId ? (
-                          <ChatSidebarItemAside>
-                            <ChatSidebarItemBadge>{row.badge}</ChatSidebarItemBadge>
-                          </ChatSidebarItemAside>
-                        ) : null}
+                        <DirectMessageRowContent
+                          row={row}
+                          hideBadge={activeChannelId === row.routeId}
+                        />
                       </ChatSidebarItem>
                     ) : (
                       <ChatSidebarItem key={row.id} type="button">
-                        <ChatSidebarItemIcon>
-                          <Avatar
-                            size="sidebar"
-                            type={row.type}
-                            className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-                          >
-                            {row.fallback ? (
-                              <AvatarFallback className="text-[9px] font-bold">
-                                {row.fallback}
-                              </AvatarFallback>
-                            ) : null}
-                          </Avatar>
-                        </ChatSidebarItemIcon>
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
-                            {row.title}
-                          </ChatSidebarItemTitle>
-                          <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
-                        </ChatSidebarItemText>
-                        {row.badge ? (
-                          <ChatSidebarItemAside>
-                            <ChatSidebarItemBadge>{row.badge}</ChatSidebarItemBadge>
-                          </ChatSidebarItemAside>
-                        ) : null}
+                        <DirectMessageRowContent row={row} />
                       </ChatSidebarItem>
                     ),
                   )}

@@ -40,8 +40,6 @@ import {
 } from "raft-ui/wip";
 import {
   Activity,
-  AlertTriangle,
-  Bell,
   Bot,
   CheckSquare,
   ChevronRight,
@@ -302,25 +300,7 @@ function AppShellPreview() {
           </AppRailNav>
           <div className="flex w-full items-center justify-center pb-1 [[data-preview-theme=elegant]_&]:pb-0">
             <NotificationCenter modal={false}>
-              <NotificationCenterTrigger type="button" aria-label="Notification center">
-                <AlertTriangle
-                  aria-hidden
-                  className="size-[18px] [[data-preview-theme=elegant]_&]:hidden"
-                />
-                <span
-                  aria-hidden
-                  className="relative hidden size-4 items-center justify-center [[data-preview-theme=elegant]_&]:inline-flex"
-                >
-                  <Bell className="size-4 shrink-0 text-[color-mix(in_oklch,var(--foreground-muted)_82%,var(--foreground)_18%)]" />
-                  <Bell className="pointer-events-none absolute inset-0 size-4 shrink-0 text-[color-mix(in_oklch,var(--primary-500)_96%,var(--foreground)_4%)] drop-shadow-[0_0_1px_color-mix(in_oklch,var(--primary-400)_82%,transparent)] [mask-image:radial-gradient(circle_at_96%_12%,oklch(0_0_0)_0%,oklch(0_0_0)_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]" />
-                </span>
-                <Status
-                  aria-hidden
-                  variant="accent"
-                  size="md"
-                  className="pointer-events-none absolute -top-1 -right-1 [[data-preview-theme=elegant]_&]:top-[7px] [[data-preview-theme=elegant]_&]:right-[8px] [[data-preview-theme=elegant]_&]:size-2 [[data-preview-theme=elegant]_&]:[--status-color:var(--color-primary-400)] [[data-preview-theme=elegant]_&]:border [[data-preview-theme=elegant]_&]:border-primary-500/58 [[data-preview-theme=elegant]_&]:ring-2 [[data-preview-theme=elegant]_&]:ring-primary-300/45"
-                />
-              </NotificationCenterTrigger>
+              <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
           </div>
           <AppRailFooter>

@@ -20,7 +20,7 @@ import {
   type NotificationCenterPopupProps,
   useThemeFamily,
 } from "raft-ui";
-import { AlertTriangle, Bell, CircleGauge } from "lucide-react";
+import { AlertTriangle, CircleGauge } from "lucide-react";
 import { useId, useRef, type RefObject } from "react";
 import { cn } from "raft-ui/cn";
 
@@ -167,19 +167,6 @@ function NotificationCenterDemoTrigger({ triggerId }: { triggerId: string }) {
   }
 
   return (
-    <div className="relative size-9">
-      <NotificationCenterTrigger
-        id={triggerId}
-        render={<button type="button" aria-label="Notification center" />}
-      >
-        <Bell aria-hidden />
-      </NotificationCenterTrigger>
-      <Status
-        aria-hidden
-        variant="accent"
-        size="sm"
-        className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
-      />
-    </div>
+    <NotificationCenterTrigger id={triggerId} type="button" aria-label="Notification center" />
   );
 }

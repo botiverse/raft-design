@@ -1,7 +1,7 @@
-import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button, type ButtonProps } from "../button";
 import type { DataAttributes } from "./app-shell";
 import { chatMainPanel } from "./chat-main-panel.recipe";
 
@@ -278,23 +278,31 @@ export function ChatMainPanelFooter({ className, render, ...props }: ChatMainPan
   });
 }
 
-export type ChatMainPanelJumpToLatestProps = useRender.ComponentProps<"button">;
+export type ChatMainPanelJumpToLatestProps = useRender.ComponentProps<"button"> &
+  Pick<ButtonProps, "size" | "loading" | "loadingLabel">;
 
 export function ChatMainPanelJumpToLatest({
   className,
   render,
+  size = "sm",
+  loading,
+  loadingLabel,
   ...props
 }: ChatMainPanelJumpToLatestProps) {
-  const theme = useThemeFamily();
-  const { jumpToLatest } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
-    type: "button",
-    "data-slot": "chat-main-panel-jump-to-latest",
-    className: jumpToLatest({ className }),
-  };
+  const { jumpToLatest } = chatMainPanel();
 
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
-  });
+  return (
+    <div className={jumpToLatest({ className })}>
+      <Button
+        type="button"
+        data-slot="chat-main-panel-jump-to-latest"
+        variant="outline"
+        size={size}
+        loading={loading}
+        loadingLabel={loadingLabel}
+        render={render}
+        {...props}
+      />
+    </div>
+  );
 }

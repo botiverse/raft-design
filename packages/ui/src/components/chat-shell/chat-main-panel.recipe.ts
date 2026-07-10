@@ -17,13 +17,7 @@ export const chatMainPanel = tv({
     surfaceShadow: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     surface: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     tabs: ["shrink-0"],
-    jumpToLatest: [
-      "absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5",
-      "px-3 py-1.5 font-sans text-xs font-bold outline-none",
-      "transition-all duration-100",
-      "active:translate-x-[1px] active:translate-y-[1px]",
-      "[&_svg]:size-3 [&_svg]:shrink-0",
-    ],
+    jumpToLatest: ["absolute bottom-3 left-1/2 z-10 -translate-x-1/2"],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
     timeline: [
       "relative h-full overflow-y-auto overscroll-contain",
@@ -95,11 +89,6 @@ export const chatMainPanel = tv({
         surfaceShadow: "bg-white",
         surface: "bg-white",
         tabs: "border-b-2 border-black bg-white",
-        jumpToLatest: [
-          "border-2 border-black bg-white text-black shadow-brutal-sm",
-          "hover:-translate-y-px hover:shadow-brutal",
-          "active:shadow-[var(--shadow-brutal-active)]",
-        ],
         body: "border-b-2 border-black bg-white",
         timeline: "bg-white",
         footer: "bg-white",
@@ -151,12 +140,6 @@ export const chatMainPanel = tv({
         ],
         surface: "relative overflow-clip rounded-tl-[10px] bg-white",
         tabs: "border-b-0 bg-layer-panel",
-        jumpToLatest: [
-          "rounded-md border border-line-strong bg-transparent text-foreground-strong",
-          "px-1.5 py-1.5 font-normal shadow-none",
-          "hover:bg-layer-muted",
-          "active:translate-x-0 active:translate-y-0",
-        ],
         body: "bg-white",
         timeline: "bg-white",
         footer: [

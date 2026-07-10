@@ -12,7 +12,6 @@ import {
 } from "raft-ui/wip";
 import {
   Activity,
-  AlertTriangle,
   CheckSquare,
   MessageSquare,
   Monitor,
@@ -88,15 +87,7 @@ export function AppRailComposition() {
         </AppRailNav>
         <div className="flex w-full items-center justify-center pb-1">
           <NotificationCenter modal={false}>
-            <NotificationCenterTrigger type="button" aria-label="Notification center">
-              <AlertTriangle aria-hidden className="size-[18px]" />
-              <Status
-                aria-hidden
-                variant="accent"
-                size="md"
-                className="pointer-events-none absolute -top-1 -right-1"
-              />
-            </NotificationCenterTrigger>
+            <NotificationCenterTrigger type="button" aria-label="Notification center" />
           </NotificationCenter>
         </div>
         <AppRailFooter>

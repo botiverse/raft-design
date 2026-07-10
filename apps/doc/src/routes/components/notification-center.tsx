@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId, useRef, type ReactNode, type RefObject } from "react";
-import { AlertTriangle, Bell, CheckCircle2, CircleGauge } from "lucide-react";
+import { AlertTriangle, CheckCircle2, CircleGauge } from "lucide-react";
 import {
   Button,
   EmptyStateContent,
@@ -793,20 +793,7 @@ function NotificationCenterDemoTrigger({ triggerId }: { triggerId: string }) {
   }
 
   return (
-    <div className="relative size-9">
-      <NotificationCenterTrigger
-        id={triggerId}
-        render={<button type="button" aria-label="Notification center" />}
-      >
-        <Bell aria-hidden />
-      </NotificationCenterTrigger>
-      <Status
-        aria-hidden
-        variant="accent"
-        size="sm"
-        className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
-      />
-    </div>
+    <NotificationCenterTrigger id={triggerId} type="button" aria-label="Notification center" />
   );
 }
 

@@ -28,7 +28,7 @@ export const chatSidebar = tv({
     sidebarItemText: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"],
     sidebarItemTextStack: ["min-w-0 flex-1 text-left"],
     sidebarItemTitle: ["block min-w-0 truncate"],
-    sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs"],
+    sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs font-normal"],
     sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
     sidebarItemIndicator: ["ml-1 shrink-0"],
     sidebarItemMention: [

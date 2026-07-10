@@ -1,16 +1,21 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, Info } from "lucide-react";
 import { tv, type VariantProps } from "../../lib/tv";
 import { EmptyState, type EmptyStateProps } from "../empty-state/empty-state";
 import { Button, type ButtonProps } from "../button/button";
+import { Status } from "../status/status";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const notificationCenter = tv({
   slots: {
     trigger: [],
+    triggerIcon: [],
+    triggerBell: [],
+    triggerBellGlow: [],
+    triggerDot: [],
     popup: ["flex flex-col overflow-hidden bg-layer-panel"],
     header: ["flex items-center gap-2 px-4 py-2"],
     title: ["text-xs"],
@@ -47,11 +52,26 @@ const notificationCenter = tv({
       },
       elegant: {
         trigger: [
-          "relative inline-flex size-9 items-center justify-center overflow-visible border-0 bg-transparent p-0",
-          "select-none text-foreground-muted transition-colors",
-          "hover:bg-[oklch(0.9488_0.0013_106.42/0.8)] hover:text-foreground",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400/35",
+          "relative inline-flex size-9 items-center justify-center overflow-visible rounded-md border border-transparent p-0",
+          "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)]",
+          "select-none transition-colors",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
+          "active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
+          "focus-visible:outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&>svg]:size-4 [&>svg]:shrink-0",
+        ],
+        triggerIcon: ["relative inline-flex size-4 items-center justify-center"],
+        triggerBell: ["size-4 shrink-0 text-current"],
+        triggerBellGlow: [
+          "pointer-events-none absolute inset-0 size-4 shrink-0",
+          "text-[oklch(73.4%_0.149_89.2)]",
+          "drop-shadow-[0_0_1px_#FFD440D1]",
+          "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+        ],
+        triggerDot: [
+          "pointer-events-none absolute top-[7px] right-[8px] size-2 rounded-full",
+          "border border-[#D3AD0394] bg-[#FFD440]",
+          "shadow-[0_0_0_2px_#FFDF9173]",
         ],
         popup: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["border-b border-line-muted bg-layer-panel pt-2.5"],
@@ -152,7 +172,40 @@ export function NotificationCenter({ modal = false, ...props }: NotificationCent
 
 export type NotificationCenterTriggerProps = StyledProps<BasePopover.Trigger.Props>;
 
-export function NotificationCenterTrigger({ className, ...props }: NotificationCenterTriggerProps) {
+function NotificationCenterTriggerContent() {
+  const theme = useThemeFamily();
+  const { triggerIcon, triggerBell, triggerBellGlow, triggerDot } = notificationCenter({ theme });
+
+  if (theme === "brutal") {
+    return (
+      <>
+        <AlertTriangle aria-hidden className="size-[18px]" />
+        <Status
+          aria-hidden
+          variant="warning"
+          size="md"
+          className="pointer-events-none absolute -top-1 -right-1 [--status-color:var(--color-brutal-orange)]"
+        />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <span aria-hidden className={triggerIcon()}>
+        <Bell className={triggerBell()} strokeWidth={2} />
+        <Bell className={triggerBellGlow()} strokeWidth={2} />
+      </span>
+      <span aria-hidden className={triggerDot()} />
+    </>
+  );
+}
+
+export function NotificationCenterTrigger({
+  className,
+  children,
+  ...props
+}: NotificationCenterTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = notificationCenter({ theme });
 
@@ -161,7 +214,9 @@ export function NotificationCenterTrigger({ className, ...props }: NotificationC
       data-slot="notification-center-trigger"
       className={trigger({ className })}
       {...props}
-    />
+    >
+      {children ?? <NotificationCenterTriggerContent />}
+    </BasePopover.Trigger>
   );
 }
 
