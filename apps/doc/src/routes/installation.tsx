@@ -177,7 +177,7 @@ function CodeSnippet({
 }
 
 function Lead({ children }: { children: ReactNode }) {
-  return <p className="max-w-2xl text-sm leading-relaxed text-foreground-muted">{children}</p>;
+  return <p className="max-w-2xl text-sm leading-7 text-foreground-muted">{children}</p>;
 }
 
 function StepList({ children }: { children: ReactNode }) {

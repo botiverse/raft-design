@@ -16,7 +16,7 @@ const inlineCode = tv({
       },
       elegant: {
         root: [
-          "inline-flex items-center rounded-md px-2.5 py-0.5",
+          "inline-flex items-center rounded-md px-2.5 py-[1.5px]",
           "font-mono text-sm font-medium",
           "bg-[oklch(0.955_0_0)] text-[oklch(0.44_0_0)] dark:bg-[oklch(0.24_0.006_286)] dark:text-[oklch(0.78_0_0)]",
         ],
