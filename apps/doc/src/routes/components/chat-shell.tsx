@@ -13,6 +13,7 @@ import {
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
+  AppRailUtilitySlot,
   AppShellMain,
   AppShellMobileBar,
   AppShellPanelStack,
@@ -298,11 +299,11 @@ function AppShellPreview() {
             <RailItem value="members" label="Members" icon={<Users />} />
             <RailItem value="computers" label="Computers" icon={<Monitor />} indicator />
           </AppRailNav>
-          <div className="flex w-full items-center justify-center pb-1 [[data-preview-theme=elegant]_&]:pb-0">
+          <AppRailUtilitySlot className="[[data-preview-theme=elegant]_&]:pb-0">
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
-          </div>
+          </AppRailUtilitySlot>
           <AppRailFooter>
             <RailItem value="settings" label="Settings" icon={<Settings />} />
           </AppRailFooter>

@@ -9,6 +9,8 @@ const appShell = tv({
       "flex min-h-0 w-full overflow-hidden",
       "text-foreground",
       "data-[presentation=mobile]:flex-col",
+      "[&:where([data-slot=app-shell-root])_[class*='tracking-[0.22px]'].inline-flex.h-5]:[letter-spacing:0.11px]",
+      "[&:where([data-slot=app-shell-root])_.inline-flex.h-5.uppercase[class*='tracking-wide']]:[letter-spacing:0]",
     ],
     shellRail: ["relative hidden h-full shrink-0 flex-col items-center select-none md:flex"],
     shellSidebar: ["hidden min-h-0 shrink-0 flex-col md:flex"],

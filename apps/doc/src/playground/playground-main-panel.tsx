@@ -1,7 +1,4 @@
 import {
-  createContext,
-  useContext,
-  useEffect,
   useId,
   useRef,
   useState,
@@ -101,6 +98,7 @@ import {
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
   MessageItemBadge,
   MessageItemBody,
   MessageItemContent,
@@ -120,7 +118,7 @@ import {
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionGlyph,
-  MessageReactionPicker,
+  MessageReactionPickerContent,
   MessageReactionPopover,
   MessageReactionPopoverName,
   MessageReactionPopoverNames,
@@ -128,6 +126,14 @@ import {
   MessageReactionPopoverSeparator,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
+  MessageSelect,
+  MessageSelectAction,
+  MessageSelectActions,
+  MessageSelectCount,
+  MessageSelectToolbar,
+  MessageSelectionMenu,
+  MessageSelectionMenuItem,
+  MessageSelectionMenuSeparator,
   MessageTimelineDateDivider,
   MessageTimelineHistoryLimited,
   MessageTimelineNotice,
@@ -141,6 +147,7 @@ import {
   SystemMessageItemTime,
   MESSAGE_QUICK_REACTIONS,
   type MessageItemRowState,
+  useMessageSelect,
 } from "raft-ui/wip";
 
 import { Composer } from "#/playground/playground-composer.tsx";
@@ -163,14 +170,6 @@ const TAB_META: Record<PanelTab, { icon: ReactNode; label: string }> = {
   tasks: { icon: <ListTodo />, label: "Tasks" },
   files: { icon: <Paperclip />, label: "Files" },
 };
-
-const SORTABLE_TABS_LIST_CLASS =
-  "[[data-preview-theme=elegant]_&]:h-11 [[data-preview-theme=elegant]_&]:border-b-0 [[data-preview-theme=brutal]_&]:max-w-none [[data-preview-theme=brutal]_&]:border-y-0 [[data-preview-theme=brutal]_&]:border-l-0 [[data-preview-theme=brutal]_&]:border-r-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white";
-
-const SORTABLE_TAB_CLASS =
-  "[[data-preview-theme=elegant]_&]:h-11 [[data-preview-theme=elegant]_&]:pt-2.5 [[data-preview-theme=elegant]_&]:pb-2 [[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=brutal]_&]:text-black [[data-preview-theme=brutal]_&]:data-[active]:bg-soft-signal [[data-preview-theme=brutal]_&]:data-[active]:hover:bg-soft-signal [[data-preview-theme=brutal]_&]:[&+&]:before:bg-black";
-
-const SORTABLE_TABS_INDICATOR_CLASS = "[[data-preview-theme=elegant]_&]:bg-primary-400";
 
 // Brutal token overrides pin the neutral text ramp to source's pure black so the
 // rows stay pixel-identical to the live app (foreground resolves to oklch(0.18)).
@@ -362,13 +361,9 @@ function TaskStatusBadge({
           <span className="shrink-0">#{taskNumber}</span>
           {assignee ? <span className="min-w-0 truncate">@{assignee}</span> : null}
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className={`min-w-[140px] ${MENU_CONTENT_CLASS}`}>
+        <DropdownMenuContent align="start" className="min-w-[140px]">
           {TASK_STATUS_ORDER.map((id) => (
-            <DropdownMenuItem
-              key={id}
-              className={`justify-between ${MENU_ITEM_CLASS}`}
-              onClick={() => setStatus(id)}
-            >
+            <DropdownMenuItem key={id} className="justify-between" onClick={() => setStatus(id)}>
               <span className="truncate">{TASK_STATUS_CONFIG[id].label}</span>
               <Check size={14} className={id === status ? "opacity-100" : "opacity-0"} />
             </DropdownMenuItem>
@@ -480,6 +475,16 @@ function FileCard({
 // the DS Lightbox (the migration of source `ui/Lightbox` → ImageLightbox). Its
 // brutal variant supplies the dark backdrop + bordered contain media; the header
 // carries the filename + inert download and the close affordance.
+function LightboxActionButton({ className, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      type="button"
+      className={`btn-brutal-sm inline-flex size-7 shrink-0 items-center justify-center bg-white text-xs font-bold leading-none whitespace-nowrap text-black ${className ?? ""}`}
+      {...props}
+    />
+  );
+}
+
 function ImagePreviewButton({ src, name }: { src: string; name: string }) {
   return (
     <Lightbox>
@@ -496,14 +501,14 @@ function ImagePreviewButton({ src, name }: { src: string; name: string }) {
         <LightboxHeader className="flex h-14 items-center gap-3 px-4">
           <LightboxTitle>{name}</LightboxTitle>
           <LightboxActions>
-            <SelectBarButton icon tone="white" aria-label="Download" title="Download">
+            <LightboxActionButton aria-label="Download" title="Download">
               <Download size={14} />
-            </SelectBarButton>
+            </LightboxActionButton>
             <LightboxClose
               render={
-                <SelectBarButton icon tone="white" aria-label="Close" title="Close">
+                <LightboxActionButton aria-label="Close" title="Close">
                   <X size={14} />
-                </SelectBarButton>
+                </LightboxActionButton>
               }
             />
           </LightboxActions>
@@ -535,19 +540,14 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
             <ChatMainPanelTabs
               render={<Tabs value={tab} onValueChange={(value) => setTab(value)} />}
             >
-              <SortableTabsList
-                value={tabOrder}
-                onReorder={setTabOrder}
-                variant="underline"
-                className={SORTABLE_TABS_LIST_CLASS}
-              >
+              <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
                 {tabOrder.map((id) => (
-                  <SortableTabsTab key={id} value={id} className={SORTABLE_TAB_CLASS}>
+                  <SortableTabsTab key={id} value={id}>
                     {TAB_META[id].icon}
                     <TabsLabel>{TAB_META[id].label}</TabsLabel>
                   </SortableTabsTab>
                 ))}
-                <TabsIndicator className={SORTABLE_TABS_INDICATOR_CLASS} />
+                <TabsIndicator />
               </SortableTabsList>
             </ChatMainPanelTabs>
 
@@ -572,7 +572,17 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
           </ChatMainPanelSurface>
         </ChatMainPanelSurfaceShadow>
       </ChatMainPanelSurfaceInset>
-      <MessageSelectionShortcut />
+      <MessageSelectionMenu>
+        <MessageSelectionMenuItem>
+          <TextQuote size={13} />
+          Quote
+        </MessageSelectionMenuItem>
+        <MessageSelectionMenuSeparator />
+        <MessageSelectionMenuItem>
+          <Copy size={13} />
+          Copy
+        </MessageSelectionMenuItem>
+      </MessageSelectionMenu>
     </ChatMainPanelRoot>
   );
 }
@@ -1211,198 +1221,58 @@ type PointPos = { x: number; y: number };
 // (source: Convert to Task / Mark as Done / Reopen Task).
 type MessageTask = "none" | "open" | "done";
 
-// Optional list-level select-mode wiring shared by every MessageRow in a list.
-// When a list provides it, the menu's "Select Message" enters select mode and
-// rows render checkboxes; without it the item is inert (source parity: select
-// mode is a list concern with a sticky bottom toolbar).
-type MessageListApi = {
-  selectMode: boolean;
-  selected: ReadonlySet<string>;
-  toggleSelect: (id: string) => void;
-  enterSelect: (id: string) => void;
-};
-
-const MessageListContext = createContext<MessageListApi | null>(null);
-
-// Base UI portals menus/popovers to `document.body`, OUTSIDE the preview's
-// `[data-preview-theme=brutal]` scope, so `[[data-preview-theme=brutal]_&]:`
-// pins never match and the DS token defaults (zinc border, soft shadow,
-// font-semibold) leak through. Author the brutal chrome with literal classes
-// instead — same approach as the text-selection popover, which renders correctly
-// despite the portal: pure-black 2px border + hard `shadow-brutal`, and source
-// `ui/MenuItem` metrics (font-medium, px-3 py-2). Elegant is out of scope.
-const MENU_CONTENT_CLASS = "border-2 border-black shadow-brutal";
-const MENU_ITEM_CLASS = "px-3 py-2 font-medium text-black";
-
-// Source ui/Button, brutal palette — the SelectModeToolbar buttons. The DS
-// Button has no brutal tone axis, so the source classes are composed inline
-// (same pattern as TaskStatusBadge).
-const SELECT_BAR_BUTTON_BASE =
-  "btn-brutal-sm inline-flex shrink-0 items-center justify-center whitespace-nowrap font-bold leading-none";
-const SELECT_BAR_BUTTON_TONE: Record<"white" | "pink", string> = {
-  white: "bg-white text-black",
-  pink: "bg-brutal-pink text-black",
-};
-
-function SelectBarButton({
-  tone,
-  icon,
-  className,
-  children,
-  ...props
-}: { tone: "white" | "pink"; icon?: boolean } & ButtonHTMLAttributes<HTMLButtonElement>) {
-  const shape = icon ? "size-7 text-xs" : "h-7 gap-1.5 px-2.5 text-xs";
-  return (
-    <button
-      type="button"
-      className={`${SELECT_BAR_BUTTON_BASE} ${SELECT_BAR_BUTTON_TONE[tone]} ${shape} ${className ?? ""}`}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
-
-// Bottom sticky bulk-action bar (source SelectModeToolbar): count + Cancel /
-// Forward / Copy-link / More(⋯ → Generate image / Copy MD). Inert demo — only
-// Cancel exits select mode. The More popover is the DS DropdownMenu, whose
-// brutal chrome + `hover:bg-soft-signal/30` rows already match source's inline
-// menu; brutal pins pull the border/shadow/text to source's pure black.
+// Bottom sticky bulk-action bar. The reusable MessageSelect owns selection
+// state; this playground composition supplies fixture actions and copy.
 function SelectModeToolbar({ count, onCancel }: { count: number; onCancel: () => void }) {
   return (
-    <div className="border-t-2 border-black bg-soft-signal" data-testid="select-mode-toolbar">
-      <div className="flex items-center gap-1.5 px-2 py-2">
-        <span
-          className="whitespace-nowrap font-mono text-xs font-bold text-black/70"
-          data-testid="select-mode-count"
-        >
-          {count} selected
-        </span>
-        <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1.5">
-          <SelectBarButton tone="white" onClick={onCancel} aria-label="Cancel" title="Cancel">
-            <X size={14} />
-            <span>Cancel</span>
-          </SelectBarButton>
-          <SelectBarButton tone="pink" aria-label="Forward" title="Forward">
-            <Send size={14} />
-            <span>Forward</span>
-          </SelectBarButton>
-          <SelectBarButton tone="white" aria-label="Copy link" title="Copy link">
-            <Copy size={14} />
-            <span>Copy link</span>
-          </SelectBarButton>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <SelectBarButton
-                  icon
-                  tone="white"
-                  aria-label="More selected message actions"
-                  title="More"
-                >
-                  <MoreHorizontal size={14} />
-                </SelectBarButton>
-              }
-            />
-            <DropdownMenuContent
-              side="top"
-              align="end"
-              sideOffset={8}
-              data-testid="select-mode-more-menu"
-              className={`min-w-44 ${MENU_CONTENT_CLASS}`}
-            >
-              <DropdownMenuItem className={MENU_ITEM_CLASS}>
-                <ImageIcon size={14} />
-                Generate image
-              </DropdownMenuItem>
-              <DropdownMenuItem className={MENU_ITEM_CLASS}>
-                <Copy size={14} />
-                Copy MD
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-    </div>
+    <MessageSelectToolbar data-testid="select-mode-toolbar">
+      <MessageSelectCount data-testid="select-mode-count">{count} selected</MessageSelectCount>
+      <MessageSelectActions>
+        <MessageSelectAction onClick={onCancel} aria-label="Cancel" title="Cancel">
+          <X size={14} />
+          <span>Cancel</span>
+        </MessageSelectAction>
+        <MessageSelectAction tone="accent" aria-label="Forward" title="Forward">
+          <Send size={14} />
+          <span>Forward</span>
+        </MessageSelectAction>
+        <MessageSelectAction aria-label="Copy link" title="Copy link">
+          <Copy size={14} />
+          <span>Copy link</span>
+        </MessageSelectAction>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <MessageSelectAction
+                size="icon"
+                aria-label="More selected message actions"
+                title="More"
+              >
+                <MoreHorizontal size={14} />
+              </MessageSelectAction>
+            }
+          />
+          <DropdownMenuContent
+            side="top"
+            align="end"
+            sideOffset={8}
+            data-testid="select-mode-more-menu"
+            className="min-w-44"
+          >
+            <DropdownMenuItem>
+              <ImageIcon size={14} />
+              Generate image
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Copy size={14} />
+              Copy MD
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </MessageSelectActions>
+    </MessageSelectToolbar>
   );
 }
-
-// Floating text-selection shortcut (source MessageSelectionShortcut): highlight
-// text inside a message body → a Quote / Copy menu above the selection. The
-// document selection is an external system, so a mouseup/selectionchange
-// listener genuinely needs useEffect (the one sanctioned exception here). Inert
-// buttons — trigger + styling only.
-function MessageSelectionShortcut() {
-  const [position, setPosition] = useState<PointPos | null>(null);
-
-  useEffect(() => {
-    const update = () => {
-      const selection = window.getSelection();
-      if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
-        setPosition(null);
-        return;
-      }
-      const range = selection.getRangeAt(0);
-      const withinSelectable = (node: Node | null) => {
-        const element = node instanceof Element ? node : (node?.parentElement ?? null);
-        return Boolean(element?.closest("[data-message-selectable='true']"));
-      };
-      if (!withinSelectable(range.startContainer) || !withinSelectable(range.endContainer)) {
-        setPosition(null);
-        return;
-      }
-      const rect = range.getBoundingClientRect();
-      if (rect.width === 0 && rect.height === 0) {
-        setPosition(null);
-        return;
-      }
-      // Estimated menu 124×32, 8px gap, centered above the selection.
-      setPosition({ x: rect.left + rect.width / 2 - 62, y: rect.top - 40 });
-    };
-    const onMouseUp = () => window.setTimeout(update, 0);
-    document.addEventListener("selectionchange", update);
-    document.addEventListener("mouseup", onMouseUp, true);
-    return () => {
-      document.removeEventListener("selectionchange", update);
-      document.removeEventListener("mouseup", onMouseUp, true);
-    };
-  }, []);
-
-  if (!position) return null;
-
-  return createPortal(
-    <div
-      role="menu"
-      aria-label="Selected text actions"
-      data-message-selection-shortcut="true"
-      className="fixed z-[70] flex select-none overflow-hidden border-2 border-black bg-white text-xs font-semibold shadow-brutal-sm"
-      style={{ left: position.x, top: position.y }}
-    >
-      <button
-        type="button"
-        role="menuitem"
-        className="flex h-7 items-center gap-1.5 px-2 text-black transition-colors hover:bg-soft-signal/30"
-      >
-        <TextQuote size={13} />
-        Quote
-      </button>
-      <div className="w-px bg-black/20" aria-hidden />
-      <button
-        type="button"
-        role="menuitem"
-        className="flex h-7 items-center gap-1.5 px-2 text-black transition-colors hover:bg-soft-signal/30"
-      >
-        <Copy size={13} />
-        Copy
-      </button>
-    </div>,
-    document.body,
-  );
-}
-
-// Divider between menu sections — the portaled DS ContextMenuSeparator escapes
-// the brutal scope, so author its pure-black hairline literally (see MENU_*).
-const CTX_SEPARATOR_CLASS = "border-black";
 
 // Right-click context menu content (source MessageItem handleContextMenu → menu
 // at MessageItem.tsx:4355-4526): quick-reaction row on top, then Copy Link / Copy
@@ -1435,7 +1305,6 @@ function MessageContextMenuContent({
   return (
     <ContextMenuContent
       aria-label="Message context menu"
-      className={MENU_CONTENT_CLASS}
       collisionAvoidance={{ side: "flip", align: "flip" }}
       collisionPadding={8}
     >
@@ -1455,34 +1324,34 @@ function MessageContextMenuContent({
           </MessageReactionQuickButton>
         ))}
       </MessageReactionQuickRow>
-      <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
-      <ContextMenuItem className={MENU_ITEM_CLASS}>
+      <ContextMenuSeparator />
+      <ContextMenuItem>
         <LinkIcon size={14} />
         Copy Link
       </ContextMenuItem>
-      <ContextMenuItem className={MENU_ITEM_CLASS}>
+      <ContextMenuItem>
         <Copy size={14} />
         Copy Markdown
       </ContextMenuItem>
-      <ContextMenuItem className={MENU_ITEM_CLASS} onClick={onSelectMessage}>
+      <ContextMenuItem onClick={onSelectMessage}>
         <CheckCircle size={14} />
         Select Message
       </ContextMenuItem>
-      <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
-      <ContextMenuItem className={MENU_ITEM_CLASS}>
+      <ContextMenuSeparator />
+      <ContextMenuItem>
         <MessageSquare size={14} />
         Open Thread
       </ContextMenuItem>
-      <ContextMenuItem className={MENU_ITEM_CLASS}>
+      <ContextMenuItem>
         {saved ? <BookmarkMinus size={14} /> : <Bookmark size={14} />}
         {saved ? "Remove from Saved" : "Save Message"}
       </ContextMenuItem>
-      <ContextMenuItem className={MENU_ITEM_CLASS}>
+      <ContextMenuItem>
         <MessageSquare size={14} />
         {followed ? "Unfollow Thread" : "Follow Thread"}
       </ContextMenuItem>
-      <ContextMenuSeparator className={CTX_SEPARATOR_CLASS} />
-      <ContextMenuItem className={MENU_ITEM_CLASS}>
+      <ContextMenuSeparator />
+      <ContextMenuItem>
         {taskAction.icon}
         {taskAction.label}
       </ContextMenuItem>
@@ -1544,38 +1413,14 @@ function ReactionPillWithReactors({
   );
 }
 
-// List-level select-mode provider (source SelectModeToolbar flow): the context
-// menu's "Select Message" enters select mode, rows render checkboxes, and a
-// sticky bottom toolbar shows the bulk actions until Cancel.
 function SelectableMessageList({ children }: { children: ReactNode }) {
-  const [selectMode, setSelectMode] = useState(false);
-  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set());
+  return <MessageSelect>{children}</MessageSelect>;
+}
 
-  const toggleSelect = (id: string) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const enterSelect = (id: string) => {
-    setSelectMode(true);
-    setSelected(new Set([id]));
-  };
-
-  const exit = () => {
-    setSelectMode(false);
-    setSelected(new Set());
-  };
-
-  return (
-    <MessageListContext.Provider value={{ selectMode, selected, toggleSelect, enterSelect }}>
-      {children}
-      {selectMode ? <SelectModeToolbar count={selected.size} onCancel={exit} /> : null}
-    </MessageListContext.Provider>
-  );
+function SelectModeToolbarSlot() {
+  const selection = useMessageSelect();
+  if (!selection?.active) return null;
+  return <SelectModeToolbar count={selection.selected.size} onCancel={selection.cancel} />;
 }
 
 // Scenario 4: component-matrix — a believable channel that happens to exercise
@@ -2168,6 +2013,7 @@ function MatrixBody() {
             />
 
             <div className="pb-3" aria-hidden />
+            <SelectModeToolbarSlot />
           </SelectableMessageList>
         </ChatMainPanelMessageList>
       </ChatMainPanelTimeline>
@@ -2227,7 +2073,7 @@ function TabPlaceholder({
 // floating reaction picker opened from the hover-toolbar react button (source:
 // onContextMenu + openReactionPicker both live on the row), so the menu fires on
 // any message. Select mode + the "Select Message" action come from the optional
-// MessageListContext when a list provides one.
+// MessageSelect when a list provides one.
 function MessageRow({
   variant = "agent",
   sender,
@@ -2269,34 +2115,25 @@ function MessageRow({
   selectId?: string;
   threadId?: PlaygroundThreadId;
 }) {
-  const list = useContext(MessageListContext);
-  // Every row inside a SelectableMessageList is selectable; an explicit selectId
+  const selection = useMessageSelect();
+  // Every row inside a MessageSelect is selectable; an explicit selectId
   // is optional (the demo passes stable ids to a couple of rows), otherwise a
   // stable per-row id is generated so the menu's "Select Message" always wires up.
   const generatedSelectId = useId();
   const rowSelectId = selectId ?? generatedSelectId;
-  const selectMode = list?.selectMode ?? false;
-  const selected = list?.selected.has(rowSelectId) ?? false;
+  const selectMode = selection?.active ?? false;
+  const selected = selection?.selected.has(rowSelectId) ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
   const [reactionOpen, setReactionOpen] = useState(false);
 
   const effectiveRowState = selectMode ? "select" : rowState;
 
-  // Persist the hover look while this row's context menu is open (source
-  // MessageItem.tsx:3692-3693 `ctxMenu` → `border-2 border-black bg-white`).
-  // Highlight/active rows keep their own rowState (source precedence: isHighlighted
-  // wins over ctxMenu), so only plain rows opt in. Scoped brutal; elegant is
-  // driven by the DS component's own open state and left untouched.
-  const menuOpenRowClass =
-    menuOpen && !rowState
-      ? "[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white"
-      : "";
-
   const messageItem = (
     <MessageItem
       compact={compact}
+      menuOpen={menuOpen && !rowState}
       rowState={effectiveRowState}
-      className={`[[data-preview-theme=brutal]_&]:transition-none ${menuOpenRowClass}`}
+      className="[[data-preview-theme=brutal]_&]:transition-none"
     >
       {selectMode ? (
         <MessageItemSelectMark
@@ -2305,7 +2142,7 @@ function MessageRow({
           aria-checked={selected}
           aria-label="Select message"
           tabIndex={0}
-          onClick={() => list?.toggleSelect(rowSelectId)}
+          onClick={() => selection?.toggle(rowSelectId)}
           className="cursor-pointer text-transparent"
         />
       ) : null}
@@ -2385,7 +2222,7 @@ function MessageRow({
           followed={followed}
           task={task}
           onQuickReact={() => setMenuOpen(false)}
-          onSelectMessage={list ? () => list.enterSelect(rowSelectId) : undefined}
+          onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
         />
       </ContextMenu>
     </div>
@@ -2538,10 +2375,12 @@ function RowAvatar({
     >
       <AvatarFallback />
       {isAgent && !deactivated ? (
-        <span
+        <MessageItemAvatarStatus
           aria-hidden
+          border="always"
+          offset="fixed"
           title={STATUS_LABEL[status]}
-          className={`absolute -bottom-[2px] -right-[2px] inline-block size-[11px] shrink-0 rounded-full border border-line-strong ${STATUS_DOT[status]} [[data-preview-theme=brutal]_&]:border-black`}
+          className={STATUS_DOT[status]}
         />
       ) : null}
     </Avatar>
@@ -2566,16 +2405,10 @@ function RowAvatar({
   );
 }
 
-// Neutralizes the DropdownMenu content chrome (min-width / surface / padding /
-// menu layout, incl. elegant's `flex-col rounded-md p-1`) so the Base UI
-// positioner renders the plain MessageReactionPicker row instead of a menu box.
-const REACTION_FLYOUT_CLASS =
-  "inline-flex min-w-0 flex-row items-center gap-0.5 rounded-none border-2 border-black bg-white px-1.5 py-1 shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]";
-
 // Hover-toolbar reaction flyout. Source opens the quick-reaction row on click of
 // the React button and hand-positions it (buggy x/y); here the row is anchored
 // by Base UI's menu positioner (click-to-open trigger, automatic flip/collision)
-// while MessageReactionPicker + MessageReactionQuickButton keep the source
+// while MessageReactionPickerContent + MessageReactionQuickButton keep the source
 // picker chrome and per-emoji hover tint pixel-identical.
 function RowToolbar({
   saved,
@@ -2614,13 +2447,7 @@ function RowToolbar({
             </MessageItemToolbarButton>
           }
         />
-        <DropdownMenuContent
-          side="bottom"
-          align="end"
-          sideOffset={4}
-          className={REACTION_FLYOUT_CLASS}
-          render={<MessageReactionPicker />}
-        >
+        <MessageReactionPickerContent side="bottom" align="end" sideOffset={4}>
           {MESSAGE_QUICK_REACTIONS.map((emoji) => (
             <MessageReactionQuickButton
               key={emoji}
@@ -2631,7 +2458,7 @@ function RowToolbar({
               <MessageReactionGlyph emoji={emoji} size={18} className="block" />
             </MessageReactionQuickButton>
           ))}
-        </DropdownMenuContent>
+        </MessageReactionPickerContent>
       </DropdownMenu>
       <MessageItemToolbarButton
         saved={saved}

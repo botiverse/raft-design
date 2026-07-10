@@ -7,7 +7,7 @@ export type PlaygroundMessageId = `${string}:${string}`;
 
 export type PlaygroundSidebarState = {
   badge?: string;
-  bold?: boolean;
+  unread?: boolean;
   muted?: boolean;
   mention?: boolean;
   draft?: boolean;
@@ -396,7 +396,7 @@ export const PLAYGROUND_JOINT_CHANNELS = [
     topic: "Friday's coordinated partner rollout",
     memberCount: 18,
     memberIds: ["mateo", "deployWatch"],
-    sidebar: { badge: "7", bold: true },
+    sidebar: { badge: "7", unread: true },
     opening: "The partner environment is ready. We can start after the 14:00 checkpoint.",
     reply:
       "I am watching both deployment regions and will post here if configuration drift appears.",
@@ -441,7 +441,7 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberCount: 14,
     memberIds: ["deployBot", "mxChen", "ada", "mateo", "incidentTriage"],
     showcase: "incident",
-    sidebar: { badge: "12", bold: true, mention: true },
+    sidebar: { badge: "12", unread: true, mention: true },
   }),
   defineStandardRoom({
     id: "launch",
@@ -502,7 +502,7 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     topic: "the Q3 operating review",
     memberCount: 4,
     memberIds: ["avery", "dataWeaver"],
-    sidebar: { badge: "5", bold: true },
+    sidebar: { badge: "5", unread: true },
     opening: "The Q3 review draft is ready. Retention and support load need updated commentary.",
     reply: "I refreshed the charts from the weekly dataset and annotated the two largest changes.",
   }),
@@ -590,7 +590,7 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
     otherActorId: "claudeAssistant",
     subtitle: "Planning on the primary online machine.",
     topic: "the source-parity fixture audit",
-    sidebar: { badge: "1", bold: true, pinned: true },
+    sidebar: { badge: "1", unread: true, pinned: true },
     opening: "The fixture audit is complete. Two component states drifted from source behavior.",
     reply: "Send me the exact files and I will re-sync them before the release cut.",
   }),
@@ -635,7 +635,7 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
     otherActorId: "codePilot",
     subtitle: "Active — refactoring the auth module.",
     topic: "the auth-module refactor",
-    sidebar: { badge: "3", bold: true },
+    sidebar: { badge: "3", unread: true },
     opening: "Session validation no longer leaks into presentation components.",
     reply: "Verify redirect behavior for expired and revoked sessions separately.",
   }),
@@ -661,7 +661,7 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
     otherActorId: "deployWatch",
     subtitle: "Working — staging drift detected in us-east.",
     topic: "the staging configuration drift",
-    sidebar: { bold: true, mention: true },
+    sidebar: { unread: true, mention: true },
     opening: "Staging in us-east is missing the message-retention variable. Production is aligned.",
     reply: "Patch staging only and post the environment diff before restarting the worker.",
   }),

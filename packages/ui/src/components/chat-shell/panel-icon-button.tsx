@@ -22,7 +22,7 @@ const panelIconButton = tv({
       ],
       elegant: [
         "size-8 rounded-md border-0 bg-transparent shadow-none",
-        "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4",
+        "text-foreground-muted/68 [&_svg]:size-4",
         "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
         "active:translate-x-0 active:translate-y-0 active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",

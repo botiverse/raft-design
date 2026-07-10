@@ -9,6 +9,7 @@ import {
   Users,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import { AppRailUtilitySlot } from "raft-ui/wip";
 
 export function SourceAppRailPreview() {
   return (
@@ -31,9 +32,9 @@ export function SourceAppRailPreview() {
         <SourceRailButton icon={<Users size={18} />} />
         <SourceRailButton icon={<Monitor size={18} />} dot />
       </div>
-      <div className="flex w-full items-center justify-center pb-1">
+      <AppRailUtilitySlot>
         <SourceNotificationButton />
-      </div>
+      </AppRailUtilitySlot>
       <div className="flex h-[62px] w-full shrink-0 items-center justify-center">
         <SourceRailButton icon={<Settings size={18} />} />
       </div>

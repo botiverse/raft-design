@@ -24,6 +24,7 @@ import {
   ChatMainPanelMessageList,
   ChatMainPanelRoot,
   ChatMainPanelTimeline,
+  ComposerStack,
   MessageTimelineNotice,
 } from "raft-ui/wip";
 
@@ -57,7 +58,7 @@ export function ChatMainPanelStatesComposition() {
         </ChatMainPanelJumpToLatest>
       </ChatMainPanelBody>
       <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-        <div className="flex w-full flex-col gap-2">
+        <ComposerStack>
           <ChatMainPanelComposerAttachments>
             <ChatMainPanelComposerAttachment>
               <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
@@ -119,7 +120,7 @@ export function ChatMainPanelStatesComposition() {
               </ChatMainPanelComposerSubmit>
             </ChatMainPanelComposerToolbar>
           </ChatMainPanelComposer>
-        </div>
+        </ComposerStack>
       </ChatMainPanelFooter>
     </ChatMainPanelRoot>
   );

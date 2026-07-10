@@ -30,8 +30,10 @@ import {
   ChatThreadPanelSearchCount,
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
+  ComposerStack,
   MessageItem,
   MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
@@ -64,12 +66,7 @@ function ThreadRowAvatar({ type }: { type: "human" | "agent" }) {
         {type === "agent" ? (
           <>
             <AvatarFallback />
-            <Status
-              aria-hidden
-              size="lg"
-              variant="default"
-              className="absolute -right-0.5 -bottom-0.5"
-            />
+            <MessageItemAvatarStatus render={<Status aria-hidden size="lg" variant="default" />} />
           </>
         ) : null}
       </Avatar>
@@ -188,7 +185,7 @@ export function PlaygroundThreadPanel({
         </div>
       </ChatThreadPanelBody>
       <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
-        <div className="flex w-full flex-col gap-2">
+        <ComposerStack>
           <ChatMainPanelComposer>
             <ChatMainPanelComposerInput
               aria-label="Message thread"
@@ -212,7 +209,7 @@ export function PlaygroundThreadPanel({
               </ChatMainPanelComposerMeta>
             </ChatMainPanelComposerToolbar>
           </ChatMainPanelComposer>
-        </div>
+        </ComposerStack>
       </ChatThreadPanelFooter>
     </ChatThreadPanelRoot>
   );

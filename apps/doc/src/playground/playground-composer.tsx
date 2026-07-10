@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import {
   FileText,
   GitBranch,
@@ -32,6 +32,19 @@ import {
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
+  ComposerAutocomplete,
+  ComposerAutocompleteAside,
+  ComposerAutocompleteBadge,
+  ComposerAutocompleteContent,
+  ComposerAutocompleteGroup,
+  ComposerAutocompleteGroupLabel,
+  ComposerAutocompleteIcon,
+  ComposerAutocompleteItem,
+  ComposerAutocompleteMeta,
+  ComposerAutocompleteTitle,
+  ComposerStack,
+  ComposerTaskLabel,
+  ComposerTaskToggle,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
@@ -47,17 +60,6 @@ import {
 type MentionCandidate = { name: string; handle: string; variant: RowVariant };
 
 const CHANNEL_CANDIDATES = [...PLAYGROUND_ROOM_CHANNELS, ...PLAYGROUND_JOINT_CHANNELS];
-
-// Section eyebrow (source ui/SectionEyebrow) used by the mention groups.
-function ComboboxEyebrow({ className, children }: { className?: string; children: ReactNode }) {
-  return (
-    <div
-      className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-black/60 ${className ?? ""}`}
-    >
-      {children}
-    </div>
-  );
-}
 
 // @mention autocomplete (source MessageInput mention dropdown): upward panel with
 // In-/Not-in-channel eyebrow groups; the first in-channel row is selected.
@@ -82,69 +84,58 @@ function MentionAutocomplete({ channel }: { channel: PlaygroundChannel }) {
     );
 
   return (
-    <div
-      data-testid="mention-autocomplete-popover"
-      className="card-brutal absolute bottom-full left-7 right-[calc(1.75rem+var(--message-scroller-gutter,0px))] mb-1 max-h-48 overflow-y-auto"
-    >
-      <ComboboxEyebrow>In this channel</ComboboxEyebrow>
-      {inChannel.map((candidate, index) => {
-        const selected = index === 0;
-        return (
-          <button
-            key={candidate.handle}
-            type="button"
-            className={`flex w-full items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
-              selected
-                ? "bg-soft-signal font-bold text-black"
-                : "text-black hover:bg-soft-signal/50"
-            }`}
-          >
-            <Avatar
-              size="sm"
-              type={candidate.variant === "agent" ? "agent" : "human"}
-              className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:text-black"
+    <ComposerAutocomplete data-testid="mention-autocomplete-popover">
+      <ComposerAutocompleteGroup>
+        <ComposerAutocompleteGroupLabel>In this channel</ComposerAutocompleteGroupLabel>
+        {inChannel.map((candidate, index) => {
+          const selected = index === 0;
+          return (
+            <ComposerAutocompleteItem key={candidate.handle} selected={selected}>
+              <ComposerAutocompleteIcon
+                render={
+                  <Avatar size="sm" type={candidate.variant === "agent" ? "agent" : "human"} />
+                }
+              >
+                <AvatarFallback />
+              </ComposerAutocompleteIcon>
+              <ComposerAutocompleteContent>
+                <ComposerAutocompleteTitle>{candidate.name}</ComposerAutocompleteTitle>
+                {candidate.variant === "agent" ? (
+                  <ComposerAutocompleteBadge aria-hidden variant="indicator" />
+                ) : null}
+                <ComposerAutocompleteAside>
+                  <ComposerAutocompleteMeta variant="code">
+                    @{candidate.handle}
+                  </ComposerAutocompleteMeta>
+                </ComposerAutocompleteAside>
+              </ComposerAutocompleteContent>
+            </ComposerAutocompleteItem>
+          );
+        })}
+      </ComposerAutocompleteGroup>
+      <ComposerAutocompleteGroup separated>
+        <ComposerAutocompleteGroupLabel>Not in this channel</ComposerAutocompleteGroupLabel>
+        {notInChannel.map((candidate) => (
+          <ComposerAutocompleteItem key={candidate.handle} muted>
+            <ComposerAutocompleteIcon
+              muted
+              render={<Avatar size="sm" type={candidate.variant === "agent" ? "agent" : "human"} />}
             >
               <AvatarFallback />
-            </Avatar>
-            <div className="flex min-w-0 flex-1 items-center gap-1.5 text-left">
-              <span className="min-w-0 truncate text-black">{candidate.name}</span>
-              {candidate.variant === "agent" ? (
-                <span
-                  aria-hidden
-                  className="inline-block size-2.5 shrink-0 rounded-full border border-line-strong bg-brutal-lime [[data-preview-theme=brutal]_&]:border-black"
-                />
-              ) : null}
-              <span className="ml-auto shrink-0 font-mono text-xs text-black/40">
-                @{candidate.handle}
-              </span>
-            </div>
-          </button>
-        );
-      })}
-      <ComboboxEyebrow className="border-t-2 border-black">Not in this channel</ComboboxEyebrow>
-      {notInChannel.map((candidate) => (
-        <button
-          key={candidate.handle}
-          type="button"
-          className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-black/50 transition-colors hover:bg-black/5"
-        >
-          <Avatar
-            size="sm"
-            type={candidate.variant === "agent" ? "agent" : "human"}
-            className="opacity-60 [[data-preview-theme=brutal]_&]:border-black/40 [[data-preview-theme=brutal]_&]:text-black"
-          >
-            <AvatarFallback />
-          </Avatar>
-          <UserX size={12} className="-ml-1 shrink-0 text-black/40" />
-          <div className="flex min-w-0 flex-1 items-center gap-1.5 text-left">
-            <span className="min-w-0 truncate text-black/50">{candidate.name}</span>
-            <span className="ml-auto shrink-0 font-mono text-xs text-black/30">
-              @{candidate.handle}
-            </span>
-          </div>
-        </button>
-      ))}
-    </div>
+            </ComposerAutocompleteIcon>
+            <ComposerAutocompleteIcon variant="auxiliary" render={<UserX />} />
+            <ComposerAutocompleteContent>
+              <ComposerAutocompleteTitle>{candidate.name}</ComposerAutocompleteTitle>
+              <ComposerAutocompleteAside>
+                <ComposerAutocompleteMeta muted variant="code">
+                  @{candidate.handle}
+                </ComposerAutocompleteMeta>
+              </ComposerAutocompleteAside>
+            </ComposerAutocompleteContent>
+          </ComposerAutocompleteItem>
+        ))}
+      </ComposerAutocompleteGroup>
+    </ComposerAutocomplete>
   );
 }
 
@@ -152,55 +143,41 @@ function MentionAutocomplete({ channel }: { channel: PlaygroundChannel }) {
 // per row; selected row washes pink; archived rows dim with an `archived` badge.
 function ChannelAutocomplete() {
   return (
-    <div
-      data-testid="channel-autocomplete-popover"
-      className="card-brutal absolute bottom-full left-7 right-[calc(1.75rem+var(--message-scroller-gutter,0px))] mb-1 max-h-48 overflow-y-auto"
-    >
+    <ComposerAutocomplete data-testid="channel-autocomplete-popover">
       {CHANNEL_CANDIDATES.map((channel, index) => {
         const selected = index === 0;
         const archived = channel.archived;
         const ChannelIcon =
           channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
         return (
-          <button
+          <ComposerAutocompleteItem
             key={channel.name}
-            type="button"
-            className={`flex w-full items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
-              selected
-                ? archived
-                  ? "bg-black/10 font-bold text-black/70"
-                  : "bg-brutal-pink font-bold text-black"
-                : archived
-                  ? "text-black/45 hover:bg-black/5"
-                  : "text-black hover:bg-soft-signal"
-            }`}
+            selected={selected}
+            muted={archived}
+            tone="accent"
           >
-            <div
-              className={`flex size-5 shrink-0 items-center justify-center border ${
-                archived
-                  ? "border-black/40 bg-black/5 text-black/45"
-                  : "border-black bg-soft-signal text-black"
-              }`}
-            >
-              <ChannelIcon size={12} />
-            </div>
-            <span className="truncate">{channel.name}</span>
-            <span className={`truncate text-xs ${archived ? "text-black/30" : "text-black/40"}`}>
-              {channel.subtitle}
-            </span>
-            {archived ? (
-              <span className="ml-auto shrink-0 border border-black/40 bg-black/5 px-1 py-0.5 text-[9px] font-bold leading-none text-black/45">
-                archived
-              </span>
+            <ComposerAutocompleteIcon variant="framed" muted={archived}>
+              <ChannelIcon />
+            </ComposerAutocompleteIcon>
+            <ComposerAutocompleteTitle>{channel.name}</ComposerAutocompleteTitle>
+            {channel.subtitle ? (
+              <ComposerAutocompleteMeta muted={archived}>
+                {channel.subtitle}
+              </ComposerAutocompleteMeta>
             ) : null}
-          </button>
+            {archived ? (
+              <ComposerAutocompleteAside>
+                <ComposerAutocompleteBadge>archived</ComposerAutocompleteBadge>
+              </ComposerAutocompleteAside>
+            ) : null}
+          </ComposerAutocompleteItem>
         );
       })}
-    </div>
+    </ComposerAutocomplete>
   );
 }
 
-type ComposerAutocomplete = "mention" | "channel" | null;
+type ComposerAutocompleteKind = "mention" | "channel" | null;
 
 // Pending-upload attachment chips (source MessageInput SortableAttachment):
 // an image still uploading (spinner + progress), a resting file chip, and a
@@ -263,7 +240,7 @@ export function Composer({
   label: string;
   uploads?: boolean;
 }) {
-  const [autocomplete, setAutocomplete] = useState<ComposerAutocomplete>(null);
+  const [autocomplete, setAutocomplete] = useState<ComposerAutocompleteKind>(null);
 
   // Demo trigger: `@` / `#` open the matching panel, Escape closes (source uses
   // a caret regex against the draft; a keydown check is enough for the preview).
@@ -275,7 +252,7 @@ export function Composer({
 
   return (
     <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-      <div className="relative flex w-full flex-col gap-2">
+      <ComposerStack positioned>
         {autocomplete === "mention" ? <MentionAutocomplete channel={channel} /> : null}
         {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
         {uploads ? <ComposerAttachments /> : null}
@@ -295,12 +272,10 @@ export function Composer({
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerMeta>
-              <label className="inline-flex cursor-pointer select-none items-center gap-1.5 rounded-md border-0 bg-transparent px-2.5 py-1 transition-colors hover:bg-layer-muted">
+              <ComposerTaskToggle>
                 <Checkbox size="sm" aria-label="Send as task" />
-                <span className="text-xs font-medium text-foreground-muted [[data-preview-theme=brutal]_&]:font-bold [[data-preview-theme=brutal]_&]:text-black/60">
-                  As Task
-                </span>
-              </label>
+                <ComposerTaskLabel>As Task</ComposerTaskLabel>
+              </ComposerTaskToggle>
               <ChatMainPanelComposerSubmit aria-label="Send">
                 <span>Send</span>
                 <Send />
@@ -308,7 +283,7 @@ export function Composer({
             </ChatMainPanelComposerMeta>
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
-      </div>
+      </ComposerStack>
       {uploads ? (
         <ChatMainPanelComposerDropOverlay aria-hidden>
           <ChatMainPanelComposerDropOverlayLabel>

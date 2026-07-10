@@ -12,14 +12,22 @@ import {
 } from "./recipe";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
-  Pick<MessageItemVariantProps, "compact"> & {
+  Pick<MessageItemVariantProps, "compact" | "menuOpen"> & {
     rowState?: MessageItemRowState;
   };
 
-export function MessageItem({ className, compact, render, rowState, ...props }: MessageItemProps) {
+export function MessageItem({
+  className,
+  compact,
+  menuOpen,
+  render,
+  rowState,
+  ...props
+}: MessageItemProps) {
   const theme = useThemeFamily();
-  const { root } = messageItem({ compact, rowState, theme });
+  const { root } = messageItem({ compact, menuOpen, rowState, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-menu-open": menuOpen ? "true" : undefined,
     "data-row-state": rowState,
     className: root({ className }),
   };
@@ -66,6 +74,38 @@ export function MessageItemAvatarSlot({ className, render, ...props }: MessageIt
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "message-item-avatar-slot",
+    },
+  });
+}
+
+export type MessageItemAvatarStatusProps = useRender.ComponentProps<"span"> & {
+  border?: "always" | "auto";
+  offset?: "fixed" | "scaled";
+};
+
+export function MessageItemAvatarStatus({
+  border = "auto",
+  className,
+  offset = "scaled",
+  render,
+  ...props
+}: MessageItemAvatarStatusProps) {
+  const theme = useThemeFamily();
+  const { avatarStatus } = messageItem({
+    avatarStatusBorder: border,
+    avatarStatusOffset: offset,
+    theme,
+  });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: avatarStatus({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-avatar-status",
     },
   });
 }

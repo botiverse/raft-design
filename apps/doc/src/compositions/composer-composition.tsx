@@ -22,6 +22,7 @@ import {
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
+  ComposerStack,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
@@ -76,7 +77,7 @@ export function ComposerComposition() {
 export function ComposerStatesComposition() {
   return (
     <ComposerHost>
-      <div className="flex w-full flex-col gap-2">
+      <ComposerStack>
         <ChatMainPanelComposerAttachments>
           <ChatMainPanelComposerAttachment>
             <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
@@ -140,7 +141,7 @@ export function ComposerStatesComposition() {
             </ChatMainPanelComposerSubmit>
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
-      </div>
+      </ComposerStack>
     </ComposerHost>
   );
 }

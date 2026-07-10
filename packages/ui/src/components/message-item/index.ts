@@ -21,6 +21,7 @@ export {
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
   MessageItemBadge,
   MessageItemBody,
   MessageItemContent,
@@ -44,6 +45,7 @@ export {
   MessageReactionCount,
   MessageReactionGlyph,
   MessageReactionPicker,
+  MessageReactionPickerContent,
   MessageReactionPopover,
   MessageReactionPopoverName,
   MessageReactionPopoverNameText,
@@ -55,6 +57,17 @@ export {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "./message-item";
+export {
+  MessageSelect,
+  MessageSelectAction,
+  MessageSelectActions,
+  MessageSelectCount,
+  MessageSelectToolbar,
+  MessageSelectionMenu,
+  MessageSelectionMenuItem,
+  MessageSelectionMenuSeparator,
+  useMessageSelect,
+} from "./message-select";
 export type {
   MessageAttachmentActionProps,
   MessageAttachmentBodyProps,
@@ -76,6 +89,7 @@ export type {
   MessageVideoPreviewProps,
   MessageItemAttachmentsProps,
   MessageItemAvatarSlotProps,
+  MessageItemAvatarStatusProps,
   MessageItemBadgeProps,
   MessageItemBadgeTone,
   MessageItemBodyProps,
@@ -102,6 +116,7 @@ export type {
   MessageReactionCountProps,
   MessageReactionGlyphProps,
   MessageReactionPickerProps,
+  MessageReactionPickerContentProps,
   MessageReactionPopoverNameProps,
   MessageReactionPopoverNameTextProps,
   MessageReactionPopoverNamesProps,
@@ -113,3 +128,14 @@ export type {
   SystemMessageItemProps,
   SystemMessageItemTimeProps,
 } from "./message-item";
+export type {
+  MessageSelectActionProps,
+  MessageSelectActionsProps,
+  MessageSelectApi,
+  MessageSelectCountProps,
+  MessageSelectProps,
+  MessageSelectToolbarProps,
+  MessageSelectionMenuItemProps,
+  MessageSelectionMenuProps,
+  MessageSelectionMenuSeparatorProps,
+} from "./message-select";

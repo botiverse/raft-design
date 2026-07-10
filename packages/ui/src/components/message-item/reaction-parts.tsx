@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { messageItem, type DataAttributes } from "./recipe";
 import { REACTION_SPRITE_DATA_URI } from "./reaction-sprite";
 
@@ -210,6 +211,24 @@ export function MessageReactionPicker({ className, render, ...props }: MessageRe
       slot: "message-reaction-picker",
     },
   });
+}
+
+export type MessageReactionPickerContentProps = DropdownMenuContentProps;
+
+export function MessageReactionPickerContent({
+  className,
+  render = <MessageReactionPicker />,
+  ...props
+}: MessageReactionPickerContentProps) {
+  const { reactionPickerContent } = messageItem();
+
+  return (
+    <DropdownMenuContent
+      className={reactionPickerContent({ className })}
+      render={render}
+      {...props}
+    />
+  );
 }
 
 export type MessageReactionPopoverProps = useRender.ComponentProps<"div">;

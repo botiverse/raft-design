@@ -88,7 +88,13 @@ export const chatMainPanel = tv({
         surfaceInset: "bg-white",
         surfaceShadow: "bg-white",
         surface: "bg-white",
-        tabs: "border-b-2 border-black bg-white",
+        tabs: [
+          "border-b-2 border-black bg-white",
+          "[&>[data-slot=tabs-list]]:max-w-none [&>[data-slot=tabs-list]]:border-y-0 [&>[data-slot=tabs-list]]:border-l-0 [&>[data-slot=tabs-list]]:border-r-2 [&>[data-slot=tabs-list]]:border-black [&>[data-slot=tabs-list]]:bg-white",
+          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:bg-white [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:text-black",
+          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]]:bg-soft-signal [&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]:hover]:bg-soft-signal",
+          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]+[data-slot=tabs-tab]]:before:bg-black",
+        ],
         body: "border-b-2 border-black bg-white",
         timeline: "bg-white",
         footer: "bg-white",
@@ -134,12 +140,14 @@ export const chatMainPanel = tv({
         ],
         subtitle: "font-sans text-foreground-muted",
         surfaceInset: "overflow-visible pl-2",
-        surfaceShadow: [
-          "relative overflow-visible rounded-tl-[10px]",
-          "shadow-[var(--theme-shadow-xl)]",
-        ],
+        surfaceShadow: ["relative overflow-visible rounded-tl-[10px]", "shadow-xl"],
         surface: "relative overflow-clip rounded-tl-[10px] bg-white",
-        tabs: "border-b-0 bg-layer-panel",
+        tabs: [
+          "border-b-0 bg-layer-panel",
+          "[&>[data-slot=tabs-list]]:h-11 [&>[data-slot=tabs-list]]:border-b-0",
+          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:h-11 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pt-2.5 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pb-2",
+          "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
+        ],
         body: "bg-white",
         timeline: "bg-white",
         footer: [
@@ -150,7 +158,7 @@ export const chatMainPanel = tv({
         composer: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-white",
-          "shadow-[var(--theme-shadow-lg)] ring-1 ring-[oklch(0_0_0/0.02)] focus-within:ring-[oklch(0_0_0/0.10)]",
+          "shadow-lg ring-1 ring-[oklch(0_0_0/0.02)] focus-within:ring-[oklch(0_0_0/0.10)]",
         ],
         composerInput: [
           "min-h-20 md:min-h-20 px-4 pt-4",
@@ -161,7 +169,7 @@ export const chatMainPanel = tv({
         composerActions: "gap-1.5",
         composerIconButton: [
           "size-8 rounded-none border-0 bg-transparent p-0 shadow-none",
-          "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4",
+          "text-foreground-muted/68 [&_svg]:size-4",
           "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
           "active:translate-x-0 active:translate-y-0 active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
@@ -169,7 +177,7 @@ export const chatMainPanel = tv({
         composerSubmit: [
           "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
           "bg-accent-400 text-sm font-medium text-white",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_oklch(0.749_0.162_0.71)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
           "hover:bg-accent-hover",
           "active:translate-x-0 active:translate-y-0 active:scale-[0.985]",
           "[&_svg]:size-4",

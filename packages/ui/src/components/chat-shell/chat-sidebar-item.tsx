@@ -2,14 +2,19 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AtSign, BellOff, GitBranch, Hash, Lock, Pencil } from "lucide-react";
+import { createContext, use } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { VariantProps } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge";
 import type { DataAttributes } from "./app-shell";
-import { chatSidebar } from "./chat-sidebar.recipe";
+import { chatSidebar, chatSidebarItemInlineText } from "./chat-sidebar.recipe";
+
+const ChatSidebarItemUnreadContext = createContext(false);
 
 export type ChatSidebarItemProps = useRender.ComponentProps<"button"> & {
   menuOpen?: boolean;
   selected?: boolean;
+  unread?: boolean;
 };
 
 export function ChatSidebarItem({
@@ -17,6 +22,7 @@ export function ChatSidebarItem({
   menuOpen,
   render,
   selected,
+  unread,
   ...props
 }: ChatSidebarItemProps) {
   const theme = useThemeFamily();
@@ -26,13 +32,20 @@ export function ChatSidebarItem({
     "data-menu-open": menuOpen ? "true" : undefined,
     "data-selected": selected ? "true" : undefined,
     "data-slot": "chat-sidebar-item",
+    "data-unread": unread ? "true" : undefined,
     className: sidebarItem({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     render: render ?? <BaseButton />,
     props: mergeProps<"button">(defaultProps, props),
   });
+
+  return (
+    <ChatSidebarItemUnreadContext.Provider value={Boolean(unread)}>
+      {element}
+    </ChatSidebarItemUnreadContext.Provider>
+  );
 }
 
 export type ChatSidebarItemIconProps = useRender.ComponentProps<"span">;
@@ -106,11 +119,39 @@ export function ChatSidebarItemText({
   });
 }
 
+type ChatSidebarItemInlineTextVariantProps = VariantProps<typeof chatSidebarItemInlineText>;
+
+export type ChatSidebarItemInlineTextProps = useRender.ComponentProps<"span"> &
+  ChatSidebarItemInlineTextVariantProps;
+
+export function ChatSidebarItemInlineText({
+  align,
+  className,
+  render,
+  titleWidth,
+  ...props
+}: ChatSidebarItemInlineTextProps) {
+  const { sidebarItemText } = chatSidebar();
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-sidebar-item-inline-text",
+    className: sidebarItemText({
+      className: chatSidebarItemInlineText({ align, className, titleWidth }),
+    }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type ChatSidebarItemTitleProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemTitle({ className, render, ...props }: ChatSidebarItemTitleProps) {
   const theme = useThemeFamily();
-  const { sidebarItemTitle } = chatSidebar({ theme });
+  const unread = use(ChatSidebarItemUnreadContext);
+  const { sidebarItemTitle } = chatSidebar({ theme, unread });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-title",
     className: sidebarItemTitle({ className }),

@@ -35,7 +35,8 @@ export type ChatSidebarResizePanelProps = Omit<ResizablePanelProps, "className">
 };
 
 export function ChatSidebarResizePanel({ className, ...props }: ChatSidebarResizePanelProps) {
-  const { sidebarResizePanel } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarResizePanel } = chatSidebar({ theme });
 
   return (
     <ResizablePanel

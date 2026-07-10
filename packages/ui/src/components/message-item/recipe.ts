@@ -9,6 +9,7 @@ export const messageItem = tv({
     root: ["group/message relative flex h-fit min-h-[3rem] gap-3", "border-2 border-transparent"],
     gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: ["relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors"],
+    avatarStatus: ["absolute inline-block size-[11px] shrink-0 rounded-full"],
     selectMark: [
       "mt-1.5 inline-flex size-5 shrink-0 items-center justify-center self-start rounded-full",
       "border-2 border-line-strong bg-layer-panel text-transparent",
@@ -32,7 +33,13 @@ export const messageItem = tv({
       "text-xs font-bold text-foreground/70",
     ],
     attachments: ["mt-1 space-y-2"],
-    footer: ["message-footer-metadata mt-1.5 flex flex-wrap items-center gap-1.5"],
+    footer: [
+      "mt-1.5 flex flex-wrap items-center gap-1.5",
+      "[[data-slot=app-shell-root]_&_[data-slot=badge].inline-flex.h-5]:![border-color:var(--sidebar-chrome-bg-color)]",
+      "[[data-slot=app-shell-root]_&_[data-slot=badge].inline-flex.h-5]:[letter-spacing:-0.025em]",
+      "[[data-slot=app-shell-root]_&_.inline-flex.h-5]:![border-color:var(--sidebar-chrome-bg-color)]",
+      "[[data-slot=app-shell-root]_&_.inline-flex.h-5]:[letter-spacing:-0.025em]",
+    ],
     toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",
@@ -141,6 +148,11 @@ export const messageItem = tv({
       "inline-flex items-center gap-0.5 border-2 border-line-strong bg-white px-1.5 py-1",
       "shadow-lg",
     ],
+    reactionPickerContent: [
+      "inline-flex min-w-0 flex-row items-center gap-0.5",
+      "rounded-none border-2 border-black bg-white px-1.5 py-1",
+      "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
+    ],
     reactionPopover: [
       "inline-block max-w-[280px] border-2 border-line-strong bg-white px-2 py-1.5",
       "text-xs font-bold text-black",
@@ -151,11 +163,25 @@ export const messageItem = tv({
     reactionPopoverSeparator: ["shrink-0 text-black/45"],
   },
   variants: {
+    avatarStatusBorder: {
+      auto: {},
+      always: {
+        avatarStatus: ["border border-line-strong", "[[data-preview-theme=brutal]_&]:border-black"],
+      },
+    },
+    avatarStatusOffset: {
+      scaled: {
+        avatarStatus: "-right-0.5 -bottom-0.5",
+      },
+      fixed: {
+        avatarStatus: "-right-[2px] -bottom-[2px]",
+      },
+    },
     badgeTone: {
       default: {
         badge: [
           "!h-[20px] !border-0 !bg-transparent !px-0 !py-0 !shadow-none !ring-0",
-          "text-[12px] tracking-[-0.01em] text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
+          "text-[12px] tracking-[-0.01em] text-foreground-muted/76",
           "hover:!bg-transparent hover:text-foreground-strong",
         ],
       },
@@ -172,6 +198,7 @@ export const messageItem = tv({
           "mb-1 mt-1.5 px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
+        avatarStatus: "border border-line-strong",
         continuationTime: "text-foreground/0 group-hover/message:text-foreground/40",
         header: "items-center gap-2",
         sender: "font-bold text-foreground-strong",
@@ -199,25 +226,24 @@ export const messageItem = tv({
           "px-7 py-3.5",
           "hover:bg-[color-mix(in_oklch,#EEEEED_35%,transparent)] active:bg-layer-muted/90",
         ],
-        continuationTime:
-          "text-transparent group-hover/message:text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        continuationTime: "text-transparent group-hover/message:text-foreground-muted/60",
         header: "items-baseline gap-1.5",
         sender: "text-[14px] font-medium leading-none text-foreground-muted",
         senderState: [
           "border border-line-strong bg-gray-300 px-1.5 py-0.5",
           "text-[10px] font-bold uppercase leading-none text-foreground/60",
         ],
-        meta: "font-sans text-[12px] leading-none text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
-        time: "font-sans text-[12px] leading-none tabular-nums text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        meta: "font-sans text-[12px] leading-none text-foreground-muted/60",
+        time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted/60",
         body: "mt-1.5 mb-1.5 text-[15px] leading-[22.5px] tracking-[-0.01em] text-foreground-muted select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
         toolbar: [
           "top-1 right-[calc(1.75rem-2px)]",
           "gap-[2px] rounded-sm px-1 py-[2px]",
-          "bg-[var(--layer-popover)] shadow-[var(--theme-shadow-xs)] ring-1 ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "bg-layer-popover shadow-xs ring-1 ring-line-subtle/30",
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent !p-0",
-          "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
+          "text-foreground-muted/68 hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
           "data-[saved=true]:text-primary-400 data-[saved=true]:hover:text-primary-400",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
@@ -244,6 +270,10 @@ export const messageItem = tv({
         ],
       },
     },
+    menuOpen: {
+      true: {},
+      false: {},
+    },
     compact: {
       true: {
         root: "mt-0 min-h-0 py-[2px]",
@@ -256,6 +286,13 @@ export const messageItem = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      menuOpen: true,
+      class: { root: "border-black bg-white" },
+    },
+  ],
 });
 
 export type MessageItemVariantProps = VariantProps<typeof messageItem>;

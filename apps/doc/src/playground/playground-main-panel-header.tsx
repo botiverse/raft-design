@@ -75,7 +75,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
         </PanelIconButton>
         <PanelIconButton aria-label="View participants" className="w-auto min-w-7 gap-1.5 px-2.5">
           <Users />
-          <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)]">
+          <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-foreground-muted/68">
             {channel.memberCount}
           </span>
         </PanelIconButton>

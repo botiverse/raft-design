@@ -1,4 +1,17 @@
 export {
+  AppMobileBarIcon,
+  AppMobileBarItem,
+  AppMobileBarLabel,
+  AppMobileBarList,
+} from "./app-mobile-bar";
+export type {
+  AppMobileBarIconProps,
+  AppMobileBarItemProps,
+  AppMobileBarLabelProps,
+  AppMobileBarListProps,
+} from "./app-mobile-bar";
+
+export {
   AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
@@ -22,6 +35,7 @@ export {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
+  AppRailUtilitySlot,
 } from "./app-rail";
 export type {
   AppRailFooterProps,
@@ -34,6 +48,7 @@ export type {
   AppRailNavProps,
   AppRailRootProps,
   AppRailServerButtonProps,
+  AppRailUtilitySlotProps,
 } from "./app-rail";
 
 export {
@@ -134,17 +149,67 @@ export type {
 } from "./chat-main-panel-composer";
 
 export {
+  ComposerAutocomplete,
+  ComposerAutocompleteAside,
+  ComposerAutocompleteBadge,
+  ComposerAutocompleteContent,
+  ComposerAutocompleteGroup,
+  ComposerAutocompleteGroupLabel,
+  ComposerAutocompleteIcon,
+  ComposerAutocompleteItem,
+  ComposerAutocompleteMeta,
+  ComposerAutocompleteTitle,
+} from "./composer-autocomplete";
+export type {
+  ComposerAutocompleteAsideProps,
+  ComposerAutocompleteBadgeProps,
+  ComposerAutocompleteContentProps,
+  ComposerAutocompleteGroupLabelProps,
+  ComposerAutocompleteGroupProps,
+  ComposerAutocompleteIconProps,
+  ComposerAutocompleteItemProps,
+  ComposerAutocompleteMetaProps,
+  ComposerAutocompleteProps,
+  ComposerAutocompleteTitleProps,
+} from "./composer-autocomplete";
+
+export { ComposerStack } from "./composer-stack";
+export type { ComposerStackProps } from "./composer-stack";
+
+export { ComposerTaskLabel, ComposerTaskToggle } from "./composer-task";
+export type { ComposerTaskLabelProps, ComposerTaskToggleProps } from "./composer-task";
+
+export {
   ChatSidebarBody,
+  ChatSidebarContent,
   ChatSidebarFooter,
   ChatSidebarHeader,
+  ChatSidebarHeaderTitle,
   ChatSidebarRoot,
 } from "./chat-sidebar";
 export type {
   ChatSidebarBodyProps,
+  ChatSidebarContentProps,
   ChatSidebarFooterProps,
   ChatSidebarHeaderProps,
+  ChatSidebarHeaderTitleProps,
   ChatSidebarRootProps,
 } from "./chat-sidebar";
+
+export {
+  ChatSidebarMenu,
+  ChatSidebarMenuAside,
+  ChatSidebarMenuCount,
+  ChatSidebarMenuIcon,
+  ChatSidebarMenuTitle,
+} from "./chat-sidebar-menu";
+export type {
+  ChatSidebarMenuAsideProps,
+  ChatSidebarMenuCountProps,
+  ChatSidebarMenuIconProps,
+  ChatSidebarMenuProps,
+  ChatSidebarMenuTitleProps,
+} from "./chat-sidebar-menu";
 
 export {
   ChatSidebarItem,
@@ -154,6 +219,7 @@ export {
   ChatSidebarItemDraft,
   ChatSidebarItemIcon,
   ChatSidebarItemIndicator,
+  ChatSidebarItemInlineText,
   ChatSidebarItemMention,
   ChatSidebarItemMeta,
   ChatSidebarItemMuted,
@@ -169,6 +235,7 @@ export type {
   ChatSidebarItemDraftProps,
   ChatSidebarItemIconProps,
   ChatSidebarItemIndicatorProps,
+  ChatSidebarItemInlineTextProps,
   ChatSidebarItemMentionProps,
   ChatSidebarItemMetaProps,
   ChatSidebarItemMutedProps,
