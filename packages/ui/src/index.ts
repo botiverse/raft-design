@@ -634,6 +634,9 @@ export type {
 export { Separator } from "./components/separator/index";
 export type { SeparatorProps } from "./components/separator/index";
 
+export { BrutalOnly, ElegantOnly } from "./components/theme-only/index";
+export type { ThemeOnlyProps } from "./components/theme-only/index";
+
 export { cn } from "./lib/cn";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
