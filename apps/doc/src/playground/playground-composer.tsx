@@ -42,6 +42,8 @@ import {
   ComposerAutocompleteItem,
   ComposerAutocompleteMeta,
   ComposerAutocompleteTitle,
+  ComposerTaskLabel,
+  ComposerTaskToggle,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
@@ -269,12 +271,10 @@ export function Composer({
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerMeta>
-              <label className="inline-flex cursor-pointer select-none items-center gap-1.5 rounded-md border-0 bg-transparent px-2.5 py-1 transition-colors hover:bg-layer-muted">
+              <ComposerTaskToggle>
                 <Checkbox size="sm" aria-label="Send as task" />
-                <span className="text-xs font-medium text-foreground-muted [[data-preview-theme=brutal]_&]:font-bold [[data-preview-theme=brutal]_&]:text-black/60">
-                  As Task
-                </span>
-              </label>
+                <ComposerTaskLabel>As Task</ComposerTaskLabel>
+              </ComposerTaskToggle>
               <ChatMainPanelComposerSubmit aria-label="Send">
                 <span>Send</span>
                 <Send />

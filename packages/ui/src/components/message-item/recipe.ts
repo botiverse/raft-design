@@ -147,6 +147,11 @@ export const messageItem = tv({
       "inline-flex items-center gap-0.5 border-2 border-line-strong bg-white px-1.5 py-1",
       "shadow-lg",
     ],
+    reactionPickerContent: [
+      "inline-flex min-w-0 flex-row items-center gap-0.5",
+      "rounded-none border-2 border-black bg-white px-1.5 py-1",
+      "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
+    ],
     reactionPopover: [
       "inline-block max-w-[280px] border-2 border-line-strong bg-white px-2 py-1.5",
       "text-xs font-bold text-black",

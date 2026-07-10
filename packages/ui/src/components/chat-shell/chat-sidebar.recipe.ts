@@ -181,3 +181,23 @@ export const chatSidebar = tv({
     },
   },
 });
+
+export const chatSidebarItemInlineText = tv({
+  variants: {
+    align: {
+      baseline: "",
+      center: "items-center gap-0",
+    },
+    titleWidth: {
+      auto: "",
+      constrained: [
+        "[&>[data-slot=chat-sidebar-item-title]]:max-w-[70%]",
+        "[&>[data-slot=chat-sidebar-item-title]]:shrink-0",
+      ],
+    },
+  },
+  defaultVariants: {
+    align: "baseline",
+    titleWidth: "auto",
+  },
+});

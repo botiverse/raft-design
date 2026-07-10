@@ -158,6 +158,9 @@ export type {
   ComposerAutocompleteTitleProps,
 } from "./composer-autocomplete";
 
+export { ComposerTaskLabel, ComposerTaskToggle } from "./composer-task";
+export type { ComposerTaskLabelProps, ComposerTaskToggleProps } from "./composer-task";
+
 export {
   ChatSidebarBody,
   ChatSidebarContent,
@@ -198,6 +201,7 @@ export {
   ChatSidebarItemDraft,
   ChatSidebarItemIcon,
   ChatSidebarItemIndicator,
+  ChatSidebarItemInlineText,
   ChatSidebarItemMention,
   ChatSidebarItemMeta,
   ChatSidebarItemMuted,
@@ -213,6 +217,7 @@ export type {
   ChatSidebarItemDraftProps,
   ChatSidebarItemIconProps,
   ChatSidebarItemIndicatorProps,
+  ChatSidebarItemInlineTextProps,
   ChatSidebarItemMentionProps,
   ChatSidebarItemMetaProps,
   ChatSidebarItemMutedProps,

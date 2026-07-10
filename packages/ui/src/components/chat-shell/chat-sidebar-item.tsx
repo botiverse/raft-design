@@ -3,9 +3,10 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AtSign, BellOff, GitBranch, Hash, Lock, Pencil } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { VariantProps } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge";
 import type { DataAttributes } from "./app-shell";
-import { chatSidebar } from "./chat-sidebar.recipe";
+import { chatSidebar, chatSidebarItemInlineText } from "./chat-sidebar.recipe";
 
 export type ChatSidebarItemProps = useRender.ComponentProps<"button"> & {
   menuOpen?: boolean;
@@ -97,6 +98,33 @@ export function ChatSidebarItemText({
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-text",
     className: stacked ? sidebarItemTextStack({ className }) : sidebarItemText({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+type ChatSidebarItemInlineTextVariantProps = VariantProps<typeof chatSidebarItemInlineText>;
+
+export type ChatSidebarItemInlineTextProps = useRender.ComponentProps<"span"> &
+  ChatSidebarItemInlineTextVariantProps;
+
+export function ChatSidebarItemInlineText({
+  align,
+  className,
+  render,
+  titleWidth,
+  ...props
+}: ChatSidebarItemInlineTextProps) {
+  const { sidebarItemText } = chatSidebar();
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-sidebar-item-inline-text",
+    className: sidebarItemText({
+      className: chatSidebarItemInlineText({ align, className, titleWidth }),
+    }),
   };
 
   return useRender({

@@ -64,10 +64,10 @@ import {
   ChatSidebarItemChannelIcon,
   ChatSidebarItemDraft,
   ChatSidebarItemIcon,
+  ChatSidebarItemInlineText,
   ChatSidebarItemMention,
   ChatSidebarItemMuted,
   ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarMenu,
@@ -119,12 +119,12 @@ function ChannelRowContent({
   return (
     <>
       <ChatSidebarItemChannelIcon type={row.kind} />
-      <ChatSidebarItemText className={row.sidebar.muted ? "items-center gap-0" : undefined}>
+      <ChatSidebarItemInlineText align={row.sidebar.muted ? "center" : undefined}>
         <ChatSidebarItemTitle className={row.sidebar.bold ? "font-bold" : undefined}>
           {row.name}
         </ChatSidebarItemTitle>
         {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
-      </ChatSidebarItemText>
+      </ChatSidebarItemInlineText>
       {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
       {showAside ? (
         <ChatSidebarItemAside>
@@ -177,15 +177,16 @@ function DirectMessageRowContent({
           ) : null}
         </Avatar>
       </ChatSidebarItemIcon>
-      <ChatSidebarItemText className={row.sidebar.muted ? "items-center gap-0" : undefined}>
-        <ChatSidebarItemTitle
-          className={`max-w-[70%] shrink-0${row.sidebar.bold ? " font-bold" : ""}`}
-        >
+      <ChatSidebarItemInlineText
+        align={row.sidebar.muted ? "center" : undefined}
+        titleWidth="constrained"
+      >
+        <ChatSidebarItemTitle className={row.sidebar.bold ? "font-bold" : undefined}>
           {row.name}
         </ChatSidebarItemTitle>
         <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
         {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
-      </ChatSidebarItemText>
+      </ChatSidebarItemInlineText>
       {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
       {showAside ? (
         <ChatSidebarItemAside>

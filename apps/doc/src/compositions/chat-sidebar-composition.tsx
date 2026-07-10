@@ -16,6 +16,7 @@ import {
   ChatSidebarItemDraft,
   ChatSidebarItemMention,
   ChatSidebarItemMuted,
+  ChatSidebarItemInlineText,
   ChatSidebarItemSubtitle,
   ChatSidebarItemText,
   ChatSidebarItemTitle,
@@ -104,12 +105,10 @@ export function ChatSidebarComposition() {
                               <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
                             </Avatar>
                           </ChatSidebarItemIcon>
-                          <ChatSidebarItemText>
-                            <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
-                              Atlas
-                            </ChatSidebarItemTitle>
+                          <ChatSidebarItemInlineText titleWidth="constrained">
+                            <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
                             <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
-                          </ChatSidebarItemText>
+                          </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
                             <Status aria-hidden variant="success" size="md" />
                           </ChatSidebarItemAside>
@@ -167,10 +166,10 @@ export function ChatSidebarComposition() {
                         </ChatSidebarItem>
                         <ChatSidebarItem type="button">
                           <ChatSidebarItemChannelIcon />
-                          <ChatSidebarItemText className="items-center gap-0">
+                          <ChatSidebarItemInlineText align="center">
                             <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
                             <ChatSidebarItemMuted />
-                          </ChatSidebarItemText>
+                          </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
                             <ChatSidebarItemDraft />
                           </ChatSidebarItemAside>
@@ -193,12 +192,10 @@ export function ChatSidebarComposition() {
                               <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
                             </Avatar>
                           </ChatSidebarItemIcon>
-                          <ChatSidebarItemText>
-                            <ChatSidebarItemTitle className="max-w-[70%] shrink-0 font-bold">
-                              Cindy
-                            </ChatSidebarItemTitle>
+                          <ChatSidebarItemInlineText titleWidth="constrained">
+                            <ChatSidebarItemTitle className="font-bold">Cindy</ChatSidebarItemTitle>
                             <ChatSidebarItemSubtitle>design</ChatSidebarItemSubtitle>
-                          </ChatSidebarItemText>
+                          </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
                             <Status aria-hidden variant="success" size="md" />
                             <ChatSidebarItemBadge>4</ChatSidebarItemBadge>
@@ -208,12 +205,10 @@ export function ChatSidebarComposition() {
                           <ChatSidebarItemIcon>
                             <Avatar size="sidebar" type="agent" />
                           </ChatSidebarItemIcon>
-                          <ChatSidebarItemText>
-                            <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
-                              Atlas
-                            </ChatSidebarItemTitle>
+                          <ChatSidebarItemInlineText titleWidth="constrained">
+                            <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
                             <ChatSidebarItemSubtitle>idle</ChatSidebarItemSubtitle>
-                          </ChatSidebarItemText>
+                          </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
                             <MessageSquare className="size-3 text-foreground-muted" />
                           </ChatSidebarItemAside>

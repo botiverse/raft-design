@@ -33,6 +33,8 @@ import {
   ChatMainPanelComposerMeta,
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
+  ComposerTaskLabel,
+  ComposerTaskToggle,
   ChatMainPanelFooter,
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
@@ -279,12 +281,10 @@ export function ChatMainPanelComposition() {
                     </ChatMainPanelComposerIconButton>
                   </ChatMainPanelComposerActions>
                   <ChatMainPanelComposerMeta>
-                    <label className="inline-flex cursor-pointer select-none items-center gap-1.5 rounded-md border-0 bg-transparent px-2.5 py-1 transition-colors hover:bg-layer-muted">
+                    <ComposerTaskToggle>
                       <Checkbox size="sm" aria-label="Send as task" />
-                      <span className="text-xs font-bold text-foreground-muted [[data-preview-theme=brutal]_&]:text-black/60 [[data-preview-theme=elegant]_&]:font-medium">
-                        As Task
-                      </span>
-                    </label>
+                      <ComposerTaskLabel>As Task</ComposerTaskLabel>
+                    </ComposerTaskToggle>
                     <ChatMainPanelComposerSubmit aria-label="Send">
                       <Send className="[[data-preview-theme=elegant]_&]:hidden" />
                       <span className="hidden [[data-preview-theme=elegant]_&]:inline">Send</span>

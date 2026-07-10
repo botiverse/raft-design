@@ -117,7 +117,7 @@ import {
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionGlyph,
-  MessageReactionPicker,
+  MessageReactionPickerContent,
   MessageReactionPopover,
   MessageReactionPopoverName,
   MessageReactionPopoverNames,
@@ -2411,16 +2411,10 @@ function RowAvatar({
   );
 }
 
-// Neutralizes the DropdownMenu content chrome (min-width / surface / padding /
-// menu layout, incl. elegant's `flex-col rounded-md p-1`) so the Base UI
-// positioner renders the plain MessageReactionPicker row instead of a menu box.
-const REACTION_FLYOUT_CLASS =
-  "inline-flex min-w-0 flex-row items-center gap-0.5 rounded-none border-2 border-black bg-white px-1.5 py-1 shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]";
-
 // Hover-toolbar reaction flyout. Source opens the quick-reaction row on click of
 // the React button and hand-positions it (buggy x/y); here the row is anchored
 // by Base UI's menu positioner (click-to-open trigger, automatic flip/collision)
-// while MessageReactionPicker + MessageReactionQuickButton keep the source
+// while MessageReactionPickerContent + MessageReactionQuickButton keep the source
 // picker chrome and per-emoji hover tint pixel-identical.
 function RowToolbar({
   saved,
@@ -2459,13 +2453,7 @@ function RowToolbar({
             </MessageItemToolbarButton>
           }
         />
-        <DropdownMenuContent
-          side="bottom"
-          align="end"
-          sideOffset={4}
-          className={REACTION_FLYOUT_CLASS}
-          render={<MessageReactionPicker />}
-        >
+        <MessageReactionPickerContent side="bottom" align="end" sideOffset={4}>
           {MESSAGE_QUICK_REACTIONS.map((emoji) => (
             <MessageReactionQuickButton
               key={emoji}
@@ -2476,7 +2464,7 @@ function RowToolbar({
               <MessageReactionGlyph emoji={emoji} size={18} className="block" />
             </MessageReactionQuickButton>
           ))}
-        </DropdownMenuContent>
+        </MessageReactionPickerContent>
       </DropdownMenu>
       <MessageItemToolbarButton
         saved={saved}
