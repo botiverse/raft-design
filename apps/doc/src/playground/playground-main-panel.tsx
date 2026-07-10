@@ -15,8 +15,6 @@ import {
   AlertTriangle,
   ArrowDown,
   Ban,
-  Bell,
-  BellOff,
   Bookmark,
   BookmarkMinus,
   Check,
@@ -27,8 +25,6 @@ import {
   Copy,
   Download,
   Eye,
-  GitBranch,
-  Hash,
   Image as ImageIcon,
   Link as LinkIcon,
   ListTodo,
@@ -38,13 +34,9 @@ import {
   Paperclip,
   Play,
   RotateCcw,
-  Search,
   Send,
-  Settings,
   SmilePlus,
-  Square,
   TextQuote,
-  Users,
   X,
 } from "lucide-react";
 import {
@@ -85,21 +77,15 @@ import {
   TabsLabel,
 } from "raft-ui";
 import {
-  ChatMainPanelActions,
   ChatMainPanelBody,
-  ChatMainPanelHeader,
-  ChatMainPanelHeaderIcon,
   ChatMainPanelJumpToLatest,
   ChatMainPanelMessageList,
   ChatMainPanelRoot,
-  ChatMainPanelSubtitle,
   ChatMainPanelSurfaceInset,
   ChatMainPanelSurfaceShadow,
   ChatMainPanelSurface,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
-  ChatMainPanelTitle,
-  ChatMainPanelTitleBlock,
   MessageAttachmentAction,
   MessageAttachmentBody,
   MessageAttachmentCard,
@@ -145,7 +131,6 @@ import {
   MessageTimelineDateDivider,
   MessageTimelineHistoryLimited,
   MessageTimelineNotice,
-  PanelIconButton,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
@@ -159,7 +144,16 @@ import {
 } from "raft-ui/wip";
 
 import { Composer } from "#/playground/playground-composer.tsx";
-import type { PlaygroundChannel, PlaygroundChannelId } from "./mock-data.ts";
+import { PlaygroundMainPanelHeader } from "#/playground/playground-main-panel-header.tsx";
+import {
+  ALL_SHOWCASE_THREAD_IDS,
+  getPlaygroundActor,
+  getPlaygroundThread,
+  requirePlaygroundThread,
+  type PlaygroundChannel,
+  type PlaygroundMessage,
+  type PlaygroundThreadId,
+} from "./mock/index.ts";
 
 type PanelTab = "chat" | "tasks" | "files";
 export type RowVariant = "member" | "agent";
@@ -527,12 +521,13 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
   const [tabOrder, setTabOrder] = useState<PanelTab[]>(["chat", "tasks", "files"]);
   const timelineRef = useRef<HTMLDivElement>(null);
 
-  const isDm = channel.kind === "dm-agent" || channel.kind === "dm-human";
+  const isDm = channel.kind === "dm";
   const composerLabel = isDm ? `Message @${channel.name}` : `Message #${channel.name}`;
+  const uploads = channel.content.kind === "showcase" && channel.content.showcase === "incident";
 
   return (
     <ChatMainPanelRoot>
-      {isDm ? <DmHeader channel={channel} /> : <ChannelHeader channel={channel} />}
+      <PlaygroundMainPanelHeader channel={channel} />
 
       <ChatMainPanelSurfaceInset>
         <ChatMainPanelSurfaceShadow>
@@ -559,7 +554,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
             {tab === "chat" ? (
               <>
                 <ChannelBody channel={channel} timelineRef={timelineRef} />
-                <Composer label={composerLabel} uploads={channel.id === "incident-alerts"} />
+                <Composer channel={channel} label={composerLabel} uploads={uploads} />
               </>
             ) : tab === "tasks" ? (
               <TabPlaceholder
@@ -582,96 +577,6 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
   );
 }
 
-function ChannelHeader({ channel }: { channel: PlaygroundChannel }) {
-  const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
-  const isMuted = channel.id === "component-matrix";
-
-  return (
-    <ChatMainPanelHeader>
-      <ChatMainPanelHeaderIcon className="[&_svg]:size-[14px]">
-        <Icon />
-      </ChatMainPanelHeaderIcon>
-      <ChatMainPanelTitleBlock>
-        <div className="flex min-w-0 items-center gap-2">
-          <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
-          {isMuted ? (
-            <span
-              title="Activity muted. Direct mentions can still notify you."
-              className="inline-flex shrink-0 items-center gap-1 border-2 border-black bg-brutal-orange/25 px-1.5 py-1 text-[11px] font-bold uppercase leading-none text-black"
-            >
-              <BellOff size={11} />
-              Muted
-            </span>
-          ) : null}
-        </div>
-        <ChatMainPanelSubtitle>{channel.subtitle}</ChatMainPanelSubtitle>
-      </ChatMainPanelTitleBlock>
-      <ChatMainPanelActions>
-        <PanelIconButton aria-label="Search this channel">
-          <Search />
-        </PanelIconButton>
-        {isMuted ? (
-          <PanelIconButton
-            aria-label="Unmute activity for this channel"
-            className="bg-brutal-orange text-black"
-          >
-            <BellOff />
-          </PanelIconButton>
-        ) : (
-          <PanelIconButton aria-label="Mute activity for this channel">
-            <Bell />
-          </PanelIconButton>
-        )}
-        <PanelIconButton aria-label="Stop all agents in this channel">
-          <Square />
-        </PanelIconButton>
-        <PanelIconButton aria-label="Edit channel">
-          <Settings />
-        </PanelIconButton>
-        <PanelIconButton aria-label="View participants" className="w-auto min-w-7 gap-1.5 px-2.5">
-          <Users />
-          <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)]">
-            7
-          </span>
-        </PanelIconButton>
-      </ChatMainPanelActions>
-    </ChatMainPanelHeader>
-  );
-}
-
-// DM header: agent avatar instead of the hash box, an inline presence dot +
-// status beside the name, and only the mute action.
-function DmHeader({ channel }: { channel: PlaygroundChannel }) {
-  return (
-    <ChatMainPanelHeader>
-      <Avatar
-        size="md"
-        type="agent"
-        className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan [[data-preview-theme=brutal]_&]:text-black"
-      >
-        <AvatarFallback />
-      </Avatar>
-      <ChatMainPanelTitleBlock>
-        <div className="flex min-w-0 items-center gap-2">
-          <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
-          <span
-            aria-hidden
-            className="inline-block size-2.5 shrink-0 rounded-full border border-line-strong bg-success-base [[data-preview-theme=brutal]_&]:border-black"
-          />
-          <ChatMainPanelSubtitle className="text-sm [[data-preview-theme=brutal]_&]:text-black/60">
-            {channel.subtitle}
-          </ChatMainPanelSubtitle>
-        </div>
-      </ChatMainPanelTitleBlock>
-      <ChatMainPanelActions>
-        <PanelIconButton aria-label="Mute activity for this DM">
-          <Bell />
-        </PanelIconButton>
-      </ChatMainPanelActions>
-    </ChatMainPanelHeader>
-  );
-}
-
 function ChannelBody({
   channel,
   timelineRef,
@@ -679,27 +584,70 @@ function ChannelBody({
   channel: PlaygroundChannel;
   timelineRef: RefObject<HTMLDivElement | null>;
 }) {
-  switch (channel.id) {
-    case "proj-uiux":
-      return <ProjUiuxBody channelId={channel.id} />;
-    case "incident-alerts":
+  if (channel.content.kind === "messages") {
+    return <ConversationBody messages={channel.content.messages} />;
+  }
+  if (channel.content.kind === "empty") {
+    return <NewChannelBody channel={channel} />;
+  }
+
+  switch (channel.content.showcase) {
+    case "rich":
+      return <ProjUiuxBody />;
+    case "incident":
       return <IncidentBody />;
     case "release":
       return <ReleaseBody timelineRef={timelineRef} />;
-    case "component-matrix":
+    case "matrix":
       return <MatrixBody />;
-    case "dm-atlas":
-      return <DmAtlasBody channelId={channel.id} />;
-    case "new-channel":
-      return <NewChannelBody />;
-    default:
-      return null;
   }
+}
+
+function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[] }) {
+  return (
+    <ChatMainPanelBody>
+      <ChatMainPanelTimeline>
+        <ChatMainPanelMessageList>
+          <div className="px-3 pt-3">
+            <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
+          </div>
+          <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
+          {messages.map((message) => {
+            const actor = getPlaygroundActor(message.authorId);
+            const threadContext = getPlaygroundThread(message.id);
+            const thread = threadContext?.thread;
+
+            return (
+              <MessageRow
+                key={message.id}
+                variant={actor.type === "agent" ? "agent" : "member"}
+                sender={actor.name}
+                meta={actor.meta}
+                time={message.time}
+                body={message.body}
+                threadId={thread ? message.id : undefined}
+                footer={
+                  thread ? (
+                    thread.unreadCount ? (
+                      <UnreadRepliesBadge threadId={message.id} />
+                    ) : (
+                      <RepliesBadge threadId={message.id} />
+                    )
+                  ) : null
+                }
+              />
+            );
+          })}
+          <div className="pb-3" aria-hidden />
+        </ChatMainPanelMessageList>
+      </ChatMainPanelTimeline>
+    </ChatMainPanelBody>
+  );
 }
 
 // Scenario 1: data-rich channel — member + agent rows, a continuation row, and
 // both the plain and the cyan-unread reply badges.
-function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
+function ProjUiuxBody() {
   return (
     <ChatMainPanelBody>
       <ChatMainPanelTimeline>
@@ -715,7 +663,8 @@ function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
             meta="member"
             time="08:17 AM"
             body="Should we migrate from Zustand to Jotai? Jotai's atom model might be better for our store structure."
-            footer={<RepliesBadge channelId={channelId} count={2} />}
+            threadId={ALL_SHOWCASE_THREAD_IDS.stateModel}
+            footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.stateModel} />}
           />
           <MessageRow
             variant="agent"
@@ -724,7 +673,8 @@ function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
             status="online"
             time="08:22 AM"
             body="The invite link system needs rate limiting. Someone could enumerate valid invite codes."
-            footer={<RepliesBadge channelId={channelId} count={3} />}
+            threadId={ALL_SHOWCASE_THREAD_IDS.inviteSecurity}
+            footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.inviteSecurity} />}
           />
           <MessageRow
             variant="member"
@@ -732,7 +682,8 @@ function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
             meta="member"
             time="08:27 AM"
             body="Performance: the message list re-renders when any agent activity changes. Need to fix selectors."
-            footer={<UnreadRepliesBadge channelId={channelId} count={1} unread={1} />}
+            threadId={ALL_SHOWCASE_THREAD_IDS.selectorPerformance}
+            footer={<UnreadRepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.selectorPerformance} />}
           />
           <MessageRow
             variant="agent"
@@ -741,7 +692,8 @@ function ProjUiuxBody({ channelId }: { channelId: PlaygroundChannelId }) {
             status="working"
             time="08:32 AM"
             body="Documentation: we should auto-generate API docs from the route definitions. Maybe use Swagger."
-            footer={<RepliesBadge channelId={channelId} count={2} />}
+            threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs}
+            footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs} />}
           />
           <MessageRow compact gutterTime="08:34 AM" body="Great work!" />
 
@@ -2226,43 +2178,8 @@ function MatrixBody() {
   );
 }
 
-// Scenario 5: agent DM — agent rows and a plain reply badge into the thread.
-function DmAtlasBody({ channelId }: { channelId: PlaygroundChannelId }) {
-  return (
-    <ChatMainPanelBody>
-      <ChatMainPanelTimeline>
-        <ChatMainPanelMessageList>
-          <div className="px-3 pt-3">
-            <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
-          </div>
-          <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
-
-          <MessageRow
-            variant="member"
-            sender="Developer"
-            meta="member"
-            time="11:00 AM"
-            body="Looking at the daemon reconnect logs now."
-          />
-          <MessageRow
-            variant="agent"
-            sender="Atlas"
-            meta="Design-system agent on the primary online machine."
-            status="online"
-            time="11:01 AM"
-            body="Here is the reconnect stack trace."
-            footer={<RepliesBadge channelId={channelId} count={2} />}
-          />
-
-          <div className="pb-3" aria-hidden />
-        </ChatMainPanelMessageList>
-      </ChatMainPanelTimeline>
-    </ChatMainPanelBody>
-  );
-}
-
-// Scenario 6: brand-new channel — the empty state.
-function NewChannelBody() {
+// Brand-new channel empty state.
+function NewChannelBody({ channel }: { channel: PlaygroundChannel }) {
   return (
     <ChatMainPanelBody>
       <div className="flex h-full items-center justify-center">
@@ -2272,7 +2189,9 @@ function NewChannelBody() {
               <MessageSquare />
             </EmptyStateIcon>
             <EmptyStateTitle>No messages yet</EmptyStateTitle>
-            <EmptyStateDescription>Start the conversation.</EmptyStateDescription>
+            <EmptyStateDescription>
+              Start the conversation in #{channel.name}. {channel.subtitle}
+            </EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>
       </div>
@@ -2328,6 +2247,7 @@ function MessageRow({
   task = "none",
   rowState,
   selectId,
+  threadId,
 }: {
   variant?: RowVariant;
   sender?: string;
@@ -2347,6 +2267,7 @@ function MessageRow({
   task?: MessageTask;
   rowState?: MessageItemRowState;
   selectId?: string;
+  threadId?: PlaygroundThreadId;
 }) {
   const list = useContext(MessageListContext);
   // Every row inside a SelectableMessageList is selectable; an explicit selectId
@@ -2436,6 +2357,7 @@ function MessageRow({
       ) : null}
       <RowToolbar
         saved={saved}
+        threadId={threadId}
         reactionOpen={reactionOpen}
         onReactionOpenChange={setReactionOpen}
       />
@@ -2657,18 +2579,33 @@ const REACTION_FLYOUT_CLASS =
 // picker chrome and per-emoji hover tint pixel-identical.
 function RowToolbar({
   saved,
+  threadId,
   reactionOpen,
   onReactionOpenChange,
 }: {
   saved?: boolean;
+  threadId?: PlaygroundThreadId;
   reactionOpen: boolean;
   onReactionOpenChange: (open: boolean) => void;
 }) {
+  const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
+
   return (
     <MessageItemToolbar visible={reactionOpen}>
-      <MessageItemToolbarButton aria-label="Reply in thread">
-        <MessageSquare />
-      </MessageItemToolbarButton>
+      {threadContext ? (
+        <MessageItemToolbarButton
+          aria-label="Reply in thread"
+          render={
+            <Link
+              to="/playground/$channelId"
+              params={{ channelId: threadContext.channelId }}
+              search={{ thread: threadId }}
+            />
+          }
+        >
+          <MessageSquare />
+        </MessageItemToolbarButton>
+      ) : null}
       <DropdownMenu open={reactionOpen} onOpenChange={onReactionOpenChange}>
         <DropdownMenuTrigger
           render={
@@ -2707,47 +2644,48 @@ function RowToolbar({
 }
 
 // Plain reply badge for a read thread.
-function RepliesBadge({ channelId, count }: { channelId: PlaygroundChannelId; count: number }) {
+function RepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
+  const { channelId, thread } = requirePlaygroundThread(threadId);
+
   return (
     <MessageItemBadge
       tone="default"
       className={BADGE_CLASS}
-      render={<Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />}
+      render={
+        <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
+      }
     >
-      {count} replies
+      {thread.replies.length} replies
     </MessageItemBadge>
   );
 }
 
 // Cyan reply badge highlighting unread replies.
-function UnreadRepliesBadge({
-  channelId,
-  count,
-  unread,
-}: {
-  channelId: PlaygroundChannelId;
-  count: number;
-  unread: number;
-}) {
+function UnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
+  const { channelId, thread } = requirePlaygroundThread(threadId);
+  if (!thread.unreadCount) {
+    throw new Error(`Unread thread badge requires unread replies: ${threadId}`);
+  }
+
   return (
     <>
       <MessageItemBadge
         tone="default"
         className={BADGE_CLASS}
         render={
-          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />
+          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
         }
       >
-        {count === 1 ? "1 reply" : `${count} replies`}
+        {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
       </MessageItemBadge>
       <MessageItemBadge
         tone="cyan"
         className={BADGE_CLASS}
         render={
-          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />
+          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
         }
       >
-        {unread} new
+        {thread.unreadCount} new
       </MessageItemBadge>
     </>
   );

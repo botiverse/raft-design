@@ -3,9 +3,10 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { PlaygroundMainPanel } from "#/playground/playground-main-panel.tsx";
 import {
   DEFAULT_CHANNEL_ID,
-  PLAYGROUND_CHANNELS,
+  getPlaygroundChannel,
+  getPlaygroundThread,
   isPlaygroundChannelId,
-} from "#/playground/mock-data.ts";
+} from "#/playground/mock/index.ts";
 
 export const Route = createFileRoute("/playground/$channelId")({
   beforeLoad: ({ params, search }) => {
@@ -13,7 +14,17 @@ export const Route = createFileRoute("/playground/$channelId")({
       throw redirect({
         to: "/playground/$channelId",
         params: { channelId: DEFAULT_CHANNEL_ID },
-        search,
+        search: {},
+      });
+    }
+
+    const threadContext = search.thread ? getPlaygroundThread(search.thread) : undefined;
+    if (threadContext && threadContext.channelId !== params.channelId) {
+      throw redirect({
+        to: "/playground/$channelId",
+        params: { channelId: params.channelId },
+        search: {},
+        replace: true,
       });
     }
   },
@@ -27,7 +38,7 @@ function PlaygroundChannelRoute() {
     return null;
   }
 
-  const channel = PLAYGROUND_CHANNELS[channelId];
+  const channel = getPlaygroundChannel(channelId);
 
   return <PlaygroundMainPanel channel={channel} />;
 }
