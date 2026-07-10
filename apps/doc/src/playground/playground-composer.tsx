@@ -164,7 +164,7 @@ function ChannelAutocomplete() {
             ) : null}
             {archived ? (
               <ComposerAutocompleteAside>
-                <ComposerAutocompleteBadge muted>archived</ComposerAutocompleteBadge>
+                <ComposerAutocompleteBadge>archived</ComposerAutocompleteBadge>
               </ComposerAutocompleteAside>
             ) : null}
           </ComposerAutocompleteItem>
@@ -174,7 +174,7 @@ function ChannelAutocomplete() {
   );
 }
 
-type ComposerAutocomplete = "mention" | "channel" | null;
+type ComposerAutocompleteKind = "mention" | "channel" | null;
 
 // Pending-upload attachment chips (source MessageInput SortableAttachment):
 // an image still uploading (spinner + progress), a resting file chip, and a
@@ -237,7 +237,7 @@ export function Composer({
   label: string;
   uploads?: boolean;
 }) {
-  const [autocomplete, setAutocomplete] = useState<ComposerAutocomplete>(null);
+  const [autocomplete, setAutocomplete] = useState<ComposerAutocompleteKind>(null);
 
   // Demo trigger: `@` / `#` open the matching panel, Escape closes (source uses
   // a caret regex against the draft; a keydown check is enough for the preview).

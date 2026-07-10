@@ -10,7 +10,6 @@ export const chatSidebar = tv({
     sidebarMenu: [
       "flex h-6 min-w-0 flex-1 items-center gap-1",
       "text-xs font-bold tracking-widest uppercase",
-      "[&_svg]:transition-transform [&[data-panel-open]_svg]:rotate-90",
     ],
     sidebarMenuIcon: [
       "flex size-3 shrink-0 items-center justify-center",
