@@ -13,6 +13,50 @@ const STATUS_STYLE = `
     box-shadow: 0 0 0 8px color-mix(in oklch, var(--status-color) 0%, transparent);
   }
 }
+
+/* Outer soft wash — same mask-image falloff pattern as NotificationCenter triggerBellGlow. */
+[data-slot="status"][data-attention]::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: -1;
+  background: color-mix(in oklch, var(--status-color) 42%, transparent);
+  -webkit-mask-image: radial-gradient(
+    circle,
+    black 0%,
+    black 24%,
+    oklch(0 0 0 / 0.82) 38%,
+    oklch(0 0 0 / 0.38) 58%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    circle,
+    black 0%,
+    black 24%,
+    oklch(0 0 0 / 0.82) 38%,
+    oklch(0 0 0 / 0.38) 58%,
+    transparent 74%
+  );
+}
+
+/* Pulse + attention: animate a bottom-layer ring; leave attention outline untouched. */
+[data-slot="status"][data-attention][data-pulse]:not([data-pulse="false"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -2;
+  animation: raft-status-pulse-background 1.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="status"][data-attention][data-pulse]:not([data-pulse="false"])::before {
+    animation: none;
+  }
+}
 `;
 
 const dot = tv({
@@ -87,11 +131,20 @@ const status = tv({
         root: "",
       },
     },
+    attention: {
+      true: {
+        root: "",
+      },
+      false: {
+        root: "",
+      },
+    },
   },
   defaultVariants: {
     size: "md",
     variant: "default",
     pulse: false,
+    attention: false,
   },
   compoundVariants: [
     {
@@ -111,7 +164,19 @@ const status = tv({
     },
     {
       theme: "elegant",
+      attention: true,
+      class: {
+        root: [
+          "isolate overflow-visible",
+          "border border-[color-mix(in_oklch,var(--status-color)_58%,transparent)]",
+          "shadow-[inset_0_0.5px_0.5px_color-mix(in_oklch,oklch(1_0_0)_55%,transparent),0_0_0_2px_color-mix(in_oklch,var(--status-color)_45%,transparent),0_1px_1.5px_color-mix(in_oklch,oklch(0_0_0)_18%,transparent)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
       pulse: true,
+      attention: false,
       class: {
         root: "[animation:raft-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
       },
@@ -128,9 +193,17 @@ const statusStyle = (
 export type StatusProps = Omit<useRender.ComponentProps<"span">, "children"> &
   Omit<VariantProps<typeof status>, "theme">;
 
-function StatusRoot({ size, variant, pulse, className, render, ...props }: StatusProps) {
+function StatusRoot({ size, variant, pulse, attention, className, render, ...props }: StatusProps) {
   const theme = useThemeFamily();
-  const { root } = status({ theme, size, variant, pulse });
+  const resolvedPulse = pulse ?? false;
+  const resolvedAttention = attention ?? false;
+  const { root } = status({
+    theme,
+    size,
+    variant,
+    pulse: resolvedPulse,
+    attention: resolvedAttention,
+  });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
     children: statusStyle,
@@ -143,7 +216,8 @@ function StatusRoot({ size, variant, pulse, className, render, ...props }: Statu
     state: {
       slot: "status",
       variant,
-      pulse,
+      pulse: resolvedPulse,
+      attention: resolvedAttention,
       size,
     },
   });

@@ -36,6 +36,7 @@ const TOC = [
   { id: "variants", title: "Variants" },
   { id: "sizes", title: "Sizes" },
   { id: "pulse", title: "Pulse" },
+  { id: "attention", title: "Attention" },
   { id: "customize", title: "Customize" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -158,6 +159,9 @@ const SNIPPETS = {
 <Status size="sm" variant="primary" pulse />
 <Status size="md" variant="primary" pulse />
 <Status size="lg" variant="primary" pulse />`,
+  attention: `<Status variant="accent" attention />
+<Status variant="accent" attention pulse />
+<Status size="sm" variant="primary" attention />`,
   customize: `<Status className="[--status-color:var(--color-brutal-purple-300)]" />
 <Status
   pulse
@@ -203,6 +207,7 @@ type PlaygroundValues = {
   variant: NonNullable<StatusProps["variant"]>;
   size: NonNullable<StatusProps["size"]>;
   pulse: boolean;
+  attention: boolean;
 };
 
 const PROPS: readonly PropRow[] = [
@@ -223,6 +228,13 @@ const PROPS: readonly PropRow[] = [
     type: "boolean",
     default: "false",
     description: "Animated status marker.",
+  },
+  {
+    name: "attention",
+    type: "boolean",
+    default: "false",
+    description:
+      "Elegant-only glow ring (NotificationCenter triggerDot treatment). No visual effect on brutal.",
   },
   {
     name: "render",
@@ -308,15 +320,41 @@ function StatusDoc() {
             variant: "success",
             size: "md",
             pulse: false,
+            attention: false,
           }}
           controls={[
             { name: "variant", label: "Variant", type: "select", options: VARIANTS },
             { name: "size", label: "Size", type: "select", options: SIZES },
             { name: "pulse", label: "Pulse", type: "boolean" },
+            { name: "attention", label: "Attention", type: "boolean" },
           ]}
-          render={(values) => (
-            <Status variant={values.variant} size={values.size} pulse={values.pulse} />
-          )}
+          render={(values) =>
+            values.attention ? (
+              <span className="relative inline-grid size-28 place-items-center">
+                <span
+                  aria-hidden
+                  className="pointer-events-none col-start-1 row-start-1 max-w-[7rem] text-center text-[9px] leading-[1.15] text-foreground-muted/70"
+                >
+                  lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor
+                  incididunt ut labore
+                </span>
+                <Status
+                  className="col-start-1 row-start-1"
+                  variant={values.variant}
+                  size={values.size}
+                  pulse={values.pulse}
+                  attention
+                />
+              </span>
+            ) : (
+              <Status
+                variant={values.variant}
+                size={values.size}
+                pulse={values.pulse}
+                attention={values.attention}
+              />
+            )
+          }
         />
       </DocSection>
 
@@ -352,6 +390,14 @@ function StatusDoc() {
           <Status size="sm" variant="primary" pulse />
           <Status size="md" variant="primary" pulse />
           <Status size="lg" variant="primary" pulse />
+        </Example>
+      </DocSection>
+
+      <DocSection id="attention" title="Attention" showThemeSwitcher>
+        <Example html={code.attention}>
+          <Status variant="accent" attention />
+          <Status variant="accent" attention pulse />
+          <Status size="sm" variant="primary" attention />
         </Example>
       </DocSection>
 

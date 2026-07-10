@@ -41,6 +41,14 @@ const CASES: readonly MatrixCase[] = [
     render: () => <Status variant={variant} pulse />,
   })),
   {
+    label: "primary attention",
+    render: () => <Status variant="primary" attention />,
+  },
+  {
+    label: "primary attention pulse",
+    render: () => <Status variant="primary" attention pulse />,
+  },
+  {
     label: "custom",
     render: () => <Status className="[--status-color:var(--color-brutal-purple-300)]" />,
   },
