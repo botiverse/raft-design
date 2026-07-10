@@ -42,7 +42,7 @@ export function ChatSidebarComposition() {
       <ChatSidebarResizeGroup className="min-w-0 flex-1" orientation="horizontal">
         <ChatSidebarResizePanel
           id="chat-sidebar"
-          className="bg-layer-panel [[data-preview-theme=brutal]_&]:bg-brutal-cream"
+          className="bg-[var(--sidebar-chrome-bg-color)] [[data-preview-theme=brutal]_&]:bg-brutal-cream"
           defaultSize={308}
           minSize={180}
           maxSize={368}

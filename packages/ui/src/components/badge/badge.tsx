@@ -6,7 +6,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 export const badge = tv({
   slots: {
     root: [
-      "inline-flex h-5 w-fit shrink-0 min-w-0 max-w-full items-center gap-1 px-1.5",
+      "inline-flex w-fit shrink-0 min-w-0 max-w-full items-center gap-1 px-1.5",
       "overflow-hidden whitespace-nowrap",
       "text-[10px] font-bold leading-none",
       "[&_[data-slot='spinner']]:!size-3 [&_[data-slot='spinner']]:!text-xs",
@@ -15,7 +15,7 @@ export const badge = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border border-line-strong"],
+        root: ["h-5 border border-line-strong"],
       },
       elegant: {
         root: [

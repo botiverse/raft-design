@@ -4,6 +4,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentProps } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button, type ButtonProps } from "../button";
 import { Status, type StatusProps } from "../status";
 import type { DataAttributes } from "./app-shell";
 import { chatSidebar } from "./chat-sidebar.recipe";
@@ -167,15 +168,36 @@ export function ChatSidebarSectionActions({
   });
 }
 
-export type ChatSidebarSectionActionProps = useRender.ComponentProps<"button">;
+export type ChatSidebarSectionActionProps = useRender.ComponentProps<"button"> &
+  Pick<ButtonProps, "size" | "variant" | "loading" | "loadingLabel">;
 
 export function ChatSidebarSectionAction({
   className,
   render,
+  size = "icon-sm",
+  variant = "outline",
+  loading,
+  loadingLabel,
   ...props
 }: ChatSidebarSectionActionProps) {
   const theme = useThemeFamily();
   const { sidebarSectionAction } = chatSidebar({ theme });
+
+  if (theme === "elegant") {
+    return (
+      <Button
+        data-slot="chat-sidebar-section-action"
+        size={size}
+        variant={variant}
+        loading={loading}
+        loadingLabel={loadingLabel}
+        className={sidebarSectionAction({ className })}
+        render={render}
+        {...props}
+      />
+    );
+  }
+
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
     "data-slot": "chat-sidebar-section-action",

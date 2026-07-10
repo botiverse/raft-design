@@ -171,10 +171,12 @@ const TAB_META: Record<PanelTab, { icon: ReactNode; label: string }> = {
 };
 
 const SORTABLE_TABS_LIST_CLASS =
-  "[[data-preview-theme=brutal]_&]:max-w-none [[data-preview-theme=brutal]_&]:border-y-0 [[data-preview-theme=brutal]_&]:border-l-0 [[data-preview-theme=brutal]_&]:border-r-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white";
+  "[[data-preview-theme=elegant]_&]:h-11 [[data-preview-theme=elegant]_&]:border-b-0 [[data-preview-theme=brutal]_&]:max-w-none [[data-preview-theme=brutal]_&]:border-y-0 [[data-preview-theme=brutal]_&]:border-l-0 [[data-preview-theme=brutal]_&]:border-r-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white";
 
 const SORTABLE_TAB_CLASS =
-  "[[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=brutal]_&]:text-black [[data-preview-theme=brutal]_&]:data-[active]:bg-soft-signal [[data-preview-theme=brutal]_&]:data-[active]:hover:bg-soft-signal [[data-preview-theme=brutal]_&]:[&+&]:before:bg-black";
+  "[[data-preview-theme=elegant]_&]:h-11 [[data-preview-theme=elegant]_&]:pt-2.5 [[data-preview-theme=elegant]_&]:pb-2 [[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=brutal]_&]:text-black [[data-preview-theme=brutal]_&]:data-[active]:bg-soft-signal [[data-preview-theme=brutal]_&]:data-[active]:hover:bg-soft-signal [[data-preview-theme=brutal]_&]:[&+&]:before:bg-black";
+
+const SORTABLE_TABS_INDICATOR_CLASS = "[[data-preview-theme=elegant]_&]:bg-primary-400";
 
 // Brutal token overrides pin the neutral text ramp to source's pure black so the
 // rows stay pixel-identical to the live app (foreground resolves to oklch(0.18)).
@@ -550,7 +552,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
                     <TabsLabel>{TAB_META[id].label}</TabsLabel>
                   </SortableTabsTab>
                 ))}
-                <TabsIndicator />
+                <TabsIndicator className={SORTABLE_TABS_INDICATOR_CLASS} />
               </SortableTabsList>
             </ChatMainPanelTabs>
 

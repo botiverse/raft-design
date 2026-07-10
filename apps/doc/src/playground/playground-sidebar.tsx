@@ -222,7 +222,7 @@ function SidebarAddMenu({
       <DropdownMenuTrigger
         render={
           <ChatSidebarSectionAction type="button" aria-label="Add channel">
-            <Plus className="size-4" strokeWidth={2.25} />
+            <Plus />
           </ChatSidebarSectionAction>
         }
       />
@@ -428,20 +428,29 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
               Chat
             </div>
           </div>
-          <div className="ml-auto flex size-7 translate-x-[6px] items-center justify-end">
-            <SidebarAddMenu
-              onCreateChannel={() => setDialog("create-channel")}
-              onCreateJoint={() => setDialog("create-joint")}
-            />
-          </div>
+          <SidebarAddMenu
+            onCreateChannel={() => setDialog("create-channel")}
+            onCreateJoint={() => setDialog("create-joint")}
+          />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <div className="flex-1 overflow-x-hidden overflow-y-auto px-[22px] py-3">
+          <div className="flex-1 overflow-x-hidden overflow-y-auto px-2 py-3 [[data-preview-theme=elegant]_&]:px-[22px]">
             <div className="min-h-full">
               <ChatSidebarSection>
                 <ChatSidebarSectionHeader className="mt-0">
-                  <ChatSidebarSectionButton type="button" render={<button />}>
-                    <Bookmark className="size-3 shrink-0" strokeWidth={1.5} />
+                  <ChatSidebarSectionButton
+                    type="button"
+                    render={<button />}
+                    className="[[data-preview-theme=elegant]_&]:font-[400] [[data-preview-theme=elegant]_&]:text-foreground-muted [[data-preview-theme=elegant]_&]:hover:text-foreground-strong [[data-preview-theme=elegant]_&]:active:text-foreground-strong"
+                  >
+                    <Bookmark
+                      className={[
+                        "size-3 shrink-0",
+                        "[vector-effect:non-scaling-stroke] [&_*]:[vector-effect:non-scaling-stroke]",
+                        "[[data-preview-theme=brutal]_&]:![stroke-width:1.5px] [[data-preview-theme=brutal]_&_*]:![stroke-width:1.5px]",
+                        "[[data-preview-theme=elegant]_&]:![stroke-width:1px] [[data-preview-theme=elegant]_&_*]:![stroke-width:1px]",
+                      ].join(" ")}
+                    />
                     <ChatSidebarSectionTitle>Saved</ChatSidebarSectionTitle>
                     <ChatSidebarSectionCount>33</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
@@ -459,9 +468,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                 <ChatSidebarList>
                   {jointChannelRows.map((title) => (
                     <ChatSidebarItem key={title} type="button">
-                      <ChatSidebarItemIcon>
-                        <GitBranch className="size-3" />
-                      </ChatSidebarItemIcon>
+                      <ChatSidebarItemChannelIcon type="joint" />
                       <ChatSidebarItemText>
                         <ChatSidebarItemTitle>{title}</ChatSidebarItemTitle>
                       </ChatSidebarItemText>

@@ -109,7 +109,8 @@ export function ChatSidebarItemText({
 export type ChatSidebarItemTitleProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemTitle({ className, render, ...props }: ChatSidebarItemTitleProps) {
-  const { sidebarItemTitle } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarItemTitle } = chatSidebar({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-title",
     className: sidebarItemTitle({ className }),

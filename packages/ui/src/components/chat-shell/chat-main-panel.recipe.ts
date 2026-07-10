@@ -148,7 +148,7 @@ export const chatMainPanel = tv({
           "shadow-[var(--theme-shadow-xl)]",
         ],
         surface: "relative overflow-clip rounded-tl-[10px] bg-white",
-        tabs: ["py-1", "rounded-tl-[10px] border-b-0", "bg-white"],
+        tabs: "border-b-0 bg-layer-panel",
         jumpToLatest: [
           "rounded-md border border-line-strong bg-transparent text-foreground-strong",
           "px-1.5 py-1.5 font-normal shadow-none",

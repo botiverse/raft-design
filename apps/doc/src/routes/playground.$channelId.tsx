@@ -8,11 +8,12 @@ import {
 } from "#/playground/mock-data.ts";
 
 export const Route = createFileRoute("/playground/$channelId")({
-  beforeLoad: ({ params }) => {
+  beforeLoad: ({ params, search }) => {
     if (!isPlaygroundChannelId(params.channelId)) {
       throw redirect({
         to: "/playground/$channelId",
         params: { channelId: DEFAULT_CHANNEL_ID },
+        search,
       });
     }
   },
