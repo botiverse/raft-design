@@ -1,3 +1,0 @@
-// Generated source-comparison composition fixture.
-export const compositionSource =
-  '<ListItem className="space-y-2" interactive={false}>\n  <ListItemRow className="justify-between gap-3">\n    <ListItemBody>\n      <ListItemTitle className="text-base">Linear</ListItemTitle>\n      <ListItemDescription>Jun 5, 09:14</ListItemDescription>\n    </ListItemBody>\n    <Badge variant="success" uppercase>\n      Active\n    </Badge>\n  </ListItemRow>\n  <ListItemDescription className="text-sm text-black/70">\n    Create and update issues from the agent.\n  </ListItemDescription>\n  <ListItemMeta className="gap-1">{scopes}</ListItemMeta>\n  <ListItemActionGroup>{actions}</ListItemActionGroup>\n</ListItem>;';

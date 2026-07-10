@@ -38,20 +38,13 @@ import { Route as ComponentsSkeletonRouteImport } from './routes/components/skel
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
-import { Route as ComponentsSectionLabelRouteImport } from './routes/components/section-label'
-import { Route as ComponentsSectionHeaderRouteImport } from './routes/components/section-header'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
-import { Route as ComponentsQuotedMessageCardRouteImport } from './routes/components/quoted-message-card'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
-import { Route as ComponentsPreviewShellRouteImport } from './routes/components/preview-shell'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
-import { Route as ComponentsPanelHeaderRouteImport } from './routes/components/panel-header'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
-import { Route as ComponentsMediaListItemRouteImport } from './routes/components/media-list-item'
-import { Route as ComponentsListItemRouteImport } from './routes/components/list-item'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
 import { Route as ComponentsLabelRouteImport } from './routes/components/label'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
@@ -64,7 +57,6 @@ import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
-import { Route as ComponentsConversationPreviewCardRouteImport } from './routes/components/conversation-preview-card'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
@@ -246,16 +238,6 @@ const ComponentsSegmentedControlRoute =
     path: '/segmented-control',
     getParentRoute: () => ComponentsRoute,
   } as any)
-const ComponentsSectionLabelRoute = ComponentsSectionLabelRouteImport.update({
-  id: '/section-label',
-  path: '/section-label',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSectionHeaderRoute = ComponentsSectionHeaderRouteImport.update({
-  id: '/section-header',
-  path: '/section-header',
-  getParentRoute: () => ComponentsRoute,
-} as any)
 const ComponentsSandboxedPreviewFrameRoute =
   ComponentsSandboxedPreviewFrameRouteImport.update({
     id: '/sandboxed-preview-frame',
@@ -267,20 +249,9 @@ const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
   path: '/radio-group',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsQuotedMessageCardRoute =
-  ComponentsQuotedMessageCardRouteImport.update({
-    id: '/quoted-message-card',
-    path: '/quoted-message-card',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPreviewShellRoute = ComponentsPreviewShellRouteImport.update({
-  id: '/preview-shell',
-  path: '/preview-shell',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
@@ -293,11 +264,6 @@ const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
   path: '/popover',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsPanelHeaderRoute = ComponentsPanelHeaderRouteImport.update({
-  id: '/panel-header',
-  path: '/panel-header',
-  getParentRoute: () => ComponentsRoute,
-} as any)
 const ComponentsNotificationCenterRoute =
   ComponentsNotificationCenterRouteImport.update({
     id: '/notification-center',
@@ -307,16 +273,6 @@ const ComponentsNotificationCenterRoute =
 const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
   id: '/message-item',
   path: '/message-item',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMediaListItemRoute = ComponentsMediaListItemRouteImport.update({
-  id: '/media-list-item',
-  path: '/media-list-item',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsListItemRoute = ComponentsListItemRouteImport.update({
-  id: '/list-item',
-  path: '/list-item',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
@@ -380,12 +336,6 @@ const ComponentsCopyableCodeRoute = ComponentsCopyableCodeRouteImport.update({
   path: '/copyable-code',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsConversationPreviewCardRoute =
-  ComponentsConversationPreviewCardRouteImport.update({
-    id: '/conversation-preview-card',
-    path: '/conversation-preview-card',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
   id: '/context-menu',
   path: '/context-menu',
@@ -586,7 +536,6 @@ export interface FileRoutesByFullPath {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
-  '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -599,20 +548,13 @@ export interface FileRoutesByFullPath {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/list-item': typeof ComponentsListItemRoute
-  '/components/media-list-item': typeof ComponentsMediaListItemRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
-  '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/progress': typeof ComponentsProgressRoute
-  '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
-  '/components/section-header': typeof ComponentsSectionHeaderRoute
-  '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -676,7 +618,6 @@ export interface FileRoutesByTo {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
-  '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -689,20 +630,13 @@ export interface FileRoutesByTo {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/list-item': typeof ComponentsListItemRoute
-  '/components/media-list-item': typeof ComponentsMediaListItemRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
-  '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/progress': typeof ComponentsProgressRoute
-  '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
-  '/components/section-header': typeof ComponentsSectionHeaderRoute
-  '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -769,7 +703,6 @@ export interface FileRoutesById {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
-  '/components/conversation-preview-card': typeof ComponentsConversationPreviewCardRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -782,20 +715,13 @@ export interface FileRoutesById {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/list-item': typeof ComponentsListItemRoute
-  '/components/media-list-item': typeof ComponentsMediaListItemRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel-header': typeof ComponentsPanelHeaderRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
-  '/components/preview-shell': typeof ComponentsPreviewShellRoute
   '/components/progress': typeof ComponentsProgressRoute
-  '/components/quoted-message-card': typeof ComponentsQuotedMessageCardRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
-  '/components/section-header': typeof ComponentsSectionHeaderRoute
-  '/components/section-label': typeof ComponentsSectionLabelRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -863,7 +789,6 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
-    | '/components/conversation-preview-card'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -876,20 +801,13 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
-    | '/components/list-item'
-    | '/components/media-list-item'
     | '/components/message-item'
     | '/components/notification-center'
-    | '/components/panel-header'
     | '/components/popover'
     | '/components/preview-card'
-    | '/components/preview-shell'
     | '/components/progress'
-    | '/components/quoted-message-card'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
-    | '/components/section-header'
-    | '/components/section-label'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -953,7 +871,6 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
-    | '/components/conversation-preview-card'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -966,20 +883,13 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
-    | '/components/list-item'
-    | '/components/media-list-item'
     | '/components/message-item'
     | '/components/notification-center'
-    | '/components/panel-header'
     | '/components/popover'
     | '/components/preview-card'
-    | '/components/preview-shell'
     | '/components/progress'
-    | '/components/quoted-message-card'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
-    | '/components/section-header'
-    | '/components/section-label'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1045,7 +955,6 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/context-menu'
-    | '/components/conversation-preview-card'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -1058,20 +967,13 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
-    | '/components/list-item'
-    | '/components/media-list-item'
     | '/components/message-item'
     | '/components/notification-center'
-    | '/components/panel-header'
     | '/components/popover'
     | '/components/preview-card'
-    | '/components/preview-shell'
     | '/components/progress'
-    | '/components/quoted-message-card'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
-    | '/components/section-header'
-    | '/components/section-label'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1334,20 +1236,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/section-label': {
-      id: '/components/section-label'
-      path: '/section-label'
-      fullPath: '/components/section-label'
-      preLoaderRoute: typeof ComponentsSectionLabelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/section-header': {
-      id: '/components/section-header'
-      path: '/section-header'
-      fullPath: '/components/section-header'
-      preLoaderRoute: typeof ComponentsSectionHeaderRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/sandboxed-preview-frame': {
       id: '/components/sandboxed-preview-frame'
       path: '/sandboxed-preview-frame'
@@ -1362,25 +1250,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsRadioGroupRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/quoted-message-card': {
-      id: '/components/quoted-message-card'
-      path: '/quoted-message-card'
-      fullPath: '/components/quoted-message-card'
-      preLoaderRoute: typeof ComponentsQuotedMessageCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/progress': {
       id: '/components/progress'
       path: '/progress'
       fullPath: '/components/progress'
       preLoaderRoute: typeof ComponentsProgressRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/preview-shell': {
-      id: '/components/preview-shell'
-      path: '/preview-shell'
-      fullPath: '/components/preview-shell'
-      preLoaderRoute: typeof ComponentsPreviewShellRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/preview-card': {
@@ -1397,13 +1271,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsPopoverRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/panel-header': {
-      id: '/components/panel-header'
-      path: '/panel-header'
-      fullPath: '/components/panel-header'
-      preLoaderRoute: typeof ComponentsPanelHeaderRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/notification-center': {
       id: '/components/notification-center'
       path: '/notification-center'
@@ -1416,20 +1283,6 @@ declare module '@tanstack/react-router' {
       path: '/message-item'
       fullPath: '/components/message-item'
       preLoaderRoute: typeof ComponentsMessageItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/media-list-item': {
-      id: '/components/media-list-item'
-      path: '/media-list-item'
-      fullPath: '/components/media-list-item'
-      preLoaderRoute: typeof ComponentsMediaListItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/list-item': {
-      id: '/components/list-item'
-      path: '/list-item'
-      fullPath: '/components/list-item'
-      preLoaderRoute: typeof ComponentsListItemRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/lightbox': {
@@ -1514,13 +1367,6 @@ declare module '@tanstack/react-router' {
       path: '/copyable-code'
       fullPath: '/components/copyable-code'
       preLoaderRoute: typeof ComponentsCopyableCodeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/conversation-preview-card': {
-      id: '/components/conversation-preview-card'
-      path: '/conversation-preview-card'
-      fullPath: '/components/conversation-preview-card'
-      preLoaderRoute: typeof ComponentsConversationPreviewCardRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/context-menu': {
@@ -1782,7 +1628,6 @@ interface ComponentsRouteChildren {
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
-  ComponentsConversationPreviewCardRoute: typeof ComponentsConversationPreviewCardRoute
   ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
@@ -1795,20 +1640,13 @@ interface ComponentsRouteChildren {
   ComponentsKbdRoute: typeof ComponentsKbdRoute
   ComponentsLabelRoute: typeof ComponentsLabelRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
-  ComponentsListItemRoute: typeof ComponentsListItemRoute
-  ComponentsMediaListItemRoute: typeof ComponentsMediaListItemRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
-  ComponentsPanelHeaderRoute: typeof ComponentsPanelHeaderRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
-  ComponentsPreviewShellRoute: typeof ComponentsPreviewShellRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
-  ComponentsQuotedMessageCardRoute: typeof ComponentsQuotedMessageCardRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
-  ComponentsSectionHeaderRoute: typeof ComponentsSectionHeaderRoute
-  ComponentsSectionLabelRoute: typeof ComponentsSectionLabelRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
@@ -1856,8 +1694,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
-  ComponentsConversationPreviewCardRoute:
-    ComponentsConversationPreviewCardRoute,
   ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
@@ -1870,20 +1706,13 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsKbdRoute: ComponentsKbdRoute,
   ComponentsLabelRoute: ComponentsLabelRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
-  ComponentsListItemRoute: ComponentsListItemRoute,
-  ComponentsMediaListItemRoute: ComponentsMediaListItemRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
-  ComponentsPanelHeaderRoute: ComponentsPanelHeaderRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
-  ComponentsPreviewShellRoute: ComponentsPreviewShellRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
-  ComponentsQuotedMessageCardRoute: ComponentsQuotedMessageCardRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
-  ComponentsSectionHeaderRoute: ComponentsSectionHeaderRoute,
-  ComponentsSectionLabelRoute: ComponentsSectionLabelRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,

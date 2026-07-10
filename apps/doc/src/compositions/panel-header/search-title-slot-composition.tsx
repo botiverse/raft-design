@@ -1,3 +1,0 @@
-// Generated source-comparison composition fixture.
-export const compositionSource =
-  '<PanelHeader>\n  <PanelHeaderContent>\n    <div className="flex items-center gap-3">\n      <PanelHeaderIcon className="flex bg-brutal-yellow">\n        <Search />\n      </PanelHeaderIcon>\n      <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-1.5 shadow-brutal-sm">\n        <input value="design system" readOnly />\n        <button className="btn-brutal-sm bg-white p-1" aria-label="Clear search">\n          <X size={12} />\n        </button>\n      </div>\n    </div>\n  </PanelHeaderContent>\n</PanelHeader>;';

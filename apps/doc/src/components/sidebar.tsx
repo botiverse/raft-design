@@ -178,15 +178,12 @@ const NAV = [
     title: "Data Display",
     items: [
       { label: "Avatar", to: "/components/avatar", status: "done" },
-      { label: "MediaListItem", to: "/components/media-list-item", status: "todo" },
       {
-        label: "ConversationPreviewCard",
-        to: "/components/conversation-preview-card",
-        status: "todo",
+        label: "DescriptionList",
+        to: "/components/description-list",
+        status: "parked",
+        reason: "Generic key-value primitive without a real consumer yet; revisit with a use case.",
       },
-      { label: "DescriptionList", to: "/components/description-list", status: "todo" },
-      { label: "ListItem", to: "/components/list-item", status: "todo" },
-      { label: "QuotedMessageCard", to: "/components/quoted-message-card", status: "todo" },
       {
         label: "Table / DataGrid",
         status: "parked",
@@ -204,10 +201,6 @@ const NAV = [
   {
     title: "Layout",
     items: [
-      { label: "PanelHeader", to: "/components/panel-header", status: "todo" },
-      { label: "PreviewShell", to: "/components/preview-shell", status: "todo" },
-      { label: "SectionLabel", to: "/components/section-label", status: "todo" },
-      { label: "SectionHeader", to: "/components/section-header", status: "todo" },
       { label: "Separator", to: "/components/separator", status: "done" },
       {
         label: "Collapsible",
