@@ -48,7 +48,7 @@ const TOC = [
 const SNIPPETS = {
   chatMainPanelComposition: chatMainPanelCompositionSource,
   anatomy: `import { MessageSquare } from "lucide-react";
-import { SortableTabsList, SortableTabsTab, Tabs, TabsLabel } from "raft-ui";
+import { SortableTabsList, SortableTabsTab, Tabs, TabsIndicator, TabsLabel } from "raft-ui";
 import {
   ChatMainPanelRoot,
   ChatMainPanelHeader,
@@ -58,6 +58,9 @@ import {
   ChatMainPanelSubtitle,
   ChatMainPanelActions,
   PanelIconButton,
+  ChatMainPanelSurfaceInset,
+  ChatMainPanelSurfaceShadow,
+  ChatMainPanelSurface,
   ChatMainPanelBody,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
@@ -83,26 +86,33 @@ import {
       </PanelIconButton>
     </ChatMainPanelActions>
   </ChatMainPanelHeader>
-  <ChatMainPanelTabs render={<Tabs value="chat" />}>
-    <SortableTabsList value={tabOrder} onReorder={setTabOrder}>
-      <SortableTabsTab value="chat">
-        <MessageSquare size={12} />
-        <TabsLabel>Chat</TabsLabel>
-      </SortableTabsTab>
-    </SortableTabsList>
-  </ChatMainPanelTabs>
-  <ChatMainPanelBody>
-    <ChatMainPanelTimeline>
-      <ChatMainPanelMessageList>
-        <MessageItem>
-          <MessageItemContent>{message}</MessageItemContent>
-        </MessageItem>
-      </ChatMainPanelMessageList>
-    </ChatMainPanelTimeline>
-  </ChatMainPanelBody>
-  <ChatMainPanelFooter>
-    <ChatMainPanelComposer>{composer}</ChatMainPanelComposer>
-  </ChatMainPanelFooter>
+  <ChatMainPanelSurfaceInset>
+    <ChatMainPanelSurfaceShadow>
+      <ChatMainPanelSurface>
+    <ChatMainPanelTabs render={<Tabs value="chat" />}>
+      <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
+        <SortableTabsTab value="chat">
+          <MessageSquare size={12} />
+          <TabsLabel>Chat</TabsLabel>
+        </SortableTabsTab>
+        <TabsIndicator />
+      </SortableTabsList>
+    </ChatMainPanelTabs>
+    <ChatMainPanelBody>
+      <ChatMainPanelTimeline>
+        <ChatMainPanelMessageList>
+          <MessageItem>
+            <MessageItemContent>{message}</MessageItemContent>
+          </MessageItem>
+        </ChatMainPanelMessageList>
+      </ChatMainPanelTimeline>
+    </ChatMainPanelBody>
+    <ChatMainPanelFooter>
+      <ChatMainPanelComposer>{composer}</ChatMainPanelComposer>
+    </ChatMainPanelFooter>
+      </ChatMainPanelSurface>
+    </ChatMainPanelSurfaceShadow>
+  </ChatMainPanelSurfaceInset>
 </ChatMainPanelRoot>`,
 } as const;
 
@@ -275,7 +285,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function CurrentMainPanelPreview() {
   return (
-    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
+    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-preview-theme=elegant]_&]:bg-[oklch(0.9789_0.0013_106.42)]">
       <ChatMainPanelComposition />
     </div>
   );

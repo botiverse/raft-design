@@ -28,11 +28,13 @@ const appShell = tv({
         mobileBar: "border-t-2 border-black bg-white text-black",
       },
       elegant: {
-        root: "bg-layer-muted font-sans text-foreground",
-        shellRail:
-          "w-16 border-r border-line-subtle bg-layer-panel [@media(max-height:600px)]:w-[50px]",
-        shellSidebar: "w-60 border-r border-line-subtle bg-layer-panel",
-        shellMain: "bg-layer-panel",
+        root: [
+          "[--sidebar-chrome-bg-color:oklch(0.9789_0.0013_106.42)]",
+          "bg-[var(--sidebar-chrome-bg-color)] font-sans text-foreground",
+        ],
+        shellRail: "w-14 border-r-0 bg-transparent",
+        shellSidebar: "w-[252px] border-r-0 bg-transparent",
+        shellMain: "bg-[var(--sidebar-chrome-bg-color)]",
         shellPanelStack: "border-l border-line-subtle bg-layer-panel",
         mobileBar: "border-t border-line-subtle bg-layer-panel text-foreground",
       },

@@ -51,7 +51,8 @@ export function ChatMainPanelComposerToolbar({
   render,
   ...props
 }: ChatMainPanelComposerToolbarProps) {
-  const { composerToolbar } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { composerToolbar } = chatMainPanel({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-main-panel-composer-toolbar",
     className: composerToolbar({ className }),
@@ -71,7 +72,8 @@ export function ChatMainPanelComposerActions({
   render,
   ...props
 }: ChatMainPanelComposerActionsProps) {
-  const { composerActions } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { composerActions } = chatMainPanel({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-main-panel-composer-actions",
     className: composerActions({ className }),

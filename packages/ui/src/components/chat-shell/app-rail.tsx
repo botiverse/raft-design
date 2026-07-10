@@ -54,22 +54,29 @@ const appRail = tv({
         itemIndicator: "rounded-full border border-black bg-brutal-pink",
       },
       elegant: {
-        header: "h-[62px] border-b border-line-subtle",
+        header: "h-14 border-b-0",
         serverButton: [
-          "rounded-md border-2 border-[#141111] bg-[#141111]",
-          "font-heading text-sm font-bold text-primary-400",
-          "shadow-sm",
+          "rounded-md border-2 border-[oklch(0_0_0)] bg-[oklch(0_0_0)]",
+          "font-heading text-xs font-bold text-primary-400",
+          "shadow-none transition-[background-color,transform] duration-150 active:translate-y-px",
         ],
-        footer: "h-[62px]",
+        nav: "px-2 pt-4 pb-2",
+        footer: "h-auto gap-1.5 px-2 pb-2",
         item: [
-          "size-10 rounded-md border border-transparent text-foreground-muted",
-          "hover:bg-layer-muted hover:text-foreground-strong",
-          "active:bg-layer-muted active:text-foreground-strong",
-          "focus-visible:ring-2 focus-visible:ring-line-focus",
-          "data-[selected=true]:border-line-subtle data-[selected=true]:bg-layer-muted data-[selected=true]:text-foreground-strong data-[selected=true]:shadow-xs",
+          "size-auto min-w-9 p-3 rounded-md border border-transparent",
+          "text-[13px] text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
+          "active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-[#EEEEED]",
+          "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
+          "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],
-        itemBadge: "rounded-full bg-accent-400 text-accent-950",
-        itemIndicator: "rounded-full bg-danger-base",
+        itemBadge: [
+          "rounded-full border-0 bg-primary-400 text-white",
+          "px-1 [font-family:var(--mono-font)] text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
+          "ring-2 ring-[var(--sidebar-chrome-bg-color)]",
+        ],
+        itemIndicator: "size-2 rounded-full border border-primary-500/58 bg-primary-400",
       },
     },
   },
@@ -151,7 +158,8 @@ export function AppRailServerButton({ className, render, ...props }: AppRailServ
 export type AppRailNavProps = useRender.ComponentProps<"nav">;
 
 export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
-  const { nav } = appRail();
+  const theme = useThemeFamily();
+  const { nav } = appRail({ theme });
   const defaultProps: useRender.ElementProps<"nav"> & DataAttributes = {
     "data-slot": "app-rail-nav",
     className: nav({ className }),

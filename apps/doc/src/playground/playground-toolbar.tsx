@@ -4,6 +4,7 @@ import type { Theme } from "raft-ui";
 
 type PlaygroundThemeState = { family: Theme; mode: "light" | "dark" };
 type PlaygroundPresentation = "desktop" | "mobile";
+type PlaygroundMessageChrome = "current" | "legacy";
 
 type PlaygroundThemePreset = {
   label: string;
@@ -28,12 +29,24 @@ export function PlaygroundToolbar({
   onThemeChange,
   presentation,
   onPresentationChange,
+  messageChrome,
+  onMessageChromeChange,
 }: {
   theme: PlaygroundThemeState;
   onThemeChange: (theme: PlaygroundThemeState) => void;
   presentation: PlaygroundPresentation;
   onPresentationChange: (presentation: PlaygroundPresentation) => void;
+  messageChrome: PlaygroundMessageChrome;
+  onMessageChromeChange: (chrome: PlaygroundMessageChrome) => void;
 }) {
+  const showToolbar =
+    typeof window === "undefined" ||
+    new URLSearchParams(window.location.search).get("toolbar") === "1";
+
+  if (!showToolbar) {
+    return null;
+  }
+
   return (
     <div className="fixed right-4 bottom-4 z-50 flex items-center gap-1 rounded-full border border-line-subtle bg-layer-panel px-2 py-1 shadow-md">
       <fieldset aria-label="Playground theme" className="inline-flex items-center gap-0.5">
@@ -52,6 +65,22 @@ export function PlaygroundToolbar({
             </button>
           );
         })}
+      </fieldset>
+
+      <div className={separator} aria-hidden />
+
+      <fieldset aria-label="Chat message chrome" className="inline-flex items-center gap-0.5">
+        {(["current", "legacy"] as const).map((chrome) => (
+          <button
+            key={chrome}
+            type="button"
+            aria-pressed={messageChrome === chrome}
+            className={`${segment} ${messageChrome === chrome ? active : idle}`}
+            onClick={() => onMessageChromeChange(chrome)}
+          >
+            {chrome === "current" ? "Current" : "Legacy"}
+          </button>
+        ))}
       </fieldset>
 
       <div className={separator} aria-hidden />

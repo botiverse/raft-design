@@ -6,11 +6,7 @@ export type MessageItemBadgeTone = "default" | "cyan";
 
 export const messageItem = tv({
   slots: {
-    root: [
-      "group/message relative mb-1 mt-1.5 flex h-fit min-h-[3rem] gap-3 px-2 py-1",
-      "border-2 border-transparent",
-      "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
-    ],
+    root: ["group/message relative flex h-fit min-h-[3rem] gap-3", "border-2 border-transparent"],
     gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: ["relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors"],
     selectMark: [
@@ -21,41 +17,32 @@ export const messageItem = tv({
     ],
     continuationTime: [
       "absolute right-1 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
-      "text-foreground/0 group-hover/message:text-foreground/40",
     ],
     content: ["min-w-0 flex-1"],
-    header: ["flex min-w-0 items-center gap-2 overflow-hidden pr-24"],
-    sender: ["min-w-0 shrink-0 truncate text-sm font-bold text-foreground-strong"],
-    senderState: [
-      "inline-flex items-center border border-line-strong bg-gray-300 px-1.5 py-0.5",
-      "text-[10px] font-bold uppercase text-foreground/60",
-    ],
-    meta: ["min-w-0 truncate font-mono text-xs text-foreground/40"],
-    time: ["shrink-0 whitespace-nowrap font-mono text-xs text-foreground/40"],
+    header: ["flex min-w-0 overflow-hidden pr-24"],
+    sender: ["min-w-0 shrink-0 truncate text-sm"],
+    senderState: ["inline-flex items-center"],
+    meta: ["min-w-0 truncate"],
+    time: ["shrink-0 whitespace-nowrap"],
     inlineStatus: ["shrink-0 text-[10px] font-bold text-foreground/40"],
-    body: ["break-words text-sm leading-5 text-foreground-strong select-text", "[&_*]:select-text"],
+    body: ["break-words select-text", "[&_*]:select-text"],
     embedded: ["mt-1.5 min-w-0"],
     notice: [
       "mt-1 inline-flex max-w-full border border-line-strong bg-soft-signal/40 px-2 py-1",
       "text-xs font-bold text-foreground/70",
     ],
     attachments: ["mt-1 space-y-2"],
-    footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
-    toolbar: [
-      "absolute -top-3.5 right-2 z-20 hidden items-center overflow-hidden",
-      "border-2 border-line-strong bg-white shadow-brutal-sm",
-      "group-hover/message:flex",
-    ],
+    footer: ["message-footer-metadata mt-1.5 flex flex-wrap items-center gap-1.5"],
+    toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
     toolbarButton: [
-      "inline-flex size-6 shrink-0 items-center justify-center",
-      "text-black/50 hover:bg-soft-signal/30 hover:text-black",
+      "inline-flex shrink-0 items-center justify-center",
       "data-[active=true]:text-foreground-strong data-[active=true]:hover:text-foreground-strong",
       "data-[saved=true]:text-brutal-orange data-[saved=true]:hover:text-brutal-orange",
-      "[&_svg]:size-[13px] [&_svg]:shrink-0",
+      "[&_svg]:shrink-0",
     ],
     savedIndicator: [
-      "absolute right-1 top-1 flex size-6 items-center justify-center",
-      "text-brutal-orange group-hover/message:hidden",
+      "absolute top-1 flex size-6 items-center justify-center",
+      "group-hover/message:hidden",
       "[&_svg]:size-[13px]",
     ],
     systemRoot: ["mb-1 flex min-w-0 items-center justify-center gap-2 px-2 py-1.5"],
@@ -123,8 +110,7 @@ export const messageItem = tv({
     ],
     badge: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
-      "border border-line-strong px-1.5 text-[10px] font-bold leading-none",
-      "text-foreground-strong transition-colors",
+      "border transition-colors",
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     reactionChip: [
@@ -165,6 +151,85 @@ export const messageItem = tv({
     reactionPopoverSeparator: ["shrink-0 text-black/45"],
   },
   variants: {
+    badgeTone: {
+      default: {
+        badge: [
+          "!h-[20px] !border-0 !bg-transparent !px-0 !py-0 !shadow-none !ring-0",
+          "text-[12px] tracking-[-0.01em] text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
+          "hover:!bg-transparent hover:text-foreground-strong",
+        ],
+      },
+      cyan: {
+        badge: [
+          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
+          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
+        ],
+      },
+    },
+    theme: {
+      brutal: {
+        root: [
+          "mb-1 mt-1.5 px-2 py-1",
+          "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
+        ],
+        continuationTime: "text-foreground/0 group-hover/message:text-foreground/40",
+        header: "items-center gap-2",
+        sender: "font-bold text-foreground-strong",
+        senderState: [
+          "border border-line-strong bg-gray-300 px-1.5 py-0.5",
+          "text-[10px] font-bold uppercase text-foreground/60",
+        ],
+        meta: "font-mono text-xs text-foreground/40",
+        time: "font-mono text-xs text-foreground/40",
+        body: "text-sm leading-5 text-foreground-strong",
+        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-brutal-sm"],
+        toolbarButton: [
+          "size-6",
+          "text-black/50 hover:bg-soft-signal/30 hover:text-black",
+          "[&_svg]:size-[13px]",
+        ],
+        savedIndicator: "right-1 text-brutal-orange",
+        badge: [
+          "border-line-strong px-1.5 text-[10px] font-bold leading-none",
+          "text-foreground-strong",
+        ],
+      },
+      elegant: {
+        root: [
+          "px-7 py-3.5",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_35%,transparent)] active:bg-layer-muted/90",
+        ],
+        continuationTime:
+          "text-transparent group-hover/message:text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        header: "items-baseline gap-1.5",
+        sender: "text-[14px] font-medium leading-none text-foreground-muted",
+        senderState: [
+          "border border-line-strong bg-gray-300 px-1.5 py-0.5",
+          "text-[10px] font-bold uppercase leading-none text-foreground/60",
+        ],
+        meta: "font-sans text-[12px] leading-none text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        time: "font-sans text-[12px] leading-none tabular-nums text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        body: "mt-1.5 mb-1.5 text-[15px] leading-[22.5px] tracking-[-0.01em] text-foreground-muted select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
+        toolbar: [
+          "top-1 right-[calc(1.75rem-2px)]",
+          "gap-[2px] rounded-sm px-1 py-[2px]",
+          "bg-[var(--layer-popover)] shadow-[var(--theme-shadow-xs)] ring-1 ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+        ],
+        toolbarButton: [
+          "size-7 rounded-md border border-transparent bg-transparent !p-0",
+          "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
+          "data-[saved=true]:text-primary-400 data-[saved=true]:hover:text-primary-400",
+          "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+          "[&_svg]:size-3.5",
+        ],
+        savedIndicator: "right-[calc(1.75rem-2px)] text-primary-400",
+        badge: [
+          "rounded-md border-0 px-1.5 py-0.5 shadow-none ring-0",
+          "text-[12px] font-medium tracking-[-0.01em] text-foreground-muted",
+          "hover:bg-layer-muted",
+        ],
+      },
+    },
     rowState: {
       active: {
         root: "border-line-strong bg-layer-panel",
@@ -179,17 +244,10 @@ export const messageItem = tv({
         ],
       },
     },
-    badgeTone: {
-      default: {
-        badge: "bg-white hover:bg-brutal-cyan/40",
-      },
-      cyan: {
-        badge: "bg-brutal-cyan/20 hover:bg-brutal-cyan/40",
-      },
-    },
     compact: {
       true: {
-        root: "mt-0 min-h-0",
+        root: "mt-0 min-h-0 py-[2px]",
+        body: "mt-0 mb-0",
       },
     },
     toolbarVisible: {

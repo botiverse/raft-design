@@ -24,6 +24,7 @@ export const chatSidebar = tv({
       "[@media(max-height:600px)]:py-1 md:py-1",
     ],
     sidebarItemIcon: ["flex size-[18px] shrink-0 items-center justify-center"],
+    sidebarItemChannelIcon: ["flex shrink-0 items-center justify-center"],
     sidebarItemText: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"],
     sidebarItemTextStack: ["min-w-0 flex-1 text-left"],
     sidebarItemTitle: ["block min-w-0 truncate"],
@@ -95,29 +96,51 @@ export const chatSidebar = tv({
         sidebarResizeHandle: "hover:bg-black/10",
       },
       elegant: {
-        sidebarHeader:
-          "h-[62px] shrink-0 border-b border-line-subtle px-5 [@media(max-height:600px)]:h-12",
-        sidebarBody: "bg-layer-panel",
-        sidebarSectionButton: "text-foreground-muted hover:text-foreground-strong",
-        sidebarSectionCount: "text-foreground-muted",
-        sidebarSectionAction:
-          "rounded-md text-foreground-muted hover:bg-layer-muted hover:text-foreground-strong",
-        sidebarItem: [
-          "rounded-md border border-transparent text-foreground-strong",
-          "hover:border-line-subtle hover:bg-layer-muted",
-          "active:border-line-subtle active:bg-layer-muted",
-          "data-[selected=true]:border-line-subtle data-[selected=true]:bg-layer-muted",
-          "data-[selected=true]:font-semibold data-[selected=true]:shadow-xs",
-          "data-[menu-open=true]:border-line-subtle data-[menu-open=true]:bg-layer-muted",
-          "data-[menu-open=true]:shadow-xs",
+        sidebarHeader: "h-14 border-b-0 px-[22px]",
+        sidebarBody: "bg-transparent",
+        sidebarSectionButton: [
+          "h-8 w-full justify-between gap-1.5 rounded-md text-[12px] font-medium leading-none normal-case tracking-normal",
+          "text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-[var(--foreground)]",
         ],
-        sidebarItemSubtitle: "text-foreground-muted",
-        sidebarItemMeta: "text-foreground-muted",
+        sidebarSectionCount:
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end [font-family:var(--sans-font)] text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
+        sidebarSectionAction: [
+          "size-7 rounded-[6px] border border-line-subtle bg-transparent p-0 font-sans font-medium text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] shadow-none",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-[var(--foreground)]",
+          "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+          "[&_svg]:size-4",
+        ],
+        sidebarSection: "px-0",
+        sidebarSectionHeader:
+          "relative -mx-[22px] mt-4 mb-0 flex h-8 items-center justify-between px-[22px]",
+        sidebarItem: [
+          "relative mb-0.5 -mx-[6px] rounded-md border border-transparent px-[6px] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
+          "text-[13px] font-medium text-foreground-muted",
+          "hover:border-transparent hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground-strong",
+          "active:border-transparent active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground-strong",
+          "data-[selected=true]:-mx-2.5 data-[selected=true]:border-0 data-[selected=true]:bg-white data-[selected=true]:px-2.5",
+          "data-[selected=true]:text-foreground data-[selected=true]:font-normal",
+          "data-[selected=true]:shadow-[var(--theme-shadow-xs)] data-[selected=true]:ring-1 data-[selected=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "data-[menu-open=true]:-mx-2.5 data-[menu-open=true]:border-0 data-[menu-open=true]:bg-white data-[menu-open=true]:px-2.5",
+          "data-[menu-open=true]:shadow-[var(--theme-shadow-xs)] data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+        ],
+        sidebarItemIcon:
+          "size-5 text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4 [&_svg]:stroke-[1.5]",
+        sidebarItemChannelIcon:
+          "size-3 text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
+        sidebarItemSubtitle: "text-foreground/35",
+        sidebarItemMeta:
+          "[font-family:var(--sans-font)] text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
         sidebarItemMention:
           "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
-        sidebarItemMuted: "text-foreground-muted",
-        sidebarItemDraft: "text-foreground-muted",
-        sidebarItemBadge: "rounded-full bg-accent-400 text-accent-950",
+        sidebarItemMuted: "text-foreground-muted/68",
+        sidebarItemDraft: "text-foreground-muted/68",
+        sidebarItemBadge: [
+          "rounded-sm !border-0 !bg-primary-400 !text-white !shadow-none",
+          "h-[18px] min-w-[18px] px-1 [font-family:var(--mono-font)] !text-[10px] !font-[450] !leading-none tabular-nums normal-case tracking-normal",
+          "ring-2 ring-[var(--sidebar-chrome-bg-color)]",
+        ],
         sidebarFooter: "border-t border-line-subtle p-3",
         sidebarResizeHandle: "hover:bg-layer-muted",
       },

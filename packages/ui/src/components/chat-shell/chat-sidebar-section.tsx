@@ -18,7 +18,8 @@ export function ChatSidebarSection({
   render,
   ...props
 }: ChatSidebarSectionProps) {
-  const { sidebarSection } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarSection } = chatSidebar({ theme });
   const defaultProps: ComponentProps<typeof Collapsible.Root> & DataAttributes = {
     "data-slot": "chat-sidebar-section",
     defaultOpen,
@@ -49,7 +50,8 @@ export function ChatSidebarSectionHeader({
   render,
   ...props
 }: ChatSidebarSectionHeaderProps) {
-  const { sidebarSectionHeader } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarSectionHeader } = chatSidebar({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-section-header",
     className: sidebarSectionHeader({ className }),

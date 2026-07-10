@@ -25,10 +25,11 @@ const messageTimeline = tv({
         limitedTag: "border-black/20 bg-white/70",
       },
       elegant: {
-        dividerRule: "border-line-muted",
-        dividerChipWrap: "bg-layer-panel",
-        dividerChip: "bg-layer-panel text-foreground-muted",
-        limitedTag: "rounded border-line-muted bg-layer-panel",
+        dividerRule: "border-t border-line-muted",
+        dividerChipWrap: "bg-white",
+        dividerChip: "bg-white font-mono text-[11px] font-normal text-black/50",
+        notice: "font-sans",
+        limitedTag: "rounded border-black/20 bg-white/70",
       },
     },
     sticky: {
@@ -48,6 +49,13 @@ const messageTimeline = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "elegant",
+      sticky: false,
+      class: { dividerRoot: "opacity-70" },
+    },
+  ],
   defaultVariants: {
     sticky: false,
     tone: "faint",
@@ -102,7 +110,8 @@ export function MessageTimelineNotice({
   tone = "faint",
   ...props
 }: MessageTimelineNoticeProps) {
-  const { notice } = messageTimeline({ tone });
+  const theme = useThemeFamily();
+  const { notice } = messageTimeline({ theme, tone });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "message-timeline-notice",
     className: notice({ className }),

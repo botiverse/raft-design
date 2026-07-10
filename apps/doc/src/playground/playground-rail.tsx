@@ -32,7 +32,7 @@ export function PlaygroundRail({
     <AppShellRail className="flex md:flex">
       <AppRailRoot value={value} onValueChange={onValueChange}>
         <AppRailHeader>
-          <AppRailServerButton aria-label="Switch server">R</AppRailServerButton>
+          <AppRailServerButton aria-label="Switch server">D</AppRailServerButton>
         </AppRailHeader>
         <AppRailNav>
           <AppRailItem value="search" title="Search" aria-label="Search">

@@ -47,9 +47,9 @@ export const PLAYGROUND_CHANNELS: Record<PlaygroundChannelId, PlaygroundChannel>
   },
   "component-matrix": {
     id: "component-matrix",
-    name: "component-matrix",
+    name: "general",
     kind: "channel",
-    subtitle: "Message item state matrix",
+    subtitle: "",
     hasThread: false,
   },
   "dm-atlas": {

@@ -48,9 +48,10 @@ const notificationCenter = tv({
       elegant: {
         trigger: [
           "relative inline-flex size-9 items-center justify-center overflow-visible border-0 bg-transparent p-0",
-          "select-none text-foreground-muted transition-colors hover:text-foreground-strong",
+          "select-none text-foreground-muted transition-colors",
+          "hover:bg-[oklch(0.9488_0.0013_106.42/0.8)] hover:text-foreground",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400/35",
-          "[&>svg]:size-5 [&>svg]:shrink-0",
+          "[&>svg]:size-4 [&>svg]:shrink-0",
         ],
         popup: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["border-b border-line-muted bg-layer-panel pt-2.5"],

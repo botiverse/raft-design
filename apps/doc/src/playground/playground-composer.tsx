@@ -61,7 +61,7 @@ function MentionAutocomplete() {
   return (
     <div
       data-testid="mention-autocomplete-popover"
-      className="card-brutal absolute bottom-full left-3 right-3 mb-1 max-h-48 overflow-y-auto"
+      className="card-brutal absolute bottom-full left-7 right-[calc(1.75rem+var(--message-scroller-gutter,0px))] mb-1 max-h-48 overflow-y-auto"
     >
       <ComboboxEyebrow>In this channel</ComboboxEyebrow>
       {MENTION_IN_CHANNEL.map((candidate, index) => {
@@ -131,7 +131,7 @@ function ChannelAutocomplete() {
   return (
     <div
       data-testid="channel-autocomplete-popover"
-      className="card-brutal absolute bottom-full left-3 right-3 mb-1 max-h-48 overflow-y-auto"
+      className="card-brutal absolute bottom-full left-7 right-[calc(1.75rem+var(--message-scroller-gutter,0px))] mb-1 max-h-48 overflow-y-auto"
     >
       {CHANNEL_CANDIDATES.map((channel, index) => {
         const selected = index === 0;
@@ -264,13 +264,14 @@ export function Composer({ label, uploads = false }: { label: string; uploads?: 
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerMeta>
-              <label className="inline-flex select-none items-center gap-1.5">
+              <label className="inline-flex cursor-pointer select-none items-center gap-1.5 rounded-md border-0 bg-transparent px-2.5 py-1 transition-colors hover:bg-layer-muted">
                 <Checkbox size="sm" aria-label="Send as task" />
-                <span className="text-xs font-bold text-foreground-muted [[data-preview-theme=brutal]_&]:text-black/60">
+                <span className="text-xs font-medium text-foreground-muted [[data-preview-theme=brutal]_&]:font-bold [[data-preview-theme=brutal]_&]:text-black/60">
                   As Task
                 </span>
               </label>
               <ChatMainPanelComposerSubmit aria-label="Send">
+                <span>Send</span>
                 <Send />
               </ChatMainPanelComposerSubmit>
             </ChatMainPanelComposerMeta>

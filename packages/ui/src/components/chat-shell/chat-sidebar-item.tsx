@@ -38,7 +38,8 @@ export function ChatSidebarItem({
 export type ChatSidebarItemIconProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemIcon({ className, render, ...props }: ChatSidebarItemIconProps) {
-  const { sidebarItemIcon } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarItemIcon } = chatSidebar({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-icon",
     className: sidebarItemIcon({ className }),
@@ -64,14 +65,15 @@ export function ChatSidebarItemChannelIcon({
   type = "channel",
   ...props
 }: ChatSidebarItemChannelIconProps) {
-  const { sidebarItemIcon } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarItemChannelIcon } = chatSidebar({ theme });
   const Icon = type === "joint" ? GitBranch : type === "private" ? Lock : Hash;
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "aria-hidden": true,
     "data-channel-type": type,
     "data-slot": "chat-sidebar-item-channel-icon",
-    className: sidebarItemIcon({ className }),
-    children: children ?? <Icon className="size-3.5" />,
+    className: sidebarItemChannelIcon({ className }),
+    children: children ?? <Icon className="size-3" strokeWidth={1.5} />,
   };
 
   return useRender({
@@ -270,8 +272,10 @@ export function ChatSidebarItemAside({ className, render, ...props }: ChatSideba
 export type ChatSidebarItemBadgeProps = BadgeProps;
 
 export function ChatSidebarItemBadge({
+  appearance = "solid",
   className,
-  variant = "accent",
+  uppercase = false,
+  variant = "primary",
   ...props
 }: ChatSidebarItemBadgeProps) {
   const theme = useThemeFamily();
@@ -279,6 +283,8 @@ export function ChatSidebarItemBadge({
   return (
     <Badge
       data-slot="chat-sidebar-item-badge"
+      appearance={appearance}
+      uppercase={uppercase}
       variant={variant}
       className={sidebarItemBadge({ className })}
       {...props}

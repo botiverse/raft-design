@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type HTMLAttributes,
+  type ReactNode,
+} from "react";
 import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
 
 export type PreviewMode = ThemeMode;
@@ -48,9 +55,9 @@ export function PreviewThemeScope({
   className,
   family: familyOverride,
   mode: modeOverride,
-}: {
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
-  className?: string;
   family?: Theme;
   mode?: PreviewMode;
 }) {
@@ -60,7 +67,7 @@ export function PreviewThemeScope({
 
   return (
     <ThemeProvider theme={family} mode={mode} syncDom={false}>
-      <PreviewThemeScopeContent family={family} className={className}>
+      <PreviewThemeScopeContent family={family} className={className} {...props}>
         {children}
       </PreviewThemeScopeContent>
     </ThemeProvider>
@@ -71,9 +78,10 @@ function PreviewThemeScopeContent({
   children,
   className,
   family,
-}: {
+  style,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
-  className?: string;
   family: Theme;
 }) {
   const { resolvedMode } = useTheme();
@@ -88,7 +96,8 @@ function PreviewThemeScopeContent({
       data-preview-mode={resolvedMode}
       data-theme={family}
       className={scopeClassName}
-      style={{ colorScheme: resolvedMode }}
+      style={{ colorScheme: resolvedMode, ...style }}
+      {...props}
     >
       {children}
     </div>

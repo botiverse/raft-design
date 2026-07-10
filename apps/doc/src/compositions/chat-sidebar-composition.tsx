@@ -1,4 +1,4 @@
-import { ArrowUpDown, Bookmark, ChevronRight, MessageSquare, Plus } from "lucide-react";
+import { Bookmark, ChevronRight, MessageSquare, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   AppShellMain,
@@ -25,7 +25,6 @@ import {
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionAction,
-  ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
@@ -44,23 +43,31 @@ export function ChatSidebarComposition() {
         <ChatSidebarResizePanel
           id="chat-sidebar"
           className="bg-layer-panel [[data-preview-theme=brutal]_&]:bg-brutal-cream"
-          defaultSize={240}
+          defaultSize={308}
           minSize={180}
-          maxSize={320}
+          maxSize={368}
           groupResizeBehavior="preserve-pixel-size"
         >
           <AppShellSidebar resizable className="flex h-full md:flex">
             <ChatSidebarRoot>
               <ChatSidebarHeader>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-lg font-bold text-foreground-strong">Chat</div>
+                  <div className="truncate text-lg font-bold text-foreground-strong [[data-preview-theme=elegant]_&]:font-heading [[data-preview-theme=elegant]_&]:text-[17px] [[data-preview-theme=elegant]_&]:font-medium [[data-preview-theme=elegant]_&]:text-foreground-muted">
+                    Chat
+                  </div>
                 </div>
+                <ChatSidebarSectionAction type="button" aria-label="Add channel">
+                  <Plus className="size-3.5" />
+                </ChatSidebarSectionAction>
               </ChatSidebarHeader>
               <ChatSidebarBody>
                 <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3">
                   <div className="min-h-full">
-                    <ChatSidebarItem type="button">
-                      <Bookmark className="size-3.5 shrink-0" />
+                    <ChatSidebarItem
+                      type="button"
+                      className="[[data-preview-theme=elegant]_&]:-mx-2 [[data-preview-theme=elegant]_&]:px-2"
+                    >
+                      <Bookmark className="size-3.5 shrink-0 [[data-preview-theme=elegant]_&]:size-3 [[data-preview-theme=elegant]_&]:stroke-[1.5]" />
                       <ChatSidebarItemTitle className="flex-1">Saved</ChatSidebarItemTitle>
                       <ChatSidebarItemMeta>2</ChatSidebarItemMeta>
                     </ChatSidebarItem>
@@ -72,11 +79,6 @@ export function ChatSidebarComposition() {
                           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
                           <ChatSidebarSectionCount>3</ChatSidebarSectionCount>
                         </ChatSidebarSectionButton>
-                        <ChatSidebarSectionActions>
-                          <ChatSidebarSectionAction type="button" aria-label="Sort pinned">
-                            <ArrowUpDown className="size-3.5" />
-                          </ChatSidebarSectionAction>
-                        </ChatSidebarSectionActions>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
                         <ChatSidebarItem type="button" selected>
@@ -124,11 +126,6 @@ export function ChatSidebarComposition() {
                           <ChatSidebarSectionCount>1</ChatSidebarSectionCount>
                           <ChatSidebarSectionIndicator />
                         </ChatSidebarSectionButton>
-                        <ChatSidebarSectionActions>
-                          <ChatSidebarSectionAction type="button" aria-label="Sort joint channels">
-                            <ArrowUpDown className="size-3.5" />
-                          </ChatSidebarSectionAction>
-                        </ChatSidebarSectionActions>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
                         <ChatSidebarItem type="button">
@@ -148,14 +145,6 @@ export function ChatSidebarComposition() {
                           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
                           <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
                         </ChatSidebarSectionButton>
-                        <ChatSidebarSectionActions>
-                          <ChatSidebarSectionAction type="button" aria-label="Sort channels">
-                            <ArrowUpDown className="size-3.5" />
-                          </ChatSidebarSectionAction>
-                          <ChatSidebarSectionAction type="button" aria-label="Add channel">
-                            <Plus className="size-3.5" />
-                          </ChatSidebarSectionAction>
-                        </ChatSidebarSectionActions>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
                         <ChatSidebarItem type="button">
@@ -188,11 +177,6 @@ export function ChatSidebarComposition() {
                           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
                           <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
                         </ChatSidebarSectionButton>
-                        <ChatSidebarSectionActions>
-                          <ChatSidebarSectionAction type="button" aria-label="Sort direct messages">
-                            <ArrowUpDown className="size-3.5" />
-                          </ChatSidebarSectionAction>
-                        </ChatSidebarSectionActions>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
                         <ChatSidebarItem type="button">

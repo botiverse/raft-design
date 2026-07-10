@@ -29,6 +29,7 @@ import { PlaygroundToolbar } from "#/playground/playground-toolbar.tsx";
 
 type PlaygroundTheme = { family: Theme; mode: "light" | "dark" };
 type PlaygroundPresentation = "desktop" | "mobile";
+type PlaygroundMessageChrome = "current" | "legacy";
 
 export const Route = createFileRoute("/playground")({
   staticData: { standalone: true },
@@ -43,8 +44,9 @@ export const Route = createFileRoute("/playground")({
 const channelRouteApi = getRouteApi("/playground/$channelId");
 
 function PlaygroundLayout() {
-  const [theme, setTheme] = useState<PlaygroundTheme>({ family: "brutal", mode: "light" });
+  const [theme, setTheme] = useState<PlaygroundTheme>({ family: "elegant", mode: "light" });
   const [presentation, setPresentation] = useState<PlaygroundPresentation>("desktop");
+  const [messageChrome, setMessageChrome] = useState<PlaygroundMessageChrome>("current");
   const [railValue, setRailValue] = useState("chat");
   // Mobile is a drill-in flow, mirroring the source app: the channel list and the
   // conversation are separate full-screen views, never side by side.
@@ -61,7 +63,12 @@ function PlaygroundLayout() {
 
   return (
     <div className="h-dvh">
-      <PreviewThemeScope family={theme.family} mode={theme.mode} className="h-full">
+      <PreviewThemeScope
+        family={theme.family}
+        mode={theme.mode}
+        className="h-full"
+        data-message-chrome={messageChrome}
+      >
         {presentation === "mobile" ? (
           <AppShellRoot presentation="mobile" className="h-full">
             {mobileScreen === "conversation" ? (
@@ -98,9 +105,9 @@ function PlaygroundLayout() {
               <ChatSidebarResizePanel
                 id="playground-sidebar"
                 className="bg-layer-panel [[data-preview-theme=brutal]_&]:bg-brutal-cream"
-                defaultSize={240}
+                defaultSize={252}
                 minSize={180}
-                maxSize={320}
+                maxSize={368}
                 groupResizeBehavior="preserve-pixel-size"
               >
                 <AppShellSidebar resizable className="flex h-full md:flex">
@@ -145,6 +152,8 @@ function PlaygroundLayout() {
         onThemeChange={setTheme}
         presentation={presentation}
         onPresentationChange={setPresentation}
+        messageChrome={messageChrome}
+        onMessageChromeChange={setMessageChrome}
       />
     </div>
   );

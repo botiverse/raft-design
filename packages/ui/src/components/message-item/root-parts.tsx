@@ -1,6 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Check } from "lucide-react";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Badge } from "../badge";
 import {
   messageItem,
   type DataAttributes,
@@ -15,7 +17,8 @@ export type MessageItemProps = useRender.ComponentProps<"div"> &
   };
 
 export function MessageItem({ className, compact, render, rowState, ...props }: MessageItemProps) {
-  const { root } = messageItem({ compact, rowState });
+  const theme = useThemeFamily();
+  const { root } = messageItem({ compact, rowState, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-row-state": rowState,
     className: root({ className }),
@@ -102,7 +105,8 @@ export function MessageItemContinuationTime({
   render,
   ...props
 }: MessageItemContinuationTimeProps) {
-  const { continuationTime } = messageItem();
+  const theme = useThemeFamily();
+  const { continuationTime } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: continuationTime({ className }),
   };
@@ -138,7 +142,8 @@ export function MessageItemContent({ className, render, ...props }: MessageItemC
 export type MessageItemHeaderProps = useRender.ComponentProps<"div">;
 
 export function MessageItemHeader({ className, render, ...props }: MessageItemHeaderProps) {
-  const { header } = messageItem();
+  const theme = useThemeFamily();
+  const { header } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -156,7 +161,8 @@ export function MessageItemHeader({ className, render, ...props }: MessageItemHe
 export type MessageItemSenderProps = useRender.ComponentProps<"span">;
 
 export function MessageItemSender({ className, render, ...props }: MessageItemSenderProps) {
-  const { sender } = messageItem();
+  const theme = useThemeFamily();
+  const { sender } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: sender({ className }),
   };
@@ -178,7 +184,8 @@ export function MessageItemSenderState({
   render,
   ...props
 }: MessageItemSenderStateProps) {
-  const { senderState } = messageItem();
+  const theme = useThemeFamily();
+  const { senderState } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: senderState({ className }),
   };
@@ -196,7 +203,8 @@ export function MessageItemSenderState({
 export type MessageItemMetaProps = useRender.ComponentProps<"span">;
 
 export function MessageItemMeta({ className, render, ...props }: MessageItemMetaProps) {
-  const { meta } = messageItem();
+  const theme = useThemeFamily();
+  const { meta } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: meta({ className }),
   };
@@ -214,7 +222,8 @@ export function MessageItemMeta({ className, render, ...props }: MessageItemMeta
 export type MessageItemTimeProps = useRender.ComponentProps<"span">;
 
 export function MessageItemTime({ className, render, ...props }: MessageItemTimeProps) {
-  const { time } = messageItem();
+  const theme = useThemeFamily();
+  const { time } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: time({ className }),
   };
@@ -254,7 +263,8 @@ export function MessageItemInlineStatus({
 export type MessageItemBodyProps = useRender.ComponentProps<"div">;
 
 export function MessageItemBody({ className, render, ...props }: MessageItemBodyProps) {
-  const { body } = messageItem();
+  const theme = useThemeFamily();
+  const { body } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: body({ className }),
   };
@@ -349,25 +359,19 @@ export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
   tone?: MessageItemBadgeTone;
 };
 
-export function MessageItemBadge({
-  className,
-  render,
-  tone = "default",
-  ...props
-}: MessageItemBadgeProps) {
-  const { badge } = messageItem({ badgeTone: tone });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: badge({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-item-badge",
-    },
-  });
+export function MessageItemBadge({ className, tone = "default", ...props }: MessageItemBadgeProps) {
+  const theme = useThemeFamily();
+  const { badge } = messageItem({ badgeTone: tone, theme });
+  return (
+    <Badge
+      appearance={tone === "cyan" || theme === "elegant" ? "soft" : "outline"}
+      data-slot="message-item-badge"
+      uppercase={false}
+      variant={tone === "cyan" ? "primary" : "default"}
+      className={badge({ className })}
+      {...props}
+    />
+  );
 }
 
 export type MessageItemToolbarProps = useRender.ComponentProps<"div"> & {
@@ -380,7 +384,8 @@ export function MessageItemToolbar({
   visible,
   ...props
 }: MessageItemToolbarProps) {
-  const { toolbar } = messageItem({ toolbarVisible: visible });
+  const theme = useThemeFamily();
+  const { toolbar } = messageItem({ toolbarVisible: visible, theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: toolbar({ className }),
   };
@@ -407,7 +412,8 @@ export function MessageItemToolbarButton({
   render,
   ...props
 }: MessageItemToolbarButtonProps) {
-  const { toolbarButton } = messageItem();
+  const theme = useThemeFamily();
+  const { toolbarButton } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
     "data-active": active ? "true" : undefined,
@@ -432,7 +438,8 @@ export function MessageItemSavedIndicator({
   render,
   ...props
 }: MessageItemSavedIndicatorProps) {
-  const { savedIndicator } = messageItem();
+  const theme = useThemeFamily();
+  const { savedIndicator } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
     className: savedIndicator({ className }),

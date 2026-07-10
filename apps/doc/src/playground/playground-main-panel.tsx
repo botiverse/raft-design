@@ -36,7 +36,6 @@ import {
   MessageSquare,
   MoreHorizontal,
   Paperclip,
-  Pencil,
   Play,
   RotateCcw,
   Search,
@@ -82,6 +81,7 @@ import {
   SortableTabsTab,
   Spinner,
   Tabs,
+  TabsIndicator,
   TabsLabel,
 } from "raft-ui";
 import {
@@ -93,6 +93,9 @@ import {
   ChatMainPanelMessageList,
   ChatMainPanelRoot,
   ChatMainPanelSubtitle,
+  ChatMainPanelSurfaceInset,
+  ChatMainPanelSurfaceShadow,
+  ChatMainPanelSurface,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
   ChatMainPanelTitle,
@@ -411,7 +414,7 @@ function ReactionPill({
 
 // Source summary line: mono, tight tracking, `pr-5` gutter for the affordance.
 const ATTACHMENT_SUMMARY_CLASS =
-  "flex items-center gap-1.5 whitespace-nowrap pr-5 font-mono text-[10px] font-bold tracking-[-0.04em]";
+  "flex items-center gap-1.5 whitespace-nowrap pr-5 font-mono text-[10px] font-bold tracking-normal";
 
 // A single attachment card (filename, meta line, optional summary, affordance).
 // `loading` swaps the affordance for the "Opening preview…" bar; `optimistic`
@@ -529,38 +532,49 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
     <ChatMainPanelRoot>
       {isDm ? <DmHeader channel={channel} /> : <ChannelHeader channel={channel} />}
 
-      <ChatMainPanelTabs render={<Tabs value={tab} onValueChange={(value) => setTab(value)} />}>
-        <SortableTabsList
-          value={tabOrder}
-          onReorder={setTabOrder}
-          className={SORTABLE_TABS_LIST_CLASS}
-        >
-          {tabOrder.map((id) => (
-            <SortableTabsTab key={id} value={id} className={SORTABLE_TAB_CLASS}>
-              {TAB_META[id].icon}
-              <TabsLabel>{TAB_META[id].label}</TabsLabel>
-            </SortableTabsTab>
-          ))}
-        </SortableTabsList>
-      </ChatMainPanelTabs>
+      <ChatMainPanelSurfaceInset>
+        <ChatMainPanelSurfaceShadow>
+          <ChatMainPanelSurface>
+            <ChatMainPanelTabs
+              render={<Tabs value={tab} onValueChange={(value) => setTab(value)} />}
+            >
+              <SortableTabsList
+                value={tabOrder}
+                onReorder={setTabOrder}
+                variant="underline"
+                className={SORTABLE_TABS_LIST_CLASS}
+              >
+                {tabOrder.map((id) => (
+                  <SortableTabsTab key={id} value={id} className={SORTABLE_TAB_CLASS}>
+                    {TAB_META[id].icon}
+                    <TabsLabel>{TAB_META[id].label}</TabsLabel>
+                  </SortableTabsTab>
+                ))}
+                <TabsIndicator />
+              </SortableTabsList>
+            </ChatMainPanelTabs>
 
-      {tab === "chat" ? (
-        <ChannelBody channel={channel} timelineRef={timelineRef} />
-      ) : tab === "tasks" ? (
-        <TabPlaceholder
-          icon={<ListTodo />}
-          title="No tasks yet"
-          description="Tasks promoted from this conversation will show up here."
-        />
-      ) : (
-        <TabPlaceholder
-          icon={<Paperclip />}
-          title="No files yet"
-          description="Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent."
-        />
-      )}
-
-      <Composer label={composerLabel} uploads={channel.id === "incident-alerts"} />
+            {tab === "chat" ? (
+              <>
+                <ChannelBody channel={channel} timelineRef={timelineRef} />
+                <Composer label={composerLabel} uploads={channel.id === "incident-alerts"} />
+              </>
+            ) : tab === "tasks" ? (
+              <TabPlaceholder
+                icon={<ListTodo />}
+                title="No tasks yet"
+                description="Tasks promoted from this conversation will show up here."
+              />
+            ) : (
+              <TabPlaceholder
+                icon={<Paperclip />}
+                title="No files yet"
+                description="Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent."
+              />
+            )}
+          </ChatMainPanelSurface>
+        </ChatMainPanelSurfaceShadow>
+      </ChatMainPanelSurfaceInset>
       <MessageSelectionShortcut />
     </ChatMainPanelRoot>
   );
@@ -614,7 +628,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundChannel }) {
         </PanelIconButton>
         <PanelIconButton aria-label="View participants" className="w-auto min-w-7 gap-1.5 px-2.5">
           <Users />
-          <span className="min-w-[1ch] text-center font-mono text-[11px] font-bold leading-none tabular-nums">
+          <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)]">
             7
           </span>
         </PanelIconButton>
@@ -1150,11 +1164,10 @@ function CodeBlockBody() {
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
   return (
     <MessageItemBadge tone={unread ? "cyan" : "default"} className={BADGE_CLASS}>
-      <MessageSquare />
       {count === 1 ? "1 reply" : `${count} replies`}
       {unread ? (
         <>
-          <span className="text-foreground/45">·</span>
+          <span aria-hidden className="size-0.5 rounded-full bg-current" />
           <span>{unread} new</span>
         </>
       ) : null}
@@ -1166,23 +1179,15 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
 // pencil + "draft"; replies+draft appends the draft segment after the count.
 function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number }) {
   return (
-    <MessageItemBadge tone={unread ? "cyan" : "default"} className={BADGE_CLASS}>
-      {count ? (
-        <>
-          <MessageSquare />
+    <>
+      {count && !unread ? (
+        <MessageItemBadge tone="default" className={BADGE_CLASS}>
           {count === 1 ? "1 reply" : `${count} replies`}
-          {unread ? (
-            <>
-              <span className="text-foreground/45">·</span>
-              <span>{unread} new</span>
-            </>
-          ) : null}
-          <span className="text-black/45">·</span>
-        </>
+        </MessageItemBadge>
       ) : null}
-      <Pencil className="shrink-0 text-black/55" />
-      <span className="text-black/55">draft</span>
-    </MessageItemBadge>
+      {unread ? <PlainRepliesBadge count={count ?? unread} unread={unread} /> : null}
+      <span className="text-xs text-foreground-muted">draft</span>
+    </>
   );
 }
 
@@ -1234,7 +1239,7 @@ function HistoryTopStates() {
   return (
     <div className="px-3 pt-3">
       <div className="flex justify-center pb-2">
-        <MessageTimelineHistoryLimited className="font-mono text-xs text-black/50">
+        <MessageTimelineHistoryLimited className="font-sans text-xs text-black/50">
           <Lock size={12} />
           Older messages are limited by the current plan
         </MessageTimelineHistoryLimited>
@@ -2400,13 +2405,13 @@ function MessageRow({
         {compact ? null : (
           <MessageItemHeader>
             <MessageItemSender className={SENDER_CLASS}>{sender}</MessageItemSender>
-            {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
+            <MessageItemTime className={TIME_CLASS}>{time}</MessageItemTime>
             {meta ? (
               <MessageItemMeta className={META_CLASS} title={meta}>
                 {meta}
               </MessageItemMeta>
             ) : null}
-            <MessageItemTime className={TIME_CLASS}>{time}</MessageItemTime>
+            {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
             {inlineStatus ? (
               <MessageItemInlineStatus className={META_CLASS}>
                 {inlineStatus}
@@ -2438,11 +2443,11 @@ function MessageRow({
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
   if (selectMode) {
-    return <div className="px-3">{messageItem}</div>;
+    return messageItem;
   }
 
   return (
-    <div className="px-3">
+    <div>
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {
@@ -2707,7 +2712,6 @@ function RepliesBadge({ channelId, count }: { channelId: PlaygroundChannelId; co
       className={BADGE_CLASS}
       render={<Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />}
     >
-      <MessageSquare />
       {count} replies
     </MessageItemBadge>
   );
@@ -2724,15 +2728,25 @@ function UnreadRepliesBadge({
   unread: number;
 }) {
   return (
-    <MessageItemBadge
-      tone="cyan"
-      className={BADGE_CLASS}
-      render={<Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />}
-    >
-      <MessageSquare />
-      {count === 1 ? "1 reply" : `${count} replies`}
-      <span className="text-foreground/45">·</span>
-      <span>{unread} new</span>
-    </MessageItemBadge>
+    <>
+      <MessageItemBadge
+        tone="default"
+        className={BADGE_CLASS}
+        render={
+          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />
+        }
+      >
+        {count === 1 ? "1 reply" : `${count} replies`}
+      </MessageItemBadge>
+      <MessageItemBadge
+        tone="cyan"
+        className={BADGE_CLASS}
+        render={
+          <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: true }} />
+        }
+      >
+        {unread} new
+      </MessageItemBadge>
+    </>
   );
 }

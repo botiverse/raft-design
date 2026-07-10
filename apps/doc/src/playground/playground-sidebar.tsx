@@ -1,21 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import {
-  Archive,
-  ArrowUpDown,
   Bookmark,
   ChevronRight,
   CircleAlert,
   GitBranch,
   Hash,
   Lock,
-  Mail,
-  MailOpen,
-  Pin,
   Plus,
   Search,
-  X,
 } from "lucide-react";
-import { useState, type ReactElement, type ReactNode } from "react";
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,11 +30,6 @@ import {
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxList,
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger,
   Dialog,
   DialogBody,
   DialogClose,
@@ -51,8 +40,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuTrigger,
   Field,
   FieldDescription,
@@ -61,7 +48,6 @@ import {
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
-  Status,
   Textarea,
 } from "raft-ui";
 import {
@@ -71,11 +57,7 @@ import {
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
   ChatSidebarItemChannelIcon,
-  ChatSidebarItemDraft,
   ChatSidebarItemIcon,
-  ChatSidebarItemMention,
-  ChatSidebarItemMeta,
-  ChatSidebarItemMuted,
   ChatSidebarItemSubtitle,
   ChatSidebarItemText,
   ChatSidebarItemTitle,
@@ -83,7 +65,6 @@ import {
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionAction,
-  ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
@@ -112,37 +93,121 @@ const dialogMembers = [
 
 type DialogMember = (typeof dialogMembers)[number];
 
-// Sidebar sort ⇅ menu — single-select radio (Manual/Recent/A-Z), matches the
-// source `renderSortMenu` SelectionPopover. Shared by every section header.
-function SidebarSortMenu() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <ChatSidebarSectionAction type="button" aria-label="Sort sidebar conversations">
-            <ArrowUpDown className="size-3.5" />
-          </ChatSidebarSectionAction>
-        }
-      />
-      <DropdownMenuContent
-        align="end"
-        className={`flex w-[136px] min-w-[136px] flex-col ${OVERLAY_CONTENT_CLASS}`}
-      >
-        <DropdownMenuRadioGroup defaultValue="manual">
-          <DropdownMenuRadioItem value="manual" className={OVERLAY_ITEM_CLASS}>
-            Manual
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="recent" className={OVERLAY_ITEM_CLASS}>
-            Recent
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="az" className={OVERLAY_ITEM_CLASS}>
-            A-Z
-          </DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+const jointChannelRows = ["partner-ops", "vendor-review", "community-lab"] as const;
+
+const channelRows: readonly {
+  id: string;
+  routeId?: PlaygroundChannelId;
+  title: string;
+  badge?: string;
+}[] = [
+  { id: "all", routeId: "proj-uiux", title: "all" },
+  { id: "general", routeId: "component-matrix", title: "general" },
+  { id: "design", routeId: "incident-alerts", title: "design", badge: "1" },
+  { id: "incidents", routeId: "release", title: "incidents", badge: "12" },
+  { id: "launch", routeId: "new-channel", title: "launch", badge: "2" },
+  { id: "frontend", title: "frontend", badge: "4" },
+  { id: "customer-notes", title: "customer-notes", badge: "2" },
+];
+
+const directMessageRows: readonly {
+  id: string;
+  routeId?: PlaygroundChannelId;
+  title: string;
+  subtitle: string;
+  type: "human" | "agent";
+  fallback?: string;
+  badge?: string;
+}[] = [
+  {
+    id: "dm-noah",
+    title: "Noah Bennett",
+    subtitle: "Growth experiments and activation metrics.",
+    type: "human",
+    fallback: "N",
+    badge: "12",
+  },
+  {
+    id: "dm-samira",
+    title: "Samira Khan",
+    subtitle: "Security review and access policy.",
+    type: "human",
+    fallback: "S",
+  },
+  {
+    id: "dm-elliot",
+    title: "Elliot Park",
+    subtitle: "Developer experience and local tooling.",
+    type: "human",
+    fallback: "E",
+    badge: "1",
+  },
+  {
+    id: "dm-claude",
+    routeId: "dm-atlas",
+    title: "Claude Assistant",
+    subtitle: "Seeded Claude agent on the primary online machine.",
+    type: "agent",
+    badge: "1",
+  },
+  {
+    id: "dm-olivia",
+    title: "Olivia Carter",
+    subtitle: "QA lead for desktop and mobile.",
+    type: "human",
+    fallback: "O",
+    badge: "1",
+  },
+  {
+    id: "dm-mateo",
+    title: "Mateo Alvarez",
+    subtitle: "Infrastructure and staging deploys.",
+    type: "human",
+    fallback: "M",
+    badge: "1",
+  },
+  {
+    id: "dm-priya",
+    title: "Priya Shah",
+    subtitle: "Lifecycle marketing and onboarding.",
+    type: "human",
+    fallback: "P",
+  },
+  {
+    id: "dm-nadia",
+    title: "Nadia Chen",
+    subtitle: "Engineering manager for platform.",
+    type: "human",
+    fallback: "N",
+  },
+  {
+    id: "dm-lottie",
+    title: "Lottie Coxon",
+    subtitle: "Customer storytelling and launch.",
+    type: "human",
+    fallback: "L",
+  },
+  {
+    id: "dm-cory",
+    title: "Cory Watilo",
+    subtitle: "Design systems and product craft.",
+    type: "human",
+    fallback: "C",
+  },
+  {
+    id: "dm-search",
+    title: "Search Scout",
+    subtitle: "Search-focused agent for triage.",
+    type: "agent",
+  },
+  {
+    id: "dm-release",
+    title: "Release Scribe",
+    subtitle: "Release-note and changelog agent.",
+    type: "agent",
+    badge: "1",
+  },
+];
 
 // Channels `+` add menu — source `renderChannelActionMenu`.
 function SidebarAddMenu({
@@ -157,7 +222,7 @@ function SidebarAddMenu({
       <DropdownMenuTrigger
         render={
           <ChatSidebarSectionAction type="button" aria-label="Add channel">
-            <Plus className="size-3.5" />
+            <Plus className="size-4" strokeWidth={2.25} />
           </ChatSidebarSectionAction>
         }
       />
@@ -175,77 +240,6 @@ function SidebarAddMenu({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-}
-
-// Wraps a sidebar row as a right-click context-menu trigger. The row element
-// keeps its own `render` (Link/button); Base UI merges the context handlers in.
-function RowContextMenu({ trigger, children }: { trigger: ReactElement; children: ReactNode }) {
-  return (
-    <ContextMenu>
-      <ContextMenuTrigger render={trigger} />
-      <ContextMenuContent
-        className={`flex w-48 min-w-48 flex-col ${OVERLAY_CONTENT_CLASS}`}
-        collisionAvoidance={{ side: "flip", align: "flip" }}
-        collisionPadding={8}
-      >
-        {children}
-      </ContextMenuContent>
-    </ContextMenu>
-  );
-}
-
-// Shared read-toggle row — MailOpen/"Mark as Read" when unread, else Mail.
-function ReadToggleItem({ hasUnread }: { hasUnread: boolean }) {
-  return (
-    <ContextMenuItem className={OVERLAY_ITEM_CLASS}>
-      {hasUnread ? <MailOpen /> : <Mail />}
-      <span className="min-w-0 flex-1 truncate">
-        {hasUnread ? "Mark as Read" : "Mark as Unread"}
-      </span>
-    </ContextMenuItem>
-  );
-}
-
-// Channel row context menu — source ctx `channel`.
-function ChannelRowMenuItems({
-  hasUnread,
-  onArchive,
-}: {
-  hasUnread: boolean;
-  onArchive: () => void;
-}) {
-  return (
-    <>
-      <ReadToggleItem hasUnread={hasUnread} />
-      <ContextMenuItem className={OVERLAY_ITEM_CLASS}>
-        <Pin />
-        <span className="min-w-0 flex-1 truncate">Pin</span>
-      </ContextMenuItem>
-      <ContextMenuSeparator />
-      <ContextMenuItem onClick={onArchive} className={OVERLAY_ITEM_CLASS}>
-        <Archive />
-        <span className="min-w-0 flex-1 truncate">Archive</span>
-      </ContextMenuItem>
-    </>
-  );
-}
-
-// DM row context menu — source ctx `dm`/`agent`/`human` (same shape).
-function DmRowMenuItems({ hasUnread }: { hasUnread: boolean }) {
-  return (
-    <>
-      <ReadToggleItem hasUnread={hasUnread} />
-      <ContextMenuItem className={OVERLAY_ITEM_CLASS}>
-        <Pin />
-        <span className="min-w-0 flex-1 truncate">Pin</span>
-      </ContextMenuItem>
-      <ContextMenuSeparator />
-      <ContextMenuItem className={OVERLAY_ITEM_CLASS}>
-        <X />
-        <span className="min-w-0 flex-1 truncate">Close Chat</span>
-      </ContextMenuItem>
-    </>
   );
 }
 
@@ -429,235 +423,170 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
     <>
       <ChatSidebarRoot>
         <ChatSidebarHeader>
-          <div className="text-lg font-bold text-black">Chat</div>
+          <div className="min-w-0 flex-1">
+            <div className="truncate font-heading text-[17px] font-medium leading-tight tabular-nums text-foreground-muted">
+              Chat
+            </div>
+          </div>
+          <div className="ml-auto flex size-7 translate-x-[6px] items-center justify-end">
+            <SidebarAddMenu
+              onCreateChannel={() => setDialog("create-channel")}
+              onCreateJoint={() => setDialog("create-joint")}
+            />
+          </div>
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <div className="flex-1 overflow-x-hidden overflow-y-auto px-2 py-3">
+          <div className="flex-1 overflow-x-hidden overflow-y-auto px-[22px] py-3">
             <div className="min-h-full">
-              <ChatSidebarItem type="button">
-                <Bookmark className="size-3.5 shrink-0" />
-                Saved
-                <ChatSidebarItemMeta>3</ChatSidebarItemMeta>
-              </ChatSidebarItem>
-
-              <ChatSidebarSection className="px-0">
-                <ChatSidebarSectionHeader>
-                  <ChatSidebarSectionButton type="button">
-                    <ChevronRight className="size-3" />
-                    <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-                    <ChatSidebarSectionCount>5</ChatSidebarSectionCount>
+              <ChatSidebarSection>
+                <ChatSidebarSectionHeader className="mt-0">
+                  <ChatSidebarSectionButton type="button" render={<button />}>
+                    <Bookmark className="size-3 shrink-0" strokeWidth={1.5} />
+                    <ChatSidebarSectionTitle>Saved</ChatSidebarSectionTitle>
+                    <ChatSidebarSectionCount>33</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
-                  <ChatSidebarSectionActions>
-                    <SidebarSortMenu />
-                    <SidebarAddMenu
-                      onCreateChannel={() => setDialog("create-channel")}
-                      onCreateJoint={() => setDialog("create-joint")}
-                    />
-                  </ChatSidebarSectionActions>
+                </ChatSidebarSectionHeader>
+              </ChatSidebarSection>
+
+              <ChatSidebarSection>
+                <ChatSidebarSectionHeader>
+                  <ChatSidebarSectionButton type="button" data-panel-open>
+                    <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
+                    <ChevronRight className="size-3" />
+                    <ChatSidebarSectionCount>3</ChatSidebarSectionCount>
+                  </ChatSidebarSectionButton>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
-                  <RowContextMenu
-                    trigger={
-                      <ChatSidebarItem
-                        selected={activeChannelId === "proj-uiux"}
-                        render={
-                          <Link to="/playground/$channelId" params={{ channelId: "proj-uiux" }} />
-                        }
-                      >
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle>proj-uiux</ChatSidebarItemTitle>
-                        </ChatSidebarItemText>
-                      </ChatSidebarItem>
-                    }
-                  >
-                    <ChannelRowMenuItems
-                      hasUnread={false}
-                      onArchive={() => setArchiveTarget("proj-uiux")}
-                    />
-                  </RowContextMenu>
-                  <RowContextMenu
-                    trigger={
-                      <ChatSidebarItem
-                        selected={activeChannelId === "incident-alerts"}
-                        render={
-                          <Link
-                            to="/playground/$channelId"
-                            params={{ channelId: "incident-alerts" }}
-                          />
-                        }
-                      >
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle className="font-bold">
-                            incident-alerts
-                          </ChatSidebarItemTitle>
-                        </ChatSidebarItemText>
-                        {activeChannelId === "incident-alerts" ? null : (
-                          <ChatSidebarItemBadge className="ml-auto">5</ChatSidebarItemBadge>
-                        )}
-                      </ChatSidebarItem>
-                    }
-                  >
-                    <ChannelRowMenuItems
-                      hasUnread
-                      onArchive={() => setArchiveTarget("incident-alerts")}
-                    />
-                  </RowContextMenu>
-                  <RowContextMenu
-                    trigger={
-                      <ChatSidebarItem
-                        selected={activeChannelId === "release"}
-                        render={
-                          <Link to="/playground/$channelId" params={{ channelId: "release" }} />
-                        }
-                      >
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle className="font-bold">release</ChatSidebarItemTitle>
-                        </ChatSidebarItemText>
-                        {activeChannelId === "release" ? null : (
-                          <>
-                            <ChatSidebarItemMention />
-                            <ChatSidebarItemBadge className="ml-auto">3</ChatSidebarItemBadge>
-                          </>
-                        )}
-                      </ChatSidebarItem>
-                    }
-                  >
-                    <ChannelRowMenuItems hasUnread onArchive={() => setArchiveTarget("release")} />
-                  </RowContextMenu>
-                  <RowContextMenu
-                    trigger={
-                      <ChatSidebarItem
-                        selected={activeChannelId === "component-matrix"}
-                        render={
-                          <Link
-                            to="/playground/$channelId"
-                            params={{ channelId: "component-matrix" }}
-                          />
-                        }
-                      >
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText className="items-center gap-0">
-                          <ChatSidebarItemTitle className="text-black/70">
-                            component-matrix
-                          </ChatSidebarItemTitle>
-                          <ChatSidebarItemMuted />
-                        </ChatSidebarItemText>
-                        {activeChannelId === "component-matrix" ? null : (
-                          <ChatSidebarItemMeta>2</ChatSidebarItemMeta>
-                        )}
-                      </ChatSidebarItem>
-                    }
-                  >
-                    <ChannelRowMenuItems
-                      hasUnread={false}
-                      onArchive={() => setArchiveTarget("component-matrix")}
-                    />
-                  </RowContextMenu>
-                  <RowContextMenu
-                    trigger={
-                      <ChatSidebarItem
-                        selected={activeChannelId === "new-channel"}
-                        render={
-                          <Link to="/playground/$channelId" params={{ channelId: "new-channel" }} />
-                        }
-                      >
-                        <ChatSidebarItemChannelIcon />
-                        <ChatSidebarItemText>
-                          <ChatSidebarItemTitle>new-channel</ChatSidebarItemTitle>
-                        </ChatSidebarItemText>
-                        <ChatSidebarItemDraft className="ml-auto" />
-                      </ChatSidebarItem>
-                    }
-                  >
-                    <ChannelRowMenuItems
-                      hasUnread={false}
-                      onArchive={() => setArchiveTarget("new-channel")}
-                    />
-                  </RowContextMenu>
+                  {jointChannelRows.map((title) => (
+                    <ChatSidebarItem key={title} type="button">
+                      <ChatSidebarItemIcon>
+                        <GitBranch className="size-3" />
+                      </ChatSidebarItemIcon>
+                      <ChatSidebarItemText>
+                        <ChatSidebarItemTitle>{title}</ChatSidebarItemTitle>
+                      </ChatSidebarItemText>
+                    </ChatSidebarItem>
+                  ))}
                 </ChatSidebarList>
               </ChatSidebarSection>
 
-              <ChatSidebarSection className="px-0">
+              <ChatSidebarSection>
                 <ChatSidebarSectionHeader>
-                  <ChatSidebarSectionButton type="button">
+                  <ChatSidebarSectionButton type="button" data-panel-open>
+                    <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
                     <ChevronRight className="size-3" />
-                    <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-                    <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                    <ChatSidebarSectionCount>21</ChatSidebarSectionCount>
                   </ChatSidebarSectionButton>
-                  <ChatSidebarSectionActions>
-                    <SidebarSortMenu />
-                  </ChatSidebarSectionActions>
                 </ChatSidebarSectionHeader>
                 <ChatSidebarList>
-                  <RowContextMenu
-                    trigger={
+                  {channelRows.map((row) =>
+                    row.routeId ? (
                       <ChatSidebarItem
+                        key={row.id}
+                        selected={activeChannelId === row.routeId}
                         render={
-                          <Link to="/playground/$channelId" params={{ channelId: "dm-cindy" }} />
+                          <Link to="/playground/$channelId" params={{ channelId: row.routeId }} />
+                        }
+                      >
+                        <ChatSidebarItemChannelIcon />
+                        <ChatSidebarItemText>
+                          <ChatSidebarItemTitle>{row.title}</ChatSidebarItemTitle>
+                        </ChatSidebarItemText>
+                        {row.badge && activeChannelId !== row.routeId ? (
+                          <ChatSidebarItemBadge className="ml-auto">
+                            {row.badge}
+                          </ChatSidebarItemBadge>
+                        ) : null}
+                      </ChatSidebarItem>
+                    ) : (
+                      <ChatSidebarItem key={row.id} type="button">
+                        <ChatSidebarItemChannelIcon />
+                        <ChatSidebarItemText>
+                          <ChatSidebarItemTitle>{row.title}</ChatSidebarItemTitle>
+                        </ChatSidebarItemText>
+                        {row.badge ? (
+                          <ChatSidebarItemBadge className="ml-auto">
+                            {row.badge}
+                          </ChatSidebarItemBadge>
+                        ) : null}
+                      </ChatSidebarItem>
+                    ),
+                  )}
+                </ChatSidebarList>
+              </ChatSidebarSection>
+
+              <ChatSidebarSection>
+                <ChatSidebarSectionHeader>
+                  <ChatSidebarSectionButton type="button" data-panel-open>
+                    <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
+                    <ChevronRight className="size-3" />
+                    <ChatSidebarSectionCount>32</ChatSidebarSectionCount>
+                  </ChatSidebarSectionButton>
+                </ChatSidebarSectionHeader>
+                <ChatSidebarList>
+                  {directMessageRows.map((row) =>
+                    row.routeId ? (
+                      <ChatSidebarItem
+                        key={row.id}
+                        selected={activeChannelId === row.routeId}
+                        render={
+                          <Link to="/playground/$channelId" params={{ channelId: row.routeId }} />
                         }
                       >
                         <ChatSidebarItemIcon>
                           <Avatar
                             size="sidebar"
-                            type="human"
-                            className="[[data-preview-theme=brutal]_&]:border-black"
+                            type={row.type}
+                            className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan"
                           >
-                            <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
+                            {row.fallback ? (
+                              <AvatarFallback className="text-[9px] font-bold">
+                                {row.fallback}
+                              </AvatarFallback>
+                            ) : null}
                           </Avatar>
                         </ChatSidebarItemIcon>
                         <ChatSidebarItemText>
                           <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
-                            Cindy
+                            {row.title}
                           </ChatSidebarItemTitle>
-                          <ChatSidebarItemSubtitle>
-                            Pushed the latest export
-                          </ChatSidebarItemSubtitle>
+                          <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
                         </ChatSidebarItemText>
-                        <ChatSidebarItemAside>
-                          <Status aria-hidden variant="success" size="md" />
-                        </ChatSidebarItemAside>
+                        {row.badge && activeChannelId !== row.routeId ? (
+                          <ChatSidebarItemAside>
+                            <ChatSidebarItemBadge>{row.badge}</ChatSidebarItemBadge>
+                          </ChatSidebarItemAside>
+                        ) : null}
                       </ChatSidebarItem>
-                    }
-                  >
-                    <DmRowMenuItems hasUnread={false} />
-                  </RowContextMenu>
-                  <RowContextMenu
-                    trigger={
-                      <ChatSidebarItem
-                        selected={activeChannelId === "dm-atlas"}
-                        render={
-                          <Link to="/playground/$channelId" params={{ channelId: "dm-atlas" }} />
-                        }
-                      >
+                    ) : (
+                      <ChatSidebarItem key={row.id} type="button">
                         <ChatSidebarItemIcon>
                           <Avatar
                             size="sidebar"
-                            type="agent"
+                            type={row.type}
                             className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-                          />
+                          >
+                            {row.fallback ? (
+                              <AvatarFallback className="text-[9px] font-bold">
+                                {row.fallback}
+                              </AvatarFallback>
+                            ) : null}
+                          </Avatar>
                         </ChatSidebarItemIcon>
                         <ChatSidebarItemText>
-                          <ChatSidebarItemTitle className="max-w-[70%] shrink-0 font-bold">
-                            Atlas
+                          <ChatSidebarItemTitle className="max-w-[70%] shrink-0">
+                            {row.title}
                           </ChatSidebarItemTitle>
-                          <ChatSidebarItemSubtitle>
-                            Seeded agent on the primary machine
-                          </ChatSidebarItemSubtitle>
+                          <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
                         </ChatSidebarItemText>
-                        <ChatSidebarItemAside>
-                          <Status aria-hidden variant="success" size="md" />
-                          {activeChannelId === "dm-atlas" ? null : (
-                            <ChatSidebarItemBadge>1</ChatSidebarItemBadge>
-                          )}
-                        </ChatSidebarItemAside>
+                        {row.badge ? (
+                          <ChatSidebarItemAside>
+                            <ChatSidebarItemBadge>{row.badge}</ChatSidebarItemBadge>
+                          </ChatSidebarItemAside>
+                        ) : null}
                       </ChatSidebarItem>
-                    }
-                  >
-                    <DmRowMenuItems hasUnread />
-                  </RowContextMenu>
+                    ),
+                  )}
                 </ChatSidebarList>
               </ChatSidebarSection>
             </div>

@@ -130,10 +130,70 @@ export function ChatMainPanelActions({ className, render, ...props }: ChatMainPa
   });
 }
 
+export type ChatMainPanelSurfaceInsetProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelSurfaceInset({
+  className,
+  render,
+  ...props
+}: ChatMainPanelSurfaceInsetProps) {
+  const theme = useThemeFamily();
+  const { surfaceInset } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-surface-inset",
+    className: surfaceInset({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelSurfaceShadowProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelSurfaceShadow({
+  className,
+  render,
+  ...props
+}: ChatMainPanelSurfaceShadowProps) {
+  const theme = useThemeFamily();
+  const { surfaceShadow } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-surface-shadow",
+    className: surfaceShadow({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelSurfaceProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelSurface({ className, render, ...props }: ChatMainPanelSurfaceProps) {
+  const theme = useThemeFamily();
+  const { surface } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-surface",
+    className: surface({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type ChatMainPanelBodyProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelBody({ className, render, ...props }: ChatMainPanelBodyProps) {
-  const { body } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { body } = chatMainPanel({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-main-panel-body",
     className: body({ className }),

@@ -85,7 +85,7 @@ import {
     <AppRailRoot>{rail}</AppRailRoot>
   </AppShellRail>
   <ChatSidebarResizeGroup orientation="horizontal">
-    <ChatSidebarResizePanel defaultSize={240} minSize={180} maxSize={320}>
+    <ChatSidebarResizePanel defaultSize={308} minSize={180} maxSize={368}>
       <AppShellSidebar resizable>
         <ChatSidebarRoot>
           <ChatSidebarHeader>{header}</ChatSidebarHeader>
