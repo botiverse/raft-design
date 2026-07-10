@@ -1,7 +1,6 @@
 import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
 import { Avatar } from "raft-ui";
 import {
-  ChatThreadPanelAction,
   ChatThreadPanelActions,
   ChatThreadPanelBody,
   ChatThreadPanelFooter,
@@ -22,6 +21,7 @@ import {
   MessageItemTime,
   MessageTimelineDateDivider,
   MessageTimelineNotice,
+  PanelIconButton,
 } from "raft-ui/wip";
 
 export function ChatThreadPanelComposition() {
@@ -30,9 +30,9 @@ export function ChatThreadPanelComposition() {
       <ChatThreadPanelHeader>
         <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
         <ChatThreadPanelActions>
-          <ChatThreadPanelAction aria-label="Close thread">
+          <PanelIconButton aria-label="Close thread">
             <X />
-          </ChatThreadPanelAction>
+          </PanelIconButton>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
       <ChatThreadPanelSearch>
@@ -44,15 +44,15 @@ export function ChatThreadPanelComposition() {
           value="chrome"
         />
         <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
-        <ChatThreadPanelAction aria-label="Previous match">
+        <PanelIconButton aria-label="Previous match">
           <ChevronUp />
-        </ChatThreadPanelAction>
-        <ChatThreadPanelAction aria-label="Next match">
+        </PanelIconButton>
+        <PanelIconButton aria-label="Next match">
           <ChevronDown />
-        </ChatThreadPanelAction>
-        <ChatThreadPanelAction aria-label="Close thread search">
+        </PanelIconButton>
+        <PanelIconButton aria-label="Close thread search">
           <X />
-        </ChatThreadPanelAction>
+        </PanelIconButton>
       </ChatThreadPanelSearch>
       <ChatThreadPanelParent>
         <MessageItem>

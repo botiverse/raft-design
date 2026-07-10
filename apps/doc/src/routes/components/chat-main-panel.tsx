@@ -57,7 +57,7 @@ import {
   ChatMainPanelTitle,
   ChatMainPanelSubtitle,
   ChatMainPanelActions,
-  ChatMainPanelAction,
+  PanelIconButton,
   ChatMainPanelBody,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
@@ -78,9 +78,9 @@ import {
       <ChatMainPanelSubtitle>Channel status</ChatMainPanelSubtitle>
     </ChatMainPanelTitleBlock>
     <ChatMainPanelActions>
-      <ChatMainPanelAction aria-label="Search conversation">
+      <PanelIconButton aria-label="Search conversation">
         <Search />
-      </ChatMainPanelAction>
+      </PanelIconButton>
     </ChatMainPanelActions>
   </ChatMainPanelHeader>
   <ChatMainPanelTabs render={<Tabs value="chat" />}>
@@ -118,9 +118,9 @@ const PROPS: readonly PropRow[] = [
     description: "Main conversation header regions. Copy, badges, and actions stay composed.",
   },
   {
-    name: "ChatMainPanelAction",
+    name: "PanelIconButton",
     type: "button props",
-    description: "Icon action slot for search, details, and app-owned commands.",
+    description: "Shared panel icon button for search, details, and app-owned commands.",
   },
   {
     name: "ChatMainPanelTabs / Body / Timeline / Footer",
@@ -128,10 +128,9 @@ const PROPS: readonly PropRow[] = [
     description: "Source tab strip, message timeline host, and composer/footer boundary.",
   },
   {
-    name: "ChatMainPanelAlert / AlertAction",
-    type: "div / button props",
-    description:
-      "Inline error banner under the header (activity-mute failures) with its dismiss action.",
+    name: "Banner / BannerDescription / BannerAction",
+    type: "shared component composition",
+    description: "Shared semantic banner composition for inline panel status and errors.",
   },
   {
     name: "ChatMainPanelJumpToLatest",

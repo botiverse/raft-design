@@ -29,7 +29,7 @@ const SNIPPETS = {
   ChatThreadPanelHeader,
   ChatThreadPanelTitle,
   ChatThreadPanelActions,
-  ChatThreadPanelAction,
+  PanelIconButton,
   ChatThreadPanelParent,
   ChatThreadPanelBody,
   ChatThreadPanelReplyCount,
@@ -42,9 +42,9 @@ const SNIPPETS = {
   <ChatThreadPanelHeader>
     <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
     <ChatThreadPanelActions>
-      <ChatThreadPanelAction aria-label="Close thread">
+      <PanelIconButton aria-label="Close thread">
         <X />
-      </ChatThreadPanelAction>
+      </PanelIconButton>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
   <ChatThreadPanelParent>{parentMessage}</ChatThreadPanelParent>
@@ -70,15 +70,15 @@ const PROPS: readonly PropRow[] = [
     description: "Fixed thread header regions matching source panel chrome.",
   },
   {
-    name: "ChatThreadPanelAction",
+    name: "PanelIconButton",
     type: "button props",
-    description: "Icon action slot for close and future thread-panel commands.",
+    description: "Shared panel icon button for close and future thread-panel commands.",
   },
   {
     name: "ChatThreadPanelSearch / SearchInput / SearchCount",
     type: "div / input props",
     description:
-      "In-thread search row under the header: input, match counter, and prev/next/close actions via ChatThreadPanelAction.",
+      "In-thread search row under the header: input, match counter, and prev/next/close actions via PanelIconButton.",
   },
   {
     name: "ChatThreadPanelParent / ReplyCount",

@@ -1,9 +1,8 @@
-import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./chat-shell";
+import type { DataAttributes } from "./app-shell";
 
 const chatThreadPanel = tv({
   slots: {
@@ -11,14 +10,6 @@ const chatThreadPanel = tv({
     header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
     title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
     actions: ["flex shrink-0 items-center gap-1.5"],
-    action: [
-      "relative inline-flex size-7 shrink-0 items-center justify-center",
-      "font-sans font-bold leading-none outline-none",
-      "transition-all duration-100",
-      "active:translate-x-[1px] active:translate-y-[1px]",
-      "disabled:pointer-events-none disabled:opacity-40 disabled:transform-none",
-      "[&_svg]:size-3.5 [&_svg]:shrink-0",
-    ],
     search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2", "[&_svg]:shrink-0"],
     searchInput: ["min-w-0 flex-1 border-2 px-2 py-1 text-sm font-medium outline-none"],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
@@ -36,14 +27,6 @@ const chatThreadPanel = tv({
         root: "bg-white font-sans text-black",
         header: "border-b-2 border-black bg-white",
         title: "text-black",
-        action: [
-          "rounded-none border-2 border-black bg-white text-black",
-          "shadow-brutal-sm",
-          "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
-          "active:shadow-[var(--shadow-brutal-active)]",
-          "disabled:shadow-brutal-sm",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
-        ],
         search: "border-b-2 border-black bg-white [&_svg]:text-black/50",
         searchInput: "border-black bg-white text-black focus:shadow-brutal-sm",
         searchCount: "text-black/50",
@@ -55,12 +38,6 @@ const chatThreadPanel = tv({
         root: "bg-layer-panel font-sans text-foreground",
         header: "border-b border-line-subtle bg-layer-panel",
         title: "text-foreground-strong",
-        action: [
-          "rounded-md border border-line-subtle bg-layer-panel text-foreground-strong",
-          "shadow-xs",
-          "hover:bg-layer-muted",
-          "focus-visible:ring-2 focus-visible:ring-line-focus",
-        ],
         search: "border-b border-line-subtle bg-layer-panel [&_svg]:text-foreground-muted",
         searchInput:
           "rounded-md border-line-subtle bg-layer-field text-foreground-strong focus:ring-2 focus:ring-line-focus",
@@ -141,23 +118,6 @@ export function ChatThreadPanelActions({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatThreadPanelActionProps = useRender.ComponentProps<"button">;
-
-export function ChatThreadPanelAction({ className, render, ...props }: ChatThreadPanelActionProps) {
-  const theme = useThemeFamily();
-  const { action } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
-    type: "button",
-    "data-slot": "chat-thread-panel-action",
-    className: action({ className }),
-  };
-
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
   });
 }
 
