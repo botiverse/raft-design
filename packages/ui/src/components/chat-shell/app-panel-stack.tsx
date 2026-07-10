@@ -20,7 +20,7 @@ const appPanelStack = tv({
         resizeHandle: "hover:bg-black/5",
       },
       elegant: {
-        item: "w-[400px] border-l border-line-subtle bg-layer-panel first:border-l-0",
+        item: "w-[var(--panel-stack-width,400px)] border-l border-line-subtle bg-layer-panel first:border-l-0",
         resizeHandle: "hover:bg-layer-muted",
       },
     },

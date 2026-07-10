@@ -55,17 +55,17 @@ const appRail = tv({
         itemIndicator: "rounded-full border border-black bg-brutal-pink",
       },
       elegant: {
-        header: "h-14 border-b-0",
+        header: "h-[var(--shell-header-height,3.5rem)] border-b-0",
         serverButton: [
-          "rounded-md border-2 border-[oklch(0_0_0)] bg-[oklch(0_0_0)]",
-          "font-heading text-xs font-bold text-[oklch(0.88288791_0.16226236_91.895628)]",
+          "rounded-md border-2 border-foreground-strong bg-foreground-strong",
+          "font-heading text-xs font-bold text-primary-400",
           "shadow-none transition-[background-color,transform] duration-150 active:translate-y-px",
         ],
         nav: "px-2 pt-4 pb-2",
         footer: ["h-auto gap-1.5 px-2 pb-2", "[&>[data-slot=app-rail-item]]:text-foreground-muted"],
         item: [
           "size-auto min-w-9 p-3 rounded-md border border-transparent",
-          "text-[13px] text-foreground-muted/68 [&_svg]:size-4",
+          "text-[13px] text-foreground-icon [&_svg]:size-4",
           "hover:bg-layer-strong/80 hover:text-foreground",
           "active:bg-layer-strong/80 active:text-foreground",
           "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-strong",
@@ -73,7 +73,7 @@ const appRail = tv({
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],
         itemBadge: [
-          "rounded-full border-0 bg-[oklch(0.88288791_0.16226236_91.895628)] text-[oklch(0.19866257_0.04068646_93.214723)]",
+          "rounded-full border-0 bg-primary-400 text-primary-950",
           "px-1 font-mono text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
           "ring-2 ring-layer-page",
         ],

@@ -120,39 +120,40 @@ export const chatSidebar = tv({
         sidebarResizeHandle: "hover:bg-black/10",
       },
       elegant: {
-        sidebarHeader: "h-14 border-b-0 px-[22px]",
+        sidebarHeader:
+          "h-[var(--shell-header-height,3.5rem)] border-b-0 px-[var(--sidebar-inset-x,22px)]",
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
         sidebarBody: "bg-layer-page",
-        sidebarContent: "px-[22px]",
+        sidebarContent: "px-[var(--sidebar-inset-x,22px)]",
         sidebarMenu: [
-          "h-8 w-full justify-between gap-1.5 rounded-md px-[6px]",
+          "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)]",
           "text-[12px] leading-none font-normal normal-case tracking-normal",
           "text-foreground-muted",
           "hover:bg-layer-strong/80 hover:text-foreground-strong",
           "active:text-foreground-strong",
         ],
         sidebarMenuIcon: [
-          "text-foreground-muted/[0.76078431]",
+          "text-foreground-icon",
           "[&_svg]:![stroke-width:1px] [&_svg_*]:![stroke-width:1px]",
         ],
         sidebarMenuAside: "ml-auto",
         sidebarMenuCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36021516_0.01026263_358.366843_/_0.49019608)]",
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
         sidebarSectionButton: [
-          "h-8 w-full justify-between gap-1.5 rounded-md px-[6px] text-[12px] font-medium leading-none normal-case tracking-normal",
-          "text-foreground-muted/[0.76078431]",
+          "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-[12px] font-medium leading-none normal-case tracking-normal",
+          "text-foreground-icon",
           "hover:bg-layer-strong/80 hover:text-foreground",
-          "[&>svg]:opacity-[0.55]",
+          "[&>svg]:opacity-55",
         ],
         sidebarSectionCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36021516_0.01026263_358.366843_/_0.49019608)]",
-        sidebarSectionActions: "pr-[6px]",
-        sidebarSectionAction: "shrink-0 text-foreground-muted/68",
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
+        sidebarSectionActions: "pr-[var(--sidebar-row-inset-x,6px)]",
+        sidebarSectionAction: "shrink-0 text-foreground-icon",
         sidebarSection: "px-0",
         sidebarSectionHeader:
-          "relative -mx-[6px] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between px-0",
+          "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between px-0",
         sidebarItem: [
-          "relative mb-0.5 -mx-[6px] w-[calc(100%+12px)] rounded-md border border-transparent px-[6px] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
+          "relative mb-0.5 -mx-[var(--sidebar-row-inset-x,6px)] w-[calc(100%+12px)] rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
           "text-[13px] font-medium text-foreground-muted",
           "has-[[data-slot=chat-sidebar-item-badge]]:[--sidebar-item-title-weight:450]",
           "hover:border-transparent hover:bg-layer-strong/80 hover:text-foreground-strong",
@@ -164,21 +165,21 @@ export const chatSidebar = tv({
           "data-[menu-open=true]:shadow-xs data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-line-subtle/30",
         ],
         sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
-        sidebarItemIcon: "size-5 text-foreground-muted/68 [&_svg]:size-4 [&_svg]:stroke-[1.5]",
+        sidebarItemIcon: "size-5 text-foreground-icon [&_svg]:size-4 [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
-          "size-3 text-foreground-muted/68 [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
-        sidebarItemSubtitle: "text-[oklch(0_0_0_/_0.34901961)]",
+          "size-3 text-foreground-icon [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
+        sidebarItemSubtitle: "text-ink-30",
         sidebarItemMeta:
-          "font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36021516_0.01026263_358.366843_/_0.49019608)]",
+          "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
         sidebarItemIndicator: [
           "pointer-events-none absolute top-1/2 right-[calc(100%+8px)] -translate-y-1/2",
         ],
         sidebarItemMention:
           "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
-        sidebarItemMuted: "text-foreground-muted/68",
-        sidebarItemDraft: "text-foreground-muted/68",
+        sidebarItemMuted: "text-foreground-icon",
+        sidebarItemDraft: "text-foreground-icon",
         sidebarItemBadge: [
-          "min-w-[18px] justify-center rounded-sm border-0 bg-[oklch(0.88288791_0.16226236_91.895628)] px-1 py-px text-[10px] text-[oklch(0.19866257_0.04068646_93.214723)] tabular-nums",
+          "min-w-[18px] justify-center rounded-sm border-0 bg-primary-400 px-1 py-px text-[10px] text-primary-950 tabular-nums",
         ],
         sidebarFooter: "border-t border-line-subtle p-3",
         sidebarResizePanel: "has-[>[data-slot=app-shell-sidebar]]:bg-layer-page",

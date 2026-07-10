@@ -116,6 +116,7 @@ export function ChatMainPanelStatesComposition() {
                 <Paperclip />
               </ChatMainPanelComposerIconButton>
               <ChatMainPanelComposerSubmit aria-label="Send">
+                <span>Send</span>
                 <Send />
               </ChatMainPanelComposerSubmit>
             </ChatMainPanelComposerToolbar>
@@ -142,6 +143,7 @@ export function ChatMainPanelDropOverlayComposition() {
                 <Paperclip />
               </ChatMainPanelComposerIconButton>
               <ChatMainPanelComposerSubmit aria-label="Send">
+                <span>Send</span>
                 <Send />
               </ChatMainPanelComposerSubmit>
             </ChatMainPanelComposerToolbar>

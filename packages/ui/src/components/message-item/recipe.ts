@@ -207,10 +207,7 @@ export const messageItem = tv({
         reactionChip: "text-black",
       },
       elegant: {
-        root: [
-          "px-7 py-3.5",
-          "hover:bg-[color-mix(in_oklch,#EEEEED_35%,transparent)] active:bg-layer-muted/90",
-        ],
+        root: ["px-7 py-3.5", "hover:bg-layer-strong/35 active:bg-layer-muted/90"],
         continuationTime: [
           "top-0 pt-1.5",
           "text-transparent group-hover/message:text-foreground-muted/60",
@@ -236,7 +233,7 @@ export const messageItem = tv({
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent !p-0",
-          "text-foreground-muted/68 hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
+          "text-foreground-icon hover:bg-layer-strong/80 hover:text-foreground",
           "data-[saved=true]:text-primary-400 data-[saved=true]:hover:text-primary-400",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",

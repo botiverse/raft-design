@@ -36,7 +36,7 @@ const chatThreadPanel = tv({
       },
       elegant: {
         root: "bg-transparent font-sans text-foreground",
-        header: "border-b-0 bg-transparent",
+        header: "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
         title: "text-foreground-strong",
         search: "border-b border-line-subtle bg-transparent [&_svg]:text-foreground-muted",
         searchInput:

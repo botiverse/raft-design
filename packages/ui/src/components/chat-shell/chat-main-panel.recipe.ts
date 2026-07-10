@@ -103,12 +103,12 @@ export const chatMainPanel = tv({
         composerIconButton: [
           "border-black bg-white text-black shadow-brutal-sm",
           "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-brutal",
-          "active:translate-x-[1px] active:translate-y-[1px] active:shadow-[var(--shadow-brutal-active)]",
+          "active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs",
         ],
         composerSubmit: [
           "border-black bg-brutal-pink text-black shadow-brutal-sm",
           "hover:-translate-y-px hover:shadow-brutal",
-          "active:shadow-[var(--shadow-brutal-active)]",
+          "active:shadow-xs",
           "disabled:shadow-brutal-sm",
           "[&>span]:hidden",
         ],
@@ -125,7 +125,7 @@ export const chatMainPanel = tv({
       elegant: {
         root: "bg-layer-page font-sans text-foreground",
         header: [
-          "h-auto min-h-14 [@media(max-height:600px)]:h-auto",
+          "h-auto min-h-[var(--shell-header-height,3.5rem)] [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-transparent",
           "pl-9",
         ],
@@ -145,30 +145,34 @@ export const chatMainPanel = tv({
           "text-foreground-muted normal-case tracking-normal",
         ],
         surfaceInset: "overflow-visible pl-2",
-        surfaceShadow: ["relative overflow-visible rounded-tl-[10px]", "shadow-xl"],
-        surface: "relative overflow-clip rounded-tl-[10px] bg-white",
+        surfaceShadow: [
+          "relative overflow-visible rounded-tl-[var(--shell-surface-radius,10px)]",
+          "shadow-xl",
+        ],
+        surface:
+          "relative overflow-clip rounded-tl-[var(--shell-surface-radius,10px)] bg-[var(--shell-surface-bg,var(--layer-panel))]",
         tabs: [
           "border-b-0 bg-layer-panel",
           "[&>[data-slot=tabs-list]]:h-11 [&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:h-11 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pt-2.5 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pb-2",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
         ],
-        body: "bg-white",
-        timeline: "bg-white",
+        body: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
+        timeline: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         footer: [
-          "pl-7 pr-[calc(1.75rem+var(--message-scroller-gutter,0px))] pt-3 pb-[calc(env(safe-area-inset-bottom)+1.25rem)]",
+          "pl-7 pr-7 pt-3 pb-[calc(env(safe-area-inset-bottom)+1.25rem)]",
           "border-t-0",
-          "bg-white",
+          "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         ],
         composer: [
           "overflow-hidden rounded-lg border-0 p-0",
-          "bg-white",
-          "shadow-lg ring-1 ring-[oklch(0_0_0/0.02)] focus-within:ring-[oklch(0_0_0/0.10)]",
+          "bg-[var(--shell-surface-bg,var(--layer-panel))]",
+          "shadow-lg ring-1 ring-ink-2 focus-within:ring-ink-10",
         ],
         composerInput: [
           "min-h-20 md:min-h-20 px-4 pt-4",
-          "font-sans text-black",
-          "placeholder:text-[#5F5F5D]",
+          "font-sans text-foreground",
+          "placeholder:text-foreground-placeholder",
         ],
         composerToolbar: "gap-2 px-3 pt-1 pb-3",
         composerActions: "gap-1.5",
