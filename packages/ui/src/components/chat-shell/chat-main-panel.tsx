@@ -67,7 +67,8 @@ export function ChatMainPanelTitleBlock({
   render,
   ...props
 }: ChatMainPanelTitleBlockProps) {
-  const { titleBlock } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { titleBlock } = chatMainPanel({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-main-panel-title-block",
     className: titleBlock({ className }),
