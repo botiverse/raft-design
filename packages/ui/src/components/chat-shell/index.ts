@@ -288,6 +288,12 @@ export type {
   ChatSidebarSectionTitleProps,
 } from "./chat-sidebar-section";
 
+export { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable";
+export type {
+  SortableChatSidebarItemProps,
+  SortableChatSidebarListProps,
+} from "./chat-sidebar-sortable";
+
 export {
   ChatThreadPanelActions,
   ChatThreadPanelBody,

@@ -171,6 +171,17 @@ const PROPS: readonly PropRow[] = [
     description: "Section and list wrappers for saved, pinned, channel, joint, and DM groups.",
   },
   {
+    name: "SortableChatSidebarList",
+    type: "ChatSidebarList props & { items: string[]; onReorder: (items: string[]) => void }",
+    description:
+      "Within-section dnd-kit reorder container. One instance per Pinned / Joint / Channels / DM list — no cross-section drag.",
+  },
+  {
+    name: "SortableChatSidebarItem",
+    type: "div props & { id: string; disabled?: boolean }",
+    description: "Sortable row wrapper (source SortableSidebarItem). Wrap each ChatSidebarItem.",
+  },
+  {
     name: "ChatSidebarSectionHeader*",
     type: "div + button + span props",
     description:

@@ -128,6 +128,8 @@ export {
   ChatSidebarSectionHeader,
   ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
+  SortableChatSidebarItem,
+  SortableChatSidebarList,
 } from "./components/chat-shell/index";
 export type {
   AppMobileBarIconProps,
@@ -260,6 +262,8 @@ export type {
   ChatSidebarSectionHeaderProps,
   ChatSidebarSectionIndicatorProps,
   ChatSidebarSectionTitleProps,
+  SortableChatSidebarItemProps,
+  SortableChatSidebarListProps,
 } from "./components/chat-shell/index";
 
 export {

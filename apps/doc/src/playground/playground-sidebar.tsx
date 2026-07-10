@@ -9,7 +9,7 @@ import {
   Plus,
   Search,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -70,7 +70,6 @@ import {
   ChatSidebarItemPresence,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
-  ChatSidebarList,
   ChatSidebarMenu,
   ChatSidebarMenuAside,
   ChatSidebarMenuCount,
@@ -83,6 +82,8 @@ import {
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
+  SortableChatSidebarItem,
+  SortableChatSidebarList,
 } from "raft-ui/wip";
 
 import {
@@ -228,6 +229,138 @@ function PinnedRowContent({
 const unpinnedJointChannels = PLAYGROUND_JOINT_CHANNELS.filter((row) => !row.sidebar.pinned);
 const unpinnedRoomChannels = PLAYGROUND_ROOM_CHANNELS.filter((row) => !row.sidebar.pinned);
 const unpinnedDirectMessages = PLAYGROUND_DIRECT_MESSAGES.filter((row) => !row.sidebar.pinned);
+
+function useSectionOrder<T extends { id: string }>(rows: readonly T[]) {
+  const [order, setOrder] = useState(() => rows.map((row) => row.id));
+  const byId = useMemo(() => new Map(rows.map((row) => [row.id, row])), [rows]);
+  const ordered = useMemo(
+    () => order.map((id) => byId.get(id)).filter((row): row is T => row != null),
+    [byId, order],
+  );
+  const onReorder = useCallback((next: string[]) => setOrder(next), []);
+  return { ordered, order, onReorder };
+}
+
+function channelLink(channelId: PlaygroundChannelId) {
+  return <Link to="/playground/$channelId" params={{ channelId }} search={{}} />;
+}
+
+function PinnedSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
+  const { ordered, order, onReorder } = useSectionOrder(PLAYGROUND_PINNED_CHANNELS);
+  if (ordered.length === 0) return null;
+
+  return (
+    <ChatSidebarSection>
+      <ChatSidebarSectionHeader>
+        <ChatSidebarSectionButton type="button" data-panel-open>
+          <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
+          <ChevronRight className="size-3" />
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+        </ChatSidebarSectionButton>
+      </ChatSidebarSectionHeader>
+      <SortableChatSidebarList items={order} onReorder={onReorder}>
+        {ordered.map((row) => (
+          <SortableChatSidebarItem key={row.id} id={row.id}>
+            <ChatSidebarItem
+              selected={activeChannelId === row.id}
+              unread={row.sidebar.unread}
+              render={channelLink(row.id)}
+            >
+              <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
+            </ChatSidebarItem>
+          </SortableChatSidebarItem>
+        ))}
+      </SortableChatSidebarList>
+    </ChatSidebarSection>
+  );
+}
+
+function JointChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
+  const { ordered, order, onReorder } = useSectionOrder(unpinnedJointChannels);
+
+  return (
+    <ChatSidebarSection>
+      <ChatSidebarSectionHeader>
+        <ChatSidebarSectionButton type="button" data-panel-open>
+          <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
+          <ChevronRight className="size-3" />
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+        </ChatSidebarSectionButton>
+      </ChatSidebarSectionHeader>
+      <SortableChatSidebarList items={order} onReorder={onReorder}>
+        {ordered.map((row) => (
+          <SortableChatSidebarItem key={row.id} id={row.id}>
+            <ChatSidebarItem
+              selected={activeChannelId === row.id}
+              unread={row.sidebar.unread}
+              render={channelLink(row.id)}
+            >
+              <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
+            </ChatSidebarItem>
+          </SortableChatSidebarItem>
+        ))}
+      </SortableChatSidebarList>
+    </ChatSidebarSection>
+  );
+}
+
+function ChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
+  const { ordered, order, onReorder } = useSectionOrder(unpinnedRoomChannels);
+
+  return (
+    <ChatSidebarSection>
+      <ChatSidebarSectionHeader>
+        <ChatSidebarSectionButton type="button" data-panel-open>
+          <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
+          <ChevronRight className="size-3" />
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+        </ChatSidebarSectionButton>
+      </ChatSidebarSectionHeader>
+      <SortableChatSidebarList items={order} onReorder={onReorder}>
+        {ordered.map((row) => (
+          <SortableChatSidebarItem key={row.id} id={row.id}>
+            <ChatSidebarItem
+              selected={activeChannelId === row.id}
+              unread={row.sidebar.unread}
+              render={channelLink(row.id)}
+            >
+              <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
+            </ChatSidebarItem>
+          </SortableChatSidebarItem>
+        ))}
+      </SortableChatSidebarList>
+    </ChatSidebarSection>
+  );
+}
+
+function DirectMessagesSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
+  const { ordered, order, onReorder } = useSectionOrder(unpinnedDirectMessages);
+
+  return (
+    <ChatSidebarSection>
+      <ChatSidebarSectionHeader>
+        <ChatSidebarSectionButton type="button" data-panel-open>
+          <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
+          <ChevronRight className="size-3" />
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+        </ChatSidebarSectionButton>
+      </ChatSidebarSectionHeader>
+      <SortableChatSidebarList items={order} onReorder={onReorder}>
+        {ordered.map((row) => (
+          <SortableChatSidebarItem key={row.id} id={row.id}>
+            <ChatSidebarItem
+              selected={activeChannelId === row.id}
+              unread={row.sidebar.unread}
+              render={channelLink(row.id)}
+            >
+              <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
+            </ChatSidebarItem>
+          </SortableChatSidebarItem>
+        ))}
+      </SortableChatSidebarList>
+    </ChatSidebarSection>
+  );
+}
 
 // Channels `+` add menu — source `renderChannelActionMenu`.
 function SidebarAddMenu({
@@ -467,125 +600,10 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                 </ChatSidebarSectionHeader>
               </ChatSidebarSection>
 
-              {PLAYGROUND_PINNED_CHANNELS.length > 0 ? (
-                <ChatSidebarSection>
-                  <ChatSidebarSectionHeader>
-                    <ChatSidebarSectionButton type="button" data-panel-open>
-                      <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-                      <ChevronRight className="size-3" />
-                      <ChatSidebarSectionCount>
-                        {PLAYGROUND_PINNED_CHANNELS.length}
-                      </ChatSidebarSectionCount>
-                    </ChatSidebarSectionButton>
-                  </ChatSidebarSectionHeader>
-                  <ChatSidebarList>
-                    {PLAYGROUND_PINNED_CHANNELS.map((row) => (
-                      <ChatSidebarItem
-                        key={row.id}
-                        selected={activeChannelId === row.id}
-                        unread={row.sidebar.unread}
-                        render={
-                          <Link
-                            to="/playground/$channelId"
-                            params={{ channelId: row.id }}
-                            search={{}}
-                          />
-                        }
-                      >
-                        <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
-                      </ChatSidebarItem>
-                    ))}
-                  </ChatSidebarList>
-                </ChatSidebarSection>
-              ) : null}
-
-              <ChatSidebarSection>
-                <ChatSidebarSectionHeader>
-                  <ChatSidebarSectionButton type="button" data-panel-open>
-                    <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
-                    <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>
-                      {unpinnedJointChannels.length}
-                    </ChatSidebarSectionCount>
-                  </ChatSidebarSectionButton>
-                </ChatSidebarSectionHeader>
-                <ChatSidebarList>
-                  {unpinnedJointChannels.map((row) => (
-                    <ChatSidebarItem
-                      key={row.id}
-                      selected={activeChannelId === row.id}
-                      unread={row.sidebar.unread}
-                      render={
-                        <Link
-                          to="/playground/$channelId"
-                          params={{ channelId: row.id }}
-                          search={{}}
-                        />
-                      }
-                    >
-                      <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-                    </ChatSidebarItem>
-                  ))}
-                </ChatSidebarList>
-              </ChatSidebarSection>
-
-              <ChatSidebarSection>
-                <ChatSidebarSectionHeader>
-                  <ChatSidebarSectionButton type="button" data-panel-open>
-                    <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-                    <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>{unpinnedRoomChannels.length}</ChatSidebarSectionCount>
-                  </ChatSidebarSectionButton>
-                </ChatSidebarSectionHeader>
-                <ChatSidebarList>
-                  {unpinnedRoomChannels.map((row) => (
-                    <ChatSidebarItem
-                      key={row.id}
-                      selected={activeChannelId === row.id}
-                      unread={row.sidebar.unread}
-                      render={
-                        <Link
-                          to="/playground/$channelId"
-                          params={{ channelId: row.id }}
-                          search={{}}
-                        />
-                      }
-                    >
-                      <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-                    </ChatSidebarItem>
-                  ))}
-                </ChatSidebarList>
-              </ChatSidebarSection>
-
-              <ChatSidebarSection>
-                <ChatSidebarSectionHeader>
-                  <ChatSidebarSectionButton type="button" data-panel-open>
-                    <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-                    <ChevronRight className="size-3" />
-                    <ChatSidebarSectionCount>
-                      {unpinnedDirectMessages.length}
-                    </ChatSidebarSectionCount>
-                  </ChatSidebarSectionButton>
-                </ChatSidebarSectionHeader>
-                <ChatSidebarList>
-                  {unpinnedDirectMessages.map((row) => (
-                    <ChatSidebarItem
-                      key={row.id}
-                      selected={activeChannelId === row.id}
-                      unread={row.sidebar.unread}
-                      render={
-                        <Link
-                          to="/playground/$channelId"
-                          params={{ channelId: row.id }}
-                          search={{}}
-                        />
-                      }
-                    >
-                      <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
-                    </ChatSidebarItem>
-                  ))}
-                </ChatSidebarList>
-              </ChatSidebarSection>
+              <PinnedSection activeChannelId={activeChannelId} />
+              <JointChannelsSection activeChannelId={activeChannelId} />
+              <ChannelsSection activeChannelId={activeChannelId} />
+              <DirectMessagesSection activeChannelId={activeChannelId} />
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>
