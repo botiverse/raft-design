@@ -115,6 +115,28 @@ export function ChatMainPanelSubtitle({ className, render, ...props }: ChatMainP
   });
 }
 
+export type ChatMainPanelMutedBadgeProps = useRender.ComponentProps<"span">;
+
+export function ChatMainPanelMutedBadge({
+  className,
+  render,
+  ...props
+}: ChatMainPanelMutedBadgeProps) {
+  const theme = useThemeFamily();
+  const { mutedBadge } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-main-panel-muted-badge",
+    title: "Activity muted. Direct mentions can still notify you.",
+    className: mutedBadge({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type ChatMainPanelActionsProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelActions({ className, render, ...props }: ChatMainPanelActionsProps) {

@@ -223,6 +223,44 @@ export function ChatSidebarItemIndicator({
   });
 }
 
+export type ChatSidebarItemPresenceProps = useRender.ComponentProps<"span"> & {
+  /**
+   * Mount point for DM presence. Renders only when it matches the active theme:
+   * `indicator` (left of avatar, sm) for elegant, `aside` (row trailing, md) for brutal.
+   */
+  slot: "indicator" | "aside";
+};
+
+export function ChatSidebarItemPresence({
+  slot,
+  className,
+  render,
+  ...props
+}: ChatSidebarItemPresenceProps) {
+  const theme = useThemeFamily();
+  const matches =
+    (slot === "indicator" && theme === "elegant") || (slot === "aside" && theme === "brutal");
+  if (!matches) {
+    return null;
+  }
+
+  if (slot === "indicator") {
+    return <ChatSidebarItemIndicator className={className} render={render} {...props} />;
+  }
+
+  const { sidebarItemPresence } = chatSidebar({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-sidebar-item-presence",
+    className: sidebarItemPresence({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type ChatSidebarItemMentionProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemMention({

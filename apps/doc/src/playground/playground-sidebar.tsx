@@ -64,10 +64,10 @@ import {
   ChatSidebarItemChannelIcon,
   ChatSidebarItemDraft,
   ChatSidebarItemIcon,
-  ChatSidebarItemIndicator,
   ChatSidebarItemInlineText,
   ChatSidebarItemMention,
   ChatSidebarItemMuted,
+  ChatSidebarItemPresence,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
   ChatSidebarList,
@@ -164,21 +164,21 @@ function DirectMessageRowContent({
   const theme = useThemeFamily();
   const actor = getPlaygroundDmActor(row);
   const showBadge = Boolean(row.sidebar.badge && !hideBadge);
-  const presence = actor.presence ? (
-    <DirectMessageStatus status={actor.presence} size={theme === "elegant" ? "sm" : "md"} />
-  ) : null;
-  const elegantPresence = theme === "elegant" && presence;
-  const asidePresence = theme !== "elegant" && presence;
-  const showAside = showBadge || Boolean(asidePresence || row.sidebar.draft);
+  const showAside =
+    showBadge || Boolean(row.sidebar.draft) || (theme === "brutal" && Boolean(actor.presence));
 
   return (
     <>
       <ChatSidebarItemIcon>
-        {elegantPresence ? <ChatSidebarItemIndicator>{presence}</ChatSidebarItemIndicator> : null}
+        {actor.presence ? (
+          <ChatSidebarItemPresence slot="indicator">
+            <DirectMessageStatus status={actor.presence} size="sm" />
+          </ChatSidebarItemPresence>
+        ) : null}
         <Avatar
           size="sidebar"
           type={actor.type}
-          className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan"
+          className="[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
         >
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
@@ -199,7 +199,11 @@ function DirectMessageRowContent({
       {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
       {showAside ? (
         <ChatSidebarItemAside>
-          {asidePresence}
+          {actor.presence ? (
+            <ChatSidebarItemPresence slot="aside">
+              <DirectMessageStatus status={actor.presence} size="md" />
+            </ChatSidebarItemPresence>
+          ) : null}
           {showBadge ? <ChatSidebarItemBadge>{row.sidebar.badge}</ChatSidebarItemBadge> : null}
           {row.sidebar.draft ? <ChatSidebarItemDraft /> : null}
         </ChatSidebarItemAside>

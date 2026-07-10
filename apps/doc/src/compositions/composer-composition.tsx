@@ -23,6 +23,8 @@ import {
   ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
   ComposerStack,
+  ComposerTaskLabel,
+  ComposerTaskToggle,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
@@ -58,13 +60,12 @@ export function ComposerComposition() {
             </ChatMainPanelComposerIconButton>
           </ChatMainPanelComposerActions>
           <ChatMainPanelComposerMeta>
-            <label className="inline-flex select-none items-center gap-1.5">
+            <ComposerTaskToggle>
               <Checkbox size="sm" aria-label="Send as task" />
-              <span className="text-xs font-bold text-foreground-muted [[data-preview-theme=brutal]_&]:text-black/60">
-                As Task
-              </span>
-            </label>
+              <ComposerTaskLabel>As Task</ComposerTaskLabel>
+            </ComposerTaskToggle>
             <ChatMainPanelComposerSubmit aria-label="Send">
+              <span>Send</span>
               <Send />
             </ChatMainPanelComposerSubmit>
           </ChatMainPanelComposerMeta>
@@ -137,6 +138,7 @@ export function ComposerStatesComposition() {
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerSubmit aria-label="Send">
+              <span>Send</span>
               <Send />
             </ChatMainPanelComposerSubmit>
           </ChatMainPanelComposerToolbar>
@@ -162,6 +164,7 @@ export function ComposerDropOverlayComposition() {
             </ChatMainPanelComposerIconButton>
           </ChatMainPanelComposerActions>
           <ChatMainPanelComposerSubmit aria-label="Send">
+            <span>Send</span>
             <Send />
           </ChatMainPanelComposerSubmit>
         </ChatMainPanelComposerToolbar>

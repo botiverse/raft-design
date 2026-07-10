@@ -166,7 +166,7 @@ export const messageItem = tv({
     avatarStatusBorder: {
       auto: {},
       always: {
-        avatarStatus: ["border border-line-strong", "[[data-preview-theme=brutal]_&]:border-black"],
+        avatarStatus: "border border-line-strong",
       },
     },
     avatarStatusOffset: {
@@ -198,17 +198,18 @@ export const messageItem = tv({
           "mb-1 mt-1.5 px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
-        avatarStatus: "border border-line-strong",
-        continuationTime: "text-foreground/0 group-hover/message:text-foreground/40",
+        avatarStatus: "border border-black",
+        continuationTime: "text-black/0 group-hover/message:text-black/40",
         header: "items-center gap-2",
-        sender: "font-bold text-foreground-strong",
+        sender: "font-bold text-black",
         senderState: [
           "border border-line-strong bg-gray-300 px-1.5 py-0.5",
           "text-[10px] font-bold uppercase text-foreground/60",
         ],
-        meta: "font-mono text-xs text-foreground/40",
-        time: "font-mono text-xs text-foreground/40",
-        body: "text-sm leading-5 text-foreground-strong",
+        meta: "font-mono text-xs text-black/40",
+        time: "font-mono text-xs text-black/40",
+        inlineStatus: "text-black/40",
+        body: "text-sm leading-5 text-black",
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-brutal-sm"],
         toolbarButton: [
           "size-6",
@@ -216,10 +217,8 @@ export const messageItem = tv({
           "[&_svg]:size-[13px]",
         ],
         savedIndicator: "right-1 text-brutal-orange",
-        badge: [
-          "border-line-strong px-1.5 text-[10px] font-bold leading-none",
-          "text-foreground-strong",
-        ],
+        badge: ["border-line-strong px-1.5 text-[10px] font-bold leading-none", "text-black"],
+        reactionChip: "text-black",
       },
       elegant: {
         root: [
@@ -291,6 +290,11 @@ export const messageItem = tv({
       theme: "brutal",
       menuOpen: true,
       class: { root: "border-black bg-white" },
+    },
+    {
+      theme: "brutal",
+      avatarStatusBorder: "always",
+      class: { avatarStatus: "border-black" },
     },
   ],
 });

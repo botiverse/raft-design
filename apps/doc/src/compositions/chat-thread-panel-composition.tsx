@@ -89,21 +89,15 @@ export function ChatThreadPanelComposition() {
             <Avatar
               size="md"
               type="human"
-              className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-lavender [[data-preview-theme=brutal]_&]:text-black"
+              className="[[data-preview-theme=brutal]_&]:bg-brutal-lavender"
             />
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
-              <MessageItemSender className="[[data-preview-theme=brutal]_&]:text-black">
-                Cindy
-              </MessageItemSender>
-              <MessageItemTime className="[[data-preview-theme=brutal]_&]:text-black/40">
-                10:08
-              </MessageItemTime>
+              <MessageItemSender>Cindy</MessageItemSender>
+              <MessageItemTime>10:08</MessageItemTime>
             </MessageItemHeader>
-            <MessageItemBody className="[[data-preview-theme=brutal]_&]:text-black">
-              Should ThreadPanel own the right-panel chrome?
-            </MessageItemBody>
+            <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
           </MessageItemContent>
         </MessageItem>
       </ChatThreadPanelParent>

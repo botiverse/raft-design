@@ -53,6 +53,8 @@ import {
   ChatMainPanelComposerAttachmentRemove,
   ChatMainPanelComposerDropOverlay,
   ChatMainPanelComposerDropOverlayLabel,
+  ComposerTaskLabel,
+  ComposerTaskToggle,
 } from "raft-ui/wip";
 
 <ChatMainPanelFooter onSubmit={handleSubmit}>
@@ -78,8 +80,12 @@ import {
         </ChatMainPanelComposerIconButton>
       </ChatMainPanelComposerActions>
       <ChatMainPanelComposerMeta>
-        <Checkbox size="sm" aria-label="Send as task" />
+        <ComposerTaskToggle>
+          <Checkbox size="sm" aria-label="Send as task" />
+          <ComposerTaskLabel>As Task</ComposerTaskLabel>
+        </ComposerTaskToggle>
         <ChatMainPanelComposerSubmit aria-label="Send">
+          <span>Send</span>
           <Send />
         </ChatMainPanelComposerSubmit>
       </ChatMainPanelComposerMeta>
@@ -114,7 +120,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ChatMainPanelComposerIconButton / ComposerSubmit",
     type: "button props",
-    description: "Attach-image/file icon buttons and the primary send button.",
+    description:
+      "Attach-image/file icon buttons and the primary send button. Pass <span>Send</span> + icon; brutal hides the label via recipe.",
+  },
+  {
+    name: "ComposerTaskToggle / ComposerTaskLabel",
+    type: "label / span props",
+    description: "As Task checkbox cluster. Toggle owns checkbox↔label gap; label is theme-aware.",
   },
   {
     name: "ChatMainPanelComposerAttachments / ComposerAttachment",

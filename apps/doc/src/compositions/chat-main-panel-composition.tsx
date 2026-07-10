@@ -16,7 +16,9 @@ import {
 } from "lucide-react";
 import {
   Avatar,
+  BrutalOnly,
   Checkbox,
+  ElegantOnly,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
@@ -166,19 +168,15 @@ export function ChatMainPanelComposition() {
                           <Avatar
                             size="md"
                             type="human"
-                            className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-lavender [[data-preview-theme=brutal]_&]:text-black"
+                            className="[[data-preview-theme=brutal]_&]:bg-brutal-lavender"
                           />
                         </MessageItemAvatarSlot>
                         <MessageItemContent>
                           <MessageItemHeader>
-                            <MessageItemSender className="[[data-preview-theme=brutal]_&]:text-black">
-                              Cindy
-                            </MessageItemSender>
-                            <MessageItemTime className="[[data-preview-theme=brutal]_&]:text-black/40">
-                              10:42
-                            </MessageItemTime>
+                            <MessageItemSender>Cindy</MessageItemSender>
+                            <MessageItemTime>10:42</MessageItemTime>
                           </MessageItemHeader>
-                          <MessageItemBody className="[[data-preview-theme=brutal]_&]:text-black">
+                          <MessageItemBody>
                             Rail and sidebar own navigation. The main panel owns the active
                             conversation chrome.
                           </MessageItemBody>
@@ -208,19 +206,15 @@ export function ChatMainPanelComposition() {
                           <Avatar
                             size="md"
                             type="agent"
-                            className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan [[data-preview-theme=brutal]_&]:text-black"
+                            className="[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
                           />
                         </MessageItemAvatarSlot>
                         <MessageItemContent>
                           <MessageItemHeader>
-                            <MessageItemSender className="[[data-preview-theme=brutal]_&]:text-black">
-                              Atlas
-                            </MessageItemSender>
-                            <MessageItemTime className="[[data-preview-theme=brutal]_&]:text-black/40">
-                              10:44
-                            </MessageItemTime>
+                            <MessageItemSender>Atlas</MessageItemSender>
+                            <MessageItemTime>10:44</MessageItemTime>
                           </MessageItemHeader>
-                          <MessageItemBody className="[[data-preview-theme=brutal]_&]:text-black">
+                          <MessageItemBody>
                             Message rows, composer behavior, route sync, and realtime data stay
                             app-owned.
                           </MessageItemBody>
@@ -286,9 +280,13 @@ export function ChatMainPanelComposition() {
                       <ComposerTaskLabel>As Task</ComposerTaskLabel>
                     </ComposerTaskToggle>
                     <ChatMainPanelComposerSubmit aria-label="Send">
-                      <Send className="[[data-preview-theme=elegant]_&]:hidden" />
-                      <span className="hidden [[data-preview-theme=elegant]_&]:inline">Send</span>
-                      <ArrowUp className="hidden [[data-preview-theme=elegant]_&]:inline-block" />
+                      <span>Send</span>
+                      <BrutalOnly>
+                        <Send />
+                      </BrutalOnly>
+                      <ElegantOnly>
+                        <ArrowUp />
+                      </ElegantOnly>
                     </ChatMainPanelComposerSubmit>
                   </ChatMainPanelComposerMeta>
                 </ChatMainPanelComposerToolbar>

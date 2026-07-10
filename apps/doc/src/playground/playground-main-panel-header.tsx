@@ -23,6 +23,7 @@ import {
   ChatMainPanelActions,
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
+  ChatMainPanelMutedBadge,
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
@@ -49,13 +50,10 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
         <div className="flex min-w-0 items-center gap-2">
           <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
           {isMuted ? (
-            <span
-              title="Activity muted. Direct mentions can still notify you."
-              className="inline-flex shrink-0 items-center gap-1 border-2 border-black bg-brutal-orange/25 px-1.5 py-1 text-[11px] font-bold uppercase leading-none text-black"
-            >
-              <BellOff size={11} />
+            <ChatMainPanelMutedBadge>
+              <BellOff />
               Muted
-            </span>
+            </ChatMainPanelMutedBadge>
           ) : null}
         </div>
         <ChatMainPanelSubtitle>{channel.subtitle}</ChatMainPanelSubtitle>
@@ -135,7 +133,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
       <Avatar
         size="md"
         type={actor.type}
-        className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan [[data-preview-theme=brutal]_&]:text-black"
+        className="[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
       >
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
         <AvatarFallback>{actor.fallback}</AvatarFallback>

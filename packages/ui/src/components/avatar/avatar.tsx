@@ -54,8 +54,8 @@ const avatar = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border-line-strong",
-        fallback: "text-foreground",
+        root: "border-black text-black",
+        fallback: "text-black",
         badge: ["bg-success-base text-foreground-strong"],
         group: [
           "-space-x-1.5",
@@ -119,7 +119,7 @@ const avatar = tv({
     {
       theme: "brutal",
       type: "human",
-      class: { root: "bg-brutal-purple text-foreground-strong" },
+      class: { root: "bg-brutal-purple text-black" },
     },
     {
       theme: "elegant",

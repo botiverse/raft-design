@@ -45,6 +45,7 @@ export const chatSidebar = tv({
     sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs font-normal"],
     sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
     sidebarItemIndicator: ["ml-1 shrink-0"],
+    sidebarItemPresence: ["shrink-0"],
     sidebarItemMention: [
       "ml-1 inline-flex size-4 shrink-0 items-center justify-center",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",

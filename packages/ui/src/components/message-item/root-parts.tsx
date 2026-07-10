@@ -285,7 +285,8 @@ export function MessageItemInlineStatus({
   render,
   ...props
 }: MessageItemInlineStatusProps) {
-  const { inlineStatus } = messageItem();
+  const theme = useThemeFamily();
+  const { inlineStatus } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: inlineStatus({ className }),
   };

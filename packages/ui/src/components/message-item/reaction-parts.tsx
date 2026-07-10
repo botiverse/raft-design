@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { messageItem, type DataAttributes } from "./recipe";
 import { REACTION_SPRITE_DATA_URI } from "./reaction-sprite";
@@ -32,7 +33,8 @@ export function MessageReactionChip({
   render,
   ...props
 }: MessageReactionChipProps) {
-  const { reactionChip } = messageItem();
+  const theme = useThemeFamily();
+  const { reactionChip } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
     "data-reacted": reacted ? "true" : undefined,

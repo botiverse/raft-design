@@ -58,11 +58,7 @@ const BRUTAL_AVATAR_BG = {
 function ThreadRowAvatar({ type }: { type: "human" | "agent" }) {
   return (
     <MessageItemAvatarSlot>
-      <Avatar
-        size="md"
-        type={type}
-        className={`[[data-preview-theme=brutal]_&]:border-black ${BRUTAL_AVATAR_BG[type]} [[data-preview-theme=brutal]_&]:text-black`}
-      >
+      <Avatar size="md" type={type} className={BRUTAL_AVATAR_BG[type]}>
         {type === "agent" ? (
           <>
             <AvatarFallback />
@@ -82,17 +78,11 @@ function ThreadMessage({ message }: { message: PlaygroundMessage }) {
       <ThreadRowAvatar type={actor.type} />
       <MessageItemContent>
         <MessageItemHeader>
-          <MessageItemSender className="[[data-preview-theme=brutal]_&]:text-black">
-            {actor.name}
-          </MessageItemSender>
+          <MessageItemSender>{actor.name}</MessageItemSender>
           <MessageItemMeta>{actor.meta}</MessageItemMeta>
-          <MessageItemTime className="[[data-preview-theme=brutal]_&]:text-black/40">
-            {message.time}
-          </MessageItemTime>
+          <MessageItemTime>{message.time}</MessageItemTime>
         </MessageItemHeader>
-        <MessageItemBody className="[[data-preview-theme=brutal]_&]:text-black">
-          {message.body}
-        </MessageItemBody>
+        <MessageItemBody>{message.body}</MessageItemBody>
       </MessageItemContent>
     </MessageItem>
   );

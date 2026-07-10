@@ -10,7 +10,7 @@ import {
   UserX,
   X,
 } from "lucide-react";
-import { Avatar, AvatarFallback, Checkbox, Label, Spinner } from "raft-ui";
+import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
   ChatMainPanelComposer,
   ChatMainPanelComposerActions,
@@ -43,6 +43,8 @@ import {
   ComposerAutocompleteMeta,
   ComposerAutocompleteTitle,
   ComposerStack,
+  ComposerTaskLabel,
+  ComposerTaskToggle,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
@@ -269,11 +271,11 @@ export function Composer({
                 <Paperclip />
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
-            <ChatMainPanelComposerMeta className="gap-4">
-              <Label size="sm" className="gap-1.5">
+            <ChatMainPanelComposerMeta>
+              <ComposerTaskToggle>
                 <Checkbox size="sm" id="playground-composer-as-task" />
-                As Task
-              </Label>
+                <ComposerTaskLabel>As Task</ComposerTaskLabel>
+              </ComposerTaskToggle>
               <ChatMainPanelComposerSubmit aria-label="Send">
                 <span>Send</span>
                 <Send />

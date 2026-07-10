@@ -6,11 +6,7 @@ import type { DataAttributes } from "./app-shell";
 
 const composerTask = tv({
   slots: {
-    toggle: [
-      "inline-flex cursor-pointer select-none items-center gap-1.5",
-      "rounded-md border-0 bg-transparent px-2.5 py-1",
-      "transition-colors hover:bg-layer-muted",
-    ],
+    toggle: ["inline-flex cursor-pointer select-none items-center gap-1.5"],
     label: ["text-xs"],
   },
   variants: {
@@ -19,6 +15,10 @@ const composerTask = tv({
         label: "font-bold text-black/60",
       },
       elegant: {
+        toggle: [
+          "rounded-md border-0 bg-transparent px-2.5 py-1",
+          "transition-colors hover:bg-layer-muted",
+        ],
         label: "font-medium text-foreground-muted",
       },
     },

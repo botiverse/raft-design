@@ -173,17 +173,7 @@ const TAB_META: Record<PanelTab, { icon: ReactNode; label: string }> = {
   files: { icon: <Paperclip />, label: "Files" },
 };
 
-// Brutal token overrides pin the neutral text ramp to source's pure black so the
-// rows stay pixel-identical to the live app (foreground resolves to oklch(0.18)).
-const SENDER_CLASS = "[[data-preview-theme=brutal]_&]:text-black";
-const META_CLASS = "[[data-preview-theme=brutal]_&]:text-black/40";
-const TIME_CLASS = "[[data-preview-theme=brutal]_&]:text-black/40";
-const BODY_CLASS = "[[data-preview-theme=brutal]_&]:text-black";
-const BADGE_CLASS = "[[data-preview-theme=brutal]_&]:text-black";
-// Continuation time stays hidden until the row is hovered, like the live app.
-const CONTINUATION_TIME_CLASS =
-  "[[data-preview-theme=brutal]_&]:text-black/0 [[data-preview-theme=brutal]_&]:group-hover/message:text-black/40";
-const REACTION_CLASS = "[[data-preview-theme=brutal]_&]:text-black";
+// Mock avatar fill colors stay call-site owned (not product chrome).
 
 // Placeholder thumbnail (brutal poster) reused by the image gallery, mirroring
 // the design-system message-item fixtures so the docs asset resolves inline.
@@ -397,7 +387,6 @@ function ReactionPill({
       failed={failed}
       title={title ?? `${emoji} ${count}`}
       aria-label={`${emoji} ${count}`}
-      className={REACTION_CLASS}
     >
       <MessageReactionGlyph emoji={emoji} size={15} />
       <MessageReactionCount>{count}</MessageReactionCount>
@@ -1129,7 +1118,7 @@ function CodeBlockBody() {
 // Non-navigating reply badge (plain or cyan-unread) for the state matrix.
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
   return (
-    <MessageItemBadge tone={unread ? "cyan" : "default"} className={BADGE_CLASS}>
+    <MessageItemBadge tone={unread ? "cyan" : "default"}>
       {count === 1 ? "1 reply" : `${count} replies`}
       {unread ? (
         <>
@@ -1147,7 +1136,7 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
   return (
     <>
       {count && !unread ? (
-        <MessageItemBadge tone="default" className={BADGE_CLASS}>
+        <MessageItemBadge tone="default">
           {count === 1 ? "1 reply" : `${count} replies`}
         </MessageItemBadge>
       ) : null}
@@ -2150,9 +2139,7 @@ function MessageRow({
       ) : null}
       {compact ? (
         <MessageItemGutter>
-          <MessageItemContinuationTime className={CONTINUATION_TIME_CLASS} title={gutterTime}>
-            {gutterTime}
-          </MessageItemContinuationTime>
+          <MessageItemContinuationTime title={gutterTime}>{gutterTime}</MessageItemContinuationTime>
         </MessageItemGutter>
       ) : (
         <RowAvatar
@@ -2166,26 +2153,16 @@ function MessageRow({
       <MessageItemContent>
         {compact ? null : (
           <MessageItemHeader>
-            <MessageItemSender className={SENDER_CLASS}>{sender}</MessageItemSender>
-            <MessageItemTime className={TIME_CLASS}>{time}</MessageItemTime>
-            {meta ? (
-              <MessageItemMeta className={META_CLASS} title={meta}>
-                {meta}
-              </MessageItemMeta>
-            ) : null}
+            <MessageItemSender>{sender}</MessageItemSender>
+            <MessageItemTime>{time}</MessageItemTime>
+            {meta ? <MessageItemMeta title={meta}>{meta}</MessageItemMeta> : null}
             {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
             {inlineStatus ? (
-              <MessageItemInlineStatus className={META_CLASS}>
-                {inlineStatus}
-              </MessageItemInlineStatus>
+              <MessageItemInlineStatus>{inlineStatus}</MessageItemInlineStatus>
             ) : null}
           </MessageItemHeader>
         )}
-        {body ? (
-          <MessageItemBody className={BODY_CLASS} data-message-selectable="true">
-            {body}
-          </MessageItemBody>
-        ) : null}
+        {body ? <MessageItemBody data-message-selectable="true">{body}</MessageItemBody> : null}
         {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
         {footer ? <MessageItemFooter>{footer}</MessageItemFooter> : null}
       </MessageItemContent>
@@ -2303,11 +2280,11 @@ function ProfileCardBody({
         <Avatar
           size="md"
           type={isAgent ? "agent" : "human"}
-          className={`mt-0.5 self-start [[data-preview-theme=brutal]_&]:border-black ${
+          className={`mt-0.5 self-start ${
             isAgent
               ? "[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
               : "[[data-preview-theme=brutal]_&]:bg-brutal-lavender"
-          } [[data-preview-theme=brutal]_&]:text-black`}
+          }`}
         >
           <AvatarFallback />
         </Avatar>
@@ -2384,9 +2361,7 @@ function RowAvatar({
     <Avatar
       size="md"
       type={isAgent ? "agent" : "human"}
-      className={`[[data-preview-theme=brutal]_&]:border-black ${brutalBg} [[data-preview-theme=brutal]_&]:text-black ${
-        deactivated ? "opacity-60 grayscale" : ""
-      }`}
+      className={`${brutalBg} ${deactivated ? "opacity-60 grayscale" : ""}`}
     >
       <AvatarFallback />
       {isAgent && !deactivated ? (
@@ -2497,7 +2472,6 @@ function RepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
   return (
     <MessageItemBadge
       tone="default"
-      className={BADGE_CLASS}
       render={
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
       }
@@ -2518,7 +2492,6 @@ function UnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
     <>
       <MessageItemBadge
         tone="default"
-        className={BADGE_CLASS}
         render={
           <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
         }
@@ -2527,7 +2500,6 @@ function UnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
       </MessageItemBadge>
       <MessageItemBadge
         tone="cyan"
-        className={BADGE_CLASS}
         render={
           <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
         }
