@@ -71,6 +71,7 @@ export type {
 export {
   ChatMainPanelActions,
   ChatMainPanelBody,
+  ChatMainPanelContent,
   ChatMainPanelFooter,
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
@@ -90,6 +91,7 @@ export {
 export type {
   ChatMainPanelActionsProps,
   ChatMainPanelBodyProps,
+  ChatMainPanelContentProps,
   ChatMainPanelFooterProps,
   ChatMainPanelHeaderIconProps,
   ChatMainPanelHeaderProps,
@@ -177,6 +179,9 @@ export type {
 
 export { ComposerStack } from "./composer-stack";
 export type { ComposerStackProps } from "./composer-stack";
+
+export { ComposerRoot } from "./composer-root";
+export type { ComposerRootProps } from "./composer-root";
 
 export { ComposerTaskLabel, ComposerTaskToggle } from "./composer-task";
 export type { ComposerTaskLabelProps, ComposerTaskToggleProps } from "./composer-task";

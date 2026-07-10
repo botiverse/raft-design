@@ -31,12 +31,12 @@ const appShell = tv({
       },
       elegant: {
         root: [
-          "[--sidebar-chrome-bg-color:oklch(0.9789_0.0013_106.42)]",
-          "bg-[var(--sidebar-chrome-bg-color)] font-sans text-foreground",
+          "[--sidebar-chrome-bg-color:var(--layer-page)]",
+          "bg-layer-page font-sans text-foreground",
         ],
         shellRail: "w-14 border-r-0 bg-transparent",
         shellSidebar: "w-[252px] border-r-0 bg-transparent",
-        shellMain: "bg-[var(--sidebar-chrome-bg-color)]",
+        shellMain: "bg-layer-page",
         shellPanelStack: "border-l border-line-subtle bg-layer-panel",
         mobileBar: "border-t border-line-subtle bg-layer-panel text-foreground",
       },

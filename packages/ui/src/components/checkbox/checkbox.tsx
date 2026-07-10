@@ -89,10 +89,10 @@ const checkbox = tv({
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-[oklch(0.976_0.001_286)]",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)]",
           "group-focus-visible/checkbox:fill-foreground-strong",
-          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.38_0.006_285)]",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.38_0.006_285)]",
+          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.38_0.006_106.42)]",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.38_0.006_106.42)]",
           "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-foreground-strong",
           "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-foreground-strong",
           "group-data-[checked]/checkbox:fill-foreground-strong",
@@ -126,7 +126,7 @@ const checkbox = tv({
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-[oklch(0.976_0.001_286)]",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)]",
           "group-focus-visible/checkbox:fill-primary-400",
           "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-hover",
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-hover",
@@ -168,7 +168,7 @@ const checkbox = tv({
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-[oklch(0.976_0.001_286)]",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)]",
           "group-focus-visible/checkbox:fill-primary-400",
           "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-hover",
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-hover",

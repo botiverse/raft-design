@@ -212,7 +212,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "muted",
-      class: { root: "bg-[oklch(0.46_0.004_286)] text-[oklch(0.94_0.001_286)]" },
+      class: { root: "bg-[oklch(0.46_0.004_106.42)] text-[oklch(0.94_0.001_106.42)]" },
     },
     {
       theme: "elegant",

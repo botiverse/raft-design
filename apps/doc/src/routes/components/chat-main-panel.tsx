@@ -58,14 +58,13 @@ import {
   ChatMainPanelSubtitle,
   ChatMainPanelActions,
   PanelIconButton,
-  ChatMainPanelSurfaceInset,
-  ChatMainPanelSurfaceShadow,
-  ChatMainPanelSurface,
+  ChatMainPanelContent,
   ChatMainPanelBody,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
   ChatMainPanelMessageList,
   ChatMainPanelComposer,
+  ComposerRoot,
   ChatMainPanelFooter,
   MessageItem,
   MessageItemContent,
@@ -86,9 +85,7 @@ import {
       </PanelIconButton>
     </ChatMainPanelActions>
   </ChatMainPanelHeader>
-  <ChatMainPanelSurfaceInset>
-    <ChatMainPanelSurfaceShadow>
-      <ChatMainPanelSurface>
+  <ChatMainPanelContent>
     <ChatMainPanelTabs render={<Tabs value="chat" />}>
       <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
         <SortableTabsTab value="chat">
@@ -108,11 +105,11 @@ import {
       </ChatMainPanelTimeline>
     </ChatMainPanelBody>
     <ChatMainPanelFooter>
-      <ChatMainPanelComposer>{composer}</ChatMainPanelComposer>
+      <ComposerRoot>
+        <ChatMainPanelComposer>{composer}</ChatMainPanelComposer>
+      </ComposerRoot>
     </ChatMainPanelFooter>
-      </ChatMainPanelSurface>
-    </ChatMainPanelSurfaceShadow>
-  </ChatMainPanelSurfaceInset>
+  </ChatMainPanelContent>
 </ChatMainPanelRoot>`,
 } as const;
 
@@ -131,6 +128,12 @@ const PROPS: readonly PropRow[] = [
     name: "PanelIconButton",
     type: "button props",
     description: "Shared panel icon button for search, details, and app-owned commands.",
+  },
+  {
+    name: "ChatMainPanelContent",
+    type: "div props",
+    description:
+      "Complete content region below the header. Owns the inset, shadow, and clipping layers around tabs, body, and footer.",
   },
   {
     name: "ChatMainPanelTabs / Body / Timeline / Footer",
@@ -285,7 +288,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function CurrentMainPanelPreview() {
   return (
-    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-preview-theme=elegant]_&]:bg-[oklch(0.9789_0.0013_106.42)]">
+    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-preview-theme=elegant]_&]:bg-layer-page">
       <ChatMainPanelComposition />
     </div>
   );

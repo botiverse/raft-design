@@ -77,12 +77,10 @@ import {
 } from "raft-ui";
 import {
   ChatMainPanelBody,
+  ChatMainPanelContent,
   ChatMainPanelJumpToLatest,
   ChatMainPanelMessageList,
   ChatMainPanelRoot,
-  ChatMainPanelSurfaceInset,
-  ChatMainPanelSurfaceShadow,
-  ChatMainPanelSurface,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
   MessageAttachmentAction,
@@ -525,44 +523,38 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
     <ChatMainPanelRoot>
       <PlaygroundMainPanelHeader channel={channel} />
 
-      <ChatMainPanelSurfaceInset>
-        <ChatMainPanelSurfaceShadow>
-          <ChatMainPanelSurface>
-            <ChatMainPanelTabs
-              render={<Tabs value={tab} onValueChange={(value) => setTab(value)} />}
-            >
-              <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
-                {tabOrder.map((id) => (
-                  <SortableTabsTab key={id} value={id}>
-                    {TAB_META[id].icon}
-                    <TabsLabel>{TAB_META[id].label}</TabsLabel>
-                  </SortableTabsTab>
-                ))}
-                <TabsIndicator />
-              </SortableTabsList>
-            </ChatMainPanelTabs>
+      <ChatMainPanelContent>
+        <ChatMainPanelTabs render={<Tabs value={tab} onValueChange={(value) => setTab(value)} />}>
+          <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
+            {tabOrder.map((id) => (
+              <SortableTabsTab key={id} value={id}>
+                {TAB_META[id].icon}
+                <TabsLabel>{TAB_META[id].label}</TabsLabel>
+              </SortableTabsTab>
+            ))}
+            <TabsIndicator />
+          </SortableTabsList>
+        </ChatMainPanelTabs>
 
-            {tab === "chat" ? (
-              <>
-                <ChannelBody channel={channel} timelineRef={timelineRef} />
-                <Composer channel={channel} label={composerLabel} uploads={uploads} />
-              </>
-            ) : tab === "tasks" ? (
-              <TabPlaceholder
-                icon={<ListTodo />}
-                title="No tasks yet"
-                description="Tasks promoted from this conversation will show up here."
-              />
-            ) : (
-              <TabPlaceholder
-                icon={<Paperclip />}
-                title="No files yet"
-                description="Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent."
-              />
-            )}
-          </ChatMainPanelSurface>
-        </ChatMainPanelSurfaceShadow>
-      </ChatMainPanelSurfaceInset>
+        {tab === "chat" ? (
+          <>
+            <ChannelBody channel={channel} timelineRef={timelineRef} />
+            <Composer channel={channel} label={composerLabel} uploads={uploads} />
+          </>
+        ) : tab === "tasks" ? (
+          <TabPlaceholder
+            icon={<ListTodo />}
+            title="No tasks yet"
+            description="Tasks promoted from this conversation will show up here."
+          />
+        ) : (
+          <TabPlaceholder
+            icon={<Paperclip />}
+            title="No files yet"
+            description="Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent."
+          />
+        )}
+      </ChatMainPanelContent>
       <MessageSelectionMenu>
         <MessageSelectionMenuItem>
           <TextQuote size={13} />

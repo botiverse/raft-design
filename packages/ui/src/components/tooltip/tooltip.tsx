@@ -50,7 +50,7 @@ const tooltip = tv({
       },
       elegant: {
         content: [
-          "rounded-md bg-[oklch(0.263_0.009_294.9)] text-[oklch(0.965_0.002_286)]",
+          "rounded-md bg-[oklch(0.263_0.009_106.42)] text-[oklch(0.965_0.002_106.42)]",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
           "shadow-lg",
           "dark:bg-[oklch(0.230_0.010_294.8)]",

@@ -28,7 +28,7 @@ const SHADOW_TOKENS = [
     themeToken: "--shadow-xs",
     sourceToken: "--theme-shadow-xs",
     brutal: "1px 1px 0px var(--line-strong)",
-    elegant: "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px",
+    elegant: "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px",
   },
   {
     name: "sm",
@@ -38,7 +38,7 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-sm",
     brutal: "2px 2px 0px var(--line-strong)",
     elegant:
-      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.012) 0px 5px 4px -2px, oklch(0.145 0.002 286.131 / 0.02) 0px 3px 3px -1px, oklch(0.145 0.002 286.131 / 0.039) 0px 1px 2px -1px",
+      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 106.42 / 0.012) 0px 5px 4px -2px, oklch(0.145 0.002 106.42 / 0.02) 0px 3px 3px -1px, oklch(0.145 0.002 106.42 / 0.039) 0px 1px 2px -1px",
   },
   {
     name: "md",
@@ -48,7 +48,7 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-md",
     brutal: "4px 4px 0px var(--line-strong)",
     elegant:
-      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.02) 0px 8px 8px -4px, oklch(0.145 0.002 286.131 / 0.027) 0px 5px 5px -2px, oklch(0.145 0.002 286.131 / 0.039) 0px 2px 3px -1px",
+      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 106.42 / 0.02) 0px 8px 8px -4px, oklch(0.145 0.002 106.42 / 0.027) 0px 5px 5px -2px, oklch(0.145 0.002 106.42 / 0.039) 0px 2px 3px -1px",
   },
   {
     name: "lg",
@@ -58,7 +58,7 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-lg",
     brutal: "4px 4px 0px var(--color-black)",
     elegant:
-      "0px 1px 1px oklch(0.21 0.006 285 / 0.1), 0px 0px 0px 1px oklch(0.21 0.006 285 / 0.04), 0px 2px 12px -4px oklch(0.21 0.006 285 / 0.16)",
+      "0px 1px 1px oklch(0.21 0.006 106.42 / 0.1), 0px 0px 0px 1px oklch(0.21 0.006 106.42 / 0.04), 0px 2px 12px -4px oklch(0.21 0.006 106.42 / 0.16)",
   },
   {
     name: "xl",
@@ -68,7 +68,7 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-xl",
     brutal: "6px 6px 0px var(--line-strong)",
     elegant:
-      "oklch(0.145 0.002 286.131 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 286.131 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 286.131 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 286.131 / 0.039) 0px 4px 6px -3px",
+      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 106.42 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 106.42 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 106.42 / 0.039) 0px 4px 6px -3px",
   },
 ] as const;
 

@@ -212,6 +212,23 @@ export function ChatMainPanelSurface({ className, render, ...props }: ChatMainPa
   });
 }
 
+export type ChatMainPanelContentProps = ChatMainPanelSurfaceProps;
+
+/**
+ * Complete content region below the main-panel header. The nested layers are
+ * implementation chrome for inset spacing, shadow, and clipping; consumers
+ * compose tabs, body, and footer directly as children.
+ */
+export function ChatMainPanelContent(props: ChatMainPanelContentProps) {
+  return (
+    <ChatMainPanelSurfaceInset>
+      <ChatMainPanelSurfaceShadow>
+        <ChatMainPanelSurface {...props} />
+      </ChatMainPanelSurfaceShadow>
+    </ChatMainPanelSurfaceInset>
+  );
+}
+
 export type ChatMainPanelBodyProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelBody({ className, render, ...props }: ChatMainPanelBodyProps) {

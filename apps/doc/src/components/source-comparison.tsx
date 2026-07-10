@@ -281,7 +281,7 @@ function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[]
           {triggerLabel}
         </PopoverTrigger>
         <PopoverContent align="end" sideOffset={8} className="w-[min(34rem,calc(100vw-2rem))] p-0">
-          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_286)] px-3 py-2.5">
+          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_106.42)] px-3 py-2.5">
             <p className="font-mono text-xs leading-snug font-semibold text-foreground-muted uppercase">
               Source refs
             </p>

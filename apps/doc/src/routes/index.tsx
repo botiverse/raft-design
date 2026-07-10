@@ -1006,7 +1006,7 @@ function ContextMenuPreview() {
       <div
         className={[
           "flex min-h-14 w-56 select-none items-center justify-center px-4 text-center",
-          "bg-[oklch(0.955_0.003_286)] text-sm font-medium text-[oklch(0.32_0.006_286)]",
+          "bg-[oklch(0.955_0.003_106.42)] text-sm font-medium text-[oklch(0.32_0.006_106.42)]",
           "[[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold",
         ].join(" ")}
       >

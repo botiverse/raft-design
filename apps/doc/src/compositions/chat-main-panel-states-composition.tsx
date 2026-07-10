@@ -24,7 +24,7 @@ import {
   ChatMainPanelMessageList,
   ChatMainPanelRoot,
   ChatMainPanelTimeline,
-  ComposerStack,
+  ComposerRoot,
   MessageTimelineNotice,
 } from "raft-ui/wip";
 
@@ -58,7 +58,7 @@ export function ChatMainPanelStatesComposition() {
         </ChatMainPanelJumpToLatest>
       </ChatMainPanelBody>
       <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-        <ComposerStack>
+        <ComposerRoot>
           <ChatMainPanelComposerAttachments>
             <ChatMainPanelComposerAttachment>
               <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
@@ -116,12 +116,11 @@ export function ChatMainPanelStatesComposition() {
                 <Paperclip />
               </ChatMainPanelComposerIconButton>
               <ChatMainPanelComposerSubmit aria-label="Send">
-                <span>Send</span>
                 <Send />
               </ChatMainPanelComposerSubmit>
             </ChatMainPanelComposerToolbar>
           </ChatMainPanelComposer>
-        </ComposerStack>
+        </ComposerRoot>
       </ChatMainPanelFooter>
     </ChatMainPanelRoot>
   );
@@ -131,22 +130,23 @@ export function ChatMainPanelDropOverlayComposition() {
   return (
     <ChatMainPanelRoot>
       <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-        <ChatMainPanelComposer>
-          <ChatMainPanelComposerInput
-            aria-label="Message #proj-uiux"
-            placeholder="Message #proj-uiux"
-            readOnly
-          />
-          <ChatMainPanelComposerToolbar>
-            <ChatMainPanelComposerIconButton aria-label="Attach file">
-              <Paperclip />
-            </ChatMainPanelComposerIconButton>
-            <ChatMainPanelComposerSubmit aria-label="Send">
-              <span>Send</span>
-              <Send />
-            </ChatMainPanelComposerSubmit>
-          </ChatMainPanelComposerToolbar>
-        </ChatMainPanelComposer>
+        <ComposerRoot>
+          <ChatMainPanelComposer>
+            <ChatMainPanelComposerInput
+              aria-label="Message #proj-uiux"
+              placeholder="Message #proj-uiux"
+              readOnly
+            />
+            <ChatMainPanelComposerToolbar>
+              <ChatMainPanelComposerIconButton aria-label="Attach file">
+                <Paperclip />
+              </ChatMainPanelComposerIconButton>
+              <ChatMainPanelComposerSubmit aria-label="Send">
+                <Send />
+              </ChatMainPanelComposerSubmit>
+            </ChatMainPanelComposerToolbar>
+          </ChatMainPanelComposer>
+        </ComposerRoot>
         <ChatMainPanelComposerDropOverlay aria-hidden>
           <ChatMainPanelComposerDropOverlayLabel>
             Drop files to attach

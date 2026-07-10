@@ -34,6 +34,7 @@ const SNIPPETS = {
 import { Checkbox, Spinner } from "raft-ui";
 import {
   ChatMainPanelFooter,
+  ComposerRoot,
   ChatMainPanelComposer,
   ChatMainPanelComposerInput,
   ChatMainPanelComposerToolbar,
@@ -58,48 +59,54 @@ import {
 } from "raft-ui/wip";
 
 <ChatMainPanelFooter onSubmit={handleSubmit}>
-  <ChatMainPanelComposerAttachments>
-    <ChatMainPanelComposerAttachment>
-      <ChatMainPanelComposerAttachmentImage alt="" src={previewSrc} />
-      <ChatMainPanelComposerAttachmentOverlay tone="uploading">
-        <Spinner size="sm" />
-        {progress}%
-      </ChatMainPanelComposerAttachmentOverlay>
-      <ChatMainPanelComposerAttachmentProgress value={progress} />
-      <ChatMainPanelComposerAttachmentRemove aria-label="Remove attachment">
-        <X />
-      </ChatMainPanelComposerAttachmentRemove>
-    </ChatMainPanelComposerAttachment>
-  </ChatMainPanelComposerAttachments>
-  <ChatMainPanelComposer>
-    <ChatMainPanelComposerInput placeholder="Message #proj-uiux" />
-    <ChatMainPanelComposerToolbar>
-      <ChatMainPanelComposerActions>
-        <ChatMainPanelComposerIconButton aria-label="Attach image">
-          <ImagePlus />
-        </ChatMainPanelComposerIconButton>
-      </ChatMainPanelComposerActions>
-      <ChatMainPanelComposerMeta>
-        <ComposerTaskToggle>
-          <Checkbox size="sm" aria-label="Send as task" />
-          <ComposerTaskLabel>As Task</ComposerTaskLabel>
-        </ComposerTaskToggle>
-        <ChatMainPanelComposerSubmit aria-label="Send">
-          <span>Send</span>
-          <Send />
-        </ChatMainPanelComposerSubmit>
-      </ChatMainPanelComposerMeta>
-    </ChatMainPanelComposerToolbar>
-  </ChatMainPanelComposer>
+  <ComposerRoot>
+    <ChatMainPanelComposerAttachments>
+      <ChatMainPanelComposerAttachment>
+        <ChatMainPanelComposerAttachmentImage alt="" src={previewSrc} />
+        <ChatMainPanelComposerAttachmentOverlay tone="uploading">
+          <Spinner size="sm" />
+          {progress}%
+        </ChatMainPanelComposerAttachmentOverlay>
+        <ChatMainPanelComposerAttachmentProgress value={progress} />
+        <ChatMainPanelComposerAttachmentRemove aria-label="Remove attachment">
+          <X />
+        </ChatMainPanelComposerAttachmentRemove>
+      </ChatMainPanelComposerAttachment>
+    </ChatMainPanelComposerAttachments>
+    <ChatMainPanelComposer>
+      <ChatMainPanelComposerInput placeholder="Message #proj-uiux" />
+      <ChatMainPanelComposerToolbar>
+        <ChatMainPanelComposerActions>
+          <ChatMainPanelComposerIconButton aria-label="Attach image">
+            <ImagePlus />
+          </ChatMainPanelComposerIconButton>
+        </ChatMainPanelComposerActions>
+        <ChatMainPanelComposerMeta>
+          <ComposerTaskToggle>
+            <Checkbox size="sm" aria-label="Send as task" />
+            <ComposerTaskLabel>As Task</ComposerTaskLabel>
+          </ComposerTaskToggle>
+          <ChatMainPanelComposerSubmit aria-label="Send">
+            <span>Send</span>
+            <Send />
+          </ChatMainPanelComposerSubmit>
+        </ChatMainPanelComposerMeta>
+      </ChatMainPanelComposerToolbar>
+    </ChatMainPanelComposer>
+  </ComposerRoot>
   <ChatMainPanelComposerDropOverlay aria-hidden>
-    <ChatMainPanelComposerDropOverlayLabel>
-      Drop files to attach
-    </ChatMainPanelComposerDropOverlayLabel>
+    <ChatMainPanelComposerDropOverlayLabel>Drop files to attach</ChatMainPanelComposerDropOverlayLabel>
   </ChatMainPanelComposerDropOverlay>
 </ChatMainPanelFooter>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
+  {
+    name: "ComposerRoot",
+    type: "div props & { positioned?: boolean }",
+    description:
+      "Outer composer composition root for autocomplete, pending attachments, and the bordered composer surface.",
+  },
   {
     name: "ChatMainPanelFooter",
     type: "form props",

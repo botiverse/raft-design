@@ -123,7 +123,7 @@ export const chatMainPanel = tv({
         composerDropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
       },
       elegant: {
-        root: "bg-[var(--sidebar-chrome-bg-color,oklch(0.9789_0.0013_106.42))] font-sans text-foreground",
+        root: "bg-layer-page font-sans text-foreground",
         header: [
           "h-auto min-h-14 [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-transparent",
