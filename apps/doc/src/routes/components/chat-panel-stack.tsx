@@ -158,7 +158,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function PanelStackPreview() {
   return (
-    <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=brutal]_&]:border-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cream [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle">
+    <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
       <CurrentMainContext />
       <AppShellPanelStack className="flex h-full w-[400px] lg:flex">
         <AppPanelStackRoot resizable>
@@ -220,14 +220,14 @@ function SourceThreadPanelSurface() {
 
 function CurrentMainContext() {
   return (
-    <div className="min-w-0 flex-1 bg-layer-panel p-4 [[data-preview-theme=brutal]_&]:bg-white">
-      <div className="mb-4 h-8 w-48 border-b-2 border-line-strong text-lg font-bold text-foreground-strong [[data-preview-theme=elegant]_&]:border-line-subtle">
+    <div className="min-w-0 flex-1 bg-layer-panel p-4 [[data-theme=brutal]_&]:bg-white">
+      <div className="mb-4 h-8 w-48 border-b-2 border-line-strong text-lg font-bold text-foreground-strong [[data-theme=elegant]_&]:border-line-subtle">
         #proj-uiux
       </div>
       <div className="space-y-3">
-        <div className="h-14 border-2 border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=brutal]_&]:bg-white" />
-        <div className="h-20 border-2 border-line-strong bg-layer-panel shadow-sm [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle [[data-preview-theme=brutal]_&]:bg-white" />
-        <div className="h-10 border-2 border-line-strong bg-layer-muted [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-line-subtle" />
+        <div className="h-14 border-2 border-line-strong bg-layer-panel shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=brutal]_&]:bg-white" />
+        <div className="h-20 border-2 border-line-strong bg-layer-panel shadow-sm [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle [[data-theme=brutal]_&]:bg-white" />
+        <div className="h-10 border-2 border-line-strong bg-layer-muted [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle" />
       </div>
     </div>
   );

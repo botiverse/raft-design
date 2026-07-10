@@ -1374,7 +1374,7 @@ function HomeToastList() {
   const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
 
   return (
-    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-muted/60 p-4 [[data-theme=brutal]_&]:bg-white">
+    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-white p-4">
       <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-background/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-blue/20" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
         <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
@@ -1429,16 +1429,16 @@ function Home() {
     <ThemeProvider theme={themePreset.family} syncDom={false}>
       <div
         data-theme={themePreset.family}
-        className="min-h-screen bg-background pb-28 text-foreground"
+        className="min-h-screen bg-white pb-28 text-foreground"
         style={{ colorScheme: themePreset.mode }}
       >
-        <div className="grid grid-cols-1 border-l border-line-subtle bg-background md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 border-l border-line-subtle bg-white md:grid-cols-2 xl:grid-cols-3">
           {COMPONENT_GRID.map((item) => (
             <article
               key={item.label}
               className={[
                 "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
-                "border-b border-r border-line-subtle bg-background",
+                "border-b border-r border-line-subtle bg-white",
               ].join(" ")}
             >
               <Link

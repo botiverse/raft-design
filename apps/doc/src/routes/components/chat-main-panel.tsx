@@ -288,7 +288,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function CurrentMainPanelPreview() {
   return (
-    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-preview-theme=elegant]_&]:bg-layer-page">
+    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-theme=elegant]_&]:bg-layer-page">
       <ChatMainPanelComposition />
     </div>
   );

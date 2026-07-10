@@ -44,7 +44,7 @@ import { ChatMainPanelComposition } from "./chat-main-panel-composition.tsx";
 
 export function ChatSidebarComposition() {
   return (
-    <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm [[data-preview-theme=brutal]_&]:border-2 [[data-preview-theme=brutal]_&]:border-black">
+    <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black">
       <AppRailComposition />
       <ChatSidebarResizeGroup className="min-w-0 flex-1" orientation="horizontal">
         <ChatSidebarResizePanel

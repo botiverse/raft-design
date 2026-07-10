@@ -182,7 +182,7 @@ const IMAGE_SRC =
 // @self-mention / #channel / task / thread / permalink chip composes this exact
 // box so they share one height. Brutal pins the hairline to source's pure black.
 const MSG_REF_CHIP =
-  "inline-block max-w-full overflow-hidden text-ellipsis whitespace-nowrap align-bottom border border-line-strong px-1 [font-size:inherit] font-bold leading-[1.5] text-black select-text [[data-preview-theme=brutal]_&]:border-black";
+  "inline-block max-w-full overflow-hidden text-ellipsis whitespace-nowrap align-bottom border border-line-strong px-1 [font-size:inherit] font-bold leading-[1.5] text-black select-text [[data-theme=brutal]_&]:border-black";
 
 // Non-self @mention renders as a text-link (bold + subtle underline), not a chip.
 const MENTION_LINK_CLASS =
@@ -190,7 +190,7 @@ const MENTION_LINK_CLASS =
 
 // Inline code shares the chip height and uses the same soft-signal wash.
 const INLINE_CODE_CLASS =
-  "border border-line-strong bg-soft-signal/40 px-1 font-mono text-sm font-normal leading-[1.5] text-inherit [overflow-wrap:anywhere] [[data-preview-theme=brutal]_&]:border-black";
+  "border border-line-strong bg-soft-signal/40 px-1 font-mono text-sm font-normal leading-[1.5] text-inherit [overflow-wrap:anywhere] [[data-theme=brutal]_&]:border-black";
 
 type ChipKind = "channel" | "thread" | "task" | "self";
 
@@ -2120,7 +2120,7 @@ function MessageRow({
       compact={compact}
       menuOpen={menuOpen && !rowState}
       rowState={effectiveRowState}
-      className="[[data-preview-theme=brutal]_&]:transition-none"
+      className="[[data-theme=brutal]_&]:transition-none"
     >
       {selectMode ? (
         <MessageItemSelectMark

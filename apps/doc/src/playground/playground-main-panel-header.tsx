@@ -145,7 +145,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
               pulse={actor.presence === "working"}
             />
           ) : null}
-          <ChatMainPanelSubtitle className="text-sm [[data-preview-theme=brutal]_&]:text-black/60">
+          <ChatMainPanelSubtitle className="text-sm [[data-theme=brutal]_&]:text-black/60">
             {channel.subtitle}
           </ChatMainPanelSubtitle>
         </div>

@@ -284,14 +284,14 @@ function AppShellPreview() {
           <AppRailHeader>
             <button
               type="button"
-              className="relative inline-flex size-10 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-preview-theme=elegant]_&]:size-9 [[data-preview-theme=elegant]_&]:rounded-md [[data-preview-theme=elegant]_&]:border-[oklch(0_0_0)] [[data-preview-theme=elegant]_&]:bg-[oklch(0_0_0)] [[data-preview-theme=elegant]_&]:text-xs [[data-preview-theme=elegant]_&]:shadow-none"
+              className="relative inline-flex size-10 items-center justify-center border-2 border-line-strong bg-line-strong font-heading text-sm font-bold text-primary-400 shadow-sm [[data-theme=elegant]_&]:size-9 [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-[oklch(0_0_0)] [[data-theme=elegant]_&]:bg-[oklch(0_0_0)] [[data-theme=elegant]_&]:text-xs [[data-theme=elegant]_&]:shadow-none"
               aria-label="Switch server"
             >
               R
-              <AppRailItemIndicator className="right-0 top-0 [[data-preview-theme=elegant]_&]:hidden" />
+              <AppRailItemIndicator className="right-0 top-0 [[data-theme=elegant]_&]:hidden" />
             </button>
           </AppRailHeader>
-          <AppRailNav className="[[data-preview-theme=elegant]_&]:px-2 [[data-preview-theme=elegant]_&]:pt-4">
+          <AppRailNav className="[[data-theme=elegant]_&]:px-2 [[data-theme=elegant]_&]:pt-4">
             <RailItem value="search" label="Search" icon={<Search />} />
             <RailItem value="chat" label="Chat" icon={<MessageSquare />} />
             <RailItem value="activity" label="Activity" icon={<Activity />} indicator />
@@ -299,7 +299,7 @@ function AppShellPreview() {
             <RailItem value="members" label="Members" icon={<Users />} />
             <RailItem value="computers" label="Computers" icon={<Monitor />} indicator />
           </AppRailNav>
-          <AppRailUtilitySlot className="[[data-preview-theme=elegant]_&]:pb-0">
+          <AppRailUtilitySlot className="[[data-theme=elegant]_&]:pb-0">
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
@@ -314,19 +314,19 @@ function AppShellPreview() {
         <ChatSidebarRoot>
           <ChatSidebarHeader>
             <div className="min-w-0 flex-1">
-              <div className="truncate text-lg font-bold text-foreground-strong [[data-preview-theme=elegant]_&]:font-heading [[data-preview-theme=elegant]_&]:text-[17px] [[data-preview-theme=elegant]_&]:font-medium [[data-preview-theme=elegant]_&]:text-foreground-muted">
+              <div className="truncate text-lg font-bold text-foreground-strong [[data-theme=elegant]_&]:font-heading [[data-theme=elegant]_&]:text-[17px] [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground-muted">
                 Chat
               </div>
             </div>
             <ChatSidebarSectionAction
               aria-label="New conversation"
-              className="ml-auto hidden [[data-preview-theme=elegant]_&]:inline-flex"
+              className="ml-auto hidden [[data-theme=elegant]_&]:inline-flex"
             >
               <Plus />
             </ChatSidebarSectionAction>
           </ChatSidebarHeader>
           <ChatSidebarBody>
-            <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3 [[data-preview-theme=elegant]_&]:pb-7">
+            <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3 [[data-theme=elegant]_&]:pb-7">
               <div className="min-h-full">
                 <SidebarGroup title="Pinned">
                   <SidebarRow selected title="#proj-uiux" meta="Cindy replied" />
@@ -390,14 +390,14 @@ function RailItem({
 function SidebarGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader className="[[data-preview-theme=elegant]_&]:mt-4 [[data-preview-theme=elegant]_&]:mb-0 [[data-preview-theme=elegant]_&]:h-8">
-        <ChatSidebarSectionButton className="[[data-preview-theme=elegant]_&]:h-8">
+      <ChatSidebarSectionHeader className="[[data-theme=elegant]_&]:mt-4 [[data-theme=elegant]_&]:mb-0 [[data-theme=elegant]_&]:h-8">
+        <ChatSidebarSectionButton className="[[data-theme=elegant]_&]:h-8">
           <ChatSidebarSectionTitle>{title}</ChatSidebarSectionTitle>
           <ChevronRight
             aria-hidden
-            className="hidden size-2.5 shrink-0 [[data-preview-theme=elegant]_&]:inline-block"
+            className="hidden size-2.5 shrink-0 [[data-theme=elegant]_&]:inline-block"
           />
-          <ChatSidebarSectionCount className="[[data-preview-theme=elegant]_&]:ml-auto">
+          <ChatSidebarSectionCount className="[[data-theme=elegant]_&]:ml-auto">
             2
           </ChatSidebarSectionCount>
         </ChatSidebarSectionButton>
@@ -433,7 +433,7 @@ function SidebarRow({
         </ChatSidebarItemAside>
       ) : null}
       {badge ? (
-        <ChatSidebarItemAside className="hidden [[data-preview-theme=elegant]_&]:flex">
+        <ChatSidebarItemAside className="hidden [[data-theme=elegant]_&]:flex">
           <ChatSidebarItemBadge>{badge}</ChatSidebarItemBadge>
         </ChatSidebarItemAside>
       ) : null}

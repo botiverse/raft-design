@@ -53,7 +53,7 @@ function ThreadMessage({ message }: { message: PlaygroundMessage }) {
   const variant = actor.type === "agent" ? "agent" : "member";
 
   return (
-    <MessageItem className="[[data-preview-theme=brutal]_&]:transition-none">
+    <MessageItem className="[[data-theme=brutal]_&]:transition-none">
       <PlaygroundMessageAvatar
         variant={variant}
         sender={actor.name}
@@ -90,7 +90,7 @@ export function PlaygroundThreadPanel({
       <ChatThreadPanelHeader>
         <ChatThreadPanelTitle>
           Thread
-          <span className="font-normal text-foreground-muted [[data-preview-theme=brutal]_&]:text-black/50">
+          <span className="font-normal text-foreground-muted [[data-theme=brutal]_&]:text-black/50">
             {` — ${channelLabel}`}
           </span>
         </ChatThreadPanelTitle>

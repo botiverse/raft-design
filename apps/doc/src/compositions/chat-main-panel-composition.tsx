@@ -86,28 +86,22 @@ export function ChatMainPanelComposition() {
           <PanelIconButton aria-label="Stop all agents in this channel">
             <Square />
           </PanelIconButton>
-          <PanelIconButton
-            aria-label="Channel options"
-            className="[[data-preview-theme=elegant]_&]:hidden"
-          >
+          <PanelIconButton aria-label="Channel options" className="[[data-theme=elegant]_&]:hidden">
             <Settings />
           </PanelIconButton>
-          <PanelIconButton
-            aria-label="Channel members"
-            className="[[data-preview-theme=elegant]_&]:hidden"
-          >
+          <PanelIconButton aria-label="Channel members" className="[[data-theme=elegant]_&]:hidden">
             <Users />
           </PanelIconButton>
           <PanelIconButton
             aria-label="View participants"
-            className="hidden [[data-preview-theme=elegant]_&]:inline-flex [[data-preview-theme=elegant]_&]:size-auto [[data-preview-theme=elegant]_&]:h-7 [[data-preview-theme=elegant]_&]:gap-1 [[data-preview-theme=elegant]_&]:px-3 [[data-preview-theme=elegant]_&]:py-1.5 [[data-preview-theme=elegant]_&]:text-sm [[data-preview-theme=elegant]_&]:font-medium"
+            className="hidden [[data-theme=elegant]_&]:inline-flex [[data-theme=elegant]_&]:size-auto [[data-theme=elegant]_&]:h-7 [[data-theme=elegant]_&]:gap-1 [[data-theme=elegant]_&]:px-3 [[data-theme=elegant]_&]:py-1.5 [[data-theme=elegant]_&]:text-sm [[data-theme=elegant]_&]:font-medium"
           >
             <Users />
             <span>13</span>
           </PanelIconButton>
           <PanelIconButton
             aria-label="Channel options"
-            className="hidden [[data-preview-theme=elegant]_&]:inline-flex"
+            className="hidden [[data-theme=elegant]_&]:inline-flex"
           >
             <Settings />
           </PanelIconButton>
@@ -119,25 +113,25 @@ export function ChatMainPanelComposition() {
             value={["chat", "tasks", "files"]}
             onReorder={() => undefined}
             variant="underline"
-            className="[[data-preview-theme=brutal]_&]:max-w-none [[data-preview-theme=brutal]_&]:border-y-0 [[data-preview-theme=brutal]_&]:border-l-0 [[data-preview-theme=brutal]_&]:border-r-2 [[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white"
+            className="[[data-theme=brutal]_&]:max-w-none [[data-theme=brutal]_&]:border-y-0 [[data-theme=brutal]_&]:border-l-0 [[data-theme=brutal]_&]:border-r-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white"
           >
             <SortableTabsTab
               value="chat"
-              className="!cursor-default [[data-preview-theme=brutal]_&]:bg-soft-signal [[data-preview-theme=brutal]_&]:text-black [[data-preview-theme=brutal]_&]:data-[active]:bg-soft-signal [[data-preview-theme=brutal]_&]:data-[active]:hover:bg-soft-signal [[data-preview-theme=brutal]_&]:[&+&]:before:bg-black"
+              className="!cursor-default [[data-theme=brutal]_&]:bg-soft-signal [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:data-[active]:bg-soft-signal [[data-theme=brutal]_&]:data-[active]:hover:bg-soft-signal [[data-theme=brutal]_&]:[&+&]:before:bg-black"
             >
               <MessageSquare />
               <TabsLabel>Chat</TabsLabel>
             </SortableTabsTab>
             <SortableTabsTab
               value="tasks"
-              className="!cursor-default [[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=brutal]_&]:text-black [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=brutal]_&]:[&+&]:before:bg-black"
+              className="!cursor-default [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:hover:bg-white [[data-theme=brutal]_&]:[&+&]:before:bg-black"
             >
               <ListTodo />
               <TabsLabel>Tasks</TabsLabel>
             </SortableTabsTab>
             <SortableTabsTab
               value="files"
-              className="!cursor-default [[data-preview-theme=brutal]_&]:bg-white [[data-preview-theme=brutal]_&]:text-black [[data-preview-theme=brutal]_&]:hover:bg-white [[data-preview-theme=brutal]_&]:[&+&]:before:bg-black"
+              className="!cursor-default [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:hover:bg-white [[data-theme=brutal]_&]:[&+&]:before:bg-black"
             >
               <Paperclip />
               <TabsLabel>Files</TabsLabel>
@@ -153,34 +147,34 @@ export function ChatMainPanelComposition() {
               </div>
               <div className="h-px" aria-hidden />
               <div className="flex-1" aria-hidden />
-              <MessageTimelineDateDivider className="hidden [[data-preview-theme=elegant]_&]:flex">
+              <MessageTimelineDateDivider className="hidden [[data-theme=elegant]_&]:flex">
                 Today
               </MessageTimelineDateDivider>
               <div data-index="0" data-message-id="preview-cindy">
                 <div style={{ contain: "layout style", overflow: "clip visible" }}>
-                  <MessageItem className="[[data-preview-theme=brutal]_&]:transition-none">
+                  <MessageItem className="[[data-theme=brutal]_&]:transition-none">
                     <MessageItemAvatarSlot>
                       <Avatar size="md" type="human" />
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>
-                        <MessageItemSender className="[[data-preview-theme=brutal]_&]:text-black">
+                        <MessageItemSender className="[[data-theme=brutal]_&]:text-black">
                           Cindy
                         </MessageItemSender>
-                        <MessageItemTime className="[[data-preview-theme=brutal]_&]:text-black/40">
+                        <MessageItemTime className="[[data-theme=brutal]_&]:text-black/40">
                           10:42
                         </MessageItemTime>
                       </MessageItemHeader>
-                      <MessageItemBody className="[[data-preview-theme=brutal]_&]:text-black">
+                      <MessageItemBody className="[[data-theme=brutal]_&]:text-black">
                         Rail and sidebar own navigation. The main panel owns the active conversation
                         chrome.
                       </MessageItemBody>
-                      <MessageItemFooter className="hidden [[data-preview-theme=elegant]_&]:flex">
+                      <MessageItemFooter className="hidden [[data-theme=elegant]_&]:flex">
                         <MessageItemBadge>2 replies</MessageItemBadge>
                         <MessageItemBadge tone="cyan">1 new</MessageItemBadge>
                       </MessageItemFooter>
                     </MessageItemContent>
-                    <MessageItemToolbar className="[[data-preview-theme=brutal]_&]:!hidden">
+                    <MessageItemToolbar className="[[data-theme=brutal]_&]:!hidden">
                       <MessageItemToolbarButton aria-label="Reply in thread">
                         <MessageSquare />
                       </MessageItemToolbarButton>
@@ -196,25 +190,25 @@ export function ChatMainPanelComposition() {
               </div>
               <div data-index="1" data-message-id="preview-atlas">
                 <div style={{ contain: "layout style", overflow: "clip visible" }}>
-                  <MessageItem className="[[data-preview-theme=brutal]_&]:transition-none">
+                  <MessageItem className="[[data-theme=brutal]_&]:transition-none">
                     <MessageItemAvatarSlot>
                       <Avatar size="md" type="agent" />
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>
-                        <MessageItemSender className="[[data-preview-theme=brutal]_&]:text-black">
+                        <MessageItemSender className="[[data-theme=brutal]_&]:text-black">
                           Atlas
                         </MessageItemSender>
-                        <MessageItemTime className="[[data-preview-theme=brutal]_&]:text-black/40">
+                        <MessageItemTime className="[[data-theme=brutal]_&]:text-black/40">
                           10:44
                         </MessageItemTime>
                       </MessageItemHeader>
-                      <MessageItemBody className="[[data-preview-theme=brutal]_&]:text-black">
+                      <MessageItemBody className="[[data-theme=brutal]_&]:text-black">
                         Message rows, composer behavior, route sync, and realtime data stay
                         app-owned.
                       </MessageItemBody>
                     </MessageItemContent>
-                    <MessageItemToolbar className="[[data-preview-theme=brutal]_&]:!hidden">
+                    <MessageItemToolbar className="[[data-theme=brutal]_&]:!hidden">
                       <MessageItemToolbarButton aria-label="Reply in thread">
                         <MessageSquare />
                       </MessageItemToolbarButton>
@@ -229,7 +223,7 @@ export function ChatMainPanelComposition() {
                 </div>
               </div>
               <div
-                className="hidden [[data-preview-theme=elegant]_&]:block"
+                className="hidden [[data-theme=elegant]_&]:block"
                 data-index="2"
                 data-message-id="preview-atlas-cont"
               >
@@ -275,9 +269,9 @@ export function ChatMainPanelComposition() {
                     <ComposerTaskLabel>As Task</ComposerTaskLabel>
                   </ComposerTaskToggle>
                   <ChatMainPanelComposerSubmit aria-label="Send">
-                    <Send className="[[data-preview-theme=elegant]_&]:hidden" />
-                    <span className="hidden [[data-preview-theme=elegant]_&]:inline">Send</span>
-                    <ArrowUp className="hidden [[data-preview-theme=elegant]_&]:inline-block" />
+                    <Send className="[[data-theme=elegant]_&]:hidden" />
+                    <span className="hidden [[data-theme=elegant]_&]:inline">Send</span>
+                    <ArrowUp className="hidden [[data-theme=elegant]_&]:inline-block" />
                   </ChatMainPanelComposerSubmit>
                 </ChatMainPanelComposerMeta>
               </ChatMainPanelComposerToolbar>

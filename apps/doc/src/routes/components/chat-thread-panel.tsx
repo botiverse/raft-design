@@ -187,7 +187,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function CurrentThreadPanelPreview() {
   return (
-    <div className="h-full w-[400px] shrink-0 overflow-hidden border-l-2 border-line-strong bg-layer-panel [[data-preview-theme=elegant]_&]:border-l [[data-preview-theme=elegant]_&]:border-line-subtle">
+    <div className="h-full w-[400px] shrink-0 overflow-hidden border-l-2 border-line-strong bg-layer-panel [[data-theme=elegant]_&]:border-l [[data-theme=elegant]_&]:border-line-subtle">
       <ChatThreadPanelComposition />
     </div>
   );
