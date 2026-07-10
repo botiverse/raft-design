@@ -121,11 +121,11 @@ export const messageItem = tv({
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
         ],
-        savedIndicator: "rounded-md border-line-subtle bg-layer-muted text-foreground-muted",
+        savedIndicator: "right-[calc(1.75rem-2px)] text-primary-400",
         footer: "mt-2.5",
         badge: [
           "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
-          "text-[11px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
+          "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
         ],
       },
     },
@@ -165,6 +165,16 @@ export const messageItem = tv({
       theme: "elegant",
       badgeTone: "default",
       class: { badge: "text-foreground-muted" },
+    },
+    {
+      theme: "elegant",
+      badgeTone: "cyan",
+      class: {
+        badge: [
+          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
+          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
+        ],
+      },
     },
   ],
 });

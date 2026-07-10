@@ -31,7 +31,6 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-  MessageItemUnreadBadge,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
   MessageReactionPickerContent,
@@ -449,7 +448,7 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
   }
 
   return (
-    <MessageItemUnreadBadge
+    <MessageItemBadge
       className="cursor-pointer"
       render={
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
@@ -459,6 +458,6 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
       {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
       <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
       <span>{thread.unreadCount} new</span>
-    </MessageItemUnreadBadge>
+    </MessageItemBadge>
   );
 }

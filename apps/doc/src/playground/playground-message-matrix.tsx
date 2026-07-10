@@ -23,7 +23,6 @@ import {
   MessageImageGalleryRow,
   MessageItemBadge,
   MessageItemBadgeSeparator,
-  MessageItemUnreadBadge,
   MessageMultiSelect,
   MessageReferenceUnavailable,
   MessageTimelineDateDivider,
@@ -98,6 +97,8 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
 
 // Reply badge draft variants (source ThreadRepliesBadge): one default pill —
 // draft-only is Pencil + "draft"; replies+draft appends · Pencil draft.
+const draftMutedClass = "text-black/55 [[data-theme=elegant]_&]:text-foreground-muted";
+
 function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number }) {
   const [opened, setOpened] = useState(false);
   const hasReplies = Boolean(count);
@@ -120,7 +121,7 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
             {count === 1 ? "1 reply" : `${count} replies`}
           </>
         ) : (
-          <Pencil className="text-black/55" />
+          <Pencil className={draftMutedClass} />
         )}
         {unread ? (
           <>
@@ -129,8 +130,8 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
           </>
         ) : null}
         {hasReplies ? <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator> : null}
-        {hasReplies ? <Pencil className="text-black/55" /> : null}
-        <span className="text-black/55">draft</span>
+        {hasReplies ? <Pencil className={draftMutedClass} /> : null}
+        <span className={draftMutedClass}>draft</span>
       </BadgeRoot>
       {opened ? (
         <span className="sr-only" role="status">
