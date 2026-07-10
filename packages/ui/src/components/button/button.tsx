@@ -368,7 +368,7 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--foreground-strong)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground-strong)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
-          "hover:bg-[oklch(0.31_0.006_285)]",
+          "hover:bg-[oklch(0.31_0.006_106.42)]",
         ],
       },
     },

@@ -14,7 +14,7 @@ export function ComponentPreview({ label, children }: ComponentPreviewProps) {
           {label}
         </div>
       ) : null}
-      <PreviewThemeScope className="flex flex-wrap items-center gap-4 bg-background p-8 text-foreground">
+      <PreviewThemeScope className="flex flex-wrap items-center gap-4 bg-white p-8 text-foreground">
         {children}
       </PreviewThemeScope>
     </div>

@@ -42,7 +42,7 @@ import {
   ComposerAutocompleteItem,
   ComposerAutocompleteMeta,
   ComposerAutocompleteTitle,
-  ComposerStack,
+  ComposerRoot,
   ComposerTaskLabel,
   ComposerTaskToggle,
 } from "raft-ui/wip";
@@ -252,7 +252,7 @@ export function Composer({
 
   return (
     <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-      <ComposerStack positioned>
+      <ComposerRoot positioned>
         {autocomplete === "mention" ? <MentionAutocomplete channel={channel} /> : null}
         {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
         {uploads ? <ComposerAttachments /> : null}
@@ -273,7 +273,7 @@ export function Composer({
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerMeta>
               <ComposerTaskToggle>
-                <Checkbox size="sm" id="playground-composer-as-task" />
+                <Checkbox size="sm" aria-label="Send as task" />
                 <ComposerTaskLabel>As Task</ComposerTaskLabel>
               </ComposerTaskToggle>
               <ChatMainPanelComposerSubmit aria-label="Send">
@@ -283,7 +283,7 @@ export function Composer({
             </ChatMainPanelComposerMeta>
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
-      </ComposerStack>
+      </ComposerRoot>
       {uploads ? (
         <ChatMainPanelComposerDropOverlay aria-hidden>
           <ChatMainPanelComposerDropOverlayLabel>

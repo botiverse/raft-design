@@ -92,7 +92,7 @@ const select = tv({
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "data-[popup-open]:[--button-focus-outline:transparent]",
-          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
+          "data-[popup-open]:shadow-[0_0_0_0.5px_color-mix(in_oklch,var(--ink)_14%,transparent),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
@@ -101,9 +101,9 @@ const select = tv({
         item: [
           "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
-          "hover:bg-foreground/[0.04] hover:text-foreground-strong",
-          "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
-          "data-[selected]:bg-foreground/[0.04] data-[selected]:text-foreground-strong",
+          "hover:bg-ink-4 hover:text-foreground-strong",
+          "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground-strong",
+          "data-[selected]:bg-ink-4 data-[selected]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3.5",
         ],

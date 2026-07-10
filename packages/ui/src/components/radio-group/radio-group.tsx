@@ -38,7 +38,7 @@ const radioGroup = tv({
         item: [
           "size-3.5 bg-layer-panel text-foreground-inverse",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
-          "hover:bg-foreground/[0.04] data-[checked]:bg-foreground-strong",
+          "hover:bg-ink-4 data-[checked]:bg-foreground-strong",
           "data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0_0_0_/_0.08),0_0_0_1px_oklch(0_0_0_/_0.68)]",
           "data-[disabled]:bg-layer-muted data-[disabled]:text-line data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)] data-[disabled]:hover:bg-layer-muted",
           "data-[checked]:data-[disabled]:bg-layer-muted data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",

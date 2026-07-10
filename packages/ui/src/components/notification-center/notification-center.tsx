@@ -53,10 +53,10 @@ const notificationCenter = tv({
       elegant: {
         trigger: [
           "relative inline-flex size-auto min-w-9 items-center justify-center overflow-visible rounded-md border border-transparent p-3",
-          "text-[13px] text-foreground-muted/68 [&_svg]:size-4 [&_svg]:shrink-0",
+          "text-[13px] text-foreground-icon [&_svg]:size-4 [&_svg]:shrink-0",
           "select-none transition-colors",
-          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
-          "active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
+          "hover:bg-layer-strong/80 hover:text-foreground",
+          "active:bg-layer-strong/80 active:text-foreground",
           "focus-visible:outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],
         triggerIcon: ["relative inline-flex size-4 items-center justify-center"],

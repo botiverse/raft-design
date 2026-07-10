@@ -5,8 +5,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { DataAttributes } from "./app-shell";
 
 const autocompleteSurface = [
-  "card-brutal absolute bottom-full left-7",
-  "right-[calc(1.75rem+var(--message-scroller-gutter,0px))] mb-1",
+  "card-brutal absolute bottom-full left-7 right-7 mb-1",
   "max-h-48 overflow-y-auto",
 ];
 

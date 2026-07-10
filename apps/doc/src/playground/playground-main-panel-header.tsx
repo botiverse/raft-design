@@ -101,7 +101,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
               }
             >
               <Users />
-              <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-foreground-muted/68">
+              <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-foreground-icon">
                 {channel.memberCount}
               </span>
             </TooltipTrigger>

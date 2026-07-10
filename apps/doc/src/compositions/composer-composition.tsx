@@ -22,7 +22,7 @@ import {
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
-  ComposerStack,
+  ComposerRoot,
   ComposerTaskLabel,
   ComposerTaskToggle,
 } from "raft-ui/wip";
@@ -44,33 +44,35 @@ function ComposerHost({ children }: { children: ReactNode }) {
 export function ComposerComposition() {
   return (
     <ComposerHost>
-      <ChatMainPanelComposer>
-        <ChatMainPanelComposerInput
-          aria-label="Message #proj-uiux"
-          placeholder="Message #proj-uiux"
-          readOnly
-        />
-        <ChatMainPanelComposerToolbar>
-          <ChatMainPanelComposerActions>
-            <ChatMainPanelComposerIconButton aria-label="Attach image">
-              <ImagePlus />
-            </ChatMainPanelComposerIconButton>
-            <ChatMainPanelComposerIconButton aria-label="Attach file">
-              <Paperclip />
-            </ChatMainPanelComposerIconButton>
-          </ChatMainPanelComposerActions>
-          <ChatMainPanelComposerMeta>
-            <ComposerTaskToggle>
-              <Checkbox size="sm" aria-label="Send as task" />
-              <ComposerTaskLabel>As Task</ComposerTaskLabel>
-            </ComposerTaskToggle>
-            <ChatMainPanelComposerSubmit aria-label="Send">
-              <span>Send</span>
-              <Send />
-            </ChatMainPanelComposerSubmit>
-          </ChatMainPanelComposerMeta>
-        </ChatMainPanelComposerToolbar>
-      </ChatMainPanelComposer>
+      <ComposerRoot>
+        <ChatMainPanelComposer>
+          <ChatMainPanelComposerInput
+            aria-label="Message #proj-uiux"
+            placeholder="Message #proj-uiux"
+            readOnly
+          />
+          <ChatMainPanelComposerToolbar>
+            <ChatMainPanelComposerActions>
+              <ChatMainPanelComposerIconButton aria-label="Attach image">
+                <ImagePlus />
+              </ChatMainPanelComposerIconButton>
+              <ChatMainPanelComposerIconButton aria-label="Attach file">
+                <Paperclip />
+              </ChatMainPanelComposerIconButton>
+            </ChatMainPanelComposerActions>
+            <ChatMainPanelComposerMeta>
+              <ComposerTaskToggle>
+                <Checkbox size="sm" aria-label="Send as task" />
+                <ComposerTaskLabel>As Task</ComposerTaskLabel>
+              </ComposerTaskToggle>
+              <ChatMainPanelComposerSubmit aria-label="Send">
+                <span>Send</span>
+                <Send />
+              </ChatMainPanelComposerSubmit>
+            </ChatMainPanelComposerMeta>
+          </ChatMainPanelComposerToolbar>
+        </ChatMainPanelComposer>
+      </ComposerRoot>
     </ComposerHost>
   );
 }
@@ -78,7 +80,7 @@ export function ComposerComposition() {
 export function ComposerStatesComposition() {
   return (
     <ComposerHost>
-      <ComposerStack>
+      <ComposerRoot>
         <ChatMainPanelComposerAttachments>
           <ChatMainPanelComposerAttachment>
             <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
@@ -138,12 +140,11 @@ export function ComposerStatesComposition() {
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerSubmit aria-label="Send">
-              <span>Send</span>
               <Send />
             </ChatMainPanelComposerSubmit>
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
-      </ComposerStack>
+      </ComposerRoot>
     </ComposerHost>
   );
 }
@@ -151,24 +152,25 @@ export function ComposerStatesComposition() {
 export function ComposerDropOverlayComposition() {
   return (
     <ComposerHost>
-      <ChatMainPanelComposer>
-        <ChatMainPanelComposerInput
-          aria-label="Message #proj-uiux"
-          placeholder="Message #proj-uiux"
-          readOnly
-        />
-        <ChatMainPanelComposerToolbar>
-          <ChatMainPanelComposerActions>
-            <ChatMainPanelComposerIconButton aria-label="Attach file">
-              <Paperclip />
-            </ChatMainPanelComposerIconButton>
-          </ChatMainPanelComposerActions>
-          <ChatMainPanelComposerSubmit aria-label="Send">
-            <span>Send</span>
-            <Send />
-          </ChatMainPanelComposerSubmit>
-        </ChatMainPanelComposerToolbar>
-      </ChatMainPanelComposer>
+      <ComposerRoot>
+        <ChatMainPanelComposer>
+          <ChatMainPanelComposerInput
+            aria-label="Message #proj-uiux"
+            placeholder="Message #proj-uiux"
+            readOnly
+          />
+          <ChatMainPanelComposerToolbar>
+            <ChatMainPanelComposerActions>
+              <ChatMainPanelComposerIconButton aria-label="Attach file">
+                <Paperclip />
+              </ChatMainPanelComposerIconButton>
+            </ChatMainPanelComposerActions>
+            <ChatMainPanelComposerSubmit aria-label="Send">
+              <Send />
+            </ChatMainPanelComposerSubmit>
+          </ChatMainPanelComposerToolbar>
+        </ChatMainPanelComposer>
+      </ComposerRoot>
       <ChatMainPanelComposerDropOverlay aria-hidden>
         <ChatMainPanelComposerDropOverlayLabel>
           Drop files to attach

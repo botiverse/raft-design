@@ -112,7 +112,7 @@ const combobox = tv({
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "data-[popup-open]:[--button-focus-outline:transparent]",
-          "data-[popup-open]:shadow-[0_0_0_0.5px_oklch(0.21_0.006_285_/_0.14),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
+          "data-[popup-open]:shadow-[0_0_0_0.5px_color-mix(in_oklch,var(--ink)_14%,transparent),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         inputGroup: ["border-line-muted bg-layer-popover px-1.5 pt-1 pb-2"],
@@ -129,8 +129,8 @@ const combobox = tv({
         item: [
           "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
-          "hover:bg-foreground/[0.04] hover:text-foreground-strong",
-          "data-[highlighted]:bg-foreground/[0.04] data-[highlighted]:text-foreground-strong",
+          "hover:bg-ink-4 hover:text-foreground-strong",
+          "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3.5",
         ],
@@ -146,7 +146,7 @@ const combobox = tv({
         ],
         control: [
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
-          "text-sm font-normal text-foreground shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.05)]",
+          "text-sm font-normal text-foreground shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
           "focus-within:border-line-subtle/30 focus-within:ring-2 focus-within:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-within:ring-offset-1 focus-within:ring-offset-background",
           "[&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
           "[&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-normal [&_[data-slot='combobox-input']]:text-foreground",

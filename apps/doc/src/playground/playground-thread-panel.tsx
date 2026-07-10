@@ -30,7 +30,7 @@ import {
   ChatThreadPanelSearchCount,
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
-  ComposerStack,
+  ComposerRoot,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemAvatarStatus,
@@ -175,7 +175,7 @@ export function PlaygroundThreadPanel({
         </div>
       </ChatThreadPanelBody>
       <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
-        <ComposerStack>
+        <ComposerRoot>
           <ChatMainPanelComposer>
             <ChatMainPanelComposerInput
               aria-label="Message thread"
@@ -199,7 +199,7 @@ export function PlaygroundThreadPanel({
               </ChatMainPanelComposerMeta>
             </ChatMainPanelComposerToolbar>
           </ChatMainPanelComposer>
-        </ComposerStack>
+        </ComposerRoot>
       </ChatThreadPanelFooter>
     </ChatThreadPanelRoot>
   );

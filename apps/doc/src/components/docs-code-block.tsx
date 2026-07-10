@@ -21,7 +21,7 @@ const docsCodeBlock = tv({
     inner: "relative flex min-h-0 min-w-0 flex-1 flex-col",
     rail: ["pointer-events-none absolute inset-y-0 w-0", "border-[oklch(0_0_0_/_0.12)]"],
     section: "flex min-w-0 items-stretch",
-    gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_286)]",
+    gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_106.42)]",
     sectionInner: "flex min-h-0 min-w-0 flex-1 flex-col",
     headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-1.5",
     bodyRow: "flex min-h-0 min-w-0 flex-1 bg-white pt-3 pb-3",
@@ -29,7 +29,7 @@ const docsCodeBlock = tv({
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
       "w-full select-none pt-3 pb-3 font-mono text-sm leading-relaxed",
-      "text-[oklch(0.72_0.006_286)]",
+      "text-[oklch(0.72_0.006_106.42)]",
     ],
     lineNumber: "text-right tabular-nums",
     copyButton: [
@@ -272,7 +272,7 @@ function DocsCodeBlockContent({ html, collapsedHtml }: DocsCodeBlockContentProps
           type="button"
           aria-expanded={expanded}
           onClick={() => setExpanded(true)}
-          className="mb-[1.625em] block w-full cursor-pointer text-left font-mono text-sm leading-relaxed text-[oklch(0.50_0.02_286)] hover:text-foreground-muted"
+          className="mb-[1.625em] block w-full cursor-pointer text-left font-mono text-sm leading-relaxed text-[oklch(0.50_0.02_106.42)] hover:text-foreground-muted"
         >
           {"<-- imports collapsed, click to expand -->"}
         </button>

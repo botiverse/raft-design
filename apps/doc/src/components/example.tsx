@@ -61,8 +61,6 @@ export function Example({
         </Collapsible.Root>
       }
       footerInset="flush"
-      footerClassName="has-[[data-open]]:bg-[oklch(0.986_0_0)]"
-      footerTone="white"
     >
       {children}
     </ComponentDemoFrame>

@@ -92,7 +92,7 @@ const STATUS_ICON = {
   todo: Circle,
 } as const;
 
-const frameClass = "overflow-clip bg-[oklch(0.991_0_0)] shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
+const frameClass = "overflow-clip bg-white shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
 const horizontalDividerClass = "border-[oklch(0_0_0_/_0.06)]";
 
 function ComparisonPreview({
@@ -128,7 +128,7 @@ function ComparisonPreview({
     >
       <div
         className={[
-          `relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-background px-5 py-6 text-foreground`,
+          `relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-white px-5 py-6 text-foreground`,
           previewClassName,
         ]
           .filter(Boolean)
@@ -281,7 +281,7 @@ function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[]
           {triggerLabel}
         </PopoverTrigger>
         <PopoverContent align="end" sideOffset={8} className="w-[min(34rem,calc(100vw-2rem))] p-0">
-          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_286)] px-3 py-2.5">
+          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_106.42)] px-3 py-2.5">
             <p className="font-mono text-xs leading-snug font-semibold text-foreground-muted uppercase">
               Source refs
             </p>

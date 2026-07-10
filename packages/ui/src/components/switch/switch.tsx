@@ -53,8 +53,8 @@ const switchRecipe = tv({
         thumb: [
           "rounded-full bg-layer-popover",
           "shadow-[0_1px_1.5px_-0.5px_oklch(0_0_0_/_0.18),0_0_0_1px_oklch(0_0_0_/_0.04)]",
-          "data-[disabled]:bg-[oklch(0.88_0.004_286)] data-[disabled]:shadow-none",
-          "data-[checked]:data-[disabled]:bg-[oklch(0.88_0.004_286)]",
+          "data-[disabled]:bg-[oklch(0.88_0.004_106.42)] data-[disabled]:shadow-none",
+          "data-[checked]:data-[disabled]:bg-[oklch(0.88_0.004_106.42)]",
         ],
       },
     },

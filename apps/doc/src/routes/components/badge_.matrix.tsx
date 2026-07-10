@@ -147,7 +147,7 @@ const CASES: readonly MatrixCase[] = [
 
 function BadgeMatrixPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-white text-foreground">
       <div className="grid min-h-screen auto-rows-[minmax(10rem,1fr)] grid-cols-2 gap-px bg-[oklch(0_0_0_/_0.08)] md:grid-cols-4 xl:grid-cols-8">
         {THEMES.flatMap((theme) =>
           CASES.map((item) => (
@@ -178,7 +178,7 @@ function MatrixCell({
     <ThemeProvider theme={theme} syncDom={false}>
       <div
         data-theme={theme}
-        className="relative flex min-w-0 items-center justify-center bg-background p-6 text-foreground"
+        className="relative flex min-w-0 items-center justify-center bg-white p-6 text-foreground"
       >
         <span className="absolute top-4 left-4 font-mono text-[10px] leading-none font-medium tracking-wide text-foreground-placeholder uppercase">
           {label}

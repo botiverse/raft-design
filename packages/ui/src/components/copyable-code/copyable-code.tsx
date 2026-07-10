@@ -47,7 +47,7 @@ const copyableCode = tv({
       },
       elegant: {
         code: [
-          "bg-[oklch(0.988_0.002_286)] text-[oklch(0.45_0.04_74)]",
+          "bg-[oklch(0.988_0.002_106.42)] text-[oklch(0.45_0.04_74)]",
           "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           "dark:bg-layer-panel dark:text-[oklch(0.82_0.06_90)] dark:shadow-[0_0_0_0.5px_oklch(1_0_0_/_0.16)]",
         ],

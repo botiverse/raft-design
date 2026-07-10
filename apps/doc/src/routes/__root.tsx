@@ -31,7 +31,7 @@ export const Route = createRootRoute({
       },
       {
         name: "theme-color",
-        // oklch equivalent of #FFD700 (modern browsers; others skip the chrome tint).
+        // Modern browsers use the OKLCH value; others skip the chrome tint.
         content: "oklch(0.8868 0.1822 95.33)",
       },
     ],
@@ -88,7 +88,13 @@ function RootDocument({ children }: { children: ReactNode }) {
         <title>{documentTitle}</title>
         <HeadContent />
       </head>
-      <body className="bg-background text-foreground antialiased">
+      <body
+        className={
+          isStandalonePage
+            ? "bg-background text-foreground antialiased"
+            : "bg-layer-panel text-foreground antialiased [--layer-page:oklch(1_0_0)]"
+        }
+      >
         <ThemeProvider theme="elegant" mode="light">
           <PreviewThemeProvider>
             <div

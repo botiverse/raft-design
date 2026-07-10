@@ -26,10 +26,11 @@ const messageTimeline = tv({
       },
       elegant: {
         dividerRule: "border-t border-line-muted",
-        dividerChipWrap: "bg-white",
-        dividerChip: "bg-white font-mono text-[11px] font-normal text-black/50",
+        dividerChipWrap: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
+        dividerChip:
+          "bg-[var(--shell-surface-bg,var(--layer-panel))] font-mono text-[11px] font-normal text-foreground-muted",
         notice: "font-sans",
-        limitedTag: "rounded border-black/20 bg-white/70",
+        limitedTag: "rounded border-line-subtle bg-layer-panel/70",
       },
     },
     sticky: {
