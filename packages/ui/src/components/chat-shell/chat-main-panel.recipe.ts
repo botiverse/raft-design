@@ -140,10 +140,7 @@ export const chatMainPanel = tv({
         ],
         subtitle: "font-sans text-foreground-muted",
         surfaceInset: "overflow-visible pl-2",
-        surfaceShadow: [
-          "relative overflow-visible rounded-tl-[10px]",
-          "shadow-[var(--theme-shadow-xl)]",
-        ],
+        surfaceShadow: ["relative overflow-visible rounded-tl-[10px]", "shadow-xl"],
         surface: "relative overflow-clip rounded-tl-[10px] bg-white",
         tabs: [
           "border-b-0 bg-layer-panel",
@@ -161,7 +158,7 @@ export const chatMainPanel = tv({
         composer: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-white",
-          "shadow-[var(--theme-shadow-lg)] ring-1 ring-[oklch(0_0_0/0.02)] focus-within:ring-[oklch(0_0_0/0.10)]",
+          "shadow-lg ring-1 ring-[oklch(0_0_0/0.02)] focus-within:ring-[oklch(0_0_0/0.10)]",
         ],
         composerInput: [
           "min-h-20 md:min-h-20 px-4 pt-4",

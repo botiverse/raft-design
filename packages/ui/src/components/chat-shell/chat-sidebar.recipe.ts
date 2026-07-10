@@ -131,14 +131,14 @@ export const chatSidebar = tv({
         sidebarMenuIcon: ["[&_svg]:![stroke-width:1px]", "[&_svg_*]:![stroke-width:1px]"],
         sidebarMenuAside: "ml-auto",
         sidebarMenuCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end [font-family:var(--sans-font)] text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
         sidebarSectionButton: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[6px] text-[12px] font-medium leading-none normal-case tracking-normal",
           "text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
           "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-[var(--foreground)]",
         ],
         sidebarSectionCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end [font-family:var(--sans-font)] text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
         sidebarSectionActions: "pr-[6px]",
         sidebarSectionAction: "shrink-0",
         sidebarSection: "px-0",
@@ -152,9 +152,9 @@ export const chatSidebar = tv({
           "active:border-transparent active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground-strong",
           "data-[selected=true]:border-transparent data-[selected=true]:bg-white",
           "data-[selected=true]:text-foreground",
-          "data-[selected=true]:shadow-[var(--theme-shadow-xs)] data-[selected=true]:ring-1 data-[selected=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "data-[selected=true]:shadow-xs data-[selected=true]:ring-1 data-[selected=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
           "data-[menu-open=true]:border-transparent data-[menu-open=true]:bg-white",
-          "data-[menu-open=true]:shadow-[var(--theme-shadow-xs)] data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "data-[menu-open=true]:shadow-xs data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
         ],
         sidebarItemTitle: [
           "font-[400]",
@@ -166,7 +166,7 @@ export const chatSidebar = tv({
           "size-3 text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
         sidebarItemSubtitle: "text-foreground/35",
         sidebarItemMeta:
-          "[font-family:var(--sans-font)] text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
+          "font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
         sidebarItemMention:
           "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
         sidebarItemMuted: "text-foreground-muted/68",

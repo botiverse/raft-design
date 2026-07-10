@@ -213,7 +213,7 @@ export const messageItem = tv({
         toolbar: [
           "top-1 right-[calc(1.75rem-2px)]",
           "gap-[2px] rounded-sm px-1 py-[2px]",
-          "bg-[var(--layer-popover)] shadow-[var(--theme-shadow-xs)] ring-1 ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "bg-[var(--layer-popover)] shadow-xs ring-1 ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent !p-0",

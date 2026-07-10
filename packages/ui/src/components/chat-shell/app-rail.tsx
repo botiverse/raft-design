@@ -56,7 +56,7 @@ const appRail = tv({
       elegant: {
         header: "h-14 border-b-0",
         serverButton: [
-          "rounded-md border-2 border-[oklch(0_0_0)] bg-[oklch(0_0_0)]",
+          "rounded-md border-2 border-black bg-black",
           "font-heading text-xs font-bold text-primary-400",
           "shadow-none transition-[background-color,transform] duration-150 active:translate-y-px",
         ],
