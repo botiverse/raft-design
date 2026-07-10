@@ -66,12 +66,7 @@ function PlaygroundLayout() {
 
   return (
     <div className="h-dvh">
-      <PreviewThemeScope
-        family={theme.family}
-        mode={theme.mode}
-        className="h-full"
-        data-message-chrome="current"
-      >
+      <PreviewThemeScope family={theme.family} mode={theme.mode} className="h-full">
         <AppShellRoot className="h-full">
           <PlaygroundRail value={railValue} onValueChange={setRailValue} />
           <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">

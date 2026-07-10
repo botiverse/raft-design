@@ -49,7 +49,7 @@ const CASES: readonly MatrixCase[] = [
 
 function PopoverMatrixPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-white text-foreground">
       <div className="grid min-h-screen auto-rows-[minmax(18rem,1fr)] grid-cols-1 gap-px bg-[oklch(0_0_0_/_0.08)] lg:grid-cols-2 2xl:grid-cols-4">
         {THEMES.flatMap((theme) =>
           CASES.map((item) => (
@@ -80,7 +80,7 @@ function MatrixCell({
     <ThemeProvider theme={theme} syncDom={false}>
       <div
         data-theme={theme}
-        className="relative flex min-w-0 items-start justify-center bg-background p-6 pt-12 text-foreground"
+        className="relative flex min-w-0 items-start justify-center bg-white p-6 pt-12 text-foreground"
       >
         <span className="absolute top-4 left-4 font-mono text-[10px] leading-none font-medium tracking-wide text-foreground-placeholder uppercase">
           {label}

@@ -169,7 +169,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
       <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </div>
-      <div className="flex h-[586px] items-stretch justify-start overflow-hidden bg-background p-2">
+      <div className="flex h-[586px] items-stretch justify-start overflow-hidden bg-white p-2">
         {children}
       </div>
     </div>

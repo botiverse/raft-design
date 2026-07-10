@@ -523,8 +523,8 @@ function QuietPreview({ children }: { children: ReactNode }) {
       <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
         <ThemeSwitcher />
       </div>
-      <div className="overflow-clip rounded-lg bg-[oklch(0.991_0_0)] shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]">
-        <PreviewThemeScope className="flex min-h-84 w-full flex-wrap items-center justify-center gap-4 bg-background px-6 py-4 text-foreground">
+      <div className="overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]">
+        <PreviewThemeScope className="flex min-h-84 w-full flex-wrap items-center justify-center gap-4 bg-white px-6 py-4 text-foreground">
           {children}
         </PreviewThemeScope>
       </div>

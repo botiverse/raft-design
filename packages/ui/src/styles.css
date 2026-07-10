@@ -1,36 +1,9 @@
-/* Pure token contract. No legacy action/surface/destructive/component aliases. */
-
 [data-vaul-drawer] {
   touch-action: none;
   will-change: transform;
   transition: transform 0.2s var(--ease-sheet);
   animation-duration: 0.2s;
   animation-timing-function: var(--ease-sheet);
-}
-
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-surface"] {
-  margin-left: 0;
-  overflow: hidden;
-  border-top-left-radius: 0;
-  background: var(--layer-page);
-  box-shadow: none;
-}
-
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-surface-inset"] {
-  padding-left: 0;
-}
-
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-surface-shadow"] {
-  border-top-left-radius: 0;
-  box-shadow: none;
-}
-
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-tabs"],
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-body"],
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-timeline"],
-[data-message-chrome="legacy"] [data-slot="chat-main-panel-footer"] {
-  border-top-left-radius: 0;
-  background: var(--layer-page);
 }
 
 [data-vaul-drawer][data-vaul-snap-points="false"][data-vaul-drawer-direction="bottom"][data-state="open"] {
