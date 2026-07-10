@@ -32,6 +32,7 @@ import {
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
+  ChatThreadPanelFooter,
   ComposerAutocomplete,
   ComposerAutocompleteAside,
   ComposerAutocompleteBadge,
@@ -235,10 +236,13 @@ export function Composer({
   channel,
   label,
   uploads = false,
+  surface = "main",
 }: {
   channel: PlaygroundChannel;
   label: string;
   uploads?: boolean;
+  /** Main chat and thread share this composer; only the footer host differs. */
+  surface?: "main" | "thread";
 }) {
   const [autocomplete, setAutocomplete] = useState<ComposerAutocompleteKind>(null);
 
@@ -250,8 +254,8 @@ export function Composer({
     else if (event.key === "Escape") setAutocomplete(null);
   };
 
-  return (
-    <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
+  const body = (
+    <>
       <ComposerRoot positioned>
         {autocomplete === "mention" ? <MentionAutocomplete channel={channel} /> : null}
         {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
@@ -291,6 +295,18 @@ export function Composer({
           </ChatMainPanelComposerDropOverlayLabel>
         </ChatMainPanelComposerDropOverlay>
       ) : null}
-    </ChatMainPanelFooter>
+    </>
+  );
+
+  if (surface === "thread") {
+    return (
+      <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
+        {body}
+      </ChatThreadPanelFooter>
+    );
+  }
+
+  return (
+    <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>{body}</ChatMainPanelFooter>
   );
 }

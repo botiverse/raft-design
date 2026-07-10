@@ -1,26 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { ChevronDown, ChevronUp, ExternalLink, Search, X } from "lucide-react";
 import {
-  ChevronDown,
-  ChevronUp,
-  ExternalLink,
-  ImagePlus,
-  Paperclip,
-  Search,
-  Send,
-  X,
-} from "lucide-react";
-import {
-  ChatMainPanelComposer,
-  ChatMainPanelComposerActions,
-  ChatMainPanelComposerIconButton,
-  ChatMainPanelComposerInput,
-  ChatMainPanelComposerMeta,
-  ChatMainPanelComposerSubmit,
-  ChatMainPanelComposerToolbar,
   ChatThreadPanelActions,
   ChatThreadPanelBody,
-  ChatThreadPanelFooter,
   ChatThreadPanelHeader,
   ChatThreadPanelParent,
   ChatThreadPanelReplyCount,
@@ -29,7 +12,6 @@ import {
   ChatThreadPanelSearchCount,
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
-  ComposerRoot,
   MessageItem,
   MessageItemBody,
   MessageItemContent,
@@ -40,6 +22,7 @@ import {
   MessageTimelineNotice,
   PanelIconButton,
 } from "raft-ui/wip";
+import { Composer } from "./playground-composer.tsx";
 import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import {
   getPlaygroundActor,
@@ -81,7 +64,6 @@ export function PlaygroundThreadPanel({
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [reply, setReply] = useState("");
   const isDm = channel.kind === "dm";
   const channelLabel = isDm ? `@${channel.name}` : `#${channel.name}`;
 
@@ -158,33 +140,7 @@ export function PlaygroundThreadPanel({
           <div className="h-3" />
         </div>
       </ChatThreadPanelBody>
-      <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
-        <ComposerRoot>
-          <ChatMainPanelComposer>
-            <ChatMainPanelComposerInput
-              aria-label="Message thread"
-              placeholder="Message thread"
-              value={reply}
-              onChange={(event) => setReply(event.target.value)}
-            />
-            <ChatMainPanelComposerToolbar>
-              <ChatMainPanelComposerActions>
-                <ChatMainPanelComposerIconButton aria-label="Attach image">
-                  <ImagePlus />
-                </ChatMainPanelComposerIconButton>
-                <ChatMainPanelComposerIconButton aria-label="Attach file">
-                  <Paperclip />
-                </ChatMainPanelComposerIconButton>
-              </ChatMainPanelComposerActions>
-              <ChatMainPanelComposerMeta>
-                <ChatMainPanelComposerSubmit aria-label="Send" disabled={!reply.trim()}>
-                  <Send />
-                </ChatMainPanelComposerSubmit>
-              </ChatMainPanelComposerMeta>
-            </ChatMainPanelComposerToolbar>
-          </ChatMainPanelComposer>
-        </ComposerRoot>
-      </ChatThreadPanelFooter>
+      <Composer channel={channel} label="Message thread" surface="thread" />
     </ChatThreadPanelRoot>
   );
 }
