@@ -140,8 +140,7 @@ export const chatSidebar = tv({
         sidebarItemMuted: "text-foreground-muted/68",
         sidebarItemDraft: "text-foreground-muted/68",
         sidebarItemBadge: [
-          "min-w-[18px] justify-center rounded-sm px-1 py-px text-[10px] tabular-nums",
-          "ring-2 ring-[var(--sidebar-chrome-bg-color)]",
+          "min-w-[18px] justify-center rounded-sm border-0 px-1 py-px text-[10px] tabular-nums",
         ],
         sidebarFooter: "border-t border-line-subtle p-3",
         sidebarResizeHandle: "hover:bg-layer-muted",
