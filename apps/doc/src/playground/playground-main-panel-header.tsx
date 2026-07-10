@@ -9,7 +9,16 @@ import {
   Square,
   Users,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Status,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
 import {
   ChatMainPanelActions,
   ChatMainPanelHeader,
@@ -51,35 +60,63 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
         </div>
         <ChatMainPanelSubtitle>{channel.subtitle}</ChatMainPanelSubtitle>
       </ChatMainPanelTitleBlock>
-      <ChatMainPanelActions>
-        <PanelIconButton aria-label="Search this channel">
-          <Search />
-        </PanelIconButton>
-        {isMuted ? (
-          <PanelIconButton
-            aria-label="Unmute activity for this channel"
-            className="bg-brutal-orange text-black"
-          >
-            <BellOff />
-          </PanelIconButton>
-        ) : (
-          <PanelIconButton aria-label="Mute activity for this channel">
-            <Bell />
-          </PanelIconButton>
-        )}
-        <PanelIconButton aria-label="Stop all agents in this channel">
-          <Square />
-        </PanelIconButton>
-        <PanelIconButton aria-label="Edit channel">
-          <Settings />
-        </PanelIconButton>
-        <PanelIconButton aria-label="View participants" className="w-auto min-w-7 gap-1.5 px-2.5">
-          <Users />
-          <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-foreground-muted/68">
-            {channel.memberCount}
-          </span>
-        </PanelIconButton>
-      </ChatMainPanelActions>
+      <TooltipProvider delay={650}>
+        <ChatMainPanelActions>
+          <Tooltip>
+            <TooltipTrigger render={<PanelIconButton aria-label="Search this channel" />}>
+              <Search />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Search this channel</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <PanelIconButton
+                  pressed={isMuted}
+                  aria-label={
+                    isMuted ? "Unmute activity for this channel" : "Mute activity for this channel"
+                  }
+                />
+              }
+            >
+              {isMuted ? <BellOff /> : <Bell />}
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              {isMuted ? "Unmute activity for this channel" : "Mute activity for this channel"}
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={<PanelIconButton aria-label="Stop all agents in this channel" />}
+            >
+              <Square />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <PanelIconButton
+                  aria-label="View participants"
+                  className="w-auto min-w-7 gap-1.5 px-2.5"
+                />
+              }
+            >
+              <Users />
+              <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-foreground-muted/68">
+                {channel.memberCount}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">View participants</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger render={<PanelIconButton aria-label="Edit channel" />}>
+              <Settings />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Edit channel</TooltipContent>
+          </Tooltip>
+        </ChatMainPanelActions>
+      </TooltipProvider>
     </ChatMainPanelHeader>
   );
 }
@@ -119,11 +156,16 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
           </ChatMainPanelSubtitle>
         </div>
       </ChatMainPanelTitleBlock>
-      <ChatMainPanelActions>
-        <PanelIconButton aria-label="Mute activity for this DM">
-          <Bell />
-        </PanelIconButton>
-      </ChatMainPanelActions>
+      <TooltipProvider delay={650}>
+        <ChatMainPanelActions>
+          <Tooltip>
+            <TooltipTrigger render={<PanelIconButton aria-label="Mute activity for this DM" />}>
+              <Bell />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Mute activity for this DM</TooltipContent>
+          </Tooltip>
+        </ChatMainPanelActions>
+      </TooltipProvider>
     </ChatMainPanelHeader>
   );
 }

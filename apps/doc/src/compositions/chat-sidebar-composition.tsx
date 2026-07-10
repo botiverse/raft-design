@@ -1,4 +1,4 @@
-import { Bookmark, ChevronRight, MessageSquare, Plus } from "lucide-react";
+import { Bookmark, ChevronRight, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   AppShellMain,
@@ -208,7 +208,7 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemSubtitle>idle</ChatSidebarItemSubtitle>
                           </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
-                            <MessageSquare className="size-3 text-foreground-muted" />
+                            <ChatSidebarItemDraft />
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
                       </ChatSidebarList>

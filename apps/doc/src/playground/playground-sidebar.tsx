@@ -6,7 +6,6 @@ import {
   GitBranch,
   Hash,
   Lock,
-  MessageSquare,
   Plus,
   Search,
 } from "lucide-react";
@@ -170,8 +169,7 @@ function DirectMessageRowContent({
   ) : null;
   const elegantPresence = theme === "elegant" && presence;
   const asidePresence = theme !== "elegant" && presence;
-  const showAside =
-    showBadge || Boolean(asidePresence || row.sidebar.messageIcon || row.sidebar.draft);
+  const showAside = showBadge || Boolean(asidePresence || row.sidebar.draft);
 
   return (
     <>
@@ -202,9 +200,6 @@ function DirectMessageRowContent({
       {showAside ? (
         <ChatSidebarItemAside>
           {asidePresence}
-          {row.sidebar.messageIcon ? (
-            <MessageSquare className="size-3 text-foreground-muted" />
-          ) : null}
           {showBadge ? <ChatSidebarItemBadge>{row.sidebar.badge}</ChatSidebarItemBadge> : null}
           {row.sidebar.draft ? <ChatSidebarItemDraft /> : null}
         </ChatSidebarItemAside>

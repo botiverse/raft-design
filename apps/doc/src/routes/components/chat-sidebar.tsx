@@ -360,7 +360,7 @@ function SourceSidebarPreview() {
                   title="Atlas"
                   description="idle"
                   visual={<User className="size-2.5" />}
-                  aside={<MessageSquare className="size-3 text-black/40" />}
+                  aside={<Pencil className="size-3 text-black/40" />}
                 />
               </SourceSection>
             </div>

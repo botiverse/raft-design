@@ -19,6 +19,8 @@ const panelIconButton = tv({
         "active:shadow-xs",
         "disabled:shadow-brutal-sm",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        "aria-pressed:bg-primary-400 aria-pressed:text-foreground-strong",
+        "aria-pressed:hover:bg-primary-400 aria-pressed:hover:text-foreground-strong",
       ],
       elegant: [
         "size-8 rounded-md border-0 bg-transparent shadow-none",
@@ -26,14 +28,18 @@ const panelIconButton = tv({
         "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
         "active:translate-x-0 active:translate-y-0 active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+        "aria-pressed:bg-[#EEEEED] aria-pressed:text-foreground",
+        "aria-pressed:hover:bg-[#EEEEED] aria-pressed:hover:text-foreground",
       ],
     },
   },
 });
 
-export type PanelIconButtonProps = Omit<ButtonProps, "variant" | "size" | "type">;
+export type PanelIconButtonProps = Omit<ButtonProps, "variant" | "size" | "type"> & {
+  pressed?: boolean;
+};
 
-export function PanelIconButton({ className, ...props }: PanelIconButtonProps) {
+export function PanelIconButton({ className, pressed, ...props }: PanelIconButtonProps) {
   const theme = useThemeFamily();
 
   return (
@@ -42,6 +48,7 @@ export function PanelIconButton({ className, ...props }: PanelIconButtonProps) {
       type="button"
       variant="default"
       size="icon-sm"
+      aria-pressed={pressed}
       className={panelIconButton({ theme, className })}
     />
   );

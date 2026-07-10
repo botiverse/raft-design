@@ -11,7 +11,6 @@ export type PlaygroundSidebarState = {
   muted?: boolean;
   mention?: boolean;
   draft?: boolean;
-  messageIcon?: boolean;
   pinned?: boolean;
 };
 
@@ -617,7 +616,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
     otherActorId: "searchScout",
     subtitle: "Idle — ready for a new research query.",
     topic: "the component-source discovery pass",
-    sidebar: { messageIcon: true },
     opening: "I indexed the source component callsites and grouped them by product capability.",
     reply: "Keep the result handy. We will use it for the next migration batch.",
   }),

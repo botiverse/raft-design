@@ -161,11 +161,13 @@ export const chatSidebar = tv({
         ],
         sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
         sidebarItemIcon: [
-          "relative size-5 text-foreground-muted/68",
+          "relative size-5 items-center justify-center text-foreground-muted/68",
           "[&_svg]:size-4 [&_svg]:stroke-[1.5]",
         ],
-        sidebarItemChannelIcon:
-          "size-3 text-foreground-muted/68 [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
+        sidebarItemChannelIcon: [
+          "size-5 items-center justify-center text-foreground-muted/68",
+          "[&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
+        ],
         sidebarItemSubtitle: "text-foreground/35",
         sidebarItemMeta:
           "font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
