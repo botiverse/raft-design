@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Grid2X2 } from "lucide-react";
+import { Bell, Grid2X2 } from "lucide-react";
+import type { CSSProperties } from "react";
 import { Button, Status, type StatusProps } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -37,6 +39,7 @@ const TOC = [
   { id: "sizes", title: "Sizes" },
   { id: "pulse", title: "Pulse" },
   { id: "attention", title: "Attention" },
+  { id: "notification-trigger", title: "Notification trigger" },
   { id: "customize", title: "Customize" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -127,6 +130,22 @@ const VARIANTS = [
 
 const SIZES = ["xs", "sm", "md", "lg"] as const;
 
+const ATTENTION_PREVIEW_COPY =
+  "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore";
+
+// Maps playground variants to token colors for the content-glow layer
+// (same role as NotificationCenter triggerBellGlow over the bell icon).
+const ATTENTION_GLOW_COLOR: Record<(typeof VARIANTS)[number], string> = {
+  default: "var(--color-gray-400)",
+  primary: "var(--color-primary-400)",
+  information: "var(--color-info-base)",
+  muted: "var(--color-secondary-400)",
+  accent: "var(--color-accent-400)",
+  success: "var(--color-success-base)",
+  warning: "var(--color-warning-base)",
+  danger: "var(--color-danger-base)",
+};
+
 type LegacyStatusDotProps = Parameters<typeof LegacyStatusDot>[0];
 
 function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
@@ -159,14 +178,68 @@ const SNIPPETS = {
 <Status size="sm" variant="primary" pulse />
 <Status size="md" variant="primary" pulse />
 <Status size="lg" variant="primary" pulse />`,
-  attention: `<Status variant="accent" attention />
+  attention: `<Status variant="primary" attention />
+<Status variant="information" attention />
+<Status variant="accent" attention />
+<Status variant="success" attention />
+<Status variant="warning" attention />
+<Status variant="danger" attention />
+
+<Status size="xs" variant="accent" attention />
+<Status size="sm" variant="accent" attention />
+<Status size="md" variant="accent" attention />
+<Status size="lg" variant="accent" attention />
+
 <Status variant="accent" attention pulse />
-<Status size="sm" variant="primary" attention />`,
+<Status size="sm" variant="primary" attention pulse />
+<Status size="lg" variant="success" attention pulse />`,
+  notificationTrigger: `import { Bell } from "lucide-react";
+import { Status } from "raft-ui";
+
+{/* Same stack as NotificationCenterTrigger (elegant):
+    1. base icon
+    2. tinted duplicate + radial mask toward the dot
+    3. Status attention as the unread marker */}
+<span className="relative inline-flex size-9 items-center justify-center">
+  <span className="relative inline-flex size-4 items-center justify-center">
+    <Bell className="size-4 shrink-0 text-foreground-muted" strokeWidth={2} />
+    <Bell
+      aria-hidden
+      className={[
+        "pointer-events-none absolute inset-0 size-4 shrink-0",
+        "text-primary-400",
+        "drop-shadow-[0_0_1px_color-mix(in_oklch,var(--color-primary-400)_82%,transparent)]",
+        "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+      ].join(" ")}
+      strokeWidth={2}
+    />
+  </span>
+  <Status
+    aria-hidden
+    variant="primary"
+    size="sm"
+    attention
+    className="pointer-events-none absolute top-[7px] right-[8px]"
+  />
+</span>`,
   customize: `<Status className="[--status-color:var(--color-brutal-purple-300)]" />
 <Status
   pulse
   className="[--status-color:var(--color-brutal-purple-300)]"
-/>`,
+/>
+<Status
+  attention
+  className="[--status-color:var(--color-brutal-purple-300)]"
+/>
+<Status
+  attention
+  pulse
+  className="[--status-color:var(--color-brutal-purple-300)]"
+/>
+
+<Status className="[--status-color:oklch(0.72_0.14_200)]" />
+<Status attention className="[--status-color:oklch(0.72_0.14_200)]" />
+<Status size="lg" attention pulse className="[--status-color:oklch(0.78_0.12_145)]" />`,
   migrationActivity: `// Source
 <StatusDot activity="online" />
 <StatusDot activity="thinking" />
@@ -330,13 +403,33 @@ function StatusDoc() {
           ]}
           render={(values) =>
             values.attention ? (
-              <span className="relative inline-grid size-28 place-items-center">
+              <span
+                className="relative inline-grid size-28 place-items-center"
+                style={
+                  {
+                    "--status-glow-color": ATTENTION_GLOW_COLOR[values.variant],
+                  } as CSSProperties
+                }
+              >
                 <span
                   aria-hidden
                   className="pointer-events-none col-start-1 row-start-1 max-w-[7rem] text-center text-[9px] leading-[1.15] text-foreground-muted/70"
                 >
-                  lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor
-                  incididunt ut labore
+                  {ATTENTION_PREVIEW_COPY}
+                </span>
+                {/* Content glow — mirrors NotificationCenter triggerBellGlow: tinted
+                    duplicate of the underlying content, masked toward the status. */}
+                <span
+                  aria-hidden
+                  className={[
+                    "pointer-events-none col-start-1 row-start-1 max-w-[7rem] text-center text-[9px] leading-[1.15]",
+                    "text-[var(--status-glow-color)]",
+                    "drop-shadow-[0_0_1px_color-mix(in_oklch,var(--status-glow-color)_82%,transparent)]",
+                    "[mask-image:radial-gradient(circle,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+                    "[-webkit-mask-image:radial-gradient(circle,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+                  ].join(" ")}
+                >
+                  {ATTENTION_PREVIEW_COPY}
                 </span>
                 <Status
                   className="col-start-1 row-start-1"
@@ -395,16 +488,79 @@ function StatusDoc() {
 
       <DocSection id="attention" title="Attention" showThemeSwitcher>
         <Example html={code.attention}>
-          <Status variant="accent" attention />
-          <Status variant="accent" attention pulse />
-          <Status size="sm" variant="primary" attention />
+          <div className="flex w-full flex-col items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Status variant="primary" attention />
+              <Status variant="information" attention />
+              <Status variant="accent" attention />
+              <Status variant="success" attention />
+              <Status variant="warning" attention />
+              <Status variant="danger" attention />
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Status size="xs" variant="accent" attention />
+              <Status size="sm" variant="accent" attention />
+              <Status size="md" variant="accent" attention />
+              <Status size="lg" variant="accent" attention />
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Status variant="accent" attention pulse />
+              <Status size="sm" variant="primary" attention pulse />
+              <Status size="lg" variant="success" attention pulse />
+            </div>
+          </div>
         </Example>
+      </DocSection>
+
+      <DocSection id="notification-trigger" title="Notification trigger" showThemeSwitcher>
+        <div className="space-y-4">
+          <DocNote>
+            <code>attention</code> only styles the dot. The soft wash on the icon comes from a
+            tinted duplicate of the underlying content, masked toward the marker — the same stack as
+            elegant <code>NotificationCenterTrigger</code>.
+          </DocNote>
+          <Example html={code.notificationTrigger}>
+            <span className="relative inline-flex size-9 items-center justify-center">
+              <span className="relative inline-flex size-4 items-center justify-center">
+                <Bell className="size-4 shrink-0 text-foreground-muted" strokeWidth={2} />
+                <Bell
+                  aria-hidden
+                  className={[
+                    "pointer-events-none absolute inset-0 size-4 shrink-0",
+                    "text-primary-400",
+                    "drop-shadow-[0_0_1px_color-mix(in_oklch,var(--color-primary-400)_82%,transparent)]",
+                    "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+                  ].join(" ")}
+                  strokeWidth={2}
+                />
+              </span>
+              <Status
+                aria-hidden
+                variant="primary"
+                size="sm"
+                attention
+                className="pointer-events-none absolute top-[7px] right-[8px]"
+              />
+            </span>
+          </Example>
+        </div>
       </DocSection>
 
       <DocSection id="customize" title="Customize" showThemeSwitcher>
         <Example html={code.customize}>
-          <Status className="[--status-color:var(--color-brutal-purple-300)]" />
-          <Status pulse className="[--status-color:var(--color-brutal-purple-300)]" />
+          <div className="flex w-full flex-col items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Status className="[--status-color:var(--color-brutal-purple-300)]" />
+              <Status pulse className="[--status-color:var(--color-brutal-purple-300)]" />
+              <Status attention className="[--status-color:var(--color-brutal-purple-300)]" />
+              <Status attention pulse className="[--status-color:var(--color-brutal-purple-300)]" />
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Status className="[--status-color:oklch(0.72_0.14_200)]" />
+              <Status attention className="[--status-color:oklch(0.72_0.14_200)]" />
+              <Status size="lg" attention pulse className="[--status-color:oklch(0.78_0.12_145)]" />
+            </div>
+          </div>
         </Example>
       </DocSection>
 

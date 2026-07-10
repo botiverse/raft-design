@@ -14,33 +14,6 @@ const STATUS_STYLE = `
   }
 }
 
-/* Outer soft wash — same mask-image falloff pattern as NotificationCenter triggerBellGlow. */
-[data-slot="status"][data-attention]::after {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 9999px;
-  pointer-events: none;
-  z-index: -1;
-  background: color-mix(in oklch, var(--status-color) 42%, transparent);
-  -webkit-mask-image: radial-gradient(
-    circle,
-    black 0%,
-    black 24%,
-    oklch(0 0 0 / 0.82) 38%,
-    oklch(0 0 0 / 0.38) 58%,
-    transparent 74%
-  );
-  mask-image: radial-gradient(
-    circle,
-    black 0%,
-    black 24%,
-    oklch(0 0 0 / 0.82) 38%,
-    oklch(0 0 0 / 0.38) 58%,
-    transparent 74%
-  );
-}
-
 /* Pulse + attention: animate a bottom-layer ring; leave attention outline untouched. */
 [data-slot="status"][data-attention][data-pulse]:not([data-pulse="false"])::before {
   content: "";
@@ -48,7 +21,7 @@ const STATUS_STYLE = `
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: -2;
+  z-index: -1;
   animation: raft-status-pulse-background 1.4s ease-out infinite;
 }
 
@@ -169,7 +142,7 @@ const status = tv({
         root: [
           "isolate overflow-visible",
           "border border-[color-mix(in_oklch,var(--status-color)_58%,transparent)]",
-          "shadow-[inset_0_0.5px_0.5px_color-mix(in_oklch,oklch(1_0_0)_55%,transparent),0_0_0_2px_color-mix(in_oklch,var(--status-color)_45%,transparent),0_1px_1.5px_color-mix(in_oklch,oklch(0_0_0)_18%,transparent)]",
+          "shadow-[inset_0_0.5px_1px_color-mix(in_oklch,oklch(1_0_0)_55%,transparent),0_0_0_1.5px_color-mix(in_oklch,var(--status-color)_38%,transparent),0_1px_1.5px_color-mix(in_oklch,oklch(0_0_0)_18%,transparent)]",
         ],
       },
     },
