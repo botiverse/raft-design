@@ -37,8 +37,6 @@ import {
   X,
 } from "lucide-react";
 import {
-  Avatar,
-  AvatarFallback,
   Badge,
   ContextMenu,
   ContextMenuContent,
@@ -69,11 +67,9 @@ import {
   SortableTabsList,
   SortableTabsTab,
   Spinner,
-  Status,
   Tabs,
   TabsIndicator,
   TabsLabel,
-  type StatusProps,
 } from "raft-ui";
 import {
   ChatMainPanelBody,
@@ -97,8 +93,6 @@ import {
   MessageImageGalleryRow,
   MessageItem,
   MessageItemAttachments,
-  MessageItemAvatarSlot,
-  MessageItemAvatarStatus,
   MessageItemBadge,
   MessageItemBody,
   MessageItemContent,
@@ -153,6 +147,12 @@ import {
 import { Composer } from "#/playground/playground-composer.tsx";
 import { PlaygroundMainPanelHeader } from "#/playground/playground-main-panel-header.tsx";
 import {
+  PlaygroundMessageAvatar,
+  ProfileCardBody,
+  type PlaygroundAgentStatus,
+  type PlaygroundAvatarVariant,
+} from "#/playground/playground-message-avatar.tsx";
+import {
   ALL_SHOWCASE_THREAD_IDS,
   getPlaygroundActor,
   getPlaygroundThread,
@@ -163,7 +163,7 @@ import {
 } from "./mock/index.ts";
 
 type PanelTab = "chat" | "tasks" | "files";
-export type RowVariant = "member" | "agent";
+export type RowVariant = PlaygroundAvatarVariant;
 
 const TAB_META: Record<PanelTab, { icon: ReactNode; label: string }> = {
   chat: { icon: <MessageSquare />, label: "Chat" },
@@ -258,7 +258,7 @@ function SelfMentionPreview({ children }: { children: ReactNode }) {
       >
         {children}
       </PreviewCardTrigger>
-      <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[280px]">
+      <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
         <ProfileCardBody variant="member" sender="Developer" meta="member" />
       </PreviewCardContent>
     </PreviewCard>
@@ -2093,7 +2093,7 @@ function MessageRow({
   compact?: boolean;
   /** Continuation-row hover gutter clock — 24h `HH:MM`, no AM/PM (matches source `formatClock24`). */
   gutterTime?: string;
-  status?: AgentStatus;
+  status?: PlaygroundAgentStatus;
   deactivated?: boolean;
   saved?: boolean;
   followed?: boolean;
@@ -2138,7 +2138,7 @@ function MessageRow({
           <MessageItemContinuationTime title={gutterTime}>{gutterTime}</MessageItemContinuationTime>
         </MessageItemGutter>
       ) : (
-        <RowAvatar
+        <PlaygroundMessageAvatar
           variant={variant}
           status={status}
           deactivated={deactivated}
@@ -2201,198 +2201,6 @@ function MessageRow({
         />
       </ContextMenu>
     </div>
-  );
-}
-
-// Agent presence activity → Status props (docs StatusDot migration). Avatar
-// dots use theme-aware Status; profile-card chrome below keeps STATUS_DOT for
-// its brutal-only preview card.
-type AgentStatus = "online" | "thinking" | "working" | "error" | "offline" | "external";
-
-const STATUS_CONFIG: Record<
-  AgentStatus,
-  { variant: NonNullable<StatusProps["variant"]>; pulse?: boolean }
-> = {
-  online: { variant: "success" },
-  thinking: { variant: "primary", pulse: true },
-  working: { variant: "primary", pulse: true },
-  error: { variant: "warning" },
-  offline: { variant: "default" },
-  external: { variant: "information" },
-};
-
-// Brutal-only class map for the profile hover-card activity chrome.
-const STATUS_DOT: Record<AgentStatus, string> = {
-  online: "bg-brutal-lime",
-  thinking: "bg-soft-signal animate-pulse",
-  working: "bg-soft-signal animate-pulse",
-  error: "bg-brutal-orange",
-  offline: "bg-gray-400",
-  external: "bg-brutal-cyan",
-};
-
-// Agent presence activity → the profile hover-card's activity text (source
-// displayState.activityText / AgentStatusDot title).
-const STATUS_LABEL: Record<AgentStatus, string> = {
-  online: "Online",
-  thinking: "Thinking…",
-  working: "Working…",
-  error: "Error",
-  offline: "Offline",
-  external: "External",
-};
-
-// Static "RECENT ACTIVITY" trajectory rows for the agent profile card
-// (source MentionHoverActivityPreview).
-const PROFILE_ACTIVITY_ROWS: { time: string; dot: string; text: string }[] = [
-  {
-    time: "08:32:14",
-    dot: "bg-soft-signal animate-pulse",
-    text: "Running visual regression suite",
-  },
-  { time: "08:31:02", dot: "bg-brutal-cyan", text: "Read tokens/colors.css" },
-  { time: "08:30:41", dot: "bg-soft-signal animate-pulse", text: "Thinking about token contract" },
-];
-
-// Profile hover-card body (source ProfilePreviewCardContent): agent variant adds
-// the status dot + activity text + RECENT ACTIVITY block; human variant is just
-// header + description. Rendered inside a DS PreviewCardContent.
-function ProfileCardBody({
-  variant,
-  sender,
-  meta,
-  status = "offline",
-}: {
-  variant: RowVariant;
-  sender: string;
-  meta?: string;
-  status?: AgentStatus;
-}) {
-  const isAgent = variant === "agent";
-  const handle = `@${sender.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
-  return (
-    <>
-      <div className="flex items-start gap-3 px-3 py-3">
-        <Avatar
-          size="md"
-          type={isAgent ? "agent" : "human"}
-          className={`mt-0.5 self-start ${
-            isAgent
-              ? "[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-              : "[[data-preview-theme=brutal]_&]:bg-brutal-lavender"
-          }`}
-        >
-          <AvatarFallback />
-        </Avatar>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
-            <span className="truncate text-sm font-bold text-black">{sender}</span>
-            {isAgent ? (
-              <>
-                <span
-                  aria-hidden
-                  className={`inline-block size-2 shrink-0 rounded-full border border-line-strong ${STATUS_DOT[status]} [[data-preview-theme=brutal]_&]:border-black`}
-                />
-                <span className="truncate font-mono text-xs text-black/60">
-                  {STATUS_LABEL[status]}
-                </span>
-              </>
-            ) : null}
-          </div>
-          <div className="truncate font-mono text-xs text-black/60">{handle}</div>
-        </div>
-      </div>
-      {meta ? (
-        <div className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70">
-          {meta}
-        </div>
-      ) : null}
-      {isAgent ? (
-        <div className="border-t-2 border-black px-3 py-2">
-          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-black/50">
-            Recent activity
-          </div>
-          <div className="space-y-1.5">
-            {PROFILE_ACTIVITY_ROWS.map((row) => (
-              <div
-                key={row.time}
-                className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xs"
-              >
-                <span className="shrink-0 whitespace-nowrap font-mono text-[10px] text-black/40">
-                  {row.time}
-                </span>
-                <span
-                  aria-hidden
-                  className={`inline-block size-2 shrink-0 rounded-full border border-line-strong ${row.dot} [[data-preview-theme=brutal]_&]:border-black`}
-                />
-                <span className="min-w-0 flex-1 truncate text-black/70">{row.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
-}
-
-function RowAvatar({
-  variant,
-  status = "offline",
-  deactivated,
-  sender,
-  meta,
-}: {
-  variant: RowVariant;
-  status?: AgentStatus;
-  deactivated?: boolean;
-  sender?: string;
-  meta?: string;
-}) {
-  const isAgent = variant === "agent";
-  const brutalBg = isAgent
-    ? "[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-    : "[[data-preview-theme=brutal]_&]:bg-brutal-lavender";
-
-  const avatar = (
-    <Avatar
-      size="md"
-      type={isAgent ? "agent" : "human"}
-      className={`${brutalBg} ${deactivated ? "opacity-60 grayscale" : ""}`}
-    >
-      <AvatarFallback />
-      {isAgent && !deactivated ? (
-        <MessageItemAvatarStatus
-          offset="fixed"
-          title={STATUS_LABEL[status]}
-          render={
-            <Status
-              aria-hidden
-              size="lg"
-              variant={STATUS_CONFIG[status].variant}
-              pulse={STATUS_CONFIG[status].pulse}
-            />
-          }
-        />
-      ) : null}
-    </Avatar>
-  );
-
-  // Deactivated / removed senders have no profile card in source.
-  if (deactivated || !sender) {
-    return <MessageItemAvatarSlot>{avatar}</MessageItemAvatarSlot>;
-  }
-
-  return (
-    <MessageItemAvatarSlot>
-      <PreviewCard>
-        <PreviewCardTrigger delay={200} closeDelay={120} render={<button type="button" />}>
-          {avatar}
-        </PreviewCardTrigger>
-        <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[280px]">
-          <ProfileCardBody variant={variant} sender={sender} meta={meta} status={status} />
-        </PreviewCardContent>
-      </PreviewCard>
-    </MessageItemAvatarSlot>
   );
 }
 

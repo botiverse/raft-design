@@ -58,7 +58,7 @@ export const chatSidebar = tv({
       "inline-flex size-4 shrink-0 items-center justify-center",
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
-    sidebarItemAside: ["flex shrink-0 items-center gap-1.5"],
+    sidebarItemAside: ["flex shrink-0 items-center gap-1"],
     sidebarItemBadge: ["shrink-0"],
     sidebarFooter: ["shrink-0"],
     sidebarResizeGroup: [
@@ -174,8 +174,7 @@ export const chatSidebar = tv({
         sidebarItemIndicator: [
           "pointer-events-none absolute top-1/2 right-[calc(100%+8px)] -translate-y-1/2",
         ],
-        sidebarItemMention:
-          "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
+        sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",
         sidebarItemMuted: "text-foreground-icon",
         sidebarItemDraft: "text-foreground-icon",
         sidebarItemBadge: [

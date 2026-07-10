@@ -1,8 +1,9 @@
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
 
 const previewCard = tv({
   slots: {
@@ -86,8 +87,16 @@ export type PreviewCardPopupProps = ComponentPropsWithRef<"div">;
 
 export function PreviewCardPopup({ className, ...props }: PreviewCardPopupProps) {
   const theme = useThemeFamily();
+  const { resolvedMode } = useTheme();
   const { popup } = previewCard({ theme });
-  return <div data-slot="preview-card-content" className={popup({ className })} {...props} />;
+  return (
+    <div
+      data-slot="preview-card-content"
+      data-theme={theme}
+      className={cn(popup({ className }), resolvedMode === "dark" && "dark")}
+      {...props}
+    />
+  );
 }
 
 export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> &
@@ -127,6 +136,7 @@ export function PreviewCardContent({
   ...props
 }: PreviewCardContentProps) {
   const theme = useThemeFamily();
+  const { resolvedMode } = useTheme();
   const { positioner, popup } = previewCard({ theme });
   return (
     <BasePreviewCard.Portal {...portalProps}>
@@ -147,7 +157,8 @@ export function PreviewCardContent({
       >
         <BasePreviewCard.Popup
           data-slot="preview-card-content"
-          className={popup({ className })}
+          data-theme={theme}
+          className={cn(popup({ className }), resolvedMode === "dark" && "dark")}
           {...props}
         />
       </BasePreviewCard.Positioner>

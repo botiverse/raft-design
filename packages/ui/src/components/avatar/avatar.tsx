@@ -13,6 +13,10 @@ import type { StyledProps } from "../../lib/styled-props";
 // is dropped: pass a URL via `<AvatarImage src>` and a custom fallback node via
 // `<AvatarFallback>`.
 //
+// `type` owns identity-keyed placeholder fills under brutal (`agent` → cyan,
+// `human` → lavender), matching source AvatarSlot. Elegant keeps a neutral
+// muted frame for both types.
+//
 // `size` is a compact t-shirt scale distilled from the original call-site
 // contexts: xl profile/detail (64), lg mention/large identity (48), md panel
 // header (36), sm list rows (32), xs compact rows (20), sidebar rows (18), and
@@ -111,15 +115,18 @@ const avatar = tv({
       size: ["xs", "sidebar", "2xs"],
       class: { root: "border" },
     },
+    // Identity-keyed placeholder fills (source AvatarSlot parity): cyan agent /
+    // lavender human. Only visible when fallback content shows; real images
+    // cover the frame edge-to-edge.
     {
       theme: "brutal",
       type: "agent",
-      class: { root: "bg-info-base" },
+      class: { root: "bg-brutal-cyan" },
     },
     {
       theme: "brutal",
       type: "human",
-      class: { root: "bg-brutal-purple text-black" },
+      class: { root: "bg-brutal-lavender text-black" },
     },
     {
       theme: "elegant",

@@ -10,7 +10,6 @@ import {
   Send,
   X,
 } from "lucide-react";
-import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   ChatMainPanelComposer,
   ChatMainPanelComposerActions,
@@ -32,8 +31,6 @@ import {
   ChatThreadPanelTitle,
   ComposerRoot,
   MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemAvatarStatus,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
@@ -43,6 +40,7 @@ import {
   MessageTimelineNotice,
   PanelIconButton,
 } from "raft-ui/wip";
+import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import {
   getPlaygroundActor,
   type PlaygroundChannelRecord,
@@ -50,32 +48,18 @@ import {
   type PlaygroundThread,
 } from "./mock/index.ts";
 
-const BRUTAL_AVATAR_BG = {
-  human: "[[data-preview-theme=brutal]_&]:bg-brutal-lavender",
-  agent: "[[data-preview-theme=brutal]_&]:bg-brutal-cyan",
-};
-
-function ThreadRowAvatar({ type }: { type: "human" | "agent" }) {
-  return (
-    <MessageItemAvatarSlot>
-      <Avatar size="md" type={type} className={BRUTAL_AVATAR_BG[type]}>
-        {type === "agent" ? (
-          <>
-            <AvatarFallback />
-            <MessageItemAvatarStatus render={<Status aria-hidden size="lg" variant="default" />} />
-          </>
-        ) : null}
-      </Avatar>
-    </MessageItemAvatarSlot>
-  );
-}
-
 function ThreadMessage({ message }: { message: PlaygroundMessage }) {
   const actor = getPlaygroundActor(message.authorId);
+  const variant = actor.type === "agent" ? "agent" : "member";
 
   return (
     <MessageItem className="[[data-preview-theme=brutal]_&]:transition-none">
-      <ThreadRowAvatar type={actor.type} />
+      <PlaygroundMessageAvatar
+        variant={variant}
+        sender={actor.name}
+        meta={actor.meta}
+        status={actor.type === "agent" ? "online" : "offline"}
+      />
       <MessageItemContent>
         <MessageItemHeader>
           <MessageItemSender>{actor.name}</MessageItemSender>

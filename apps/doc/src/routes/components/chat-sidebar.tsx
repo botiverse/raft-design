@@ -110,8 +110,8 @@ import {
                     <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
                     <ChatSidebarItemMuted />
                   </ChatSidebarItemText>
-                  <ChatSidebarItemMention />
                   <ChatSidebarItemAside>
+                    <ChatSidebarItemMention />
                     <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
                     <ChatSidebarItemDraft />
                   </ChatSidebarItemAside>

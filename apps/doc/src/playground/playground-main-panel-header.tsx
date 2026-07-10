@@ -130,11 +130,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
 
   return (
     <ChatMainPanelHeader>
-      <Avatar
-        size="md"
-        type={actor.type}
-        className="[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-      >
+      <Avatar size="md" type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
         <AvatarFallback>{actor.fallback}</AvatarFallback>
       </Avatar>

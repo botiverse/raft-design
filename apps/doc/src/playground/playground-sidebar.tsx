@@ -115,7 +115,7 @@ function ChannelRowContent({
   hideBadge?: boolean;
 }) {
   const showBadge = row.sidebar.badge && !hideBadge;
-  const showAside = showBadge || row.sidebar.draft;
+  const showAside = showBadge || row.sidebar.draft || row.sidebar.mention;
 
   return (
     <>
@@ -124,9 +124,9 @@ function ChannelRowContent({
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
       </ChatSidebarItemInlineText>
-      {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
       {showAside ? (
         <ChatSidebarItemAside>
+          {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
           {showBadge ? <ChatSidebarItemBadge>{row.sidebar.badge}</ChatSidebarItemBadge> : null}
           {row.sidebar.draft ? <ChatSidebarItemDraft /> : null}
         </ChatSidebarItemAside>
@@ -165,7 +165,10 @@ function DirectMessageRowContent({
   const actor = getPlaygroundDmActor(row);
   const showBadge = Boolean(row.sidebar.badge && !hideBadge);
   const showAside =
-    showBadge || Boolean(row.sidebar.draft) || (theme === "brutal" && Boolean(actor.presence));
+    showBadge ||
+    Boolean(row.sidebar.draft) ||
+    Boolean(row.sidebar.mention) ||
+    (theme === "brutal" && Boolean(actor.presence));
 
   return (
     <>
@@ -175,11 +178,7 @@ function DirectMessageRowContent({
             <DirectMessageStatus status={actor.presence} size="sm" />
           </ChatSidebarItemPresence>
         ) : null}
-        <Avatar
-          size="sidebar"
-          type={actor.type}
-          className="[[data-preview-theme=brutal]_&]:bg-brutal-cyan"
-        >
+        <Avatar size="sidebar" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
             <AvatarFallback className="text-[9px] font-bold">{actor.fallback}</AvatarFallback>
@@ -196,9 +195,9 @@ function DirectMessageRowContent({
         <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
         {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
       </ChatSidebarItemInlineText>
-      {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
       {showAside ? (
         <ChatSidebarItemAside>
+          {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
           {actor.presence ? (
             <ChatSidebarItemPresence slot="aside">
               <DirectMessageStatus status={actor.presence} size="md" />

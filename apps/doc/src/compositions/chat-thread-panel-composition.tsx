@@ -86,11 +86,7 @@ export function ChatThreadPanelComposition() {
       <ChatThreadPanelParent>
         <MessageItem>
           <MessageItemAvatarSlot>
-            <Avatar
-              size="md"
-              type="human"
-              className="[[data-preview-theme=brutal]_&]:bg-brutal-lavender"
-            />
+            <Avatar size="md" type="human" />
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>

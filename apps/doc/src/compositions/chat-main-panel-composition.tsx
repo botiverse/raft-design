@@ -160,11 +160,7 @@ export function ChatMainPanelComposition() {
                 <div style={{ contain: "layout style", overflow: "clip visible" }}>
                   <MessageItem className="[[data-preview-theme=brutal]_&]:transition-none">
                     <MessageItemAvatarSlot>
-                      <Avatar
-                        size="md"
-                        type="human"
-                        className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-lavender [[data-preview-theme=brutal]_&]:text-black"
-                      />
+                      <Avatar size="md" type="human" />
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>
@@ -202,11 +198,7 @@ export function ChatMainPanelComposition() {
                 <div style={{ contain: "layout style", overflow: "clip visible" }}>
                   <MessageItem className="[[data-preview-theme=brutal]_&]:transition-none">
                     <MessageItemAvatarSlot>
-                      <Avatar
-                        size="md"
-                        type="agent"
-                        className="[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-brutal-cyan [[data-preview-theme=brutal]_&]:text-black"
-                      />
+                      <Avatar size="md" type="agent" />
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>

@@ -159,8 +159,10 @@ export function ChatSidebarComposition() {
                           <ChatSidebarItemText>
                             <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
                           </ChatSidebarItemText>
-                          <ChatSidebarItemMention />
-                          <ChatSidebarItemBadge className="ml-auto">12</ChatSidebarItemBadge>
+                          <ChatSidebarItemAside>
+                            <ChatSidebarItemMention />
+                            <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
+                          </ChatSidebarItemAside>
                         </ChatSidebarItem>
                         <ChatSidebarItem type="button">
                           <ChatSidebarItemChannelIcon />
