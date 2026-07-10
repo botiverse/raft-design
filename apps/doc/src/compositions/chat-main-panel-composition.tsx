@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { Avatar, Checkbox, SortableTabsList, SortableTabsTab, Tabs, TabsLabel } from "raft-ui";
 import {
-  ChatMainPanelAction,
   ChatMainPanelActions,
   ChatMainPanelBody,
   ChatMainPanelComposer,
@@ -41,6 +40,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageTimelineNotice,
+  PanelIconButton,
 } from "raft-ui/wip";
 
 export function ChatMainPanelComposition() {
@@ -55,21 +55,21 @@ export function ChatMainPanelComposition() {
           <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
         </ChatMainPanelTitleBlock>
         <ChatMainPanelActions>
-          <ChatMainPanelAction aria-label="Search conversation">
+          <PanelIconButton aria-label="Search conversation">
             <Search />
-          </ChatMainPanelAction>
-          <ChatMainPanelAction aria-label="Mute channel activity">
+          </PanelIconButton>
+          <PanelIconButton aria-label="Mute channel activity">
             <Bell />
-          </ChatMainPanelAction>
-          <ChatMainPanelAction aria-label="Stop all agents in this channel">
+          </PanelIconButton>
+          <PanelIconButton aria-label="Stop all agents in this channel">
             <Square />
-          </ChatMainPanelAction>
-          <ChatMainPanelAction aria-label="Channel options">
+          </PanelIconButton>
+          <PanelIconButton aria-label="Channel options">
             <Settings />
-          </ChatMainPanelAction>
-          <ChatMainPanelAction aria-label="Channel members">
+          </PanelIconButton>
+          <PanelIconButton aria-label="Channel members">
             <Users />
-          </ChatMainPanelAction>
+          </PanelIconButton>
         </ChatMainPanelActions>
       </ChatMainPanelHeader>
       <ChatMainPanelTabs render={<Tabs value="chat" />}>

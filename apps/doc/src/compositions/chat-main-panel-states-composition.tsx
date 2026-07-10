@@ -1,8 +1,6 @@
 import { ArrowDown, FileText, Paperclip, Send, X } from "lucide-react";
-import { Spinner } from "raft-ui";
+import { Banner, BannerAction, BannerDescription, Button, Spinner } from "raft-ui";
 import {
-  ChatMainPanelAlert,
-  ChatMainPanelAlertAction,
   ChatMainPanelBody,
   ChatMainPanelComposer,
   ChatMainPanelComposerAttachment,
@@ -35,12 +33,18 @@ export const COMPOSER_IMAGE_SRC =
 export function ChatMainPanelStatesComposition() {
   return (
     <ChatMainPanelRoot>
-      <ChatMainPanelAlert role="alert">
-        <span>Couldn&apos;t update Activity mute for this channel.</span>
-        <ChatMainPanelAlertAction aria-label="Dismiss Activity mute error">
-          <X />
-        </ChatMainPanelAlertAction>
-      </ChatMainPanelAlert>
+      <Banner
+        status="warning"
+        size="sm"
+        className="shrink-0 rounded-none border-x-0 border-t-0 px-5 py-2"
+      >
+        <BannerDescription>Couldn&apos;t update Activity mute for this channel.</BannerDescription>
+        <BannerAction>
+          <Button variant="default" size="icon-xs" aria-label="Dismiss Activity mute error">
+            <X />
+          </Button>
+        </BannerAction>
+      </Banner>
       <ChatMainPanelBody>
         <ChatMainPanelTimeline>
           <ChatMainPanelMessageList>

@@ -89,7 +89,6 @@ import {
   TabsLabel,
 } from "raft-ui";
 import {
-  ChatMainPanelAction,
   ChatMainPanelActions,
   ChatMainPanelBody,
   ChatMainPanelComposer,
@@ -167,6 +166,7 @@ import {
   MessageTimelineDateDivider,
   MessageTimelineHistoryLimited,
   MessageTimelineNotice,
+  PanelIconButton,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
@@ -615,36 +615,33 @@ function ChannelHeader({ channel }: { channel: PlaygroundChannel }) {
         <ChatMainPanelSubtitle>{channel.subtitle}</ChatMainPanelSubtitle>
       </ChatMainPanelTitleBlock>
       <ChatMainPanelActions>
-        <ChatMainPanelAction aria-label="Search this channel">
+        <PanelIconButton aria-label="Search this channel">
           <Search />
-        </ChatMainPanelAction>
+        </PanelIconButton>
         {isMuted ? (
-          <ChatMainPanelAction
+          <PanelIconButton
             aria-label="Unmute activity for this channel"
             className="bg-brutal-orange text-black"
           >
             <BellOff />
-          </ChatMainPanelAction>
+          </PanelIconButton>
         ) : (
-          <ChatMainPanelAction aria-label="Mute activity for this channel">
+          <PanelIconButton aria-label="Mute activity for this channel">
             <Bell />
-          </ChatMainPanelAction>
+          </PanelIconButton>
         )}
-        <ChatMainPanelAction aria-label="Stop all agents in this channel">
+        <PanelIconButton aria-label="Stop all agents in this channel">
           <Square />
-        </ChatMainPanelAction>
-        <ChatMainPanelAction aria-label="Edit channel">
+        </PanelIconButton>
+        <PanelIconButton aria-label="Edit channel">
           <Settings />
-        </ChatMainPanelAction>
-        <ChatMainPanelAction
-          aria-label="View participants"
-          className="w-auto min-w-7 gap-1.5 px-2.5"
-        >
+        </PanelIconButton>
+        <PanelIconButton aria-label="View participants" className="w-auto min-w-7 gap-1.5 px-2.5">
           <Users />
           <span className="min-w-[1ch] text-center font-mono text-[11px] font-bold leading-none tabular-nums">
             7
           </span>
-        </ChatMainPanelAction>
+        </PanelIconButton>
       </ChatMainPanelActions>
     </ChatMainPanelHeader>
   );
@@ -675,9 +672,9 @@ function DmHeader({ channel }: { channel: PlaygroundChannel }) {
         </div>
       </ChatMainPanelTitleBlock>
       <ChatMainPanelActions>
-        <ChatMainPanelAction aria-label="Mute activity for this DM">
+        <PanelIconButton aria-label="Mute activity for this DM">
           <Bell />
-        </ChatMainPanelAction>
+        </PanelIconButton>
       </ChatMainPanelActions>
     </ChatMainPanelHeader>
   );

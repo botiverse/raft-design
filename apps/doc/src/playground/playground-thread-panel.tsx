@@ -19,7 +19,6 @@ import {
   ChatMainPanelComposerMeta,
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
-  ChatThreadPanelAction,
   ChatThreadPanelActions,
   ChatThreadPanelBody,
   ChatThreadPanelFooter,
@@ -40,6 +39,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageTimelineNotice,
+  PanelIconButton,
 } from "raft-ui/wip";
 import type { PlaygroundChannel, PlaygroundChannelId } from "./mock-data.ts";
 
@@ -217,22 +217,22 @@ export function PlaygroundThreadPanel({ channel }: { channel: PlaygroundChannel 
           </span>
         </ChatThreadPanelTitle>
         <ChatThreadPanelActions>
-          <ChatThreadPanelAction aria-label="Search in thread" onClick={() => setSearchOpen(true)}>
+          <PanelIconButton aria-label="Search in thread" onClick={() => setSearchOpen(true)}>
             <Search />
-          </ChatThreadPanelAction>
-          <ChatThreadPanelAction
+          </PanelIconButton>
+          <PanelIconButton
             aria-label="View in channel"
             className="text-xs sm:w-auto sm:gap-1.5 sm:px-2.5"
           >
             <ExternalLink />
             <span className="hidden sm:inline">View in channel</span>
-          </ChatThreadPanelAction>
-          <ChatThreadPanelAction
+          </PanelIconButton>
+          <PanelIconButton
             aria-label="Close thread"
             render={<Link to="/playground/$channelId" params={{ channelId: channel.id }} />}
           >
             <X />
-          </ChatThreadPanelAction>
+          </PanelIconButton>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
       {searchOpen ? (
@@ -245,18 +245,15 @@ export function PlaygroundThreadPanel({ channel }: { channel: PlaygroundChannel 
             onChange={(event) => setSearchQuery(event.target.value)}
           />
           <ChatThreadPanelSearchCount />
-          <ChatThreadPanelAction aria-label="Previous match" disabled={!searchQuery}>
+          <PanelIconButton aria-label="Previous match" disabled={!searchQuery}>
             <ChevronUp />
-          </ChatThreadPanelAction>
-          <ChatThreadPanelAction aria-label="Next match" disabled={!searchQuery}>
+          </PanelIconButton>
+          <PanelIconButton aria-label="Next match" disabled={!searchQuery}>
             <ChevronDown />
-          </ChatThreadPanelAction>
-          <ChatThreadPanelAction
-            aria-label="Close thread search"
-            onClick={() => setSearchOpen(false)}
-          >
+          </PanelIconButton>
+          <PanelIconButton aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
             <X />
-          </ChatThreadPanelAction>
+          </PanelIconButton>
         </ChatThreadPanelSearch>
       ) : null}
       <ChatThreadPanelParent>
