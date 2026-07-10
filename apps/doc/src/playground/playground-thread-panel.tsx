@@ -30,6 +30,7 @@ import {
   ChatThreadPanelSearchCount,
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
+  ComposerStack,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -188,7 +189,7 @@ export function PlaygroundThreadPanel({
         </div>
       </ChatThreadPanelBody>
       <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
-        <div className="flex w-full flex-col gap-2">
+        <ComposerStack>
           <ChatMainPanelComposer>
             <ChatMainPanelComposerInput
               aria-label="Message thread"
@@ -212,7 +213,7 @@ export function PlaygroundThreadPanel({
               </ChatMainPanelComposerMeta>
             </ChatMainPanelComposerToolbar>
           </ChatMainPanelComposer>
-        </div>
+        </ComposerStack>
       </ChatThreadPanelFooter>
     </ChatThreadPanelRoot>
   );

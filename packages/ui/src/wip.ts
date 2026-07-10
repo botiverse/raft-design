@@ -1,4 +1,8 @@
 export {
+  AppMobileBarIcon,
+  AppMobileBarItem,
+  AppMobileBarLabel,
+  AppMobileBarList,
   AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
@@ -51,6 +55,7 @@ export {
   ComposerAutocompleteItem,
   ComposerAutocompleteMeta,
   ComposerAutocompleteTitle,
+  ComposerStack,
   ComposerTaskLabel,
   ComposerTaskToggle,
   ChatMainPanelFooter,
@@ -120,6 +125,10 @@ export {
   ChatSidebarSectionTitle,
 } from "./components/chat-shell/index";
 export type {
+  AppMobileBarIconProps,
+  AppMobileBarItemProps,
+  AppMobileBarLabelProps,
+  AppMobileBarListProps,
   AppPanelResizeHandleProps,
   AppPanelStackContentProps,
   AppPanelStackItemProps,
@@ -172,6 +181,7 @@ export type {
   ComposerAutocompleteMetaProps,
   ComposerAutocompleteProps,
   ComposerAutocompleteTitleProps,
+  ComposerStackProps,
   ComposerTaskLabelProps,
   ComposerTaskToggleProps,
   ChatMainPanelFooterProps,

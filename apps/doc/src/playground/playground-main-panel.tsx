@@ -2127,21 +2127,12 @@ function MessageRow({
 
   const effectiveRowState = selectMode ? "select" : rowState;
 
-  // Persist the hover look while this row's context menu is open (source
-  // MessageItem.tsx:3692-3693 `ctxMenu` → `border-2 border-black bg-white`).
-  // Highlight/active rows keep their own rowState (source precedence: isHighlighted
-  // wins over ctxMenu), so only plain rows opt in. Scoped brutal; elegant is
-  // driven by the DS component's own open state and left untouched.
-  const menuOpenRowClass =
-    menuOpen && !rowState
-      ? "[[data-preview-theme=brutal]_&]:border-black [[data-preview-theme=brutal]_&]:bg-white"
-      : "";
-
   const messageItem = (
     <MessageItem
       compact={compact}
+      menuOpen={menuOpen && !rowState}
       rowState={effectiveRowState}
-      className={`[[data-preview-theme=brutal]_&]:transition-none ${menuOpenRowClass}`}
+      className="[[data-preview-theme=brutal]_&]:transition-none"
     >
       {selectMode ? (
         <MessageItemSelectMark

@@ -122,7 +122,7 @@ export const chatSidebar = tv({
         sidebarContent: "px-[22px]",
         sidebarMenu: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[6px]",
-          "text-[12px] leading-none font-[400] normal-case tracking-normal",
+          "text-[12px] leading-none font-normal normal-case tracking-normal",
           "text-foreground-muted",
           "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground-strong",
           "active:text-foreground-strong",
@@ -133,8 +133,8 @@ export const chatSidebar = tv({
           "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
         sidebarSectionButton: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[6px] text-[12px] font-medium leading-none normal-case tracking-normal",
-          "text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
-          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-[var(--foreground)]",
+          "text-foreground-muted/76",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
         ],
         sidebarSectionCount:
           "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
@@ -145,24 +145,23 @@ export const chatSidebar = tv({
           "relative -mx-[6px] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between px-0",
         sidebarItem: [
           "relative mb-0.5 -mx-[6px] w-[calc(100%+12px)] rounded-md border border-transparent px-[6px] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
-          "text-[13px] font-medium text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
+          "text-[13px] font-medium text-foreground-muted/76",
           "has-[[data-slot=chat-sidebar-item-badge]]:text-foreground-muted",
           "hover:border-transparent hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground-strong",
           "active:border-transparent active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground-strong",
           "data-[selected=true]:border-transparent data-[selected=true]:bg-white",
           "data-[selected=true]:text-foreground",
-          "data-[selected=true]:shadow-xs data-[selected=true]:ring-1 data-[selected=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "data-[selected=true]:shadow-xs data-[selected=true]:ring-1 data-[selected=true]:ring-line-subtle/30",
           "data-[menu-open=true]:border-transparent data-[menu-open=true]:bg-white",
-          "data-[menu-open=true]:shadow-xs data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "data-[menu-open=true]:shadow-xs data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-line-subtle/30",
         ],
         sidebarItemTitle: [
-          "font-[400]",
+          "font-normal",
           "[[data-slot=chat-sidebar-item]:has([data-slot=chat-sidebar-item-badge])_&]:font-[450]",
         ],
-        sidebarItemIcon:
-          "size-5 text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4 [&_svg]:stroke-[1.5]",
+        sidebarItemIcon: "size-5 text-foreground-muted/68 [&_svg]:size-4 [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
-          "size-3 text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
+          "size-3 text-foreground-muted/68 [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
         sidebarItemSubtitle: "text-foreground/35",
         sidebarItemMeta:
           "font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
@@ -183,6 +182,7 @@ export const chatSidebar = tv({
 });
 
 export const chatSidebarItemInlineText = tv({
+  base: ["min-w-0"],
   variants: {
     align: {
       baseline: "",

@@ -1,5 +1,11 @@
-import { AppShellMobileBar } from "raft-ui/wip";
 import { CheckSquare, Home, Settings, Users, type LucideIcon } from "lucide-react";
+import {
+  AppMobileBarIcon,
+  AppMobileBarItem,
+  AppMobileBarLabel,
+  AppMobileBarList,
+  AppShellMobileBar,
+} from "raft-ui/wip";
 
 // Source mobile bar is a level-1 tab bar: Home / Tasks / Members / Settings.
 // Search is a Home drill-in and Computers lives under Settings, so neither is a
@@ -26,26 +32,18 @@ export function PlaygroundMobileBar({
       // Cap the safe-area inset at the iPhone home-indicator height, as in source.
       style={{ paddingBottom: "min(env(safe-area-inset-bottom, 0px), 34px)" }}
     >
-      <div className="flex">
-        {MOBILE_TABS.map(({ value: tabValue, label, Icon }, index) => (
-          <button
+      <AppMobileBarList>
+        {MOBILE_TABS.map(({ value: tabValue, label, Icon }) => (
+          <AppMobileBarItem
             key={tabValue}
-            type="button"
-            aria-pressed={value === tabValue}
+            selected={value === tabValue}
             onClick={() => onValueChange(tabValue)}
-            className={[
-              "flex flex-1 flex-col items-center justify-center gap-0.5 py-2",
-              "text-[10px] font-bold tracking-wider transition-colors",
-              "[@media(max-height:600px)]:min-h-9",
-              index < MOBILE_TABS.length - 1 ? "border-r-2 border-black" : "",
-              value === tabValue ? "bg-soft-signal" : "bg-white active:bg-black/5",
-            ].join(" ")}
           >
-            <Icon size={18} className="[@media(max-height:600px)]:hidden" />
-            {label}
-          </button>
+            <AppMobileBarIcon render={<Icon size={18} />} />
+            <AppMobileBarLabel>{label}</AppMobileBarLabel>
+          </AppMobileBarItem>
         ))}
-      </div>
+      </AppMobileBarList>
     </AppShellMobileBar>
   );
 }

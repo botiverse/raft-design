@@ -12,14 +12,22 @@ import {
 } from "./recipe";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
-  Pick<MessageItemVariantProps, "compact"> & {
+  Pick<MessageItemVariantProps, "compact" | "menuOpen"> & {
     rowState?: MessageItemRowState;
   };
 
-export function MessageItem({ className, compact, render, rowState, ...props }: MessageItemProps) {
+export function MessageItem({
+  className,
+  compact,
+  menuOpen,
+  render,
+  rowState,
+  ...props
+}: MessageItemProps) {
   const theme = useThemeFamily();
-  const { root } = messageItem({ compact, rowState, theme });
+  const { root } = messageItem({ compact, menuOpen, rowState, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-menu-open": menuOpen ? "true" : undefined,
     "data-row-state": rowState,
     className: root({ className }),
   };

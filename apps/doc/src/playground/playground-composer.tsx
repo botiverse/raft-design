@@ -42,6 +42,7 @@ import {
   ComposerAutocompleteItem,
   ComposerAutocompleteMeta,
   ComposerAutocompleteTitle,
+  ComposerStack,
   ComposerTaskLabel,
   ComposerTaskToggle,
 } from "raft-ui/wip";
@@ -251,7 +252,7 @@ export function Composer({
 
   return (
     <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-      <div className="relative flex w-full flex-col gap-2">
+      <ComposerStack positioned>
         {autocomplete === "mention" ? <MentionAutocomplete channel={channel} /> : null}
         {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
         {uploads ? <ComposerAttachments /> : null}
@@ -282,7 +283,7 @@ export function Composer({
             </ChatMainPanelComposerMeta>
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
-      </div>
+      </ComposerStack>
       {uploads ? (
         <ChatMainPanelComposerDropOverlay aria-hidden>
           <ChatMainPanelComposerDropOverlayLabel>

@@ -169,7 +169,7 @@ export const chatMainPanel = tv({
         composerActions: "gap-1.5",
         composerIconButton: [
           "size-8 rounded-none border-0 bg-transparent p-0 shadow-none",
-          "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4",
+          "text-foreground-muted/68 [&_svg]:size-4",
           "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
           "active:translate-x-0 active:translate-y-0 active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
@@ -177,7 +177,7 @@ export const chatMainPanel = tv({
         composerSubmit: [
           "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
           "bg-accent-400 text-sm font-medium text-white",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_oklch(0.749_0.162_0.71)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
           "hover:bg-accent-hover",
           "active:translate-x-0 active:translate-y-0 active:scale-[0.985]",
           "[&_svg]:size-4",

@@ -1,4 +1,17 @@
 export {
+  AppMobileBarIcon,
+  AppMobileBarItem,
+  AppMobileBarLabel,
+  AppMobileBarList,
+} from "./app-mobile-bar";
+export type {
+  AppMobileBarIconProps,
+  AppMobileBarItemProps,
+  AppMobileBarLabelProps,
+  AppMobileBarListProps,
+} from "./app-mobile-bar";
+
+export {
   AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
@@ -157,6 +170,9 @@ export type {
   ComposerAutocompleteProps,
   ComposerAutocompleteTitleProps,
 } from "./composer-autocomplete";
+
+export { ComposerStack } from "./composer-stack";
+export type { ComposerStackProps } from "./composer-stack";
 
 export { ComposerTaskLabel, ComposerTaskToggle } from "./composer-task";
 export type { ComposerTaskLabelProps, ComposerTaskToggleProps } from "./composer-task";

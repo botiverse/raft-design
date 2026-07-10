@@ -166,7 +166,7 @@ export const messageItem = tv({
       default: {
         badge: [
           "!h-[20px] !border-0 !bg-transparent !px-0 !py-0 !shadow-none !ring-0",
-          "text-[12px] tracking-[-0.01em] text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",
+          "text-[12px] tracking-[-0.01em] text-foreground-muted/76",
           "hover:!bg-transparent hover:text-foreground-strong",
         ],
       },
@@ -210,25 +210,24 @@ export const messageItem = tv({
           "px-7 py-3.5",
           "hover:bg-[color-mix(in_oklch,#EEEEED_35%,transparent)] active:bg-layer-muted/90",
         ],
-        continuationTime:
-          "text-transparent group-hover/message:text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        continuationTime: "text-transparent group-hover/message:text-foreground-muted/60",
         header: "items-baseline gap-1.5",
         sender: "text-[14px] font-medium leading-none text-foreground-muted",
         senderState: [
           "border border-line-strong bg-gray-300 px-1.5 py-0.5",
           "text-[10px] font-bold uppercase leading-none text-foreground/60",
         ],
-        meta: "font-sans text-[12px] leading-none text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
-        time: "font-sans text-[12px] leading-none tabular-nums text-[color-mix(in_oklch,var(--foreground-muted)_60%,transparent)]",
+        meta: "font-sans text-[12px] leading-none text-foreground-muted/60",
+        time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted/60",
         body: "mt-1.5 mb-1.5 text-[15px] leading-[22.5px] tracking-[-0.01em] text-foreground-muted select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
         toolbar: [
           "top-1 right-[calc(1.75rem-2px)]",
           "gap-[2px] rounded-sm px-1 py-[2px]",
-          "bg-[var(--layer-popover)] shadow-xs ring-1 ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
+          "bg-layer-popover shadow-xs ring-1 ring-line-subtle/30",
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent !p-0",
-          "text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
+          "text-foreground-muted/68 hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
           "data-[saved=true]:text-primary-400 data-[saved=true]:hover:text-primary-400",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
@@ -255,6 +254,10 @@ export const messageItem = tv({
         ],
       },
     },
+    menuOpen: {
+      true: {},
+      false: {},
+    },
     compact: {
       true: {
         root: "mt-0 min-h-0 py-[2px]",
@@ -267,6 +270,13 @@ export const messageItem = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      menuOpen: true,
+      class: { root: "border-black bg-white" },
+    },
+  ],
 });
 
 export type MessageItemVariantProps = VariantProps<typeof messageItem>;

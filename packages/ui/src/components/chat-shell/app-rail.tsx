@@ -64,7 +64,7 @@ const appRail = tv({
         footer: "h-auto gap-1.5 px-2 pb-2",
         item: [
           "size-auto min-w-9 p-3 rounded-md border border-transparent",
-          "text-[13px] text-[color-mix(in_oklch,var(--foreground-muted)_68%,transparent)] [&_svg]:size-4",
+          "text-[13px] text-foreground-muted/68 [&_svg]:size-4",
           "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
           "active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
           "data-[selected=true]:border-transparent data-[selected=true]:bg-[#EEEEED]",
@@ -73,7 +73,7 @@ const appRail = tv({
         ],
         itemBadge: [
           "rounded-full border-0 bg-primary-400 text-white",
-          "px-1 [font-family:var(--mono-font)] text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
+          "px-1 font-mono text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
           "ring-2 ring-[var(--sidebar-chrome-bg-color)]",
         ],
         itemIndicator: "size-2 rounded-full border border-primary-500/58 bg-primary-400",
