@@ -57,6 +57,7 @@ import {
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarHeader,
+  ChatSidebarHeaderTitle,
   ChatSidebarItem,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
@@ -430,9 +431,9 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
       <ChatSidebarRoot>
         <ChatSidebarHeader>
           <div className="min-w-0 flex-1">
-            <div className="truncate font-heading text-[17px] font-medium leading-tight tabular-nums text-foreground-muted">
+            <ChatSidebarHeaderTitle className="leading-tight tabular-nums">
               Chat
-            </div>
+            </ChatSidebarHeaderTitle>
           </div>
           <SidebarAddMenu
             onCreateChannel={() => setDialog("create-channel")}

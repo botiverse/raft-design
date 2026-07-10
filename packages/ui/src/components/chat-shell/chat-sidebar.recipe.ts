@@ -4,6 +4,7 @@ export const chatSidebar = tv({
   slots: {
     sidebarRoot: ["flex h-full min-h-0 w-full select-none flex-col"],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
+    sidebarHeaderTitle: ["truncate text-lg font-bold text-foreground-strong"],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
     sidebarContent: ["flex-1 overflow-x-hidden overflow-y-auto px-2 py-3"],
     sidebarMenu: [
@@ -112,10 +113,12 @@ export const chatSidebar = tv({
           "rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white",
         ],
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
+        sidebarResizePanel: "has-[>[data-slot=app-shell-sidebar]]:bg-brutal-cream",
         sidebarResizeHandle: "hover:bg-black/10",
       },
       elegant: {
         sidebarHeader: "h-14 border-b-0 px-[22px]",
+        sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
         sidebarBody: "bg-[var(--sidebar-chrome-bg-color)]",
         sidebarContent: "px-[22px]",
         sidebarMenu: [
@@ -172,6 +175,8 @@ export const chatSidebar = tv({
           "min-w-[18px] justify-center rounded-sm border-0 px-1 py-px text-[10px] tabular-nums",
         ],
         sidebarFooter: "border-t border-line-subtle p-3",
+        sidebarResizePanel:
+          "has-[>[data-slot=app-shell-sidebar]]:bg-[var(--sidebar-chrome-bg-color)]",
         sidebarResizeHandle: "hover:bg-layer-muted",
       },
     },

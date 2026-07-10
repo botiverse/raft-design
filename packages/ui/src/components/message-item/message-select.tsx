@@ -2,8 +2,10 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type CSSProperties,
   type ReactNode,
@@ -46,37 +48,52 @@ export function MessageSelect({
   const active = controlledActive ?? uncontrolledActive;
   const selected = controlledSelected ?? uncontrolledSelected;
 
-  const setActive = (next: boolean) => {
-    if (controlledActive === undefined) setUncontrolledActive(next);
-    onActiveChange?.(next);
-  };
+  const setActive = useCallback(
+    (next: boolean) => {
+      if (controlledActive === undefined) setUncontrolledActive(next);
+      onActiveChange?.(next);
+    },
+    [controlledActive, onActiveChange],
+  );
 
-  const setSelected = (next: ReadonlySet<string>) => {
-    if (controlledSelected === undefined) setUncontrolledSelected(next);
-    onSelectedChange?.(next);
-  };
+  const setSelected = useCallback(
+    (next: ReadonlySet<string>) => {
+      if (controlledSelected === undefined) setUncontrolledSelected(next);
+      onSelectedChange?.(next);
+    },
+    [controlledSelected, onSelectedChange],
+  );
 
-  const enter = (id: string) => {
-    setActive(true);
-    setSelected(new Set([id]));
-  };
+  const enter = useCallback(
+    (id: string) => {
+      setActive(true);
+      setSelected(new Set([id]));
+    },
+    [setActive, setSelected],
+  );
 
-  const toggle = (id: string) => {
-    const next = new Set(selected);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    setSelected(next);
-  };
+  const toggle = useCallback(
+    (id: string) => {
+      const next = new Set(selected);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      setSelected(next);
+    },
+    [selected, setSelected],
+  );
 
-  const cancel = () => {
+  const cancel = useCallback(() => {
     setActive(false);
     setSelected(new Set());
-  };
+  }, [setActive, setSelected]);
+
+  const contextValue = useMemo(
+    () => ({ active, selected, enter, toggle, cancel }),
+    [active, selected, enter, toggle, cancel],
+  );
 
   return (
-    <MessageSelectContext.Provider value={{ active, selected, enter, toggle, cancel }}>
-      {children}
-    </MessageSelectContext.Provider>
+    <MessageSelectContext.Provider value={contextValue}>{children}</MessageSelectContext.Provider>
   );
 }
 

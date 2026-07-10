@@ -163,6 +163,7 @@ export {
   ChatSidebarContent,
   ChatSidebarFooter,
   ChatSidebarHeader,
+  ChatSidebarHeaderTitle,
   ChatSidebarRoot,
 } from "./chat-sidebar";
 export type {
@@ -170,6 +171,7 @@ export type {
   ChatSidebarContentProps,
   ChatSidebarFooterProps,
   ChatSidebarHeaderProps,
+  ChatSidebarHeaderTitleProps,
   ChatSidebarRootProps,
 } from "./chat-sidebar";
 

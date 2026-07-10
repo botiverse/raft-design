@@ -77,7 +77,6 @@ function PlaygroundLayout() {
           <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">
             <ChatSidebarResizePanel
               id="playground-sidebar"
-              className="bg-[var(--sidebar-chrome-bg-color)] [[data-preview-theme=brutal]_&]:bg-brutal-cream"
               defaultSize={252}
               minSize={180}
               maxSize={368}

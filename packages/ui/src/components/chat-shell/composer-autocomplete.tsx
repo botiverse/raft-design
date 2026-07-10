@@ -44,7 +44,7 @@ const composerAutocomplete = tv({
       elegant: autocompleteTheme,
     },
     separated: {
-      true: { groupLabel: "border-t-2 border-black" },
+      true: { group: "border-t-2 border-black" },
       false: {},
     },
     selected: {
