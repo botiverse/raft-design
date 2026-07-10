@@ -68,11 +68,7 @@ const notificationCenter = tv({
           "drop-shadow-[0_0_1px_#FFD440D1]",
           "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
         ],
-        triggerDot: [
-          "pointer-events-none absolute top-[7px] right-[8px] size-2 rounded-full",
-          "border border-[#D3AD0394] bg-[#FFD440]",
-          "shadow-[0_0_0_2px_#FFDF9173]",
-        ],
+        triggerDot: ["pointer-events-none absolute top-[7px] right-[8px]"],
         popup: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["border-b border-line-muted bg-layer-panel pt-2.5"],
         scroller: ["bg-layer-panel"],
@@ -196,7 +192,7 @@ function NotificationCenterTriggerContent() {
         <Bell className={triggerBell()} strokeWidth={2} />
         <Bell className={triggerBellGlow()} strokeWidth={2} />
       </span>
-      <span aria-hidden className={triggerDot()} />
+      <Status aria-hidden variant="primary" size="sm" attention className={triggerDot()} />
     </>
   );
 }

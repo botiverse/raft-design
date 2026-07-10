@@ -39,7 +39,7 @@ const TOC = [
   { id: "sizes", title: "Sizes" },
   { id: "pulse", title: "Pulse" },
   { id: "attention", title: "Attention" },
-  { id: "notification-trigger", title: "Notification trigger" },
+  { id: "content-glow", title: "Content glow" },
   { id: "customize", title: "Customize" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -178,22 +178,11 @@ const SNIPPETS = {
 <Status size="sm" variant="primary" pulse />
 <Status size="md" variant="primary" pulse />
 <Status size="lg" variant="primary" pulse />`,
-  attention: `<Status variant="primary" attention />
-<Status variant="information" attention />
-<Status variant="accent" attention />
-<Status variant="success" attention />
+  attention: `<Status variant="accent" attention />
+<Status variant="primary" attention />
 <Status variant="warning" attention />
-<Status variant="danger" attention />
-
-<Status size="xs" variant="accent" attention />
-<Status size="sm" variant="accent" attention />
-<Status size="md" variant="accent" attention />
-<Status size="lg" variant="accent" attention />
-
-<Status variant="accent" attention pulse />
-<Status size="sm" variant="primary" attention pulse />
-<Status size="lg" variant="success" attention pulse />`,
-  notificationTrigger: `import { Bell } from "lucide-react";
+<Status variant="danger" attention />`,
+  contentGlow: `import { Bell } from "lucide-react";
 import { Status } from "raft-ui";
 
 {/* Same stack as NotificationCenterTrigger (elegant):
@@ -307,7 +296,7 @@ const PROPS: readonly PropRow[] = [
     type: "boolean",
     default: "false",
     description:
-      "Elegant-only glow ring (NotificationCenter triggerDot treatment). No visual effect on brutal.",
+      "Elegant-only glow ring. Used by NotificationCenterTrigger. No visual effect on brutal.",
   },
   {
     name: "render",
@@ -417,7 +406,7 @@ function StatusDoc() {
                 >
                   {ATTENTION_PREVIEW_COPY}
                 </span>
-                {/* Content glow — mirrors NotificationCenter triggerBellGlow: tinted
+                {/* Content glow: mirrors NotificationCenter triggerBellGlow. Tinted
                     duplicate of the underlying content, masked toward the status. */}
                 <span
                   aria-hidden
@@ -488,38 +477,21 @@ function StatusDoc() {
 
       <DocSection id="attention" title="Attention" showThemeSwitcher>
         <Example html={code.attention}>
-          <div className="flex w-full flex-col items-center gap-6">
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Status variant="primary" attention />
-              <Status variant="information" attention />
-              <Status variant="accent" attention />
-              <Status variant="success" attention />
-              <Status variant="warning" attention />
-              <Status variant="danger" attention />
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Status size="xs" variant="accent" attention />
-              <Status size="sm" variant="accent" attention />
-              <Status size="md" variant="accent" attention />
-              <Status size="lg" variant="accent" attention />
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Status variant="accent" attention pulse />
-              <Status size="sm" variant="primary" attention pulse />
-              <Status size="lg" variant="success" attention pulse />
-            </div>
-          </div>
+          <Status variant="accent" attention />
+          <Status variant="primary" attention />
+          <Status variant="warning" attention />
+          <Status variant="danger" attention />
         </Example>
       </DocSection>
 
-      <DocSection id="notification-trigger" title="Notification trigger" showThemeSwitcher>
+      <DocSection id="content-glow" title="Content glow" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
-            <code>attention</code> only styles the dot. The soft wash on the icon comes from a
-            tinted duplicate of the underlying content, masked toward the marker — the same stack as
-            elegant <code>NotificationCenterTrigger</code>.
+            <code>attention</code> only styles the dot. Soft wash on the icon comes from a tinted
+            duplicate of the underlying content, masked toward the marker. Same stack as elegant{" "}
+            <code>NotificationCenterTrigger</code>.
           </DocNote>
-          <Example html={code.notificationTrigger}>
+          <Example html={code.contentGlow}>
             <span className="relative inline-flex size-9 items-center justify-center">
               <span className="relative inline-flex size-4 items-center justify-center">
                 <Bell className="size-4 shrink-0 text-foreground-muted" strokeWidth={2} />
