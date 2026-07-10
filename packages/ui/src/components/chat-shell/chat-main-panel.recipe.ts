@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const chatMainPanel = tv({
   slots: {
     root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col", "text-foreground"],
-    header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
+    header: ["flex h-[62px] shrink-0 items-center gap-2 px-5", "[@media(max-height:600px)]:h-12"],
     headerIcon: [
       "flex size-9 shrink-0 items-center justify-center",
       "border-2",
@@ -34,13 +34,7 @@ export const chatMainPanel = tv({
     composerToolbar: ["flex items-center justify-between gap-3"],
     composerActions: ["flex items-center gap-2"],
     composerMeta: ["flex items-center gap-3"],
-    composerIconButton: [
-      "inline-flex shrink-0 items-center justify-center",
-      "border-2 p-1 font-sans font-bold leading-none outline-none",
-      "transition-all duration-100",
-      "active:translate-x-[1px] active:translate-y-[1px]",
-      "[&_svg]:size-3.5 [&_svg]:shrink-0",
-    ],
+    composerIconButton: [],
     composerSubmit: [
       "inline-flex size-7 shrink-0 items-center justify-center",
       "border-2 font-sans font-bold leading-none outline-none",
@@ -102,8 +96,8 @@ export const chatMainPanel = tv({
         composerInput: "font-sans text-black placeholder:text-black/35",
         composerIconButton: [
           "border-black bg-white text-black shadow-brutal-sm",
-          "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
-          "active:shadow-[var(--shadow-brutal-active)]",
+          "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-brutal",
+          "active:translate-x-[1px] active:translate-y-[1px] active:shadow-[var(--shadow-brutal-active)]",
         ],
         composerSubmit: [
           "border-black bg-brutal-pink text-black shadow-brutal-sm",
@@ -138,7 +132,7 @@ export const chatMainPanel = tv({
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
         ],
-        subtitle: "font-sans text-foreground-muted",
+        subtitle: "font-sans text-foreground-placeholder",
         surfaceInset: "overflow-visible pl-2",
         surfaceShadow: ["relative overflow-visible rounded-tl-[10px]", "shadow-xl"],
         surface: "relative overflow-clip rounded-tl-[10px] bg-white",
@@ -167,13 +161,6 @@ export const chatMainPanel = tv({
         ],
         composerToolbar: "gap-2 px-3 pt-1 pb-3",
         composerActions: "gap-1.5",
-        composerIconButton: [
-          "size-8 rounded-none border-0 bg-transparent p-0 shadow-none",
-          "text-foreground-muted/68 [&_svg]:size-4",
-          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground",
-          "active:translate-x-0 active:translate-y-0 active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground",
-          "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
-        ],
         composerSubmit: [
           "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
           "bg-accent-400 text-sm font-medium text-white",

@@ -52,6 +52,7 @@ import {
   SegmentedControlLabel,
   Status,
   Textarea,
+  useThemeFamily,
 } from "raft-ui";
 import {
   ChatSidebarBody,
@@ -64,6 +65,7 @@ import {
   ChatSidebarItemChannelIcon,
   ChatSidebarItemDraft,
   ChatSidebarItemIcon,
+  ChatSidebarItemIndicator,
   ChatSidebarItemInlineText,
   ChatSidebarItemMention,
   ChatSidebarItemMuted,
@@ -134,17 +136,23 @@ function ChannelRowContent({
   );
 }
 
-function DirectMessageStatus({ status }: { status: PlaygroundPresence }) {
+function DirectMessageStatus({
+  status,
+  size = "md",
+}: {
+  status: PlaygroundPresence;
+  size?: "sm" | "md";
+}) {
   if (status === "online") {
-    return <Status aria-hidden variant="success" size="md" />;
+    return <Status aria-hidden variant="success" size={size} />;
   }
   if (status === "working") {
-    return <Status aria-hidden variant="success" size="md" pulse />;
+    return <Status aria-hidden variant="success" size={size} pulse />;
   }
   if (status === "idle") {
-    return <Status aria-hidden variant="warning" size="md" />;
+    return <Status aria-hidden variant="warning" size={size} />;
   }
-  return <Status aria-hidden variant="default" size="md" />;
+  return <Status aria-hidden variant="default" size={size} />;
 }
 
 function DirectMessageRowContent({
@@ -154,14 +162,21 @@ function DirectMessageRowContent({
   row: PlaygroundDirectMessage;
   hideBadge?: boolean;
 }) {
+  const theme = useThemeFamily();
   const actor = getPlaygroundDmActor(row);
   const showBadge = Boolean(row.sidebar.badge && !hideBadge);
+  const presence = actor.presence ? (
+    <DirectMessageStatus status={actor.presence} size={theme === "elegant" ? "sm" : "md"} />
+  ) : null;
+  const elegantPresence = theme === "elegant" && presence;
+  const asidePresence = theme !== "elegant" && presence;
   const showAside =
-    showBadge || Boolean(actor.presence || row.sidebar.messageIcon || row.sidebar.draft);
+    showBadge || Boolean(asidePresence || row.sidebar.messageIcon || row.sidebar.draft);
 
   return (
     <>
       <ChatSidebarItemIcon>
+        {elegantPresence ? <ChatSidebarItemIndicator>{presence}</ChatSidebarItemIndicator> : null}
         <Avatar
           size="sidebar"
           type={actor.type}
@@ -186,7 +201,7 @@ function DirectMessageRowContent({
       {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
       {showAside ? (
         <ChatSidebarItemAside>
-          {actor.presence ? <DirectMessageStatus status={actor.presence} /> : null}
+          {asidePresence}
           {row.sidebar.messageIcon ? (
             <MessageSquare className="size-3 text-foreground-muted" />
           ) : null}

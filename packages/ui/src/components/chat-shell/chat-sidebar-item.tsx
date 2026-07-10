@@ -209,7 +209,8 @@ export function ChatSidebarItemIndicator({
   render,
   ...props
 }: ChatSidebarItemIndicatorProps) {
-  const { sidebarItemIndicator } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarItemIndicator } = chatSidebar({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-sidebar-item-indicator",
     className: sidebarItemIndicator({ className }),

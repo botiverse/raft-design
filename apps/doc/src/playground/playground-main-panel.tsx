@@ -69,9 +69,11 @@ import {
   SortableTabsList,
   SortableTabsTab,
   Spinner,
+  Status,
   Tabs,
   TabsIndicator,
   TabsLabel,
+  type StatusProps,
 } from "raft-ui";
 import {
   ChatMainPanelBody,
@@ -2229,11 +2231,24 @@ function MessageRow({
   );
 }
 
-// Agent presence activity → status-dot color (source utils/activity.ts). The
-// dot is pinned bottom-right of the agent avatar, matching source StatusDot
-// (size-[11px], black hairline); working/thinking add a pulse.
+// Agent presence activity → Status props (docs StatusDot migration). Avatar
+// dots use theme-aware Status; profile-card chrome below keeps STATUS_DOT for
+// its brutal-only preview card.
 type AgentStatus = "online" | "thinking" | "working" | "error" | "offline" | "external";
 
+const STATUS_CONFIG: Record<
+  AgentStatus,
+  { variant: NonNullable<StatusProps["variant"]>; pulse?: boolean }
+> = {
+  online: { variant: "success" },
+  thinking: { variant: "primary", pulse: true },
+  working: { variant: "primary", pulse: true },
+  error: { variant: "warning" },
+  offline: { variant: "default" },
+  external: { variant: "information" },
+};
+
+// Brutal-only class map for the profile hover-card activity chrome.
 const STATUS_DOT: Record<AgentStatus, string> = {
   online: "bg-brutal-lime",
   thinking: "bg-soft-signal animate-pulse",
@@ -2376,11 +2391,16 @@ function RowAvatar({
       <AvatarFallback />
       {isAgent && !deactivated ? (
         <MessageItemAvatarStatus
-          aria-hidden
-          border="always"
           offset="fixed"
           title={STATUS_LABEL[status]}
-          className={STATUS_DOT[status]}
+          render={
+            <Status
+              aria-hidden
+              size="lg"
+              variant={STATUS_CONFIG[status].variant}
+              pulse={STATUS_CONFIG[status].pulse}
+            />
+          }
         />
       ) : null}
     </Avatar>

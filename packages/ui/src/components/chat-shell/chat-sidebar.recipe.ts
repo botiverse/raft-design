@@ -160,12 +160,18 @@ export const chatSidebar = tv({
           "data-[menu-open=true]:shadow-xs data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-line-subtle/30",
         ],
         sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
-        sidebarItemIcon: "size-5 text-foreground-muted/68 [&_svg]:size-4 [&_svg]:stroke-[1.5]",
+        sidebarItemIcon: [
+          "relative size-5 text-foreground-muted/68",
+          "[&_svg]:size-4 [&_svg]:stroke-[1.5]",
+        ],
         sidebarItemChannelIcon:
           "size-3 text-foreground-muted/68 [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
         sidebarItemSubtitle: "text-foreground/35",
         sidebarItemMeta:
           "font-sans text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.49)]",
+        sidebarItemIndicator: [
+          "pointer-events-none absolute top-1/2 right-[calc(100%+8px)] -translate-y-1/2",
+        ],
         sidebarItemMention:
           "rounded border border-line-subtle bg-layer-muted text-foreground-strong",
         sidebarItemMuted: "text-foreground-muted/68",
@@ -182,8 +188,14 @@ export const chatSidebar = tv({
   },
   compoundVariants: [
     {
+      theme: "brutal",
       unread: true,
       class: { sidebarItemTitle: "font-bold" },
+    },
+    {
+      theme: "elegant",
+      unread: true,
+      class: { sidebarItemTitle: "[--sidebar-item-title-weight:500]" },
     },
   ],
 });
@@ -193,7 +205,7 @@ export const chatSidebarItemInlineText = tv({
   variants: {
     align: {
       baseline: "",
-      center: "items-center gap-0",
+      center: "items-center",
     },
     titleWidth: {
       auto: "",

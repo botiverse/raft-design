@@ -2,6 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Button, type ButtonProps } from "../button/button";
 import type { DataAttributes } from "./app-shell";
 import { chatMainPanel } from "./chat-main-panel.recipe";
 
@@ -106,25 +107,29 @@ export function ChatMainPanelComposerMeta({
   });
 }
 
-export type ChatMainPanelComposerIconButtonProps = useRender.ComponentProps<"button">;
+export type ChatMainPanelComposerIconButtonProps = Omit<
+  ButtonProps,
+  "className" | "size" | "variant"
+> & {
+  className?: string;
+};
 
 export function ChatMainPanelComposerIconButton({
   className,
-  render,
   ...props
 }: ChatMainPanelComposerIconButtonProps) {
   const theme = useThemeFamily();
   const { composerIconButton } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
-    type: "button",
-    "data-slot": "chat-main-panel-composer-icon-button",
-    className: composerIconButton({ className }),
-  };
 
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
-  });
+  return (
+    <Button
+      type="button"
+      size="icon-sm"
+      variant="ghost"
+      className={composerIconButton({ className })}
+      {...props}
+    />
+  );
 }
 
 export type ChatMainPanelComposerSubmitProps = useRender.ComponentProps<"button">;
