@@ -421,7 +421,7 @@ function NavGroup({
   const titleClassName =
     items.length > 0
       ? sectionTitleClassName
-      : "pl-[8px] text-[13px] font-medium text-foreground-strong";
+      : "block rounded-md px-2 py-1.5 text-[13px] font-medium text-foreground-strong transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong";
 
   return (
     <div>
@@ -432,7 +432,7 @@ function NavGroup({
             activeOptions={sidebarPathActiveOptions}
             activeProps={sidebarItemActiveProps}
             inactiveProps={{ className: "text-foreground-strong" }}
-            className={`${titleClassName} ${sidebarItemFocusClassName} block rounded-md`}
+            className={`${titleClassName} ${sidebarItemFocusClassName}`}
           >
             {title}
           </Link>

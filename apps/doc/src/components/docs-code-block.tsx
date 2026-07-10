@@ -15,16 +15,16 @@ import { IconSwap } from "./icon-swap.tsx";
 const docsCodeBlock = tv({
   slots: {
     frame: [
-      "min-w-0 overflow-clip rounded-none bg-white",
+      "flex h-full min-h-0 min-w-0 flex-col overflow-clip rounded-none bg-white",
       "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
     ],
-    inner: "relative min-w-0",
+    inner: "relative flex min-h-0 min-w-0 flex-1 flex-col",
     rail: ["pointer-events-none absolute inset-y-0 w-0", "border-[oklch(0_0_0_/_0.12)]"],
     section: "flex min-w-0 items-stretch",
     gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_286)]",
-    sectionInner: "min-w-0 flex-1",
+    sectionInner: "flex min-h-0 min-w-0 flex-1 flex-col",
     headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-1.5",
-    bodyRow: "flex min-w-0 flex-1 bg-white pt-3 pb-3",
+    bodyRow: "flex min-h-0 min-w-0 flex-1 bg-white pt-3 pb-3",
     bodyContent: "min-w-0 flex-1 overflow-hidden",
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
@@ -48,8 +48,8 @@ const docsCodeBlock = tv({
       right: { rail: "right-6 border-r border-dashed" },
     },
     sectionKind: {
-      header: { section: "border-b border-[oklch(0_0_0_/_0.06)]" },
-      body: {},
+      header: { section: "shrink-0 border-b border-[oklch(0_0_0_/_0.06)]" },
+      body: { section: "min-h-0 flex-1" },
     },
     showLineNumbers: {
       true: { gutter: "w-10", bodyContent: "pr-10 pl-2.5" },
