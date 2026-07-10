@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { DEFAULT_CHANNEL_ID } from "#/playground/mock-data.ts";
+import { DEFAULT_CHANNEL_ID } from "#/playground/mock/index.ts";
 
 export const Route = createFileRoute("/playground/")({
   beforeLoad: ({ search }) => {

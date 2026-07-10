@@ -1,5 +1,15 @@
 import { useState, type ReactNode } from "react";
-import { FileText, Hash, ImagePlus, Paperclip, Send, UserX, X } from "lucide-react";
+import {
+  FileText,
+  GitBranch,
+  Hash,
+  ImagePlus,
+  Lock,
+  Paperclip,
+  Send,
+  UserX,
+  X,
+} from "lucide-react";
 import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
   ChatMainPanelComposer,
@@ -26,23 +36,17 @@ import {
 
 import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
 import type { RowVariant } from "#/playground/playground-main-panel.tsx";
+import {
+  PLAYGROUND_ACTORS,
+  PLAYGROUND_JOINT_CHANNELS,
+  PLAYGROUND_ROOM_CHANNELS,
+  getPlaygroundMembers,
+  type PlaygroundChannel,
+} from "./mock/index.ts";
 
-// Composer autocomplete candidates (source MentionCandidate / ChannelCandidate).
-const MENTION_IN_CHANNEL: { name: string; handle: string; variant: RowVariant }[] = [
-  { name: "Atlas", handle: "atlas", variant: "agent" },
-  { name: "Ada", handle: "ada", variant: "member" },
-  { name: "Developer", handle: "developer", variant: "member" },
-];
-const MENTION_NOT_IN_CHANNEL: { name: string; handle: string; variant: RowVariant }[] = [
-  { name: "Cindy", handle: "cindy", variant: "member" },
-  { name: "Mx. Chen", handle: "mxchen", variant: "member" },
-];
-const CHANNEL_CANDIDATES: { name: string; description?: string; archived?: boolean }[] = [
-  { name: "general", description: "Company-wide announcements" },
-  { name: "design-system", description: "Tokens and components" },
-  { name: "releases", description: "Release coordination" },
-  { name: "old-migration", description: "Archived planning", archived: true },
-];
+type MentionCandidate = { name: string; handle: string; variant: RowVariant };
+
+const CHANNEL_CANDIDATES = [...PLAYGROUND_ROOM_CHANNELS, ...PLAYGROUND_JOINT_CHANNELS];
 
 // Section eyebrow (source ui/SectionEyebrow) used by the mention groups.
 function ComboboxEyebrow({ className, children }: { className?: string; children: ReactNode }) {
@@ -57,14 +61,33 @@ function ComboboxEyebrow({ className, children }: { className?: string; children
 
 // @mention autocomplete (source MessageInput mention dropdown): upward panel with
 // In-/Not-in-channel eyebrow groups; the first in-channel row is selected.
-function MentionAutocomplete() {
+function MentionAutocomplete({ channel }: { channel: PlaygroundChannel }) {
+  const inChannel = getPlaygroundMembers(channel).map(
+    (actor): MentionCandidate => ({
+      name: actor.name,
+      handle: actor.id,
+      variant: actor.type === "agent" ? "agent" : "member",
+    }),
+  );
+  const memberIds = new Set(channel.memberIds);
+  const notInChannel = Object.values(PLAYGROUND_ACTORS)
+    .filter((actor) => !memberIds.has(actor.id))
+    .slice(0, 3)
+    .map(
+      (actor): MentionCandidate => ({
+        name: actor.name,
+        handle: actor.id,
+        variant: actor.type === "agent" ? "agent" : "member",
+      }),
+    );
+
   return (
     <div
       data-testid="mention-autocomplete-popover"
       className="card-brutal absolute bottom-full left-7 right-[calc(1.75rem+var(--message-scroller-gutter,0px))] mb-1 max-h-48 overflow-y-auto"
     >
       <ComboboxEyebrow>In this channel</ComboboxEyebrow>
-      {MENTION_IN_CHANNEL.map((candidate, index) => {
+      {inChannel.map((candidate, index) => {
         const selected = index === 0;
         return (
           <button
@@ -99,7 +122,7 @@ function MentionAutocomplete() {
         );
       })}
       <ComboboxEyebrow className="border-t-2 border-black">Not in this channel</ComboboxEyebrow>
-      {MENTION_NOT_IN_CHANNEL.map((candidate) => (
+      {notInChannel.map((candidate) => (
         <button
           key={candidate.handle}
           type="button"
@@ -107,7 +130,7 @@ function MentionAutocomplete() {
         >
           <Avatar
             size="sm"
-            type="human"
+            type={candidate.variant === "agent" ? "agent" : "human"}
             className="opacity-60 [[data-preview-theme=brutal]_&]:border-black/40 [[data-preview-theme=brutal]_&]:text-black"
           >
             <AvatarFallback />
@@ -135,7 +158,9 @@ function ChannelAutocomplete() {
     >
       {CHANNEL_CANDIDATES.map((channel, index) => {
         const selected = index === 0;
-        const archived = Boolean(channel.archived);
+        const archived = channel.archived;
+        const ChannelIcon =
+          channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
         return (
           <button
             key={channel.name}
@@ -157,14 +182,12 @@ function ChannelAutocomplete() {
                   : "border-black bg-soft-signal text-black"
               }`}
             >
-              <Hash size={12} />
+              <ChannelIcon size={12} />
             </div>
             <span className="truncate">{channel.name}</span>
-            {channel.description ? (
-              <span className={`truncate text-xs ${archived ? "text-black/30" : "text-black/40"}`}>
-                {channel.description}
-              </span>
-            ) : null}
+            <span className={`truncate text-xs ${archived ? "text-black/30" : "text-black/40"}`}>
+              {channel.subtitle}
+            </span>
             {archived ? (
               <span className="ml-auto shrink-0 border border-black/40 bg-black/5 px-1 py-0.5 text-[9px] font-bold leading-none text-black/45">
                 archived
@@ -231,7 +254,15 @@ function ComposerAttachments() {
   );
 }
 
-export function Composer({ label, uploads = false }: { label: string; uploads?: boolean }) {
+export function Composer({
+  channel,
+  label,
+  uploads = false,
+}: {
+  channel: PlaygroundChannel;
+  label: string;
+  uploads?: boolean;
+}) {
   const [autocomplete, setAutocomplete] = useState<ComposerAutocomplete>(null);
 
   // Demo trigger: `@` / `#` open the matching panel, Escape closes (source uses
@@ -245,7 +276,7 @@ export function Composer({ label, uploads = false }: { label: string; uploads?: 
   return (
     <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
       <div className="relative flex w-full flex-col gap-2">
-        {autocomplete === "mention" ? <MentionAutocomplete /> : null}
+        {autocomplete === "mention" ? <MentionAutocomplete channel={channel} /> : null}
         {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
         {uploads ? <ComposerAttachments /> : null}
         <ChatMainPanelComposer>

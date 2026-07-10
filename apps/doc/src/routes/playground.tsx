@@ -17,10 +17,13 @@ import {
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import {
   DEFAULT_CHANNEL_ID,
-  PLAYGROUND_CHANNELS,
+  getPlaygroundChannel,
+  getPlaygroundThread,
   isPlaygroundChannelId,
+  isPlaygroundThreadId,
   type PlaygroundChannelId,
-} from "#/playground/mock-data.ts";
+  type PlaygroundThreadId,
+} from "#/playground/mock/index.ts";
 import { PlaygroundRail } from "#/playground/playground-rail.tsx";
 import { PlaygroundSidebar } from "#/playground/playground-sidebar.tsx";
 import { PlaygroundThreadPanel } from "#/playground/playground-thread-panel.tsx";
@@ -29,14 +32,16 @@ import { PlaygroundToolbar } from "#/playground/playground-toolbar.tsx";
 type PlaygroundTheme = { family: Theme; mode: "light" | "dark" };
 
 type PlaygroundSearch = {
-  thread?: true;
+  thread?: PlaygroundThreadId;
 };
 
 export const Route = createFileRoute("/playground")({
   staticData: { standalone: true },
   // The layout owns thread-panel rendering; child routes inherit `thread`.
   validateSearch: (search): PlaygroundSearch =>
-    search.thread === true ? { thread: true as const } : {},
+    typeof search.thread === "string" && isPlaygroundThreadId(search.thread)
+      ? { thread: search.thread }
+      : {},
   component: PlaygroundLayout,
 });
 
@@ -54,8 +59,10 @@ function PlaygroundLayout() {
   const activeChannelId: PlaygroundChannelId = isPlaygroundChannelId(channelId)
     ? channelId
     : DEFAULT_CHANNEL_ID;
-  const activeChannel = PLAYGROUND_CHANNELS[activeChannelId];
-  const threadOpen = thread && activeChannel.hasThread;
+  const activeChannel = getPlaygroundChannel(activeChannelId);
+  const threadContext = thread ? getPlaygroundThread(thread) : undefined;
+  const activeThread =
+    threadContext?.channelId === activeChannel.id ? threadContext.thread : undefined;
 
   return (
     <div className="h-dvh">
@@ -86,7 +93,7 @@ function PlaygroundLayout() {
                 <Outlet />
               </AppShellMain>
             </ChatSidebarResizePanel>
-            {threadOpen ? (
+            {activeThread ? (
               <>
                 <ChatSidebarResizeHandle />
                 <ChatSidebarResizePanel
@@ -101,7 +108,11 @@ function PlaygroundLayout() {
                     <AppPanelStackRoot className="w-full">
                       <AppPanelStackItem className="w-full">
                         <AppPanelStackContent>
-                          <PlaygroundThreadPanel channel={activeChannel} />
+                          <PlaygroundThreadPanel
+                            key={activeThread.parent.id}
+                            channel={activeChannel}
+                            thread={activeThread}
+                          />
                         </AppPanelStackContent>
                       </AppPanelStackItem>
                     </AppPanelStackRoot>
