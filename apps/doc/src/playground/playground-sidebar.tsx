@@ -120,9 +120,7 @@ function ChannelRowContent({
     <>
       <ChatSidebarItemChannelIcon type={row.kind} />
       <ChatSidebarItemInlineText align={row.sidebar.muted ? "center" : undefined}>
-        <ChatSidebarItemTitle className={row.sidebar.bold ? "font-bold" : undefined}>
-          {row.name}
-        </ChatSidebarItemTitle>
+        <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
       </ChatSidebarItemInlineText>
       {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
@@ -181,9 +179,7 @@ function DirectMessageRowContent({
         align={row.sidebar.muted ? "center" : undefined}
         titleWidth="constrained"
       >
-        <ChatSidebarItemTitle className={row.sidebar.bold ? "font-bold" : undefined}>
-          {row.name}
-        </ChatSidebarItemTitle>
+        <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
         {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
       </ChatSidebarItemInlineText>
@@ -474,6 +470,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                       <ChatSidebarItem
                         key={row.id}
                         selected={activeChannelId === row.id}
+                        unread={row.sidebar.unread}
                         render={
                           <Link
                             to="/playground/$channelId"
@@ -504,6 +501,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                     <ChatSidebarItem
                       key={row.id}
                       selected={activeChannelId === row.id}
+                      unread={row.sidebar.unread}
                       render={
                         <Link
                           to="/playground/$channelId"
@@ -531,6 +529,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                     <ChatSidebarItem
                       key={row.id}
                       selected={activeChannelId === row.id}
+                      unread={row.sidebar.unread}
                       render={
                         <Link
                           to="/playground/$channelId"
@@ -560,6 +559,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                     <ChatSidebarItem
                       key={row.id}
                       selected={activeChannelId === row.id}
+                      unread={row.sidebar.unread}
                       render={
                         <Link
                           to="/playground/$channelId"

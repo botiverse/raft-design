@@ -98,6 +98,7 @@ import {
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
   MessageItemBadge,
   MessageItemBody,
   MessageItemContent,
@@ -2374,10 +2375,12 @@ function RowAvatar({
     >
       <AvatarFallback />
       {isAgent && !deactivated ? (
-        <span
+        <MessageItemAvatarStatus
           aria-hidden
+          border="always"
+          offset="fixed"
           title={STATUS_LABEL[status]}
-          className={`absolute -bottom-[2px] -right-[2px] inline-block size-[11px] shrink-0 rounded-full border border-line-strong ${STATUS_DOT[status]} [[data-preview-theme=brutal]_&]:border-black`}
+          className={STATUS_DOT[status]}
         />
       ) : null}
     </Avatar>

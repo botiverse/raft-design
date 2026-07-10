@@ -78,6 +78,9 @@ export const chatSidebar = tv({
     ],
   },
   variants: {
+    unread: {
+      true: {},
+    },
     theme: {
       brutal: {
         sidebarHeader:
@@ -146,6 +149,7 @@ export const chatSidebar = tv({
         sidebarItem: [
           "relative mb-0.5 -mx-[6px] w-[calc(100%+12px)] rounded-md border border-transparent px-[6px] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
           "text-[13px] font-medium text-foreground-muted/76",
+          "has-[[data-slot=chat-sidebar-item-badge]]:[--sidebar-item-title-weight:450]",
           "has-[[data-slot=chat-sidebar-item-badge]]:text-foreground-muted",
           "hover:border-transparent hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground-strong",
           "active:border-transparent active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground-strong",
@@ -155,10 +159,7 @@ export const chatSidebar = tv({
           "data-[menu-open=true]:border-transparent data-[menu-open=true]:bg-white",
           "data-[menu-open=true]:shadow-xs data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-line-subtle/30",
         ],
-        sidebarItemTitle: [
-          "font-normal",
-          "[[data-slot=chat-sidebar-item]:has([data-slot=chat-sidebar-item-badge])_&]:font-[450]",
-        ],
+        sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
         sidebarItemIcon: "size-5 text-foreground-muted/68 [&_svg]:size-4 [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-muted/68 [&_svg]:size-3.5 [&_svg]:stroke-[2.25]",
@@ -179,6 +180,12 @@ export const chatSidebar = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      unread: true,
+      class: { sidebarItemTitle: "font-bold" },
+    },
+  ],
 });
 
 export const chatSidebarItemInlineText = tv({

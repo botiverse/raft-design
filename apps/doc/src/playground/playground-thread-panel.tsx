@@ -33,6 +33,7 @@ import {
   ComposerStack,
   MessageItem,
   MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
@@ -65,12 +66,7 @@ function ThreadRowAvatar({ type }: { type: "human" | "agent" }) {
         {type === "agent" ? (
           <>
             <AvatarFallback />
-            <Status
-              aria-hidden
-              size="lg"
-              variant="default"
-              className="absolute -right-0.5 -bottom-0.5"
-            />
+            <MessageItemAvatarStatus render={<Status aria-hidden size="lg" variant="default" />} />
           </>
         ) : null}
       </Avatar>

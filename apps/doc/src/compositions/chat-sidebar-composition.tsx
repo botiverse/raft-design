@@ -154,12 +154,10 @@ export function ChatSidebarComposition() {
                         </ChatSidebarSectionButton>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
-                        <ChatSidebarItem type="button">
+                        <ChatSidebarItem type="button" unread>
                           <ChatSidebarItemChannelIcon />
                           <ChatSidebarItemText>
-                            <ChatSidebarItemTitle className="font-bold">
-                              #general
-                            </ChatSidebarItemTitle>
+                            <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
                           </ChatSidebarItemText>
                           <ChatSidebarItemMention />
                           <ChatSidebarItemBadge className="ml-auto">12</ChatSidebarItemBadge>
@@ -186,14 +184,14 @@ export function ChatSidebarComposition() {
                         </ChatSidebarSectionButton>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
-                        <ChatSidebarItem type="button">
+                        <ChatSidebarItem type="button" unread>
                           <ChatSidebarItemIcon>
                             <Avatar size="sidebar" type="human">
                               <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
                             </Avatar>
                           </ChatSidebarItemIcon>
                           <ChatSidebarItemInlineText titleWidth="constrained">
-                            <ChatSidebarItemTitle className="font-bold">Cindy</ChatSidebarItemTitle>
+                            <ChatSidebarItemTitle>Cindy</ChatSidebarItemTitle>
                             <ChatSidebarItemSubtitle>design</ChatSidebarItemSubtitle>
                           </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>

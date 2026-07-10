@@ -17,6 +17,7 @@ const appRail = tv({
       "[@media(max-height:600px)]:size-9",
     ],
     nav: ["flex w-full flex-1 flex-col items-center gap-1.5 py-2"],
+    utilitySlot: ["flex w-full items-center justify-center pb-1"],
     footer: ["flex w-full shrink-0 flex-col items-center justify-center gap-1.5"],
     item: [
       "relative inline-flex shrink-0 items-center justify-center",
@@ -169,6 +170,22 @@ export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
     defaultTagName: "nav",
     render,
     props: mergeProps<"nav">(defaultProps, props),
+  });
+}
+
+export type AppRailUtilitySlotProps = useRender.ComponentProps<"div">;
+
+export function AppRailUtilitySlot({ className, render, ...props }: AppRailUtilitySlotProps) {
+  const { utilitySlot } = appRail();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "app-rail-utility-slot",
+    className: utilitySlot({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 

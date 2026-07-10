@@ -9,6 +9,7 @@ export const messageItem = tv({
     root: ["group/message relative flex h-fit min-h-[3rem] gap-3", "border-2 border-transparent"],
     gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: ["relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors"],
+    avatarStatus: ["absolute inline-block size-[11px] shrink-0 rounded-full"],
     selectMark: [
       "mt-1.5 inline-flex size-5 shrink-0 items-center justify-center self-start rounded-full",
       "border-2 border-line-strong bg-layer-panel text-transparent",
@@ -162,6 +163,20 @@ export const messageItem = tv({
     reactionPopoverSeparator: ["shrink-0 text-black/45"],
   },
   variants: {
+    avatarStatusBorder: {
+      auto: {},
+      always: {
+        avatarStatus: ["border border-line-strong", "[[data-preview-theme=brutal]_&]:border-black"],
+      },
+    },
+    avatarStatusOffset: {
+      scaled: {
+        avatarStatus: "-right-0.5 -bottom-0.5",
+      },
+      fixed: {
+        avatarStatus: "-right-[2px] -bottom-[2px]",
+      },
+    },
     badgeTone: {
       default: {
         badge: [
@@ -183,6 +198,7 @@ export const messageItem = tv({
           "mb-1 mt-1.5 px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
+        avatarStatus: "border border-line-strong",
         continuationTime: "text-foreground/0 group-hover/message:text-foreground/40",
         header: "items-center gap-2",
         sender: "font-bold text-foreground-strong",

@@ -78,6 +78,38 @@ export function MessageItemAvatarSlot({ className, render, ...props }: MessageIt
   });
 }
 
+export type MessageItemAvatarStatusProps = useRender.ComponentProps<"span"> & {
+  border?: "always" | "auto";
+  offset?: "fixed" | "scaled";
+};
+
+export function MessageItemAvatarStatus({
+  border = "auto",
+  className,
+  offset = "scaled",
+  render,
+  ...props
+}: MessageItemAvatarStatusProps) {
+  const theme = useThemeFamily();
+  const { avatarStatus } = messageItem({
+    avatarStatusBorder: border,
+    avatarStatusOffset: offset,
+    theme,
+  });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: avatarStatus({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-avatar-status",
+    },
+  });
+}
+
 export type MessageItemSelectMarkProps = Omit<useRender.ComponentProps<"span">, "children"> & {
   checked?: boolean;
 };

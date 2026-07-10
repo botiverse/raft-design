@@ -35,6 +35,7 @@ export {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
+  AppRailUtilitySlot,
 } from "./app-rail";
 export type {
   AppRailFooterProps,
@@ -47,6 +48,7 @@ export type {
   AppRailNavProps,
   AppRailRootProps,
   AppRailServerButtonProps,
+  AppRailUtilitySlotProps,
 } from "./app-rail";
 
 export {

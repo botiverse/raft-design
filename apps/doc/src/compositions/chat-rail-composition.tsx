@@ -8,6 +8,7 @@ import {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
+  AppRailUtilitySlot,
   AppShellRail,
 } from "raft-ui/wip";
 import {
@@ -85,11 +86,11 @@ export function AppRailComposition() {
             />
           </AppRailItem>
         </AppRailNav>
-        <div className="flex w-full items-center justify-center pb-1">
+        <AppRailUtilitySlot>
           <NotificationCenter modal={false}>
             <NotificationCenterTrigger type="button" aria-label="Notification center" />
           </NotificationCenter>
-        </div>
+        </AppRailUtilitySlot>
         <AppRailFooter>
           <AppRailItem value="settings" title="Settings" aria-label="Settings">
             <AppRailItemIcon>
