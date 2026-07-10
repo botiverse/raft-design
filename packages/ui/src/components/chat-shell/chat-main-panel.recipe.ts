@@ -177,6 +177,11 @@ export const chatMainPanel = tv({
         ],
         composerToolbar: "gap-2 px-3 pt-1 pb-3",
         composerActions: "gap-1.5",
+        composerIconButton: [
+          "text-foreground-icon",
+          "hover:bg-layer-strong/80 hover:text-foreground",
+          "active:bg-layer-strong/80 active:text-foreground",
+        ],
         composerSubmit: [
           "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
           "bg-accent-400 text-sm font-medium text-white",

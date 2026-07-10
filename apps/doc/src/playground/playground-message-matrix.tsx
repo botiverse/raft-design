@@ -7,6 +7,7 @@ import {
   Eye,
   Lock,
   MessageSquare,
+  Pencil,
   Play,
 } from "lucide-react";
 import { Spinner } from "raft-ui";
@@ -23,7 +24,6 @@ import {
   MessageImageGalleryRow,
   MessageItemBadge,
   MessageItemBadgeSeparator,
-  MessageItemUnreadBadge,
   MessageMultiSelect,
   MessageReferenceTask,
   MessageReferenceUnavailable,
@@ -69,8 +69,8 @@ import {
 import { PlaygroundMessageRow } from "./playground-message-row.tsx";
 
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
-  return unread ? (
-    <MessageItemUnreadBadge>
+  return (
+    <MessageItemBadge>
       <MessageSquare />
       {count === 1 ? "1 reply" : `${count} replies`}
       {unread ? (
@@ -79,29 +79,34 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
           <span>{unread} new</span>
         </>
       ) : null}
-    </MessageItemUnreadBadge>
-  ) : (
-    <MessageItemBadge>
-      <MessageSquare />
-      {count} {count === 1 ? "reply" : "replies"}
     </MessageItemBadge>
   );
 }
 
-// Reply badge draft variants (source ThreadRepliesBadge): draft-only shows the
-// pencil + "draft"; replies+draft appends the draft segment after the count.
+// Reply badge draft variants (source ThreadRepliesBadge): one default pill —
+// draft-only is Pencil + "draft"; replies+draft appends · Pencil draft.
 function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number }) {
+  const hasReplies = Boolean(count);
   return (
-    <>
-      {count && !unread ? (
-        <MessageItemBadge>
+    <MessageItemBadge>
+      {hasReplies ? (
+        <>
           <MessageSquare />
           {count === 1 ? "1 reply" : `${count} replies`}
-        </MessageItemBadge>
+        </>
+      ) : (
+        <Pencil />
+      )}
+      {unread ? (
+        <>
+          <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
+          <span>{unread} new</span>
+        </>
       ) : null}
-      {unread ? <PlainRepliesBadge count={count ?? unread} unread={unread} /> : null}
-      <span className="text-xs text-foreground-muted">draft</span>
-    </>
+      {hasReplies ? <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator> : null}
+      {hasReplies ? <Pencil /> : null}
+      <span>draft</span>
+    </MessageItemBadge>
   );
 }
 

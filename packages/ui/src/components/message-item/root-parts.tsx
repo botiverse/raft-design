@@ -442,8 +442,8 @@ function MessageItemBadgeRoot({
   const theme = useThemeFamily();
   const { badge } = messageItem({ badgeTone: unread ? "cyan" : "default", theme });
   // Brutal matches source ThreadRepliesBadge (solid default + bg override).
-  // Elegant keeps soft chips; cyan uses primary soft fill.
-  const appearance = theme === "elegant" ? "soft" : "solid";
+  // Elegant uses outline Badge chrome; cyan uses primary outline.
+  const appearance = theme === "elegant" ? "outline" : "solid";
   const variant = theme === "elegant" && unread ? "primary" : "default";
   return (
     <Badge

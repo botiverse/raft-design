@@ -120,10 +120,10 @@ export const messageItem = tv({
           "[&_svg]:size-3.5",
         ],
         savedIndicator: "right-[calc(1.75rem-2px)] text-primary-400",
+        footer: "mt-2.5",
         badge: [
-          "rounded-md border-0 px-1.5 py-0.5 shadow-none ring-0",
-          "text-[12px] font-medium tracking-[-0.01em] text-foreground-muted",
-          "hover:bg-layer-muted",
+          "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
+          "text-[12px] font-[420] tracking-[-0.01em]",
         ],
       },
     },
@@ -148,23 +148,7 @@ export const messageItem = tv({
     {
       theme: "elegant",
       badgeTone: "default",
-      class: {
-        badge: [
-          "!h-[20px] !border-0 !bg-transparent !px-0 !py-0 !shadow-none !ring-0",
-          "text-[12px] tracking-[-0.01em] text-foreground-muted/76",
-          "hover:!bg-transparent hover:text-foreground-strong",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      badgeTone: "cyan",
-      class: {
-        badge: [
-          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
-          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
-        ],
-      },
+      class: { badge: "text-foreground-muted" },
     },
   ],
 });
