@@ -55,6 +55,7 @@ import {
 } from "raft-ui";
 import {
   ChatSidebarBody,
+  ChatSidebarContent,
   ChatSidebarHeader,
   ChatSidebarItem,
   ChatSidebarItemAside,
@@ -68,6 +69,11 @@ import {
   ChatSidebarItemText,
   ChatSidebarItemTitle,
   ChatSidebarList,
+  ChatSidebarMenu,
+  ChatSidebarMenuAside,
+  ChatSidebarMenuCount,
+  ChatSidebarMenuIcon,
+  ChatSidebarMenuTitle,
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionAction,
@@ -92,13 +98,6 @@ import {
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
 
-// Base UI portals every menu / dialog to `document.body`, escaping the
-// `[data-preview-theme=brutal]` scope, so scoped brutal pins never match. These
-// overlays therefore carry LITERAL brutal chrome (pure-black border + hard
-// `shadow-brutal` + `font-medium` items) to match source. Elegant is out of
-// scope for the playground, so the literals stay unconditional.
-const OVERLAY_CONTENT_CLASS = "border-2 border-black shadow-brutal";
-const OVERLAY_ITEM_CLASS = "px-3 py-2 font-medium text-black";
 // Source dialog field labels are uppercased with wide tracking (FormField).
 const DIALOG_LABEL_CLASS = "uppercase tracking-wide";
 
@@ -236,15 +235,12 @@ function SidebarAddMenu({
           </ChatSidebarSectionAction>
         }
       />
-      <DropdownMenuContent
-        align="end"
-        className={`flex w-[190px] min-w-[190px] flex-col ${OVERLAY_CONTENT_CLASS}`}
-      >
-        <DropdownMenuItem onClick={onCreateChannel} className={OVERLAY_ITEM_CLASS}>
+      <DropdownMenuContent align="end" className="flex w-[190px] min-w-[190px] flex-col">
+        <DropdownMenuItem onClick={onCreateChannel}>
           <Plus />
           <span className="min-w-0 flex-1 text-left">Create Channel</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={onCreateJoint} className={OVERLAY_ITEM_CLASS}>
+        <DropdownMenuItem onClick={onCreateJoint}>
           <GitBranch />
           <span className="min-w-0 flex-1 text-left">Create Joint Channel</span>
         </DropdownMenuItem>
@@ -258,7 +254,7 @@ function SidebarAddMenu({
 // labels, no static archived-name banner, pink (accent) primary action.
 function CreateChannelDialogContent() {
   return (
-    <DialogContent className={OVERLAY_CONTENT_CLASS}>
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>Create Channel</DialogTitle>
         <DialogClose />
@@ -348,7 +344,7 @@ function CreateChannelDialogContent() {
 // Structure only (Name, Description, Invite servers); actions inert.
 function CreateJointChannelDialogContent() {
   return (
-    <DialogContent className={`max-w-lg ${OVERLAY_CONTENT_CLASS}`}>
+    <DialogContent className="max-w-lg">
       <DialogHeader>
         <DialogTitle className="flex min-w-0 items-center gap-2">
           <GitBranch className="size-[18px] shrink-0" />
@@ -444,26 +440,19 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
           />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <div className="flex-1 overflow-x-hidden overflow-y-auto px-2 py-3 [[data-preview-theme=elegant]_&]:px-[22px]">
+          <ChatSidebarContent>
             <div className="min-h-full">
               <ChatSidebarSection>
                 <ChatSidebarSectionHeader className="mt-0">
-                  <ChatSidebarSectionButton
-                    type="button"
-                    render={<button />}
-                    className="[[data-preview-theme=elegant]_&]:font-[400] [[data-preview-theme=elegant]_&]:text-foreground-muted [[data-preview-theme=elegant]_&]:hover:text-foreground-strong [[data-preview-theme=elegant]_&]:active:text-foreground-strong"
-                  >
-                    <Bookmark
-                      className={[
-                        "size-3 shrink-0",
-                        "[vector-effect:non-scaling-stroke] [&_*]:[vector-effect:non-scaling-stroke]",
-                        "[[data-preview-theme=brutal]_&]:![stroke-width:1.5px] [[data-preview-theme=brutal]_&_*]:![stroke-width:1.5px]",
-                        "[[data-preview-theme=elegant]_&]:![stroke-width:1px] [[data-preview-theme=elegant]_&_*]:![stroke-width:1px]",
-                      ].join(" ")}
-                    />
-                    <ChatSidebarSectionTitle>Saved</ChatSidebarSectionTitle>
-                    <ChatSidebarSectionCount>33</ChatSidebarSectionCount>
-                  </ChatSidebarSectionButton>
+                  <ChatSidebarMenu>
+                    <ChatSidebarMenuIcon>
+                      <Bookmark />
+                    </ChatSidebarMenuIcon>
+                    <ChatSidebarMenuTitle>Saved</ChatSidebarMenuTitle>
+                    <ChatSidebarMenuAside>
+                      <ChatSidebarMenuCount>33</ChatSidebarMenuCount>
+                    </ChatSidebarMenuAside>
+                  </ChatSidebarMenu>
                 </ChatSidebarSectionHeader>
               </ChatSidebarSection>
 
@@ -583,7 +572,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
                 </ChatSidebarList>
               </ChatSidebarSection>
             </div>
-          </div>
+          </ChatSidebarContent>
         </ChatSidebarBody>
       </ChatSidebarRoot>
 
@@ -607,7 +596,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
           if (!open) setArchiveTarget(null);
         }}
       >
-        <AlertDialogContent className={OVERLAY_CONTENT_CLASS}>
+        <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Archive Channel</AlertDialogTitle>
             <AlertDialogClose />

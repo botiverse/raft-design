@@ -54,6 +54,23 @@ export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBody
   });
 }
 
+export type ChatSidebarContentProps = useRender.ComponentProps<"div">;
+
+export function ChatSidebarContent({ className, render, ...props }: ChatSidebarContentProps) {
+  const theme = useThemeFamily();
+  const { sidebarContent } = chatSidebar({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-sidebar-content",
+    className: sidebarContent({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type ChatSidebarFooterProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFooterProps) {

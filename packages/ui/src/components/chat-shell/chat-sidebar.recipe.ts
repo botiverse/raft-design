@@ -5,6 +5,20 @@ export const chatSidebar = tv({
     sidebarRoot: ["flex h-full min-h-0 w-full select-none flex-col"],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
+    sidebarContent: ["flex-1 overflow-x-hidden overflow-y-auto px-2 py-3"],
+    sidebarMenu: [
+      "flex h-6 min-w-0 flex-1 items-center gap-1",
+      "text-xs font-bold tracking-widest uppercase",
+      "[&_svg]:transition-transform [&[data-panel-open]_svg]:rotate-90",
+    ],
+    sidebarMenuIcon: [
+      "flex size-3 shrink-0 items-center justify-center",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
+      "[&_svg]:[vector-effect:non-scaling-stroke] [&_svg_*]:[vector-effect:non-scaling-stroke]",
+    ],
+    sidebarMenuTitle: ["min-w-0 truncate"],
+    sidebarMenuAside: ["flex shrink-0 items-center gap-1"],
+    sidebarMenuCount: ["font-mono normal-case tracking-normal"],
     sidebarSection: ["px-2"],
     sidebarList: [],
     sidebarSectionHeader: ["mt-3 mb-1 flex h-6 items-center justify-between px-2"],
@@ -69,6 +83,9 @@ export const chatSidebar = tv({
         sidebarHeader:
           "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
         sidebarBody: "bg-brutal-cream",
+        sidebarMenu: "text-black transition-colors hover:text-black/70",
+        sidebarMenuIcon: ["[&_svg]:![stroke-width:1.5px]", "[&_svg_*]:![stroke-width:1.5px]"],
+        sidebarMenuCount: "text-black/40",
         sidebarSectionButton: "text-black transition-colors hover:text-black/70",
         sidebarSectionCount: "text-black/40",
         sidebarSectionAction: [
@@ -100,6 +117,18 @@ export const chatSidebar = tv({
       elegant: {
         sidebarHeader: "h-14 border-b-0 px-[22px]",
         sidebarBody: "bg-[var(--sidebar-chrome-bg-color)]",
+        sidebarContent: "px-[22px]",
+        sidebarMenu: [
+          "h-8 w-full justify-between gap-1.5 rounded-md px-[6px]",
+          "text-[12px] leading-none font-[400] normal-case tracking-normal",
+          "text-foreground-muted",
+          "hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground-strong",
+          "active:text-foreground-strong",
+        ],
+        sidebarMenuIcon: ["[&_svg]:![stroke-width:1px]", "[&_svg_*]:![stroke-width:1px]"],
+        sidebarMenuAside: "ml-auto",
+        sidebarMenuCount:
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end [font-family:var(--sans-font)] text-[12px] font-medium leading-none normal-nums text-[oklch(0.36_0.01_0_/_0.32)]",
         sidebarSectionButton: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[6px] text-[12px] font-medium leading-none normal-case tracking-normal",
           "text-[color-mix(in_oklch,var(--foreground-muted)_76%,transparent)]",

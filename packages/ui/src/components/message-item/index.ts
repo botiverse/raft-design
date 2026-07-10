@@ -55,6 +55,17 @@ export {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "./message-item";
+export {
+  MessageSelect,
+  MessageSelectAction,
+  MessageSelectActions,
+  MessageSelectCount,
+  MessageSelectToolbar,
+  MessageSelectionMenu,
+  MessageSelectionMenuItem,
+  MessageSelectionMenuSeparator,
+  useMessageSelect,
+} from "./message-select";
 export type {
   MessageAttachmentActionProps,
   MessageAttachmentBodyProps,
@@ -113,3 +124,14 @@ export type {
   SystemMessageItemProps,
   SystemMessageItemTimeProps,
 } from "./message-item";
+export type {
+  MessageSelectActionProps,
+  MessageSelectActionsProps,
+  MessageSelectApi,
+  MessageSelectCountProps,
+  MessageSelectProps,
+  MessageSelectToolbarProps,
+  MessageSelectionMenuItemProps,
+  MessageSelectionMenuProps,
+  MessageSelectionMenuSeparatorProps,
+} from "./message-select";
