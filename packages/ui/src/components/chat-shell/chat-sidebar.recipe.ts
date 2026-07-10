@@ -118,10 +118,10 @@ export const chatSidebar = tv({
           "has-[[data-slot=chat-sidebar-item-badge]]:text-foreground-muted",
           "hover:border-transparent hover:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] hover:text-foreground-strong",
           "active:border-transparent active:bg-[color-mix(in_oklch,#EEEEED_80%,transparent)] active:text-foreground-strong",
-          "data-[selected=true]:border-0 data-[selected=true]:bg-white",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-white",
           "data-[selected=true]:text-foreground",
           "data-[selected=true]:shadow-[var(--theme-shadow-xs)] data-[selected=true]:ring-1 data-[selected=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
-          "data-[menu-open=true]:border-0 data-[menu-open=true]:bg-white",
+          "data-[menu-open=true]:border-transparent data-[menu-open=true]:bg-white",
           "data-[menu-open=true]:shadow-[var(--theme-shadow-xs)] data-[menu-open=true]:ring-1 data-[menu-open=true]:ring-[color-mix(in_oklch,var(--line-subtle)_30%,transparent)]",
         ],
         sidebarItemTitle: [
@@ -140,7 +140,7 @@ export const chatSidebar = tv({
         sidebarItemMuted: "text-foreground-muted/68",
         sidebarItemDraft: "text-foreground-muted/68",
         sidebarItemBadge: [
-          "min-w-[18px] justify-center rounded-md px-1 text-[10px] tabular-nums",
+          "min-w-[18px] justify-center rounded-sm px-1 py-px text-[10px] tabular-nums",
           "ring-2 ring-[var(--sidebar-chrome-bg-color)]",
         ],
         sidebarFooter: "border-t border-line-subtle p-3",
