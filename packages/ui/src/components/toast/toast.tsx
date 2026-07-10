@@ -280,7 +280,11 @@ const toastAction = tv({
       },
       elegant: {
         root: [
-          "toast-gradient-border order-2 min-h-7 rounded-full bg-white/[0.06] px-3 font-medium text-white/74",
+          "relative order-2 min-h-7 rounded-full bg-white/[0.06] px-3 font-medium text-white/74",
+          "[&::before]:pointer-events-none [&::before]:absolute [&::before]:inset-0 [&::before]:rounded-[inherit] [&::before]:p-[var(--toast-gradient-border-width,1px)]",
+          "[&::before]:[content:''] [&::before]:[background:var(--toast-gradient-border,linear-gradient(var(--toast-gradient-border-angle,to_bottom),var(--toast-gradient-border-from,oklch(1_0_0_/_0.24)),var(--toast-gradient-border-via,oklch(1_0_0_/_0.1)),var(--toast-gradient-border-to,transparent)))]",
+          "[&::before]:[-webkit-mask-image:linear-gradient(oklch(1_0_0)_0_0),linear-gradient(oklch(1_0_0)_0_0)] [&::before]:[-webkit-mask-origin:content-box,border-box] [&::before]:[-webkit-mask-clip:content-box,border-box] [&::before]:[-webkit-mask-composite:xor]",
+          "[&::before]:[mask-image:linear-gradient(oklch(1_0_0)_0_0),linear-gradient(oklch(1_0_0)_0_0)] [&::before]:[mask-origin:content-box,border-box] [&::before]:[mask-clip:content-box,border-box] [&::before]:[mask-composite:exclude]",
           "[--toast-gradient-border-angle:to_bottom] [--toast-gradient-border-from:oklch(1_0_0_/_0.1)] [--toast-gradient-border-to:oklch(1_0_0_/_0)] [--toast-gradient-border-via:oklch(1_0_0_/_0.05)]",
           "hover:bg-white/[0.075] hover:text-white/88 hover:[--toast-gradient-border-from:oklch(1_0_0_/_0.24)] hover:[--toast-gradient-border-via:oklch(1_0_0_/_0.08)] active:scale-[0.985]",
         ],

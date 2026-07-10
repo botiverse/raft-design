@@ -73,36 +73,6 @@
   height: 200%;
 }
 
-@utility toast-gradient-border {
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: var(--toast-gradient-border-width, 1px);
-    background: var(
-      --toast-gradient-border,
-      linear-gradient(
-        var(--toast-gradient-border-angle, to bottom),
-        var(--toast-gradient-border-from, oklch(1 0 0 / 0.24)),
-        var(--toast-gradient-border-via, oklch(1 0 0 / 0.1)),
-        var(--toast-gradient-border-to, transparent)
-      )
-    );
-    -webkit-mask:
-      linear-gradient(oklch(1 0 0) 0 0) content-box,
-      linear-gradient(oklch(1 0 0) 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(oklch(1 0 0) 0 0) content-box,
-      linear-gradient(oklch(1 0 0) 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
