@@ -300,7 +300,6 @@ export type {
 } from "./components/description-list/index";
 
 export {
-  MESSAGE_QUICK_REACTIONS,
   MessageAttachmentAction,
   MessageAttachmentActions,
   MessageAttachmentBody,
