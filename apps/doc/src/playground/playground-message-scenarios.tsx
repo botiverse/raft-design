@@ -1,14 +1,13 @@
 import { useRef } from "react";
 import { ArrowDown, Eye } from "lucide-react";
-import { InlineCode } from "raft-ui";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
   MessageMarkdown,
+  MessageInlineCode,
   MessageReferenceChannel,
-  MessageReferenceMention,
   MessageReferenceTask,
   MessageReferenceThread,
   MessageTimelineDateDivider,
@@ -19,6 +18,7 @@ import {
 } from "raft-ui/wip";
 
 import {
+  MessageMentionReferenceComposition,
   MessagePermalinkReferenceComposition,
   MessageSelfMentionReferenceComposition,
 } from "#/compositions/message-item/message-content-compositions.tsx";
@@ -220,13 +220,18 @@ export function ChipDemoBody() {
           @Developer
         </MessageSelfMentionReferenceComposition>{" "}
         is the attention chip. Normal mentions like{" "}
-        <MessageReferenceMention href="/playground/dm-noah">@Member</MessageReferenceMention> stay
-        text-link style.
+        <MessageMentionReferenceComposition
+          href="/playground/dm-noah"
+          preview={<ProfileCardBody variant="member" sender="Member" meta="member" />}
+        >
+          @Member
+        </MessageMentionReferenceComposition>{" "}
+        stays text-link style.
       </p>
       <p>
         Refs in one line:{" "}
-        <MessageReferenceChannel href="/playground/general">#general</MessageReferenceChannel>{" "}
-        <MessageReferenceTask href="/playground/frontend">task #15</MessageReferenceTask>{" "}
+        <MessageReferenceChannel href="/playground/general">#general</MessageReferenceChannel> task{" "}
+        <MessageReferenceTask href="/playground/frontend">#15</MessageReferenceTask>{" "}
         <MessageReferenceThread href="/playground/general">
           #general:67253b90
         </MessageReferenceThread>{" "}
@@ -236,7 +241,7 @@ export function ChipDemoBody() {
       </p>
       <blockquote>Quote row repeats the same shapes at one line height.</blockquote>
       <p>
-        Code should not become chips: <InlineCode>@Developer #general</InlineCode>
+        Code should not become chips: <MessageInlineCode>@Developer #general</MessageInlineCode>
       </p>
     </MessageMarkdown>
   );

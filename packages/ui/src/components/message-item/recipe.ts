@@ -29,15 +29,11 @@ export const messageItem = tv({
     attachments: ["mt-1 space-y-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
-    toolbarButton: [
-      "inline-flex shrink-0 items-center justify-center",
-      "aria-[pressed=true]:text-foreground-strong aria-[pressed=true]:hover:text-foreground-strong",
-      "[&_svg]:shrink-0",
-    ],
+    toolbarButton: ["inline-flex shrink-0 items-center justify-center", "[&_svg]:shrink-0"],
     savedIndicator: [
-      "absolute top-1 flex size-6 items-center justify-center",
-      "group-hover/message:hidden",
-      "[&_svg]:size-[13px]",
+      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
+      "border border-line-strong px-1.5 text-[10px] font-bold leading-none",
+      "[&_svg]:size-[10px] [&_svg]:shrink-0",
     ],
     badge: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
@@ -68,7 +64,7 @@ export const messageItem = tv({
         header: "items-center gap-2",
         sender: "font-bold text-black",
         senderState: [
-          "border border-line-strong bg-layer-muted px-1.5 py-0.5",
+          "border border-line-strong bg-[oklch(0.872_0.01_258.338)] px-1.5 py-0.5",
           "text-[10px] font-bold uppercase text-foreground/60",
         ],
         meta: "font-mono text-xs text-black/40",
@@ -79,9 +75,15 @@ export const messageItem = tv({
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
+          "data-[active=true]:text-black data-[active=true]:hover:text-black",
+          "data-[saved=true]:text-brutal-orange data-[saved=true]:hover:text-brutal-orange",
           "[&_svg]:size-[13px]",
         ],
-        savedIndicator: "right-1 text-brutal-orange",
+        savedIndicator: [
+          "bg-brutal-orange/15 text-black transition-[filter] duration-100 hover:brightness-90",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-black",
+          "[&_svg]:text-brutal-orange",
+        ],
         badge: [
           "border-line-strong px-1.5 text-[10px] font-bold leading-none text-black",
           "transition-colors hover:bg-brutal-cyan/40",
@@ -119,7 +121,7 @@ export const messageItem = tv({
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
         ],
-        savedIndicator: "right-[calc(1.75rem-2px)] text-primary-400",
+        savedIndicator: "rounded-md border-line-subtle bg-layer-muted text-foreground-muted",
         footer: "mt-2.5",
         badge: [
           "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
@@ -128,8 +130,8 @@ export const messageItem = tv({
       },
     },
     rowState: {
-      active: { root: "border-line-strong bg-layer-panel" },
-      "search-match": { root: "border-line-strong bg-info-light shadow-sm" },
+      active: {},
+      "search-match": {},
       select: {
         root: [
           "hover:border-transparent active:border-transparent",
@@ -138,11 +140,25 @@ export const messageItem = tv({
       },
     },
     compact: {
-      true: { root: "mt-0 min-h-0 py-[2px]", body: "mt-0 mb-0" },
+      true: { body: "mt-0 mb-0" },
     },
     toolbarVisible: { true: { toolbar: "flex" } },
   },
   compoundVariants: [
+    { theme: "brutal", rowState: "active", class: { root: "border-line-strong bg-white" } },
+    {
+      theme: "brutal",
+      rowState: "search-match",
+      class: { root: "border-line-strong bg-brutal-cyan/25 shadow-brutal" },
+    },
+    { theme: "brutal", compact: true, class: { root: "mt-0 min-h-0 py-1" } },
+    { theme: "elegant", rowState: "active", class: { root: "border-line-strong bg-layer-panel" } },
+    {
+      theme: "elegant",
+      rowState: "search-match",
+      class: { root: "border-line-strong bg-info-light shadow-sm" },
+    },
+    { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },
     { theme: "brutal", badgeTone: "default", class: { badge: "!bg-white" } },
     { theme: "brutal", badgeTone: "cyan", class: { badge: "!bg-brutal-cyan/20" } },
     {

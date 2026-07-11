@@ -31,6 +31,7 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
+  MessageItemUnreadBadge,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
   MessageReactionGlyph,
@@ -69,7 +70,7 @@ export function PlaygroundMessageRow({
   saved,
   followed,
   task = "none",
-  surface,
+  rowState,
   selectId,
   threadId,
 }: {
@@ -90,7 +91,7 @@ export function PlaygroundMessageRow({
   saved?: boolean;
   followed?: boolean;
   task?: MessageTaskState;
-  surface?: "active" | "search-match";
+  rowState?: "active" | "search-match";
   selectId?: string;
   threadId?: PlaygroundThreadId;
 }) {
@@ -112,7 +113,7 @@ export function PlaygroundMessageRow({
   const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
   const markdownText = typeof body === "string" ? body : "Composed message content";
 
-  const effectiveRowState = selectMode ? "select" : (surface ?? (menuOpen ? "active" : undefined));
+  const effectiveRowState = selectMode ? "select" : (rowState ?? (menuOpen ? "active" : undefined));
   const ItemRoot =
     effectiveRowState === "active"
       ? MessageItemActive
@@ -135,6 +136,9 @@ export function PlaygroundMessageRow({
 
   const messageItem = (
     <ItemRoot compact={compact}>
+      {selectMode ? (
+        <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
+      ) : null}
       {compact ? (
         <MessageItemGutter>
           {gutterTime ? (
@@ -164,9 +168,18 @@ export function PlaygroundMessageRow({
         ) : null}
         {body ? <MessageItemBody>{body}</MessageItemBody> : null}
         {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
-        {footer || lastReaction ? (
+        {footer || lastReaction || isSaved ? (
           <MessageItemFooter>
             {footer}
+            {isSaved ? (
+              <MessageItemSavedIndicator
+                aria-label="Remove from Saved"
+                render={<button type="button" onClick={() => setIsSaved(false)} />}
+              >
+                <Bookmark fill="currentColor" />
+                <span>Saved</span>
+              </MessageItemSavedIndicator>
+            ) : null}
             {lastReaction ? (
               <MessageReactionChip aria-pressed>
                 <MessageReactionGlyph emoji={lastReaction} />
@@ -176,17 +189,10 @@ export function PlaygroundMessageRow({
           </MessageItemFooter>
         ) : null}
       </MessageItemContent>
-      {isSaved ? (
-        <MessageItemSavedIndicator>
-          <Bookmark fill="currentColor" />
-        </MessageItemSavedIndicator>
-      ) : null}
-      {selectMode ? (
-        <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
-      ) : null}
       <RowToolbar
         saved={isSaved}
         threadId={threadId}
+        onReplyInThread={openThread}
         reactionOpen={reactionOpen}
         portalContainer={portalContainer}
         onReact={setLastReaction}
@@ -219,7 +225,7 @@ export function PlaygroundMessageRow({
           portalContainer={portalContainer}
           onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
           onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
-          onFollowChange={setIsFollowed}
+          onFollowChange={threadContext ? setIsFollowed : undefined}
           onQuickReact={(emoji) => {
             setLastReaction(emoji);
             setMenuOpen(false);
@@ -245,6 +251,7 @@ function RowToolbar({
   reactionOpen,
   portalContainer,
   onReact,
+  onReplyInThread,
   onReactionOpenChange,
   onSavedChange,
 }: {
@@ -253,6 +260,7 @@ function RowToolbar({
   reactionOpen: boolean;
   portalContainer: HTMLElement | null;
   onReact: (emoji: string) => void;
+  onReplyInThread?: () => void;
   onReactionOpenChange: (open: boolean) => void;
   onSavedChange: (saved: boolean) => void;
 }) {
@@ -273,11 +281,19 @@ function RowToolbar({
         >
           <MessageSquare />
         </MessageItemToolbarButton>
-      ) : null}
+      ) : (
+        <MessageItemToolbarButton aria-label="Reply in thread" onClick={onReplyInThread}>
+          <MessageSquare />
+        </MessageItemToolbarButton>
+      )}
       <DropdownMenu open={reactionOpen} onOpenChange={onReactionOpenChange}>
         <DropdownMenuTrigger
           render={
-            <MessageItemToolbarButton aria-pressed={reactionOpen} aria-label="Add reaction">
+            <MessageItemToolbarButton
+              active={reactionOpen}
+              aria-pressed={reactionOpen}
+              aria-label="Add reaction"
+            >
               <SmilePlus />
             </MessageItemToolbarButton>
           }
@@ -308,6 +324,7 @@ function RowToolbar({
         </MessageReactionPickerContent>
       </DropdownMenu>
       <MessageItemToolbarButton
+        saved={saved}
         aria-pressed={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}
         onClick={() => onSavedChange(!saved)}
@@ -343,7 +360,7 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
   }
 
   return (
-    <MessageItemBadge
+    <MessageItemUnreadBadge
       className="cursor-pointer"
       render={
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
@@ -353,6 +370,6 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
       {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
       <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
       <span>{thread.unreadCount} new</span>
-    </MessageItemBadge>
+    </MessageItemUnreadBadge>
   );
 }

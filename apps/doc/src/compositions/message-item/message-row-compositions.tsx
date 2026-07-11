@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger } from "raft-ui";
+import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger, Spinner } from "raft-ui";
 import {
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
   MessageImageGalleryOverlay,
+  MessageImageGalleryPreview,
   MessageImageGalleryRow,
   MessageItem,
   MessageItemActive,
   MessageItemAttachments,
   MessageItemAvatarSlot,
+  MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
@@ -89,13 +91,14 @@ export function AuthoredMessageRow() {
           this component.
         </MessageItemBody>
         <MessageItemFooter>
+          <MessageItemSavedIndicator render={<button type="button" />}>
+            <Bookmark fill="currentColor" />
+            <span>Saved</span>
+          </MessageItemSavedIndicator>
           <MessageReactionComposition emoji="👍" count={3} reacted />
           <MessageReactionComposition emoji="🔥" count={1} />
         </MessageItemFooter>
       </MessageItemContent>
-      <MessageItemSavedIndicator>
-        <Bookmark fill="currentColor" />
-      </MessageItemSavedIndicator>
       <Toolbar saved />
     </MessageItem>
   );
@@ -115,12 +118,15 @@ export function SavedToolbarMessageRow() {
           <MessageItemTime>2:18 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          Saved indicator remains visible until the hover toolbar appears.
+          Saved state stays in the footer while the hover toolbar exposes the same action.
         </MessageItemBody>
+        <MessageItemFooter>
+          <MessageItemSavedIndicator render={<button type="button" />}>
+            <Bookmark fill="currentColor" />
+            <span>Saved</span>
+          </MessageItemSavedIndicator>
+        </MessageItemFooter>
       </MessageItemContent>
-      <MessageItemSavedIndicator>
-        <Bookmark fill="currentColor" />
-      </MessageItemSavedIndicator>
       <Toolbar forceVisible saved />
     </MessageItem>
   );
@@ -226,6 +232,10 @@ export function ImageGalleryMessageRow() {
             <MessageImageGalleryRow className="grid-cols-2">
               <MessageImageGalleryItem>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
+                <MessageImageGalleryPreview
+                  aria-label="Preview image"
+                  onClick={openMessageFixture}
+                />
                 <MessageImageGalleryAction
                   aria-label="Download image"
                   onClick={() => downloadMessageFixture("message-image.svg")}
@@ -236,9 +246,7 @@ export function ImageGalleryMessageRow() {
               <MessageImageGalleryItem aria-busy>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
                 <MessageImageGalleryOverlay>
-                  <Badge variant="warning" appearance="solid">
-                    Uploading
-                  </Badge>
+                  <Spinner size="lg" className="text-white" />
                 </MessageImageGalleryOverlay>
               </MessageImageGalleryItem>
             </MessageImageGalleryRow>
@@ -394,6 +402,10 @@ export function RichAttachmentMessageRow() {
             <MessageImageGalleryRow className="grid-cols-2">
               <MessageImageGalleryItem>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
+                <MessageImageGalleryPreview
+                  aria-label="Preview image"
+                  onClick={openMessageFixture}
+                />
                 <MessageImageGalleryAction
                   aria-label="Download image"
                   onClick={() => downloadMessageFixture("message-image.svg")}
@@ -404,9 +416,7 @@ export function RichAttachmentMessageRow() {
               <MessageImageGalleryItem aria-busy>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
                 <MessageImageGalleryOverlay>
-                  <Badge variant="warning" appearance="solid">
-                    Uploading
-                  </Badge>
+                  <Spinner size="lg" className="text-white" />
                 </MessageImageGalleryOverlay>
               </MessageImageGalleryItem>
             </MessageImageGalleryRow>
@@ -443,11 +453,14 @@ export function RichAttachmentMessageRow() {
           </div>
         </MessageItemAttachments>
         <MessageItemFooter>
-          <Badge variant="primary" appearance="solid">
-            Task #222
+          <Badge variant="information" appearance="solid" uppercase={false}>
+            <Play size={10} />
+            <span>#222</span>
+            <span>@Ada</span>
           </Badge>
           <MessageItemUnreadBadge>
             <MessageSquare />6 replies
+            <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new
           </MessageItemUnreadBadge>
           <MessageReactionComposition emoji="👍" count={5} reacted />
           <MessageReactionComposition emoji="👀" count={2} />
@@ -561,10 +574,11 @@ function Toolbar({
 
   return (
     <MessageItemToolbar visible={forceVisible}>
-      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
+      <MessageItemToolbarButton aria-label="Reply in thread">
         <MessageSquare />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
+        active={isReactionActive}
         aria-pressed={isReactionActive}
         aria-label="Add Reaction"
         onClick={() => setIsReactionActive((active) => !active)}
@@ -572,6 +586,7 @@ function Toolbar({
         <SmilePlus />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
+        saved={saved}
         aria-label={saved ? "Remove from Saved" : "Save Message"}
         aria-pressed={saved}
         disabled

@@ -24,7 +24,7 @@ export const messageReaction = tv({
     ],
     picker: [
       "inline-flex items-center gap-0.5 border-2 border-line-strong px-1.5 py-1",
-      "shadow-lg",
+      "shadow-soft-popover",
     ],
     pickerContent: [
       "inline-flex min-w-0 flex-row items-center gap-0.5",

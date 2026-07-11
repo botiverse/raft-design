@@ -24,8 +24,8 @@ import {
   MessageImageGalleryRow,
   MessageItemBadge,
   MessageItemBadgeSeparator,
+  MessageItemUnreadBadge,
   MessageMultiSelect,
-  MessageReferenceTask,
   MessageReferenceUnavailable,
   MessageTimelineDateDivider,
   MessageTimelineHistoryLimited,
@@ -69,8 +69,9 @@ import {
 import { PlaygroundMessageRow } from "./playground-message-row.tsx";
 
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
+  const BadgeRoot = unread ? MessageItemUnreadBadge : MessageItemBadge;
   return (
-    <MessageItemBadge>
+    <BadgeRoot>
       <MessageSquare />
       {count === 1 ? "1 reply" : `${count} replies`}
       {unread ? (
@@ -79,7 +80,7 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
           <span>{unread} new</span>
         </>
       ) : null}
-    </MessageItemBadge>
+    </BadgeRoot>
   );
 }
 
@@ -87,15 +88,16 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
 // draft-only is Pencil + "draft"; replies+draft appends · Pencil draft.
 function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number }) {
   const hasReplies = Boolean(count);
+  const BadgeRoot = unread ? MessageItemUnreadBadge : MessageItemBadge;
   return (
-    <MessageItemBadge>
+    <BadgeRoot>
       {hasReplies ? (
         <>
           <MessageSquare />
           {count === 1 ? "1 reply" : `${count} replies`}
         </>
       ) : (
-        <Pencil />
+        <Pencil className="text-black/55" />
       )}
       {unread ? (
         <>
@@ -104,9 +106,9 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
         </>
       ) : null}
       {hasReplies ? <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator> : null}
-      {hasReplies ? <Pencil /> : null}
-      <span>draft</span>
-    </MessageItemBadge>
+      {hasReplies ? <Pencil className="text-black/55" /> : null}
+      <span className="text-black/55">draft</span>
+    </BadgeRoot>
   );
 }
 
@@ -196,7 +198,7 @@ function SelectModeToolbarSlot() {
 }
 
 // Scenario 4: component-matrix — a believable channel that happens to exercise
-// every message-item surface the source app renders, one state per message,
+// keep each migrated message-item state isolated, one state per message,
 // wrapped so right-click menus and select mode work on every row.
 function MatrixContentSection() {
   return (
@@ -232,22 +234,22 @@ function MatrixContentSection() {
           <div className="space-y-1">
             <p>
               Unresolved refs dim to 60%:{" "}
-              <MessageReferenceUnavailable>#archived</MessageReferenceUnavailable>{" "}
-              <MessageReferenceUnavailable>#general:deadbeef</MessageReferenceUnavailable>{" "}
-              <MessageReferenceUnavailable>#404</MessageReferenceUnavailable>
+              <MessageReferenceUnavailable kind="channel">#archived</MessageReferenceUnavailable>{" "}
+              <MessageReferenceUnavailable kind="thread">
+                #general:deadbeef
+              </MessageReferenceUnavailable>{" "}
+              <MessageReferenceUnavailable kind="task">#404</MessageReferenceUnavailable>
             </p>
             <p>
               Resolving:{" "}
               <MessageReferenceLoadingComposition>
                 #general:67253b90
               </MessageReferenceLoadingComposition>{" "}
-              · message ref{" "}
-              <MessageReferenceTask href="/playground/frontend">msg #22</MessageReferenceTask> ·
-              unknown mention <MessageReferenceUnavailable>@ghost</MessageReferenceUnavailable>
+              · unknown mention @ghost
             </p>
             <p>
               Cross-server permalink:{" "}
-              <MessagePermalinkReferenceComposition href="/playground/incidents">
+              <MessagePermalinkReferenceComposition external href="/playground/incidents">
                 #ops@other
               </MessagePermalinkReferenceComposition>{" "}
               vs same-server{" "}
@@ -792,7 +794,7 @@ function MatrixStateSection() {
         sender="Developer"
         meta="member"
         time="10:46 AM"
-        surface="search-match"
+        rowState="search-match"
         body="Jumped-to / thread-focus / search anchor: cyan fill + brutal shadow."
       />
       <PlaygroundMessageRow
@@ -800,7 +802,7 @@ function MatrixStateSection() {
         sender="Developer"
         meta="member"
         time="10:47 AM"
-        surface="active"
+        rowState="active"
         body="Active row (context-menu open / open-thread parent): bordered white."
       />
 

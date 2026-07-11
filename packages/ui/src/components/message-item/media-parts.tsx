@@ -121,6 +121,29 @@ export function MessageImageGalleryOverlay({
 
 export type MessageImageGalleryActionProps = useRender.ComponentProps<"button">;
 
+export type MessageImageGalleryPreviewProps = useRender.ComponentProps<"button">;
+
+export function MessageImageGalleryPreview({
+  className,
+  render,
+  ...props
+}: MessageImageGalleryPreviewProps) {
+  const { galleryPreview } = messageMedia();
+  const defaultProps: useRender.ElementProps<"button"> = {
+    type: "button",
+    className: galleryPreview({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
+    state: {
+      slot: "message-image-gallery-preview",
+    },
+  });
+}
+
 export function MessageImageGalleryAction({
   className,
   render,

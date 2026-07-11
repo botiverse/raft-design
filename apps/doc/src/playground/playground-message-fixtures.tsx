@@ -80,7 +80,8 @@ export function TaskStatusBadge({
       <DropdownMenuTrigger
         render={
           <Badge
-            appearance="soft"
+            appearance="solid"
+            className="transition-[filter,opacity] duration-100 hover:brightness-90"
             variant={config.variant}
             render={
               <button
@@ -97,7 +98,7 @@ export function TaskStatusBadge({
         <span>#{taskNumber}</span>
         {assignee ? <span>@{assignee}</span> : null}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="start" className="min-w-[140px]">
         {TASK_STATUS_ORDER.map((id) => (
           <DropdownMenuItem
             key={id}

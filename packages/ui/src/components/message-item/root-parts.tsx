@@ -2,23 +2,24 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
+import { InlineCode, type InlineCodeProps } from "../inline-code";
 import { messageMarkdown } from "./message-markdown.recipe";
 import { messageItem, type DataAttributes, type MessageItemVariantProps } from "./recipe";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
   Pick<MessageItemVariantProps, "compact">;
 
-type MessageItemSurface = "active" | "search-match" | "select";
+type MessageItemRowState = "active" | "search-match" | "select";
 
 function MessageItemRoot({
   className,
   compact,
   render,
-  surface,
+  rowState,
   ...props
-}: MessageItemProps & { surface?: MessageItemSurface }) {
+}: MessageItemProps & { rowState?: MessageItemRowState }) {
   const theme = useThemeFamily();
-  const { root } = messageItem({ compact, rowState: surface, theme });
+  const { root } = messageItem({ compact, rowState, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-compact": compact ? "true" : undefined,
     className: root({ className }),
@@ -41,19 +42,19 @@ export function MessageItem(props: MessageItemProps) {
 export type MessageItemActiveProps = MessageItemProps;
 
 export function MessageItemActive(props: MessageItemActiveProps) {
-  return <MessageItemRoot surface="active" {...props} />;
+  return <MessageItemRoot rowState="active" {...props} />;
 }
 
 export type MessageItemSearchMatchProps = MessageItemProps;
 
 export function MessageItemSearchMatch(props: MessageItemSearchMatchProps) {
-  return <MessageItemRoot surface="search-match" {...props} />;
+  return <MessageItemRoot rowState="search-match" {...props} />;
 }
 
 export type MessageItemSelectionProps = MessageItemProps;
 
 export function MessageItemSelection(props: MessageItemSelectionProps) {
-  return <MessageItemRoot surface="select" {...props} />;
+  return <MessageItemRoot rowState="select" {...props} />;
 }
 
 export type MessageItemGutterProps = useRender.ComponentProps<"div">;
@@ -301,7 +302,8 @@ export function MessageItemBody({ className, render, ...props }: MessageItemBody
 export type MessageMarkdownProps = useRender.ComponentProps<"div">;
 
 export function MessageMarkdown({ className, render, ...props }: MessageMarkdownProps) {
-  const { root } = messageMarkdown();
+  const theme = useThemeFamily();
+  const { root } = messageMarkdown({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
   };
@@ -314,6 +316,15 @@ export function MessageMarkdown({ className, render, ...props }: MessageMarkdown
       slot: "message-markdown",
     },
   });
+}
+
+export type MessageInlineCodeProps = InlineCodeProps;
+
+export function MessageInlineCode({ className, ...props }: MessageInlineCodeProps) {
+  const theme = useThemeFamily();
+  const { inlineCode } = messageMarkdown({ theme });
+
+  return <InlineCode className={inlineCode({ className })} {...props} />;
 }
 
 export type MessageMarkdownTableScrollProps = useRender.ComponentProps<"div">;
@@ -341,7 +352,8 @@ export function MessageMarkdownTableScroll({
 export type MessageCodeBlockProps = useRender.ComponentProps<"pre">;
 
 export function MessageCodeBlock({ className, render, ...props }: MessageCodeBlockProps) {
-  const { codeBlock } = messageMarkdown();
+  const theme = useThemeFamily();
+  const { codeBlock } = messageMarkdown({ theme });
   const defaultProps: useRender.ElementProps<"pre"> = {
     className: codeBlock({ className }),
   };
@@ -514,17 +526,24 @@ export function MessageItemToolbar({
   });
 }
 
-export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button">;
+export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button"> & {
+  active?: boolean;
+  saved?: boolean;
+};
 
 export function MessageItemToolbarButton({
+  active,
   className,
   render,
+  saved,
   ...props
 }: MessageItemToolbarButtonProps) {
   const theme = useThemeFamily();
   const { toolbarButton } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> = {
+  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
     type: "button",
+    "data-active": active ? "true" : undefined,
+    "data-saved": saved ? "true" : undefined,
     className: toolbarButton({ className }),
   };
 
@@ -548,7 +567,6 @@ export function MessageItemSavedIndicator({
   const theme = useThemeFamily();
   const { savedIndicator } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
-    "aria-hidden": true,
     className: savedIndicator({ className }),
   };
 

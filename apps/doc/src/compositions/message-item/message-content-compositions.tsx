@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 import { Link as LinkIcon } from "lucide-react";
-import { InlineCode, PreviewCard, PreviewCardContent, PreviewCardTrigger, Spinner } from "raft-ui";
+import { PreviewCard, PreviewCardContent, PreviewCardTrigger, Spinner } from "raft-ui";
 import {
   MessageCodeBlock,
+  MessageInlineCode,
   MessageMarkdown,
   MessageMarkdownTableScroll,
   MessageReferenceLabel,
   MessageReferenceLoading,
+  MessageReferenceMention,
   MessageReferenceMeta,
   MessageReferencePermalink,
   MessageReferenceSelfMention,
@@ -20,6 +22,31 @@ type MessageReferenceCompositionProps = {
 export type MessageSelfMentionReferenceCompositionProps = MessageReferenceCompositionProps & {
   preview: ReactNode;
 };
+
+export type MessageMentionReferenceCompositionProps = MessageReferenceCompositionProps & {
+  preview: ReactNode;
+};
+
+export function MessageMentionReferenceComposition({
+  children,
+  href,
+  preview,
+}: MessageMentionReferenceCompositionProps) {
+  return (
+    <PreviewCard>
+      <PreviewCardTrigger
+        closeDelay={120}
+        delay={200}
+        render={<MessageReferenceMention href={href} />}
+      >
+        {children}
+      </PreviewCardTrigger>
+      <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
+        {preview}
+      </PreviewCardContent>
+    </PreviewCard>
+  );
+}
 
 export function MessageSelfMentionReferenceComposition({
   children,
@@ -44,10 +71,11 @@ export function MessageSelfMentionReferenceComposition({
 
 export function MessagePermalinkReferenceComposition({
   children,
+  external,
   href,
-}: MessageReferenceCompositionProps) {
+}: MessageReferenceCompositionProps & { external?: boolean }) {
   return (
-    <MessageReferencePermalink href={href}>
+    <MessageReferencePermalink external={external} href={href}>
       <LinkIcon />
       <MessageReferenceLabel>{children}</MessageReferenceLabel>
       <MessageReferenceMeta>msg</MessageReferenceMeta>
@@ -75,8 +103,8 @@ export function MessageMarkdownComposition({ imageSrc }: { imageSrc: string }) {
       <h6>Heading 6</h6>
       <p>
         Inline: <strong>bold</strong>, <em>italic</em>, <del>strikethrough</del>,{" "}
-        <InlineCode>inline code</InlineCode>, H<sub>2</sub>O and x<sup>2</sup>, plus escaped
-        *literal* asterisks.
+        <MessageInlineCode>inline code</MessageInlineCode>, H<sub>2</sub>O and x<sup>2</sup>, plus
+        escaped *literal* asterisks.
       </p>
       <p>
         First line
@@ -106,10 +134,11 @@ export function MessageMarkdownComposition({ imageSrc }: { imageSrc: string }) {
       </ol>
       <ul>
         <li>
-          <input type="checkbox" disabled defaultChecked /> completed task-list item
+          <input type="checkbox" aria-label="Completed task-list item" disabled defaultChecked />{" "}
+          completed task-list item
         </li>
         <li>
-          <input type="checkbox" disabled /> open task-list item
+          <input type="checkbox" aria-label="Open task-list item" disabled /> open task-list item
         </li>
       </ul>
       <blockquote>Blockquote wraps at the same line height.</blockquote>

@@ -15,6 +15,10 @@ export const messageMedia = tv({
       "data-[fit=contain]:object-contain data-[fit=cover]:object-cover",
     ],
     galleryOverlay: ["absolute inset-0 flex items-center justify-center"],
+    galleryPreview: [
+      "absolute inset-0",
+      "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-line-strong",
+    ],
     galleryAction: [
       "absolute right-1 bottom-1 z-10 hidden size-6 items-center justify-center",
       "border border-line-strong focus:flex focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",

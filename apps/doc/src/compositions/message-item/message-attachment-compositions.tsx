@@ -1,4 +1,4 @@
-import type { MouseEventHandler, ReactNode } from "react";
+import type { MouseEvent, MouseEventHandler, ReactNode } from "react";
 import { MessageSquare } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
@@ -69,29 +69,20 @@ export function MessageAttachmentReadyComposition({
   secondaryActionLabel = "Download attachment",
   ...content
 }: MessageAttachmentReadyCompositionProps) {
+  const action = primaryAction ?? secondaryAction;
+  const actionLabel = primaryAction ? primaryActionLabel : secondaryActionLabel;
+  const onAction = primaryAction ? onPrimaryAction : onSecondaryAction;
+
   return (
-    <MessageAttachmentCard>
+    <MessageAttachmentCard
+      aria-label={action ? actionLabel : undefined}
+      onClick={(event) => onAction?.(event as unknown as MouseEvent<HTMLButtonElement>)}
+      render={action ? <button type="button" disabled={!onAction} /> : undefined}
+    >
       <MessageAttachmentContent {...content} />
-      {primaryAction || secondaryAction ? (
+      {action ? (
         <MessageAttachmentActions>
-          {secondaryAction ? (
-            <MessageAttachmentAction
-              aria-label={secondaryActionLabel}
-              disabled={!onSecondaryAction}
-              onClick={onSecondaryAction}
-            >
-              {secondaryAction}
-            </MessageAttachmentAction>
-          ) : null}
-          {primaryAction ? (
-            <MessageAttachmentAction
-              aria-label={primaryActionLabel}
-              disabled={!onPrimaryAction}
-              onClick={onPrimaryAction}
-            >
-              {primaryAction}
-            </MessageAttachmentAction>
-          ) : null}
+          <MessageAttachmentAction render={<span />}>{action}</MessageAttachmentAction>
         </MessageAttachmentActions>
       ) : null}
     </MessageAttachmentCard>

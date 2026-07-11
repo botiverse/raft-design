@@ -48,7 +48,7 @@ import {
   ChatMainPanelTitleBlock,
   MessageItem,
   MessageItemAvatarSlot,
-  MessageItemBadge,
+  MessageItemBadgeSeparator,
   MessageItemUnreadBadge,
   MessageItemBody,
   MessageItemContent,
@@ -144,8 +144,10 @@ export function ChatMainPanelComposition() {
                         chrome.
                       </MessageItemBody>
                       <MessageItemFooter>
-                        <MessageItemBadge>2 replies</MessageItemBadge>
-                        <MessageItemUnreadBadge>1 new</MessageItemUnreadBadge>
+                        <MessageItemUnreadBadge>
+                          2 replies
+                          <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>1 new
+                        </MessageItemUnreadBadge>
                       </MessageItemFooter>
                     </MessageItemContent>
                     <MessageItemToolbar>
