@@ -64,6 +64,7 @@ import {
   MessageTimelineNotice,
   PanelIconButton,
   PanelIconButtonCount,
+  PanelToggleButton,
 } from "raft-ui/wip";
 
 export function ChatMainPanelComposition() {
@@ -81,9 +82,9 @@ export function ChatMainPanelComposition() {
           <PanelIconButton aria-label="Search conversation">
             <Search />
           </PanelIconButton>
-          <PanelIconButton aria-label="Mute channel activity">
+          <PanelToggleButton aria-label="Mute channel activity">
             <Bell />
-          </PanelIconButton>
+          </PanelToggleButton>
           <PanelIconButton aria-label="Stop all agents in this channel">
             <Square />
           </PanelIconButton>

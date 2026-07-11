@@ -1,6 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
+import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv";
+import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 import type { DataAttributes } from "./app-shell";
@@ -22,8 +24,6 @@ const panelIconButton = tv({
         "active:shadow-xs",
         "disabled:shadow-brutal-sm",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
-        "aria-pressed:bg-primary-400 aria-pressed:text-foreground-strong",
-        "aria-pressed:hover:bg-primary-400 aria-pressed:hover:text-foreground-strong",
       ],
       elegant: [
         "size-8 rounded-md border-0 bg-transparent shadow-none",
@@ -31,8 +31,6 @@ const panelIconButton = tv({
         "hover:bg-layer-strong/80 hover:text-foreground",
         "active:translate-x-0 active:translate-y-0 active:bg-layer-strong/80 active:text-foreground",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
-        "aria-pressed:bg-layer-strong aria-pressed:text-foreground",
-        "aria-pressed:hover:bg-layer-strong aria-pressed:hover:text-foreground",
       ],
     },
     layout: {
@@ -43,6 +41,38 @@ const panelIconButton = tv({
   },
   defaultVariants: {
     layout: "icon",
+  },
+});
+
+const panelToggleButton = tv({
+  base: [
+    "relative inline-flex size-7 shrink-0 items-center justify-center p-0",
+    "overflow-visible font-sans font-bold leading-none select-none outline-none",
+    "transition-all duration-100",
+    "data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[disabled]:transform-none",
+    "[&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0",
+  ],
+  variants: {
+    theme: {
+      brutal: [
+        "rounded-none border-2 border-black bg-white text-black shadow-brutal-sm",
+        "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
+        "active:translate-x-px active:translate-y-px active:shadow-xs",
+        "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
+        "data-[pressed]:hover:bg-brutal-orange",
+        "data-[disabled]:shadow-brutal-sm",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+      ],
+      elegant: [
+        "size-8 rounded-md border-0 bg-transparent text-foreground-icon shadow-none",
+        "hover:bg-layer-strong/80 hover:text-foreground",
+        "active:bg-layer-strong/80 active:text-foreground",
+        "data-[pressed]:bg-layer-strong data-[pressed]:text-foreground",
+        "data-[pressed]:hover:bg-layer-strong",
+        "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+        "[&_svg]:size-4",
+      ],
+    },
   },
 });
 
@@ -82,6 +112,21 @@ export function PanelIconButton({ className, layout, ...props }: PanelIconButton
       variant="default"
       size="icon-sm"
       className={panelIconButton({ theme, layout, className })}
+    />
+  );
+}
+
+export type PanelToggleButtonProps = StyledProps<BaseToggle.Props>;
+
+export function PanelToggleButton({ className, ...props }: PanelToggleButtonProps) {
+  const theme = useThemeFamily();
+
+  return (
+    <BaseToggle
+      {...props}
+      type="button"
+      data-slot="panel-toggle-button"
+      className={panelToggleButton({ theme, className })}
     />
   );
 }
