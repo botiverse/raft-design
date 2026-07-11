@@ -52,7 +52,7 @@ export const messageItem = tv({
     ],
   },
   variants: {
-    badgeTone: { default: {}, cyan: {} },
+    badgeStatus: { read: {}, unread: {} },
     theme: {
       brutal: {
         root: [
@@ -159,16 +159,16 @@ export const messageItem = tv({
       class: { root: "border-line-strong bg-info-light shadow-sm" },
     },
     { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },
-    { theme: "brutal", badgeTone: "default", class: { badge: "!bg-white" } },
-    { theme: "brutal", badgeTone: "cyan", class: { badge: "!bg-brutal-cyan/20" } },
+    { theme: "brutal", badgeStatus: "read", class: { badge: "!bg-white" } },
+    { theme: "brutal", badgeStatus: "unread", class: { badge: "!bg-brutal-cyan/20" } },
     {
       theme: "elegant",
-      badgeTone: "default",
+      badgeStatus: "read",
       class: { badge: "text-foreground-muted" },
     },
     {
       theme: "elegant",
-      badgeTone: "cyan",
+      badgeStatus: "unread",
       class: {
         badge: [
           "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",

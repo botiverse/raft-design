@@ -444,19 +444,19 @@ export function MessageItemFooter({ className, render, ...props }: MessageItemFo
   });
 }
 
-export type MessageItemBadgeProps = useRender.ComponentProps<"span">;
+export type MessageItemBadgeStatus = "read" | "unread";
 
-function MessageItemBadgeRoot({
-  className,
-  unread = false,
-  ...props
-}: MessageItemBadgeProps & { unread?: boolean }) {
+export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
+  status?: MessageItemBadgeStatus;
+};
+
+export function MessageItemBadge({ className, status = "read", ...props }: MessageItemBadgeProps) {
   const theme = useThemeFamily();
-  const { badge } = messageItem({ badgeTone: unread ? "cyan" : "default", theme });
+  const { badge } = messageItem({ badgeStatus: status, theme });
   // Brutal matches source ThreadRepliesBadge (solid default + bg override).
-  // Elegant uses outline Badge chrome; cyan uses primary outline.
+  // Elegant uses outline Badge chrome; unread uses the primary outline.
   const appearance = theme === "elegant" ? "outline" : "solid";
-  const variant = theme === "elegant" && unread ? "primary" : "default";
+  const variant = theme === "elegant" && status === "unread" ? "primary" : "default";
   return (
     <Badge
       appearance={appearance}
@@ -467,16 +467,6 @@ function MessageItemBadgeRoot({
       {...props}
     />
   );
-}
-
-export function MessageItemBadge(props: MessageItemBadgeProps) {
-  return <MessageItemBadgeRoot {...props} />;
-}
-
-export type MessageItemUnreadBadgeProps = MessageItemBadgeProps;
-
-export function MessageItemUnreadBadge(props: MessageItemUnreadBadgeProps) {
-  return <MessageItemBadgeRoot unread {...props} />;
 }
 
 export type MessageItemBadgeSeparatorProps = useRender.ComponentProps<"span">;

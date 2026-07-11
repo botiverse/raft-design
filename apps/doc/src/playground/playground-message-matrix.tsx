@@ -64,10 +64,10 @@ import { PlaygroundMessageRow } from "./playground-message-row.tsx";
 
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
   const [opened, setOpened] = useState(false);
-  const BadgeRoot = unread ? MessageItemUnreadBadge : MessageItemBadge;
   return (
     <>
-      <BadgeRoot
+      <MessageItemBadge
+        status={unread ? "unread" : "read"}
         className="cursor-pointer"
         render={
           <button
@@ -85,7 +85,7 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
             <span>{unread} new</span>
           </>
         ) : null}
-      </BadgeRoot>
+      </MessageItemBadge>
       {opened ? (
         <span className="sr-only" role="status">
           Thread opened
@@ -97,15 +97,13 @@ function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }
 
 // Reply badge draft variants (source ThreadRepliesBadge): one default pill —
 // draft-only is Pencil + "draft"; replies+draft appends · Pencil draft.
-const draftMutedClass = "text-black/55 [[data-theme=elegant]_&]:text-foreground-muted";
-
 function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number }) {
   const [opened, setOpened] = useState(false);
   const hasReplies = Boolean(count);
-  const BadgeRoot = unread ? MessageItemUnreadBadge : MessageItemBadge;
   return (
     <>
-      <BadgeRoot
+      <MessageItemBadge
+        status={unread ? "unread" : "read"}
         className="cursor-pointer"
         render={
           <button
@@ -121,7 +119,7 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
             {count === 1 ? "1 reply" : `${count} replies`}
           </>
         ) : (
-          <Pencil className={draftMutedClass} />
+          <Pencil />
         )}
         {unread ? (
           <>
@@ -130,9 +128,9 @@ function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number 
           </>
         ) : null}
         {hasReplies ? <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator> : null}
-        {hasReplies ? <Pencil className={draftMutedClass} /> : null}
-        <span className={draftMutedClass}>draft</span>
-      </BadgeRoot>
+        {hasReplies ? <Pencil /> : null}
+        <span>draft</span>
+      </MessageItemBadge>
       {opened ? (
         <span className="sr-only" role="status">
           Thread opened

@@ -70,8 +70,9 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemBadge",
-    type: 'useRender.ComponentProps<"span">',
-    description: "Neutral footer badge slot. Business labels and icons remain caller-owned.",
+    type: 'useRender.ComponentProps<"span"> & { status?: "read" | "unread" }',
+    description:
+      "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
   },
   {
     name: "MessageImageGallery",

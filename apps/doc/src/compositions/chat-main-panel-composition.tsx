@@ -48,8 +48,8 @@ import {
   ChatMainPanelTitleBlock,
   MessageItem,
   MessageItemAvatarSlot,
+  MessageItemBadge,
   MessageItemBadgeSeparator,
-  MessageItemUnreadBadge,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
@@ -144,10 +144,10 @@ export function ChatMainPanelComposition() {
                         chrome.
                       </MessageItemBody>
                       <MessageItemFooter>
-                        <MessageItemUnreadBadge>
+                        <MessageItemBadge status="unread">
                           2 replies
                           <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>1 new
-                        </MessageItemUnreadBadge>
+                        </MessageItemBadge>
                       </MessageItemFooter>
                     </MessageItemContent>
                     <MessageItemToolbar>

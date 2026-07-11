@@ -30,7 +30,6 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-  MessageItemUnreadBadge,
   MessageReactionAddButton,
   MessageReactionGlyph,
   MessageReactionPicker,
@@ -430,7 +429,7 @@ export function MessageItemStateMatrix() {
       <MatrixSection title="footer badges and reactions">
         <MatrixCell label="badge default">
           <StateRow
-            body="Footer badge default tone."
+            body="Footer badge read status."
             footer={<MessageItemBadge>4 replies</MessageItemBadge>}
           />
         </MatrixCell>
@@ -438,9 +437,9 @@ export function MessageItemStateMatrix() {
           <StateRow
             body="Unread footer badge composition."
             footer={
-              <MessageItemUnreadBadge>
+              <MessageItemBadge status="unread">
                 <MessageSquare />6 replies
-              </MessageItemUnreadBadge>
+              </MessageItemBadge>
             }
           />
         </MatrixCell>

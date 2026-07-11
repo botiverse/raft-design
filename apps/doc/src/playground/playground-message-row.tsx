@@ -449,6 +449,7 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
 
   return (
     <MessageItemBadge
+      status="unread"
       className="cursor-pointer"
       render={
         <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />

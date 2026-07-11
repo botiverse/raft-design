@@ -13,6 +13,7 @@ import {
   MessageItemActive,
   MessageItemAttachments,
   MessageItemAvatarSlot,
+  MessageItemBadge,
   MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
@@ -32,7 +33,6 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-  MessageItemUnreadBadge,
   MessageReactionChip,
   MessageReactionGlyph,
   MessageReactionPicker,
@@ -159,9 +159,9 @@ export function ContextMenuMessageRow() {
             </MessageItemHeader>
             <MessageItemBody>Right-click opens the shared ContextMenu composition.</MessageItemBody>
             <MessageItemFooter>
-              <MessageItemUnreadBadge>
+              <MessageItemBadge status="unread">
                 <MessageSquare />4 replies
-              </MessageItemUnreadBadge>
+              </MessageItemBadge>
               <MessageReactionComposition emoji={reaction} count={2} reacted />
             </MessageItemFooter>
           </MessageItemContent>
@@ -475,10 +475,10 @@ export function RichAttachmentMessageRow() {
             <span>#222</span>
             <span>@Ada</span>
           </Badge>
-          <MessageItemUnreadBadge>
+          <MessageItemBadge status="unread">
             <MessageSquare />6 replies
             <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new
-          </MessageItemUnreadBadge>
+          </MessageItemBadge>
           <MessageReactionComposition emoji="👍" count={5} reacted />
           <MessageReactionComposition emoji="👀" count={2} />
           <MessageReactionComposition emoji="🔥" count={1} failed />
