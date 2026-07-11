@@ -1,0 +1,74 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Badge } from "../badge";
+import { messageFooter } from "./message-footer.recipe";
+
+export type MessageItemBadgeStatus = "read" | "unread";
+
+export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
+  status?: MessageItemBadgeStatus;
+};
+
+export function MessageItemBadge({ className, status = "read", ...props }: MessageItemBadgeProps) {
+  const theme = useThemeFamily();
+  const { badge } = messageFooter({ badgeStatus: status, theme });
+  // Brutal matches source ThreadRepliesBadge (solid default + bg override).
+  // Elegant uses outline Badge chrome; unread uses the primary outline.
+  const appearance = theme === "elegant" ? "outline" : "solid";
+  const variant = theme === "elegant" && status === "unread" ? "primary" : "default";
+  return (
+    <Badge
+      appearance={appearance}
+      data-slot="message-item-badge"
+      uppercase={false}
+      variant={variant}
+      className={badge({ className })}
+      {...props}
+    />
+  );
+}
+
+export type MessageItemBadgeSeparatorProps = useRender.ComponentProps<"span">;
+
+export function MessageItemBadgeSeparator({
+  className,
+  render,
+  ...props
+}: MessageItemBadgeSeparatorProps) {
+  const { badgeSeparator } = messageFooter();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    "aria-hidden": true,
+    className: badgeSeparator({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-item-badge-separator" },
+  });
+}
+
+export type MessageItemSavedIndicatorProps = useRender.ComponentProps<"span">;
+
+export function MessageItemSavedIndicator({
+  className,
+  render,
+  ...props
+}: MessageItemSavedIndicatorProps) {
+  const theme = useThemeFamily();
+  const { savedIndicator } = messageFooter({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: savedIndicator({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-saved-indicator",
+    },
+  });
+}

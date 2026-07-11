@@ -1,4 +1,50 @@
 export {
+  MessageItem,
+  MessageItemActive,
+  MessageItemSearchMatch,
+  MessageItemSelection,
+} from "./message-item-root";
+export {
+  MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
+  MessageItemContinuationTime,
+  MessageItemGutter,
+} from "./message-item-gutter";
+export {
+  MessageItemAttachments,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemEmbedded,
+  MessageItemFooter,
+  MessageItemNotice,
+} from "./message-item-content";
+export {
+  MessageItemHeader,
+  MessageItemInlineStatus,
+  MessageItemMeta,
+  MessageItemSender,
+  MessageItemSenderState,
+  MessageItemTime,
+} from "./message-item-regions";
+export { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
+export {
+  MessageItemBadge,
+  MessageItemBadgeSeparator,
+  MessageItemSavedIndicator,
+} from "./message-footer";
+export {
+  MessageCodeBlock,
+  MessageInlineCode,
+  MessageMarkdown,
+  MessageMarkdownTableScroll,
+} from "./message-markdown";
+export {
+  SystemMessageGroupDisclosure,
+  SystemMessageItem,
+  SystemMessageItemContent,
+  SystemMessageItemTime,
+} from "./message-system";
+export {
   MessageAttachmentAction,
   MessageAttachmentActions,
   MessageAttachmentBody,
@@ -12,6 +58,8 @@ export {
   MessageAttachmentPendingIndicator,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
+} from "./message-attachment";
+export {
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
@@ -24,35 +72,8 @@ export {
   MessageVideoPreviewFallback,
   MessageVideoPreviewFrame,
   MessageVideoPreviewMedia,
-  MessageItem,
-  MessageItemActive,
-  MessageItemAttachments,
-  MessageItemAvatarSlot,
-  MessageItemAvatarStatus,
-  MessageItemBadge,
-  MessageItemBadgeSeparator,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemContinuationTime,
-  MessageItemEmbedded,
-  MessageItemFooter,
-  MessageItemGutter,
-  MessageItemHeader,
-  MessageItemInlineStatus,
-  MessageItemMeta,
-  MessageInlineCode,
-  MessageMarkdown,
-  MessageMarkdownTableScroll,
-  MessageCodeBlock,
-  MessageItemNotice,
-  MessageItemSavedIndicator,
-  MessageItemSearchMatch,
-  MessageItemSelection,
-  MessageItemSender,
-  MessageItemSenderState,
-  MessageItemTime,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
+} from "./message-media";
+export {
   MessageReactionAddButton,
   MessageReactionChip,
   MessageReactionCount,
@@ -68,21 +89,19 @@ export {
   MessageReactionTooltipNames,
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
+} from "./message-reaction";
+export {
   MessageReferenceChannel,
-  MessageReferenceLoading,
   MessageReferenceLabel,
-  MessageReferenceMeta,
+  MessageReferenceLoading,
   MessageReferenceMention,
+  MessageReferenceMeta,
   MessageReferencePermalink,
   MessageReferenceSelfMention,
   MessageReferenceTask,
   MessageReferenceThread,
   MessageReferenceUnavailable,
-  SystemMessageItem,
-  SystemMessageItemContent,
-  SystemMessageGroupDisclosure,
-  SystemMessageItemTime,
-} from "./message-item";
+} from "./message-reference";
 export {
   MessageMultiSelect,
   MessageMultiSelectAction,
@@ -100,6 +119,56 @@ export {
   useMessageTextSelection,
 } from "./message-text-selection";
 export type {
+  MessageItemActiveProps,
+  MessageItemProps,
+  MessageItemSearchMatchProps,
+  MessageItemSelectionProps,
+} from "./message-item-root";
+export type {
+  MessageItemAvatarSlotProps,
+  MessageItemAvatarStatusProps,
+  MessageItemContinuationTimeProps,
+  MessageItemGutterProps,
+} from "./message-item-gutter";
+export type {
+  MessageItemAttachmentsProps,
+  MessageItemBodyProps,
+  MessageItemContentProps,
+  MessageItemEmbeddedProps,
+  MessageItemFooterProps,
+  MessageItemNoticeProps,
+} from "./message-item-content";
+export type {
+  MessageItemHeaderProps,
+  MessageItemInlineStatusProps,
+  MessageItemMetaProps,
+  MessageItemSenderProps,
+  MessageItemSenderStateProps,
+  MessageItemTimeProps,
+} from "./message-item-regions";
+export type {
+  MessageItemToolbarButtonProps,
+  MessageItemToolbarProps,
+} from "./message-item-toolbar";
+export type {
+  MessageItemBadgeProps,
+  MessageItemBadgeSeparatorProps,
+  MessageItemBadgeStatus,
+  MessageItemSavedIndicatorProps,
+} from "./message-footer";
+export type {
+  MessageCodeBlockProps,
+  MessageInlineCodeProps,
+  MessageMarkdownProps,
+  MessageMarkdownTableScrollProps,
+} from "./message-markdown";
+export type {
+  SystemMessageGroupDisclosureProps,
+  SystemMessageItemContentProps,
+  SystemMessageItemProps,
+  SystemMessageItemTimeProps,
+} from "./message-system";
+export type {
   MessageAttachmentActionProps,
   MessageAttachmentActionsProps,
   MessageAttachmentBodyProps,
@@ -107,14 +176,16 @@ export type {
   MessageAttachmentErrorOverlayProps,
   MessageAttachmentIconProps,
   MessageAttachmentLoadingBarProps,
-  MessageAttachmentMetaProps,
   MessageAttachmentMetaDetailProps,
+  MessageAttachmentMetaProps,
   MessageAttachmentMetaSeparatorProps,
   MessageAttachmentPendingIndicatorProps,
   MessageAttachmentSummaryProps,
   MessageAttachmentTitleProps,
-  MessageImageGalleryItemProps,
+} from "./message-attachment";
+export type {
   MessageImageGalleryActionProps,
+  MessageImageGalleryItemProps,
   MessageImageGalleryMediaProps,
   MessageImageGalleryOverlayProps,
   MessageImageGalleryPreviewProps,
@@ -125,43 +196,15 @@ export type {
   MessageVideoPreviewFrameProps,
   MessageVideoPreviewMediaProps,
   MessageVideoPreviewProps,
-  MessageItemAttachmentsProps,
-  MessageItemActiveProps,
-  MessageItemAvatarSlotProps,
-  MessageItemAvatarStatusProps,
-  MessageItemBadgeProps,
-  MessageItemBadgeStatus,
-  MessageItemBadgeSeparatorProps,
-  MessageItemBodyProps,
-  MessageItemContentProps,
-  MessageItemContinuationTimeProps,
-  MessageItemEmbeddedProps,
-  MessageItemFooterProps,
-  MessageItemGutterProps,
-  MessageItemHeaderProps,
-  MessageItemInlineStatusProps,
-  MessageItemMetaProps,
-  MessageInlineCodeProps,
-  MessageMarkdownProps,
-  MessageMarkdownTableScrollProps,
-  MessageCodeBlockProps,
-  MessageItemNoticeProps,
-  MessageItemProps,
-  MessageItemSavedIndicatorProps,
-  MessageItemSearchMatchProps,
-  MessageItemSelectionProps,
-  MessageItemSenderProps,
-  MessageItemSenderStateProps,
-  MessageItemTimeProps,
-  MessageItemToolbarButtonProps,
-  MessageItemToolbarProps,
+} from "./message-media";
+export type {
   MessageReactionAddButtonProps,
   MessageReactionChipProps,
   MessageReactionCountProps,
   MessageReactionErrorIndicatorProps,
   MessageReactionGlyphProps,
-  MessageReactionPickerProps,
   MessageReactionPickerContentProps,
+  MessageReactionPickerProps,
   MessageReactionQuickButtonProps,
   MessageReactionQuickRowProps,
   MessageReactionTooltipContentProps,
@@ -170,21 +213,19 @@ export type {
   MessageReactionTooltipNamesProps,
   MessageReactionTooltipNameTextProps,
   MessageReactionTooltipSeparatorProps,
+} from "./message-reaction";
+export type {
   MessageReferenceChannelProps,
-  MessageReferenceLoadingProps,
   MessageReferenceLabelProps,
-  MessageReferenceMetaProps,
+  MessageReferenceLoadingProps,
   MessageReferenceMentionProps,
+  MessageReferenceMetaProps,
   MessageReferencePermalinkProps,
   MessageReferenceSelfMentionProps,
   MessageReferenceTaskProps,
   MessageReferenceThreadProps,
   MessageReferenceUnavailableProps,
-  SystemMessageItemContentProps,
-  SystemMessageGroupDisclosureProps,
-  SystemMessageItemProps,
-  SystemMessageItemTimeProps,
-} from "./message-item";
+} from "./message-reference";
 export type {
   MessageMultiSelectActionProps,
   MessageMultiSelectActionsProps,
@@ -195,9 +236,9 @@ export type {
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {
+  MessageTextSelectionApi,
   MessageTextSelectionMenuItemProps,
   MessageTextSelectionMenuProps,
   MessageTextSelectionMenuSeparatorProps,
-  MessageTextSelectionApi,
   MessageTextSelectionProps,
 } from "./message-text-selection";
