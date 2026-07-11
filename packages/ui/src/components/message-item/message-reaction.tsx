@@ -4,7 +4,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
-import { type DataAttributes } from "./recipe";
+import { type DataAttributes } from "./message-item.types";
 
 export type MessageReactionChipProps = useRender.ComponentProps<"button">;
 

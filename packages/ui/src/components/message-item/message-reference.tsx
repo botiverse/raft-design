@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageReference, type MessageReferenceVariantProps } from "./message-reference.recipe";
-import { type DataAttributes } from "./recipe";
+import { type DataAttributes } from "./message-item.types";
 
 type MessageReferenceTreatment = NonNullable<MessageReferenceVariantProps["treatment"]>;
 type MessageReferenceLinkProps = useRender.ComponentProps<"a">;

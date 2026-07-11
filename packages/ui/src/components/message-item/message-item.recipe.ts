@@ -1,7 +1,5 @@
 import { tv, type VariantProps } from "../../lib/tv";
 
-export type DataAttributes = Record<`data-${string}`, string | undefined>;
-
 export const messageItem = tv({
   slots: {
     root: ["group/message relative flex h-fit min-h-[3rem] gap-3", "border-2 border-transparent"],
@@ -30,29 +28,8 @@ export const messageItem = tv({
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
     toolbarButton: ["inline-flex shrink-0 items-center justify-center", "[&_svg]:shrink-0"],
-    savedIndicator: [
-      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
-      "border border-line-strong px-1.5 text-[10px] font-bold leading-none",
-      "[&_svg]:size-[10px] [&_svg]:shrink-0",
-    ],
-    badge: [
-      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
-      "border transition-colors",
-      "[&_svg]:size-3 [&_svg]:shrink-0",
-    ],
-    badgeSeparator: ["text-foreground/45"],
-    systemRoot: ["mb-1 flex min-w-0 items-center justify-center gap-2 px-2 py-1.5"],
-    systemTime: ["shrink-0 whitespace-nowrap font-mono text-xs text-foreground/40"],
-    systemContent: ["min-w-0 truncate text-xs text-foreground/50"],
-    systemDisclosure: [
-      "group flex max-w-full items-center gap-1.5 px-2 py-1",
-      "text-xs text-foreground/50 transition-colors hover:text-foreground/75",
-      "[&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:rotate-90 [&_svg]:text-foreground/35 [&_svg]:transition-transform",
-      "aria-expanded:[&_svg]:-rotate-90",
-    ],
   },
   variants: {
-    badgeStatus: { read: {}, unread: {} },
     theme: {
       brutal: {
         root: [
@@ -78,15 +55,6 @@ export const messageItem = tv({
           "data-[active=true]:text-black data-[active=true]:hover:text-black",
           "data-[saved=true]:text-brutal-orange data-[saved=true]:hover:text-brutal-orange",
           "[&_svg]:size-[13px]",
-        ],
-        savedIndicator: [
-          "bg-brutal-orange/15 text-black transition-[filter] duration-100 hover:brightness-90",
-          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-black",
-          "[&_svg]:text-brutal-orange",
-        ],
-        badge: [
-          "border-line-strong px-1.5 text-[10px] font-bold leading-none text-black",
-          "transition-colors hover:bg-brutal-cyan/40",
         ],
       },
       elegant: {
@@ -121,12 +89,7 @@ export const messageItem = tv({
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
         ],
-        savedIndicator: "right-[calc(1.75rem-2px)] text-primary-400",
         footer: "mt-2.5",
-        badge: [
-          "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
-          "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
-        ],
       },
     },
     rowState: {
@@ -159,23 +122,6 @@ export const messageItem = tv({
       class: { root: "border-line-strong bg-info-light shadow-sm" },
     },
     { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },
-    { theme: "brutal", badgeStatus: "read", class: { badge: "!bg-white" } },
-    { theme: "brutal", badgeStatus: "unread", class: { badge: "!bg-brutal-cyan/20" } },
-    {
-      theme: "elegant",
-      badgeStatus: "read",
-      class: { badge: "text-foreground-muted" },
-    },
-    {
-      theme: "elegant",
-      badgeStatus: "unread",
-      class: {
-        badge: [
-          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
-          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
-        ],
-      },
-    },
   ],
 });
 

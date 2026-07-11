@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageMedia } from "./message-media.recipe";
-import { type DataAttributes } from "./recipe";
+import { type DataAttributes } from "./message-item.types";
 
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
