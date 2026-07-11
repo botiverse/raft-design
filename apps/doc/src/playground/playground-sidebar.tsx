@@ -174,9 +174,11 @@ function ChannelRowContent({
 
   return (
     <>
-      <ChatSidebarItemChannelIcon aria-hidden>
-        <ChannelIcon />
-      </ChatSidebarItemChannelIcon>
+      <ChatSidebarItemIcon aria-hidden>
+        <ChatSidebarItemChannelIcon>
+          <ChannelIcon />
+        </ChatSidebarItemChannelIcon>
+      </ChatSidebarItemIcon>
       <ChatSidebarItemInlineText align={navigation.muted ? "center" : undefined}>
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}

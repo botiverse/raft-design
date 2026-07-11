@@ -104,7 +104,7 @@ export const messageItem = tv({
         meta: "font-sans text-[12px] leading-none text-foreground-muted/60",
         time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted/60",
         body: [
-          "mt-1.5 mb-1.5 text-[15px] leading-[22.5px] tracking-[-0.01em] text-foreground-muted",
+          "mt-1.5 mb-1.5 text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
           "select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
           "group-data-[compact=true]/message:[&_p]:pt-0",
@@ -125,7 +125,7 @@ export const messageItem = tv({
         footer: "mt-2.5",
         badge: [
           "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
-          "text-[12px] font-[420] tracking-[-0.01em]",
+          "text-[11px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
         ],
       },
     },
