@@ -10,7 +10,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider } from "raft-ui";
 
-import { PreviewThemeProvider } from "#/components/preview-theme.tsx";
+import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
 import fontsCss from "raft-ui/fonts.css?url";
 import appCss from "../styles.css?url";
@@ -95,8 +95,8 @@ function RootDocument({ children }: { children: ReactNode }) {
             : "bg-layer-panel text-foreground antialiased [--layer-page:oklch(1_0_0)]"
         }
       >
-        <ThemeProvider theme="elegant" mode="light">
-          <PreviewThemeProvider>
+        <PreviewThemeProvider>
+          <DocumentThemeProvider standalone={isStandalonePage}>
             <div
               className={
                 isStandalonePage
@@ -107,8 +107,8 @@ function RootDocument({ children }: { children: ReactNode }) {
               {isStandalonePage ? null : <Sidebar />}
               <main className="min-h-screen pl-[var(--sidebar-w)]">{children}</main>
             </div>
-          </PreviewThemeProvider>
-        </ThemeProvider>
+          </DocumentThemeProvider>
+        </PreviewThemeProvider>
         {isStandalonePage ? null : (
           <TanStackDevtools
             config={{
@@ -125,6 +125,24 @@ function RootDocument({ children }: { children: ReactNode }) {
         <Scripts />
       </body>
     </html>
+  );
+}
+
+function DocumentThemeProvider({
+  children,
+  standalone,
+}: {
+  children: ReactNode;
+  standalone: boolean;
+}) {
+  const previewTheme = usePreviewTheme();
+  return (
+    <ThemeProvider
+      theme={standalone ? previewTheme.theme : "elegant"}
+      mode={standalone ? previewTheme.mode : "light"}
+    >
+      {children}
+    </ThemeProvider>
   );
 }
 

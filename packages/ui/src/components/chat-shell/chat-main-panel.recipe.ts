@@ -10,6 +10,7 @@ export const chatMainPanel = tv({
       "[&_svg]:size-[18px] [&_svg]:shrink-0",
     ],
     titleBlock: ["min-w-0 flex-1"],
+    titleRow: ["flex min-w-0 items-center gap-2"],
     title: ["truncate text-base font-bold leading-tight"],
     subtitle: ["min-w-0 truncate font-mono text-xs"],
     mutedBadge: [
@@ -184,21 +185,29 @@ export const chatMainPanel = tv({
           "active:translate-x-0 active:translate-y-0 active:scale-[0.985]",
           "[&_svg]:size-4",
         ],
-        composerAttachmentImage: "border-black",
-        composerAttachmentFile: "border-black bg-white [&_svg]:text-black/70",
-        composerAttachmentTitle: "text-black",
-        composerAttachmentMeta: "text-black/50",
-        composerAttachmentProgress: "bg-black/15",
-        composerAttachmentProgressFill: "bg-brutal-pink",
-        composerAttachmentRemove: "bg-black text-white",
-        composerDropOverlay: "border-brutal-pink bg-brutal-pink/15",
-        composerDropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
+        composerAttachmentImage: "rounded-md border-line-subtle",
+        composerAttachmentFile:
+          "rounded-md border-line-subtle bg-layer-muted [&_svg]:text-foreground-icon",
+        composerAttachmentTitle: "text-foreground-strong",
+        composerAttachmentMeta: "text-foreground-placeholder",
+        composerAttachmentProgress: "bg-ink-6",
+        composerAttachmentProgressFill: "bg-accent-400",
+        composerAttachmentRemove: "bg-foreground-strong text-foreground-inverse",
+        composerDropOverlay: "rounded-lg border-accent-400 bg-accent-100/60",
+        composerDropOverlayLabel:
+          "rounded-md border-line-subtle bg-layer-popover text-foreground shadow-lg",
       },
     },
     attachmentTone: {
       uploading: {},
       failed: {
         composerAttachmentOverlay: "leading-3",
+      },
+    },
+    subtitleSize: {
+      sm: {},
+      md: {
+        subtitle: "text-sm",
       },
     },
   },
@@ -217,14 +226,16 @@ export const chatMainPanel = tv({
       theme: "elegant",
       attachmentTone: "uploading",
       class: {
-        composerAttachmentOverlay: "border-black bg-white/85 text-black",
+        composerAttachmentOverlay:
+          "rounded-md border-line-subtle bg-layer-popover/90 text-foreground-muted",
       },
     },
     {
       theme: "elegant",
       attachmentTone: "failed",
       class: {
-        composerAttachmentOverlay: "border-black bg-brutal-orange/90 text-black",
+        composerAttachmentOverlay:
+          "rounded-md border-danger-base/30 bg-danger-lighter/95 text-danger-base",
       },
     },
   ],

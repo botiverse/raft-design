@@ -102,6 +102,7 @@ export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
     | "sideOffset"
     | "sticky"
   > & {
+    container?: PopoverPortalProps["container"];
     portalProps?: PopoverPortalProps;
   };
 
@@ -118,14 +119,16 @@ export function PopoverContent({
   side = "bottom",
   sideOffset = 4,
   sticky,
+  container,
   portalProps,
   className,
   ...props
 }: PopoverContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = popover({ theme });
+  const portalContainer = container !== undefined ? container : portalProps?.container;
   return (
-    <BasePopover.Portal {...portalProps}>
+    <BasePopover.Portal {...portalProps} container={portalContainer}>
       <BasePopover.Positioner
         align={align}
         alignOffset={alignOffset}

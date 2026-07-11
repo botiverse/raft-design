@@ -1,6 +1,6 @@
 import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
 import { Avatar, AvatarFallback, Badge, Spinner } from "raft-ui";
-import { IMAGE_SRC } from "./message-item.fixtures";
+import { IMAGE_SRC } from "#/compositions/message-item/message-row-compositions.tsx";
 
 const SOURCE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
 

@@ -1,34 +1,7 @@
+import { useState } from "react";
+import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
+import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
-  Archive,
-  Bookmark,
-  Copy,
-  Download,
-  Eye,
-  MessageSquare,
-  Play,
-  Reply,
-  SmilePlus,
-  Trash2,
-} from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  Badge,
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-} from "raft-ui";
-import {
-  MESSAGE_QUICK_REACTIONS,
-  MessageAttachmentAction,
-  MessageAttachmentBody,
-  MessageAttachmentCard,
-  MessageAttachmentMeta,
-  MessageAttachmentTitle,
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
@@ -36,9 +9,9 @@ import {
   MessageImageGalleryOverlay,
   MessageImageGalleryRow,
   MessageItem,
+  MessageItemActive,
   MessageItemAttachments,
   MessageItemAvatarSlot,
-  MessageItemBadge,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
@@ -46,26 +19,24 @@ import {
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
+  MessageItemInlineStatus,
   MessageItemMeta,
   MessageItemNotice,
   MessageItemSavedIndicator,
-  MessageItemSelectMark,
+  MessageItemSearchMatch,
+  MessageItemSelection,
   MessageItemSender,
   MessageItemSenderState,
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
+  MessageItemUnreadBadge,
   MessageReactionChip,
-  MessageReactionCount,
   MessageReactionGlyph,
   MessageReactionPicker,
-  MessageReactionPopover,
-  MessageReactionPopoverName,
-  MessageReactionPopoverNameText,
-  MessageReactionPopoverNames,
-  MessageReactionPopoverSeparator,
   MessageReactionQuickButton,
-  MessageReactionQuickRow,
+  MessageMultiSelect,
+  MessageMultiSelectCheckbox,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
@@ -74,9 +45,30 @@ import {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "raft-ui/wip";
+import {
+  MESSAGE_QUICK_REACTIONS,
+  MessageReactionComposition,
+  MessageReactionTooltipComposition,
+} from "./message-reaction-compositions.tsx";
+import { MessageAttachmentReadyComposition } from "./message-attachment-compositions.tsx";
+import {
+  MessageContextMenuComposition,
+  type MessageTaskState,
+} from "./message-context-menu-composition.tsx";
 
 export const IMAGE_SRC =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='420' viewBox='0 0 640 420'%3E%3Crect width='640' height='420' fill='%23f4f0e8'/%3E%3Crect x='34' y='34' width='572' height='352' fill='%23f7d358' stroke='%23000' stroke-width='8'/%3E%3Ccircle cx='180' cy='168' r='72' fill='%23ff7ab6' stroke='%23000' stroke-width='8'/%3E%3Cpath d='M292 310 406 190l70 72 56-42 74 90z' fill='%23a3e8ff' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E";
+
+export function downloadMessageFixture(name: string) {
+  const link = document.createElement("a");
+  link.download = name;
+  link.href = IMAGE_SRC;
+  link.click();
+}
+
+export function openMessageFixture() {
+  window.open(IMAGE_SRC, "_blank", "noopener,noreferrer");
+}
 
 export function AuthoredMessageRow() {
   return (
@@ -97,8 +89,8 @@ export function AuthoredMessageRow() {
           this component.
         </MessageItemBody>
         <MessageItemFooter>
-          <Reaction emoji="👍" count={3} reacted />
-          <Reaction emoji="🔥" count={1} />
+          <MessageReactionComposition emoji="👍" count={3} reacted />
+          <MessageReactionComposition emoji="🔥" count={1} />
         </MessageItemFooter>
       </MessageItemContent>
       <MessageItemSavedIndicator>
@@ -135,60 +127,74 @@ export function SavedToolbarMessageRow() {
 }
 
 export function ContextMenuMessageRow() {
+  const [followed, setFollowed] = useState(false);
+  const [lastAction, setLastAction] = useState("Right-click for message actions");
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [reaction, setReaction] = useState("✅");
+  const [saved, setSaved] = useState(false);
+  const [task, setTask] = useState<MessageTaskState>("none");
+
   return (
-    <ContextMenu>
-      <ContextMenuTrigger render={<MessageItem rowState="active" />}>
-        <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
-        </MessageItemAvatarSlot>
-        <MessageItemContent>
-          <MessageItemHeader>
-            <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemMeta>#design-system</MessageItemMeta>
-            <MessageItemTime>2:14 PM</MessageItemTime>
-          </MessageItemHeader>
-          <MessageItemBody>Right-click opens the shared ContextMenu composition.</MessageItemBody>
-          <MessageItemFooter>
-            <MessageItemBadge tone="cyan">
-              <MessageSquare />4 replies
-            </MessageItemBadge>
-            <Reaction emoji="✅" count={2} reacted />
-          </MessageItemFooter>
-        </MessageItemContent>
-        <Toolbar />
-      </ContextMenuTrigger>
-      <ContextMenuContent className="w-60 min-w-60 shadow-[4px_4px_0px_var(--color-black)]">
-        <MessageReactionQuickRow>
-          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-            <MessageReactionQuickButton key={emoji} aria-label={`React with ${emoji}`}>
-              <MessageReactionGlyph emoji={emoji} size={18} />
-            </MessageReactionQuickButton>
-          ))}
-        </MessageReactionQuickRow>
-        <ContextMenuSeparator />
-        <ContextMenuLabel>Message</ContextMenuLabel>
-        <ContextMenuItem>
-          <Reply />
-          Reply in thread
-        </ContextMenuItem>
-        <ContextMenuItem>
-          <Copy />
-          Copy link
-          <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-        </ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem>
-          <Archive />
-          Save for later
-        </ContextMenuItem>
-        <ContextMenuItem className="text-danger-base focus:text-danger-base">
-          <Trash2 />
-          Delete
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+    <div ref={setPortalContainer} className="relative w-full">
+      <ContextMenu>
+        <ContextMenuTrigger render={<MessageItemActive />}>
+          <MessageItemAvatarSlot>
+            <Avatar size="sm" type="agent">
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
+          </MessageItemAvatarSlot>
+          <MessageItemContent>
+            <MessageItemHeader>
+              <MessageItemSender>Atlas</MessageItemSender>
+              <MessageItemMeta>#design-system</MessageItemMeta>
+              <MessageItemTime>2:14 PM</MessageItemTime>
+              <MessageItemInlineStatus>{lastAction}</MessageItemInlineStatus>
+            </MessageItemHeader>
+            <MessageItemBody>Right-click opens the shared ContextMenu composition.</MessageItemBody>
+            <MessageItemFooter>
+              <MessageItemUnreadBadge>
+                <MessageSquare />4 replies
+              </MessageItemUnreadBadge>
+              <MessageReactionComposition emoji={reaction} count={2} reacted />
+            </MessageItemFooter>
+          </MessageItemContent>
+          <Toolbar />
+        </ContextMenuTrigger>
+        <MessageContextMenuComposition
+          followed={followed}
+          onCopyLink={() => {
+            void navigator.clipboard?.writeText(window.location.href);
+            setLastAction("Link copied");
+          }}
+          onCopyMarkdown={() => {
+            void navigator.clipboard?.writeText(
+              "Right-click opens the shared ContextMenu composition.",
+            );
+            setLastAction("Markdown copied");
+          }}
+          onFollowChange={(nextFollowed) => {
+            setFollowed(nextFollowed);
+            setLastAction(nextFollowed ? "Thread followed" : "Thread unfollowed");
+          }}
+          onOpenThread={() => setLastAction("Thread opened")}
+          onQuickReact={(emoji) => {
+            setReaction(emoji);
+            setLastAction(`Reacted with ${emoji}`);
+          }}
+          onSavedChange={(nextSaved) => {
+            setSaved(nextSaved);
+            setLastAction(nextSaved ? "Message saved" : "Message removed from saved");
+          }}
+          onTaskChange={(nextTask) => {
+            setTask(nextTask);
+            setLastAction(nextTask === "done" ? "Task completed" : "Task opened");
+          }}
+          portalContainer={portalContainer}
+          saved={saved}
+          task={task}
+        />
+      </ContextMenu>
+    </div>
   );
 }
 
@@ -220,11 +226,14 @@ export function ImageGalleryMessageRow() {
             <MessageImageGalleryRow className="grid-cols-2">
               <MessageImageGalleryItem>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
-                <MessageImageGalleryAction aria-label="Download image">
+                <MessageImageGalleryAction
+                  aria-label="Download image"
+                  onClick={() => downloadMessageFixture("message-image.svg")}
+                >
                   <Download />
                 </MessageImageGalleryAction>
               </MessageImageGalleryItem>
-              <MessageImageGalleryItem optimistic>
+              <MessageImageGalleryItem aria-busy>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
                 <MessageImageGalleryOverlay>
                   <Badge variant="warning" appearance="solid">
@@ -259,7 +268,10 @@ export function VideoPreviewMessageRow() {
               <MessageVideoPreviewFallback>
                 <Play className="size-8 text-white/80" />
               </MessageVideoPreviewFallback>
-              <MessageVideoPreviewAction aria-label="Open demo-recording.mp4 in preview">
+              <MessageVideoPreviewAction
+                aria-label="Open demo-recording.mp4 in preview"
+                onClick={openMessageFixture}
+              >
                 <Eye />
               </MessageVideoPreviewAction>
             </MessageVideoPreviewFrame>
@@ -285,8 +297,21 @@ export function FileAttachmentMessageRow() {
         </MessageItemHeader>
         <MessageItemAttachments>
           <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-            <Attachment name="migration.diff" meta="Diff · 18 KB" summary="+42 -7" />
-            <Attachment name="screening.html" meta="HTML preview · 44 KB" />
+            <MessageAttachmentReadyComposition
+              name="migration.diff"
+              meta="Diff · 18 KB"
+              summary="+42 -7"
+              primaryAction={<Download />}
+              primaryActionLabel="Download migration.diff"
+              onPrimaryAction={() => downloadMessageFixture("migration.diff")}
+            />
+            <MessageAttachmentReadyComposition
+              name="screening.html"
+              meta="HTML preview · 44 KB"
+              primaryAction={<Download />}
+              primaryActionLabel="Download screening.html"
+              onPrimaryAction={() => downloadMessageFixture("screening.html")}
+            />
           </div>
         </MessageItemAttachments>
       </MessageItemContent>
@@ -369,11 +394,14 @@ export function RichAttachmentMessageRow() {
             <MessageImageGalleryRow className="grid-cols-2">
               <MessageImageGalleryItem>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
-                <MessageImageGalleryAction aria-label="Download image">
+                <MessageImageGalleryAction
+                  aria-label="Download image"
+                  onClick={() => downloadMessageFixture("message-image.svg")}
+                >
                   <Download />
                 </MessageImageGalleryAction>
               </MessageImageGalleryItem>
-              <MessageImageGalleryItem optimistic>
+              <MessageImageGalleryItem aria-busy>
                 <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
                 <MessageImageGalleryOverlay>
                   <Badge variant="warning" appearance="solid">
@@ -388,27 +416,43 @@ export function RichAttachmentMessageRow() {
               <MessageVideoPreviewFallback>
                 <Play className="size-8 text-white/80" />
               </MessageVideoPreviewFallback>
-              <MessageVideoPreviewAction aria-label="Open demo-recording.mp4 in preview">
+              <MessageVideoPreviewAction
+                aria-label="Open demo-recording.mp4 in preview"
+                onClick={openMessageFixture}
+              >
                 <Eye />
               </MessageVideoPreviewAction>
             </MessageVideoPreviewFrame>
           </MessageVideoPreview>
           <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-            <Attachment name="migration.diff" meta="Diff · 18 KB" summary="+42 -7" />
-            <Attachment name="screening.html" meta="HTML preview · 44 KB" />
+            <MessageAttachmentReadyComposition
+              name="migration.diff"
+              meta="Diff · 18 KB"
+              summary="+42 -7"
+              primaryAction={<Download />}
+              primaryActionLabel="Download migration.diff"
+              onPrimaryAction={() => downloadMessageFixture("migration.diff")}
+            />
+            <MessageAttachmentReadyComposition
+              name="screening.html"
+              meta="HTML preview · 44 KB"
+              primaryAction={<Download />}
+              primaryActionLabel="Download screening.html"
+              onPrimaryAction={() => downloadMessageFixture("screening.html")}
+            />
           </div>
         </MessageItemAttachments>
         <MessageItemFooter>
           <Badge variant="primary" appearance="solid">
             Task #222
           </Badge>
-          <MessageItemBadge tone="cyan">
+          <MessageItemUnreadBadge>
             <MessageSquare />6 replies
-          </MessageItemBadge>
-          <Reaction emoji="👍" count={5} reacted />
-          <Reaction emoji="👀" count={2} />
-          <Reaction emoji="🔥" count={1} failed />
-          <MessageReactionChip aria-label="Add reaction">
+          </MessageItemUnreadBadge>
+          <MessageReactionComposition emoji="👍" count={5} reacted />
+          <MessageReactionComposition emoji="👀" count={2} />
+          <MessageReactionComposition emoji="🔥" count={1} failed />
+          <MessageReactionChip aria-label="Add reaction" disabled>
             <MessageReactionGlyph>
               <SmilePlus />
             </MessageReactionGlyph>
@@ -421,50 +465,54 @@ export function RichAttachmentMessageRow() {
 }
 
 export function ReactionOverlays() {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [selectedReaction, setSelectedReaction] = useState<string>();
+
   return (
-    <div className="flex flex-wrap items-start gap-4 px-2">
+    <div ref={setPortalContainer} className="relative flex flex-wrap items-start gap-4 px-2">
       <MessageReactionPicker>
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <MessageReactionQuickButton key={emoji} aria-label={`React with ${emoji}`}>
+          <MessageReactionQuickButton
+            key={emoji}
+            aria-label={`React with ${emoji}`}
+            aria-pressed={selectedReaction === emoji}
+            onClick={() => setSelectedReaction(emoji)}
+          >
             <MessageReactionGlyph emoji={emoji} size={18} />
           </MessageReactionQuickButton>
         ))}
       </MessageReactionPicker>
-      <MessageReactionPopover>
-        <MessageReactionPopoverNames>
-          <MessageReactionPopoverName>
-            <MessageReactionPopoverNameText>Atlas</MessageReactionPopoverNameText>
-            <MessageReactionPopoverSeparator>, </MessageReactionPopoverSeparator>
-          </MessageReactionPopoverName>
-          <MessageReactionPopoverName>
-            <MessageReactionPopoverNameText>Ada Lovelace</MessageReactionPopoverNameText>
-            <MessageReactionPopoverSeparator>, </MessageReactionPopoverSeparator>
-          </MessageReactionPopoverName>
-          <span className="leading-5 text-foreground/50">+3 more</span>
-        </MessageReactionPopoverNames>
-      </MessageReactionPopover>
+      <MessageReactionTooltipComposition
+        container={portalContainer}
+        count={5}
+        emoji="👍"
+        names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
+        open
+      />
     </div>
   );
 }
 
 export function SelectedMessageRow() {
   return (
-    <MessageItem>
-      <MessageItemSelectMark checked />
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Selected row</MessageItemSender>
-          <MessageItemTime>3:18 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>Selection is primarily represented by the check marker.</MessageItemBody>
-      </MessageItemContent>
-    </MessageItem>
+    <MessageMultiSelect defaultActive defaultSelected={new Set(["selected-row"])}>
+      <MessageItemSelection>
+        <MessageMultiSelectCheckbox value="selected-row" aria-label="Select message" />
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Selected row</MessageItemSender>
+            <MessageItemTime>3:18 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>Selection is represented by a real checkbox.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItemSelection>
+    </MessageMultiSelect>
   );
 }
 
 export function ActiveMessageRow() {
   return (
-    <MessageItem rowState="active">
+    <MessageItemActive>
       <MessageItemAvatarSlot>
         <Avatar size="sm" type="agent">
           <AvatarFallback>AC</AvatarFallback>
@@ -477,13 +525,13 @@ export function ActiveMessageRow() {
         </MessageItemHeader>
         <MessageItemBody>Used for menu anchor, current row, or permalink focus.</MessageItemBody>
       </MessageItemContent>
-    </MessageItem>
+    </MessageItemActive>
   );
 }
 
 export function SearchMatchMessageRow() {
   return (
-    <MessageItem rowState="search-match">
+    <MessageItemSearchMatch>
       <MessageItemAvatarSlot>
         <Avatar size="sm" type="agent">
           <AvatarFallback>SR</AvatarFallback>
@@ -496,7 +544,7 @@ export function SearchMatchMessageRow() {
         </MessageItemHeader>
         <MessageItemBody>Search jump highlight keeps the cyan source treatment.</MessageItemBody>
       </MessageItemContent>
-    </MessageItem>
+    </MessageItemSearchMatch>
   );
 }
 
@@ -509,83 +557,27 @@ function Toolbar({
   reactionActive?: boolean;
   saved?: boolean;
 }) {
+  const [isReactionActive, setIsReactionActive] = useState(reactionActive);
+
   return (
     <MessageItemToolbar visible={forceVisible}>
-      <MessageItemToolbarButton aria-label="Reply in thread">
+      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
         <MessageSquare />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton active={reactionActive} aria-label="Add Reaction">
+      <MessageItemToolbarButton
+        aria-pressed={isReactionActive}
+        aria-label="Add Reaction"
+        onClick={() => setIsReactionActive((active) => !active)}
+      >
         <SmilePlus />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
         aria-label={saved ? "Remove from Saved" : "Save Message"}
-        saved={saved}
+        aria-pressed={saved}
+        disabled
       >
         <Bookmark fill={saved ? "currentColor" : "none"} />
       </MessageItemToolbarButton>
     </MessageItemToolbar>
-  );
-}
-
-function Attachment({ name, meta, summary }: { name: string; meta: string; summary?: string }) {
-  return (
-    <MessageAttachmentCard>
-      <MessageAttachmentBody>
-        <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
-        <MessageAttachmentMeta>{meta}</MessageAttachmentMeta>
-      </MessageAttachmentBody>
-      {summary ? (
-        <MessageAttachmentMeta className="pr-5 font-mono font-bold">
-          {summary}
-        </MessageAttachmentMeta>
-      ) : null}
-      <MessageAttachmentAction>
-        <Download />
-      </MessageAttachmentAction>
-    </MessageAttachmentCard>
-  );
-}
-
-export function Reaction({
-  emoji,
-  count,
-  reacted = false,
-  failed = false,
-}: {
-  emoji: string;
-  count: number;
-  reacted?: boolean;
-  failed?: boolean;
-}) {
-  return (
-    <MessageReactionChip reacted={reacted} failed={failed} aria-label={`${emoji} ${count}`}>
-      <MessageReactionGlyph emoji={emoji} size={15} />
-      <MessageReactionCount>{count}</MessageReactionCount>
-    </MessageReactionChip>
-  );
-}
-
-export function BrutalContextMenu() {
-  return (
-    <div className="w-60 overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0px_var(--color-black)]">
-      <MessageReactionQuickRow>
-        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <MessageReactionQuickButton key={emoji} aria-label={`React with ${emoji}`}>
-            <MessageReactionGlyph emoji={emoji} size={18} />
-          </MessageReactionQuickButton>
-        ))}
-      </MessageReactionQuickRow>
-      <div className="border-t-2 border-black" />
-      {["Copy Link", "Copy Markdown", "Select Message", "Open Thread", "Remove from Saved"].map(
-        (label) => (
-          <div
-            key={label}
-            className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-black transition-colors hover:bg-soft-signal/30"
-          >
-            {label}
-          </div>
-        ),
-      )}
-    </div>
   );
 }

@@ -144,7 +144,7 @@ const SNIPPETS = {
 const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "AppShellRoot",
-    type: 'div props & { hidden?: boolean; presentation?: "desktop" | "mobile" }',
+    type: "div props & { hidden?: boolean }",
     description: "Owns the app-shell flex layout and theme-aware background contract.",
   },
   {
@@ -419,7 +419,7 @@ function SidebarRow({
   badge?: string;
 }) {
   return (
-    <ChatSidebarItem type="button" selected={selected}>
+    <ChatSidebarItem type="button" aria-current={selected ? "page" : undefined}>
       <ChatSidebarItemIcon>
         <Hash className="size-3.5" />
       </ChatSidebarItemIcon>

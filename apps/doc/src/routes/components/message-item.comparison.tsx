@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
+import messageRowCompositionsSource from "#/compositions/message-item/message-row-compositions.tsx?raw";
+
 import {
   AuthoredMessageRow,
-  BrutalContextMenu,
   ConsecutiveMessageRow,
+  ContextMenuMessageRow,
   FileAttachmentMessageRow,
   ImageGalleryMessageRow,
   InteractiveStateRows,
@@ -14,7 +16,7 @@ import {
   SavedToolbarMessageRow,
   ThreadArchiveEventRow,
   VideoPreviewMessageRow,
-} from "./message-item.fixtures";
+} from "#/compositions/message-item/message-row-compositions.tsx";
 import {
   SourceAuthoredMessageRow,
   SourceConsecutiveMessageRow,
@@ -29,8 +31,6 @@ import {
   SourceThreadArchiveEventRow,
   SourceVideoPreviewMessageRow,
 } from "./message-item.source-fixtures";
-import { SNIPPETS } from "./message-item.snippets";
-
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 export function getMessageItemComparisonItems(code: Record<string, CodeContent>) {
@@ -47,8 +47,8 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       elegantCode: code.currentAuthoredRow,
       elegantDarkCode: code.currentAuthoredRow,
       compositionCode: code.currentAuthoredRow,
-      compositionPath: "apps/doc/src/routes/components/message-item.tsx",
-      compositionSource: SNIPPETS.currentAuthoredRow,
+      compositionPath: "apps/doc/src/compositions/message-item/message-row-compositions.tsx",
+      compositionSource: messageRowCompositionsSource,
       sourceScenes: [
         {
           label: "Source",
@@ -152,9 +152,9 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       label: "Context menu",
       status: "review",
       source: <SourceContextMenu />,
-      brutal: <BrutalContextMenu />,
-      elegant: <BrutalContextMenu />,
-      elegantDark: <BrutalContextMenu />,
+      brutal: <ContextMenuMessageRow />,
+      elegant: <ContextMenuMessageRow />,
+      elegantDark: <ContextMenuMessageRow />,
     },
     {
       label: "Rich attachment row",

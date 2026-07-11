@@ -360,16 +360,14 @@ export function ChatMainPanelComposerDropOverlayLabel({
   });
 }
 
-export type ChatMainPanelComposerAttachmentOverlayProps = useRender.ComponentProps<"span"> & {
-  tone?: "uploading" | "failed";
-};
+type ComposerAttachmentOverlayProps = useRender.ComponentProps<"span">;
 
-export function ChatMainPanelComposerAttachmentOverlay({
+function ComposerAttachmentOverlay({
   className,
   render,
-  tone = "uploading",
+  tone,
   ...props
-}: ChatMainPanelComposerAttachmentOverlayProps) {
+}: ComposerAttachmentOverlayProps & { tone: "uploading" | "failed" }) {
   const theme = useThemeFamily();
   const { composerAttachmentOverlay } = chatMainPanel({ theme, attachmentTone: tone });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
@@ -383,6 +381,22 @@ export function ChatMainPanelComposerAttachmentOverlay({
     render,
     props: mergeProps<"span">(defaultProps, props),
   });
+}
+
+export type ChatMainPanelComposerAttachmentUploadingOverlayProps = ComposerAttachmentOverlayProps;
+
+export function ChatMainPanelComposerAttachmentUploadingOverlay(
+  props: ChatMainPanelComposerAttachmentUploadingOverlayProps,
+) {
+  return <ComposerAttachmentOverlay tone="uploading" {...props} />;
+}
+
+export type ChatMainPanelComposerAttachmentFailedOverlayProps = ComposerAttachmentOverlayProps;
+
+export function ChatMainPanelComposerAttachmentFailedOverlay(
+  props: ChatMainPanelComposerAttachmentFailedOverlayProps,
+) {
+  return <ComposerAttachmentOverlay tone="failed" {...props} />;
 }
 
 export type ChatMainPanelComposerAttachmentProgressProps = useRender.ComponentProps<"span"> & {

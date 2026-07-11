@@ -5,13 +5,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const appShell = tv({
   slots: {
-    root: [
-      "flex min-h-0 w-full overflow-hidden",
-      "text-foreground",
-      "data-[presentation=mobile]:flex-col",
-      "[&:where([data-slot=app-shell-root])_[class*='tracking-[0.22px]'].inline-flex.h-5]:[letter-spacing:0.11px]",
-      "[&:where([data-slot=app-shell-root])_.inline-flex.h-5.uppercase[class*='tracking-wide']]:[letter-spacing:0]",
-    ],
+    root: ["flex min-h-0 w-full overflow-hidden", "text-foreground"],
     shellRail: ["relative hidden h-full shrink-0 flex-col items-center select-none md:flex"],
     shellSidebar: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     shellMain: ["flex min-h-0 min-w-0 flex-1 flex-col"],
@@ -47,16 +41,6 @@ const appShell = tv({
         mobileBar: "border-t border-line-subtle bg-layer-panel text-foreground",
       },
     },
-    presentation: {
-      desktop: {},
-      mobile: {
-        shellRail: "hidden",
-        shellSidebar: "flex w-full flex-1 border-r-0 md:flex",
-        shellMain: "hidden",
-        shellPanelStack: "hidden",
-        mobileBar: "flex",
-      },
-    },
     resizable: {
       true: {
         shellSidebar: "relative min-w-0 w-auto flex-1 shrink",
@@ -65,7 +49,6 @@ const appShell = tv({
     },
   },
   defaultVariants: {
-    presentation: "desktop",
     resizable: false,
   },
 });
@@ -80,23 +63,14 @@ export type DataAttributes = {
   [key: `data-${string}`]: string | undefined;
 };
 
-export type AppShellRootProps = useRender.ComponentProps<"div"> &
-  HiddenProp &
-  Pick<AppShellVariantProps, "presentation">;
+export type AppShellRootProps = useRender.ComponentProps<"div"> & HiddenProp;
 
-export function AppShellRoot({
-  presentation,
-  hidden,
-  className,
-  render,
-  ...props
-}: AppShellRootProps) {
+export function AppShellRoot({ hidden, className, render, ...props }: AppShellRootProps) {
   const theme = useThemeFamily();
-  const { root } = appShell({ theme, presentation });
+  const { root } = appShell({ theme });
 
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "app-shell-root",
-    "data-presentation": presentation ?? "desktop",
     className: root({ className }),
   };
 

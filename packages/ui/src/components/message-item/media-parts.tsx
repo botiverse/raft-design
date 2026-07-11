@@ -1,13 +1,15 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { messageItem, type DataAttributes } from "./recipe";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { messageMedia } from "./message-media.recipe";
+import { type DataAttributes } from "./recipe";
 
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
 export function MessageImageGallery({ className, render, ...props }: MessageImageGalleryProps) {
-  const { imageGallery } = messageItem();
+  const { gallery } = messageMedia();
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: imageGallery({ className }),
+    className: gallery({ className }),
   };
 
   return useRender({
@@ -27,9 +29,9 @@ export function MessageImageGalleryRow({
   render,
   ...props
 }: MessageImageGalleryRowProps) {
-  const { imageGalleryRow } = messageItem();
+  const { galleryRow } = messageMedia();
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: imageGalleryRow({ className }),
+    className: galleryRow({ className }),
   };
 
   return useRender({
@@ -43,22 +45,20 @@ export function MessageImageGalleryRow({
 }
 
 export type MessageImageGalleryItemProps = useRender.ComponentProps<"div"> & {
-  optimistic?: boolean;
   single?: boolean;
 };
 
 export function MessageImageGalleryItem({
-  optimistic,
   single,
   className,
   render,
   ...props
 }: MessageImageGalleryItemProps) {
-  const { imageGalleryItem } = messageItem();
+  const theme = useThemeFamily();
+  const { galleryItem } = messageMedia({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-optimistic": optimistic ? "true" : undefined,
     "data-single": single ? "true" : undefined,
-    className: imageGalleryItem({ className }),
+    className: galleryItem({ className }),
   };
 
   return useRender({
@@ -81,10 +81,10 @@ export function MessageImageGalleryMedia({
   render,
   ...props
 }: MessageImageGalleryMediaProps) {
-  const { imageGalleryMedia } = messageItem();
+  const { galleryMedia } = messageMedia();
   const defaultProps: useRender.ElementProps<"img"> & DataAttributes = {
     "data-fit": fit,
-    className: imageGalleryMedia({ className }),
+    className: galleryMedia({ className }),
   };
 
   return useRender({
@@ -104,9 +104,9 @@ export function MessageImageGalleryOverlay({
   render,
   ...props
 }: MessageImageGalleryOverlayProps) {
-  const { imageGalleryOverlay } = messageItem();
+  const { galleryOverlay } = messageMedia();
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: imageGalleryOverlay({ className }),
+    className: galleryOverlay({ className }),
   };
 
   return useRender({
@@ -126,10 +126,11 @@ export function MessageImageGalleryAction({
   render,
   ...props
 }: MessageImageGalleryActionProps) {
-  const { imageGalleryAction } = messageItem();
+  const theme = useThemeFamily();
+  const { galleryAction } = messageMedia({ theme });
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
-    className: imageGalleryAction({ className }),
+    className: galleryAction({ className }),
   };
 
   return useRender({
@@ -142,20 +143,12 @@ export function MessageImageGalleryAction({
   });
 }
 
-export type MessageVideoPreviewProps = useRender.ComponentProps<"div"> & {
-  optimistic?: boolean;
-};
+export type MessageVideoPreviewProps = useRender.ComponentProps<"div">;
 
-export function MessageVideoPreview({
-  optimistic,
-  className,
-  render,
-  ...props
-}: MessageVideoPreviewProps) {
-  const { videoPreview } = messageItem();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-optimistic": optimistic ? "true" : undefined,
-    className: videoPreview({ className }),
+export function MessageVideoPreview({ className, render, ...props }: MessageVideoPreviewProps) {
+  const { video } = messageMedia();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: video({ className }),
   };
 
   return useRender({
@@ -175,9 +168,9 @@ export function MessageVideoPreviewFrame({
   render,
   ...props
 }: MessageVideoPreviewFrameProps) {
-  const { videoPreviewFrame } = messageItem();
+  const { videoFrame } = messageMedia();
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: videoPreviewFrame({ className }),
+    className: videoFrame({ className }),
   };
 
   return useRender({
@@ -197,9 +190,9 @@ export function MessageVideoPreviewMedia({
   render,
   ...props
 }: MessageVideoPreviewMediaProps) {
-  const { videoPreviewMedia } = messageItem();
+  const { videoMedia } = messageMedia();
   const defaultProps: useRender.ElementProps<"video"> = {
-    className: videoPreviewMedia({ className }),
+    className: videoMedia({ className }),
   };
 
   return useRender({
@@ -222,10 +215,10 @@ export function MessageVideoPreviewFallback({
   render,
   ...props
 }: MessageVideoPreviewFallbackProps) {
-  const { videoPreviewFallback } = messageItem();
+  const { videoFallback } = messageMedia();
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-interactive": interactive ? "true" : "false",
-    className: videoPreviewFallback({ className }),
+    className: videoFallback({ className }),
   };
 
   return useRender({
@@ -245,10 +238,10 @@ export function MessageVideoPreviewAction({
   render,
   ...props
 }: MessageVideoPreviewActionProps) {
-  const { videoPreviewAction } = messageItem();
+  const { videoAction } = messageMedia();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
-    className: videoPreviewAction({ className }),
+    className: videoAction({ className }),
   };
 
   return useRender({

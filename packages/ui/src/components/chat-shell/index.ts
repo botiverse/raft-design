@@ -1,17 +1,4 @@
 export {
-  AppMobileBarIcon,
-  AppMobileBarItem,
-  AppMobileBarLabel,
-  AppMobileBarList,
-} from "./app-mobile-bar";
-export type {
-  AppMobileBarIconProps,
-  AppMobileBarItemProps,
-  AppMobileBarLabelProps,
-  AppMobileBarListProps,
-} from "./app-mobile-bar";
-
-export {
   AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
@@ -87,6 +74,7 @@ export {
   ChatMainPanelTimeline,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
+  ChatMainPanelTitleRow,
 } from "./chat-main-panel";
 export type {
   ChatMainPanelActionsProps,
@@ -107,6 +95,7 @@ export type {
   ChatMainPanelTimelineProps,
   ChatMainPanelTitleBlockProps,
   ChatMainPanelTitleProps,
+  ChatMainPanelTitleRowProps,
 } from "./chat-main-panel";
 
 export {
@@ -117,7 +106,8 @@ export {
   ChatMainPanelComposerAttachmentFile,
   ChatMainPanelComposerAttachmentImage,
   ChatMainPanelComposerAttachmentMeta,
-  ChatMainPanelComposerAttachmentOverlay,
+  ChatMainPanelComposerAttachmentFailedOverlay,
+  ChatMainPanelComposerAttachmentUploadingOverlay,
   ChatMainPanelComposerAttachmentProgress,
   ChatMainPanelComposerAttachmentRemove,
   ChatMainPanelComposerAttachments,
@@ -136,7 +126,8 @@ export type {
   ChatMainPanelComposerAttachmentFileProps,
   ChatMainPanelComposerAttachmentImageProps,
   ChatMainPanelComposerAttachmentMetaProps,
-  ChatMainPanelComposerAttachmentOverlayProps,
+  ChatMainPanelComposerAttachmentFailedOverlayProps,
+  ChatMainPanelComposerAttachmentUploadingOverlayProps,
   ChatMainPanelComposerAttachmentProgressProps,
   ChatMainPanelComposerAttachmentProps,
   ChatMainPanelComposerAttachmentRemoveProps,
@@ -153,29 +144,29 @@ export type {
 } from "./chat-main-panel-composer";
 
 export {
-  ComposerAutocomplete,
-  ComposerAutocompleteAside,
-  ComposerAutocompleteBadge,
-  ComposerAutocompleteContent,
-  ComposerAutocompleteGroup,
-  ComposerAutocompleteGroupLabel,
-  ComposerAutocompleteIcon,
-  ComposerAutocompleteItem,
-  ComposerAutocompleteMeta,
-  ComposerAutocompleteTitle,
-} from "./composer-autocomplete";
+  ComposerSuggestionAside,
+  ComposerSuggestionBadge,
+  ComposerSuggestionContent,
+  ComposerSuggestionGroup,
+  ComposerSuggestionGroupLabel,
+  ComposerSuggestionIcon,
+  ComposerSuggestionList,
+  ComposerSuggestionMeta,
+  ComposerSuggestionOption,
+  ComposerSuggestionTitle,
+} from "./composer-suggestion-list";
 export type {
-  ComposerAutocompleteAsideProps,
-  ComposerAutocompleteBadgeProps,
-  ComposerAutocompleteContentProps,
-  ComposerAutocompleteGroupLabelProps,
-  ComposerAutocompleteGroupProps,
-  ComposerAutocompleteIconProps,
-  ComposerAutocompleteItemProps,
-  ComposerAutocompleteMetaProps,
-  ComposerAutocompleteProps,
-  ComposerAutocompleteTitleProps,
-} from "./composer-autocomplete";
+  ComposerSuggestionAsideProps,
+  ComposerSuggestionBadgeProps,
+  ComposerSuggestionContentProps,
+  ComposerSuggestionGroupLabelProps,
+  ComposerSuggestionGroupProps,
+  ComposerSuggestionIconProps,
+  ComposerSuggestionListProps,
+  ComposerSuggestionMetaProps,
+  ComposerSuggestionOptionProps,
+  ComposerSuggestionTitleProps,
+} from "./composer-suggestion-list";
 
 export { ComposerStack } from "./composer-stack";
 export type { ComposerStackProps } from "./composer-stack";
@@ -183,8 +174,11 @@ export type { ComposerStackProps } from "./composer-stack";
 export { ComposerRoot } from "./composer-root";
 export type { ComposerRootProps } from "./composer-root";
 
-export { ComposerTaskLabel, ComposerTaskToggle } from "./composer-task";
-export type { ComposerTaskLabelProps, ComposerTaskToggleProps } from "./composer-task";
+export { ComposerToolbarOption, ComposerToolbarOptionLabel } from "./composer-toolbar-option";
+export type {
+  ComposerToolbarOptionLabelProps,
+  ComposerToolbarOptionProps,
+} from "./composer-toolbar-option";
 
 export {
   ChatSidebarBody,
@@ -220,6 +214,7 @@ export type {
 
 export {
   ChatSidebarItem,
+  ChatSidebarItemUnread,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
   ChatSidebarItemChannelIcon,
@@ -239,7 +234,6 @@ export type {
   ChatSidebarItemAsideProps,
   ChatSidebarItemBadgeProps,
   ChatSidebarItemChannelIconProps,
-  ChatSidebarItemChannelIconType,
   ChatSidebarItemDraftProps,
   ChatSidebarItemIconProps,
   ChatSidebarItemIndicatorProps,
@@ -249,6 +243,7 @@ export type {
   ChatSidebarItemMutedProps,
   ChatSidebarItemPresenceProps,
   ChatSidebarItemProps,
+  ChatSidebarItemUnreadProps,
   ChatSidebarItemSubtitleProps,
   ChatSidebarItemTextProps,
   ChatSidebarItemTitleProps,
@@ -304,8 +299,10 @@ export {
   ChatThreadPanelRoot,
   ChatThreadPanelSearch,
   ChatThreadPanelSearchCount,
+  ChatThreadPanelSearchIcon,
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
+  ChatThreadPanelTitleMeta,
 } from "./chat-thread-panel";
 export type {
   ChatThreadPanelActionsProps,
@@ -316,13 +313,19 @@ export type {
   ChatThreadPanelReplyCountProps,
   ChatThreadPanelRootProps,
   ChatThreadPanelSearchCountProps,
+  ChatThreadPanelSearchIconProps,
   ChatThreadPanelSearchInputProps,
   ChatThreadPanelSearchProps,
+  ChatThreadPanelTitleMetaProps,
   ChatThreadPanelTitleProps,
 } from "./chat-thread-panel";
 
-export { PanelIconButton } from "./panel-icon-button";
-export type { PanelIconButtonProps } from "./panel-icon-button";
+export { PanelIconButton, PanelIconButtonCount, PanelIconButtonLabel } from "./panel-icon-button";
+export type {
+  PanelIconButtonCountProps,
+  PanelIconButtonLabelProps,
+  PanelIconButtonProps,
+} from "./panel-icon-button";
 
 export {
   MessageTimelineDateDivider,

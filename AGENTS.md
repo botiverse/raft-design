@@ -23,6 +23,54 @@ Browser permission is never sticky. A previous user request to open or test with
 
 If a visual check would be helpful but the user has not explicitly authorized Browser use, ask first or continue with code-side inspection only.
 
+# Component Architecture Ownership
+
+The component system has three runtime layers with one-way dependencies:
+
+```text
+packages/ui
+  -> apps/doc/src/compositions
+    -> apps/doc/src/playground
+
+apps/doc/src/routes/components
+  -> apps/doc/src/compositions
+```
+
+- `packages/ui` owns business-agnostic primitives, reusable headless behavior, component recipes, tokens, and public UI contracts.
+- `apps/doc/src/compositions` owns the canonical executable examples that show consumers how to combine UI primitives into meaningful states and interactions.
+- `apps/doc/src/routes/components` owns documentation prose, props tables, source comparison, and page assembly. Routes must not maintain another Current implementation.
+- `apps/doc/src/playground` owns the coherent mock product domain, router coordination, and business-shaped demo state. It consumes UI primitives and canonical docs compositions; it is not a second component library.
+- Dependencies must not point upward. `packages/ui` never imports `apps/doc`; docs compositions never import Playground.
+
+## State Boundary
+
+- Generic interaction state belongs to the behavior owner or Base UI primitive: open state, focus, selection, keyboard navigation, collection state, and controlled/uncontrolled value.
+- Product and workflow state belongs to the consuming composition or Playground: upload lifecycle, notification policy, saved/followed state, task workflow, permissions, and entity-specific actions.
+- When product state changes visible structure, `packages/ui` exposes the relevant parts and styles; the consumer chooses which parts to render.
+- Do not interpret this as a ban on all state in the component library.
+
+## Structural API Boundary
+
+- Avoid public `kind`, `state`, or `emphasis` props when they select materially different visible structures.
+- Prefer explicit semantic components and compound parts such as `MessageReferenceTask`, `MessageReferenceLoading`, or `MessageAttachmentPendingIndicator`.
+- This restriction applies to reusable UI APIs, not to discriminated unions in app or Playground domain data.
+- Visible content belongs in `children` or explicit parts. Product copy, policy text, business icons, and permissions do not belong in `packages/ui`.
+
+# Component Delivery SOP
+
+Use this sequence when adding or migrating a component:
+
+1. Inventory real source callsites and classify the candidate as a UI primitive, reusable behavior component, docs composition, or Playground business wrapper. Do not infer the boundary from a demo fixture alone.
+2. If source parity matters, preserve the source implementation under `packages/ui/source` as reference only. Runtime code must not depend on it.
+3. Implement the business-agnostic API in `packages/ui`: Base UI owns headless behavior, `tv()` recipes own reusable styling, and children/parts expose visible structure. Export unstable work through `wip.ts` while refining.
+4. Add canonical executable examples under `apps/doc/src/compositions`. Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
+5. Build the docs route by consuming those compositions and their `?raw` source. Do not copy Current JSX into route-local fixtures or snippet strings.
+6. Add the component to Playground only when it participates in a real shell/product scenario or needs cross-component verification. Reuse the canonical composition and add only the thin mock business wrapper or coordinated state Playground needs.
+7. Audit all three layers for business leakage, duplicated implementations, theme-controlled business DOM, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
+8. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
+
+Browser, build, prerender, and test commands remain governed by the validation boundaries in this file; the SOP does not grant extra validation permission.
+
 # Styling Conventions
 
 ## tailwind-variants

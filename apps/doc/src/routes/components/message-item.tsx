@@ -8,6 +8,9 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import messageReactionCompositionsSource from "#/compositions/message-item/message-reaction-compositions.tsx?raw";
+import messageRowCompositionsSource from "#/compositions/message-item/message-row-compositions.tsx?raw";
+import messageStateMatrixSource from "#/compositions/message-item/message-state-matrix-composition.tsx?raw";
 
 import { getMessageItemComparisonItems } from "./message-item.comparison";
 import {
@@ -21,13 +24,25 @@ import {
   SearchMatchMessageRow,
   SelectedMessageRow,
   ThreadArchiveEventRow,
-} from "./message-item.fixtures";
-import { MessageItemStateMatrix } from "./message-item.state-fixtures";
+} from "#/compositions/message-item/message-row-compositions.tsx";
+import { MessageItemStateMatrix } from "#/compositions/message-item/message-state-matrix-composition.tsx";
 import { PROPS, SNIPPETS, TOC } from "./message-item.snippets";
 
 export const Route = createFileRoute("/components/message-item")({
   component: MessageItemDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        anatomy: messageRowCompositionsSource,
+        currentAuthoredRow: messageRowCompositionsSource,
+        fixtureReactions: messageReactionCompositionsSource,
+        fixtureRich: messageRowCompositionsSource,
+        fixtureRows: messageRowCompositionsSource,
+        fixtureStates: messageStateMatrixSource,
+        stateMatrix: messageStateMatrixSource,
+      },
+    }),
 });
 
 function MessageItemDoc() {
@@ -36,14 +51,21 @@ function MessageItemDoc() {
   return (
     <DocPage
       title="MessageItem"
-      description="A source-faithful Brutal message row extracted as composition-only UI slots."
+      description="Business-agnostic message primitives composed into source-faithful rows for every theme."
       overview={
         <Differences from="MessageItem">
           <li>
             store data, permission checks, reaction picker state, and thread behavior stay outside
           </li>
           <li>context menu is composed with the existing ContextMenu primitive</li>
-          <li>rowState covers active and search-match chrome without owning business state</li>
+          <li>
+            active, search-match, and selection chrome use explicit composition roots without owning
+            business state
+          </li>
+          <li>
+            product copy, icons, callbacks, and async state live in docs compositions rather than
+            the UI package
+          </li>
         </Differences>
       }
       toc={TOC}
@@ -128,7 +150,11 @@ function MessageItemDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel path="MessageItem.tsx" source={SNIPPETS.anatomy} html={code.anatomy} />
+        <DocsCodeBlock.Panel
+          path="apps/doc/src/compositions/message-item/message-row-compositions.tsx"
+          source={messageRowCompositionsSource}
+          html={code.anatomy}
+        />
       </DocSection>
 
       <DocSection id="api" title="API">

@@ -49,13 +49,13 @@ import {
   ChatMainPanelComposerAttachmentBody,
   ChatMainPanelComposerAttachmentTitle,
   ChatMainPanelComposerAttachmentMeta,
-  ChatMainPanelComposerAttachmentOverlay,
+  ChatMainPanelComposerAttachmentUploadingOverlay,
   ChatMainPanelComposerAttachmentProgress,
   ChatMainPanelComposerAttachmentRemove,
   ChatMainPanelComposerDropOverlay,
   ChatMainPanelComposerDropOverlayLabel,
-  ComposerTaskLabel,
-  ComposerTaskToggle,
+  ComposerToolbarOption,
+  ComposerToolbarOptionLabel,
 } from "raft-ui/wip";
 
 <ChatMainPanelFooter onSubmit={handleSubmit}>
@@ -63,10 +63,10 @@ import {
     <ChatMainPanelComposerAttachments>
       <ChatMainPanelComposerAttachment>
         <ChatMainPanelComposerAttachmentImage alt="" src={previewSrc} />
-        <ChatMainPanelComposerAttachmentOverlay tone="uploading">
+        <ChatMainPanelComposerAttachmentUploadingOverlay>
           <Spinner size="sm" />
           {progress}%
-        </ChatMainPanelComposerAttachmentOverlay>
+        </ChatMainPanelComposerAttachmentUploadingOverlay>
         <ChatMainPanelComposerAttachmentProgress value={progress} />
         <ChatMainPanelComposerAttachmentRemove aria-label="Remove attachment">
           <X />
@@ -82,10 +82,10 @@ import {
           </ChatMainPanelComposerIconButton>
         </ChatMainPanelComposerActions>
         <ChatMainPanelComposerMeta>
-          <ComposerTaskToggle>
+          <ComposerToolbarOption>
             <Checkbox size="sm" aria-label="Send as task" />
-            <ComposerTaskLabel>As Task</ComposerTaskLabel>
-          </ComposerTaskToggle>
+            <ComposerToolbarOptionLabel>As Task</ComposerToolbarOptionLabel>
+          </ComposerToolbarOption>
           <ChatMainPanelComposerSubmit aria-label="Send">
             <span>Send</span>
             <Send />
@@ -131,7 +131,7 @@ const PROPS: readonly PropRow[] = [
       "Attach-image/file icon buttons and the primary send button. Pass <span>Send</span> + icon; brutal hides the label via recipe.",
   },
   {
-    name: "ComposerTaskToggle / ComposerTaskLabel",
+    name: "ComposerToolbarOption / ComposerToolbarOptionLabel",
     type: "label / span props",
     description: "As Task checkbox cluster. Toggle owns checkbox↔label gap; label is theme-aware.",
   },
@@ -151,10 +151,9 @@ const PROPS: readonly PropRow[] = [
     description: "File-chip text block: filename title and mime/type meta line.",
   },
   {
-    name: "ChatMainPanelComposerAttachmentOverlay",
+    name: "ChatMainPanelComposerAttachmentUploadingOverlay",
     type: "span props",
-    description:
-      'Tile overlay with tone="uploading" (spinner + percent) or tone="failed" (retry prompt).',
+    description: "Explicit uploading overlay for spinner and progress content.",
   },
   {
     name: "ChatMainPanelComposerAttachmentProgress / AttachmentRemove",

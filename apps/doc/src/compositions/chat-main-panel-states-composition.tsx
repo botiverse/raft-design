@@ -8,7 +8,8 @@ import {
   ChatMainPanelComposerAttachmentFile,
   ChatMainPanelComposerAttachmentImage,
   ChatMainPanelComposerAttachmentMeta,
-  ChatMainPanelComposerAttachmentOverlay,
+  ChatMainPanelComposerAttachmentFailedOverlay,
+  ChatMainPanelComposerAttachmentUploadingOverlay,
   ChatMainPanelComposerAttachmentProgress,
   ChatMainPanelComposerAttachmentRemove,
   ChatMainPanelComposerAttachmentTitle,
@@ -62,10 +63,10 @@ export function ChatMainPanelStatesComposition() {
           <ChatMainPanelComposerAttachments>
             <ChatMainPanelComposerAttachment>
               <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
-              <ChatMainPanelComposerAttachmentOverlay tone="uploading">
+              <ChatMainPanelComposerAttachmentUploadingOverlay>
                 <Spinner size="sm" className="mb-1" />
                 64%
-              </ChatMainPanelComposerAttachmentOverlay>
+              </ChatMainPanelComposerAttachmentUploadingOverlay>
               <ChatMainPanelComposerAttachmentProgress value={64} />
               <ChatMainPanelComposerAttachmentRemove aria-label="Remove screenshot.png">
                 <X />
@@ -99,10 +100,10 @@ export function ChatMainPanelStatesComposition() {
                   </ChatMainPanelComposerAttachmentMeta>
                 </ChatMainPanelComposerAttachmentBody>
               </ChatMainPanelComposerAttachmentFile>
-              <ChatMainPanelComposerAttachmentOverlay tone="failed">
+              <ChatMainPanelComposerAttachmentFailedOverlay>
                 Upload failed
                 <span className="underline">Tap to retry</span>
-              </ChatMainPanelComposerAttachmentOverlay>
+              </ChatMainPanelComposerAttachmentFailedOverlay>
             </ChatMainPanelComposerAttachment>
           </ChatMainPanelComposerAttachments>
           <ChatMainPanelComposer>

@@ -63,8 +63,7 @@ const PROFILE_ACTIVITY_ROWS: {
   },
 ];
 
-const MUTED_META =
-  "truncate font-mono text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60";
+const MUTED_META = "truncate font-mono text-xs text-foreground-muted";
 
 // Profile hover-card body — composed with PreviewCard slots (same anatomy as
 // docs PreviewCardMentionComposition). Agent variant adds status + recent activity.
@@ -176,7 +175,6 @@ export function PlaygroundMessageAvatar({
       <AvatarFallback />
       {isAgent && !deactivated ? (
         <MessageItemAvatarStatus
-          offset="fixed"
           title={STATUS_LABEL[status]}
           render={
             <Status
