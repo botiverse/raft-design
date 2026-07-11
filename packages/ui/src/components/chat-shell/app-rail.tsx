@@ -4,7 +4,6 @@ import { useRender } from "@base-ui/react/use-render";
 import { createContext, use, useMemo, type MouseEvent, type ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip/tooltip";
 import type { DataAttributes } from "./app-shell";
 
 const appRail = tv({
@@ -116,7 +115,6 @@ export function AppRailRoot({
   onValueChange,
   className,
   render,
-  children,
   ...props
 }: AppRailRootProps) {
   const { root } = appRail();
@@ -124,7 +122,6 @@ export function AppRailRoot({
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "app-rail-root",
     className: root({ className }),
-    children: <TooltipProvider delay={650}>{children}</TooltipProvider>,
   };
 
   const element = useRender({
@@ -191,8 +188,6 @@ export type AppRailItemProps = Omit<useRender.ComponentProps<"button">, "value">
   value?: string;
   selected?: boolean;
   onSelect?: (value: string) => void;
-  label?: string;
-  tooltip?: ReactNode;
 };
 
 export function AppRailItem({
@@ -203,38 +198,8 @@ export function AppRailItem({
   onClick,
   className,
   render,
-  label,
-  tooltip,
-  "aria-label": ariaLabel,
-  children,
   ...props
 }: AppRailItemProps) {
-  if (label !== undefined || tooltip !== undefined) {
-    return (
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <AppRailItem
-              value={value}
-              selected={selected}
-              disabled={disabled}
-              onSelect={onSelect}
-              onClick={onClick}
-              aria-label={ariaLabel ?? label}
-              className={className}
-              render={render}
-              {...props}
-            />
-          }
-        >
-          <AppRailItemIcon>{children}</AppRailItemIcon>
-          <AppRailItemLabel>{label}</AppRailItemLabel>
-        </TooltipTrigger>
-        <TooltipContent side="right">{tooltip ?? label}</TooltipContent>
-      </Tooltip>
-    );
-  }
-
   const theme = useThemeFamily();
   const context = useAppRail();
   const isSelected = selected ?? (value !== undefined && context?.value === value);
@@ -249,7 +214,6 @@ export function AppRailItem({
     type: "button",
     disabled,
     onClick: handleClick,
-    "aria-label": ariaLabel,
     "aria-pressed": isSelected,
     "data-slot": "app-rail-item",
     "data-selected": isSelected ? "true" : undefined,
@@ -259,7 +223,7 @@ export function AppRailItem({
 
   return useRender({
     render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, { ...props, children }),
+    props: mergeProps<"button">(defaultProps, props),
   });
 }
 
