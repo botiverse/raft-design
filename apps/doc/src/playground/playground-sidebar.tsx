@@ -1,17 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import {
   Archive,
-  ArrowDownAZ,
   AtSign,
   Bell,
   BellOff,
   Bookmark,
-  Check,
   ChevronRight,
   CircleAlert,
-  Clock3,
   GitBranch,
-  GripVertical,
   Hash,
   Lock,
   Mail,
@@ -96,7 +92,6 @@ import {
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionAction,
-  ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
@@ -120,7 +115,6 @@ import {
 } from "./mock/index.ts";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
-type SidebarSortMode = "manual" | "recent" | "az";
 type SidebarRowMenu = {
   type: "channel" | "dm";
   name: string;
@@ -131,14 +125,6 @@ type SidebarRowMenu = {
   canArchive?: boolean;
 };
 type PlaygroundDmRecord = Extract<PlaygroundChannelRecord, { kind: "dm" }>;
-
-const sidebarSortOptions = [
-  { value: "manual", label: "Manual", icon: GripVertical },
-  { value: "recent", label: "Recent", icon: Clock3 },
-  { value: "az", label: "A-Z", icon: ArrowDownAZ },
-] as const;
-
-const sidebarNameCollator = new Intl.Collator(undefined, { sensitivity: "base" });
 
 const dialogMembers = PLAYGROUND_INVITABLE_ACTORS;
 
@@ -325,58 +311,14 @@ const unpinnedDirectMessages = PLAYGROUND_DIRECT_MESSAGES.filter((row) => !row.n
 
 function useSectionOrder<T extends { id: string; name: string }>(rows: readonly T[]) {
   const [order, setOrder] = useState(() => rows.map((row) => row.id));
-  const [sortMode, setSortMode] = useState<SidebarSortMode>("manual");
   const byId = useMemo(() => new Map(rows.map((row) => [row.id, row])), [rows]);
-  const ordered = useMemo(() => {
-    const rowsInManualOrder = order
-      .map((id) => byId.get(id))
-      .filter((row): row is T => row != null);
-    if (sortMode === "recent") {
-      return [...rows];
-    }
-    if (sortMode === "az") {
-      return [...rowsInManualOrder].sort((a, b) => sidebarNameCollator.compare(a.name, b.name));
-    }
-    return rowsInManualOrder;
-  }, [byId, order, rows, sortMode]);
-  const visibleOrder = useMemo(() => ordered.map((row) => row.id), [ordered]);
-  const onReorder = useCallback((next: string[]) => {
-    setOrder(next);
-    setSortMode("manual");
-  }, []);
-  return { ordered, visibleOrder, onReorder, sortMode, setSortMode };
-}
-
-function SidebarSortMenu({
-  value,
-  onValueChange,
-}: {
-  value: SidebarSortMode;
-  onValueChange: (value: SidebarSortMode) => void;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <ChatSidebarSectionAction type="button" aria-label="Sort sidebar conversations">
-            <ArrowDownAZ />
-          </ChatSidebarSectionAction>
-        }
-      />
-      <DropdownMenuContent align="end" className="flex w-[136px] min-w-[136px] flex-col">
-        {sidebarSortOptions.map((option) => {
-          const OptionIcon = option.icon;
-          return (
-            <DropdownMenuItem key={option.value} onClick={() => onValueChange(option.value)}>
-              <OptionIcon />
-              <span className="min-w-0 flex-1 text-left">{option.label}</span>
-              <Check aria-hidden className={option.value === value ? undefined : "opacity-0"} />
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+  const ordered = useMemo(
+    () => order.map((id) => byId.get(id)).filter((row): row is T => row != null),
+    [byId, order],
   );
+  const visibleOrder = useMemo(() => ordered.map((row) => row.id), [ordered]);
+  const onReorder = useCallback((next: string[]) => setOrder(next), []);
+  return { ordered, visibleOrder, onReorder };
 }
 
 function channelLink(channelId: PlaygroundChannelId) {
@@ -502,7 +444,7 @@ function PinnedSection({
   onSelect: () => void;
   rows: readonly PlaygroundChannelRecord[];
 }) {
-  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } = useSectionOrder(rows);
+  const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
   if (ordered.length === 0) return null;
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
@@ -517,9 +459,6 @@ function PinnedSection({
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
-        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -549,8 +488,7 @@ function JointChannelsSection({
   activeChannelId: PlaygroundChannelId | null;
   onSelect: () => void;
 }) {
-  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } =
-    useSectionOrder(unpinnedJointChannels);
+  const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedJointChannels);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -564,9 +502,6 @@ function JointChannelsSection({
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
-        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -589,19 +524,14 @@ function JointChannelsSection({
 
 function ChannelsSection({
   activeChannelId,
-  onCreateChannel,
-  onCreateJoint,
   onArchive,
   onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
-  onCreateChannel: () => void;
-  onCreateJoint: () => void;
   onArchive: (row: PlaygroundRoomChannel) => void;
   onSelect: () => void;
 }) {
-  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } =
-    useSectionOrder(unpinnedRoomChannels);
+  const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -615,10 +545,6 @@ function ChannelsSection({
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
-          <SidebarAddMenu onCreateChannel={onCreateChannel} onCreateJoint={onCreateJoint} />
-        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -651,7 +577,7 @@ function DirectMessagesSection({
   onSelect: () => void;
   rows: readonly PlaygroundDmRecord[];
 }) {
-  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } = useSectionOrder(rows);
+  const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -665,9 +591,6 @@ function DirectMessagesSection({
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
-        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -689,7 +612,7 @@ function DirectMessagesSection({
   );
 }
 
-// Channels `+` add menu — source `renderChannelActionMenu`.
+// Chat header `+` add menu — source `renderChannelActionMenu`.
 function SidebarAddMenu({
   onCreateChannel,
   onCreateJoint,
@@ -921,6 +844,10 @@ export function PlaygroundSidebar({
               {title}
             </ChatSidebarHeaderTitle>
           </div>
+          <SidebarAddMenu
+            onCreateChannel={() => setDialog("create-channel")}
+            onCreateJoint={() => setDialog("create-joint")}
+          />
         </ChatSidebarHeader>
         <ChatSidebarBody>
           <ChatSidebarContent>
@@ -950,8 +877,6 @@ export function PlaygroundSidebar({
               />
               <ChannelsSection
                 activeChannelId={selectedChannelId}
-                onCreateChannel={() => setDialog("create-channel")}
-                onCreateJoint={() => setDialog("create-joint")}
                 onArchive={(row) => setArchiveTarget(row.name)}
                 onSelect={() => setSavedSelected(false)}
               />
