@@ -91,7 +91,6 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarRoot,
   ChatSidebarSection,
-  ChatSidebarSectionAction,
   ChatSidebarSectionButton,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
@@ -624,9 +623,9 @@ function SidebarAddMenu({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <ChatSidebarSectionAction type="button" aria-label="Add channel">
+          <Button type="button" variant="outline" size="icon-sm" aria-label="Add channel">
             <Plus />
-          </ChatSidebarSectionAction>
+          </Button>
         }
       />
       <DropdownMenuContent align="end" className="flex w-[190px] min-w-[190px] flex-col">
