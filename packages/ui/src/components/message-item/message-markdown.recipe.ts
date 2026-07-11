@@ -11,7 +11,7 @@ export const messageMarkdown = tv({
       "[&_h5]:mt-1 [&_h5]:mb-0.5 [&_h5]:text-[1em] [&_h5]:leading-tight [&_h5]:font-bold",
       "[&_h6]:mt-1 [&_h6]:mb-0.5 [&_h6]:text-[1em] [&_h6]:leading-tight [&_h6]:font-bold",
       "[&_p]:mb-1 [&_p:last-child]:mb-0",
-      "[&_a:not([data-slot^=message-reference])]:select-text [&_a:not([data-slot^=message-reference])]:underline [&_a:not([data-slot^=message-reference])]:decoration-2 [&_a:not([data-slot^=message-reference])]:underline-offset-2",
+      "[&_a:not([data-message-reference])]:select-text [&_a:not([data-message-reference])]:underline [&_a:not([data-message-reference])]:decoration-2 [&_a:not([data-message-reference])]:underline-offset-2",
       "[&_mark]:bg-soft-signal/70 [&_mark]:text-inherit [&_mark]:[font:inherit]",
       "[&_ul]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mb-1 [&_ol]:list-decimal [&_ol]:pl-5",
       "[&_li]:mb-0.5",
@@ -20,7 +20,7 @@ export const messageMarkdown = tv({
       "[&_table]:border-collapse [&_table]:border-2 [&_table]:text-sm",
       "[&_th]:border-2 [&_th]:px-2 [&_th]:py-1 [&_th]:text-left [&_th]:font-bold [&_th]:whitespace-nowrap",
       "[&_td]:border [&_td]:px-2 [&_td]:py-1",
-      "[&_img]:my-2 [&_img]:max-w-full [&_img]:border-2",
+      "[&_img]:image-transparency-bg [&_img]:my-2 [&_img]:max-w-full [&_img]:border-2",
     ],
     tableScroll: ["my-2 overflow-x-auto"],
     inlineCode: [],
@@ -35,7 +35,7 @@ export const messageMarkdown = tv({
       brutal: {
         root: [
           "[&_h6]:text-black/70",
-          "[&_a:not([data-slot^=message-reference])]:text-[oklch(0.488_0.243_264.376)] [&_a:not([data-slot^=message-reference]):hover]:text-brutal-pink",
+          "[&_a:not([data-message-reference])]:text-[oklch(0.488_0.243_264.376)] [&_a:not([data-message-reference]):hover]:text-brutal-pink",
           "[&_blockquote]:border-black/40 [&_blockquote]:text-black/70",
           "[&_hr]:border-black",
           "[&_table]:border-black",
@@ -52,7 +52,7 @@ export const messageMarkdown = tv({
       elegant: {
         root: [
           "[&_h6]:text-foreground/70",
-          "[&_a:not([data-slot^=message-reference])]:text-info-dark [&_a:not([data-slot^=message-reference]):hover]:text-accent-500",
+          "[&_a:not([data-message-reference])]:text-info-dark [&_a:not([data-message-reference]):hover]:text-accent-500",
           "[&_blockquote]:border-line-strong [&_blockquote]:text-foreground/70",
           "[&_hr]:border-line-strong",
           "[&_table]:border-line-strong",

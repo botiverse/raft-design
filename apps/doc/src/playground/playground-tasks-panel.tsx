@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 
 import {
@@ -17,9 +18,32 @@ import {
 import { usePlaygroundTaskState } from "./playground-task-state.tsx";
 
 type Tasks = NonNullable<TasksPanelCompositionProps["tasks"]>;
+type TaskView = NonNullable<TasksPanelCompositionProps["view"]>;
+
+const TASK_VIEW_MODE_STORAGE_KEY = "slock.tasks.viewMode";
+
+function readInitialTaskView(): TaskView {
+  if (typeof window === "undefined") return "board";
+  try {
+    const stored = window.localStorage.getItem(TASK_VIEW_MODE_STORAGE_KEY);
+    if (stored === "board" || stored === "list") return stored;
+  } catch {
+    // Storage can be unavailable in privacy-restricted contexts.
+  }
+  return window.matchMedia("(min-width: 768px)").matches ? "board" : "list";
+}
+
+function persistTaskView(view: TaskView) {
+  try {
+    window.localStorage.setItem(TASK_VIEW_MODE_STORAGE_KEY, view);
+  } catch {
+    // The in-memory selection still works when persistence is unavailable.
+  }
+}
 
 export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannel }) {
   const navigate = useNavigate();
+  const [view, setView] = useState<TaskView>(readInitialTaskView);
   const { tasks, setTasks } = usePlaygroundTaskState();
   const channelId = channel.id as PlaygroundChannelId;
   const channelTasks = tasks.filter((task) => task.channelId === channelId);
@@ -61,12 +85,17 @@ export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannel }
   return (
     <TasksPanelComposition
       tasks={compositionTasks}
+      view={view}
       creatorOptions={creatorOptions}
       assigneeOptions={assigneeOptions}
       onTasksChange={updateChannelTasks}
+      onViewChange={(nextView) => {
+        setView(nextView);
+        persistTaskView(nextView);
+      }}
       onOpenTask={(task) => {
         const sourceTask = channelTasks.find((item) => item.id === task.id);
-        if (!sourceTask) return;
+        if (!sourceTask || sourceTask.legacy) return;
         void navigate({
           to: "/playground/$channelId",
           params: { channelId },
@@ -88,6 +117,7 @@ function toTaskFixture(task: PlaygroundTask): TaskFixture {
     creatorId: task.creatorActorId,
     assigneeId: task.assigneeActorId ?? "unassigned",
     isLegacy: task.legacy,
+    disabled: task.legacy,
     dragDisabled: task.movable === false,
   };
 }

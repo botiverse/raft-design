@@ -47,6 +47,7 @@ import {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "raft-ui/wip";
+import { MessageReactionGlyphComposition } from "./message-reaction-glyph-composition.tsx";
 import {
   MESSAGE_QUICK_REACTIONS,
   MessageReactionComposition,
@@ -231,7 +232,11 @@ export function ImageGalleryMessageRow() {
           <MessageImageGallery>
             <MessageImageGalleryRow className="grid-cols-2">
               <MessageImageGalleryItem>
-                <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
+                <MessageImageGalleryMedia
+                  src={IMAGE_SRC}
+                  alt="release poster"
+                  className="aspect-[4/3]"
+                />
                 <MessageImageGalleryPreview
                   aria-label="Preview image"
                   onClick={openMessageFixture}
@@ -244,9 +249,13 @@ export function ImageGalleryMessageRow() {
                 </MessageImageGalleryAction>
               </MessageImageGalleryItem>
               <MessageImageGalleryItem aria-busy>
-                <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
+                <MessageImageGalleryMedia
+                  src={IMAGE_SRC}
+                  alt="release poster uploading"
+                  className="aspect-[4/3]"
+                />
                 <MessageImageGalleryOverlay>
-                  <Spinner size="lg" className="text-white" />
+                  <Spinner size="md" variant="inverse" />
                 </MessageImageGalleryOverlay>
               </MessageImageGalleryItem>
             </MessageImageGalleryRow>
@@ -401,7 +410,11 @@ export function RichAttachmentMessageRow() {
           <MessageImageGallery>
             <MessageImageGalleryRow className="grid-cols-2">
               <MessageImageGalleryItem>
-                <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
+                <MessageImageGalleryMedia
+                  src={IMAGE_SRC}
+                  alt="release poster"
+                  className="aspect-[4/3]"
+                />
                 <MessageImageGalleryPreview
                   aria-label="Preview image"
                   onClick={openMessageFixture}
@@ -414,9 +427,13 @@ export function RichAttachmentMessageRow() {
                 </MessageImageGalleryAction>
               </MessageImageGalleryItem>
               <MessageImageGalleryItem aria-busy>
-                <MessageImageGalleryMedia src={IMAGE_SRC} alt="" className="aspect-[4/3]" />
+                <MessageImageGalleryMedia
+                  src={IMAGE_SRC}
+                  alt="release poster uploading"
+                  className="aspect-[4/3]"
+                />
                 <MessageImageGalleryOverlay>
-                  <Spinner size="lg" className="text-white" />
+                  <Spinner size="md" variant="inverse" />
                 </MessageImageGalleryOverlay>
               </MessageImageGalleryItem>
             </MessageImageGalleryRow>
@@ -491,7 +508,7 @@ export function ReactionOverlays() {
             aria-pressed={selectedReaction === emoji}
             onClick={() => setSelectedReaction(emoji)}
           >
-            <MessageReactionGlyph emoji={emoji} size={18} />
+            <MessageReactionGlyphComposition emoji={emoji} size={18} />
           </MessageReactionQuickButton>
         ))}
       </MessageReactionPicker>

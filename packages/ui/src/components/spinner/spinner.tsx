@@ -4,62 +4,6 @@ import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { WithoutChildren } from "../../lib/without-children";
 
-const BRAILLE_SPINNER_STYLE = `
-@keyframes raft-braille-spinner {
-  0%,
-  9.99% {
-    content: "⠋";
-  }
-  10%,
-  19.99% {
-    content: "⠙";
-  }
-  20%,
-  29.99% {
-    content: "⠹";
-  }
-  30%,
-  39.99% {
-    content: "⠸";
-  }
-  40%,
-  49.99% {
-    content: "⠼";
-  }
-  50%,
-  59.99% {
-    content: "⠴";
-  }
-  60%,
-  69.99% {
-    content: "⠦";
-  }
-  70%,
-  79.99% {
-    content: "⠧";
-  }
-  80%,
-  89.99% {
-    content: "⠇";
-  }
-  90%,
-  100% {
-    content: "⠏";
-  }
-}
-
-[data-slot="spinner"] [data-spinner-glyph]::before {
-  content: "⠋";
-  animation: raft-braille-spinner 800ms steps(1, end) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="spinner"] [data-spinner-glyph]::before {
-    animation-duration: 1600ms;
-  }
-}
-`;
-
 const ELEGANT_SPINNER_STYLE = `
 @keyframes raft-elegant-spinner-spin {
   to {
@@ -109,15 +53,12 @@ const ELEGANT_SPINNER_STYLE = `
 }
 `;
 
-const SPINNER_STYLE = `${BRAILLE_SPINNER_STYLE}${ELEGANT_SPINNER_STYLE}`;
-
 const spinner = tv({
   slots: {
     root: [
       "relative inline-flex shrink-0 items-center justify-center",
       "leading-none text-current",
     ],
-    glyph: "inline-block min-w-[1ch] font-mono tabular-nums",
     ring: "block size-full shrink-0",
   },
   variants: {
@@ -126,8 +67,14 @@ const spinner = tv({
       elegant: {},
     },
     size: {
+      xs: {},
       sm: {},
+      md: {},
       lg: {},
+    },
+    variant: {
+      default: {},
+      inverse: {},
     },
   },
   defaultVariants: {
@@ -136,18 +83,48 @@ const spinner = tv({
   compoundVariants: [
     {
       theme: "brutal",
+      size: "xs",
+      class: { root: "size-2.5" },
+    },
+    {
+      theme: "brutal",
       size: "sm",
-      class: { root: "h-4 text-base" },
+      class: { root: "size-4" },
+    },
+    {
+      theme: "brutal",
+      size: "md",
+      class: { root: "size-5" },
     },
     {
       theme: "brutal",
       size: "lg",
-      class: { root: "h-6 text-xl" },
+      class: { root: "size-8" },
+    },
+    {
+      theme: "brutal",
+      variant: "default",
+      class: { ring: "animate-spin rounded-full border-2 border-black/20 border-t-black" },
+    },
+    {
+      theme: "brutal",
+      variant: "inverse",
+      class: { ring: "animate-spin rounded-full border-2 border-white/40 border-t-white" },
+    },
+    {
+      theme: "elegant",
+      size: "xs",
+      class: { root: "size-3.5" },
     },
     {
       theme: "elegant",
       size: "sm",
       class: { root: "size-3.5" },
+    },
+    {
+      theme: "elegant",
+      size: "md",
+      class: { root: "size-[18px]" },
     },
     {
       theme: "elegant",
@@ -159,16 +136,22 @@ const spinner = tv({
 
 const spinnerStyle = (
   <style href="raft-ui-spinner" precedence="default">
-    {SPINNER_STYLE}
+    {ELEGANT_SPINNER_STYLE}
   </style>
 );
 
 export type SpinnerProps = WithoutChildren<useRender.ComponentProps<"span">> &
   Omit<VariantProps<typeof spinner>, "theme">;
 
-export function Spinner({ size = "sm", className, render, ...props }: SpinnerProps) {
+export function Spinner({
+  size = "sm",
+  variant = "default",
+  className,
+  render,
+  ...props
+}: SpinnerProps) {
   const theme = useThemeFamily();
-  const { root, glyph, ring } = spinner({ theme, size });
+  const { root, ring } = spinner({ theme, size, variant });
   const children =
     theme === "elegant" ? (
       <>
@@ -204,10 +187,7 @@ export function Spinner({ size = "sm", className, render, ...props }: SpinnerPro
         </svg>
       </>
     ) : (
-      <>
-        {spinnerStyle}
-        <span data-spinner-glyph="" aria-hidden="true" className={glyph()} />
-      </>
+      <span data-spinner-ring="" aria-hidden="true" className={ring()} />
     );
   const defaultProps: useRender.ElementProps<"span"> = {
     role: "status",

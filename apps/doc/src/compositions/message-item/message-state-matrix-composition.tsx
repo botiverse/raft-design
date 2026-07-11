@@ -45,6 +45,7 @@ import {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "raft-ui/wip";
+import { MessageReactionGlyphComposition } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
 import {
   MESSAGE_QUICK_REACTIONS,
   MessageReactionComposition,
@@ -263,13 +264,13 @@ function ImageGalleryState({
             <MessageImageGalleryItem aria-busy={optimistic || undefined} single={single}>
               <MessageImageGalleryMedia
                 src={IMAGE_SRC}
-                alt=""
+                alt="attachment preview uploading"
                 fit={fit}
                 className={single ? "aspect-[4/3] max-h-36" : "aspect-[4/3]"}
               />
               {optimistic ? (
                 <MessageImageGalleryOverlay>
-                  <Spinner size="lg" className="text-white" />
+                  <Spinner size="md" variant="inverse" />
                 </MessageImageGalleryOverlay>
               ) : (
                 <MessageImageGalleryAction
@@ -295,7 +296,7 @@ function VideoState({ interactive, optimistic }: { interactive?: boolean; optimi
           <MessageVideoPreviewFrame>
             {optimistic ? (
               <MessageVideoPreviewFallback>
-                <Spinner size="lg" className="text-white" />
+                <Spinner size="md" variant="inverse" />
               </MessageVideoPreviewFallback>
             ) : (
               <>
@@ -329,7 +330,7 @@ function QuickReactionPickerState() {
           aria-pressed={selectedReaction === emoji}
           onClick={() => setSelectedReaction(emoji)}
         >
-          <MessageReactionGlyph emoji={emoji} size={18} />
+          <MessageReactionGlyphComposition emoji={emoji} size={18} />
         </MessageReactionQuickButton>
       ))}
     </MessageReactionPicker>

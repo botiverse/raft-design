@@ -1,4 +1,4 @@
-import { useState, type PointerEvent, type RefObject } from "react";
+import { useEffect, useState, type PointerEvent, type RefObject } from "react";
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, Checkbox } from "raft-ui";
 import {
@@ -29,6 +29,7 @@ import {
 } from "raft-ui/wip";
 
 import { ComposerAttachmentsComposition } from "#/compositions/composer-composition.tsx";
+import { subscribeToPlaygroundComposerMentions } from "./playground-composer-events.ts";
 import type { PlaygroundChannel } from "./mock/index.ts";
 import {
   isComposerSuggestionDisabled,
@@ -169,14 +170,27 @@ function PlaygroundComposerContent({
   channel,
   label,
   uploads,
+  focusOnMount = false,
 }: {
   channel: PlaygroundChannel;
   label: string;
   uploads: boolean;
+  focusOnMount?: boolean;
 }) {
   const autocomplete = usePlaygroundComposerAutocomplete(channel);
   const [attachmentsVisible, setAttachmentsVisible] = useState(uploads);
   const [statusMessage, setStatusMessage] = useState("");
+
+  useEffect(
+    () => subscribeToPlaygroundComposerMentions(autocomplete.insertMention),
+    [autocomplete.insertMention],
+  );
+
+  useEffect(() => {
+    if (focusOnMount && window.matchMedia("(hover: hover)").matches) {
+      autocomplete.inputRef.current?.focus();
+    }
+  }, [autocomplete.inputRef, focusOnMount]);
 
   return (
     <>
@@ -285,7 +299,7 @@ export function PlaygroundMainComposer({
 }: PlaygroundComposerProps) {
   return (
     <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-      <PlaygroundComposerContent channel={channel} label={label} uploads={uploads} />
+      <PlaygroundComposerContent channel={channel} label={label} uploads={uploads} focusOnMount />
     </ChatMainPanelFooter>
   );
 }

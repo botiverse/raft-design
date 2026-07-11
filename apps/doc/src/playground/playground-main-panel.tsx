@@ -26,6 +26,11 @@ import {
 import { MessageTextSelectionComposition } from "#/compositions/message-item/message-selection-compositions.tsx";
 import { PlaygroundMainComposer } from "./playground-composer.tsx";
 import { PlaygroundMainPanelHeader } from "./playground-main-panel-header.tsx";
+import {
+  usePlaygroundNavigation,
+  type PlaygroundPanelTab,
+} from "./playground-navigation-state.tsx";
+import { PlaygroundFilesPanel } from "./playground-files-panel.tsx";
 import { PlaygroundTasksPanel } from "./playground-tasks-panel.tsx";
 import { MatrixBody } from "./playground-message-matrix.tsx";
 import { IncidentBody, ProjUiuxBody, ReleaseBody } from "./playground-message-scenarios.tsx";
@@ -42,17 +47,15 @@ import {
   type PlaygroundScenarioId,
 } from "./mock/index.ts";
 
-type PanelTab = "chat" | "tasks" | "files";
-
-const TAB_META: Record<PanelTab, { icon: ReactNode; label: string }> = {
+const TAB_META: Record<PlaygroundPanelTab, { icon: ReactNode; label: string }> = {
   chat: { icon: <MessageSquare />, label: "Chat" },
   tasks: { icon: <ListTodo />, label: "Tasks" },
   files: { icon: <Paperclip />, label: "Files" },
 };
 
 export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel }) {
-  const [tab, setTab] = useState<PanelTab>("chat");
-  const [tabOrder, setTabOrder] = useState<PanelTab[]>(["chat", "tasks", "files"]);
+  const { panelTab, selectPanelTab } = usePlaygroundNavigation();
+  const [tabOrder, setTabOrder] = useState<PlaygroundPanelTab[]>(["chat", "tasks", "files"]);
   const composerLabel =
     channel.kind === "dm" ? `Message @${channel.name}` : `Message #${channel.name}`;
   const uploads = channel.content.kind === "scenario" && channel.content.scenario === "incident";
@@ -61,10 +64,10 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
     <ChatMainPanelRoot>
       <PlaygroundMainPanelHeader channel={channel} />
       <ChatMainPanelContent>
-        <ChatMainPanelTabs render={<Tabs value={tab} onValueChange={setTab} />}>
+        <ChatMainPanelTabs render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}>
           <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
             {tabOrder.map((id) => (
-              <SortableTabsTab key={id} value={id}>
+              <SortableTabsTab key={id} value={id} className="!cursor-default">
                 {TAB_META[id].icon}
                 <TabsLabel>{TAB_META[id].label}</TabsLabel>
               </SortableTabsTab>
@@ -72,21 +75,17 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
             <TabsIndicator />
           </SortableTabsList>
         </ChatMainPanelTabs>
-        {tab === "chat" ? (
+        {panelTab === "chat" ? (
           <>
             <MessageTextSelectionComposition>
               <ChannelBody channel={channel} />
             </MessageTextSelectionComposition>
             <PlaygroundMainComposer channel={channel} label={composerLabel} uploads={uploads} />
           </>
-        ) : tab === "tasks" ? (
+        ) : panelTab === "tasks" ? (
           <PlaygroundTasksPanel channel={channel} />
         ) : (
-          <TabPlaceholder
-            icon={<Paperclip />}
-            title="No files yet"
-            description="Attach files in Chat, or drag files into the message composer. They will appear here after the message is sent."
-          />
+          <PlaygroundFilesPanel channel={channel} onJumpToOriginal={() => selectPanelTab("chat")} />
         )}
       </ChatMainPanelContent>
     </ChatMainPanelRoot>
@@ -170,30 +169,6 @@ function NewChannelBody({ channel }: { channel: PlaygroundChannel }) {
             <EmptyStateDescription>
               This is the beginning of the conversation. Send the first message below.
             </EmptyStateDescription>
-          </EmptyStateContent>
-        </EmptyState>
-      </div>
-    </ChatMainPanelBody>
-  );
-}
-
-function TabPlaceholder({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <ChatMainPanelBody>
-      <div className="flex h-full items-center justify-center">
-        <EmptyState>
-          <EmptyStateIcon>{icon}</EmptyStateIcon>
-          <EmptyStateContent>
-            <EmptyStateTitle>{title}</EmptyStateTitle>
-            <EmptyStateDescription>{description}</EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>
       </div>

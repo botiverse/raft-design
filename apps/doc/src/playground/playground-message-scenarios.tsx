@@ -145,8 +145,8 @@ export function ProjUiuxBody() {
             body={<ChipDemoBody />}
             footer={
               <>
-                <MessageReactionComposition emoji="👍" count={1} reacted />
-                <MessageReactionComposition emoji="👀" count={1} />
+                <MessageReactionComposition emoji="👍" count={1} reacted title="Developer" />
+                <MessageReactionComposition emoji="👀" count={1} title="Claude Assistant" />
               </>
             }
           />

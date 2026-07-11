@@ -1,21 +1,9 @@
 import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
 import { Avatar, AvatarFallback, Badge, Spinner } from "raft-ui";
 import { IMAGE_SRC } from "#/compositions/message-item/message-row-compositions.tsx";
+import { MessageReactionGlyphComposition as SourceReactionGlyph } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
 
 const SOURCE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
-
-function SourceReactionGlyph({ emoji, size = 15 }: { emoji: string; size?: number }) {
-  return (
-    <span
-      aria-label={emoji}
-      role="img"
-      className="inline-flex shrink-0 items-center justify-center align-middle"
-      style={{ width: size, height: size, fontSize: size, lineHeight: 1 }}
-    >
-      {emoji}
-    </span>
-  );
-}
 
 function SourceReactionChip({
   emoji,

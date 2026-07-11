@@ -1,4 +1,5 @@
 import { Outlet, createFileRoute, getRouteApi } from "@tanstack/react-router";
+import { useThemeFamily } from "raft-ui";
 import {
   AppPanelStackContent,
   AppPanelStackItem,
@@ -26,7 +27,15 @@ import {
   type PlaygroundThreadId,
 } from "#/playground/mock/index.ts";
 import { PlaygroundRail } from "#/playground/playground-rail.tsx";
+import {
+  PlaygroundRailViewPanel,
+  PlaygroundRailViewSidebar,
+} from "#/playground/playground-rail-views.tsx";
 import { PlaygroundSidebar } from "#/playground/playground-sidebar.tsx";
+import {
+  PlaygroundNavigationProvider,
+  usePlaygroundNavigation,
+} from "#/playground/playground-navigation-state.tsx";
 import { PlaygroundThreadPanel } from "#/playground/playground-thread-panel.tsx";
 import {
   PlaygroundTaskStateProvider,
@@ -66,9 +75,11 @@ function PlaygroundLayout() {
   return (
     <div className="h-dvh">
       <PreviewThemeScope className="h-full">
-        <PlaygroundTaskStateProvider>
-          <PlaygroundWorkspace activeChannel={activeChannel} threadId={thread} />
-        </PlaygroundTaskStateProvider>
+        <PlaygroundNavigationProvider>
+          <PlaygroundTaskStateProvider>
+            <PlaygroundWorkspace activeChannel={activeChannel} threadId={thread} />
+          </PlaygroundTaskStateProvider>
+        </PlaygroundNavigationProvider>
       </PreviewThemeScope>
       <PlaygroundToolbar theme={theme} mode={mode} onThemeChange={setTheme} />
     </div>
@@ -83,6 +94,8 @@ function PlaygroundWorkspace({
   threadId?: PlaygroundThreadId;
 }) {
   const { tasks } = usePlaygroundTaskState();
+  const theme = useThemeFamily();
+  const { railView } = usePlaygroundNavigation();
   const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const task = threadId ? tasks.find((item) => item.id === threadId) : undefined;
   const activeThread =
@@ -91,29 +104,52 @@ function PlaygroundWorkspace({
       : task?.channelId === activeChannel.id
         ? getTaskThread(task)
         : undefined;
+  const conversationView = railView === "chat" || railView === "tasks";
+  const auxiliaryView =
+    railView === "members" || railView === "computers" || railView === "settings" ? railView : null;
+  const standaloneView =
+    railView === "search" ||
+    railView === "activity" ||
+    railView === "members" ||
+    railView === "computers" ||
+    railView === "settings"
+      ? railView
+      : null;
 
   return (
     <AppShellRoot className="h-full">
       <PlaygroundRail />
       <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">
-        <ChatSidebarResizePanel
-          id="playground-sidebar"
-          defaultSize={252}
-          minSize={180}
-          maxSize={368}
-          groupResizeBehavior="preserve-pixel-size"
-        >
-          <AppShellSidebar resizable className="h-full">
-            <PlaygroundSidebar activeChannelId={activeChannel.id} />
-          </AppShellSidebar>
-        </ChatSidebarResizePanel>
-        <ChatSidebarResizeHandle />
+        {railView === "search" || railView === "activity" ? null : (
+          <>
+            <ChatSidebarResizePanel
+              key={theme}
+              id={`playground-sidebar-${theme}`}
+              defaultSize={theme === "brutal" ? 240 : 252}
+              minSize={180}
+              maxSize={368}
+              groupResizeBehavior="preserve-pixel-size"
+            >
+              <AppShellSidebar resizable className="h-full">
+                {conversationView ? (
+                  <PlaygroundSidebar
+                    activeChannelId={activeChannel.id}
+                    title={railView === "tasks" ? "Tasks" : "Chat"}
+                  />
+                ) : auxiliaryView ? (
+                  <PlaygroundRailViewSidebar view={auxiliaryView} />
+                ) : null}
+              </AppShellSidebar>
+            </ChatSidebarResizePanel>
+            <ChatSidebarResizeHandle />
+          </>
+        )}
         <ChatSidebarResizePanel id="playground-main" minSize={360} className="min-w-0">
           <AppShellMain className="flex h-full">
-            <Outlet />
+            {standaloneView ? <PlaygroundRailViewPanel view={standaloneView} /> : <Outlet />}
           </AppShellMain>
         </ChatSidebarResizePanel>
-        {activeThread ? (
+        {conversationView && activeThread ? (
           <>
             <ChatSidebarResizeHandle />
             <ChatSidebarResizePanel

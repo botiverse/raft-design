@@ -418,6 +418,8 @@ export function TaskIdentityFilterComposition({
       <TaskFilterContent
         side="bottom"
         align="start"
+        sideOffset={8}
+        initialFocus
         portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
       >
         <TaskFilterHeader>

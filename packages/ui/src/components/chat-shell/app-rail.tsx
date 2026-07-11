@@ -42,6 +42,7 @@ const appRail = tv({
           "font-sans text-base font-bold text-soft-signal",
           "shadow-brutal-sm hover:shadow-brutal",
           "transition-all duration-100",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
         footer: "h-[62px] [@media(max-height:600px)]:h-12",
         item: [
@@ -49,6 +50,7 @@ const appRail = tv({
           "transition-colors",
           "hover:border-black hover:bg-white",
           "data-[selected=true]:border-black data-[selected=true]:bg-white data-[selected=true]:shadow-brutal-sm",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
           "[@media(max-height:600px)]:size-9",
         ],
         itemBadge: "border-2 border-black bg-brutal-pink text-black",

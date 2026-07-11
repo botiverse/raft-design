@@ -87,7 +87,7 @@ export function MessageReferenceLoadingComposition({ children }: { children: Rea
   return (
     <MessageReferenceLoading>
       {children}
-      <Spinner size="sm" />
+      <Spinner size="xs" />
     </MessageReferenceLoading>
   );
 }

@@ -45,3 +45,5 @@ export {
   type PlaygroundTaskId,
   type PlaygroundTaskStatus,
 } from "./tasks.ts";
+
+export { PLAYGROUND_FILES, getPlaygroundFiles, type PlaygroundFile } from "./files.ts";

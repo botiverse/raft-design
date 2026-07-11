@@ -87,13 +87,20 @@ export const chatSidebar = tv({
     },
     theme: {
       brutal: {
+        sidebarSection: "px-0",
         sidebarHeader:
           "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
         sidebarBody: "bg-brutal-cream",
-        sidebarMenu: "text-black transition-colors hover:text-black/70",
+        sidebarMenu: [
+          "text-black transition-colors hover:text-black/70",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
+        ],
         sidebarMenuIcon: ["[&_svg]:![stroke-width:1.5px]", "[&_svg_*]:![stroke-width:1.5px]"],
         sidebarMenuCount: "text-black/40",
-        sidebarSectionButton: "text-black transition-colors hover:text-black/70",
+        sidebarSectionButton: [
+          "text-black transition-colors hover:text-black/70",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
+        ],
         sidebarSectionCount: "text-black/40",
         sidebarSectionAction: [
           "font-sans font-bold text-black/70",
@@ -108,6 +115,7 @@ export const chatSidebar = tv({
           "aria-[current=page]:border-black aria-[current=page]:bg-brutal-pink",
           "aria-[current=page]:shadow-brutal-sm",
           "aria-expanded:border-black aria-expanded:bg-white aria-expanded:shadow-brutal-sm",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-black/40",
@@ -115,7 +123,7 @@ export const chatSidebar = tv({
         sidebarItemMuted: "text-black/40",
         sidebarItemDraft: "text-black/40",
         sidebarItemBadge: [
-          "rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white",
+          "h-4 gap-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white",
         ],
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
         sidebarResizePanel: "has-[>[data-slot=app-shell-sidebar]]:bg-brutal-cream",

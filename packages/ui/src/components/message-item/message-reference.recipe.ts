@@ -3,8 +3,8 @@ import { tv, type VariantProps } from "../../lib/tv";
 export const messageReference = tv({
   slots: {
     root: [
-      "max-w-full overflow-hidden text-ellipsis whitespace-nowrap align-bottom select-text no-underline",
-      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+      "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
+      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       "[&_svg]:shrink-0",
     ],
     label: ["min-w-0 truncate"],
@@ -12,7 +12,7 @@ export const messageReference = tv({
   },
   variants: {
     theme: {
-      brutal: {},
+      brutal: { root: "focus-visible:outline-black" },
       elegant: {},
     },
     treatment: {
@@ -24,67 +24,69 @@ export const messageReference = tv({
       },
       selfMention: {
         root: [
-          "inline-block border border-line-strong bg-soft-signal px-1 font-bold text-foreground",
+          "inline-block align-bottom border border-line-strong bg-soft-signal px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-soft-signal/80",
         ],
       },
       channel: {
         root: [
-          "inline-block border border-line-strong bg-accent-200/60 px-1 font-bold text-foreground",
+          "inline-block align-bottom border border-line-strong bg-accent-200/60 px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-accent-400/45",
         ],
       },
       task: {
         root: [
-          "inline-block border border-line-strong bg-layer-muted px-1 font-bold text-foreground",
+          "inline-block align-bottom border border-line-strong bg-layer-muted px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-strong",
         ],
       },
       thread: {
         root: [
-          "inline-block border border-line-strong bg-info-light px-1 font-bold text-info-dark",
+          "inline-block align-bottom border border-line-strong bg-info-light px-1 font-bold text-info-dark",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-info-base/45",
         ],
       },
       permalink: {
         root: [
-          "inline-flex items-center gap-1 border border-line-strong bg-layer-panel px-1 font-bold text-foreground",
+          "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-muted",
+          "[&_svg]:size-3",
         ],
       },
       externalPermalink: {
         root: [
-          "inline-flex items-center gap-1 border border-line-strong bg-layer-panel px-1 font-bold text-info-dark",
+          "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-info-dark",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-muted",
+          "[&_svg]:size-3",
         ],
       },
       loading: {
         root: [
-          "inline-flex cursor-wait items-center gap-1 border border-line-strong bg-layer-muted px-1 font-bold text-foreground opacity-80",
+          "inline-flex cursor-wait items-center gap-1 align-bottom border border-line-strong bg-layer-muted px-1 font-bold text-foreground opacity-80",
           "[font-size:inherit] leading-[1.5]",
         ],
       },
       channelUnavailable: {
         root: [
-          "inline-block border border-line-strong px-1 font-bold opacity-60",
+          "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
           "[font-size:inherit] leading-[1.5]",
         ],
       },
       threadUnavailable: {
         root: [
-          "inline-block border border-line-strong px-1 font-bold opacity-60",
+          "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
           "[font-size:inherit] leading-[1.5]",
         ],
       },
       taskUnavailable: {
         root: [
-          "inline-block border border-line-strong px-1 font-bold opacity-60",
+          "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
           "[font-size:inherit] leading-[1.5]",
         ],
       },

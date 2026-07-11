@@ -5,12 +5,11 @@ import {
   ChevronRight,
   Download,
   Eye,
-  Lock,
   MessageSquare,
   Pencil,
   Play,
 } from "lucide-react";
-import { Spinner } from "raft-ui";
+import { Banner, BannerDescription, Spinner } from "raft-ui";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
@@ -28,13 +27,10 @@ import {
   MessageMultiSelect,
   MessageReferenceUnavailable,
   MessageTimelineDateDivider,
-  MessageTimelineHistoryLimited,
-  MessageTimelineNotice,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
   MessageVideoPreviewFrame,
-  MessageVideoPreviewMedia,
   SystemMessageGroupDisclosure,
   SystemMessageItem,
   SystemMessageItemContent,
@@ -49,7 +45,6 @@ import {
   MessageReferenceLoadingComposition,
 } from "#/compositions/message-item/message-content-compositions.tsx";
 import {
-  MessageAttachmentFailedComposition,
   MessageAttachmentOpeningComposition,
   MessageAttachmentPendingComposition,
   MessageAttachmentReadyComposition,
@@ -69,46 +64,80 @@ import {
 import { PlaygroundMessageRow } from "./playground-message-row.tsx";
 
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
+  const [opened, setOpened] = useState(false);
   const BadgeRoot = unread ? MessageItemUnreadBadge : MessageItemBadge;
   return (
-    <BadgeRoot>
-      <MessageSquare />
-      {count === 1 ? "1 reply" : `${count} replies`}
-      {unread ? (
-        <>
-          <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
-          <span>{unread} new</span>
-        </>
+    <>
+      <BadgeRoot
+        className="cursor-pointer"
+        render={
+          <button
+            type="button"
+            aria-label={`${count === 1 ? "1 reply" : `${count} replies`}${unread ? `, ${unread} new` : ""}`}
+            onClick={() => setOpened(true)}
+          />
+        }
+      >
+        <MessageSquare />
+        {count === 1 ? "1 reply" : `${count} replies`}
+        {unread ? (
+          <>
+            <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
+            <span>{unread} new</span>
+          </>
+        ) : null}
+      </BadgeRoot>
+      {opened ? (
+        <span className="sr-only" role="status">
+          Thread opened
+        </span>
       ) : null}
-    </BadgeRoot>
+    </>
   );
 }
 
 // Reply badge draft variants (source ThreadRepliesBadge): one default pill —
 // draft-only is Pencil + "draft"; replies+draft appends · Pencil draft.
 function DraftRepliesBadge({ count, unread }: { count?: number; unread?: number }) {
+  const [opened, setOpened] = useState(false);
   const hasReplies = Boolean(count);
   const BadgeRoot = unread ? MessageItemUnreadBadge : MessageItemBadge;
   return (
-    <BadgeRoot>
-      {hasReplies ? (
-        <>
-          <MessageSquare />
-          {count === 1 ? "1 reply" : `${count} replies`}
-        </>
-      ) : (
-        <Pencil className="text-black/55" />
-      )}
-      {unread ? (
-        <>
-          <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
-          <span>{unread} new</span>
-        </>
+    <>
+      <BadgeRoot
+        className="cursor-pointer"
+        render={
+          <button
+            type="button"
+            aria-label={hasReplies ? `${count} replies, draft` : "Open draft reply"}
+            onClick={() => setOpened(true)}
+          />
+        }
+      >
+        {hasReplies ? (
+          <>
+            <MessageSquare />
+            {count === 1 ? "1 reply" : `${count} replies`}
+          </>
+        ) : (
+          <Pencil className="text-black/55" />
+        )}
+        {unread ? (
+          <>
+            <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
+            <span>{unread} new</span>
+          </>
+        ) : null}
+        {hasReplies ? <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator> : null}
+        {hasReplies ? <Pencil className="text-black/55" /> : null}
+        <span className="text-black/55">draft</span>
+      </BadgeRoot>
+      {opened ? (
+        <span className="sr-only" role="status">
+          Thread opened
+        </span>
       ) : null}
-      {hasReplies ? <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator> : null}
-      {hasReplies ? <Pencil className="text-black/55" /> : null}
-      <span className="text-black/55">draft</span>
-    </BadgeRoot>
+    </>
   );
 }
 
@@ -149,18 +178,25 @@ function SystemGroupDisclosure() {
   );
 }
 
-// History top-of-timeline state (source HistoryTopState). The three variants
-// (load-older button, loading notice, plan-limited lock) are mutually exclusive;
-// source only ever shows one, so render the plan-limited lock at rest.
+// ChatPanel renders the plan limit as a warning banner instead of combining it
+// with HistoryTopState's beginning/load-older variants.
 function HistoryTopStates() {
+  const [billingViewed, setBillingViewed] = useState(false);
+
   return (
     <div className="px-3 pt-3">
-      <div className="flex justify-center pb-2">
-        <MessageTimelineHistoryLimited>
-          <Lock size={12} />
-          Older messages are limited by the current plan
-        </MessageTimelineHistoryLimited>
-      </div>
+      <Banner
+        status="warning"
+        size="sm"
+        className="mx-auto mb-3 max-w-md justify-center text-center font-bold"
+      >
+        <BannerDescription>
+          Message history is limited to 30 days on the Free plan.{" "}
+          <button type="button" className="underline" onClick={() => setBillingViewed(true)}>
+            {billingViewed ? "Billing viewed" : "View Billing"}
+          </button>
+        </BannerDescription>
+      </Banner>
     </div>
   );
 }
@@ -188,12 +224,47 @@ function SelectableMessageList({ children }: { children: ReactNode }) {
 
 function SelectModeToolbarSlot() {
   const selection = useMessageMultiSelect();
+  const [status, setStatus] = useState("");
   if (!selection?.active) return null;
+  const canAct = selection.selected.size > 0;
   return (
-    <MessageMultiSelectToolbarComposition
-      count={selection.selected.size}
-      onCancel={selection.cancel}
-    />
+    <>
+      <MessageMultiSelectToolbarComposition
+        count={selection.selected.size}
+        onCancel={selection.cancel}
+        onCopyLink={
+          canAct
+            ? () => {
+                void navigator.clipboard?.writeText(window.location.href);
+                setStatus("Selected message links copied");
+              }
+            : undefined
+        }
+        onCopyMarkdown={
+          canAct
+            ? () => {
+                void navigator.clipboard?.writeText(
+                  `${selection.selected.size} selected playground messages`,
+                );
+                setStatus("Selected messages copied as Markdown");
+              }
+            : undefined
+        }
+        onForward={
+          canAct
+            ? () => setStatus(`${selection.selected.size} selected messages forwarded`)
+            : undefined
+        }
+        onGenerateImage={
+          canAct
+            ? () => setStatus(`Generated preview for ${selection.selected.size} messages`)
+            : undefined
+        }
+      />
+      <span className="sr-only" aria-live="polite">
+        {status}
+      </span>
+    </>
   );
 }
 
@@ -260,22 +331,6 @@ function MatrixContentSection() {
           </div>
         }
       />
-      <PlaygroundMessageRow
-        variant="member"
-        sender="Developer"
-        meta="member"
-        time="10:17 AM"
-        body="The archive preview could not be generated."
-        attachments={
-          <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-            <MessageAttachmentFailedComposition
-              name="archive.zip"
-              meta="application/zip · 4 MB"
-              label="Preview unavailable"
-            />
-          </div>
-        }
-      />
     </>
   );
 }
@@ -295,7 +350,7 @@ function MatrixMediaSection() {
               <MessageImageGalleryItem single>
                 <MessageImageGalleryMedia
                   src={IMAGE_SRC}
-                  alt=""
+                  alt="seed-photo.jpg"
                   fit="contain"
                   style={{ width: "min(320px, 100%)", aspectRatio: "4 / 3" }}
                 />
@@ -323,7 +378,7 @@ function MatrixMediaSection() {
               <MessageImageGalleryItem>
                 <MessageImageGalleryMedia
                   src={IMAGE_SRC}
-                  alt=""
+                  alt="before migration"
                   fit="cover"
                   className="h-32 sm:h-36"
                 />
@@ -337,12 +392,12 @@ function MatrixMediaSection() {
               <MessageImageGalleryItem aria-busy>
                 <MessageImageGalleryMedia
                   src={IMAGE_SRC}
-                  alt=""
+                  alt="after migration uploading"
                   fit="cover"
                   className="h-32 sm:h-36"
                 />
                 <MessageImageGalleryOverlay>
-                  <Spinner size="lg" className="text-white" />
+                  <Spinner size="md" variant="inverse" />
                 </MessageImageGalleryOverlay>
               </MessageImageGalleryItem>
             </MessageImageGalleryRow>
@@ -362,7 +417,7 @@ function MatrixMediaSection() {
                 <MessageImageGalleryItem key={i}>
                   <MessageImageGalleryMedia
                     src={IMAGE_SRC}
-                    alt=""
+                    alt={`crop ${i + 1}`}
                     fit="cover"
                     className="h-28 sm:h-32"
                   />
@@ -385,7 +440,7 @@ function MatrixMediaSection() {
                 <MessageImageGalleryItem key={i}>
                   <MessageImageGalleryMedia
                     src={IMAGE_SRC}
-                    alt=""
+                    alt={`contact sheet thumbnail ${i + 1}`}
                     fit="cover"
                     className="h-32 sm:h-36"
                   />
@@ -397,7 +452,7 @@ function MatrixMediaSection() {
                 <MessageImageGalleryItem key={i}>
                   <MessageImageGalleryMedia
                     src={IMAGE_SRC}
-                    alt=""
+                    alt={`contact sheet thumbnail ${i + 3}`}
                     fit="cover"
                     className="h-32 sm:h-36"
                   />
@@ -408,7 +463,7 @@ function MatrixMediaSection() {
               <MessageImageGalleryItem>
                 <MessageImageGalleryMedia
                   src={IMAGE_SRC}
-                  alt=""
+                  alt="contact sheet hero"
                   fit="contain"
                   className="h-32 sm:h-36"
                 />
@@ -418,27 +473,6 @@ function MatrixMediaSection() {
         }
       />
 
-      <PlaygroundMessageRow
-        variant="agent"
-        sender="Atlas"
-        meta="Design-system agent on the primary online machine."
-        status="online"
-        time="10:10 AM"
-        body="Screen recording of the token migration diff."
-        attachments={
-          <MessageVideoPreview>
-            <MessageVideoPreviewFrame>
-              <MessageVideoPreviewMedia controls playsInline preload="metadata" />
-              <MessageVideoPreviewAction
-                aria-label="Open video in preview"
-                onClick={openMockAttachmentPreview}
-              >
-                <Eye />
-              </MessageVideoPreviewAction>
-            </MessageVideoPreviewFrame>
-          </MessageVideoPreview>
-        }
-      />
       <PlaygroundMessageRow
         variant="agent"
         sender="Atlas"
@@ -473,7 +507,7 @@ function MatrixMediaSection() {
           <MessageVideoPreview aria-busy>
             <MessageVideoPreviewFrame>
               <MessageVideoPreviewFallback>
-                <Spinner size="lg" className="text-white" />
+                <Spinner size="md" variant="inverse" />
               </MessageVideoPreviewFallback>
             </MessageVideoPreviewFrame>
           </MessageVideoPreview>
@@ -806,11 +840,15 @@ function MatrixStateSection() {
         body="Active row (context-menu open / open-thread parent): bordered white."
       />
 
-      <SystemMessageItem>
-        <SystemMessageItemTime>10:50 AM</SystemMessageItemTime>
-        <SystemMessageItemContent>Atlas restarted on the primary machine.</SystemMessageItemContent>
-      </SystemMessageItem>
-      <SystemGroupDisclosure />
+      <div className="px-3" style={{ contain: "layout style", overflow: "clip visible" }}>
+        <SystemMessageItem>
+          <SystemMessageItemTime>10:50 AM</SystemMessageItemTime>
+          <SystemMessageItemContent>
+            Atlas restarted on the primary machine.
+          </SystemMessageItemContent>
+        </SystemMessageItem>
+        <SystemGroupDisclosure />
+      </div>
 
       <PlaygroundMessageRow
         variant="agent"
@@ -847,9 +885,6 @@ export function MatrixBody() {
           <SelectableMessageList>
             <HistoryTopStates />
 
-            <div className="px-3 pt-1">
-              <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
-            </div>
             <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
 
             <MatrixContentSection />

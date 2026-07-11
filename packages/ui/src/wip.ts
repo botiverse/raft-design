@@ -401,6 +401,7 @@ export {
 } from "./components/message-item/index";
 
 export * from "./components/tasks/index";
+export * from "./components/files/index";
 export type {
   MessageAttachmentActionProps,
   MessageAttachmentActionsProps,

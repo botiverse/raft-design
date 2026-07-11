@@ -1,16 +1,27 @@
 import { Link } from "@tanstack/react-router";
 import {
+  Archive,
+  ArrowDownAZ,
   AtSign,
+  Bell,
   BellOff,
   Bookmark,
+  Check,
   ChevronRight,
   CircleAlert,
+  Clock3,
   GitBranch,
+  GripVertical,
   Hash,
   Lock,
+  Mail,
+  MailOpen,
   Pencil,
+  Pin,
+  PinOff,
   Plus,
   Search,
+  X,
 } from "lucide-react";
 import { useCallback, useMemo, useState, type ReactElement, type ReactNode } from "react";
 import {
@@ -37,6 +48,11 @@ import {
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxList,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
   Dialog,
   DialogBody,
   DialogClose,
@@ -72,21 +88,19 @@ import {
   ChatSidebarItemIcon,
   ChatSidebarItemInlineText,
   ChatSidebarItemMention,
+  ChatSidebarItemMeta,
   ChatSidebarItemMuted,
   ChatSidebarItemPresence,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
-  ChatSidebarMenu,
-  ChatSidebarMenuAside,
-  ChatSidebarMenuCount,
-  ChatSidebarMenuIcon,
-  ChatSidebarMenuTitle,
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionAction,
+  ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
+  ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
   SortableChatSidebarItem,
   SortableChatSidebarList,
@@ -99,12 +113,32 @@ import {
   PLAYGROUND_ROOM_CHANNELS,
   getPlaygroundDmActor,
   type PlaygroundChannelId,
+  type PlaygroundChannelRecord,
   type PlaygroundDirectMessage,
   type PlaygroundPresence,
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
+type SidebarSortMode = "manual" | "recent" | "az";
+type SidebarRowMenu = {
+  type: "channel" | "dm";
+  name: string;
+  unread: boolean;
+  pinned: boolean;
+  muted?: boolean;
+  canMute?: boolean;
+  canArchive?: boolean;
+};
+type PlaygroundDmRecord = Extract<PlaygroundChannelRecord, { kind: "dm" }>;
+
+const sidebarSortOptions = [
+  { value: "manual", label: "Manual", icon: GripVertical },
+  { value: "recent", label: "Recent", icon: Clock3 },
+  { value: "az", label: "A-Z", icon: ArrowDownAZ },
+] as const;
+
+const sidebarNameCollator = new Intl.Collator(undefined, { sensitivity: "base" });
 
 const dialogMembers = PLAYGROUND_INVITABLE_ACTORS;
 
@@ -258,6 +292,27 @@ function PinnedRowContent({
   );
 }
 
+function getSidebarRowMenu(row: PlaygroundRoomChannel | PlaygroundDirectMessage): SidebarRowMenu {
+  const unread = Boolean(row.navigation.unread || row.navigation.badge);
+  if (row.kind === "dm") {
+    return {
+      type: "dm",
+      name: row.name,
+      unread,
+      pinned: row.navigation.pinned === true,
+    };
+  }
+  return {
+    type: "channel",
+    name: row.name,
+    unread,
+    pinned: row.navigation.pinned === true,
+    muted: row.navigation.muted === true,
+    canMute: !row.archived,
+    canArchive: row.name !== "all" && row.kind !== "joint" && !row.archived,
+  };
+}
+
 const allPlaygroundChannels = [
   ...PLAYGROUND_JOINT_CHANNELS,
   ...PLAYGROUND_ROOM_CHANNELS,
@@ -268,15 +323,60 @@ const unpinnedJointChannels = PLAYGROUND_JOINT_CHANNELS.filter((row) => !row.nav
 const unpinnedRoomChannels = PLAYGROUND_ROOM_CHANNELS.filter((row) => !row.navigation.pinned);
 const unpinnedDirectMessages = PLAYGROUND_DIRECT_MESSAGES.filter((row) => !row.navigation.pinned);
 
-function useSectionOrder<T extends { id: string }>(rows: readonly T[]) {
+function useSectionOrder<T extends { id: string; name: string }>(rows: readonly T[]) {
   const [order, setOrder] = useState(() => rows.map((row) => row.id));
+  const [sortMode, setSortMode] = useState<SidebarSortMode>("manual");
   const byId = useMemo(() => new Map(rows.map((row) => [row.id, row])), [rows]);
-  const ordered = useMemo(
-    () => order.map((id) => byId.get(id)).filter((row): row is T => row != null),
-    [byId, order],
+  const ordered = useMemo(() => {
+    const rowsInManualOrder = order
+      .map((id) => byId.get(id))
+      .filter((row): row is T => row != null);
+    if (sortMode === "recent") {
+      return [...rows];
+    }
+    if (sortMode === "az") {
+      return [...rowsInManualOrder].sort((a, b) => sidebarNameCollator.compare(a.name, b.name));
+    }
+    return rowsInManualOrder;
+  }, [byId, order, rows, sortMode]);
+  const visibleOrder = useMemo(() => ordered.map((row) => row.id), [ordered]);
+  const onReorder = useCallback((next: string[]) => {
+    setOrder(next);
+    setSortMode("manual");
+  }, []);
+  return { ordered, visibleOrder, onReorder, sortMode, setSortMode };
+}
+
+function SidebarSortMenu({
+  value,
+  onValueChange,
+}: {
+  value: SidebarSortMode;
+  onValueChange: (value: SidebarSortMode) => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <ChatSidebarSectionAction type="button" aria-label="Sort sidebar conversations">
+            <ArrowDownAZ />
+          </ChatSidebarSectionAction>
+        }
+      />
+      <DropdownMenuContent align="end" className="flex w-[136px] min-w-[136px] flex-col">
+        {sidebarSortOptions.map((option) => {
+          const OptionIcon = option.icon;
+          return (
+            <DropdownMenuItem key={option.value} onClick={() => onValueChange(option.value)}>
+              <OptionIcon />
+              <span className="min-w-0 flex-1 text-left">{option.label}</span>
+              <Check aria-hidden className={option.value === value ? undefined : "opacity-0"} />
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
-  const onReorder = useCallback((next: string[]) => setOrder(next), []);
-  return { ordered, order, onReorder };
 }
 
 function channelLink(channelId: PlaygroundChannelId) {
@@ -286,25 +386,127 @@ function channelLink(channelId: PlaygroundChannelId) {
 function PlaygroundSidebarItem({
   children,
   current,
+  menu,
+  onArchive,
+  onCloseDm,
   render,
   unread,
+  onSelect,
 }: {
   children: ReactNode;
   current: boolean;
+  menu: SidebarRowMenu;
+  onArchive?: () => void;
+  onCloseDm?: () => void;
   render: ReactElement;
   unread?: boolean;
+  onSelect?: () => void;
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuState, setMenuState] = useState(() => ({
+    unread: menu.unread,
+    pinned: menu.pinned,
+    muted: menu.muted === true,
+  }));
+  const [announcement, setAnnouncement] = useState("");
   const Item = unread ? ChatSidebarItemUnread : ChatSidebarItem;
+
+  const announce = (message: string) => {
+    setAnnouncement("");
+    queueMicrotask(() => setAnnouncement(message));
+  };
+
   return (
-    <Item aria-current={current ? "page" : undefined} render={render}>
-      {children}
-    </Item>
+    <ContextMenu onOpenChange={setMenuOpen}>
+      <ContextMenuTrigger
+        render={
+          <Item
+            aria-current={current ? "page" : undefined}
+            aria-expanded={menuOpen || undefined}
+            render={render}
+            onClick={onSelect}
+          >
+            {children}
+            <span className="sr-only" aria-live="polite">
+              {announcement}
+            </span>
+          </Item>
+        }
+      />
+      <ContextMenuContent className="flex w-48 flex-col">
+        <ContextMenuItem
+          onClick={() => {
+            const nextUnread = !menuState.unread;
+            setMenuState((state) => ({ ...state, unread: nextUnread }));
+            announce(`${menu.name} marked as ${nextUnread ? "unread" : "read"}`);
+          }}
+        >
+          {menuState.unread ? <MailOpen /> : <Mail />}
+          {menuState.unread ? "Mark as Read" : "Mark as Unread"}
+        </ContextMenuItem>
+        <ContextMenuItem
+          onClick={() => {
+            const nextPinned = !menuState.pinned;
+            setMenuState((state) => ({ ...state, pinned: nextPinned }));
+            announce(`${menu.name} ${nextPinned ? "pinned" : "unpinned"}`);
+          }}
+        >
+          {menuState.pinned ? <PinOff /> : <Pin />}
+          {menuState.pinned ? "Unpin" : "Pin"}
+        </ContextMenuItem>
+        {menu.type === "channel" && menu.canMute ? (
+          <ContextMenuItem
+            onClick={() => {
+              const nextMuted = !menuState.muted;
+              setMenuState((state) => ({ ...state, muted: nextMuted }));
+              announce(`${menu.name} ${nextMuted ? "muted" : "unmuted"}`);
+            }}
+          >
+            {menuState.muted ? <Bell /> : <BellOff />}
+            {menuState.muted ? "Unmute" : "Mute"}
+          </ContextMenuItem>
+        ) : null}
+        {menu.type === "channel" && menu.canArchive ? (
+          <>
+            <ContextMenuSeparator />
+            <ContextMenuItem onClick={onArchive}>
+              <Archive />
+              Archive
+            </ContextMenuItem>
+          </>
+        ) : null}
+        {menu.type === "dm" ? (
+          <>
+            <ContextMenuSeparator />
+            <ContextMenuItem onClick={onCloseDm}>
+              <X />
+              Close Chat
+            </ContextMenuItem>
+          </>
+        ) : null}
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }
 
-function PinnedSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
-  const { ordered, order, onReorder } = useSectionOrder(pinnedChannels);
+function PinnedSection({
+  activeChannelId,
+  onArchive,
+  onCloseDm,
+  onSelect,
+  rows,
+}: {
+  activeChannelId: PlaygroundChannelId | null;
+  onArchive: (row: PlaygroundRoomChannel) => void;
+  onCloseDm: (row: PlaygroundDirectMessage) => void;
+  onSelect: () => void;
+  rows: readonly PlaygroundChannelRecord[];
+}) {
+  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } = useSectionOrder(rows);
   if (ordered.length === 0) return null;
+  const hasUnread = ordered.some(
+    (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
+  );
 
   return (
     <ChatSidebarSection>
@@ -313,15 +515,23 @@ function PinnedSection({ activeChannelId }: { activeChannelId: PlaygroundChannel
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
-      <SortableChatSidebarList items={order} onReorder={onReorder}>
+      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
               current={activeChannelId === row.id}
+              menu={getSidebarRowMenu(row)}
+              onArchive={row.kind === "dm" ? undefined : () => onArchive(row)}
+              onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
+              onSelect={onSelect}
             >
               <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -332,8 +542,18 @@ function PinnedSection({ activeChannelId }: { activeChannelId: PlaygroundChannel
   );
 }
 
-function JointChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
-  const { ordered, order, onReorder } = useSectionOrder(unpinnedJointChannels);
+function JointChannelsSection({
+  activeChannelId,
+  onSelect,
+}: {
+  activeChannelId: PlaygroundChannelId | null;
+  onSelect: () => void;
+}) {
+  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } =
+    useSectionOrder(unpinnedJointChannels);
+  const hasUnread = ordered.some(
+    (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
+  );
 
   return (
     <ChatSidebarSection>
@@ -342,15 +562,21 @@ function JointChannelsSection({ activeChannelId }: { activeChannelId: Playground
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
-      <SortableChatSidebarList items={order} onReorder={onReorder}>
+      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
               current={activeChannelId === row.id}
+              menu={getSidebarRowMenu(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
+              onSelect={onSelect}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -361,8 +587,24 @@ function JointChannelsSection({ activeChannelId }: { activeChannelId: Playground
   );
 }
 
-function ChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
-  const { ordered, order, onReorder } = useSectionOrder(unpinnedRoomChannels);
+function ChannelsSection({
+  activeChannelId,
+  onCreateChannel,
+  onCreateJoint,
+  onArchive,
+  onSelect,
+}: {
+  activeChannelId: PlaygroundChannelId | null;
+  onCreateChannel: () => void;
+  onCreateJoint: () => void;
+  onArchive: (row: PlaygroundRoomChannel) => void;
+  onSelect: () => void;
+}) {
+  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } =
+    useSectionOrder(unpinnedRoomChannels);
+  const hasUnread = ordered.some(
+    (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
+  );
 
   return (
     <ChatSidebarSection>
@@ -371,15 +613,23 @@ function ChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChann
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
+          <SidebarAddMenu onCreateChannel={onCreateChannel} onCreateJoint={onCreateJoint} />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
-      <SortableChatSidebarList items={order} onReorder={onReorder}>
+      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
               current={activeChannelId === row.id}
+              menu={getSidebarRowMenu(row)}
+              onArchive={() => onArchive(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
+              onSelect={onSelect}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -390,8 +640,21 @@ function ChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChann
   );
 }
 
-function DirectMessagesSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
-  const { ordered, order, onReorder } = useSectionOrder(unpinnedDirectMessages);
+function DirectMessagesSection({
+  activeChannelId,
+  onCloseDm,
+  onSelect,
+  rows,
+}: {
+  activeChannelId: PlaygroundChannelId | null;
+  onCloseDm: (row: PlaygroundDirectMessage) => void;
+  onSelect: () => void;
+  rows: readonly PlaygroundDmRecord[];
+}) {
+  const { ordered, visibleOrder, onReorder, sortMode, setSortMode } = useSectionOrder(rows);
+  const hasUnread = ordered.some(
+    (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
+  );
 
   return (
     <ChatSidebarSection>
@@ -400,15 +663,22 @@ function DirectMessagesSection({ activeChannelId }: { activeChannelId: Playgroun
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <SidebarSortMenu value={sortMode} onValueChange={setSortMode} />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
-      <SortableChatSidebarList items={order} onReorder={onReorder}>
+      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
               current={activeChannelId === row.id}
+              menu={getSidebarRowMenu(row)}
+              onCloseDm={() => onCloseDm(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
+              onSelect={onSelect}
             >
               <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -618,9 +888,29 @@ function CreateJointChannelDialogContent() {
   );
 }
 
-export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
+export function PlaygroundSidebar({
+  activeChannelId,
+  title = "Chat",
+}: {
+  activeChannelId: PlaygroundChannelId;
+  title?: string;
+}) {
   const [dialog, setDialog] = useState<ActiveDialog>(null);
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
+  const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
+  const [savedSelected, setSavedSelected] = useState(false);
+  const selectedChannelId = savedSelected ? null : activeChannelId;
+  const visiblePinnedChannels = useMemo(
+    () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
+    [closedDmIds],
+  );
+  const visibleDirectMessages = useMemo(
+    () => unpinnedDirectMessages.filter((row) => !closedDmIds.has(row.id)),
+    [closedDmIds],
+  );
+  const closeDirectMessage = (row: PlaygroundDirectMessage) => {
+    setClosedDmIds((current) => new Set(current).add(row.id));
+  };
 
   return (
     <>
@@ -628,35 +918,49 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
         <ChatSidebarHeader>
           <div className="min-w-0 flex-1">
             <ChatSidebarHeaderTitle className="leading-tight tabular-nums">
-              Chat
+              {title}
             </ChatSidebarHeaderTitle>
           </div>
-          <SidebarAddMenu
-            onCreateChannel={() => setDialog("create-channel")}
-            onCreateJoint={() => setDialog("create-joint")}
-          />
         </ChatSidebarHeader>
         <ChatSidebarBody>
           <ChatSidebarContent>
             <div className="min-h-full">
-              <ChatSidebarSection>
-                <ChatSidebarSectionHeader className="mt-0">
-                  <ChatSidebarMenu disabled>
-                    <ChatSidebarMenuIcon>
-                      <Bookmark />
-                    </ChatSidebarMenuIcon>
-                    <ChatSidebarMenuTitle>Saved</ChatSidebarMenuTitle>
-                    <ChatSidebarMenuAside>
-                      <ChatSidebarMenuCount>33</ChatSidebarMenuCount>
-                    </ChatSidebarMenuAside>
-                  </ChatSidebarMenu>
-                </ChatSidebarSectionHeader>
-              </ChatSidebarSection>
+              <ChatSidebarItem
+                aria-current={savedSelected ? "page" : undefined}
+                data-playground-saved="true"
+                onClick={() => setSavedSelected(true)}
+              >
+                <ChatSidebarItemIcon aria-hidden>
+                  <Bookmark className="size-3.5" />
+                </ChatSidebarItemIcon>
+                <ChatSidebarItemTitle>Saved</ChatSidebarItemTitle>
+                <ChatSidebarItemMeta>33</ChatSidebarItemMeta>
+              </ChatSidebarItem>
 
-              <PinnedSection activeChannelId={activeChannelId} />
-              <JointChannelsSection activeChannelId={activeChannelId} />
-              <ChannelsSection activeChannelId={activeChannelId} />
-              <DirectMessagesSection activeChannelId={activeChannelId} />
+              <PinnedSection
+                activeChannelId={selectedChannelId}
+                onArchive={(row) => setArchiveTarget(row.name)}
+                onCloseDm={closeDirectMessage}
+                onSelect={() => setSavedSelected(false)}
+                rows={visiblePinnedChannels}
+              />
+              <JointChannelsSection
+                activeChannelId={selectedChannelId}
+                onSelect={() => setSavedSelected(false)}
+              />
+              <ChannelsSection
+                activeChannelId={selectedChannelId}
+                onCreateChannel={() => setDialog("create-channel")}
+                onCreateJoint={() => setDialog("create-joint")}
+                onArchive={(row) => setArchiveTarget(row.name)}
+                onSelect={() => setSavedSelected(false)}
+              />
+              <DirectMessagesSection
+                activeChannelId={selectedChannelId}
+                onCloseDm={closeDirectMessage}
+                onSelect={() => setSavedSelected(false)}
+                rows={visibleDirectMessages}
+              />
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>

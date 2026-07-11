@@ -9,13 +9,10 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "raft-ui";
-import {
-  MessageReactionGlyph,
-  MessageReactionQuickButton,
-  MessageReactionQuickRow,
-} from "raft-ui/wip";
+import { MessageReactionQuickButton, MessageReactionQuickRow } from "raft-ui/wip";
 
 import { MESSAGE_QUICK_REACTIONS } from "./message-reaction-compositions.tsx";
+import { MessageReactionGlyphComposition } from "./message-reaction-glyph-composition.tsx";
 
 export type MessageTaskState = "none" | "open" | "done";
 
@@ -58,6 +55,7 @@ export function MessageContextMenuComposition({
   return (
     <ContextMenuContent
       aria-label="Message context menu"
+      className="[[data-theme=brutal]_&]:overflow-x-hidden [[data-theme=brutal]_&]:overflow-y-auto"
       collisionAvoidance={{ side: "flip", align: "flip" }}
       collisionPadding={8}
       portalProps={{ container: portalContainer }}
@@ -66,6 +64,8 @@ export function MessageContextMenuComposition({
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (
           <ContextMenuItem
             key={emoji}
+            nativeButton
+            className="[[data-theme=brutal]_&]:!size-7 [[data-theme=brutal]_&]:!w-7 [[data-theme=brutal]_&]:!p-0"
             disabled={!onQuickReact}
             onClick={() => onQuickReact?.(emoji)}
             render={
@@ -75,40 +75,64 @@ export function MessageContextMenuComposition({
               />
             }
           >
-            <MessageReactionGlyph emoji={emoji} size={18} />
+            <MessageReactionGlyphComposition emoji={emoji} size={18} />
           </ContextMenuItem>
         ))}
       </MessageReactionQuickRow>
       <ContextMenuSeparator />
-      <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
+      <ContextMenuItem
+        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
+        disabled={!onCopyLink}
+        onClick={onCopyLink}
+      >
         <LinkIcon />
         Copy Link
       </ContextMenuItem>
-      <ContextMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
+      <ContextMenuItem
+        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
+        disabled={!onCopyMarkdown}
+        onClick={onCopyMarkdown}
+      >
         <Copy />
         Copy Markdown
       </ContextMenuItem>
       {onSelectMessage ? (
-        <ContextMenuItem onClick={onSelectMessage}>
+        <ContextMenuItem
+          className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
+          onClick={onSelectMessage}
+        >
           <CheckCircle />
           Select Message
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
-      <ContextMenuItem disabled={!onOpenThread} onClick={onOpenThread}>
+      <ContextMenuItem
+        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
+        disabled={!onOpenThread}
+        onClick={onOpenThread}
+      >
         <MessageSquare />
         Open Thread
       </ContextMenuItem>
-      <ContextMenuItem disabled={!onSavedChange} onClick={() => onSavedChange?.(!saved)}>
+      <ContextMenuItem
+        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
+        disabled={!onSavedChange}
+        onClick={() => onSavedChange?.(!saved)}
+      >
         {saved ? <BookmarkMinus /> : <Bookmark />}
         {saved ? "Remove from Saved" : "Save Message"}
       </ContextMenuItem>
-      <ContextMenuItem disabled={!onFollowChange} onClick={() => onFollowChange?.(!followed)}>
+      <ContextMenuItem
+        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
+        disabled={!onFollowChange}
+        onClick={() => onFollowChange?.(!followed)}
+      >
         <MessageSquare />
         {followed ? "Unfollow Thread" : "Follow Thread"}
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem
+        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
         disabled={!onTaskChange}
         onClick={() => onTaskChange?.(task === "open" ? "done" : "open")}
       >

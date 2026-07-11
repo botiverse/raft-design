@@ -617,3 +617,18 @@
 body {
   position: relative;
 }
+
+@utility image-transparency-bg {
+  background-color: oklch(1 0 0);
+  background-image:
+    linear-gradient(45deg, oklch(0.1813 0.00497 17.62 / 0.12) 25%, transparent 25%),
+    linear-gradient(-45deg, oklch(0.1813 0.00497 17.62 / 0.12) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, oklch(0.1813 0.00497 17.62 / 0.12) 75%),
+    linear-gradient(-45deg, transparent 75%, oklch(0.1813 0.00497 17.62 / 0.12) 75%);
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-size: 16px 16px;
+}

@@ -72,12 +72,17 @@ export function MessageAttachmentReadyComposition({
   const action = primaryAction ?? secondaryAction;
   const actionLabel = primaryAction ? primaryActionLabel : secondaryActionLabel;
   const onAction = primaryAction ? onPrimaryAction : onSecondaryAction;
+  const interactive = Boolean(action && onAction);
 
-  return (
+  const card = (
     <MessageAttachmentCard
-      aria-label={action ? actionLabel : undefined}
-      onClick={(event) => onAction?.(event as unknown as MouseEvent<HTMLButtonElement>)}
-      render={action ? <button type="button" disabled={!onAction} /> : undefined}
+      aria-label={interactive ? actionLabel : undefined}
+      onClick={
+        interactive
+          ? (event) => onAction?.(event as unknown as MouseEvent<HTMLButtonElement>)
+          : undefined
+      }
+      render={interactive ? <button type="button" /> : undefined}
     >
       <MessageAttachmentContent {...content} />
       {action ? (
@@ -86,6 +91,26 @@ export function MessageAttachmentReadyComposition({
         </MessageAttachmentActions>
       ) : null}
     </MessageAttachmentCard>
+  );
+
+  if (!primaryAction || !secondaryAction || !onSecondaryAction) return card;
+
+  return (
+    <div className="group/attachment relative inline-block h-20 w-44 min-w-44 max-w-44 shrink-0 align-top">
+      {card}
+      <MessageAttachmentAction
+        aria-label={secondaryActionLabel}
+        title={secondaryActionLabel}
+        className="absolute right-7 bottom-1.5"
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onSecondaryAction(event);
+        }}
+      >
+        {secondaryAction}
+      </MessageAttachmentAction>
+    </div>
   );
 }
 
@@ -101,7 +126,7 @@ export function MessageAttachmentOpeningComposition({
     <MessageAttachmentCard aria-busy>
       <MessageAttachmentContent {...content} />
       <MessageAttachmentLoadingBar>
-        <Spinner size="sm" />
+        <Spinner size="xs" />
         <span className="truncate">{label}</span>
       </MessageAttachmentLoadingBar>
     </MessageAttachmentCard>

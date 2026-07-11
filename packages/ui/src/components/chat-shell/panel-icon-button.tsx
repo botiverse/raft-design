@@ -23,7 +23,7 @@ const panelIconButton = tv({
         "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
         "active:shadow-xs",
         "disabled:shadow-brutal-sm",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       ],
       elegant: [
         "size-8 rounded-md border-0 bg-transparent shadow-none",
@@ -61,7 +61,7 @@ const panelToggleButton = tv({
         "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
         "data-[pressed]:hover:bg-brutal-orange",
         "data-[disabled]:shadow-brutal-sm",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       ],
       elegant: [
         "size-8 rounded-md border-0 bg-transparent text-foreground-icon shadow-none",

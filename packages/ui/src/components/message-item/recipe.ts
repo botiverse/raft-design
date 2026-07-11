@@ -47,7 +47,7 @@ export const messageItem = tv({
     systemDisclosure: [
       "group flex max-w-full items-center gap-1.5 px-2 py-1",
       "text-xs text-foreground/50 transition-colors hover:text-foreground/75",
-      "[&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:text-foreground/35 [&_svg]:transition-transform",
+      "[&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:rotate-90 [&_svg]:text-foreground/35 [&_svg]:transition-transform",
       "aria-expanded:[&_svg]:-rotate-90",
     ],
   },

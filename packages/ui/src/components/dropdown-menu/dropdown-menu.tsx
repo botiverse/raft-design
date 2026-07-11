@@ -41,7 +41,7 @@ const dropdownMenu = tv({
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        content: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        content: ["border-2 border-black bg-layer-popover shadow-brutal"],
         item: [
           "py-2 font-sans text-sm font-medium text-foreground hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
@@ -69,7 +69,7 @@ const dropdownMenu = tv({
           "rounded border border-line-strong bg-brutal-pink px-1 py-0.5",
           "font-sans text-[10px] leading-none font-bold text-white",
         ],
-        separator: ["border-line-strong"],
+        separator: ["border-black"],
         indicator: [],
       },
       elegant: {

@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarFallback,
+  AvatarImage,
   PreviewCard,
   PreviewCardContent,
   PreviewCardDescription,
@@ -12,7 +13,10 @@ import {
   cn,
   type StatusProps,
 } from "raft-ui";
+import { User } from "lucide-react";
 import { MessageItemAvatarSlot, MessageItemAvatarStatus } from "raft-ui/wip";
+
+import { PLAYGROUND_ACTORS } from "./mock/index.ts";
 
 export type PlaygroundAvatarVariant = "member" | "agent";
 
@@ -65,6 +69,25 @@ const PROFILE_ACTIVITY_ROWS: {
 
 const MUTED_META = "truncate font-mono text-xs text-foreground-muted";
 
+function PlaygroundAvatarContent({
+  sender,
+  isAgent,
+  compactHumanIcon = false,
+}: {
+  sender: string;
+  isAgent: boolean;
+  compactHumanIcon?: boolean;
+}) {
+  const actor = PLAYGROUND_ACTORS.find((candidate) => candidate.name === sender);
+  if (actor && "avatarSrc" in actor && actor.avatarSrc)
+    return <AvatarImage src={actor.avatarSrc} alt="" />;
+  return (
+    <AvatarFallback className={!isAgent && compactHumanIcon ? "[&>svg]:!size-4" : undefined}>
+      {isAgent ? undefined : <User aria-hidden />}
+    </AvatarFallback>
+  );
+}
+
 // Profile hover-card body — composed with PreviewCard slots (same anatomy as
 // docs PreviewCardMentionComposition). Agent variant adds status + recent activity.
 export function ProfileCardBody({
@@ -84,7 +107,7 @@ export function ProfileCardBody({
     <>
       <PreviewCardHeader>
         <Avatar size="lg" type={isAgent ? "agent" : "human"}>
-          <AvatarFallback />
+          <PlaygroundAvatarContent sender={sender} isAgent={isAgent} />
         </Avatar>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
@@ -172,7 +195,7 @@ export function PlaygroundMessageAvatar({
       type={isAgent ? "agent" : "human"}
       className={cn(deactivated && "opacity-60 grayscale")}
     >
-      <AvatarFallback />
+      <PlaygroundAvatarContent sender={sender ?? ""} isAgent={isAgent} compactHumanIcon />
       {isAgent && !deactivated ? (
         <MessageItemAvatarStatus
           title={STATUS_LABEL[status]}
