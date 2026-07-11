@@ -392,22 +392,21 @@ function RowToolbar({
           onMouseLeave={onReactionPickerLeave}
         >
           {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-            <DropdownMenuItem
+            <MessageReactionQuickButton
               key={emoji}
-              className="[[data-theme=brutal]_&]:!size-7 [[data-theme=brutal]_&]:!w-7 [[data-theme=brutal]_&]:!p-0"
               render={
-                <MessageReactionQuickButton
-                  title={`React with ${emoji}`}
-                  aria-label={`React with ${emoji}`}
+                <DropdownMenuItem
+                  onClick={() => {
+                    onReact(emoji);
+                    onReactionOpenChange(false);
+                  }}
                 />
               }
-              onClick={() => {
-                onReact(emoji);
-                onReactionOpenChange(false);
-              }}
+              title={`React with ${emoji}`}
+              aria-label={`React with ${emoji}`}
             >
               <MessageReactionGlyphComposition emoji={emoji} size={18} />
-            </DropdownMenuItem>
+            </MessageReactionQuickButton>
           ))}
         </MessageReactionPickerContent>
       </DropdownMenu>

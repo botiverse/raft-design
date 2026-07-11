@@ -235,7 +235,7 @@ function DirectMessageRowContent({
         <Avatar size="sidebar" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
-            <AvatarFallback className="text-[9px] font-bold">{actor.fallback}</AvatarFallback>
+            <AvatarFallback>{actor.fallback}</AvatarFallback>
           ) : actor.avatarSrc ? (
             <AvatarFallback />
           ) : null}
