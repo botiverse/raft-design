@@ -19,7 +19,7 @@ export const messageAttachment = tv({
     metaSeparator: ["text-foreground/35"],
     summary: [
       "flex items-center gap-1.5 whitespace-nowrap pr-5",
-      "font-mono text-[10px] font-bold tracking-normal",
+      "font-mono text-[10px] font-bold tracking-[-0.04em]",
     ],
     actions: ["absolute right-1.5 bottom-1.5 flex items-center gap-0.5"],
     action: ["relative flex size-5 items-center justify-center", "[&_svg]:size-3 [&_svg]:shrink-0"],

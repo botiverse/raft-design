@@ -179,6 +179,19 @@ export function usePlaygroundComposerAutocomplete(channel: PlaygroundChannel) {
     });
   };
 
+  const insertMention = (mention: string) => {
+    const caret = inputRef.current?.selectionStart ?? draft.length;
+    const insertion = `@${mention} `;
+    const nextDraft = `${draft.slice(0, caret)}${insertion}${draft.slice(caret)}`;
+    const nextCaret = caret + insertion.length;
+    setDraft(nextDraft);
+    setTrigger(null);
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(nextCaret, nextCaret);
+    });
+  };
+
   const handleBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
     const nextTarget = event.relatedTarget;
     if (nextTarget instanceof Node && listRef.current?.contains(nextTarget)) return;
@@ -242,6 +255,7 @@ export function usePlaygroundComposerAutocomplete(channel: PlaygroundChannel) {
     handleSelect,
     highlightedIndex,
     inputRef,
+    insertMention,
     listId,
     listRef,
     open,

@@ -7,7 +7,7 @@ import { SourceComparisonPreview } from "../source-comparison-preview.tsx";
 export function SpinnerInverseContent() {
   return (
     <span className="rounded bg-gray-950 p-3 text-white">
-      <Spinner />
+      <Spinner variant="inverse" />
     </span>
   );
 }

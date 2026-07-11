@@ -45,6 +45,7 @@ import {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "raft-ui/wip";
+import { MessageReactionGlyphComposition } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
 import {
   MESSAGE_QUICK_REACTIONS,
   MessageReactionComposition,
@@ -112,7 +113,7 @@ function StateRow({
   inlineStatus,
   meta,
   notice,
-  surface,
+  rowState,
   saved,
   selection,
   sender = "Atlas",
@@ -128,7 +129,7 @@ function StateRow({
   inlineStatus?: string;
   meta?: string;
   notice?: ReactNode;
-  surface?: "active" | "search-match" | "select";
+  rowState?: "active" | "search-match" | "select";
   saved?: boolean;
   selection?: "unchecked" | "checked";
   sender?: string;
@@ -137,11 +138,11 @@ function StateRow({
   toolbar?: ReactNode;
 }) {
   const ItemRoot =
-    surface === "active"
+    rowState === "active"
       ? MessageItemActive
-      : surface === "search-match"
+      : rowState === "search-match"
         ? MessageItemSearchMatch
-        : surface === "select"
+        : rowState === "select"
           ? MessageItemSelection
           : MessageItem;
   const row = (
@@ -153,7 +154,7 @@ function StateRow({
         <MessageItemGutter>
           <MessageItemContinuationTime>{gutterTime}</MessageItemContinuationTime>
         </MessageItemGutter>
-      ) : selection ? null : (
+      ) : (
         <AvatarSlot>{sender.slice(0, 2).toUpperCase()}</AvatarSlot>
       )}
       <MessageItemContent>
@@ -171,13 +172,18 @@ function StateRow({
         <MessageItemBody>{body}</MessageItemBody>
         {notice ? <MessageItemNotice>{notice}</MessageItemNotice> : null}
         {children}
-        {footer ? <MessageItemFooter>{footer}</MessageItemFooter> : null}
+        {footer || saved ? (
+          <MessageItemFooter>
+            {footer}
+            {saved ? (
+              <MessageItemSavedIndicator render={<button type="button" />}>
+                <Bookmark fill="currentColor" />
+                <span>Saved</span>
+              </MessageItemSavedIndicator>
+            ) : null}
+          </MessageItemFooter>
+        ) : null}
       </MessageItemContent>
-      {saved ? (
-        <MessageItemSavedIndicator>
-          <Bookmark fill="currentColor" />
-        </MessageItemSavedIndicator>
-      ) : null}
       {toolbar}
     </ItemRoot>
   );
@@ -208,10 +214,11 @@ function ToolbarState({
 
   return (
     <MessageItemToolbar visible={visible}>
-      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
+      <MessageItemToolbarButton aria-label="Reply in thread">
         <MessageSquare />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
+        active={isActive}
         aria-pressed={isActive}
         aria-label="Add reaction"
         onClick={() => setIsActive((current) => !current)}
@@ -219,6 +226,7 @@ function ToolbarState({
         <SmilePlus />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
+        saved={isSaved}
         aria-label="Save message"
         aria-pressed={isSaved}
         onClick={() => setIsSaved((current) => !current)}
@@ -256,13 +264,13 @@ function ImageGalleryState({
             <MessageImageGalleryItem aria-busy={optimistic || undefined} single={single}>
               <MessageImageGalleryMedia
                 src={IMAGE_SRC}
-                alt=""
+                alt="attachment preview uploading"
                 fit={fit}
                 className={single ? "aspect-[4/3] max-h-36" : "aspect-[4/3]"}
               />
               {optimistic ? (
                 <MessageImageGalleryOverlay>
-                  <Spinner size="lg" className="text-white" />
+                  <Spinner size="md" variant="inverse" />
                 </MessageImageGalleryOverlay>
               ) : (
                 <MessageImageGalleryAction
@@ -288,7 +296,7 @@ function VideoState({ interactive, optimistic }: { interactive?: boolean; optimi
           <MessageVideoPreviewFrame>
             {optimistic ? (
               <MessageVideoPreviewFallback>
-                <Spinner size="lg" className="text-white" />
+                <Spinner size="md" variant="inverse" />
               </MessageVideoPreviewFallback>
             ) : (
               <>
@@ -322,7 +330,7 @@ function QuickReactionPickerState() {
           aria-pressed={selectedReaction === emoji}
           onClick={() => setSelectedReaction(emoji)}
         >
-          <MessageReactionGlyph emoji={emoji} size={18} />
+          <MessageReactionGlyphComposition emoji={emoji} size={18} />
         </MessageReactionQuickButton>
       ))}
     </MessageReactionPicker>
@@ -353,10 +361,10 @@ export function MessageItemStateMatrix() {
           <StateRow body="Normal authored row with avatar, sender, time, and body." />
         </MatrixCell>
         <MatrixCell label="MessageItemActive">
-          <StateRow surface="active" body="Anchor/current-row treatment." />
+          <StateRow rowState="active" body="Anchor/current-row treatment." />
         </MatrixCell>
         <MatrixCell label="MessageItemSearchMatch">
-          <StateRow surface="search-match" body="Search result highlight treatment." />
+          <StateRow rowState="search-match" body="Search result highlight treatment." />
         </MatrixCell>
         <MatrixCell label="compact continuation">
           <StateRow compact gutterTime="2:15" body="Continuation row with gutter timestamp." />
@@ -366,14 +374,14 @@ export function MessageItemStateMatrix() {
       <MatrixSection title="selection and sender">
         <MatrixCell label="selection checkbox unchecked">
           <StateRow
-            surface="select"
+            rowState="select"
             selection="unchecked"
             body="Selection affordance before the row is checked."
           />
         </MatrixCell>
         <MatrixCell label="selection checkbox checked">
           <StateRow
-            surface="select"
+            rowState="select"
             selection="checked"
             body="Selection affordance after the row is checked."
           />

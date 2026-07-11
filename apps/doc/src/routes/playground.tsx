@@ -1,4 +1,5 @@
 import { Outlet, createFileRoute, getRouteApi } from "@tanstack/react-router";
+import { useThemeFamily } from "raft-ui";
 import {
   AppPanelStackContent,
   AppPanelStackItem,
@@ -20,11 +21,26 @@ import {
   isPlaygroundChannelId,
   isPlaygroundThreadId,
   type PlaygroundChannelId,
+  type PlaygroundChannelRecord,
+  type PlaygroundTask,
+  type PlaygroundThread,
   type PlaygroundThreadId,
 } from "#/playground/mock/index.ts";
 import { PlaygroundRail } from "#/playground/playground-rail.tsx";
+import {
+  PlaygroundRailViewPanel,
+  PlaygroundRailViewSidebar,
+} from "#/playground/playground-rail-views.tsx";
 import { PlaygroundSidebar } from "#/playground/playground-sidebar.tsx";
+import {
+  PlaygroundNavigationProvider,
+  usePlaygroundNavigation,
+} from "#/playground/playground-navigation-state.tsx";
 import { PlaygroundThreadPanel } from "#/playground/playground-thread-panel.tsx";
+import {
+  PlaygroundTaskStateProvider,
+  usePlaygroundTaskState,
+} from "#/playground/playground-task-state.tsx";
 import { PlaygroundToolbar } from "#/playground/playground-toolbar.tsx";
 
 type PlaygroundSearch = {
@@ -55,64 +71,124 @@ function PlaygroundLayout() {
     ? channelId
     : DEFAULT_CHANNEL_ID;
   const activeChannel = getPlaygroundChannel(activeChannelId);
-  const threadContext = thread ? getPlaygroundThread(thread) : undefined;
-  const activeThread =
-    threadContext?.channelId === activeChannel.id ? threadContext.thread : undefined;
 
   return (
     <div className="h-dvh">
       <PreviewThemeScope className="h-full">
-        <AppShellRoot className="h-full">
-          <PlaygroundRail />
-          <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">
+        <PlaygroundNavigationProvider>
+          <PlaygroundTaskStateProvider>
+            <PlaygroundWorkspace activeChannel={activeChannel} threadId={thread} />
+          </PlaygroundTaskStateProvider>
+        </PlaygroundNavigationProvider>
+      </PreviewThemeScope>
+      <PlaygroundToolbar theme={theme} mode={mode} onThemeChange={setTheme} />
+    </div>
+  );
+}
+
+function PlaygroundWorkspace({
+  activeChannel,
+  threadId,
+}: {
+  activeChannel: PlaygroundChannelRecord;
+  threadId?: PlaygroundThreadId;
+}) {
+  const { tasks } = usePlaygroundTaskState();
+  const theme = useThemeFamily();
+  const { railView } = usePlaygroundNavigation();
+  const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
+  const task = threadId ? tasks.find((item) => item.id === threadId) : undefined;
+  const activeThread =
+    threadContext?.channelId === activeChannel.id
+      ? threadContext.thread
+      : task?.channelId === activeChannel.id
+        ? getTaskThread(task)
+        : undefined;
+  const conversationView = railView === "chat" || railView === "tasks";
+  const auxiliaryView =
+    railView === "members" || railView === "computers" || railView === "settings" ? railView : null;
+  const standaloneView =
+    railView === "search" ||
+    railView === "activity" ||
+    railView === "members" ||
+    railView === "computers" ||
+    railView === "settings"
+      ? railView
+      : null;
+
+  return (
+    <AppShellRoot className="h-full">
+      <PlaygroundRail />
+      <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">
+        {railView === "search" || railView === "activity" ? null : (
+          <>
             <ChatSidebarResizePanel
-              id="playground-sidebar"
-              defaultSize={252}
+              key={theme}
+              id={`playground-sidebar-${theme}`}
+              defaultSize={theme === "brutal" ? 240 : 252}
               minSize={180}
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
               <AppShellSidebar resizable className="h-full">
-                <PlaygroundSidebar activeChannelId={activeChannelId} />
+                {conversationView ? (
+                  <PlaygroundSidebar
+                    activeChannelId={activeChannel.id}
+                    title={railView === "tasks" ? "Tasks" : "Chat"}
+                  />
+                ) : auxiliaryView ? (
+                  <PlaygroundRailViewSidebar view={auxiliaryView} />
+                ) : null}
               </AppShellSidebar>
             </ChatSidebarResizePanel>
             <ChatSidebarResizeHandle />
-            <ChatSidebarResizePanel id="playground-main" minSize={360} className="min-w-0">
-              <AppShellMain className="flex h-full">
-                <Outlet />
-              </AppShellMain>
+          </>
+        )}
+        <ChatSidebarResizePanel id="playground-main" minSize={360} className="min-w-0">
+          <AppShellMain className="flex h-full">
+            {standaloneView ? <PlaygroundRailViewPanel view={standaloneView} /> : <Outlet />}
+          </AppShellMain>
+        </ChatSidebarResizePanel>
+        {conversationView && activeThread ? (
+          <>
+            <ChatSidebarResizeHandle />
+            <ChatSidebarResizePanel
+              id="playground-thread"
+              defaultSize={400}
+              minSize={320}
+              maxSize={560}
+              groupResizeBehavior="preserve-pixel-size"
+              className="min-w-0"
+            >
+              <AppShellPanelStack className="h-full w-full">
+                <AppPanelStackRoot className="w-full">
+                  <AppPanelStackItem className="w-full">
+                    <AppPanelStackContent>
+                      <PlaygroundThreadPanel
+                        key={activeThread.parent.id}
+                        channel={activeChannel}
+                        thread={activeThread}
+                      />
+                    </AppPanelStackContent>
+                  </AppPanelStackItem>
+                </AppPanelStackRoot>
+              </AppShellPanelStack>
             </ChatSidebarResizePanel>
-            {activeThread ? (
-              <>
-                <ChatSidebarResizeHandle />
-                <ChatSidebarResizePanel
-                  id="playground-thread"
-                  defaultSize={400}
-                  minSize={320}
-                  maxSize={560}
-                  groupResizeBehavior="preserve-pixel-size"
-                  className="min-w-0"
-                >
-                  <AppShellPanelStack className="h-full w-full">
-                    <AppPanelStackRoot className="w-full">
-                      <AppPanelStackItem className="w-full">
-                        <AppPanelStackContent>
-                          <PlaygroundThreadPanel
-                            key={activeThread.parent.id}
-                            channel={activeChannel}
-                            thread={activeThread}
-                          />
-                        </AppPanelStackContent>
-                      </AppPanelStackItem>
-                    </AppPanelStackRoot>
-                  </AppShellPanelStack>
-                </ChatSidebarResizePanel>
-              </>
-            ) : null}
-          </ChatSidebarResizeGroup>
-        </AppShellRoot>
-      </PreviewThemeScope>
-      <PlaygroundToolbar theme={theme} mode={mode} onThemeChange={setTheme} />
-    </div>
+          </>
+        ) : null}
+      </ChatSidebarResizeGroup>
+    </AppShellRoot>
   );
+}
+
+function getTaskThread(task: PlaygroundTask): PlaygroundThread {
+  return {
+    parent: {
+      id: task.id,
+      authorId: task.creatorActorId,
+      time: `Task #${task.number}`,
+      body: task.description ? `${task.title}\n${task.description}` : task.title,
+    },
+    replies: [],
+  };
 }

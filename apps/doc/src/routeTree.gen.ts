@@ -29,6 +29,7 @@ import { Route as ComponentsToggleGroupRouteImport } from './routes/components/t
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
+import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
@@ -190,6 +191,11 @@ const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
 const ComponentsTextRoute = ComponentsTextRouteImport.update({
   id: '/text',
   path: '/text',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTasksRoute = ComponentsTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
@@ -564,6 +570,7 @@ export interface FileRoutesByFullPath {
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toast': typeof ComponentsToastRoute
@@ -646,6 +653,7 @@ export interface FileRoutesByTo {
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toast': typeof ComponentsToastRoute
@@ -731,6 +739,7 @@ export interface FileRoutesById {
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/toast': typeof ComponentsToastRoute
@@ -817,6 +826,7 @@ export interface FileRouteTypes {
     | '/components/status-dot'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
     | '/components/toast'
@@ -899,6 +909,7 @@ export interface FileRouteTypes {
     | '/components/status-dot'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
     | '/components/toast'
@@ -983,6 +994,7 @@ export interface FileRouteTypes {
     | '/components/status-dot'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
     | '/components/toast'
@@ -1171,6 +1183,13 @@ declare module '@tanstack/react-router' {
       path: '/text'
       fullPath: '/components/text'
       preLoaderRoute: typeof ComponentsTextRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/tasks': {
+      id: '/components/tasks'
+      path: '/tasks'
+      fullPath: '/components/tasks'
+      preLoaderRoute: typeof ComponentsTasksRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/tabs': {
@@ -1656,6 +1675,7 @@ interface ComponentsRouteChildren {
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
+  ComponentsTasksRoute: typeof ComponentsTasksRoute
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsToastRoute: typeof ComponentsToastRoute
@@ -1722,6 +1742,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
+  ComponentsTasksRoute: ComponentsTasksRoute,
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsToastRoute: ComponentsToastRoute,

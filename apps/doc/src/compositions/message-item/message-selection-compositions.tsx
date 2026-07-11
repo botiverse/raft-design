@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { Copy, Image as ImageIcon, MoreHorizontal, Send, TextQuote, X } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "raft-ui";
 import {
@@ -75,6 +75,49 @@ export function MessageMultiSelectToolbarComposition({
   onForward,
   onGenerateImage,
 }: MessageMultiSelectToolbarCompositionProps) {
+  const actionsRef = useRef<HTMLDivElement>(null);
+  const lastActionsWidthRef = useRef(0);
+  const [compactLevel, setCompactLevel] = useState(0);
+  const compactCopyLink = compactLevel >= 1;
+  const compactForward = compactLevel >= 2;
+  const compactCancel = compactLevel >= 3;
+
+  useLayoutEffect(() => {
+    const actions = actionsRef.current;
+    if (!actions) return;
+
+    let frame = 0;
+    const measure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const width = actions.clientWidth;
+        const gap = Number.parseFloat(getComputedStyle(actions).columnGap) || 0;
+        const childrenWidth = Array.from(actions.children).reduce(
+          (total, child) => total + (child as HTMLElement).offsetWidth,
+          0,
+        );
+        const requiredWidth = childrenWidth + Math.max(0, actions.children.length - 1) * gap;
+        const overflow = requiredWidth > width + 1;
+        setCompactLevel((current) => {
+          if (width > lastActionsWidthRef.current + 8 && current > 0) {
+            lastActionsWidthRef.current = width;
+            return 0;
+          }
+          lastActionsWidthRef.current = width;
+          return overflow && current < 3 ? current + 1 : current;
+        });
+      });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(actions);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [compactLevel, count, onCopyLink, onForward]);
+
   return (
     <MessageMultiSelectToolbar
       role="group"
@@ -84,12 +127,18 @@ export function MessageMultiSelectToolbarComposition({
       <MessageMultiSelectCount data-testid="select-mode-count">
         {count} selected
       </MessageMultiSelectCount>
-      <MessageMultiSelectActions>
-        <MessageMultiSelectAction onClick={onCancel} aria-label="Cancel" title="Cancel">
+      <MessageMultiSelectActions ref={actionsRef}>
+        <MessageMultiSelectAction
+          size={compactCancel ? "icon" : "default"}
+          onClick={onCancel}
+          aria-label="Cancel"
+          title="Cancel"
+        >
           <X size={14} />
-          <span>Cancel</span>
+          {compactCancel ? null : <span>Cancel</span>}
         </MessageMultiSelectAction>
         <MessageMultiSelectAction
+          size={compactForward ? "icon" : "default"}
           tone="accent"
           aria-label="Forward"
           disabled={!onForward}
@@ -97,16 +146,17 @@ export function MessageMultiSelectToolbarComposition({
           title="Forward"
         >
           <Send size={14} />
-          <span>Forward</span>
+          {compactForward ? null : <span>Forward</span>}
         </MessageMultiSelectAction>
         <MessageMultiSelectAction
+          size={compactCopyLink ? "icon" : "default"}
           aria-label="Copy link"
           disabled={!onCopyLink}
           onClick={onCopyLink}
           title="Copy link"
         >
           <Copy size={14} />
-          <span>Copy link</span>
+          {compactCopyLink ? null : <span>Copy link</span>}
         </MessageMultiSelectAction>
         <DropdownMenu>
           <DropdownMenuTrigger

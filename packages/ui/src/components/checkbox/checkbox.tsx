@@ -61,6 +61,9 @@ const checkbox = tv({
       md: {
         root: "size-4",
       },
+      lg: {
+        root: "size-5",
+      },
     },
   },
   compoundVariants: [
@@ -243,15 +246,17 @@ type ElegantCheckboxGraphicProps = {
     outerRect: string;
     overlayRect: string;
   };
+  shape: "square" | "circle";
 };
 
-function ElegantCheckboxGraphic({ classNames }: ElegantCheckboxGraphicProps) {
+function ElegantCheckboxGraphic({ classNames, shape }: ElegantCheckboxGraphicProps) {
   const gradientId = `checkbox-hover-${useId().replace(/:/g, "")}`;
+  const radius = shape === "circle" ? 8 : 3;
 
   return (
     <svg
-      width="16"
-      height="16"
+      width="100%"
+      height="100%"
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -264,11 +269,11 @@ function ElegantCheckboxGraphic({ classNames }: ElegantCheckboxGraphicProps) {
           <stop offset="100%" stopColor="oklab(0% 0 0 / 3%)" />
         </linearGradient>
       </defs>
-      <rect width="16" height="16" rx="3" className={classNames.outerRect} />
+      <rect width="16" height="16" rx={radius} className={classNames.outerRect} />
       <rect
         width="16"
         height="16"
-        rx="3"
+        rx={radius}
         fill={`url(#${gradientId})`}
         className={classNames.overlayRect}
       />
@@ -277,12 +282,15 @@ function ElegantCheckboxGraphic({ classNames }: ElegantCheckboxGraphicProps) {
 }
 
 export type CheckboxProps = StyledProps<BaseCheckbox.Root.Props> &
-  Omit<VariantProps<typeof checkbox>, "theme">;
+  Omit<VariantProps<typeof checkbox>, "theme"> & {
+    shape?: "square" | "circle";
+  };
 
 export function Checkbox({
   size,
   color = "default",
   variant = "default",
+  shape = "square",
   className,
   ...props
 }: CheckboxProps) {
@@ -299,6 +307,7 @@ export function Checkbox({
     return (
       <BaseCheckbox.Root data-slot="checkbox" className={root({ className })} {...props}>
         <ElegantCheckboxGraphic
+          shape={shape}
           classNames={{
             graphic: graphic(),
             outerRect: outerRect(),
@@ -349,6 +358,7 @@ export function Checkbox({
             disabled={state.disabled}
             mark={state.indeterminate ? "minus" : "check"}
             size={size}
+            shape={shape}
             fill={variant === "primary" || color === "primary" ? "yellow" : "black"}
           />
         )}

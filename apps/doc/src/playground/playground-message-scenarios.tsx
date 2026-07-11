@@ -1,14 +1,13 @@
 import { useRef } from "react";
 import { ArrowDown, Eye } from "lucide-react";
-import { InlineCode } from "raft-ui";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
   MessageMarkdown,
+  MessageInlineCode,
   MessageReferenceChannel,
-  MessageReferenceMention,
   MessageReferenceTask,
   MessageReferenceThread,
   MessageTimelineDateDivider,
@@ -19,6 +18,7 @@ import {
 } from "raft-ui/wip";
 
 import {
+  MessageMentionReferenceComposition,
   MessagePermalinkReferenceComposition,
   MessageSelfMentionReferenceComposition,
 } from "#/compositions/message-item/message-content-compositions.tsx";
@@ -92,10 +92,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 Todo: check default seed member permissions{" "}
-                <MessageReferenceTask href="/playground/frontend">#10</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#10</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="todo" taskNumber={10} />}
+            footer={<TaskStatusBadge channelId="all" status="todo" taskNumber={10} />}
           />
           <PlaygroundMessageRow
             variant="member"
@@ -105,10 +105,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 In progress: verify RustFS attachment previews{" "}
-                <MessageReferenceTask href="/playground/frontend">#11</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#11</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="in_progress" taskNumber={11} />}
+            footer={<TaskStatusBadge channelId="all" status="in_progress" taskNumber={11} />}
           />
           <PlaygroundMessageRow
             variant="member"
@@ -118,10 +118,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 In review: thread reminder wake regression{" "}
-                <MessageReferenceTask href="/playground/frontend">#12</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#12</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="in_review" taskNumber={12} />}
+            footer={<TaskStatusBadge channelId="all" status="in_review" taskNumber={12} />}
           />
           <PlaygroundMessageRow
             variant="member"
@@ -131,10 +131,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 Done: archived-channel smoke check{" "}
-                <MessageReferenceTask href="/playground/frontend">#13</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#13</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="done" taskNumber={13} />}
+            footer={<TaskStatusBadge channelId="all" status="done" taskNumber={13} />}
           />
 
           <PlaygroundMessageRow
@@ -145,8 +145,8 @@ export function ProjUiuxBody() {
             body={<ChipDemoBody />}
             footer={
               <>
-                <MessageReactionComposition emoji="👍" count={1} reacted />
-                <MessageReactionComposition emoji="👀" count={1} />
+                <MessageReactionComposition emoji="👍" count={1} reacted title="Developer" />
+                <MessageReactionComposition emoji="👀" count={1} title="Claude Assistant" />
               </>
             }
           />
@@ -220,13 +220,18 @@ export function ChipDemoBody() {
           @Developer
         </MessageSelfMentionReferenceComposition>{" "}
         is the attention chip. Normal mentions like{" "}
-        <MessageReferenceMention href="/playground/dm-noah">@Member</MessageReferenceMention> stay
-        text-link style.
+        <MessageMentionReferenceComposition
+          href="/playground/dm-noah"
+          preview={<ProfileCardBody variant="member" sender="Member" meta="member" />}
+        >
+          @Member
+        </MessageMentionReferenceComposition>{" "}
+        stays text-link style.
       </p>
       <p>
         Refs in one line:{" "}
-        <MessageReferenceChannel href="/playground/general">#general</MessageReferenceChannel>{" "}
-        <MessageReferenceTask href="/playground/frontend">task #15</MessageReferenceTask>{" "}
+        <MessageReferenceChannel href="/playground/general">#general</MessageReferenceChannel> task{" "}
+        <MessageReferenceTask href="/playground/frontend">#15</MessageReferenceTask>{" "}
         <MessageReferenceThread href="/playground/general">
           #general:67253b90
         </MessageReferenceThread>{" "}
@@ -236,7 +241,7 @@ export function ChipDemoBody() {
       </p>
       <blockquote>Quote row repeats the same shapes at one line height.</blockquote>
       <p>
-        Code should not become chips: <InlineCode>@Developer #general</InlineCode>
+        Code should not become chips: <MessageInlineCode>@Developer #general</MessageInlineCode>
       </p>
     </MessageMarkdown>
   );
@@ -313,9 +318,9 @@ export function ReleaseBody() {
           </div>
           <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
 
-          {RELEASE_MESSAGES.map((message, index) => (
+          {RELEASE_MESSAGES.map((message) => (
             <PlaygroundMessageRow
-              key={index}
+              key={`${message.time}:${message.sender}`}
               variant={message.variant}
               sender={message.sender}
               meta={message.meta}

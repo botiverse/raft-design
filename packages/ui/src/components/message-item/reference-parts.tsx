@@ -1,6 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageReference, type MessageReferenceVariantProps } from "./message-reference.recipe";
+import { type DataAttributes } from "./recipe";
 
 type MessageReferenceTreatment = NonNullable<MessageReferenceVariantProps["treatment"]>;
 type MessageReferenceLinkProps = useRender.ComponentProps<"a">;
@@ -11,8 +13,10 @@ function useMessageReferenceLink(
   slot: string,
   { className, render, ...props }: MessageReferenceLinkProps,
 ) {
-  const { root } = messageReference({ treatment });
-  const defaultProps: useRender.ElementProps<"a"> = {
+  const theme = useThemeFamily();
+  const { root } = messageReference({ treatment, theme });
+  const defaultProps: useRender.ElementProps<"a"> & DataAttributes = {
+    "data-message-reference": "",
     className: root({ className }),
   };
 
@@ -29,7 +33,8 @@ function useMessageReferenceStatus(
   slot: string,
   { className, render, ...props }: MessageReferenceStatusProps,
 ) {
-  const { root } = messageReference({ treatment });
+  const theme = useThemeFamily();
+  const { root } = messageReference({ treatment, theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
   };
@@ -72,10 +77,16 @@ export function MessageReferenceThread(props: MessageReferenceThreadProps) {
   return useMessageReferenceLink("thread", "message-reference-thread", props);
 }
 
-export type MessageReferencePermalinkProps = MessageReferenceLinkProps;
+export type MessageReferencePermalinkProps = MessageReferenceLinkProps & {
+  external?: boolean;
+};
 
-export function MessageReferencePermalink(props: MessageReferencePermalinkProps) {
-  return useMessageReferenceLink("permalink", "message-reference-permalink", props);
+export function MessageReferencePermalink({ external, ...props }: MessageReferencePermalinkProps) {
+  return useMessageReferenceLink(
+    external ? "externalPermalink" : "permalink",
+    "message-reference-permalink",
+    props,
+  );
 }
 
 export type MessageReferenceLoadingProps = MessageReferenceStatusProps;
@@ -84,10 +95,16 @@ export function MessageReferenceLoading(props: MessageReferenceLoadingProps) {
   return useMessageReferenceStatus("loading", "message-reference-loading", props);
 }
 
-export type MessageReferenceUnavailableProps = MessageReferenceStatusProps;
+export type MessageReferenceUnavailableProps = MessageReferenceStatusProps & {
+  kind: "channel" | "task" | "thread";
+};
 
-export function MessageReferenceUnavailable(props: MessageReferenceUnavailableProps) {
-  return useMessageReferenceStatus("unavailable", "message-reference-unavailable", props);
+export function MessageReferenceUnavailable({ kind, ...props }: MessageReferenceUnavailableProps) {
+  return useMessageReferenceStatus(
+    `${kind}Unavailable` as MessageReferenceTreatment,
+    "message-reference-unavailable",
+    props,
+  );
 }
 
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;

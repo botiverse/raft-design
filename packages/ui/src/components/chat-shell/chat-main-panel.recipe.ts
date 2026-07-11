@@ -80,7 +80,7 @@ export const chatMainPanel = tv({
     theme: {
       brutal: {
         root: "bg-white font-sans text-black",
-        header: "border-b-2 border-black bg-white",
+        header: "gap-3 border-b-2 border-black bg-white",
         headerIcon: "border-black bg-soft-signal text-black",
         titleBlock: "flex flex-col",
         title: "text-black",
@@ -96,9 +96,9 @@ export const chatMainPanel = tv({
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]]:bg-soft-signal [&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]:hover]:bg-soft-signal",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]+[data-slot=tabs-tab]]:before:bg-black",
         ],
-        body: "border-b-2 border-black bg-white",
+        body: "bg-white",
         timeline: "bg-white",
-        footer: "bg-white",
+        footer: "border-t-2 border-black bg-white",
         composer: "border-black bg-white shadow-brutal-sm focus-within:shadow-brutal",
         composerInput: "font-sans text-black placeholder:text-black/35",
         composerIconButton: [
@@ -177,6 +177,11 @@ export const chatMainPanel = tv({
         ],
         composerToolbar: "gap-2 px-3 pt-1 pb-3",
         composerActions: "gap-1.5",
+        composerIconButton: [
+          "text-foreground-icon",
+          "hover:bg-layer-strong/80 hover:text-foreground",
+          "active:bg-layer-strong/80 active:text-foreground",
+        ],
         composerSubmit: [
           "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
           "bg-accent-400 text-sm font-medium text-white",

@@ -48,7 +48,7 @@ import {
   ChatMainPanelTitleBlock,
   MessageItem,
   MessageItemAvatarSlot,
-  MessageItemBadge,
+  MessageItemBadgeSeparator,
   MessageItemUnreadBadge,
   MessageItemBody,
   MessageItemContent,
@@ -64,6 +64,7 @@ import {
   MessageTimelineNotice,
   PanelIconButton,
   PanelIconButtonCount,
+  PanelToggleButton,
 } from "raft-ui/wip";
 
 export function ChatMainPanelComposition() {
@@ -81,9 +82,9 @@ export function ChatMainPanelComposition() {
           <PanelIconButton aria-label="Search conversation">
             <Search />
           </PanelIconButton>
-          <PanelIconButton aria-label="Mute channel activity">
+          <PanelToggleButton aria-label="Mute channel activity">
             <Bell />
-          </PanelIconButton>
+          </PanelToggleButton>
           <PanelIconButton aria-label="Stop all agents in this channel">
             <Square />
           </PanelIconButton>
@@ -143,8 +144,10 @@ export function ChatMainPanelComposition() {
                         chrome.
                       </MessageItemBody>
                       <MessageItemFooter>
-                        <MessageItemBadge>2 replies</MessageItemBadge>
-                        <MessageItemUnreadBadge>1 new</MessageItemUnreadBadge>
+                        <MessageItemUnreadBadge>
+                          2 replies
+                          <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>1 new
+                        </MessageItemUnreadBadge>
                       </MessageItemFooter>
                     </MessageItemContent>
                     <MessageItemToolbar>

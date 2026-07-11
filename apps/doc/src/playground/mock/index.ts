@@ -36,3 +36,14 @@ export {
   type PlaygroundThreadContext,
   type PlaygroundThreadId,
 } from "./conversations.ts";
+
+export {
+  PLAYGROUND_TASKS,
+  PLAYGROUND_TASK_STATUSES,
+  getPlaygroundTasks,
+  type PlaygroundTask,
+  type PlaygroundTaskId,
+  type PlaygroundTaskStatus,
+} from "./tasks.ts";
+
+export { PLAYGROUND_FILES, getPlaygroundFiles, type PlaygroundFile } from "./files.ts";

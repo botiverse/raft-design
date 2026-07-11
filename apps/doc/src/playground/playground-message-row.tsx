@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
 import {
@@ -34,7 +34,6 @@ import {
   MessageItemUnreadBadge,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
-  MessageReactionGlyph,
   MessageReactionPickerContent,
   MessageReactionQuickButton,
   useMessageMultiSelect,
@@ -45,11 +44,13 @@ import {
   type MessageTaskState,
 } from "#/compositions/message-item/message-context-menu-composition.tsx";
 import { MESSAGE_QUICK_REACTIONS } from "#/compositions/message-item/message-reaction-compositions.tsx";
+import { MessageReactionGlyphComposition } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
 import {
   PlaygroundMessageAvatar,
   type PlaygroundAgentStatus,
   type PlaygroundAvatarVariant,
 } from "./playground-message-avatar.tsx";
+import { emitPlaygroundComposerMention } from "./playground-composer-events.ts";
 import { requirePlaygroundThread, type PlaygroundThreadId } from "./mock/index.ts";
 
 export type RowVariant = PlaygroundAvatarVariant;
@@ -70,7 +71,7 @@ export function PlaygroundMessageRow({
   saved,
   followed,
   task = "none",
-  surface,
+  rowState,
   selectId,
   threadId,
 }: {
@@ -91,7 +92,7 @@ export function PlaygroundMessageRow({
   saved?: boolean;
   followed?: boolean;
   task?: MessageTaskState;
-  surface?: "active" | "search-match";
+  rowState?: "active" | "search-match";
   selectId?: string;
   threadId?: PlaygroundThreadId;
 }) {
@@ -108,12 +109,50 @@ export function PlaygroundMessageRow({
   const [isFollowed, setIsFollowed] = useState(Boolean(followed));
   const [taskState, setTaskState] = useState<MessageTaskState>(task);
   const [lastReaction, setLastReaction] = useState<string | null>(null);
+  const [threadRequested, setThreadRequested] = useState(false);
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const reactionCloseTimerRef = useRef<number | null>(null);
   const navigate = useNavigate();
   const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
   const markdownText = typeof body === "string" ? body : "Composed message content";
 
-  const effectiveRowState = selectMode ? "select" : (surface ?? (menuOpen ? "active" : undefined));
+  const clearReactionCloseTimer = useCallback(() => {
+    if (reactionCloseTimerRef.current === null) return;
+    window.clearTimeout(reactionCloseTimerRef.current);
+    reactionCloseTimerRef.current = null;
+  }, []);
+
+  const scheduleReactionClose = useCallback(() => {
+    if (!reactionOpen) return;
+    clearReactionCloseTimer();
+    reactionCloseTimerRef.current = window.setTimeout(() => {
+      setReactionOpen(false);
+      reactionCloseTimerRef.current = null;
+    }, 120);
+  }, [clearReactionCloseTimer, reactionOpen]);
+
+  const handleReactionOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) clearReactionCloseTimer();
+      setReactionOpen(open);
+    },
+    [clearReactionCloseTimer],
+  );
+
+  useEffect(() => () => clearReactionCloseTimer(), [clearReactionCloseTimer]);
+
+  useEffect(() => {
+    if (!reactionOpen) return;
+    const close = () => handleReactionOpenChange(false);
+    window.addEventListener("scroll", close, true);
+    window.addEventListener("resize", close);
+    return () => {
+      window.removeEventListener("scroll", close, true);
+      window.removeEventListener("resize", close);
+    };
+  }, [handleReactionOpenChange, reactionOpen]);
+
+  const effectiveRowState = selectMode ? "select" : (rowState ?? (menuOpen ? "active" : undefined));
   const ItemRoot =
     effectiveRowState === "active"
       ? MessageItemActive
@@ -133,9 +172,17 @@ export function PlaygroundMessageRow({
           });
         }
       : undefined;
+  const requestThread = openThread ?? (() => setThreadRequested(true));
 
   const messageItem = (
-    <ItemRoot compact={compact}>
+    <ItemRoot
+      compact={compact}
+      onMouseEnter={clearReactionCloseTimer}
+      onMouseLeave={scheduleReactionClose}
+    >
+      {selectMode ? (
+        <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
+      ) : null}
       {compact ? (
         <MessageItemGutter>
           {gutterTime ? (
@@ -154,9 +201,26 @@ export function PlaygroundMessageRow({
       <MessageItemContent>
         {!compact ? (
           <MessageItemHeader>
-            {sender ? <MessageItemSender>{sender}</MessageItemSender> : null}
+            {sender ? (
+              deactivated || senderState ? (
+                <MessageItemSender>{sender}</MessageItemSender>
+              ) : (
+                <MessageItemSender
+                  render={
+                    <button
+                      type="button"
+                      className="cursor-pointer hover:underline hover:decoration-2 hover:underline-offset-2"
+                      title={`Mention @${sender}`}
+                      onClick={() => emitPlaygroundComposerMention(sender)}
+                    />
+                  }
+                >
+                  {sender}
+                </MessageItemSender>
+              )
+            ) : null}
             {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
-            {meta ? <MessageItemMeta>{meta}</MessageItemMeta> : null}
+            {meta ? <MessageItemMeta title={meta}>{meta}</MessageItemMeta> : null}
             {time ? <MessageItemTime>{time}</MessageItemTime> : null}
             {inlineStatus ? (
               <MessageItemInlineStatus>{inlineStatus}</MessageItemInlineStatus>
@@ -165,46 +229,67 @@ export function PlaygroundMessageRow({
         ) : null}
         {body ? <MessageItemBody>{body}</MessageItemBody> : null}
         {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
-        {footer || lastReaction ? (
+        {footer || lastReaction || isSaved ? (
           <MessageItemFooter>
             {footer}
+            {isSaved ? (
+              <MessageItemSavedIndicator
+                aria-label="Remove from Saved"
+                render={<button type="button" onClick={() => setIsSaved(false)} />}
+              >
+                <Bookmark fill="currentColor" />
+                <span>Saved</span>
+              </MessageItemSavedIndicator>
+            ) : null}
             {lastReaction ? (
-              <MessageReactionChip aria-pressed>
-                <MessageReactionGlyph emoji={lastReaction} />
+              <MessageReactionChip
+                aria-label={`${lastReaction} 1`}
+                aria-pressed
+                onClick={() => setLastReaction(null)}
+              >
+                <MessageReactionGlyphComposition emoji={lastReaction} />
                 <MessageReactionCount>1</MessageReactionCount>
               </MessageReactionChip>
             ) : null}
           </MessageItemFooter>
         ) : null}
       </MessageItemContent>
-      {isSaved ? (
-        <MessageItemSavedIndicator>
-          <Bookmark fill="currentColor" />
-        </MessageItemSavedIndicator>
-      ) : null}
-      {selectMode ? (
-        <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
-      ) : null}
       <RowToolbar
         saved={isSaved}
         threadId={threadId}
+        onReplyInThread={requestThread}
         reactionOpen={reactionOpen}
         portalContainer={portalContainer}
         onReact={setLastReaction}
-        onReactionOpenChange={setReactionOpen}
+        onReactionOpenChange={handleReactionOpenChange}
+        onReactionPickerEnter={clearReactionCloseTimer}
+        onReactionPickerLeave={scheduleReactionClose}
         onSavedChange={setIsSaved}
       />
+      {threadRequested ? (
+        <span className="sr-only" role="status">
+          Thread composer opened
+        </span>
+      ) : null}
     </ItemRoot>
   );
 
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
   if (selectMode) {
-    return messageItem;
+    return (
+      <div className="px-3" style={{ contain: "layout style", overflow: "clip visible" }}>
+        {messageItem}
+      </div>
+    );
   }
 
   return (
-    <div ref={setPortalContainer}>
+    <div
+      ref={setPortalContainer}
+      className="px-3"
+      style={{ contain: "layout style", overflow: "clip visible" }}
+    >
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {
@@ -220,7 +305,7 @@ export function PlaygroundMessageRow({
           portalContainer={portalContainer}
           onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
           onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
-          onFollowChange={setIsFollowed}
+          onFollowChange={threadContext ? setIsFollowed : undefined}
           onQuickReact={(emoji) => {
             setLastReaction(emoji);
             setMenuOpen(false);
@@ -228,7 +313,7 @@ export function PlaygroundMessageRow({
           onSavedChange={setIsSaved}
           onTaskChange={setTaskState}
           onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
-          onOpenThread={openThread}
+          onOpenThread={requestThread}
         />
       </ContextMenu>
     </div>
@@ -246,7 +331,10 @@ function RowToolbar({
   reactionOpen,
   portalContainer,
   onReact,
+  onReplyInThread,
   onReactionOpenChange,
+  onReactionPickerEnter,
+  onReactionPickerLeave,
   onSavedChange,
 }: {
   saved?: boolean;
@@ -254,13 +342,16 @@ function RowToolbar({
   reactionOpen: boolean;
   portalContainer: HTMLElement | null;
   onReact: (emoji: string) => void;
+  onReplyInThread?: () => void;
   onReactionOpenChange: (open: boolean) => void;
+  onReactionPickerEnter: () => void;
+  onReactionPickerLeave: () => void;
   onSavedChange: (saved: boolean) => void;
 }) {
   const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
 
   return (
-    <MessageItemToolbar visible={reactionOpen}>
+    <MessageItemToolbar>
       {threadContext ? (
         <MessageItemToolbarButton
           aria-label="Reply in thread"
@@ -274,11 +365,19 @@ function RowToolbar({
         >
           <MessageSquare />
         </MessageItemToolbarButton>
-      ) : null}
+      ) : (
+        <MessageItemToolbarButton aria-label="Reply in thread" onClick={onReplyInThread}>
+          <MessageSquare />
+        </MessageItemToolbarButton>
+      )}
       <DropdownMenu open={reactionOpen} onOpenChange={onReactionOpenChange}>
         <DropdownMenuTrigger
           render={
-            <MessageItemToolbarButton aria-pressed={reactionOpen} aria-label="Add reaction">
+            <MessageItemToolbarButton
+              active={reactionOpen}
+              aria-pressed={reactionOpen}
+              aria-label="Add reaction"
+            >
               <SmilePlus />
             </MessageItemToolbarButton>
           }
@@ -287,11 +386,16 @@ function RowToolbar({
           side="bottom"
           align="end"
           sideOffset={4}
+          collisionAvoidance={{ side: "flip", align: "flip" }}
+          collisionPadding={8}
           portalProps={{ container: portalContainer }}
+          onMouseEnter={onReactionPickerEnter}
+          onMouseLeave={onReactionPickerLeave}
         >
           {MESSAGE_QUICK_REACTIONS.map((emoji) => (
             <DropdownMenuItem
               key={emoji}
+              className="[[data-theme=brutal]_&]:!size-7 [[data-theme=brutal]_&]:!w-7 [[data-theme=brutal]_&]:!p-0"
               render={
                 <MessageReactionQuickButton
                   title={`React with ${emoji}`}
@@ -303,12 +407,13 @@ function RowToolbar({
                 onReactionOpenChange(false);
               }}
             >
-              <MessageReactionGlyph emoji={emoji} size={18} className="block" />
+              <MessageReactionGlyphComposition emoji={emoji} size={18} />
             </DropdownMenuItem>
           ))}
         </MessageReactionPickerContent>
       </DropdownMenu>
       <MessageItemToolbarButton
+        saved={saved}
         aria-pressed={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}
         onClick={() => onSavedChange(!saved)}
@@ -336,7 +441,7 @@ export function PlaygroundRepliesBadge({ threadId }: { threadId: PlaygroundThrea
   );
 }
 
-// Source ThreadRepliesBadge: one cyan-wash pill with reply count + "· N new".
+// Source ThreadRepliesBadge: one default pill with reply count + "· N new".
 export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
   const { channelId, thread } = requirePlaygroundThread(threadId);
   if (!thread.unreadCount) {

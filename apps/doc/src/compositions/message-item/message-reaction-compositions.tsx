@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipTrigger } from "raft-ui";
 import {
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionErrorIndicator,
-  MessageReactionGlyph,
   MessageReactionTooltipContent,
   MessageReactionTooltipMeta,
   MessageReactionTooltipName,
@@ -12,6 +11,7 @@ import {
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
 } from "raft-ui/wip";
+import { MessageReactionGlyphComposition } from "./message-reaction-glyph-composition.tsx";
 
 export const MESSAGE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
 
@@ -31,20 +31,47 @@ export function MessageReactionComposition({
   title,
 }: MessageReactionCompositionProps) {
   const [reacted, setReacted] = useState(initiallyReacted);
+  const [failureFlash, setFailureFlash] = useState(false);
+  const failureTimerRef = useRef<number | null>(null);
   const count = initialCount + Number(reacted) - Number(initiallyReacted);
-  const label = failed ? `${emoji} ${count}. Reaction failed` : `${emoji} ${count}`;
+  const label = failureFlash
+    ? `${emoji} ${count}. Reaction failed`
+    : title
+      ? `${emoji} reaction from ${title}`
+      : `${emoji} ${count}`;
+
+  useEffect(() => {
+    return () => {
+      if (failureTimerRef.current !== null) window.clearTimeout(failureTimerRef.current);
+    };
+  }, []);
+
+  const handleClick = () => {
+    if (!failed) {
+      setReacted((current) => !current);
+      return;
+    }
+
+    if (failureTimerRef.current !== null) window.clearTimeout(failureTimerRef.current);
+    setFailureFlash(true);
+    failureTimerRef.current = window.setTimeout(() => {
+      setFailureFlash(false);
+      failureTimerRef.current = null;
+    }, 400);
+  };
+
+  if (count <= 0) return null;
 
   return (
     <MessageReactionChip
       aria-pressed={reacted}
       aria-label={label}
-      disabled={failed}
       title={title ?? label}
-      onClick={() => setReacted((current) => !current)}
+      onClick={handleClick}
     >
-      <MessageReactionGlyph emoji={emoji} size={15} />
+      <MessageReactionGlyphComposition emoji={emoji} size={15} />
       <MessageReactionCount>{count}</MessageReactionCount>
-      {failed ? (
+      {failureFlash ? (
         <MessageReactionErrorIndicator>Reaction failed</MessageReactionErrorIndicator>
       ) : null}
     </MessageReactionChip>
@@ -66,19 +93,26 @@ export function MessageReactionTooltipComposition({
   names,
   open,
 }: MessageReactionTooltipCompositionProps) {
+  const [reacted, setReacted] = useState(false);
   const visibleNames = names.slice(0, 5);
   const remainingCount = Math.max(0, names.length - visibleNames.length);
   const summary = `${visibleNames.join(", ")}${
     remainingCount ? ` and ${remainingCount} more` : ""
   } reacted with ${emoji}`;
 
+  const displayedCount = count + Number(reacted);
+
   return (
     <Tooltip open={open}>
       <TooltipTrigger
         render={
-          <MessageReactionChip render={<span role="img" tabIndex={0} />} aria-label={summary}>
-            <MessageReactionGlyph emoji={emoji} size={15} />
-            <MessageReactionCount>{count}</MessageReactionCount>
+          <MessageReactionChip
+            aria-pressed={reacted}
+            aria-label={summary}
+            onClick={() => setReacted((current) => !current)}
+          >
+            <MessageReactionGlyphComposition emoji={emoji} size={15} />
+            <MessageReactionCount>{displayedCount}</MessageReactionCount>
           </MessageReactionChip>
         }
       />

@@ -30,6 +30,7 @@ import {
   ChatMainPanelTitleRow,
   PanelIconButton,
   PanelIconButtonCount,
+  PanelToggleButton,
 } from "raft-ui/wip";
 import { useState } from "react";
 
@@ -64,7 +65,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
       <TooltipProvider delay={650}>
         <ChatMainPanelActions>
           <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Search this channel" disabled />}>
+            <TooltipTrigger render={<PanelIconButton aria-label="Search this channel" />}>
               <Search />
             </TooltipTrigger>
             <TooltipContent side="bottom">Search this channel</TooltipContent>
@@ -72,9 +73,9 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
           <Tooltip>
             <TooltipTrigger
               render={
-                <PanelIconButton
-                  aria-pressed={isMuted}
-                  onClick={() => setIsMuted((muted) => !muted)}
+                <PanelToggleButton
+                  pressed={isMuted}
+                  onPressedChange={setIsMuted}
                   aria-label={
                     isMuted ? "Unmute activity for this channel" : "Mute activity for this channel"
                   }
@@ -89,26 +90,26 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
-              render={<PanelIconButton aria-label="Stop all agents in this channel" disabled />}
+              render={<PanelIconButton aria-label="Stop all agents in this channel" />}
             >
               <Square />
             </TooltipTrigger>
             <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
+            <TooltipTrigger render={<PanelIconButton aria-label="Edit channel" />}>
+              <Settings />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Edit channel</TooltipContent>
+          </Tooltip>
+          <Tooltip>
             <TooltipTrigger
-              render={<PanelIconButton aria-label="View participants" layout="label" disabled />}
+              render={<PanelIconButton aria-label="View participants" layout="label" />}
             >
               <Users />
               <PanelIconButtonCount>{channel.memberCount}</PanelIconButtonCount>
             </TooltipTrigger>
             <TooltipContent side="bottom">View participants</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Edit channel" disabled />}>
-              <Settings />
-            </TooltipTrigger>
-            <TooltipContent side="bottom">Edit channel</TooltipContent>
           </Tooltip>
         </ChatMainPanelActions>
       </TooltipProvider>
@@ -151,10 +152,10 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
           <Tooltip>
             <TooltipTrigger
               render={
-                <PanelIconButton
+                <PanelToggleButton
                   aria-label={isMuted ? "Unmute activity for this DM" : "Mute activity for this DM"}
-                  aria-pressed={isMuted}
-                  onClick={() => setIsMuted((muted) => !muted)}
+                  pressed={isMuted}
+                  onPressedChange={setIsMuted}
                 />
               }
             >

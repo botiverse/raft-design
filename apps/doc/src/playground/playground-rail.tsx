@@ -28,7 +28,9 @@ import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttentionMask,
   AppRailItemIcon,
+  AppRailItemIndicator,
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
@@ -46,7 +48,9 @@ import {
   Users,
 } from "lucide-react";
 import { Check } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 
 const playgroundServers = [
   { id: "raft", name: "Raft", initial: "R" },
@@ -55,7 +59,8 @@ const playgroundServers = [
 ] as const;
 
 export function PlaygroundRail() {
-  const [value, setValue] = useState("chat");
+  const { railView, selectRailView } = usePlaygroundNavigation();
+  const serverMenuAnchorRef = useRef<HTMLDivElement>(null);
   const [serverId, setServerId] =
     useState<(typeof playgroundServers)[number]["id"]>("design-guild");
   const [notificationVisible, setNotificationVisible] = useState(true);
@@ -63,8 +68,13 @@ export function PlaygroundRail() {
 
   return (
     <AppShellRail>
-      <AppRailRoot value={value} onValueChange={setValue}>
-        <AppRailHeader>
+      <AppRailRoot
+        value={railView}
+        onValueChange={(view) => {
+          if (isPlaygroundRailView(view)) selectRailView(view);
+        }}
+      >
+        <AppRailHeader ref={serverMenuAnchorRef}>
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
@@ -74,8 +84,17 @@ export function PlaygroundRail() {
               }
             >
               {activeServer.initial}
+              <AppRailItemIndicator aria-hidden title="Other servers have unread messages" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" align="start" className="flex w-56 flex-col">
+            <DropdownMenuContent
+              anchor={serverMenuAnchorRef}
+              side="right"
+              sideOffset={8}
+              align="start"
+              alignOffset={1}
+              collisionPadding={4}
+              className="flex w-64 flex-col"
+            >
               {playgroundServers.map((server) => (
                 <DropdownMenuItem key={server.id} onClick={() => setServerId(server.id)}>
                   <Check aria-hidden className={server.id === serverId ? undefined : "opacity-0"} />
@@ -100,6 +119,14 @@ export function PlaygroundRail() {
               <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
                 <AppRailItemIcon>
                   <MessageSquare />
+                  {railView !== "chat" ? (
+                    <>
+                      <AppRailItemAttentionMask aria-hidden>
+                        <MessageSquare />
+                      </AppRailItemAttentionMask>
+                      <AppRailItemIndicator aria-hidden title="Unread messages" />
+                    </>
+                  ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Chat</AppRailItemLabel>
               </TooltipTrigger>
@@ -109,6 +136,14 @@ export function PlaygroundRail() {
               <TooltipTrigger render={<AppRailItem value="activity" aria-label="Activity" />}>
                 <AppRailItemIcon>
                   <Activity />
+                  {railView !== "activity" ? (
+                    <>
+                      <AppRailItemAttentionMask aria-hidden>
+                        <Activity />
+                      </AppRailItemAttentionMask>
+                      <AppRailItemIndicator aria-hidden title="Unread activity" />
+                    </>
+                  ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Activity</AppRailItemLabel>
               </TooltipTrigger>
@@ -136,6 +171,17 @@ export function PlaygroundRail() {
               <TooltipTrigger render={<AppRailItem value="computers" aria-label="Computers" />}>
                 <AppRailItemIcon>
                   <Monitor />
+                  {railView !== "computers" ? (
+                    <>
+                      <AppRailItemAttentionMask aria-hidden>
+                        <Monitor />
+                      </AppRailItemAttentionMask>
+                      <AppRailItemIndicator
+                        aria-hidden
+                        title="A managed computer has an upgrade available"
+                      />
+                    </>
+                  ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Computers</AppRailItemLabel>
               </TooltipTrigger>
@@ -145,24 +191,22 @@ export function PlaygroundRail() {
         </TooltipProvider>
         <TooltipProvider delay={650}>
           <AppRailUtilitySlot>
-            <NotificationCenter modal={false}>
-              <Tooltip>
-                <TooltipTrigger
-                  render={
-                    <NotificationCenterTrigger type="button" aria-label="Notification center" />
-                  }
-                />
-                <TooltipContent side="right">Notification center</TooltipContent>
-              </Tooltip>
-              <NotificationCenterPopup side="right" align="end">
-                <NotificationCenterHeader>
-                  <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-                  <NotificationCenterCount>
-                    {notificationVisible ? "1 item" : "No items"}
-                  </NotificationCenterCount>
-                </NotificationCenterHeader>
-                <NotificationCenterScroller>
-                  {notificationVisible ? (
+            {notificationVisible ? (
+              <NotificationCenter modal={false}>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <NotificationCenterTrigger type="button" aria-label="Notification center" />
+                    }
+                  />
+                  <TooltipContent side="right">Notification center</TooltipContent>
+                </Tooltip>
+                <NotificationCenterPopup side="right" align="end">
+                  <NotificationCenterHeader>
+                    <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+                    <NotificationCenterCount>1 item</NotificationCenterCount>
+                  </NotificationCenterHeader>
+                  <NotificationCenterScroller>
                     <NotificationCenterList>
                       <NotificationCenterItem>
                         <NotificationCenterItemRow>
@@ -185,10 +229,10 @@ export function PlaygroundRail() {
                         </NotificationCenterItemRow>
                       </NotificationCenterItem>
                     </NotificationCenterList>
-                  ) : null}
-                </NotificationCenterScroller>
-              </NotificationCenterPopup>
-            </NotificationCenter>
+                  </NotificationCenterScroller>
+                </NotificationCenterPopup>
+              </NotificationCenter>
+            ) : null}
           </AppRailUtilitySlot>
           <AppRailFooter>
             <Tooltip>

@@ -117,7 +117,8 @@ export function MessageMultiSelectCheckbox({
     <Checkbox
       checked={selection.selected.has(value)}
       className={cn("mt-1.5 self-start", className)}
-      size="md"
+      shape="circle"
+      size="lg"
       variant="primary"
       onCheckedChange={() => selection.toggle(value)}
       {...props}

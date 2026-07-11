@@ -15,6 +15,7 @@ export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttentionMask,
   AppRailItemBadge,
   AppRailItemIcon,
   AppRailItemIndicator,
@@ -27,6 +28,7 @@ export {
 export type {
   AppRailFooterProps,
   AppRailHeaderProps,
+  AppRailItemAttentionMaskProps,
   AppRailItemBadgeProps,
   AppRailItemIconProps,
   AppRailItemIndicatorProps,
@@ -320,11 +322,17 @@ export type {
   ChatThreadPanelTitleProps,
 } from "./chat-thread-panel";
 
-export { PanelIconButton, PanelIconButtonCount, PanelIconButtonLabel } from "./panel-icon-button";
+export {
+  PanelIconButton,
+  PanelIconButtonCount,
+  PanelIconButtonLabel,
+  PanelToggleButton,
+} from "./panel-icon-button";
 export type {
   PanelIconButtonCountProps,
   PanelIconButtonLabelProps,
   PanelIconButtonProps,
+  PanelToggleButtonProps,
 } from "./panel-icon-button";
 
 export {

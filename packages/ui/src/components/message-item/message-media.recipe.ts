@@ -15,9 +15,13 @@ export const messageMedia = tv({
       "data-[fit=contain]:object-contain data-[fit=cover]:object-cover",
     ],
     galleryOverlay: ["absolute inset-0 flex items-center justify-center"],
+    galleryPreview: [
+      "absolute inset-0",
+      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-line-strong",
+    ],
     galleryAction: [
       "absolute right-1 bottom-1 z-10 hidden size-6 items-center justify-center",
-      "border border-line-strong focus:flex focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
+      "border border-line-strong focus:flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
       "group-hover/img:flex",
       "[&_svg]:size-3",
     ],
@@ -42,7 +46,8 @@ export const messageMedia = tv({
     theme: {
       brutal: {
         galleryItem: "bg-brutal-cream/60",
-        galleryAction: "bg-white/80 text-black/50 hover:text-black",
+        galleryPreview: "focus-visible:outline-black",
+        galleryAction: "bg-white/80 text-black/50 hover:text-black focus-visible:outline-black",
       },
       elegant: {
         galleryItem: "rounded-lg border-line-subtle bg-layer-muted",

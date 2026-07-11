@@ -1,4 +1,4 @@
-import type { Theme, ThemeMode } from "raft-ui";
+import { ThemeProvider, type Theme, type ThemeMode } from "raft-ui";
 
 type PlaygroundThemePreset = {
   label: string;
@@ -26,24 +26,30 @@ export function PlaygroundToolbar({
   onThemeChange: (theme: Theme, options?: { mode?: ThemeMode }) => void;
 }) {
   return (
-    <div className="fixed top-0 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md">
-      <fieldset aria-label="Playground theme" className="inline-flex items-center gap-0.5">
-        {PRESETS.map((preset) => {
-          const isActive = theme === preset.family && mode === preset.mode;
+    <ThemeProvider theme="elegant" mode="light" syncDom={false}>
+      <div
+        data-theme="elegant"
+        className="light fixed top-0 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md"
+        style={{ colorScheme: "light" }}
+      >
+        <fieldset aria-label="Playground theme" className="inline-flex items-center gap-0.5">
+          {PRESETS.map((preset) => {
+            const isActive = theme === preset.family && mode === preset.mode;
 
-          return (
-            <button
-              key={preset.label}
-              type="button"
-              aria-pressed={isActive}
-              className={`${segment} ${isActive ? active : idle}`}
-              onClick={() => onThemeChange(preset.family, { mode: preset.mode })}
-            >
-              {preset.label}
-            </button>
-          );
-        })}
-      </fieldset>
-    </div>
+            return (
+              <button
+                key={preset.label}
+                type="button"
+                aria-pressed={isActive}
+                className={`${segment} ${isActive ? active : idle}`}
+                onClick={() => onThemeChange(preset.family, { mode: preset.mode })}
+              >
+                {preset.label}
+              </button>
+            );
+          })}
+        </fieldset>
+      </div>
+    </ThemeProvider>
   );
 }

@@ -329,6 +329,7 @@
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
   --shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
+  --shadow-soft-popover: 0 4px 12px oklch(0 0 0 / 0.08);
   --shadow-brutal-sm: var(--theme-shadow-sm);
   --shadow-brutal: var(--theme-shadow-md);
   --shadow-brutal-lg: var(--theme-shadow-xl);
@@ -336,6 +337,21 @@
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
   --font-mono: var(--mono-font, ui-monospace, monospace);
+}
+
+.message-markdown img {
+  background-color: oklch(1 0 0);
+  background-image:
+    linear-gradient(45deg, oklch(0.1813 0.005 17.62 / 0.12) 25%, transparent 25%),
+    linear-gradient(-45deg, oklch(0.1813 0.005 17.62 / 0.12) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, oklch(0.1813 0.005 17.62 / 0.12) 75%),
+    linear-gradient(-45deg, transparent 75%, oklch(0.1813 0.005 17.62 / 0.12) 75%);
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-size: 16px 16px;
 }
 
 /* Theme-invariant ramps and state colors, inherited by every family. */
@@ -600,4 +616,19 @@
 
 body {
   position: relative;
+}
+
+@utility image-transparency-bg {
+  background-color: oklch(1 0 0);
+  background-image:
+    linear-gradient(45deg, oklch(0.1813 0.00497 17.62 / 0.12) 25%, transparent 25%),
+    linear-gradient(-45deg, oklch(0.1813 0.00497 17.62 / 0.12) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, oklch(0.1813 0.00497 17.62 / 0.12) 75%),
+    linear-gradient(-45deg, transparent 75%, oklch(0.1813 0.00497 17.62 / 0.12) 75%);
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-size: 16px 16px;
 }

@@ -6,6 +6,7 @@ export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttentionMask,
   AppRailItemBadge,
   AppRailItemIcon,
   AppRailItemIndicator,
@@ -92,6 +93,7 @@ export {
   PanelIconButton,
   PanelIconButtonCount,
   PanelIconButtonLabel,
+  PanelToggleButton,
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarFooter,
@@ -141,6 +143,7 @@ export type {
   AppPanelStackRootProps,
   AppRailFooterProps,
   AppRailHeaderProps,
+  AppRailItemAttentionMaskProps,
   AppRailItemBadgeProps,
   AppRailItemIconProps,
   AppRailItemIndicatorProps,
@@ -228,6 +231,7 @@ export type {
   PanelIconButtonProps,
   PanelIconButtonCountProps,
   PanelIconButtonLabelProps,
+  PanelToggleButtonProps,
   ChatSidebarBodyProps,
   ChatSidebarContentProps,
   ChatSidebarFooterProps,
@@ -318,6 +322,7 @@ export {
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
   MessageImageGalleryOverlay,
+  MessageImageGalleryPreview,
   MessageImageGalleryRow,
   MessageVideoPreview,
   MessageVideoPreviewAction,
@@ -340,6 +345,7 @@ export {
   MessageItemHeader,
   MessageItemInlineStatus,
   MessageItemMeta,
+  MessageInlineCode,
   MessageMarkdown,
   MessageMarkdownTableScroll,
   MessageCodeBlock,
@@ -395,6 +401,9 @@ export {
   useMessageMultiSelect,
   useMessageTextSelection,
 } from "./components/message-item/index";
+
+export * from "./components/tasks/index";
+export * from "./components/files/index";
 export type {
   MessageAttachmentActionProps,
   MessageAttachmentActionsProps,
@@ -413,6 +422,7 @@ export type {
   MessageImageGalleryActionProps,
   MessageImageGalleryMediaProps,
   MessageImageGalleryOverlayProps,
+  MessageImageGalleryPreviewProps,
   MessageImageGalleryProps,
   MessageImageGalleryRowProps,
   MessageVideoPreviewActionProps,
@@ -435,6 +445,7 @@ export type {
   MessageItemHeaderProps,
   MessageItemInlineStatusProps,
   MessageItemMetaProps,
+  MessageInlineCodeProps,
   MessageMarkdownProps,
   MessageMarkdownTableScrollProps,
   MessageCodeBlockProps,
