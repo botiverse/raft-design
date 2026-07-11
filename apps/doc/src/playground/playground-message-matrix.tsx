@@ -707,7 +707,9 @@ function MatrixStateSection() {
         meta="member"
         time="10:35 AM"
         body="Check default seed member permissions."
-        footer={<TaskStatusBadge status="todo" taskNumber={10} assignee="Ada" />}
+        footer={
+          <TaskStatusBadge channelId="frontend" status="todo" taskNumber={10} assignee="Ada" />
+        }
       />
       <PlaygroundMessageRow
         variant="member"
@@ -715,7 +717,7 @@ function MatrixStateSection() {
         meta="member"
         time="10:36 AM"
         body="Verifying the RustFS attachment previews."
-        footer={<TaskStatusBadge status="in_progress" taskNumber={11} />}
+        footer={<TaskStatusBadge channelId="frontend" status="in_progress" taskNumber={11} />}
       />
       <PlaygroundMessageRow
         variant="member"
@@ -723,7 +725,7 @@ function MatrixStateSection() {
         meta="member"
         time="10:37 AM"
         body="Thread reminder wake regression is up for review."
-        footer={<TaskStatusBadge status="in_review" taskNumber={12} />}
+        footer={<TaskStatusBadge channelId="frontend" status="in_review" taskNumber={12} />}
       />
       <PlaygroundMessageRow
         variant="member"
@@ -731,7 +733,7 @@ function MatrixStateSection() {
         meta="member"
         time="10:38 AM"
         body="Archived-channel smoke check passed."
-        footer={<TaskStatusBadge status="done" taskNumber={13} />}
+        footer={<TaskStatusBadge channelId="frontend" status="done" taskNumber={13} />}
       />
       <PlaygroundMessageRow
         variant="member"
@@ -739,7 +741,7 @@ function MatrixStateSection() {
         meta="member"
         time="10:39 AM"
         body="Closing the duplicate migration ticket."
-        footer={<TaskStatusBadge status="closed" taskNumber={15} />}
+        footer={<TaskStatusBadge channelId="frontend" status="closed" taskNumber={15} />}
       />
       <PlaygroundMessageRow
         variant="agent"
@@ -748,7 +750,7 @@ function MatrixStateSection() {
         status="working"
         time="10:40 AM"
         body="Updating the status on this one now."
-        footer={<TaskStatusBadge status="in_progress" taskNumber={16} busy />}
+        footer={<TaskStatusBadge channelId="frontend" status="in_progress" taskNumber={16} busy />}
       />
 
       <PlaygroundMessageRow

@@ -755,7 +755,7 @@ export function getPlaygroundChannel(id: PlaygroundChannelId): PlaygroundChannel
 }
 
 export function isPlaygroundThreadId(value: string): value is PlaygroundThreadId {
-  return threadContexts.has(value);
+  return threadContexts.has(value) || /^task:[^:]+:\d+$/.test(value);
 }
 
 export function getPlaygroundThread(id: PlaygroundThreadId): PlaygroundThreadContext | undefined {

@@ -26,6 +26,7 @@ import {
 import { MessageTextSelectionComposition } from "#/compositions/message-item/message-selection-compositions.tsx";
 import { PlaygroundMainComposer } from "./playground-composer.tsx";
 import { PlaygroundMainPanelHeader } from "./playground-main-panel-header.tsx";
+import { PlaygroundTasksPanel } from "./playground-tasks-panel.tsx";
 import { MatrixBody } from "./playground-message-matrix.tsx";
 import { IncidentBody, ProjUiuxBody, ReleaseBody } from "./playground-message-scenarios.tsx";
 import {
@@ -79,11 +80,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
             <PlaygroundMainComposer channel={channel} label={composerLabel} uploads={uploads} />
           </>
         ) : tab === "tasks" ? (
-          <TabPlaceholder
-            icon={<ListTodo />}
-            title="No tasks yet"
-            description="Tasks promoted from this conversation will show up here."
-          />
+          <PlaygroundTasksPanel channel={channel} />
         ) : (
           <TabPlaceholder
             icon={<Paperclip />}

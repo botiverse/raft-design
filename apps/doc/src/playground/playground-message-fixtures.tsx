@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Ban, Check, CheckCircle, Circle, Download, Eye, Play, X } from "lucide-react";
 import {
   Badge,
@@ -17,6 +16,9 @@ import {
   LightboxTitle,
   LightboxTrigger,
 } from "raft-ui";
+
+import type { PlaygroundChannelId } from "./mock/index.ts";
+import { usePlaygroundTaskState } from "./playground-task-state.tsx";
 
 type TaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
 
@@ -52,17 +54,23 @@ export function openMockAttachmentPreview() {
 }
 
 export function TaskStatusBadge({
-  status: initialStatus,
+  status: fallbackStatus,
+  channelId,
   taskNumber,
   assignee,
   busy,
 }: {
   status: TaskStatus;
+  channelId: PlaygroundChannelId;
   taskNumber: number;
   assignee?: string;
   busy?: boolean;
 }) {
-  const [status, setStatus] = useState<TaskStatus>(initialStatus);
+  const { tasks, setTasks } = usePlaygroundTaskState();
+  const task = tasks.find(
+    (candidate) => candidate.channelId === channelId && candidate.number === taskNumber,
+  );
+  const status = task?.status ?? fallbackStatus;
   const config = TASK_STATUS_CONFIG[status];
   const Icon = config.icon;
   const fullLabel = assignee ? `task #${taskNumber} @${assignee}` : `task #${taskNumber}`;
@@ -77,7 +85,7 @@ export function TaskStatusBadge({
             render={
               <button
                 type="button"
-                disabled={busy}
+                disabled={busy || !task}
                 title={`${fullLabel} · Change task status`}
                 aria-label={`Change status for ${fullLabel}`}
               />
@@ -91,7 +99,16 @@ export function TaskStatusBadge({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         {TASK_STATUS_ORDER.map((id) => (
-          <DropdownMenuItem key={id} onClick={() => setStatus(id)}>
+          <DropdownMenuItem
+            key={id}
+            onClick={() =>
+              setTasks(
+                tasks.map((candidate) =>
+                  candidate.id === task?.id ? { ...candidate, status: id } : candidate,
+                ),
+              )
+            }
+          >
             <span>{TASK_STATUS_CONFIG[id].label}</span>
             {id === status ? <Check size={14} /> : null}
           </DropdownMenuItem>

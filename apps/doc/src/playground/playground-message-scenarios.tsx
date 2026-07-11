@@ -92,10 +92,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 Todo: check default seed member permissions{" "}
-                <MessageReferenceTask href="/playground/frontend">#10</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#10</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="todo" taskNumber={10} />}
+            footer={<TaskStatusBadge channelId="all" status="todo" taskNumber={10} />}
           />
           <PlaygroundMessageRow
             variant="member"
@@ -105,10 +105,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 In progress: verify RustFS attachment previews{" "}
-                <MessageReferenceTask href="/playground/frontend">#11</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#11</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="in_progress" taskNumber={11} />}
+            footer={<TaskStatusBadge channelId="all" status="in_progress" taskNumber={11} />}
           />
           <PlaygroundMessageRow
             variant="member"
@@ -118,10 +118,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 In review: thread reminder wake regression{" "}
-                <MessageReferenceTask href="/playground/frontend">#12</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#12</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="in_review" taskNumber={12} />}
+            footer={<TaskStatusBadge channelId="all" status="in_review" taskNumber={12} />}
           />
           <PlaygroundMessageRow
             variant="member"
@@ -131,10 +131,10 @@ export function ProjUiuxBody() {
             body={
               <>
                 Done: archived-channel smoke check{" "}
-                <MessageReferenceTask href="/playground/frontend">#13</MessageReferenceTask>
+                <MessageReferenceTask href="/playground/all">#13</MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge status="done" taskNumber={13} />}
+            footer={<TaskStatusBadge channelId="all" status="done" taskNumber={13} />}
           />
 
           <PlaygroundMessageRow
@@ -313,9 +313,9 @@ export function ReleaseBody() {
           </div>
           <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
 
-          {RELEASE_MESSAGES.map((message, index) => (
+          {RELEASE_MESSAGES.map((message) => (
             <PlaygroundMessageRow
-              key={index}
+              key={`${message.time}:${message.sender}`}
               variant={message.variant}
               sender={message.sender}
               meta={message.meta}

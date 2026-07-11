@@ -395,6 +395,8 @@ export {
   useMessageMultiSelect,
   useMessageTextSelection,
 } from "./components/message-item/index";
+
+export * from "./components/tasks/index";
 export type {
   MessageAttachmentActionProps,
   MessageAttachmentActionsProps,
