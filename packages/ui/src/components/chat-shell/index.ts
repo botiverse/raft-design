@@ -15,6 +15,7 @@ export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttentionMask,
   AppRailItemBadge,
   AppRailItemIcon,
   AppRailItemIndicator,
@@ -27,6 +28,7 @@ export {
 export type {
   AppRailFooterProps,
   AppRailHeaderProps,
+  AppRailItemAttentionMaskProps,
   AppRailItemBadgeProps,
   AppRailItemIconProps,
   AppRailItemIndicatorProps,

@@ -26,6 +26,10 @@ const appRail = tv({
       "[&_svg]:size-[18px] [&_svg]:shrink-0",
     ],
     itemIcon: ["relative inline-flex items-center justify-center"],
+    itemAttentionMask: [
+      "pointer-events-none absolute inset-0",
+      "[&_svg]:size-full [&_svg]:shrink-0",
+    ],
     itemLabel: ["sr-only"],
     itemBadge: [
       "absolute -right-1 -top-1 inline-flex min-w-4 items-center justify-center",
@@ -55,6 +59,7 @@ const appRail = tv({
         ],
         itemBadge: "border-2 border-black bg-brutal-pink text-black",
         itemIndicator: "rounded-full border border-black bg-brutal-pink",
+        itemAttentionMask: "hidden",
       },
       elegant: {
         header: "h-[var(--shell-header-height,3.5rem)] border-b-0",
@@ -80,6 +85,11 @@ const appRail = tv({
           "ring-2 ring-layer-page",
         ],
         itemIndicator: "size-2 rounded-full border border-primary-500/58 bg-primary-400",
+        itemAttentionMask: [
+          "text-[oklch(73.4%_0.149_89.2)] drop-shadow-[0_0_1px_#FFD440D1]",
+          "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+          "[-webkit-mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+        ],
       },
     },
   },
@@ -241,6 +251,27 @@ export function AppRailItemIcon({ className, render, ...props }: AppRailItemIcon
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "app-rail-item-icon",
     className: itemIcon({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type AppRailItemAttentionMaskProps = useRender.ComponentProps<"span">;
+
+export function AppRailItemAttentionMask({
+  className,
+  render,
+  ...props
+}: AppRailItemAttentionMaskProps) {
+  const theme = useThemeFamily();
+  const { itemAttentionMask } = appRail({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "app-rail-item-attention-mask",
+    className: itemAttentionMask({ className }),
   };
 
   return useRender({

@@ -28,6 +28,7 @@ import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttentionMask,
   AppRailItemIcon,
   AppRailItemIndicator,
   AppRailItemLabel,
@@ -119,7 +120,12 @@ export function PlaygroundRail() {
                 <AppRailItemIcon>
                   <MessageSquare />
                   {railView !== "chat" ? (
-                    <AppRailItemIndicator aria-hidden title="Unread messages" />
+                    <>
+                      <AppRailItemAttentionMask aria-hidden>
+                        <MessageSquare />
+                      </AppRailItemAttentionMask>
+                      <AppRailItemIndicator aria-hidden title="Unread messages" />
+                    </>
                   ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Chat</AppRailItemLabel>
@@ -131,7 +137,12 @@ export function PlaygroundRail() {
                 <AppRailItemIcon>
                   <Activity />
                   {railView !== "activity" ? (
-                    <AppRailItemIndicator aria-hidden title="Unread activity" />
+                    <>
+                      <AppRailItemAttentionMask aria-hidden>
+                        <Activity />
+                      </AppRailItemAttentionMask>
+                      <AppRailItemIndicator aria-hidden title="Unread activity" />
+                    </>
                   ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Activity</AppRailItemLabel>
@@ -161,10 +172,15 @@ export function PlaygroundRail() {
                 <AppRailItemIcon>
                   <Monitor />
                   {railView !== "computers" ? (
-                    <AppRailItemIndicator
-                      aria-hidden
-                      title="A managed computer has an upgrade available"
-                    />
+                    <>
+                      <AppRailItemAttentionMask aria-hidden>
+                        <Monitor />
+                      </AppRailItemAttentionMask>
+                      <AppRailItemIndicator
+                        aria-hidden
+                        title="A managed computer has an upgrade available"
+                      />
+                    </>
                   ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Computers</AppRailItemLabel>
