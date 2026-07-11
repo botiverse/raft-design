@@ -21,21 +21,17 @@ import {
   NotificationCenterTrigger,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
 import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
-  AppRailItemAttentionMask,
-  AppRailItemIcon,
+  AppRailItemAttention,
   AppRailItemIndicator,
-  AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppRailUtilitySlot,
   AppShellRail,
 } from "raft-ui/wip";
 import {
@@ -104,148 +100,88 @@ export function PlaygroundRail() {
             </DropdownMenuContent>
           </DropdownMenu>
         </AppRailHeader>
-        <TooltipProvider delay={650}>
-          <AppRailNav>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="search" aria-label="Search" />}>
-                <AppRailItemIcon>
-                  <Search />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Search</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Search</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
-                <AppRailItemIcon>
-                  <MessageSquare />
-                  {railView !== "chat" ? (
-                    <>
-                      <AppRailItemAttentionMask aria-hidden>
-                        <MessageSquare />
-                      </AppRailItemAttentionMask>
-                      <AppRailItemIndicator aria-hidden title="Unread messages" />
-                    </>
-                  ) : null}
-                </AppRailItemIcon>
-                <AppRailItemLabel>Chat</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Chat</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="activity" aria-label="Activity" />}>
-                <AppRailItemIcon>
-                  <Activity />
-                  {railView !== "activity" ? (
-                    <>
-                      <AppRailItemAttentionMask aria-hidden>
-                        <Activity />
-                      </AppRailItemAttentionMask>
-                      <AppRailItemIndicator aria-hidden title="Unread activity" />
-                    </>
-                  ) : null}
-                </AppRailItemIcon>
-                <AppRailItemLabel>Activity</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Activity</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="tasks" aria-label="Tasks" />}>
-                <AppRailItemIcon>
-                  <CheckSquare />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Tasks</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Tasks</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="members" aria-label="Members" />}>
-                <AppRailItemIcon>
-                  <Users />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Members</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Members</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="computers" aria-label="Computers" />}>
-                <AppRailItemIcon>
-                  <Monitor />
-                  {railView !== "computers" ? (
-                    <>
-                      <AppRailItemAttentionMask aria-hidden>
-                        <Monitor />
-                      </AppRailItemAttentionMask>
-                      <AppRailItemIndicator
-                        aria-hidden
-                        title="A managed computer has an upgrade available"
-                      />
-                    </>
-                  ) : null}
-                </AppRailItemIcon>
-                <AppRailItemLabel>Computers</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Computers</TooltipContent>
-            </Tooltip>
-          </AppRailNav>
-        </TooltipProvider>
-        <TooltipProvider delay={650}>
-          <AppRailUtilitySlot>
-            {notificationVisible ? (
-              <NotificationCenter modal={false}>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <NotificationCenterTrigger type="button" aria-label="Notification center" />
-                    }
-                  />
-                  <TooltipContent side="right">Notification center</TooltipContent>
-                </Tooltip>
-                <NotificationCenterPopup side="right" align="end">
-                  <NotificationCenterHeader>
-                    <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-                    <NotificationCenterCount>1 item</NotificationCenterCount>
-                  </NotificationCenterHeader>
-                  <NotificationCenterScroller>
-                    <NotificationCenterList>
-                      <NotificationCenterItem>
-                        <NotificationCenterItemRow>
-                          <NotificationCenterItemIcon status="success" />
-                          <NotificationCenterItemContent>
-                            <NotificationCenterItemTitle>
-                              Playground ready
-                            </NotificationCenterItemTitle>
-                            <NotificationCenterItemBody>
-                              Component compositions are available for review.
-                            </NotificationCenterItemBody>
-                            <NotificationCenterItemActions>
-                              <NotificationCenterActionButton
-                                onClick={() => setNotificationVisible(false)}
-                              >
-                                Dismiss
-                              </NotificationCenterActionButton>
-                            </NotificationCenterItemActions>
-                          </NotificationCenterItemContent>
-                        </NotificationCenterItemRow>
-                      </NotificationCenterItem>
-                    </NotificationCenterList>
-                  </NotificationCenterScroller>
-                </NotificationCenterPopup>
-              </NotificationCenter>
+        <AppRailNav>
+          <AppRailItem value="search" label="Search">
+            <Search />
+          </AppRailItem>
+          <AppRailItem value="chat" label="Chat">
+            <MessageSquare />
+            {railView !== "chat" ? (
+              <AppRailItemAttention title="Unread messages">
+                <MessageSquare />
+              </AppRailItemAttention>
             ) : null}
-          </AppRailUtilitySlot>
-          <AppRailFooter>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
-                <AppRailItemIcon>
-                  <Settings />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Settings</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
-            </Tooltip>
-          </AppRailFooter>
-        </TooltipProvider>
+          </AppRailItem>
+          <AppRailItem value="activity" label="Activity">
+            <Activity />
+            {railView !== "activity" ? (
+              <AppRailItemAttention title="Unread activity">
+                <Activity />
+              </AppRailItemAttention>
+            ) : null}
+          </AppRailItem>
+          <AppRailItem value="tasks" label="Tasks">
+            <CheckSquare />
+          </AppRailItem>
+          <AppRailItem value="members" label="Members">
+            <Users />
+          </AppRailItem>
+          <AppRailItem value="computers" label="Computers">
+            <Monitor />
+            {railView !== "computers" ? (
+              <AppRailItemAttention title="A managed computer has an upgrade available">
+                <Monitor />
+              </AppRailItemAttention>
+            ) : null}
+          </AppRailItem>
+        </AppRailNav>
+        <AppRailFooter>
+          {notificationVisible ? (
+            <NotificationCenter modal={false}>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <NotificationCenterTrigger type="button" aria-label="Notification center" />
+                  }
+                />
+                <TooltipContent side="right">Notification center</TooltipContent>
+              </Tooltip>
+              <NotificationCenterPopup side="right" align="end">
+                <NotificationCenterHeader>
+                  <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+                  <NotificationCenterCount>1 item</NotificationCenterCount>
+                </NotificationCenterHeader>
+                <NotificationCenterScroller>
+                  <NotificationCenterList>
+                    <NotificationCenterItem>
+                      <NotificationCenterItemRow>
+                        <NotificationCenterItemIcon status="success" />
+                        <NotificationCenterItemContent>
+                          <NotificationCenterItemTitle>
+                            Playground ready
+                          </NotificationCenterItemTitle>
+                          <NotificationCenterItemBody>
+                            Component compositions are available for review.
+                          </NotificationCenterItemBody>
+                          <NotificationCenterItemActions>
+                            <NotificationCenterActionButton
+                              onClick={() => setNotificationVisible(false)}
+                            >
+                              Dismiss
+                            </NotificationCenterActionButton>
+                          </NotificationCenterItemActions>
+                        </NotificationCenterItemContent>
+                      </NotificationCenterItemRow>
+                    </NotificationCenterItem>
+                  </NotificationCenterList>
+                </NotificationCenterScroller>
+              </NotificationCenterPopup>
+            </NotificationCenter>
+          ) : null}
+          <AppRailItem value="settings" label="Settings">
+            <Settings />
+          </AppRailItem>
+        </AppRailFooter>
       </AppRailRoot>
     </AppShellRail>
   );

@@ -1,9 +1,10 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { createContext, use, useMemo, type MouseEvent } from "react";
+import { createContext, use, useMemo, type MouseEvent, type ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip/tooltip";
 import type { DataAttributes } from "./app-shell";
 
 const appRail = tv({
@@ -17,7 +18,6 @@ const appRail = tv({
       "[@media(max-height:600px)]:size-9",
     ],
     nav: ["flex w-full flex-1 flex-col items-center gap-1.5 py-2"],
-    utilitySlot: ["flex w-full items-center justify-center pb-1"],
     footer: ["flex w-full shrink-0 flex-col items-center justify-center gap-1.5"],
     item: [
       "relative inline-flex shrink-0 items-center justify-center",
@@ -48,7 +48,7 @@ const appRail = tv({
           "transition-all duration-100",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
-        footer: "h-[62px] [@media(max-height:600px)]:h-12",
+        footer: "h-auto pb-2 [@media(max-height:600px)]:pb-1",
         item: [
           "size-10 border-2 border-transparent text-foreground",
           "transition-colors",
@@ -116,6 +116,7 @@ export function AppRailRoot({
   onValueChange,
   className,
   render,
+  children,
   ...props
 }: AppRailRootProps) {
   const { root } = appRail();
@@ -123,6 +124,7 @@ export function AppRailRoot({
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "app-rail-root",
     className: root({ className }),
+    children: <TooltipProvider delay={650}>{children}</TooltipProvider>,
   };
 
   const element = useRender({
@@ -185,26 +187,12 @@ export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
   });
 }
 
-export type AppRailUtilitySlotProps = useRender.ComponentProps<"div">;
-
-export function AppRailUtilitySlot({ className, render, ...props }: AppRailUtilitySlotProps) {
-  const { utilitySlot } = appRail();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "app-rail-utility-slot",
-    className: utilitySlot({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
 export type AppRailItemProps = Omit<useRender.ComponentProps<"button">, "value"> & {
   value?: string;
   selected?: boolean;
   onSelect?: (value: string) => void;
+  label?: string;
+  tooltip?: ReactNode;
 };
 
 export function AppRailItem({
@@ -215,8 +203,38 @@ export function AppRailItem({
   onClick,
   className,
   render,
+  label,
+  tooltip,
+  "aria-label": ariaLabel,
+  children,
   ...props
 }: AppRailItemProps) {
+  if (label !== undefined || tooltip !== undefined) {
+    return (
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <AppRailItem
+              value={value}
+              selected={selected}
+              disabled={disabled}
+              onSelect={onSelect}
+              onClick={onClick}
+              aria-label={ariaLabel ?? label}
+              className={className}
+              render={render}
+              {...props}
+            />
+          }
+        >
+          <AppRailItemIcon>{children}</AppRailItemIcon>
+          <AppRailItemLabel>{label}</AppRailItemLabel>
+        </TooltipTrigger>
+        <TooltipContent side="right">{tooltip ?? label}</TooltipContent>
+      </Tooltip>
+    );
+  }
+
   const theme = useThemeFamily();
   const context = useAppRail();
   const isSelected = selected ?? (value !== undefined && context?.value === value);
@@ -231,6 +249,7 @@ export function AppRailItem({
     type: "button",
     disabled,
     onClick: handleClick,
+    "aria-label": ariaLabel,
     "aria-pressed": isSelected,
     "data-slot": "app-rail-item",
     "data-selected": isSelected ? "true" : undefined,
@@ -240,7 +259,7 @@ export function AppRailItem({
 
   return useRender({
     render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, { ...props, children }),
   });
 }
 
@@ -258,6 +277,20 @@ export function AppRailItemIcon({ className, render, ...props }: AppRailItemIcon
     render,
     props: mergeProps<"span">(defaultProps, props),
   });
+}
+
+export type AppRailItemAttentionProps = {
+  title?: string;
+  children: ReactNode;
+};
+
+export function AppRailItemAttention({ title, children }: AppRailItemAttentionProps) {
+  return (
+    <>
+      <AppRailItemAttentionMask aria-hidden>{children}</AppRailItemAttentionMask>
+      <AppRailItemIndicator aria-hidden title={title} />
+    </>
+  );
 }
 
 export type AppRailItemAttentionMaskProps = useRender.ComponentProps<"span">;

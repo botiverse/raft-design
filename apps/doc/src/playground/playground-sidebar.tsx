@@ -5,7 +5,6 @@ import {
   Bell,
   BellOff,
   Bookmark,
-  ChevronRight,
   CircleAlert,
   GitBranch,
   Hash,
@@ -92,9 +91,10 @@ import {
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionButton,
+  ChatSidebarSectionChevron,
   ChatSidebarSectionCount,
+  ChatSidebarSectionAttention,
   ChatSidebarSectionHeader,
-  ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
   SortableChatSidebarItem,
   SortableChatSidebarList,
@@ -456,9 +456,9 @@ function PinnedSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -499,9 +499,9 @@ function JointChannelsSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -542,9 +542,9 @@ function ChannelsSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -588,9 +588,9 @@ function DirectMessagesSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>

@@ -30,10 +30,8 @@ const SNIPPETS = {
   AppRailServerButton,
   AppRailNav,
   AppRailItem,
-  AppRailItemIcon,
-  AppRailItemLabel,
+  AppRailItemAttention,
   AppRailItemBadge,
-  AppRailItemIndicator,
   AppRailFooter,
 } from "raft-ui/wip";
 
@@ -43,16 +41,17 @@ const SNIPPETS = {
       <AppRailServerButton aria-label="Switch server">R</AppRailServerButton>
     </AppRailHeader>
     <AppRailNav>
-      <AppRailItem value="chat">
-        <AppRailItemIcon><MessageSquare /></AppRailItemIcon>
-        <AppRailItemLabel>Chat</AppRailItemLabel>
+      <AppRailItem value="chat" label="Chat">
+        <MessageSquare />
+        <AppRailItemAttention title="Unread messages">
+          <MessageSquare />
+        </AppRailItemAttention>
         <AppRailItemBadge>3</AppRailItemBadge>
       </AppRailItem>
     </AppRailNav>
     <AppRailFooter>
-      <AppRailItem value="settings">
-        <AppRailItemIcon><Settings /></AppRailItemIcon>
-        <AppRailItemLabel>Settings</AppRailItemLabel>
+      <AppRailItem value="settings" label="Settings">
+        <Settings />
       </AppRailItem>
     </AppRailFooter>
   </AppRailRoot>

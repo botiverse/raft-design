@@ -1,14 +1,13 @@
-import { NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
+import { NotificationCenter, NotificationCenterTrigger } from "raft-ui";
 import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
-  AppRailItemIcon,
-  AppRailItemLabel,
+  AppRailItemAttention,
+  AppRailItemIndicator,
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppRailUtilitySlot,
   AppShellRail,
 } from "raft-ui/wip";
 import {
@@ -28,75 +27,41 @@ export function AppRailComposition() {
         <AppRailHeader>
           <AppRailServerButton aria-label="Switch server">
             R
-            <Status
-              aria-hidden
-              variant="accent"
-              size="md"
-              className="pointer-events-none absolute -top-1 -right-1"
-            />
+            <AppRailItemIndicator aria-hidden />
           </AppRailServerButton>
         </AppRailHeader>
         <AppRailNav>
-          <AppRailItem value="search" title="Search" aria-label="Search">
-            <AppRailItemIcon>
-              <Search />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Search</AppRailItemLabel>
+          <AppRailItem value="search" label="Search">
+            <Search />
           </AppRailItem>
-          <AppRailItem value="chat" title="Chat" aria-label="Chat">
-            <AppRailItemIcon>
-              <MessageSquare />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Chat</AppRailItemLabel>
+          <AppRailItem value="chat" label="Chat">
+            <MessageSquare />
           </AppRailItem>
-          <AppRailItem value="activity" title="Activity" aria-label="Activity">
-            <AppRailItemIcon>
+          <AppRailItem value="activity" label="Activity">
+            <Activity />
+            <AppRailItemAttention>
               <Activity />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Activity</AppRailItemLabel>
-            <Status
-              aria-hidden
-              variant="accent"
-              size="md"
-              className="pointer-events-none absolute -top-1 -right-1"
-            />
+            </AppRailItemAttention>
           </AppRailItem>
-          <AppRailItem value="tasks" title="Tasks" aria-label="Tasks">
-            <AppRailItemIcon>
-              <CheckSquare />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Tasks</AppRailItemLabel>
+          <AppRailItem value="tasks" label="Tasks">
+            <CheckSquare />
           </AppRailItem>
-          <AppRailItem value="members" title="Members" aria-label="Members">
-            <AppRailItemIcon>
-              <Users />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Members</AppRailItemLabel>
+          <AppRailItem value="members" label="Members">
+            <Users />
           </AppRailItem>
-          <AppRailItem value="computers" title="Computers" aria-label="Computers">
-            <AppRailItemIcon>
+          <AppRailItem value="computers" label="Computers">
+            <Monitor />
+            <AppRailItemAttention>
               <Monitor />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Computers</AppRailItemLabel>
-            <Status
-              aria-hidden
-              variant="accent"
-              size="md"
-              className="pointer-events-none absolute -top-1 -right-1"
-            />
+            </AppRailItemAttention>
           </AppRailItem>
         </AppRailNav>
-        <AppRailUtilitySlot>
+        <AppRailFooter>
           <NotificationCenter modal={false}>
             <NotificationCenterTrigger type="button" aria-label="Notification center" />
           </NotificationCenter>
-        </AppRailUtilitySlot>
-        <AppRailFooter>
-          <AppRailItem value="settings" title="Settings" aria-label="Settings">
-            <AppRailItemIcon>
-              <Settings />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Settings</AppRailItemLabel>
+          <AppRailItem value="settings" label="Settings">
+            <Settings />
           </AppRailItem>
         </AppRailFooter>
       </AppRailRoot>
