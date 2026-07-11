@@ -44,7 +44,7 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  anatomy: `import { ChevronRight } from "lucide-react";
+  anatomy: `import { AtSign, BellOff, ChevronRight, Hash, Pencil } from "lucide-react";
 import { Avatar, AvatarFallback } from "raft-ui";
 import {
   AppShellMain,
@@ -65,6 +65,7 @@ import {
   ChatSidebarSectionIndicator,
   ChatSidebarList,
   ChatSidebarItem,
+  ChatSidebarItemUnread,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
   ChatSidebarItemChannelIcon,
@@ -103,20 +104,26 @@ import {
                 </ChatSidebarSectionActions>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
-                <ChatSidebarItem selected>
-                  <ChatSidebarItemChannelIcon />
+                <ChatSidebarItem aria-current="page">
+                  <ChatSidebarItemChannelIcon aria-hidden><Hash /></ChatSidebarItemChannelIcon>
                   <ChatSidebarItemText>
                     <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
                     <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
-                    <ChatSidebarItemMuted />
+                    <ChatSidebarItemMuted aria-label="Activity muted">
+                      <BellOff aria-hidden />
+                    </ChatSidebarItemMuted>
                   </ChatSidebarItemText>
                   <ChatSidebarItemAside>
-                    <ChatSidebarItemMention />
+                    <ChatSidebarItemMention aria-label="Mentioned you">
+                      <AtSign aria-hidden />
+                    </ChatSidebarItemMention>
                     <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
-                    <ChatSidebarItemDraft />
+                    <ChatSidebarItemDraft aria-label="Draft">
+                      <Pencil aria-hidden />
+                    </ChatSidebarItemDraft>
                   </ChatSidebarItemAside>
                 </ChatSidebarItem>
-                <ChatSidebarItem menuOpen>
+                <ChatSidebarItem aria-expanded>
                   <ChatSidebarItemIcon>
                     <Avatar size="sidebar" type="agent">
                       <AvatarFallback>A</AvatarFallback>

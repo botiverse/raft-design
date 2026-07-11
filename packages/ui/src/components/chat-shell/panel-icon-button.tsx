@@ -1,6 +1,9 @@
-import { tv } from "../../lib/tv";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
+import type { DataAttributes } from "./app-shell";
 
 const panelIconButton = tv({
   base: [
@@ -32,14 +35,44 @@ const panelIconButton = tv({
         "aria-pressed:hover:bg-layer-strong aria-pressed:hover:text-foreground",
       ],
     },
+    layout: {
+      icon: {},
+      label: ["w-auto min-w-7 gap-1.5 px-2.5 text-xs"],
+      responsiveLabel: ["text-xs sm:w-auto sm:gap-1.5 sm:px-2.5"],
+    },
+  },
+  defaultVariants: {
+    layout: "icon",
   },
 });
 
+const panelIconButtonLabel = tv({
+  base: ["font-medium leading-none"],
+  variants: {
+    responsive: {
+      true: "hidden sm:inline",
+      false: "",
+    },
+  },
+  defaultVariants: {
+    responsive: false,
+  },
+});
+
+const panelIconButtonCount = tv({
+  base: [
+    "min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums",
+    "text-foreground-icon",
+  ],
+});
+
+type PanelIconButtonVariantProps = Omit<VariantProps<typeof panelIconButton>, "theme">;
+
 export type PanelIconButtonProps = Omit<ButtonProps, "variant" | "size" | "type"> & {
-  pressed?: boolean;
+  layout?: PanelIconButtonVariantProps["layout"];
 };
 
-export function PanelIconButton({ className, pressed, ...props }: PanelIconButtonProps) {
+export function PanelIconButton({ className, layout, ...props }: PanelIconButtonProps) {
   const theme = useThemeFamily();
 
   return (
@@ -48,8 +81,44 @@ export function PanelIconButton({ className, pressed, ...props }: PanelIconButto
       type="button"
       variant="default"
       size="icon-sm"
-      aria-pressed={pressed}
-      className={panelIconButton({ theme, className })}
+      className={panelIconButton({ theme, layout, className })}
     />
   );
+}
+
+export type PanelIconButtonLabelProps = useRender.ComponentProps<"span"> & {
+  responsive?: boolean;
+};
+
+export function PanelIconButtonLabel({
+  className,
+  render,
+  responsive,
+  ...props
+}: PanelIconButtonLabelProps) {
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "panel-icon-button-label",
+    className: panelIconButtonLabel({ responsive, className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type PanelIconButtonCountProps = useRender.ComponentProps<"span">;
+
+export function PanelIconButtonCount({ className, render, ...props }: PanelIconButtonCountProps) {
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "panel-icon-button-count",
+    className: panelIconButtonCount({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
 }

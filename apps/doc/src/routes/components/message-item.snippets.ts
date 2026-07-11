@@ -10,296 +10,6 @@ export const TOC = [
 ] as const;
 
 export const SNIPPETS = {
-  anatomy: `import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger,
-} from "raft-ui";
-import {
-  MESSAGE_QUICK_REACTIONS,
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemFooter,
-  MessageItemHeader,
-  MessageItemSender,
-  MessageItemTime,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
-  MessageReactionGlyph,
-  MessageReactionQuickButton,
-  MessageReactionQuickRow,
-} from "raft-ui/wip";
-
-<ContextMenu>
-  <ContextMenuTrigger render={<MessageItem />}>
-    <MessageItemAvatarSlot>
-      <Avatar size="sm" type="agent">
-        <AvatarFallback>AT</AvatarFallback>
-      </Avatar>
-    </MessageItemAvatarSlot>
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender>Atlas</MessageItemSender>
-        <MessageItemTime>2:14 PM</MessageItemTime>
-      </MessageItemHeader>
-      <MessageItemBody>Shipped the token fixture pass.</MessageItemBody>
-      <MessageItemFooter>{reactions}</MessageItemFooter>
-    </MessageItemContent>
-    <MessageItemToolbar>
-      <MessageItemToolbarButton aria-label="Reply in thread">
-        <MessageSquare />
-      </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Add Reaction">
-        <SmilePlus />
-      </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Save Message">
-        <Bookmark />
-      </MessageItemToolbarButton>
-    </MessageItemToolbar>
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <MessageReactionQuickRow>
-      {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-        <MessageReactionQuickButton key={emoji} aria-label={\`React with \${emoji}\`}>
-          <MessageReactionGlyph emoji={emoji} size={18} />
-        </MessageReactionQuickButton>
-      ))}
-    </MessageReactionQuickRow>
-    <ContextMenuSeparator />
-    <ContextMenuItem>Reply in thread</ContextMenuItem>
-  </ContextMenuContent>
-</ContextMenu>`,
-  stateMatrix: `import {
-  MessageAttachmentBody,
-  MessageAttachmentCard,
-  MessageAttachmentMeta,
-  MessageAttachmentTitle,
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemHeader,
-  MessageItemSelectMark,
-  MessageItemSender,
-  MessageItemSenderState,
-  MessageItemTime,
-  MessageReactionChip,
-  MessageReactionCount,
-  MessageReactionGlyph,
-} from "raft-ui/wip";
-
-<div className="grid gap-5 xl:grid-cols-2">
-  <section className="grid gap-2">
-    <MessageItem rowState="active">
-      <MessageItemAvatarSlot>{avatar}</MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Atlas</MessageItemSender>
-          <MessageItemTime>2:14 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>Anchor/current-row treatment.</MessageItemBody>
-      </MessageItemContent>
-    </MessageItem>
-
-    <MessageItem>
-      <MessageItemSelectMark checked />
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Atlas</MessageItemSender>
-          <MessageItemTime>2:15 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>Selection marker state.</MessageItemBody>
-      </MessageItemContent>
-    </MessageItem>
-
-    <MessageItem>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Mx. Chen</MessageItemSender>
-          <MessageItemSenderState>removed</MessageItemSenderState>
-          <MessageItemTime>Yesterday</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>Sender state badge.</MessageItemBody>
-      </MessageItemContent>
-    </MessageItem>
-  </section>
-
-  <section className="grid gap-2">
-    <MessageReactionChip reacted aria-label="👍 3">
-      <MessageReactionGlyph emoji="👍" size={15} />
-      <MessageReactionCount>3</MessageReactionCount>
-    </MessageReactionChip>
-
-    <MessageAttachmentCard loading>
-      <MessageAttachmentBody>
-        <MessageAttachmentTitle>uploading.mov</MessageAttachmentTitle>
-        <MessageAttachmentMeta>Uploading · 18 KB</MessageAttachmentMeta>
-      </MessageAttachmentBody>
-    </MessageAttachmentCard>
-  </section>
-</div>`,
-  fixtureRows: `<div className="flex flex-col gap-3">
-  <MessageItem>
-    <MessageItemAvatarSlot>
-      <Avatar size="sm" type="agent">
-        <AvatarFallback>AT</AvatarFallback>
-      </Avatar>
-    </MessageItemAvatarSlot>
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender>Atlas</MessageItemSender>
-        <MessageItemMeta>claude-opus</MessageItemMeta>
-        <MessageItemTime>2:14 PM</MessageItemTime>
-      </MessageItemHeader>
-      <MessageItemBody>Shipped the token fixture pass.</MessageItemBody>
-      <MessageItemFooter>
-        <MessageReactionChip reacted aria-label="👍 3">
-          <MessageReactionGlyph emoji="👍" size={15} />
-          <MessageReactionCount>3</MessageReactionCount>
-        </MessageReactionChip>
-      </MessageItemFooter>
-    </MessageItemContent>
-  </MessageItem>
-
-  <MessageItem compact>
-    <MessageItemGutter>
-      <MessageItemContinuationTime>2:15</MessageItemContinuationTime>
-    </MessageItemGutter>
-    <MessageItemContent>
-      <MessageItemBody>Continuation rows hide sender chrome.</MessageItemBody>
-    </MessageItemContent>
-  </MessageItem>
-
-  <SystemMessageItem>
-    <SystemMessageItemTime>2:16 PM</SystemMessageItemTime>
-    <SystemMessageItemContent>Atlas archived this thread.</SystemMessageItemContent>
-  </SystemMessageItem>
-
-  <MessageItem>
-    <MessageItemAvatarSlot>
-      <Avatar size="sm" type="human">
-        <AvatarFallback>MX</AvatarFallback>
-      </Avatar>
-    </MessageItemAvatarSlot>
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender>Mx. Chen</MessageItemSender>
-        <MessageItemSenderState>removed</MessageItemSenderState>
-        <MessageItemTime>Yesterday</MessageItemTime>
-      </MessageItemHeader>
-      <MessageItemBody>Removed sender badge and archived-thread notice.</MessageItemBody>
-      <MessageItemNotice>Message is visible because it belongs to the archived thread.</MessageItemNotice>
-    </MessageItemContent>
-  </MessageItem>
-</div>`,
-  fixtureRich: `<MessageItem>
-  <MessageItemAvatarSlot>
-    <Avatar size="sm" type="agent">
-      <AvatarFallback>AP</AvatarFallback>
-    </Avatar>
-  </MessageItemAvatarSlot>
-  <MessageItemContent>
-    <MessageItemHeader>
-      <MessageItemSender>App Planner</MessageItemSender>
-      <MessageItemMeta>gpt-4.1</MessageItemMeta>
-      <MessageItemTime>3:04 PM</MessageItemTime>
-    </MessageItemHeader>
-    <MessageItemBody>Here is the source parity pass for #222.</MessageItemBody>
-    <MessageItemEmbedded>
-      <MessageItemNotice>Forwarded from #release-notes by Ada.</MessageItemNotice>
-    </MessageItemEmbedded>
-    <MessageItemAttachments>
-      <MessageImageGallery>
-        <MessageImageGalleryRow className="grid-cols-2">
-          <MessageImageGalleryItem>
-            <MessageImageGalleryMedia src={imageSrc} alt="" className="aspect-[4/3]" />
-            <MessageImageGalleryAction aria-label="Download image">{downloadIcon}</MessageImageGalleryAction>
-          </MessageImageGalleryItem>
-          <MessageImageGalleryItem optimistic>
-            <MessageImageGalleryMedia src={imageSrc} alt="" className="aspect-[4/3]" />
-            <MessageImageGalleryOverlay>
-              <Badge variant="warning" appearance="solid">Uploading</Badge>
-            </MessageImageGalleryOverlay>
-          </MessageImageGalleryItem>
-        </MessageImageGalleryRow>
-      </MessageImageGallery>
-      <MessageVideoPreview title="demo-recording.mp4">
-        <MessageVideoPreviewFrame>
-          <MessageVideoPreviewFallback>{playIcon}</MessageVideoPreviewFallback>
-          <MessageVideoPreviewAction aria-label="Open demo-recording.mp4 in preview">{previewIcon}</MessageVideoPreviewAction>
-        </MessageVideoPreviewFrame>
-      </MessageVideoPreview>
-      <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-        <MessageAttachmentCard>
-          <MessageAttachmentBody>
-            <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
-            <MessageAttachmentMeta>Diff · 18 KB</MessageAttachmentMeta>
-          </MessageAttachmentBody>
-        </MessageAttachmentCard>
-      </div>
-    </MessageItemAttachments>
-  </MessageItemContent>
-</MessageItem>`,
-  fixtureStates: `<div className="flex flex-col gap-3">
-  <MessageItem>
-    <MessageItemSelectMark checked />
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender>Selected row</MessageItemSender>
-        <MessageItemTime>3:18 PM</MessageItemTime>
-      </MessageItemHeader>
-      <MessageItemBody>Selection is represented by the check marker.</MessageItemBody>
-    </MessageItemContent>
-  </MessageItem>
-
-  <MessageItem rowState="active">
-    <MessageItemAvatarSlot>{avatar}</MessageItemAvatarSlot>
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender>Active anchor</MessageItemSender>
-        <MessageItemTime>3:19 PM</MessageItemTime>
-      </MessageItemHeader>
-      <MessageItemBody>Used for menu anchor, current row, or permalink focus.</MessageItemBody>
-    </MessageItemContent>
-  </MessageItem>
-
-  <MessageItem rowState="search-match">
-    <MessageItemAvatarSlot>{avatar}</MessageItemAvatarSlot>
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender>Search result</MessageItemSender>
-        <MessageItemTime>3:20 PM</MessageItemTime>
-      </MessageItemHeader>
-      <MessageItemBody>Search jump highlight keeps the source treatment.</MessageItemBody>
-    </MessageItemContent>
-  </MessageItem>
-</div>`,
-  fixtureReactions: `<div className="flex flex-wrap items-start gap-4">
-  <MessageReactionPicker>
-    {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-      <MessageReactionQuickButton key={emoji} aria-label={\`React with \${emoji}\`}>
-        <MessageReactionGlyph emoji={emoji} size={18} />
-      </MessageReactionQuickButton>
-    ))}
-  </MessageReactionPicker>
-
-  <MessageReactionPopover>
-    <MessageReactionPopoverNames>
-      <MessageReactionPopoverName>
-        <MessageReactionPopoverNameText>Atlas</MessageReactionPopoverNameText>
-        <MessageReactionPopoverSeparator>, </MessageReactionPopoverSeparator>
-      </MessageReactionPopoverName>
-      <span className="leading-5 text-foreground/50">+3 more</span>
-    </MessageReactionPopoverNames>
-  </MessageReactionPopover>
-</div>`,
   sourceAuthoredRow: `<div className="group/message relative mb-1 mt-1.5 flex h-fit min-h-12 gap-3 px-2 py-1 hover:border-2 hover:border-black hover:bg-white">
   <Avatar />
   <div>
@@ -310,29 +20,14 @@ import {
     <div className="break-words text-sm leading-5">Source rendered markdown and message parts here.</div>
   </div>
 </div>`,
-  currentAuthoredRow: `<MessageItem>
-  <MessageItemAvatarSlot>
-    <Avatar size="sm" type="agent">
-      <AvatarFallback>AT</AvatarFallback>
-    </Avatar>
-  </MessageItemAvatarSlot>
-  <MessageItemContent>
-    <MessageItemHeader>
-      <MessageItemSender>Atlas</MessageItemSender>
-      <MessageItemMeta>claude-opus</MessageItemMeta>
-      <MessageItemTime>2:14 PM</MessageItemTime>
-    </MessageItemHeader>
-    <MessageItemBody>Source rendered markdown and message parts here.</MessageItemBody>
-  </MessageItemContent>
-</MessageItem>`,
 } as const;
 
 export const PROPS: readonly PropRow[] = [
   {
     name: "MessageItem",
-    type: 'useRender.ComponentProps<"div"> & { compact?: boolean; rowState?: "active" | "search-match" }',
+    type: 'useRender.ComponentProps<"div"> & { compact?: boolean }',
     description:
-      "Root row. Use rowState for mutually exclusive row chrome, compact for consecutive rows, and MessageItemSelectMark for selection.",
+      "Root row. Compose MessageItemActive, MessageItemSearchMatch, or MessageItemSelection for explicit row chrome.",
   },
   {
     name: "MessageItemHeader",
@@ -340,9 +35,10 @@ export const PROPS: readonly PropRow[] = [
     description: "Sender, sender state, metadata, timestamp, and inline delivery state row.",
   },
   {
-    name: "MessageItemSelectMark",
-    type: 'Omit<useRender.ComponentProps<"span">, "children"> & { checked?: boolean }',
-    description: "Selection marker. The checked state controls the yellow filled check affordance.",
+    name: "MessageMultiSelect / MessageMultiSelectCheckbox",
+    type: "controlled or uncontrolled selection root + Checkbox props with a required value",
+    description:
+      "Multi-message selection behavior and semantic checkbox. The root owns active and selected state.",
   },
   {
     name: "MessageItemSenderState",
@@ -363,9 +59,9 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemToolbarButton",
-    type: 'useRender.ComponentProps<"button"> & { active?: boolean; saved?: boolean }',
+    type: 'useRender.ComponentProps<"button">',
     description:
-      "Toolbar action button. Active covers open picker/menu state; saved colors the bookmark action.",
+      "Toolbar action button. Use native aria-pressed for active, saved, or toggled actions.",
   },
   {
     name: "MessageItemSavedIndicator",
@@ -374,20 +70,20 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemBadge",
-    type: 'useRender.ComponentProps<"span"> & { tone?: "default" | "cyan" }',
-    description:
-      "Footer badge for thread/task chips. Tone is visual only; business meaning stays outside.",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Neutral footer badge slot. Business labels and icons remain caller-owned.",
   },
   {
     name: "MessageImageGallery",
     type: "compound slots",
     description:
-      "Image grid, optimistic overlay, and media fit slots for source image attachment variants.",
+      "Image grid, overlay-driven pending treatment, and media fit slots for source image attachment variants.",
   },
   {
     name: "MessageImageGalleryItem",
-    type: 'useRender.ComponentProps<"div"> & { optimistic?: boolean; single?: boolean }',
-    description: "Image item state for upload opacity and single-image sizing.",
+    type: 'useRender.ComponentProps<"div"> & { single?: boolean }',
+    description:
+      "Image item shell. Rendering MessageImageGalleryOverlay derives pending dimming; single controls layout only.",
   },
   {
     name: "MessageImageGalleryMedia",
@@ -396,14 +92,15 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageAttachmentCard",
-    type: 'useRender.ComponentProps<"button"> & { optimistic?: boolean; loading?: boolean }',
-    description: "File/html/diff attachment card with upload and optimistic states.",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Attachment card shell. Loading, pending, error, and action visuals are caller-composed parts.",
   },
   {
     name: "MessageVideoPreview",
-    type: 'useRender.ComponentProps<"div"> & { optimistic?: boolean }',
+    type: 'useRender.ComponentProps<"div">',
     description:
-      "Inline video preview shell with black media frame, expand action, and optimistic state.",
+      "Inline video preview shell. Consumers compose media, fallback, action, and pending content as children.",
   },
   {
     name: "MessageVideoPreviewFallback",
@@ -412,14 +109,20 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageReactionChip",
-    type: 'useRender.ComponentProps<"button"> & { reacted?: boolean; failed?: boolean }',
-    description: "Reaction chip with reacted and failed data-state styling.",
+    type: 'useRender.ComponentProps<"button">',
+    description:
+      "Reaction chip styled through native aria-pressed. Mutation failure is composed as an explicit indicator child.",
+  },
+  {
+    name: "MessageReactionErrorIndicator",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Screen-reader status and stable styling slot for caller-owned reaction failure copy.",
   },
   {
     name: "MessageReactionGlyph",
-    type: 'useRender.ComponentProps<"span"> & { emoji?: string; size?: number; spritePath?: string }',
-    description:
-      "Emoji sprite renderer with icon/child fallback for add/remove reaction affordances.",
+    type: 'useRender.ComponentProps<"span"> & { emoji?: string; size?: number }',
+    description: "Native emoji or caller-provided icon slot for reaction affordances.",
   },
   {
     name: "MessageReactionQuickRow",
@@ -433,9 +136,10 @@ export const PROPS: readonly PropRow[] = [
       "Standalone quick reaction picker shell. Positioning and open state are caller-owned.",
   },
   {
-    name: "MessageReactionPopover",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Reactors list popover shell for names and +N overflow text.",
+    name: "MessageReactionTooltip",
+    type: "Tooltip compound parts",
+    description:
+      "Reactors tooltip with Base UI trigger, positioning, names, and +N overflow anatomy.",
   },
   {
     name: "SystemMessageItem",

@@ -1,14 +1,7 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Bookmark, Download, Eye, MessageSquare, Play, Plus, SmilePlus, X } from "lucide-react";
 import { Avatar, AvatarFallback, Spinner } from "raft-ui";
 import {
-  MESSAGE_QUICK_REACTIONS,
-  MessageAttachmentAction,
-  MessageAttachmentBody,
-  MessageAttachmentCard,
-  MessageAttachmentLoadingBar,
-  MessageAttachmentMeta,
-  MessageAttachmentTitle,
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
@@ -16,6 +9,7 @@ import {
   MessageImageGalleryOverlay,
   MessageImageGalleryRow,
   MessageItem,
+  MessageItemActive,
   MessageItemAttachments,
   MessageItemAvatarSlot,
   MessageItemBadge,
@@ -29,23 +23,20 @@ import {
   MessageItemMeta,
   MessageItemNotice,
   MessageItemSavedIndicator,
-  MessageItemSelectMark,
+  MessageItemSearchMatch,
+  MessageItemSelection,
   MessageItemSender,
   MessageItemSenderState,
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
+  MessageItemUnreadBadge,
   MessageReactionAddButton,
-  MessageReactionChip,
-  MessageReactionCount,
   MessageReactionGlyph,
   MessageReactionPicker,
-  MessageReactionPopover,
-  MessageReactionPopoverName,
-  MessageReactionPopoverNameText,
-  MessageReactionPopoverNames,
-  MessageReactionPopoverSeparator,
   MessageReactionQuickButton,
+  MessageMultiSelect,
+  MessageMultiSelectCheckbox,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
@@ -54,7 +45,21 @@ import {
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "raft-ui/wip";
-import { IMAGE_SRC, Reaction } from "./message-item.fixtures";
+import {
+  MESSAGE_QUICK_REACTIONS,
+  MessageReactionComposition,
+  MessageReactionTooltipComposition,
+} from "#/compositions/message-item/message-reaction-compositions.tsx";
+import {
+  MessageAttachmentOpeningComposition,
+  MessageAttachmentPendingComposition,
+  MessageAttachmentReadyComposition,
+} from "#/compositions/message-item/message-attachment-compositions.tsx";
+import {
+  downloadMessageFixture,
+  IMAGE_SRC,
+  openMessageFixture,
+} from "#/compositions/message-item/message-row-compositions.tsx";
 
 type MatrixCellProps = {
   label: string;
@@ -79,8 +84,10 @@ function MatrixSection({ title, children }: MatrixSectionProps) {
 
 function MatrixCell({ label, children }: MatrixCellProps) {
   return (
-    <div className="grid min-w-0 gap-1.5 border border-black/10 bg-white px-2 py-2">
-      <span className="font-mono text-[10px] leading-none font-bold text-black/45">{label}</span>
+    <div className="grid min-w-0 gap-1.5 border border-line-muted bg-layer-panel px-2 py-2">
+      <span className="font-mono text-[10px] leading-none font-bold text-foreground/45">
+        {label}
+      </span>
       <div className="min-w-0">{children}</div>
     </div>
   );
@@ -105,9 +112,9 @@ function StateRow({
   inlineStatus,
   meta,
   notice,
-  rowState,
+  surface,
   saved,
-  selectMark,
+  selection,
   sender = "Atlas",
   senderState,
   time = "2:14 PM",
@@ -121,22 +128,32 @@ function StateRow({
   inlineStatus?: string;
   meta?: string;
   notice?: ReactNode;
-  rowState?: "active" | "search-match" | "select";
+  surface?: "active" | "search-match" | "select";
   saved?: boolean;
-  selectMark?: "off" | "checked";
+  selection?: "unchecked" | "checked";
   sender?: string;
   senderState?: string;
   time?: string;
   toolbar?: ReactNode;
 }) {
-  return (
-    <MessageItem compact={compact} rowState={rowState}>
-      {selectMark ? <MessageItemSelectMark checked={selectMark === "checked"} /> : null}
+  const ItemRoot =
+    surface === "active"
+      ? MessageItemActive
+      : surface === "search-match"
+        ? MessageItemSearchMatch
+        : surface === "select"
+          ? MessageItemSelection
+          : MessageItem;
+  const row = (
+    <ItemRoot compact={compact}>
+      {selection ? (
+        <MessageMultiSelectCheckbox value="fixture-message" aria-label="Select message" />
+      ) : null}
       {gutterTime ? (
         <MessageItemGutter>
           <MessageItemContinuationTime>{gutterTime}</MessageItemContinuationTime>
         </MessageItemGutter>
-      ) : selectMark ? null : (
+      ) : selection ? null : (
         <AvatarSlot>{sender.slice(0, 2).toUpperCase()}</AvatarSlot>
       )}
       <MessageItemContent>
@@ -162,7 +179,18 @@ function StateRow({
         </MessageItemSavedIndicator>
       ) : null}
       {toolbar}
-    </MessageItem>
+    </ItemRoot>
+  );
+
+  if (!selection) return row;
+
+  return (
+    <MessageMultiSelect
+      defaultActive
+      defaultSelected={selection === "checked" ? new Set(["fixture-message"]) : new Set()}
+    >
+      {row}
+    </MessageMultiSelect>
   );
 }
 
@@ -175,49 +203,29 @@ function ToolbarState({
   saved?: boolean;
   visible?: boolean;
 }) {
+  const [isActive, setIsActive] = useState(active);
+  const [isSaved, setIsSaved] = useState(saved);
+
   return (
     <MessageItemToolbar visible={visible}>
-      <MessageItemToolbarButton aria-label="Reply in thread">
+      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
         <MessageSquare />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton active={active} aria-label="Add reaction">
+      <MessageItemToolbarButton
+        aria-pressed={isActive}
+        aria-label="Add reaction"
+        onClick={() => setIsActive((current) => !current)}
+      >
         <SmilePlus />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Save message" saved={saved}>
-        <Bookmark fill={saved ? "currentColor" : "none"} />
+      <MessageItemToolbarButton
+        aria-label="Save message"
+        aria-pressed={isSaved}
+        onClick={() => setIsSaved((current) => !current)}
+      >
+        <Bookmark fill={isSaved ? "currentColor" : "none"} />
       </MessageItemToolbarButton>
     </MessageItemToolbar>
-  );
-}
-
-function AttachmentState({
-  loading,
-  optimistic,
-  name = "migration.diff",
-}: {
-  loading?: boolean;
-  optimistic?: boolean;
-  name?: string;
-}) {
-  return (
-    <MessageAttachmentCard loading={loading} optimistic={optimistic}>
-      <MessageAttachmentBody>
-        <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
-        <MessageAttachmentMeta>
-          {loading ? "Uploading · 18 KB" : "Diff · 18 KB"}
-        </MessageAttachmentMeta>
-      </MessageAttachmentBody>
-      {loading ? (
-        <MessageAttachmentLoadingBar>
-          <Spinner size="sm" />
-          <span className="truncate">Preparing preview</span>
-        </MessageAttachmentLoadingBar>
-      ) : (
-        <MessageAttachmentAction>
-          <Download />
-        </MessageAttachmentAction>
-      )}
-    </MessageAttachmentCard>
   );
 }
 
@@ -245,7 +253,7 @@ function ImageGalleryState({
       <MessageItemAttachments>
         <MessageImageGallery>
           <MessageImageGalleryRow className={single ? "grid-cols-1" : "grid-cols-2"}>
-            <MessageImageGalleryItem optimistic={optimistic} single={single}>
+            <MessageImageGalleryItem aria-busy={optimistic || undefined} single={single}>
               <MessageImageGalleryMedia
                 src={IMAGE_SRC}
                 alt=""
@@ -257,7 +265,10 @@ function ImageGalleryState({
                   <Spinner size="lg" className="text-white" />
                 </MessageImageGalleryOverlay>
               ) : (
-                <MessageImageGalleryAction aria-label="Download image">
+                <MessageImageGalleryAction
+                  aria-label="Download image"
+                  onClick={() => downloadMessageFixture("message-image.svg")}
+                >
                   <Download />
                 </MessageImageGalleryAction>
               )}
@@ -273,14 +284,25 @@ function VideoState({ interactive, optimistic }: { interactive?: boolean; optimi
   return (
     <StateRow body="Video preview state">
       <MessageItemAttachments>
-        <MessageVideoPreview optimistic={optimistic} title="demo-recording.mp4">
+        <MessageVideoPreview aria-busy={optimistic || undefined} title="demo-recording.mp4">
           <MessageVideoPreviewFrame>
-            <MessageVideoPreviewFallback interactive={interactive}>
-              <Play className="size-8 text-white/80" />
-            </MessageVideoPreviewFallback>
-            <MessageVideoPreviewAction aria-label="Open demo-recording.mp4 in preview">
-              <Eye />
-            </MessageVideoPreviewAction>
+            {optimistic ? (
+              <MessageVideoPreviewFallback>
+                <Spinner size="lg" className="text-white" />
+              </MessageVideoPreviewFallback>
+            ) : (
+              <>
+                <MessageVideoPreviewFallback interactive={interactive}>
+                  <Play className="size-8 text-white/80" />
+                </MessageVideoPreviewFallback>
+                <MessageVideoPreviewAction
+                  aria-label="Open demo-recording.mp4 in preview"
+                  onClick={openMessageFixture}
+                >
+                  <Eye />
+                </MessageVideoPreviewAction>
+              </>
+            )}
           </MessageVideoPreviewFrame>
         </MessageVideoPreview>
       </MessageItemAttachments>
@@ -288,28 +310,18 @@ function VideoState({ interactive, optimistic }: { interactive?: boolean; optimi
   );
 }
 
-function ReactionChipState({
-  failed,
-  reacted,
-  emoji = "👍",
-}: {
-  failed?: boolean;
-  reacted?: boolean;
-  emoji?: string;
-}) {
-  return (
-    <MessageReactionChip failed={failed} reacted={reacted} aria-label={`${emoji} 3`}>
-      <MessageReactionGlyph emoji={emoji} size={15} />
-      <MessageReactionCount>3</MessageReactionCount>
-    </MessageReactionChip>
-  );
-}
-
 function QuickReactionPickerState() {
+  const [selectedReaction, setSelectedReaction] = useState<string>();
+
   return (
     <MessageReactionPicker>
       {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-        <MessageReactionQuickButton key={emoji} aria-label={`React with ${emoji}`}>
+        <MessageReactionQuickButton
+          key={emoji}
+          aria-label={`React with ${emoji}`}
+          aria-pressed={selectedReaction === emoji}
+          onClick={() => setSelectedReaction(emoji)}
+        >
           <MessageReactionGlyph emoji={emoji} size={18} />
         </MessageReactionQuickButton>
       ))}
@@ -317,21 +329,19 @@ function QuickReactionPickerState() {
   );
 }
 
-function ReactionPopoverState() {
+function ReactionTooltipState() {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
   return (
-    <MessageReactionPopover>
-      <MessageReactionPopoverNames>
-        <MessageReactionPopoverName>
-          <MessageReactionPopoverNameText>Atlas</MessageReactionPopoverNameText>
-          <MessageReactionPopoverSeparator>, </MessageReactionPopoverSeparator>
-        </MessageReactionPopoverName>
-        <MessageReactionPopoverName>
-          <MessageReactionPopoverNameText>Ada Lovelace</MessageReactionPopoverNameText>
-          <MessageReactionPopoverSeparator>, </MessageReactionPopoverSeparator>
-        </MessageReactionPopoverName>
-        <span className="leading-5 text-foreground/50">+3 more</span>
-      </MessageReactionPopoverNames>
-    </MessageReactionPopover>
+    <div ref={setPortalContainer} className="relative">
+      <MessageReactionTooltipComposition
+        container={portalContainer}
+        count={3}
+        emoji="👍"
+        names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
+        open
+      />
+    </div>
   );
 }
 
@@ -342,11 +352,11 @@ export function MessageItemStateMatrix() {
         <MatrixCell label="authored row">
           <StateRow body="Normal authored row with avatar, sender, time, and body." />
         </MatrixCell>
-        <MatrixCell label='rowState="active"'>
-          <StateRow rowState="active" body="Anchor/current-row treatment." />
+        <MatrixCell label="MessageItemActive">
+          <StateRow surface="active" body="Anchor/current-row treatment." />
         </MatrixCell>
-        <MatrixCell label='rowState="search-match"'>
-          <StateRow rowState="search-match" body="Search result highlight treatment." />
+        <MatrixCell label="MessageItemSearchMatch">
+          <StateRow surface="search-match" body="Search result highlight treatment." />
         </MatrixCell>
         <MatrixCell label="compact continuation">
           <StateRow compact gutterTime="2:15" body="Continuation row with gutter timestamp." />
@@ -354,17 +364,17 @@ export function MessageItemStateMatrix() {
       </MatrixSection>
 
       <MatrixSection title="selection and sender">
-        <MatrixCell label="select mark unchecked">
+        <MatrixCell label="selection checkbox unchecked">
           <StateRow
-            rowState="select"
-            selectMark="off"
+            surface="select"
+            selection="unchecked"
             body="Selection affordance before the row is checked."
           />
         </MatrixCell>
-        <MatrixCell label="select mark checked">
+        <MatrixCell label="selection checkbox checked">
           <StateRow
-            rowState="select"
-            selectMark="checked"
+            surface="select"
+            selection="checked"
             body="Selection affordance after the row is checked."
           />
         </MatrixCell>
@@ -416,13 +426,13 @@ export function MessageItemStateMatrix() {
             footer={<MessageItemBadge>4 replies</MessageItemBadge>}
           />
         </MatrixCell>
-        <MatrixCell label="badge cyan">
+        <MatrixCell label="unread badge">
           <StateRow
-            body="Footer badge cyan tone."
+            body="Unread footer badge composition."
             footer={
-              <MessageItemBadge tone="cyan">
+              <MessageItemUnreadBadge>
                 <MessageSquare />6 replies
-              </MessageItemBadge>
+              </MessageItemUnreadBadge>
             }
           />
         </MatrixCell>
@@ -431,10 +441,10 @@ export function MessageItemStateMatrix() {
             body="Neutral, reacted, failed, and add-reaction chip states."
             footer={
               <>
-                <ReactionChipState />
-                <ReactionChipState emoji="🔥" reacted />
-                <ReactionChipState emoji="❤️" failed />
-                <MessageReactionAddButton aria-label="Add reaction">
+                <MessageReactionComposition emoji="👍" count={3} />
+                <MessageReactionComposition emoji="🔥" count={3} reacted />
+                <MessageReactionComposition emoji="❤️" count={3} failed />
+                <MessageReactionAddButton aria-label="Add reaction" disabled>
                   <Plus strokeWidth={2.5} />
                 </MessageReactionAddButton>
               </>
@@ -443,11 +453,11 @@ export function MessageItemStateMatrix() {
         </MatrixCell>
         <MatrixCell label="emoji set">
           <div className="flex flex-wrap items-center gap-1.5">
-            <Reaction emoji="👍" count={5} reacted />
-            <Reaction emoji="👀" count={2} />
-            <Reaction emoji="🔥" count={1} failed />
-            <ReactionChipState emoji="✅" />
-            <ReactionChipState emoji="😂" />
+            <MessageReactionComposition emoji="👍" count={5} reacted />
+            <MessageReactionComposition emoji="👀" count={2} />
+            <MessageReactionComposition emoji="🔥" count={1} failed />
+            <MessageReactionComposition emoji="✅" count={3} />
+            <MessageReactionComposition emoji="😂" count={3} />
             <MessageReactionGlyph>
               <X className="size-[13px]" />
             </MessageReactionGlyph>
@@ -479,24 +489,34 @@ export function MessageItemStateMatrix() {
       <MatrixSection title="file attachments and overlays">
         <MatrixCell label="attachment card">
           <AttachmentRow>
-            <AttachmentState />
+            <MessageAttachmentReadyComposition
+              name="migration.diff"
+              meta="Diff · 18 KB"
+              primaryAction={<Download />}
+              primaryActionLabel="Download migration.diff"
+              onPrimaryAction={() => downloadMessageFixture("migration.diff")}
+            />
           </AttachmentRow>
         </MatrixCell>
         <MatrixCell label="attachment loading">
           <AttachmentRow>
-            <AttachmentState loading name="uploading.mov" />
+            <MessageAttachmentOpeningComposition
+              name="uploading.mov"
+              meta="Uploading · 18 KB"
+              label="Preparing preview"
+            />
           </AttachmentRow>
         </MatrixCell>
         <MatrixCell label="attachment optimistic">
           <AttachmentRow>
-            <AttachmentState optimistic name="screening.html" />
+            <MessageAttachmentPendingComposition name="screening.html" meta="Diff · 18 KB" />
           </AttachmentRow>
         </MatrixCell>
         <MatrixCell label="reaction picker">
           <QuickReactionPickerState />
         </MatrixCell>
-        <MatrixCell label="reaction popover">
-          <ReactionPopoverState />
+        <MatrixCell label="reaction tooltip">
+          <ReactionTooltipState />
         </MatrixCell>
         <MatrixCell label="system event">
           <SystemMessageItem>

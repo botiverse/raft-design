@@ -2,17 +2,7 @@ import { getPlaygroundActor, type PlaygroundActor, type PlaygroundActorId } from
 
 export type PlaygroundRoomKind = "channel" | "joint" | "private";
 export type PlaygroundChannelKind = PlaygroundRoomKind | "dm";
-export type PlaygroundShowcaseId = "rich" | "incident" | "release" | "matrix";
 export type PlaygroundMessageId = `${string}:${string}`;
-
-export type PlaygroundSidebarState = {
-  badge?: string;
-  unread?: boolean;
-  muted?: boolean;
-  mention?: boolean;
-  draft?: boolean;
-  pinned?: boolean;
-};
 
 export type PlaygroundMessage = {
   id: PlaygroundMessageId;
@@ -27,10 +17,21 @@ export type PlaygroundThread = {
   unreadCount?: number;
 };
 
+export type PlaygroundScenarioId = "rich" | "incident" | "release" | "matrix";
+
+export type PlaygroundNavigationState = {
+  badge?: string;
+  unread?: boolean;
+  muted?: boolean;
+  mention?: boolean;
+  draft?: boolean;
+  pinned?: boolean;
+};
+
 type PlaygroundChannelContent =
   | { kind: "messages"; messages: readonly PlaygroundMessage[] }
-  | { kind: "showcase"; showcase: PlaygroundShowcaseId }
-  | { kind: "empty" };
+  | { kind: "empty" }
+  | { kind: "scenario"; scenario: PlaygroundScenarioId };
 
 type PlaygroundChannelBase = {
   id: string;
@@ -40,8 +41,8 @@ type PlaygroundChannelBase = {
   topic: string;
   memberCount: number;
   memberIds: readonly [PlaygroundActorId, ...PlaygroundActorId[]];
-  sidebar: PlaygroundSidebarState;
   archived: boolean;
+  navigation: PlaygroundNavigationState;
   content: PlaygroundChannelContent;
   threads: readonly PlaygroundThread[];
 };
@@ -66,8 +67,8 @@ type StandardRoomInput<TId extends string> = {
   memberIds: readonly [PlaygroundActorId, PlaygroundActorId, ...PlaygroundActorId[]];
   opening: string;
   reply: string;
-  sidebar?: PlaygroundSidebarState;
   archived?: boolean;
+  navigation?: PlaygroundNavigationState;
 };
 
 type StandardDmInput<TId extends string> = {
@@ -77,7 +78,7 @@ type StandardDmInput<TId extends string> = {
   topic: string;
   opening: string;
   reply: string;
-  sidebar?: PlaygroundSidebarState;
+  navigation?: PlaygroundNavigationState;
 };
 
 function createStandardThread<TId extends string>(
@@ -131,8 +132,8 @@ function defineStandardRoom<const TId extends string>(
     topic: input.topic,
     memberCount: input.memberCount,
     memberIds: input.memberIds,
-    sidebar: input.sidebar ?? {},
     archived: input.archived ?? false,
+    navigation: input.navigation ?? {},
     content: { kind: "messages", messages: [opening, reply] },
     threads: [createStandardThread(input.id, input.topic, firstAuthorId, secondAuthorId, reply)],
   };
@@ -150,7 +151,7 @@ function defineStandardDm<const TId extends string>(
     memberIds: [input.otherActorId, "cuvii"],
     opening: input.opening,
     reply: input.reply,
-    sidebar: input.sidebar,
+    navigation: input.navigation,
   });
 
   return {
@@ -161,15 +162,15 @@ function defineStandardDm<const TId extends string>(
   };
 }
 
-function defineShowcaseRoom<const TId extends string>(input: {
+function defineScenarioRoom<const TId extends string>(input: {
   id: TId;
   subtitle: string;
   topic: string;
   memberCount: number;
   memberIds: readonly [PlaygroundActorId, ...PlaygroundActorId[]];
-  showcase: PlaygroundShowcaseId;
   threads?: readonly PlaygroundThread[];
-  sidebar?: PlaygroundSidebarState;
+  scenario: PlaygroundScenarioId;
+  navigation?: PlaygroundNavigationState;
 }): PlaygroundRoomChannel & { id: TId } {
   return {
     id: input.id,
@@ -179,9 +180,9 @@ function defineShowcaseRoom<const TId extends string>(input: {
     topic: input.topic,
     memberCount: input.memberCount,
     memberIds: input.memberIds,
-    sidebar: input.sidebar ?? {},
     archived: false,
-    content: { kind: "showcase", showcase: input.showcase },
+    navigation: input.navigation ?? {},
+    content: { kind: "scenario", scenario: input.scenario },
     threads: input.threads ?? [],
   };
 }
@@ -192,7 +193,7 @@ function defineEmptyRoom<const TId extends string>(input: {
   topic: string;
   memberCount: number;
   memberIds: readonly [PlaygroundActorId, ...PlaygroundActorId[]];
-  sidebar?: PlaygroundSidebarState;
+  navigation?: PlaygroundNavigationState;
 }): PlaygroundRoomChannel & { id: TId } {
   return {
     id: input.id,
@@ -202,8 +203,8 @@ function defineEmptyRoom<const TId extends string>(input: {
     topic: input.topic,
     memberCount: input.memberCount,
     memberIds: input.memberIds,
-    sidebar: input.sidebar ?? {},
     archived: false,
+    navigation: input.navigation ?? {},
     content: { kind: "empty" },
     threads: [],
   };
@@ -328,12 +329,12 @@ const allThreads = [
 export const PLAYGROUND_JOINT_CHANNELS = [
   defineStandardRoom({
     id: "partner-ops",
+    navigation: { badge: "3", pinned: true },
     kind: "joint",
     subtitle: "Launch readiness with Northstar",
     topic: "the shared launch runbook and handoff owners",
     memberCount: 8,
     memberIds: ["avery", "atlas"],
-    sidebar: { badge: "3", pinned: true },
     opening:
       "Northstar confirmed the handoff window. I added the remaining owners to the shared runbook.",
     reply: "I checked the dependencies and flagged the two items that still need partner approval.",
@@ -352,12 +353,12 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   }),
   defineStandardRoom({
     id: "community-lab",
+    navigation: { muted: true },
     kind: "joint",
     subtitle: "Prototype feedback with community maintainers",
     topic: "feedback from the community prototype cohort",
     memberCount: 12,
     memberIds: ["cindy", "mira"],
-    sidebar: { muted: true },
     opening:
       "The maintainers prefer compact navigation, but asked for clearer ownership on shared drafts.",
     reply:
@@ -365,24 +366,24 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   }),
   defineStandardRoom({
     id: "shared-roadmap",
+    navigation: { mention: true, badge: "1" },
     kind: "joint",
     subtitle: "Quarterly planning across Raft and Northstar",
     topic: "the cross-company Q3 roadmap",
     memberCount: 15,
     memberIds: ["avery", "specWriter"],
-    sidebar: { mention: true, badge: "1" },
     opening:
       "I merged both roadmap drafts and marked the milestones where sequencing still conflicts.",
     reply: "The brief now includes owners, confidence, and the decision date for every milestone.",
   }),
   defineStandardRoom({
     id: "cross-team-qa",
+    navigation: { draft: true },
     kind: "joint",
     subtitle: "End-to-end verification with partner QA",
     topic: "the shared release acceptance pass",
     memberCount: 9,
     memberIds: ["olivia", "qaSentinel"],
-    sidebar: { draft: true },
     opening:
       "Desktop passed. Mobile still has one keyboard-navigation regression in the member picker.",
     reply:
@@ -390,12 +391,12 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   }),
   defineStandardRoom({
     id: "partner-launch",
+    navigation: { badge: "7", unread: true },
     kind: "joint",
     subtitle: "Coordinating Friday's partner rollout",
     topic: "Friday's coordinated partner rollout",
     memberCount: 18,
     memberIds: ["mateo", "deployWatch"],
-    sidebar: { badge: "7", unread: true },
     opening: "The partner environment is ready. We can start after the 14:00 checkpoint.",
     reply:
       "I am watching both deployment regions and will post here if configuration drift appears.",
@@ -403,13 +404,13 @@ export const PLAYGROUND_JOINT_CHANNELS = [
 ] as const;
 
 export const PLAYGROUND_ROOM_CHANNELS = [
-  defineShowcaseRoom({
+  defineScenarioRoom({
     id: "all",
+    scenario: "rich",
     subtitle: "Company-wide announcements and shared updates",
     topic: "the design-system migration",
     memberCount: 42,
     memberIds: ["developer", "atlas", "ada", "cindy", "cuvii", "samira"],
-    showcase: "rich",
     threads: allThreads,
   }),
   defineStandardRoom({
@@ -424,36 +425,38 @@ export const PLAYGROUND_ROOM_CHANNELS = [
   }),
   defineStandardRoom({
     id: "design",
+    navigation: { badge: "1", pinned: true },
     subtitle: "Interaction design and system patterns",
     topic: "the next interaction-pattern review",
     memberCount: 11,
     memberIds: ["cindy", "mira"],
-    sidebar: { badge: "1", pinned: true },
     opening:
       "The sidebar states are aligned. I still want a pass on empty, muted, and unread combinations.",
     reply: "I prepared a coverage matrix and highlighted states without realistic content.",
   }),
-  defineShowcaseRoom({
+  defineScenarioRoom({
     id: "incidents",
+    scenario: "incident",
+    navigation: { badge: "12", unread: true, mention: true },
     subtitle: "Delivery degraded — retries queued",
     topic: "the current delivery degradation",
     memberCount: 14,
     memberIds: ["deployBot", "mxChen", "ada", "mateo", "incidentTriage"],
-    showcase: "incident",
-    sidebar: { badge: "12", unread: true, mention: true },
   }),
   defineStandardRoom({
     id: "launch",
+    navigation: { badge: "2" },
     subtitle: "Launch checklist, messaging, and rollout status",
     topic: "the public launch checklist",
     memberCount: 17,
     memberIds: ["avery", "releaseScribe"],
-    sidebar: { badge: "2" },
     opening: "The launch checklist is at 86%. Pricing copy and the support handoff remain.",
     reply: "I updated the launch brief and drafted the handoff note for Support to review.",
   }),
-  defineShowcaseRoom({
+  defineScenarioRoom({
     id: "frontend",
+    scenario: "matrix",
+    navigation: { badge: "4" },
     subtitle: "Components, application shell, and client architecture",
     topic: "the component behavior matrix",
     memberCount: 13,
@@ -469,16 +472,14 @@ export const PLAYGROUND_ROOM_CHANNELS = [
       "elliot",
       "codePilot",
     ],
-    showcase: "matrix",
-    sidebar: { badge: "4" },
   }),
   defineStandardRoom({
     id: "customer-notes",
+    navigation: { badge: "2" },
     subtitle: "Interview notes and customer follow-ups",
     topic: "this week's customer research synthesis",
     memberCount: 10,
     memberIds: ["noah", "researchLark"],
-    sidebar: { badge: "2" },
     opening:
       "Three teams asked for clearer separation between shared channels and internal project rooms.",
     reply: "I clustered the interviews and added supporting quotes to the navigation findings.",
@@ -496,51 +497,51 @@ export const PLAYGROUND_ROOM_CHANNELS = [
   }),
   defineStandardRoom({
     id: "exec",
+    navigation: { badge: "5", unread: true },
     kind: "private",
     subtitle: "Private leadership planning and decisions",
     topic: "the Q3 operating review",
     memberCount: 4,
     memberIds: ["avery", "dataWeaver"],
-    sidebar: { badge: "5", unread: true },
     opening: "The Q3 review draft is ready. Retention and support load need updated commentary.",
     reply: "I refreshed the charts from the weekly dataset and annotated the two largest changes.",
   }),
-  defineShowcaseRoom({
+  defineScenarioRoom({
     id: "release-notes",
+    scenario: "release",
+    navigation: { muted: true },
     subtitle: "Release coordination and changelog drafting",
     topic: "the next release cut",
     memberCount: 12,
     memberIds: ["ada", "atlas", "developer", "cuvii", "releaseScribe"],
-    showcase: "release",
-    sidebar: { muted: true },
   }),
   defineStandardRoom({
     id: "random",
+    navigation: { muted: true, draft: true },
     subtitle: "Off-topic conversation and team miscellany",
     topic: "the team's Friday demo playlist",
     memberCount: 27,
     memberIds: ["cindy", "elliot"],
-    sidebar: { muted: true, draft: true },
     opening: "I made a playlist for Friday's demo session. Add anything that keeps the energy up.",
     reply: "Added two instrumental tracks and moved the louder ones to the post-demo section.",
   }),
   defineStandardRoom({
     id: "design-crit",
+    navigation: { mention: true },
     subtitle: "Structured critique for in-progress product work",
     topic: "the playground information hierarchy critique",
     memberCount: 9,
     memberIds: ["cindy", "mira"],
-    sidebar: { mention: true },
     opening: "The shell works, but mock hierarchy breaks trust when rows do not change context.",
     reply: "The fix is one conversation registry shared by navigation, routes, and panels.",
   }),
   defineEmptyRoom({
     id: "standup",
+    navigation: { draft: true },
     subtitle: "A newly created channel for async updates",
     topic: "daily async team updates",
     memberCount: 7,
     memberIds: ["cuvii", "atlas"],
-    sidebar: { draft: true },
   }),
   defineStandardRoom({
     id: "archive-ops",
@@ -558,10 +559,10 @@ export const PLAYGROUND_ROOM_CHANNELS = [
 export const PLAYGROUND_DIRECT_MESSAGES = [
   defineStandardDm({
     id: "dm-noah",
+    navigation: { badge: "12" },
     otherActorId: "noah",
     subtitle: "Growth experiments and activation metrics.",
     topic: "the activation experiment readout",
-    sidebar: { badge: "12" },
     opening: "The shorter setup flow improved activation by six points in the small-team cohort.",
     reply:
       "That matches the interviews. Keep detailed configuration available after first success.",
@@ -577,37 +578,37 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-elliot",
+    navigation: { badge: "1" },
     otherActorId: "elliot",
     subtitle: "Developer experience and local tooling.",
     topic: "the local development bootstrap",
-    sidebar: { badge: "1" },
     opening: "Fresh setup is down to four minutes. The first docs install is the remaining delay.",
     reply: "Nice. I will document the cached path separately so the baseline stays honest.",
   }),
   defineStandardDm({
     id: "dm-claude",
+    navigation: { badge: "1", unread: true, pinned: true },
     otherActorId: "claudeAssistant",
     subtitle: "Planning on the primary online machine.",
     topic: "the source-parity fixture audit",
-    sidebar: { badge: "1", unread: true, pinned: true },
     opening: "The fixture audit is complete. Two component states drifted from source behavior.",
     reply: "Send me the exact files and I will re-sync them before the release cut.",
   }),
   defineStandardDm({
     id: "dm-olivia",
+    navigation: { badge: "1" },
     otherActorId: "olivia",
     subtitle: "QA lead for desktop and mobile.",
     topic: "the mobile regression pass",
-    sidebar: { badge: "1" },
     opening: "Mobile is clean except for the thread close target at the smallest supported width.",
     reply: "I will check the composed button size and keep the fix local to responsive chrome.",
   }),
   defineStandardDm({
     id: "dm-mateo",
+    navigation: { badge: "1" },
     otherActorId: "mateo",
     subtitle: "Infrastructure and staging deploys.",
     topic: "the staging environment refresh",
-    sidebar: { badge: "1" },
     opening: "Staging is refreshed with today's schema. The worker is finishing its replay now.",
     reply: "Perfect. I will wait for the checkpoint before starting product verification.",
   }),
@@ -621,19 +622,19 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-release",
+    navigation: { badge: "1" },
     otherActorId: "releaseScribe",
     subtitle: "Drafting release notes and changelogs.",
     topic: "the next public changelog",
-    sidebar: { badge: "1" },
     opening: "The changelog draft separates user-visible improvements from maintenance.",
     reply: "Tighten the first item around workflow improvement, not implementation detail.",
   }),
   defineStandardDm({
     id: "dm-code-pilot",
+    navigation: { badge: "3", unread: true },
     otherActorId: "codePilot",
     subtitle: "Active — refactoring the auth module.",
     topic: "the auth-module refactor",
-    sidebar: { badge: "3", unread: true },
     opening: "Session validation no longer leaks into presentation components.",
     reply: "Verify redirect behavior for expired and revoked sessions separately.",
   }),
@@ -647,37 +648,37 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-qa-sentinel",
+    navigation: { badge: "5" },
     otherActorId: "qaSentinel",
     subtitle: "Regression checks and focused test plans.",
     topic: "the app-shell regression plan",
-    sidebar: { badge: "5" },
     opening: "I prepared the app-shell plan across route, theme, resize, and thread states.",
     reply: "Prioritize route ownership and data consistency; visual coverage can follow.",
   }),
   defineStandardDm({
     id: "dm-deploy-watch",
+    navigation: { unread: true, mention: true },
     otherActorId: "deployWatch",
     subtitle: "Working — staging drift detected in us-east.",
     topic: "the staging configuration drift",
-    sidebar: { unread: true, mention: true },
     opening: "Staging in us-east is missing the message-retention variable. Production is aligned.",
     reply: "Patch staging only and post the environment diff before restarting the worker.",
   }),
   defineStandardDm({
     id: "dm-research-lark",
+    navigation: { muted: true },
     otherActorId: "researchLark",
     subtitle: "Idle — market research summaries available.",
     topic: "the collaboration-tools research summary",
-    sidebar: { muted: true },
     opening: "The research summary separates findings by team size and collaboration model.",
     reply: "Keep source links attached so we can validate the strongest claims quickly.",
   }),
   defineStandardDm({
     id: "dm-spec-writer",
+    navigation: { draft: true },
     otherActorId: "specWriter",
     subtitle: "Idle — product requirement drafts available.",
     topic: "the playground mock-data specification",
-    sidebar: { draft: true },
     opening: "Every sidebar entity now resolves to one canonical conversation record.",
     reply: "Thread content and DM presence should resolve from those same records.",
   }),
@@ -692,10 +693,10 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-support-guide",
+    navigation: { badge: "2" },
     otherActorId: "supportGuide",
     subtitle: "Idle — customer support playbooks available.",
     topic: "the launch support handoff",
-    sidebar: { badge: "2" },
     opening: "The launch playbook covers access, migration, and notification questions.",
     reply: "Add diagnostics for customers whose shared channels do not appear after joining.",
   }),
@@ -706,10 +707,6 @@ export const PLAYGROUND_CHANNELS = [
   ...PLAYGROUND_ROOM_CHANNELS,
   ...PLAYGROUND_DIRECT_MESSAGES,
 ] as const;
-
-export const PLAYGROUND_PINNED_CHANNELS = PLAYGROUND_CHANNELS.filter(
-  (channel) => channel.sidebar.pinned,
-);
 
 export type PlaygroundChannelId = (typeof PLAYGROUND_CHANNELS)[number]["id"];
 export type PlaygroundThreadId = PlaygroundMessageId;

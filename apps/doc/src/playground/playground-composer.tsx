@@ -1,29 +1,9 @@
-import { useState } from "react";
-import {
-  FileText,
-  GitBranch,
-  Hash,
-  ImagePlus,
-  Lock,
-  Paperclip,
-  Send,
-  UserX,
-  X,
-} from "lucide-react";
-import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
+import { useState, type PointerEvent, type RefObject } from "react";
+import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX } from "lucide-react";
+import { Avatar, AvatarFallback, Checkbox } from "raft-ui";
 import {
   ChatMainPanelComposer,
   ChatMainPanelComposerActions,
-  ChatMainPanelComposerAttachment,
-  ChatMainPanelComposerAttachmentBody,
-  ChatMainPanelComposerAttachmentFile,
-  ChatMainPanelComposerAttachmentImage,
-  ChatMainPanelComposerAttachmentMeta,
-  ChatMainPanelComposerAttachmentOverlay,
-  ChatMainPanelComposerAttachmentProgress,
-  ChatMainPanelComposerAttachmentRemove,
-  ChatMainPanelComposerAttachmentTitle,
-  ChatMainPanelComposerAttachments,
   ChatMainPanelComposerDropOverlay,
   ChatMainPanelComposerDropOverlayLabel,
   ChatMainPanelComposerIconButton,
@@ -33,260 +13,253 @@ import {
   ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
-  ComposerAutocomplete,
-  ComposerAutocompleteAside,
-  ComposerAutocompleteBadge,
-  ComposerAutocompleteContent,
-  ComposerAutocompleteGroup,
-  ComposerAutocompleteGroupLabel,
-  ComposerAutocompleteIcon,
-  ComposerAutocompleteItem,
-  ComposerAutocompleteMeta,
-  ComposerAutocompleteTitle,
+  ComposerSuggestionAside,
+  ComposerSuggestionBadge,
+  ComposerSuggestionContent,
+  ComposerSuggestionGroup,
+  ComposerSuggestionGroupLabel,
+  ComposerSuggestionIcon,
+  ComposerSuggestionList,
+  ComposerSuggestionMeta,
+  ComposerSuggestionOption,
+  ComposerSuggestionTitle,
   ComposerRoot,
-  ComposerTaskLabel,
-  ComposerTaskToggle,
+  ComposerToolbarOption,
+  ComposerToolbarOptionLabel,
 } from "raft-ui/wip";
 
-import { COMPOSER_IMAGE_SRC } from "#/compositions/chat-main-panel-states-composition.tsx";
-import type { RowVariant } from "#/playground/playground-main-panel.tsx";
+import { ComposerAttachmentsComposition } from "#/compositions/composer-composition.tsx";
+import type { PlaygroundChannel } from "./mock/index.ts";
 import {
-  PLAYGROUND_ACTORS,
-  PLAYGROUND_JOINT_CHANNELS,
-  PLAYGROUND_ROOM_CHANNELS,
-  getPlaygroundMembers,
-  type PlaygroundChannel,
-} from "./mock/index.ts";
+  isComposerSuggestionDisabled,
+  usePlaygroundComposerAutocomplete,
+  type ComposerSuggestion,
+  type MentionSuggestion,
+} from "./use-playground-composer-autocomplete.ts";
 
-type MentionCandidate = { name: string; handle: string; variant: RowVariant };
+function AutocompleteOption({
+  suggestion,
+  highlighted,
+  id,
+  onSelect,
+}: {
+  suggestion: ComposerSuggestion;
+  highlighted: boolean;
+  id: string;
+  onSelect: (suggestion: ComposerSuggestion) => void;
+}) {
+  const disabled = isComposerSuggestionDisabled(suggestion);
+  const handlePointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
-const CHANNEL_CANDIDATES = [...PLAYGROUND_ROOM_CHANNELS, ...PLAYGROUND_JOINT_CHANNELS];
-
-// @mention autocomplete (source MessageInput mention dropdown): upward panel with
-// In-/Not-in-channel eyebrow groups; the first in-channel row is selected.
-function MentionAutocomplete({ channel }: { channel: PlaygroundChannel }) {
-  const inChannel = getPlaygroundMembers(channel).map(
-    (actor): MentionCandidate => ({
-      name: actor.name,
-      handle: actor.id,
-      variant: actor.type === "agent" ? "agent" : "member",
-    }),
-  );
-  const memberIds = new Set(channel.memberIds);
-  const notInChannel = Object.values(PLAYGROUND_ACTORS)
-    .filter((actor) => !memberIds.has(actor.id))
-    .slice(0, 3)
-    .map(
-      (actor): MentionCandidate => ({
-        name: actor.name,
-        handle: actor.id,
-        variant: actor.type === "agent" ? "agent" : "member",
-      }),
+  if (suggestion.kind === "mention") {
+    return (
+      <ComposerSuggestionOption
+        id={id}
+        role="option"
+        aria-selected={highlighted}
+        disabled={disabled}
+        onPointerDown={handlePointerDown}
+        onClick={() => onSelect(suggestion)}
+      >
+        <ComposerSuggestionIcon render={<Avatar size="sm" type={suggestion.type} />}>
+          <AvatarFallback />
+        </ComposerSuggestionIcon>
+        {suggestion.disabled ? (
+          <ComposerSuggestionIcon variant="auxiliary" render={<UserX />} />
+        ) : null}
+        <ComposerSuggestionContent>
+          <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+          {suggestion.type === "agent" ? (
+            <ComposerSuggestionBadge aria-hidden variant="indicator" />
+          ) : null}
+          <ComposerSuggestionAside>
+            <ComposerSuggestionMeta variant="code">@{suggestion.handle}</ComposerSuggestionMeta>
+          </ComposerSuggestionAside>
+        </ComposerSuggestionContent>
+      </ComposerSuggestionOption>
     );
+  }
 
+  const ChannelIcon =
+    suggestion.roomKind === "joint" ? GitBranch : suggestion.roomKind === "private" ? Lock : Hash;
   return (
-    <ComposerAutocomplete data-testid="mention-autocomplete-popover">
-      <ComposerAutocompleteGroup>
-        <ComposerAutocompleteGroupLabel>In this channel</ComposerAutocompleteGroupLabel>
-        {inChannel.map((candidate, index) => {
-          const selected = index === 0;
-          return (
-            <ComposerAutocompleteItem key={candidate.handle} selected={selected}>
-              <ComposerAutocompleteIcon
-                render={
-                  <Avatar size="sm" type={candidate.variant === "agent" ? "agent" : "human"} />
-                }
-              >
-                <AvatarFallback />
-              </ComposerAutocompleteIcon>
-              <ComposerAutocompleteContent>
-                <ComposerAutocompleteTitle>{candidate.name}</ComposerAutocompleteTitle>
-                {candidate.variant === "agent" ? (
-                  <ComposerAutocompleteBadge aria-hidden variant="indicator" />
-                ) : null}
-                <ComposerAutocompleteAside>
-                  <ComposerAutocompleteMeta variant="code">
-                    @{candidate.handle}
-                  </ComposerAutocompleteMeta>
-                </ComposerAutocompleteAside>
-              </ComposerAutocompleteContent>
-            </ComposerAutocompleteItem>
-          );
-        })}
-      </ComposerAutocompleteGroup>
-      <ComposerAutocompleteGroup separated>
-        <ComposerAutocompleteGroupLabel>Not in this channel</ComposerAutocompleteGroupLabel>
-        {notInChannel.map((candidate) => (
-          <ComposerAutocompleteItem key={candidate.handle} muted>
-            <ComposerAutocompleteIcon
-              muted
-              render={<Avatar size="sm" type={candidate.variant === "agent" ? "agent" : "human"} />}
-            >
-              <AvatarFallback />
-            </ComposerAutocompleteIcon>
-            <ComposerAutocompleteIcon variant="auxiliary" render={<UserX />} />
-            <ComposerAutocompleteContent>
-              <ComposerAutocompleteTitle>{candidate.name}</ComposerAutocompleteTitle>
-              <ComposerAutocompleteAside>
-                <ComposerAutocompleteMeta muted variant="code">
-                  @{candidate.handle}
-                </ComposerAutocompleteMeta>
-              </ComposerAutocompleteAside>
-            </ComposerAutocompleteContent>
-          </ComposerAutocompleteItem>
-        ))}
-      </ComposerAutocompleteGroup>
-    </ComposerAutocomplete>
+    <ComposerSuggestionOption
+      id={id}
+      role="option"
+      aria-selected={highlighted}
+      disabled={disabled}
+      tone="accent"
+      onPointerDown={handlePointerDown}
+      onClick={() => onSelect(suggestion)}
+    >
+      <ComposerSuggestionIcon variant="framed">
+        <ChannelIcon />
+      </ComposerSuggestionIcon>
+      <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+      {suggestion.subtitle ? (
+        <ComposerSuggestionMeta>{suggestion.subtitle}</ComposerSuggestionMeta>
+      ) : null}
+      {suggestion.archived ? (
+        <ComposerSuggestionAside>
+          <ComposerSuggestionBadge>archived</ComposerSuggestionBadge>
+        </ComposerSuggestionAside>
+      ) : null}
+    </ComposerSuggestionOption>
   );
 }
 
-// #channel autocomplete (source MessageInput channel dropdown): bordered Hash box
-// per row; selected row washes pink; archived rows dim with an `archived` badge.
-function ChannelAutocomplete() {
+function AutocompleteList({
+  suggestions,
+  highlightedIndex,
+  listId,
+  listRef,
+  onSelect,
+}: {
+  suggestions: readonly ComposerSuggestion[];
+  highlightedIndex: number;
+  listId: string;
+  listRef: RefObject<HTMLDivElement | null>;
+  onSelect: (suggestion: ComposerSuggestion) => void;
+}) {
+  const inChannel = suggestions.filter(
+    (suggestion): suggestion is MentionSuggestion =>
+      suggestion.kind === "mention" && suggestion.group === "in-channel",
+  );
+  const outsideChannel = suggestions.filter(
+    (suggestion): suggestion is MentionSuggestion =>
+      suggestion.kind === "mention" && suggestion.group === "outside-channel",
+  );
+  const renderOption = (suggestion: ComposerSuggestion) => {
+    const index = suggestions.indexOf(suggestion);
+    return (
+      <AutocompleteOption
+        key={suggestion.kind === "mention" ? suggestion.handle : suggestion.name}
+        id={`${listId}-option-${index}`}
+        suggestion={suggestion}
+        highlighted={index === highlightedIndex}
+        onSelect={onSelect}
+      />
+    );
+  };
+
   return (
-    <ComposerAutocomplete data-testid="channel-autocomplete-popover">
-      {CHANNEL_CANDIDATES.map((channel, index) => {
-        const selected = index === 0;
-        const archived = channel.archived;
-        const ChannelIcon =
-          channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
-        return (
-          <ComposerAutocompleteItem
-            key={channel.name}
-            selected={selected}
-            muted={archived}
-            tone="accent"
-          >
-            <ComposerAutocompleteIcon variant="framed" muted={archived}>
-              <ChannelIcon />
-            </ComposerAutocompleteIcon>
-            <ComposerAutocompleteTitle>{channel.name}</ComposerAutocompleteTitle>
-            {channel.subtitle ? (
-              <ComposerAutocompleteMeta muted={archived}>
-                {channel.subtitle}
-              </ComposerAutocompleteMeta>
-            ) : null}
-            {archived ? (
-              <ComposerAutocompleteAside>
-                <ComposerAutocompleteBadge>archived</ComposerAutocompleteBadge>
-              </ComposerAutocompleteAside>
-            ) : null}
-          </ComposerAutocompleteItem>
-        );
-      })}
-    </ComposerAutocomplete>
+    <ComposerSuggestionList ref={listRef} id={listId} role="listbox">
+      {inChannel.length > 0 ? (
+        <ComposerSuggestionGroup role="group" aria-label="In this channel">
+          <ComposerSuggestionGroupLabel aria-hidden>In this channel</ComposerSuggestionGroupLabel>
+          {inChannel.map(renderOption)}
+        </ComposerSuggestionGroup>
+      ) : null}
+      {outsideChannel.length > 0 ? (
+        <ComposerSuggestionGroup separated role="group" aria-label="Not in this channel">
+          <ComposerSuggestionGroupLabel aria-hidden>
+            Not in this channel
+          </ComposerSuggestionGroupLabel>
+          {outsideChannel.map(renderOption)}
+        </ComposerSuggestionGroup>
+      ) : null}
+      {inChannel.length === 0 && outsideChannel.length === 0 ? suggestions.map(renderOption) : null}
+    </ComposerSuggestionList>
   );
 }
 
-type ComposerAutocompleteKind = "mention" | "channel" | null;
-
-// Pending-upload attachment chips (source MessageInput SortableAttachment):
-// an image still uploading (spinner + progress), a resting file chip, and a
-// failed upload with a retry affordance.
-function ComposerAttachments() {
-  return (
-    <ChatMainPanelComposerAttachments>
-      <ChatMainPanelComposerAttachment>
-        <ChatMainPanelComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
-        <ChatMainPanelComposerAttachmentOverlay tone="uploading">
-          <Spinner size="sm" className="mb-1" />
-          64%
-        </ChatMainPanelComposerAttachmentOverlay>
-        <ChatMainPanelComposerAttachmentProgress value={64} />
-        <ChatMainPanelComposerAttachmentRemove aria-label="Remove screenshot.png">
-          <X />
-        </ChatMainPanelComposerAttachmentRemove>
-      </ChatMainPanelComposerAttachment>
-      <ChatMainPanelComposerAttachment>
-        <ChatMainPanelComposerAttachmentFile>
-          <FileText />
-          <ChatMainPanelComposerAttachmentBody>
-            <ChatMainPanelComposerAttachmentTitle>
-              release-notes.pdf
-            </ChatMainPanelComposerAttachmentTitle>
-            <ChatMainPanelComposerAttachmentMeta>
-              application/pdf
-            </ChatMainPanelComposerAttachmentMeta>
-          </ChatMainPanelComposerAttachmentBody>
-        </ChatMainPanelComposerAttachmentFile>
-        <ChatMainPanelComposerAttachmentRemove aria-label="Remove release-notes.pdf">
-          <X />
-        </ChatMainPanelComposerAttachmentRemove>
-      </ChatMainPanelComposerAttachment>
-      <ChatMainPanelComposerAttachment>
-        <ChatMainPanelComposerAttachmentFile>
-          <FileText />
-          <ChatMainPanelComposerAttachmentBody>
-            <ChatMainPanelComposerAttachmentTitle>deck.key</ChatMainPanelComposerAttachmentTitle>
-            <ChatMainPanelComposerAttachmentMeta>
-              application/octet-stream
-            </ChatMainPanelComposerAttachmentMeta>
-          </ChatMainPanelComposerAttachmentBody>
-        </ChatMainPanelComposerAttachmentFile>
-        <ChatMainPanelComposerAttachmentOverlay tone="failed">
-          Upload failed
-          <span className="underline">Tap to retry</span>
-        </ChatMainPanelComposerAttachmentOverlay>
-      </ChatMainPanelComposerAttachment>
-    </ChatMainPanelComposerAttachments>
-  );
-}
-
-export function Composer({
+function PlaygroundComposerContent({
   channel,
   label,
-  uploads = false,
-  surface = "main",
+  uploads,
 }: {
   channel: PlaygroundChannel;
   label: string;
-  uploads?: boolean;
-  /** Main chat and thread share this composer; only the footer host differs. */
-  surface?: "main" | "thread";
+  uploads: boolean;
 }) {
-  const [autocomplete, setAutocomplete] = useState<ComposerAutocompleteKind>(null);
+  const autocomplete = usePlaygroundComposerAutocomplete(channel);
+  const [attachmentsVisible, setAttachmentsVisible] = useState(uploads);
+  const [statusMessage, setStatusMessage] = useState("");
 
-  // Demo trigger: `@` / `#` open the matching panel, Escape closes (source uses
-  // a caret regex against the draft; a keydown check is enough for the preview).
-  const handleKeyDown = (event: { key: string }) => {
-    if (event.key === "@") setAutocomplete("mention");
-    else if (event.key === "#") setAutocomplete("channel");
-    else if (event.key === "Escape") setAutocomplete(null);
-  };
-
-  const body = (
+  return (
     <>
       <ComposerRoot positioned>
-        {autocomplete === "mention" ? <MentionAutocomplete channel={channel} /> : null}
-        {autocomplete === "channel" ? <ChannelAutocomplete /> : null}
-        {uploads ? <ComposerAttachments /> : null}
+        {autocomplete.open ? (
+          <AutocompleteList
+            suggestions={autocomplete.suggestions}
+            highlightedIndex={autocomplete.highlightedIndex}
+            listId={autocomplete.listId}
+            listRef={autocomplete.listRef}
+            onSelect={autocomplete.selectSuggestion}
+          />
+        ) : null}
+        {attachmentsVisible ? (
+          <ComposerAttachmentsComposition
+            onRemove={(name) => {
+              setAttachmentsVisible(false);
+              setStatusMessage(`${name} removed`);
+            }}
+            onRetry={(name) => setStatusMessage(`Retrying ${name}`)}
+          />
+        ) : null}
         <ChatMainPanelComposer>
           <ChatMainPanelComposerInput
+            ref={autocomplete.inputRef}
+            role="combobox"
+            value={autocomplete.draft}
+            aria-activedescendant={autocomplete.activeOptionId}
+            aria-controls={autocomplete.open ? autocomplete.listId : undefined}
+            aria-expanded={autocomplete.open}
             aria-label={label}
+            aria-autocomplete="list"
             placeholder={label}
-            onKeyDown={handleKeyDown}
+            onBlur={autocomplete.handleBlur}
+            onChange={autocomplete.handleChange}
+            onKeyDown={autocomplete.handleKeyDown}
+            onCompositionStart={autocomplete.handleCompositionStart}
+            onCompositionEnd={autocomplete.handleCompositionEnd}
+            onSelect={autocomplete.handleSelect}
           />
           <ChatMainPanelComposerToolbar>
             <ChatMainPanelComposerActions>
-              <ChatMainPanelComposerIconButton aria-label="Attach image">
+              <ChatMainPanelComposerIconButton
+                aria-label="Attach image"
+                onClick={() => {
+                  setAttachmentsVisible(true);
+                  setStatusMessage("Mock image attached");
+                }}
+              >
                 <ImagePlus />
               </ChatMainPanelComposerIconButton>
-              <ChatMainPanelComposerIconButton aria-label="Attach file">
+              <ChatMainPanelComposerIconButton
+                aria-label="Attach file"
+                onClick={() => {
+                  setAttachmentsVisible(true);
+                  setStatusMessage("Mock file attached");
+                }}
+              >
                 <Paperclip />
               </ChatMainPanelComposerIconButton>
             </ChatMainPanelComposerActions>
             <ChatMainPanelComposerMeta>
-              <ComposerTaskToggle>
+              <ComposerToolbarOption>
                 <Checkbox size="sm" aria-label="Send as task" />
-                <ComposerTaskLabel>As Task</ComposerTaskLabel>
-              </ComposerTaskToggle>
-              <ChatMainPanelComposerSubmit aria-label="Send">
+                <ComposerToolbarOptionLabel>As Task</ComposerToolbarOptionLabel>
+              </ComposerToolbarOption>
+              <ChatMainPanelComposerSubmit
+                aria-label="Send"
+                disabled={!autocomplete.draft.trim()}
+                onClick={() => {
+                  setStatusMessage(`Sent: ${autocomplete.draft.trim()}`);
+                  autocomplete.clear();
+                }}
+              >
                 <span>Send</span>
                 <Send />
               </ChatMainPanelComposerSubmit>
             </ChatMainPanelComposerMeta>
           </ChatMainPanelComposerToolbar>
         </ChatMainPanelComposer>
+        <span className="sr-only" aria-live="polite">
+          {statusMessage}
+        </span>
       </ComposerRoot>
       {uploads ? (
         <ChatMainPanelComposerDropOverlay aria-hidden>
@@ -297,16 +270,34 @@ export function Composer({
       ) : null}
     </>
   );
+}
 
-  if (surface === "thread") {
-    return (
-      <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
-        {body}
-      </ChatThreadPanelFooter>
-    );
-  }
+type PlaygroundComposerProps = {
+  channel: PlaygroundChannel;
+  label: string;
+  uploads?: boolean;
+};
 
+export function PlaygroundMainComposer({
+  channel,
+  label,
+  uploads = false,
+}: PlaygroundComposerProps) {
   return (
-    <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>{body}</ChatMainPanelFooter>
+    <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
+      <PlaygroundComposerContent channel={channel} label={label} uploads={uploads} />
+    </ChatMainPanelFooter>
+  );
+}
+
+export function PlaygroundThreadComposer({
+  channel,
+  label,
+  uploads = false,
+}: PlaygroundComposerProps) {
+  return (
+    <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
+      <PlaygroundComposerContent channel={channel} label={label} uploads={uploads} />
+    </ChatThreadPanelFooter>
   );
 }

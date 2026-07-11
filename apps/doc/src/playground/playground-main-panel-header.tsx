@@ -27,8 +27,11 @@ import {
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
+  ChatMainPanelTitleRow,
   PanelIconButton,
+  PanelIconButtonCount,
 } from "raft-ui/wip";
+import { useState } from "react";
 
 import {
   getPlaygroundDmActor,
@@ -39,29 +42,29 @@ import {
 
 function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
-  const isMuted = channel.sidebar.muted;
+  const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
     <ChatMainPanelHeader>
-      <ChatMainPanelHeaderIcon className="[&_svg]:size-[14px]">
+      <ChatMainPanelHeaderIcon>
         <Icon />
       </ChatMainPanelHeaderIcon>
       <ChatMainPanelTitleBlock>
-        <div className="flex min-w-0 items-center gap-2">
+        <ChatMainPanelTitleRow>
           <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
           {isMuted ? (
-            <ChatMainPanelMutedBadge>
+            <ChatMainPanelMutedBadge title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
               Muted
             </ChatMainPanelMutedBadge>
           ) : null}
-        </div>
+        </ChatMainPanelTitleRow>
         <ChatMainPanelSubtitle>{channel.subtitle}</ChatMainPanelSubtitle>
       </ChatMainPanelTitleBlock>
       <TooltipProvider delay={650}>
         <ChatMainPanelActions>
           <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Search this channel" />}>
+            <TooltipTrigger render={<PanelIconButton aria-label="Search this channel" disabled />}>
               <Search />
             </TooltipTrigger>
             <TooltipContent side="bottom">Search this channel</TooltipContent>
@@ -70,7 +73,8 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipTrigger
               render={
                 <PanelIconButton
-                  pressed={isMuted}
+                  aria-pressed={isMuted}
+                  onClick={() => setIsMuted((muted) => !muted)}
                   aria-label={
                     isMuted ? "Unmute activity for this channel" : "Mute activity for this channel"
                   }
@@ -85,7 +89,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
-              render={<PanelIconButton aria-label="Stop all agents in this channel" />}
+              render={<PanelIconButton aria-label="Stop all agents in this channel" disabled />}
             >
               <Square />
             </TooltipTrigger>
@@ -93,22 +97,15 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
-              render={
-                <PanelIconButton
-                  aria-label="View participants"
-                  className="w-auto min-w-7 gap-1.5 px-2.5"
-                />
-              }
+              render={<PanelIconButton aria-label="View participants" layout="label" disabled />}
             >
               <Users />
-              <span className="min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums text-foreground-icon">
-                {channel.memberCount}
-              </span>
+              <PanelIconButtonCount>{channel.memberCount}</PanelIconButtonCount>
             </TooltipTrigger>
             <TooltipContent side="bottom">View participants</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Edit channel" />}>
+            <TooltipTrigger render={<PanelIconButton aria-label="Edit channel" disabled />}>
               <Settings />
             </TooltipTrigger>
             <TooltipContent side="bottom">Edit channel</TooltipContent>
@@ -121,6 +118,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
 
 function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
   const actor = getPlaygroundDmActor(channel);
+  const [isMuted, setIsMuted] = useState(channel.navigation.muted);
   const presenceVariant =
     actor.presence === "online" || actor.presence === "working"
       ? "success"
@@ -135,7 +133,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
         <AvatarFallback>{actor.fallback}</AvatarFallback>
       </Avatar>
       <ChatMainPanelTitleBlock>
-        <div className="flex min-w-0 items-center gap-2">
+        <ChatMainPanelTitleRow>
           <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
           {actor.presence ? (
             <Status
@@ -145,18 +143,26 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
               pulse={actor.presence === "working"}
             />
           ) : null}
-          <ChatMainPanelSubtitle className="text-sm [[data-theme=brutal]_&]:text-black/60">
-            {channel.subtitle}
-          </ChatMainPanelSubtitle>
-        </div>
+          <ChatMainPanelSubtitle size="md">{channel.subtitle}</ChatMainPanelSubtitle>
+        </ChatMainPanelTitleRow>
       </ChatMainPanelTitleBlock>
       <TooltipProvider delay={650}>
         <ChatMainPanelActions>
           <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Mute activity for this DM" />}>
-              <Bell />
+            <TooltipTrigger
+              render={
+                <PanelIconButton
+                  aria-label={isMuted ? "Unmute activity for this DM" : "Mute activity for this DM"}
+                  aria-pressed={isMuted}
+                  onClick={() => setIsMuted((muted) => !muted)}
+                />
+              }
+            >
+              {isMuted ? <BellOff /> : <Bell />}
             </TooltipTrigger>
-            <TooltipContent side="bottom">Mute activity for this DM</TooltipContent>
+            <TooltipContent side="bottom">
+              {isMuted ? "Unmute activity for this DM" : "Mute activity for this DM"}
+            </TooltipContent>
           </Tooltip>
         </ChatMainPanelActions>
       </TooltipProvider>
@@ -166,8 +172,8 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
 
 export function PlaygroundMainPanelHeader({ channel }: { channel: PlaygroundChannel }) {
   return channel.kind === "dm" ? (
-    <DmHeader channel={channel} />
+    <DmHeader key={channel.id} channel={channel} />
   ) : (
-    <ChannelHeader channel={channel} />
+    <ChannelHeader key={channel.id} channel={channel} />
   );
 }

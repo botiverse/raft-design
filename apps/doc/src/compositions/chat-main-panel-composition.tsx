@@ -1,5 +1,4 @@
 import {
-  ArrowUp,
   Bell,
   Bookmark,
   Hash,
@@ -35,8 +34,8 @@ import {
   ChatMainPanelComposerSubmit,
   ChatMainPanelComposerToolbar,
   ComposerRoot,
-  ComposerTaskLabel,
-  ComposerTaskToggle,
+  ComposerToolbarOption,
+  ComposerToolbarOptionLabel,
   ChatMainPanelFooter,
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
@@ -50,6 +49,7 @@ import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBadge,
+  MessageItemUnreadBadge,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
@@ -63,6 +63,7 @@ import {
   MessageTimelineDateDivider,
   MessageTimelineNotice,
   PanelIconButton,
+  PanelIconButtonCount,
 } from "raft-ui/wip";
 
 export function ChatMainPanelComposition() {
@@ -86,23 +87,11 @@ export function ChatMainPanelComposition() {
           <PanelIconButton aria-label="Stop all agents in this channel">
             <Square />
           </PanelIconButton>
-          <PanelIconButton aria-label="Channel options" className="[[data-theme=elegant]_&]:hidden">
-            <Settings />
-          </PanelIconButton>
-          <PanelIconButton aria-label="Channel members" className="[[data-theme=elegant]_&]:hidden">
+          <PanelIconButton aria-label="View participants" layout="label">
             <Users />
+            <PanelIconButtonCount>13</PanelIconButtonCount>
           </PanelIconButton>
-          <PanelIconButton
-            aria-label="View participants"
-            className="hidden [[data-theme=elegant]_&]:inline-flex [[data-theme=elegant]_&]:size-auto [[data-theme=elegant]_&]:h-7 [[data-theme=elegant]_&]:gap-1 [[data-theme=elegant]_&]:px-3 [[data-theme=elegant]_&]:py-1.5 [[data-theme=elegant]_&]:text-sm [[data-theme=elegant]_&]:font-medium"
-          >
-            <Users />
-            <span>13</span>
-          </PanelIconButton>
-          <PanelIconButton
-            aria-label="Channel options"
-            className="hidden [[data-theme=elegant]_&]:inline-flex"
-          >
+          <PanelIconButton aria-label="Channel options">
             <Settings />
           </PanelIconButton>
         </ChatMainPanelActions>
@@ -113,26 +102,16 @@ export function ChatMainPanelComposition() {
             value={["chat", "tasks", "files"]}
             onReorder={() => undefined}
             variant="underline"
-            className="[[data-theme=brutal]_&]:max-w-none [[data-theme=brutal]_&]:border-y-0 [[data-theme=brutal]_&]:border-l-0 [[data-theme=brutal]_&]:border-r-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white"
           >
-            <SortableTabsTab
-              value="chat"
-              className="!cursor-default [[data-theme=brutal]_&]:bg-soft-signal [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:data-[active]:bg-soft-signal [[data-theme=brutal]_&]:data-[active]:hover:bg-soft-signal [[data-theme=brutal]_&]:[&+&]:before:bg-black"
-            >
+            <SortableTabsTab value="chat">
               <MessageSquare />
               <TabsLabel>Chat</TabsLabel>
             </SortableTabsTab>
-            <SortableTabsTab
-              value="tasks"
-              className="!cursor-default [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:hover:bg-white [[data-theme=brutal]_&]:[&+&]:before:bg-black"
-            >
+            <SortableTabsTab value="tasks">
               <ListTodo />
               <TabsLabel>Tasks</TabsLabel>
             </SortableTabsTab>
-            <SortableTabsTab
-              value="files"
-              className="!cursor-default [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:hover:bg-white [[data-theme=brutal]_&]:[&+&]:before:bg-black"
-            >
+            <SortableTabsTab value="files">
               <Paperclip />
               <TabsLabel>Files</TabsLabel>
             </SortableTabsTab>
@@ -147,34 +126,28 @@ export function ChatMainPanelComposition() {
               </div>
               <div className="h-px" aria-hidden />
               <div className="flex-1" aria-hidden />
-              <MessageTimelineDateDivider className="hidden [[data-theme=elegant]_&]:flex">
-                Today
-              </MessageTimelineDateDivider>
+              <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
               <div data-index="0" data-message-id="preview-cindy">
-                <div style={{ contain: "layout style", overflow: "clip visible" }}>
-                  <MessageItem className="[[data-theme=brutal]_&]:transition-none">
+                <div>
+                  <MessageItem>
                     <MessageItemAvatarSlot>
                       <Avatar size="md" type="human" />
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>
-                        <MessageItemSender className="[[data-theme=brutal]_&]:text-black">
-                          Cindy
-                        </MessageItemSender>
-                        <MessageItemTime className="[[data-theme=brutal]_&]:text-black/40">
-                          10:42
-                        </MessageItemTime>
+                        <MessageItemSender>Cindy</MessageItemSender>
+                        <MessageItemTime>10:42</MessageItemTime>
                       </MessageItemHeader>
-                      <MessageItemBody className="[[data-theme=brutal]_&]:text-black">
+                      <MessageItemBody>
                         Rail and sidebar own navigation. The main panel owns the active conversation
                         chrome.
                       </MessageItemBody>
-                      <MessageItemFooter className="hidden [[data-theme=elegant]_&]:flex">
+                      <MessageItemFooter>
                         <MessageItemBadge>2 replies</MessageItemBadge>
-                        <MessageItemBadge tone="cyan">1 new</MessageItemBadge>
+                        <MessageItemUnreadBadge>1 new</MessageItemUnreadBadge>
                       </MessageItemFooter>
                     </MessageItemContent>
-                    <MessageItemToolbar className="[[data-theme=brutal]_&]:!hidden">
+                    <MessageItemToolbar>
                       <MessageItemToolbarButton aria-label="Reply in thread">
                         <MessageSquare />
                       </MessageItemToolbarButton>
@@ -189,26 +162,22 @@ export function ChatMainPanelComposition() {
                 </div>
               </div>
               <div data-index="1" data-message-id="preview-atlas">
-                <div style={{ contain: "layout style", overflow: "clip visible" }}>
-                  <MessageItem className="[[data-theme=brutal]_&]:transition-none">
+                <div>
+                  <MessageItem>
                     <MessageItemAvatarSlot>
                       <Avatar size="md" type="agent" />
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>
-                        <MessageItemSender className="[[data-theme=brutal]_&]:text-black">
-                          Atlas
-                        </MessageItemSender>
-                        <MessageItemTime className="[[data-theme=brutal]_&]:text-black/40">
-                          10:44
-                        </MessageItemTime>
+                        <MessageItemSender>Atlas</MessageItemSender>
+                        <MessageItemTime>10:44</MessageItemTime>
                       </MessageItemHeader>
-                      <MessageItemBody className="[[data-theme=brutal]_&]:text-black">
+                      <MessageItemBody>
                         Message rows, composer behavior, route sync, and realtime data stay
                         app-owned.
                       </MessageItemBody>
                     </MessageItemContent>
-                    <MessageItemToolbar className="[[data-theme=brutal]_&]:!hidden">
+                    <MessageItemToolbar>
                       <MessageItemToolbarButton aria-label="Reply in thread">
                         <MessageSquare />
                       </MessageItemToolbarButton>
@@ -222,20 +191,17 @@ export function ChatMainPanelComposition() {
                   </MessageItem>
                 </div>
               </div>
-              <div
-                className="hidden [[data-theme=elegant]_&]:block"
-                data-index="2"
-                data-message-id="preview-atlas-cont"
-              >
-                <div style={{ contain: "layout style", overflow: "clip visible" }}>
+              <div data-index="2" data-message-id="preview-atlas-cont">
+                <div>
                   <MessageItem compact>
-                    <MessageItemGutter />
+                    <MessageItemGutter>
+                      <MessageItemContinuationTime>10:45</MessageItemContinuationTime>
+                    </MessageItemGutter>
                     <MessageItemContent>
                       <MessageItemBody>
                         Continuation lines stack under the sender with no repeated avatar or header.
                       </MessageItemBody>
                     </MessageItemContent>
-                    <MessageItemContinuationTime>10:45</MessageItemContinuationTime>
                   </MessageItem>
                 </div>
               </div>
@@ -264,14 +230,13 @@ export function ChatMainPanelComposition() {
                   </ChatMainPanelComposerIconButton>
                 </ChatMainPanelComposerActions>
                 <ChatMainPanelComposerMeta>
-                  <ComposerTaskToggle>
+                  <ComposerToolbarOption>
                     <Checkbox size="sm" aria-label="Send as task" />
-                    <ComposerTaskLabel>As Task</ComposerTaskLabel>
-                  </ComposerTaskToggle>
+                    <ComposerToolbarOptionLabel>As Task</ComposerToolbarOptionLabel>
+                  </ComposerToolbarOption>
                   <ChatMainPanelComposerSubmit aria-label="Send">
-                    <Send className="[[data-theme=elegant]_&]:hidden" />
-                    <span className="hidden [[data-theme=elegant]_&]:inline">Send</span>
-                    <ArrowUp className="hidden [[data-theme=elegant]_&]:inline-block" />
+                    <span>Send</span>
+                    <Send />
                   </ChatMainPanelComposerSubmit>
                 </ChatMainPanelComposerMeta>
               </ChatMainPanelComposerToolbar>

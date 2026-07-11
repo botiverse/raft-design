@@ -1,15 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import {
+  AtSign,
+  BellOff,
   Bookmark,
   ChevronRight,
   CircleAlert,
   GitBranch,
   Hash,
   Lock,
+  Pencil,
   Plus,
   Search,
 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, type ReactElement, type ReactNode } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,6 +26,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Banner,
+  BannerAction,
+  BannerDescription,
   Button,
   Combobox,
   ComboboxContent,
@@ -51,7 +57,6 @@ import {
   SegmentedControlLabel,
   Status,
   Textarea,
-  useThemeFamily,
 } from "raft-ui";
 import {
   ChatSidebarBody,
@@ -59,6 +64,7 @@ import {
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
   ChatSidebarItem,
+  ChatSidebarItemUnread,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
   ChatSidebarItemChannelIcon,
@@ -90,7 +96,6 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_INVITABLE_ACTORS,
   PLAYGROUND_JOINT_CHANNELS,
-  PLAYGROUND_PINNED_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
   getPlaygroundDmActor,
   type PlaygroundChannelId,
@@ -101,12 +106,40 @@ import {
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
 
-// Source dialog field labels are uppercased with wide tracking (FormField).
-const DIALOG_LABEL_CLASS = "uppercase tracking-wide";
-
 const dialogMembers = PLAYGROUND_INVITABLE_ACTORS;
 
 type DialogMember = (typeof dialogMembers)[number];
+
+function getPlaygroundChannelIcon(channel: PlaygroundRoomChannel) {
+  return channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
+}
+
+function PlaygroundMutedIndicator() {
+  return (
+    <ChatSidebarItemMuted
+      aria-label="Activity muted"
+      title="Activity muted. Direct mentions can still notify you."
+    >
+      <BellOff aria-hidden />
+    </ChatSidebarItemMuted>
+  );
+}
+
+function PlaygroundMentionIndicator() {
+  return (
+    <ChatSidebarItemMention aria-label="Mentioned you">
+      <AtSign aria-hidden />
+    </ChatSidebarItemMention>
+  );
+}
+
+function PlaygroundDraftIndicator() {
+  return (
+    <ChatSidebarItemDraft aria-label="Draft">
+      <Pencil aria-hidden />
+    </ChatSidebarItemDraft>
+  );
+}
 
 function ChannelRowContent({
   row,
@@ -115,21 +148,25 @@ function ChannelRowContent({
   row: PlaygroundRoomChannel;
   hideBadge?: boolean;
 }) {
-  const showBadge = row.sidebar.badge && !hideBadge;
-  const showAside = showBadge || row.sidebar.draft || row.sidebar.mention;
+  const navigation = row.navigation;
+  const showBadge = navigation.badge && !hideBadge;
+  const showAside = showBadge || navigation.draft || navigation.mention;
+  const ChannelIcon = getPlaygroundChannelIcon(row);
 
   return (
     <>
-      <ChatSidebarItemChannelIcon type={row.kind} />
-      <ChatSidebarItemInlineText align={row.sidebar.muted ? "center" : undefined}>
+      <ChatSidebarItemChannelIcon aria-hidden>
+        <ChannelIcon />
+      </ChatSidebarItemChannelIcon>
+      <ChatSidebarItemInlineText align={navigation.muted ? "center" : undefined}>
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
-        {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
+        {navigation.muted ? <PlaygroundMutedIndicator /> : null}
       </ChatSidebarItemInlineText>
       {showAside ? (
         <ChatSidebarItemAside>
-          {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
-          {showBadge ? <ChatSidebarItemBadge>{row.sidebar.badge}</ChatSidebarItemBadge> : null}
-          {row.sidebar.draft ? <ChatSidebarItemDraft /> : null}
+          {navigation.mention ? <PlaygroundMentionIndicator /> : null}
+          {showBadge ? <ChatSidebarItemBadge>{navigation.badge}</ChatSidebarItemBadge> : null}
+          {navigation.draft ? <PlaygroundDraftIndicator /> : null}
         </ChatSidebarItemAside>
       ) : null}
     </>
@@ -162,23 +199,18 @@ function DirectMessageRowContent({
   row: PlaygroundDirectMessage;
   hideBadge?: boolean;
 }) {
-  const theme = useThemeFamily();
   const actor = getPlaygroundDmActor(row);
-  const showBadge = Boolean(row.sidebar.badge && !hideBadge);
+  const navigation = row.navigation;
+  const showBadge = Boolean(navigation.badge && !hideBadge);
   const showAside =
     showBadge ||
-    Boolean(row.sidebar.draft) ||
-    Boolean(row.sidebar.mention) ||
-    (theme === "brutal" && Boolean(actor.presence));
+    Boolean(navigation.draft) ||
+    Boolean(navigation.mention) ||
+    Boolean(actor.presence);
 
   return (
     <>
       <ChatSidebarItemIcon>
-        {actor.presence ? (
-          <ChatSidebarItemPresence slot="indicator">
-            <DirectMessageStatus status={actor.presence} size="sm" />
-          </ChatSidebarItemPresence>
-        ) : null}
         <Avatar size="sidebar" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
@@ -189,23 +221,23 @@ function DirectMessageRowContent({
         </Avatar>
       </ChatSidebarItemIcon>
       <ChatSidebarItemInlineText
-        align={row.sidebar.muted ? "center" : undefined}
+        align={navigation.muted ? "center" : undefined}
         titleWidth="constrained"
       >
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
-        {row.sidebar.muted ? <ChatSidebarItemMuted /> : null}
+        {navigation.muted ? <PlaygroundMutedIndicator /> : null}
       </ChatSidebarItemInlineText>
       {showAside ? (
         <ChatSidebarItemAside>
-          {row.sidebar.mention ? <ChatSidebarItemMention /> : null}
+          {navigation.mention ? <PlaygroundMentionIndicator /> : null}
           {actor.presence ? (
-            <ChatSidebarItemPresence slot="aside">
+            <ChatSidebarItemPresence>
               <DirectMessageStatus status={actor.presence} size="md" />
             </ChatSidebarItemPresence>
           ) : null}
-          {showBadge ? <ChatSidebarItemBadge>{row.sidebar.badge}</ChatSidebarItemBadge> : null}
-          {row.sidebar.draft ? <ChatSidebarItemDraft /> : null}
+          {showBadge ? <ChatSidebarItemBadge>{navigation.badge}</ChatSidebarItemBadge> : null}
+          {navigation.draft ? <PlaygroundDraftIndicator /> : null}
         </ChatSidebarItemAside>
       ) : null}
     </>
@@ -226,9 +258,15 @@ function PinnedRowContent({
   );
 }
 
-const unpinnedJointChannels = PLAYGROUND_JOINT_CHANNELS.filter((row) => !row.sidebar.pinned);
-const unpinnedRoomChannels = PLAYGROUND_ROOM_CHANNELS.filter((row) => !row.sidebar.pinned);
-const unpinnedDirectMessages = PLAYGROUND_DIRECT_MESSAGES.filter((row) => !row.sidebar.pinned);
+const allPlaygroundChannels = [
+  ...PLAYGROUND_JOINT_CHANNELS,
+  ...PLAYGROUND_ROOM_CHANNELS,
+  ...PLAYGROUND_DIRECT_MESSAGES,
+];
+const pinnedChannels = allPlaygroundChannels.filter((row) => row.navigation.pinned);
+const unpinnedJointChannels = PLAYGROUND_JOINT_CHANNELS.filter((row) => !row.navigation.pinned);
+const unpinnedRoomChannels = PLAYGROUND_ROOM_CHANNELS.filter((row) => !row.navigation.pinned);
+const unpinnedDirectMessages = PLAYGROUND_DIRECT_MESSAGES.filter((row) => !row.navigation.pinned);
 
 function useSectionOrder<T extends { id: string }>(rows: readonly T[]) {
   const [order, setOrder] = useState(() => rows.map((row) => row.id));
@@ -245,14 +283,33 @@ function channelLink(channelId: PlaygroundChannelId) {
   return <Link to="/playground/$channelId" params={{ channelId }} search={{}} />;
 }
 
+function PlaygroundSidebarItem({
+  children,
+  current,
+  render,
+  unread,
+}: {
+  children: ReactNode;
+  current: boolean;
+  render: ReactElement;
+  unread?: boolean;
+}) {
+  const Item = unread ? ChatSidebarItemUnread : ChatSidebarItem;
+  return (
+    <Item aria-current={current ? "page" : undefined} render={render}>
+      {children}
+    </Item>
+  );
+}
+
 function PinnedSection({ activeChannelId }: { activeChannelId: PlaygroundChannelId }) {
-  const { ordered, order, onReorder } = useSectionOrder(PLAYGROUND_PINNED_CHANNELS);
+  const { ordered, order, onReorder } = useSectionOrder(pinnedChannels);
   if (ordered.length === 0) return null;
 
   return (
     <ChatSidebarSection>
       <ChatSidebarSectionHeader>
-        <ChatSidebarSectionButton type="button" data-panel-open>
+        <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
@@ -261,13 +318,13 @@ function PinnedSection({ activeChannelId }: { activeChannelId: PlaygroundChannel
       <SortableChatSidebarList items={order} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
-            <ChatSidebarItem
-              selected={activeChannelId === row.id}
-              unread={row.sidebar.unread}
+            <PlaygroundSidebarItem
+              current={activeChannelId === row.id}
+              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </ChatSidebarItem>
+            </PlaygroundSidebarItem>
           </SortableChatSidebarItem>
         ))}
       </SortableChatSidebarList>
@@ -281,7 +338,7 @@ function JointChannelsSection({ activeChannelId }: { activeChannelId: Playground
   return (
     <ChatSidebarSection>
       <ChatSidebarSectionHeader>
-        <ChatSidebarSectionButton type="button" data-panel-open>
+        <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
@@ -290,13 +347,13 @@ function JointChannelsSection({ activeChannelId }: { activeChannelId: Playground
       <SortableChatSidebarList items={order} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
-            <ChatSidebarItem
-              selected={activeChannelId === row.id}
-              unread={row.sidebar.unread}
+            <PlaygroundSidebarItem
+              current={activeChannelId === row.id}
+              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </ChatSidebarItem>
+            </PlaygroundSidebarItem>
           </SortableChatSidebarItem>
         ))}
       </SortableChatSidebarList>
@@ -310,7 +367,7 @@ function ChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChann
   return (
     <ChatSidebarSection>
       <ChatSidebarSectionHeader>
-        <ChatSidebarSectionButton type="button" data-panel-open>
+        <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
@@ -319,13 +376,13 @@ function ChannelsSection({ activeChannelId }: { activeChannelId: PlaygroundChann
       <SortableChatSidebarList items={order} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
-            <ChatSidebarItem
-              selected={activeChannelId === row.id}
-              unread={row.sidebar.unread}
+            <PlaygroundSidebarItem
+              current={activeChannelId === row.id}
+              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </ChatSidebarItem>
+            </PlaygroundSidebarItem>
           </SortableChatSidebarItem>
         ))}
       </SortableChatSidebarList>
@@ -339,7 +396,7 @@ function DirectMessagesSection({ activeChannelId }: { activeChannelId: Playgroun
   return (
     <ChatSidebarSection>
       <ChatSidebarSectionHeader>
-        <ChatSidebarSectionButton type="button" data-panel-open>
+        <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChevronRight className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
@@ -348,13 +405,13 @@ function DirectMessagesSection({ activeChannelId }: { activeChannelId: Playgroun
       <SortableChatSidebarList items={order} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
-            <ChatSidebarItem
-              selected={activeChannelId === row.id}
-              unread={row.sidebar.unread}
+            <PlaygroundSidebarItem
+              current={activeChannelId === row.id}
+              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </ChatSidebarItem>
+            </PlaygroundSidebarItem>
           </SortableChatSidebarItem>
         ))}
       </SortableChatSidebarList>
@@ -405,17 +462,13 @@ function CreateChannelDialogContent() {
       </DialogHeader>
       <DialogBody className="grid gap-4">
         <Field>
-          <FieldLabel htmlFor="dialog-create-channel-name" required className={DIALOG_LABEL_CLASS}>
+          <FieldLabel htmlFor="dialog-create-channel-name" required>
             Name
           </FieldLabel>
           <Input id="dialog-create-channel-name" placeholder="e.g. ai-research" />
         </Field>
         <Field>
-          <FieldLabel
-            htmlFor="dialog-create-channel-description"
-            optional
-            className={DIALOG_LABEL_CLASS}
-          >
+          <FieldLabel htmlFor="dialog-create-channel-description" optional>
             Description
           </FieldLabel>
           <Textarea
@@ -425,7 +478,7 @@ function CreateChannelDialogContent() {
           />
         </Field>
         <Field>
-          <FieldLabel className={DIALOG_LABEL_CLASS}>Visibility</FieldLabel>
+          <FieldLabel>Visibility</FieldLabel>
           <SegmentedControl defaultValue="public" ariaLabel="Channel visibility">
             <SegmentedControlItem value="public">
               <Hash />
@@ -438,9 +491,7 @@ function CreateChannelDialogContent() {
           </SegmentedControl>
         </Field>
         <Field>
-          <FieldLabel optional className={DIALOG_LABEL_CLASS}>
-            Members
-          </FieldLabel>
+          <FieldLabel optional>Members</FieldLabel>
           <Combobox<DialogMember, true>
             multiple
             autoHighlight
@@ -450,7 +501,7 @@ function CreateChannelDialogContent() {
             itemToStringLabel={(member) => member.name}
           >
             <ComboboxControl className="w-full">
-              <Search className="text-foreground-muted [[data-theme=brutal]_&]:!stroke-2 [[data-theme=brutal]_&_*]:!stroke-2" />
+              <Search />
               <ComboboxInput
                 aria-label="Search members"
                 placeholder="Search members by name"
@@ -478,7 +529,9 @@ function CreateChannelDialogContent() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Create Channel</Button>
+        <Button variant="accent" disabled>
+          Create Channel
+        </Button>
       </DialogFooter>
     </DialogContent>
   );
@@ -497,22 +550,22 @@ function CreateJointChannelDialogContent() {
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
-        <div className="flex items-start gap-3 border-2 border-black bg-brutal-orange/20 p-3 font-bold">
-          <span className="min-w-0 flex-1">
-            Joint channels requires the Pro plan.{" "}
-            <button type="button" className="text-black underline">
+        <Banner status="warning">
+          <BannerDescription>Joint channels requires the Pro plan.</BannerDescription>
+          <BannerAction>
+            <Button type="button" variant="ghost" size="xs" disabled>
               View Billing
-            </button>
-          </span>
-        </div>
+            </Button>
+          </BannerAction>
+        </Banner>
         <Field>
-          <FieldLabel htmlFor="dialog-joint-name" required className={DIALOG_LABEL_CLASS}>
+          <FieldLabel htmlFor="dialog-joint-name" required>
             Name
           </FieldLabel>
           <Input id="dialog-joint-name" placeholder="e.g. partner-launch" />
         </Field>
         <Field>
-          <FieldLabel htmlFor="dialog-joint-description" optional className={DIALOG_LABEL_CLASS}>
+          <FieldLabel htmlFor="dialog-joint-description" optional>
             Description
           </FieldLabel>
           <Textarea
@@ -523,8 +576,8 @@ function CreateJointChannelDialogContent() {
         </Field>
         <Field>
           <span className="flex items-center justify-between gap-3">
-            <FieldLabel className={DIALOG_LABEL_CLASS}>Invite servers</FieldLabel>
-            <Button type="button" variant="outline" size="xs">
+            <FieldLabel>Invite servers</FieldLabel>
+            <Button type="button" variant="outline" size="xs" disabled>
               <Plus />
               Add server
             </Button>
@@ -534,13 +587,13 @@ function CreateJointChannelDialogContent() {
           </FieldDescription>
           <span className="grid gap-3">
             <Field>
-              <FieldLabel htmlFor="dialog-joint-slug" required className={DIALOG_LABEL_CLASS}>
+              <FieldLabel htmlFor="dialog-joint-slug" required>
                 Server slug
               </FieldLabel>
               <Input id="dialog-joint-slug" placeholder="partner-workspace" />
             </Field>
             <Field>
-              <FieldLabel htmlFor="dialog-joint-people" required className={DIALOG_LABEL_CLASS}>
+              <FieldLabel htmlFor="dialog-joint-people" required>
                 Invited people
               </FieldLabel>
               <Textarea
@@ -588,7 +641,7 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
             <div className="min-h-full">
               <ChatSidebarSection>
                 <ChatSidebarSectionHeader className="mt-0">
-                  <ChatSidebarMenu>
+                  <ChatSidebarMenu disabled>
                     <ChatSidebarMenuIcon>
                       <Bookmark />
                     </ChatSidebarMenuIcon>
@@ -635,13 +688,13 @@ export function PlaygroundSidebar({ activeChannelId }: { activeChannelId: Playgr
             <AlertDialogClose />
           </AlertDialogHeader>
           <AlertDialogBody>
-            <div className="flex items-start gap-3 border-2 border-black bg-brutal-orange/20 p-3">
-              <CircleAlert className="mt-0.5 size-[18px] shrink-0 text-black" />
-              <p className="m-0 min-w-0 flex-1 text-sm leading-5 font-normal text-black">
+            <Banner status="warning">
+              <CircleAlert />
+              <BannerDescription>
                 Archive "{archiveTarget}"? Members keep read access and history, but writes will be
                 frozen and the channel will be hidden from sidebars. You can unarchive it later.
-              </p>
-            </div>
+              </BannerDescription>
+            </Banner>
           </AlertDialogBody>
           <AlertDialogFooter>
             <AlertDialogCancel size="md">Cancel</AlertDialogCancel>

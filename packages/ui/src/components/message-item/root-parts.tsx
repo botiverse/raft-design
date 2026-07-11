@@ -1,35 +1,26 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { Check } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
-import {
-  messageItem,
-  type DataAttributes,
-  type MessageItemBadgeTone,
-  type MessageItemRowState,
-  type MessageItemVariantProps,
-} from "./recipe";
+import { messageMarkdown } from "./message-markdown.recipe";
+import { messageItem, type DataAttributes, type MessageItemVariantProps } from "./recipe";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
-  Pick<MessageItemVariantProps, "compact" | "menuOpen"> & {
-    rowState?: MessageItemRowState;
-  };
+  Pick<MessageItemVariantProps, "compact">;
 
-export function MessageItem({
+type MessageItemSurface = "active" | "search-match" | "select";
+
+function MessageItemRoot({
   className,
   compact,
-  menuOpen,
   render,
-  rowState,
+  surface,
   ...props
-}: MessageItemProps) {
+}: MessageItemProps & { surface?: MessageItemSurface }) {
   const theme = useThemeFamily();
-  const { root } = messageItem({ compact, menuOpen, rowState, theme });
+  const { root } = messageItem({ compact, rowState: surface, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-compact": compact ? "true" : undefined,
-    "data-menu-open": menuOpen ? "true" : undefined,
-    "data-row-state": rowState,
     className: root({ className }),
   };
 
@@ -41,6 +32,28 @@ export function MessageItem({
       slot: "message-item",
     },
   });
+}
+
+export function MessageItem(props: MessageItemProps) {
+  return <MessageItemRoot {...props} />;
+}
+
+export type MessageItemActiveProps = MessageItemProps;
+
+export function MessageItemActive(props: MessageItemActiveProps) {
+  return <MessageItemRoot surface="active" {...props} />;
+}
+
+export type MessageItemSearchMatchProps = MessageItemProps;
+
+export function MessageItemSearchMatch(props: MessageItemSearchMatchProps) {
+  return <MessageItemRoot surface="search-match" {...props} />;
+}
+
+export type MessageItemSelectionProps = MessageItemProps;
+
+export function MessageItemSelection(props: MessageItemSelectionProps) {
+  return <MessageItemRoot surface="select" {...props} />;
 }
 
 export type MessageItemGutterProps = useRender.ComponentProps<"div">;
@@ -79,24 +92,15 @@ export function MessageItemAvatarSlot({ className, render, ...props }: MessageIt
   });
 }
 
-export type MessageItemAvatarStatusProps = useRender.ComponentProps<"span"> & {
-  border?: "always" | "auto";
-  offset?: "fixed" | "scaled";
-};
+export type MessageItemAvatarStatusProps = useRender.ComponentProps<"span">;
 
 export function MessageItemAvatarStatus({
-  border = "auto",
   className,
-  offset = "scaled",
   render,
   ...props
 }: MessageItemAvatarStatusProps) {
   const theme = useThemeFamily();
-  const { avatarStatus } = messageItem({
-    avatarStatusBorder: border,
-    avatarStatusOffset: offset,
-    theme,
-  });
+  const { avatarStatus } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: avatarStatus({ className }),
   };
@@ -107,34 +111,6 @@ export function MessageItemAvatarStatus({
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "message-item-avatar-status",
-    },
-  });
-}
-
-export type MessageItemSelectMarkProps = Omit<useRender.ComponentProps<"span">, "children"> & {
-  checked?: boolean;
-};
-
-export function MessageItemSelectMark({
-  checked = false,
-  className,
-  render,
-  ...props
-}: MessageItemSelectMarkProps) {
-  const { selectMark } = messageItem();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "aria-hidden": true,
-    "data-checked": checked ? "true" : "false",
-    className: selectMark({ className }),
-    children: checked ? <Check aria-hidden /> : null,
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-item-select-mark",
     },
   });
 }
@@ -322,6 +298,64 @@ export function MessageItemBody({ className, render, ...props }: MessageItemBody
   });
 }
 
+export type MessageMarkdownProps = useRender.ComponentProps<"div">;
+
+export function MessageMarkdown({ className, render, ...props }: MessageMarkdownProps) {
+  const { root } = messageMarkdown();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: root({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-markdown",
+    },
+  });
+}
+
+export type MessageMarkdownTableScrollProps = useRender.ComponentProps<"div">;
+
+export function MessageMarkdownTableScroll({
+  className,
+  render,
+  ...props
+}: MessageMarkdownTableScrollProps) {
+  const { tableScroll } = messageMarkdown();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: tableScroll({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-markdown-table-scroll",
+    },
+  });
+}
+
+export type MessageCodeBlockProps = useRender.ComponentProps<"pre">;
+
+export function MessageCodeBlock({ className, render, ...props }: MessageCodeBlockProps) {
+  const { codeBlock } = messageMarkdown();
+  const defaultProps: useRender.ElementProps<"pre"> = {
+    className: codeBlock({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "pre",
+    render,
+    props: mergeProps<"pre">(defaultProps, props),
+    state: {
+      slot: "message-code-block",
+    },
+  });
+}
+
 export type MessageItemEmbeddedProps = useRender.ComponentProps<"div">;
 
 export function MessageItemEmbedded({ className, render, ...props }: MessageItemEmbeddedProps) {
@@ -398,17 +432,19 @@ export function MessageItemFooter({ className, render, ...props }: MessageItemFo
   });
 }
 
-export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
-  tone?: MessageItemBadgeTone;
-};
+export type MessageItemBadgeProps = useRender.ComponentProps<"span">;
 
-export function MessageItemBadge({ className, tone = "default", ...props }: MessageItemBadgeProps) {
+function MessageItemBadgeRoot({
+  className,
+  unread = false,
+  ...props
+}: MessageItemBadgeProps & { unread?: boolean }) {
   const theme = useThemeFamily();
-  const { badge } = messageItem({ badgeTone: tone, theme });
+  const { badge } = messageItem({ badgeTone: unread ? "cyan" : "default", theme });
   // Brutal matches source ThreadRepliesBadge (solid default + bg override).
   // Elegant keeps soft chips; cyan uses primary soft fill.
   const appearance = theme === "elegant" ? "soft" : "solid";
-  const variant = theme === "elegant" && tone === "cyan" ? "primary" : "default";
+  const variant = theme === "elegant" && unread ? "primary" : "default";
   return (
     <Badge
       appearance={appearance}
@@ -419,6 +455,37 @@ export function MessageItemBadge({ className, tone = "default", ...props }: Mess
       {...props}
     />
   );
+}
+
+export function MessageItemBadge(props: MessageItemBadgeProps) {
+  return <MessageItemBadgeRoot {...props} />;
+}
+
+export type MessageItemUnreadBadgeProps = MessageItemBadgeProps;
+
+export function MessageItemUnreadBadge(props: MessageItemUnreadBadgeProps) {
+  return <MessageItemBadgeRoot unread {...props} />;
+}
+
+export type MessageItemBadgeSeparatorProps = useRender.ComponentProps<"span">;
+
+export function MessageItemBadgeSeparator({
+  className,
+  render,
+  ...props
+}: MessageItemBadgeSeparatorProps) {
+  const { badgeSeparator } = messageItem();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    "aria-hidden": true,
+    className: badgeSeparator({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-item-badge-separator" },
+  });
 }
 
 export type MessageItemToolbarProps = useRender.ComponentProps<"div"> & {
@@ -447,24 +514,17 @@ export function MessageItemToolbar({
   });
 }
 
-export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button"> & {
-  active?: boolean;
-  saved?: boolean;
-};
+export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button">;
 
 export function MessageItemToolbarButton({
-  active,
-  saved,
   className,
   render,
   ...props
 }: MessageItemToolbarButtonProps) {
   const theme = useThemeFamily();
   const { toolbarButton } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
-    "data-active": active ? "true" : undefined,
-    "data-saved": saved ? "true" : undefined,
     className: toolbarButton({ className }),
   };
 
@@ -557,5 +617,26 @@ export function SystemMessageItemContent({
     state: {
       slot: "system-message-item-content",
     },
+  });
+}
+
+export type SystemMessageGroupDisclosureProps = useRender.ComponentProps<"button">;
+
+export function SystemMessageGroupDisclosure({
+  className,
+  render,
+  ...props
+}: SystemMessageGroupDisclosureProps) {
+  const { systemDisclosure } = messageItem();
+  const defaultProps: useRender.ElementProps<"button"> = {
+    type: "button",
+    className: systemDisclosure({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
+    state: { slot: "system-message-group-disclosure" },
   });
 }

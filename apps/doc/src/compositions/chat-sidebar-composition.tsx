@@ -1,4 +1,13 @@
-import { Bookmark, ChevronRight, Plus } from "lucide-react";
+import {
+  AtSign,
+  BellOff,
+  Bookmark,
+  ChevronRight,
+  GitBranch,
+  Hash,
+  Pencil,
+  Plus,
+} from "lucide-react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   AppShellMain,
@@ -11,6 +20,7 @@ import {
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
   ChatSidebarItem,
+  ChatSidebarItemUnread,
   ChatSidebarItemIcon,
   ChatSidebarItemChannelIcon,
   ChatSidebarItemDraft,
@@ -44,7 +54,7 @@ import { ChatMainPanelComposition } from "./chat-main-panel-composition.tsx";
 
 export function ChatSidebarComposition() {
   return (
-    <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black">
+    <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm">
       <AppRailComposition />
       <ChatSidebarResizeGroup className="min-w-0 flex-1" orientation="horizontal">
         <ChatSidebarResizePanel
@@ -54,7 +64,7 @@ export function ChatSidebarComposition() {
           maxSize={368}
           groupResizeBehavior="preserve-pixel-size"
         >
-          <AppShellSidebar resizable className="flex h-full md:flex">
+          <AppShellSidebar resizable className="h-full">
             <ChatSidebarRoot>
               <ChatSidebarHeader>
                 <div className="min-w-0 flex-1">
@@ -90,8 +100,10 @@ export function ChatSidebarComposition() {
                         </ChatSidebarSectionButton>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
-                        <ChatSidebarItem type="button" selected>
-                          <ChatSidebarItemChannelIcon />
+                        <ChatSidebarItem type="button" aria-current="page">
+                          <ChatSidebarItemChannelIcon aria-hidden>
+                            <Hash />
+                          </ChatSidebarItemChannelIcon>
                           <ChatSidebarItemText>
                             <ChatSidebarItemTitle className="shrink-0">
                               #proj-uiux
@@ -99,7 +111,7 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
                           </ChatSidebarItemText>
                         </ChatSidebarItem>
-                        <ChatSidebarItem type="button" menuOpen>
+                        <ChatSidebarItem type="button" aria-expanded>
                           <ChatSidebarItemIcon>
                             <Avatar size="sidebar" type="agent">
                               <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
@@ -114,12 +126,16 @@ export function ChatSidebarComposition() {
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
                         <ChatSidebarItem type="button">
-                          <ChatSidebarItemChannelIcon />
+                          <ChatSidebarItemChannelIcon aria-hidden>
+                            <Hash />
+                          </ChatSidebarItemChannelIcon>
                           <ChatSidebarItemText>
                             <ChatSidebarItemTitle>#proj-theme</ChatSidebarItemTitle>
                           </ChatSidebarItemText>
                           <ChatSidebarItemAside>
-                            <ChatSidebarItemDraft />
+                            <ChatSidebarItemDraft aria-label="Draft">
+                              <Pencil aria-hidden />
+                            </ChatSidebarItemDraft>
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
                       </ChatSidebarList>
@@ -136,7 +152,9 @@ export function ChatSidebarComposition() {
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
                         <ChatSidebarItem type="button">
-                          <ChatSidebarItemChannelIcon type="joint" />
+                          <ChatSidebarItemChannelIcon aria-hidden>
+                            <GitBranch />
+                          </ChatSidebarItemChannelIcon>
                           <ChatSidebarItemText>
                             <ChatSidebarItemTitle>#partners</ChatSidebarItemTitle>
                           </ChatSidebarItemText>
@@ -154,24 +172,37 @@ export function ChatSidebarComposition() {
                         </ChatSidebarSectionButton>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
-                        <ChatSidebarItem type="button" unread>
-                          <ChatSidebarItemChannelIcon />
+                        <ChatSidebarItemUnread type="button">
+                          <ChatSidebarItemChannelIcon aria-hidden>
+                            <Hash />
+                          </ChatSidebarItemChannelIcon>
                           <ChatSidebarItemText>
                             <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
                           </ChatSidebarItemText>
                           <ChatSidebarItemAside>
-                            <ChatSidebarItemMention />
+                            <ChatSidebarItemMention aria-label="Mentioned you">
+                              <AtSign aria-hidden />
+                            </ChatSidebarItemMention>
                             <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
                           </ChatSidebarItemAside>
-                        </ChatSidebarItem>
+                        </ChatSidebarItemUnread>
                         <ChatSidebarItem type="button">
-                          <ChatSidebarItemChannelIcon />
+                          <ChatSidebarItemChannelIcon aria-hidden>
+                            <Hash />
+                          </ChatSidebarItemChannelIcon>
                           <ChatSidebarItemInlineText align="center">
                             <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
-                            <ChatSidebarItemMuted />
+                            <ChatSidebarItemMuted
+                              aria-label="Activity muted"
+                              title="Activity muted. Direct mentions can still notify you."
+                            >
+                              <BellOff aria-hidden />
+                            </ChatSidebarItemMuted>
                           </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
-                            <ChatSidebarItemDraft />
+                            <ChatSidebarItemDraft aria-label="Draft">
+                              <Pencil aria-hidden />
+                            </ChatSidebarItemDraft>
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
                       </ChatSidebarList>
@@ -186,7 +217,7 @@ export function ChatSidebarComposition() {
                         </ChatSidebarSectionButton>
                       </ChatSidebarSectionHeader>
                       <ChatSidebarList>
-                        <ChatSidebarItem type="button" unread>
+                        <ChatSidebarItemUnread type="button">
                           <ChatSidebarItemIcon>
                             <Avatar size="sidebar" type="human">
                               <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
@@ -200,7 +231,7 @@ export function ChatSidebarComposition() {
                             <Status aria-hidden variant="success" size="md" />
                             <ChatSidebarItemBadge>4</ChatSidebarItemBadge>
                           </ChatSidebarItemAside>
-                        </ChatSidebarItem>
+                        </ChatSidebarItemUnread>
                         <ChatSidebarItem type="button">
                           <ChatSidebarItemIcon>
                             <Avatar size="sidebar" type="agent" />
@@ -210,7 +241,9 @@ export function ChatSidebarComposition() {
                             <ChatSidebarItemSubtitle>idle</ChatSidebarItemSubtitle>
                           </ChatSidebarItemInlineText>
                           <ChatSidebarItemAside>
-                            <ChatSidebarItemDraft />
+                            <ChatSidebarItemDraft aria-label="Draft">
+                              <Pencil aria-hidden />
+                            </ChatSidebarItemDraft>
                           </ChatSidebarItemAside>
                         </ChatSidebarItem>
                       </ChatSidebarList>

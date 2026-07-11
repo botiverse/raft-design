@@ -4,18 +4,18 @@ import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { DataAttributes } from "./app-shell";
 
-const composerTask = tv({
+const composerToolbarOption = tv({
   slots: {
-    toggle: ["inline-flex cursor-pointer select-none items-center gap-1.5"],
+    root: ["inline-flex cursor-pointer select-none items-center gap-1.5"],
     label: ["text-xs"],
   },
   variants: {
     theme: {
       brutal: {
-        label: "font-bold text-black/60",
+        label: "font-bold text-foreground/60",
       },
       elegant: {
-        toggle: [
+        root: [
           "rounded-md border-0 bg-transparent px-2.5 py-1",
           "transition-colors hover:bg-layer-muted",
         ],
@@ -25,14 +25,14 @@ const composerTask = tv({
   },
 });
 
-export type ComposerTaskToggleProps = useRender.ComponentProps<"label">;
+export type ComposerToolbarOptionProps = useRender.ComponentProps<"label">;
 
-export function ComposerTaskToggle({ className, render, ...props }: ComposerTaskToggleProps) {
+export function ComposerToolbarOption({ className, render, ...props }: ComposerToolbarOptionProps) {
   const theme = useThemeFamily();
-  const { toggle } = composerTask({ theme });
+  const { root } = composerToolbarOption({ theme });
   const defaultProps: useRender.ElementProps<"label"> & DataAttributes = {
-    "data-slot": "composer-task-toggle",
-    className: toggle({ className }),
+    "data-slot": "composer-toolbar-option",
+    className: root({ className }),
   };
 
   return useRender({
@@ -42,13 +42,17 @@ export function ComposerTaskToggle({ className, render, ...props }: ComposerTask
   });
 }
 
-export type ComposerTaskLabelProps = useRender.ComponentProps<"span">;
+export type ComposerToolbarOptionLabelProps = useRender.ComponentProps<"span">;
 
-export function ComposerTaskLabel({ className, render, ...props }: ComposerTaskLabelProps) {
+export function ComposerToolbarOptionLabel({
+  className,
+  render,
+  ...props
+}: ComposerToolbarOptionLabelProps) {
   const theme = useThemeFamily();
-  const { label } = composerTask({ theme });
+  const { label } = composerToolbarOption({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "composer-task-label",
+    "data-slot": "composer-toolbar-option-label",
     className: label({ className }),
   };
 

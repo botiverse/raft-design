@@ -1,6 +1,4 @@
 import { Outlet, createFileRoute, getRouteApi } from "@tanstack/react-router";
-import { useState } from "react";
-import type { Theme } from "raft-ui";
 import {
   AppPanelStackContent,
   AppPanelStackItem,
@@ -14,7 +12,7 @@ import {
   ChatSidebarResizePanel,
 } from "raft-ui/wip";
 
-import { PreviewThemeScope } from "#/components/preview-theme.tsx";
+import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   getPlaygroundChannel,
@@ -28,8 +26,6 @@ import { PlaygroundRail } from "#/playground/playground-rail.tsx";
 import { PlaygroundSidebar } from "#/playground/playground-sidebar.tsx";
 import { PlaygroundThreadPanel } from "#/playground/playground-thread-panel.tsx";
 import { PlaygroundToolbar } from "#/playground/playground-toolbar.tsx";
-
-type PlaygroundTheme = { family: Theme; mode: "light" | "dark" };
 
 type PlaygroundSearch = {
   thread?: PlaygroundThreadId;
@@ -50,8 +46,7 @@ export const Route = createFileRoute("/playground")({
 const channelRouteApi = getRouteApi("/playground/$channelId");
 
 function PlaygroundLayout() {
-  const [theme, setTheme] = useState<PlaygroundTheme>({ family: "elegant", mode: "light" });
-  const [railValue, setRailValue] = useState("chat");
+  const { theme, mode, setTheme } = usePreviewTheme();
 
   const { channelId } = channelRouteApi.useParams();
   const { thread } = Route.useSearch();
@@ -66,9 +61,9 @@ function PlaygroundLayout() {
 
   return (
     <div className="h-dvh">
-      <PreviewThemeScope family={theme.family} mode={theme.mode} className="h-full">
+      <PreviewThemeScope className="h-full">
         <AppShellRoot className="h-full">
-          <PlaygroundRail value={railValue} onValueChange={setRailValue} />
+          <PlaygroundRail />
           <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">
             <ChatSidebarResizePanel
               id="playground-sidebar"
@@ -77,7 +72,7 @@ function PlaygroundLayout() {
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
-              <AppShellSidebar resizable className="flex h-full md:flex">
+              <AppShellSidebar resizable className="h-full">
                 <PlaygroundSidebar activeChannelId={activeChannelId} />
               </AppShellSidebar>
             </ChatSidebarResizePanel>
@@ -98,7 +93,7 @@ function PlaygroundLayout() {
                   groupResizeBehavior="preserve-pixel-size"
                   className="min-w-0"
                 >
-                  <AppShellPanelStack className="flex h-full w-full">
+                  <AppShellPanelStack className="h-full w-full">
                     <AppPanelStackRoot className="w-full">
                       <AppPanelStackItem className="w-full">
                         <AppPanelStackContent>
@@ -117,7 +112,7 @@ function PlaygroundLayout() {
           </ChatSidebarResizeGroup>
         </AppShellRoot>
       </PreviewThemeScope>
-      <PlaygroundToolbar theme={theme} onThemeChange={setTheme} />
+      <PlaygroundToolbar theme={theme} mode={mode} onThemeChange={setTheme} />
     </div>
   );
 }

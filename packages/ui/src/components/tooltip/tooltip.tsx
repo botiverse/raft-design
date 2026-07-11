@@ -222,6 +222,7 @@ export type TooltipContentProps = StyledProps<BaseTooltip.Popup.Props> &
     | "sideOffset"
     | "sticky"
   > & {
+    container?: TooltipPortalProps["container"];
     portalProps?: TooltipPortalProps;
   };
 
@@ -238,6 +239,7 @@ export function TooltipContent({
   side = "top",
   sideOffset,
   sticky,
+  container,
   portalProps,
   className,
   children,
@@ -246,9 +248,10 @@ export function TooltipContent({
   const theme = useThemeFamily();
   const { positioner, content, body, bodyIcon, bodyText } = tooltip({ theme });
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
+  const portalContainer = container !== undefined ? container : portalProps?.container;
 
   return (
-    <BaseTooltip.Portal {...portalProps}>
+    <BaseTooltip.Portal {...portalProps} container={portalContainer}>
       <BaseTooltip.Positioner
         align={align}
         alignOffset={alignOffset}

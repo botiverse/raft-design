@@ -9,8 +9,10 @@ const chatThreadPanel = tv({
     root: ["flex h-full min-h-0 w-full flex-col", "text-foreground"],
     header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
     title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
+    titleMeta: ["font-normal"],
     actions: ["flex shrink-0 items-center gap-1.5"],
-    search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2", "[&_svg]:shrink-0"],
+    search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2"],
+    searchIcon: ["size-3.5 shrink-0"],
     searchInput: ["min-w-0 flex-1 border-2 px-2 py-1 text-sm font-medium outline-none"],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
     body: ["min-h-0 flex-1 overflow-y-auto"],
@@ -27,7 +29,9 @@ const chatThreadPanel = tv({
         root: "bg-white font-sans text-black",
         header: "border-b-2 border-black bg-white",
         title: "text-black",
-        search: "border-b-2 border-black bg-white [&_svg]:text-black/50",
+        titleMeta: "text-black/50",
+        search: "border-b-2 border-black bg-white",
+        searchIcon: "text-black/50",
         searchInput: "border-black bg-white text-black focus:shadow-brutal-sm",
         searchCount: "text-black/50",
         parent: "border-b-2 border-black bg-white",
@@ -38,7 +42,9 @@ const chatThreadPanel = tv({
         root: "bg-transparent font-sans text-foreground",
         header: "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
         title: "text-foreground-strong",
-        search: "border-b border-line-subtle bg-transparent [&_svg]:text-foreground-muted",
+        titleMeta: "text-foreground-muted",
+        search: "border-b border-line-subtle bg-transparent",
+        searchIcon: "text-foreground-muted",
         searchInput:
           "rounded-md border-line-subtle bg-layer-field text-foreground-strong focus:ring-2 focus:ring-line-focus",
         searchCount: "text-foreground-muted",
@@ -101,6 +107,27 @@ export function ChatThreadPanelTitle({ className, render, ...props }: ChatThread
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelTitleMetaProps = useRender.ComponentProps<"span">;
+
+export function ChatThreadPanelTitleMeta({
+  className,
+  render,
+  ...props
+}: ChatThreadPanelTitleMetaProps) {
+  const theme = useThemeFamily();
+  const { titleMeta } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-title-meta",
+    className: titleMeta({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
   });
 }
 
@@ -209,6 +236,27 @@ export function ChatThreadPanelSearch({ className, render, ...props }: ChatThrea
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelSearchIconProps = useRender.ComponentProps<"span">;
+
+export function ChatThreadPanelSearchIcon({
+  className,
+  render,
+  ...props
+}: ChatThreadPanelSearchIconProps) {
+  const theme = useThemeFamily();
+  const { searchIcon } = chatThreadPanel({ theme });
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "chat-thread-panel-search-icon",
+    className: searchIcon({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
   });
 }
 

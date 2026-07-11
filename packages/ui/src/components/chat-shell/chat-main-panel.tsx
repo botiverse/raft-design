@@ -81,6 +81,22 @@ export function ChatMainPanelTitleBlock({
   });
 }
 
+export type ChatMainPanelTitleRowProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelTitleRow({ className, render, ...props }: ChatMainPanelTitleRowProps) {
+  const { titleRow } = chatMainPanel();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-title-row",
+    className: titleRow({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type ChatMainPanelTitleProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelTitle({ className, render, ...props }: ChatMainPanelTitleProps) {
@@ -98,11 +114,18 @@ export function ChatMainPanelTitle({ className, render, ...props }: ChatMainPane
   });
 }
 
-export type ChatMainPanelSubtitleProps = useRender.ComponentProps<"div">;
+export type ChatMainPanelSubtitleProps = useRender.ComponentProps<"div"> & {
+  size?: "sm" | "md";
+};
 
-export function ChatMainPanelSubtitle({ className, render, ...props }: ChatMainPanelSubtitleProps) {
+export function ChatMainPanelSubtitle({
+  className,
+  render,
+  size = "sm",
+  ...props
+}: ChatMainPanelSubtitleProps) {
   const theme = useThemeFamily();
-  const { subtitle } = chatMainPanel({ theme });
+  const { subtitle } = chatMainPanel({ subtitleSize: size, theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-main-panel-subtitle",
     className: subtitle({ className }),
@@ -126,7 +149,6 @@ export function ChatMainPanelMutedBadge({
   const { mutedBadge } = chatMainPanel({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
     "data-slot": "chat-main-panel-muted-badge",
-    title: "Activity muted. Direct mentions can still notify you.",
     className: mutedBadge({ className }),
   };
 
