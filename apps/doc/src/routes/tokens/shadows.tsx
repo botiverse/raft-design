@@ -146,9 +146,8 @@ function TokenThemeScope({ theme, children }: { theme: ShadowTheme; children: Re
     <div
       data-token-theme-scope={theme}
       data-theme="elegant"
-      className="light min-h-screen"
+      className="light min-h-screen bg-layer-panel"
       style={{
-        background: "var(--layer-page)",
         color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
       }}
