@@ -5,7 +5,7 @@ import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 
 const panelIconButton = tv({
   base: [

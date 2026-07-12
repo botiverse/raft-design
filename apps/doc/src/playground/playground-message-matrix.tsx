@@ -13,6 +13,7 @@ import { Banner, BannerDescription, Spinner } from "raft-ui";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
+  ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
   MessageImageGallery,
@@ -187,11 +188,7 @@ function HistoryTopStates() {
 
   return (
     <div className="px-3 pt-3">
-      <Banner
-        status="warning"
-        size="sm"
-        className="mx-auto mb-3 max-w-md justify-center text-center font-bold"
-      >
+      <Banner status="warning" size="sm" className="mx-auto mb-3 max-w-md">
         <BannerDescription>
           Message history is limited to 30 days on the Free plan.{" "}
           <button type="button" className="underline" onClick={() => setBillingViewed(true)}>
@@ -899,9 +896,11 @@ export function MatrixBody() {
           </SelectableMessageList>
         </ChatMainPanelMessageList>
       </ChatMainPanelTimeline>
-      <ChatMainPanelJumpToLatest disabled>
-        <ArrowDown />3 new messages
-      </ChatMainPanelJumpToLatest>
+      <ChatMainPanelJumpToLatestLayout>
+        <ChatMainPanelJumpToLatest disabled>
+          <ArrowDown />3 new messages
+        </ChatMainPanelJumpToLatest>
+      </ChatMainPanelJumpToLatestLayout>
     </ChatMainPanelBody>
   );
 }

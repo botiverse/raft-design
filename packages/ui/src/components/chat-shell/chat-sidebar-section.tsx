@@ -2,11 +2,13 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ChevronRight } from "lucide-react";
 import type { ComponentProps } from "react";
+import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
 import { Status, type StatusProps } from "../status";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
 
 export type ChatSidebarSectionProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {
@@ -86,6 +88,23 @@ export function ChatSidebarSectionButton({
   });
 }
 
+export type ChatSidebarSectionChevronProps = useRender.ComponentProps<"svg">;
+
+export function ChatSidebarSectionChevron({
+  className,
+  render,
+  ...props
+}: ChatSidebarSectionChevronProps) {
+  const defaultProps: useRender.ElementProps<"svg"> = {
+    className: cn("size-3", className),
+  };
+
+  return useRender({
+    render: render ?? <ChevronRight />,
+    props: mergeProps<"svg">(defaultProps, props),
+  });
+}
+
 export type ChatSidebarSectionTitleProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarSectionTitle({
@@ -148,6 +167,9 @@ export function ChatSidebarSectionIndicator({
   );
 }
 
+export type ChatSidebarSectionAttentionProps = ChatSidebarSectionIndicatorProps;
+export const ChatSidebarSectionAttention = ChatSidebarSectionIndicator;
+
 export type ChatSidebarSectionActionsProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarSectionActions({
@@ -209,3 +231,6 @@ export function ChatSidebarSectionAction({
     props: mergeProps<"button">(defaultProps, props),
   });
 }
+
+export type ChatSidebarActionProps = ChatSidebarSectionActionProps;
+export const ChatSidebarAction = ChatSidebarSectionAction;

@@ -66,7 +66,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
         <ChatMainPanelTabs render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}>
           <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
             {tabOrder.map((id) => (
-              <SortableTabsTab key={id} value={id} className="!cursor-default">
+              <SortableTabsTab key={id} value={id}>
                 {TAB_META[id].icon}
                 <TabsLabel>{TAB_META[id].label}</TabsLabel>
               </SortableTabsTab>

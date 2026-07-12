@@ -1,14 +1,22 @@
-import { NotificationCenter, NotificationCenterTrigger, Status } from "raft-ui";
+import {
+  NotificationCenter,
+  NotificationCenterTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
 import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttention,
   AppRailItemIcon,
+  AppRailItemIndicator,
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppRailUtilitySlot,
   AppShellRail,
 } from "raft-ui/wip";
 import {
@@ -28,77 +36,87 @@ export function AppRailComposition() {
         <AppRailHeader>
           <AppRailServerButton aria-label="Switch server">
             R
-            <Status
-              aria-hidden
-              variant="accent"
-              size="md"
-              className="pointer-events-none absolute -top-1 -right-1"
-            />
+            <AppRailItemIndicator aria-hidden />
           </AppRailServerButton>
         </AppRailHeader>
-        <AppRailNav>
-          <AppRailItem value="search" title="Search" aria-label="Search">
-            <AppRailItemIcon>
-              <Search />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Search</AppRailItemLabel>
-          </AppRailItem>
-          <AppRailItem value="chat" title="Chat" aria-label="Chat">
-            <AppRailItemIcon>
-              <MessageSquare />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Chat</AppRailItemLabel>
-          </AppRailItem>
-          <AppRailItem value="activity" title="Activity" aria-label="Activity">
-            <AppRailItemIcon>
-              <Activity />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Activity</AppRailItemLabel>
-            <Status
-              aria-hidden
-              variant="accent"
-              size="md"
-              className="pointer-events-none absolute -top-1 -right-1"
-            />
-          </AppRailItem>
-          <AppRailItem value="tasks" title="Tasks" aria-label="Tasks">
-            <AppRailItemIcon>
-              <CheckSquare />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Tasks</AppRailItemLabel>
-          </AppRailItem>
-          <AppRailItem value="members" title="Members" aria-label="Members">
-            <AppRailItemIcon>
-              <Users />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Members</AppRailItemLabel>
-          </AppRailItem>
-          <AppRailItem value="computers" title="Computers" aria-label="Computers">
-            <AppRailItemIcon>
-              <Monitor />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Computers</AppRailItemLabel>
-            <Status
-              aria-hidden
-              variant="accent"
-              size="md"
-              className="pointer-events-none absolute -top-1 -right-1"
-            />
-          </AppRailItem>
-        </AppRailNav>
-        <AppRailUtilitySlot>
-          <NotificationCenter modal={false}>
-            <NotificationCenterTrigger type="button" aria-label="Notification center" />
-          </NotificationCenter>
-        </AppRailUtilitySlot>
-        <AppRailFooter>
-          <AppRailItem value="settings" title="Settings" aria-label="Settings">
-            <AppRailItemIcon>
-              <Settings />
-            </AppRailItemIcon>
-            <AppRailItemLabel>Settings</AppRailItemLabel>
-          </AppRailItem>
-        </AppRailFooter>
+        <TooltipProvider delay={650}>
+          <AppRailNav>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="search" aria-label="Search" />}>
+                <AppRailItemIcon>
+                  <Search />
+                </AppRailItemIcon>
+                <AppRailItemLabel>Search</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Search</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
+                <AppRailItemIcon>
+                  <MessageSquare />
+                </AppRailItemIcon>
+                <AppRailItemLabel>Chat</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Chat</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="activity" aria-label="Activity" />}>
+                <AppRailItemIcon>
+                  <Activity />
+                  <AppRailItemAttention>
+                    <Activity />
+                  </AppRailItemAttention>
+                </AppRailItemIcon>
+                <AppRailItemLabel>Activity</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Activity</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="tasks" aria-label="Tasks" />}>
+                <AppRailItemIcon>
+                  <CheckSquare />
+                </AppRailItemIcon>
+                <AppRailItemLabel>Tasks</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Tasks</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="members" aria-label="Members" />}>
+                <AppRailItemIcon>
+                  <Users />
+                </AppRailItemIcon>
+                <AppRailItemLabel>Members</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Members</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="computers" aria-label="Computers" />}>
+                <AppRailItemIcon>
+                  <Monitor />
+                  <AppRailItemAttention>
+                    <Monitor />
+                  </AppRailItemAttention>
+                </AppRailItemIcon>
+                <AppRailItemLabel>Computers</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Computers</TooltipContent>
+            </Tooltip>
+          </AppRailNav>
+          <AppRailFooter>
+            <NotificationCenter modal={false}>
+              <NotificationCenterTrigger type="button" aria-label="Notification center" />
+            </NotificationCenter>
+            <Tooltip>
+              <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
+                <AppRailItemIcon>
+                  <Settings />
+                </AppRailItemIcon>
+                <AppRailItemLabel>Settings</AppRailItemLabel>
+              </TooltipTrigger>
+              <TooltipContent side="right">Settings</TooltipContent>
+            </Tooltip>
+          </AppRailFooter>
+        </TooltipProvider>
       </AppRailRoot>
     </AppShellRail>
   );

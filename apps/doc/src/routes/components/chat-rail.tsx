@@ -24,16 +24,22 @@ const TOC = [
 const SNIPPETS = {
   chatRailComposition: chatRailCompositionSource,
   anatomy: `import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
+import {
   AppShellRail,
   AppRailRoot,
   AppRailHeader,
   AppRailServerButton,
   AppRailNav,
   AppRailItem,
+  AppRailItemAttention,
+  AppRailItemBadge,
   AppRailItemIcon,
   AppRailItemLabel,
-  AppRailItemBadge,
-  AppRailItemIndicator,
   AppRailFooter,
 } from "raft-ui/wip";
 
@@ -42,19 +48,32 @@ const SNIPPETS = {
     <AppRailHeader>
       <AppRailServerButton aria-label="Switch server">R</AppRailServerButton>
     </AppRailHeader>
-    <AppRailNav>
-      <AppRailItem value="chat">
-        <AppRailItemIcon><MessageSquare /></AppRailItemIcon>
-        <AppRailItemLabel>Chat</AppRailItemLabel>
-        <AppRailItemBadge>3</AppRailItemBadge>
-      </AppRailItem>
-    </AppRailNav>
-    <AppRailFooter>
-      <AppRailItem value="settings">
-        <AppRailItemIcon><Settings /></AppRailItemIcon>
-        <AppRailItemLabel>Settings</AppRailItemLabel>
-      </AppRailItem>
-    </AppRailFooter>
+    <TooltipProvider delay={650}>
+      <AppRailNav>
+        <Tooltip>
+          <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
+            <AppRailItemIcon>
+              <MessageSquare />
+              <AppRailItemAttention title="Unread messages">
+                <MessageSquare />
+              </AppRailItemAttention>
+            </AppRailItemIcon>
+            <AppRailItemLabel>Chat</AppRailItemLabel>
+            <AppRailItemBadge>3</AppRailItemBadge>
+          </TooltipTrigger>
+          <TooltipContent side="right">Chat</TooltipContent>
+        </Tooltip>
+      </AppRailNav>
+      <AppRailFooter>
+        <Tooltip>
+          <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
+            <AppRailItemIcon><Settings /></AppRailItemIcon>
+            <AppRailItemLabel>Settings</AppRailItemLabel>
+          </TooltipTrigger>
+          <TooltipContent side="right">Settings</TooltipContent>
+        </Tooltip>
+      </AppRailFooter>
+    </TooltipProvider>
   </AppRailRoot>
 </AppShellRail>`,
 } as const;
