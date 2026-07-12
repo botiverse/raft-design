@@ -1,20 +1,17 @@
 import {
-  Bell,
+  ArrowDown,
   Bookmark,
-  Hash,
   ImagePlus,
   ListTodo,
   MessageSquare,
   Paperclip,
-  Search,
   Send,
-  Settings,
   SmilePlus,
-  Square,
-  Users,
 } from "lucide-react";
 import {
   Avatar,
+  Banner,
+  BannerDescription,
   Checkbox,
   SortableTabsList,
   SortableTabsTab,
@@ -23,7 +20,6 @@ import {
   TabsLabel,
 } from "raft-ui";
 import {
-  ChatMainPanelActions,
   ChatMainPanelBody,
   ChatMainPanelContent,
   ChatMainPanelComposer,
@@ -37,15 +33,12 @@ import {
   ComposerToolbarOption,
   ComposerToolbarOptionLabel,
   ChatMainPanelFooter,
-  ChatMainPanelHeader,
-  ChatMainPanelHeaderIcon,
+  ChatMainPanelJumpToLatest,
+  ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelRoot,
-  ChatMainPanelSubtitle,
   ChatMainPanelTabs,
   ChatMainPanelTimeline,
-  ChatMainPanelTitle,
-  ChatMainPanelTitleBlock,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBadge,
@@ -62,52 +55,34 @@ import {
   MessageItemToolbarButton,
   MessageTimelineDateDivider,
   MessageTimelineNotice,
-  PanelButton,
-  PanelButtonCount,
-  PanelButtonIcon,
-  PanelToggleButton,
 } from "raft-ui/wip";
+import { ChatMainPanelHeaderComposition } from "./chat-main-panel-header-composition.tsx";
 
-export function ChatMainPanelComposition() {
+export type ChatMainPanelCompositionProps = {
+  conversation?: "channel" | "dm";
+  muted?: boolean;
+  notificationError?: string | null;
+  newMessageCount?: number;
+};
+
+export function ChatMainPanelComposition({
+  conversation = "channel",
+  muted = false,
+  notificationError = null,
+  newMessageCount = 0,
+}: ChatMainPanelCompositionProps = {}) {
   return (
     <ChatMainPanelRoot>
-      <ChatMainPanelHeader>
-        <ChatMainPanelHeaderIcon>
-          <Hash className="size-[18px]" />
-        </ChatMainPanelHeaderIcon>
-        <ChatMainPanelTitleBlock>
-          <ChatMainPanelTitle>proj-uiux</ChatMainPanelTitle>
-          <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
-        </ChatMainPanelTitleBlock>
-        <ChatMainPanelActions>
-          <PanelButton aria-label="Search conversation">
-            <PanelButtonIcon>
-              <Search />
-            </PanelButtonIcon>
-          </PanelButton>
-          <PanelToggleButton aria-label="Mute channel activity">
-            <PanelButtonIcon>
-              <Bell />
-            </PanelButtonIcon>
-          </PanelToggleButton>
-          <PanelButton aria-label="Stop all agents in this channel">
-            <PanelButtonIcon>
-              <Square />
-            </PanelButtonIcon>
-          </PanelButton>
-          <PanelButton aria-label="View participants">
-            <PanelButtonIcon>
-              <Users />
-            </PanelButtonIcon>
-            <PanelButtonCount>13</PanelButtonCount>
-          </PanelButton>
-          <PanelButton aria-label="Channel options">
-            <PanelButtonIcon>
-              <Settings />
-            </PanelButtonIcon>
-          </PanelButton>
-        </ChatMainPanelActions>
-      </ChatMainPanelHeader>
+      <ChatMainPanelHeaderComposition conversation={conversation} muted={muted} />
+      {notificationError ? (
+        <Banner
+          status="warning"
+          size="sm"
+          className="shrink-0 rounded-none border-x-0 border-t-0 px-5 py-2"
+        >
+          <BannerDescription>{notificationError}</BannerDescription>
+        </Banner>
+      ) : null}
       <ChatMainPanelContent>
         <ChatMainPanelTabs render={<Tabs value="chat" />}>
           <SortableTabsList
@@ -225,6 +200,14 @@ export function ChatMainPanelComposition() {
               </div>
             </ChatMainPanelMessageList>
           </ChatMainPanelTimeline>
+          {newMessageCount > 0 ? (
+            <ChatMainPanelJumpToLatestLayout>
+              <ChatMainPanelJumpToLatest>
+                <ArrowDown />
+                {newMessageCount} new messages
+              </ChatMainPanelJumpToLatest>
+            </ChatMainPanelJumpToLatestLayout>
+          ) : null}
         </ChatMainPanelBody>
         <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
           <ComposerRoot>

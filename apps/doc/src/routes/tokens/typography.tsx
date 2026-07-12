@@ -526,9 +526,8 @@ function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children
     <div
       data-token-theme-scope={theme}
       data-theme={theme}
-      className="light min-h-screen font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
+      className="light min-h-screen bg-layer-panel font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
       style={{
-        background: "var(--layer-page)",
         color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
       }}

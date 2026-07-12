@@ -40,7 +40,6 @@ import {
   PlaygroundUnreadRepliesBadge,
 } from "./playground-message-row.tsx";
 import {
-  getPlaygroundActor,
   getPlaygroundThread,
   type PlaygroundChannel,
   type PlaygroundMessage,
@@ -67,7 +66,7 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
         <ChatMainPanelTabs render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}>
           <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
             {tabOrder.map((id) => (
-              <SortableTabsTab key={id} value={id} className="!cursor-default">
+              <SortableTabsTab key={id} value={id}>
                 {TAB_META[id].icon}
                 <TabsLabel>{TAB_META[id].label}</TabsLabel>
               </SortableTabsTab>
@@ -126,16 +125,11 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
           </div>
           <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
           {messages.map((message) => {
-            const actor = getPlaygroundActor(message.authorId);
             const thread = getPlaygroundThread(message.id)?.thread;
             return (
               <PlaygroundMessageRow
                 key={message.id}
-                variant={actor.type === "agent" ? "agent" : "member"}
-                sender={actor.name}
-                meta={actor.meta}
-                time={message.time}
-                body={message.body}
+                message={message}
                 threadId={thread ? message.id : undefined}
                 footer={
                   thread ? (

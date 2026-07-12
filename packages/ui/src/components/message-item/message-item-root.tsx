@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem, type MessageItemVariantProps } from "./message-item.recipe";
-import { type DataAttributes } from "./message-item.types";
+import { type DataAttributes } from "../../lib/data-attributes";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
   Pick<MessageItemVariantProps, "compact">;

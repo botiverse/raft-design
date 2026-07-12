@@ -5,7 +5,7 @@ import { createContext, use } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { VariantProps } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 import { chatSidebar, chatSidebarItemInlineText } from "./chat-sidebar.recipe";
 
 const ChatSidebarItemUnreadContext = createContext(false);

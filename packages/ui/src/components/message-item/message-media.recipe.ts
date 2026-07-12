@@ -31,10 +31,7 @@ export const messageMedia = tv({
     ],
     videoFrame: ["relative aspect-video w-full bg-black"],
     videoMedia: ["block h-full w-full bg-black object-contain"],
-    videoFallback: [
-      "flex h-full w-full items-center justify-center bg-black text-white",
-      "data-[interactive=true]:hover:bg-black/90 data-[interactive=true]:cursor-pointer data-[interactive=false]:cursor-default",
-    ],
+    videoFallback: ["flex h-full w-full items-center justify-center bg-black text-white"],
     videoAction: [
       "absolute right-1.5 top-1.5 flex size-6 items-center justify-center",
       "border border-line-strong bg-white/80 text-black/60",

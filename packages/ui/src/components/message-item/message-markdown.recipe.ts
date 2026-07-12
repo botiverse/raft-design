@@ -60,7 +60,6 @@ export const messageMarkdown = tv({
           "[&_td]:border-line-strong",
           "[&_img]:border-line-strong",
         ],
-        inlineCode: [],
         codeBlock: ["border-line-strong bg-[oklch(0.22_0.01_260)]", "text-[oklch(0.97_0_0)]"],
       },
     },

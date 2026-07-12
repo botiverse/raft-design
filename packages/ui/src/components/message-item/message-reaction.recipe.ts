@@ -20,13 +20,13 @@ export const messageReaction = tv({
     ],
     quickRow: ["flex h-9 shrink-0 items-center gap-1 px-2"],
     quickButton: [
-      "flex size-7 items-center justify-center rounded bg-transparent transition-colors",
+      "flex !size-7 !w-7 items-center justify-center rounded !p-0",
+      "bg-transparent transition-colors",
     ],
-    picker: [
+    pickerSurface: [
       "inline-flex items-center gap-0.5 border-2 border-line-strong px-1.5 py-1",
       "shadow-soft-popover",
     ],
-    pickerContent: ["inline-flex min-w-0 flex-row items-center gap-0.5", "border px-1.5 py-1"],
     tooltip: ["inline-block max-w-[280px] px-2 py-1.5 text-xs"],
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
@@ -49,8 +49,7 @@ export const messageReaction = tv({
         ],
         quickRow: "bg-white",
         quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
-        picker: "bg-white",
-        pickerContent: "rounded-none border-2 border-black bg-white !shadow-soft-popover",
+        pickerSurface: "rounded-none border-black bg-white !shadow-soft-popover",
         tooltip: "border-2 border-line-strong bg-white font-bold text-black",
       },
       elegant: {
@@ -66,8 +65,7 @@ export const messageReaction = tv({
         ],
         quickRow: "bg-layer-popover",
         quickButton: "hover:bg-layer-muted active:bg-layer-strong",
-        picker: "rounded-lg border-line-subtle bg-layer-popover",
-        pickerContent: "rounded-lg border-line-subtle bg-layer-popover shadow-xl",
+        pickerSurface: "rounded-lg border-line-subtle bg-layer-popover shadow-xl",
       },
     },
   },

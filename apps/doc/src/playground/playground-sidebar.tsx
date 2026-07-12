@@ -5,7 +5,6 @@ import {
   Bell,
   BellOff,
   Bookmark,
-  ChevronRight,
   CircleAlert,
   GitBranch,
   Hash,
@@ -92,9 +91,10 @@ import {
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionButton,
+  ChatSidebarSectionChevron,
   ChatSidebarSectionCount,
+  ChatSidebarSectionAttention,
   ChatSidebarSectionHeader,
-  ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
   SortableChatSidebarItem,
   SortableChatSidebarList,
@@ -112,6 +112,7 @@ import {
   type PlaygroundPresence,
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
+import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
 type SidebarRowMenu = {
@@ -201,16 +202,8 @@ function DirectMessageStatus({
   status: PlaygroundPresence;
   size?: "sm" | "md";
 }) {
-  if (status === "online") {
-    return <Status aria-hidden variant="success" size={size} />;
-  }
-  if (status === "working") {
-    return <Status aria-hidden variant="success" size={size} pulse />;
-  }
-  if (status === "idle") {
-    return <Status aria-hidden variant="warning" size={size} />;
-  }
-  return <Status aria-hidden variant="default" size={size} />;
+  const config = PLAYGROUND_PRESENCE_STATUS[status];
+  return <Status aria-hidden variant={config.variant} size={size} pulse={config.pulse} />;
 }
 
 function DirectMessageRowContent({
@@ -235,7 +228,7 @@ function DirectMessageRowContent({
         <Avatar size="sidebar" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
-            <AvatarFallback className="text-[9px] font-bold">{actor.fallback}</AvatarFallback>
+            <AvatarFallback>{actor.fallback}</AvatarFallback>
           ) : actor.avatarSrc ? (
             <AvatarFallback />
           ) : null}
@@ -456,9 +449,9 @@ function PinnedSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -499,9 +492,9 @@ function JointChannelsSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -542,9 +535,9 @@ function ChannelsSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -588,9 +581,9 @@ function DirectMessagesSection({
       <ChatSidebarSectionHeader>
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-          <ChevronRight className="size-3" />
+          <ChatSidebarSectionChevron className="size-3" />
           <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionIndicator /> : null}
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>

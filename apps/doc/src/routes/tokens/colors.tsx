@@ -461,9 +461,8 @@ function TokenThemeScope({ children }: { children: ReactNode }) {
   return (
     <div
       data-theme="elegant"
-      className="light min-h-screen"
+      className="light min-h-screen bg-layer-panel"
       style={{
-        background: "var(--layer-page)",
         color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
       }}

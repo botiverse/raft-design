@@ -92,7 +92,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         className={
           isStandalonePage
             ? "bg-background text-foreground antialiased"
-            : "bg-layer-panel text-foreground antialiased [--layer-page:oklch(1_0_0)]"
+            : "bg-layer-panel text-foreground antialiased"
         }
       >
         <PreviewThemeProvider>

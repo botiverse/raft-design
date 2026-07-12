@@ -2,16 +2,22 @@ import { createServerFn } from "@tanstack/react-start";
 import { renderServerComponent } from "@tanstack/react-start/rsc";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import type { CSSProperties } from "react";
-import { createHighlighter, createJavaScriptRegexEngine } from "shiki";
+import { createHighlighterCore } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+import tsx from "shiki/dist/langs/tsx.mjs";
+import vitesseLight from "shiki/dist/themes/vitesse-light.mjs";
 import type { ThemedToken } from "shiki";
 
 import { stripSourceCodeBlocks, stripTopLevelImports } from "./source-code.ts";
 
 const HIGHLIGHT_THEME = "vitesse-light";
 
-const highlighter = createHighlighter({
-  themes: [HIGHLIGHT_THEME],
-  langs: ["tsx"],
+// Fine-grained bundle: register only the `tsx` grammar, the `vitesse-light`
+// theme, and the JS regex engine. Avoids shiki's full bundle pulling ~50 unused
+// grammars and the oniguruma WASM into the server worker.
+const highlighter = createHighlighterCore({
+  themes: [vitesseLight],
+  langs: [tsx],
   engine: createJavaScriptRegexEngine(),
 });
 

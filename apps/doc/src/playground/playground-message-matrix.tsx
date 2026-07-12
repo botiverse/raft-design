@@ -13,6 +13,7 @@ import { Banner, BannerDescription, Spinner } from "raft-ui";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
+  ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
   MessageImageGallery,
@@ -24,7 +25,9 @@ import {
   MessageItemBadge,
   MessageItemBadgeSeparator,
   MessageMultiSelect,
-  MessageReferenceUnavailable,
+  MessageReferenceChannelUnavailable,
+  MessageReferenceTaskUnavailable,
+  MessageReferenceThreadUnavailable,
   MessageTimelineDateDivider,
   MessageVideoPreview,
   MessageVideoPreviewAction,
@@ -53,14 +56,15 @@ import {
   MessageReactionTooltipComposition,
 } from "#/compositions/message-item/message-reaction-compositions.tsx";
 import { MessageMultiSelectToolbarComposition } from "#/compositions/message-item/message-selection-compositions.tsx";
-import { IMAGE_SRC } from "#/compositions/message-item/message-row-compositions.tsx";
+import { MESSAGE_FIXTURE_IMAGE_SRC as IMAGE_SRC } from "#/fixtures/message-item/assets.ts";
 import { ChipDemoBody } from "./playground-message-scenarios.tsx";
 import {
   ImagePreviewButton,
   openMockAttachmentPreview,
   TaskStatusBadge,
 } from "./playground-message-fixtures.tsx";
-import { PlaygroundMessageRow } from "./playground-message-row.tsx";
+import { PlaygroundScenarioMessageRow } from "./playground-message-row.tsx";
+import { ALL_SHOWCASE_THREAD_IDS } from "./mock/index.ts";
 
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
   const [opened, setOpened] = useState(false);
@@ -184,11 +188,7 @@ function HistoryTopStates() {
 
   return (
     <div className="px-3 pt-3">
-      <Banner
-        status="warning"
-        size="sm"
-        className="mx-auto mb-3 max-w-md justify-center text-center font-bold"
-      >
+      <Banner status="warning" size="sm" className="mx-auto mb-3 max-w-md">
         <BannerDescription>
           Message history is limited to 30 days on the Free plan.{" "}
           <button type="button" className="underline" onClick={() => setBillingViewed(true)}>
@@ -273,14 +273,14 @@ function SelectModeToolbarSlot() {
 function MatrixContentSection() {
   return (
     <>
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
         time="09:58 AM"
         body={<MessageMarkdownComposition imageSrc={IMAGE_SRC} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -288,14 +288,14 @@ function MatrixContentSection() {
         time="10:00 AM"
         body={<MessageCodeBlockComposition />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
         time="10:02 AM"
         body={<ChipDemoBody />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -304,11 +304,11 @@ function MatrixContentSection() {
           <div className="space-y-1">
             <p>
               Unresolved refs dim to 60%:{" "}
-              <MessageReferenceUnavailable kind="channel">#archived</MessageReferenceUnavailable>{" "}
-              <MessageReferenceUnavailable kind="thread">
+              <MessageReferenceChannelUnavailable>#archived</MessageReferenceChannelUnavailable>{" "}
+              <MessageReferenceThreadUnavailable>
                 #general:deadbeef
-              </MessageReferenceUnavailable>{" "}
-              <MessageReferenceUnavailable kind="task">#404</MessageReferenceUnavailable>
+              </MessageReferenceThreadUnavailable>{" "}
+              <MessageReferenceTaskUnavailable>#404</MessageReferenceTaskUnavailable>
             </p>
             <p>
               Resolving:{" "}
@@ -337,7 +337,7 @@ function MatrixContentSection() {
 function MatrixMediaSection() {
   return (
     <>
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
@@ -365,7 +365,7 @@ function MatrixMediaSection() {
           </MessageImageGallery>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -403,7 +403,7 @@ function MatrixMediaSection() {
           </MessageImageGallery>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -426,7 +426,7 @@ function MatrixMediaSection() {
           </MessageImageGallery>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
@@ -472,7 +472,7 @@ function MatrixMediaSection() {
         }
       />
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -495,7 +495,7 @@ function MatrixMediaSection() {
           </MessageVideoPreview>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -512,7 +512,7 @@ function MatrixMediaSection() {
           </MessageVideoPreview>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -522,7 +522,9 @@ function MatrixMediaSection() {
         attachments={
           <MessageVideoPreview>
             <MessageVideoPreviewFrame>
-              <MessageVideoPreviewFallback interactive>
+              <MessageVideoPreviewFallback
+                render={<button type="button" onClick={openMockAttachmentPreview} />}
+              >
                 <div className="flex max-w-[16rem] flex-col items-center gap-2 px-4 text-center text-xs font-bold">
                   <AlertTriangle size={24} />
                   <span>This video may use a codec this browser cannot preview.</span>
@@ -537,7 +539,7 @@ function MatrixMediaSection() {
         }
       />
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -609,7 +611,7 @@ function MatrixMediaSection() {
           </div>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -621,7 +623,7 @@ function MatrixMediaSection() {
           </div>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -640,7 +642,7 @@ function MatrixMediaSection() {
 function MatrixStateSection() {
   return (
     <>
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Online agent."
@@ -648,7 +650,7 @@ function MatrixStateSection() {
         time="10:20 AM"
         body="On it — pulling the token diff now."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Thinking…"
@@ -656,7 +658,7 @@ function MatrixStateSection() {
         time="10:21 AM"
         body="Let me reason about the contract shape before I touch the palette."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Working…"
@@ -664,7 +666,7 @@ function MatrixStateSection() {
         time="10:23 AM"
         body="Regenerating the palette and re-running the visual suite now."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Deploy Bot"
         meta="Error: daemon unreachable."
@@ -672,7 +674,7 @@ function MatrixStateSection() {
         time="10:24 AM"
         body="Deploy webhook is failing — retries are queued."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Nyx"
         meta="Offline."
@@ -680,7 +682,7 @@ function MatrixStateSection() {
         time="10:25 AM"
         body="Note before I dropped off: the two snapshots still need rebaselining."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Relay"
         meta="External agent."
@@ -688,7 +690,7 @@ function MatrixStateSection() {
         time="10:26 AM"
         body="Mirroring this thread from the ops server."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Legacy Bot"
         senderState="deleted"
@@ -697,14 +699,14 @@ function MatrixStateSection() {
         time="10:27 AM"
         body="Old handoff note from the retired build agent."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Mx. Chen"
         senderState="removed"
         time="10:28 AM"
         body="Looping in the on-call rotation before the next window."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -713,7 +715,7 @@ function MatrixStateSection() {
         body="Pinned this one for later — persistent bookmark at rest, saved in the toolbar."
       />
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
@@ -727,7 +729,7 @@ function MatrixStateSection() {
           </>
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -736,7 +738,7 @@ function MatrixStateSection() {
         footer={<MessageReactionTooltipComposition emoji="👍" count={7} names={REACTOR_NAMES} />}
       />
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -746,7 +748,7 @@ function MatrixStateSection() {
           <TaskStatusBadge channelId="frontend" status="todo" taskNumber={10} assignee="Ada" />
         }
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
@@ -754,7 +756,7 @@ function MatrixStateSection() {
         body="Verifying the RustFS attachment previews."
         footer={<TaskStatusBadge channelId="frontend" status="in_progress" taskNumber={11} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -762,7 +764,7 @@ function MatrixStateSection() {
         body="Thread reminder wake regression is up for review."
         footer={<TaskStatusBadge channelId="frontend" status="in_review" taskNumber={12} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
@@ -770,7 +772,7 @@ function MatrixStateSection() {
         body="Archived-channel smoke check passed."
         footer={<TaskStatusBadge channelId="frontend" status="done" taskNumber={13} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -778,7 +780,7 @@ function MatrixStateSection() {
         body="Closing the duplicate migration ticket."
         footer={<TaskStatusBadge channelId="frontend" status="closed" taskNumber={15} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -788,7 +790,7 @@ function MatrixStateSection() {
         footer={<TaskStatusBadge channelId="frontend" status="in_progress" taskNumber={16} busy />}
       />
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -796,7 +798,7 @@ function MatrixStateSection() {
         body="Wrote up the rollback plan in the thread."
         footer={<PlainRepliesBadge count={2} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -805,7 +807,7 @@ function MatrixStateSection() {
         body="Posted the regression breakdown — new replies since you last looked."
         footer={<PlainRepliesBadge count={1} unread={1} />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
@@ -813,7 +815,7 @@ function MatrixStateSection() {
         body="Half-written reply saved as a draft on this thread."
         footer={<DraftRepliesBadge />}
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -822,7 +824,7 @@ function MatrixStateSection() {
         footer={<DraftRepliesBadge count={3} />}
       />
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -830,7 +832,7 @@ function MatrixStateSection() {
         rowState="search-match"
         body="Jumped-to / thread-focus / search anchor: cyan fill + brutal shadow."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -849,7 +851,7 @@ function MatrixStateSection() {
         <SystemGroupDisclosure />
       </div>
 
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="agent"
         sender="Atlas"
         meta="Design-system agent on the primary online machine."
@@ -859,9 +861,10 @@ function MatrixStateSection() {
         saved
         followed
         task="open"
+        threadId={ALL_SHOWCASE_THREAD_IDS.stateModel}
         body="Right-click this saved + followed row — its menu shows Remove / Unfollow / Mark as Done."
       />
-      <PlaygroundMessageRow
+      <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
@@ -893,9 +896,11 @@ export function MatrixBody() {
           </SelectableMessageList>
         </ChatMainPanelMessageList>
       </ChatMainPanelTimeline>
-      <ChatMainPanelJumpToLatest disabled>
-        <ArrowDown />3 new messages
-      </ChatMainPanelJumpToLatest>
+      <ChatMainPanelJumpToLatestLayout>
+        <ChatMainPanelJumpToLatest disabled>
+          <ArrowDown />3 new messages
+        </ChatMainPanelJumpToLatest>
+      </ChatMainPanelJumpToLatestLayout>
     </ChatMainPanelBody>
   );
 }

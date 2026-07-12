@@ -16,12 +16,14 @@ import {
 import { User } from "lucide-react";
 import { MessageItemAvatarSlot, MessageItemAvatarStatus } from "raft-ui/wip";
 
-import { PLAYGROUND_ACTORS } from "./mock/index.ts";
+import { getPlaygroundActor, type PlaygroundActorId } from "./mock/index.ts";
+import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 export type PlaygroundAvatarVariant = "member" | "agent";
 
 export type PlaygroundAgentStatus =
   | "online"
+  | "idle"
   | "thinking"
   | "working"
   | "error"
@@ -32,20 +34,22 @@ const STATUS_CONFIG: Record<
   PlaygroundAgentStatus,
   { variant: NonNullable<StatusProps["variant"]>; pulse?: boolean }
 > = {
-  online: { variant: "success" },
+  online: PLAYGROUND_PRESENCE_STATUS.online,
+  idle: PLAYGROUND_PRESENCE_STATUS.idle,
   thinking: { variant: "primary", pulse: true },
-  working: { variant: "primary", pulse: true },
+  working: PLAYGROUND_PRESENCE_STATUS.working,
   error: { variant: "warning" },
-  offline: { variant: "default" },
+  offline: PLAYGROUND_PRESENCE_STATUS.offline,
   external: { variant: "information" },
 };
 
 const STATUS_LABEL: Record<PlaygroundAgentStatus, string> = {
-  online: "Online",
+  online: PLAYGROUND_PRESENCE_STATUS.online.label,
+  idle: PLAYGROUND_PRESENCE_STATUS.idle.label,
   thinking: "Thinking…",
-  working: "Working…",
+  working: PLAYGROUND_PRESENCE_STATUS.working.label,
   error: "Error",
-  offline: "Offline",
+  offline: PLAYGROUND_PRESENCE_STATUS.offline.label,
   external: "External",
 };
 
@@ -70,17 +74,15 @@ const PROFILE_ACTIVITY_ROWS: {
 const MUTED_META = "truncate font-mono text-xs text-foreground-muted";
 
 function PlaygroundAvatarContent({
-  sender,
-  isAgent,
+  actorId,
   compactHumanIcon = false,
 }: {
-  sender: string;
-  isAgent: boolean;
+  actorId: PlaygroundActorId;
   compactHumanIcon?: boolean;
 }) {
-  const actor = PLAYGROUND_ACTORS.find((candidate) => candidate.name === sender);
-  if (actor && "avatarSrc" in actor && actor.avatarSrc)
-    return <AvatarImage src={actor.avatarSrc} alt="" />;
+  const actor = getPlaygroundActor(actorId);
+  const isAgent = actor.type === "agent";
+  if (actor.avatarSrc) return <AvatarImage src={actor.avatarSrc} alt="" />;
   return (
     <AvatarFallback className={!isAgent && compactHumanIcon ? "[&>svg]:!size-4" : undefined}>
       {isAgent ? undefined : <User aria-hidden />}
@@ -91,27 +93,24 @@ function PlaygroundAvatarContent({
 // Profile hover-card body — composed with PreviewCard slots (same anatomy as
 // docs PreviewCardMentionComposition). Agent variant adds status + recent activity.
 export function ProfileCardBody({
-  variant,
-  sender,
-  meta,
+  actorId,
   status = "offline",
 }: {
-  variant: PlaygroundAvatarVariant;
-  sender: string;
-  meta?: string;
+  actorId: PlaygroundActorId;
   status?: PlaygroundAgentStatus;
 }) {
-  const isAgent = variant === "agent";
-  const handle = `@${sender.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+  const actor = getPlaygroundActor(actorId);
+  const isAgent = actor.type === "agent";
+  const handle = `@${actor.id}`;
   return (
     <>
       <PreviewCardHeader>
         <Avatar size="lg" type={isAgent ? "agent" : "human"}>
-          <PlaygroundAvatarContent sender={sender} isAgent={isAgent} />
+          <PlaygroundAvatarContent actorId={actorId} />
         </Avatar>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <PreviewCardTitle>{sender}</PreviewCardTitle>
+            <PreviewCardTitle>{actor.name}</PreviewCardTitle>
             {isAgent ? (
               <>
                 <Status
@@ -127,10 +126,10 @@ export function ProfileCardBody({
           <div className={MUTED_META}>{handle}</div>
         </div>
       </PreviewCardHeader>
-      {meta ? (
+      {actor.meta ? (
         <>
           <PreviewCardSeparator />
-          <PreviewCardDescription title={meta}>{meta}</PreviewCardDescription>
+          <PreviewCardDescription title={actor.meta}>{actor.meta}</PreviewCardDescription>
         </>
       ) : null}
       {isAgent ? (
@@ -175,19 +174,16 @@ export function ProfileCardBody({
  * slock MessageItem / MentionLink / MemberGraphSection.
  */
 export function PlaygroundMessageAvatar({
-  variant,
+  actorId,
   status = "offline",
   deactivated,
-  sender,
-  meta,
 }: {
-  variant: PlaygroundAvatarVariant;
+  actorId: PlaygroundActorId;
   status?: PlaygroundAgentStatus;
   deactivated?: boolean;
-  sender?: string;
-  meta?: string;
 }) {
-  const isAgent = variant === "agent";
+  const actor = getPlaygroundActor(actorId);
+  const isAgent = actor.type === "agent";
 
   const avatar = (
     <Avatar
@@ -195,7 +191,7 @@ export function PlaygroundMessageAvatar({
       type={isAgent ? "agent" : "human"}
       className={cn(deactivated && "opacity-60 grayscale")}
     >
-      <PlaygroundAvatarContent sender={sender ?? ""} isAgent={isAgent} compactHumanIcon />
+      <PlaygroundAvatarContent actorId={actorId} compactHumanIcon />
       {isAgent && !deactivated ? (
         <MessageItemAvatarStatus
           title={STATUS_LABEL[status]}
@@ -213,7 +209,7 @@ export function PlaygroundMessageAvatar({
   );
 
   // Deactivated / removed senders have no profile card in source.
-  if (deactivated || !sender) {
+  if (deactivated) {
     return <MessageItemAvatarSlot>{avatar}</MessageItemAvatarSlot>;
   }
 
@@ -224,7 +220,7 @@ export function PlaygroundMessageAvatar({
           {avatar}
         </PreviewCardTrigger>
         <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
-          <ProfileCardBody variant={variant} sender={sender} meta={meta} status={status} />
+          <ProfileCardBody actorId={actorId} status={status} />
         </PreviewCardContent>
       </PreviewCard>
     </MessageItemAvatarSlot>

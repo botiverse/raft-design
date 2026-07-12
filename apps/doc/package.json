@@ -10,7 +10,7 @@
     "build": "vp build",
     "preview": "vp preview",
     "test": "node ./node_modules/vitest/vitest.mjs run --config vitest.config.ts",
-    "deploy": "vp run raft-ui#build && vp build && wrangler deploy --config wrangler.static.jsonc",
+    "deploy": "vp run raft-ui#build && vp build && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {

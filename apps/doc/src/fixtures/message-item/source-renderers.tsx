@@ -1,9 +1,46 @@
 import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
 import { Avatar, AvatarFallback, Badge, Spinner } from "raft-ui";
-import { IMAGE_SRC } from "#/compositions/message-item/message-row-compositions.tsx";
-import { MessageReactionGlyphComposition as SourceReactionGlyph } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
+import {
+  MESSAGE_FIXTURE_IMAGE_SRC,
+  MESSAGE_REACTION_SPRITE_ITEMS,
+  MESSAGE_REACTION_SPRITE_PATH,
+  MESSAGE_REACTION_SPRITE_SIZE,
+  MESSAGE_QUICK_REACTIONS,
+} from "./assets.ts";
 
-const SOURCE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
+const IMAGE_SRC = MESSAGE_FIXTURE_IMAGE_SRC;
+const SOURCE_QUICK_REACTIONS = MESSAGE_QUICK_REACTIONS;
+
+function SourceReactionGlyph({ emoji, size = 15 }: { emoji: string; size?: number }) {
+  const item = MESSAGE_REACTION_SPRITE_ITEMS[emoji];
+
+  if (!item) {
+    return (
+      <span aria-hidden="true" className="block" style={{ fontSize: size, lineHeight: 1 }}>
+        {emoji}
+      </span>
+    );
+  }
+
+  return (
+    <span
+      aria-hidden="true"
+      className="block"
+      data-reaction-glyph={item.id}
+      data-reaction-sprite-path={MESSAGE_REACTION_SPRITE_PATH}
+      style={{
+        backgroundImage: `url(${MESSAGE_REACTION_SPRITE_PATH})`,
+        backgroundPosition: `${-item.x * (size / item.width)}px 0px`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: `${MESSAGE_REACTION_SPRITE_SIZE.width * (size / item.width)}px ${MESSAGE_REACTION_SPRITE_SIZE.height * (size / item.width)}px`,
+        display: "inline-block",
+        height: size,
+        lineHeight: 1,
+        width: size,
+      }}
+    />
+  );
+}
 
 function SourceReactionChip({
   emoji,
@@ -55,13 +92,28 @@ export function SourceAuthoredMessageRow() {
         </div>
       </div>
       <div className="absolute -top-3.5 right-2 z-20 hidden items-center overflow-hidden border-2 border-black bg-white shadow-brutal-sm group-hover/message:flex">
-        <button className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black">
+        <button
+          type="button"
+          aria-label="Reply in thread"
+          disabled
+          className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black"
+        >
           <MessageSquare className="size-[13px]" />
         </button>
-        <button className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black">
+        <button
+          type="button"
+          aria-label="Add reaction"
+          disabled
+          className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black"
+        >
           <SmilePlus className="size-[13px]" />
         </button>
-        <button className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black">
+        <button
+          type="button"
+          aria-label="Save message"
+          disabled
+          className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black"
+        >
           <Bookmark className="size-[13px]" />
         </button>
       </div>
@@ -73,13 +125,28 @@ export function SourceSavedToolbarMessageRow() {
   return (
     <div className="group/message relative mb-1 mt-1.5 flex h-fit min-h-12 w-full gap-3 border-2 border-transparent px-2 py-1 text-left hover:border-black hover:bg-white">
       <div className="absolute -top-3.5 right-2 z-20 flex items-center overflow-hidden border-2 border-black bg-white shadow-brutal-sm">
-        <button className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black">
+        <button
+          type="button"
+          aria-label="Reply in thread"
+          disabled
+          className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black"
+        >
           <MessageSquare className="size-[13px]" />
         </button>
-        <button className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black">
+        <button
+          type="button"
+          aria-label="Add reaction"
+          disabled
+          className="flex size-6 items-center justify-center text-black/50 hover:bg-soft-signal/30 hover:text-black"
+        >
           <SmilePlus className="size-[13px]" />
         </button>
-        <button className="flex size-6 items-center justify-center text-brutal-orange hover:bg-soft-signal/30">
+        <button
+          type="button"
+          aria-label="Remove from Saved"
+          disabled
+          className="flex size-6 items-center justify-center text-brutal-orange hover:bg-soft-signal/30"
+        >
           <Bookmark className="size-[13px]" fill="currentColor" />
         </button>
       </div>
@@ -225,7 +292,12 @@ export function SourceImageGalleryMessageRow() {
           <div className="grid grid-cols-2 gap-2">
             <div className="group/img relative h-32 overflow-hidden border-2 border-black bg-brutal-cream/60 text-left hover:brightness-95 sm:h-36">
               <img src={IMAGE_SRC} alt="" className="block h-full w-full object-cover" />
-              <button className="absolute right-1 bottom-1 z-10 hidden size-6 items-center justify-center border border-black bg-white/80 text-black/50 group-hover/img:flex hover:text-black">
+              <button
+                type="button"
+                aria-label="Download image"
+                disabled
+                className="absolute right-1 bottom-1 z-10 hidden size-6 items-center justify-center border border-black bg-white/80 text-black/50 group-hover/img:flex hover:text-black"
+              >
                 <Download className="size-3" />
               </button>
             </div>
@@ -254,10 +326,20 @@ export function SourceVideoPreviewMessageRow() {
         <div className="mt-1 space-y-2">
           <div className="group/video relative w-full max-w-[min(28rem,calc(100vw-7rem))] overflow-hidden border-2 border-black bg-black text-left">
             <div className="relative aspect-video w-full bg-black">
-              <button className="flex h-full w-full items-center justify-center bg-black text-white">
+              <button
+                type="button"
+                aria-label="Play video"
+                disabled
+                className="flex h-full w-full items-center justify-center bg-black text-white"
+              >
                 <Play className="size-8 text-white/80" />
               </button>
-              <button className="absolute top-1.5 right-1.5 flex size-6 items-center justify-center border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black">
+              <button
+                type="button"
+                aria-label="Open video preview"
+                disabled
+                className="absolute top-1.5 right-1.5 flex size-6 items-center justify-center border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black"
+              >
                 <Eye className="size-3" />
               </button>
             </div>
@@ -293,6 +375,9 @@ export function SourceReactionOverlays() {
         {SOURCE_QUICK_REACTIONS.map((emoji) => (
           <button
             key={emoji}
+            type="button"
+            aria-label={`React with ${emoji}`}
+            disabled
             className="flex size-7 items-center justify-center rounded bg-transparent transition-colors hover:bg-brutal-pink/20"
           >
             <SourceReactionGlyph emoji={emoji} size={18} />
@@ -323,6 +408,9 @@ export function SourceContextMenu() {
         {SOURCE_QUICK_REACTIONS.map((emoji) => (
           <button
             key={emoji}
+            type="button"
+            aria-label={`React with ${emoji}`}
+            disabled
             className="flex size-7 items-center justify-center rounded bg-transparent transition-colors hover:bg-brutal-pink/20 active:bg-brutal-pink/20"
           >
             <SourceReactionGlyph emoji={emoji} size={18} />
@@ -391,7 +479,12 @@ export function SourceRichAttachmentMessageRow() {
             <div className="grid grid-cols-2 gap-2">
               <div className="group/img relative h-32 overflow-hidden border-2 border-black bg-brutal-cream/60 text-left hover:brightness-95 sm:h-36">
                 <img src={IMAGE_SRC} alt="" className="block h-full w-full object-cover" />
-                <button className="absolute right-1 bottom-1 z-10 hidden size-6 items-center justify-center border border-black bg-white/80 text-black/50 group-hover/img:flex hover:text-black">
+                <button
+                  type="button"
+                  aria-label="Download image"
+                  disabled
+                  className="absolute right-1 bottom-1 z-10 hidden size-6 items-center justify-center border border-black bg-white/80 text-black/50 group-hover/img:flex hover:text-black"
+                >
                   <Download className="size-3" />
                 </button>
               </div>
@@ -405,10 +498,20 @@ export function SourceRichAttachmentMessageRow() {
           </div>
           <div className="group/video relative w-full max-w-[min(28rem,calc(100vw-7rem))] overflow-hidden border-2 border-black bg-black text-left">
             <div className="relative aspect-video w-full bg-black">
-              <button className="flex h-full w-full items-center justify-center bg-black text-white">
+              <button
+                type="button"
+                aria-label="Play video"
+                disabled
+                className="flex h-full w-full items-center justify-center bg-black text-white"
+              >
                 <Play className="size-8 text-white/80" />
               </button>
-              <button className="absolute top-1.5 right-1.5 flex size-6 items-center justify-center border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black">
+              <button
+                type="button"
+                aria-label="Open video preview"
+                disabled
+                className="absolute top-1.5 right-1.5 flex size-6 items-center justify-center border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black"
+              >
                 <Eye className="size-3" />
               </button>
             </div>

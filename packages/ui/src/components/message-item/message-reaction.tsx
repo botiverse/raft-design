@@ -4,7 +4,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
-import { type DataAttributes } from "./message-item.types";
+import { type DataAttributes } from "../../lib/data-attributes";
 
 export type MessageReactionChipProps = useRender.ComponentProps<"button">;
 
@@ -181,13 +181,17 @@ export function MessageReactionQuickButton({
   });
 }
 
-export type MessageReactionPickerProps = useRender.ComponentProps<"div">;
+export type MessageReactionPickerPanelProps = useRender.ComponentProps<"div">;
 
-export function MessageReactionPicker({ className, render, ...props }: MessageReactionPickerProps) {
+export function MessageReactionPickerPanel({
+  className,
+  render,
+  ...props
+}: MessageReactionPickerPanelProps) {
   const theme = useThemeFamily();
-  const { picker } = messageReaction({ theme });
+  const { pickerSurface } = messageReaction({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: picker({ className }),
+    className: pickerSurface({ className }),
   };
 
   return useRender({
@@ -204,14 +208,17 @@ export type MessageReactionPickerContentProps = DropdownMenuContentProps;
 
 export function MessageReactionPickerContent({
   className,
-  render = <MessageReactionPicker />,
   ...props
 }: MessageReactionPickerContentProps) {
   const theme = useThemeFamily();
-  const { pickerContent } = messageReaction({ theme });
+  const { pickerSurface } = messageReaction({ theme });
 
   return (
-    <DropdownMenuContent className={pickerContent({ className })} render={render} {...props} />
+    <DropdownMenuContent
+      data-slot="message-reaction-picker"
+      className={pickerSurface({ className })}
+      {...props}
+    />
   );
 }
 

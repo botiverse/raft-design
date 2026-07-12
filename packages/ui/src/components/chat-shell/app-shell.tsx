@@ -2,6 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { DataAttributes } from "./data-attributes";
 
 const appShell = tv({
   slots: {
@@ -58,10 +59,6 @@ type HiddenProp = {
 };
 
 type AppShellVariantProps = Omit<VariantProps<typeof appShell>, "theme">;
-
-export type DataAttributes = {
-  [key: `data-${string}`]: string | undefined;
-};
 
 export type AppShellRootProps = useRender.ComponentProps<"div"> & HiddenProp;
 

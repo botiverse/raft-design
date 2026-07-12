@@ -13,7 +13,6 @@ import {
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
-  AppRailUtilitySlot,
   AppShellMain,
   AppShellMobileBar,
   AppShellPanelStack,
@@ -32,9 +31,10 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarRoot,
+  ChatSidebarAction,
   ChatSidebarSection,
-  ChatSidebarSectionAction,
   ChatSidebarSectionButton,
+  ChatSidebarSectionChevron,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
@@ -43,7 +43,6 @@ import {
   Activity,
   Bot,
   CheckSquare,
-  ChevronRight,
   Hash,
   Home,
   MessageSquare,
@@ -299,12 +298,10 @@ function AppShellPreview() {
             <RailItem value="members" label="Members" icon={<Users />} />
             <RailItem value="computers" label="Computers" icon={<Monitor />} indicator />
           </AppRailNav>
-          <AppRailUtilitySlot className="[[data-theme=elegant]_&]:pb-0">
+          <AppRailFooter>
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
-          </AppRailUtilitySlot>
-          <AppRailFooter>
             <RailItem value="settings" label="Settings" icon={<Settings />} />
           </AppRailFooter>
         </AppRailRoot>
@@ -318,12 +315,12 @@ function AppShellPreview() {
                 Chat
               </div>
             </div>
-            <ChatSidebarSectionAction
+            <ChatSidebarAction
               aria-label="New conversation"
               className="ml-auto hidden [[data-theme=elegant]_&]:inline-flex"
             >
               <Plus />
-            </ChatSidebarSectionAction>
+            </ChatSidebarAction>
           </ChatSidebarHeader>
           <ChatSidebarBody>
             <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 py-3 [[data-theme=elegant]_&]:pb-7">
@@ -393,7 +390,7 @@ function SidebarGroup({ title, children }: { title: string; children: ReactNode 
       <ChatSidebarSectionHeader className="[[data-theme=elegant]_&]:mt-4 [[data-theme=elegant]_&]:mb-0 [[data-theme=elegant]_&]:h-8">
         <ChatSidebarSectionButton className="[[data-theme=elegant]_&]:h-8">
           <ChatSidebarSectionTitle>{title}</ChatSidebarSectionTitle>
-          <ChevronRight
+          <ChatSidebarSectionChevron
             aria-hidden
             className="hidden size-2.5 shrink-0 [[data-theme=elegant]_&]:inline-block"
           />

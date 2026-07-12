@@ -28,14 +28,13 @@ import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
-  AppRailItemAttentionMask,
+  AppRailItemAttention,
   AppRailItemIcon,
   AppRailItemIndicator,
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppRailUtilitySlot,
   AppShellRail,
 } from "raft-ui/wip";
 import {
@@ -120,12 +119,9 @@ export function PlaygroundRail() {
                 <AppRailItemIcon>
                   <MessageSquare />
                   {railView !== "chat" ? (
-                    <>
-                      <AppRailItemAttentionMask aria-hidden>
-                        <MessageSquare />
-                      </AppRailItemAttentionMask>
-                      <AppRailItemIndicator aria-hidden title="Unread messages" />
-                    </>
+                    <AppRailItemAttention title="Unread messages">
+                      <MessageSquare />
+                    </AppRailItemAttention>
                   ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Chat</AppRailItemLabel>
@@ -137,12 +133,9 @@ export function PlaygroundRail() {
                 <AppRailItemIcon>
                   <Activity />
                   {railView !== "activity" ? (
-                    <>
-                      <AppRailItemAttentionMask aria-hidden>
-                        <Activity />
-                      </AppRailItemAttentionMask>
-                      <AppRailItemIndicator aria-hidden title="Unread activity" />
-                    </>
+                    <AppRailItemAttention title="Unread activity">
+                      <Activity />
+                    </AppRailItemAttention>
                   ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Activity</AppRailItemLabel>
@@ -172,15 +165,9 @@ export function PlaygroundRail() {
                 <AppRailItemIcon>
                   <Monitor />
                   {railView !== "computers" ? (
-                    <>
-                      <AppRailItemAttentionMask aria-hidden>
-                        <Monitor />
-                      </AppRailItemAttentionMask>
-                      <AppRailItemIndicator
-                        aria-hidden
-                        title="A managed computer has an upgrade available"
-                      />
-                    </>
+                    <AppRailItemAttention title="A managed computer has an upgrade available">
+                      <Monitor />
+                    </AppRailItemAttention>
                   ) : null}
                 </AppRailItemIcon>
                 <AppRailItemLabel>Computers</AppRailItemLabel>
@@ -188,9 +175,7 @@ export function PlaygroundRail() {
               <TooltipContent side="right">Computers</TooltipContent>
             </Tooltip>
           </AppRailNav>
-        </TooltipProvider>
-        <TooltipProvider delay={650}>
-          <AppRailUtilitySlot>
+          <AppRailFooter>
             {notificationVisible ? (
               <NotificationCenter modal={false}>
                 <Tooltip>
@@ -233,8 +218,6 @@ export function PlaygroundRail() {
                 </NotificationCenterPopup>
               </NotificationCenter>
             ) : null}
-          </AppRailUtilitySlot>
-          <AppRailFooter>
             <Tooltip>
               <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
                 <AppRailItemIcon>

@@ -14,58 +14,14 @@ import {
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
   ChatThreadPanelTitleMeta,
-  MessageItem,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemHeader,
-  MessageItemMeta,
-  MessageItemSearchMatch,
-  MessageItemSender,
-  MessageItemTime,
   MessageTimelineNotice,
   PanelButton,
   PanelButtonIcon,
   PanelButtonLabel,
 } from "raft-ui/wip";
 import { PlaygroundThreadComposer } from "./playground-composer.tsx";
-import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
-import {
-  getPlaygroundActor,
-  type PlaygroundChannelRecord,
-  type PlaygroundMessage,
-  type PlaygroundThread,
-} from "./mock/index.ts";
-
-function ThreadMessage({
-  message,
-  searchMatch = false,
-}: {
-  message: PlaygroundMessage;
-  searchMatch?: boolean;
-}) {
-  const actor = getPlaygroundActor(message.authorId);
-  const variant = actor.type === "agent" ? "agent" : "member";
-  const Root = searchMatch ? MessageItemSearchMatch : MessageItem;
-
-  return (
-    <Root>
-      <PlaygroundMessageAvatar
-        variant={variant}
-        sender={actor.name}
-        meta={actor.meta}
-        status={actor.type === "agent" ? "online" : "offline"}
-      />
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>{actor.name}</MessageItemSender>
-          <MessageItemMeta>{actor.meta}</MessageItemMeta>
-          <MessageItemTime>{message.time}</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>{message.body}</MessageItemBody>
-      </MessageItemContent>
-    </Root>
-  );
-}
+import { PlaygroundMessageRow } from "./playground-message-row.tsx";
+import { type PlaygroundChannelRecord, type PlaygroundThread } from "./mock/index.ts";
 
 export function PlaygroundThreadPanel({
   channel,
@@ -180,7 +136,11 @@ export function PlaygroundThreadPanel({
         </ChatThreadPanelSearch>
       ) : null}
       <ChatThreadPanelParent>
-        <ThreadMessage message={thread.parent} searchMatch={activeMatch?.id === thread.parent.id} />
+        <PlaygroundMessageRow
+          message={thread.parent}
+          searchMatch={activeMatch?.id === thread.parent.id}
+          threadId={thread.parent.id}
+        />
       </ChatThreadPanelParent>
       <ChatThreadPanelBody>
         <div className="px-3 pt-2">
@@ -190,9 +150,12 @@ export function PlaygroundThreadPanel({
           </ChatThreadPanelReplyCount>
         </div>
         {thread.replies.map((message) => (
-          <div key={message.id} className="px-3">
-            <ThreadMessage message={message} searchMatch={activeMatch?.id === message.id} />
-          </div>
+          <PlaygroundMessageRow
+            key={message.id}
+            message={message}
+            searchMatch={activeMatch?.id === message.id}
+            threadId={thread.parent.id}
+          />
         ))}
         <div className="h-6" aria-hidden />
       </ChatThreadPanelBody>
