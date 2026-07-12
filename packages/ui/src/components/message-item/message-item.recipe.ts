@@ -52,8 +52,7 @@ export const messageItem = tv({
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
-          "data-[active=true]:text-black data-[active=true]:hover:text-black",
-          "data-[saved=true]:text-brutal-orange data-[saved=true]:hover:text-brutal-orange",
+          "aria-[pressed=true]:text-black aria-[pressed=true]:hover:text-black",
           "[&_svg]:size-[13px]",
         ],
       },
@@ -106,8 +105,17 @@ export const messageItem = tv({
       true: { body: "mt-0 mb-0" },
     },
     toolbarVisible: { true: { toolbar: "flex" } },
+    tone: { default: {}, accent: {} },
   },
   compoundVariants: [
+    {
+      theme: "brutal",
+      tone: "accent",
+      class: {
+        toolbarButton:
+          "aria-[pressed=true]:text-brutal-orange aria-[pressed=true]:hover:text-brutal-orange",
+      },
+    },
     { theme: "brutal", rowState: "active", class: { root: "border-line-strong bg-white" } },
     {
       theme: "brutal",

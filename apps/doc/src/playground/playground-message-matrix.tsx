@@ -24,7 +24,9 @@ import {
   MessageItemBadge,
   MessageItemBadgeSeparator,
   MessageMultiSelect,
-  MessageReferenceUnavailable,
+  MessageReferenceChannelUnavailable,
+  MessageReferenceTaskUnavailable,
+  MessageReferenceThreadUnavailable,
   MessageTimelineDateDivider,
   MessageVideoPreview,
   MessageVideoPreviewAction,
@@ -304,11 +306,11 @@ function MatrixContentSection() {
           <div className="space-y-1">
             <p>
               Unresolved refs dim to 60%:{" "}
-              <MessageReferenceUnavailable kind="channel">#archived</MessageReferenceUnavailable>{" "}
-              <MessageReferenceUnavailable kind="thread">
+              <MessageReferenceChannelUnavailable>#archived</MessageReferenceChannelUnavailable>{" "}
+              <MessageReferenceThreadUnavailable>
                 #general:deadbeef
-              </MessageReferenceUnavailable>{" "}
-              <MessageReferenceUnavailable kind="task">#404</MessageReferenceUnavailable>
+              </MessageReferenceThreadUnavailable>{" "}
+              <MessageReferenceTaskUnavailable>#404</MessageReferenceTaskUnavailable>
             </p>
             <p>
               Resolving:{" "}

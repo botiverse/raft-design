@@ -95,16 +95,22 @@ export function MessageReferenceLoading(props: MessageReferenceLoadingProps) {
   return useMessageReferenceStatus("loading", "message-reference-loading", props);
 }
 
-export type MessageReferenceUnavailableProps = MessageReferenceStatusProps & {
-  kind: "channel" | "task" | "thread";
-};
+export type MessageReferenceChannelUnavailableProps = MessageReferenceStatusProps;
 
-export function MessageReferenceUnavailable({ kind, ...props }: MessageReferenceUnavailableProps) {
-  return useMessageReferenceStatus(
-    `${kind}Unavailable` as MessageReferenceTreatment,
-    "message-reference-unavailable",
-    props,
-  );
+export function MessageReferenceChannelUnavailable(props: MessageReferenceChannelUnavailableProps) {
+  return useMessageReferenceStatus("channelUnavailable", "message-reference-unavailable", props);
+}
+
+export type MessageReferenceTaskUnavailableProps = MessageReferenceStatusProps;
+
+export function MessageReferenceTaskUnavailable(props: MessageReferenceTaskUnavailableProps) {
+  return useMessageReferenceStatus("taskUnavailable", "message-reference-unavailable", props);
+}
+
+export type MessageReferenceThreadUnavailableProps = MessageReferenceStatusProps;
+
+export function MessageReferenceThreadUnavailable(props: MessageReferenceThreadUnavailableProps) {
+  return useMessageReferenceStatus("threadUnavailable", "message-reference-unavailable", props);
 }
 
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;

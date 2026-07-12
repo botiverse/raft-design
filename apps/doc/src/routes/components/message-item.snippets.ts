@@ -9,19 +9,6 @@ export const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-export const SNIPPETS = {
-  sourceAuthoredRow: `<div className="group/message relative mb-1 mt-1.5 flex h-fit min-h-12 gap-3 px-2 py-1 hover:border-2 hover:border-black hover:bg-white">
-  <Avatar />
-  <div>
-    <div className="flex items-center gap-2 pr-24">
-      <span className="text-sm font-bold">Atlas</span>
-      <span className="font-mono text-xs text-black/40">2:14 PM</span>
-    </div>
-    <div className="break-words text-sm leading-5">Source rendered markdown and message parts here.</div>
-  </div>
-</div>`,
-} as const;
-
 export const PROPS: readonly PropRow[] = [
   {
     name: "MessageItem",
@@ -59,9 +46,9 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemToolbarButton",
-    type: 'useRender.ComponentProps<"button">',
+    type: 'useRender.ComponentProps<"button"> & { tone?: "default" | "accent" }',
     description:
-      "Toolbar action button. Use native aria-pressed for active, saved, or toggled actions.",
+      'Toolbar action button. Use native aria-pressed for toggled actions; tone="accent" tints the pressed state (e.g. saved).',
   },
   {
     name: "MessageItemSavedIndicator",

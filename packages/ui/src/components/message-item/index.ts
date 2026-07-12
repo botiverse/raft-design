@@ -100,7 +100,9 @@ export {
   MessageReferenceSelfMention,
   MessageReferenceTask,
   MessageReferenceThread,
-  MessageReferenceUnavailable,
+  MessageReferenceChannelUnavailable,
+  MessageReferenceTaskUnavailable,
+  MessageReferenceThreadUnavailable,
 } from "./message-reference";
 export {
   MessageMultiSelect,
@@ -224,7 +226,9 @@ export type {
   MessageReferenceSelfMentionProps,
   MessageReferenceTaskProps,
   MessageReferenceThreadProps,
-  MessageReferenceUnavailableProps,
+  MessageReferenceChannelUnavailableProps,
+  MessageReferenceTaskUnavailableProps,
+  MessageReferenceThreadUnavailableProps,
 } from "./message-reference";
 export type {
   MessageMultiSelectActionProps,

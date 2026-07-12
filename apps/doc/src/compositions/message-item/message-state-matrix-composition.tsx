@@ -175,7 +175,7 @@ function StateRow({
           <MessageItemFooter>
             {footer}
             {saved ? (
-              <MessageItemSavedIndicator render={<button type="button" />}>
+              <MessageItemSavedIndicator>
                 <Bookmark fill="currentColor" />
                 <span>Saved</span>
               </MessageItemSavedIndicator>
@@ -213,11 +213,10 @@ function ToolbarState({
 
   return (
     <MessageItemToolbar visible={visible}>
-      <MessageItemToolbarButton aria-label="Reply in thread">
+      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
         <MessageSquare />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
-        active={isActive}
         aria-pressed={isActive}
         aria-label="Add reaction"
         onClick={() => setIsActive((current) => !current)}
@@ -225,7 +224,7 @@ function ToolbarState({
         <SmilePlus />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
-        saved={isSaved}
+        tone="accent"
         aria-label="Save message"
         aria-pressed={isSaved}
         onClick={() => setIsSaved((current) => !current)}

@@ -11,6 +11,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import messageReactionCompositionsSource from "#/compositions/message-item/message-reaction-compositions.tsx?raw";
 import messageRowCompositionsSource from "#/compositions/message-item/message-row-compositions.tsx?raw";
 import messageStateMatrixSource from "#/compositions/message-item/message-state-matrix-composition.tsx?raw";
+import messageItemSourceFixturesSource from "./message-item.source-fixtures.tsx?raw";
 
 import { getMessageItemComparisonItems } from "./message-item.comparison";
 import {
@@ -26,14 +27,14 @@ import {
   ThreadArchiveEventRow,
 } from "#/compositions/message-item/message-row-compositions.tsx";
 import { MessageItemStateMatrix } from "#/compositions/message-item/message-state-matrix-composition.tsx";
-import { PROPS, SNIPPETS, TOC } from "./message-item.snippets";
+import { PROPS, TOC } from "./message-item.snippets";
 
 export const Route = createFileRoute("/components/message-item")({
   component: MessageItemDoc,
   loader: () =>
     highlightSnippets({
       data: {
-        ...SNIPPETS,
+        sourceAuthoredRow: messageItemSourceFixturesSource,
         anatomy: messageRowCompositionsSource,
         currentAuthoredRow: messageRowCompositionsSource,
         fixtureReactions: messageReactionCompositionsSource,

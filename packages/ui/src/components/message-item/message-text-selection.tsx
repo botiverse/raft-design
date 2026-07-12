@@ -15,6 +15,7 @@ import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tv } from "../../lib/tv";
 import { Popover, PopoverClose, PopoverContent, type PopoverContentProps } from "../popover/index";
+import { type DataAttributes } from "./message-item.types";
 
 const messageTextSelection = tv({
   slots: {
@@ -41,8 +42,6 @@ const messageTextSelection = tv({
     },
   },
 });
-
-type DataAttributes = Record<`data-${string}`, string | undefined>;
 
 type MessageTextSelectionContextValue = {
   anchor: PopoverContentProps["anchor"];
@@ -280,7 +279,6 @@ export function MessageTextSelectionMenuSeparator({
   const defaultProps: useRender.ElementProps<"div"> = {
     "aria-hidden": true,
     className: separator({ className }),
-    role: "separator",
   };
 
   return useRender({

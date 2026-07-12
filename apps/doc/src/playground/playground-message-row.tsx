@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "raft-ui";
+import { Bookmark, MessageSquare } from "lucide-react";
+import { ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
   MessageItem,
   MessageItemActive,
@@ -29,12 +23,8 @@ import {
   MessageItemSender,
   MessageItemSenderState,
   MessageItemTime,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
-  MessageReactionPickerContent,
-  MessageReactionQuickButton,
   useMessageMultiSelect,
 } from "raft-ui/wip";
 
@@ -42,7 +32,7 @@ import {
   MessageContextMenuComposition,
   type MessageTaskState,
 } from "#/compositions/message-item/message-context-menu-composition.tsx";
-import { MESSAGE_QUICK_REACTIONS } from "#/compositions/message-item/message-reaction-compositions.tsx";
+import { MessageRowToolbar } from "#/compositions/message-item/message-row-compositions.tsx";
 import { MessageReactionGlyphComposition } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
 import {
   PlaygroundMessageAvatar,
@@ -319,11 +309,8 @@ export function PlaygroundMessageRow({
   );
 }
 
-// Hover-toolbar reaction flyout. Source opens the quick-reaction row on click of
-// the React button and hand-positions it (buggy x/y); here the row is anchored
-// by Base UI's menu positioner (click-to-open trigger, automatic flip/collision)
-// while MessageReactionPickerContent + MessageReactionQuickButton keep the source
-// picker chrome and per-emoji hover tint pixel-identical.
+// Thin Playground wrapper over the canonical MessageRowToolbar: maps mock thread
+// routing onto the reply button; open/hover state stays owned by the row.
 function RowToolbar({
   saved,
   threadId,
@@ -350,76 +337,26 @@ function RowToolbar({
   const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
 
   return (
-    <MessageItemToolbar>
-      {threadContext ? (
-        <MessageItemToolbarButton
-          aria-label="Reply in thread"
-          render={
-            <Link
-              to="/playground/$channelId"
-              params={{ channelId: threadContext.channelId }}
-              search={{ thread: threadId }}
-            />
-          }
-        >
-          <MessageSquare />
-        </MessageItemToolbarButton>
-      ) : (
-        <MessageItemToolbarButton aria-label="Reply in thread" onClick={onReplyInThread}>
-          <MessageSquare />
-        </MessageItemToolbarButton>
-      )}
-      <DropdownMenu open={reactionOpen} onOpenChange={onReactionOpenChange}>
-        <DropdownMenuTrigger
-          render={
-            <MessageItemToolbarButton
-              active={reactionOpen}
-              aria-pressed={reactionOpen}
-              aria-label="Add reaction"
-            >
-              <SmilePlus />
-            </MessageItemToolbarButton>
-          }
-        />
-        <MessageReactionPickerContent
-          side="bottom"
-          align="end"
-          sideOffset={4}
-          collisionAvoidance={{ side: "flip", align: "flip" }}
-          collisionPadding={8}
-          portalProps={{ container: portalContainer }}
-          onMouseEnter={onReactionPickerEnter}
-          onMouseLeave={onReactionPickerLeave}
-        >
-          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-            <DropdownMenuItem
-              key={emoji}
-              className="[[data-theme=brutal]_&]:!size-7 [[data-theme=brutal]_&]:!w-7 [[data-theme=brutal]_&]:!p-0"
-              render={
-                <MessageReactionQuickButton
-                  title={`React with ${emoji}`}
-                  aria-label={`React with ${emoji}`}
-                />
-              }
-              onClick={() => {
-                onReact(emoji);
-                onReactionOpenChange(false);
-              }}
-            >
-              <MessageReactionGlyphComposition emoji={emoji} size={18} />
-            </DropdownMenuItem>
-          ))}
-        </MessageReactionPickerContent>
-      </DropdownMenu>
-      <MessageItemToolbarButton
-        saved={saved}
-        aria-pressed={saved}
-        aria-label={saved ? "Remove from Saved" : "Save message"}
-        onClick={() => onSavedChange(!saved)}
-      >
-        <Bookmark fill={saved ? "currentColor" : "none"} />
-      </MessageItemToolbarButton>
-    </MessageItemToolbar>
+    <MessageRowToolbar
+      saved={saved}
+      reactionOpen={reactionOpen}
+      portalContainer={portalContainer}
+      replyRender={
+        threadContext ? (
+          <Link
+            to="/playground/$channelId"
+            params={{ channelId: threadContext.channelId }}
+            search={{ thread: threadId }}
+          />
+        ) : undefined
+      }
+      onReact={onReact}
+      onReplyInThread={onReplyInThread}
+      onReactionOpenChange={onReactionOpenChange}
+      onReactionPickerEnter={onReactionPickerEnter}
+      onReactionPickerLeave={onReactionPickerLeave}
+      onSavedChange={onSavedChange}
+    />
   );
 }
 

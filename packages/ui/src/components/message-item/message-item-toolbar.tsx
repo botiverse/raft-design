@@ -1,8 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageItem } from "./message-item.recipe";
-import { type DataAttributes } from "./message-item.types";
+import { messageItem, type MessageItemVariantProps } from "./message-item.recipe";
 
 export type MessageItemToolbarProps = useRender.ComponentProps<"div"> & {
   visible?: boolean;
@@ -30,24 +29,19 @@ export function MessageItemToolbar({
   });
 }
 
-export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button"> & {
-  active?: boolean;
-  saved?: boolean;
-};
+export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button"> &
+  Pick<MessageItemVariantProps, "tone">;
 
 export function MessageItemToolbarButton({
-  active,
   className,
   render,
-  saved,
+  tone,
   ...props
 }: MessageItemToolbarButtonProps) {
   const theme = useThemeFamily();
-  const { toolbarButton } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const { toolbarButton } = messageItem({ theme, tone });
+  const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
-    "data-active": active ? "true" : undefined,
-    "data-saved": saved ? "true" : undefined,
     className: toolbarButton({ className }),
   };
 

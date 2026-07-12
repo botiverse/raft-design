@@ -1,6 +1,16 @@
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger, Spinner } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  Badge,
+  ContextMenu,
+  ContextMenuTrigger,
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Spinner,
+} from "raft-ui";
 import {
   MessageImageGallery,
   MessageImageGalleryAction,
@@ -36,6 +46,7 @@ import {
   MessageReactionChip,
   MessageReactionGlyph,
   MessageReactionPicker,
+  MessageReactionPickerContent,
   MessageReactionQuickButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
@@ -56,6 +67,7 @@ import {
 import { MessageAttachmentReadyComposition } from "./message-attachment-compositions.tsx";
 import {
   MessageContextMenuComposition,
+  QUICK_REACTION_MENU_ITEM_CLASS,
   type MessageTaskState,
 } from "./message-context-menu-composition.tsx";
 
@@ -92,7 +104,7 @@ export function AuthoredMessageRow() {
           this component.
         </MessageItemBody>
         <MessageItemFooter>
-          <MessageItemSavedIndicator render={<button type="button" />}>
+          <MessageItemSavedIndicator>
             <Bookmark fill="currentColor" />
             <span>Saved</span>
           </MessageItemSavedIndicator>
@@ -122,7 +134,7 @@ export function SavedToolbarMessageRow() {
           Saved state stays in the footer while the hover toolbar exposes the same action.
         </MessageItemBody>
         <MessageItemFooter>
-          <MessageItemSavedIndicator render={<button type="button" />}>
+          <MessageItemSavedIndicator>
             <Bookmark fill="currentColor" />
             <span>Saved</span>
           </MessageItemSavedIndicator>
@@ -591,11 +603,10 @@ function Toolbar({
 
   return (
     <MessageItemToolbar visible={forceVisible}>
-      <MessageItemToolbarButton aria-label="Reply in thread">
+      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
         <MessageSquare />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
-        active={isReactionActive}
         aria-pressed={isReactionActive}
         aria-label="Add Reaction"
         onClick={() => setIsReactionActive((active) => !active)}
@@ -603,10 +614,99 @@ function Toolbar({
         <SmilePlus />
       </MessageItemToolbarButton>
       <MessageItemToolbarButton
-        saved={saved}
+        tone="accent"
         aria-label={saved ? "Remove from Saved" : "Save Message"}
         aria-pressed={saved}
         disabled
+      >
+        <Bookmark fill={saved ? "currentColor" : "none"} />
+      </MessageItemToolbarButton>
+    </MessageItemToolbar>
+  );
+}
+
+export type MessageRowToolbarProps = {
+  saved?: boolean;
+  reactionOpen: boolean;
+  portalContainer: HTMLElement | null;
+  /** Render substitution for the reply button (e.g. a router link) when the row opens a thread. */
+  replyRender?: ReactElement;
+  onReact: (emoji: string) => void;
+  onReplyInThread?: () => void;
+  onReactionOpenChange: (open: boolean) => void;
+  onReactionPickerEnter: () => void;
+  onReactionPickerLeave: () => void;
+  onSavedChange: (saved: boolean) => void;
+};
+
+// Functional hover toolbar: reply, a Base UI reaction-picker flyout, and a save toggle.
+// Consumers supply callbacks and an optional reply-link render; open/hover state stays caller-owned.
+export function MessageRowToolbar({
+  saved,
+  reactionOpen,
+  portalContainer,
+  replyRender,
+  onReact,
+  onReplyInThread,
+  onReactionOpenChange,
+  onReactionPickerEnter,
+  onReactionPickerLeave,
+  onSavedChange,
+}: MessageRowToolbarProps) {
+  return (
+    <MessageItemToolbar>
+      {replyRender ? (
+        <MessageItemToolbarButton aria-label="Reply in thread" render={replyRender}>
+          <MessageSquare />
+        </MessageItemToolbarButton>
+      ) : (
+        <MessageItemToolbarButton aria-label="Reply in thread" onClick={onReplyInThread}>
+          <MessageSquare />
+        </MessageItemToolbarButton>
+      )}
+      <DropdownMenu open={reactionOpen} onOpenChange={onReactionOpenChange}>
+        <DropdownMenuTrigger
+          render={
+            <MessageItemToolbarButton aria-pressed={reactionOpen} aria-label="Add reaction">
+              <SmilePlus />
+            </MessageItemToolbarButton>
+          }
+        />
+        <MessageReactionPickerContent
+          side="bottom"
+          align="end"
+          sideOffset={4}
+          collisionAvoidance={{ side: "flip", align: "flip" }}
+          collisionPadding={8}
+          portalProps={{ container: portalContainer }}
+          onMouseEnter={onReactionPickerEnter}
+          onMouseLeave={onReactionPickerLeave}
+        >
+          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+            <DropdownMenuItem
+              key={emoji}
+              className={QUICK_REACTION_MENU_ITEM_CLASS}
+              render={
+                <MessageReactionQuickButton
+                  title={`React with ${emoji}`}
+                  aria-label={`React with ${emoji}`}
+                />
+              }
+              onClick={() => {
+                onReact(emoji);
+                onReactionOpenChange(false);
+              }}
+            >
+              <MessageReactionGlyphComposition emoji={emoji} size={18} />
+            </DropdownMenuItem>
+          ))}
+        </MessageReactionPickerContent>
+      </DropdownMenu>
+      <MessageItemToolbarButton
+        tone="accent"
+        aria-pressed={saved}
+        aria-label={saved ? "Remove from Saved" : "Save message"}
+        onClick={() => onSavedChange(!saved)}
       >
         <Bookmark fill={saved ? "currentColor" : "none"} />
       </MessageItemToolbarButton>
