@@ -31,48 +31,6 @@ export const chatMainPanel = tv({
     footer: [
       "relative flex shrink-0 items-center px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]",
     ],
-    composer: ["flex w-full flex-col gap-2 border-2 p-2"],
-    composerInput: [
-      "min-h-5 max-h-32 w-full resize-none bg-transparent text-base leading-5 outline-none md:min-h-10 md:text-sm",
-    ],
-    composerToolbar: ["flex items-center justify-between gap-3"],
-    composerActions: ["flex items-center gap-2"],
-    composerMeta: ["flex items-center gap-4"],
-    composerIconButton: [],
-    composerSubmit: [
-      "inline-flex size-7 shrink-0 items-center justify-center",
-      "border-2 font-sans font-bold leading-none outline-none",
-      "transition-all duration-100",
-      "active:translate-x-[1px] active:translate-y-[1px]",
-      "disabled:pointer-events-none disabled:opacity-30 disabled:transform-none",
-      "[&_svg]:size-3.5 [&_svg]:shrink-0",
-    ],
-    composerAttachments: ["flex flex-wrap gap-2"],
-    composerAttachment: ["group/composer-attachment relative"],
-    composerAttachmentImage: ["size-16 border-2 object-cover"],
-    composerAttachmentFile: [
-      "flex h-16 w-32 items-center gap-2 border-2 px-2",
-      "[&_svg]:size-4 [&_svg]:shrink-0",
-    ],
-    composerAttachmentBody: ["block min-w-0"],
-    composerAttachmentTitle: ["block truncate text-xs font-bold"],
-    composerAttachmentMeta: ["block truncate text-[10px]"],
-    composerAttachmentOverlay: [
-      "absolute inset-0 z-10 flex flex-col items-center justify-center border-2 px-1",
-      "text-center text-[10px] font-bold",
-    ],
-    composerAttachmentProgress: ["absolute bottom-0 left-0 h-1 w-full"],
-    composerAttachmentProgressFill: ["h-full"],
-    composerAttachmentRemove: [
-      "absolute -top-1.5 -right-1.5 z-20 flex size-4 items-center justify-center rounded-full",
-      "opacity-0 transition-opacity group-hover/composer-attachment:opacity-100",
-      "[@media(hover:none)]:h-6 [@media(hover:none)]:w-6 [@media(hover:none)]:opacity-100",
-      "[&_svg]:size-2.5 [&_svg]:shrink-0",
-    ],
-    composerDropOverlay: [
-      "absolute inset-0 z-30 flex items-center justify-center border-2 border-dashed",
-    ],
-    composerDropOverlayLabel: ["border-2 px-3 py-1.5 text-sm font-bold"],
   },
   variants: {
     theme: {
@@ -95,29 +53,6 @@ export const chatMainPanel = tv({
         body: "bg-white",
         timeline: "bg-white",
         footer: "border-t-2 border-black bg-white",
-        composer: "border-black bg-white shadow-brutal-sm focus-within:shadow-brutal",
-        composerInput: "font-sans text-black placeholder:text-black/35",
-        composerIconButton: [
-          "border-black bg-white text-black shadow-brutal-sm",
-          "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-brutal",
-          "active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs",
-        ],
-        composerSubmit: [
-          "border-black bg-brutal-pink text-black shadow-brutal-sm",
-          "hover:-translate-y-px hover:shadow-brutal",
-          "active:shadow-xs",
-          "disabled:shadow-brutal-sm",
-          "[&>span]:hidden",
-        ],
-        composerAttachmentImage: "border-black",
-        composerAttachmentFile: "border-black bg-white [&_svg]:text-black/70",
-        composerAttachmentTitle: "text-black",
-        composerAttachmentMeta: "text-black/50",
-        composerAttachmentProgress: "bg-black/15",
-        composerAttachmentProgressFill: "bg-brutal-pink",
-        composerAttachmentRemove: "bg-black text-white",
-        composerDropOverlay: "border-brutal-pink bg-brutal-pink/15",
-        composerDropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
       },
       elegant: {
         root: "bg-layer-page font-sans text-foreground",
@@ -158,48 +93,6 @@ export const chatMainPanel = tv({
           "border-t-0",
           "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         ],
-        composer: [
-          "overflow-hidden rounded-lg border-0 p-0",
-          "bg-[var(--shell-surface-bg,var(--layer-panel))]",
-          "shadow-lg ring-1 ring-ink-2 focus-within:ring-ink-10",
-        ],
-        composerInput: [
-          "min-h-20 md:min-h-20 px-4 pt-4",
-          "font-sans text-foreground",
-          "placeholder:text-foreground-placeholder",
-        ],
-        composerToolbar: "gap-2 px-3 pt-1 pb-3",
-        composerActions: "gap-1.5",
-        composerIconButton: [
-          "text-foreground-icon",
-          "hover:bg-layer-strong/80 hover:text-foreground",
-          "active:bg-layer-strong/80 active:text-foreground",
-        ],
-        composerSubmit: [
-          "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
-          "bg-accent-400 text-sm font-medium text-white",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
-          "hover:bg-accent-hover",
-          "active:translate-x-0 active:translate-y-0 active:scale-[0.985]",
-          "[&_svg]:size-4",
-        ],
-        composerAttachmentImage: "rounded-md border-line-subtle",
-        composerAttachmentFile:
-          "rounded-md border-line-subtle bg-layer-muted [&_svg]:text-foreground-icon",
-        composerAttachmentTitle: "text-foreground-strong",
-        composerAttachmentMeta: "text-foreground-placeholder",
-        composerAttachmentProgress: "bg-ink-6",
-        composerAttachmentProgressFill: "bg-accent-400",
-        composerAttachmentRemove: "bg-foreground-strong text-foreground-inverse",
-        composerDropOverlay: "rounded-lg border-accent-400 bg-accent-100/60",
-        composerDropOverlayLabel:
-          "rounded-md border-line-subtle bg-layer-popover text-foreground shadow-lg",
-      },
-    },
-    attachmentTone: {
-      uploading: {},
-      failed: {
-        composerAttachmentOverlay: "leading-3",
       },
     },
     subtitleSize: {
@@ -209,32 +102,4 @@ export const chatMainPanel = tv({
       },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      attachmentTone: "uploading",
-      class: { composerAttachmentOverlay: "border-black bg-white/85 text-black" },
-    },
-    {
-      theme: "brutal",
-      attachmentTone: "failed",
-      class: { composerAttachmentOverlay: "border-black bg-brutal-orange/90 text-black" },
-    },
-    {
-      theme: "elegant",
-      attachmentTone: "uploading",
-      class: {
-        composerAttachmentOverlay:
-          "rounded-md border-line-subtle bg-layer-popover/90 text-foreground-muted",
-      },
-    },
-    {
-      theme: "elegant",
-      attachmentTone: "failed",
-      class: {
-        composerAttachmentOverlay:
-          "rounded-md border-danger-base/30 bg-danger-lighter/95 text-danger-base",
-      },
-    },
-  ],
 });

@@ -1,18 +1,20 @@
-import { useEffect, useState, type PointerEvent, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type DragEvent,
+  type FormEvent,
+  type KeyboardEvent,
+} from "react";
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, Checkbox } from "raft-ui";
 import {
-  ChatMainPanelComposer,
-  ChatMainPanelComposerActions,
-  ChatMainPanelComposerDropOverlay,
-  ChatMainPanelComposerDropOverlayLabel,
-  ChatMainPanelComposerIconButton,
-  ChatMainPanelComposerInput,
-  ChatMainPanelComposerMeta,
-  ChatMainPanelComposerSubmit,
-  ChatMainPanelComposerToolbar,
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
+  ComposerDropOverlay,
+  ComposerDropOverlayLabel,
+  ComposerIconButton,
+  ComposerInput,
   ComposerSuggestionAside,
   ComposerSuggestionBadge,
   ComposerSuggestionContent,
@@ -24,46 +26,35 @@ import {
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
   ComposerRoot,
-  ComposerToolbarOption,
-  ComposerToolbarOptionLabel,
+  ComposerSubmit,
+  ComposerToolbarLabel,
+  ComposerToolbarLabelText,
 } from "raft-ui/wip";
 
-import { ComposerAttachmentsComposition } from "#/compositions/composer-composition.tsx";
-import { subscribeToPlaygroundComposerMentions } from "./playground-composer-events.ts";
+import {
+  ComposerAttachmentsComposition,
+  ComposerBodyComposition,
+} from "#/compositions/composer-composition.tsx";
+import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
 import type { PlaygroundChannel } from "./mock/index.ts";
 import {
-  isComposerSuggestionDisabled,
   usePlaygroundComposerAutocomplete,
   type ComposerSuggestion,
-  type MentionSuggestion,
 } from "./use-playground-composer-autocomplete.ts";
+
+type AutocompleteApi = ReturnType<typeof usePlaygroundComposerAutocomplete>;
+type OptionProps = ReturnType<AutocompleteApi["getOptionProps"]>;
 
 function AutocompleteOption({
   suggestion,
-  highlighted,
-  id,
-  onSelect,
+  optionProps,
 }: {
   suggestion: ComposerSuggestion;
-  highlighted: boolean;
-  id: string;
-  onSelect: (suggestion: ComposerSuggestion) => void;
+  optionProps: OptionProps;
 }) {
-  const disabled = isComposerSuggestionDisabled(suggestion);
-  const handlePointerDown = (event: PointerEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
   if (suggestion.kind === "mention") {
     return (
-      <ComposerSuggestionOption
-        id={id}
-        role="option"
-        aria-selected={highlighted}
-        disabled={disabled}
-        onPointerDown={handlePointerDown}
-        onClick={() => onSelect(suggestion)}
-      >
+      <ComposerSuggestionOption {...optionProps}>
         <ComposerSuggestionIcon render={<Avatar size="sm" type={suggestion.type} />}>
           <AvatarFallback />
         </ComposerSuggestionIcon>
@@ -86,15 +77,7 @@ function AutocompleteOption({
   const ChannelIcon =
     suggestion.roomKind === "joint" ? GitBranch : suggestion.roomKind === "private" ? Lock : Hash;
   return (
-    <ComposerSuggestionOption
-      id={id}
-      role="option"
-      aria-selected={highlighted}
-      disabled={disabled}
-      tone="accent"
-      onPointerDown={handlePointerDown}
-      onClick={() => onSelect(suggestion)}
-    >
+    <ComposerSuggestionOption {...optionProps} tone="accent">
       <ComposerSuggestionIcon variant="framed">
         <ChannelIcon />
       </ComposerSuggestionIcon>
@@ -111,42 +94,32 @@ function AutocompleteOption({
   );
 }
 
-function AutocompleteList({
-  suggestions,
-  highlightedIndex,
-  listId,
-  listRef,
-  onSelect,
-}: {
-  suggestions: readonly ComposerSuggestion[];
-  highlightedIndex: number;
-  listId: string;
-  listRef: RefObject<HTMLDivElement | null>;
-  onSelect: (suggestion: ComposerSuggestion) => void;
-}) {
-  const inChannel = suggestions.filter(
-    (suggestion): suggestion is MentionSuggestion =>
-      suggestion.kind === "mention" && suggestion.group === "in-channel",
+function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
+  const indexedItems = autocomplete.items.map((suggestion, index) => ({ index, suggestion }));
+  const inChannel = indexedItems.filter(
+    ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "in-channel",
   );
-  const outsideChannel = suggestions.filter(
-    (suggestion): suggestion is MentionSuggestion =>
-      suggestion.kind === "mention" && suggestion.group === "outside-channel",
+  const outsideChannel = indexedItems.filter(
+    ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "outside-channel",
   );
-  const renderOption = (suggestion: ComposerSuggestion) => {
-    const index = suggestions.indexOf(suggestion);
-    return (
-      <AutocompleteOption
-        key={suggestion.kind === "mention" ? suggestion.handle : suggestion.name}
-        id={`${listId}-option-${index}`}
-        suggestion={suggestion}
-        highlighted={index === highlightedIndex}
-        onSelect={onSelect}
-      />
-    );
-  };
+  const renderOption = ({
+    index,
+    suggestion,
+  }: {
+    index: number;
+    suggestion: ComposerSuggestion;
+  }) => (
+    <AutocompleteOption
+      key={suggestion.kind === "mention" ? suggestion.handle : suggestion.id}
+      suggestion={suggestion}
+      optionProps={autocomplete.getOptionProps(suggestion, index)}
+    />
+  );
 
   return (
-    <ComposerSuggestionList ref={listRef} id={listId} role="listbox">
+    <ComposerSuggestionList
+      {...autocomplete.getListProps({ "aria-label": "Mention and channel suggestions" })}
+    >
       {inChannel.length > 0 ? (
         <ComposerSuggestionGroup role="group" aria-label="In this channel">
           <ComposerSuggestionGroupLabel aria-hidden>In this channel</ComposerSuggestionGroupLabel>
@@ -161,30 +134,44 @@ function AutocompleteList({
           {outsideChannel.map(renderOption)}
         </ComposerSuggestionGroup>
       ) : null}
-      {inChannel.length === 0 && outsideChannel.length === 0 ? suggestions.map(renderOption) : null}
+      {inChannel.length === 0 && outsideChannel.length === 0
+        ? indexedItems.map(renderOption)
+        : null}
     </ComposerSuggestionList>
   );
 }
 
-function PlaygroundComposerContent({
+function PlaygroundComposer({
   channel,
   label,
   uploads,
   focusOnMount = false,
+  footer,
 }: {
   channel: PlaygroundChannel;
   label: string;
   uploads: boolean;
   focusOnMount?: boolean;
+  footer: "main" | "thread";
 }) {
-  const autocomplete = usePlaygroundComposerAutocomplete(channel);
+  const [draft, setDraft] = useState("");
+  const autocomplete = usePlaygroundComposerAutocomplete(channel, draft, setDraft);
   const [attachmentsVisible, setAttachmentsVisible] = useState(uploads);
   const [statusMessage, setStatusMessage] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const dragDepthRef = useRef(0);
+  const insertMentionRef = useRef<(handle: string) => void>(() => undefined);
 
-  useEffect(
-    () => subscribeToPlaygroundComposerMentions(autocomplete.insertMention),
-    [autocomplete.insertMention],
-  );
+  const mentionTarget = usePlaygroundSingleComposerMentionTarget();
+
+  // Keep the latest insert handler in a ref so the registration below stays subscribed
+  // to `mentionTarget` alone without re-running as the composer draft changes.
+  insertMentionRef.current = (handle) => autocomplete.insert(`@${handle} `);
+
+  useEffect(() => {
+    if (!mentionTarget) return;
+    return mentionTarget.registerComposer((handle) => insertMentionRef.current(handle));
+  }, [mentionTarget]);
 
   useEffect(() => {
     if (focusOnMount && window.matchMedia("(hover: hover)").matches) {
@@ -192,97 +179,140 @@ function PlaygroundComposerContent({
     }
   }, [autocomplete.inputRef, focusOnMount]);
 
-  return (
-    <>
-      <ComposerRoot positioned>
-        {autocomplete.open ? (
-          <AutocompleteList
-            suggestions={autocomplete.suggestions}
-            highlightedIndex={autocomplete.highlightedIndex}
-            listId={autocomplete.listId}
-            listRef={autocomplete.listRef}
-            onSelect={autocomplete.selectSuggestion}
-          />
-        ) : null}
-        {attachmentsVisible ? (
-          <ComposerAttachmentsComposition
-            onRemove={(name) => {
-              setAttachmentsVisible(false);
-              setStatusMessage(`${name} removed`);
-            }}
-            onRetry={(name) => setStatusMessage(`Retrying ${name}`)}
-          />
-        ) : null}
-        <ChatMainPanelComposer>
-          <ChatMainPanelComposerInput
-            ref={autocomplete.inputRef}
-            role="combobox"
-            value={autocomplete.draft}
-            aria-activedescendant={autocomplete.activeOptionId}
-            aria-controls={autocomplete.open ? autocomplete.listId : undefined}
-            aria-expanded={autocomplete.open}
-            aria-label={label}
-            aria-autocomplete="list"
-            placeholder={label}
-            onBlur={autocomplete.handleBlur}
-            onChange={autocomplete.handleChange}
-            onKeyDown={autocomplete.handleKeyDown}
-            onCompositionStart={autocomplete.handleCompositionStart}
-            onCompositionEnd={autocomplete.handleCompositionEnd}
-            onSelect={autocomplete.handleSelect}
-          />
-          <ChatMainPanelComposerToolbar>
-            <ChatMainPanelComposerActions>
-              <ChatMainPanelComposerIconButton
-                aria-label="Attach image"
-                onClick={() => {
-                  setAttachmentsVisible(true);
-                  setStatusMessage("Mock image attached");
-                }}
-              >
-                <ImagePlus />
-              </ChatMainPanelComposerIconButton>
-              <ChatMainPanelComposerIconButton
-                aria-label="Attach file"
-                onClick={() => {
-                  setAttachmentsVisible(true);
-                  setStatusMessage("Mock file attached");
-                }}
-              >
-                <Paperclip />
-              </ChatMainPanelComposerIconButton>
-            </ChatMainPanelComposerActions>
-            <ChatMainPanelComposerMeta>
-              <ComposerToolbarOption>
-                <Checkbox size="sm" aria-label="Send as task" />
-                <ComposerToolbarOptionLabel>As Task</ComposerToolbarOptionLabel>
-              </ComposerToolbarOption>
-              <ChatMainPanelComposerSubmit
-                aria-label="Send"
-                disabled={!autocomplete.draft.trim()}
-                onClick={() => {
-                  setStatusMessage(`Sent: ${autocomplete.draft.trim()}`);
-                  autocomplete.clear();
-                }}
-              >
-                <span>Send</span>
-                <Send />
-              </ChatMainPanelComposerSubmit>
-            </ChatMainPanelComposerMeta>
-          </ChatMainPanelComposerToolbar>
-        </ChatMainPanelComposer>
-        <span className="sr-only" aria-live="polite">
-          {statusMessage}
-        </span>
-      </ComposerRoot>
-      {uploads ? (
-        <ChatMainPanelComposerDropOverlay aria-hidden>
-          <ChatMainPanelComposerDropOverlayLabel>
-            Drop files to attach
-          </ChatMainPanelComposerDropOverlayLabel>
-        </ChatMainPanelComposerDropOverlay>
+  const handleSubmit = () => {
+    const text = draft.trim();
+    if (!text && !attachmentsVisible) return;
+    setStatusMessage(text ? `Sent: ${text}` : "Attachments sent");
+    autocomplete.clear();
+    setAttachmentsVisible(false);
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleSubmit();
+  };
+
+  const handleInputKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.defaultPrevented) return;
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.nativeEvent.isComposing &&
+      event.keyCode !== 229 &&
+      !window.matchMedia("(pointer: coarse) and (orientation: portrait)").matches
+    ) {
+      event.preventDefault();
+      event.currentTarget.form?.requestSubmit();
+    }
+  };
+  const inputProps = autocomplete.getInputProps({ onKeyDown: handleInputKeyDown });
+
+  const isFileDrag = (event: DragEvent<HTMLDivElement>) =>
+    event.dataTransfer.types.includes("Files");
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    if (!isFileDrag(event)) return;
+    event.preventDefault();
+    dragDepthRef.current += 1;
+    setIsDragging(true);
+  };
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+    if (!isFileDrag(event)) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+  };
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    if (!isFileDrag(event)) return;
+    dragDepthRef.current -= 1;
+    if (dragDepthRef.current <= 0) {
+      dragDepthRef.current = 0;
+      setIsDragging(false);
+    }
+  };
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    if (!isFileDrag(event)) return;
+    event.preventDefault();
+    dragDepthRef.current = 0;
+    setIsDragging(false);
+    setAttachmentsVisible(true);
+    setStatusMessage("Files attached");
+  };
+
+  const composer = (
+    <ComposerRoot
+      positioned
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {autocomplete.open ? <AutocompleteList autocomplete={autocomplete} /> : null}
+      {attachmentsVisible ? (
+        <ComposerAttachmentsComposition
+          onRemove={(name) => {
+            setAttachmentsVisible(false);
+            setStatusMessage(`${name} removed`);
+          }}
+          onRetry={(name) => setStatusMessage(`Retrying ${name}`)}
+        />
       ) : null}
-    </>
+      <ComposerBodyComposition
+        input={<ComposerInput {...inputProps} aria-label={label} placeholder={label} />}
+        actions={
+          <>
+            <ComposerIconButton
+              aria-label="Attach image"
+              onClick={() => {
+                setAttachmentsVisible(true);
+                setStatusMessage("Mock image attached");
+              }}
+            >
+              <ImagePlus />
+            </ComposerIconButton>
+            <ComposerIconButton
+              aria-label="Attach file"
+              onClick={() => {
+                setAttachmentsVisible(true);
+                setStatusMessage("Mock file attached");
+              }}
+            >
+              <Paperclip />
+            </ComposerIconButton>
+          </>
+        }
+        meta={
+          <>
+            {footer === "main" ? (
+              <ComposerToolbarLabel>
+                <Checkbox size="sm" aria-label="Send as task" />
+                <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+              </ComposerToolbarLabel>
+            ) : null}
+            <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !attachmentsVisible}>
+              <span>Send</span>
+              <Send />
+            </ComposerSubmit>
+          </>
+        }
+      />
+      {isDragging ? (
+        <ComposerDropOverlay aria-hidden>
+          <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
+        </ComposerDropOverlay>
+      ) : null}
+      <span className="sr-only" aria-live="polite">
+        {statusMessage}
+      </span>
+    </ComposerRoot>
+  );
+
+  return footer === "main" ? (
+    <ChatMainPanelFooter onSubmit={handleFormSubmit}>{composer}</ChatMainPanelFooter>
+  ) : (
+    <ChatThreadPanelFooter render={<form onSubmit={handleFormSubmit} />}>
+      {composer}
+    </ChatThreadPanelFooter>
   );
 }
 
@@ -298,9 +328,13 @@ export function PlaygroundMainComposer({
   uploads = false,
 }: PlaygroundComposerProps) {
   return (
-    <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-      <PlaygroundComposerContent channel={channel} label={label} uploads={uploads} focusOnMount />
-    </ChatMainPanelFooter>
+    <PlaygroundComposer
+      channel={channel}
+      label={label}
+      uploads={uploads}
+      focusOnMount
+      footer="main"
+    />
   );
 }
 
@@ -309,9 +343,5 @@ export function PlaygroundThreadComposer({
   label,
   uploads = false,
 }: PlaygroundComposerProps) {
-  return (
-    <ChatThreadPanelFooter render={<form onSubmit={(event) => event.preventDefault()} />}>
-      <PlaygroundComposerContent channel={channel} label={label} uploads={uploads} />
-    </ChatThreadPanelFooter>
-  );
+  return <PlaygroundComposer channel={channel} label={label} uploads={uploads} footer="thread" />;
 }

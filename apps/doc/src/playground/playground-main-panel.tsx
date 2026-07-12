@@ -25,6 +25,7 @@ import {
 
 import { MessageTextSelectionComposition } from "#/compositions/message-item/message-selection-compositions.tsx";
 import { PlaygroundMainComposer } from "./playground-composer.tsx";
+import { PlaygroundSingleComposerMentionProvider } from "./playground-composer-mentions.tsx";
 import { PlaygroundMainPanelHeader } from "./playground-main-panel-header.tsx";
 import {
   usePlaygroundNavigation,
@@ -75,12 +76,12 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
           </SortableTabsList>
         </ChatMainPanelTabs>
         {panelTab === "chat" ? (
-          <>
+          <PlaygroundSingleComposerMentionProvider>
             <MessageTextSelectionComposition>
               <ChannelBody channel={channel} />
             </MessageTextSelectionComposition>
             <PlaygroundMainComposer channel={channel} label={composerLabel} uploads={uploads} />
-          </>
+          </PlaygroundSingleComposerMentionProvider>
         ) : panelTab === "tasks" ? (
           <PlaygroundTasksPanel channel={channel} />
         ) : (

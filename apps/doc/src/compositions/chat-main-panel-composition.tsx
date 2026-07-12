@@ -22,16 +22,16 @@ import {
 import {
   ChatMainPanelBody,
   ChatMainPanelContent,
-  ChatMainPanelComposer,
-  ChatMainPanelComposerActions,
-  ChatMainPanelComposerIconButton,
-  ChatMainPanelComposerInput,
-  ChatMainPanelComposerMeta,
-  ChatMainPanelComposerSubmit,
-  ChatMainPanelComposerToolbar,
+  Composer,
+  ComposerActions,
+  ComposerIconButton,
+  ComposerInput,
+  ComposerMeta,
   ComposerRoot,
-  ComposerToolbarOption,
-  ComposerToolbarOptionLabel,
+  ComposerSubmit,
+  ComposerToolbar,
+  ComposerToolbarLabel,
+  ComposerToolbarLabelText,
   ChatMainPanelFooter,
   ChatMainPanelJumpToLatest,
   ChatMainPanelJumpToLatestLayout,
@@ -211,33 +211,33 @@ export function ChatMainPanelComposition({
         </ChatMainPanelBody>
         <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
           <ComposerRoot>
-            <ChatMainPanelComposer>
-              <ChatMainPanelComposerInput
+            <Composer>
+              <ComposerInput
                 aria-label="Message #proj-uiux"
                 placeholder="Message #proj-uiux"
                 readOnly
               />
-              <ChatMainPanelComposerToolbar>
-                <ChatMainPanelComposerActions>
-                  <ChatMainPanelComposerIconButton aria-label="Attach image">
+              <ComposerToolbar>
+                <ComposerActions>
+                  <ComposerIconButton aria-label="Attach image" disabled>
                     <ImagePlus />
-                  </ChatMainPanelComposerIconButton>
-                  <ChatMainPanelComposerIconButton aria-label="Attach file">
+                  </ComposerIconButton>
+                  <ComposerIconButton aria-label="Attach file" disabled>
                     <Paperclip />
-                  </ChatMainPanelComposerIconButton>
-                </ChatMainPanelComposerActions>
-                <ChatMainPanelComposerMeta>
-                  <ComposerToolbarOption>
+                  </ComposerIconButton>
+                </ComposerActions>
+                <ComposerMeta>
+                  <ComposerToolbarLabel>
                     <Checkbox size="sm" aria-label="Send as task" />
-                    <ComposerToolbarOptionLabel>As Task</ComposerToolbarOptionLabel>
-                  </ComposerToolbarOption>
-                  <ChatMainPanelComposerSubmit aria-label="Send">
+                    <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+                  </ComposerToolbarLabel>
+                  <ComposerSubmit aria-label="Send" disabled>
                     <span>Send</span>
                     <Send />
-                  </ChatMainPanelComposerSubmit>
-                </ChatMainPanelComposerMeta>
-              </ChatMainPanelComposerToolbar>
-            </ChatMainPanelComposer>
+                  </ComposerSubmit>
+                </ComposerMeta>
+              </ComposerToolbar>
+            </Composer>
           </ComposerRoot>
         </ChatMainPanelFooter>
       </ChatMainPanelContent>

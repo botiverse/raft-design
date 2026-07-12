@@ -15,7 +15,6 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
-  useThemeFamily,
 } from "raft-ui";
 
 type MentionSuggestion = {
@@ -32,12 +31,10 @@ const suggestions: readonly MentionSuggestion[] = [
 
 export function ComposerMentionComboboxComposition() {
   const portalRef = useRef<HTMLDivElement>(null);
-  const themeFamily = useThemeFamily();
   const [query, setQuery] = useState("at");
   const [selectedSuggestion, setSelectedSuggestion] = useState<MentionSuggestion | null>(
     suggestions[0],
   );
-  const personAvatarClassName = themeFamily === "brutal" ? undefined : "!size-6";
 
   return (
     <div
@@ -91,20 +88,18 @@ export function ComposerMentionComboboxComposition() {
           </ComboboxInputGroup>
           <ComboboxList>
             {(suggestion: MentionSuggestion) => (
-              <ComboboxItem
-                key={suggestion.id}
-                value={suggestion}
-                className="[[data-theme=brutal]_&]:h-9 [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold"
-              >
+              <ComboboxItem key={suggestion.id} value={suggestion}>
                 <span className="flex min-w-0 items-center gap-1.5 [[data-theme=brutal]_&]:gap-2">
                   <span className="flex size-5 shrink-0 items-center justify-center">
                     {suggestion.kind === "person" ? (
-                      <Avatar size="xs" type="human" className={personAvatarClassName} />
+                      <Avatar size="xs" type="human" />
                     ) : (
                       <span aria-hidden className="size-5" />
                     )}
                   </span>
-                  <span className="truncate leading-6">{suggestion.label}</span>
+                  <span className="truncate leading-6 [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold">
+                    {suggestion.label}
+                  </span>
                 </span>
                 <ComboboxItemIndicator />
               </ComboboxItem>

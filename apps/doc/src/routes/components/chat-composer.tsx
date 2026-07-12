@@ -3,6 +3,7 @@ import { FileText, ImagePlus, Paperclip, Send, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { Spinner } from "raft-ui";
 
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -14,90 +15,91 @@ import {
   ComposerComposition,
   ComposerDropOverlayComposition,
   ComposerStatesComposition,
-  COMPOSER_IMAGE_SRC,
 } from "#/compositions/composer-composition.tsx";
 import composerCompositionSource from "#/compositions/composer-composition.tsx?raw";
+import { COMPOSER_IMAGE_SRC } from "#/compositions/composer-image.ts";
+import { ComposerSuggestionComposition } from "#/compositions/composer-suggestion-composition.tsx";
+import composerSuggestionCompositionSource from "#/compositions/composer-suggestion-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const COMPOSER_COMPOSITION_PATH = "apps/doc/src/compositions/composer-composition.tsx";
+const COMPOSER_SUGGESTION_COMPOSITION_PATH =
+  "apps/doc/src/compositions/composer-suggestion-composition.tsx";
 
 const TOC = [
-  { id: "source-comparison", title: "Source comparison" },
-  { id: "states", title: "Attachment and drop states" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "states", title: "States" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const SNIPPETS = {
-  composerComposition: composerCompositionSource,
-  anatomy: `import { FileText, ImagePlus, Paperclip, Send, X } from "lucide-react";
-import { Checkbox, Spinner } from "raft-ui";
-import {
-  ChatMainPanelFooter,
-  ComposerRoot,
-  ChatMainPanelComposer,
-  ChatMainPanelComposerInput,
-  ChatMainPanelComposerToolbar,
-  ChatMainPanelComposerActions,
-  ChatMainPanelComposerIconButton,
-  ChatMainPanelComposerMeta,
-  ChatMainPanelComposerSubmit,
-  ChatMainPanelComposerAttachments,
-  ChatMainPanelComposerAttachment,
-  ChatMainPanelComposerAttachmentImage,
-  ChatMainPanelComposerAttachmentFile,
-  ChatMainPanelComposerAttachmentBody,
-  ChatMainPanelComposerAttachmentTitle,
-  ChatMainPanelComposerAttachmentMeta,
-  ChatMainPanelComposerAttachmentUploadingOverlay,
-  ChatMainPanelComposerAttachmentProgress,
-  ChatMainPanelComposerAttachmentRemove,
-  ChatMainPanelComposerDropOverlay,
-  ChatMainPanelComposerDropOverlayLabel,
-  ComposerToolbarOption,
-  ComposerToolbarOptionLabel,
-} from "raft-ui/wip";
+const PREVIEW_STATES = ["Default", "Attachments", "Drop overlay", "Autocomplete"] as const;
 
-<ChatMainPanelFooter onSubmit={handleSubmit}>
+type PreviewValues = {
+  state: string;
+};
+
+const ANATOMY_SNIPPET = `<ChatMainPanelFooter onSubmit={handleSubmit}>
   <ComposerRoot>
-    <ChatMainPanelComposerAttachments>
-      <ChatMainPanelComposerAttachment>
-        <ChatMainPanelComposerAttachmentImage alt="" src={previewSrc} />
-        <ChatMainPanelComposerAttachmentUploadingOverlay>
+    <ComposerAttachments>
+      <ComposerAttachment>
+        <ComposerAttachmentImage alt="" src={previewUrl} />
+        <ComposerAttachmentUploadingOverlay>
           <Spinner size="sm" />
-          {progress}%
-        </ChatMainPanelComposerAttachmentUploadingOverlay>
-        <ChatMainPanelComposerAttachmentProgress value={progress} />
-        <ChatMainPanelComposerAttachmentRemove aria-label="Remove attachment">
+          64%
+        </ComposerAttachmentUploadingOverlay>
+        <ComposerAttachmentProgress value={64} aria-label="Upload progress" />
+        <ComposerAttachmentRemove aria-label="Remove screenshot.png">
           <X />
-        </ChatMainPanelComposerAttachmentRemove>
-      </ChatMainPanelComposerAttachment>
-    </ChatMainPanelComposerAttachments>
-    <ChatMainPanelComposer>
-      <ChatMainPanelComposerInput placeholder="Message #proj-uiux" />
-      <ChatMainPanelComposerToolbar>
-        <ChatMainPanelComposerActions>
-          <ChatMainPanelComposerIconButton aria-label="Attach image">
+        </ComposerAttachmentRemove>
+      </ComposerAttachment>
+      <ComposerAttachment>
+        <ComposerAttachmentFile>
+          <FileText />
+          <ComposerAttachmentBody>
+            <ComposerAttachmentTitle>release-notes.pdf</ComposerAttachmentTitle>
+            <ComposerAttachmentMeta>application/pdf</ComposerAttachmentMeta>
+          </ComposerAttachmentBody>
+        </ComposerAttachmentFile>
+        <ComposerAttachmentRemove aria-label="Remove release-notes.pdf">
+          <X />
+        </ComposerAttachmentRemove>
+      </ComposerAttachment>
+    </ComposerAttachments>
+    <Composer>
+      <ComposerInput placeholder="Message #proj-uiux" />
+      <ComposerToolbar>
+        <ComposerActions>
+          <ComposerIconButton aria-label="Attach image">
             <ImagePlus />
-          </ChatMainPanelComposerIconButton>
-        </ChatMainPanelComposerActions>
-        <ChatMainPanelComposerMeta>
-          <ComposerToolbarOption>
+          </ComposerIconButton>
+          <ComposerIconButton aria-label="Attach file">
+            <Paperclip />
+          </ComposerIconButton>
+        </ComposerActions>
+        <ComposerMeta>
+          <ComposerToolbarLabel>
             <Checkbox size="sm" aria-label="Send as task" />
-            <ComposerToolbarOptionLabel>As Task</ComposerToolbarOptionLabel>
-          </ComposerToolbarOption>
-          <ChatMainPanelComposerSubmit aria-label="Send">
+            <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+          </ComposerToolbarLabel>
+          <ComposerSubmit aria-label="Send">
             <span>Send</span>
             <Send />
-          </ChatMainPanelComposerSubmit>
-        </ChatMainPanelComposerMeta>
-      </ChatMainPanelComposerToolbar>
-    </ChatMainPanelComposer>
+          </ComposerSubmit>
+        </ComposerMeta>
+      </ComposerToolbar>
+    </Composer>
+    <ComposerDropOverlay aria-hidden>
+      <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
+    </ComposerDropOverlay>
   </ComposerRoot>
-  <ChatMainPanelComposerDropOverlay aria-hidden>
-    <ChatMainPanelComposerDropOverlayLabel>Drop files to attach</ChatMainPanelComposerDropOverlayLabel>
-  </ChatMainPanelComposerDropOverlay>
-</ChatMainPanelFooter>`,
+</ChatMainPanelFooter>`;
+
+const SNIPPETS = {
+  anatomy: ANATOMY_SNIPPET,
+  composerComposition: composerCompositionSource,
+  composerSuggestion: composerSuggestionCompositionSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -108,62 +110,75 @@ const PROPS: readonly PropRow[] = [
       "Outer composer composition root for autocomplete, pending attachments, and the bordered composer surface.",
   },
   {
-    name: "ChatMainPanelFooter",
-    type: "form props",
+    name: "ChatMainPanelFooter / ChatThreadPanelFooter",
+    type: "form / div props",
     description:
-      "Composer host at the bottom of the main panel. Owns the top boundary and drop-overlay positioning; submit stays caller-owned.",
+      "Main and thread footer hosts. They own panel boundary/layout while Composer remains shared and submit behavior stays caller-owned.",
   },
   {
-    name: "ChatMainPanelComposer / ComposerInput",
+    name: "Composer / ComposerInput",
     type: "div / textarea props",
     description: "Bordered composer shell and the auto-growing message textarea.",
   },
   {
-    name: "ChatMainPanelComposerToolbar / ComposerActions / ComposerMeta",
+    name: "ComposerToolbar / ComposerActions / ComposerMeta",
     type: "div props",
     description:
       "Toolbar row under the input: left attach-action cluster and right meta cluster (As Task, send).",
   },
   {
-    name: "ChatMainPanelComposerIconButton / ComposerSubmit",
+    name: "ComposerIconButton / ComposerSubmit",
     type: "button props",
     description:
       "Attach-image/file icon buttons and the primary send button. Pass <span>Send</span> + icon; brutal hides the label via recipe.",
   },
   {
-    name: "ComposerToolbarOption / ComposerToolbarOptionLabel",
+    name: "ComposerToolbarLabel / ComposerToolbarLabelText",
     type: "label / span props",
     description: "As Task checkbox cluster. Toggle owns checkbox↔label gap; label is theme-aware.",
   },
   {
-    name: "ChatMainPanelComposerAttachments / ComposerAttachment",
+    name: "ComposerAttachments / ComposerAttachment",
     type: "div props",
     description: "Pending-upload strip above the input and each attachment tile within it.",
   },
   {
-    name: "ChatMainPanelComposerAttachmentImage / AttachmentFile",
+    name: "ComposerAttachmentImage / AttachmentFile",
     type: "img / span props",
     description: "Image thumbnail tile and the file-chip tile for non-image uploads.",
   },
   {
-    name: "ChatMainPanelComposerAttachmentBody / AttachmentTitle / AttachmentMeta",
+    name: "ComposerAttachmentBody / AttachmentTitle / AttachmentMeta",
     type: "span props",
     description: "File-chip text block: filename title and mime/type meta line.",
   },
   {
-    name: "ChatMainPanelComposerAttachmentUploadingOverlay",
+    name: "ComposerAttachmentUploadingOverlay / AttachmentFailedOverlay",
     type: "span props",
-    description: "Explicit uploading overlay for spinner and progress content.",
+    description:
+      "Explicit uploading and failed overlays for spinner, progress, and retry content over a tile.",
   },
   {
-    name: "ChatMainPanelComposerAttachmentProgress / AttachmentRemove",
+    name: "ComposerAttachmentProgress / AttachmentRemove",
     type: "span / button props",
     description: "Upload progress bar along the tile bottom and the corner remove affordance.",
   },
   {
-    name: "ChatMainPanelComposerDropOverlay / DropOverlayLabel",
+    name: "ComposerDropOverlay / DropOverlayLabel",
     type: "div / span props",
     description: "Drag-and-drop overlay covering the composer form while files hover over it.",
+  },
+  {
+    name: "ComposerSuggestionList / SuggestionOption / SuggestionGroup",
+    type: "div / button / div props",
+    description:
+      "Styling-only mention/channel suggestion popup slots (list, option, group, icon, title, meta, badge). No behavior of their own.",
+  },
+  {
+    name: "useComposerSuggestions",
+    type: "(params) => api",
+    description:
+      "Headless inline @/# autocomplete: open state, highlighted option, keyboard navigation, IME, and caret-preserving insertion. Spread its prop getters onto the native textarea, popup, and button slots.",
   },
 ];
 
@@ -177,63 +192,62 @@ function ChatComposerDoc() {
 
   return (
     <DocPage
-      title="ChatMainPanelComposer"
-      description="Message composer parts for the main panel footer: input, toolbar, attachment tiles, and drop overlay."
+      title="Composer"
+      description="Reusable message composer parts for main and thread footer hosts: input, toolbar, attachment tiles, and drop overlay."
       overview={
         <Differences from="Composer">
           <li>does not own draft state, uploads, submit mutations, or drag-and-drop wiring</li>
           <li>
             keeps the source composer shell, toolbar clusters, attachment tiles, and drop overlay
           </li>
-          <li>lives inside ChatMainPanelFooter so the main panel stays the only footer host</li>
+          <li>
+            lives inside a main or thread footer host without taking ownership of either panel
+          </li>
         </Differences>
       }
       toc={TOC}
     >
-      <DocSection id="source-comparison" title="Source comparison">
-        <PreviewGrid>
-          <PreviewPane label="Source">
-            <SourceThemeScope className="h-full">
-              <SourceComposerPreview />
-            </SourceThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <CurrentComposerPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <CurrentComposerPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant dark">
-            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <CurrentComposerPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <ComponentPlayground<PreviewValues>
+          previewClassName="items-stretch"
+          defaultValues={{ state: "Default" }}
+          controls={[{ name: "state", label: "State", type: "select", options: PREVIEW_STATES }]}
+          render={(values) => (
+            <div className="h-[340px] w-full overflow-hidden">
+              <ComposerPreviewState state={values.state} />
+            </div>
+          )}
+        />
       </DocSection>
 
-      <DocSection id="states" title="Attachment and drop states" showThemeSwitcher>
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock.Panel
+          path="Composer.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          showLineNumbers={false}
+        />
+      </DocSection>
+
+      <DocSection id="states" title="States">
         <PreviewGrid>
-          <PreviewPane label="Source">
+          <PreviewPane label="Source · attachments">
             <SourceThemeScope className="h-full">
               <SourceStatesPreview />
             </SourceThemeScope>
           </PreviewPane>
-          <PreviewPane label="Brutal">
+          <PreviewPane label="Brutal · attachments">
             <PreviewThemeScope family="brutal" className="h-full">
-              <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
+              <PanelFrame>
                 <ComposerStatesComposition />
-              </div>
+              </PanelFrame>
             </PreviewThemeScope>
           </PreviewPane>
-          <PreviewPane label="Elegant">
+          <PreviewPane label="Elegant · attachments">
             <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
+              <PanelFrame>
                 <ComposerStatesComposition />
-              </div>
+              </PanelFrame>
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Source · drop overlay">
@@ -243,25 +257,50 @@ function ChatComposerDoc() {
           </PreviewPane>
           <PreviewPane label="Brutal · drop overlay">
             <PreviewThemeScope family="brutal" className="h-full">
-              <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
+              <PanelFrame>
                 <ComposerDropOverlayComposition />
-              </div>
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Elegant · drop overlay">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <PanelFrame>
+                <ComposerDropOverlayComposition />
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Brutal · autocomplete">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <PanelFrame>
+                <ComposerSuggestionComposition />
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Elegant · autocomplete">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <PanelFrame>
+                <ComposerSuggestionComposition />
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Elegant dark · autocomplete">
+            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
+              <PanelFrame>
+                <ComposerSuggestionComposition />
+              </PanelFrame>
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="chat-composer.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
         <DocsCodeBlock.Panel
           path={COMPOSER_COMPOSITION_PATH}
           source={SNIPPETS.composerComposition}
           html={code.composerComposition}
+          showLineNumbers={false}
+        />
+        <DocsCodeBlock.Panel
+          path={COMPOSER_SUGGESTION_COMPOSITION_PATH}
+          source={SNIPPETS.composerSuggestion}
+          html={code.composerSuggestion}
           showLineNumbers={false}
         />
       </DocSection>
@@ -269,8 +308,52 @@ function ChatComposerDoc() {
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <PreviewGrid>
+          <PreviewPane label="Source">
+            <SourceThemeScope className="h-full">
+              <SourceComposerPreview />
+            </SourceThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <PanelFrame>
+                <ComposerComposition />
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <PanelFrame>
+                <ComposerComposition />
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Elegant dark">
+            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
+              <PanelFrame>
+                <ComposerComposition />
+              </PanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+        </PreviewGrid>
+      </DocSection>
     </DocPage>
   );
+}
+
+function ComposerPreviewState({ state }: { state: string }) {
+  if (state === "Attachments") {
+    return <ComposerStatesComposition />;
+  }
+  if (state === "Drop overlay") {
+    return <ComposerDropOverlayComposition />;
+  }
+  if (state === "Autocomplete") {
+    return <ComposerSuggestionComposition />;
+  }
+  return <ComposerComposition />;
 }
 
 function PreviewGrid({ children }: { children: ReactNode }) {
@@ -290,12 +373,8 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
   );
 }
 
-function CurrentComposerPreview() {
-  return (
-    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">
-      <ComposerComposition />
-    </div>
-  );
+function PanelFrame({ children }: { children: ReactNode }) {
+  return <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">{children}</div>;
 }
 
 function SourceComposerPreview() {

@@ -97,49 +97,49 @@ export type {
 } from "./chat-main-panel";
 
 export {
-  ChatMainPanelComposer,
-  ChatMainPanelComposerActions,
-  ChatMainPanelComposerAttachment,
-  ChatMainPanelComposerAttachmentBody,
-  ChatMainPanelComposerAttachmentFile,
-  ChatMainPanelComposerAttachmentImage,
-  ChatMainPanelComposerAttachmentMeta,
-  ChatMainPanelComposerAttachmentFailedOverlay,
-  ChatMainPanelComposerAttachmentUploadingOverlay,
-  ChatMainPanelComposerAttachmentProgress,
-  ChatMainPanelComposerAttachmentRemove,
-  ChatMainPanelComposerAttachments,
-  ChatMainPanelComposerAttachmentTitle,
-  ChatMainPanelComposerDropOverlay,
-  ChatMainPanelComposerDropOverlayLabel,
-  ChatMainPanelComposerIconButton,
-  ChatMainPanelComposerInput,
-  ChatMainPanelComposerMeta,
-  ChatMainPanelComposerSubmit,
-  ChatMainPanelComposerToolbar,
-} from "./chat-main-panel-composer";
+  Composer,
+  ComposerActions,
+  ComposerAttachment,
+  ComposerAttachmentBody,
+  ComposerAttachmentFailedOverlay,
+  ComposerAttachmentFile,
+  ComposerAttachmentImage,
+  ComposerAttachmentMeta,
+  ComposerAttachmentProgress,
+  ComposerAttachmentRemove,
+  ComposerAttachments,
+  ComposerAttachmentTitle,
+  ComposerAttachmentUploadingOverlay,
+  ComposerDropOverlay,
+  ComposerDropOverlayLabel,
+  ComposerIconButton,
+  ComposerInput,
+  ComposerMeta,
+  ComposerSubmit,
+  ComposerToolbar,
+} from "./composer";
 export type {
-  ChatMainPanelComposerActionsProps,
-  ChatMainPanelComposerAttachmentBodyProps,
-  ChatMainPanelComposerAttachmentFileProps,
-  ChatMainPanelComposerAttachmentImageProps,
-  ChatMainPanelComposerAttachmentMetaProps,
-  ChatMainPanelComposerAttachmentFailedOverlayProps,
-  ChatMainPanelComposerAttachmentUploadingOverlayProps,
-  ChatMainPanelComposerAttachmentProgressProps,
-  ChatMainPanelComposerAttachmentProps,
-  ChatMainPanelComposerAttachmentRemoveProps,
-  ChatMainPanelComposerAttachmentsProps,
-  ChatMainPanelComposerAttachmentTitleProps,
-  ChatMainPanelComposerDropOverlayLabelProps,
-  ChatMainPanelComposerDropOverlayProps,
-  ChatMainPanelComposerIconButtonProps,
-  ChatMainPanelComposerInputProps,
-  ChatMainPanelComposerMetaProps,
-  ChatMainPanelComposerProps,
-  ChatMainPanelComposerSubmitProps,
-  ChatMainPanelComposerToolbarProps,
-} from "./chat-main-panel-composer";
+  ComposerActionsProps,
+  ComposerAttachmentBodyProps,
+  ComposerAttachmentFailedOverlayProps,
+  ComposerAttachmentFileProps,
+  ComposerAttachmentImageProps,
+  ComposerAttachmentMetaProps,
+  ComposerAttachmentProgressProps,
+  ComposerAttachmentProps,
+  ComposerAttachmentRemoveProps,
+  ComposerAttachmentsProps,
+  ComposerAttachmentTitleProps,
+  ComposerAttachmentUploadingOverlayProps,
+  ComposerDropOverlayLabelProps,
+  ComposerDropOverlayProps,
+  ComposerIconButtonProps,
+  ComposerInputProps,
+  ComposerMetaProps,
+  ComposerProps,
+  ComposerSubmitProps,
+  ComposerToolbarProps,
+} from "./composer";
 
 export {
   ComposerSuggestionAside,
@@ -166,17 +166,23 @@ export type {
   ComposerSuggestionTitleProps,
 } from "./composer-suggestion-list";
 
-export { ComposerStack } from "./composer-stack";
-export type { ComposerStackProps } from "./composer-stack";
+export { useComposerSuggestions } from "./use-composer-suggestions";
+export type {
+  ComposerSuggestionsInputProps,
+  ComposerSuggestionsListProps,
+  ComposerSuggestionsOptionProps,
+  ComposerSuggestionTriggerMatch,
+  UseComposerSuggestionsParams,
+} from "./use-composer-suggestions";
 
 export { ComposerRoot } from "./composer-root";
 export type { ComposerRootProps } from "./composer-root";
 
-export { ComposerToolbarOption, ComposerToolbarOptionLabel } from "./composer-toolbar-option";
+export { ComposerToolbarLabel, ComposerToolbarLabelText } from "./composer-toolbar-label";
 export type {
-  ComposerToolbarOptionLabelProps,
-  ComposerToolbarOptionProps,
-} from "./composer-toolbar-option";
+  ComposerToolbarLabelProps,
+  ComposerToolbarLabelTextProps,
+} from "./composer-toolbar-label";
 
 export {
   ChatSidebarBody,

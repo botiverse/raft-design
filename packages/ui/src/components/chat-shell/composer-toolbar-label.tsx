@@ -4,7 +4,7 @@ import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { DataAttributes } from "./data-attributes";
 
-const composerToolbarOption = tv({
+const composerToolbarLabel = tv({
   slots: {
     root: ["inline-flex cursor-pointer select-none items-center gap-1.5"],
     label: ["text-xs"],
@@ -25,13 +25,13 @@ const composerToolbarOption = tv({
   },
 });
 
-export type ComposerToolbarOptionProps = useRender.ComponentProps<"label">;
+export type ComposerToolbarLabelProps = useRender.ComponentProps<"label">;
 
-export function ComposerToolbarOption({ className, render, ...props }: ComposerToolbarOptionProps) {
+export function ComposerToolbarLabel({ className, render, ...props }: ComposerToolbarLabelProps) {
   const theme = useThemeFamily();
-  const { root } = composerToolbarOption({ theme });
+  const { root } = composerToolbarLabel({ theme });
   const defaultProps: useRender.ElementProps<"label"> & DataAttributes = {
-    "data-slot": "composer-toolbar-option",
+    "data-slot": "composer-toolbar-label",
     className: root({ className }),
   };
 
@@ -42,17 +42,17 @@ export function ComposerToolbarOption({ className, render, ...props }: ComposerT
   });
 }
 
-export type ComposerToolbarOptionLabelProps = useRender.ComponentProps<"span">;
+export type ComposerToolbarLabelTextProps = useRender.ComponentProps<"span">;
 
-export function ComposerToolbarOptionLabel({
+export function ComposerToolbarLabelText({
   className,
   render,
   ...props
-}: ComposerToolbarOptionLabelProps) {
+}: ComposerToolbarLabelTextProps) {
   const theme = useThemeFamily();
-  const { label } = composerToolbarOption({ theme });
+  const { label } = composerToolbarLabel({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "composer-toolbar-option-label",
+    "data-slot": "composer-toolbar-label-text",
     className: label({ className }),
   };
 

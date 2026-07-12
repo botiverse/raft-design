@@ -39,7 +39,7 @@ import {
   type PlaygroundAgentStatus,
   type PlaygroundAvatarVariant,
 } from "./playground-message-avatar.tsx";
-import { emitPlaygroundComposerMention } from "./playground-composer-events.ts";
+import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
 import {
   getPlaygroundActor,
   getPlaygroundThread,
@@ -56,16 +56,30 @@ import {
 
 export type RowVariant = PlaygroundAvatarVariant;
 
-function PlaygroundMessageSender({ sender }: { sender: string }) {
+function PlaygroundMessageSender({
+  sender,
+  mentionHandle,
+}: {
+  sender: string;
+  mentionHandle: PlaygroundActorId;
+}) {
+  const mentionTarget = usePlaygroundSingleComposerMentionTarget();
+  if (!mentionTarget) {
+    return <MessageItemSender>{sender}</MessageItemSender>;
+  }
   return (
-    <button
-      type="button"
-      className="cursor-pointer hover:underline hover:decoration-2 hover:underline-offset-2"
-      title={`Mention @${sender}`}
-      onClick={() => emitPlaygroundComposerMention(sender)}
+    <MessageItemSender
+      render={
+        <button
+          type="button"
+          className="cursor-pointer hover:underline hover:decoration-2 hover:underline-offset-2"
+          title={`Mention @${mentionHandle}`}
+          onClick={() => mentionTarget.insertMention(mentionHandle)}
+        />
+      }
     >
-      <MessageItemSender>{sender}</MessageItemSender>
-    </button>
+      {sender}
+    </MessageItemSender>
   );
 }
 
@@ -250,7 +264,7 @@ function MessageRowView({
               deactivated || senderState ? (
                 <MessageItemSender>{resolvedSender}</MessageItemSender>
               ) : (
-                <PlaygroundMessageSender sender={resolvedSender} />
+                <PlaygroundMessageSender sender={resolvedSender} mentionHandle={actorId} />
               )
             ) : null}
             {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}

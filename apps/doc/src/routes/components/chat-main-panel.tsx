@@ -72,7 +72,7 @@ const SNIPPETS = {
     </ChatMainPanelBody>
     <ChatMainPanelFooter>
       <ComposerRoot>
-        <ChatMainPanelComposer />
+        <Composer />
       </ComposerRoot>
     </ChatMainPanelFooter>
   </ChatMainPanelContent>
@@ -129,6 +129,22 @@ const PROPS: readonly PropRow[] = [
     name: "ChatMainPanelJumpToLatestLayout / JumpToLatest",
     type: "div / button props",
     description: "Explicit positioning layout and independently rendered jump button.",
+  },
+  {
+    name: "ComposerAttachment*",
+    type: "div / span / img / button props",
+    description:
+      "Pending-upload strip above the composer: image and file tiles, uploading/failed overlays, progress bar, and remove affordance.",
+  },
+  {
+    name: "ComposerDropOverlay / DropOverlayLabel",
+    type: "div / span props",
+    description: "Drag-and-drop overlay covering the composer form while files hover over it.",
+  },
+  {
+    name: "Composer*",
+    type: "div / span / textarea / button props",
+    description: "Composer parts rendered inside ChatMainPanelFooter via ComposerRoot.",
   },
 ];
 

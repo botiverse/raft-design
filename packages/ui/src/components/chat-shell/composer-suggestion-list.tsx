@@ -30,7 +30,7 @@ const composerSuggestionList = tv({
       brutal: {
         root: "border-2 border-line-strong bg-layer-popover shadow-lg",
         groupLabel: "font-bold tracking-widest uppercase text-black/60",
-        item: "font-medium text-black aria-[selected=true]:font-bold disabled:text-black/55",
+        item: "font-medium text-black data-[highlighted=true]:font-bold disabled:text-black/55",
         meta: "text-black/40",
       },
       elegant: {
@@ -41,7 +41,7 @@ const composerSuggestionList = tv({
         groupLabel: "font-medium text-foreground-muted",
         item: [
           "rounded-md font-normal text-foreground-muted",
-          "aria-[selected=true]:font-medium aria-[selected=true]:text-foreground-strong",
+          "data-[highlighted=true]:font-medium data-[highlighted=true]:text-foreground-strong",
           "disabled:text-foreground-placeholder",
         ],
         meta: "text-foreground-placeholder",
@@ -89,22 +89,24 @@ const composerSuggestionList = tv({
     {
       theme: "brutal",
       tone: "signal",
-      class: { item: "aria-[selected=true]:bg-soft-signal" },
+      class: { item: "data-[highlighted=true]:bg-soft-signal" },
     },
     {
       theme: "brutal",
       tone: "accent",
-      class: { item: "aria-[selected=true]:bg-brutal-pink" },
+      class: { item: "data-[highlighted=true]:bg-brutal-pink" },
     },
     {
       theme: "elegant",
       tone: "accent",
-      class: { item: "aria-[selected=true]:bg-accent-100 aria-[selected=true]:text-accent-900" },
+      class: {
+        item: "data-[highlighted=true]:bg-accent-100 data-[highlighted=true]:text-accent-900",
+      },
     },
     {
       theme: "elegant",
       tone: "signal",
-      class: { item: "aria-[selected=true]:bg-layer-strong" },
+      class: { item: "data-[highlighted=true]:bg-layer-strong" },
     },
     {
       theme: "brutal",
