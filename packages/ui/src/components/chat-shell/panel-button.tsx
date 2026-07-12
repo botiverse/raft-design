@@ -6,7 +6,7 @@ import { defaultNativeButton } from "../../lib/default-native-button";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 
 const panelControlTheme = {
   brutal: {
