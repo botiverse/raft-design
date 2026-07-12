@@ -194,9 +194,7 @@ export function PlaygroundThreadPanel({
             <ThreadMessage message={message} searchMatch={activeMatch?.id === message.id} />
           </div>
         ))}
-        <div className="px-3 pb-3">
-          <div className="h-3" />
-        </div>
+        <div className="h-6" aria-hidden />
       </ChatThreadPanelBody>
       <PlaygroundThreadComposer channel={channel} label="Message thread" />
     </ChatThreadPanelRoot>

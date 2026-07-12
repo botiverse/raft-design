@@ -2,11 +2,27 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
-import type { ReactElement } from "react";
+import { defaultNativeButton } from "../../lib/default-native-button";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { DataAttributes } from "./app-shell";
+
+const panelControlTheme = {
+  brutal: {
+    surface: "rounded-none border-2 border-black bg-white px-1 py-1 text-black",
+    shadow: "shadow-brutal-sm",
+    hover: "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
+    disabledShadow: "disabled:shadow-brutal-sm",
+    focus:
+      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+  },
+  elegant: {
+    surface: "rounded-md border-0 bg-transparent px-2 py-2",
+    hover: "hover:bg-layer-strong/80 hover:text-foreground",
+    focus: "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+  },
+} as const;
 
 const panelButton = tv({
   base: [
@@ -19,19 +35,19 @@ const panelButton = tv({
   variants: {
     theme: {
       brutal: [
-        "rounded-none border-2 border-black bg-white px-1 py-1 text-black",
-        "shadow-brutal-sm",
-        "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
+        panelControlTheme.brutal.surface,
+        panelControlTheme.brutal.shadow,
+        panelControlTheme.brutal.hover,
         "active:shadow-xs",
-        "disabled:shadow-brutal-sm",
-        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        panelControlTheme.brutal.disabledShadow,
+        panelControlTheme.brutal.focus,
       ],
       elegant: [
-        "rounded-md border-0 bg-transparent px-2 py-2 shadow-none",
+        `${panelControlTheme.elegant.surface} shadow-none`,
         "text-foreground-icon",
-        "hover:bg-layer-strong/80 hover:text-foreground",
+        panelControlTheme.elegant.hover,
         "active:translate-x-0 active:translate-y-0 active:bg-layer-strong/80 active:text-foreground",
-        "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+        panelControlTheme.elegant.focus,
       ],
     },
   },
@@ -47,21 +63,21 @@ const panelToggleButton = tv({
   variants: {
     theme: {
       brutal: [
-        "rounded-none border-2 border-black bg-white px-1 py-1 text-black shadow-brutal-sm",
-        "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
+        `${panelControlTheme.brutal.surface} ${panelControlTheme.brutal.shadow}`,
+        panelControlTheme.brutal.hover,
         "active:translate-x-px active:translate-y-px active:shadow-xs",
         "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
         "data-[pressed]:hover:bg-brutal-orange",
         "data-[disabled]:shadow-brutal-sm",
-        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        panelControlTheme.brutal.focus,
       ],
       elegant: [
-        "rounded-md border-0 bg-transparent px-2 py-2 text-foreground-icon shadow-none",
-        "hover:bg-layer-strong/80 hover:text-foreground",
+        `${panelControlTheme.elegant.surface} text-foreground-icon shadow-none`,
+        panelControlTheme.elegant.hover,
         "active:bg-layer-strong/80 active:text-foreground",
         "data-[pressed]:bg-layer-strong data-[pressed]:text-foreground",
         "data-[pressed]:hover:bg-layer-strong",
-        "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+        panelControlTheme.elegant.focus,
       ],
     },
   },
@@ -88,19 +104,6 @@ const panelButtonCount = tv({
   ],
 });
 
-function defaultNativeButton(render: BaseButton.Props["render"]): boolean | undefined {
-  if (!render || typeof render !== "object" || !("type" in render)) {
-    return undefined;
-  }
-
-  const element = render as ReactElement;
-  if (typeof element.type === "string") {
-    return element.type === "button";
-  }
-
-  return undefined;
-}
-
 export type PanelButtonProps = Omit<StyledProps<BaseButton.Props>, "type">;
 
 export function PanelButton({ className, render, nativeButton, ...props }: PanelButtonProps) {
@@ -118,7 +121,7 @@ export function PanelButton({ className, render, nativeButton, ...props }: Panel
   );
 }
 
-export type PanelToggleButtonProps = StyledProps<BaseToggle.Props>;
+export type PanelToggleButtonProps = Omit<StyledProps<BaseToggle.Props>, "type">;
 
 export function PanelToggleButton({ className, ...props }: PanelToggleButtonProps) {
   const theme = useThemeFamily();

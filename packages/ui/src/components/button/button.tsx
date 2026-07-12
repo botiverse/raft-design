@@ -1,6 +1,6 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import type { ReactElement } from "react";
 import { tv, type VariantProps } from "../../lib/tv";
+import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Spinner } from "../spinner/index";
@@ -569,19 +569,6 @@ export type ButtonProps = StyledProps<BaseButton.Props> &
     loading?: boolean;
     loadingLabel?: string;
   };
-
-function defaultNativeButton(render: BaseButton.Props["render"]): boolean | undefined {
-  if (!render || typeof render !== "object" || !("type" in render)) {
-    return undefined;
-  }
-
-  const element = render as ReactElement;
-  if (typeof element.type === "string") {
-    return element.type === "button";
-  }
-
-  return undefined;
-}
 
 export function Button({
   variant,

@@ -93,20 +93,20 @@ export function ChatThreadPanelHeader({ className, render, ...props }: ChatThrea
   });
 }
 
-export type ChatThreadPanelTitleProps = useRender.ComponentProps<"div">;
+export type ChatThreadPanelTitleProps = useRender.ComponentProps<"h2">;
 
 export function ChatThreadPanelTitle({ className, render, ...props }: ChatThreadPanelTitleProps) {
   const theme = useThemeFamily();
   const { title } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: useRender.ElementProps<"h2"> & DataAttributes = {
     "data-slot": "chat-thread-panel-title",
     className: title({ className }),
   };
 
   return useRender({
-    defaultTagName: "div",
+    defaultTagName: "h2",
     render,
-    props: mergeProps<"div">(defaultProps, props),
+    props: mergeProps<"h2">(defaultProps, props),
   });
 }
 

@@ -29,11 +29,16 @@ const TOC = [
 
 const SNIPPETS = {
   chatThreadPanelComposition: chatThreadPanelCompositionSource,
-  anatomy: `import {
+  anatomy: `import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
+import {
   ChatThreadPanelRoot,
   ChatThreadPanelHeader,
   ChatThreadPanelTitle,
   ChatThreadPanelActions,
+  ChatThreadPanelSearch,
+  ChatThreadPanelSearchIcon,
+  ChatThreadPanelSearchInput,
+  ChatThreadPanelSearchCount,
   PanelButton,
   PanelButtonIcon,
   ChatThreadPanelParent,
@@ -55,6 +60,31 @@ const SNIPPETS = {
       </PanelButton>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
+  <ChatThreadPanelSearch>
+    <ChatThreadPanelSearchIcon render={<Search />} />
+    <ChatThreadPanelSearchInput
+      aria-label="Search in thread"
+      placeholder="Search in thread"
+      readOnly
+      value="chrome"
+    />
+    <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
+    <PanelButton aria-label="Previous match">
+      <PanelButtonIcon>
+        <ChevronUp />
+      </PanelButtonIcon>
+    </PanelButton>
+    <PanelButton aria-label="Next match">
+      <PanelButtonIcon>
+        <ChevronDown />
+      </PanelButtonIcon>
+    </PanelButton>
+    <PanelButton aria-label="Close thread search">
+      <PanelButtonIcon>
+        <X />
+      </PanelButtonIcon>
+    </PanelButton>
+  </ChatThreadPanelSearch>
   <ChatThreadPanelParent>{parentMessage}</ChatThreadPanelParent>
   <ChatThreadPanelBody>
     <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
@@ -74,7 +104,7 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ChatThreadPanelHeader / Title / Actions",
-    type: "div props",
+    type: "div / h2 props",
     description: "Fixed thread header regions matching source panel chrome.",
   },
   {
@@ -90,10 +120,10 @@ const PROPS: readonly PropRow[] = [
       "Explicit content parts. Label is hidden below sm and enters layout at sm; Icon and Count remain visible at every size.",
   },
   {
-    name: "ChatThreadPanelSearch / SearchInput / SearchCount",
-    type: "div / input props",
+    name: "ChatThreadPanelSearch / SearchIcon / SearchInput / SearchCount",
+    type: "div / span / input props",
     description:
-      "In-thread search row under the header: input, match counter, and prev/next/close actions via PanelButton.",
+      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via PanelButton.",
   },
   {
     name: "ChatThreadPanelParent / ReplyCount",
@@ -108,10 +138,10 @@ const PROPS: readonly PropRow[] = [
       "Scrollable message body and composer/footer slot. Message rows remain caller-owned children.",
   },
   {
-    name: "MessageTimelineDateDivider / Notice / HistoryLimited",
+    name: "MessageTimelineDateDivider / Notice",
     type: "div / span props",
     description:
-      "Shared timeline chrome: day-boundary divider (inline or sticky), history/loading notices, and the plan-limited history tag.",
+      "Shared timeline chrome: day-boundary divider (inline or sticky) and timeline notices.",
   },
 ];
 

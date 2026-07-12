@@ -1,7 +1,5 @@
-import type { ReactNode } from "react";
-import { MessageSquare, X } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import {
-  Avatar,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -9,61 +7,11 @@ import {
   EmptyStateTitle,
   Spinner,
 } from "raft-ui";
-import {
-  ChatThreadPanelActions,
-  ChatThreadPanelBody,
-  ChatThreadPanelFooter,
-  ChatThreadPanelHeader,
-  ChatThreadPanelParent,
-  ChatThreadPanelRoot,
-  ChatThreadPanelTitle,
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemHeader,
-  MessageItemSender,
-  MessageItemTime,
-  PanelButton,
-  PanelButtonIcon,
-} from "raft-ui/wip";
-
-function ThreadStateShell({ children }: { children: ReactNode }) {
-  return (
-    <ChatThreadPanelRoot>
-      <ChatThreadPanelHeader>
-        <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
-        <ChatThreadPanelActions>
-          <PanelButton aria-label="Close thread">
-            <PanelButtonIcon>
-              <X />
-            </PanelButtonIcon>
-          </PanelButton>
-        </ChatThreadPanelActions>
-      </ChatThreadPanelHeader>
-      <ChatThreadPanelParent>
-        <MessageItem>
-          <MessageItemAvatarSlot>
-            <Avatar size="md" type="human" />
-          </MessageItemAvatarSlot>
-          <MessageItemContent>
-            <MessageItemHeader>
-              <MessageItemSender>Cindy</MessageItemSender>
-              <MessageItemTime>10:08</MessageItemTime>
-            </MessageItemHeader>
-            <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
-          </MessageItemContent>
-        </MessageItem>
-      </ChatThreadPanelParent>
-      <ChatThreadPanelBody>{children}</ChatThreadPanelBody>
-      <ChatThreadPanelFooter>Reply composer slot</ChatThreadPanelFooter>
-    </ChatThreadPanelRoot>
-  );
-}
+import { ChatThreadPanelCompositionShell } from "#/compositions/chat-thread-panel-composition.tsx";
 
 export function ChatThreadPanelEmptyComposition() {
   return (
-    <ThreadStateShell>
+    <ChatThreadPanelCompositionShell>
       <div className="flex min-h-[240px] flex-col items-center justify-center px-6 py-10">
         <EmptyState>
           <EmptyStateContent>
@@ -77,17 +25,17 @@ export function ChatThreadPanelEmptyComposition() {
           </EmptyStateContent>
         </EmptyState>
       </div>
-    </ThreadStateShell>
+    </ChatThreadPanelCompositionShell>
   );
 }
 
 export function ChatThreadPanelLoadingComposition() {
   return (
-    <ThreadStateShell>
+    <ChatThreadPanelCompositionShell>
       <div className="flex min-h-[240px] flex-col items-center justify-center gap-3 px-6 py-10">
         <Spinner />
         <span className="font-mono text-xs text-foreground-muted">Loading replies…</span>
       </div>
-    </ThreadStateShell>
+    </ChatThreadPanelCompositionShell>
   );
 }

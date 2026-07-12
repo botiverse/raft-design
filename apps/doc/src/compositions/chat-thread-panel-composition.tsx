@@ -1,4 +1,5 @@
 import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
+import type { ReactNode } from "react";
 import { Avatar } from "raft-ui";
 import {
   ChatThreadPanelActions,
@@ -27,7 +28,15 @@ import {
   PanelButtonIcon,
 } from "raft-ui/wip";
 
-export function ChatThreadPanelComposition() {
+interface ChatThreadPanelCompositionShellProps {
+  children: ReactNode;
+  search?: ReactNode;
+}
+
+export function ChatThreadPanelCompositionShell({
+  children,
+  search,
+}: ChatThreadPanelCompositionShellProps) {
   return (
     <ChatThreadPanelRoot>
       <ChatThreadPanelHeader>
@@ -40,31 +49,7 @@ export function ChatThreadPanelComposition() {
           </PanelButton>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
-      <ChatThreadPanelSearch>
-        <ChatThreadPanelSearchIcon render={<Search />} />
-        <ChatThreadPanelSearchInput
-          aria-label="Search in thread"
-          placeholder="Search in thread"
-          readOnly
-          value="chrome"
-        />
-        <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
-        <PanelButton aria-label="Previous match">
-          <PanelButtonIcon>
-            <ChevronUp />
-          </PanelButtonIcon>
-        </PanelButton>
-        <PanelButton aria-label="Next match">
-          <PanelButtonIcon>
-            <ChevronDown />
-          </PanelButtonIcon>
-        </PanelButton>
-        <PanelButton aria-label="Close thread search">
-          <PanelButtonIcon>
-            <X />
-          </PanelButtonIcon>
-        </PanelButton>
-      </ChatThreadPanelSearch>
+      {search}
       <ChatThreadPanelParent>
         <MessageItem>
           <MessageItemAvatarSlot>
@@ -79,7 +64,44 @@ export function ChatThreadPanelComposition() {
           </MessageItemContent>
         </MessageItem>
       </ChatThreadPanelParent>
-      <ChatThreadPanelBody>
+      <ChatThreadPanelBody>{children}</ChatThreadPanelBody>
+      <ChatThreadPanelFooter>Reply composer slot</ChatThreadPanelFooter>
+    </ChatThreadPanelRoot>
+  );
+}
+
+export function ChatThreadPanelComposition() {
+  return (
+    <ChatThreadPanelCompositionShell
+      search={
+        <ChatThreadPanelSearch>
+          <ChatThreadPanelSearchIcon render={<Search />} />
+          <ChatThreadPanelSearchInput
+            aria-label="Search in thread"
+            placeholder="Search in thread"
+            readOnly
+            value="chrome"
+          />
+          <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
+          <PanelButton aria-label="Previous match">
+            <PanelButtonIcon>
+              <ChevronUp />
+            </PanelButtonIcon>
+          </PanelButton>
+          <PanelButton aria-label="Next match">
+            <PanelButtonIcon>
+              <ChevronDown />
+            </PanelButtonIcon>
+          </PanelButton>
+          <PanelButton aria-label="Close thread search">
+            <PanelButtonIcon>
+              <X />
+            </PanelButtonIcon>
+          </PanelButton>
+        </ChatThreadPanelSearch>
+      }
+    >
+      <>
         <div className="px-3 pt-2">
           <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
           <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
@@ -117,11 +139,8 @@ export function ChatThreadPanelComposition() {
             </MessageItemContent>
           </MessageItemSearchMatch>
         </div>
-        <div className="px-3 pb-3">
-          <div className="h-3" />
-        </div>
-      </ChatThreadPanelBody>
-      <ChatThreadPanelFooter>Reply composer slot</ChatThreadPanelFooter>
-    </ChatThreadPanelRoot>
+        <div className="h-6" aria-hidden />
+      </>
+    </ChatThreadPanelCompositionShell>
   );
 }
