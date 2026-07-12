@@ -138,18 +138,18 @@ export function ChatMainPanelSubtitle({
   });
 }
 
-export type ChatMainPanelMutedBadgeProps = useRender.ComponentProps<"span">;
+export type ChatMainPanelTitleBadgeProps = useRender.ComponentProps<"span">;
 
-export function ChatMainPanelMutedBadge({
+export function ChatMainPanelTitleBadge({
   className,
   render,
   ...props
-}: ChatMainPanelMutedBadgeProps) {
+}: ChatMainPanelTitleBadgeProps) {
   const theme = useThemeFamily();
-  const { mutedBadge } = chatMainPanel({ theme });
+  const { titleBadge } = chatMainPanel({ theme });
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "chat-main-panel-muted-badge",
-    className: mutedBadge({ className }),
+    "data-slot": "chat-main-panel-title-badge",
+    className: titleBadge({ className }),
   };
 
   return useRender({
@@ -175,80 +175,26 @@ export function ChatMainPanelActions({ className, render, ...props }: ChatMainPa
   });
 }
 
-export type ChatMainPanelSurfaceInsetProps = useRender.ComponentProps<"div">;
-
-export function ChatMainPanelSurfaceInset({
-  className,
-  render,
-  ...props
-}: ChatMainPanelSurfaceInsetProps) {
-  const theme = useThemeFamily();
-  const { surfaceInset } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-main-panel-surface-inset",
-    className: surfaceInset({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatMainPanelSurfaceShadowProps = useRender.ComponentProps<"div">;
-
-export function ChatMainPanelSurfaceShadow({
-  className,
-  render,
-  ...props
-}: ChatMainPanelSurfaceShadowProps) {
-  const theme = useThemeFamily();
-  const { surfaceShadow } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-main-panel-surface-shadow",
-    className: surfaceShadow({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatMainPanelSurfaceProps = useRender.ComponentProps<"div">;
-
-export function ChatMainPanelSurface({ className, render, ...props }: ChatMainPanelSurfaceProps) {
-  const theme = useThemeFamily();
-  const { surface } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-slot": "chat-main-panel-surface",
-    className: surface({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatMainPanelContentProps = ChatMainPanelSurfaceProps;
+export type ChatMainPanelContentProps = useRender.ComponentProps<"div">;
 
 /**
- * Complete content region below the main-panel header. The nested layers are
- * implementation chrome for inset spacing, shadow, and clipping; consumers
- * compose tabs, body, and footer directly as children.
+ * Content region below the main-panel header. A single surface hosting tabs,
+ * body, and footer; it carries the elegant inset, radius, shadow, and content
+ * clip in one element (an outset shadow is never clipped by its own overflow).
  */
-export function ChatMainPanelContent(props: ChatMainPanelContentProps) {
-  return (
-    <ChatMainPanelSurfaceInset>
-      <ChatMainPanelSurfaceShadow>
-        <ChatMainPanelSurface {...props} />
-      </ChatMainPanelSurfaceShadow>
-    </ChatMainPanelSurfaceInset>
-  );
+export function ChatMainPanelContent({ className, render, ...props }: ChatMainPanelContentProps) {
+  const theme = useThemeFamily();
+  const { content } = chatMainPanel({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-content",
+    className: content({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
 }
 
 export type ChatMainPanelBodyProps = useRender.ComponentProps<"div">;

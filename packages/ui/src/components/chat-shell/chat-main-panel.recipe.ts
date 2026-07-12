@@ -13,15 +13,13 @@ export const chatMainPanel = tv({
     titleRow: ["flex min-w-0 items-center gap-2"],
     title: ["truncate text-base font-bold leading-tight"],
     subtitle: ["min-w-0 truncate font-mono text-xs"],
-    mutedBadge: [
+    titleBadge: [
       "inline-flex shrink-0 items-center gap-1",
       "px-1.5 py-1 text-[11px] font-bold uppercase leading-none",
       "[&_svg]:size-[11px] [&_svg]:shrink-0",
     ],
     actions: ["flex shrink-0 items-center gap-1.5"],
-    surfaceInset: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    surfaceShadow: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    surface: ["flex min-h-0 min-w-0 flex-1 flex-col"],
+    content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     tabs: ["shrink-0"],
     jumpToLatest: ["absolute bottom-3 left-1/2 z-10 -translate-x-1/2"],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
@@ -85,10 +83,8 @@ export const chatMainPanel = tv({
         titleBlock: "flex flex-col",
         title: "text-black",
         subtitle: "text-black/50",
-        mutedBadge: "border-2 border-black bg-brutal-orange/25 text-black",
-        surfaceInset: "bg-white",
-        surfaceShadow: "bg-white",
-        surface: "bg-white",
+        titleBadge: "border-2 border-black bg-brutal-orange/25 text-black",
+        content: "bg-white",
         tabs: [
           "border-b-2 border-black bg-white",
           "[&>[data-slot=tabs-list]]:max-w-none [&>[data-slot=tabs-list]]:border-y-0 [&>[data-slot=tabs-list]]:border-l-0 [&>[data-slot=tabs-list]]:border-r-2 [&>[data-slot=tabs-list]]:border-black [&>[data-slot=tabs-list]]:bg-white",
@@ -141,17 +137,14 @@ export const chatMainPanel = tv({
           "text-foreground-muted",
         ],
         subtitle: "font-sans text-foreground-placeholder",
-        mutedBadge: [
+        titleBadge: [
           "rounded-md border-0 bg-layer-muted py-0.5",
           "text-foreground-muted normal-case tracking-normal",
         ],
-        surfaceInset: "overflow-visible pl-2",
-        surfaceShadow: [
-          "relative overflow-visible rounded-tl-[var(--shell-surface-radius,10px)]",
-          "shadow-xl",
+        content: [
+          "relative ml-2 overflow-clip rounded-tl-[var(--shell-surface-radius,10px)]",
+          "bg-[var(--shell-surface-bg,var(--layer-panel))] shadow-xl",
         ],
-        surface:
-          "relative overflow-clip rounded-tl-[var(--shell-surface-radius,10px)] bg-[var(--shell-surface-bg,var(--layer-panel))]",
         tabs: [
           "border-b-0 bg-layer-panel",
           "[&>[data-slot=tabs-list]]:h-11 [&>[data-slot=tabs-list]]:border-b-0",

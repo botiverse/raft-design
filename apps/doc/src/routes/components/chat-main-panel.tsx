@@ -33,6 +33,11 @@ import {
   COMPOSER_IMAGE_SRC,
 } from "#/compositions/chat-main-panel-states-composition.tsx";
 import chatMainPanelCompositionSource from "#/compositions/chat-main-panel-composition.tsx?raw";
+import {
+  ChatMainPanelChannelHeaderComposition,
+  ChatMainPanelDmHeaderComposition,
+} from "#/compositions/chat-main-panel-header-composition.tsx";
+import chatMainPanelHeaderCompositionSource from "#/compositions/chat-main-panel-header-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_MAIN_PANEL_COMPOSITION_PATH =
@@ -41,12 +46,14 @@ const CHAT_MAIN_PANEL_COMPOSITION_PATH =
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
   { id: "states", title: "Alert, jump, and composer states" },
+  { id: "header-states", title: "Header states" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
 ] as const;
 
 const SNIPPETS = {
   chatMainPanelComposition: chatMainPanelCompositionSource,
+  chatMainPanelHeaderComposition: chatMainPanelHeaderCompositionSource,
   anatomy: `import { MessageSquare } from "lucide-react";
 import { SortableTabsList, SortableTabsTab, Tabs, TabsIndicator, TabsLabel } from "raft-ui";
 import {
@@ -133,7 +140,7 @@ const PROPS: readonly PropRow[] = [
     name: "ChatMainPanelContent",
     type: "div props",
     description:
-      "Complete content region below the header. Owns the inset, shadow, and clipping layers around tabs, body, and footer.",
+      "Single content surface below the header. Carries the inset, radius, shadow, and content clip around tabs, body, and footer.",
   },
   {
     name: "ChatMainPanelTabs / Body / Timeline / Footer",
@@ -247,6 +254,45 @@ function ChatMainPanelDoc() {
         </PreviewGrid>
       </DocSection>
 
+      <DocSection id="header-states" title="Header states" showThemeSwitcher>
+        <PreviewGrid>
+          <PreviewPane label="Channel · muted · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <HeaderPreview>
+                <ChatMainPanelChannelHeaderComposition />
+              </HeaderPreview>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Channel · muted · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <HeaderPreview>
+                <ChatMainPanelChannelHeaderComposition />
+              </HeaderPreview>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="DM · presence · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <HeaderPreview>
+                <ChatMainPanelDmHeaderComposition />
+              </HeaderPreview>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="DM · presence · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <HeaderPreview>
+                <ChatMainPanelDmHeaderComposition />
+              </HeaderPreview>
+            </PreviewThemeScope>
+          </PreviewPane>
+        </PreviewGrid>
+        <DocsCodeBlock.Panel
+          path="apps/doc/src/compositions/chat-main-panel-header-composition.tsx"
+          source={SNIPPETS.chatMainPanelHeaderComposition}
+          html={code.chatMainPanelHeaderComposition}
+          showLineNumbers={false}
+        />
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock.Panel
           path="chat-main-panel.tsx"
@@ -282,6 +328,14 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
       <div className="flex h-[420px] items-stretch justify-start overflow-x-auto bg-white p-2">
         {children}
       </div>
+    </div>
+  );
+}
+
+function HeaderPreview({ children }: { children: ReactNode }) {
+  return (
+    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-theme=elegant]_&]:bg-layer-page">
+      {children}
     </div>
   );
 }
