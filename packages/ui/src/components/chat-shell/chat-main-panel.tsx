@@ -2,8 +2,8 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
-import type { DataAttributes } from "./app-shell";
 import { chatMainPanel } from "./chat-main-panel.recipe";
+import type { DataAttributes } from "./data-attributes";
 
 export type ChatMainPanelRootProps = useRender.ComponentProps<"section">;
 
@@ -285,6 +285,26 @@ export function ChatMainPanelFooter({ className, render, ...props }: ChatMainPan
   });
 }
 
+export type ChatMainPanelJumpToLatestLayoutProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelJumpToLatestLayout({
+  className,
+  render,
+  ...props
+}: ChatMainPanelJumpToLatestLayoutProps) {
+  const { jumpToLatestLayout } = chatMainPanel();
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-main-panel-jump-to-latest-layout",
+    className: jumpToLatestLayout({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type ChatMainPanelJumpToLatestProps = useRender.ComponentProps<"button"> &
   Pick<ButtonProps, "size" | "loading" | "loadingLabel">;
 
@@ -296,20 +316,17 @@ export function ChatMainPanelJumpToLatest({
   loadingLabel,
   ...props
 }: ChatMainPanelJumpToLatestProps) {
-  const { jumpToLatest } = chatMainPanel();
-
   return (
-    <div className={jumpToLatest({ className })}>
-      <Button
-        type="button"
-        data-slot="chat-main-panel-jump-to-latest"
-        variant="outline"
-        size={size}
-        loading={loading}
-        loadingLabel={loadingLabel}
-        render={render}
-        {...props}
-      />
-    </div>
+    <Button
+      type="button"
+      data-slot="chat-main-panel-jump-to-latest"
+      className={className}
+      variant="outline"
+      size={size}
+      loading={loading}
+      loadingLabel={loadingLabel}
+      render={render}
+      {...props}
+    />
   );
 }

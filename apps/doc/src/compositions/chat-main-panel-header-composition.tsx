@@ -6,7 +6,6 @@ import {
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
   ChatMainPanelTitleBadge,
-  ChatMainPanelRoot,
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
@@ -16,59 +15,19 @@ import {
   PanelToggleButton,
 } from "raft-ui/wip";
 
-export function ChatMainPanelChannelHeaderComposition() {
-  const [muted, setMuted] = useState(true);
+export type ChatMainPanelHeaderCompositionProps = {
+  conversation: "channel" | "dm";
+  muted: boolean;
+  onMutedChange?: (muted: boolean) => void;
+};
 
-  return (
-    <ChatMainPanelRoot>
-      <ChatMainPanelHeader>
-        <ChatMainPanelHeaderIcon>
-          <Hash />
-        </ChatMainPanelHeaderIcon>
-        <ChatMainPanelTitleBlock>
-          <ChatMainPanelTitleRow>
-            <ChatMainPanelTitle>proj-uiux</ChatMainPanelTitle>
-            {muted ? (
-              <ChatMainPanelTitleBadge title="Activity muted. Direct mentions can still notify you.">
-                <BellOff />
-                Muted
-              </ChatMainPanelTitleBadge>
-            ) : null}
-          </ChatMainPanelTitleRow>
-          <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
-        </ChatMainPanelTitleBlock>
-        <ChatMainPanelActions>
-          <PanelIconButton aria-label="Search conversation">
-            <Search />
-          </PanelIconButton>
-          <PanelToggleButton
-            pressed={muted}
-            onPressedChange={setMuted}
-            aria-label={muted ? "Unmute channel activity" : "Mute channel activity"}
-          >
-            {muted ? <BellOff /> : <Bell />}
-          </PanelToggleButton>
-          <PanelIconButton aria-label="Stop all agents in this channel">
-            <Square />
-          </PanelIconButton>
-          <PanelIconButton aria-label="View participants" layout="label">
-            <Users />
-            <PanelIconButtonCount>13</PanelIconButtonCount>
-          </PanelIconButton>
-          <PanelIconButton aria-label="Channel options">
-            <Settings />
-          </PanelIconButton>
-        </ChatMainPanelActions>
-      </ChatMainPanelHeader>
-    </ChatMainPanelRoot>
-  );
-}
-
-export function ChatMainPanelDmHeaderComposition() {
-  const [muted, setMuted] = useState(false);
-
-  return (
-    <ChatMainPanelRoot>
+export function ChatMainPanelHeaderComposition({
+  conversation,
+  muted,
+  onMutedChange,
+}: ChatMainPanelHeaderCompositionProps) {
+  if (conversation === "dm") {
+    return (
       <ChatMainPanelHeader>
         <Avatar size="md" type="agent">
           <AvatarFallback>AT</AvatarFallback>
@@ -83,13 +42,71 @@ export function ChatMainPanelDmHeaderComposition() {
         <ChatMainPanelActions>
           <PanelToggleButton
             pressed={muted}
-            onPressedChange={setMuted}
+            onPressedChange={onMutedChange}
             aria-label={muted ? "Unmute activity for this DM" : "Mute activity for this DM"}
           >
             {muted ? <BellOff /> : <Bell />}
           </PanelToggleButton>
         </ChatMainPanelActions>
       </ChatMainPanelHeader>
-    </ChatMainPanelRoot>
+    );
+  }
+
+  return (
+    <ChatMainPanelHeader>
+      <ChatMainPanelHeaderIcon>
+        <Hash />
+      </ChatMainPanelHeaderIcon>
+      <ChatMainPanelTitleBlock>
+        <ChatMainPanelTitleRow>
+          <ChatMainPanelTitle>proj-uiux</ChatMainPanelTitle>
+          {muted ? (
+            <ChatMainPanelTitleBadge title="Activity muted. Direct mentions can still notify you.">
+              <BellOff />
+              Muted
+            </ChatMainPanelTitleBadge>
+          ) : null}
+        </ChatMainPanelTitleRow>
+        <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
+      </ChatMainPanelTitleBlock>
+      <ChatMainPanelActions>
+        <PanelIconButton aria-label="Search conversation">
+          <Search />
+        </PanelIconButton>
+        <PanelToggleButton
+          pressed={muted}
+          onPressedChange={onMutedChange}
+          aria-label={muted ? "Unmute channel activity" : "Mute channel activity"}
+        >
+          {muted ? <BellOff /> : <Bell />}
+        </PanelToggleButton>
+        <PanelIconButton aria-label="Stop all agents in this channel">
+          <Square />
+        </PanelIconButton>
+        <PanelIconButton aria-label="View participants" layout="label">
+          <Users />
+          <PanelIconButtonCount>13</PanelIconButtonCount>
+        </PanelIconButton>
+        <PanelIconButton aria-label="Channel options">
+          <Settings />
+        </PanelIconButton>
+      </ChatMainPanelActions>
+    </ChatMainPanelHeader>
+  );
+}
+
+export function ChatMainPanelChannelHeaderComposition() {
+  const [muted, setMuted] = useState(true);
+
+  return (
+    <ChatMainPanelHeaderComposition conversation="channel" muted={muted} onMutedChange={setMuted} />
+  );
+}
+
+export function ChatMainPanelDmHeaderComposition() {
+  const [muted, setMuted] = useState(false);
+
+  return (
+    <ChatMainPanelHeaderComposition conversation="dm" muted={muted} onMutedChange={setMuted} />
   );
 }

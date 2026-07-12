@@ -6,7 +6,7 @@ import type { ComponentProps } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
 import { Status, type StatusProps } from "../status";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
 
 export type ChatSidebarSectionProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {

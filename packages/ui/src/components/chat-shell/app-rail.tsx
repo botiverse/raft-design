@@ -4,7 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { createContext, use, useMemo, type MouseEvent } from "react";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 
 const appRail = tv({
   slots: {

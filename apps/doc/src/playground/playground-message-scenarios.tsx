@@ -3,6 +3,7 @@ import { ArrowDown, Eye } from "lucide-react";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
+  ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
   MessageMarkdown,
@@ -333,10 +334,12 @@ export function ReleaseBody() {
           <div className="pb-3" aria-hidden />
         </ChatMainPanelMessageList>
       </ChatMainPanelTimeline>
-      <ChatMainPanelJumpToLatest onClick={handleJump}>
-        <ArrowDown />
-        Back to bottom
-      </ChatMainPanelJumpToLatest>
+      <ChatMainPanelJumpToLatestLayout>
+        <ChatMainPanelJumpToLatest onClick={handleJump}>
+          <ArrowDown />
+          Back to bottom
+        </ChatMainPanelJumpToLatest>
+      </ChatMainPanelJumpToLatestLayout>
     </ChatMainPanelBody>
   );
 }
