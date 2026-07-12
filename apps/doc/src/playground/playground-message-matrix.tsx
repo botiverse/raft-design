@@ -13,6 +13,7 @@ import { Banner, BannerDescription, Spinner } from "raft-ui";
 import {
   ChatMainPanelBody,
   ChatMainPanelJumpToLatest,
+  ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
   MessageImageGallery,
@@ -889,9 +890,11 @@ export function MatrixBody() {
           </SelectableMessageList>
         </ChatMainPanelMessageList>
       </ChatMainPanelTimeline>
-      <ChatMainPanelJumpToLatest disabled>
-        <ArrowDown />3 new messages
-      </ChatMainPanelJumpToLatest>
+      <ChatMainPanelJumpToLatestLayout>
+        <ChatMainPanelJumpToLatest disabled>
+          <ArrowDown />3 new messages
+        </ChatMainPanelJumpToLatest>
+      </ChatMainPanelJumpToLatestLayout>
     </ChatMainPanelBody>
   );
 }

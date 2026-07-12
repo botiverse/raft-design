@@ -3,7 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/button";
-import type { DataAttributes } from "./app-shell";
+import type { DataAttributes } from "./data-attributes";
 import { chatMainPanel } from "./chat-main-panel.recipe";
 
 export type ChatMainPanelComposerProps = useRender.ComponentProps<"div">;

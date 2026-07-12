@@ -23,7 +23,7 @@ import {
   ChatMainPanelActions,
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
-  ChatMainPanelMutedBadge,
+  ChatMainPanelTitleBadge,
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
@@ -54,10 +54,10 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
         <ChatMainPanelTitleRow>
           <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
           {isMuted ? (
-            <ChatMainPanelMutedBadge title="Activity muted. Direct mentions can still notify you.">
+            <ChatMainPanelTitleBadge title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
               Muted
-            </ChatMainPanelMutedBadge>
+            </ChatMainPanelTitleBadge>
           ) : null}
         </ChatMainPanelTitleRow>
         <ChatMainPanelSubtitle>{channel.subtitle}</ChatMainPanelSubtitle>
