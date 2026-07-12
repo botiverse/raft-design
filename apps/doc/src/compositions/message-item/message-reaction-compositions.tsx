@@ -4,6 +4,8 @@ import {
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionErrorIndicator,
+  MessageReactionPickerPanel,
+  MessageReactionQuickButton,
   MessageReactionTooltipContent,
   MessageReactionTooltipMeta,
   MessageReactionTooltipName,
@@ -12,8 +14,8 @@ import {
   MessageReactionTooltipSeparator,
 } from "raft-ui/wip";
 import { MessageReactionGlyphComposition } from "./message-reaction-glyph-composition.tsx";
-
-export const MESSAGE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
+import { MESSAGE_QUICK_REACTIONS } from "#/fixtures/message-item/assets.ts";
+export { MESSAGE_QUICK_REACTIONS } from "#/fixtures/message-item/assets.ts";
 
 export type MessageReactionCompositionProps = {
   count: number;
@@ -22,6 +24,42 @@ export type MessageReactionCompositionProps = {
   reacted?: boolean;
   title?: string;
 };
+
+export function MessageQuickReactionPickerComposition() {
+  const [selectedReaction, setSelectedReaction] = useState<string>();
+
+  return (
+    <MessageReactionPickerPanel>
+      {MESSAGE_QUICK_REACTIONS.map((emoji) => (
+        <MessageReactionQuickButton
+          key={emoji}
+          aria-label={`React with ${emoji}`}
+          aria-pressed={selectedReaction === emoji}
+          onClick={() => setSelectedReaction(emoji)}
+        >
+          <MessageReactionGlyphComposition emoji={emoji} size={18} />
+        </MessageReactionQuickButton>
+      ))}
+    </MessageReactionPickerPanel>
+  );
+}
+
+export function MessageReactionOverlaysComposition() {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
+  return (
+    <div ref={setPortalContainer} className="relative flex flex-wrap items-start gap-4 px-2">
+      <MessageQuickReactionPickerComposition />
+      <MessageReactionTooltipComposition
+        container={portalContainer}
+        count={5}
+        emoji="👍"
+        names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
+        open
+      />
+    </div>
+  );
+}
 
 export function MessageReactionComposition({
   count: initialCount,

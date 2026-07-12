@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -10,36 +11,53 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import messageReactionCompositionsSource from "#/compositions/message-item/message-reaction-compositions.tsx?raw";
 import messageRowCompositionsSource from "#/compositions/message-item/message-row-compositions.tsx?raw";
+import messageMediaCompositionsSource from "#/compositions/message-item/message-media-compositions.tsx?raw";
+import messageRowToolbarCompositionSource from "#/compositions/message-item/message-row-toolbar-composition.tsx?raw";
 import messageStateMatrixSource from "#/compositions/message-item/message-state-matrix-composition.tsx?raw";
 
 import { getMessageItemComparisonItems } from "./message-item.comparison";
 import {
   ActiveMessageRow,
-  ContextMenuMessageRow,
   AuthoredMessageRow,
   ConsecutiveMessageRow,
-  ReactionOverlays,
   RemovedSenderMessageRow,
   RichAttachmentMessageRow,
   SearchMatchMessageRow,
   SelectedMessageRow,
   ThreadArchiveEventRow,
 } from "#/compositions/message-item/message-row-compositions.tsx";
+import {
+  MessageItemPreview,
+  type MessageItemPreviewChrome,
+} from "#/compositions/message-item/message-item-preview-composition.tsx";
+import { MessageReactionOverlaysComposition } from "#/compositions/message-item/message-reaction-compositions.tsx";
 import { MessageItemStateMatrix } from "#/compositions/message-item/message-state-matrix-composition.tsx";
-import { PROPS, SNIPPETS, TOC } from "./message-item.snippets";
+import { ANATOMY_SOURCE, PROPS, TOC } from "./message-item.snippets";
+
+const CHROME_OPTIONS = [
+  "default",
+  "active",
+  "search-match",
+  "selected",
+] as const satisfies readonly MessageItemPreviewChrome[];
+
+type PlaygroundValues = {
+  chrome: MessageItemPreviewChrome;
+  saved: boolean;
+  reactions: boolean;
+  toolbar: boolean;
+};
 
 export const Route = createFileRoute("/components/message-item")({
   component: MessageItemDoc,
   loader: () =>
     highlightSnippets({
       data: {
-        ...SNIPPETS,
-        anatomy: messageRowCompositionsSource,
-        currentAuthoredRow: messageRowCompositionsSource,
-        fixtureReactions: messageReactionCompositionsSource,
-        fixtureRich: messageRowCompositionsSource,
-        fixtureRows: messageRowCompositionsSource,
-        fixtureStates: messageStateMatrixSource,
+        anatomy: ANATOMY_SOURCE,
+        rowCompositions: messageRowCompositionsSource,
+        reactionCompositions: messageReactionCompositionsSource,
+        mediaCompositions: messageMediaCompositionsSource,
+        rowToolbarComposition: messageRowToolbarCompositionSource,
         stateMatrix: messageStateMatrixSource,
       },
     }),
@@ -71,16 +89,37 @@ function MessageItemDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example
-          html={code.anatomy}
+        <ComponentPlayground<PlaygroundValues>
+          defaultValues={{ chrome: "default", saved: false, reactions: true, toolbar: true }}
+          controls={[
+            { name: "chrome", label: "Chrome", type: "select", options: CHROME_OPTIONS },
+            { name: "saved", label: "Saved", type: "boolean" },
+            { name: "reactions", label: "Reactions", type: "boolean" },
+            { name: "toolbar", label: "Toolbar", type: "boolean" },
+          ]}
           previewTheme="brutal"
           previewMode="light"
           previewClassName="items-stretch"
-        >
-          <div className="w-full max-w-3xl">
-            <ContextMenuMessageRow />
-          </div>
-        </Example>
+          render={(values) => (
+            <div className="w-full max-w-3xl">
+              <MessageItemPreview
+                chrome={values.chrome}
+                saved={values.saved}
+                reactions={values.reactions}
+                toolbar={values.toolbar}
+              />
+            </div>
+          )}
+        />
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock.Panel
+          path="MessageItem.tsx"
+          source={ANATOMY_SOURCE}
+          html={code.anatomy}
+          collapsedHtml={code.anatomyBody}
+        />
       </DocSection>
 
       <DocSection id="state-matrix" title="State matrix" showThemeSwitcher>
@@ -96,7 +135,7 @@ function MessageItemDoc() {
 
       <DocSection id="fixtures" title="Fixtures" showThemeSwitcher>
         <Example
-          html={code.fixtureRows}
+          html={code.rowCompositions}
           previewTheme="brutal"
           previewMode="light"
           previewClassName="items-stretch"
@@ -111,7 +150,7 @@ function MessageItemDoc() {
 
         <div className="mt-6">
           <Example
-            html={code.fixtureRich}
+            html={code.rowCompositions}
             previewTheme="brutal"
             previewMode="light"
             previewClassName="items-stretch"
@@ -124,7 +163,7 @@ function MessageItemDoc() {
 
         <div className="mt-6">
           <Example
-            html={code.fixtureStates}
+            html={code.rowCompositions}
             previewTheme="brutal"
             previewMode="light"
             previewClassName="items-stretch"
@@ -139,22 +178,14 @@ function MessageItemDoc() {
 
         <div className="mt-6">
           <Example
-            html={code.fixtureReactions}
+            html={code.reactionCompositions}
             previewTheme="brutal"
             previewMode="light"
             previewClassName="items-stretch"
           >
-            <ReactionOverlays />
+            <MessageReactionOverlaysComposition />
           </Example>
         </div>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/compositions/message-item/message-row-compositions.tsx"
-          source={messageRowCompositionsSource}
-          html={code.anatomy}
-        />
       </DocSection>
 
       <DocSection id="api" title="API">

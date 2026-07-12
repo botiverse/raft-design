@@ -40,6 +40,7 @@ import {
   type PlaygroundDirectMessage,
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
+import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
@@ -120,12 +121,9 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
 function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
   const actor = getPlaygroundDmActor(channel);
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
-  const presenceVariant =
-    actor.presence === "online" || actor.presence === "working"
-      ? "success"
-      : actor.presence === "idle"
-        ? "warning"
-        : "default";
+  const presence = actor.presence
+    ? PLAYGROUND_PRESENCE_STATUS[actor.presence]
+    : PLAYGROUND_PRESENCE_STATUS.offline;
 
   return (
     <ChatMainPanelHeader>
@@ -137,12 +135,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
         <ChatMainPanelTitleRow>
           <ChatMainPanelTitle>{channel.name}</ChatMainPanelTitle>
           {actor.presence ? (
-            <Status
-              aria-hidden
-              size="md"
-              variant={presenceVariant}
-              pulse={actor.presence === "working"}
-            />
+            <Status aria-hidden size="md" variant={presence.variant} pulse={presence.pulse} />
           ) : null}
           <ChatMainPanelSubtitle size="md">{channel.subtitle}</ChatMainPanelSubtitle>
         </ChatMainPanelTitleRow>

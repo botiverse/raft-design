@@ -28,7 +28,7 @@ import { MessageReactionComposition } from "#/compositions/message-item/message-
 import { ProfileCardBody } from "./playground-message-avatar.tsx";
 import { openMockAttachmentPreview, TaskStatusBadge } from "./playground-message-fixtures.tsx";
 import {
-  PlaygroundMessageRow,
+  PlaygroundScenarioMessageRow,
   PlaygroundRepliesBadge as RepliesBadge,
   PlaygroundUnreadRepliesBadge as UnreadRepliesBadge,
   type RowVariant,
@@ -45,7 +45,7 @@ export function ProjUiuxBody() {
           </div>
           <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
 
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -54,7 +54,7 @@ export function ProjUiuxBody() {
             threadId={ALL_SHOWCASE_THREAD_IDS.stateModel}
             footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.stateModel} />}
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="agent"
             sender="Atlas"
             meta="Design-system agent on the primary online machine."
@@ -64,7 +64,7 @@ export function ProjUiuxBody() {
             threadId={ALL_SHOWCASE_THREAD_IDS.inviteSecurity}
             footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.inviteSecurity} />}
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -73,7 +73,7 @@ export function ProjUiuxBody() {
             threadId={ALL_SHOWCASE_THREAD_IDS.selectorPerformance}
             footer={<UnreadRepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.selectorPerformance} />}
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="agent"
             sender="Atlas"
             meta="Design-system agent on the primary online machine."
@@ -83,9 +83,9 @@ export function ProjUiuxBody() {
             threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs}
             footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs} />}
           />
-          <PlaygroundMessageRow compact gutterTime="08:34" body="Great work!" />
+          <PlaygroundScenarioMessageRow compact gutterTime="08:34" body="Great work!" />
 
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -98,7 +98,7 @@ export function ProjUiuxBody() {
             }
             footer={<TaskStatusBadge channelId="all" status="todo" taskNumber={10} />}
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -111,7 +111,7 @@ export function ProjUiuxBody() {
             }
             footer={<TaskStatusBadge channelId="all" status="in_progress" taskNumber={11} />}
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -124,7 +124,7 @@ export function ProjUiuxBody() {
             }
             footer={<TaskStatusBadge channelId="all" status="in_review" taskNumber={12} />}
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -138,7 +138,7 @@ export function ProjUiuxBody() {
             footer={<TaskStatusBadge channelId="all" status="done" taskNumber={13} />}
           />
 
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -151,7 +151,7 @@ export function ProjUiuxBody() {
               </>
             }
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Developer"
             meta="member"
@@ -181,7 +181,7 @@ export function ProjUiuxBody() {
               </div>
             }
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             compact
             gutterTime="08:42"
             attachments={
@@ -216,14 +216,14 @@ export function ChipDemoBody() {
         Self mention:{" "}
         <MessageSelfMentionReferenceComposition
           href="/playground/dm-code-pilot"
-          preview={<ProfileCardBody variant="member" sender="Developer" meta="member" />}
+          preview={<ProfileCardBody actorId="developer" />}
         >
           @Developer
         </MessageSelfMentionReferenceComposition>{" "}
         is the attention chip. Normal mentions like{" "}
         <MessageMentionReferenceComposition
           href="/playground/dm-noah"
-          preview={<ProfileCardBody variant="member" sender="Member" meta="member" />}
+          preview={<ProfileCardBody actorId="noah" />}
         >
           @Member
         </MessageMentionReferenceComposition>{" "}
@@ -265,7 +265,7 @@ export function IncidentBody() {
               Deploy Bot restarted on the primary machine.
             </SystemMessageItemContent>
           </SystemMessageItem>
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="agent"
             sender="Deploy Bot"
             meta="Deploy agent on the primary online machine."
@@ -274,21 +274,21 @@ export function IncidentBody() {
             inlineStatus="Converting…"
             body="Delivery degraded — the deploy webhook failed three times and retries are queued."
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Mx. Chen"
             senderState="removed"
             time="09:16 AM"
             body="Looping in the on-call rotation before the next deploy window."
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             variant="member"
             sender="Ada"
             meta="member"
             time="09:20 AM"
             body="Looking now. I'll re-enable the webhook once the incident is resolved."
           />
-          <PlaygroundMessageRow
+          <PlaygroundScenarioMessageRow
             compact
             gutterTime="09:24"
             body="Retries are draining, back to healthy."
@@ -320,7 +320,7 @@ export function ReleaseBody() {
           <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
 
           {RELEASE_MESSAGES.map((message) => (
-            <PlaygroundMessageRow
+            <PlaygroundScenarioMessageRow
               key={`${message.time}:${message.sender}`}
               variant={message.variant}
               sender={message.sender}

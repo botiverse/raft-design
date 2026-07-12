@@ -1,7 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tv, type VariantProps } from "../../lib/tv";
 import { Checkbox, type CheckboxProps } from "../checkbox/index";
@@ -112,11 +111,12 @@ export function MessageMultiSelectCheckbox({
   if (!selection) {
     throw new Error("MessageMultiSelectCheckbox must be rendered inside MessageMultiSelect");
   }
+  const { checkbox } = messageMultiSelect();
 
   return (
     <Checkbox
       checked={selection.selected.has(value)}
-      className={cn("mt-1.5 self-start", className)}
+      className={checkbox({ className })}
       shape="circle"
       size="lg"
       variant="primary"
@@ -128,6 +128,7 @@ export function MessageMultiSelectCheckbox({
 
 const messageMultiSelect = tv({
   slots: {
+    checkbox: ["mt-1.5 self-start"],
     toolbar: [],
     toolbarContent: ["flex items-center gap-1.5 px-2 py-2"],
     count: ["whitespace-nowrap font-mono text-xs font-bold"],

@@ -112,6 +112,7 @@ import {
   type PlaygroundPresence,
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
+import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
 type SidebarRowMenu = {
@@ -201,16 +202,8 @@ function DirectMessageStatus({
   status: PlaygroundPresence;
   size?: "sm" | "md";
 }) {
-  if (status === "online") {
-    return <Status aria-hidden variant="success" size={size} />;
-  }
-  if (status === "working") {
-    return <Status aria-hidden variant="success" size={size} pulse />;
-  }
-  if (status === "idle") {
-    return <Status aria-hidden variant="warning" size={size} />;
-  }
-  return <Status aria-hidden variant="default" size={size} />;
+  const config = PLAYGROUND_PRESENCE_STATUS[status];
+  return <Status aria-hidden variant={config.variant} size={size} pulse={config.pulse} />;
 }
 
 function DirectMessageRowContent({

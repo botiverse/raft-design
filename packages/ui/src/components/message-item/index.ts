@@ -26,7 +26,11 @@ export {
   MessageItemSenderState,
   MessageItemTime,
 } from "./message-item-regions";
-export { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
+export {
+  MessageItemSaveButton,
+  MessageItemToolbar,
+  MessageItemToolbarButton,
+} from "./message-item-toolbar";
 export {
   MessageItemBadge,
   MessageItemBadgeSeparator,
@@ -79,8 +83,8 @@ export {
   MessageReactionCount,
   MessageReactionErrorIndicator,
   MessageReactionGlyph,
-  MessageReactionPicker,
   MessageReactionPickerContent,
+  MessageReactionPickerPanel,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
   MessageReactionTooltipContent,
@@ -100,7 +104,9 @@ export {
   MessageReferenceSelfMention,
   MessageReferenceTask,
   MessageReferenceThread,
-  MessageReferenceUnavailable,
+  MessageReferenceChannelUnavailable,
+  MessageReferenceTaskUnavailable,
+  MessageReferenceThreadUnavailable,
 } from "./message-reference";
 export {
   MessageMultiSelect,
@@ -148,6 +154,7 @@ export type {
 } from "./message-item-regions";
 export type {
   MessageItemToolbarButtonProps,
+  MessageItemSaveButtonProps,
   MessageItemToolbarProps,
 } from "./message-item-toolbar";
 export type {
@@ -204,7 +211,7 @@ export type {
   MessageReactionErrorIndicatorProps,
   MessageReactionGlyphProps,
   MessageReactionPickerContentProps,
-  MessageReactionPickerProps,
+  MessageReactionPickerPanelProps,
   MessageReactionQuickButtonProps,
   MessageReactionQuickRowProps,
   MessageReactionTooltipContentProps,
@@ -224,7 +231,9 @@ export type {
   MessageReferenceSelfMentionProps,
   MessageReferenceTaskProps,
   MessageReferenceThreadProps,
-  MessageReferenceUnavailableProps,
+  MessageReferenceChannelUnavailableProps,
+  MessageReferenceTaskUnavailableProps,
+  MessageReferenceThreadUnavailableProps,
 } from "./message-reference";
 export type {
   MessageMultiSelectActionProps,

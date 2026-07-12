@@ -65,7 +65,6 @@ export function MessageContextMenuComposition({
           <ContextMenuItem
             key={emoji}
             nativeButton
-            className="[[data-theme=brutal]_&]:!size-7 [[data-theme=brutal]_&]:!w-7 [[data-theme=brutal]_&]:!p-0"
             disabled={!onQuickReact}
             onClick={() => onQuickReact?.(emoji)}
             render={
@@ -80,59 +79,35 @@ export function MessageContextMenuComposition({
         ))}
       </MessageReactionQuickRow>
       <ContextMenuSeparator />
-      <ContextMenuItem
-        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
-        disabled={!onCopyLink}
-        onClick={onCopyLink}
-      >
+      <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
         <LinkIcon />
         Copy Link
       </ContextMenuItem>
-      <ContextMenuItem
-        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
-        disabled={!onCopyMarkdown}
-        onClick={onCopyMarkdown}
-      >
+      <ContextMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
         <Copy />
         Copy Markdown
       </ContextMenuItem>
       {onSelectMessage ? (
-        <ContextMenuItem
-          className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
-          onClick={onSelectMessage}
-        >
+        <ContextMenuItem onClick={onSelectMessage}>
           <CheckCircle />
           Select Message
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
-      <ContextMenuItem
-        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
-        disabled={!onOpenThread}
-        onClick={onOpenThread}
-      >
+      <ContextMenuItem disabled={!onOpenThread} onClick={onOpenThread}>
         <MessageSquare />
         Open Thread
       </ContextMenuItem>
-      <ContextMenuItem
-        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
-        disabled={!onSavedChange}
-        onClick={() => onSavedChange?.(!saved)}
-      >
+      <ContextMenuItem disabled={!onSavedChange} onClick={() => onSavedChange?.(!saved)}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
         {saved ? "Remove from Saved" : "Save Message"}
       </ContextMenuItem>
-      <ContextMenuItem
-        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
-        disabled={!onFollowChange}
-        onClick={() => onFollowChange?.(!followed)}
-      >
+      <ContextMenuItem disabled={!onFollowChange} onClick={() => onFollowChange?.(!followed)}>
         <MessageSquare />
         {followed ? "Unfollow Thread" : "Follow Thread"}
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem
-        className="[[data-theme=brutal]_&]:py-2 [[data-theme=brutal]_&]:font-medium"
         disabled={!onTaskChange}
         onClick={() => onTaskChange?.(task === "open" ? "done" : "open")}
       >

@@ -1,14 +1,7 @@
 import { useState } from "react";
-import { Bookmark, Download, Eye, MessageSquare, Play, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger, Spinner } from "raft-ui";
+import { Bookmark, MessageSquare, Play, SmilePlus } from "lucide-react";
+import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
-  MessageImageGallery,
-  MessageImageGalleryAction,
-  MessageImageGalleryItem,
-  MessageImageGalleryMedia,
-  MessageImageGalleryOverlay,
-  MessageImageGalleryPreview,
-  MessageImageGalleryRow,
   MessageItem,
   MessageItemActive,
   MessageItemAttachments,
@@ -31,47 +24,25 @@ import {
   MessageItemSender,
   MessageItemSenderState,
   MessageItemTime,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
   MessageReactionChip,
   MessageReactionGlyph,
-  MessageReactionPicker,
-  MessageReactionQuickButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-  MessageVideoPreview,
-  MessageVideoPreviewAction,
-  MessageVideoPreviewFallback,
-  MessageVideoPreviewFrame,
   SystemMessageItem,
   SystemMessageItemContent,
   SystemMessageItemTime,
 } from "raft-ui/wip";
-import { MessageReactionGlyphComposition } from "./message-reaction-glyph-composition.tsx";
-import {
-  MESSAGE_QUICK_REACTIONS,
-  MessageReactionComposition,
-  MessageReactionTooltipComposition,
-} from "./message-reaction-compositions.tsx";
-import { MessageAttachmentReadyComposition } from "./message-attachment-compositions.tsx";
+import { MessageReactionComposition } from "./message-reaction-compositions.tsx";
 import {
   MessageContextMenuComposition,
   type MessageTaskState,
 } from "./message-context-menu-composition.tsx";
-
-export const IMAGE_SRC =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='420' viewBox='0 0 640 420'%3E%3Crect width='640' height='420' fill='%23f4f0e8'/%3E%3Crect x='34' y='34' width='572' height='352' fill='%23f7d358' stroke='%23000' stroke-width='8'/%3E%3Ccircle cx='180' cy='168' r='72' fill='%23ff7ab6' stroke='%23000' stroke-width='8'/%3E%3Cpath d='M292 310 406 190l70 72 56-42 74 90z' fill='%23a3e8ff' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E";
-
-export function downloadMessageFixture(name: string) {
-  const link = document.createElement("a");
-  link.download = name;
-  link.href = IMAGE_SRC;
-  link.click();
-}
-
-export function openMessageFixture() {
-  window.open(IMAGE_SRC, "_blank", "noopener,noreferrer");
-}
+import {
+  MessageFileAttachmentsComposition,
+  MessageImageGalleryPairComposition,
+  MessageVideoPreviewComposition,
+} from "./message-media-compositions.tsx";
+import { MessageRowToolbarFixture } from "./message-row-toolbar-composition.tsx";
 
 export function AuthoredMessageRow() {
   return (
@@ -92,7 +63,7 @@ export function AuthoredMessageRow() {
           this component.
         </MessageItemBody>
         <MessageItemFooter>
-          <MessageItemSavedIndicator render={<button type="button" />}>
+          <MessageItemSavedIndicator>
             <Bookmark fill="currentColor" />
             <span>Saved</span>
           </MessageItemSavedIndicator>
@@ -122,7 +93,7 @@ export function SavedToolbarMessageRow() {
           Saved state stays in the footer while the hover toolbar exposes the same action.
         </MessageItemBody>
         <MessageItemFooter>
-          <MessageItemSavedIndicator render={<button type="button" />}>
+          <MessageItemSavedIndicator>
             <Bookmark fill="currentColor" />
             <span>Saved</span>
           </MessageItemSavedIndicator>
@@ -229,37 +200,7 @@ export function ImageGalleryMessageRow() {
           <MessageItemTime>3:01 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemAttachments>
-          <MessageImageGallery>
-            <MessageImageGalleryRow className="grid-cols-2">
-              <MessageImageGalleryItem>
-                <MessageImageGalleryMedia
-                  src={IMAGE_SRC}
-                  alt="release poster"
-                  className="aspect-[4/3]"
-                />
-                <MessageImageGalleryPreview
-                  aria-label="Preview image"
-                  onClick={openMessageFixture}
-                />
-                <MessageImageGalleryAction
-                  aria-label="Download image"
-                  onClick={() => downloadMessageFixture("message-image.svg")}
-                >
-                  <Download />
-                </MessageImageGalleryAction>
-              </MessageImageGalleryItem>
-              <MessageImageGalleryItem aria-busy>
-                <MessageImageGalleryMedia
-                  src={IMAGE_SRC}
-                  alt="release poster uploading"
-                  className="aspect-[4/3]"
-                />
-                <MessageImageGalleryOverlay>
-                  <Spinner size="md" variant="inverse" />
-                </MessageImageGalleryOverlay>
-              </MessageImageGalleryItem>
-            </MessageImageGalleryRow>
-          </MessageImageGallery>
+          <MessageImageGalleryPairComposition />
         </MessageItemAttachments>
       </MessageItemContent>
     </MessageItem>
@@ -280,19 +221,7 @@ export function VideoPreviewMessageRow() {
           <MessageItemTime>3:02 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemAttachments>
-          <MessageVideoPreview title="demo-recording.mp4">
-            <MessageVideoPreviewFrame>
-              <MessageVideoPreviewFallback>
-                <Play className="size-8 text-white/80" />
-              </MessageVideoPreviewFallback>
-              <MessageVideoPreviewAction
-                aria-label="Open demo-recording.mp4 in preview"
-                onClick={openMessageFixture}
-              >
-                <Eye />
-              </MessageVideoPreviewAction>
-            </MessageVideoPreviewFrame>
-          </MessageVideoPreview>
+          <MessageVideoPreviewComposition />
         </MessageItemAttachments>
       </MessageItemContent>
     </MessageItem>
@@ -313,23 +242,7 @@ export function FileAttachmentMessageRow() {
           <MessageItemTime>3:03 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemAttachments>
-          <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-            <MessageAttachmentReadyComposition
-              name="migration.diff"
-              meta="Diff · 18 KB"
-              summary="+42 -7"
-              primaryAction={<Download />}
-              primaryActionLabel="Download migration.diff"
-              onPrimaryAction={() => downloadMessageFixture("migration.diff")}
-            />
-            <MessageAttachmentReadyComposition
-              name="screening.html"
-              meta="HTML preview · 44 KB"
-              primaryAction={<Download />}
-              primaryActionLabel="Download screening.html"
-              onPrimaryAction={() => downloadMessageFixture("screening.html")}
-            />
-          </div>
+          <MessageFileAttachmentsComposition />
         </MessageItemAttachments>
       </MessageItemContent>
     </MessageItem>
@@ -407,67 +320,9 @@ export function RichAttachmentMessageRow() {
           <MessageItemNotice>Forwarded from #release-notes by Ada.</MessageItemNotice>
         </MessageItemEmbedded>
         <MessageItemAttachments>
-          <MessageImageGallery>
-            <MessageImageGalleryRow className="grid-cols-2">
-              <MessageImageGalleryItem>
-                <MessageImageGalleryMedia
-                  src={IMAGE_SRC}
-                  alt="release poster"
-                  className="aspect-[4/3]"
-                />
-                <MessageImageGalleryPreview
-                  aria-label="Preview image"
-                  onClick={openMessageFixture}
-                />
-                <MessageImageGalleryAction
-                  aria-label="Download image"
-                  onClick={() => downloadMessageFixture("message-image.svg")}
-                >
-                  <Download />
-                </MessageImageGalleryAction>
-              </MessageImageGalleryItem>
-              <MessageImageGalleryItem aria-busy>
-                <MessageImageGalleryMedia
-                  src={IMAGE_SRC}
-                  alt="release poster uploading"
-                  className="aspect-[4/3]"
-                />
-                <MessageImageGalleryOverlay>
-                  <Spinner size="md" variant="inverse" />
-                </MessageImageGalleryOverlay>
-              </MessageImageGalleryItem>
-            </MessageImageGalleryRow>
-          </MessageImageGallery>
-          <MessageVideoPreview title="demo-recording.mp4">
-            <MessageVideoPreviewFrame>
-              <MessageVideoPreviewFallback>
-                <Play className="size-8 text-white/80" />
-              </MessageVideoPreviewFallback>
-              <MessageVideoPreviewAction
-                aria-label="Open demo-recording.mp4 in preview"
-                onClick={openMessageFixture}
-              >
-                <Eye />
-              </MessageVideoPreviewAction>
-            </MessageVideoPreviewFrame>
-          </MessageVideoPreview>
-          <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
-            <MessageAttachmentReadyComposition
-              name="migration.diff"
-              meta="Diff · 18 KB"
-              summary="+42 -7"
-              primaryAction={<Download />}
-              primaryActionLabel="Download migration.diff"
-              onPrimaryAction={() => downloadMessageFixture("migration.diff")}
-            />
-            <MessageAttachmentReadyComposition
-              name="screening.html"
-              meta="HTML preview · 44 KB"
-              primaryAction={<Download />}
-              primaryActionLabel="Download screening.html"
-              onPrimaryAction={() => downloadMessageFixture("screening.html")}
-            />
-          </div>
+          <MessageImageGalleryPairComposition />
+          <MessageVideoPreviewComposition />
+          <MessageFileAttachmentsComposition />
         </MessageItemAttachments>
         <MessageItemFooter>
           <Badge variant="information" appearance="solid" uppercase={false}>
@@ -491,35 +346,6 @@ export function RichAttachmentMessageRow() {
       </MessageItemContent>
       <Toolbar />
     </MessageItem>
-  );
-}
-
-export function ReactionOverlays() {
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const [selectedReaction, setSelectedReaction] = useState<string>();
-
-  return (
-    <div ref={setPortalContainer} className="relative flex flex-wrap items-start gap-4 px-2">
-      <MessageReactionPicker>
-        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <MessageReactionQuickButton
-            key={emoji}
-            aria-label={`React with ${emoji}`}
-            aria-pressed={selectedReaction === emoji}
-            onClick={() => setSelectedReaction(emoji)}
-          >
-            <MessageReactionGlyphComposition emoji={emoji} size={18} />
-          </MessageReactionQuickButton>
-        ))}
-      </MessageReactionPicker>
-      <MessageReactionTooltipComposition
-        container={portalContainer}
-        count={5}
-        emoji="👍"
-        names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
-        open
-      />
-    </div>
   );
 }
 
@@ -580,36 +406,10 @@ export function SearchMatchMessageRow() {
 
 function Toolbar({
   forceVisible = false,
-  reactionActive = false,
   saved = false,
 }: {
   forceVisible?: boolean;
-  reactionActive?: boolean;
   saved?: boolean;
 }) {
-  const [isReactionActive, setIsReactionActive] = useState(reactionActive);
-
-  return (
-    <MessageItemToolbar visible={forceVisible}>
-      <MessageItemToolbarButton aria-label="Reply in thread">
-        <MessageSquare />
-      </MessageItemToolbarButton>
-      <MessageItemToolbarButton
-        active={isReactionActive}
-        aria-pressed={isReactionActive}
-        aria-label="Add Reaction"
-        onClick={() => setIsReactionActive((active) => !active)}
-      >
-        <SmilePlus />
-      </MessageItemToolbarButton>
-      <MessageItemToolbarButton
-        saved={saved}
-        aria-label={saved ? "Remove from Saved" : "Save Message"}
-        aria-pressed={saved}
-        disabled
-      >
-        <Bookmark fill={saved ? "currentColor" : "none"} />
-      </MessageItemToolbarButton>
-    </MessageItemToolbar>
-  );
+  return <MessageRowToolbarFixture saved={saved} visible={forceVisible} />;
 }

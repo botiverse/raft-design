@@ -2,25 +2,39 @@ import type { PropRow } from "#/components/props-table.tsx";
 
 export const TOC = [
   { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
   { id: "state-matrix", title: "State matrix" },
   { id: "fixtures", title: "Fixtures" },
-  { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-export const SNIPPETS = {
-  sourceAuthoredRow: `<div className="group/message relative mb-1 mt-1.5 flex h-fit min-h-12 gap-3 px-2 py-1 hover:border-2 hover:border-black hover:bg-white">
-  <Avatar />
-  <div>
-    <div className="flex items-center gap-2 pr-24">
-      <span className="text-sm font-bold">Atlas</span>
-      <span className="font-mono text-xs text-black/40">2:14 PM</span>
-    </div>
-    <div className="break-words text-sm leading-5">Source rendered markdown and message parts here.</div>
-  </div>
-</div>`,
-} as const;
+export const ANATOMY_SOURCE = `import {
+  MessageItem,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemFooter,
+  MessageItemHeader,
+  MessageItemMeta,
+  MessageItemSender,
+  MessageItemTime,
+  MessageItemToolbar,
+} from "raft-ui/wip";
+
+<MessageItem>
+  <MessageItemAvatarSlot>{/* Avatar */}</MessageItemAvatarSlot>
+  <MessageItemContent>
+    <MessageItemHeader>
+      <MessageItemSender>Atlas</MessageItemSender>
+      <MessageItemMeta>claude-opus</MessageItemMeta>
+      <MessageItemTime>2:14 PM</MessageItemTime>
+    </MessageItemHeader>
+    <MessageItemBody>Markdown, mentions, and links stay caller-owned.</MessageItemBody>
+    <MessageItemFooter>{/* badges, reactions, saved indicator */}</MessageItemFooter>
+  </MessageItemContent>
+  <MessageItemToolbar>{/* hover actions */}</MessageItemToolbar>
+</MessageItem>`;
 
 export const PROPS: readonly PropRow[] = [
   {
@@ -55,13 +69,18 @@ export const PROPS: readonly PropRow[] = [
   {
     name: "MessageItemToolbar",
     type: 'useRender.ComponentProps<"div"> & { visible?: boolean }',
-    description: "Hover toolbar slot matching the source brutal pill treatment.",
+    description:
+      "Action toolbar revealed on row hover or when keyboard focus enters it via focus-within.",
   },
   {
     name: "MessageItemToolbarButton",
     type: 'useRender.ComponentProps<"button">',
-    description:
-      "Toolbar action button. Use native aria-pressed for active, saved, or toggled actions.",
+    description: "Toolbar action button. Use native aria-pressed for toggled actions.",
+  },
+  {
+    name: "MessageItemSaveButton",
+    type: 'useRender.ComponentProps<"button">',
+    description: "Semantic saved action with the source accent treatment when pressed.",
   },
   {
     name: "MessageItemSavedIndicator",
@@ -105,8 +124,9 @@ export const PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageVideoPreviewFallback",
-    type: 'useRender.ComponentProps<"div"> & { interactive?: boolean }',
-    description: "Fallback/play surface. Interactive changes cursor and hover treatment only.",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Non-interactive fallback surface. Compose MessageVideoPreviewAction for real controls.",
   },
   {
     name: "MessageReactionChip",
@@ -131,10 +151,14 @@ export const PROPS: readonly PropRow[] = [
     description: "Quick reaction row, picker, and reactors list. Open state stays caller-owned.",
   },
   {
-    name: "MessageReactionPicker",
+    name: "MessageReactionPickerPanel",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Standalone quick reaction picker shell. Positioning and open state are caller-owned.",
+    description: "Standalone visual surface for an always-visible quick reaction panel.",
+  },
+  {
+    name: "MessageReactionPickerContent",
+    type: "DropdownMenuContentProps",
+    description: "Base UI dropdown content for an interactive quick reaction overlay.",
   },
   {
     name: "MessageReactionTooltip",

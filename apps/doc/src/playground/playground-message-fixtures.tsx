@@ -18,13 +18,15 @@ import {
 } from "raft-ui";
 import { MessageImageGalleryPreview } from "raft-ui/wip";
 
-import type { PlaygroundChannelId } from "./mock/index.ts";
+import {
+  PLAYGROUND_TASK_STATUSES,
+  type PlaygroundChannelId,
+  type PlaygroundTaskStatus,
+} from "./mock/index.ts";
 import { usePlaygroundTaskState } from "./playground-task-state.tsx";
 
-type TaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
-
 const TASK_STATUS_CONFIG: Record<
-  TaskStatus,
+  PlaygroundTaskStatus,
   {
     variant: "accent" | "information" | "muted" | "success" | "warning";
     icon: typeof Circle;
@@ -58,14 +60,6 @@ const TASK_STATUS_CONFIG: Record<
   },
 };
 
-const TASK_STATUS_ORDER: readonly TaskStatus[] = [
-  "todo",
-  "in_progress",
-  "in_review",
-  "done",
-  "closed",
-];
-
 export function openMockAttachmentPreview() {
   window.open(
     "data:text/plain;charset=utf-8,Playground%20attachment%20preview",
@@ -81,7 +75,7 @@ export function TaskStatusBadge({
   assignee,
   busy,
 }: {
-  status: TaskStatus;
+  status: PlaygroundTaskStatus;
   channelId: PlaygroundChannelId;
   taskNumber: number;
   assignee?: string;
@@ -119,7 +113,7 @@ export function TaskStatusBadge({
         {assignee ? <span>@{assignee}</span> : null}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-[140px]">
-        {TASK_STATUS_ORDER.map((id) => (
+        {PLAYGROUND_TASK_STATUSES.map((id) => (
           <DropdownMenuItem
             key={id}
             onClick={() =>

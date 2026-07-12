@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { messageSystem } from "./message-system.recipe";
-import { type DataAttributes } from "./message-item.types";
+import { type DataAttributes } from "../../lib/data-attributes";
 
 export type SystemMessageItemProps = useRender.ComponentProps<"div">;
 

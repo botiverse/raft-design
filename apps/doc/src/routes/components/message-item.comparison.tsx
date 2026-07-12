@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import messageRowCompositionsSource from "#/compositions/message-item/message-row-compositions.tsx?raw";
+import messageMediaCompositionsSource from "#/compositions/message-item/message-media-compositions.tsx?raw";
+import messageRowToolbarCompositionSource from "#/compositions/message-item/message-row-toolbar-composition.tsx?raw";
 
 import {
   AuthoredMessageRow,
@@ -10,13 +12,13 @@ import {
   FileAttachmentMessageRow,
   ImageGalleryMessageRow,
   InteractiveStateRows,
-  ReactionOverlays,
   RemovedSenderMessageRow,
   RichAttachmentMessageRow,
   SavedToolbarMessageRow,
   ThreadArchiveEventRow,
   VideoPreviewMessageRow,
 } from "#/compositions/message-item/message-row-compositions.tsx";
+import { MessageReactionOverlaysComposition } from "#/compositions/message-item/message-reaction-compositions.tsx";
 import {
   SourceAuthoredMessageRow,
   SourceConsecutiveMessageRow,
@@ -30,7 +32,7 @@ import {
   SourceSavedToolbarMessageRow,
   SourceThreadArchiveEventRow,
   SourceVideoPreviewMessageRow,
-} from "./message-item.source-fixtures";
+} from "#/fixtures/message-item/source-renderers.tsx";
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 export function getMessageItemComparisonItems(code: Record<string, CodeContent>) {
@@ -42,11 +44,7 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       brutal: <AuthoredMessageRow />,
       elegant: <AuthoredMessageRow />,
       elegantDark: <AuthoredMessageRow />,
-      sourceCode: code.sourceAuthoredRow,
-      brutalCode: code.currentAuthoredRow,
-      elegantCode: code.currentAuthoredRow,
-      elegantDarkCode: code.currentAuthoredRow,
-      compositionCode: code.currentAuthoredRow,
+      compositionCode: code.rowCompositions,
       compositionPath: "apps/doc/src/compositions/message-item/message-row-compositions.tsx",
       compositionSource: messageRowCompositionsSource,
       sourceScenes: [
@@ -72,6 +70,9 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       brutal: <SavedToolbarMessageRow />,
       elegant: <SavedToolbarMessageRow />,
       elegantDark: <SavedToolbarMessageRow />,
+      compositionCode: code.rowToolbarComposition,
+      compositionPath: "apps/doc/src/compositions/message-item/message-row-toolbar-composition.tsx",
+      compositionSource: messageRowToolbarCompositionSource,
       sourceScenes: [
         {
           label: "Source",
@@ -123,6 +124,9 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       brutal: <ImageGalleryMessageRow />,
       elegant: <ImageGalleryMessageRow />,
       elegantDark: <ImageGalleryMessageRow />,
+      compositionCode: code.mediaCompositions,
+      compositionPath: "apps/doc/src/compositions/message-item/message-media-compositions.tsx",
+      compositionSource: messageMediaCompositionsSource,
     },
     {
       label: "Video preview",
@@ -131,6 +135,9 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       brutal: <VideoPreviewMessageRow />,
       elegant: <VideoPreviewMessageRow />,
       elegantDark: <VideoPreviewMessageRow />,
+      compositionCode: code.mediaCompositions,
+      compositionPath: "apps/doc/src/compositions/message-item/message-media-compositions.tsx",
+      compositionSource: messageMediaCompositionsSource,
     },
     {
       label: "File attachment row",
@@ -139,14 +146,17 @@ export function getMessageItemComparisonItems(code: Record<string, CodeContent>)
       brutal: <FileAttachmentMessageRow />,
       elegant: <FileAttachmentMessageRow />,
       elegantDark: <FileAttachmentMessageRow />,
+      compositionCode: code.mediaCompositions,
+      compositionPath: "apps/doc/src/compositions/message-item/message-media-compositions.tsx",
+      compositionSource: messageMediaCompositionsSource,
     },
     {
       label: "Reaction overlays",
       status: "review",
       source: <SourceReactionOverlays />,
-      brutal: <ReactionOverlays />,
-      elegant: <ReactionOverlays />,
-      elegantDark: <ReactionOverlays />,
+      brutal: <MessageReactionOverlaysComposition />,
+      elegant: <MessageReactionOverlaysComposition />,
+      elegantDark: <MessageReactionOverlaysComposition />,
     },
     {
       label: "Context menu",
