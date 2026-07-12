@@ -26,8 +26,13 @@ export const messageItem = tv({
     ],
     attachments: ["mt-1 space-y-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
-    toolbar: ["absolute z-20 hidden items-center overflow-hidden", "group-hover/message:flex"],
+    toolbar: [
+      "pointer-events-none absolute z-20 flex items-center overflow-hidden opacity-0",
+      "group-hover/message:pointer-events-auto group-hover/message:opacity-100",
+      "group-focus-within/message:pointer-events-auto group-focus-within/message:opacity-100",
+    ],
     toolbarButton: ["inline-flex shrink-0 items-center justify-center", "[&_svg]:shrink-0"],
+    saveButton: [],
   },
   variants: {
     theme: {
@@ -55,6 +60,8 @@ export const messageItem = tv({
           "aria-[pressed=true]:text-black aria-[pressed=true]:hover:text-black",
           "[&_svg]:size-[13px]",
         ],
+        saveButton:
+          "aria-[pressed=true]:text-brutal-orange aria-[pressed=true]:hover:text-brutal-orange",
       },
       elegant: {
         root: ["px-7 py-3.5", "hover:bg-layer-strong/35 active:bg-layer-muted/90"],
@@ -104,18 +111,9 @@ export const messageItem = tv({
     compact: {
       true: { body: "mt-0 mb-0" },
     },
-    toolbarVisible: { true: { toolbar: "flex" } },
-    tone: { default: {}, accent: {} },
+    toolbarVisible: { true: { toolbar: "pointer-events-auto opacity-100" } },
   },
   compoundVariants: [
-    {
-      theme: "brutal",
-      tone: "accent",
-      class: {
-        toolbarButton:
-          "aria-[pressed=true]:text-brutal-orange aria-[pressed=true]:hover:text-brutal-orange",
-      },
-    },
     { theme: "brutal", rowState: "active", class: { root: "border-line-strong bg-white" } },
     {
       theme: "brutal",

@@ -1,6 +1,7 @@
 import { createContext, use, useMemo, useState, type ReactNode } from "react";
 
 import { PLAYGROUND_TASKS, type PlaygroundTask } from "./mock/index.ts";
+import { PlaygroundMessageWorkflowProvider } from "./playground-message-workflow-state.tsx";
 
 type PlaygroundTaskState = {
   tasks: readonly PlaygroundTask[];
@@ -15,7 +16,11 @@ export function PlaygroundTaskStateProvider({ children }: { children: ReactNode 
   );
   const value = useMemo(() => ({ tasks, setTasks }), [tasks]);
 
-  return <PlaygroundTaskStateContext value={value}>{children}</PlaygroundTaskStateContext>;
+  return (
+    <PlaygroundTaskStateContext value={value}>
+      <PlaygroundMessageWorkflowProvider>{children}</PlaygroundMessageWorkflowProvider>
+    </PlaygroundTaskStateContext>
+  );
 }
 
 export function usePlaygroundTaskState() {

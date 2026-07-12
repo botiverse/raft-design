@@ -15,7 +15,7 @@ import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tv } from "../../lib/tv";
 import { Popover, PopoverClose, PopoverContent, type PopoverContentProps } from "../popover/index";
-import { type DataAttributes } from "./message-item.types";
+import { type DataAttributes } from "../../lib/data-attributes";
 
 const messageTextSelection = tv({
   slots: {

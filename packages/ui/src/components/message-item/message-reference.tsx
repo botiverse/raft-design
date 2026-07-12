@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageReference, type MessageReferenceVariantProps } from "./message-reference.recipe";
-import { type DataAttributes } from "./message-item.types";
+import { type DataAttributes } from "../../lib/data-attributes";
 
 type MessageReferenceTreatment = NonNullable<MessageReferenceVariantProps["treatment"]>;
 type MessageReferenceLinkProps = useRender.ComponentProps<"a">;
@@ -98,19 +98,27 @@ export function MessageReferenceLoading(props: MessageReferenceLoadingProps) {
 export type MessageReferenceChannelUnavailableProps = MessageReferenceStatusProps;
 
 export function MessageReferenceChannelUnavailable(props: MessageReferenceChannelUnavailableProps) {
-  return useMessageReferenceStatus("channelUnavailable", "message-reference-unavailable", props);
+  return useMessageReferenceStatus(
+    "channelUnavailable",
+    "message-reference-channel-unavailable",
+    props,
+  );
 }
 
 export type MessageReferenceTaskUnavailableProps = MessageReferenceStatusProps;
 
 export function MessageReferenceTaskUnavailable(props: MessageReferenceTaskUnavailableProps) {
-  return useMessageReferenceStatus("taskUnavailable", "message-reference-unavailable", props);
+  return useMessageReferenceStatus("taskUnavailable", "message-reference-task-unavailable", props);
 }
 
 export type MessageReferenceThreadUnavailableProps = MessageReferenceStatusProps;
 
 export function MessageReferenceThreadUnavailable(props: MessageReferenceThreadUnavailableProps) {
-  return useMessageReferenceStatus("threadUnavailable", "message-reference-unavailable", props);
+  return useMessageReferenceStatus(
+    "threadUnavailable",
+    "message-reference-thread-unavailable",
+    props,
+  );
 }
 
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;

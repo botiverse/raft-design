@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useId, useMemo, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Bookmark, MessageSquare } from "lucide-react";
 import { ContextMenu, ContextMenuTrigger } from "raft-ui";
@@ -32,7 +32,7 @@ import {
   MessageContextMenuComposition,
   type MessageTaskState,
 } from "#/compositions/message-item/message-context-menu-composition.tsx";
-import { MessageRowToolbar } from "#/compositions/message-item/message-row-compositions.tsx";
+import { MessageRowToolbar } from "#/compositions/message-item/message-row-toolbar-composition.tsx";
 import { MessageReactionGlyphComposition } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
 import {
   PlaygroundMessageAvatar,
@@ -40,11 +40,105 @@ import {
   type PlaygroundAvatarVariant,
 } from "./playground-message-avatar.tsx";
 import { emitPlaygroundComposerMention } from "./playground-composer-events.ts";
-import { requirePlaygroundThread, type PlaygroundThreadId } from "./mock/index.ts";
+import {
+  getPlaygroundActor,
+  getPlaygroundThread,
+  requirePlaygroundThread,
+  type PlaygroundActorId,
+  type PlaygroundMessage,
+  type PlaygroundMessageId,
+  type PlaygroundThreadId,
+} from "./mock/index.ts";
+import {
+  usePlaygroundMessageWorkflow,
+  usePlaygroundThreadFollow,
+} from "./playground-message-workflow-state.tsx";
 
 export type RowVariant = PlaygroundAvatarVariant;
+
+function PlaygroundMessageSender({ sender }: { sender: string }) {
+  return (
+    <button
+      type="button"
+      className="cursor-pointer hover:underline hover:decoration-2 hover:underline-offset-2"
+      title={`Mention @${sender}`}
+      onClick={() => emitPlaygroundComposerMention(sender)}
+    >
+      <MessageItemSender>{sender}</MessageItemSender>
+    </button>
+  );
+}
+
+export type PlaygroundMessageRowProps = {
+  message: PlaygroundMessage;
+  searchMatch?: boolean;
+  attachments?: ReactNode;
+  footer?: ReactNode;
+  threadId?: PlaygroundThreadId;
+};
+
 export function PlaygroundMessageRow({
-  variant = "agent",
+  message,
+  searchMatch = false,
+  attachments,
+  footer,
+  threadId,
+}: PlaygroundMessageRowProps) {
+  return (
+    <MessageRowView
+      actorId={message.authorId}
+      attachments={attachments}
+      body={message.body}
+      footer={footer}
+      rowState={searchMatch ? "search-match" : undefined}
+      selectId={message.id}
+      time={message.time}
+      threadId={threadId}
+    />
+  );
+}
+
+export type PlaygroundScenarioMessageRowProps = {
+  actorId?: PlaygroundActorId;
+  variant?: RowVariant;
+  sender?: string;
+  meta?: string;
+  status?: PlaygroundAgentStatus;
+  body?: ReactNode;
+  footer?: ReactNode;
+  attachments?: ReactNode;
+  senderState?: string;
+  inlineStatus?: string;
+  compact?: boolean;
+  gutterTime?: string;
+  deactivated?: boolean;
+  saved?: boolean;
+  followed?: boolean;
+  task?: MessageTaskState;
+  rowState?: "active" | "search-match";
+  selectId?: string;
+  threadId?: PlaygroundThreadId;
+  time?: string;
+};
+
+export function PlaygroundScenarioMessageRow({
+  actorId,
+  variant,
+  selectId,
+  ...props
+}: PlaygroundScenarioMessageRowProps) {
+  const generatedId = useId();
+  return (
+    <MessageRowView
+      actorId={actorId ?? (variant === "agent" ? "atlas" : "developer")}
+      selectId={`scenario:${selectId ?? generatedId}`}
+      {...props}
+    />
+  );
+}
+
+function MessageRowView({
+  actorId,
   sender,
   meta,
   time,
@@ -64,7 +158,7 @@ export function PlaygroundMessageRow({
   selectId,
   threadId,
 }: {
-  variant?: RowVariant;
+  actorId: PlaygroundActorId;
   sender?: string;
   meta?: string;
   time?: string;
@@ -82,64 +176,32 @@ export function PlaygroundMessageRow({
   followed?: boolean;
   task?: MessageTaskState;
   rowState?: "active" | "search-match";
-  selectId?: string;
+  selectId: PlaygroundMessageId;
   threadId?: PlaygroundThreadId;
 }) {
+  const actor = getPlaygroundActor(actorId);
+  const resolvedSender = sender ?? actor.name;
+  const resolvedMeta = meta ?? actor.meta;
   const selection = useMessageMultiSelect();
-  // Every row inside a MessageMultiSelect is selectable; an explicit selectId
-  // is optional (the demo passes stable ids to a couple of rows), otherwise a
-  // stable per-row id is generated so the menu's "Select Message" always wires up.
-  const generatedSelectId = useId();
-  const rowSelectId = selectId ?? generatedSelectId;
+  const rowSelectId = selectId;
   const selectMode = selection?.active ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
-  const [reactionOpen, setReactionOpen] = useState(false);
-  const [isSaved, setIsSaved] = useState(Boolean(saved));
-  const [isFollowed, setIsFollowed] = useState(Boolean(followed));
-  const [taskState, setTaskState] = useState<MessageTaskState>(task);
-  const [lastReaction, setLastReaction] = useState<string | null>(null);
+  const { workflow, update: updateWorkflow } = usePlaygroundMessageWorkflow(
+    rowSelectId,
+    useMemo(() => ({ saved: Boolean(saved), task: task ?? "none" }), [saved, task]),
+  );
+  const { followed: isFollowed, setFollowed } = usePlaygroundThreadFollow(
+    threadId,
+    Boolean(followed),
+  );
+  const isSaved = workflow.saved;
+  const taskState = workflow.task;
+  const lastReaction = workflow.reactions.at(-1) ?? null;
   const [threadRequested, setThreadRequested] = useState(false);
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const reactionCloseTimerRef = useRef<number | null>(null);
   const navigate = useNavigate();
-  const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
+  const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const markdownText = typeof body === "string" ? body : "Composed message content";
-
-  const clearReactionCloseTimer = useCallback(() => {
-    if (reactionCloseTimerRef.current === null) return;
-    window.clearTimeout(reactionCloseTimerRef.current);
-    reactionCloseTimerRef.current = null;
-  }, []);
-
-  const scheduleReactionClose = useCallback(() => {
-    if (!reactionOpen) return;
-    clearReactionCloseTimer();
-    reactionCloseTimerRef.current = window.setTimeout(() => {
-      setReactionOpen(false);
-      reactionCloseTimerRef.current = null;
-    }, 120);
-  }, [clearReactionCloseTimer, reactionOpen]);
-
-  const handleReactionOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) clearReactionCloseTimer();
-      setReactionOpen(open);
-    },
-    [clearReactionCloseTimer],
-  );
-
-  useEffect(() => () => clearReactionCloseTimer(), [clearReactionCloseTimer]);
-
-  useEffect(() => {
-    if (!reactionOpen) return;
-    const close = () => handleReactionOpenChange(false);
-    window.addEventListener("scroll", close, true);
-    window.addEventListener("resize", close);
-    return () => {
-      window.removeEventListener("scroll", close, true);
-      window.removeEventListener("resize", close);
-    };
-  }, [handleReactionOpenChange, reactionOpen]);
 
   const effectiveRowState = selectMode ? "select" : (rowState ?? (menuOpen ? "active" : undefined));
   const ItemRoot =
@@ -164,11 +226,7 @@ export function PlaygroundMessageRow({
   const requestThread = openThread ?? (() => setThreadRequested(true));
 
   const messageItem = (
-    <ItemRoot
-      compact={compact}
-      onMouseEnter={clearReactionCloseTimer}
-      onMouseLeave={scheduleReactionClose}
-    >
+    <ItemRoot compact={compact}>
       {selectMode ? (
         <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
       ) : null}
@@ -180,36 +238,25 @@ export function PlaygroundMessageRow({
         </MessageItemGutter>
       ) : (
         <PlaygroundMessageAvatar
-          variant={variant}
-          status={status}
+          actorId={actorId}
+          status={status ?? actor.presence ?? "offline"}
           deactivated={deactivated}
-          sender={sender}
-          meta={meta}
         />
       )}
       <MessageItemContent>
         {!compact ? (
           <MessageItemHeader>
-            {sender ? (
+            {resolvedSender ? (
               deactivated || senderState ? (
-                <MessageItemSender>{sender}</MessageItemSender>
+                <MessageItemSender>{resolvedSender}</MessageItemSender>
               ) : (
-                <MessageItemSender
-                  render={
-                    <button
-                      type="button"
-                      className="cursor-pointer hover:underline hover:decoration-2 hover:underline-offset-2"
-                      title={`Mention @${sender}`}
-                      onClick={() => emitPlaygroundComposerMention(sender)}
-                    />
-                  }
-                >
-                  {sender}
-                </MessageItemSender>
+                <PlaygroundMessageSender sender={resolvedSender} />
               )
             ) : null}
             {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
-            {meta ? <MessageItemMeta title={meta}>{meta}</MessageItemMeta> : null}
+            {resolvedMeta ? (
+              <MessageItemMeta title={resolvedMeta}>{resolvedMeta}</MessageItemMeta>
+            ) : null}
             {time ? <MessageItemTime>{time}</MessageItemTime> : null}
             {inlineStatus ? (
               <MessageItemInlineStatus>{inlineStatus}</MessageItemInlineStatus>
@@ -224,7 +271,12 @@ export function PlaygroundMessageRow({
             {isSaved ? (
               <MessageItemSavedIndicator
                 aria-label="Remove from Saved"
-                render={<button type="button" onClick={() => setIsSaved(false)} />}
+                render={
+                  <button
+                    type="button"
+                    onClick={() => updateWorkflow((current) => ({ ...current, saved: false }))}
+                  />
+                }
               >
                 <Bookmark fill="currentColor" />
                 <span>Saved</span>
@@ -234,7 +286,7 @@ export function PlaygroundMessageRow({
               <MessageReactionChip
                 aria-label={`${lastReaction} 1`}
                 aria-pressed
-                onClick={() => setLastReaction(null)}
+                onClick={() => updateWorkflow((current) => ({ ...current, reactions: [] }))}
               >
                 <MessageReactionGlyphComposition emoji={lastReaction} />
                 <MessageReactionCount>1</MessageReactionCount>
@@ -245,15 +297,10 @@ export function PlaygroundMessageRow({
       </MessageItemContent>
       <RowToolbar
         saved={isSaved}
-        threadId={threadId}
         onReplyInThread={requestThread}
-        reactionOpen={reactionOpen}
         portalContainer={portalContainer}
-        onReact={setLastReaction}
-        onReactionOpenChange={handleReactionOpenChange}
-        onReactionPickerEnter={clearReactionCloseTimer}
-        onReactionPickerLeave={scheduleReactionClose}
-        onSavedChange={setIsSaved}
+        onReact={(emoji) => updateWorkflow((current) => ({ ...current, reactions: [emoji] }))}
+        onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
       />
       {threadRequested ? (
         <span className="sr-only" role="status">
@@ -283,7 +330,6 @@ export function PlaygroundMessageRow({
         open={menuOpen}
         onOpenChange={(open) => {
           setMenuOpen(open);
-          if (open) setReactionOpen(false);
         }}
       >
         <ContextMenuTrigger render={messageItem} />
@@ -294,13 +340,13 @@ export function PlaygroundMessageRow({
           portalContainer={portalContainer}
           onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
           onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
-          onFollowChange={threadContext ? setIsFollowed : undefined}
+          onFollowChange={threadContext ? setFollowed : undefined}
           onQuickReact={(emoji) => {
-            setLastReaction(emoji);
+            updateWorkflow((current) => ({ ...current, reactions: [emoji] }));
             setMenuOpen(false);
           }}
-          onSavedChange={setIsSaved}
-          onTaskChange={setTaskState}
+          onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
+          onTaskChange={(next) => updateWorkflow((current) => ({ ...current, task: next }))}
           onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
           onOpenThread={requestThread}
         />
@@ -309,52 +355,27 @@ export function PlaygroundMessageRow({
   );
 }
 
-// Thin Playground wrapper over the canonical MessageRowToolbar: maps mock thread
-// routing onto the reply button; open/hover state stays owned by the row.
+// Thin Playground wrapper over the canonical toolbar. Product workflow callbacks
+// stay keyed to the message while transient picker state remains in the composition.
 function RowToolbar({
   saved,
-  threadId,
-  reactionOpen,
   portalContainer,
   onReact,
   onReplyInThread,
-  onReactionOpenChange,
-  onReactionPickerEnter,
-  onReactionPickerLeave,
   onSavedChange,
 }: {
   saved?: boolean;
-  threadId?: PlaygroundThreadId;
-  reactionOpen: boolean;
   portalContainer: HTMLElement | null;
   onReact: (emoji: string) => void;
   onReplyInThread?: () => void;
-  onReactionOpenChange: (open: boolean) => void;
-  onReactionPickerEnter: () => void;
-  onReactionPickerLeave: () => void;
   onSavedChange: (saved: boolean) => void;
 }) {
-  const threadContext = threadId ? requirePlaygroundThread(threadId) : undefined;
-
   return (
     <MessageRowToolbar
       saved={saved}
-      reactionOpen={reactionOpen}
       portalContainer={portalContainer}
-      replyRender={
-        threadContext ? (
-          <Link
-            to="/playground/$channelId"
-            params={{ channelId: threadContext.channelId }}
-            search={{ thread: threadId }}
-          />
-        ) : undefined
-      }
       onReact={onReact}
       onReplyInThread={onReplyInThread}
-      onReactionOpenChange={onReactionOpenChange}
-      onReactionPickerEnter={onReactionPickerEnter}
-      onReactionPickerLeave={onReactionPickerLeave}
       onSavedChange={onSavedChange}
     />
   );

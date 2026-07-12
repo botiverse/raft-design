@@ -16,11 +16,6 @@ import { MessageReactionGlyphComposition } from "./message-reaction-glyph-compos
 
 export type MessageTaskState = "none" | "open" | "done";
 
-// Quick-reaction menu items are square emoji cells, so brutal drops the default
-// menu-item padding/size. Shared with the playground toolbar reaction picker.
-export const QUICK_REACTION_MENU_ITEM_CLASS =
-  "[[data-theme=brutal]_&]:!size-7 [[data-theme=brutal]_&]:!w-7 [[data-theme=brutal]_&]:!p-0";
-
 export type MessageContextMenuCompositionProps = {
   followed?: boolean;
   onCopyLink?: () => void;
@@ -70,7 +65,6 @@ export function MessageContextMenuComposition({
           <ContextMenuItem
             key={emoji}
             nativeButton
-            className={QUICK_REACTION_MENU_ITEM_CLASS}
             disabled={!onQuickReact}
             onClick={() => onQuickReact?.(emoji)}
             render={

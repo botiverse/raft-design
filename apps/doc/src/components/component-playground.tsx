@@ -14,7 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "raft-ui";
+import type { Theme } from "raft-ui";
 import { ComponentDemoFrame } from "./component-demo-frame.tsx";
+import type { PreviewMode } from "./preview-theme.tsx";
 
 type ControlValue = string | boolean;
 
@@ -32,6 +34,8 @@ type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   defaultValues: T;
   controls: readonly Control<T>[];
   previewClassName?: string;
+  previewTheme?: Theme;
+  previewMode?: PreviewMode;
   render: (values: T) => ReactNode;
 };
 
@@ -123,6 +127,8 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
   defaultValues,
   controls,
   previewClassName,
+  previewTheme,
+  previewMode,
   render,
 }: ComponentPlaygroundProps<T>) {
   const [values, setValues] = useState<T>(defaultValues);
@@ -136,6 +142,8 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
     <ComponentDemoFrame
       layout="split"
       previewClassName={previewClassName}
+      previewTheme={previewTheme}
+      previewMode={previewMode}
       footer={
         <div className="grid gap-y-4">
           <div className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">

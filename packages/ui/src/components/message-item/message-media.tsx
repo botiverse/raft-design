@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageMedia } from "./message-media.recipe";
-import { type DataAttributes } from "./message-item.types";
+import { type DataAttributes } from "../../lib/data-attributes";
 
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
@@ -228,19 +228,15 @@ export function MessageVideoPreviewMedia({
   });
 }
 
-export type MessageVideoPreviewFallbackProps = useRender.ComponentProps<"div"> & {
-  interactive?: boolean;
-};
+export type MessageVideoPreviewFallbackProps = useRender.ComponentProps<"div">;
 
 export function MessageVideoPreviewFallback({
-  interactive = false,
   className,
   render,
   ...props
 }: MessageVideoPreviewFallbackProps) {
   const { videoFallback } = messageMedia();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
-    "data-interactive": interactive ? "true" : "false",
+  const defaultProps: useRender.ElementProps<"div"> = {
     className: videoFallback({ className }),
   };
 
