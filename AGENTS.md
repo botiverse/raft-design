@@ -71,6 +71,15 @@ Use this sequence when adding or migrating a component:
 
 Browser, build, prerender, and test commands remain governed by the validation boundaries in this file; the SOP does not grant extra validation permission.
 
+## Migration Invariants
+
+Hold these whenever you move, collapse, or restyle existing component structure:
+
+- **DOM and className parity.** A structure-preserving refactor must render the same DOM and classes as before. Diff the output against the pre-change callsite (for example the existing Playground assembly) and treat any structural delta as a regression. Brutal stays pixel-identical; elegant may take token-driven adjustments.
+- **Push generic boilerplate down as additive sugar.** When a wrapper carries no business content, move it into the `packages/ui` atom instead of leaving it in a composition. Keep the new prop or part additive: it activates only when passed, and the existing granular path stays byte-for-byte unchanged so current callsites keep working.
+- **Slots must earn their existence.** Before keeping a slot or part, confirm the rendered DOM shows a real structural or visual difference (a border, spacing, or reflow). If it collapses into a neighbor with no such difference, delete it and merge. Verify against actual output, not the intended design.
+- **Inventory every callsite before changing or removing an API.** Grep all consumers across `packages/ui`, `compositions`, `routes/components`, and `playground` first. Backward-compatibility scope is the full callsite set, not the one component you started from.
+
 # Styling Conventions
 
 ## tailwind-variants

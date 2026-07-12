@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown, ChevronUp, Search, User, X } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -11,45 +12,35 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatThreadPanelComposition } from "#/compositions/chat-thread-panel-composition.tsx";
 import chatThreadPanelCompositionSource from "#/compositions/chat-thread-panel-composition.tsx?raw";
-import {
-  ChatThreadPanelEmptyComposition,
-  ChatThreadPanelLoadingComposition,
-} from "#/compositions/chat-thread-panel-states-composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_THREAD_PANEL_COMPOSITION_PATH =
   "apps/doc/src/compositions/chat-thread-panel-composition.tsx";
 
 const TOC = [
-  { id: "source-comparison", title: "Source comparison" },
-  { id: "states", title: "States" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "states", title: "States" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
+
+const STATE_OPTIONS = ["Default", "No replies", "Loading"] as const;
+
+type PlaygroundValues = {
+  state: (typeof STATE_OPTIONS)[number];
+  search: boolean;
+};
+
+const STATE_BY_LABEL: Record<PlaygroundValues["state"], "default" | "empty" | "loading"> = {
+  Default: "default",
+  "No replies": "empty",
+  Loading: "loading",
+};
 
 const SNIPPETS = {
   chatThreadPanelComposition: chatThreadPanelCompositionSource,
-  anatomy: `import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
-import {
-  ChatThreadPanelRoot,
-  ChatThreadPanelHeader,
-  ChatThreadPanelTitle,
-  ChatThreadPanelActions,
-  ChatThreadPanelSearch,
-  ChatThreadPanelSearchIcon,
-  ChatThreadPanelSearchInput,
-  ChatThreadPanelSearchCount,
-  PanelButton,
-  PanelButtonIcon,
-  ChatThreadPanelParent,
-  ChatThreadPanelBody,
-  ChatThreadPanelReplyCount,
-  ChatThreadPanelFooter,
-  MessageTimelineDateDivider,
-  MessageTimelineNotice,
-} from "raft-ui/wip";
-
-<ChatThreadPanelRoot>
+  anatomy: `<ChatThreadPanelRoot>
   <ChatThreadPanelHeader>
     <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
     <ChatThreadPanelActions>
@@ -62,35 +53,23 @@ import {
   </ChatThreadPanelHeader>
   <ChatThreadPanelSearch>
     <ChatThreadPanelSearchIcon render={<Search />} />
-    <ChatThreadPanelSearchInput
-      aria-label="Search in thread"
-      placeholder="Search in thread"
-      readOnly
-      value="chrome"
-    />
+    <ChatThreadPanelSearchInput aria-label="Search in thread" />
     <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
-    <PanelButton aria-label="Previous match">
-      <PanelButtonIcon>
-        <ChevronUp />
-      </PanelButtonIcon>
-    </PanelButton>
     <PanelButton aria-label="Next match">
       <PanelButtonIcon>
         <ChevronDown />
       </PanelButtonIcon>
     </PanelButton>
-    <PanelButton aria-label="Close thread search">
-      <PanelButtonIcon>
-        <X />
-      </PanelButtonIcon>
-    </PanelButton>
   </ChatThreadPanelSearch>
-  <ChatThreadPanelParent>{parentMessage}</ChatThreadPanelParent>
+  <ChatThreadPanelParent>
+    <MessageItem>{parentMessage}</MessageItem>
+  </ChatThreadPanelParent>
   <ChatThreadPanelBody>
     <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
     <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
     <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
-    {replies}
+    <MessageItem>{reply}</MessageItem>
+    <MessageItemSearchMatch>{activeMatch}</MessageItemSearchMatch>
   </ChatThreadPanelBody>
   <ChatThreadPanelFooter>{composer}</ChatThreadPanelFooter>
 </ChatThreadPanelRoot>`,
@@ -143,6 +122,12 @@ const PROPS: readonly PropRow[] = [
     description:
       "Shared timeline chrome: day-boundary divider (inline or sticky) and timeline notices.",
   },
+  {
+    name: "MessageItemSearchMatch",
+    type: "MessageItem props",
+    description:
+      "Message row variant that highlights the active in-thread search match. Caller-owned like MessageItem.",
+  },
 ];
 
 export const Route = createFileRoute("/components/chat-thread-panel")({
@@ -166,6 +151,72 @@ function ChatThreadPanelDoc() {
       }
       toc={TOC}
     >
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <ComponentPlayground<PlaygroundValues>
+          defaultValues={{ state: "Default", search: true }}
+          controls={[
+            { name: "state", label: "State", type: "select", options: STATE_OPTIONS },
+            { name: "search", label: "Search", type: "boolean" },
+          ]}
+          render={(values) => (
+            <div className="flex h-[420px] w-full justify-start overflow-x-auto">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition
+                  state={STATE_BY_LABEL[values.state]}
+                  search={values.search}
+                />
+              </ThreadPanelFrame>
+            </div>
+          )}
+        />
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock.Panel
+          path="chat-thread-panel.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          showLineNumbers={false}
+        />
+      </DocSection>
+
+      <DocSection id="states" title="States">
+        <PreviewGrid columns={2}>
+          <PreviewPane label="No replies · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="empty" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="No replies · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="empty" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Loading · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="loading" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Loading · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="loading" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+        </PreviewGrid>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <PreviewGrid>
           <PreviewPane label="Source">
@@ -189,65 +240,24 @@ function ChatThreadPanelDoc() {
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
-      </DocSection>
-
-      <DocSection id="states" title="States">
-        <PreviewGrid>
-          <PreviewPane label="No replies · Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <ThreadPanelFrame>
-                <ChatThreadPanelEmptyComposition />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="No replies · Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ThreadPanelFrame>
-                <ChatThreadPanelEmptyComposition />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Loading · Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <ThreadPanelFrame>
-                <ChatThreadPanelLoadingComposition />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Loading · Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ThreadPanelFrame>
-                <ChatThreadPanelLoadingComposition />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="chat-thread-panel.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
         <DocsCodeBlock.Panel
           path={CHAT_THREAD_PANEL_COMPOSITION_PATH}
           source={SNIPPETS.chatThreadPanelComposition}
           html={code.chatThreadPanelComposition}
+          collapsedHtml={code.chatThreadPanelCompositionBody}
           showLineNumbers={false}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );
 }
 
-function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-4">{children}</div>;
+function PreviewGrid({ children, columns = 1 }: { children: ReactNode; columns?: 1 | 2 }) {
+  return (
+    <div className={columns === 2 ? "grid gap-4 md:grid-cols-2" : "flex flex-col gap-4"}>
+      {children}
+    </div>
+  );
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
