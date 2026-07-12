@@ -1,24 +1,25 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
-import { tv, type VariantProps } from "../../lib/tv";
+import type { ReactElement } from "react";
+import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Button, type ButtonProps } from "../button/index";
 import type { DataAttributes } from "./app-shell";
 
-const panelIconButton = tv({
+const panelButton = tv({
   base: [
-    "size-7 p-0",
-    "overflow-visible font-sans font-bold leading-none outline-none before:hidden",
+    "relative inline-flex w-auto shrink-0 items-center justify-center gap-1.5",
+    "overflow-visible font-sans text-xs font-bold leading-none whitespace-nowrap select-none outline-none",
+    "transition-all duration-100",
     "active:not-aria-[haspopup]:scale-100 active:translate-x-px active:translate-y-px",
-    "disabled:transform-none",
-    "[&_svg]:size-3.5 [&_svg]:shrink-0",
+    "disabled:pointer-events-none disabled:opacity-40 disabled:transform-none",
   ],
   variants: {
     theme: {
       brutal: [
-        "rounded-none border-2 border-black bg-white text-black",
+        "rounded-none border-2 border-black bg-white px-1 py-1 text-black",
         "shadow-brutal-sm",
         "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
         "active:shadow-xs",
@@ -26,36 +27,27 @@ const panelIconButton = tv({
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       ],
       elegant: [
-        "size-8 rounded-md border-0 bg-transparent shadow-none",
-        "text-foreground-icon [&_svg]:size-4",
+        "rounded-md border-0 bg-transparent px-2 py-2 shadow-none",
+        "text-foreground-icon",
         "hover:bg-layer-strong/80 hover:text-foreground",
         "active:translate-x-0 active:translate-y-0 active:bg-layer-strong/80 active:text-foreground",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
       ],
     },
-    layout: {
-      icon: {},
-      label: ["w-auto min-w-7 gap-1.5 px-2.5 text-xs"],
-      responsiveLabel: ["text-xs sm:w-auto sm:gap-1.5 sm:px-2.5"],
-    },
-  },
-  defaultVariants: {
-    layout: "icon",
   },
 });
 
 const panelToggleButton = tv({
   base: [
-    "relative inline-flex size-7 shrink-0 items-center justify-center p-0",
+    "relative inline-flex w-auto shrink-0 items-center justify-center",
     "overflow-visible font-sans font-bold leading-none select-none outline-none",
     "transition-all duration-100",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[disabled]:transform-none",
-    "[&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0",
   ],
   variants: {
     theme: {
       brutal: [
-        "rounded-none border-2 border-black bg-white text-black shadow-brutal-sm",
+        "rounded-none border-2 border-black bg-white px-1 py-1 text-black shadow-brutal-sm",
         "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
         "active:translate-x-px active:translate-y-px active:shadow-xs",
         "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
@@ -64,54 +56,64 @@ const panelToggleButton = tv({
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       ],
       elegant: [
-        "size-8 rounded-md border-0 bg-transparent text-foreground-icon shadow-none",
+        "rounded-md border-0 bg-transparent px-2 py-2 text-foreground-icon shadow-none",
         "hover:bg-layer-strong/80 hover:text-foreground",
         "active:bg-layer-strong/80 active:text-foreground",
         "data-[pressed]:bg-layer-strong data-[pressed]:text-foreground",
         "data-[pressed]:hover:bg-layer-strong",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
-        "[&_svg]:size-4",
       ],
     },
   },
 });
 
-const panelIconButtonLabel = tv({
-  base: ["font-medium leading-none"],
+const panelButtonIcon = tv({
+  base: ["shrink-0 items-center justify-center", "[&_svg]:pointer-events-none [&_svg]:shrink-0"],
   variants: {
-    responsive: {
-      true: "hidden sm:inline",
-      false: "",
+    theme: {
+      brutal: ["inline-flex p-px", "[&_svg]:size-3.5"],
+      elegant: ["inline-flex", "[&_svg]:size-4"],
     },
-  },
-  defaultVariants: {
-    responsive: false,
   },
 });
 
-const panelIconButtonCount = tv({
+const panelButtonLabel = tv({
+  base: ["hidden whitespace-nowrap font-medium leading-4 sm:inline"],
+});
+
+const panelButtonCount = tv({
   base: [
-    "min-w-[1ch] text-center font-sans text-[12px] font-medium leading-none tabular-nums",
+    "min-w-[1ch] text-center font-sans text-[12px] font-medium leading-4 tabular-nums",
     "text-foreground-icon",
   ],
 });
 
-type PanelIconButtonVariantProps = Omit<VariantProps<typeof panelIconButton>, "theme">;
+function defaultNativeButton(render: BaseButton.Props["render"]): boolean | undefined {
+  if (!render || typeof render !== "object" || !("type" in render)) {
+    return undefined;
+  }
 
-export type PanelIconButtonProps = Omit<ButtonProps, "variant" | "size" | "type"> & {
-  layout?: PanelIconButtonVariantProps["layout"];
-};
+  const element = render as ReactElement;
+  if (typeof element.type === "string") {
+    return element.type === "button";
+  }
 
-export function PanelIconButton({ className, layout, ...props }: PanelIconButtonProps) {
+  return undefined;
+}
+
+export type PanelButtonProps = Omit<StyledProps<BaseButton.Props>, "type">;
+
+export function PanelButton({ className, render, nativeButton, ...props }: PanelButtonProps) {
   const theme = useThemeFamily();
 
   return (
-    <Button
+    <BaseButton
       {...props}
+      render={render}
+      nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
-      variant="default"
-      size="icon-sm"
-      className={panelIconButton({ theme, layout, className })}
+      data-slot="panel-button"
+      className={panelButton({ theme, className })}
     />
   );
 }
@@ -131,19 +133,13 @@ export function PanelToggleButton({ className, ...props }: PanelToggleButtonProp
   );
 }
 
-export type PanelIconButtonLabelProps = useRender.ComponentProps<"span"> & {
-  responsive?: boolean;
-};
+export type PanelButtonIconProps = useRender.ComponentProps<"span">;
 
-export function PanelIconButtonLabel({
-  className,
-  render,
-  responsive,
-  ...props
-}: PanelIconButtonLabelProps) {
+export function PanelButtonIcon({ className, render, ...props }: PanelButtonIconProps) {
+  const theme = useThemeFamily();
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "panel-icon-button-label",
-    className: panelIconButtonLabel({ responsive, className }),
+    "data-slot": "panel-button-icon",
+    className: panelButtonIcon({ theme, className }),
   };
 
   return useRender({
@@ -153,12 +149,27 @@ export function PanelIconButtonLabel({
   });
 }
 
-export type PanelIconButtonCountProps = useRender.ComponentProps<"span">;
+export type PanelButtonLabelProps = useRender.ComponentProps<"span">;
 
-export function PanelIconButtonCount({ className, render, ...props }: PanelIconButtonCountProps) {
+export function PanelButtonLabel({ className, render, ...props }: PanelButtonLabelProps) {
   const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "panel-icon-button-count",
-    className: panelIconButtonCount({ className }),
+    "data-slot": "panel-button-label",
+    className: panelButtonLabel({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type PanelButtonCountProps = useRender.ComponentProps<"span">;
+
+export function PanelButtonCount({ className, render, ...props }: PanelButtonCountProps) {
+  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+    "data-slot": "panel-button-count",
+    className: panelButtonCount({ className }),
   };
 
   return useRender({

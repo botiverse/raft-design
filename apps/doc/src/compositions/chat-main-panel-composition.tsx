@@ -62,8 +62,9 @@ import {
   MessageItemToolbarButton,
   MessageTimelineDateDivider,
   MessageTimelineNotice,
-  PanelIconButton,
-  PanelIconButtonCount,
+  PanelButton,
+  PanelButtonCount,
+  PanelButtonIcon,
   PanelToggleButton,
 } from "raft-ui/wip";
 
@@ -79,22 +80,32 @@ export function ChatMainPanelComposition() {
           <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
         </ChatMainPanelTitleBlock>
         <ChatMainPanelActions>
-          <PanelIconButton aria-label="Search conversation">
-            <Search />
-          </PanelIconButton>
+          <PanelButton aria-label="Search conversation">
+            <PanelButtonIcon>
+              <Search />
+            </PanelButtonIcon>
+          </PanelButton>
           <PanelToggleButton aria-label="Mute channel activity">
-            <Bell />
+            <PanelButtonIcon>
+              <Bell />
+            </PanelButtonIcon>
           </PanelToggleButton>
-          <PanelIconButton aria-label="Stop all agents in this channel">
-            <Square />
-          </PanelIconButton>
-          <PanelIconButton aria-label="View participants" layout="label">
-            <Users />
-            <PanelIconButtonCount>13</PanelIconButtonCount>
-          </PanelIconButton>
-          <PanelIconButton aria-label="Channel options">
-            <Settings />
-          </PanelIconButton>
+          <PanelButton aria-label="Stop all agents in this channel">
+            <PanelButtonIcon>
+              <Square />
+            </PanelButtonIcon>
+          </PanelButton>
+          <PanelButton aria-label="View participants">
+            <PanelButtonIcon>
+              <Users />
+            </PanelButtonIcon>
+            <PanelButtonCount>13</PanelButtonCount>
+          </PanelButton>
+          <PanelButton aria-label="Channel options">
+            <PanelButtonIcon>
+              <Settings />
+            </PanelButtonIcon>
+          </PanelButton>
         </ChatMainPanelActions>
       </ChatMainPanelHeader>
       <ChatMainPanelContent>

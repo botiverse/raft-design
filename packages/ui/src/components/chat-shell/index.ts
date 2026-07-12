@@ -323,17 +323,19 @@ export type {
 } from "./chat-thread-panel";
 
 export {
-  PanelIconButton,
-  PanelIconButtonCount,
-  PanelIconButtonLabel,
+  PanelButton,
+  PanelButtonCount,
+  PanelButtonIcon,
+  PanelButtonLabel,
   PanelToggleButton,
-} from "./panel-icon-button";
+} from "./panel-button";
 export type {
-  PanelIconButtonCountProps,
-  PanelIconButtonLabelProps,
-  PanelIconButtonProps,
+  PanelButtonCountProps,
+  PanelButtonIconProps,
+  PanelButtonLabelProps,
+  PanelButtonProps,
   PanelToggleButtonProps,
-} from "./panel-icon-button";
+} from "./panel-button";
 
 export {
   MessageTimelineDateDivider,

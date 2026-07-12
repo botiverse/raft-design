@@ -28,8 +28,9 @@ import {
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
   ChatMainPanelTitleRow,
-  PanelIconButton,
-  PanelIconButtonCount,
+  PanelButton,
+  PanelButtonCount,
+  PanelButtonIcon,
   PanelToggleButton,
 } from "raft-ui/wip";
 import { useState } from "react";
@@ -65,8 +66,10 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
       <TooltipProvider delay={650}>
         <ChatMainPanelActions>
           <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Search this channel" />}>
-              <Search />
+            <TooltipTrigger render={<PanelButton aria-label="Search this channel" />}>
+              <PanelButtonIcon>
+                <Search />
+              </PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">Search this channel</TooltipContent>
           </Tooltip>
@@ -82,32 +85,34 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
                 />
               }
             >
-              {isMuted ? <BellOff /> : <Bell />}
+              <PanelButtonIcon>{isMuted ? <BellOff /> : <Bell />}</PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">
               {isMuted ? "Unmute activity for this channel" : "Mute activity for this channel"}
             </TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger
-              render={<PanelIconButton aria-label="Stop all agents in this channel" />}
-            >
-              <Square />
+            <TooltipTrigger render={<PanelButton aria-label="Stop all agents in this channel" />}>
+              <PanelButtonIcon>
+                <Square />
+              </PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelIconButton aria-label="Edit channel" />}>
-              <Settings />
+            <TooltipTrigger render={<PanelButton aria-label="Edit channel" />}>
+              <PanelButtonIcon>
+                <Settings />
+              </PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">Edit channel</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger
-              render={<PanelIconButton aria-label="View participants" layout="label" />}
-            >
-              <Users />
-              <PanelIconButtonCount>{channel.memberCount}</PanelIconButtonCount>
+            <TooltipTrigger render={<PanelButton aria-label="View participants" />}>
+              <PanelButtonIcon>
+                <Users />
+              </PanelButtonIcon>
+              <PanelButtonCount>{channel.memberCount}</PanelButtonCount>
             </TooltipTrigger>
             <TooltipContent side="bottom">View participants</TooltipContent>
           </Tooltip>
@@ -159,7 +164,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
                 />
               }
             >
-              {isMuted ? <BellOff /> : <Bell />}
+              <PanelButtonIcon>{isMuted ? <BellOff /> : <Bell />}</PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">
               {isMuted ? "Unmute activity for this DM" : "Mute activity for this DM"}

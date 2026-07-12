@@ -6,7 +6,7 @@ import type { DataAttributes } from "./app-shell";
 
 const chatThreadPanel = tv({
   slots: {
-    root: ["flex h-full min-h-0 w-full flex-col", "text-foreground"],
+    root: ["isolate flex h-full min-h-0 w-full flex-col", "text-foreground"],
     header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
     title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],

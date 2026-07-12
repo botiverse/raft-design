@@ -57,7 +57,8 @@ import {
   ChatMainPanelTitle,
   ChatMainPanelSubtitle,
   ChatMainPanelActions,
-  PanelIconButton,
+  PanelButton,
+  PanelButtonIcon,
   ChatMainPanelContent,
   ChatMainPanelBody,
   ChatMainPanelTabs,
@@ -80,9 +81,11 @@ import {
       <ChatMainPanelSubtitle>Channel status</ChatMainPanelSubtitle>
     </ChatMainPanelTitleBlock>
     <ChatMainPanelActions>
-      <PanelIconButton aria-label="Search conversation">
-        <Search />
-      </PanelIconButton>
+      <PanelButton aria-label="Search conversation">
+        <PanelButtonIcon>
+          <Search />
+        </PanelButtonIcon>
+      </PanelButton>
     </ChatMainPanelActions>
   </ChatMainPanelHeader>
   <ChatMainPanelContent>
@@ -125,9 +128,15 @@ const PROPS: readonly PropRow[] = [
     description: "Main conversation header regions. Copy, badges, and actions stay composed.",
   },
   {
-    name: "PanelIconButton",
+    name: "PanelButton",
     type: "button props",
-    description: "Shared panel icon button for search, details, and app-owned commands.",
+    description: "Shared panel action root for search, details, and app-owned commands.",
+  },
+  {
+    name: "PanelButtonIcon / Label / Count",
+    type: "span props",
+    description:
+      "Explicit content parts. Label is hidden below sm and enters layout at sm; Icon and Count remain visible at every size.",
   },
   {
     name: "ChatMainPanelContent",
