@@ -184,11 +184,7 @@ function HistoryTopStates() {
 
   return (
     <div className="px-3 pt-3">
-      <Banner
-        status="warning"
-        size="sm"
-        className="mx-auto mb-3 max-w-md justify-center text-center font-bold"
-      >
+      <Banner status="warning" size="sm" className="mx-auto mb-3 max-w-md">
         <BannerDescription>
           Message history is limited to 30 days on the Free plan.{" "}
           <button type="button" className="underline" onClick={() => setBillingViewed(true)}>

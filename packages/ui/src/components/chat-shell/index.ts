@@ -15,6 +15,7 @@ export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
+  AppRailItemAttention,
   AppRailItemAttentionMask,
   AppRailItemBadge,
   AppRailItemIcon,
@@ -23,12 +24,12 @@ export {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppRailUtilitySlot,
 } from "./app-rail";
 export type {
   AppRailFooterProps,
   AppRailHeaderProps,
   AppRailItemAttentionMaskProps,
+  AppRailItemAttentionProps,
   AppRailItemBadgeProps,
   AppRailItemIconProps,
   AppRailItemIndicatorProps,
@@ -37,7 +38,6 @@ export type {
   AppRailNavProps,
   AppRailRootProps,
   AppRailServerButtonProps,
-  AppRailUtilitySlotProps,
 } from "./app-rail";
 
 export {
@@ -263,23 +263,29 @@ export type {
 } from "./chat-sidebar-resize";
 
 export {
+  ChatSidebarAction,
   ChatSidebarList,
   ChatSidebarSection,
   ChatSidebarSectionAction,
   ChatSidebarSectionActions,
   ChatSidebarSectionButton,
+  ChatSidebarSectionChevron,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
+  ChatSidebarSectionAttention,
   ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
 } from "./chat-sidebar-section";
 export type {
+  ChatSidebarActionProps,
   ChatSidebarListProps,
   ChatSidebarSectionActionProps,
   ChatSidebarSectionActionsProps,
   ChatSidebarSectionButtonProps,
+  ChatSidebarSectionChevronProps,
   ChatSidebarSectionCountProps,
   ChatSidebarSectionHeaderProps,
+  ChatSidebarSectionAttentionProps,
   ChatSidebarSectionIndicatorProps,
   ChatSidebarSectionProps,
   ChatSidebarSectionTitleProps,

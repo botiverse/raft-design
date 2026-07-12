@@ -29,7 +29,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { ChatSidebarComposition } from "#/compositions/chat-sidebar-composition.tsx";
+import { ChatSidebarPreviewComposition } from "#/compositions/chat-sidebar-composition.tsx";
 import chatSidebarCompositionSource from "#/compositions/chat-sidebar-composition.tsx?raw";
 import { SourceAppRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -44,7 +44,7 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  anatomy: `import { AtSign, BellOff, ChevronRight, Hash, Pencil } from "lucide-react";
+  anatomy: `import { AtSign, BellOff, Hash, Pencil } from "lucide-react";
 import { Avatar, AvatarFallback } from "raft-ui";
 import {
   AppShellMain,
@@ -58,11 +58,12 @@ import {
   ChatSidebarSection,
   ChatSidebarSectionHeader,
   ChatSidebarSectionButton,
+  ChatSidebarSectionChevron,
   ChatSidebarSectionTitle,
   ChatSidebarSectionCount,
   ChatSidebarSectionActions,
-  ChatSidebarSectionAction,
-  ChatSidebarSectionIndicator,
+  ChatSidebarAction,
+  ChatSidebarSectionAttention,
   ChatSidebarList,
   ChatSidebarItem,
   ChatSidebarItemUnread,
@@ -94,13 +95,13 @@ import {
             <ChatSidebarSection defaultOpen>
               <ChatSidebarSectionHeader>
                 <ChatSidebarSectionButton>
-                  <ChevronRight />
+                  <ChatSidebarSectionChevron />
                   <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
                   <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
-                  <ChatSidebarSectionIndicator />
+                  <ChatSidebarSectionAttention />
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionActions>
-                  <ChatSidebarSectionAction aria-label="Sort channels" />
+                  <ChatSidebarAction aria-label="Sort channels" />
                 </ChatSidebarSectionActions>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
@@ -192,7 +193,12 @@ const PROPS: readonly PropRow[] = [
     name: "ChatSidebarSectionHeader*",
     type: "div + button + span props",
     description:
-      "Base UI Collapsible header parts for chevron, title, count, collapsed unread indicator, and action slots.",
+      "Base UI Collapsible header parts for ChatSidebarSectionChevron, title, count, ChatSidebarSectionAttention, and action slots.",
+  },
+  {
+    name: "ChatSidebarAction",
+    type: "button props",
+    description: "Theme-aware action button shared by the sidebar header and section action slots.",
   },
   {
     name: "ChatSidebarItem*",
@@ -237,12 +243,12 @@ function ChatSidebarDoc() {
           </PreviewPane>
           <PreviewPane label="Brutal">
             <PreviewThemeScope family="brutal" className="h-full w-[950px] shrink-0">
-              <ChatSidebarComposition />
+              <ChatSidebarPreviewComposition />
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Elegant">
             <PreviewThemeScope family="elegant" mode="light" className="h-full w-[950px] shrink-0">
-              <ChatSidebarComposition />
+              <ChatSidebarPreviewComposition />
             </PreviewThemeScope>
           </PreviewPane>
           <PreviewPane label="Elegant dark">
@@ -251,7 +257,7 @@ function ChatSidebarDoc() {
               mode="dark"
               className="dark h-full w-[950px] shrink-0"
             >
-              <ChatSidebarComposition />
+              <ChatSidebarPreviewComposition />
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>

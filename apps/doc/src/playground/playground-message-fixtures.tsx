@@ -26,38 +26,32 @@ type TaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
 const TASK_STATUS_CONFIG: Record<
   TaskStatus,
   {
-    brutalClassName: string;
     variant: "accent" | "information" | "muted" | "success" | "warning";
     icon: typeof Circle;
     label: string;
   }
 > = {
   todo: {
-    brutalClassName: "[[data-theme=brutal]_&]:!bg-brutal-orange",
     variant: "warning",
     icon: Circle,
     label: "Todo",
   },
   in_progress: {
-    brutalClassName: "[[data-theme=brutal]_&]:!bg-brutal-cyan",
     variant: "information",
     icon: Play,
     label: "In Progress",
   },
   in_review: {
-    brutalClassName: "[[data-theme=brutal]_&]:!bg-brutal-lavender",
     variant: "accent",
     icon: Eye,
     label: "In Review",
   },
   done: {
-    brutalClassName: "[[data-theme=brutal]_&]:!bg-brutal-lime",
     variant: "success",
     icon: CheckCircle,
     label: "Done",
   },
   closed: {
-    brutalClassName: "[[data-theme=brutal]_&]:!bg-brutal-stone",
     variant: "muted",
     icon: Ban,
     label: "Closed",
@@ -108,7 +102,6 @@ export function TaskStatusBadge({
         render={
           <Badge
             appearance="solid"
-            className={`${config.brutalClassName} transition-[filter,opacity] duration-100 hover:brightness-90`}
             variant={config.variant}
             render={
               <button

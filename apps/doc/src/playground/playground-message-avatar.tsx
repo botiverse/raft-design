@@ -69,23 +69,11 @@ const PROFILE_ACTIVITY_ROWS: {
 
 const MUTED_META = "truncate font-mono text-xs text-foreground-muted";
 
-function PlaygroundAvatarContent({
-  sender,
-  isAgent,
-  compactHumanIcon = false,
-}: {
-  sender: string;
-  isAgent: boolean;
-  compactHumanIcon?: boolean;
-}) {
+function PlaygroundAvatarContent({ sender, isAgent }: { sender: string; isAgent: boolean }) {
   const actor = PLAYGROUND_ACTORS.find((candidate) => candidate.name === sender);
   if (actor && "avatarSrc" in actor && actor.avatarSrc)
     return <AvatarImage src={actor.avatarSrc} alt="" />;
-  return (
-    <AvatarFallback className={!isAgent && compactHumanIcon ? "[&>svg]:!size-4" : undefined}>
-      {isAgent ? undefined : <User aria-hidden />}
-    </AvatarFallback>
-  );
+  return <AvatarFallback>{isAgent ? undefined : <User aria-hidden />}</AvatarFallback>;
 }
 
 // Profile hover-card body — composed with PreviewCard slots (same anatomy as
@@ -195,7 +183,7 @@ export function PlaygroundMessageAvatar({
       type={isAgent ? "agent" : "human"}
       className={cn(deactivated && "opacity-60 grayscale")}
     >
-      <PlaygroundAvatarContent sender={sender ?? ""} isAgent={isAgent} compactHumanIcon />
+      <PlaygroundAvatarContent sender={sender ?? ""} isAgent={isAgent} />
       {isAgent && !deactivated ? (
         <MessageItemAvatarStatus
           title={STATUS_LABEL[status]}
