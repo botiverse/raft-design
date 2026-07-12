@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown, ChevronUp, Search, User, X } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -17,42 +18,58 @@ const CHAT_THREAD_PANEL_COMPOSITION_PATH =
   "apps/doc/src/compositions/chat-thread-panel-composition.tsx";
 
 const TOC = [
-  { id: "source-comparison", title: "Source comparison" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "states", title: "States" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
+
+const STATE_OPTIONS = ["Default", "No replies", "Loading"] as const;
+
+type PlaygroundValues = {
+  state: (typeof STATE_OPTIONS)[number];
+  search: boolean;
+};
+
+const STATE_BY_LABEL: Record<PlaygroundValues["state"], "default" | "empty" | "loading"> = {
+  Default: "default",
+  "No replies": "empty",
+  Loading: "loading",
+};
 
 const SNIPPETS = {
   chatThreadPanelComposition: chatThreadPanelCompositionSource,
-  anatomy: `import {
-  ChatThreadPanelRoot,
-  ChatThreadPanelHeader,
-  ChatThreadPanelTitle,
-  ChatThreadPanelActions,
-  PanelIconButton,
-  ChatThreadPanelParent,
-  ChatThreadPanelBody,
-  ChatThreadPanelReplyCount,
-  ChatThreadPanelFooter,
-  MessageTimelineDateDivider,
-  MessageTimelineNotice,
-} from "raft-ui/wip";
-
-<ChatThreadPanelRoot>
+  anatomy: `<ChatThreadPanelRoot>
   <ChatThreadPanelHeader>
     <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
     <ChatThreadPanelActions>
-      <PanelIconButton aria-label="Close thread">
-        <X />
-      </PanelIconButton>
+      <PanelButton aria-label="Close thread">
+        <PanelButtonIcon>
+          <X />
+        </PanelButtonIcon>
+      </PanelButton>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
-  <ChatThreadPanelParent>{parentMessage}</ChatThreadPanelParent>
+  <ChatThreadPanelSearch>
+    <ChatThreadPanelSearchIcon render={<Search />} />
+    <ChatThreadPanelSearchInput aria-label="Search in thread" />
+    <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
+    <PanelButton aria-label="Next match">
+      <PanelButtonIcon>
+        <ChevronDown />
+      </PanelButtonIcon>
+    </PanelButton>
+  </ChatThreadPanelSearch>
+  <ChatThreadPanelParent>
+    <MessageItem>{parentMessage}</MessageItem>
+  </ChatThreadPanelParent>
   <ChatThreadPanelBody>
     <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
     <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
     <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
-    {replies}
+    <MessageItem>{reply}</MessageItem>
+    <MessageItemSearchMatch>{activeMatch}</MessageItemSearchMatch>
   </ChatThreadPanelBody>
   <ChatThreadPanelFooter>{composer}</ChatThreadPanelFooter>
 </ChatThreadPanelRoot>`,
@@ -66,19 +83,26 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ChatThreadPanelHeader / Title / Actions",
-    type: "div props",
+    type: "div / h2 props",
     description: "Fixed thread header regions matching source panel chrome.",
   },
   {
-    name: "PanelIconButton",
+    name: "PanelButton",
     type: "button props",
-    description: "Shared panel icon button for close and future thread-panel commands.",
+    description:
+      "Shared panel action root. Its width follows the explicit Icon, Label, and Count children.",
   },
   {
-    name: "ChatThreadPanelSearch / SearchInput / SearchCount",
-    type: "div / input props",
+    name: "PanelButtonIcon / Label / Count",
+    type: "span props",
     description:
-      "In-thread search row under the header: input, match counter, and prev/next/close actions via PanelIconButton.",
+      "Explicit content parts. Label is hidden below sm and enters layout at sm; Icon and Count remain visible at every size.",
+  },
+  {
+    name: "ChatThreadPanelSearch / SearchIcon / SearchInput / SearchCount",
+    type: "div / span / input props",
+    description:
+      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via PanelButton.",
   },
   {
     name: "ChatThreadPanelParent / ReplyCount",
@@ -93,10 +117,16 @@ const PROPS: readonly PropRow[] = [
       "Scrollable message body and composer/footer slot. Message rows remain caller-owned children.",
   },
   {
-    name: "MessageTimelineDateDivider / Notice / HistoryLimited",
+    name: "MessageTimelineDateDivider / Notice",
     type: "div / span props",
     description:
-      "Shared timeline chrome: day-boundary divider (inline or sticky), history/loading notices, and the plan-limited history tag.",
+      "Shared timeline chrome: day-boundary divider (inline or sticky) and timeline notices.",
+  },
+  {
+    name: "MessageItemSearchMatch",
+    type: "MessageItem props",
+    description:
+      "Message row variant that highlights the active in-thread search match. Caller-owned like MessageItem.",
   },
 ];
 
@@ -121,6 +151,72 @@ function ChatThreadPanelDoc() {
       }
       toc={TOC}
     >
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <ComponentPlayground<PlaygroundValues>
+          defaultValues={{ state: "Default", search: true }}
+          controls={[
+            { name: "state", label: "State", type: "select", options: STATE_OPTIONS },
+            { name: "search", label: "Search", type: "boolean" },
+          ]}
+          render={(values) => (
+            <div className="flex h-[420px] w-full justify-start overflow-x-auto">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition
+                  state={STATE_BY_LABEL[values.state]}
+                  search={values.search}
+                />
+              </ThreadPanelFrame>
+            </div>
+          )}
+        />
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock.Panel
+          path="chat-thread-panel.tsx"
+          source={SNIPPETS.anatomy}
+          html={code.anatomy}
+          showLineNumbers={false}
+        />
+      </DocSection>
+
+      <DocSection id="states" title="States">
+        <PreviewGrid columns={2}>
+          <PreviewPane label="No replies · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="empty" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="No replies · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="empty" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Loading · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="loading" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Loading · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition state="loading" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+        </PreviewGrid>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <PreviewGrid>
           <PreviewPane label="Source">
@@ -144,32 +240,24 @@ function ChatThreadPanelDoc() {
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="chat-thread-panel.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
         <DocsCodeBlock.Panel
           path={CHAT_THREAD_PANEL_COMPOSITION_PATH}
           source={SNIPPETS.chatThreadPanelComposition}
           html={code.chatThreadPanelComposition}
+          collapsedHtml={code.chatThreadPanelCompositionBody}
           showLineNumbers={false}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );
 }
 
-function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-4">{children}</div>;
+function PreviewGrid({ children, columns = 1 }: { children: ReactNode; columns?: 1 | 2 }) {
+  return (
+    <div className={columns === 2 ? "grid gap-4 md:grid-cols-2" : "flex flex-col gap-4"}>
+      {children}
+    </div>
+  );
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
@@ -185,11 +273,19 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
   );
 }
 
-function CurrentThreadPanelPreview() {
+function ThreadPanelFrame({ children }: { children: ReactNode }) {
   return (
     <div className="h-full w-[400px] shrink-0 overflow-hidden border-l-2 border-line-strong bg-layer-panel [[data-theme=elegant]_&]:border-l [[data-theme=elegant]_&]:border-line-subtle">
-      <ChatThreadPanelComposition />
+      {children}
     </div>
+  );
+}
+
+function CurrentThreadPanelPreview() {
+  return (
+    <ThreadPanelFrame>
+      <ChatThreadPanelComposition />
+    </ThreadPanelFrame>
   );
 }
 
@@ -276,14 +372,46 @@ function SourceThreadPanelPreview() {
             </span>
           </div>
         </div>
-        <div className="space-y-3 px-3 pb-3">
-          <div className="border-2 border-black bg-white p-3 text-sm shadow-brutal-sm">
-            <div className="mb-1 font-mono text-[11px] font-bold text-black/50">Cindy</div>
-            <div>SideThreadColumn owns persisted width and desktop resize chrome.</div>
+        <div className="px-3 pb-3">
+          <div className="group/message relative mt-1.5 mb-1 flex h-fit min-h-12 gap-3 border-2 border-transparent px-2 py-1 hover:border-black hover:bg-white active:border-black active:bg-white">
+            <div className="relative mt-0.5 shrink-0 self-start">
+              <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden border-2 border-black bg-brutal-lavender text-black">
+                <User className="size-4" />
+              </div>
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex min-w-0 items-center gap-2 overflow-hidden pr-24">
+                <span className="min-w-0 shrink-0 truncate text-sm font-bold text-black">
+                  Cindy
+                </span>
+                <span className="shrink-0 whitespace-nowrap font-mono text-xs text-black/40">
+                  10:09
+                </span>
+              </div>
+              <div className="break-words text-sm text-black">
+                SideThreadColumn owns persisted width and desktop resize chrome.
+              </div>
+            </div>
           </div>
-          <div className="border-2 border-black bg-brutal-yellow/30 p-3 text-sm shadow-brutal-sm">
-            <div className="mb-1 font-mono text-[11px] font-bold text-black/50">Atlas</div>
-            <div>ThreadPanel renders as a separate child surface inside the host wrapper.</div>
+          <div className="group/message relative mt-1.5 mb-1 flex h-fit min-h-12 gap-3 border-2 border-black bg-brutal-cyan/25 px-2 py-1 shadow-brutal">
+            <div className="relative mt-0.5 shrink-0 self-start">
+              <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden border-2 border-black bg-brutal-cyan text-black">
+                <User className="size-4" />
+              </div>
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex min-w-0 items-center gap-2 overflow-hidden pr-24">
+                <span className="min-w-0 shrink-0 truncate text-sm font-bold text-black">
+                  Atlas
+                </span>
+                <span className="shrink-0 whitespace-nowrap font-mono text-xs text-black/40">
+                  10:11
+                </span>
+              </div>
+              <div className="break-words text-sm text-black">
+                ThreadPanel now owns the right-panel header, body, action, and footer chrome.
+              </div>
+            </div>
           </div>
         </div>
       </div>

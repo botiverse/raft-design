@@ -6,7 +6,7 @@ import type { DataAttributes } from "./data-attributes";
 
 const chatThreadPanel = tv({
   slots: {
-    root: ["flex h-full min-h-0 w-full flex-col", "text-foreground"],
+    root: ["isolate flex h-full min-h-0 w-full flex-col", "text-foreground"],
     header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
     title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],
@@ -93,20 +93,20 @@ export function ChatThreadPanelHeader({ className, render, ...props }: ChatThrea
   });
 }
 
-export type ChatThreadPanelTitleProps = useRender.ComponentProps<"div">;
+export type ChatThreadPanelTitleProps = useRender.ComponentProps<"h2">;
 
 export function ChatThreadPanelTitle({ className, render, ...props }: ChatThreadPanelTitleProps) {
   const theme = useThemeFamily();
   const { title } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: useRender.ElementProps<"h2"> & DataAttributes = {
     "data-slot": "chat-thread-panel-title",
     className: title({ className }),
   };
 
   return useRender({
-    defaultTagName: "div",
+    defaultTagName: "h2",
     render,
-    props: mergeProps<"div">(defaultProps, props),
+    props: mergeProps<"h2">(defaultProps, props),
   });
 }
 

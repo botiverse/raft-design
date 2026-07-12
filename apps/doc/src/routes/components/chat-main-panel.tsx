@@ -54,7 +54,11 @@ const SNIPPETS = {
       <ChatMainPanelTitle />
       <ChatMainPanelSubtitle />
     </ChatMainPanelTitleBlock>
-    <ChatMainPanelActions />
+    <ChatMainPanelActions>
+      <PanelButton aria-label="Search conversation">
+        <PanelButtonIcon />
+      </PanelButton>
+    </ChatMainPanelActions>
   </ChatMainPanelHeader>
   <ChatMainPanelContent>
     <ChatMainPanelTabs />
@@ -99,6 +103,17 @@ const PROPS: readonly PropRow[] = [
     name: "ChatMainPanelTitle / Subtitle / TitleBadge / Actions",
     type: "div / span props",
     description: "Explicit title content and action regions; business copy remains caller-owned.",
+  },
+  {
+    name: "PanelButton",
+    type: "button props",
+    description: "Shared panel action root for search, details, and app-owned commands.",
+  },
+  {
+    name: "PanelButtonIcon / Label / Count",
+    type: "span props",
+    description:
+      "Explicit content parts. Label is hidden below sm and enters layout at sm; Icon and Count remain visible at every size.",
   },
   {
     name: "ChatMainPanelContent",

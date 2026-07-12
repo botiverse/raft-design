@@ -10,8 +10,9 @@ import {
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
   ChatMainPanelTitleRow,
-  PanelIconButton,
-  PanelIconButtonCount,
+  PanelButton,
+  PanelButtonCount,
+  PanelButtonIcon,
   PanelToggleButton,
 } from "raft-ui/wip";
 
@@ -45,7 +46,7 @@ export function ChatMainPanelHeaderComposition({
             onPressedChange={onMutedChange}
             aria-label={muted ? "Unmute activity for this DM" : "Mute activity for this DM"}
           >
-            {muted ? <BellOff /> : <Bell />}
+            <PanelButtonIcon>{muted ? <BellOff /> : <Bell />}</PanelButtonIcon>
           </PanelToggleButton>
         </ChatMainPanelActions>
       </ChatMainPanelHeader>
@@ -70,26 +71,34 @@ export function ChatMainPanelHeaderComposition({
         <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
       </ChatMainPanelTitleBlock>
       <ChatMainPanelActions>
-        <PanelIconButton aria-label="Search conversation">
-          <Search />
-        </PanelIconButton>
+        <PanelButton aria-label="Search conversation">
+          <PanelButtonIcon>
+            <Search />
+          </PanelButtonIcon>
+        </PanelButton>
         <PanelToggleButton
           pressed={muted}
           onPressedChange={onMutedChange}
           aria-label={muted ? "Unmute channel activity" : "Mute channel activity"}
         >
-          {muted ? <BellOff /> : <Bell />}
+          <PanelButtonIcon>{muted ? <BellOff /> : <Bell />}</PanelButtonIcon>
         </PanelToggleButton>
-        <PanelIconButton aria-label="Stop all agents in this channel">
-          <Square />
-        </PanelIconButton>
-        <PanelIconButton aria-label="View participants" layout="label">
-          <Users />
-          <PanelIconButtonCount>13</PanelIconButtonCount>
-        </PanelIconButton>
-        <PanelIconButton aria-label="Channel options">
-          <Settings />
-        </PanelIconButton>
+        <PanelButton aria-label="Stop all agents in this channel">
+          <PanelButtonIcon>
+            <Square />
+          </PanelButtonIcon>
+        </PanelButton>
+        <PanelButton aria-label="View participants">
+          <PanelButtonIcon>
+            <Users />
+          </PanelButtonIcon>
+          <PanelButtonCount>13</PanelButtonCount>
+        </PanelButton>
+        <PanelButton aria-label="Channel options">
+          <PanelButtonIcon>
+            <Settings />
+          </PanelButtonIcon>
+        </PanelButton>
       </ChatMainPanelActions>
     </ChatMainPanelHeader>
   );

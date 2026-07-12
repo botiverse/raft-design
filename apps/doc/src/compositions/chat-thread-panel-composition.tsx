@@ -1,7 +1,13 @@
-import type { ReactNode } from "react";
-import { ChevronDown, ChevronUp, Search, X } from "lucide-react";
-import { Avatar, useThemeFamily } from "raft-ui";
-import { tv } from "tailwind-variants/lite";
+import { ChevronDown, ChevronUp, MessageSquare, Search, X } from "lucide-react";
+import {
+  Avatar,
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  Spinner,
+} from "raft-ui";
 import {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
@@ -12,6 +18,7 @@ import {
   ChatThreadPanelRoot,
   ChatThreadPanelSearch,
   ChatThreadPanelSearchCount,
+  ChatThreadPanelSearchIcon,
   ChatThreadPanelSearchInput,
   ChatThreadPanelTitle,
   MessageItem,
@@ -19,70 +26,144 @@ import {
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
+  MessageItemSearchMatch,
   MessageItemSender,
   MessageItemTime,
   MessageTimelineDateDivider,
   MessageTimelineNotice,
-  PanelIconButton,
+  PanelButton,
+  PanelButtonIcon,
 } from "raft-ui/wip";
 
-const threadReplyCard = tv({
-  base: ["border-2 p-3 text-sm shadow-xs"],
-  variants: {
-    theme: {
-      brutal: "border-line-strong",
-      elegant: "rounded-md border-line-subtle",
-    },
-    tone: {
-      default: "bg-layer-panel",
-      highlighted: "bg-primary-400/25",
-    },
-  },
-  defaultVariants: {
-    tone: "default",
-  },
-});
+type ChatThreadPanelState = "default" | "empty" | "loading";
 
-function ThreadReplyCard({ children, tone }: { children: ReactNode; tone?: "highlighted" }) {
-  const theme = useThemeFamily();
+interface ChatThreadPanelCompositionProps {
+  state?: ChatThreadPanelState;
+  search?: boolean;
+}
 
+function ThreadSearchRow() {
   return (
-    <div data-slot="thread-reply-card" className={threadReplyCard({ theme, tone })}>
-      {children}
+    <ChatThreadPanelSearch>
+      <ChatThreadPanelSearchIcon render={<Search />} />
+      <ChatThreadPanelSearchInput
+        aria-label="Search in thread"
+        placeholder="Search in thread"
+        readOnly
+        value="chrome"
+      />
+      <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
+      <PanelButton aria-label="Previous match">
+        <PanelButtonIcon>
+          <ChevronUp />
+        </PanelButtonIcon>
+      </PanelButton>
+      <PanelButton aria-label="Next match">
+        <PanelButtonIcon>
+          <ChevronDown />
+        </PanelButtonIcon>
+      </PanelButton>
+      <PanelButton aria-label="Close thread search">
+        <PanelButtonIcon>
+          <X />
+        </PanelButtonIcon>
+      </PanelButton>
+    </ChatThreadPanelSearch>
+  );
+}
+
+function ThreadReplies() {
+  return (
+    <>
+      <div className="px-3 pt-2">
+        <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
+        <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
+      </div>
+      <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
+      <div className="px-3">
+        <MessageItem>
+          <MessageItemAvatarSlot>
+            <Avatar size="md" type="human" />
+          </MessageItemAvatarSlot>
+          <MessageItemContent>
+            <MessageItemHeader>
+              <MessageItemSender>Cindy</MessageItemSender>
+              <MessageItemTime>10:09</MessageItemTime>
+            </MessageItemHeader>
+            <MessageItemBody>
+              SideThreadColumn owns persisted width and desktop resize chrome.
+            </MessageItemBody>
+          </MessageItemContent>
+        </MessageItem>
+      </div>
+      <div className="px-3">
+        <MessageItemSearchMatch>
+          <MessageItemAvatarSlot>
+            <Avatar size="md" type="agent" />
+          </MessageItemAvatarSlot>
+          <MessageItemContent>
+            <MessageItemHeader>
+              <MessageItemSender>Atlas</MessageItemSender>
+              <MessageItemTime>10:11</MessageItemTime>
+            </MessageItemHeader>
+            <MessageItemBody>
+              ThreadPanel now owns the right-panel header, body, action, and footer chrome.
+            </MessageItemBody>
+          </MessageItemContent>
+        </MessageItemSearchMatch>
+      </div>
+      <div className="h-6" aria-hidden />
+    </>
+  );
+}
+
+function ThreadEmpty() {
+  return (
+    <div className="flex min-h-[240px] flex-col items-center justify-center px-6 py-10">
+      <EmptyState>
+        <EmptyStateContent>
+          <EmptyStateIcon>
+            <MessageSquare />
+          </EmptyStateIcon>
+          <EmptyStateTitle>No replies yet</EmptyStateTitle>
+          <EmptyStateDescription>
+            Start the conversation by replying in this thread.
+          </EmptyStateDescription>
+        </EmptyStateContent>
+      </EmptyState>
     </div>
   );
 }
 
-export function ChatThreadPanelComposition() {
+function ThreadLoading() {
+  return (
+    <div
+      role="status"
+      className="flex min-h-[240px] flex-col items-center justify-center gap-3 px-6 py-10"
+    >
+      <Spinner />
+      <span className="font-mono text-xs text-foreground-muted">Loading replies…</span>
+    </div>
+  );
+}
+
+export function ChatThreadPanelComposition({
+  state = "default",
+  search = state === "default",
+}: ChatThreadPanelCompositionProps = {}) {
   return (
     <ChatThreadPanelRoot>
       <ChatThreadPanelHeader>
         <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
         <ChatThreadPanelActions>
-          <PanelIconButton aria-label="Close thread">
-            <X />
-          </PanelIconButton>
+          <PanelButton aria-label="Close thread">
+            <PanelButtonIcon>
+              <X />
+            </PanelButtonIcon>
+          </PanelButton>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
-      <ChatThreadPanelSearch>
-        <Search className="size-3.5" />
-        <ChatThreadPanelSearchInput
-          aria-label="Search in thread"
-          placeholder="Search in thread"
-          readOnly
-          value="chrome"
-        />
-        <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
-        <PanelIconButton aria-label="Previous match">
-          <ChevronUp />
-        </PanelIconButton>
-        <PanelIconButton aria-label="Next match">
-          <ChevronDown />
-        </PanelIconButton>
-        <PanelIconButton aria-label="Close thread search">
-          <X />
-        </PanelIconButton>
-      </ChatThreadPanelSearch>
+      {search ? <ThreadSearchRow /> : null}
       <ChatThreadPanelParent>
         <MessageItem>
           <MessageItemAvatarSlot>
@@ -98,25 +179,13 @@ export function ChatThreadPanelComposition() {
         </MessageItem>
       </ChatThreadPanelParent>
       <ChatThreadPanelBody>
-        <div className="px-3 pt-2">
-          <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
-          <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
-        </div>
-        <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
-        <div className="space-y-3 px-3 pb-3">
-          <ThreadReplyCard>
-            <div className="mb-1 font-mono text-[11px] font-bold text-foreground-muted">Cindy</div>
-            <div className="leading-relaxed text-foreground-strong">
-              SideThreadColumn owns persisted width and desktop resize chrome.
-            </div>
-          </ThreadReplyCard>
-          <ThreadReplyCard tone="highlighted">
-            <div className="mb-1 font-mono text-[11px] font-bold text-foreground-muted">Atlas</div>
-            <div className="leading-relaxed text-foreground-strong">
-              ThreadPanel now owns the right-panel header, body, action, and footer chrome.
-            </div>
-          </ThreadReplyCard>
-        </div>
+        {state === "empty" ? (
+          <ThreadEmpty />
+        ) : state === "loading" ? (
+          <ThreadLoading />
+        ) : (
+          <ThreadReplies />
+        )}
       </ChatThreadPanelBody>
       <ChatThreadPanelFooter>Reply composer slot</ChatThreadPanelFooter>
     </ChatThreadPanelRoot>
