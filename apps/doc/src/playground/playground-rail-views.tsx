@@ -3,17 +3,26 @@ import {
   Activity,
   AtSign,
   Bell,
+  Bookmark,
   Bot,
+  Building2,
+  ChevronLeft,
   CircleUserRound,
+  CreditCard,
+  FileText,
+  Info,
+  Languages,
+  Link as LinkIcon,
   Monitor,
   Palette,
   Search,
   Server,
   Settings,
+  Shield,
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Button,
   EmptyState,
@@ -35,6 +44,8 @@ import {
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
+  PanelButton,
+  PanelButtonIcon,
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarHeader,
@@ -62,6 +73,7 @@ type RailDetail = {
   id: string;
   label: string;
   description: string;
+  group?: "Personal" | "Workspace" | "About";
   meta?: string;
   icon: LucideIcon;
 };
@@ -117,19 +129,78 @@ const auxiliaryViewDetails: Record<AuxiliaryRailView, readonly RailDetail[]> = {
       id: "account",
       label: "Account",
       description: "Review the current mock profile and account preferences.",
+      group: "Personal",
       icon: CircleUserRound,
+    },
+    {
+      id: "language-region",
+      label: "Language & Region",
+      description: "Choose language, locale, and regional formatting preferences.",
+      group: "Personal",
+      icon: Languages,
     },
     {
       id: "appearance",
       label: "Appearance",
       description: "Theme controls remain available in the Playground toolbar.",
+      group: "Personal",
       icon: Palette,
     },
     {
       id: "notifications",
       label: "Notifications",
       description: "Review notification policy and delivery preferences.",
+      group: "Personal",
       icon: Bell,
+    },
+    {
+      id: "server-profile",
+      label: "Server Profile",
+      description: "Review the server name, icon, and profile information.",
+      group: "Workspace",
+      icon: Building2,
+    },
+    {
+      id: "plan-billing",
+      label: "Plan & Billing",
+      description: "Review the current plan and workspace billing details.",
+      group: "Workspace",
+      icon: CreditCard,
+    },
+    {
+      id: "administration",
+      label: "Administration",
+      description: "Manage workspace policies and administrative access.",
+      group: "Workspace",
+      icon: Shield,
+    },
+    {
+      id: "connected-apps",
+      label: "Connected Apps",
+      description: "Review apps and integrations connected to this workspace.",
+      group: "Workspace",
+      icon: LinkIcon,
+    },
+    {
+      id: "computers",
+      label: "Computers",
+      description: "Review managed computers and daemon status.",
+      group: "Workspace",
+      icon: Monitor,
+    },
+    {
+      id: "about",
+      label: "About",
+      description: "Review product and environment information.",
+      group: "About",
+      icon: Info,
+    },
+    {
+      id: "release-notes",
+      label: "Release Notes",
+      description: "Review recent product changes and migration notes.",
+      group: "About",
+      icon: FileText,
     },
   ],
 };
@@ -138,6 +209,7 @@ const viewMeta: Record<PlaygroundRailView, { title: string; icon: LucideIcon }> 
   search: { title: "Search", icon: Search },
   chat: { title: "Chat", icon: AtSign },
   activity: { title: "Activity", icon: Activity },
+  saved: { title: "Saved", icon: Bookmark },
   tasks: { title: "Tasks", icon: Activity },
   members: { title: "Members", icon: Users },
   computers: { title: "Computers", icon: Monitor },
@@ -149,29 +221,39 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
   const details = auxiliaryViewDetails[view];
   const selectedId = details.some((detail) => detail.id === railDetailId)
     ? railDetailId
-    : details[0]?.id;
+    : undefined;
 
   return (
     <ChatSidebarRoot>
-      <ChatSidebarHeader>
+      <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden">
         <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
       </ChatSidebarHeader>
-      <ChatSidebarBody>
+      <ChatSidebarHeader className="max-md:hidden">
+        <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
+      </ChatSidebarHeader>
+      <ChatSidebarBody className="max-md:bg-white">
         <ChatSidebarContent>
-          {details.map((detail) => {
+          {details.map((detail, index) => {
             const DetailIcon = detail.icon;
+            const previousGroup = details[index - 1]?.group;
             return (
-              <ChatSidebarItem
-                key={detail.id}
-                aria-current={selectedId === detail.id ? "page" : undefined}
-                onClick={() => selectRailDetail(detail.id)}
-              >
-                <ChatSidebarItemIcon aria-hidden>
-                  <DetailIcon className="size-3.5" />
-                </ChatSidebarItemIcon>
-                <ChatSidebarItemTitle>{detail.label}</ChatSidebarItemTitle>
-                {detail.meta ? <ChatSidebarItemMeta>{detail.meta}</ChatSidebarItemMeta> : null}
-              </ChatSidebarItem>
+              <Fragment key={detail.id}>
+                {detail.group && detail.group !== previousGroup ? (
+                  <div className="px-2 pt-1 pb-2 font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted">
+                    {detail.group}
+                  </div>
+                ) : null}
+                <ChatSidebarItem
+                  aria-current={selectedId === detail.id ? "page" : undefined}
+                  onClick={() => selectRailDetail(detail.id)}
+                >
+                  <ChatSidebarItemIcon aria-hidden>
+                    <DetailIcon className="size-3.5" />
+                  </ChatSidebarItemIcon>
+                  <ChatSidebarItemTitle>{detail.label}</ChatSidebarItemTitle>
+                  {detail.meta ? <ChatSidebarItemMeta>{detail.meta}</ChatSidebarItemMeta> : null}
+                </ChatSidebarItem>
+              </Fragment>
             );
           })}
         </ChatSidebarContent>
@@ -186,10 +268,30 @@ export function PlaygroundRailViewPanel({
   view: Exclude<PlaygroundRailView, "chat" | "tasks">;
 }) {
   const ViewIcon = viewMeta[view].icon;
+  const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
+  const auxiliaryDetail =
+    (view === "members" || view === "computers" || view === "settings") &&
+    railDetailId !== undefined;
+  const mobileBack =
+    view === "search" || view === "activity" || view === "saved" || auxiliaryDetail;
 
   return (
     <ChatMainPanelRoot>
       <ChatMainPanelHeader>
+        {mobileBack ? (
+          <PanelButton
+            className="md:hidden"
+            aria-label={auxiliaryDetail ? `Back to ${viewMeta[view].title}` : "Back to Home"}
+            onClick={() => {
+              if (auxiliaryDetail) selectRailDetail(undefined);
+              else selectRailView("chat");
+            }}
+          >
+            <PanelButtonIcon>
+              <ChevronLeft aria-hidden />
+            </PanelButtonIcon>
+          </PanelButton>
+        ) : null}
         <ChatMainPanelHeaderIcon>
           <ViewIcon className="size-[18px]" />
         </ChatMainPanelHeaderIcon>
@@ -203,6 +305,8 @@ export function PlaygroundRailViewPanel({
           <PlaygroundSearchView />
         ) : view === "activity" ? (
           <PlaygroundActivityView />
+        ) : view === "saved" ? (
+          <PlaygroundSavedView />
         ) : (
           <PlaygroundDetailView view={view} />
         )}
@@ -211,9 +315,26 @@ export function PlaygroundRailViewPanel({
   );
 }
 
+function PlaygroundSavedView() {
+  return (
+    <ChatMainPanelBody>
+      <EmptyState className="min-h-full">
+        <EmptyStateContent>
+          <EmptyStateIcon>
+            <Bookmark />
+          </EmptyStateIcon>
+          <EmptyStateTitle>Saved messages</EmptyStateTitle>
+          <EmptyStateDescription>
+            Messages saved in this Playground will appear here.
+          </EmptyStateDescription>
+        </EmptyStateContent>
+      </EmptyState>
+    </ChatMainPanelBody>
+  );
+}
+
 function PlaygroundSearchView() {
   const [query, setQuery] = useState("");
-  const { selectRailView } = usePlaygroundNavigation();
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const results = [
     ...PLAYGROUND_JOINT_CHANNELS,
@@ -239,7 +360,6 @@ function PlaygroundSearchView() {
               render={
                 <Link to="/playground/$channelId" params={{ channelId: channel.id }} search={{}} />
               }
-              onClick={() => selectRailView("chat")}
             >
               {channel.kind === "dm" ? "@" : "#"}
               {channel.name}

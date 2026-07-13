@@ -29,7 +29,7 @@ export function PlaygroundToolbar({
     <ThemeProvider theme="elegant" mode="light" syncDom={false}>
       <div
         data-theme="elegant"
-        className="light fixed top-0 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md"
+        className="light fixed top-[env(safe-area-inset-top,0px)] left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md md:top-0"
         style={{ colorScheme: "light" }}
       >
         <fieldset aria-label="Playground theme" className="inline-flex items-center gap-0.5">

@@ -1,6 +1,7 @@
 import {
   Bell,
   BellOff,
+  ChevronLeft,
   GitBranch,
   Hash,
   Lock,
@@ -9,6 +10,7 @@ import {
   Square,
   Users,
 } from "lucide-react";
+import { Link, useMatch } from "@tanstack/react-router";
 import {
   Avatar,
   AvatarFallback,
@@ -44,12 +46,31 @@ import {
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
+function MobileBackButton() {
+  const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
+  if (!channelMatch) return null;
+
+  return (
+    <PanelButton
+      render={<Link to="/playground" search={{}} />}
+      nativeButton={false}
+      className="size-10 md:hidden"
+      aria-label="Back to conversations"
+    >
+      <PanelButtonIcon>
+        <ChevronLeft aria-hidden />
+      </PanelButtonIcon>
+    </PanelButton>
+  );
+}
+
 function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
     <ChatMainPanelHeader>
+      <MobileBackButton />
       <ChatMainPanelHeaderIcon>
         <Icon />
       </ChatMainPanelHeaderIcon>
@@ -133,6 +154,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
 
   return (
     <ChatMainPanelHeader>
+      <MobileBackButton />
       <Avatar size="md" type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
         <AvatarFallback>{actor.fallback}</AvatarFallback>

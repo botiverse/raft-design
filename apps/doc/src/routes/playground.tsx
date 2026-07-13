@@ -1,4 +1,11 @@
-import { Outlet, createFileRoute, getRouteApi } from "@tanstack/react-router";
+import {
+  Outlet,
+  createFileRoute,
+  useMatch,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
+import { useCallback } from "react";
 import { useThemeFamily } from "raft-ui";
 import {
   AppPanelStackContent,
@@ -36,9 +43,12 @@ import {
 import { PlaygroundSidebar } from "#/playground/playground-sidebar.tsx";
 import {
   PlaygroundNavigationProvider,
+  type PlaygroundRailView,
   usePlaygroundNavigation,
 } from "#/playground/playground-navigation-state.tsx";
 import { PlaygroundThreadPanel } from "#/playground/playground-thread-panel.tsx";
+import { PlaygroundTasksPanel } from "#/playground/playground-tasks-panel.tsx";
+import { PlaygroundShellStateProvider } from "#/playground/playground-shell-state.tsx";
 import {
   PlaygroundTaskStateProvider,
   usePlaygroundTaskState,
@@ -46,41 +56,82 @@ import {
 import { PlaygroundToolbar } from "#/playground/playground-toolbar.tsx";
 
 type PlaygroundSearch = {
+  detail?: string;
+  from?: "tasks";
   thread?: PlaygroundThreadId;
 };
 
 export const Route = createFileRoute("/playground")({
   staticData: { standalone: true },
   // The layout owns thread-panel rendering; child routes inherit `thread`.
-  validateSearch: (search): PlaygroundSearch =>
-    typeof search.thread === "string" && isPlaygroundThreadId(search.thread)
-      ? { thread: search.thread }
-      : {},
+  validateSearch: (search): PlaygroundSearch => {
+    const thread =
+      typeof search.thread === "string" && isPlaygroundThreadId(search.thread)
+        ? search.thread
+        : undefined;
+    return {
+      ...(typeof search.detail === "string" && search.detail.length > 0
+        ? { detail: search.detail }
+        : {}),
+      ...(thread ? { thread } : {}),
+      ...(thread && search.from === "tasks" ? { from: "tasks" as const } : {}),
+    };
+  },
   component: PlaygroundLayout,
 });
 
-// The index route redirects to `$channelId`, so that leaf is always the active
-// match under this layout — read its typed params directly.
-const channelRouteApi = getRouteApi("/playground/$channelId");
-
 function PlaygroundLayout() {
   const { theme, mode, setTheme } = usePreviewTheme();
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
 
-  const { channelId } = channelRouteApi.useParams();
-  const { thread } = Route.useSearch();
+  const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
+  const { detail, from, thread } = Route.useSearch();
+  const railView = getRailView(pathname);
+  const selectRailView = useCallback(
+    (view: PlaygroundRailView) => {
+      void navigate({ to: playgroundRailPaths[view], search: {} });
+    },
+    [navigate],
+  );
+  const selectRailDetail = useCallback(
+    (id?: string) => {
+      void navigate({
+        to: ".",
+        search: (current) => ({
+          ...current,
+          detail: id,
+        }),
+      });
+    },
+    [navigate],
+  );
 
-  const activeChannelId: PlaygroundChannelId = isPlaygroundChannelId(channelId)
-    ? channelId
-    : DEFAULT_CHANNEL_ID;
+  const channelId = channelMatch?.params.channelId;
+  const activeChannelId: PlaygroundChannelId =
+    channelId !== undefined && isPlaygroundChannelId(channelId) ? channelId : DEFAULT_CHANNEL_ID;
   const activeChannel = getPlaygroundChannel(activeChannelId);
+  const isRootRoute = channelMatch === undefined;
 
   return (
     <div className="h-dvh">
       <PreviewThemeScope className="h-full">
-        <PlaygroundNavigationProvider>
-          <PlaygroundTaskStateProvider>
-            <PlaygroundWorkspace activeChannel={activeChannel} threadId={thread} />
-          </PlaygroundTaskStateProvider>
+        <PlaygroundNavigationProvider
+          railView={railView}
+          railDetailId={detail}
+          onRailViewChange={selectRailView}
+          onRailDetailChange={selectRailDetail}
+        >
+          <PlaygroundShellStateProvider>
+            <PlaygroundTaskStateProvider>
+              <PlaygroundWorkspace
+                activeChannel={activeChannel}
+                isRootRoute={isRootRoute}
+                threadSource={from}
+                threadId={isRootRoute ? undefined : thread}
+              />
+            </PlaygroundTaskStateProvider>
+          </PlaygroundShellStateProvider>
         </PlaygroundNavigationProvider>
       </PreviewThemeScope>
       <PlaygroundToolbar theme={theme} mode={mode} onThemeChange={setTheme} />
@@ -90,14 +141,18 @@ function PlaygroundLayout() {
 
 function PlaygroundWorkspace({
   activeChannel,
+  isRootRoute,
+  threadSource,
   threadId,
 }: {
   activeChannel: PlaygroundChannelRecord;
+  isRootRoute: boolean;
+  threadSource?: "tasks";
   threadId?: PlaygroundThreadId;
 }) {
   const { tasks } = usePlaygroundTaskState();
   const theme = useThemeFamily();
-  const { railView } = usePlaygroundNavigation();
+  const { railDetailId, railView } = usePlaygroundNavigation();
   const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const task = threadId ? tasks.find((item) => item.id === threadId) : undefined;
   const activeThread =
@@ -121,17 +176,44 @@ function PlaygroundWorkspace({
   const standaloneView =
     railView === "search" ||
     railView === "activity" ||
+    railView === "saved" ||
     railView === "members" ||
     railView === "computers" ||
     railView === "settings"
       ? railView
       : null;
+  const auxiliaryDetailVisible = auxiliaryView !== null && railDetailId !== undefined;
+  const showSidebar = conversationView || auxiliaryView !== null;
+  const showMain =
+    (!isRootRoute && conversationView) ||
+    railView === "tasks" ||
+    railView === "search" ||
+    railView === "activity" ||
+    railView === "saved" ||
+    auxiliaryDetailVisible;
+  const mobileTabRoot =
+    isRootRoute &&
+    !auxiliaryDetailVisible &&
+    (railView === "chat" ||
+      railView === "tasks" ||
+      railView === "members" ||
+      railView === "settings");
 
   return (
-    <AppShellRoot className="h-full">
-      <PlaygroundRail />
-      <ResizableGroup orientation="horizontal" className="min-w-0 flex-1">
-        {railView === "search" || railView === "activity" ? null : (
+    <AppShellRoot
+      className={[
+        "h-full max-md:flex-col max-md:pt-[env(safe-area-inset-top,0px)]",
+        mobileTabRoot
+          ? "max-md:[[data-theme=brutal]_&]:bg-soft-signal"
+          : "max-md:[[data-theme=brutal]_&]:bg-white",
+      ].join(" ")}
+    >
+      <PlaygroundRail showBottomNavigation={mobileTabRoot} />
+      <ResizableGroup
+        orientation="horizontal"
+        className="h-auto min-w-0 flex-1 md:h-full max-md:[&>[data-slot=resizable-panel]]:!hidden max-md:[&>[data-slot=resizable-panel]:last-child]:!flex max-md:[&>[data-slot=resizable-panel]:last-child]:!basis-0 max-md:[&>[data-slot=resizable-panel]:last-child]:!grow"
+      >
+        {showSidebar ? (
           <>
             <ResizablePanel
               key={theme}
@@ -146,7 +228,7 @@ function PlaygroundWorkspace({
                   : "has-[>[data-slot=app-shell-sidebar]]:bg-layer-page"
               }
             >
-              <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink">
+              <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink max-md:flex">
                 {conversationView ? (
                   <PlaygroundSidebar
                     activeChannelId={activeChannel.id}
@@ -158,14 +240,22 @@ function PlaygroundWorkspace({
                 ) : null}
               </AppShellSidebar>
             </ResizablePanel>
-            <ResizableHandle className="hidden md:flex" />
+            {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
           </>
-        )}
-        <ResizablePanel id="playground-main" minSize={360} className="min-w-0">
-          <AppShellMain className="flex h-full">
-            {standaloneView ? <PlaygroundRailViewPanel view={standaloneView} /> : <Outlet />}
-          </AppShellMain>
-        </ResizablePanel>
+        ) : null}
+        {showMain ? (
+          <ResizablePanel id="playground-main" minSize={360} className="min-w-0">
+            <AppShellMain className="flex h-full">
+              {isRootRoute && railView === "tasks" ? (
+                <PlaygroundTasksPanel />
+              ) : standaloneView ? (
+                <PlaygroundRailViewPanel view={standaloneView} />
+              ) : (
+                <Outlet />
+              )}
+            </AppShellMain>
+          </ResizablePanel>
+        ) : null}
         {conversationView && activeThread ? (
           <>
             <ResizableHandle className="hidden md:flex" />
@@ -177,12 +267,13 @@ function PlaygroundWorkspace({
               groupResizeBehavior="preserve-pixel-size"
               className="min-w-0"
             >
-              <AppShellPanelStack className="h-full w-full">
+              <AppShellPanelStack className="h-full w-full max-md:flex">
                 <AppPanelStackRoot className="w-full">
                   <AppPanelStackItem className="w-full">
                     <AppPanelStackContent>
                       <PlaygroundThreadPanel
                         key={activeThread.parent.id}
+                        backToTasks={threadSource === "tasks"}
                         channel={activeChannel}
                         thread={activeThread}
                       />
@@ -196,6 +287,22 @@ function PlaygroundWorkspace({
       </ResizableGroup>
     </AppShellRoot>
   );
+}
+
+const playgroundRailPaths = {
+  search: "/playground/search",
+  chat: "/playground",
+  activity: "/playground/activity",
+  saved: "/playground/saved",
+  tasks: "/playground/tasks",
+  members: "/playground/members",
+  computers: "/playground/computers",
+  settings: "/playground/settings",
+} as const satisfies Record<PlaygroundRailView, string>;
+
+function getRailView(pathname: string): PlaygroundRailView {
+  const segment = pathname.split("/").filter(Boolean)[1];
+  return segment && segment in playgroundRailPaths ? (segment as PlaygroundRailView) : "chat";
 }
 
 function getTaskThread(task: PlaygroundTask): PlaygroundThread {

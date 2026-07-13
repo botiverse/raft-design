@@ -50,6 +50,9 @@ const SNIPPETS = {
           <TooltipContent />
         </Tooltip>
       </AppRailFooter>
+      <AppRailNav>
+        {/* App-owned mobile destinations */}
+      </AppRailNav>
     </TooltipProvider>
   </AppRailRoot>
 </AppShellRail>`,
@@ -60,7 +63,7 @@ const PROPS: readonly PropRow[] = [
     name: "AppShellRail",
     type: "aside props",
     description:
-      "Desktop rail column. Hidden by default below md to match source mobile ownership.",
+      "Responsive navigation region: a desktop rail column and a mobile bottom-navigation row.",
   },
   {
     name: "AppRailRoot",
@@ -71,7 +74,7 @@ const PROPS: readonly PropRow[] = [
     name: "AppRailHeader / Nav / Footer",
     type: "div / nav props",
     description:
-      "Source-faithful vertical regions for server switcher, rail actions, and settings.",
+      "Composable regions. Apps may render separate desktop and mobile Nav compositions inside one controlled Root.",
   },
   {
     name: "AppRailItem*",

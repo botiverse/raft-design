@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import {
+  Activity,
   Archive,
   AtSign,
   Bell,
   BellOff,
   Bookmark,
+  ChevronDown,
   CircleAlert,
   GitBranch,
   Hash,
@@ -121,6 +123,9 @@ import {
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
+import { usePlaygroundNavigation } from "./playground-navigation-state.tsx";
+import { PlaygroundNotificationCenter } from "./playground-rail.tsx";
+import { PLAYGROUND_SERVERS, usePlaygroundShellState } from "./playground-shell-state.tsx";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
 type SidebarRowMenu = {
@@ -335,7 +340,6 @@ function PlaygroundSidebarItem({
   onCloseDm,
   render,
   unread,
-  onSelect,
 }: {
   children: ReactNode;
   current: boolean;
@@ -344,7 +348,6 @@ function PlaygroundSidebarItem({
   onCloseDm?: () => void;
   render: ReactElement;
   unread?: boolean;
-  onSelect?: () => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuState, setMenuState] = useState(() => ({
@@ -368,7 +371,6 @@ function PlaygroundSidebarItem({
             aria-current={current ? "page" : undefined}
             aria-expanded={menuOpen || undefined}
             render={render}
-            onClick={onSelect}
           >
             {children}
             <span className="sr-only" aria-live="polite">
@@ -437,13 +439,11 @@ function PinnedSection({
   activeChannelId,
   onArchive,
   onCloseDm,
-  onSelect,
   rows,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
   onCloseDm: (row: PlaygroundDirectMessage) => void;
-  onSelect: () => void;
   rows: readonly PlaygroundChannelRecord[];
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
@@ -476,7 +476,6 @@ function PinnedSection({
               onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -489,10 +488,8 @@ function PinnedSection({
 
 function JointChannelsSection({
   activeChannelId,
-  onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
-  onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedJointChannels);
   const hasUnread = ordered.some(
@@ -536,7 +533,6 @@ function JointChannelsSection({
               menu={getSidebarRowMenu(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -550,11 +546,9 @@ function JointChannelsSection({
 function ChannelsSection({
   activeChannelId,
   onArchive,
-  onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
-  onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
   const hasUnread = ordered.some(
@@ -599,7 +593,6 @@ function ChannelsSection({
               onArchive={() => onArchive(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -613,12 +606,10 @@ function ChannelsSection({
 function DirectMessagesSection({
   activeChannelId,
   onCloseDm,
-  onSelect,
   rows,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onCloseDm: (row: PlaygroundDirectMessage) => void;
-  onSelect: () => void;
   rows: readonly PlaygroundDmRecord[];
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
@@ -649,7 +640,6 @@ function DirectMessagesSection({
               onCloseDm={() => onCloseDm(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -840,8 +830,9 @@ export function PlaygroundSidebar({
   const [dialog, setDialog] = useState<ActiveDialog>(null);
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
-  const [savedSelected, setSavedSelected] = useState(false);
-  const selectedChannelId = savedSelected ? null : activeChannelId;
+  const { railView, selectRailView } = usePlaygroundNavigation();
+  const { activeServer, selectServer } = usePlaygroundShellState();
+  const selectedChannelId = activeChannelId;
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
     [closedDmIds],
@@ -857,7 +848,31 @@ export function PlaygroundSidebar({
   return (
     <>
       <ChatSidebarRoot>
-        <ChatSidebarHeader>
+        <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <button
+                  type="button"
+                  className="relative inline-flex shrink-0 -rotate-2 items-center gap-1.5 border-2 border-foreground-strong bg-foreground-strong px-3 py-1 font-sans text-base font-bold text-primary-400 shadow-sm transition-shadow hover:shadow-md"
+                />
+              }
+            >
+              <span className="max-w-[200px] truncate">{activeServer.name}</span>
+              <ChevronDown className="size-4 shrink-0 rotate-2" aria-hidden />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="min-w-48">
+              {PLAYGROUND_SERVERS.map((server) => (
+                <DropdownMenuItem key={server.id} onClick={() => selectServer(server.id)}>
+                  {server.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <div className="min-w-0 flex-1" />
+          <PlaygroundNotificationCenter mobile />
+        </ChatSidebarHeader>
+        <ChatSidebarHeader className="max-md:hidden">
           <div className="min-w-0 flex-1">
             <ChatSidebarHeaderTitle className="leading-tight tabular-nums">
               {title}
@@ -865,13 +880,27 @@ export function PlaygroundSidebar({
           </div>
           <SidebarCreateMenu disabled />
         </ChatSidebarHeader>
-        <ChatSidebarBody>
+        <ChatSidebarBody className="max-md:bg-white">
           <ChatSidebarContent>
             <div className="min-h-full">
+              <ChatSidebarItem className="md:hidden" onClick={() => selectRailView("search")}>
+                <ChatSidebarItemIcon aria-hidden>
+                  <Search className="size-3.5" />
+                </ChatSidebarItemIcon>
+                <ChatSidebarItemTitle>Search</ChatSidebarItemTitle>
+              </ChatSidebarItem>
+
+              <ChatSidebarItem className="md:hidden" onClick={() => selectRailView("activity")}>
+                <ChatSidebarItemIcon aria-hidden>
+                  <Activity className="size-3.5" />
+                </ChatSidebarItemIcon>
+                <ChatSidebarItemTitle>Activity</ChatSidebarItemTitle>
+              </ChatSidebarItem>
+
               <ChatSidebarItem
-                aria-current={savedSelected ? "page" : undefined}
+                aria-current={railView === "saved" ? "page" : undefined}
                 data-playground-saved="true"
-                onClick={() => setSavedSelected(true)}
+                onClick={() => selectRailView("saved")}
               >
                 <ChatSidebarItemIcon aria-hidden>
                   <Bookmark className="size-3.5" />
@@ -884,22 +913,16 @@ export function PlaygroundSidebar({
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
                 onCloseDm={closeDirectMessage}
-                onSelect={() => setSavedSelected(false)}
                 rows={visiblePinnedChannels}
               />
-              <JointChannelsSection
-                activeChannelId={selectedChannelId}
-                onSelect={() => setSavedSelected(false)}
-              />
+              <JointChannelsSection activeChannelId={selectedChannelId} />
               <ChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
-                onSelect={() => setSavedSelected(false)}
               />
               <DirectMessagesSection
                 activeChannelId={selectedChannelId}
                 onCloseDm={closeDirectMessage}
-                onSelect={() => setSavedSelected(false)}
                 rows={visibleDirectMessages}
               />
             </div>
