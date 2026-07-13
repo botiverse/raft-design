@@ -1,3 +1,4 @@
+import { ArrowDownAZ, Clock, GripVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuPopup,
@@ -14,9 +15,18 @@ import { cn } from "raft-ui/cn";
 function SidebarSortMenuItems() {
   return (
     <DropdownMenuRadioGroup defaultValue="manual">
-      <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="manual">
+        <GripVertical />
+        <span className="min-w-0 flex-1 text-left">Manual</span>
+      </DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">
+        <Clock />
+        <span className="min-w-0 flex-1 text-left">Recent</span>
+      </DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="az">
+        <ArrowDownAZ />
+        <span className="min-w-0 flex-1 text-left">A-Z</span>
+      </DropdownMenuRadioItem>
     </DropdownMenuRadioGroup>
   );
 }
@@ -24,7 +34,7 @@ function SidebarSortMenuItems() {
 /** Inline popup shell for SourceComparison (always-open preview). */
 export function SidebarSortMenuContent() {
   return (
-    <DropdownMenuPopup className="flex w-[136px] min-w-[136px] flex-col">
+    <DropdownMenuPopup className="flex w-[160px] min-w-[160px] flex-col">
       <SidebarSortMenuItems />
     </DropdownMenuPopup>
   );

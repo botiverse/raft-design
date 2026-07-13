@@ -1,4 +1,12 @@
-import { ArrowUpDown, EllipsisVertical, GitBranch, Plus } from "lucide-react";
+import {
+  ArrowDownAZ,
+  ArrowUpDown,
+  Clock,
+  EllipsisVertical,
+  GitBranch,
+  GripVertical,
+  Plus,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import {
   ContextMenu,
@@ -18,7 +26,7 @@ import {
 } from "raft-ui";
 import { ChatSidebarAction, ChatSidebarSectionHeader } from "raft-ui/wip";
 
-const SORT_MENU_CLASS = "flex w-[136px] min-w-[136px] flex-col";
+const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
 const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";
 
 function ChannelsMenuFooter({ count, label }: { count: number; label: string }) {
@@ -33,9 +41,18 @@ export function SidebarSectionSortDropdownContent() {
   return (
     <DropdownMenuContent align="end" className={SORT_MENU_CLASS}>
       <DropdownMenuRadioGroup defaultValue="manual">
-        <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="manual">
+          <GripVertical />
+          <span className="min-w-0 flex-1 text-left">Manual</span>
+        </DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="recent">
+          <Clock />
+          <span className="min-w-0 flex-1 text-left">Recent</span>
+        </DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="az">
+          <ArrowDownAZ />
+          <span className="min-w-0 flex-1 text-left">A-Z</span>
+        </DropdownMenuRadioItem>
       </DropdownMenuRadioGroup>
     </DropdownMenuContent>
   );
@@ -45,9 +62,18 @@ export function SidebarSectionSortContextContent() {
   return (
     <ContextMenuContent className={SORT_MENU_CLASS}>
       <ContextMenuRadioGroup defaultValue="manual">
-        <ContextMenuRadioItem value="manual">Manual</ContextMenuRadioItem>
-        <ContextMenuRadioItem value="recent">Recent</ContextMenuRadioItem>
-        <ContextMenuRadioItem value="az">A-Z</ContextMenuRadioItem>
+        <ContextMenuRadioItem value="manual">
+          <GripVertical />
+          <span className="min-w-0 flex-1 text-left">Manual</span>
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="recent">
+          <Clock />
+          <span className="min-w-0 flex-1 text-left">Recent</span>
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="az">
+          <ArrowDownAZ />
+          <span className="min-w-0 flex-1 text-left">A-Z</span>
+        </ContextMenuRadioItem>
       </ContextMenuRadioGroup>
     </ContextMenuContent>
   );
@@ -75,9 +101,18 @@ export function SidebarSectionChannelsDropdownContent({
       </DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuRadioGroup defaultValue="manual">
-        <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="manual">
+          <GripVertical />
+          <span className="min-w-0 flex-1 text-left">Manual</span>
+        </DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="recent">
+          <Clock />
+          <span className="min-w-0 flex-1 text-left">Recent</span>
+        </DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="az">
+          <ArrowDownAZ />
+          <span className="min-w-0 flex-1 text-left">A-Z</span>
+        </DropdownMenuRadioItem>
       </DropdownMenuRadioGroup>
       <DropdownMenuSeparator />
       <ChannelsMenuFooter count={count} label={countLabel} />
@@ -107,9 +142,18 @@ export function SidebarSectionChannelsContextContent({
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuRadioGroup defaultValue="manual">
-        <ContextMenuRadioItem value="manual">Manual</ContextMenuRadioItem>
-        <ContextMenuRadioItem value="recent">Recent</ContextMenuRadioItem>
-        <ContextMenuRadioItem value="az">A-Z</ContextMenuRadioItem>
+        <ContextMenuRadioItem value="manual">
+          <GripVertical />
+          <span className="min-w-0 flex-1 text-left">Manual</span>
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="recent">
+          <Clock />
+          <span className="min-w-0 flex-1 text-left">Recent</span>
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="az">
+          <ArrowDownAZ />
+          <span className="min-w-0 flex-1 text-left">A-Z</span>
+        </ContextMenuRadioItem>
       </ContextMenuRadioGroup>
       <ContextMenuSeparator />
       <ChannelsMenuFooter count={count} label={countLabel} />

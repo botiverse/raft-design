@@ -83,8 +83,8 @@ export const chatMainPanel = tv({
         ],
         tabs: [
           "border-b-0 bg-layer-panel",
-          "[&>[data-slot=tabs-list]]:h-11 [&>[data-slot=tabs-list]]:border-b-0",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:h-11 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pt-2.5 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pb-2",
+          "[&>[data-slot=tabs-list]]:border-b-0",
+          "[&_[data-slot=tabs-tab]]:!cursor-pointer [&_[data-slot=tabs-tab][data-dragging-source=true]]:!cursor-grabbing",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
         ],
         body: "bg-[var(--shell-surface-bg,var(--layer-panel))]",

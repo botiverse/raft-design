@@ -896,8 +896,9 @@ export function PlaygroundSidebar({
             </ChatSidebarHeaderTitle>
           </div>
           <SidebarAddMenu
-            onCreateChannel={() => setDialog("create-channel")}
-            onCreateJoint={() => setDialog("create-joint")}
+            // Create dialogs temporarily disconnected — polish later.
+            onCreateChannel={() => {}}
+            onCreateJoint={() => {}}
           />
         </ChatSidebarHeader>
         <ChatSidebarBody>
@@ -924,13 +925,13 @@ export function PlaygroundSidebar({
               />
               <JointChannelsSection
                 activeChannelId={selectedChannelId}
-                onCreateJoint={() => setDialog("create-joint")}
+                onCreateJoint={() => {}}
                 onSelect={() => setSavedSelected(false)}
               />
               <ChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
-                onCreateChannel={() => setDialog("create-channel")}
+                onCreateChannel={() => {}}
                 onSelect={() => setSavedSelected(false)}
               />
               <DirectMessagesSection
