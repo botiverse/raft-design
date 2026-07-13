@@ -175,7 +175,7 @@ export const chatSidebar = tv({
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],
         sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
-        sidebarItemIcon: "size-5 text-foreground-icon [&_svg]:size-4 [&_svg]:stroke-[1.5]",
+        sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:size-3.5 [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[2.25]",
         sidebarItemSubtitle: "text-ink-30",

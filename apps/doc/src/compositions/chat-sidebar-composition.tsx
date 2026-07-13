@@ -150,7 +150,7 @@ export function ChatSidebarComposition() {
                   onClick={() => openDestination("Atlas planning")}
                 >
                   <ChatSidebarItemIcon>
-                    <Avatar size="sidebar" type="agent">
+                    <Avatar size="2xs" type="agent">
                       <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
                     </Avatar>
                   </ChatSidebarItemIcon>
@@ -276,7 +276,7 @@ export function ChatSidebarComposition() {
                   onClick={() => openDestination("Cindy")}
                 >
                   <ChatSidebarItemIcon>
-                    <Avatar size="sidebar" type="human">
+                    <Avatar size="2xs" type="human">
                       <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
                     </Avatar>
                   </ChatSidebarItemIcon>
@@ -295,7 +295,7 @@ export function ChatSidebarComposition() {
                   onClick={() => openDestination("Atlas idle")}
                 >
                   <ChatSidebarItemIcon>
-                    <Avatar size="sidebar" type="agent" />
+                    <Avatar size="2xs" type="agent" />
                   </ChatSidebarItemIcon>
                   <ChatSidebarItemInlineText titleWidth="constrained">
                     <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
