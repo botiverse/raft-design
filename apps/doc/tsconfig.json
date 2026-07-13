@@ -9,6 +9,7 @@
       "@/*": ["./src/*"],
       "raft-ui": ["../../packages/ui/src/index.ts"],
       "raft-ui/cn": ["../../packages/ui/src/lib/cn.ts"],
+      "raft-ui/fonts.css": ["../../packages/ui/src/fonts.css"],
       "raft-ui/styles.css": ["../../packages/ui/src/styles.css"],
       "raft-ui/wip": ["../../packages/ui/src/wip.ts"]
     },
