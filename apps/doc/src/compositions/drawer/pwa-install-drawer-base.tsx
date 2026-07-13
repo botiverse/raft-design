@@ -1,4 +1,6 @@
 import {
+  Banner,
+  BannerDescription,
   Button,
   Drawer,
   DrawerActions,
@@ -10,7 +12,6 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  Text,
   type DrawerContentProps,
   type DrawerProps,
 } from "raft-ui";
@@ -86,14 +87,12 @@ export function PwaInstallDrawerComposition({
               />
             </div>
           ) : (
-            <Text.Sans
-              render={<div />}
-              size="small"
-              className="mt-6 rounded-md border border-line-subtle bg-layer-panel p-4 text-foreground [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:text-black"
-            >
-              iOS only allows Home Screen installation from Safari. Copy this page link, open
-              Safari, then use Share → Add to Home Screen.
-            </Text.Sans>
+            <Banner status="info" className="mt-6 w-full">
+              <BannerDescription>
+                iOS only allows Home Screen installation from Safari. Copy this page link, open
+                Safari, then use Share → Add to Home Screen.
+              </BannerDescription>
+            </Banner>
           )}
         </DrawerBody>
         <DrawerFooter>
@@ -108,10 +107,10 @@ export function PwaInstallDrawerComposition({
               <DrawerClose render={<Button variant="primary" size="lg" />}>Got it</DrawerClose>
             ) : (
               <>
-                <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
                 <Button variant="primary" size="lg" onClick={() => setCopied(true)}>
                   {copied ? "Copied" : "Copy Link"}
                 </Button>
+                <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
               </>
             )}
           </DrawerActions>

@@ -56,13 +56,13 @@ const drawer = tv({
       "data-starting-style:transform-(--closed-transform) data-ending-style:transform-(--closed-transform)",
       "data-ending-style:opacity-[0.9999] data-swiping:duration-0",
       "[--drawer-content-height:var(--drawer-height,auto)] data-[swipe-axis=y]:data-snap-points:[--drawer-content-height:100dvh]",
-      "data-[swipe-direction=down]:right-3 data-[swipe-direction=down]:bottom-[max(0.75rem,env(safe-area-inset-bottom))] data-[swipe-direction=down]:left-3",
+      "data-[swipe-direction=down]:right-3 data-[swipe-direction=down]:bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] data-[swipe-direction=down]:left-3",
       "data-[swipe-direction=down]:mx-auto data-[swipe-direction=down]:mt-24 data-[swipe-direction=down]:min-h-64 data-[swipe-direction=down]:max-h-[82vh] data-[swipe-direction=down]:max-w-lg md:data-[swipe-direction=down]:max-w-md",
-      "data-[swipe-direction=down]:[--closed-transform:translate3d(0,calc(100%+max(0.75rem,env(safe-area-inset-bottom))+2px),0)]",
+      "data-[swipe-direction=down]:[--closed-transform:translate3d(0,calc(100%+max(0.75rem,env(safe-area-inset-bottom,0px))+2px),0)]",
       "data-[swipe-direction=down]:[--translate-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
-      "data-[swipe-direction=up]:top-3 data-[swipe-direction=up]:right-3 data-[swipe-direction=up]:left-3",
+      "data-[swipe-direction=up]:top-[max(0.75rem,env(safe-area-inset-top,0px))] data-[swipe-direction=up]:right-3 data-[swipe-direction=up]:left-3",
       "data-[swipe-direction=up]:mx-auto data-[swipe-direction=up]:mb-24 data-[swipe-direction=up]:max-h-[80vh] data-[swipe-direction=up]:max-w-md",
-      "data-[swipe-direction=up]:[--closed-transform:translate3d(0,calc(-100%-0.75rem-2px),0)]",
+      "data-[swipe-direction=up]:[--closed-transform:translate3d(0,calc(-100%-max(0.75rem,env(safe-area-inset-top,0px))-2px),0)]",
       "data-[swipe-direction=up]:[--translate-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
       "data-[swipe-direction=left]:left-3 data-[swipe-direction=left]:w-3/4 data-[swipe-direction=left]:max-w-sm",
       "data-[swipe-direction=left]:[--closed-transform:translate3d(calc(-100%-0.75rem-2px),0,0)]",
@@ -88,7 +88,7 @@ const drawer = tv({
     ],
     header: [
       "flex flex-col items-center px-6 pt-8 pb-2 text-center",
-      "group-data-[swipe-axis=x]/drawer-popup:items-start group-data-[swipe-axis=x]/drawer-popup:pt-6 group-data-[swipe-axis=x]/drawer-popup:text-left",
+      "group-data-[swipe-axis=x]/drawer-popup:flex-row group-data-[swipe-axis=x]/drawer-popup:items-center group-data-[swipe-axis=x]/drawer-popup:justify-between group-data-[swipe-axis=x]/drawer-popup:gap-3 group-data-[swipe-axis=x]/drawer-popup:pt-6 group-data-[swipe-axis=x]/drawer-popup:text-left",
     ],
     body: [
       "flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center",
@@ -101,7 +101,7 @@ const drawer = tv({
     ],
     title: [
       "max-w-sm text-pretty text-center text-2xl leading-8 text-foreground-strong",
-      "group-data-[swipe-axis=x]/drawer-popup:max-w-none group-data-[swipe-axis=x]/drawer-popup:text-left",
+      "group-data-[swipe-axis=x]/drawer-popup:min-w-0 group-data-[swipe-axis=x]/drawer-popup:max-w-none group-data-[swipe-axis=x]/drawer-popup:flex-1 group-data-[swipe-axis=x]/drawer-popup:text-left",
     ],
     description: [
       "max-w-sm text-pretty text-center text-sm leading-5 text-foreground/60",
@@ -120,8 +120,8 @@ const drawer = tv({
           "data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:right-5",
           "data-[swipe-direction=right]:[--drawer-content-height:calc(100dvh-1.5rem)]",
           "data-[swipe-direction=right]:[--closed-transform:translate3d(calc(100%+1.25rem+2px),0,0)]",
-          "data-[swipe-direction=down]:bottom-[max(1.25rem,env(safe-area-inset-bottom))]",
-          "data-[swipe-direction=down]:[--closed-transform:translate3d(0,calc(100%+max(1.25rem,env(safe-area-inset-bottom))+2px),0)]",
+          "data-[swipe-direction=down]:bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))]",
+          "data-[swipe-direction=down]:[--closed-transform:translate3d(0,calc(100%+max(1.25rem,env(safe-area-inset-bottom,0px))+2px),0)]",
         ],
       },
       elegant: {
@@ -290,12 +290,12 @@ export function DrawerClose({
       render={
         <Button
           variant={variant ?? (isBrutal ? "outline" : "ghost")}
-          size={size ?? "icon-sm"}
+          size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
           aria-label="Close"
         />
       }
       className={cn(
-        isBrutal ? "absolute top-3 right-3" : "absolute top-4 right-6",
+        "shrink-0",
         isBrutal
           ? "bg-layer-panel"
           : "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground",
@@ -303,7 +303,7 @@ export function DrawerClose({
       )}
       {...props}
     >
-      {children ?? <X className="size-4" />}
+      {children ?? <X className={isBrutal ? "size-5" : "size-4"} />}
     </DrawerPrimitive.Close>
   );
 }

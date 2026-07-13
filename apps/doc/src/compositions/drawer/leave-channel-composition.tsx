@@ -34,6 +34,9 @@ export function LeaveChannelDrawerComposition({
   viewport,
   ...drawerProps
 }: LeaveChannelDrawerCompositionProps) {
+  const showCornerClose =
+    drawerProps.swipeDirection === "left" || drawerProps.swipeDirection === "right";
+
   return (
     <Drawer {...drawerProps}>
       {showTrigger ? (
@@ -42,6 +45,7 @@ export function LeaveChannelDrawerComposition({
       <DrawerContent {...contentProps}>
         <DrawerHeader>
           <DrawerTitle>Leave channel?</DrawerTitle>
+          {showCornerClose ? <DrawerClose /> : null}
         </DrawerHeader>
         <DrawerBody>
           <DrawerDescription>You can rejoin anytime from the directory.</DrawerDescription>
@@ -68,9 +72,6 @@ export function LeaveChannelDrawerComposition({
         <DrawerFooter className={viewport === "mobile" ? "md:pb-5" : undefined}>
           <DrawerActions>
             <DrawerClose render={<Button variant="danger" />}>Leave</DrawerClose>
-            <DrawerClose render={<Button variant="outline" />}>
-              Keep membership and stay in this channel
-            </DrawerClose>
             <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
           </DrawerActions>
         </DrawerFooter>

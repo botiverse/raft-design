@@ -140,7 +140,9 @@ function DrawerComparisonIframe({
 }) {
   const instance = [scene, variant, viewport, theme, mode].join("-");
   const params = new URLSearchParams({ instance, mode, scene, theme, variant, viewport });
-  const iframe = (
+  const height = viewport === "desktop" ? "h-[27rem]" : "h-[45rem]";
+
+  return (
     <iframe
       key={instance}
       data-drawer-comparison-frame={`${scene}-${variant}-${theme}-${mode}-${viewport}`}
@@ -148,18 +150,8 @@ function DrawerComparisonIframe({
       src={`/previews/drawer?${params.toString()}`}
       loading="eager"
       sandbox="allow-scripts allow-same-origin"
-      className={
-        viewport === "desktop"
-          ? "absolute top-0 left-1/2 block h-[48rem] w-[64rem] max-w-none origin-top -translate-x-1/2 scale-50 border-0 bg-transparent"
-          : "mx-auto block h-[45rem] w-full max-w-[375px] border-0 bg-transparent"
-      }
+      className={`block w-full border-0 bg-transparent ${height}`}
     />
-  );
-
-  return viewport === "desktop" ? (
-    <div className="relative h-[27rem] w-full overflow-hidden">{iframe}</div>
-  ) : (
-    iframe
   );
 }
 
