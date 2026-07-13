@@ -23,6 +23,7 @@ type ControlValue = string | boolean;
 type Control<T> = {
   name: keyof T & string;
   label: string;
+  when?: (values: T) => boolean;
 } & (
   | { type: "select"; options: readonly string[] }
   | { type: "radio"; options: readonly string[] }
@@ -150,6 +151,8 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
             CONTROLS
           </div>
           {controls.map((control) => {
+            if (control.when && !control.when(values)) return null;
+
             let input: ReactNode;
             if (control.type === "select") {
               input = (

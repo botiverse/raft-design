@@ -187,6 +187,12 @@ const toastStyles = tv({
           "data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+120%))]",
           "data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-120%))]",
           "[&_[data-slot=toast-content][data-behind]]:opacity-0 [&_[data-slot=toast-content][data-expanded]]:opacity-100",
+          "[[data-toast-placement$=right]_&]:left-auto [[data-toast-placement$=right]_&]:mx-0",
+          "[[data-toast-placement^=top]_&]:top-0 [[data-toast-placement^=top]_&]:bottom-auto [[data-toast-placement^=top]_&]:origin-top",
+          "[[data-toast-placement^=top]_&]:[--toast-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--toast-gap))+var(--toast-swipe-movement-y))]",
+          "[[data-toast-placement^=top]_&]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--toast-peek))))_scale(var(--toast-scale))]",
+          "[[data-toast-placement^=top]_&[data-starting-style]]:[transform:translateY(-120%)_scale(0.98)]",
+          "[[data-toast-placement^=top]_&[data-ending-style]:not([data-swipe-direction])]:[transform:translateY(-120%)_scale(0.98)]",
         ],
       },
       inline: {
@@ -256,6 +262,8 @@ const toastStyles = tv({
     },
   ],
 });
+
+type ToastPlacement = NonNullable<VariantProps<typeof toastStyles>["placement"]>;
 
 const toastAction = tv({
   extend: buttonVariants,
@@ -432,7 +440,12 @@ export function ToastViewport({
   const { viewport } = toastStyles({ theme, placement, strategy });
 
   return (
-    <BaseToast.Viewport data-slot="toast-viewport" className={viewport({ className })} {...props} />
+    <BaseToast.Viewport
+      data-slot="toast-viewport"
+      data-toast-placement={placement}
+      className={viewport({ className })}
+      {...props}
+    />
   );
 }
 
@@ -661,7 +674,7 @@ function DefaultToastLayer({
   strategy,
   viewportClassName,
 }: {
-  placement: ToastViewportProps["placement"];
+  placement: ToastPlacement;
   portalContainer?: BaseToast.Portal.Props["container"];
   strategy: ToastViewportProps["strategy"];
   viewportClassName?: string;
@@ -669,26 +682,37 @@ function DefaultToastLayer({
   return (
     <ToastPortal container={portalContainer}>
       <ToastViewport placement={placement} strategy={strategy} className={viewportClassName}>
-        <DefaultToastList />
+        <DefaultToastList placement={placement} />
       </ToastViewport>
     </ToastPortal>
   );
 }
 
-function DefaultToastList() {
+function DefaultToastList({ placement }: { placement: ToastPlacement }) {
   const { toasts } = useToastManager<ToastData>();
 
-  return toasts.map((toastObject) => <DefaultToastItem key={toastObject.id} toast={toastObject} />);
+  return toasts.map((toastObject) => (
+    <DefaultToastItem key={toastObject.id} placement={placement} toast={toastObject} />
+  ));
 }
 
-function DefaultToastItem({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
+function DefaultToastItem({
+  placement,
+  toast: toastObject,
+}: {
+  placement: ToastPlacement;
+  toast: ToastObject<ToastData>;
+}) {
   const showDescription = Boolean(toastObject.description);
   const showAction = Boolean(toastObject.actionProps?.children);
   const showClose = toastObject.data?.hasClose !== false;
   const showIcon = toastObject.data?.hasIcon !== false;
 
   return (
-    <ToastRoot toast={toastObject}>
+    <ToastRoot
+      toast={toastObject}
+      swipeDirection={placement.startsWith("top-") ? ["up", "right"] : undefined}
+    >
       <ToastContent className={toastObject.data?.contentClassName}>
         {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}
         <ToastBody>
