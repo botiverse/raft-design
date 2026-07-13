@@ -221,7 +221,7 @@ function DrawerComparisonIframe({
       data-drawer-comparison-frame={`${scene}-${variant}-${theme}-${mode}-${viewport}`}
       title={`${scene} ${variant} ${theme} ${mode} ${viewport}`}
       src={`/previews/drawer?${params.toString()}`}
-      loading="eager"
+      loading="lazy"
       sandbox="allow-scripts allow-same-origin"
       className={`block w-full border-0 bg-transparent ${height}`}
     />

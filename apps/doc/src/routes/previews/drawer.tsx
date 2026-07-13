@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import { type ReactNode, type RefObject, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import {
   Avatar,
   AvatarFallback,
   Button,
+  Drawer,
   DrawerActions,
   Text,
   type Theme,
@@ -13,12 +14,11 @@ import {
 } from "raft-ui";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
-import { PwaInstallDrawerComposition } from "#/compositions/drawer/pwa-install-drawer-base.tsx";
+import { PwaInstallDrawerPanel } from "#/compositions/drawer/pwa-install-drawer-base.tsx";
 
 type DrawerPreviewScene = "leave-channel" | "pwa-install" | "pwa-install-other";
 type DrawerPreviewVariant = "current" | "source";
 type DrawerPreviewViewport = "desktop" | "mobile";
-type ViewportHost = "current-portal" | "current-sheet" | "source-sheet";
 
 export const Route = createFileRoute("/previews/drawer")({
   staticData: { standalone: true },
@@ -67,36 +67,20 @@ function DrawerScenePreview({
   const isPwa = scene !== "leave-channel";
   const pwaVariant = scene === "pwa-install-other" ? "other" : "safari";
 
-  if (isPwa && !isSource) {
-    return (
-      <ViewportFrame viewport={viewport} host="current-portal">
-        {(portalRef) => (
-          <PwaInstallDrawerComposition
-            variant={pwaVariant}
-            defaultOpen
-            mobileOnly={false}
-            showTrigger={false}
-            portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          />
-        )}
-      </ViewportFrame>
-    );
-  }
-
   return (
-    <ViewportFrame
-      viewport={viewport}
-      host={isSource ? "source-sheet" : "current-sheet"}
-      padded={isSource && isPwa}
-    >
+    <ViewportFrame viewport={viewport} source={isSource} padded={isSource && isPwa}>
       {scene === "leave-channel" ? (
         isSource ? (
           <LeaveChannelSourceContent />
         ) : (
           <LeaveChannelContent />
         )
-      ) : (
+      ) : isSource ? (
         <PwaInstallSourceContent variant={pwaVariant} />
+      ) : (
+        <Drawer open modal={false}>
+          <PwaInstallDrawerPanel variant={pwaVariant} />
+        </Drawer>
       )}
     </ViewportFrame>
   );
@@ -104,25 +88,26 @@ function DrawerScenePreview({
 
 function ViewportFrame({
   viewport,
-  host,
-  padded = false,
+  source,
+  padded,
   children,
 }: {
   viewport: DrawerPreviewViewport;
-  host: ViewportHost;
-  padded?: boolean;
-  children: ReactNode | ((portalRef: RefObject<HTMLDivElement | null>) => ReactNode);
+  source: boolean;
+  padded: boolean;
+  children: ReactNode;
 }) {
   const theme = useThemeFamily();
   const isDesktop = viewport === "desktop";
   const frameClassName = isDesktop ? "h-[24rem] w-[34rem]" : "h-[42rem] w-[375px]";
-  const portalRef = useRef<HTMLDivElement | null>(null);
-  const [portalReady, setPortalReady] = useState(false);
-
-  const setPortalHost = (node: HTMLDivElement | null) => {
-    portalRef.current = node;
-    setPortalReady(node != null);
-  };
+  const sheetClassName = source
+    ? [
+        "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--source-shadow-lg)]",
+        padded ? "p-4" : null,
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : getCurrentSheetClassName(theme, isDesktop, padded);
 
   return (
     <div
@@ -132,38 +117,21 @@ function ViewportFrame({
         <span>{isDesktop ? "desktop viewport" : "mobile viewport"}</span>
         <span>{isDesktop ? "1024px" : "375px"}</span>
       </div>
-      {host === "current-portal" ? (
-        <div ref={setPortalHost} className="relative min-h-0 overflow-hidden bg-gray-50">
-          {portalReady && typeof children === "function" ? children(portalRef) : null}
-        </div>
-      ) : (
-        <div className="relative min-h-0 overflow-hidden bg-gray-50">
-          {host === "source-sheet" ? (
-            <div className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom,0px))]">
-              <div
-                className={[
-                  "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--source-shadow-lg)]",
-                  padded ? "p-4" : null,
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-              >
-                {typeof children === "function" ? null : children}
-              </div>
-            </div>
-          ) : (
-            <>
-              <div
-                className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
-                style={{ backgroundColor: "var(--layer-backdrop)" }}
-              />
-              <div className={getCurrentSheetClassName(theme, isDesktop, padded)}>
-                {typeof children === "function" ? null : children}
-              </div>
-            </>
-          )}
-        </div>
-      )}
+      <div className="relative min-h-0 overflow-hidden bg-gray-50">
+        {source ? (
+          <div className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom,0px))]">
+            <div className={sheetClassName}>{children}</div>
+          </div>
+        ) : (
+          <>
+            <div
+              className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+              style={{ backgroundColor: "var(--layer-backdrop)" }}
+            />
+            <div className={sheetClassName}>{children}</div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

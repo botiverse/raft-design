@@ -33,6 +33,68 @@ function getMobileServerSnapshot() {
   return false;
 }
 
+export type PwaInstallDrawerVariant = "other" | "safari";
+
+export type PwaInstallDrawerPanelProps = {
+  variant: PwaInstallDrawerVariant;
+};
+
+export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
+  const [copied, setCopied] = useState(false);
+  const isSafari = variant === "safari";
+
+  return (
+    <>
+      <DrawerHeader className="items-start text-left">
+        <DrawerTitle className="text-left">Add Raft to your Home Screen</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody className="items-start text-left">
+        <DrawerDescription className="text-left">
+          {isSafari
+            ? "Open Raft as a fullscreen app — faster, more focused."
+            : "Open this page in Safari first, then add it to your Home Screen."}
+        </DrawerDescription>
+        {isSafari ? (
+          <div className="mt-6 rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
+            <img
+              src="/pwa/ios-add-to-home-screen-3step.svg"
+              alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
+              className="block w-full"
+            />
+          </div>
+        ) : (
+          <Banner status="info" className="mt-6 w-full">
+            <BannerDescription>
+              iOS only allows Home Screen installation from Safari. Copy this page link, open
+              Safari, then use Share → Add to Home Screen.
+            </BannerDescription>
+          </Banner>
+        )}
+      </DrawerBody>
+      <DrawerFooter>
+        <DrawerActions
+          className={
+            isSafari
+              ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
+              : "w-full max-w-[24rem]"
+          }
+        >
+          {isSafari ? (
+            <DrawerClose render={<Button variant="primary" size="lg" />}>Got it</DrawerClose>
+          ) : (
+            <>
+              <Button variant="primary" size="lg" onClick={() => setCopied(true)}>
+                {copied ? "Copied" : "Copy Link"}
+              </Button>
+              <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
+            </>
+          )}
+        </DrawerActions>
+      </DrawerFooter>
+    </>
+  );
+}
+
 export type PwaInstallDrawerCompositionProps = Pick<
   DrawerProps,
   "defaultOpen" | "modal" | "onOpenChange" | "open"
@@ -40,7 +102,7 @@ export type PwaInstallDrawerCompositionProps = Pick<
   mobileOnly?: boolean;
   portalProps?: DrawerContentProps["portalProps"];
   showTrigger?: boolean;
-  variant: "other" | "safari";
+  variant: PwaInstallDrawerVariant;
 };
 
 export function PwaInstallDrawerComposition({
@@ -55,13 +117,10 @@ export function PwaInstallDrawerComposition({
     getMobileSnapshot,
     getMobileServerSnapshot,
   );
-  const [copied, setCopied] = useState(false);
 
   if (mobileOnly && !isMobile) {
     return null;
   }
-
-  const isSafari = variant === "safari";
 
   return (
     <Drawer {...drawerProps}>
@@ -69,52 +128,7 @@ export function PwaInstallDrawerComposition({
         <DrawerTrigger render={<Button variant="primary" size="sm" />}>Install</DrawerTrigger>
       ) : null}
       <DrawerContent portalProps={portalProps}>
-        <DrawerHeader className="items-start text-left">
-          <DrawerTitle className="text-left">Add Raft to your Home Screen</DrawerTitle>
-        </DrawerHeader>
-        <DrawerBody className="items-start text-left">
-          <DrawerDescription className="text-left">
-            {isSafari
-              ? "Open Raft as a fullscreen app — faster, more focused."
-              : "Open this page in Safari first, then add it to your Home Screen."}
-          </DrawerDescription>
-          {isSafari ? (
-            <div className="mt-6 rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
-              <img
-                src="/pwa/ios-add-to-home-screen-3step.svg"
-                alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
-                className="block w-full"
-              />
-            </div>
-          ) : (
-            <Banner status="info" className="mt-6 w-full">
-              <BannerDescription>
-                iOS only allows Home Screen installation from Safari. Copy this page link, open
-                Safari, then use Share → Add to Home Screen.
-              </BannerDescription>
-            </Banner>
-          )}
-        </DrawerBody>
-        <DrawerFooter>
-          <DrawerActions
-            className={
-              isSafari
-                ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
-                : "w-full max-w-[24rem]"
-            }
-          >
-            {isSafari ? (
-              <DrawerClose render={<Button variant="primary" size="lg" />}>Got it</DrawerClose>
-            ) : (
-              <>
-                <Button variant="primary" size="lg" onClick={() => setCopied(true)}>
-                  {copied ? "Copied" : "Copy Link"}
-                </Button>
-                <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
-              </>
-            )}
-          </DrawerActions>
-        </DrawerFooter>
+        <PwaInstallDrawerPanel variant={variant} />
       </DrawerContent>
     </Drawer>
   );
