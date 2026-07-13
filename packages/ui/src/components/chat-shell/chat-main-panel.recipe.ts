@@ -73,8 +73,9 @@ export const chatMainPanel = tv({
         ],
         subtitle: "font-sans text-foreground-placeholder",
         titleBadge: [
-          "rounded-md border-0 bg-layer-muted py-0.5",
-          "text-foreground-muted normal-case tracking-normal",
+          "border-0 bg-transparent p-0",
+          "text-foreground-placeholder",
+          "[&_svg]:size-[13px]",
         ],
         content: [
           "relative ml-2 overflow-clip rounded-tl-[var(--shell-surface-radius,10px)]",

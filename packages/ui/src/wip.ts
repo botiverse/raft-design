@@ -135,6 +135,7 @@ export {
   ChatSidebarSectionAttention,
   ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
+  ChatSidebarSectionTrailing,
   SortableChatSidebarItem,
   SortableChatSidebarList,
 } from "./components/chat-shell/index";
@@ -279,6 +280,7 @@ export type {
   ChatSidebarSectionAttentionProps,
   ChatSidebarSectionIndicatorProps,
   ChatSidebarSectionTitleProps,
+  ChatSidebarSectionTrailingProps,
   SortableChatSidebarItemProps,
   SortableChatSidebarListProps,
 } from "./components/chat-shell/index";

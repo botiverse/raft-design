@@ -93,15 +93,19 @@ import {
   ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionChevron,
-  ChatSidebarSectionCount,
   ChatSidebarSectionAttention,
-  ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
+  ChatSidebarSectionTrailing,
   SortableChatSidebarItem,
   SortableChatSidebarList,
 } from "raft-ui/wip";
 
-import { SidebarSectionSortMenu } from "../compositions/sidebar-sort-menu-composition.tsx";
+import {
+  SidebarSectionAddButton,
+  SidebarSectionChannelsMenu,
+  SidebarSectionHeaderMenu,
+  SidebarSectionSortMenu,
+} from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_DIRECT_MESSAGES,
@@ -449,17 +453,18 @@ function PinnedSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu menu="sort">
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          <SidebarSectionSortMenu aria-label="Sort pinned" />
-        </ChatSidebarSectionActions>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          <ChatSidebarSectionActions>
+            <SidebarSectionSortMenu aria-label="Sort pinned" />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -483,9 +488,11 @@ function PinnedSection({
 
 function JointChannelsSection({
   activeChannelId,
+  onCreateJoint,
   onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
+  onCreateJoint: () => void;
   onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedJointChannels);
@@ -495,17 +502,33 @@ function JointChannelsSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu
+        menu="channels"
+        count={ordered.length}
+        countLabel="channels"
+        createLabel="Create Joint Channel"
+        createIcon="joint"
+        onCreate={onCreateJoint}
+      >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          <SidebarSectionSortMenu aria-label="Sort joint channels" />
-        </ChatSidebarSectionActions>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          <ChatSidebarSectionActions>
+            <SidebarSectionAddButton aria-label="Create joint channel" onClick={onCreateJoint} />
+            <SidebarSectionChannelsMenu
+              aria-label="Joint channels menu"
+              count={ordered.length}
+              countLabel="channels"
+              createLabel="Create Joint Channel"
+              createIcon="joint"
+              onCreate={onCreateJoint}
+            />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -528,10 +551,12 @@ function JointChannelsSection({
 function ChannelsSection({
   activeChannelId,
   onArchive,
+  onCreateChannel,
   onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
+  onCreateChannel: () => void;
   onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
@@ -541,17 +566,33 @@ function ChannelsSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu
+        menu="channels"
+        count={ordered.length}
+        countLabel="channels"
+        createLabel="Create Channel"
+        createIcon="channel"
+        onCreate={onCreateChannel}
+      >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          <SidebarSectionSortMenu aria-label="Sort channels" />
-        </ChatSidebarSectionActions>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          <ChatSidebarSectionActions>
+            <SidebarSectionAddButton aria-label="Create channel" onClick={onCreateChannel} />
+            <SidebarSectionChannelsMenu
+              aria-label="Channels menu"
+              count={ordered.length}
+              countLabel="channels"
+              createLabel="Create Channel"
+              createIcon="channel"
+              onCreate={onCreateChannel}
+            />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -590,17 +631,18 @@ function DirectMessagesSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu menu="sort">
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-        <ChatSidebarSectionActions>
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          <SidebarSectionSortMenu aria-label="Sort direct messages" />
-        </ChatSidebarSectionActions>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          <ChatSidebarSectionActions>
+            <SidebarSectionSortMenu aria-label="Sort direct messages" />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -882,11 +924,13 @@ export function PlaygroundSidebar({
               />
               <JointChannelsSection
                 activeChannelId={selectedChannelId}
+                onCreateJoint={() => setDialog("create-joint")}
                 onSelect={() => setSavedSelected(false)}
               />
               <ChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
+                onCreateChannel={() => setDialog("create-channel")}
                 onSelect={() => setSavedSelected(false)}
               />
               <DirectMessagesSection

@@ -1,13 +1,10 @@
-import { ArrowUpDown } from "lucide-react";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuPopup,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "raft-ui";
-import { ChatSidebarAction } from "raft-ui/wip";
 
 // @docs-source-strip-start
 import { useId } from "react";
@@ -33,27 +30,8 @@ export function SidebarSortMenuContent() {
   );
 }
 
-/** Section-header sort control. Visual structure only — does not reorder rows. */
-export function SidebarSectionSortMenu({
-  "aria-label": ariaLabel = "Sort section",
-}: {
-  "aria-label"?: string;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <ChatSidebarAction type="button" aria-label={ariaLabel}>
-            <ArrowUpDown className="size-3.5" />
-          </ChatSidebarAction>
-        }
-      />
-      <DropdownMenuContent align="end" className="flex w-[136px] min-w-[136px] flex-col">
-        <SidebarSortMenuItems />
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+/** Section-header sort control. Prefer `sidebar-section-header-menu.composition`. */
+export { SidebarSectionSortMenu } from "./sidebar-section-header-menu.composition.tsx";
 
 // @docs-source-strip-start
 export function SidebarSortMenuComposition({ className }: { className?: string }) {

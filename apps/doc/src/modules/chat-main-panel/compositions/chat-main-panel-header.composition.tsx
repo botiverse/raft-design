@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Bell, BellOff, Hash, Search, Settings, Square, Users } from "lucide-react";
-import { Avatar, AvatarFallback, Status } from "raft-ui";
+import { Avatar, AvatarFallback, BrutalOnly, Status } from "raft-ui";
 import {
   ChatMainPanelActions,
   ChatMainPanelHeader,
@@ -64,7 +64,7 @@ export function ChatMainPanelHeaderComposition({
           {muted ? (
             <ChatMainPanelTitleBadge title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
-              Muted
+              <BrutalOnly>Muted</BrutalOnly>
             </ChatMainPanelTitleBadge>
           ) : null}
         </ChatMainPanelTitleRow>

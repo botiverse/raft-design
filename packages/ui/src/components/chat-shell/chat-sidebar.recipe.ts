@@ -21,7 +21,10 @@ export const chatSidebar = tv({
     sidebarMenuCount: ["font-mono normal-case tracking-normal"],
     sidebarSection: ["px-2"],
     sidebarList: [],
-    sidebarSectionHeader: ["mt-3 mb-1 flex h-6 items-center justify-between px-2"],
+    sidebarSectionHeader: [
+      "mt-3 mb-1 flex h-6 items-center justify-between px-2",
+      "group/section-header",
+    ],
     sidebarSectionButton: [
       "flex h-6 min-w-0 flex-1 items-center gap-1",
       "text-xs font-bold tracking-widest uppercase",
@@ -30,7 +33,14 @@ export const chatSidebar = tv({
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: ["font-mono normal-case tracking-normal"],
     sidebarSectionIndicator: ["ml-1", "[[data-panel-open]_&]:hidden"],
-    sidebarSectionActions: ["flex shrink-0 items-center gap-1"],
+    sidebarSectionTrailing: ["flex shrink-0 items-center gap-1"],
+    sidebarSectionActions: [
+      "flex shrink-0 items-center gap-1",
+      "pointer-events-none opacity-0 transition-opacity",
+      "group-hover/section-header:pointer-events-auto group-hover/section-header:opacity-100",
+      "focus-within:pointer-events-auto focus-within:opacity-100",
+      "has-[[data-popup-open]]:pointer-events-auto has-[[data-popup-open]]:opacity-100",
+    ],
     sidebarSectionAction: ["flex size-6 items-center justify-center p-0"],
     sidebarItem: [
       "mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
@@ -158,16 +168,18 @@ export const chatSidebar = tv({
         ],
         sidebarSectionCount:
           "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
-        sidebarSectionActions: "pr-[var(--sidebar-row-inset-x,6px)]",
+        sidebarSectionTrailing: "pr-[var(--sidebar-row-inset-x,6px)]",
         sidebarSectionAction: [
           "shrink-0",
           "text-foreground-icon hover:text-foreground",
           "hover:!bg-transparent active:!bg-transparent",
           "hover:before:!bg-transparent active:before:!bg-transparent",
+          "focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0",
         ],
         sidebarSection: "px-0",
         sidebarSectionHeader: [
           "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between rounded-md px-0",
+          "group/section-header",
           "hover:bg-layer-strong/80",
         ],
         sidebarItem: [
