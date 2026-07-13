@@ -18,13 +18,9 @@ import {
 } from "#/compositions/composer-composition.tsx";
 import composerCompositionSource from "#/compositions/composer-composition.tsx?raw";
 import { COMPOSER_IMAGE_SRC } from "#/compositions/composer-image.ts";
-import { ComposerSuggestionComposition } from "#/compositions/composer-suggestion-composition.tsx";
-import composerSuggestionCompositionSource from "#/compositions/composer-suggestion-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const COMPOSER_COMPOSITION_PATH = "apps/doc/src/compositions/composer-composition.tsx";
-const COMPOSER_SUGGESTION_COMPOSITION_PATH =
-  "apps/doc/src/compositions/composer-suggestion-composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -34,7 +30,7 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const PREVIEW_STATES = ["Default", "Attachments", "Drop overlay", "Autocomplete"] as const;
+const PREVIEW_STATES = ["Default", "Attachments", "Drop overlay"] as const;
 
 type PreviewValues = {
   state: string;
@@ -99,7 +95,6 @@ const ANATOMY_SNIPPET = `<ChatMainPanelFooter onSubmit={handleSubmit}>
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   composerComposition: composerCompositionSource,
-  composerSuggestion: composerSuggestionCompositionSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -168,18 +163,6 @@ const PROPS: readonly PropRow[] = [
     type: "div / span props",
     description: "Drag-and-drop overlay covering the composer form while files hover over it.",
   },
-  {
-    name: "ComposerSuggestionList / SuggestionOption / SuggestionGroup",
-    type: "div / button / div props",
-    description:
-      "Styling-only mention/channel suggestion popup slots (list, option, group, icon, title, meta, badge). No behavior of their own.",
-  },
-  {
-    name: "useComposerSuggestions",
-    type: "(params) => api",
-    description:
-      "Headless inline @/# autocomplete: open state, highlighted option, keyboard navigation, IME, and caret-preserving insertion. Spread its prop getters onto the native textarea, popup, and button slots.",
-  },
 ];
 
 export const Route = createFileRoute("/components/chat-composer")({
@@ -203,6 +186,7 @@ function ChatComposerDoc() {
           <li>
             lives inside a main or thread footer host without taking ownership of either panel
           </li>
+          <li>leaves inline @/# autocomplete behavior and popup anatomy to ComposerSuggestions</li>
         </Differences>
       }
       toc={TOC}
@@ -269,38 +253,11 @@ function ChatComposerDoc() {
               </PanelFrame>
             </PreviewThemeScope>
           </PreviewPane>
-          <PreviewPane label="Brutal · autocomplete">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <PanelFrame>
-                <ComposerSuggestionComposition />
-              </PanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant · autocomplete">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <PanelFrame>
-                <ComposerSuggestionComposition />
-              </PanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant dark · autocomplete">
-            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <PanelFrame>
-                <ComposerSuggestionComposition />
-              </PanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
         </PreviewGrid>
         <DocsCodeBlock.Panel
           path={COMPOSER_COMPOSITION_PATH}
           source={SNIPPETS.composerComposition}
           html={code.composerComposition}
-          showLineNumbers={false}
-        />
-        <DocsCodeBlock.Panel
-          path={COMPOSER_SUGGESTION_COMPOSITION_PATH}
-          source={SNIPPETS.composerSuggestion}
-          html={code.composerSuggestion}
           showLineNumbers={false}
         />
       </DocSection>
@@ -349,9 +306,6 @@ function ComposerPreviewState({ state }: { state: string }) {
   }
   if (state === "Drop overlay") {
     return <ComposerDropOverlayComposition />;
-  }
-  if (state === "Autocomplete") {
-    return <ComposerSuggestionComposition />;
   }
   return <ComposerComposition />;
 }

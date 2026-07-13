@@ -157,6 +157,19 @@ export function TasksSourcePreview() {
   );
 }
 
+export function TaskCardSourceComparisonComposition() {
+  const [notice, setNotice] = useState("Interact with the source card.");
+
+  return (
+    <div className="grid w-full max-w-sm gap-3">
+      <SourceTaskCard task={TASK_FIXTURES[0]} onAction={setNotice} />
+      <p className="text-sm text-black/60" aria-live="polite">
+        {notice}
+      </p>
+    </div>
+  );
+}
+
 function SourceFilter({
   label,
   icon,

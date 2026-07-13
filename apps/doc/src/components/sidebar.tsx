@@ -32,16 +32,77 @@ const TOKENS = [
 
 const NAV = [
   {
-    title: "App Shell",
+    title: "Layout",
     items: [
       { label: "AppShell", to: "/components/chat-shell", status: "wip" },
       { label: "AppRail", to: "/components/chat-rail", status: "wip" },
       { label: "AppPanelStack", to: "/components/chat-panel-stack", status: "wip" },
-      { label: "ChatSidebar", to: "/components/chat-sidebar", status: "wip" },
+      { label: "Separator", to: "/components/separator", status: "done" },
+      {
+        label: "Collapsible",
+        status: "later",
+        docsHref: "https://base-ui.com/react/components/collapsible",
+        reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
+      },
+      {
+        label: "Accordion",
+        status: "later",
+        docsHref: "https://base-ui.com/react/components/accordion",
+        reason: "Grouped disclosure pattern; build after Collapsible settles.",
+      },
+      {
+        label: "ScrollArea",
+        status: "parked",
+        docsHref: "https://base-ui.com/react/components/scroll-area",
+        reason: "Prefer native scrolling until custom scrollbar behavior is required.",
+      },
+      {
+        label: "Resizable",
+        status: "parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Wait for explicit panel-resize requirements.",
+      },
+      {
+        label: "Sidebar",
+        status: "parked",
+        docsHref: "https://base-ui.com/react/components",
+        reason: "Current sidebar is app shell, not a reusable UI primitive.",
+      },
+    ],
+  },
+  {
+    title: "Chat",
+    items: [
+      {
+        label: "ChatSidebar",
+        to: "/components/chat-sidebar",
+        status: "wip",
+        children: [
+          { label: "ChatSidebarItem", to: "/components/chat-sidebar-item", status: "wip" },
+        ],
+      },
       { label: "ChatMainPanel", to: "/components/chat-main-panel", status: "wip" },
-      { label: "TasksPanel", to: "/components/tasks", status: "wip" },
-      { label: "Composer", to: "/components/chat-composer", status: "wip" },
       { label: "ChatThreadPanel", to: "/components/chat-thread-panel", status: "wip" },
+      { label: "MessageItem", to: "/components/message-item", status: "wip" },
+      {
+        label: "Composer",
+        to: "/components/chat-composer",
+        status: "wip",
+        children: [
+          {
+            label: "ComposerSuggestions",
+            to: "/components/composer-suggestions",
+            status: "wip",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Tasks",
+    items: [
+      { label: "TasksPanel", to: "/components/tasks", status: "wip" },
+      { label: "TaskCard", to: "/components/task-card", status: "wip" },
     ],
   },
   {
@@ -196,88 +257,6 @@ const NAV = [
         status: "parked",
         docsHref: "https://base-ui.com/react/components",
         reason: "Not relevant to the current product interface.",
-      },
-    ],
-  },
-  {
-    title: "Layout",
-    items: [
-      { label: "Separator", to: "/components/separator", status: "done" },
-      {
-        label: "Collapsible",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/collapsible",
-        reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
-      },
-      {
-        label: "Accordion",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/accordion",
-        reason: "Grouped disclosure pattern; build after Collapsible settles.",
-      },
-      {
-        label: "ScrollArea",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components/scroll-area",
-        reason: "Prefer native scrolling until custom scrollbar behavior is required.",
-      },
-      {
-        label: "Resizable",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Wait for explicit panel-resize requirements.",
-      },
-      {
-        label: "Sidebar",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Current sidebar is app shell, not a reusable UI primitive.",
-      },
-    ],
-  },
-  {
-    title: "Source Candidates",
-    items: [
-      {
-        label: "TaskCard",
-        status: "parked",
-        reason:
-          "Store, auth, permissions, and thread-panel coupled; extract visual subparts first.",
-      },
-      {
-        label: "TaskItem",
-        status: "parked",
-        reason:
-          "Store, auth, permissions, and thread-panel coupled; extract visual subparts first.",
-      },
-      {
-        label: "TaskBoard",
-        status: "parked",
-        reason: "Task store and view-state coupled; not a reusable UI primitive yet.",
-      },
-      {
-        label: "ActionCard",
-        status: "parked",
-        reason: "Action metadata, dialogs, stores, and side effects are app-bound.",
-      },
-      {
-        label: "MessageItem",
-        to: "/components/message-item",
-        status: "wip",
-        reason:
-          "Composition-only visual extraction; app stores, overlays, and side effects stay outside.",
-      },
-    ],
-  },
-  {
-    title: "Utilities",
-    items: [
-      {
-        label: "SandboxedPreviewFrame",
-        to: "/components/sandboxed-preview-frame",
-        status: "internal",
-        reason:
-          "Iframe sandbox utility for HTML, PDF, Mermaid, and attachment previews; keep security policy app-local.",
       },
     ],
   },
@@ -440,7 +419,7 @@ function NavGroup({
             <li key={item.label}>
               <NavRow item={item} badge={<StatusBadge status={item.status} />} />
               {item.children ? (
-                <ul className="mt-1 space-y-1">
+                <ul className="mt-1 ml-2 space-y-1 border-l border-line-subtle pl-2">
                   {item.children.map((child) => (
                     <li key={child.label}>
                       <NavRow
@@ -491,7 +470,7 @@ export function Sidebar() {
         <Separator className="h-0 bg-transparent border-t border-dashed border-line-muted data-[orientation=horizontal]:w-[65%]" />
 
         {NAV.map((group) => (
-          <NavGroup {...group} key={group.title} />
+          <NavGroup key={group.title} {...group} />
         ))}
       </nav>
     </aside>

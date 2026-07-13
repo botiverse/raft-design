@@ -30,6 +30,7 @@ import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
+import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
@@ -59,9 +60,11 @@ import { Route as ComponentsDialogRouteImport } from './routes/components/dialog
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
+import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsChatThreadPanelRouteImport } from './routes/components/chat-thread-panel'
+import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
 import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
 import { Route as ComponentsChatShellRouteImport } from './routes/components/chat-shell'
 import { Route as ComponentsChatRailRouteImport } from './routes/components/chat-rail'
@@ -196,6 +199,11 @@ const ComponentsTextRoute = ComponentsTextRouteImport.update({
 const ComponentsTasksRoute = ComponentsTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
+  id: '/task-card',
+  path: '/task-card',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
@@ -347,6 +355,12 @@ const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
   path: '/context-menu',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsComposerSuggestionsRoute =
+  ComponentsComposerSuggestionsRouteImport.update({
+    id: '/composer-suggestions',
+    path: '/composer-suggestions',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
   id: '/combobox',
   path: '/combobox',
@@ -361,6 +375,12 @@ const ComponentsChatThreadPanelRoute =
   ComponentsChatThreadPanelRouteImport.update({
     id: '/chat-thread-panel',
     path: '/chat-thread-panel',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsChatSidebarItemRoute =
+  ComponentsChatSidebarItemRouteImport.update({
+    id: '/chat-sidebar-item',
+    path: '/chat-sidebar-item',
     getParentRoute: () => ComponentsRoute,
   } as any)
 const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
@@ -538,9 +558,11 @@ export interface FileRoutesByFullPath {
   '/components/chat-rail': typeof ComponentsChatRailRoute
   '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
+  '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
@@ -570,6 +592,7 @@ export interface FileRoutesByFullPath {
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/task-card': typeof ComponentsTaskCardRoute
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -621,9 +644,11 @@ export interface FileRoutesByTo {
   '/components/chat-rail': typeof ComponentsChatRailRoute
   '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
+  '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
@@ -653,6 +678,7 @@ export interface FileRoutesByTo {
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/task-card': typeof ComponentsTaskCardRoute
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -707,9 +733,11 @@ export interface FileRoutesById {
   '/components/chat-rail': typeof ComponentsChatRailRoute
   '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
+  '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
@@ -739,6 +767,7 @@ export interface FileRoutesById {
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/task-card': typeof ComponentsTaskCardRoute
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -794,9 +823,11 @@ export interface FileRouteTypes {
     | '/components/chat-rail'
     | '/components/chat-shell'
     | '/components/chat-sidebar'
+    | '/components/chat-sidebar-item'
     | '/components/chat-thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
+    | '/components/composer-suggestions'
     | '/components/context-menu'
     | '/components/copyable-code'
     | '/components/description-list'
@@ -826,6 +857,7 @@ export interface FileRouteTypes {
     | '/components/status-dot'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/task-card'
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
@@ -877,9 +909,11 @@ export interface FileRouteTypes {
     | '/components/chat-rail'
     | '/components/chat-shell'
     | '/components/chat-sidebar'
+    | '/components/chat-sidebar-item'
     | '/components/chat-thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
+    | '/components/composer-suggestions'
     | '/components/context-menu'
     | '/components/copyable-code'
     | '/components/description-list'
@@ -909,6 +943,7 @@ export interface FileRouteTypes {
     | '/components/status-dot'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/task-card'
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
@@ -962,9 +997,11 @@ export interface FileRouteTypes {
     | '/components/chat-rail'
     | '/components/chat-shell'
     | '/components/chat-sidebar'
+    | '/components/chat-sidebar-item'
     | '/components/chat-thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
+    | '/components/composer-suggestions'
     | '/components/context-menu'
     | '/components/copyable-code'
     | '/components/description-list'
@@ -994,6 +1031,7 @@ export interface FileRouteTypes {
     | '/components/status-dot'
     | '/components/switch'
     | '/components/tabs'
+    | '/components/task-card'
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
@@ -1190,6 +1228,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/components/tasks'
       preLoaderRoute: typeof ComponentsTasksRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-card': {
+      id: '/components/task-card'
+      path: '/task-card'
+      fullPath: '/components/task-card'
+      preLoaderRoute: typeof ComponentsTaskCardRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/tabs': {
@@ -1395,6 +1440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsContextMenuRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/composer-suggestions': {
+      id: '/components/composer-suggestions'
+      path: '/composer-suggestions'
+      fullPath: '/components/composer-suggestions'
+      preLoaderRoute: typeof ComponentsComposerSuggestionsRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/combobox': {
       id: '/components/combobox'
       path: '/combobox'
@@ -1414,6 +1466,13 @@ declare module '@tanstack/react-router' {
       path: '/chat-thread-panel'
       fullPath: '/components/chat-thread-panel'
       preLoaderRoute: typeof ComponentsChatThreadPanelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/chat-sidebar-item': {
+      id: '/components/chat-sidebar-item'
+      path: '/chat-sidebar-item'
+      fullPath: '/components/chat-sidebar-item'
+      preLoaderRoute: typeof ComponentsChatSidebarItemRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/chat-sidebar': {
@@ -1643,9 +1702,11 @@ interface ComponentsRouteChildren {
   ComponentsChatRailRoute: typeof ComponentsChatRailRoute
   ComponentsChatShellRoute: typeof ComponentsChatShellRoute
   ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
+  ComponentsChatSidebarItemRoute: typeof ComponentsChatSidebarItemRoute
   ComponentsChatThreadPanelRoute: typeof ComponentsChatThreadPanelRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
+  ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
@@ -1675,6 +1736,7 @@ interface ComponentsRouteChildren {
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
+  ComponentsTaskCardRoute: typeof ComponentsTaskCardRoute
   ComponentsTasksRoute: typeof ComponentsTasksRoute
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
@@ -1710,9 +1772,11 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsChatRailRoute: ComponentsChatRailRoute,
   ComponentsChatShellRoute: ComponentsChatShellRoute,
   ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
+  ComponentsChatSidebarItemRoute: ComponentsChatSidebarItemRoute,
   ComponentsChatThreadPanelRoute: ComponentsChatThreadPanelRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
+  ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
@@ -1742,6 +1806,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
+  ComponentsTaskCardRoute: ComponentsTaskCardRoute,
   ComponentsTasksRoute: ComponentsTasksRoute,
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
