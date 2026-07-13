@@ -1,7 +1,6 @@
 name: Publish
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - "v*"
@@ -47,21 +46,18 @@ jobs:
           current_tag="$GITHUB_REF_NAME"
           previous_tag="$(git tag --sort=-v:refname | grep -v "^${current_tag}$" | head -n 1 || true)"
 
+          node scripts/release-notes.mjs "$current_tag" > "$RUNNER_TEMP/release-notes.md"
+
           if [ -n "$previous_tag" ]; then
-            range="$previous_tag..$current_tag"
             changelog_url="https://github.com/${GITHUB_REPOSITORY}/compare/${previous_tag}...${current_tag}"
           else
-            range="$current_tag"
             changelog_url="https://github.com/${GITHUB_REPOSITORY}/commits/${current_tag}"
           fi
 
           {
-            echo "## Changes"
-            git log "$range" --pretty=format:"- %s (%h)"
-            echo
             echo
             echo "**Full Changelog**: $changelog_url"
-          } > "$RUNNER_TEMP/release-notes.md"
+          } >> "$RUNNER_TEMP/release-notes.md"
 
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/')

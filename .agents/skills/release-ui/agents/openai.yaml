@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release UI"
+  short_description: "Plan and publish curated raft-ui releases"
+  default_prompt: "Use $release-ui to dry-run the next raft-ui release."

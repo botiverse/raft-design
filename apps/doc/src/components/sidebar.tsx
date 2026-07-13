@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { Badge, Separator } from "raft-ui";
 import { Globe2 } from "lucide-react";
 
+import { raftUiVersion } from "#/data/raft-ui-release.ts";
+
 const SKILLS = {
   title: "Skills",
   items: [{ label: "new-component.md", to: "/skills/new-component" }],
@@ -376,6 +378,19 @@ function StatusBadge({ status }: { status?: NavStatus }) {
   );
 }
 
+function VersionBadge() {
+  return (
+    <Badge
+      appearance="soft"
+      variant="muted"
+      aria-label={`raft-ui version ${raftUiVersion}`}
+      className="h-4 shrink-0 px-1.5 font-mono text-[9px]"
+    >
+      v{raftUiVersion}
+    </Badge>
+  );
+}
+
 function NavGroup({
   title,
   to,
@@ -446,6 +461,9 @@ export function Sidebar() {
           </li>
           <li>
             <NavRow item={{ label: "Installation", to: "/installation" }} />
+          </li>
+          <li>
+            <NavRow item={{ label: "Changelog", to: "/changelog" }} badge={<VersionBadge />} />
           </li>
           <li>
             <NavRow item={{ label: "Playground", to: "/playground" }} />
