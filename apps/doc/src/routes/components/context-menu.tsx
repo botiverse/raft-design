@@ -28,7 +28,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import contextMenuCompositionSource from "#/compositions/context-menu-composition.tsx?raw";
+import contextMenuCompositionSource from "#/modules/context-menu/context-menu.composition.tsx?raw";
 import {
   CONTEXT_MENU_COMPOSITION_PATH,
   ContextMenuCompositionPreview,
@@ -39,7 +39,7 @@ import {
   ContextMenuSourcePreview,
   ContextMenuSourceSelectionMenuPreview,
   ContextMenuSourceSidebarMenuPreview,
-} from "#/compositions/context-menu-source-comparison.tsx";
+} from "#/modules/context-menu/context-menu.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

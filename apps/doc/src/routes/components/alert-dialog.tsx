@@ -29,10 +29,10 @@ import {
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import confirmActionCompositionSource from "#/compositions/alert-dialog/confirm-action-composition.tsx?raw";
-import { ConfirmActionAlertDialogComposition } from "#/compositions/alert-dialog/confirm-action-composition.tsx";
-import typedDeleteCompositionSource from "#/compositions/alert-dialog/typed-delete-composition.tsx?raw";
-import { TypedDeleteAlertDialogComposition } from "#/compositions/alert-dialog/typed-delete-composition.tsx";
+import confirmActionCompositionSource from "#/modules/alert-dialog/compositions/confirm-action.composition.tsx?raw";
+import { ConfirmActionAlertDialogComposition } from "#/modules/alert-dialog/compositions/confirm-action.composition.tsx";
+import typedDeleteCompositionSource from "#/modules/alert-dialog/compositions/typed-delete.composition.tsx?raw";
+import { TypedDeleteAlertDialogComposition } from "#/modules/alert-dialog/compositions/typed-delete.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -154,8 +154,8 @@ const ALERT_DIALOG_COMPOSITION_SNIPPET_IDS = {
 } as const;
 
 const ALERT_DIALOG_COMPOSITION_PATHS = {
-  DeleteServer: "apps/doc/src/compositions/alert-dialog/typed-delete-composition.tsx",
-  ConfirmAction: "apps/doc/src/compositions/alert-dialog/confirm-action-composition.tsx",
+  DeleteServer: "apps/doc/src/modules/alert-dialog/compositions/typed-delete.composition.tsx",
+  ConfirmAction: "apps/doc/src/modules/alert-dialog/compositions/confirm-action.composition.tsx",
 } as const;
 
 type AlertDialogCompositionKey = keyof typeof ALERT_DIALOG_COMPOSITION_SOURCES;

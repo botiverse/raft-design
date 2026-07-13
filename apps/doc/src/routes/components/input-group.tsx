@@ -16,14 +16,14 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import inputGroupInvalidStateCompositionSource from "#/compositions/input-group/invalid-state-composition.tsx?raw";
-import inputGroupSearchInputCompositionSource from "#/compositions/input-group/search-input-composition.tsx?raw";
-import inputGroupSlugInputCompositionSource from "#/compositions/input-group/slug-input-composition.tsx?raw";
+import inputGroupInvalidStateCompositionSource from "#/modules/input-group/compositions/invalid-state.composition.tsx?raw";
+import inputGroupSearchInputCompositionSource from "#/modules/input-group/compositions/search-input.composition.tsx?raw";
+import inputGroupSlugInputCompositionSource from "#/modules/input-group/compositions/slug-input.composition.tsx?raw";
 import {
   INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION,
   INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/input-group-source-comparison.tsx";
-import { Grid2X2, Search, Upload } from "lucide-react";
+} from "#/modules/input-group/input-group.source-comparison.tsx";
+import { Search, Upload } from "lucide-react";
 import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
 import LegacySlugInput from "../../../../../packages/ui/src/legacy/SlugInput.tsx";
 
@@ -327,16 +327,6 @@ function InputGroupDoc() {
     <DocPage
       title="InputGroup"
       description="A single-line input composition shell with leading or trailing addons."
-      headerAction={
-        <Button
-          render={<a href="/components/input-group/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

@@ -14,12 +14,12 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import separatorHorizontalCompositionSource from "#/compositions/separator/horizontal-composition.tsx?raw";
-import separatorVerticalCompositionSource from "#/compositions/separator/vertical-composition.tsx?raw";
+import separatorHorizontalCompositionSource from "#/modules/separator/compositions/horizontal.composition.tsx?raw";
+import separatorVerticalCompositionSource from "#/modules/separator/compositions/vertical.composition.tsx?raw";
 import {
   SEPARATOR_SOURCE_COMPARISON_COMPOSITION,
   SEPARATOR_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/separator-source-comparison.tsx";
+} from "#/modules/separator/separator.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

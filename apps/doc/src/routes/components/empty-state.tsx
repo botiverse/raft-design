@@ -25,18 +25,18 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import emptyStateActivityInboxCompositionSource from "#/compositions/empty-state/activity-inbox-composition.tsx?raw";
-import emptyStateDefaultCompositionSource from "#/compositions/empty-state/default-composition.tsx?raw";
-import emptyStateFilesCompositionSource from "#/compositions/empty-state/files-composition.tsx?raw";
-import emptyStateInboxStatusCompositionSource from "#/compositions/empty-state/inbox-status-composition.tsx?raw";
-import emptyStateSavedMessagesCompositionSource from "#/compositions/empty-state/saved-messages-composition.tsx?raw";
-import emptyStateTaskFilterCompositionSource from "#/compositions/empty-state/task-filter-composition.tsx?raw";
-import emptyStateWithActionCompositionSource from "#/compositions/empty-state/with-action-composition.tsx?raw";
+import emptyStateActivityInboxCompositionSource from "#/modules/empty-state/compositions/activity-inbox.composition.tsx?raw";
+import emptyStateDefaultCompositionSource from "#/modules/empty-state/compositions/default.composition.tsx?raw";
+import emptyStateFilesCompositionSource from "#/modules/empty-state/compositions/files.composition.tsx?raw";
+import emptyStateInboxStatusCompositionSource from "#/modules/empty-state/compositions/inbox-status.composition.tsx?raw";
+import emptyStateSavedMessagesCompositionSource from "#/modules/empty-state/compositions/saved-messages.composition.tsx?raw";
+import emptyStateTaskFilterCompositionSource from "#/modules/empty-state/compositions/task-filter.composition.tsx?raw";
+import emptyStateWithActionCompositionSource from "#/modules/empty-state/compositions/with-action.composition.tsx?raw";
 import {
   EMPTY_STATE_SOURCE_COMPARISON_COMPOSITION,
   EMPTY_STATE_SOURCE_COMPARISON_COMPOSITION_PATHS,
   EMPTY_STATE_SOURCE_COMPARISON_SOURCE,
-} from "#/compositions/empty-state-source-comparison.tsx";
+} from "#/modules/empty-state/empty-state.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

@@ -7,11 +7,9 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
-  type AvatarProps,
 } from "raft-ui";
 import { Check } from "lucide-react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -25,13 +23,15 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import avatarIdentityResolutionCompositionSource from "#/compositions/avatar/identity-resolution-composition.tsx?raw";
-import avatarPanelHeaderCompositionSource from "#/compositions/avatar/panel-header-composition.tsx?raw";
-import avatarScaleCompositionSource from "#/compositions/avatar/scale-composition.tsx?raw";
+import { SIZES, SIZE_OPTIONS } from "#/modules/avatar/avatar.constants.ts";
+import { AvatarPlaygroundPreview } from "#/modules/avatar/avatar.preview.tsx";
+import avatarIdentityResolutionCompositionSource from "#/modules/avatar/compositions/identity-resolution.composition.tsx?raw";
+import avatarPanelHeaderCompositionSource from "#/modules/avatar/compositions/panel-header.composition.tsx?raw";
+import avatarScaleCompositionSource from "#/modules/avatar/compositions/scale.composition.tsx?raw";
 import {
   AVATAR_SOURCE_COMPARISON_COMPOSITION,
   AVATAR_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/avatar-source-comparison.tsx";
+} from "#/modules/avatar/avatar.source-comparison.tsx";
 import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.tsx";
 
 const TOC = [
@@ -147,21 +147,6 @@ const AVATAR_PHOTOS = [
   "https://unsplash.com/photos/mxwcEIqJ63Y/download?force=true&w=160&h=160&fit=crop&crop=faces",
   "https://unsplash.com/photos/8CEKQlmnf50/download?force=true&w=160&h=160&fit=crop&crop=faces",
 ] as const;
-
-// Public t-shirt scale. Source-only one-off contexts collapse into these steps.
-const SIZES = [
-  { size: "xl", context: "profile/detail", px: 64 },
-  { size: "lg", context: "large identity", px: 48 },
-  { size: "md", context: "panel header", px: 36 },
-  { size: "sm", context: "list rows", px: 32 },
-  { size: "xs", context: "compact rows", px: 20 },
-  { size: "2xs", context: "nav / DM rows", px: 18 },
-  { size: "3xs", context: "inline preview", px: 14 },
-] as const;
-
-const SIZE_OPTIONS = SIZES.map((s) => s.size);
-
-const TYPES = ["agent", "human"] as const;
 
 // Representative steps for the badge auto-scale demo (badges below sm render as dots).
 const BADGE_SCALE_SIZES = ["xl", "lg", "md", "sm"] as const;
@@ -446,11 +431,6 @@ import { Check } from "lucide-react";
 <AvatarSlot context="surface-list" type="human" humanAvatarUrl={human.avatarUrl} gravatarHash={human.gravatarHash} />`,
 } as const;
 
-type PlaygroundValues = {
-  size: NonNullable<AvatarProps["size"]>;
-  type: NonNullable<AvatarProps["type"]>;
-};
-
 const AVATAR_PROPS: readonly PropRow[] = [
   {
     name: "size",
@@ -552,14 +532,7 @@ function AvatarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ size: "lg", type: "agent" }}
-          controls={[
-            { name: "size", label: "Size", type: "select", options: SIZE_OPTIONS },
-            { name: "type", label: "Type", type: "select", options: TYPES },
-          ]}
-          render={(values) => <Avatar size={values.size} type={values.type} />}
-        />
+        <AvatarPlaygroundPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "raft-ui";
-import { Grid2X2, Info } from "lucide-react";
+import { Input, Label, LabelAsterisk, LabelOptional, LabelSub } from "raft-ui";
+import { Info } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -15,14 +15,14 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import labelInlineFormLabelCompositionSource from "#/compositions/label/inline-form-label-composition.tsx?raw";
-import labelOptionalMarkerCompositionSource from "#/compositions/label/optional-marker-composition.tsx?raw";
-import labelRequiredMarkerCompositionSource from "#/compositions/label/required-marker-composition.tsx?raw";
-import labelSecondaryTextCompositionSource from "#/compositions/label/secondary-text-composition.tsx?raw";
+import labelInlineFormLabelCompositionSource from "#/modules/label/compositions/inline-form-label.composition.tsx?raw";
+import labelOptionalMarkerCompositionSource from "#/modules/label/compositions/optional-marker.composition.tsx?raw";
+import labelRequiredMarkerCompositionSource from "#/modules/label/compositions/required-marker.composition.tsx?raw";
+import labelSecondaryTextCompositionSource from "#/modules/label/compositions/secondary-text.composition.tsx?raw";
 import {
   LABEL_SOURCE_COMPARISON_COMPOSITION,
   LABEL_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/label-source-comparison.tsx";
+} from "#/modules/label/label.source-comparison.tsx";
 import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
@@ -244,16 +244,6 @@ function LabelDoc() {
     <DocPage
       title="Label"
       description="A form label primitive with required and secondary text markers."
-      headerAction={
-        <Button
-          render={<a href="/components/label/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

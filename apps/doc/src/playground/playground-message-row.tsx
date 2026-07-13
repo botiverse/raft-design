@@ -31,9 +31,9 @@ import {
 import {
   MessageContextMenuComposition,
   type MessageTaskState,
-} from "#/compositions/message-item/message-context-menu-composition.tsx";
-import { MessageRowToolbar } from "#/compositions/message-item/message-row-toolbar-composition.tsx";
-import { MessageReactionGlyphComposition } from "#/compositions/message-item/message-reaction-glyph-composition.tsx";
+} from "#/modules/message-item/compositions/context-menu.composition.tsx";
+import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
+import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
 import {
   PlaygroundMessageAvatar,
   type PlaygroundAgentStatus,

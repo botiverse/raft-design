@@ -8,11 +8,11 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { TaskCardComparisonComposition } from "#/compositions/tasks/task-card-comparison-composition.tsx";
-import taskCardComparisonCompositionSource from "#/compositions/tasks/task-card-comparison-composition.tsx?raw";
-import { TaskCardStateMatrixComposition } from "#/compositions/tasks/task-card-state-matrix-composition.tsx";
-import taskCardStateMatrixCompositionSource from "#/compositions/tasks/task-card-state-matrix-composition.tsx?raw";
-import { TaskCardSourceComparisonComposition } from "#/compositions/tasks/tasks-source-preview.tsx";
+import { TaskCardComparisonComposition } from "#/modules/task-card/compositions/task-card-comparison.composition.tsx";
+import taskCardComparisonCompositionSource from "#/modules/task-card/compositions/task-card-comparison.composition.tsx?raw";
+import { TaskCardStateMatrixComposition } from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx";
+import taskCardStateMatrixCompositionSource from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx?raw";
+import { TaskCardSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import sourceTaskCard from "../../../../../packages/ui/source/tasks/TaskCard.tsx?raw";
 
@@ -169,7 +169,7 @@ function TaskCardDoc() {
               brutalCode: code.comparison,
               compositionCode: code.comparison,
               compositionPath:
-                "apps/doc/src/compositions/tasks/task-card-comparison-composition.tsx",
+                "apps/doc/src/modules/task-card/compositions/task-card-comparison.composition.tsx",
               compositionSource: taskCardComparisonCompositionSource,
             },
           ]}

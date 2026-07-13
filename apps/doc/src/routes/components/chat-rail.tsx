@@ -8,12 +8,12 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { AppRailComposition } from "#/compositions/chat-rail-composition.tsx";
-import chatRailCompositionSource from "#/compositions/chat-rail-composition.tsx?raw";
-import { SourceAppRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
+import { AppRailComposition } from "#/modules/chat-rail/chat-rail.composition.tsx";
+import chatRailCompositionSource from "#/modules/chat-rail/chat-rail.composition.tsx?raw";
+import { SourceAppRailPreview } from "#/modules/chat-rail/chat-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/compositions/chat-rail-composition.tsx";
+const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/chat-rail/chat-rail.composition.tsx";
 
 const TOC = [
   { id: "anatomy", title: "Anatomy" },

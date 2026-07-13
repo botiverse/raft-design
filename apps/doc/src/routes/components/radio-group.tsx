@@ -4,7 +4,6 @@ import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "raft-ui";
 import { Field, FieldDescription, FieldLabel } from "raft-ui";
 import { Check } from "lucide-react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -17,19 +16,20 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import radioGroupReferralSourceCompositionSource from "#/compositions/radio-group/referral-source-composition.tsx?raw";
-import radioGroupReferralSourceRestoredCompositionSource from "#/compositions/radio-group/referral-source-restored-composition.tsx?raw";
-import radioGroupResetModeCompositionSource from "#/compositions/radio-group/reset-mode-composition.tsx?raw";
-import radioGroupResetModeRestoredCompositionSource from "#/compositions/radio-group/reset-mode-restored-composition.tsx?raw";
+import radioGroupReferralSourceCompositionSource from "#/modules/radio-group/compositions/referral-source.composition.tsx?raw";
+import radioGroupReferralSourceRestoredCompositionSource from "#/modules/radio-group/compositions/referral-source-restored.composition.tsx?raw";
+import radioGroupResetModeCompositionSource from "#/modules/radio-group/compositions/reset-mode.composition.tsx?raw";
+import radioGroupResetModeRestoredCompositionSource from "#/modules/radio-group/compositions/reset-mode-restored.composition.tsx?raw";
 import {
   RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION,
   RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
   RadioGroupReferralSourcePreview,
   RadioGroupResetModeSourcePreview,
-} from "#/compositions/radio-group-source-comparison.tsx";
-import { RadioGroupReferralSourceComposition } from "#/compositions/radio-group/referral-source-composition.tsx";
-import { RadioGroupResetModeComposition } from "#/compositions/radio-group/reset-mode-composition.tsx";
-import { RadioGroupResetModeRestoredComposition } from "#/compositions/radio-group/reset-mode-restored-composition.tsx";
+} from "#/modules/radio-group/radio-group.source-comparison.tsx";
+import { RadioGroupPreview } from "#/modules/radio-group/radio-group.preview.tsx";
+import { RadioGroupReferralSourceComposition } from "#/modules/radio-group/compositions/referral-source.composition.tsx";
+import { RadioGroupResetModeComposition } from "#/modules/radio-group/compositions/reset-mode.composition.tsx";
+import { RadioGroupResetModeRestoredComposition } from "#/modules/radio-group/compositions/reset-mode-restored.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -219,17 +219,7 @@ function RadioGroupDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground
-          defaultValues={{ disabled: false }}
-          controls={[{ name: "disabled", label: "Disabled", type: "boolean" }]}
-          render={(values) => (
-            <RadioGroupReferralSourceComposition
-              value={referralValue}
-              onValueChange={setReferralValue}
-              disabled={values.disabled}
-            />
-          )}
-        />
+        <RadioGroupPreview value={referralValue} onValueChange={setReferralValue} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

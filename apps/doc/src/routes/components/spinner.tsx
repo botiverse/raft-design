@@ -10,14 +10,14 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
-import spinnerDefaultCompositionSource from "#/compositions/spinner/default-composition.tsx?raw";
-import spinnerInverseCompositionSource from "#/compositions/spinner/inverse-composition.tsx?raw";
-import spinnerLargeCompositionSource from "#/compositions/spinner/large-composition.tsx?raw";
+import spinnerDefaultCompositionSource from "#/modules/spinner/compositions/default.composition.tsx?raw";
+import spinnerInverseCompositionSource from "#/modules/spinner/compositions/inverse.composition.tsx?raw";
+import spinnerLargeCompositionSource from "#/modules/spinner/compositions/large.composition.tsx?raw";
 import {
   SPINNER_SOURCE_COMPARISON_COMPOSITION,
   SPINNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
   SPINNER_SOURCE_COMPARISON_SOURCE,
-} from "#/compositions/spinner-source-comparison.tsx";
+} from "#/modules/spinner/spinner.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

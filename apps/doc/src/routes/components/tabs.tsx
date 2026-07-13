@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Button,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
@@ -12,7 +11,7 @@ import {
   useOrderedTabs,
   type OrderedTabItem,
 } from "raft-ui";
-import { Bell, CreditCard, Files, Settings, Grid2X2, MessageSquare, Users } from "lucide-react";
+import { Bell, CreditCard, Files, Settings, MessageSquare, Users } from "lucide-react";
 import { useState, type ComponentType } from "react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
@@ -310,16 +309,6 @@ function TabsDoc() {
     <DocPage
       title="Tabs"
       description="A Base UI Tabs family for switching related panels with default, underline, and opt-in sortable list treatments."
-      headerAction={
-        <Button
-          render={<a href="/components/tabs/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

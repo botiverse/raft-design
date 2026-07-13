@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Grid2X2 } from "lucide-react";
-import { Button, Checkbox, Label, type CheckboxProps } from "raft-ui";
+import { Checkbox, Label } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -16,20 +14,22 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import checkboxCheckedCompositionSource from "#/compositions/checkbox/checked-composition.tsx?raw";
-import checkboxDefaultCheckedCompositionSource from "#/compositions/checkbox/default-checked-composition.tsx?raw";
-import checkboxDisabledCompositionSource from "#/compositions/checkbox/disabled-composition.tsx?raw";
-import checkboxIndeterminateCompositionSource from "#/compositions/checkbox/indeterminate-composition.tsx?raw";
-import checkboxPreviewOnHoverMarkerCompositionSource from "#/compositions/checkbox/preview-on-hover-marker-composition.tsx?raw";
-import checkboxPrimaryCheckedCompositionSource from "#/compositions/checkbox/primary-checked-composition.tsx?raw";
-import { CheckboxSettingsGroupContent } from "#/compositions/checkbox/settings-group-composition.tsx";
-import checkboxSettingsGroupCompositionSource from "#/compositions/checkbox/settings-group-composition.tsx?raw";
-import checkboxSizesCompositionSource from "#/compositions/checkbox/sizes-composition.tsx?raw";
-import checkboxUncheckedCompositionSource from "#/compositions/checkbox/unchecked-composition.tsx?raw";
+import { SIZES, VARIANTS } from "#/modules/checkbox/checkbox.constants.ts";
+import { CheckboxPlaygroundPreview } from "#/modules/checkbox/checkbox.preview.tsx";
+import checkboxCheckedCompositionSource from "#/modules/checkbox/compositions/checked.composition.tsx?raw";
+import checkboxDefaultCheckedCompositionSource from "#/modules/checkbox/compositions/default-checked.composition.tsx?raw";
+import checkboxDisabledCompositionSource from "#/modules/checkbox/compositions/disabled.composition.tsx?raw";
+import checkboxIndeterminateCompositionSource from "#/modules/checkbox/compositions/indeterminate.composition.tsx?raw";
+import checkboxPreviewOnHoverMarkerCompositionSource from "#/modules/checkbox/compositions/preview-on-hover-marker.composition.tsx?raw";
+import checkboxPrimaryCheckedCompositionSource from "#/modules/checkbox/compositions/primary-checked.composition.tsx?raw";
+import { CheckboxSettingsGroupContent } from "#/modules/checkbox/compositions/settings-group.composition.tsx";
+import checkboxSettingsGroupCompositionSource from "#/modules/checkbox/compositions/settings-group.composition.tsx?raw";
+import checkboxSizesCompositionSource from "#/modules/checkbox/compositions/sizes.composition.tsx?raw";
+import checkboxUncheckedCompositionSource from "#/modules/checkbox/compositions/unchecked.composition.tsx?raw";
 import {
   CHECKBOX_SOURCE_COMPARISON_COMPOSITION,
   CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/checkbox-source-comparison.tsx";
+} from "#/modules/checkbox/checkbox.source-comparison.tsx";
 import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker.tsx";
 import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
 
@@ -84,9 +84,6 @@ const SOURCE_SCENES = [
     ],
   },
 ] as const;
-
-const SIZES = ["sm", "md"] as const;
-const VARIANTS = ["default", "primary"] as const;
 
 const SNIPPETS = {
   anatomy: `<Checkbox />`,
@@ -168,14 +165,6 @@ const SNIPPETS = {
   sourceHoverMarker: `<CheckMarker checked={false} previewOnHover />`,
   currentRowSelection: `<Checkbox aria-label="Select row" />`,
 } as const;
-
-type PlaygroundValues = {
-  size: NonNullable<CheckboxProps["size"]>;
-  variant: NonNullable<CheckboxProps["variant"]>;
-  checked: boolean;
-  indeterminate: boolean;
-  disabled: boolean;
-};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -298,44 +287,10 @@ function CheckboxDoc() {
     <DocPage
       title="Checkbox"
       description="A square toggle with checked and indeterminate states."
-      headerAction={
-        <Button
-          render={<a href="/components/checkbox/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            size: "sm",
-            variant: "default",
-            checked: true,
-            indeterminate: false,
-            disabled: false,
-          }}
-          controls={[
-            { name: "size", label: "Size", type: "select", options: SIZES },
-            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-            { name: "checked", label: "Checked", type: "boolean" },
-            { name: "indeterminate", label: "Indeterminate", type: "boolean" },
-            { name: "disabled", label: "Disabled", type: "boolean" },
-          ]}
-          render={(values) => (
-            <Checkbox
-              size={values.size}
-              variant={values.variant}
-              checked={values.checked}
-              indeterminate={values.indeterminate}
-              disabled={values.disabled}
-            />
-          )}
-        />
+        <CheckboxPlaygroundPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

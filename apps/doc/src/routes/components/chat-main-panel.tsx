@@ -27,13 +27,13 @@ import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import {
   ChatMainPanelComposition,
   type ChatMainPanelCompositionProps,
-} from "#/compositions/chat-main-panel-composition.tsx";
-import chatMainPanelCompositionSource from "#/compositions/chat-main-panel-composition.tsx?raw";
+} from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
+import chatMainPanelCompositionSource from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx?raw";
 import {
   ChatMainPanelChannelHeaderComposition,
   ChatMainPanelDmHeaderComposition,
-} from "#/compositions/chat-main-panel-header-composition.tsx";
-import chatMainPanelHeaderCompositionSource from "#/compositions/chat-main-panel-header-composition.tsx?raw";
+} from "#/modules/chat-main-panel/compositions/chat-main-panel-header.composition.tsx";
+import chatMainPanelHeaderCompositionSource from "#/modules/chat-main-panel/compositions/chat-main-panel-header.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CONVERSATIONS = ["channel", "dm"] as const;
@@ -238,7 +238,7 @@ function ChatMainPanelDoc() {
           </PreviewPane>
         </PreviewGrid>
         <DocsCodeBlock.Panel
-          path="apps/doc/src/compositions/chat-main-panel-header-composition.tsx"
+          path="apps/doc/src/modules/chat-main-panel/compositions/chat-main-panel-header.composition.tsx"
           source={SNIPPETS.chatMainPanelHeaderComposition}
           html={code.chatMainPanelHeaderComposition}
           showLineNumbers={false}
@@ -273,7 +273,7 @@ function ChatMainPanelDoc() {
           </PreviewPane>
         </PreviewGrid>
         <DocsCodeBlock.Panel
-          path="apps/doc/src/compositions/chat-main-panel-composition.tsx"
+          path="apps/doc/src/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx"
           source={SNIPPETS.chatMainPanelComposition}
           html={code.chatMainPanelComposition}
           showLineNumbers={false}

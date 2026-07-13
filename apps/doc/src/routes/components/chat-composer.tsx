@@ -15,12 +15,13 @@ import {
   ComposerComposition,
   ComposerDropOverlayComposition,
   ComposerStatesComposition,
-} from "#/compositions/composer-composition.tsx";
-import composerCompositionSource from "#/compositions/composer-composition.tsx?raw";
-import { COMPOSER_IMAGE_SRC } from "#/compositions/composer-image.ts";
+} from "#/modules/chat-composer/chat-composer.composition.tsx";
+import composerCompositionSource from "#/modules/chat-composer/chat-composer.composition.tsx?raw";
+import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const COMPOSER_COMPOSITION_PATH = "apps/doc/src/compositions/composer-composition.tsx";
+const COMPOSER_COMPOSITION_PATH =
+  "apps/doc/src/modules/chat-composer/chat-composer.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

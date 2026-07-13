@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Button, Spinner, Status, Text, type BadgeProps } from "raft-ui";
-import { CircleCheck, Clock, Grid2X2, X } from "lucide-react";
+import { Badge, Spinner, Status, Text, type BadgeProps } from "raft-ui";
+import { CircleCheck, Clock, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -184,16 +184,6 @@ function BadgeDoc() {
     <DocPage
       title="Badge"
       description="A small semantic label chip for status, category, and metadata."
-      headerAction={
-        <Button
-          render={<a href="/components/badge/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

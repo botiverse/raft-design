@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   FilesPanelComposition,
   type FileListEntry,
-} from "#/compositions/files/files-panel-composition.tsx";
+} from "#/modules/files/files-panel.composition.tsx";
 import {
   getPlaygroundFiles,
   requirePlaygroundFile,

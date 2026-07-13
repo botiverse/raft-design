@@ -29,18 +29,19 @@ The component system has three runtime layers with one-way dependencies:
 
 ```text
 packages/ui
-  -> apps/doc/src/compositions
+  -> apps/doc/src/modules/<component>
     -> apps/doc/src/playground
 
-apps/doc/src/routes/components
-  -> apps/doc/src/compositions
+apps/doc/src/routes
+  -> apps/doc/src/modules/<component>
 ```
 
 - `packages/ui` owns business-agnostic primitives, reusable headless behavior, component recipes, tokens, and public UI contracts.
-- `apps/doc/src/compositions` owns the canonical executable examples that show consumers how to combine UI primitives into meaningful states and interactions.
-- `apps/doc/src/routes/components` owns documentation prose, props tables, source comparison, and page assembly. Routes must not maintain another Current implementation.
+- `apps/doc/src/modules/<component>` owns everything non-route for a component: the canonical executable compositions (`compositions/*.composition.tsx`, or a flat `<component>.composition.tsx` for a single example), the interactive preview (`<component>.preview.tsx`), source comparison, constants, and fixtures. This is the canonical executable usage layer.
+- `apps/doc/src/routes` owns routing only. `routes/components/<component>.tsx` is a thin page-assembly route (title, prose, props/anatomy tables, SourceComparison config) that imports and arranges its module's compositions and `?raw` source. Sandboxed iframe-only preview routes live under `routes/iframe` and stay thin, delegating to `modules/<component>/<component>.preview.tsx`. Routes must not maintain another Current implementation.
+- `apps/doc/src/components` owns shared documentation chrome (DocPage, Sidebar, SourceComparison, source-comparison-preview, ...) reused across modules.
 - `apps/doc/src/playground` owns the coherent mock product domain, router coordination, and business-shaped demo state. It consumes UI primitives and canonical docs compositions; it is not a second component library.
-- Dependencies must not point upward. `packages/ui` never imports `apps/doc`; docs compositions never import Playground.
+- Dependencies must not point upward. `packages/ui` never imports `apps/doc`; docs modules never import Playground.
 
 ## State Boundary
 
@@ -63,8 +64,8 @@ Use this sequence when adding or migrating a component:
 1. Inventory real source callsites and classify the candidate as a UI primitive, reusable behavior component, docs composition, or Playground business wrapper. Do not infer the boundary from a demo fixture alone.
 2. If source parity matters, preserve the source implementation under `packages/ui/source` as reference only. Runtime code must not depend on it.
 3. Implement the business-agnostic API in `packages/ui`: Base UI owns headless behavior, `tv()` recipes own reusable styling, and children/parts expose visible structure. Export unstable work through `wip.ts` while refining.
-4. Add canonical executable examples under `apps/doc/src/compositions`. Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
-5. Build the docs route by consuming those compositions and their `?raw` source. Do not copy Current JSX into route-local fixtures or snippet strings.
+4. Add canonical executable examples under `apps/doc/src/modules/<component>/compositions` (one example per file, `<name>.composition.tsx`; keep it flat as `<component>.composition.tsx` when there is a single example). Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
+5. Build the thin docs route in `routes/components` by consuming those compositions and their `?raw` source, and extract any interactive preview into `modules/<component>/<component>.preview.tsx`. Do not copy Current JSX into route-local fixtures or snippet strings.
 6. Add the component to Playground only when it participates in a real shell/product scenario or needs cross-component verification. Reuse the canonical composition and add only the thin mock business wrapper or coordinated state Playground needs.
 7. Audit all three layers for business leakage, duplicated implementations, theme-controlled business DOM, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
 8. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
@@ -78,7 +79,7 @@ Hold these whenever you move, collapse, or restyle existing component structure:
 - **DOM and className parity.** A structure-preserving refactor must render the same DOM and classes as before. Diff the output against the pre-change callsite (for example the existing Playground assembly) and treat any structural delta as a regression. Brutal stays pixel-identical; elegant may take token-driven adjustments.
 - **Push generic boilerplate down as additive sugar.** When a wrapper carries no business content, move it into the `packages/ui` atom instead of leaving it in a composition. Keep the new prop or part additive: it activates only when passed, and the existing granular path stays byte-for-byte unchanged so current callsites keep working.
 - **Slots must earn their existence.** Before keeping a slot or part, confirm the rendered DOM shows a real structural or visual difference (a border, spacing, or reflow). If it collapses into a neighbor with no such difference, delete it and merge. Verify against actual output, not the intended design.
-- **Inventory every callsite before changing or removing an API.** Grep all consumers across `packages/ui`, `compositions`, `routes/components`, and `playground` first. Backward-compatibility scope is the full callsite set, not the one component you started from.
+- **Inventory every callsite before changing or removing an API.** Grep all consumers across `packages/ui`, `modules`, `routes/components`, and `playground` first. Backward-compatibility scope is the full callsite set, not the one component you started from.
 
 # Styling Conventions
 

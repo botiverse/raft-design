@@ -10,12 +10,12 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { ChatThreadPanelComposition } from "#/compositions/chat-thread-panel-composition.tsx";
-import chatThreadPanelCompositionSource from "#/compositions/chat-thread-panel-composition.tsx?raw";
+import { ChatThreadPanelComposition } from "#/modules/chat-thread-panel/chat-thread-panel.composition.tsx";
+import chatThreadPanelCompositionSource from "#/modules/chat-thread-panel/chat-thread-panel.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_THREAD_PANEL_COMPOSITION_PATH =
-  "apps/doc/src/compositions/chat-thread-panel-composition.tsx";
+  "apps/doc/src/modules/chat-thread-panel/chat-thread-panel.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

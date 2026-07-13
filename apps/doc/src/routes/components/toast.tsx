@@ -27,15 +27,11 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  ToastComposition,
-  ToastPreviewScene,
-  type ToastDemoOptions,
-} from "#/compositions/toast-composition.tsx";
+import { ToastPreviewScene } from "#/modules/toast/toast.composition.tsx";
+import { ToastPlaygroundPreview } from "#/modules/toast/toast.preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -46,8 +42,6 @@ const TOC = [
 ] as const;
 
 const anchoredUsageToastManager = createToastManager();
-
-type PreviewPlaygroundValues = ToastDemoOptions;
 
 const ANATOMY_VARIANTS = [
   {
@@ -477,31 +471,7 @@ function ToastDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PreviewPlaygroundValues>
-          defaultValues={{
-            mode: "stacked",
-            icon: true,
-            description: true,
-            action: true,
-            dismissible: true,
-          }}
-          controls={[
-            { name: "mode", label: "Mode", type: "radio", options: ["stacked", "anchored"] },
-            { name: "icon", label: "Icon", type: "boolean" },
-            { name: "description", label: "Description", type: "boolean" },
-            { name: "action", label: "Action", type: "boolean" },
-            { name: "dismissible", label: "Dismiss", type: "boolean" },
-          ]}
-          previewClassName="min-h-84"
-          render={(values) => (
-            <ToastComposition
-              key={values.mode}
-              controls
-              demoOptions={values}
-              className="h-full min-h-84 w-full"
-            />
-          )}
-        />
+        <ToastPlaygroundPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

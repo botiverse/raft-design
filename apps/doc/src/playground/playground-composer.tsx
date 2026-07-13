@@ -54,7 +54,7 @@ import {
 import {
   ComposerAttachmentsComposition,
   ComposerBodyComposition,
-} from "#/compositions/composer-composition.tsx";
+} from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
 import type {
   PlaygroundChannel,

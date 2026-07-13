@@ -50,18 +50,20 @@ import {
   runMockMutation,
   useMockQuery,
 } from "#/lib/mock-query.ts";
-import composerMentionComboboxCompositionSource from "#/compositions/composer-mention-combobox-composition.tsx?raw";
-import { ComposerMentionComboboxComposition } from "#/compositions/composer-mention-combobox-composition.tsx";
-import messageSearchChannelFilterCompositionSource from "#/compositions/message-search-channel-filter-composition.tsx?raw";
-import { MessageSearchChannelFilterComposition } from "#/compositions/message-search-channel-filter-composition.tsx";
-import messageSearchSenderFilterCompositionSource from "#/compositions/message-search-sender-filter-composition.tsx?raw";
-import { MessageSearchSenderFilterComposition } from "#/compositions/message-search-sender-filter-composition.tsx";
-import selectionPopoverComboboxCompositionSource from "#/compositions/selection-popover-combobox-composition.tsx?raw";
-import { SelectionPopoverComboboxComposition } from "#/compositions/selection-popover-combobox-composition.tsx";
-import tasksChannelFilterCompositionSource from "#/compositions/tasks-channel-filter-composition.tsx?raw";
-import { TasksChannelFilterComposition } from "#/compositions/tasks-channel-filter-composition.tsx";
-import tasksIdentityFilterCompositionSource from "#/compositions/tasks-identity-filter-composition.tsx?raw";
-import { TasksIdentityFilterComposition } from "#/compositions/tasks-identity-filter-composition.tsx";
+import { models, type Model } from "#/modules/combobox/combobox.constants.ts";
+import { PreviewCombobox } from "#/modules/combobox/combobox.preview.tsx";
+import composerMentionComboboxCompositionSource from "#/modules/combobox/compositions/composer-mention-combobox.composition.tsx?raw";
+import { ComposerMentionComboboxComposition } from "#/modules/combobox/compositions/composer-mention-combobox.composition.tsx";
+import messageSearchChannelFilterCompositionSource from "#/modules/combobox/compositions/message-search-channel-filter.composition.tsx?raw";
+import { MessageSearchChannelFilterComposition } from "#/modules/combobox/compositions/message-search-channel-filter.composition.tsx";
+import messageSearchSenderFilterCompositionSource from "#/modules/combobox/compositions/message-search-sender-filter.composition.tsx?raw";
+import { MessageSearchSenderFilterComposition } from "#/modules/combobox/compositions/message-search-sender-filter.composition.tsx";
+import selectionPopoverComboboxCompositionSource from "#/modules/combobox/compositions/selection-popover-combobox.composition.tsx?raw";
+import { SelectionPopoverComboboxComposition } from "#/modules/combobox/compositions/selection-popover-combobox.composition.tsx";
+import tasksChannelFilterCompositionSource from "#/modules/combobox/compositions/tasks-channel-filter.composition.tsx?raw";
+import { TasksChannelFilterComposition } from "#/modules/combobox/compositions/tasks-channel-filter.composition.tsx";
+import tasksIdentityFilterCompositionSource from "#/modules/combobox/compositions/tasks-identity-filter.composition.tsx?raw";
+import { TasksIdentityFilterComposition } from "#/modules/combobox/compositions/tasks-identity-filter.composition.tsx";
 import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.tsx";
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
@@ -152,15 +154,6 @@ const channels = [
 ] as const;
 
 type Channel = (typeof channels)[number];
-
-const models = [
-  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
-  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
-  { id: "vision", label: "Raft Vision", description: "Image understanding" },
-  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
-] as const;
-
-type Model = (typeof models)[number];
 
 type Repository = {
   id: string;
@@ -738,17 +731,17 @@ const PROPS: readonly PropRow[] = [
 const HASH_LEADING = <Hash className="text-black/50" />;
 
 const MESSAGE_SEARCH_CHANNEL_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/compositions/message-search-channel-filter-composition.tsx" as const;
+  "apps/doc/src/modules/combobox/compositions/message-search-channel-filter.composition.tsx" as const;
 const MESSAGE_SEARCH_SENDER_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/compositions/message-search-sender-filter-composition.tsx" as const;
+  "apps/doc/src/modules/combobox/compositions/message-search-sender-filter.composition.tsx" as const;
 const COMPOSER_MENTION_COMBOBOX_COMPOSITION_PATH =
-  "apps/doc/src/compositions/composer-mention-combobox-composition.tsx" as const;
+  "apps/doc/src/modules/combobox/compositions/composer-mention-combobox.composition.tsx" as const;
 const SELECTION_POPOVER_COMBOBOX_COMPOSITION_PATH =
-  "apps/doc/src/compositions/selection-popover-combobox-composition.tsx" as const;
+  "apps/doc/src/modules/combobox/compositions/selection-popover-combobox.composition.tsx" as const;
 const TASKS_CHANNEL_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/compositions/tasks-channel-filter-composition.tsx" as const;
+  "apps/doc/src/modules/combobox/compositions/tasks-channel-filter.composition.tsx" as const;
 const TASKS_IDENTITY_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/compositions/tasks-identity-filter-composition.tsx" as const;
+  "apps/doc/src/modules/combobox/compositions/tasks-identity-filter.composition.tsx" as const;
 
 const COMPACT_LIST_AVATAR = (
   <LegacyAvatarSlot
@@ -1020,67 +1013,6 @@ function ComboboxChannelList() {
       </ComboboxList>
       <ComboboxEmpty>No channels found</ComboboxEmpty>
     </>
-  );
-}
-
-function ComboboxModelList() {
-  return (
-    <>
-      <ComboboxList>
-        {(model: Model) => (
-          <ComboboxItem key={model.id} value={model}>
-            <span className="truncate leading-6">{model.label}</span>
-            <ComboboxItemIndicator />
-          </ComboboxItem>
-        )}
-      </ComboboxList>
-      <ComboboxEmpty>No models found</ComboboxEmpty>
-    </>
-  );
-}
-
-function PreviewCombobox() {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const [selectedModel, setSelectedModel] = useState<Model | null>(models[0]);
-
-  return (
-    <div ref={portalRef} className="relative flex justify-center">
-      <Combobox<Model>
-        items={models}
-        value={selectedModel}
-        itemToStringLabel={(model) => model.label}
-        onValueChange={setSelectedModel}
-        autoHighlight
-      >
-        <Field className="w-56 gap-1.5">
-          <FieldLabel>Model</FieldLabel>
-          <ComboboxControl>
-            <Sparkles
-              aria-hidden
-              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
-            />
-            <ComboboxInput
-              aria-label="Search models"
-              placeholder="Search models..."
-              suppressPasswordManager
-            />
-            <ComboboxClear aria-label="Clear model" />
-            <ComboboxTriggerIndicator>
-              <ChevronDown aria-hidden />
-            </ComboboxTriggerIndicator>
-          </ComboboxControl>
-        </Field>
-        <ComboboxContent
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[var(--anchor-width)]"
-        >
-          <ComboboxModelList />
-        </ComboboxContent>
-      </Combobox>
-    </div>
   );
 }
 

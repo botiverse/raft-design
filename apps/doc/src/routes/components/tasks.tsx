@@ -8,8 +8,8 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { TasksPanelComposition } from "#/compositions/tasks/tasks-panel-composition.tsx";
-import tasksPanelCompositionSource from "#/compositions/tasks/tasks-panel-composition.tsx?raw";
+import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
+import tasksPanelCompositionSource from "#/modules/tasks/compositions/tasks-panel.composition.tsx?raw";
 import {
   CreateTaskDialogStatesComposition,
   TasksDragStatesComposition,
@@ -17,9 +17,9 @@ import {
   TasksErrorComposition,
   TasksFilterStatesComposition,
   TasksLoadingComposition,
-} from "#/compositions/tasks/tasks-states-composition.tsx";
-import tasksStatesCompositionSource from "#/compositions/tasks/tasks-states-composition.tsx?raw";
-import { TasksSourcePreview } from "#/compositions/tasks/tasks-source-preview.tsx";
+} from "#/modules/tasks/compositions/tasks-states.composition.tsx";
+import tasksStatesCompositionSource from "#/modules/tasks/compositions/tasks-states.composition.tsx?raw";
+import { TasksSourcePreview } from "#/modules/tasks/compositions/tasks-source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import sourceTasksPanel from "../../../../../packages/ui/source/tasks/TasksPanel.tsx?raw";
 

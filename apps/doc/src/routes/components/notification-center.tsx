@@ -38,12 +38,12 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import notificationCenterCompositionSource from "#/compositions/notification-center-composition.tsx?raw";
+import notificationCenterCompositionSource from "#/modules/notification-center/notification-center.composition.tsx?raw";
 import {
   NOTIFICATION_CENTER_COMPOSITION_PATH,
   NotificationCenterComposition,
   NotificationCenterSourcePreview,
-} from "#/compositions/notification-center-source-comparison.tsx";
+} from "#/modules/notification-center/notification-center.source-comparison.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 
 const TOC = [

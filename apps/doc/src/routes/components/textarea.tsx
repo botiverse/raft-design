@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button, InlineCode, Textarea, TextareaCounter, TextareaGroup } from "raft-ui";
+import { InlineCode, Textarea, TextareaCounter, TextareaGroup } from "raft-ui";
 import { Field, FieldError, FieldLabel } from "raft-ui";
-import { Grid2X2 } from "lucide-react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -18,14 +16,16 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import textareaDefaultShellCompositionSource from "#/compositions/textarea/default-shell-composition.tsx?raw";
-import textareaDisabledStylingCompositionSource from "#/compositions/textarea/disabled-styling-composition.tsx?raw";
-import textareaInvalidStateCompositionSource from "#/compositions/textarea/invalid-state-composition.tsx?raw";
-import textareaWrapperApiCompositionSource from "#/compositions/textarea/wrapper-api-composition.tsx?raw";
+import { TEXTAREA_PREVIEW_CLASS } from "#/modules/textarea/textarea.constants.ts";
+import { TextareaPreview } from "#/modules/textarea/textarea.preview.tsx";
+import textareaDefaultShellCompositionSource from "#/modules/textarea/compositions/default-shell.composition.tsx?raw";
+import textareaDisabledStylingCompositionSource from "#/modules/textarea/compositions/disabled-styling.composition.tsx?raw";
+import textareaInvalidStateCompositionSource from "#/modules/textarea/compositions/invalid-state.composition.tsx?raw";
+import textareaWrapperApiCompositionSource from "#/modules/textarea/compositions/wrapper-api.composition.tsx?raw";
 import {
   TEXTAREA_SOURCE_COMPARISON_COMPOSITION,
   TEXTAREA_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/textarea-source-comparison.tsx";
+} from "#/modules/textarea/textarea.source-comparison.tsx";
 import LegacyTextarea from "../../../../../packages/ui/src/legacy/Textarea.tsx";
 
 const TOC = [
@@ -94,8 +94,6 @@ const SOURCE_SCENES = [
     ],
   },
 ] as const;
-
-const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
 
 const SNIPPETS = {
   anatomy: `<Textarea />`,
@@ -186,12 +184,6 @@ const SNIPPETS = {
   <FieldError match>Message is required.</FieldError>
 </Field>`,
 } as const;
-
-type PlaygroundValues = {
-  disabled: boolean;
-  invalid: boolean;
-  placeholder: string;
-};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -314,41 +306,10 @@ function TextareaDoc() {
     <DocPage
       title="Textarea"
       description="A multi-line text control with theme-aware focus, invalid, and disabled states."
-      headerAction={
-        <Button
-          render={<a href="/components/textarea/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          previewClassName={TEXTAREA_PREVIEW_CLASS}
-          defaultValues={{
-            disabled: false,
-            invalid: false,
-            placeholder: "Type your message here.",
-          }}
-          controls={[
-            { name: "disabled", label: "Disabled", type: "boolean" },
-            { name: "invalid", label: "Invalid", type: "boolean" },
-            { name: "placeholder", label: "Placeholder", type: "text" },
-          ]}
-          render={(values) => (
-            <Textarea
-              className="w-80"
-              rows={4}
-              placeholder={values.placeholder}
-              disabled={values.disabled}
-              aria-invalid={values.invalid || undefined}
-            />
-          )}
-        />
+        <TextareaPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Button, InlineCode, Input } from "raft-ui";
+import { InlineCode, Input } from "raft-ui";
 import { Field, FieldError, FieldLabel } from "raft-ui";
-import { Grid2X2 } from "lucide-react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -17,15 +15,16 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import inputDefaultCompositionSource from "#/compositions/input/default-composition.tsx?raw";
-import inputDisabledStylingCompositionSource from "#/compositions/input/disabled-styling-composition.tsx?raw";
-import inputInvalidDisabledPriorityCompositionSource from "#/compositions/input/invalid-disabled-priority-composition.tsx?raw";
-import inputInvalidStateCompositionSource from "#/compositions/input/invalid-state-composition.tsx?raw";
-import inputPasswordManagerSuppressionCompositionSource from "#/compositions/input/password-manager-suppression-composition.tsx?raw";
+import { InputPlaygroundPreview } from "#/modules/input/input.preview.tsx";
+import inputDefaultCompositionSource from "#/modules/input/compositions/default.composition.tsx?raw";
+import inputDisabledStylingCompositionSource from "#/modules/input/compositions/disabled-styling.composition.tsx?raw";
+import inputInvalidDisabledPriorityCompositionSource from "#/modules/input/compositions/invalid-disabled-priority.composition.tsx?raw";
+import inputInvalidStateCompositionSource from "#/modules/input/compositions/invalid-state.composition.tsx?raw";
+import inputPasswordManagerSuppressionCompositionSource from "#/modules/input/compositions/password-manager-suppression.composition.tsx?raw";
 import {
   INPUT_SOURCE_COMPARISON_COMPOSITION,
   INPUT_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/input-source-comparison.tsx";
+} from "#/modules/input/input.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -215,13 +214,6 @@ const SNIPPETS = {
 </Field>`,
 } as const;
 
-type PlaygroundValues = {
-  disabled: boolean;
-  invalid: boolean;
-  placeholder: string;
-  suppressPasswordManager: boolean;
-};
-
 const PROPS: readonly PropRow[] = [
   {
     name: "aria-invalid",
@@ -314,46 +306,10 @@ function InputDoc() {
     <DocPage
       title="Input"
       description="A single-line text control with theme-aware focus, invalid, and disabled states."
-      headerAction={
-        <Button
-          render={<a href="/components/input/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            disabled: false,
-            invalid: false,
-            placeholder: "you@example.com",
-            suppressPasswordManager: false,
-          }}
-          controls={[
-            { name: "disabled", label: "Disabled", type: "boolean" },
-            { name: "invalid", label: "Invalid", type: "boolean" },
-            { name: "placeholder", label: "Placeholder", type: "text" },
-            {
-              name: "suppressPasswordManager",
-              label: "Suppress PM",
-              type: "boolean",
-            },
-          ]}
-          render={(values) => (
-            <Input
-              className="w-80"
-              placeholder={values.placeholder}
-              disabled={values.disabled}
-              aria-invalid={values.invalid || undefined}
-              suppressPasswordManager={values.suppressPasswordManager}
-            />
-          )}
-        />
+        <InputPlaygroundPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

@@ -8,12 +8,12 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { ComposerSuggestionComposition } from "#/compositions/composer-suggestion-composition.tsx";
-import composerSuggestionCompositionSource from "#/compositions/composer-suggestion-composition.tsx?raw";
+import { ComposerSuggestionComposition } from "#/modules/composer-suggestions/composer-suggestions.composition.tsx";
+import composerSuggestionCompositionSource from "#/modules/composer-suggestions/composer-suggestions.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const COMPOSER_SUGGESTION_COMPOSITION_PATH =
-  "apps/doc/src/compositions/composer-suggestion-composition.tsx";
+  "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

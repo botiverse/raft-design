@@ -22,9 +22,9 @@ import {
   MessageMentionReferenceComposition,
   MessagePermalinkReferenceComposition,
   MessageSelfMentionReferenceComposition,
-} from "#/compositions/message-item/message-content-compositions.tsx";
-import { MessageAttachmentReadyComposition } from "#/compositions/message-item/message-attachment-compositions.tsx";
-import { MessageReactionComposition } from "#/compositions/message-item/message-reaction-compositions.tsx";
+} from "#/modules/message-item/compositions/content.compositions.tsx";
+import { MessageAttachmentReadyComposition } from "#/modules/message-item/compositions/attachment.compositions.tsx";
+import { MessageReactionComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
 import { ProfileCardBody } from "./playground-message-avatar.tsx";
 import { openMockAttachmentPreview, TaskStatusBadge } from "./playground-message-fixtures.tsx";
 import {
