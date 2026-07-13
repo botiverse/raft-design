@@ -98,9 +98,7 @@ const SOURCE_SCENES = [
 const TEXTAREA_PREVIEW_CLASS = "!items-start !pt-20";
 
 const SNIPPETS = {
-  anatomy: `import { Textarea } from "raft-ui";
-
-<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />`,
+  anatomy: `<Textarea />`,
   states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
 <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
 <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
@@ -354,12 +352,11 @@ function TextareaDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Textarea.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="states" title="States" showThemeSwitcher>

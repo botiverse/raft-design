@@ -36,7 +36,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
+  preview: `import {
   Avatar,
   AvatarFallback,
   Button,
@@ -91,6 +91,27 @@ const SNIPPETS = {
             <BottomSheetClose render={<Button variant="danger" />}>
               Leave
             </BottomSheetClose>
+          </BottomSheetActions>
+        </BottomSheetFooter>
+      </BottomSheetContent>
+    </BottomSheetPositioner>
+  </BottomSheetPortal>
+</BottomSheet>`,
+  anatomy: `<BottomSheet>
+  <BottomSheetTrigger />
+  <BottomSheetPortal>
+    <BottomSheetOverlay />
+    <BottomSheetPositioner>
+      <BottomSheetContent>
+        <BottomSheetHeader>
+          <BottomSheetTitle />
+        </BottomSheetHeader>
+        <BottomSheetBody>
+          <BottomSheetDescription />
+        </BottomSheetBody>
+        <BottomSheetFooter>
+          <BottomSheetActions>
+            <BottomSheetClose />
           </BottomSheetActions>
         </BottomSheetFooter>
       </BottomSheetContent>
@@ -399,7 +420,7 @@ function BottomSheetDoc() {
             corner close button has a default icon affordance, and business scenes can replace it
             with their own source-specific button.
           </p>
-          <Example html={code.anatomy}>
+          <Example html={code.preview}>
             <BottomSheet open={open} onOpenChange={setOpen}>
               <BottomSheetTrigger render={<Button variant="primary" />}>
                 Open sheet
@@ -454,12 +475,11 @@ function BottomSheetDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="BottomSheet.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />

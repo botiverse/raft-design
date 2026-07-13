@@ -49,22 +49,13 @@ const MENTION_CARD_BODY_SNIPPET = `    <PreviewCardHeader>
     </PreviewCardDescription>`;
 
 const SNIPPETS = {
-  anatomy: `import {
-  PreviewCard,
-  PreviewCardContent,
-  PreviewCardDescription,
-  PreviewCardHeader,
-  PreviewCardTitle,
-  PreviewCardTrigger,
-} from "raft-ui";
-
-<PreviewCard>
-  <PreviewCardTrigger render={<a href="/components/avatar" />}>@atlas</PreviewCardTrigger>
+  anatomy: `<PreviewCard>
+  <PreviewCardTrigger />
   <PreviewCardContent>
     <PreviewCardHeader>
-      <PreviewCardTitle>Atlas</PreviewCardTitle>
+      <PreviewCardTitle />
     </PreviewCardHeader>
-    <PreviewCardDescription>Reviewing the token migration in #design-system.</PreviewCardDescription>
+    <PreviewCardDescription />
   </PreviewCardContent>
 </PreviewCard>`,
   usage: `<p>
@@ -222,12 +213,11 @@ function PreviewCardDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="PreviewCard.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

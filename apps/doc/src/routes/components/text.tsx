@@ -85,11 +85,9 @@ const SNIPPETS = {
   <Text.Sans size="small" variant="muted">3 unread messages</Text.Sans>
   <Text.Mono size="meta">raft-ui@0.0.1</Text.Mono>
 </div>`,
-  anatomy: `import { Text } from "raft-ui";
-
-<Text.Heading level={4}>Heading</Text.Heading>
-<Text.Sans size="body">Body copy</Text.Sans>
-<Text.Mono size="code">mono-token</Text.Mono>`,
+  anatomy: `<Text.Heading />
+<Text.Sans />
+<Text.Mono />`,
   sizes: `<div>
   <Text.Heading level={5}>Heading level 5</Text.Heading>
   <Text.Sans size="large">Large body</Text.Sans>
@@ -304,12 +302,11 @@ function TextDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Text.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="sizes" title="Sizes" showThemeSwitcher>

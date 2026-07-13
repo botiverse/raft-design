@@ -89,9 +89,7 @@ const SIZES = ["sm", "md"] as const;
 const VARIANTS = ["default", "primary"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Checkbox } from "raft-ui";
-
-<Checkbox defaultChecked />`,
+  anatomy: `<Checkbox />`,
   sizes: `<Checkbox size="sm" defaultChecked />
 <Checkbox size="md" defaultChecked />`,
   variants: `<Checkbox defaultChecked />
@@ -341,12 +339,11 @@ function CheckboxDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Checkbox.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

@@ -35,18 +35,12 @@ const TOC = [
 const VARIANTS = ["default", "underline"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
-
-<Tabs defaultValue="overview">
+  anatomy: `<Tabs>
   <TabsList>
     <TabsBackground />
-    <TabsTab value="overview">Overview</TabsTab>
-    <TabsTab value="activity">Activity</TabsTab>
-    <TabsTab value="settings">Settings</TabsTab>
+    <TabsTab />
   </TabsList>
-  <TabsPanel value="overview">Overview content</TabsPanel>
-  <TabsPanel value="activity">Activity content</TabsPanel>
-  <TabsPanel value="settings">Settings content</TabsPanel>
+  <TabsPanel />
 </Tabs>`,
   variants: `import {
   CreditCard,
@@ -366,12 +360,11 @@ function TabsDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Tabs.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

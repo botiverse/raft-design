@@ -221,16 +221,6 @@ function requestBranchChange() {
   return runMockMutation(branchChangeMutation);
 }
 
-const MODEL_LIST_SNIPPET = `  <ComboboxList>
-    {(model) => (
-      <ComboboxItem key={model.id} value={model}>
-        <span className="truncate leading-6">{model.label}</span>
-        <ComboboxItemIndicator />
-      </ComboboxItem>
-    )}
-  </ComboboxList>
-  <ComboboxEmpty>No models found</ComboboxEmpty>`;
-
 const CHANNEL_LIST_SNIPPET = `  <ComboboxList>
     {(channel) => {
       const ChannelIcon = channel.Icon;
@@ -254,57 +244,24 @@ const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
 ${CHANNEL_LIST_SNIPPET}`;
 
 const SNIPPETS = {
-  anatomy: `import { useState } from "react";
-import {
-  Combobox,
-  ComboboxClear,
-  ComboboxControl,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxList,
-  ComboboxTriggerIndicator,
-  Field,
-  FieldLabel,
-} from "raft-ui";
-
-const models = [
-  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
-  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
-  { id: "vision", label: "Raft Vision", description: "Image understanding" },
-  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
-] as const;
-
-function ModelCombobox() {
-  const [value, setValue] = useState<typeof models[number] | null>(models[0]);
-
-  return (
-    <Combobox
-      items={models}
-      value={value}
-      itemToStringLabel={(model) => model.label}
-      onValueChange={setValue}
-      autoHighlight
-    >
-      <Field className="w-56 gap-1.5">
-        <FieldLabel>Model</FieldLabel>
-        <ComboboxControl>
-          <Sparkles aria-hidden className="text-foreground-muted" />
-          <ComboboxInput aria-label="Search models" placeholder="Search models..." />
-          <ComboboxClear aria-label="Clear model" />
-          <ComboboxTriggerIndicator>
-            <ChevronDown aria-hidden />
-          </ComboboxTriggerIndicator>
-        </ComboboxControl>
-      </Field>
-      <ComboboxContent className="w-[var(--anchor-width)]">
-${MODEL_LIST_SNIPPET}
-      </ComboboxContent>
-    </Combobox>
-  );
-}`,
+  anatomy: `<Combobox>
+  <Field>
+    <FieldLabel />
+    <ComboboxControl>
+      <ComboboxInput />
+      <ComboboxClear />
+      <ComboboxTriggerIndicator />
+    </ComboboxControl>
+  </Field>
+  <ComboboxContent>
+    <ComboboxList>
+      <ComboboxItem>
+        <ComboboxItemIndicator />
+      </ComboboxItem>
+    </ComboboxList>
+    <ComboboxEmpty />
+  </ComboboxContent>
+</Combobox>`,
   buttonTrigger: `import { useState } from "react";
 import {
   Combobox,
@@ -1481,13 +1438,11 @@ function ComboboxDoc() {
             <h3 id="anatomy" className="scroll-mt-24 text-sm font-medium">
               Anatomy
             </h3>
-            <DocsCodeBlock.Panel
-              path="Combobox.tsx"
-              source={SNIPPETS.anatomy}
-              html={code.anatomy}
-              collapsedHtml={code.anatomyBody}
-              showLineNumbers={false}
-            />
+            <DocsCodeBlock>
+              <DocsCodeBlock.Body>
+                <DocsCodeBlock.Content html={code.anatomy} />
+              </DocsCodeBlock.Body>
+            </DocsCodeBlock>
           </div>
           <div className="space-y-3">
             <h3 id="async-search" className="scroll-mt-24 text-sm font-medium">

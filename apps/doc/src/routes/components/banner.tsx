@@ -214,14 +214,11 @@ const BANNER_COMPOSITION_SNIPPET_IDS = {
 type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 
 const SNIPPETS = {
-  anatomy: `import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "raft-ui";
-
-<Banner status="warning">
-  <CircleAlert />
-  <BannerTitle>Review required</BannerTitle>
-  <BannerDescription>Heads up — this can't be undone.</BannerDescription>
-  <BannerAction align="top">
-    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
+  anatomy: `<Banner>
+  <BannerTitle />
+  <BannerDescription />
+  <BannerAction>
+    <Button />
   </BannerAction>
 </Banner>`,
   statuses: `<Banner status="default">
@@ -462,12 +459,11 @@ function BannerDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Banner.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="statuses" title="Statuses" showThemeSwitcher>

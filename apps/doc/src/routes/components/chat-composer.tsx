@@ -36,58 +36,44 @@ type PreviewValues = {
   state: string;
 };
 
-const ANATOMY_SNIPPET = `<ChatMainPanelFooter onSubmit={handleSubmit}>
+const ANATOMY_SNIPPET = `<ChatMainPanelFooter>
   <ComposerRoot>
     <ComposerAttachments>
       <ComposerAttachment>
-        <ComposerAttachmentImage alt="" src={previewUrl} />
+        <ComposerAttachmentImage />
         <ComposerAttachmentUploadingOverlay>
-          <Spinner size="sm" />
-          64%
+          <Spinner />
         </ComposerAttachmentUploadingOverlay>
-        <ComposerAttachmentProgress value={64} aria-label="Upload progress" />
-        <ComposerAttachmentRemove aria-label="Remove screenshot.png">
-          <X />
-        </ComposerAttachmentRemove>
+        <ComposerAttachmentProgress />
+        <ComposerAttachmentRemove />
       </ComposerAttachment>
       <ComposerAttachment>
         <ComposerAttachmentFile>
-          <FileText />
           <ComposerAttachmentBody>
-            <ComposerAttachmentTitle>release-notes.pdf</ComposerAttachmentTitle>
-            <ComposerAttachmentMeta>application/pdf</ComposerAttachmentMeta>
+            <ComposerAttachmentTitle />
+            <ComposerAttachmentMeta />
           </ComposerAttachmentBody>
         </ComposerAttachmentFile>
-        <ComposerAttachmentRemove aria-label="Remove release-notes.pdf">
-          <X />
-        </ComposerAttachmentRemove>
+        <ComposerAttachmentRemove />
       </ComposerAttachment>
     </ComposerAttachments>
     <Composer>
-      <ComposerInput placeholder="Message #proj-uiux" />
+      <ComposerInput />
       <ComposerToolbar>
         <ComposerActions>
-          <ComposerIconButton aria-label="Attach image">
-            <ImagePlus />
-          </ComposerIconButton>
-          <ComposerIconButton aria-label="Attach file">
-            <Paperclip />
-          </ComposerIconButton>
+          <ComposerIconButton />
         </ComposerActions>
         <ComposerMeta>
           <ComposerToolbarLabel>
-            <Checkbox size="sm" aria-label="Send as task" />
-            <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+            <Checkbox />
+            <ComposerToolbarLabelText />
           </ComposerToolbarLabel>
-          <ComposerSubmit aria-label="Send">
-            <span>Send</span>
-            <Send />
-          </ComposerSubmit>
+          <ComposerSubmit />
         </ComposerMeta>
       </ComposerToolbar>
     </Composer>
-    <ComposerDropOverlay aria-hidden>
-      <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
+    <ComposerDropOverlay>
+      <ComposerDropOverlayLabel />
     </ComposerDropOverlay>
   </ComposerRoot>
 </ChatMainPanelFooter>`;
@@ -205,12 +191,11 @@ function ChatComposerDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Composer.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="states" title="States">

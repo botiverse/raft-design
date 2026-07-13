@@ -100,24 +100,14 @@ const PANEL_BODY_SNIPPET = `    <PopoverHeader>
     </div>`;
 
 const SNIPPETS = {
-  anatomy: `import {
-  Button,
-  Popover,
-  PopoverClose,
-  PopoverContent,
-  PopoverHeader,
-  PopoverSeparator,
-  PopoverTitle,
-  PopoverTrigger,
-} from "raft-ui";
-
-<Popover>
-  <PopoverTrigger render={<Button variant="outline" size="md" />}>
-    <Info />
-    Usage notes
-  </PopoverTrigger>
-  <PopoverContent className="min-w-[240px]">
-${PANEL_BODY_SNIPPET}
+  anatomy: `<Popover>
+  <PopoverTrigger />
+  <PopoverContent>
+    <PopoverHeader>
+      <PopoverTitle />
+      <PopoverClose />
+    </PopoverHeader>
+    <PopoverSeparator />
   </PopoverContent>
 </Popover>`,
   details: `<Popover open modal={false} triggerId="details-popover-trigger">
@@ -434,12 +424,11 @@ function PopoverDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Popover.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="details" title="Details" showThemeSwitcher>

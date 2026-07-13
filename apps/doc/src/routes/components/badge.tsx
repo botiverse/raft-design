@@ -36,9 +36,7 @@ const VARIANTS = [
 const APPEARANCES = ["solid", "soft", "outline"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Badge } from "raft-ui";
-
-<Badge variant="primary">In Progress</Badge>`,
+  anatomy: `<Badge />`,
   variants: `<Badge appearance="outline" uppercase>Default</Badge>
 <Badge variant="primary" uppercase>Pending</Badge>
 <Badge variant="information">Open</Badge>
@@ -225,12 +223,11 @@ function BadgeDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Badge.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

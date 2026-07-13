@@ -159,9 +159,7 @@ function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
 }
 
 const SNIPPETS = {
-  anatomy: `import { Status } from "raft-ui";
-
-<Status variant="success" />`,
+  anatomy: `<Status />`,
   variants: `<Status />
 <Status variant="primary" />
 <Status variant="information" />
@@ -441,12 +439,11 @@ function StatusDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Status.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

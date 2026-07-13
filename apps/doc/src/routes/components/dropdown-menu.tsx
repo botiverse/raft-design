@@ -273,26 +273,20 @@ const SNIPPETS = {
 ${PROFILE_MENU_SNIPPET}
   </DropdownMenuContent>
 </DropdownMenu>`,
-  anatomy: `import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuItemCount,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSubmenu,
-  DropdownMenuSubmenuTrigger,
-  DropdownMenuTrigger,
-} from "raft-ui";
-
-<DropdownMenu>
-  <DropdownMenuTrigger>
-    <ChartNoAxesCombined />
-    Profile
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="flex w-64 flex-col">
-${PROFILE_MENU_SNIPPET}
+  anatomy: `<DropdownMenu>
+  <DropdownMenuTrigger />
+  <DropdownMenuContent>
+    <DropdownMenuLabel />
+    <DropdownMenuItem>
+      <DropdownMenuShortcut />
+    </DropdownMenuItem>
+    <DropdownMenuSubmenu>
+      <DropdownMenuSubmenuTrigger />
+      <DropdownMenuContent>
+        <DropdownMenuItem />
+      </DropdownMenuContent>
+    </DropdownMenuSubmenu>
+    <DropdownMenuSeparator />
   </DropdownMenuContent>
 </DropdownMenu>`,
   submenu: SUBMENU_SNIPPET,
@@ -642,12 +636,11 @@ function DropdownMenuDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="DropdownMenu.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="submenu" title="Submenu" showThemeSwitcher>

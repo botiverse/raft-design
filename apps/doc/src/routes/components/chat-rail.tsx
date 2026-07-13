@@ -23,54 +23,31 @@ const TOC = [
 
 const SNIPPETS = {
   chatRailComposition: chatRailCompositionSource,
-  anatomy: `import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "raft-ui";
-import {
-  AppShellRail,
-  AppRailRoot,
-  AppRailHeader,
-  AppRailServerButton,
-  AppRailNav,
-  AppRailItem,
-  AppRailItemAttention,
-  AppRailItemBadge,
-  AppRailItemIcon,
-  AppRailItemLabel,
-  AppRailFooter,
-} from "raft-ui/wip";
-
-<AppShellRail>
-  <AppRailRoot value={value} onValueChange={setValue}>
+  anatomy: `<AppShellRail>
+  <AppRailRoot>
     <AppRailHeader>
-      <AppRailServerButton aria-label="Switch server">R</AppRailServerButton>
+      <AppRailServerButton />
     </AppRailHeader>
-    <TooltipProvider delay={650}>
+    <TooltipProvider>
       <AppRailNav>
         <Tooltip>
-          <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
+          <TooltipTrigger>
             <AppRailItemIcon>
-              <MessageSquare />
-              <AppRailItemAttention title="Unread messages">
-                <MessageSquare />
-              </AppRailItemAttention>
+              <AppRailItemAttention />
             </AppRailItemIcon>
-            <AppRailItemLabel>Chat</AppRailItemLabel>
-            <AppRailItemBadge>3</AppRailItemBadge>
+            <AppRailItemLabel />
+            <AppRailItemBadge />
           </TooltipTrigger>
-          <TooltipContent side="right">Chat</TooltipContent>
+          <TooltipContent />
         </Tooltip>
       </AppRailNav>
       <AppRailFooter>
         <Tooltip>
-          <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
-            <AppRailItemIcon><Settings /></AppRailItemIcon>
-            <AppRailItemLabel>Settings</AppRailItemLabel>
+          <TooltipTrigger>
+            <AppRailItemIcon />
+            <AppRailItemLabel />
           </TooltipTrigger>
-          <TooltipContent side="right">Settings</TooltipContent>
+          <TooltipContent />
         </Tooltip>
       </AppRailFooter>
     </TooltipProvider>
@@ -131,12 +108,11 @@ function AppRailDoc() {
       toc={TOC}
     >
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="app-rail.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

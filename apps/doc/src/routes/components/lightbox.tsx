@@ -47,7 +47,6 @@ import imageLightboxShellCompositionSource from "#/compositions/lightbox/image-l
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "structure", title: "Structure" },
   { id: "api", title: "API" },
   {
     id: "source-comparison",
@@ -93,7 +92,7 @@ const DEMO_IMAGES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Button } from "raft-ui";
+  preview: `import { Button } from "raft-ui";
 import {
   Lightbox,
   LightboxClose,
@@ -140,7 +139,7 @@ import { Download, X } from "lucide-react";
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
-  structure: `<Lightbox>
+  anatomy: `<Lightbox>
   <LightboxTrigger />
   <LightboxContent>
     <LightboxHeader>
@@ -150,9 +149,9 @@ import { Download, X } from "lucide-react";
       </LightboxActions>
     </LightboxHeader>
     <LightboxStage>
-      <LightboxNavigationButton direction="previous" />
+      <LightboxNavigationButton />
       <LightboxMedia />
-      <LightboxNavigationButton direction="next" />
+      <LightboxNavigationButton />
       <LightboxInfoBar>
         <LightboxInfoTitle />
         <LightboxInfoActions />
@@ -303,27 +302,17 @@ function LightboxDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.anatomy}>
+        <Example html={code.preview}>
           <LightboxPreviewDemo />
         </Example>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Lightbox.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
-      </DocSection>
-
-      <DocSection id="structure" title="Structure">
-        <DocsCodeBlock.Panel
-          path="Lightbox.tsx"
-          source={SNIPPETS.structure}
-          html={code.structure}
-          collapsedHtml={code.structureBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

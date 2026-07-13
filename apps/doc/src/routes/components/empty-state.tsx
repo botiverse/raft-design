@@ -101,20 +101,10 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
-  EmptyState,
-  EmptyStateContent,
-  EmptyStateIcon,
-  EmptyStateTitle,
-} from "raft-ui";
-import { Inbox } from "lucide-react";
-
-<EmptyState>
+  anatomy: `<EmptyState>
   <EmptyStateContent>
-    <EmptyStateIcon>
-      <Inbox />
-    </EmptyStateIcon>
-    <EmptyStateTitle>No messages yet</EmptyStateTitle>
+    <EmptyStateIcon />
+    <EmptyStateTitle />
   </EmptyStateContent>
 </EmptyState>`,
   copy: `<EmptyState>
@@ -320,12 +310,11 @@ function EmptyStateDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="EmptyState.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="copy" title="Copy" showThemeSwitcher>
