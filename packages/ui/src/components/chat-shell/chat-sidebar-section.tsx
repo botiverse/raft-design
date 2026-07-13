@@ -197,7 +197,7 @@ export function ChatSidebarSectionAction({
   className,
   render,
   size = "icon-sm",
-  variant = "outline",
+  variant = "ghost",
   loading,
   loadingLabel,
   ...props

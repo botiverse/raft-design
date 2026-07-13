@@ -101,7 +101,7 @@ export const chatSidebar = tv({
           "text-black transition-colors hover:text-black/70",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
-        sidebarSectionCount: "text-black/40",
+        sidebarSectionCount: "ml-auto text-[12px] font-medium text-black/70",
         sidebarSectionAction: [
           "font-sans font-bold text-black/70",
           "transition-colors duration-100",
@@ -150,18 +150,25 @@ export const chatSidebar = tv({
         sidebarMenuCount:
           "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
         sidebarSectionButton: [
-          "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-[12px] font-medium leading-none normal-case tracking-normal",
+          "h-8 w-full justify-start gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-[12px] font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
-          "hover:bg-layer-strong/80 hover:text-foreground",
+          "hover:text-foreground",
           "[&>svg]:opacity-55",
         ],
         sidebarSectionCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
+          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarSectionActions: "pr-[var(--sidebar-row-inset-x,6px)]",
-        sidebarSectionAction: "shrink-0 text-foreground-icon",
+        sidebarSectionAction: [
+          "shrink-0",
+          "text-foreground-icon hover:text-foreground",
+          "hover:!bg-transparent active:!bg-transparent",
+          "hover:before:!bg-transparent active:before:!bg-transparent",
+        ],
         sidebarSection: "px-0",
-        sidebarSectionHeader:
-          "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between px-0",
+        sidebarSectionHeader: [
+          "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between rounded-md px-0",
+          "hover:bg-layer-strong/80",
+        ],
         sidebarItem: [
           "relative mb-0.5 -mx-[var(--sidebar-row-inset-x,6px)] w-[calc(100%+12px)] rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
           "text-[13px] font-medium text-foreground-muted",

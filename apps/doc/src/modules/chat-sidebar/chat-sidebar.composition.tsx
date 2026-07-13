@@ -34,6 +34,7 @@ import {
   ChatSidebarRoot,
   ChatSidebarAction,
   ChatSidebarSection,
+  ChatSidebarSectionActions,
   ChatSidebarSectionAttention,
   ChatSidebarSectionButton,
   ChatSidebarSectionChevron,
@@ -44,6 +45,7 @@ import {
 
 import { AppRailComposition } from "#/modules/chat-rail/chat-rail.composition.tsx";
 import { ChatMainPanelComposition } from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
+import { SidebarSectionSortMenu } from "#/modules/dropdown-menu/compositions/sidebar-sort-menu.composition.tsx";
 
 export function ChatSidebarPreviewComposition() {
   return (
@@ -125,10 +127,13 @@ export function ChatSidebarComposition() {
             <ChatSidebarSection className="px-0">
               <ChatSidebarSectionHeader>
                 <ChatSidebarSectionButton type="button">
-                  <ChatSidebarSectionChevron className="size-3" />
                   <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionCount>3</ChatSidebarSectionCount>
+                  <ChatSidebarSectionChevron className="size-3" />
                 </ChatSidebarSectionButton>
+                <ChatSidebarSectionActions>
+                  <ChatSidebarSectionCount>3</ChatSidebarSectionCount>
+                  <SidebarSectionSortMenu aria-label="Sort pinned" />
+                </ChatSidebarSectionActions>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
                 <ChatSidebarItem
@@ -185,11 +190,14 @@ export function ChatSidebarComposition() {
             <ChatSidebarSection defaultOpen={false} className="px-0">
               <ChatSidebarSectionHeader>
                 <ChatSidebarSectionButton type="button">
-                  <ChatSidebarSectionChevron className="size-3" />
                   <ChatSidebarSectionTitle>Joint Channels</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionCount>1</ChatSidebarSectionCount>
+                  <ChatSidebarSectionChevron className="size-3" />
                   <ChatSidebarSectionAttention />
                 </ChatSidebarSectionButton>
+                <ChatSidebarSectionActions>
+                  <ChatSidebarSectionCount>1</ChatSidebarSectionCount>
+                  <SidebarSectionSortMenu aria-label="Sort joint channels" />
+                </ChatSidebarSectionActions>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
                 <ChatSidebarItem
@@ -211,10 +219,20 @@ export function ChatSidebarComposition() {
             <ChatSidebarSection className="px-0">
               <ChatSidebarSectionHeader>
                 <ChatSidebarSectionButton type="button">
-                  <ChatSidebarSectionChevron className="size-3" />
                   <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                  <ChatSidebarSectionChevron className="size-3" />
                 </ChatSidebarSectionButton>
+                <ChatSidebarSectionActions>
+                  <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                  <SidebarSectionSortMenu aria-label="Sort channels" />
+                  <ChatSidebarAction
+                    type="button"
+                    aria-label="Add channel"
+                    onClick={() => announce("Channel creation requested")}
+                  >
+                    <Plus className="size-3.5" />
+                  </ChatSidebarAction>
+                </ChatSidebarSectionActions>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
                 <ChatSidebarItemUnread
@@ -264,10 +282,13 @@ export function ChatSidebarComposition() {
             <ChatSidebarSection className="px-0">
               <ChatSidebarSectionHeader>
                 <ChatSidebarSectionButton type="button">
-                  <ChatSidebarSectionChevron className="size-3" />
                   <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                  <ChatSidebarSectionChevron className="size-3" />
                 </ChatSidebarSectionButton>
+                <ChatSidebarSectionActions>
+                  <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
+                  <SidebarSectionSortMenu aria-label="Sort direct messages" />
+                </ChatSidebarSectionActions>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
                 <ChatSidebarItemUnread

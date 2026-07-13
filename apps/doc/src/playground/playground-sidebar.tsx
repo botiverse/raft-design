@@ -90,6 +90,7 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarRoot,
   ChatSidebarSection,
+  ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionChevron,
   ChatSidebarSectionCount,
@@ -100,6 +101,7 @@ import {
   SortableChatSidebarList,
 } from "raft-ui/wip";
 
+import { SidebarSectionSortMenu } from "../compositions/sidebar-sort-menu-composition.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_DIRECT_MESSAGES,
@@ -451,9 +453,12 @@ function PinnedSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          <SidebarSectionSortMenu aria-label="Sort pinned" />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -494,9 +499,12 @@ function JointChannelsSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          <SidebarSectionSortMenu aria-label="Sort joint channels" />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -537,9 +545,12 @@ function ChannelsSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          <SidebarSectionSortMenu aria-label="Sort channels" />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
@@ -583,9 +594,12 @@ function DirectMessagesSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
+        <ChatSidebarSectionActions>
+          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
+          <SidebarSectionSortMenu aria-label="Sort direct messages" />
+        </ChatSidebarSectionActions>
       </ChatSidebarSectionHeader>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (

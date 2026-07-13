@@ -1,20 +1,57 @@
-import { DropdownMenuPopup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "raft-ui";
+import { ArrowUpDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuPopup,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "raft-ui";
+import { ChatSidebarAction } from "raft-ui/wip";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "raft-ui";
 import { useId } from "react";
 import { cn } from "raft-ui/cn";
 // @docs-source-strip-end
 
+function SidebarSortMenuItems() {
+  return (
+    <DropdownMenuRadioGroup defaultValue="manual">
+      <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  );
+}
+
+/** Inline popup shell for SourceComparison (always-open preview). */
 export function SidebarSortMenuContent() {
   return (
     <DropdownMenuPopup className="flex w-[136px] min-w-[136px] flex-col">
-      <DropdownMenuRadioGroup defaultValue="manual">
-        <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
-      </DropdownMenuRadioGroup>
+      <SidebarSortMenuItems />
     </DropdownMenuPopup>
+  );
+}
+
+/** Section-header sort control. Visual structure only — does not reorder rows. */
+export function SidebarSectionSortMenu({
+  "aria-label": ariaLabel = "Sort section",
+}: {
+  "aria-label"?: string;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <ChatSidebarAction type="button" aria-label={ariaLabel}>
+            <ArrowUpDown className="size-3.5" />
+          </ChatSidebarAction>
+        }
+      />
+      <DropdownMenuContent align="end" className="flex w-[136px] min-w-[136px] flex-col">
+        <SidebarSortMenuItems />
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
