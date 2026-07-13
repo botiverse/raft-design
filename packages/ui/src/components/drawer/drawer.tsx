@@ -100,8 +100,8 @@ const drawer = tv({
         header: ["bg-layer-panel px-8 pt-9 pb-2"],
         body: ["bg-layer-panel px-8 pt-4 pb-7"],
         footer: ["mt-0 px-8 py-5"],
-        title: ["font-sans text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]"],
-        description: ["font-sans text-sm leading-5 text-[oklch(0.48_0_0)]"],
+        title: ["font-sans text-2xl leading-8 font-semibold"],
+        description: ["font-sans text-sm leading-5 text-foreground-muted"],
       },
     },
     side: {
