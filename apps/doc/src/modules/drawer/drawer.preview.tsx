@@ -162,7 +162,7 @@ export function DrawerSideFullWidthUsage() {
   return (
     <Drawer swipeDirection="left">
       <DrawerTrigger render={<Button variant="primary" />}>Open side drawer</DrawerTrigger>
-      <DrawerContent className="max-md:data-[swipe-direction=left]:right-3 max-md:data-[swipe-direction=left]:w-auto max-md:data-[swipe-direction=left]:max-w-none">
+      <DrawerContent className="max-md:right-3 max-md:w-auto max-md:max-w-none">
         <DrawerHeader>
           <DrawerTitle>Filters</DrawerTitle>
           <DrawerClose />

@@ -20,7 +20,6 @@ const tooltip = tv({
     ],
     body: [
       "block min-w-0 text-[13px] leading-[18px] whitespace-normal break-words",
-      "[&:has(>[data-slot=tooltip-body-text])]:flex [&:has(>[data-slot=tooltip-body-text])]:items-start [&:has(>[data-slot=tooltip-body-text])]:gap-x-1.5",
       "[&_[data-slot=kbd]]:relative [&_[data-slot=kbd]]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
       "[&_[data-slot=kbd]]:text-[10px] [&_[data-slot=kbd]]:font-semibold [&_[data-slot=kbd]]:leading-none",
@@ -38,6 +37,12 @@ const tooltip = tv({
     ],
   },
   variants: {
+    hasLeadingIcon: {
+      true: {
+        body: ["flex items-start gap-x-1.5"],
+      },
+      false: {},
+    },
     theme: {
       brutal: {
         content: [
@@ -173,33 +178,24 @@ function partitionTooltipBodyChildren(children: ReactNode) {
   return { icons, rest };
 }
 
-function TooltipBodyContent({
-  children,
-  className,
-  iconClassName,
-  textClassName,
-}: {
-  children: ReactNode;
-  className: string;
-  iconClassName: string;
-  textClassName: string;
-}) {
+function TooltipBodyContent({ children }: { children: ReactNode }) {
   const { icons, rest } = partitionTooltipBodyChildren(children);
+  const { body, bodyIcon, bodyText } = tooltip({ hasLeadingIcon: icons.length > 0 });
 
   if (icons.length === 0) {
     return (
-      <span data-slot="tooltip-body" className={className}>
+      <span data-slot="tooltip-body" className={body()}>
         {children}
       </span>
     );
   }
 
   return (
-    <span data-slot="tooltip-body" className={className}>
-      <span data-slot="tooltip-body-icon" className={iconClassName}>
+    <span data-slot="tooltip-body" className={body()}>
+      <span data-slot="tooltip-body-icon" className={bodyIcon()}>
         {icons}
       </span>
-      <span data-slot="tooltip-body-text" className={textClassName}>
+      <span data-slot="tooltip-body-text" className={bodyText()}>
         {rest}
       </span>
     </span>
@@ -246,7 +242,7 @@ export function TooltipContent({
   ...props
 }: TooltipContentProps) {
   const theme = useThemeFamily();
-  const { positioner, content, body, bodyIcon, bodyText } = tooltip({ theme });
+  const { positioner, content } = tooltip({ theme });
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
   const portalContainer = container !== undefined ? container : portalProps?.container;
 
@@ -272,13 +268,7 @@ export function TooltipContent({
           className={content({ className })}
           {...props}
         >
-          <TooltipBodyContent
-            className={body()}
-            iconClassName={bodyIcon()}
-            textClassName={bodyText()}
-          >
-            {children}
-          </TooltipBodyContent>
+          <TooltipBodyContent>{children}</TooltipBodyContent>
           <TooltipArrow />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>
