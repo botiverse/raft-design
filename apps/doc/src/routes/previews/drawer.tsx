@@ -138,7 +138,7 @@ function ViewportFrame({
 
 function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: boolean) {
   return [
-    "absolute z-10 mx-auto flex h-auto min-h-64 max-h-[calc(100%-1.75rem)] max-w-lg flex-col outline-none",
+    "absolute z-10 mx-auto flex h-auto min-h-64 max-h-[calc(100%-1.75rem)] flex-col outline-none",
     isDesktop
       ? "inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] max-w-md"
       : "inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))]",

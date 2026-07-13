@@ -36,7 +36,7 @@ const config = defineConfig({
     noExternal: ["foxact", "torph"],
   },
   optimizeDeps: {
-    include: ["foxact/use-clipboard", "torph/react"],
+    include: ["foxact/use-clipboard", "foxact/use-media-query", "torph/react"],
   },
   plugins: [
     devtools(),

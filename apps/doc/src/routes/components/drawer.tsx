@@ -10,6 +10,8 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { Example } from "#/components/example.tsx";
 import pwaInstallCompositionSource from "#/compositions/drawer/pwa-install-drawer-composition.tsx?raw";
 import pwaInstallOtherCompositionSource from "#/compositions/drawer/pwa-install-other-drawer-composition.tsx?raw";
+import { DrawerResponsivePlacementComposition } from "#/compositions/drawer/responsive-placement-composition.tsx";
+import responsivePlacementCompositionSource from "#/compositions/drawer/responsive-placement-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { DrawerPreview, DrawerSideFullWidthUsage } from "./-drawer.preview.tsx";
 
@@ -139,6 +141,7 @@ const SNIPPETS = {
   sourceAdaptive: SOURCE_ADAPTIVE,
   sourceAdaptiveOther: SOURCE_ADAPTIVE_OTHER,
   sourceDrawer: SOURCE_DRAWER,
+  usageResponsivePlacement: responsivePlacementCompositionSource,
   usageSideFullWidth: USAGE_SIDE_FULL_WIDTH,
 } as const;
 
@@ -262,20 +265,37 @@ function DrawerDoc() {
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium text-foreground-strong">
-            Mobile full-width side drawer
-          </h3>
-          <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-            Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> width on
-            small screens so the panel spans the floating inset while keeping the default narrow
-            side panel from <code className="font-mono text-[0.8125rem]">md</code> up.
-          </p>
-          <Example html={code.usageSideFullWidth}>
-            <div className="flex justify-center">
-              <DrawerSideFullWidthUsage />
-            </div>
-          </Example>
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">
+              Mobile full-width side drawer
+            </h3>
+            <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
+              Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> width on
+              small screens so the panel spans the floating inset while keeping the default narrow
+              side panel from <code className="font-mono text-[0.8125rem]">md</code> up.
+            </p>
+            <Example html={code.usageSideFullWidth}>
+              <div className="flex justify-center">
+                <DrawerSideFullWidthUsage />
+              </div>
+            </Example>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Responsive placement</h3>
+            <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
+              Drive <code className="font-mono text-[0.8125rem]">swipeDirection</code> from{" "}
+              <code className="font-mono text-[0.8125rem]">foxact/use-media-query</code> so desktop
+              keeps a right edge panel while mobile switches to a bottom sheet. Update the direction
+              in place so an open drawer stays open across the breakpoint.
+            </p>
+            <Example html={code.usageResponsivePlacement}>
+              <div className="flex justify-center">
+                <DrawerResponsivePlacementComposition />
+              </div>
+            </Example>
+          </div>
         </div>
       </DocSection>
 
