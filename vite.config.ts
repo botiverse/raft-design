@@ -1,4 +1,4 @@
-import { defineConfig } from "vite-plus";
+import { configDefaults, defineConfig } from "vite-plus";
 
 const ignorePatterns = [
   "**/routeTree.gen.ts",
@@ -20,5 +20,8 @@ export default defineConfig({
   },
   run: {
     cache: true,
+  },
+  test: {
+    exclude: [...configDefaults.exclude, "**/.claude/worktrees/**"],
   },
 });
