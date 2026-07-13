@@ -107,7 +107,7 @@ const contextMenu = tv({
           "data-[popup-open]:[&>svg]:text-foreground-strong",
         ],
         label: [
-          "-mx-1 border-b border-line-muted px-3 py-2",
+          "-mx-1 mb-1 border-b border-line-muted px-3 py-2",
           "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
         ],
         shortcut: ["text-foreground-muted"],
