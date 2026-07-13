@@ -457,9 +457,9 @@ function PinnedSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
             <SidebarSectionSortMenu aria-label="Sort pinned" />
           </ChatSidebarSectionActions>
@@ -513,9 +513,9 @@ function JointChannelsSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
             <SidebarSectionAddButton aria-label="Create joint channel" onClick={onCreateJoint} />
             <SidebarSectionChannelsMenu
@@ -577,9 +577,9 @@ function ChannelsSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
             <SidebarSectionAddButton aria-label="Create channel" onClick={onCreateChannel} />
             <SidebarSectionChannelsMenu
@@ -635,9 +635,9 @@ function DirectMessagesSection({
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
             <SidebarSectionSortMenu aria-label="Sort direct messages" />
           </ChatSidebarSectionActions>

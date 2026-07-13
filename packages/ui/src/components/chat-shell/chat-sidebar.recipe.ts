@@ -32,11 +32,16 @@ export const chatSidebar = tv({
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: ["font-mono normal-case tracking-normal"],
-    sidebarSectionIndicator: ["ml-1", "[[data-panel-open]_&]:hidden"],
-    sidebarSectionTrailing: ["flex shrink-0 items-center gap-1"],
+    sidebarSectionIndicator: [
+      "inline-flex min-w-[18px] shrink-0 items-center justify-center",
+      "group-has-[[data-panel-open]]/section-header:hidden",
+      "group-has-[[data-popup-open]]/section-header:hidden",
+      "group-hover/section-header:hidden",
+    ],
+    sidebarSectionTrailing: ["relative flex min-w-[18px] shrink-0 items-center justify-end"],
     sidebarSectionActions: [
       "flex shrink-0 items-center gap-1",
-      "pointer-events-none opacity-0 transition-opacity",
+      "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",
       "group-hover/section-header:pointer-events-auto group-hover/section-header:opacity-100",
       "focus-within:pointer-events-auto focus-within:opacity-100",
       "has-[[data-popup-open]]:pointer-events-auto has-[[data-popup-open]]:opacity-100",
@@ -169,6 +174,7 @@ export const chatSidebar = tv({
         sidebarSectionCount:
           "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarSectionTrailing: "pr-[var(--sidebar-row-inset-x,6px)]",
+        sidebarSectionActions: "right-[var(--sidebar-row-inset-x,6px)]",
         sidebarSectionAction: [
           "shrink-0",
           "text-foreground-icon hover:text-foreground",

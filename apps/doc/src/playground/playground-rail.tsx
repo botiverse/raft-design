@@ -46,8 +46,9 @@ import { useState } from "react";
 
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 
-const currentServerName = "Design Guild";
-const currentServerInitial = "D";
+const currentServerName = "Raft 中文社区";
+const currentServerAvatarSrc =
+  "https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp";
 
 export function PlaygroundRail() {
   const { railView, selectRailView } = usePlaygroundNavigation();
@@ -66,8 +67,12 @@ export function PlaygroundRail() {
             title={currentServerName}
             aria-label={`Switch server (current: ${currentServerName})`}
           >
-            {currentServerInitial}
-            <AppRailItemIndicator aria-hidden title="Other servers have unread messages" />
+            <img alt="" src={currentServerAvatarSrc} />
+            <AppRailItemIndicator
+              size="sm"
+              aria-hidden
+              title="Other servers have unread messages"
+            />
           </AppRailServerButton>
         </AppRailHeader>
         <TooltipProvider delay={650}>

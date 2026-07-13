@@ -34,9 +34,15 @@ export function AppRailComposition() {
     <AppShellRail className="flex md:flex">
       <AppRailRoot value="chat">
         <AppRailHeader>
-          <AppRailServerButton aria-label="Switch server">
-            R
-            <AppRailItemIndicator aria-hidden />
+          <AppRailServerButton
+            title="Raft 中文社区"
+            aria-label="Switch server (current: Raft 中文社区)"
+          >
+            <img
+              alt=""
+              src="https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp"
+            />
+            <AppRailItemIndicator size="sm" aria-hidden />
           </AppRailServerButton>
         </AppRailHeader>
         <TooltipProvider delay={650}>

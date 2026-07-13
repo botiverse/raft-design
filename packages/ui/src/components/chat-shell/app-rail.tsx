@@ -4,6 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { createContext, use, useMemo, type MouseEvent, type ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Status, type StatusProps } from "../status/status";
 import type { DataAttributes } from "./data-attributes";
 
 const appRail = tv({
@@ -11,10 +12,12 @@ const appRail = tv({
     root: ["flex h-full w-full flex-col items-center"],
     header: ["relative flex w-full shrink-0 items-center justify-center"],
     serverButton: [
-      "relative inline-flex size-10 items-center justify-center overflow-hidden",
+      "relative inline-flex size-10 items-center justify-center",
       "outline-none",
       "disabled:pointer-events-none disabled:opacity-45",
       "[@media(max-height:600px)]:size-9",
+      "[&_img]:size-full [&_img]:min-h-0 [&_img]:min-w-0 [&_img]:object-cover",
+      "[&_[data-slot=app-rail-item-indicator]]:z-10",
     ],
     nav: ["flex w-full flex-1 flex-col items-center gap-1.5 py-2"],
     footer: ["flex w-full shrink-0 flex-col items-center justify-center gap-1.5"],
@@ -34,7 +37,7 @@ const appRail = tv({
       "absolute -right-1 -top-1 inline-flex min-w-4 items-center justify-center",
       "px-1 text-[10px] font-bold leading-4",
     ],
-    itemIndicator: ["pointer-events-none absolute -right-1 -top-1 size-2.5"],
+    itemIndicator: ["pointer-events-none absolute -right-1 -top-1"],
   },
   variants: {
     theme: {
@@ -46,6 +49,7 @@ const appRail = tv({
           "shadow-brutal-sm hover:shadow-brutal",
           "transition-all duration-100",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
+          "[&_img]:rounded-[inherit]",
         ],
         footer: "h-auto pb-2 [@media(max-height:600px)]:pb-1",
         item: [
@@ -57,15 +61,16 @@ const appRail = tv({
           "[@media(max-height:600px)]:size-9",
         ],
         itemBadge: "border-2 border-black bg-brutal-pink text-black",
-        itemIndicator: "rounded-full border border-black bg-brutal-pink",
         itemAttentionMask: "hidden",
       },
       elegant: {
         header: "h-[var(--shell-header-height,3.5rem)] border-b-0",
         serverButton: [
-          "rounded-md border-2 border-foreground-strong bg-foreground-strong",
+          "size-8 rounded-md border-0 bg-white shadow-none",
+          "[@media(max-height:600px)]:size-7",
           "font-heading text-xs font-bold text-primary-400",
-          "shadow-none transition-[background-color,transform] duration-150 active:translate-y-px",
+          "transition-[background-color,transform] duration-150 active:translate-y-px",
+          "[&_img]:rounded-[inherit]",
         ],
         nav: "px-2 pt-4 pb-2",
         footer: ["h-auto gap-1.5 px-2 pb-2", "[&>[data-slot=app-rail-item]]:text-foreground-muted"],
@@ -83,7 +88,6 @@ const appRail = tv({
           "px-1 font-mono text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
           "ring-2 ring-layer-page",
         ],
-        itemIndicator: "size-2 rounded-full border border-primary-500/58 bg-primary-400",
         itemAttentionMask: [
           "text-[oklch(73.4%_0.149_89.2)] drop-shadow-[0_0_1px_#FFD440D1]",
           "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
@@ -311,21 +315,30 @@ export function AppRailItemBadge({ className, render, ...props }: AppRailItemBad
   });
 }
 
-export type AppRailItemIndicatorProps = useRender.ComponentProps<"span">;
+export type AppRailItemIndicatorProps = StatusProps;
 
-export function AppRailItemIndicator({ className, render, ...props }: AppRailItemIndicatorProps) {
+export function AppRailItemIndicator({
+  className,
+  size = "sm",
+  variant,
+  attention = true,
+  ...props
+}: AppRailItemIndicatorProps) {
   const theme = useThemeFamily();
   const { itemIndicator } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
-    "data-slot": "app-rail-item-indicator",
-    className: itemIndicator({ className }),
-  };
+  const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
 
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
+  return (
+    <Status
+      aria-hidden
+      attention={attention}
+      size={size}
+      variant={resolvedVariant}
+      data-slot="app-rail-item-indicator"
+      className={itemIndicator({ className })}
+      {...props}
+    />
+  );
 }
 
 export type AppRailFooterProps = useRender.ComponentProps<"div">;

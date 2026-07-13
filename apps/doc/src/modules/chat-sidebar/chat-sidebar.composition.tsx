@@ -205,9 +205,9 @@ export function ChatSidebarComposition() {
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Joint Channels</ChatSidebarSectionTitle>
                   <ChatSidebarSectionChevron className="size-3" />
-                  <ChatSidebarSectionAttention />
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionTrailing>
+                  <ChatSidebarSectionAttention />
                   <ChatSidebarSectionActions>
                     <SidebarSectionAddButton
                       aria-label="Create joint channel"

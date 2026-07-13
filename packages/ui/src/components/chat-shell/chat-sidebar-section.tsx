@@ -158,14 +158,13 @@ export function ChatSidebarSectionIndicator({
   const { sidebarSectionIndicator } = chatSidebar();
   const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
   return (
-    <Status
+    <span
       aria-hidden
       data-slot="chat-sidebar-section-indicator"
-      size={size}
-      variant={resolvedVariant}
-      className={sidebarSectionIndicator({ className })}
-      {...props}
-    />
+      className={sidebarSectionIndicator()}
+    >
+      <Status size={size} variant={resolvedVariant} className={className} {...props} />
+    </span>
   );
 }
 
