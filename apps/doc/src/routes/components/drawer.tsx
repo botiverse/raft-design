@@ -7,14 +7,16 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
+import { Example } from "#/components/example.tsx";
 import pwaInstallCompositionSource from "#/compositions/drawer/pwa-install-drawer-composition.tsx?raw";
 import pwaInstallOtherCompositionSource from "#/compositions/drawer/pwa-install-other-drawer-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { DrawerPreview } from "./drawer.preview.tsx";
+import { DrawerPreview, DrawerSideFullWidthUsage } from "./-drawer.preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -61,6 +63,45 @@ const ANATOMY = `import {
   </DrawerContent>
 </Drawer>`;
 
+const USAGE_SIDE_FULL_WIDTH = `import {
+  Button,
+  Drawer,
+  DrawerActions,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "raft-ui";
+
+<Drawer swipeDirection="left">
+  <DrawerTrigger render={<Button variant="primary" />}>Open side drawer</DrawerTrigger>
+  <DrawerContent className="max-md:data-[swipe-direction=left]:right-3 max-md:data-[swipe-direction=left]:w-auto max-md:data-[swipe-direction=left]:max-w-none">
+    <DrawerHeader>
+      <DrawerTitle>Filters</DrawerTitle>
+      <DrawerClose />
+    </DrawerHeader>
+    <DrawerBody className="min-h-0 overflow-y-auto overscroll-contain">
+      <DrawerDescription>
+        On small screens the panel spans the floating inset. From md up it keeps the default
+        narrow side width. Scroll the body to verify long content.
+      </DrawerDescription>
+      <div className="mt-6 w-full space-y-4 text-left text-sm leading-6 text-foreground/70">
+        {/* long lorem paragraphs */}
+      </div>
+    </DrawerBody>
+    <DrawerFooter>
+      <DrawerActions>
+        <DrawerClose render={<Button variant="primary" />}>Apply</DrawerClose>
+        <DrawerClose render={<Button variant="outline" />}>Reset</DrawerClose>
+      </DrawerActions>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`;
+
 const SOURCE_DRAWER = `<div className="fixed inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
   <div className="mx-auto max-w-md border-2 border-black bg-white shadow-brutal-lg">
     ...
@@ -98,6 +139,7 @@ const SNIPPETS = {
   sourceAdaptive: SOURCE_ADAPTIVE,
   sourceAdaptiveOther: SOURCE_ADAPTIVE_OTHER,
   sourceDrawer: SOURCE_DRAWER,
+  usageSideFullWidth: USAGE_SIDE_FULL_WIDTH,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -217,6 +259,24 @@ function DrawerDoc() {
           html={code.anatomy}
           collapsedHtml={code.anatomyBody}
         />
+      </DocSection>
+
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-foreground-strong">
+            Mobile full-width side drawer
+          </h3>
+          <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
+            Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> width on
+            small screens so the panel spans the floating inset while keeping the default narrow
+            side panel from <code className="font-mono text-[0.8125rem]">md</code> up.
+          </p>
+          <Example html={code.usageSideFullWidth}>
+            <div className="flex justify-center">
+              <DrawerSideFullWidthUsage />
+            </div>
+          </Example>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">
