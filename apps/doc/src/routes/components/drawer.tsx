@@ -7,11 +7,10 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { LeaveChannelDrawerComposition } from "#/compositions/drawer/leave-channel-composition.tsx";
-import leaveChannelCompositionSource from "#/compositions/drawer/leave-channel-composition.tsx?raw";
 import pwaInstallCompositionSource from "#/compositions/drawer/pwa-install-drawer-composition.tsx?raw";
 import pwaInstallOtherCompositionSource from "#/compositions/drawer/pwa-install-other-drawer-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { DrawerPreview } from "./drawer.preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -29,6 +28,38 @@ const DIRECTION_PREVIEWS = [
   label: string;
   swipeDirection: NonNullable<DrawerProps["swipeDirection"]>;
 }>;
+
+const ANATOMY = `import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerBody,
+  DrawerFooter,
+  DrawerActions,
+  DrawerClose,
+  Button,
+} from "raft-ui";
+
+<Drawer>
+  <DrawerTrigger render={<Button variant="primary" />}>Open drawer</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Leave channel?</DrawerTitle>
+    </DrawerHeader>
+    <DrawerBody>
+      <DrawerDescription>You can rejoin anytime from the directory.</DrawerDescription>
+    </DrawerBody>
+    <DrawerFooter>
+      <DrawerActions>
+        <DrawerClose render={<Button variant="danger" />}>Leave</DrawerClose>
+        <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
+      </DrawerActions>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`;
 
 const SOURCE_DRAWER = `<div className="fixed inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
   <div className="mx-auto max-w-md border-2 border-black bg-white shadow-brutal-lg">
@@ -60,8 +91,8 @@ const SOURCE_ADAPTIVE_OTHER = `<BottomSheet className="md:hidden" sheetClassName
 </BottomSheet>`;
 
 const SNIPPETS = {
-  anatomy: leaveChannelCompositionSource,
-  leaveChannel: leaveChannelCompositionSource,
+  anatomy: ANATOMY,
+  leaveChannel: ANATOMY,
   pwaInstall: pwaInstallCompositionSource,
   pwaInstallOther: pwaInstallOtherCompositionSource,
   sourceAdaptive: SOURCE_ADAPTIVE,
@@ -173,11 +204,7 @@ function DrawerDoc() {
         <ComponentDemoFrame>
           <div className="flex flex-wrap items-center justify-center gap-2">
             {DIRECTION_PREVIEWS.map(({ label, swipeDirection }) => (
-              <LeaveChannelDrawerComposition
-                key={label}
-                swipeDirection={swipeDirection}
-                triggerLabel={label}
-              />
+              <DrawerPreview key={label} swipeDirection={swipeDirection} triggerLabel={label} />
             ))}
           </div>
         </ComponentDemoFrame>
@@ -185,8 +212,8 @@ function DrawerDoc() {
 
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock.Panel
-          path="leave-channel-composition.tsx"
-          source={leaveChannelCompositionSource}
+          path="drawer"
+          source={ANATOMY}
           html={code.anatomy}
           collapsedHtml={code.anatomyBody}
         />
@@ -218,14 +245,11 @@ function DrawerDoc() {
               ),
               sourceCode: code.sourceDrawer,
               currentCode: code.leaveChannel,
-              compositionCode: code.leaveChannel,
-              compositionPath: "apps/doc/src/compositions/drawer/leave-channel-composition.tsx",
-              compositionSource: leaveChannelCompositionSource,
             },
             {
               label: "Leave channel desktop",
               status: "difference",
-              note: "Desktop retains the narrow centered panel and themed frame with the same canonical composition.",
+              note: "Desktop retains the narrow centered panel and themed frame.",
               source: (
                 <DrawerComparisonIframe scene="leave-channel" variant="source" viewport="desktop" />
               ),
@@ -255,9 +279,6 @@ function DrawerDoc() {
               ),
               sourceCode: code.sourceDrawer,
               currentCode: code.leaveChannel,
-              compositionCode: code.leaveChannel,
-              compositionPath: "apps/doc/src/compositions/drawer/leave-channel-composition.tsx",
-              compositionSource: leaveChannelCompositionSource,
             },
             {
               label: "PWA install mobile",

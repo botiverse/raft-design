@@ -12,7 +12,6 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  type DrawerContentProps,
   type DrawerProps,
 } from "raft-ui";
 import { useState, useSyncExternalStore } from "react";
@@ -37,16 +36,12 @@ export type PwaInstallDrawerCompositionProps = Pick<
   DrawerProps,
   "defaultOpen" | "modal" | "onOpenChange" | "open"
 > & {
-  contentProps?: DrawerContentProps;
   mobileOnly?: boolean;
-  showTrigger?: boolean;
   variant: "other" | "safari";
 };
 
 export function PwaInstallDrawerComposition({
-  contentProps,
   mobileOnly = true,
-  showTrigger = true,
   variant,
   ...drawerProps
 }: PwaInstallDrawerCompositionProps) {
@@ -65,10 +60,8 @@ export function PwaInstallDrawerComposition({
 
   return (
     <Drawer {...drawerProps}>
-      {showTrigger ? (
-        <DrawerTrigger render={<Button variant="primary" size="sm" />}>Install</DrawerTrigger>
-      ) : null}
-      <DrawerContent {...contentProps}>
+      <DrawerTrigger render={<Button variant="primary" size="sm" />}>Install</DrawerTrigger>
+      <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Add Raft to your Home Screen</DrawerTitle>
         </DrawerHeader>

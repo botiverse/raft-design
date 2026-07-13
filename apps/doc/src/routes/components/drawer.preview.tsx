@@ -13,36 +13,20 @@ import {
   DrawerTitle,
   DrawerTrigger,
   Text,
-  type DrawerContentProps,
   type DrawerProps,
 } from "raft-ui";
 
-export type LeaveChannelDrawerCompositionProps = Pick<
-  DrawerProps,
-  "defaultOpen" | "modal" | "onOpenChange" | "open" | "swipeDirection"
-> & {
-  contentProps?: DrawerContentProps;
-  showTrigger?: boolean;
-  triggerLabel?: string;
-  viewport?: "desktop" | "mobile";
+export type DrawerPreviewProps = Pick<DrawerProps, "swipeDirection"> & {
+  triggerLabel: string;
 };
 
-export function LeaveChannelDrawerComposition({
-  contentProps,
-  showTrigger = true,
-  triggerLabel = "Open drawer",
-  viewport,
-  ...drawerProps
-}: LeaveChannelDrawerCompositionProps) {
-  const showCornerClose =
-    drawerProps.swipeDirection === "left" || drawerProps.swipeDirection === "right";
+export function DrawerPreview({ swipeDirection, triggerLabel }: DrawerPreviewProps) {
+  const showCornerClose = swipeDirection === "left" || swipeDirection === "right";
 
   return (
-    <Drawer {...drawerProps}>
-      {showTrigger ? (
-        <DrawerTrigger render={<Button variant="primary" />}>{triggerLabel}</DrawerTrigger>
-      ) : null}
-      <DrawerContent {...contentProps}>
+    <Drawer swipeDirection={swipeDirection}>
+      <DrawerTrigger render={<Button variant="primary" />}>{triggerLabel}</DrawerTrigger>
+      <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Leave channel?</DrawerTitle>
           {showCornerClose ? <DrawerClose /> : null}
@@ -69,7 +53,7 @@ export function LeaveChannelDrawerComposition({
             </div>
           </div>
         </DrawerBody>
-        <DrawerFooter className={viewport === "mobile" ? "md:pb-5" : undefined}>
+        <DrawerFooter>
           <DrawerActions>
             <DrawerClose render={<Button variant="danger" />}>Leave</DrawerClose>
             <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>

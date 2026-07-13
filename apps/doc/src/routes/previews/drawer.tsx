@@ -73,7 +73,7 @@ function DrawerScenePreview({
         isSource ? (
           <LeaveChannelSourceContent />
         ) : (
-          <LeaveChannelContent viewport={viewport} />
+          <LeaveChannelContent />
         )
       ) : isSource ? (
         <PwaInstallSourceContent variant={pwaVariant} />
@@ -156,8 +156,7 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     .join(" ");
 }
 
-function LeaveChannelContent({ viewport }: { viewport: DrawerPreviewViewport }) {
-  const isDesktop = viewport === "desktop";
+function LeaveChannelContent() {
   const theme = useThemeFamily();
   const titleClassName =
     theme === "brutal"
@@ -198,7 +197,7 @@ function LeaveChannelContent({ viewport }: { viewport: DrawerPreviewViewport }) 
           </div>
         </div>
       </div>
-      <div className={`mt-auto flex flex-col gap-2.5 px-6 ${isDesktop ? "py-5 md:pb-5" : "py-5"}`}>
+      <div className="mt-auto flex flex-col gap-2.5 px-6 py-5">
         <DrawerActions>
           <Button variant="danger">Leave</Button>
           <Button variant="outline">Cancel</Button>
