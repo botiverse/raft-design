@@ -46,20 +46,20 @@
     "@dnd-kit/utilities": "catalog:",
     "@tanstack/react-hotkeys": "catalog:",
     "cnfast": "catalog:",
-    "foxact": "^0.3.7",
+    "foxact": "^0.3.8",
     "lucide-react": "catalog:",
     "react-resizable-panels": "catalog:",
     "tailwind-variants": "catalog:",
     "vaul": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@typescript/native-preview": "7.0.0-dev.20260707.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "tailwindcss": "^4.3.1",
+    "tailwindcss": "^4.3.2",
     "typescript": "^7.0.2",
     "vite-plus": "^0.2.4"
   },

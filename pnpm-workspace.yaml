@@ -7,9 +7,9 @@ catalogMode: prefer
 
 catalog:
   bumpp: ^11.1.0
-  conventional-changelog: ^8.0.1
+  conventional-changelog: ^8.1.0
   conventional-changelog-conventionalcommits: ^10.2.1
-  "@types/node": ^26.0.0
+  "@types/node": ^26.1.1
   typescript: ^7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@0.2.4
   vitest: npm:@voidzero-dev/vite-plus-test@0.1.24
@@ -21,13 +21,13 @@ catalog:
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.21.0
-  cnfast: ^0.0.7
-  wrangler: ^4.103.0
-  shiki: ^4.2.0
+  lucide-react: ^1.24.0
+  cnfast: ^0.0.8
+  wrangler: ^4.110.0
+  shiki: ^4.3.1
   "@tanstack/react-hotkeys": ^0.10.0
   "@vitejs/plugin-rsc": ^0.5.27
-  "@cloudflare/vite-plugin": ^1.42.1
+  "@cloudflare/vite-plugin": ^1.44.0
   vaul: ^1.1.2
   react-resizable-panels: ^4.12.1
 overrides:
