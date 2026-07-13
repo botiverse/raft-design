@@ -191,7 +191,7 @@ const NAV = [
     title: "Overlays",
     items: [
       { label: "AlertDialog", to: "/components/alert-dialog", status: "done" },
-      { label: "BottomSheet", to: "/components/bottom-sheet", status: "done" },
+      { label: "Drawer", to: "/components/drawer", status: "done" },
       { label: "ContextMenu", to: "/components/context-menu", status: "done" },
       { label: "Dialog", to: "/components/dialog", status: "done" },
       { label: "DropdownMenu", to: "/components/dropdown-menu", status: "done" },
@@ -199,12 +199,6 @@ const NAV = [
       { label: "Popover", to: "/components/popover", status: "done" },
       { label: "PreviewCard", to: "/components/preview-card", status: "done" },
       { label: "Tooltip", to: "/components/tooltip", status: "done" },
-      {
-        label: "Drawer",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/drawer",
-        reason: "Current BottomSheet covers mobile bottom panels; add when side panels need it.",
-      },
     ],
   },
   {

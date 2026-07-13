@@ -21,7 +21,7 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
-import { Route as PreviewsBottomSheetRouteImport } from './routes/previews/bottom-sheet'
+import { Route as PreviewsDrawerRouteImport } from './routes/previews/drawer'
 import { Route as PlaygroundChannelIdRouteImport } from './routes/playground.$channelId'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
@@ -56,6 +56,7 @@ import { Route as ComponentsInlineCodeRouteImport } from './routes/components/in
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
+import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer'
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
@@ -72,7 +73,6 @@ import { Route as ComponentsChatPanelStackRouteImport } from './routes/component
 import { Route as ComponentsChatMainPanelRouteImport } from './routes/components/chat-main-panel'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
-import { Route as ComponentsBottomSheetRouteImport } from './routes/components/bottom-sheet'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
@@ -156,9 +156,9 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PreviewsBottomSheetRoute = PreviewsBottomSheetRouteImport.update({
-  id: '/previews/bottom-sheet',
-  path: '/previews/bottom-sheet',
+const PreviewsDrawerRoute = PreviewsDrawerRouteImport.update({
+  id: '/previews/drawer',
+  path: '/previews/drawer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaygroundChannelIdRoute = PlaygroundChannelIdRouteImport.update({
@@ -334,6 +334,11 @@ const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
   path: '/dropdown-menu',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsDrawerRoute = ComponentsDrawerRouteImport.update({
+  id: '/drawer',
+  path: '/drawer',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
   id: '/dialog',
   path: '/dialog',
@@ -417,11 +422,6 @@ const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsBottomSheetRoute = ComponentsBottomSheetRouteImport.update({
-  id: '/bottom-sheet',
-  path: '/bottom-sheet',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
@@ -550,7 +550,6 @@ export interface FileRoutesByFullPath {
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
-  '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
@@ -567,6 +566,7 @@ export interface FileRoutesByFullPath {
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
+  '/components/drawer': typeof ComponentsDrawerRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
@@ -601,7 +601,7 @@ export interface FileRoutesByFullPath {
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
+  '/previews/drawer': typeof PreviewsDrawerRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -636,7 +636,6 @@ export interface FileRoutesByTo {
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
-  '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
@@ -653,6 +652,7 @@ export interface FileRoutesByTo {
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
+  '/components/drawer': typeof ComponentsDrawerRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
@@ -687,7 +687,7 @@ export interface FileRoutesByTo {
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
+  '/previews/drawer': typeof PreviewsDrawerRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -725,7 +725,6 @@ export interface FileRoutesById {
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
-  '/components/bottom-sheet': typeof ComponentsBottomSheetRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
@@ -742,6 +741,7 @@ export interface FileRoutesById {
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
+  '/components/drawer': typeof ComponentsDrawerRoute
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
@@ -776,7 +776,7 @@ export interface FileRoutesById {
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/previews/bottom-sheet': typeof PreviewsBottomSheetRoute
+  '/previews/drawer': typeof PreviewsDrawerRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -815,7 +815,6 @@ export interface FileRouteTypes {
     | '/components/avatar'
     | '/components/badge'
     | '/components/banner'
-    | '/components/bottom-sheet'
     | '/components/button'
     | '/components/chat-composer'
     | '/components/chat-main-panel'
@@ -832,6 +831,7 @@ export interface FileRouteTypes {
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
+    | '/components/drawer'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
@@ -866,7 +866,7 @@ export interface FileRouteTypes {
     | '/components/tooltip'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
-    | '/previews/bottom-sheet'
+    | '/previews/drawer'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -901,7 +901,6 @@ export interface FileRouteTypes {
     | '/components/avatar'
     | '/components/badge'
     | '/components/banner'
-    | '/components/bottom-sheet'
     | '/components/button'
     | '/components/chat-composer'
     | '/components/chat-main-panel'
@@ -918,6 +917,7 @@ export interface FileRouteTypes {
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
+    | '/components/drawer'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
@@ -952,7 +952,7 @@ export interface FileRouteTypes {
     | '/components/tooltip'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
-    | '/previews/bottom-sheet'
+    | '/previews/drawer'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -989,7 +989,6 @@ export interface FileRouteTypes {
     | '/components/avatar'
     | '/components/badge'
     | '/components/banner'
-    | '/components/bottom-sheet'
     | '/components/button'
     | '/components/chat-composer'
     | '/components/chat-main-panel'
@@ -1006,6 +1005,7 @@ export interface FileRouteTypes {
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
+    | '/components/drawer'
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
@@ -1040,7 +1040,7 @@ export interface FileRouteTypes {
     | '/components/tooltip'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
-    | '/previews/bottom-sheet'
+    | '/previews/drawer'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -1073,7 +1073,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRouteWithChildren
-  PreviewsBottomSheetRoute: typeof PreviewsBottomSheetRoute
+  PreviewsDrawerRoute: typeof PreviewsDrawerRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -1167,11 +1167,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/previews/bottom-sheet': {
-      id: '/previews/bottom-sheet'
-      path: '/previews/bottom-sheet'
-      fullPath: '/previews/bottom-sheet'
-      preLoaderRoute: typeof PreviewsBottomSheetRouteImport
+    '/previews/drawer': {
+      id: '/previews/drawer'
+      path: '/previews/drawer'
+      fullPath: '/previews/drawer'
+      preLoaderRoute: typeof PreviewsDrawerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playground/$channelId': {
@@ -1412,6 +1412,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/drawer': {
+      id: '/components/drawer'
+      path: '/drawer'
+      fullPath: '/components/drawer'
+      preLoaderRoute: typeof ComponentsDrawerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/dialog': {
       id: '/components/dialog'
       path: '/dialog'
@@ -1522,13 +1529,6 @@ declare module '@tanstack/react-router' {
       path: '/button'
       fullPath: '/components/button'
       preLoaderRoute: typeof ComponentsButtonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/bottom-sheet': {
-      id: '/components/bottom-sheet'
-      path: '/bottom-sheet'
-      fullPath: '/components/bottom-sheet'
-      preLoaderRoute: typeof ComponentsBottomSheetRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/banner': {
@@ -1694,7 +1694,6 @@ interface ComponentsRouteChildren {
   ComponentsAvatarRoute: typeof ComponentsAvatarRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsBannerRoute: typeof ComponentsBannerRoute
-  ComponentsBottomSheetRoute: typeof ComponentsBottomSheetRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
   ComponentsChatMainPanelRoute: typeof ComponentsChatMainPanelRoute
@@ -1711,6 +1710,7 @@ interface ComponentsRouteChildren {
   ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
+  ComponentsDrawerRoute: typeof ComponentsDrawerRoute
   ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
@@ -1764,7 +1764,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsAvatarRoute: ComponentsAvatarRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsBannerRoute: ComponentsBannerRoute,
-  ComponentsBottomSheetRoute: ComponentsBottomSheetRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
   ComponentsChatMainPanelRoute: ComponentsChatMainPanelRoute,
@@ -1781,6 +1780,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
+  ComponentsDrawerRoute: ComponentsDrawerRoute,
   ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
@@ -1893,7 +1893,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
   PlaygroundRoute: PlaygroundRouteWithChildren,
-  PreviewsBottomSheetRoute: PreviewsBottomSheetRoute,
+  PreviewsDrawerRoute: PreviewsDrawerRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,

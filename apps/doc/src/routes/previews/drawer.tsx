@@ -4,8 +4,10 @@ import type { ReactNode } from "react";
 import {
   Avatar,
   AvatarFallback,
-  BottomSheetActions,
+  Banner,
+  BannerDescription,
   Button,
+  DrawerActions,
   Text,
   type Theme,
   type ThemeMode,
@@ -14,11 +16,11 @@ import {
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 
-type BottomSheetPreviewScene = "leave-channel" | "pwa-install" | "pwa-install-other";
-type BottomSheetPreviewVariant = "source" | "current";
-type BottomSheetPreviewViewport = "mobile" | "desktop";
+type DrawerPreviewScene = "leave-channel" | "pwa-install" | "pwa-install-other";
+type DrawerPreviewVariant = "current" | "source";
+type DrawerPreviewViewport = "desktop" | "mobile";
 
-export const Route = createFileRoute("/previews/bottom-sheet")({
+export const Route = createFileRoute("/previews/drawer")({
   staticData: { standalone: true },
   validateSearch: (search) => ({
     scene: getScene(search.scene),
@@ -28,10 +30,10 @@ export const Route = createFileRoute("/previews/bottom-sheet")({
     mode: getMode(search.mode),
     instance: typeof search.instance === "string" ? search.instance : "",
   }),
-  component: BottomSheetPreviewPage,
+  component: DrawerSourcePreviewPage,
 });
 
-function BottomSheetPreviewPage() {
+function DrawerSourcePreviewPage() {
   const search = Route.useSearch();
 
   return (
@@ -41,7 +43,7 @@ function BottomSheetPreviewPage() {
       className="min-h-screen bg-transparent text-foreground"
     >
       <div className="flex min-h-screen w-full items-center justify-center overflow-hidden bg-transparent p-0">
-        <BottomSheetScenePreview
+        <DrawerScenePreview
           key={search.instance}
           scene={search.scene}
           variant={search.variant}
@@ -52,14 +54,14 @@ function BottomSheetPreviewPage() {
   );
 }
 
-function BottomSheetScenePreview({
+function DrawerScenePreview({
   scene,
   variant,
   viewport,
 }: {
-  scene: BottomSheetPreviewScene;
-  variant: BottomSheetPreviewVariant;
-  viewport: BottomSheetPreviewViewport;
+  scene: DrawerPreviewScene;
+  variant: DrawerPreviewVariant;
+  viewport: DrawerPreviewViewport;
 }) {
   const isSource = variant === "source";
   const isPwa = scene !== "leave-channel";
@@ -69,20 +71,18 @@ function BottomSheetScenePreview({
     <ViewportFrame viewport={viewport} source={isSource} padded={isSource && isPwa}>
       {scene === "leave-channel" ? (
         isSource ? (
-          <LeaveChannelSourceContent onClose={noop} />
+          <LeaveChannelSourceContent />
         ) : (
-          <LeaveChannelContent viewport={viewport} onClose={noop} />
+          <LeaveChannelContent />
         )
       ) : isSource ? (
-        <PwaInstallSourceContent variant={pwaVariant} onClose={noop} />
+        <PwaInstallSourceContent variant={pwaVariant} />
       ) : (
-        <PwaInstallContent variant={pwaVariant} onClose={noop} />
+        <PwaInstallContent variant={pwaVariant} />
       )}
     </ViewportFrame>
   );
 }
-
-function noop() {}
 
 function ViewportFrame({
   viewport,
@@ -90,7 +90,7 @@ function ViewportFrame({
   padded,
   children,
 }: {
-  viewport: BottomSheetPreviewViewport;
+  viewport: DrawerPreviewViewport;
   source: boolean;
   padded: boolean;
   children: ReactNode;
@@ -107,26 +107,7 @@ function ViewportFrame({
         .join(" ")
     : getCurrentSheetClassName(theme, isDesktop, padded);
 
-  const frameBody = (
-    <div className="relative min-h-0 overflow-hidden bg-gray-50">
-      {source ? (
-        <div className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
-          <div className={sheetClassName}>{children}</div>
-        </div>
-      ) : null}
-      {!source ? (
-        <>
-          <div
-            className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
-            style={{ backgroundColor: "var(--layer-backdrop)" }}
-          />
-          <div className={sheetClassName}>{children}</div>
-        </>
-      ) : null}
-    </div>
-  );
-
-  const frame = (
+  return (
     <div
       className={`grid grid-rows-[auto_minmax(0,1fr)] border-2 border-black bg-white shadow-[var(--source-shadow)] ${frameClassName}`}
     >
@@ -134,30 +115,40 @@ function ViewportFrame({
         <span>{isDesktop ? "desktop viewport" : "mobile viewport"}</span>
         <span>{isDesktop ? "1024px" : "375px"}</span>
       </div>
-      {frameBody}
+      <div className="relative min-h-0 overflow-hidden bg-gray-50">
+        {source ? (
+          <div className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom,0px))]">
+            <div className={sheetClassName}>{children}</div>
+          </div>
+        ) : (
+          <>
+            <div
+              className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+              style={{ backgroundColor: "var(--layer-backdrop)" }}
+            />
+            <div className={sheetClassName}>{children}</div>
+          </>
+        )}
+      </div>
     </div>
   );
-
-  if (source) {
-    return frame;
-  }
-
-  return frame;
 }
 
 function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: boolean) {
   return [
-    "absolute bottom-0 z-10 mx-auto mt-0 flex h-auto min-h-64 max-h-[calc(100%-1.75rem)] max-w-lg flex-col outline-none",
-    isDesktop ? "inset-x-3 max-w-md" : "inset-x-0",
+    "absolute z-10 mx-auto flex h-auto min-h-64 max-h-[calc(100%-1.75rem)] max-w-lg flex-col outline-none",
+    isDesktop
+      ? "inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] max-w-md"
+      : "inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))]",
     padded ? "p-4" : null,
     theme === "brutal"
       ? [
-          "border-2 border-black bg-white text-black shadow-[var(--source-shadow-lg)]",
-          !isDesktop ? "border-x-0 border-b-0 border-t-2" : null,
+          "border-2 border-line-strong bg-layer-panel text-foreground shadow-brutal-lg",
+          isDesktop ? "bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))]" : null,
         ]
       : [
-          "overflow-clip rounded-lg rounded-b-none bg-layer-popover text-foreground shadow-xl",
-          isDesktop ? "max-w-md rounded-xl rounded-b-none" : null,
+          "overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl",
+          isDesktop ? "max-w-md rounded-xl" : null,
         ],
   ]
     .flat()
@@ -165,23 +156,16 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     .join(" ");
 }
 
-function LeaveChannelContent({
-  viewport,
-  onClose,
-}: {
-  viewport: BottomSheetPreviewViewport;
-  onClose: () => void;
-}) {
-  const isDesktop = viewport === "desktop";
+function LeaveChannelContent() {
   const theme = useThemeFamily();
   const titleClassName =
     theme === "brutal"
-      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-black"
-      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-foreground-strong";
+      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-foreground-strong"
+      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]";
 
   return (
     <>
-      <div className="flex flex-col items-center px-6 pt-8 pb-3 text-center">
+      <div className="flex flex-col items-center px-6 pt-8 pb-2 text-center">
         <Text.Sans render={<div />} size="large" className={titleClassName}>
           Leave channel?
         </Text.Sans>
@@ -213,21 +197,17 @@ function LeaveChannelContent({
           </div>
         </div>
       </div>
-      <div className={`mt-auto flex flex-col gap-2.5 px-6 pt-5 ${isDesktop ? "pb-11" : "pb-5"}`}>
-        <BottomSheetActions>
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={onClose}>
-            Leave
-          </Button>
-        </BottomSheetActions>
+      <div className="mt-auto flex flex-col gap-2.5 px-6 py-5">
+        <DrawerActions>
+          <Button variant="danger">Leave</Button>
+          <Button variant="outline">Cancel</Button>
+        </DrawerActions>
       </div>
     </>
   );
 }
 
-function LeaveChannelSourceContent({ onClose }: { onClose: () => void }) {
+function LeaveChannelSourceContent() {
   return (
     <>
       <div className="flex flex-col gap-1 p-4">
@@ -235,36 +215,20 @@ function LeaveChannelSourceContent({ onClose }: { onClose: () => void }) {
         <div className="text-sm text-black/60">You can rejoin anytime from the directory.</div>
       </div>
       <div className="mt-auto flex flex-col gap-2 p-4">
-        <Button variant="danger" onClick={onClose}>
-          Leave
-        </Button>
-        <Button variant="default" onClick={onClose}>
-          Cancel
-        </Button>
+        <Button variant="danger">Leave</Button>
+        <Button variant="default">Cancel</Button>
       </div>
     </>
   );
 }
 
-function PwaInstallContent({
-  variant,
-  onClose,
-}: {
-  variant: "safari" | "other";
-  onClose: () => void;
-}) {
+function PwaInstallContent({ variant }: { variant: "other" | "safari" }) {
   const isSafari = variant === "safari";
   const theme = useThemeFamily();
   const titleClassName =
     theme === "brutal"
-      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-black"
-      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-foreground-strong";
-  const actionSize = !isSafari && theme === "elegant" ? "md" : "lg";
-  const actionsClassName = isSafari
-    ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
-    : theme === "elegant"
-      ? "w-full max-w-[24rem] [&_[data-slot=button]]:min-w-0 [&_[data-slot=button]]:flex-1"
-      : "w-full max-w-[24rem] [&_[data-slot=button]]:w-full";
+      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-foreground-strong"
+      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]";
 
   return (
     <>
@@ -279,12 +243,12 @@ function PwaInstallContent({
           className="max-w-sm text-pretty text-center text-foreground/60 [[data-theme=brutal]_&]:text-black/60"
         >
           {isSafari
-            ? "Open Raft as a fullscreen app - faster, more focused."
+            ? "Open Raft as a fullscreen app — faster, more focused."
             : "Open this page in Safari first, then add it to your Home Screen."}
         </Text.Sans>
 
         {isSafari ? (
-          <div className="mt-6 rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
+          <div className="mt-6 w-full rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
             <img
               src="/pwa/ios-add-to-home-screen-3step.svg"
               alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
@@ -292,46 +256,43 @@ function PwaInstallContent({
             />
           </div>
         ) : (
-          <Text.Sans
-            render={<div />}
-            size="small"
-            className="mt-6 rounded-md border border-line-subtle bg-layer-panel p-4 text-foreground [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:text-black"
-          >
-            iOS only allows Home Screen installation from Safari. Copy this page link, open Safari,
-            then use Share - Add to Home Screen.
-          </Text.Sans>
+          <Banner status="info" className="mt-6 w-full text-left">
+            <BannerDescription>
+              iOS only allows Home Screen installation from Safari. Copy this page link, open
+              Safari, then use Share → Add to Home Screen.
+            </BannerDescription>
+          </Banner>
         )}
       </div>
-
       <div className="mt-auto flex flex-col gap-2.5 px-6 py-5">
-        <BottomSheetActions className={actionsClassName}>
+        <DrawerActions
+          className={
+            isSafari
+              ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
+              : "w-full max-w-[24rem]"
+          }
+        >
           {isSafari ? (
-            <Button variant="primary" size="lg" onClick={onClose}>
+            <Button variant="primary" size="lg">
               Got it
             </Button>
           ) : (
             <>
-              <Button variant="outline" size={actionSize} onClick={onClose}>
-                Close
-              </Button>
-              <Button variant="primary" size={actionSize}>
+              <Button variant="primary" size="lg">
                 Copy Link
+              </Button>
+              <Button variant="outline" size="lg">
+                Close
               </Button>
             </>
           )}
-        </BottomSheetActions>
+        </DrawerActions>
       </div>
     </>
   );
 }
 
-function PwaInstallSourceContent({
-  variant,
-  onClose,
-}: {
-  variant: "safari" | "other";
-  onClose: () => void;
-}) {
+function PwaInstallSourceContent({ variant }: { variant: "other" | "safari" }) {
   const isSafari = variant === "safari";
 
   return (
@@ -351,7 +312,6 @@ function PwaInstallSourceContent({
           type="button"
           className="btn-brutal-sm bg-white p-1"
           aria-label="Close install instructions"
-          onClick={onClose}
         >
           <X size={16} />
         </button>
@@ -378,7 +338,7 @@ function PwaInstallSourceContent({
             Copy Link
           </button>
         )}
-        <button type="button" className="btn-brutal bg-white px-3 py-2 text-xs" onClick={onClose}>
+        <button type="button" className="btn-brutal bg-white px-3 py-2 text-xs">
           {isSafari ? "Got it" : "Close"}
         </button>
       </div>
@@ -386,18 +346,18 @@ function PwaInstallSourceContent({
   );
 }
 
-function getScene(value: unknown): BottomSheetPreviewScene {
+function getScene(value: unknown): DrawerPreviewScene {
   return value === "pwa-install" || value === "pwa-install-other" || value === "leave-channel"
     ? value
     : "leave-channel";
 }
 
-function getVariant(value: unknown): BottomSheetPreviewVariant {
-  return value === "source" || value === "current" ? value : "current";
+function getViewport(value: unknown): DrawerPreviewViewport {
+  return value === "desktop" || value === "mobile" ? value : "mobile";
 }
 
-function getViewport(value: unknown): BottomSheetPreviewViewport {
-  return value === "desktop" || value === "mobile" ? value : "mobile";
+function getVariant(value: unknown): DrawerPreviewVariant {
+  return value === "source" ? "source" : "current";
 }
 
 function getTheme(value: unknown): Theme {
