@@ -13,7 +13,7 @@ export const messageReference = tv({
   variants: {
     theme: {
       brutal: { root: "focus-visible:outline-black" },
-      elegant: {},
+      elegant: { meta: "text-foreground-muted" },
     },
     treatment: {
       mention: {
@@ -165,21 +165,87 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: [
-        "mention",
-        "selfMention",
-        "channel",
-        "task",
-        "thread",
-        "permalink",
-        "externalPermalink",
-      ],
-      class: { root: "cursor-pointer" },
+      treatment: "mention",
+      class: {
+        root: [
+          "inline-block cursor-pointer align-bottom font-medium text-foreground-strong",
+          "decoration-1 decoration-foreground/30 hover:text-foreground hover:decoration-foreground/70",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: ["selfMention", "channel", "task", "thread", "permalink", "externalPermalink"],
+      class: {
+        root: [
+          "cursor-pointer rounded-sm border-line-subtle px-1.5",
+          "font-medium leading-[1.5] text-foreground-strong",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: "selfMention",
+      class: {
+        root: [
+          "border-primary-400/20 bg-primary-400/15 text-foreground-strong",
+          "hover:bg-primary-400/25",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: "channel",
+      class: {
+        root: [
+          "border-accent-400/20 bg-accent-400/10 text-foreground-strong",
+          "hover:bg-accent-400/15",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: "task",
+      class: {
+        root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: "thread",
+      class: {
+        root: [
+          "border-info-base/20 bg-info-base/10 text-foreground-strong",
+          "hover:bg-info-base/20",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: ["permalink", "externalPermalink"],
+      class: {
+        root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: "loading",
+      class: {
+        root: [
+          "cursor-wait rounded-sm border-line-subtle bg-layer-muted px-1.5 opacity-100",
+          "font-medium leading-[1.5] text-foreground-muted",
+        ],
+      },
     },
     {
       theme: "elegant",
       treatment: ["channelUnavailable", "threadUnavailable", "taskUnavailable"],
-      class: { root: "cursor-not-allowed border-line-strong bg-layer-muted text-foreground" },
+      class: {
+        root: [
+          "cursor-default rounded-sm border-line-subtle bg-layer-muted/70 px-1.5 opacity-100",
+          "font-medium leading-[1.5] text-foreground-muted",
+        ],
+      },
     },
   ],
 });

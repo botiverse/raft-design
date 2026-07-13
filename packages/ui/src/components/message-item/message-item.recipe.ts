@@ -82,17 +82,21 @@ export const messageItem = tv({
         header: "items-baseline gap-1.5",
         sender: "text-[14px] font-medium leading-none text-foreground-muted",
         senderState: [
-          "border border-line-strong bg-layer-muted px-1.5 py-0.5",
-          "text-[10px] font-bold uppercase leading-none text-foreground/60",
+          "rounded-sm border-0 bg-layer-muted px-1.5 py-0.5",
+          "text-[10px] font-medium normal-case leading-none text-foreground-muted",
         ],
-        meta: "font-sans text-[12px] leading-none text-foreground-muted/60",
-        time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted/60",
+        meta: "font-sans text-[12px] leading-none text-foreground-muted",
+        time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted",
+        inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-muted",
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
           "text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
-          "select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
+          "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
-          "group-data-[compact=true]/message:[&_p]:pt-0",
+        ],
+        notice: [
+          "rounded-md border-0 bg-layer-muted px-2 py-1.5",
+          "text-xs font-medium text-foreground-muted",
         ],
         toolbar: [
           "top-1 right-[calc(1.75rem-2px)]",
@@ -132,11 +136,25 @@ export const messageItem = tv({
       class: { root: "border-line-strong bg-brutal-cyan/25 shadow-brutal" },
     },
     { theme: "brutal", compact: true, class: { root: "mt-0 min-h-0 py-1" } },
-    { theme: "elegant", rowState: "active", class: { root: "border-line-strong bg-layer-panel" } },
+    {
+      theme: "elegant",
+      rowState: "active",
+      class: {
+        root: [
+          "border-transparent bg-layer-strong/65 shadow-none",
+          "ring-1 ring-inset ring-foreground-muted/80",
+        ],
+      },
+    },
     {
       theme: "elegant",
       rowState: "search-match",
-      class: { root: "border-line-strong bg-info-light shadow-sm" },
+      class: {
+        root: [
+          "border-transparent bg-info-base/10 shadow-none",
+          "ring-1 ring-inset ring-info-dark",
+        ],
+      },
     },
     { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },
   ],

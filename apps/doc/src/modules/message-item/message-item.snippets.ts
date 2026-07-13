@@ -152,11 +152,6 @@ export const PROPS: readonly PropRow[] = [
     description: "Quick reaction row, picker, and reactors list. Open state stays caller-owned.",
   },
   {
-    name: "MessageReactionPickerPanel",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Standalone visual surface for an always-visible quick reaction panel.",
-  },
-  {
     name: "MessageReactionPickerContent",
     type: "DropdownMenuContentProps",
     description: "Base UI dropdown content for an interactive quick reaction overlay.",

@@ -140,7 +140,8 @@ export function MessageReferenceLabel({ className, render, ...props }: MessageRe
 export type MessageReferenceMetaProps = useRender.ComponentProps<"span">;
 
 export function MessageReferenceMeta({ className, render, ...props }: MessageReferenceMetaProps) {
-  const { meta } = messageReference();
+  const theme = useThemeFamily();
+  const { meta } = messageReference({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: meta({ className }),
   };

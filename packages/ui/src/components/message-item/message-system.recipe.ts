@@ -12,4 +12,18 @@ export const messageSystem = tv({
       "aria-expanded:[&_svg]:-rotate-90",
     ],
   },
+  variants: {
+    theme: {
+      brutal: {},
+      elegant: {
+        systemTime: ["font-sans text-[11px] font-medium tabular-nums", "text-foreground-muted"],
+        systemContent: ["font-sans text-[12px]", "text-foreground-muted"],
+        systemDisclosure: [
+          "rounded-md font-sans text-[12px] text-foreground-muted",
+          "hover:bg-layer-strong/35 hover:text-foreground-strong",
+          "[&_svg]:text-foreground-icon",
+        ],
+      },
+    },
+  },
 });
