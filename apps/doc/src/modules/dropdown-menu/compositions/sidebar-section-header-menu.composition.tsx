@@ -9,16 +9,21 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import {
+  Button,
   ContextMenu,
   ContextMenuContent,
+  ContextMenuFooter,
   ContextMenuItem,
+  ContextMenuItemLabel,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuFooter,
   DropdownMenuItem,
+  DropdownMenuItemLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -29,31 +34,50 @@ import { ChatSidebarAction, ChatSidebarSectionHeader } from "raft-ui/wip";
 const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
 const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";
 
-function ChannelsMenuFooter({ count, label }: { count: number; label: string }) {
+export const SIDEBAR_SORT_OPTIONS = [
+  { value: "manual", label: "Manual", icon: <GripVertical /> },
+  { value: "recent", label: "Recent", icon: <Clock /> },
+  { value: "az", label: "A-Z", icon: <ArrowDownAZ /> },
+] as const;
+
+function ChannelsMenuFooterText({ count, label }: { count: number; label: string }) {
   return (
-    <div className="px-3 py-2 text-xs text-foreground-muted tabular-nums">
+    <>
       {count} {label}
-    </div>
+    </>
+  );
+}
+
+export function SidebarDropdownSortItems() {
+  return (
+    <DropdownMenuRadioGroup defaultValue="manual">
+      {SIDEBAR_SORT_OPTIONS.map((option) => (
+        <DropdownMenuRadioItem key={option.value} value={option.value}>
+          {option.icon}
+          <DropdownMenuItemLabel>{option.label}</DropdownMenuItemLabel>
+        </DropdownMenuRadioItem>
+      ))}
+    </DropdownMenuRadioGroup>
+  );
+}
+
+export function SidebarContextSortItems() {
+  return (
+    <ContextMenuRadioGroup defaultValue="manual">
+      {SIDEBAR_SORT_OPTIONS.map((option) => (
+        <ContextMenuRadioItem key={option.value} value={option.value}>
+          {option.icon}
+          <ContextMenuItemLabel>{option.label}</ContextMenuItemLabel>
+        </ContextMenuRadioItem>
+      ))}
+    </ContextMenuRadioGroup>
   );
 }
 
 export function SidebarSectionSortDropdownContent() {
   return (
     <DropdownMenuContent align="end" className={SORT_MENU_CLASS}>
-      <DropdownMenuRadioGroup defaultValue="manual">
-        <DropdownMenuRadioItem value="manual">
-          <GripVertical />
-          <span className="min-w-0 flex-1 text-left">Manual</span>
-        </DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="recent">
-          <Clock />
-          <span className="min-w-0 flex-1 text-left">Recent</span>
-        </DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="az">
-          <ArrowDownAZ />
-          <span className="min-w-0 flex-1 text-left">A-Z</span>
-        </DropdownMenuRadioItem>
-      </DropdownMenuRadioGroup>
+      <SidebarDropdownSortItems />
     </DropdownMenuContent>
   );
 }
@@ -61,20 +85,7 @@ export function SidebarSectionSortDropdownContent() {
 export function SidebarSectionSortContextContent() {
   return (
     <ContextMenuContent className={SORT_MENU_CLASS}>
-      <ContextMenuRadioGroup defaultValue="manual">
-        <ContextMenuRadioItem value="manual">
-          <GripVertical />
-          <span className="min-w-0 flex-1 text-left">Manual</span>
-        </ContextMenuRadioItem>
-        <ContextMenuRadioItem value="recent">
-          <Clock />
-          <span className="min-w-0 flex-1 text-left">Recent</span>
-        </ContextMenuRadioItem>
-        <ContextMenuRadioItem value="az">
-          <ArrowDownAZ />
-          <span className="min-w-0 flex-1 text-left">A-Z</span>
-        </ContextMenuRadioItem>
-      </ContextMenuRadioGroup>
+      <SidebarContextSortItems />
     </ContextMenuContent>
   );
 }
@@ -84,38 +95,29 @@ export function SidebarSectionChannelsDropdownContent({
   countLabel = "channels",
   createLabel = "Create Channel",
   createIcon = "channel",
+  createDisabled = false,
   onCreate,
 }: {
   count: number;
   countLabel?: string;
   createLabel?: string;
   createIcon?: "channel" | "joint";
+  createDisabled?: boolean;
   onCreate?: () => void;
 }) {
   const CreateIcon = createIcon === "joint" ? GitBranch : Plus;
   return (
     <DropdownMenuContent align="end" className={CHANNELS_MENU_CLASS}>
-      <DropdownMenuItem onClick={onCreate}>
+      <DropdownMenuItem disabled={createDisabled} onClick={createDisabled ? undefined : onCreate}>
         <CreateIcon />
-        <span className="min-w-0 flex-1 text-left">{createLabel}</span>
+        <DropdownMenuItemLabel>{createLabel}</DropdownMenuItemLabel>
       </DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuRadioGroup defaultValue="manual">
-        <DropdownMenuRadioItem value="manual">
-          <GripVertical />
-          <span className="min-w-0 flex-1 text-left">Manual</span>
-        </DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="recent">
-          <Clock />
-          <span className="min-w-0 flex-1 text-left">Recent</span>
-        </DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="az">
-          <ArrowDownAZ />
-          <span className="min-w-0 flex-1 text-left">A-Z</span>
-        </DropdownMenuRadioItem>
-      </DropdownMenuRadioGroup>
+      <SidebarDropdownSortItems />
       <DropdownMenuSeparator />
-      <ChannelsMenuFooter count={count} label={countLabel} />
+      <DropdownMenuFooter>
+        <ChannelsMenuFooterText count={count} label={countLabel} />
+      </DropdownMenuFooter>
     </DropdownMenuContent>
   );
 }
@@ -125,39 +127,85 @@ export function SidebarSectionChannelsContextContent({
   countLabel = "channels",
   createLabel = "Create Channel",
   createIcon = "channel",
+  createDisabled = false,
   onCreate,
 }: {
   count: number;
   countLabel?: string;
   createLabel?: string;
   createIcon?: "channel" | "joint";
+  createDisabled?: boolean;
   onCreate?: () => void;
 }) {
   const CreateIcon = createIcon === "joint" ? GitBranch : Plus;
   return (
     <ContextMenuContent className={CHANNELS_MENU_CLASS}>
-      <ContextMenuItem onClick={onCreate}>
+      <ContextMenuItem disabled={createDisabled} onClick={createDisabled ? undefined : onCreate}>
         <CreateIcon />
-        <span className="min-w-0 flex-1 text-left">{createLabel}</span>
+        <ContextMenuItemLabel>{createLabel}</ContextMenuItemLabel>
       </ContextMenuItem>
       <ContextMenuSeparator />
-      <ContextMenuRadioGroup defaultValue="manual">
-        <ContextMenuRadioItem value="manual">
-          <GripVertical />
-          <span className="min-w-0 flex-1 text-left">Manual</span>
-        </ContextMenuRadioItem>
-        <ContextMenuRadioItem value="recent">
-          <Clock />
-          <span className="min-w-0 flex-1 text-left">Recent</span>
-        </ContextMenuRadioItem>
-        <ContextMenuRadioItem value="az">
-          <ArrowDownAZ />
-          <span className="min-w-0 flex-1 text-left">A-Z</span>
-        </ContextMenuRadioItem>
-      </ContextMenuRadioGroup>
+      <SidebarContextSortItems />
       <ContextMenuSeparator />
-      <ChannelsMenuFooter count={count} label={countLabel} />
+      <ContextMenuFooter>
+        <ChannelsMenuFooterText count={count} label={countLabel} />
+      </ContextMenuFooter>
     </ContextMenuContent>
+  );
+}
+
+type SidebarCreateMenuProps = {
+  disabled?: boolean;
+  onCreateChannel?: () => void;
+  onCreateJoint?: () => void;
+};
+
+export function SidebarCreateDropdownContent({
+  disabled = false,
+  onCreateChannel,
+  onCreateJoint,
+}: SidebarCreateMenuProps) {
+  return (
+    <DropdownMenuContent align="end" className={CHANNELS_MENU_CLASS}>
+      <DropdownMenuItem disabled={disabled} onClick={disabled ? undefined : onCreateChannel}>
+        <Plus />
+        <DropdownMenuItemLabel>Create Channel</DropdownMenuItemLabel>
+      </DropdownMenuItem>
+      <DropdownMenuItem disabled={disabled} onClick={disabled ? undefined : onCreateJoint}>
+        <GitBranch />
+        <DropdownMenuItemLabel>Create Joint Channel</DropdownMenuItemLabel>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  );
+}
+
+export function SidebarCreateMenu({
+  disabled = false,
+  onCreateChannel,
+  onCreateJoint,
+}: SidebarCreateMenuProps) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        disabled={disabled}
+        render={
+          <Button
+            type="button"
+            variant="outline"
+            size="icon-sm"
+            aria-label="Add channel"
+            disabled={disabled}
+          >
+            <Plus />
+          </Button>
+        }
+      />
+      <SidebarCreateDropdownContent
+        disabled={disabled}
+        onCreateChannel={onCreateChannel}
+        onCreateJoint={onCreateJoint}
+      />
+    </DropdownMenu>
   );
 }
 
@@ -172,7 +220,7 @@ export function SidebarSectionSortMenu({
       <DropdownMenuTrigger
         render={
           <ChatSidebarAction type="button" aria-label={ariaLabel}>
-            <ArrowUpDown className="size-3.5" />
+            <ArrowUpDown />
           </ChatSidebarAction>
         }
       />
@@ -184,14 +232,21 @@ export function SidebarSectionSortMenu({
 /** Plain + button for Channels / Joint. */
 export function SidebarSectionAddButton({
   "aria-label": ariaLabel = "Add channel",
+  disabled = false,
   onClick,
 }: {
   "aria-label"?: string;
+  disabled?: boolean;
   onClick?: () => void;
 }) {
   return (
-    <ChatSidebarAction type="button" aria-label={ariaLabel} onClick={onClick}>
-      <Plus className="size-3.5" />
+    <ChatSidebarAction
+      type="button"
+      aria-label={ariaLabel}
+      disabled={disabled}
+      onClick={disabled ? undefined : onClick}
+    >
+      <Plus />
     </ChatSidebarAction>
   );
 }
@@ -203,6 +258,7 @@ export function SidebarSectionChannelsMenu({
   countLabel,
   createLabel,
   createIcon,
+  createDisabled = false,
   onCreate,
 }: {
   "aria-label"?: string;
@@ -210,6 +266,7 @@ export function SidebarSectionChannelsMenu({
   countLabel?: string;
   createLabel?: string;
   createIcon?: "channel" | "joint";
+  createDisabled?: boolean;
   onCreate?: () => void;
 }) {
   return (
@@ -217,7 +274,7 @@ export function SidebarSectionChannelsMenu({
       <DropdownMenuTrigger
         render={
           <ChatSidebarAction type="button" aria-label={ariaLabel}>
-            <EllipsisVertical className="size-3.5" />
+            <EllipsisVertical />
           </ChatSidebarAction>
         }
       />
@@ -226,6 +283,7 @@ export function SidebarSectionChannelsMenu({
         countLabel={countLabel}
         createLabel={createLabel}
         createIcon={createIcon}
+        createDisabled={createDisabled}
         onCreate={onCreate}
       />
     </DropdownMenu>
@@ -239,6 +297,7 @@ type SidebarSectionHeaderMenuProps = {
   countLabel?: string;
   createLabel?: string;
   createIcon?: "channel" | "joint";
+  createDisabled?: boolean;
   onCreate?: () => void;
 };
 
@@ -250,11 +309,12 @@ export function SidebarSectionHeaderMenu({
   countLabel,
   createLabel,
   createIcon,
+  createDisabled = false,
   onCreate,
 }: SidebarSectionHeaderMenuProps) {
   return (
     <ContextMenu>
-      <ContextMenuTrigger render={<div className="w-full min-w-0" />}>
+      <ContextMenuTrigger className="w-full min-w-0">
         <ChatSidebarSectionHeader>{children}</ChatSidebarSectionHeader>
       </ContextMenuTrigger>
       {menu === "sort" ? <SidebarSectionSortContextContent /> : null}
@@ -264,6 +324,7 @@ export function SidebarSectionHeaderMenu({
           countLabel={countLabel}
           createLabel={createLabel}
           createIcon={createIcon}
+          createDisabled={createDisabled}
           onCreate={onCreate}
         />
       ) : null}

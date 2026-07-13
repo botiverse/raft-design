@@ -101,12 +101,8 @@ export function ChatSidebarComposition() {
         <span className="sr-only" aria-live="polite">
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
-        <ChatSidebarAction
-          type="button"
-          aria-label="Add channel"
-          onClick={() => announce("Channel creation requested")}
-        >
-          <Plus className="size-3.5" />
+        <ChatSidebarAction type="button" aria-label="Add channel" disabled>
+          <Plus />
         </ChatSidebarAction>
       </ChatSidebarHeader>
       <ChatSidebarBody>
@@ -200,7 +196,7 @@ export function ChatSidebarComposition() {
                 countLabel="channels"
                 createLabel="Create Joint Channel"
                 createIcon="joint"
-                onCreate={() => announce("Joint channel creation requested")}
+                createDisabled
               >
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Joint Channels</ChatSidebarSectionTitle>
@@ -209,17 +205,14 @@ export function ChatSidebarComposition() {
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionAttention />
                   <ChatSidebarSectionActions>
-                    <SidebarSectionAddButton
-                      aria-label="Create joint channel"
-                      onClick={() => announce("Joint channel creation requested")}
-                    />
+                    <SidebarSectionAddButton aria-label="Create joint channel" disabled />
                     <SidebarSectionChannelsMenu
                       aria-label="Joint channels menu"
                       count={1}
                       countLabel="channels"
                       createLabel="Create Joint Channel"
                       createIcon="joint"
-                      onCreate={() => announce("Joint channel creation requested")}
+                      createDisabled
                     />
                   </ChatSidebarSectionActions>
                 </ChatSidebarSectionTrailing>
@@ -248,7 +241,7 @@ export function ChatSidebarComposition() {
                 countLabel="channels"
                 createLabel="Create Channel"
                 createIcon="channel"
-                onCreate={() => announce("Channel creation requested")}
+                createDisabled
               >
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
@@ -256,17 +249,14 @@ export function ChatSidebarComposition() {
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionActions>
-                    <SidebarSectionAddButton
-                      aria-label="Create channel"
-                      onClick={() => announce("Channel creation requested")}
-                    />
+                    <SidebarSectionAddButton aria-label="Create channel" disabled />
                     <SidebarSectionChannelsMenu
                       aria-label="Channels menu"
                       count={2}
                       countLabel="channels"
                       createLabel="Create Channel"
                       createIcon="channel"
-                      onCreate={() => announce("Channel creation requested")}
+                      createDisabled
                     />
                   </ChatSidebarSectionActions>
                 </ChatSidebarSectionTrailing>

@@ -46,7 +46,10 @@ export const chatSidebar = tv({
       "focus-within:pointer-events-auto focus-within:opacity-100",
       "has-[[data-popup-open]]:pointer-events-auto has-[[data-popup-open]]:opacity-100",
     ],
-    sidebarSectionAction: ["flex size-6 items-center justify-center p-0"],
+    sidebarSectionAction: [
+      "flex size-6 items-center justify-center p-0",
+      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
+    ],
     sidebarItem: [
       "mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
       "border-2 text-sm font-medium transition-colors",
@@ -208,7 +211,7 @@ export const chatSidebar = tv({
           "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarItemIndicator: ["pointer-events-none absolute top-1/2 right-full -translate-y-1/2"],
         sidebarItemPresence: [
-          "pointer-events-none absolute top-1/2 right-full -translate-y-1/2",
+          "pointer-events-none absolute top-1/2 right-[calc(100%+2px)] -translate-y-1/2",
           "[&_[data-slot=status]]:size-2",
         ],
         sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",

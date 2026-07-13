@@ -55,10 +55,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
   Field,
   FieldDescription,
   FieldLabel,
@@ -101,6 +97,7 @@ import {
 } from "raft-ui/wip";
 
 import {
+  SidebarCreateMenu,
   SidebarSectionAddButton,
   SidebarSectionChannelsMenu,
   SidebarSectionHeaderMenu,
@@ -488,11 +485,9 @@ function PinnedSection({
 
 function JointChannelsSection({
   activeChannelId,
-  onCreateJoint,
   onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
-  onCreateJoint: () => void;
   onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedJointChannels);
@@ -508,7 +503,7 @@ function JointChannelsSection({
         countLabel="channels"
         createLabel="Create Joint Channel"
         createIcon="joint"
-        onCreate={onCreateJoint}
+        createDisabled
       >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
@@ -517,14 +512,14 @@ function JointChannelsSection({
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
-            <SidebarSectionAddButton aria-label="Create joint channel" onClick={onCreateJoint} />
+            <SidebarSectionAddButton aria-label="Create joint channel" disabled />
             <SidebarSectionChannelsMenu
               aria-label="Joint channels menu"
               count={ordered.length}
               countLabel="channels"
               createLabel="Create Joint Channel"
               createIcon="joint"
-              onCreate={onCreateJoint}
+              createDisabled
             />
           </ChatSidebarSectionActions>
         </ChatSidebarSectionTrailing>
@@ -551,12 +546,10 @@ function JointChannelsSection({
 function ChannelsSection({
   activeChannelId,
   onArchive,
-  onCreateChannel,
   onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
-  onCreateChannel: () => void;
   onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
@@ -572,7 +565,7 @@ function ChannelsSection({
         countLabel="channels"
         createLabel="Create Channel"
         createIcon="channel"
-        onCreate={onCreateChannel}
+        createDisabled
       >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
@@ -581,14 +574,14 @@ function ChannelsSection({
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
-            <SidebarSectionAddButton aria-label="Create channel" onClick={onCreateChannel} />
+            <SidebarSectionAddButton aria-label="Create channel" disabled />
             <SidebarSectionChannelsMenu
               aria-label="Channels menu"
               count={ordered.length}
               countLabel="channels"
               createLabel="Create Channel"
               createIcon="channel"
-              onCreate={onCreateChannel}
+              createDisabled
             />
           </ChatSidebarSectionActions>
         </ChatSidebarSectionTrailing>
@@ -660,37 +653,6 @@ function DirectMessagesSection({
         ))}
       </SortableChatSidebarList>
     </ChatSidebarSection>
-  );
-}
-
-// Chat header `+` add menu — source `renderChannelActionMenu`.
-function SidebarAddMenu({
-  onCreateChannel,
-  onCreateJoint,
-}: {
-  onCreateChannel: () => void;
-  onCreateJoint: () => void;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button type="button" variant="outline" size="icon-sm" aria-label="Add channel">
-            <Plus />
-          </Button>
-        }
-      />
-      <DropdownMenuContent align="end" className="flex w-[190px] min-w-[190px] flex-col">
-        <DropdownMenuItem onClick={onCreateChannel}>
-          <Plus />
-          <span className="min-w-0 flex-1 text-left">Create Channel</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={onCreateJoint}>
-          <GitBranch />
-          <span className="min-w-0 flex-1 text-left">Create Joint Channel</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }
 
@@ -895,11 +857,7 @@ export function PlaygroundSidebar({
               {title}
             </ChatSidebarHeaderTitle>
           </div>
-          <SidebarAddMenu
-            // Create dialogs temporarily disconnected — polish later.
-            onCreateChannel={() => {}}
-            onCreateJoint={() => {}}
-          />
+          <SidebarCreateMenu disabled />
         </ChatSidebarHeader>
         <ChatSidebarBody>
           <ChatSidebarContent>
@@ -925,13 +883,11 @@ export function PlaygroundSidebar({
               />
               <JointChannelsSection
                 activeChannelId={selectedChannelId}
-                onCreateJoint={() => {}}
                 onSelect={() => setSavedSelected(false)}
               />
               <ChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
-                onCreateChannel={() => {}}
                 onSelect={() => setSavedSelected(false)}
               />
               <DirectMessagesSection

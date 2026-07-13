@@ -25,6 +25,8 @@ const contextMenu = tv({
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
       "text-left text-sm outline-none transition-colors",
     ],
+    itemLabel: ["min-w-0 flex-1 truncate text-left"],
+    footer: ["px-3 py-2 text-xs text-foreground-muted tabular-nums"],
     label: [],
     shortcut: ["ml-auto"],
     separator: ["border-t-2"],
@@ -233,6 +235,22 @@ export function ContextMenuItem({ className, ...props }: ContextMenuItemProps) {
       {...props}
     />
   );
+}
+
+export type ContextMenuItemLabelProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+export function ContextMenuItemLabel({ className, ...props }: ContextMenuItemLabelProps) {
+  const { itemLabel } = contextMenu();
+  return (
+    <span data-slot="context-menu-item-label" className={itemLabel({ className })} {...props} />
+  );
+}
+
+export type ContextMenuFooterProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+export function ContextMenuFooter({ className, ...props }: ContextMenuFooterProps) {
+  const { footer } = contextMenu();
+  return <div data-slot="context-menu-footer" className={footer({ className })} {...props} />;
 }
 
 export type ContextMenuSubmenuTriggerProps = StyledProps<BaseContextMenu.SubmenuTrigger.Props>;
