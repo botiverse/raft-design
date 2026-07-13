@@ -67,8 +67,14 @@ function matchesQuery(suggestion: Suggestion, query: string) {
   return searchable.toLocaleLowerCase().includes(query.toLocaleLowerCase());
 }
 
-export function ComposerSuggestionComposition() {
-  const [value, setValue] = useState("@");
+export type ComposerSuggestionCompositionProps = {
+  initialValue?: string;
+};
+
+export function ComposerSuggestionComposition({
+  initialValue = "@",
+}: ComposerSuggestionCompositionProps) {
+  const [value, setValue] = useState(initialValue);
   const autocomplete = useComposerSuggestions<Suggestion>({
     value,
     onValueChange: setValue,

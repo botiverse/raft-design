@@ -7,9 +7,6 @@ import {
   ComboboxTriggerIndicator,
   DialogClose,
   type DialogContentProps,
-  DropdownMenu,
-  DropdownMenuRadioGroup,
-  DropdownMenuTrigger,
   EmptyState,
   EmptyStateDescription,
   EmptyStateIcon,
@@ -33,19 +30,6 @@ import {
   TaskBoardColumnPanel,
   TaskBoardColumnTrigger,
   TaskBoardRoot,
-  TaskCard,
-  TaskCardBody,
-  TaskCardChannel,
-  TaskCardDescription,
-  TaskCardFooter,
-  TaskCardLegacy,
-  TaskCardMeta,
-  TaskCardNumber,
-  TaskCardOpen,
-  TaskCardRow,
-  TaskCardStatus,
-  TaskCardStatusTrigger,
-  TaskCardTitle,
   TaskCreateAction,
   TaskCreateAddAction,
   TaskCreateBody,
@@ -94,8 +78,6 @@ import {
   TasksPanelToolbar,
   TasksPanelToolbarGroup,
   TasksPanelViewport,
-  TaskStatusMenuContent,
-  TaskStatusMenuItem,
   TaskToolbarAction,
 } from "raft-ui/wip";
 import {
@@ -104,7 +86,6 @@ import {
   Columns3,
   LayoutList,
   Plus,
-  Pencil,
   Trash2,
   User,
   UserCircle2,
@@ -118,6 +99,8 @@ import {
   type TaskFixture,
   type TaskStatus,
 } from "./task-fixtures";
+import { TASK_STATUS_TONES } from "./task-card.constants";
+import { TaskCardComposition } from "./task-card-composition";
 
 type TaskView = "board" | "list";
 export type TaskIdentity = {
@@ -126,28 +109,6 @@ export type TaskIdentity = {
   searchText?: string;
   avatar?: ReactNode;
   isSentinel?: boolean;
-};
-
-const STATUS_TONES = {
-  todo: "warning",
-  in_progress: "information",
-  in_review: "accent-muted",
-  done: "success",
-  closed: "muted",
-} as const;
-const STATUS_TRANSITIONS: Record<TaskStatus, readonly TaskStatus[]> = {
-  todo: ["in_progress", "closed"],
-  in_progress: ["in_review", "done", "closed"],
-  in_review: ["done", "in_progress", "closed"],
-  done: ["todo", "in_progress", "in_review", "closed"],
-  closed: ["todo"],
-};
-const STATUS_OPTIONS: Record<TaskStatus, ReadonlySet<TaskStatus>> = {
-  todo: new Set(["todo", ...STATUS_TRANSITIONS.todo]),
-  in_progress: new Set(["in_progress", ...STATUS_TRANSITIONS.in_progress]),
-  in_review: new Set(["in_review", ...STATUS_TRANSITIONS.in_review]),
-  done: new Set(["done", ...STATUS_TRANSITIONS.done]),
-  closed: new Set(["closed", ...STATUS_TRANSITIONS.closed]),
 };
 
 const CREATOR_OPTIONS: readonly TaskIdentity[] = [
@@ -486,7 +447,7 @@ function TaskBoard({
             >
               <TaskBoardColumnTrigger>
                 <TaskBoardColumnHeading>
-                  <TaskBoardColumnBadge tone={STATUS_TONES[status.id]}>
+                  <TaskBoardColumnBadge tone={TASK_STATUS_TONES[status.id]}>
                     {status.label.toUpperCase()}
                   </TaskBoardColumnBadge>
                   <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
@@ -555,7 +516,7 @@ function TaskList(props: TaskGroupedViewProps) {
           >
             <TaskSectionTrigger>
               <TaskSectionHeading>
-                <TaskSectionBadge tone={STATUS_TONES[status.id]}>
+                <TaskSectionBadge tone={TASK_STATUS_TONES[status.id]}>
                   {status.label.toUpperCase()}
                 </TaskSectionBadge>
                 <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
@@ -586,96 +547,6 @@ function TaskList(props: TaskGroupedViewProps) {
         );
       })}
     </TaskListRoot>
-  );
-}
-
-export function TaskCardComposition({
-  task,
-  busy = false,
-  disabled = task.disabled,
-  readOnly = false,
-  menuOpen,
-  onOpen,
-  onStatusChange,
-  portalRef,
-  showChannelName = false,
-}: {
-  task: TaskFixture;
-  busy?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-  menuOpen?: boolean;
-  onOpen?: (task: TaskFixture) => void;
-  onStatusChange?: (taskId: string, status: TaskStatus) => void;
-  portalRef?: RefObject<HTMLDivElement | null>;
-  showChannelName?: boolean;
-}) {
-  return (
-    <TaskCard disabled={disabled}>
-      <TaskCardOpen disabled={disabled || readOnly || !onOpen} onClick={() => onOpen?.(task)}>
-        <TaskCardRow>
-          <TaskCardBody>
-            <TaskCardMeta>
-              {showChannelName ? <TaskCardChannel>#{task.channelName}</TaskCardChannel> : null}
-              <TaskCardNumber>#{task.taskNumber}</TaskCardNumber>
-              {task.isLegacy ? <TaskCardLegacy>LEGACY</TaskCardLegacy> : null}
-            </TaskCardMeta>
-            <TaskCardTitle>{task.title}</TaskCardTitle>
-            {task.description ? (
-              <TaskCardDescription>{task.description}</TaskCardDescription>
-            ) : null}
-          </TaskCardBody>
-        </TaskCardRow>
-      </TaskCardOpen>
-      <TaskCardFooter>
-        {readOnly ? (
-          <TaskCardStatus busy={busy}>
-            <TaskCardStatusTrigger tone={STATUS_TONES[task.status]} render={<span />}>
-              {getTaskStatusLabel(task.status)} <Pencil aria-hidden />
-            </TaskCardStatusTrigger>
-          </TaskCardStatus>
-        ) : (
-          <DropdownMenu defaultOpen={menuOpen}>
-            <TaskCardStatus busy={busy}>
-              <DropdownMenuTrigger
-                disabled={disabled || busy || !onStatusChange}
-                render={
-                  <TaskCardStatusTrigger
-                    tone={STATUS_TONES[task.status]}
-                    busy={busy}
-                    disabled={disabled || busy || !onStatusChange}
-                  />
-                }
-              >
-                {getTaskStatusLabel(task.status)}
-                <Pencil aria-hidden />
-              </DropdownMenuTrigger>
-            </TaskCardStatus>
-            <TaskStatusMenuContent
-              align="end"
-              portalProps={
-                portalRef ? { container: portalRef as RefObject<HTMLElement | null> } : undefined
-              }
-            >
-              <DropdownMenuRadioGroup
-                value={task.status}
-                onValueChange={(status) => onStatusChange?.(task.id, status as TaskStatus)}
-              >
-                {TASK_STATUSES.flatMap((status) =>
-                  STATUS_OPTIONS[task.status].has(status.id)
-                    ? [
-                        <TaskStatusMenuItem key={status.id} value={status.id}>
-                          {status.label}
-                        </TaskStatusMenuItem>,
-                      ]
-                    : [],
-                )}
-              </DropdownMenuRadioGroup>
-            </TaskStatusMenuContent>
-          </DropdownMenu>
-        )}
-      </TaskCardFooter>
-    </TaskCard>
   );
 }
 

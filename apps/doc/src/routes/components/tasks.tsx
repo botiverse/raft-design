@@ -8,14 +8,10 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import {
-  TaskCardComposition,
-  TasksPanelComposition,
-} from "#/compositions/tasks/tasks-panel-composition.tsx";
+import { TasksPanelComposition } from "#/compositions/tasks/tasks-panel-composition.tsx";
 import tasksPanelCompositionSource from "#/compositions/tasks/tasks-panel-composition.tsx?raw";
 import {
   CreateTaskDialogStatesComposition,
-  TaskCardStateMatrixComposition,
   TasksDragStatesComposition,
   TasksEmptyStatesComposition,
   TasksErrorComposition,
@@ -24,14 +20,11 @@ import {
 } from "#/compositions/tasks/tasks-states-composition.tsx";
 import tasksStatesCompositionSource from "#/compositions/tasks/tasks-states-composition.tsx?raw";
 import { TasksSourcePreview } from "#/compositions/tasks/tasks-source-preview.tsx";
-import { TASK_FIXTURES } from "#/compositions/tasks/task-fixtures.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import sourceTaskCard from "../../../../../packages/ui/source/tasks/TaskCard.tsx?raw";
 import sourceTasksPanel from "../../../../../packages/ui/source/tasks/TasksPanel.tsx?raw";
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
-  { id: "cards", title: "Card states" },
   { id: "panel-states", title: "Panel states" },
   { id: "filters", title: "Filter states" },
   { id: "drag", title: "Drag states" },
@@ -47,10 +40,6 @@ const SOURCE_SCENES = [
       {
         label: "TasksPanel.tsx",
         path: "packages/ui/source/tasks/TasksPanel.tsx",
-      },
-      {
-        label: "TaskCard.tsx",
-        path: "packages/ui/source/tasks/TaskCard.tsx",
       },
       {
         label: "CreateTaskDialog.tsx",
@@ -70,12 +59,6 @@ const PROPS: readonly PropRow[] = [
     type: "section / div props",
     description:
       "Source panel chrome and scroll boundary. Product data and routing remain outside.",
-  },
-  {
-    name: "TaskCard*",
-    type: "compound parts",
-    description:
-      "Card anatomy, metadata, channel/number/legacy markers, title, description, and status trigger.",
   },
   {
     name: "TaskSection* / TaskListRoot",
@@ -115,7 +98,6 @@ export const Route = createFileRoute("/components/tasks")({
         panel: tasksPanelCompositionSource,
         states: tasksStatesCompositionSource,
         sourcePanel: sourceTasksPanel,
-        sourceCard: sourceTaskCard,
       },
     }),
 });
@@ -166,17 +148,6 @@ function TasksDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="cards" title="Card states">
-        <Example
-          html={code.states}
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <TaskCardStateMatrixComposition />
-        </Example>
       </DocSection>
 
       <DocSection id="panel-states" title="Panel states">
@@ -247,18 +218,6 @@ function TasksDoc() {
           source={tasksPanelCompositionSource}
           html={code.panel}
         />
-        <div className="mt-6">
-          <Example
-            html={code.panel}
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <div className="w-full max-w-sm">
-              <TaskCardComposition task={TASK_FIXTURES[0]} disabled />
-            </div>
-          </Example>
-        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

@@ -44,108 +44,29 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  anatomy: `import { AtSign, BellOff, Hash, Pencil } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
-import {
-  AppShellMain,
-  AppShellSidebar,
-  AppShellRail,
-  AppShellRoot,
-  AppRailRoot,
-  ChatSidebarRoot,
-  ChatSidebarHeader,
-  ChatSidebarBody,
-  ChatSidebarSection,
-  ChatSidebarSectionHeader,
-  ChatSidebarSectionButton,
-  ChatSidebarSectionChevron,
-  ChatSidebarSectionTitle,
-  ChatSidebarSectionCount,
-  ChatSidebarSectionActions,
-  ChatSidebarAction,
-  ChatSidebarSectionAttention,
-  ChatSidebarList,
-  ChatSidebarItem,
-  ChatSidebarItemUnread,
-  ChatSidebarItemAside,
-  ChatSidebarItemBadge,
-  ChatSidebarItemChannelIcon,
-  ChatSidebarItemDraft,
-  ChatSidebarItemMention,
-  ChatSidebarItemMuted,
-  ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
-  ChatSidebarItemTitle,
-  ChatSidebarResizeGroup,
-  ChatSidebarResizeHandle,
-  ChatSidebarResizePanel,
-  ChatMainPanelRoot,
-} from "raft-ui/wip";
-
+  anatomy: `
 <AppShellRoot>
-  <AppShellRail>
-    <AppRailRoot>{rail}</AppRailRoot>
-  </AppShellRail>
+  {rail}
   <ChatSidebarResizeGroup orientation="horizontal">
     <ChatSidebarResizePanel defaultSize={308} minSize={180} maxSize={368}>
       <AppShellSidebar resizable>
         <ChatSidebarRoot>
-          <ChatSidebarHeader>{header}</ChatSidebarHeader>
+          <ChatSidebarHeader>{headerActions}</ChatSidebarHeader>
           <ChatSidebarBody>
-            <ChatSidebarSection defaultOpen>
-              <ChatSidebarSectionHeader>
-                <ChatSidebarSectionButton>
-                  <ChatSidebarSectionChevron />
-                  <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionCount>2</ChatSidebarSectionCount>
-                  <ChatSidebarSectionAttention />
-                </ChatSidebarSectionButton>
-                <ChatSidebarSectionActions>
-                  <ChatSidebarAction aria-label="Sort channels" />
-                </ChatSidebarSectionActions>
-              </ChatSidebarSectionHeader>
-              <ChatSidebarList>
-                <ChatSidebarItem aria-current="page">
-                  <ChatSidebarItemChannelIcon aria-hidden><Hash /></ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemText>
-                    <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
-                    <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
-                    <ChatSidebarItemMuted aria-label="Activity muted">
-                      <BellOff aria-hidden />
-                    </ChatSidebarItemMuted>
-                  </ChatSidebarItemText>
-                  <ChatSidebarItemAside>
-                    <ChatSidebarItemMention aria-label="Mentioned you">
-                      <AtSign aria-hidden />
-                    </ChatSidebarItemMention>
-                    <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
-                    <ChatSidebarItemDraft aria-label="Draft">
-                      <Pencil aria-hidden />
-                    </ChatSidebarItemDraft>
-                  </ChatSidebarItemAside>
-                </ChatSidebarItem>
-                <ChatSidebarItem aria-expanded>
-                  <ChatSidebarItemIcon>
-                    <Avatar size="sidebar" type="agent">
-                      <AvatarFallback>A</AvatarFallback>
-                    </Avatar>
-                  </ChatSidebarItemIcon>
-                  <ChatSidebarItemText>
-                    <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
-                    <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
-                  </ChatSidebarItemText>
-                </ChatSidebarItem>
-              </ChatSidebarList>
-            </ChatSidebarSection>
+            <ChatSidebarContent>
+              <ChatSidebarSection defaultOpen>
+                <ChatSidebarSectionHeader>{sectionTrigger}</ChatSidebarSectionHeader>
+                <ChatSidebarList>{destinationRows}</ChatSidebarList>
+              </ChatSidebarSection>
+            </ChatSidebarContent>
           </ChatSidebarBody>
+          <ChatSidebarFooter>{footer}</ChatSidebarFooter>
         </ChatSidebarRoot>
       </AppShellSidebar>
     </ChatSidebarResizePanel>
     <ChatSidebarResizeHandle />
     <ChatSidebarResizePanel minSize={0}>
-      <AppShellMain>
-        <ChatMainPanelRoot>{conversation}</ChatMainPanelRoot>
-      </AppShellMain>
+      <AppShellMain>{activePanel}</AppShellMain>
     </ChatSidebarResizePanel>
   </ChatSidebarResizeGroup>
 </AppShellRoot>`,
@@ -169,9 +90,15 @@ const PROPS: readonly PropRow[] = [
     description: "Full-height sidebar surface that keeps the header and scroll body aligned.",
   },
   {
-    name: "ChatSidebarHeader / Body",
+    name: "ChatSidebarHeader / Body / Content / Footer",
     type: "div props",
-    description: "Column regions matching source sidebar chrome and scroll ownership.",
+    description: "Column regions matching source sidebar chrome, scroll ownership, and footer.",
+  },
+  {
+    name: "ChatSidebarMenu / Icon / Title / Aside / Count",
+    type: "button + span props",
+    description:
+      "Top-level sidebar destinations such as Saved, with explicit leading and metadata parts.",
   },
   {
     name: "ChatSidebarSection / List",
@@ -199,12 +126,6 @@ const PROPS: readonly PropRow[] = [
     name: "ChatSidebarAction",
     type: "button props",
     description: "Theme-aware action button shared by the sidebar header and section action slots.",
-  },
-  {
-    name: "ChatSidebarItem*",
-    type: "button + span props",
-    description:
-      "Source-density row parts for visual/icon, channel icon, text, title, subtitle, meta, badge, indicator, and aside slots.",
   },
 ];
 

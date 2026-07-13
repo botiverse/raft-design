@@ -1,4 +1,5 @@
 import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide-react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   AppShellMain,
@@ -72,13 +73,32 @@ export function ChatSidebarPreviewComposition() {
 }
 
 export function ChatSidebarComposition() {
+  const [selectedItem, setSelectedItem] = useState("#proj-uiux");
+  const [announcement, setAnnouncement] = useState({ message: "Opened #proj-uiux", sequence: 0 });
+
+  function announce(message: string) {
+    setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
+  }
+
+  function openDestination(destination: string) {
+    setSelectedItem(destination);
+    announce(`Opened ${destination}`);
+  }
+
   return (
     <ChatSidebarRoot>
       <ChatSidebarHeader>
         <div className="min-w-0 flex-1">
           <ChatSidebarHeaderTitle>Chat</ChatSidebarHeaderTitle>
         </div>
-        <ChatSidebarAction type="button" aria-label="Add channel">
+        <span className="sr-only" aria-live="polite">
+          <span key={announcement.sequence}>{announcement.message}</span>
+        </span>
+        <ChatSidebarAction
+          type="button"
+          aria-label="Add channel"
+          onClick={() => announce("Channel creation requested")}
+        >
           <Plus className="size-3.5" />
         </ChatSidebarAction>
       </ChatSidebarHeader>
@@ -87,7 +107,10 @@ export function ChatSidebarComposition() {
           <div className="min-h-full">
             <ChatSidebarSection>
               <ChatSidebarSectionHeader className="mt-0">
-                <ChatSidebarMenu>
+                <ChatSidebarMenu
+                  aria-current={selectedItem === "Saved" ? "page" : undefined}
+                  onClick={() => openDestination("Saved")}
+                >
                   <ChatSidebarMenuIcon>
                     <Bookmark />
                   </ChatSidebarMenuIcon>
@@ -108,7 +131,11 @@ export function ChatSidebarComposition() {
                 </ChatSidebarSectionButton>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
-                <ChatSidebarItem type="button" aria-current="page">
+                <ChatSidebarItem
+                  type="button"
+                  aria-current={selectedItem === "#proj-uiux" ? "page" : undefined}
+                  onClick={() => openDestination("#proj-uiux")}
+                >
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
@@ -117,7 +144,11 @@ export function ChatSidebarComposition() {
                     <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
                   </ChatSidebarItemText>
                 </ChatSidebarItem>
-                <ChatSidebarItem type="button" aria-expanded>
+                <ChatSidebarItem
+                  type="button"
+                  aria-current={selectedItem === "Atlas planning" ? "page" : undefined}
+                  onClick={() => openDestination("Atlas planning")}
+                >
                   <ChatSidebarItemIcon>
                     <Avatar size="sidebar" type="agent">
                       <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
@@ -131,7 +162,11 @@ export function ChatSidebarComposition() {
                     <Status aria-hidden variant="success" size="md" />
                   </ChatSidebarItemAside>
                 </ChatSidebarItem>
-                <ChatSidebarItem type="button">
+                <ChatSidebarItem
+                  type="button"
+                  aria-current={selectedItem === "#proj-theme" ? "page" : undefined}
+                  onClick={() => openDestination("#proj-theme")}
+                >
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
@@ -157,7 +192,11 @@ export function ChatSidebarComposition() {
                 </ChatSidebarSectionButton>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
-                <ChatSidebarItem type="button">
+                <ChatSidebarItem
+                  type="button"
+                  aria-current={selectedItem === "#partners" ? "page" : undefined}
+                  onClick={() => openDestination("#partners")}
+                >
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <GitBranch />
                   </ChatSidebarItemChannelIcon>
@@ -178,7 +217,11 @@ export function ChatSidebarComposition() {
                 </ChatSidebarSectionButton>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
-                <ChatSidebarItemUnread type="button">
+                <ChatSidebarItemUnread
+                  type="button"
+                  aria-current={selectedItem === "#general" ? "page" : undefined}
+                  onClick={() => openDestination("#general")}
+                >
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
@@ -192,7 +235,11 @@ export function ChatSidebarComposition() {
                     <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
                   </ChatSidebarItemAside>
                 </ChatSidebarItemUnread>
-                <ChatSidebarItem type="button">
+                <ChatSidebarItem
+                  type="button"
+                  aria-current={selectedItem === "#release" ? "page" : undefined}
+                  onClick={() => openDestination("#release")}
+                >
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
@@ -223,7 +270,11 @@ export function ChatSidebarComposition() {
                 </ChatSidebarSectionButton>
               </ChatSidebarSectionHeader>
               <ChatSidebarList>
-                <ChatSidebarItemUnread type="button">
+                <ChatSidebarItemUnread
+                  type="button"
+                  aria-current={selectedItem === "Cindy" ? "page" : undefined}
+                  onClick={() => openDestination("Cindy")}
+                >
                   <ChatSidebarItemIcon>
                     <Avatar size="sidebar" type="human">
                       <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
@@ -238,7 +289,11 @@ export function ChatSidebarComposition() {
                     <ChatSidebarItemBadge>4</ChatSidebarItemBadge>
                   </ChatSidebarItemAside>
                 </ChatSidebarItemUnread>
-                <ChatSidebarItem type="button">
+                <ChatSidebarItem
+                  type="button"
+                  aria-current={selectedItem === "Atlas idle" ? "page" : undefined}
+                  onClick={() => openDestination("Atlas idle")}
+                >
                   <ChatSidebarItemIcon>
                     <Avatar size="sidebar" type="agent" />
                   </ChatSidebarItemIcon>
