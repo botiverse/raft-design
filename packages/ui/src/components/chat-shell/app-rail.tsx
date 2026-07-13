@@ -11,7 +11,7 @@ const appRail = tv({
     root: ["flex h-full w-full flex-col items-center"],
     header: ["relative flex w-full shrink-0 items-center justify-center"],
     serverButton: [
-      "relative inline-flex size-10 items-center justify-center",
+      "relative inline-flex size-10 items-center justify-center overflow-hidden",
       "outline-none",
       "disabled:pointer-events-none disabled:opacity-45",
       "[@media(max-height:600px)]:size-9",
