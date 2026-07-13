@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Grid2X2, Plus, Trash2 } from "lucide-react";
-import { Button, useTheme, type ButtonProps } from "raft-ui";
+import { Plus, Trash2 } from "lucide-react";
+import { Button } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -11,26 +10,28 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
-import buttonAccentCompositionSource from "#/compositions/button/accent-composition.tsx?raw";
-import buttonDangerCompositionSource from "#/compositions/button/danger-composition.tsx?raw";
-import buttonDangerOutlineCompositionSource from "#/compositions/button/danger-outline-composition.tsx?raw";
-import buttonDangerSecondaryCompositionSource from "#/compositions/button/danger-secondary-composition.tsx?raw";
-import buttonDefaultCompositionSource from "#/compositions/button/default-composition.tsx?raw";
-import buttonGhostCompositionSource from "#/compositions/button/ghost-composition.tsx?raw";
-import buttonIconOnlyCompositionSource from "#/compositions/button/icon-only-composition.tsx?raw";
-import buttonInformationCompositionSource from "#/compositions/button/information-composition.tsx?raw";
-import buttonInlineIconCompositionSource from "#/compositions/button/inline-icon-composition.tsx?raw";
-import buttonLinkCompositionSource from "#/compositions/button/link-composition.tsx?raw";
-import buttonMutedCompositionSource from "#/compositions/button/muted-composition.tsx?raw";
-import buttonOutlineCompositionSource from "#/compositions/button/outline-composition.tsx?raw";
-import buttonPrimaryCompositionSource from "#/compositions/button/primary-composition.tsx?raw";
-import buttonSizesCompositionSource from "#/compositions/button/sizes-composition.tsx?raw";
-import buttonWarningCompositionSource from "#/compositions/button/warning-composition.tsx?raw";
+import { ICON_SIZES, SIZES, VARIANTS } from "#/modules/button/button.constants.ts";
+import { ButtonPlaygroundPreview, ButtonPreview } from "#/modules/button/button.preview.tsx";
+import buttonAccentCompositionSource from "#/modules/button/compositions/accent.composition.tsx?raw";
+import buttonDangerCompositionSource from "#/modules/button/compositions/danger.composition.tsx?raw";
+import buttonDangerOutlineCompositionSource from "#/modules/button/compositions/danger-outline.composition.tsx?raw";
+import buttonDangerSecondaryCompositionSource from "#/modules/button/compositions/danger-secondary.composition.tsx?raw";
+import buttonDefaultCompositionSource from "#/modules/button/compositions/default.composition.tsx?raw";
+import buttonGhostCompositionSource from "#/modules/button/compositions/ghost.composition.tsx?raw";
+import buttonIconOnlyCompositionSource from "#/modules/button/compositions/icon-only.composition.tsx?raw";
+import buttonInformationCompositionSource from "#/modules/button/compositions/information.composition.tsx?raw";
+import buttonInlineIconCompositionSource from "#/modules/button/compositions/inline-icon.composition.tsx?raw";
+import buttonLinkCompositionSource from "#/modules/button/compositions/link.composition.tsx?raw";
+import buttonMutedCompositionSource from "#/modules/button/compositions/muted.composition.tsx?raw";
+import buttonOutlineCompositionSource from "#/modules/button/compositions/outline.composition.tsx?raw";
+import buttonPrimaryCompositionSource from "#/modules/button/compositions/primary.composition.tsx?raw";
+import buttonSizesCompositionSource from "#/modules/button/compositions/sizes.composition.tsx?raw";
+import buttonWarningCompositionSource from "#/modules/button/compositions/warning.composition.tsx?raw";
 import {
   BUTTON_SOURCE_COMPARISON_COMPOSITION,
   BUTTON_SOURCE_COMPARISON_COMPOSITION_PATHS,
   BUTTON_SOURCE_COMPARISON_SOURCE,
-} from "#/compositions/button-source-comparison.tsx";
+} from "#/modules/button/button.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -90,31 +91,12 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const VARIANTS = [
-  "default",
-  "primary",
-  "outline",
-  "information",
-  "muted",
-  "accent",
-  "warning",
-  "danger",
-  "danger-secondary",
-  "danger-outline",
-  "ghost",
-  "link",
-] as const;
-
-const ICON_SIZES = ["icon-xs", "icon-sm", "icon-md", "icon-lg"] as const;
-const SIZES = ["xs", "sm", "md", "lg", ...ICON_SIZES] as const;
 const HEIGHT_ALIGNMENT_SIZES = ["xs", "sm", "md", "lg"] as const;
 const HEIGHT_ALIGNMENT_VARIANTS = [
   { variant: "outline", label: "Outline" },
   { variant: "primary", label: "Primary" },
   { variant: "danger-outline", label: "Danger outline" },
 ] as const;
-const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
-  "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-background";
 
 const SNIPPETS = {
   anatomy: `<Button />`,
@@ -203,28 +185,6 @@ const variants = [
   Danger
 </Button>`,
 } as const;
-
-type PlaygroundValues = {
-  variant: NonNullable<ButtonProps["variant"]>;
-  size: NonNullable<ButtonProps["size"]>;
-  label: string;
-  disabled: boolean;
-  loading: boolean;
-  focusVisible: boolean;
-};
-
-type ButtonPreviewProps = ButtonProps & {
-  focusVisible?: boolean;
-};
-
-function ButtonPreview({ focusVisible = false, className, ...props }: ButtonPreviewProps) {
-  const { theme } = useTheme();
-  const focusClassName =
-    focusVisible && theme === "elegant" ? ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME : null;
-  const mergedClassName = [focusClassName, className].filter(Boolean).join(" ") || undefined;
-
-  return <Button {...props} className={mergedClassName} />;
-}
 
 const PROPS: readonly PropRow[] = [
   {
@@ -355,49 +315,10 @@ function ButtonDoc() {
     <DocPage
       title="Button"
       description="A clickable action control backed by semantic variants and tone utilities."
-      headerAction={
-        <Button
-          render={<a href="/components/button/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            variant: "default",
-            size: "sm",
-            label: "Button",
-            disabled: false,
-            loading: false,
-            focusVisible: false,
-          }}
-          controls={[
-            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-            { name: "size", label: "Size", type: "select", options: SIZES },
-            { name: "label", label: "Label", type: "text" },
-            { name: "focusVisible", label: "Focus", type: "boolean" },
-            { name: "disabled", label: "Disabled", type: "boolean" },
-            { name: "loading", label: "Loading", type: "boolean" },
-          ]}
-          render={(values) => (
-            <ButtonPreview
-              variant={values.variant}
-              size={values.size}
-              disabled={values.disabled}
-              loading={values.loading}
-              aria-label={values.size.startsWith("icon-") ? values.label : undefined}
-              focusVisible={values.focusVisible}
-            >
-              {values.size.startsWith("icon-") ? <Plus /> : values.label}
-            </ButtonPreview>
-          )}
-        />
+        <ButtonPlaygroundPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

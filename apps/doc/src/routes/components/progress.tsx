@@ -23,14 +23,14 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import progressAttachmentUploadCompositionSource from "#/compositions/progress/attachment-upload-composition.tsx?raw";
-import progressMachineDownloadCompositionSource from "#/compositions/progress/machine-download-composition.tsx?raw";
-import progressRestartIndeterminateCompositionSource from "#/compositions/progress/restart-indeterminate-composition.tsx?raw";
+import progressAttachmentUploadCompositionSource from "#/modules/progress/compositions/attachment-upload.composition.tsx?raw";
+import progressMachineDownloadCompositionSource from "#/modules/progress/compositions/machine-download.composition.tsx?raw";
+import progressRestartIndeterminateCompositionSource from "#/modules/progress/compositions/restart-indeterminate.composition.tsx?raw";
 import {
   PROGRESS_SOURCE_COMPARISON_COMPOSITION,
   PROGRESS_SOURCE_COMPARISON_COMPOSITION_PATHS,
   PROGRESS_SOURCE_COMPARISON_SOURCE,
-} from "#/compositions/progress-source-comparison.tsx";
+} from "#/modules/progress/progress.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },

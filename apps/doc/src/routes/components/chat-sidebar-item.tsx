@@ -6,8 +6,8 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { ChatSidebarItemStatesComposition } from "#/compositions/chat-sidebar-item-composition.tsx";
-import chatSidebarItemCompositionSource from "#/compositions/chat-sidebar-item-composition.tsx?raw";
+import { ChatSidebarItemStatesComposition } from "#/modules/chat-sidebar-item/chat-sidebar-item.composition.tsx";
+import chatSidebarItemCompositionSource from "#/modules/chat-sidebar-item/chat-sidebar-item.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const ANATOMY_SNIPPET = `<ChatSidebarItem>

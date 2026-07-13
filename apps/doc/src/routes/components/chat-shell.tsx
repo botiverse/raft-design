@@ -61,8 +61,8 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { ChatMainPanelComposition } from "#/compositions/chat-main-panel-composition.tsx";
-import { ChatThreadPanelComposition } from "#/compositions/chat-thread-panel-composition.tsx";
+import { ChatMainPanelComposition } from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
+import { ChatThreadPanelComposition } from "#/modules/chat-thread-panel/chat-thread-panel.composition.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 

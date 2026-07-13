@@ -23,7 +23,7 @@ import {
   MessageTimelineNotice,
 } from "raft-ui/wip";
 
-import { MessageTextSelectionComposition } from "#/compositions/message-item/message-selection-compositions.tsx";
+import { MessageTextSelectionComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundMainComposer } from "./playground-composer.tsx";
 import { PlaygroundSingleComposerMentionProvider } from "./playground-composer-mentions.tsx";
 import { PlaygroundMainPanelHeader } from "./playground-main-panel-header.tsx";

@@ -8,7 +8,7 @@ import {
   type BannerActionProps,
   type BannerProps,
 } from "raft-ui";
-import { CircleAlert, CircleCheck, CircleX, Grid2X2, Info, X } from "lucide-react";
+import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -24,13 +24,13 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import bannerIconTitleCompositionSource from "#/compositions/banner/icon-title-composition.tsx?raw";
-import bannerIconlessWarningCompositionSource from "#/compositions/banner/iconless-warning-composition.tsx?raw";
-import bannerLargeActionsCompositionSource from "#/compositions/banner/large-actions-composition.tsx?raw";
+import bannerIconTitleCompositionSource from "#/modules/banner/compositions/icon-title.composition.tsx?raw";
+import bannerIconlessWarningCompositionSource from "#/modules/banner/compositions/iconless-warning.composition.tsx?raw";
+import bannerLargeActionsCompositionSource from "#/modules/banner/compositions/large-actions.composition.tsx?raw";
 import {
   BANNER_SOURCE_COMPARISON_COMPOSITION,
   BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/banner-source-comparison.tsx";
+} from "#/modules/banner/banner.source-comparison.tsx";
 import LegacyBanner from "../../../../../packages/ui/src/legacy/Banner.tsx";
 
 const TOC = [
@@ -408,16 +408,6 @@ function BannerDoc() {
     <DocPage
       title="Banner"
       description="An inline banner / callout / alert composed from a status-driven root and slot parts."
-      headerAction={
-        <Button
-          render={<a href="/components/banner/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

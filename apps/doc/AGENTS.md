@@ -4,7 +4,10 @@ These rules apply to the docs application and extend the repository-level compon
 
 ## Canonical Compositions
 
-`apps/doc/src/compositions` is the canonical executable usage layer for `raft-ui` components.
+`apps/doc/src/modules/<component>` is the canonical executable usage layer for `raft-ui` components.
+Each component is a module holding its `compositions/` (one example per file, `<name>.composition.tsx`;
+flat `<component>.composition.tsx` for a single example), its interactive `<component>.preview.tsx`,
+and its source comparison. The top-level `compositions/` bucket no longer exists.
 
 Compositions may contain:
 
@@ -27,22 +30,23 @@ Use `className` only for example layout and constraints such as preview width, g
 
 ## One Current Source of Truth
 
-- Docs routes, state matrices, SourceComparison, and Playground should reuse the canonical composition instead of reproducing its Current JSX.
+- Docs routes, SourceComparison, and Playground should reuse the canonical composition instead of reproducing its Current JSX.
 - Prefer importing the canonical composition file with `?raw` when displaying consumer code.
 - Do not maintain route-local Current fixtures or hand-written JSX snippet strings that duplicate executable compositions.
 - Source-reference fixtures may remain separate when they intentionally preserve upstream/source DOM for comparison.
 
 ## Docs Routes
 
-`apps/doc/src/routes/components` owns page assembly only:
+`apps/doc/src/routes/components` owns thin page assembly only:
 
 - Titles, descriptions, differences, and migration notes.
 - Props and anatomy tables.
 - SourceComparison configuration.
-- Importing and arranging canonical compositions.
+- Importing and arranging its `modules/<component>/` compositions and preview.
 - Rendering highlighted `?raw` canonical source.
 
-Routes must not implement another version of the component, state matrix, or business composition.
+Routes must not implement another version of the component or business composition. Sandboxed
+iframe-only preview routes live under `routes/iframe` and delegate to the module's `<component>.preview.tsx`.
 
 ## Theme and Overlay Isolation
 
@@ -65,7 +69,7 @@ Otherwise render it disabled or use a non-interactive element. Static examples m
 ## Review Checklist
 
 - Is there exactly one executable Current composition?
-- Do routes and matrices import it instead of copying it?
+- Do routes import it from the module instead of copying it?
 - Does displayed code come from canonical `?raw` source where possible?
 - Are component visuals owned by `packages/ui` rather than docs classes?
 - Are example interactions functional or explicitly disabled?

@@ -8,11 +8,11 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SegmentedControlDisabledComposition } from "#/compositions/segmented-control/disabled-composition.tsx";
-import { SegmentedControlFiltersComposition } from "#/compositions/segmented-control/filters-composition.tsx";
-import { SegmentedControlSearchSortComposition } from "#/compositions/segmented-control/search-sort-composition.tsx";
-import { SegmentedControlTimeFormatComposition } from "#/compositions/segmented-control/time-format-composition.tsx";
-import { SegmentedControlViewModeComposition } from "#/compositions/segmented-control/view-mode-composition.tsx";
+import { SegmentedControlDisabledComposition } from "#/modules/segmented-control/compositions/disabled.composition.tsx";
+import { SegmentedControlFiltersComposition } from "#/modules/segmented-control/compositions/filters.composition.tsx";
+import { SegmentedControlSearchSortComposition } from "#/modules/segmented-control/compositions/search-sort.composition.tsx";
+import { SegmentedControlTimeFormatComposition } from "#/modules/segmented-control/compositions/time-format.composition.tsx";
+import { SegmentedControlViewModeComposition } from "#/modules/segmented-control/compositions/view-mode.composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [

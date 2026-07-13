@@ -45,18 +45,18 @@ import {
   MessageMarkdownComposition,
   MessagePermalinkReferenceComposition,
   MessageReferenceLoadingComposition,
-} from "#/compositions/message-item/message-content-compositions.tsx";
+} from "#/modules/message-item/compositions/content.compositions.tsx";
 import {
   MessageAttachmentOpeningComposition,
   MessageAttachmentPendingComposition,
   MessageAttachmentReadyComposition,
-} from "#/compositions/message-item/message-attachment-compositions.tsx";
+} from "#/modules/message-item/compositions/attachment.compositions.tsx";
 import {
   MessageReactionComposition,
   MessageReactionTooltipComposition,
-} from "#/compositions/message-item/message-reaction-compositions.tsx";
-import { MessageMultiSelectToolbarComposition } from "#/compositions/message-item/message-selection-compositions.tsx";
-import { MESSAGE_FIXTURE_IMAGE_SRC as IMAGE_SRC } from "#/fixtures/message-item/assets.ts";
+} from "#/modules/message-item/compositions/reaction.compositions.tsx";
+import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
+import { MESSAGE_FIXTURE_IMAGE_SRC as IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { ChipDemoBody } from "./playground-message-scenarios.tsx";
 import {
   ImagePreviewButton,

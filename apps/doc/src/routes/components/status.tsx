@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bell, Grid2X2 } from "lucide-react";
+import { Bell } from "lucide-react";
 import type { CSSProperties } from "react";
-import { Button, Status, type StatusProps } from "raft-ui";
+import { Status, type StatusProps } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
@@ -17,18 +17,18 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import statusActivityThinkingCompositionSource from "#/compositions/status/activity-thinking-composition.tsx?raw";
-import statusAttentionCompactCompositionSource from "#/compositions/status/attention-compact-composition.tsx?raw";
-import statusAttentionDefaultCompositionSource from "#/compositions/status/attention-default-composition.tsx?raw";
-import statusDefaultCompositionSource from "#/compositions/status/default-composition.tsx?raw";
-import statusPrimaryPulseCompositionSource from "#/compositions/status/primary-pulse-composition.tsx?raw";
-import statusPulseSizesCompositionSource from "#/compositions/status/pulse-sizes-composition.tsx?raw";
-import statusSuccessCompositionSource from "#/compositions/status/success-composition.tsx?raw";
-import statusWarningCompositionSource from "#/compositions/status/warning-composition.tsx?raw";
+import statusActivityThinkingCompositionSource from "#/modules/status/compositions/activity-thinking.composition.tsx?raw";
+import statusAttentionCompactCompositionSource from "#/modules/status/compositions/attention-compact.composition.tsx?raw";
+import statusAttentionDefaultCompositionSource from "#/modules/status/compositions/attention-default.composition.tsx?raw";
+import statusDefaultCompositionSource from "#/modules/status/compositions/default.composition.tsx?raw";
+import statusPrimaryPulseCompositionSource from "#/modules/status/compositions/primary-pulse.composition.tsx?raw";
+import statusPulseSizesCompositionSource from "#/modules/status/compositions/pulse-sizes.composition.tsx?raw";
+import statusSuccessCompositionSource from "#/modules/status/compositions/success.composition.tsx?raw";
+import statusWarningCompositionSource from "#/modules/status/compositions/warning.composition.tsx?raw";
 import {
   STATUS_SOURCE_COMPARISON_COMPOSITION,
   STATUS_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/status-source-comparison.tsx";
+} from "#/modules/status/status.source-comparison.tsx";
 import LegacyAttentionDot from "../../../../../packages/ui/src/legacy/AttentionDot.tsx";
 import LegacyStatusDot from "../../../../../packages/ui/src/legacy/StatusDot.tsx";
 
@@ -362,16 +362,6 @@ function StatusDoc() {
     <DocPage
       title="Status"
       description="Presence, progress, unread, and compact status markers."
-      headerAction={
-        <Button
-          render={<a href="/components/status/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

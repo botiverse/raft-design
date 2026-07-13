@@ -6,8 +6,8 @@ import {
   TasksPanelComposition,
   type TaskIdentity,
   type TasksPanelCompositionProps,
-} from "#/compositions/tasks/tasks-panel-composition.tsx";
-import type { TaskFixture } from "#/compositions/tasks/task-fixtures.ts";
+} from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
+import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
 import {
   PLAYGROUND_ACTORS,
   type PlaygroundActor,

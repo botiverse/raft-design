@@ -47,28 +47,28 @@ import {
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import addMachineCompositionSource from "#/compositions/dialog/add-machine-composition.tsx?raw";
-import { AddMachineDialogComposition } from "#/compositions/dialog/add-machine-composition.tsx";
-import agreementCompositionSource from "#/compositions/dialog/agreement-composition.tsx?raw";
-import { AgreementDialogComposition } from "#/compositions/dialog/agreement-composition.tsx";
-import announcementCompositionSource from "#/compositions/dialog/announcement-composition.tsx?raw";
-import { AnnouncementDialogComposition } from "#/compositions/dialog/announcement-composition.tsx";
-import attachmentPreviewCompositionSource from "#/compositions/dialog/attachment-preview-composition.tsx?raw";
-import { AttachmentPreviewDialogComposition } from "#/compositions/dialog/attachment-preview-composition.tsx";
-import createAgentCompositionSource from "#/compositions/dialog/create-agent-composition.tsx?raw";
-import { CreateAgentDialogComposition } from "#/compositions/dialog/create-agent-composition.tsx";
-import createChannelCompositionSource from "#/compositions/dialog/create-channel-composition.tsx?raw";
-import { CreateChannelDialogComposition } from "#/compositions/dialog/create-channel-composition.tsx";
-import editChannelCompositionSource from "#/compositions/dialog/edit-channel-composition.tsx?raw";
-import { EditChannelDialogComposition } from "#/compositions/dialog/edit-channel-composition.tsx";
-import editChannelManagementCompositionSource from "#/compositions/dialog/edit-channel-management-composition.tsx?raw";
-import { EditChannelManagementDialogComposition } from "#/compositions/dialog/edit-channel-management-composition.tsx";
-import inviteHumanCompositionSource from "#/compositions/dialog/invite-human-composition.tsx?raw";
-import { InviteHumanDialogComposition } from "#/compositions/dialog/invite-human-composition.tsx";
-import onboardingCompositionSource from "#/compositions/dialog/onboarding-composition.tsx?raw";
-import { OnboardingDialogComposition } from "#/compositions/dialog/onboarding-composition.tsx";
-import resetAgentCompositionSource from "#/compositions/dialog/reset-agent-composition.tsx?raw";
-import { ResetAgentDialogComposition } from "#/compositions/dialog/reset-agent-composition.tsx";
+import addMachineCompositionSource from "#/modules/dialog/compositions/add-machine.composition.tsx?raw";
+import { AddMachineDialogComposition } from "#/modules/dialog/compositions/add-machine.composition.tsx";
+import agreementCompositionSource from "#/modules/dialog/compositions/agreement.composition.tsx?raw";
+import { AgreementDialogComposition } from "#/modules/dialog/compositions/agreement.composition.tsx";
+import announcementCompositionSource from "#/modules/dialog/compositions/announcement.composition.tsx?raw";
+import { AnnouncementDialogComposition } from "#/modules/dialog/compositions/announcement.composition.tsx";
+import attachmentPreviewCompositionSource from "#/modules/dialog/compositions/attachment-preview.composition.tsx?raw";
+import { AttachmentPreviewDialogComposition } from "#/modules/dialog/compositions/attachment-preview.composition.tsx";
+import createAgentCompositionSource from "#/modules/dialog/compositions/create-agent.composition.tsx?raw";
+import { CreateAgentDialogComposition } from "#/modules/dialog/compositions/create-agent.composition.tsx";
+import createChannelCompositionSource from "#/modules/dialog/compositions/create-channel.composition.tsx?raw";
+import { CreateChannelDialogComposition } from "#/modules/dialog/compositions/create-channel.composition.tsx";
+import editChannelCompositionSource from "#/modules/dialog/compositions/edit-channel.composition.tsx?raw";
+import { EditChannelDialogComposition } from "#/modules/dialog/compositions/edit-channel.composition.tsx";
+import editChannelManagementCompositionSource from "#/modules/dialog/compositions/edit-channel-management.composition.tsx?raw";
+import { EditChannelManagementDialogComposition } from "#/modules/dialog/compositions/edit-channel-management.composition.tsx";
+import inviteHumanCompositionSource from "#/modules/dialog/compositions/invite-human.composition.tsx?raw";
+import { InviteHumanDialogComposition } from "#/modules/dialog/compositions/invite-human.composition.tsx";
+import onboardingCompositionSource from "#/modules/dialog/compositions/onboarding.composition.tsx?raw";
+import { OnboardingDialogComposition } from "#/modules/dialog/compositions/onboarding.composition.tsx";
+import resetAgentCompositionSource from "#/modules/dialog/compositions/reset-agent.composition.tsx?raw";
+import { ResetAgentDialogComposition } from "#/modules/dialog/compositions/reset-agent.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -230,17 +230,18 @@ const DIALOG_COMPOSITION_SNIPPET_IDS = {
 } as const;
 
 const DIALOG_COMPOSITION_PATHS = {
-  EditChannel: "apps/doc/src/compositions/dialog/edit-channel-composition.tsx",
-  EditChannelManagement: "apps/doc/src/compositions/dialog/edit-channel-management-composition.tsx",
-  InviteHuman: "apps/doc/src/compositions/dialog/invite-human-composition.tsx",
-  CreateChannel: "apps/doc/src/compositions/dialog/create-channel-composition.tsx",
-  CreateAgent: "apps/doc/src/compositions/dialog/create-agent-composition.tsx",
-  AddMachine: "apps/doc/src/compositions/dialog/add-machine-composition.tsx",
-  AttachmentPreview: "apps/doc/src/compositions/dialog/attachment-preview-composition.tsx",
-  ResetAgent: "apps/doc/src/compositions/dialog/reset-agent-composition.tsx",
-  Agreement: "apps/doc/src/compositions/dialog/agreement-composition.tsx",
-  Onboarding: "apps/doc/src/compositions/dialog/onboarding-composition.tsx",
-  Announcement: "apps/doc/src/compositions/dialog/announcement-composition.tsx",
+  EditChannel: "apps/doc/src/modules/dialog/compositions/edit-channel.composition.tsx",
+  EditChannelManagement:
+    "apps/doc/src/modules/dialog/compositions/edit-channel-management.composition.tsx",
+  InviteHuman: "apps/doc/src/modules/dialog/compositions/invite-human.composition.tsx",
+  CreateChannel: "apps/doc/src/modules/dialog/compositions/create-channel.composition.tsx",
+  CreateAgent: "apps/doc/src/modules/dialog/compositions/create-agent.composition.tsx",
+  AddMachine: "apps/doc/src/modules/dialog/compositions/add-machine.composition.tsx",
+  AttachmentPreview: "apps/doc/src/modules/dialog/compositions/attachment-preview.composition.tsx",
+  ResetAgent: "apps/doc/src/modules/dialog/compositions/reset-agent.composition.tsx",
+  Agreement: "apps/doc/src/modules/dialog/compositions/agreement.composition.tsx",
+  Onboarding: "apps/doc/src/modules/dialog/compositions/onboarding.composition.tsx",
+  Announcement: "apps/doc/src/modules/dialog/compositions/announcement.composition.tsx",
 } as const;
 
 type DialogCompositionKey = keyof typeof DIALOG_COMPOSITION_SOURCES;

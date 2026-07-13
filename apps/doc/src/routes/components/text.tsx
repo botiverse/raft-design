@@ -8,7 +8,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceComparisonPreview } from "#/compositions/source-comparison-preview.tsx";
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [

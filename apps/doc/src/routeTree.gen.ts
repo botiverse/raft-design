@@ -22,9 +22,9 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
-import { Route as PreviewsDrawerRouteImport } from './routes/previews/drawer'
 import { Route as PlaygroundChannelIdRouteImport } from './routes/playground.$channelId'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
+import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
@@ -83,19 +83,6 @@ import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typ
 import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
 import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
 import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
-import { Route as ComponentsTextareaMatrixRouteImport } from './routes/components/textarea_.matrix'
-import { Route as ComponentsTabsMatrixRouteImport } from './routes/components/tabs_.matrix'
-import { Route as ComponentsStatusMatrixRouteImport } from './routes/components/status_.matrix'
-import { Route as ComponentsPopoverMatrixRouteImport } from './routes/components/popover_.matrix'
-import { Route as ComponentsLabelMatrixRouteImport } from './routes/components/label_.matrix'
-import { Route as ComponentsInputMatrixRouteImport } from './routes/components/input_.matrix'
-import { Route as ComponentsInputGroupMatrixRouteImport } from './routes/components/input-group_.matrix'
-import { Route as ComponentsFieldMatrixRouteImport } from './routes/components/field_.matrix'
-import { Route as ComponentsDropdownMenuMatrixRouteImport } from './routes/components/dropdown-menu_.matrix'
-import { Route as ComponentsCheckboxMatrixRouteImport } from './routes/components/checkbox_.matrix'
-import { Route as ComponentsButtonMatrixRouteImport } from './routes/components/button_.matrix'
-import { Route as ComponentsBannerMatrixRouteImport } from './routes/components/banner_.matrix'
-import { Route as ComponentsBadgeMatrixRouteImport } from './routes/components/badge_.matrix'
 
 const PlaygroundRoute = PlaygroundRouteImport.update({
   id: '/playground',
@@ -162,11 +149,6 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PreviewsDrawerRoute = PreviewsDrawerRouteImport.update({
-  id: '/previews/drawer',
-  path: '/previews/drawer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PlaygroundChannelIdRoute = PlaygroundChannelIdRouteImport.update({
   id: '/$channelId',
   path: '/$channelId',
@@ -176,6 +158,11 @@ const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
   id: '/$sourceFile',
   path: '/$sourceFile',
   getParentRoute: () => MigrationRoute,
+} as any)
+const IframeDrawerRoute = IframeDrawerRouteImport.update({
+  id: '/iframe/drawer',
+  path: '/iframe/drawer',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
   id: '/tooltip',
@@ -475,75 +462,6 @@ const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
   path: '/brutal',
   getParentRoute: () => TokensShadowsRoute,
 } as any)
-const ComponentsTextareaMatrixRoute =
-  ComponentsTextareaMatrixRouteImport.update({
-    id: '/textarea_/matrix',
-    path: '/textarea/matrix',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsTabsMatrixRoute = ComponentsTabsMatrixRouteImport.update({
-  id: '/tabs_/matrix',
-  path: '/tabs/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsStatusMatrixRoute = ComponentsStatusMatrixRouteImport.update({
-  id: '/status_/matrix',
-  path: '/status/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPopoverMatrixRoute = ComponentsPopoverMatrixRouteImport.update({
-  id: '/popover_/matrix',
-  path: '/popover/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLabelMatrixRoute = ComponentsLabelMatrixRouteImport.update({
-  id: '/label_/matrix',
-  path: '/label/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInputMatrixRoute = ComponentsInputMatrixRouteImport.update({
-  id: '/input_/matrix',
-  path: '/input/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInputGroupMatrixRoute =
-  ComponentsInputGroupMatrixRouteImport.update({
-    id: '/input-group_/matrix',
-    path: '/input-group/matrix',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsFieldMatrixRoute = ComponentsFieldMatrixRouteImport.update({
-  id: '/field_/matrix',
-  path: '/field/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDropdownMenuMatrixRoute =
-  ComponentsDropdownMenuMatrixRouteImport.update({
-    id: '/dropdown-menu_/matrix',
-    path: '/dropdown-menu/matrix',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsCheckboxMatrixRoute =
-  ComponentsCheckboxMatrixRouteImport.update({
-    id: '/checkbox_/matrix',
-    path: '/checkbox/matrix',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsButtonMatrixRoute = ComponentsButtonMatrixRouteImport.update({
-  id: '/button_/matrix',
-  path: '/button/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsBannerMatrixRoute = ComponentsBannerMatrixRouteImport.update({
-  id: '/banner_/matrix',
-  path: '/banner/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsBadgeMatrixRoute = ComponentsBadgeMatrixRouteImport.update({
-  id: '/badge_/matrix',
-  path: '/badge/matrix',
-  getParentRoute: () => ComponentsRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -606,9 +524,9 @@ export interface FileRoutesByFullPath {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/previews/drawer': typeof PreviewsDrawerRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -616,19 +534,6 @@ export interface FileRoutesByFullPath {
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
-  '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
-  '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
-  '/components/button/matrix': typeof ComponentsButtonMatrixRoute
-  '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
-  '/components/dropdown-menu/matrix': typeof ComponentsDropdownMenuMatrixRoute
-  '/components/field/matrix': typeof ComponentsFieldMatrixRoute
-  '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
-  '/components/input/matrix': typeof ComponentsInputMatrixRoute
-  '/components/label/matrix': typeof ComponentsLabelMatrixRoute
-  '/components/popover/matrix': typeof ComponentsPopoverMatrixRoute
-  '/components/status/matrix': typeof ComponentsStatusMatrixRoute
-  '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
-  '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
@@ -693,9 +598,9 @@ export interface FileRoutesByTo {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/previews/drawer': typeof PreviewsDrawerRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -703,19 +608,6 @@ export interface FileRoutesByTo {
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration': typeof MigrationIndexRoute
   '/playground': typeof PlaygroundIndexRoute
-  '/components/badge/matrix': typeof ComponentsBadgeMatrixRoute
-  '/components/banner/matrix': typeof ComponentsBannerMatrixRoute
-  '/components/button/matrix': typeof ComponentsButtonMatrixRoute
-  '/components/checkbox/matrix': typeof ComponentsCheckboxMatrixRoute
-  '/components/dropdown-menu/matrix': typeof ComponentsDropdownMenuMatrixRoute
-  '/components/field/matrix': typeof ComponentsFieldMatrixRoute
-  '/components/input-group/matrix': typeof ComponentsInputGroupMatrixRoute
-  '/components/input/matrix': typeof ComponentsInputMatrixRoute
-  '/components/label/matrix': typeof ComponentsLabelMatrixRoute
-  '/components/popover/matrix': typeof ComponentsPopoverMatrixRoute
-  '/components/status/matrix': typeof ComponentsStatusMatrixRoute
-  '/components/tabs/matrix': typeof ComponentsTabsMatrixRoute
-  '/components/textarea/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
@@ -783,9 +675,9 @@ export interface FileRoutesById {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/previews/drawer': typeof PreviewsDrawerRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -793,19 +685,6 @@ export interface FileRoutesById {
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
-  '/components/badge_/matrix': typeof ComponentsBadgeMatrixRoute
-  '/components/banner_/matrix': typeof ComponentsBannerMatrixRoute
-  '/components/button_/matrix': typeof ComponentsButtonMatrixRoute
-  '/components/checkbox_/matrix': typeof ComponentsCheckboxMatrixRoute
-  '/components/dropdown-menu_/matrix': typeof ComponentsDropdownMenuMatrixRoute
-  '/components/field_/matrix': typeof ComponentsFieldMatrixRoute
-  '/components/input-group_/matrix': typeof ComponentsInputGroupMatrixRoute
-  '/components/input_/matrix': typeof ComponentsInputMatrixRoute
-  '/components/label_/matrix': typeof ComponentsLabelMatrixRoute
-  '/components/popover_/matrix': typeof ComponentsPopoverMatrixRoute
-  '/components/status_/matrix': typeof ComponentsStatusMatrixRoute
-  '/components/tabs_/matrix': typeof ComponentsTabsMatrixRoute
-  '/components/textarea_/matrix': typeof ComponentsTextareaMatrixRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
@@ -874,9 +753,9 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
-    | '/previews/drawer'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -884,19 +763,6 @@ export interface FileRouteTypes {
     | '/tokens/typography'
     | '/migration/'
     | '/playground/'
-    | '/components/badge/matrix'
-    | '/components/banner/matrix'
-    | '/components/button/matrix'
-    | '/components/checkbox/matrix'
-    | '/components/dropdown-menu/matrix'
-    | '/components/field/matrix'
-    | '/components/input-group/matrix'
-    | '/components/input/matrix'
-    | '/components/label/matrix'
-    | '/components/popover/matrix'
-    | '/components/status/matrix'
-    | '/components/tabs/matrix'
-    | '/components/textarea/matrix'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
@@ -961,9 +827,9 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
-    | '/previews/drawer'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -971,19 +837,6 @@ export interface FileRouteTypes {
     | '/tokens/typography'
     | '/migration'
     | '/playground'
-    | '/components/badge/matrix'
-    | '/components/banner/matrix'
-    | '/components/button/matrix'
-    | '/components/checkbox/matrix'
-    | '/components/dropdown-menu/matrix'
-    | '/components/field/matrix'
-    | '/components/input-group/matrix'
-    | '/components/input/matrix'
-    | '/components/label/matrix'
-    | '/components/popover/matrix'
-    | '/components/status/matrix'
-    | '/components/tabs/matrix'
-    | '/components/textarea/matrix'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
@@ -1050,9 +903,9 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
-    | '/previews/drawer'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -1060,19 +913,6 @@ export interface FileRouteTypes {
     | '/tokens/typography'
     | '/migration/'
     | '/playground/'
-    | '/components/badge_/matrix'
-    | '/components/banner_/matrix'
-    | '/components/button_/matrix'
-    | '/components/checkbox_/matrix'
-    | '/components/dropdown-menu_/matrix'
-    | '/components/field_/matrix'
-    | '/components/input-group_/matrix'
-    | '/components/input_/matrix'
-    | '/components/label_/matrix'
-    | '/components/popover_/matrix'
-    | '/components/status_/matrix'
-    | '/components/tabs_/matrix'
-    | '/components/textarea_/matrix'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
@@ -1086,7 +926,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRouteWithChildren
-  PreviewsDrawerRoute: typeof PreviewsDrawerRoute
+  IframeDrawerRoute: typeof IframeDrawerRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -1187,13 +1027,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/previews/drawer': {
-      id: '/previews/drawer'
-      path: '/previews/drawer'
-      fullPath: '/previews/drawer'
-      preLoaderRoute: typeof PreviewsDrawerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/playground/$channelId': {
       id: '/playground/$channelId'
       path: '/$channelId'
@@ -1207,6 +1040,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/migration/$sourceFile'
       preLoaderRoute: typeof MigrationSourceFileRouteImport
       parentRoute: typeof MigrationRoute
+    }
+    '/iframe/drawer': {
+      id: '/iframe/drawer'
+      path: '/iframe/drawer'
+      fullPath: '/iframe/drawer'
+      preLoaderRoute: typeof IframeDrawerRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/components/tooltip': {
       id: '/components/tooltip'
@@ -1614,97 +1454,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TokensShadowsBrutalRouteImport
       parentRoute: typeof TokensShadowsRoute
     }
-    '/components/textarea_/matrix': {
-      id: '/components/textarea_/matrix'
-      path: '/textarea/matrix'
-      fullPath: '/components/textarea/matrix'
-      preLoaderRoute: typeof ComponentsTextareaMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/tabs_/matrix': {
-      id: '/components/tabs_/matrix'
-      path: '/tabs/matrix'
-      fullPath: '/components/tabs/matrix'
-      preLoaderRoute: typeof ComponentsTabsMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/status_/matrix': {
-      id: '/components/status_/matrix'
-      path: '/status/matrix'
-      fullPath: '/components/status/matrix'
-      preLoaderRoute: typeof ComponentsStatusMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/popover_/matrix': {
-      id: '/components/popover_/matrix'
-      path: '/popover/matrix'
-      fullPath: '/components/popover/matrix'
-      preLoaderRoute: typeof ComponentsPopoverMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/label_/matrix': {
-      id: '/components/label_/matrix'
-      path: '/label/matrix'
-      fullPath: '/components/label/matrix'
-      preLoaderRoute: typeof ComponentsLabelMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/input_/matrix': {
-      id: '/components/input_/matrix'
-      path: '/input/matrix'
-      fullPath: '/components/input/matrix'
-      preLoaderRoute: typeof ComponentsInputMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/input-group_/matrix': {
-      id: '/components/input-group_/matrix'
-      path: '/input-group/matrix'
-      fullPath: '/components/input-group/matrix'
-      preLoaderRoute: typeof ComponentsInputGroupMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/field_/matrix': {
-      id: '/components/field_/matrix'
-      path: '/field/matrix'
-      fullPath: '/components/field/matrix'
-      preLoaderRoute: typeof ComponentsFieldMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/dropdown-menu_/matrix': {
-      id: '/components/dropdown-menu_/matrix'
-      path: '/dropdown-menu/matrix'
-      fullPath: '/components/dropdown-menu/matrix'
-      preLoaderRoute: typeof ComponentsDropdownMenuMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/checkbox_/matrix': {
-      id: '/components/checkbox_/matrix'
-      path: '/checkbox/matrix'
-      fullPath: '/components/checkbox/matrix'
-      preLoaderRoute: typeof ComponentsCheckboxMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/button_/matrix': {
-      id: '/components/button_/matrix'
-      path: '/button/matrix'
-      fullPath: '/components/button/matrix'
-      preLoaderRoute: typeof ComponentsButtonMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/banner_/matrix': {
-      id: '/components/banner_/matrix'
-      path: '/banner/matrix'
-      fullPath: '/components/banner/matrix'
-      preLoaderRoute: typeof ComponentsBannerMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/badge_/matrix': {
-      id: '/components/badge_/matrix'
-      path: '/badge/matrix'
-      fullPath: '/components/badge/matrix'
-      preLoaderRoute: typeof ComponentsBadgeMatrixRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
   }
 }
 
@@ -1763,19 +1512,6 @@ interface ComponentsRouteChildren {
   ComponentsToastRoute: typeof ComponentsToastRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
-  ComponentsBadgeMatrixRoute: typeof ComponentsBadgeMatrixRoute
-  ComponentsBannerMatrixRoute: typeof ComponentsBannerMatrixRoute
-  ComponentsButtonMatrixRoute: typeof ComponentsButtonMatrixRoute
-  ComponentsCheckboxMatrixRoute: typeof ComponentsCheckboxMatrixRoute
-  ComponentsDropdownMenuMatrixRoute: typeof ComponentsDropdownMenuMatrixRoute
-  ComponentsFieldMatrixRoute: typeof ComponentsFieldMatrixRoute
-  ComponentsInputGroupMatrixRoute: typeof ComponentsInputGroupMatrixRoute
-  ComponentsInputMatrixRoute: typeof ComponentsInputMatrixRoute
-  ComponentsLabelMatrixRoute: typeof ComponentsLabelMatrixRoute
-  ComponentsPopoverMatrixRoute: typeof ComponentsPopoverMatrixRoute
-  ComponentsStatusMatrixRoute: typeof ComponentsStatusMatrixRoute
-  ComponentsTabsMatrixRoute: typeof ComponentsTabsMatrixRoute
-  ComponentsTextareaMatrixRoute: typeof ComponentsTextareaMatrixRoute
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
@@ -1833,19 +1569,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsToastRoute: ComponentsToastRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,
-  ComponentsBadgeMatrixRoute: ComponentsBadgeMatrixRoute,
-  ComponentsBannerMatrixRoute: ComponentsBannerMatrixRoute,
-  ComponentsButtonMatrixRoute: ComponentsButtonMatrixRoute,
-  ComponentsCheckboxMatrixRoute: ComponentsCheckboxMatrixRoute,
-  ComponentsDropdownMenuMatrixRoute: ComponentsDropdownMenuMatrixRoute,
-  ComponentsFieldMatrixRoute: ComponentsFieldMatrixRoute,
-  ComponentsInputGroupMatrixRoute: ComponentsInputGroupMatrixRoute,
-  ComponentsInputMatrixRoute: ComponentsInputMatrixRoute,
-  ComponentsLabelMatrixRoute: ComponentsLabelMatrixRoute,
-  ComponentsPopoverMatrixRoute: ComponentsPopoverMatrixRoute,
-  ComponentsStatusMatrixRoute: ComponentsStatusMatrixRoute,
-  ComponentsTabsMatrixRoute: ComponentsTabsMatrixRoute,
-  ComponentsTextareaMatrixRoute: ComponentsTextareaMatrixRoute,
 }
 
 const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
@@ -1914,7 +1637,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
   PlaygroundRoute: PlaygroundRouteWithChildren,
-  PreviewsDrawerRoute: PreviewsDrawerRoute,
+  IframeDrawerRoute: IframeDrawerRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,

@@ -20,7 +20,7 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { PreviewCardMentionComposition } from "#/compositions/preview-card-mention-composition.tsx";
+import { PreviewCardMentionComposition } from "#/modules/preview-card/preview-card-mention.composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [

@@ -29,12 +29,13 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { ChatSidebarPreviewComposition } from "#/compositions/chat-sidebar-composition.tsx";
-import chatSidebarCompositionSource from "#/compositions/chat-sidebar-composition.tsx?raw";
-import { SourceAppRailPreview } from "#/compositions/source-chat-rail-preview.tsx";
+import { ChatSidebarPreviewComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
+import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
+import { SourceAppRailPreview } from "#/modules/chat-rail/chat-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const CHAT_SIDEBAR_COMPOSITION_PATH = "apps/doc/src/compositions/chat-sidebar-composition.tsx";
+const CHAT_SIDEBAR_COMPOSITION_PATH =
+  "apps/doc/src/modules/chat-sidebar/chat-sidebar.composition.tsx";
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },

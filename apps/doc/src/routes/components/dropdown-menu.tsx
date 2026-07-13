@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Button,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
@@ -23,7 +22,6 @@ import {
   Check,
   ChevronRight,
   CreditCard,
-  Grid2X2,
   LogOut,
   Monitor,
   MoonStar,
@@ -42,24 +40,24 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import messageSearchTimeFilterCompositionSource from "#/compositions/message-search-time-filter-composition.tsx?raw";
+import messageSearchTimeFilterCompositionSource from "#/modules/dropdown-menu/compositions/message-search-time-filter.composition.tsx?raw";
 import {
   MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
   MessageSearchTimeFilterComposition,
   MessageSearchTimeFilterSourcePreview,
-} from "#/compositions/message-search-time-filter.tsx";
-import serverSwitcherMenuCompositionSource from "#/compositions/server-switcher-menu-composition.tsx?raw";
+} from "#/modules/dropdown-menu/compositions/message-search-time-filter.tsx";
+import serverSwitcherMenuCompositionSource from "#/modules/dropdown-menu/compositions/server-switcher-menu.composition.tsx?raw";
 import {
   SERVER_SWITCHER_MENU_COMPOSITION_PATH,
   ServerSwitcherMenuComposition,
   ServerSwitcherMenuSourcePreview,
-} from "#/compositions/server-switcher-menu.tsx";
-import sidebarSortMenuCompositionSource from "#/compositions/sidebar-sort-menu-composition.tsx?raw";
+} from "#/modules/dropdown-menu/compositions/server-switcher-menu.tsx";
+import sidebarSortMenuCompositionSource from "#/modules/dropdown-menu/compositions/sidebar-sort-menu.composition.tsx?raw";
 import {
   SIDEBAR_SORT_MENU_COMPOSITION_PATH,
   SidebarSortMenuComposition,
   SidebarSortMenuSourcePreview,
-} from "#/compositions/sidebar-sort-menu.tsx";
+} from "#/modules/dropdown-menu/compositions/sidebar-sort-menu.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -612,16 +610,6 @@ function DropdownMenuDoc() {
     <DocPage
       title="DropdownMenu"
       description="A trigger-driven menu family built on Base UI Menu for account, action, and nested command surfaces."
-      headerAction={
-        <Button
-          render={<a href="/components/dropdown-menu/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

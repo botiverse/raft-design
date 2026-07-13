@@ -16,9 +16,7 @@ import {
   TextareaCounter,
   TextareaGroup,
 } from "raft-ui";
-import { Grid2X2 } from "lucide-react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
@@ -32,13 +30,14 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
-import fieldCompactLabelCompositionSource from "#/compositions/field/compact-label-composition.tsx?raw";
-import fieldErrorCompositionSource from "#/compositions/field/error-composition.tsx?raw";
-import fieldLabelControlHelperCompositionSource from "#/compositions/field/label-control-helper-composition.tsx?raw";
+import { FieldPlaygroundPreview } from "#/modules/field/field.preview.tsx";
+import fieldCompactLabelCompositionSource from "#/modules/field/compositions/compact-label.composition.tsx?raw";
+import fieldErrorCompositionSource from "#/modules/field/compositions/error.composition.tsx?raw";
+import fieldLabelControlHelperCompositionSource from "#/modules/field/compositions/label-control-helper.composition.tsx?raw";
 import {
   FIELD_SOURCE_COMPARISON_COMPOSITION,
   FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/compositions/field-source-comparison.tsx";
+} from "#/modules/field/field.source-comparison.tsx";
 import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
@@ -276,14 +275,6 @@ const SNIPPETS = {
 </Field>`,
 } as const;
 
-type PlaygroundValues = {
-  invalid: boolean;
-  required: boolean;
-  optional: boolean;
-  label: string;
-  description: string;
-};
-
 const FIELD_PROPS: readonly PropRow[] = [
   {
     name: "Field",
@@ -368,62 +359,10 @@ function FieldDoc() {
     <DocPage
       title="Field"
       description="A composable form field pattern for labels, controls, descriptions, and errors."
-      headerAction={
-        <Button
-          render={<a href="/components/field/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            invalid: false,
-            required: true,
-            optional: false,
-            label: "Email",
-            description: "Use your work email.",
-          }}
-          controls={[
-            { name: "invalid", label: "Invalid", type: "boolean" },
-            { name: "required", label: "Required", type: "boolean" },
-            { name: "optional", label: "Optional", type: "boolean" },
-            { name: "label", label: "Label", type: "text" },
-            { name: "description", label: "Description", type: "text" },
-          ]}
-          render={(values) => {
-            const markerProps = values.required
-              ? ({ required: true } as const)
-              : values.optional
-                ? ({ optional: true } as const)
-                : {};
-
-            return (
-              <Field className="w-80" invalid={values.invalid}>
-                <FieldLabel htmlFor="field-preview-email" {...markerProps}>
-                  {values.label}
-                </FieldLabel>
-                <Input
-                  id="field-preview-email"
-                  type="email"
-                  aria-invalid={values.invalid || undefined}
-                  defaultValue={values.invalid ? "oops" : undefined}
-                  placeholder="you@example.com"
-                />
-                {values.invalid ? (
-                  <FieldError match>Email is required.</FieldError>
-                ) : values.description ? (
-                  <FieldDescription>{values.description}</FieldDescription>
-                ) : null}
-              </Field>
-            );
-          }}
-        />
+        <FieldPlaygroundPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

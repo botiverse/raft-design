@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
   Status,
 } from "raft-ui";
-import { AlertTriangle, Grid2X2, Info, X } from "lucide-react";
+import { AlertTriangle, Info, X } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
 
@@ -21,11 +21,11 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import popoverMentionCardCompositionSource from "#/compositions/popover-mention-card-composition.tsx?raw";
-import { PopoverMentionCardComposition } from "#/compositions/popover-mention-card-composition.tsx";
-import popoverNotificationCompositionSource from "#/compositions/popover-notification-composition.tsx?raw";
-import { PopoverNotificationComposition } from "#/compositions/popover-notification-composition.tsx";
-import { SourceComparisonPreview } from "#/compositions/source-comparison-preview.tsx";
+import popoverMentionCardCompositionSource from "#/modules/popover/compositions/popover-mention-card.composition.tsx?raw";
+import { PopoverMentionCardComposition } from "#/modules/popover/compositions/popover-mention-card.composition.tsx";
+import popoverNotificationCompositionSource from "#/modules/popover/compositions/popover-notification.composition.tsx?raw";
+import { PopoverNotificationComposition } from "#/modules/popover/compositions/popover-notification.composition.tsx";
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -176,9 +176,9 @@ const PROPS: readonly PropRow[] = [
 ];
 
 const POPOVER_NOTIFICATION_COMPOSITION_PATH =
-  "apps/doc/src/compositions/popover-notification-composition.tsx" as const;
+  "apps/doc/src/modules/popover/compositions/popover-notification.composition.tsx" as const;
 const POPOVER_MENTION_CARD_COMPOSITION_PATH =
-  "apps/doc/src/compositions/popover-mention-card-composition.tsx" as const;
+  "apps/doc/src/modules/popover/compositions/popover-mention-card.composition.tsx" as const;
 
 export const Route = createFileRoute("/components/popover")({
   component: PopoverDoc,
@@ -397,16 +397,6 @@ function PopoverDoc() {
     <DocPage
       title="Popover"
       description="A trigger-positioned floating panel for arbitrary composed content."
-      headerAction={
-        <Button
-          render={<a href="/components/popover/matrix" target="_blank" rel="noreferrer" />}
-          variant="ghost"
-          size="sm"
-        >
-          Matrix
-          <Grid2X2 data-icon="inline-end" />
-        </Button>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

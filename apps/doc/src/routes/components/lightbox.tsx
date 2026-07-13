@@ -41,8 +41,8 @@ import {
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import attachmentPreviewShellCompositionSource from "#/compositions/lightbox/attachment-preview-shell-composition.tsx?raw";
-import imageLightboxShellCompositionSource from "#/compositions/lightbox/image-lightbox-shell-composition.tsx?raw";
+import attachmentPreviewShellCompositionSource from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx?raw";
+import imageLightboxShellCompositionSource from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -207,8 +207,9 @@ const LIGHTBOX_COMPOSITION_SNIPPETS = createCompositionSnippetMap(
 
 const LIGHTBOX_COMPOSITION_PATHS = {
   AttachmentPreviewShell:
-    "apps/doc/src/compositions/lightbox/attachment-preview-shell-composition.tsx",
-  ImageLightboxShell: "apps/doc/src/compositions/lightbox/image-lightbox-shell-composition.tsx",
+    "apps/doc/src/modules/lightbox/compositions/attachment-preview-shell.composition.tsx",
+  ImageLightboxShell:
+    "apps/doc/src/modules/lightbox/compositions/image-lightbox-shell.composition.tsx",
 } as const;
 
 type LightboxCompositionKey = keyof typeof LIGHTBOX_COMPOSITION_SOURCES;

@@ -8,9 +8,9 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceComparisonPreview } from "#/compositions/source-comparison-preview.tsx";
-import skeletonBasicCompositionSource from "#/compositions/skeleton/basic-composition.tsx?raw";
-import { SkeletonBasicComposition } from "#/compositions/skeleton/basic-composition.tsx";
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import skeletonBasicCompositionSource from "#/modules/skeleton/compositions/basic.composition.tsx?raw";
+import { SkeletonBasicComposition } from "#/modules/skeleton/compositions/basic.composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   createCompositionPanelProps,

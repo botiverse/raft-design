@@ -8,12 +8,12 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { Example } from "#/components/example.tsx";
-import pwaInstallCompositionSource from "#/compositions/drawer/pwa-install-drawer-composition.tsx?raw";
-import pwaInstallOtherCompositionSource from "#/compositions/drawer/pwa-install-other-drawer-composition.tsx?raw";
-import { DrawerResponsivePlacementComposition } from "#/compositions/drawer/responsive-placement-composition.tsx";
-import responsivePlacementCompositionSource from "#/compositions/drawer/responsive-placement-composition.tsx?raw";
+import pwaInstallCompositionSource from "#/modules/drawer/compositions/pwa-install-drawer.composition.tsx?raw";
+import pwaInstallOtherCompositionSource from "#/modules/drawer/compositions/pwa-install-other-drawer.composition.tsx?raw";
+import { DrawerResponsivePlacementComposition } from "#/modules/drawer/compositions/responsive-placement.composition.tsx";
+import responsivePlacementCompositionSource from "#/modules/drawer/compositions/responsive-placement.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { DrawerPreview, DrawerSideFullWidthUsage } from "./-drawer.preview.tsx";
+import { DrawerPreview, DrawerSideFullWidthUsage } from "#/modules/drawer/drawer.preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -223,7 +223,7 @@ function DrawerComparisonIframe({
       key={instance}
       data-drawer-comparison-frame={`${scene}-${variant}-${theme}-${mode}-${viewport}`}
       title={`${scene} ${variant} ${theme} ${mode} ${viewport}`}
-      src={`/previews/drawer?${params.toString()}`}
+      src={`/iframe/drawer?${params.toString()}`}
       loading="lazy"
       sandbox="allow-scripts allow-same-origin"
       className={`block w-full border-0 bg-transparent ${height}`}
@@ -381,7 +381,7 @@ function DrawerDoc() {
               currentCode: code.pwaInstall,
               compositionCode: code.pwaInstall,
               compositionPath:
-                "apps/doc/src/compositions/drawer/pwa-install-drawer-composition.tsx",
+                "apps/doc/src/modules/drawer/compositions/pwa-install-drawer.composition.tsx",
               compositionSource: pwaInstallCompositionSource,
             },
             {
@@ -409,7 +409,7 @@ function DrawerDoc() {
               currentCode: code.pwaInstallOther,
               compositionCode: code.pwaInstallOther,
               compositionPath:
-                "apps/doc/src/compositions/drawer/pwa-install-other-drawer-composition.tsx",
+                "apps/doc/src/modules/drawer/compositions/pwa-install-other-drawer.composition.tsx",
               compositionSource: pwaInstallOtherCompositionSource,
             },
           ]}
