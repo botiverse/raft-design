@@ -155,8 +155,8 @@ const SIZES = [
   { size: "md", context: "panel header", px: 36 },
   { size: "sm", context: "list rows", px: 32 },
   { size: "xs", context: "compact rows", px: 20 },
-  { size: "sidebar", context: "sidebar rows", px: 18 },
-  { size: "2xs", context: "inline preview", px: 14 },
+  { size: "2xs", context: "nav / DM rows", px: 18 },
+  { size: "3xs", context: "inline preview", px: 14 },
 ] as const;
 
 const SIZE_OPTIONS = SIZES.map((s) => s.size);
@@ -213,8 +213,8 @@ const LEGACY_CONTEXT_MARKERS = {
     className: "border-success-base/40 bg-success-base/10 text-success-dark",
   },
   "sidebar-list": {
-    label: "collapsed",
-    className: "border-info-base/40 bg-info-base/10 text-info-dark",
+    label: "kept",
+    className: "border-success-base/40 bg-success-base/10 text-success-dark",
   },
   "preview-mini": {
     label: "kept",
@@ -288,10 +288,10 @@ const SOURCE_SIZE_ROWS = [
     context: "sidebar-list",
     sourceFrame: "18px frame, 1px border",
     sourceInner: "agent 16 / human 16 / icon 10",
-    current: "sidebar / 18px",
+    current: "2xs / 18px",
     reason:
-      "Sidebar rows need exact source density, so this context is promoted to a public compact step.",
-    implementation: 'Use <Avatar size="sidebar"> inside ChatSidebarItemIcon.',
+      "Sidebar and DM rows need exact source density, so this stays a public compact step on the t-shirt scale.",
+    implementation: 'Use <Avatar size="2xs"> inside ChatSidebarItemIcon.',
   },
   {
     context: "compact-list",
@@ -305,9 +305,9 @@ const SOURCE_SIZE_ROWS = [
     context: "preview-mini",
     sourceFrame: "14px frame, 1px border",
     sourceInner: "agent 14 / human 14 / icon 10",
-    current: "2xs / 14px",
+    current: "3xs / 14px",
     reason: "Inline previews need a true miniature avatar rather than shrinking xs ad hoc.",
-    implementation: 'Use <Avatar size="2xs"> in quoted/preview chip compositions.',
+    implementation: 'Use <Avatar size="3xs"> in quoted/preview chip compositions.',
   },
 ] as const;
 
@@ -325,7 +325,7 @@ const SOURCE_DIFFERENCE_ROWS = [
   {
     area: "Size model",
     source: "Ten callsite contexts, including 56px, 28px, 22px, and 18px one-offs.",
-    current: "Six public sizes: xl, lg, md, sm, xs, 2xs.",
+    current: "Seven public sizes: xl, lg, md, sm, xs, 2xs, 3xs.",
   },
   {
     area: "Inner sizing",
@@ -411,7 +411,7 @@ import { Check } from "lucide-react";
   ))}
   <AvatarGroupCount size="sm">+3</AvatarGroupCount>
 </AvatarGroup>`,
-  sizes: `{(["xl", "lg", "md", "sm", "xs", "sidebar", "2xs"] as const).map((size, index) => (
+  sizes: `{(["xl", "lg", "md", "sm", "xs", "2xs", "3xs"] as const).map((size, index) => (
   <Avatar key={size} size={size} type="agent">
     <AvatarImage src={avatarPhotoUrls[index % avatarPhotoUrls.length]} alt="" />
     <AvatarFallback />
@@ -423,8 +423,8 @@ import { Check } from "lucide-react";
 <Avatar size="md" type="agent" />  // panel-header
 <Avatar size="sm" type="agent" />  // surface-list
 <Avatar size="xs" type="agent" />  // compact-list
-<Avatar size="sidebar" type="agent" /> // sidebar-list
-<Avatar size="2xs" type="agent" /> // preview-mini`,
+<Avatar size="2xs" type="agent" /> // sidebar-list
+<Avatar size="3xs" type="agent" /> // preview-mini`,
   sourceContexts: `const SPEC = {
   "profile-tile": { size: "size-16", border: "border-2", agentPixel: 60, gravatarSize: 60, placeholderIcon: 32 },
   "account-tile": { size: "size-14", border: "border-2", agentPixel: 52, gravatarSize: 52, placeholderIcon: 24 },
@@ -455,7 +455,7 @@ const AVATAR_PROPS: readonly PropRow[] = [
   {
     name: "size",
     type: SIZE_OPTIONS.map((s) => `"${s}"`).join(" | "),
-    description: "Fixes the frame size and border width (xl 64px down to 2xs 14px).",
+    description: "Fixes the frame size and border width (xl 64px down to 3xs 14px).",
   },
   {
     name: "type",

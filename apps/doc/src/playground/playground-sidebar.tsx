@@ -225,7 +225,7 @@ function DirectMessageRowContent({
   return (
     <>
       <ChatSidebarItemIcon>
-        <Avatar size="sidebar" type={actor.type}>
+        <Avatar size="2xs" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
             <AvatarFallback>{actor.fallback}</AvatarFallback>

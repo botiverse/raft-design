@@ -19,9 +19,9 @@ import type { StyledProps } from "../../lib/styled-props";
 //
 // `size` is a compact t-shirt scale distilled from the original call-site
 // contexts: xl profile/detail (64), lg mention/large identity (48), md panel
-// header (36), sm list rows (32), xs compact rows (20), sidebar rows (18), and
-// 2xs inline preview chips (14). One-off source contexts such as account-tile,
-// members-row, and creator-link no longer get public size names.
+// header (36), sm list rows (32), xs compact rows (20), 2xs sidebar/DM rows
+// (18), and 3xs inline preview chips (14). One-off source contexts such as
+// account-tile, members-row, and creator-link no longer get public size names.
 // Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
 // `border`; elegant uses a pseudo-element hairline. `AvatarFallback` /
 // `AvatarBadge` auto-scale to the parent via its `data-size` + `group/avatar`
@@ -38,8 +38,8 @@ const avatar = tv({
       "group-data-[size=md]/avatar:[&>svg]:size-[18px]",
       "group-data-[size=sm]/avatar:[&>svg]:size-4",
       "group-data-[size=xs]/avatar:[&>svg]:size-3",
-      "group-data-[size=sidebar]/avatar:[&>svg]:size-2.5",
       "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
+      "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
     ],
     badge: [
       "absolute right-0 bottom-0 z-10 translate-x-1/4 translate-y-1/4 select-none",
@@ -50,8 +50,8 @@ const avatar = tv({
       "group-data-[size=md]/avatar:size-2.5 group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=sm]/avatar:size-2",
       "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:outline",
-      "group-data-[size=sidebar]/avatar:size-1.5 group-data-[size=sidebar]/avatar:outline",
       "group-data-[size=2xs]/avatar:size-1.5 group-data-[size=2xs]/avatar:outline",
+      "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:outline",
     ],
     group: ["group/avatar-group flex items-center"],
   },
@@ -74,8 +74,8 @@ const avatar = tv({
           "overflow-hidden bg-layer-muted text-foreground-placeholder/70 text-sm",
           "rounded-full",
           "group-data-[size=xs]/avatar:text-xs",
-          "group-data-[size=sidebar]/avatar:text-[10px]",
           "group-data-[size=2xs]/avatar:text-[10px]",
+          "group-data-[size=3xs]/avatar:text-[10px]",
         ],
         badge: [
           "translate-x-0 translate-y-0 bg-success-base text-foreground-inverse",
@@ -100,8 +100,8 @@ const avatar = tv({
       md: { root: "size-9" },
       sm: { root: "size-8" },
       xs: { root: "size-5" },
-      sidebar: { root: "size-[18px]" },
-      "2xs": { root: "size-[14px]" },
+      "2xs": { root: "size-[18px]" },
+      "3xs": { root: "size-[14px]" },
     },
   },
   compoundVariants: [
@@ -112,7 +112,7 @@ const avatar = tv({
     },
     {
       theme: "brutal",
-      size: ["xs", "sidebar", "2xs"],
+      size: ["xs", "2xs", "3xs"],
       class: { root: "border" },
     },
     // Identity-keyed placeholder fills (source AvatarSlot parity): cyan agent /
@@ -158,7 +158,7 @@ const avatar = tv({
     },
     {
       theme: "elegant",
-      size: ["sidebar", "2xs"],
+      size: ["2xs", "3xs"],
       class: {
         root: "rounded-full",
       },

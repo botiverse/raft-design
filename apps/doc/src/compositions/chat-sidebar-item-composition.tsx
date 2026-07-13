@@ -128,7 +128,7 @@ export function ChatSidebarItemStatesComposition() {
           onClick={() => setCurrentItem("dm")}
         >
           <ChatSidebarItemIcon>
-            <Avatar size="sidebar" type="human">
+            <Avatar size="2xs" type="human">
               <AvatarFallback>C</AvatarFallback>
             </Avatar>
           </ChatSidebarItemIcon>
