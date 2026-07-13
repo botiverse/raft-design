@@ -151,33 +151,55 @@ export type ChatSidebarSectionIndicatorProps = StatusProps;
 export function ChatSidebarSectionIndicator({
   className,
   size = "md",
-  variant = "accent",
+  variant,
   ...props
 }: ChatSidebarSectionIndicatorProps) {
+  const theme = useThemeFamily();
   const { sidebarSectionIndicator } = chatSidebar();
+  const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
   return (
-    <Status
+    <span
       aria-hidden
       data-slot="chat-sidebar-section-indicator"
-      size={size}
-      variant={variant}
-      className={sidebarSectionIndicator({ className })}
-      {...props}
-    />
+      className={sidebarSectionIndicator()}
+    >
+      <Status size={size} variant={resolvedVariant} className={className} {...props} />
+    </span>
   );
 }
 
 export type ChatSidebarSectionAttentionProps = ChatSidebarSectionIndicatorProps;
 export const ChatSidebarSectionAttention = ChatSidebarSectionIndicator;
 
+export type ChatSidebarSectionTrailingProps = useRender.ComponentProps<"div">;
 export type ChatSidebarSectionActionsProps = useRender.ComponentProps<"div">;
+
+export function ChatSidebarSectionTrailing({
+  className,
+  render,
+  ...props
+}: ChatSidebarSectionTrailingProps) {
+  const theme = useThemeFamily();
+  const { sidebarSectionTrailing } = chatSidebar({ theme });
+  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+    "data-slot": "chat-sidebar-section-trailing",
+    className: sidebarSectionTrailing({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
 
 export function ChatSidebarSectionActions({
   className,
   render,
   ...props
 }: ChatSidebarSectionActionsProps) {
-  const { sidebarSectionActions } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarSectionActions } = chatSidebar({ theme });
   const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
     "data-slot": "chat-sidebar-section-actions",
     className: sidebarSectionActions({ className }),
@@ -197,7 +219,7 @@ export function ChatSidebarSectionAction({
   className,
   render,
   size = "icon-sm",
-  variant = "outline",
+  variant = "ghost",
   loading,
   loadingLabel,
   ...props

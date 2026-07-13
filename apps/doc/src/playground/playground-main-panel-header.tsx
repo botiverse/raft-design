@@ -13,6 +13,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  BrutalOnly,
   Status,
   Tooltip,
   TooltipContent,
@@ -58,7 +59,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
           {isMuted ? (
             <ChatMainPanelTitleBadge title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
-              Muted
+              <BrutalOnly>Muted</BrutalOnly>
             </ChatMainPanelTitleBadge>
           ) : null}
         </ChatMainPanelTitleRow>
@@ -101,14 +102,6 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="Edit channel" />}>
-              <PanelButtonIcon>
-                <Settings />
-              </PanelButtonIcon>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">Edit channel</TooltipContent>
-          </Tooltip>
-          <Tooltip>
             <TooltipTrigger render={<PanelButton aria-label="View participants" />}>
               <PanelButtonIcon>
                 <Users />
@@ -116,6 +109,14 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
               <PanelButtonCount>{channel.memberCount}</PanelButtonCount>
             </TooltipTrigger>
             <TooltipContent side="bottom">View participants</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger render={<PanelButton aria-label="Edit channel" />}>
+              <PanelButtonIcon>
+                <Settings />
+              </PanelButtonIcon>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Edit channel</TooltipContent>
           </Tooltip>
         </ChatMainPanelActions>
       </TooltipProvider>

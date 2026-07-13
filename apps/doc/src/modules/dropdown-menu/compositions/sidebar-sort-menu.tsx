@@ -1,10 +1,13 @@
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../../packages/ui/src/legacy/selection-popover.tsx";
-import { SidebarSortMenuComposition } from "./sidebar-sort-menu.composition.tsx";
+import {
+  SidebarSectionSortMenu,
+  SidebarSortMenuComposition,
+} from "./sidebar-sort-menu.composition.tsx";
 
 export const SIDEBAR_SORT_MENU_COMPOSITION_PATH =
   "apps/doc/src/modules/dropdown-menu/compositions/sidebar-sort-menu.composition.tsx" as const;
 
-export { SidebarSortMenuComposition };
+export { SidebarSectionSortMenu, SidebarSortMenuComposition };
 
 const noop = () => {};
 

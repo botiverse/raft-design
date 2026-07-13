@@ -1,8 +1,4 @@
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
   NotificationCenter,
   NotificationCenterActionButton,
   NotificationCenterCount,
@@ -46,24 +42,17 @@ import {
   Settings,
   Users,
 } from "lucide-react";
-import { Check } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 
-const playgroundServers = [
-  { id: "raft", name: "Raft", initial: "R" },
-  { id: "design-guild", name: "Design Guild", initial: "D" },
-  { id: "open-source", name: "Open Source", initial: "O" },
-] as const;
+const currentServerName = "Raft 中文社区";
+const currentServerAvatarSrc =
+  "https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp";
 
 export function PlaygroundRail() {
   const { railView, selectRailView } = usePlaygroundNavigation();
-  const serverMenuAnchorRef = useRef<HTMLDivElement>(null);
-  const [serverId, setServerId] =
-    useState<(typeof playgroundServers)[number]["id"]>("design-guild");
   const [notificationVisible, setNotificationVisible] = useState(true);
-  const activeServer = playgroundServers.find((server) => server.id === serverId)!;
 
   return (
     <AppShellRail>
@@ -73,35 +62,18 @@ export function PlaygroundRail() {
           if (isPlaygroundRailView(view)) selectRailView(view);
         }}
       >
-        <AppRailHeader ref={serverMenuAnchorRef}>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <AppRailServerButton
-                  aria-label={`Switch server. Current server: ${activeServer.name}`}
-                />
-              }
-            >
-              {activeServer.initial}
-              <AppRailItemIndicator aria-hidden title="Other servers have unread messages" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              anchor={serverMenuAnchorRef}
-              side="right"
-              sideOffset={8}
-              align="start"
-              alignOffset={1}
-              collisionPadding={4}
-              className="flex w-64 flex-col"
-            >
-              {playgroundServers.map((server) => (
-                <DropdownMenuItem key={server.id} onClick={() => setServerId(server.id)}>
-                  <Check aria-hidden className={server.id === serverId ? undefined : "opacity-0"} />
-                  <span className="min-w-0 flex-1 truncate text-left">{server.name}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <AppRailHeader>
+          <AppRailServerButton
+            title={currentServerName}
+            aria-label={`Switch server (current: ${currentServerName})`}
+          >
+            <img alt="" src={currentServerAvatarSrc} />
+            <AppRailItemIndicator
+              size="sm"
+              aria-hidden
+              title="Other servers have unread messages"
+            />
+          </AppRailServerButton>
         </AppRailHeader>
         <TooltipProvider delay={650}>
           <AppRailNav>

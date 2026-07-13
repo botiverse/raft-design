@@ -55,10 +55,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
   Field,
   FieldDescription,
   FieldLabel,
@@ -90,16 +86,23 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarRoot,
   ChatSidebarSection,
+  ChatSidebarSectionActions,
   ChatSidebarSectionButton,
   ChatSidebarSectionChevron,
-  ChatSidebarSectionCount,
   ChatSidebarSectionAttention,
-  ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
+  ChatSidebarSectionTrailing,
   SortableChatSidebarItem,
   SortableChatSidebarList,
 } from "raft-ui/wip";
 
+import {
+  SidebarCreateMenu,
+  SidebarSectionAddButton,
+  SidebarSectionChannelsMenu,
+  SidebarSectionHeaderMenu,
+  SidebarSectionSortMenu,
+} from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_DIRECT_MESSAGES,
@@ -447,14 +450,18 @@ function PinnedSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu menu="sort">
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
+          <ChatSidebarSectionActions>
+            <SidebarSectionSortMenu aria-label="Sort pinned" />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -490,14 +497,33 @@ function JointChannelsSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu
+        menu="channels"
+        count={ordered.length}
+        countLabel="channels"
+        createLabel="Create Joint Channel"
+        createIcon="joint"
+        createDisabled
+      >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
+          <ChatSidebarSectionActions>
+            <SidebarSectionAddButton aria-label="Create joint channel" disabled />
+            <SidebarSectionChannelsMenu
+              aria-label="Joint channels menu"
+              count={ordered.length}
+              countLabel="channels"
+              createLabel="Create Joint Channel"
+              createIcon="joint"
+              createDisabled
+            />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -533,14 +559,33 @@ function ChannelsSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu
+        menu="channels"
+        count={ordered.length}
+        countLabel="channels"
+        createLabel="Create Channel"
+        createIcon="channel"
+        createDisabled
+      >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
+          <ChatSidebarSectionActions>
+            <SidebarSectionAddButton aria-label="Create channel" disabled />
+            <SidebarSectionChannelsMenu
+              aria-label="Channels menu"
+              count={ordered.length}
+              countLabel="channels"
+              createLabel="Create Channel"
+              createIcon="channel"
+              createDisabled
+            />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -579,14 +624,18 @@ function DirectMessagesSection({
 
   return (
     <ChatSidebarSection>
-      <ChatSidebarSectionHeader>
+      <SidebarSectionHeaderMenu menu="sort">
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron className="size-3" />
-          <ChatSidebarSectionCount>{ordered.length}</ChatSidebarSectionCount>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
         </ChatSidebarSectionButton>
-      </ChatSidebarSectionHeader>
+        <ChatSidebarSectionTrailing>
+          {hasUnread ? <ChatSidebarSectionAttention /> : null}
+          <ChatSidebarSectionActions>
+            <SidebarSectionSortMenu aria-label="Sort direct messages" />
+          </ChatSidebarSectionActions>
+        </ChatSidebarSectionTrailing>
+      </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -604,37 +653,6 @@ function DirectMessagesSection({
         ))}
       </SortableChatSidebarList>
     </ChatSidebarSection>
-  );
-}
-
-// Chat header `+` add menu — source `renderChannelActionMenu`.
-function SidebarAddMenu({
-  onCreateChannel,
-  onCreateJoint,
-}: {
-  onCreateChannel: () => void;
-  onCreateJoint: () => void;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button type="button" variant="outline" size="icon-sm" aria-label="Add channel">
-            <Plus />
-          </Button>
-        }
-      />
-      <DropdownMenuContent align="end" className="flex w-[190px] min-w-[190px] flex-col">
-        <DropdownMenuItem onClick={onCreateChannel}>
-          <Plus />
-          <span className="min-w-0 flex-1 text-left">Create Channel</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={onCreateJoint}>
-          <GitBranch />
-          <span className="min-w-0 flex-1 text-left">Create Joint Channel</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }
 
@@ -839,10 +857,7 @@ export function PlaygroundSidebar({
               {title}
             </ChatSidebarHeaderTitle>
           </div>
-          <SidebarAddMenu
-            onCreateChannel={() => setDialog("create-channel")}
-            onCreateJoint={() => setDialog("create-joint")}
-          />
+          <SidebarCreateMenu disabled />
         </ChatSidebarHeader>
         <ChatSidebarBody>
           <ChatSidebarContent>

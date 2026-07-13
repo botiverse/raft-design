@@ -277,6 +277,7 @@ export {
   ChatSidebarSectionAttention,
   ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
+  ChatSidebarSectionTrailing,
 } from "./chat-sidebar-section";
 export type {
   ChatSidebarActionProps,
@@ -291,6 +292,7 @@ export type {
   ChatSidebarSectionIndicatorProps,
   ChatSidebarSectionProps,
   ChatSidebarSectionTitleProps,
+  ChatSidebarSectionTrailingProps,
 } from "./chat-sidebar-section";
 
 export { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable";

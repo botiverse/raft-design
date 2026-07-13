@@ -35,8 +35,8 @@ const tabs = tv({
     list: [""],
     background: [""],
     tab: [
-      "relative z-10 flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap outline-none",
-      "data-[reorderable=true]:cursor-grab data-[reorderable=true]:active:cursor-grabbing",
+      "relative z-10 flex shrink-0 !cursor-pointer touch-manipulation items-center gap-1.5 whitespace-nowrap outline-none",
+      "data-[reorderable=true]:!cursor-pointer data-[dragging-source=true]:!cursor-grabbing",
     ],
     content: ["relative z-10 inline-flex items-center gap-[inherit]"],
     label: [""],
@@ -60,7 +60,6 @@ const tabs = tv({
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:[stroke-width:1.5] [&_svg:not([class*='size-'])]:size-3.5",
           "data-[active]:bg-primary-400 data-[active]:hover:bg-primary-400",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
-          "data-[dragging-source=true]:cursor-grabbing",
         ],
       },
       elegant: {},
@@ -79,7 +78,7 @@ const tabs = tv({
       variant: "underline",
       class: {
         list: [
-          "group/tabs-list relative flex h-12 w-max max-w-full items-center gap-6 px-4",
+          "group/tabs-list relative flex h-12 w-max max-w-full items-center gap-1 px-4",
           "overflow-x-auto overflow-y-hidden overscroll-contain whitespace-nowrap",
           "border-b border-line-muted",
           "data-[sorting=true]:[overflow-x:hidden]",
@@ -100,7 +99,6 @@ const tabs = tv({
           "data-[active]:[&_svg]:text-foreground-strong",
           "data-[active]:hover:[&_svg]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
-          "data-[dragging-source=true]:cursor-grabbing",
         ],
         indicator: [
           "absolute bottom-0 left-[var(--active-tab-left)] z-10 h-0.5",
@@ -140,7 +138,6 @@ const tabs = tv({
           "hover:[&_svg]:text-[oklch(0.42_0.006_106.42)]",
           "data-[active]:[&_svg]:text-[oklch(0.38_0.006_106.42)]",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
-          "data-[dragging-source=true]:cursor-grabbing",
         ],
         indicator: [
           "absolute z-0 rounded-md bg-layer-panel",
@@ -327,6 +324,7 @@ export function SortableTabsTab<T extends string = string>({
     transform: transform ? `translate3d(${transform.x}px, 0, 0)` : undefined,
     transition,
     zIndex: isDragging ? 20 : baseStyle?.zIndex,
+    cursor: isDragging ? "grabbing" : "pointer",
   };
 
   return (

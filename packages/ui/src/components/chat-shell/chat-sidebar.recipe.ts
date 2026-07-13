@@ -21,7 +21,10 @@ export const chatSidebar = tv({
     sidebarMenuCount: ["font-mono normal-case tracking-normal"],
     sidebarSection: ["px-2"],
     sidebarList: [],
-    sidebarSectionHeader: ["mt-3 mb-1 flex h-6 items-center justify-between px-2"],
+    sidebarSectionHeader: [
+      "mt-3 mb-1 flex h-6 items-center justify-between px-2",
+      "group/section-header",
+    ],
     sidebarSectionButton: [
       "flex h-6 min-w-0 flex-1 items-center gap-1",
       "text-xs font-bold tracking-widest uppercase",
@@ -29,9 +32,24 @@ export const chatSidebar = tv({
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: ["font-mono normal-case tracking-normal"],
-    sidebarSectionIndicator: ["ml-1", "[[data-panel-open]_&]:hidden"],
-    sidebarSectionActions: ["flex shrink-0 items-center gap-1"],
-    sidebarSectionAction: ["flex size-6 items-center justify-center p-0"],
+    sidebarSectionIndicator: [
+      "inline-flex min-w-[18px] shrink-0 items-center justify-center",
+      "group-has-[[data-panel-open]]/section-header:hidden",
+      "group-has-[[data-popup-open]]/section-header:hidden",
+      "group-hover/section-header:hidden",
+    ],
+    sidebarSectionTrailing: ["relative flex min-w-[18px] shrink-0 items-center justify-end"],
+    sidebarSectionActions: [
+      "flex shrink-0 items-center gap-1",
+      "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",
+      "group-hover/section-header:pointer-events-auto group-hover/section-header:opacity-100",
+      "focus-within:pointer-events-auto focus-within:opacity-100",
+      "has-[[data-popup-open]]:pointer-events-auto has-[[data-popup-open]]:opacity-100",
+    ],
+    sidebarSectionAction: [
+      "flex size-6 items-center justify-center p-0",
+      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
+    ],
     sidebarItem: [
       "mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
       "border-2 text-sm font-medium transition-colors",
@@ -101,7 +119,7 @@ export const chatSidebar = tv({
           "text-black transition-colors hover:text-black/70",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
-        sidebarSectionCount: "text-black/40",
+        sidebarSectionCount: "text-[12px] font-medium text-black/70",
         sidebarSectionAction: [
           "font-sans font-bold text-black/70",
           "transition-colors duration-100",
@@ -117,8 +135,9 @@ export const chatSidebar = tv({
           "aria-expanded:border-black aria-expanded:bg-white aria-expanded:shadow-brutal-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
+        sidebarItemTitle: "font-medium text-black",
         sidebarItemSubtitle: "text-black/40",
-        sidebarItemMeta: "text-black/40",
+        sidebarItemMeta: "text-[12px] font-medium text-black/70",
         sidebarItemMention: "rounded border border-black bg-soft-signal text-black",
         sidebarItemMuted: "text-black/40",
         sidebarItemDraft: "text-black/40",
@@ -148,24 +167,33 @@ export const chatSidebar = tv({
         ],
         sidebarMenuAside: "ml-auto",
         sidebarMenuCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
+          "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarSectionButton: [
-          "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-[12px] font-medium leading-none normal-case tracking-normal",
+          "h-8 w-full justify-start gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-[12px] font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
-          "hover:bg-layer-strong/80 hover:text-foreground",
+          "hover:text-foreground",
           "[&>svg]:opacity-55",
         ],
         sidebarSectionCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
-        sidebarSectionActions: "pr-[var(--sidebar-row-inset-x,6px)]",
-        sidebarSectionAction: "shrink-0 text-foreground-icon",
+          "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
+        sidebarSectionTrailing: "pr-[var(--sidebar-row-inset-x,6px)]",
+        sidebarSectionActions: "right-[var(--sidebar-row-inset-x,6px)]",
+        sidebarSectionAction: [
+          "shrink-0",
+          "text-foreground-icon hover:text-foreground",
+          "hover:!bg-transparent active:!bg-transparent",
+          "hover:before:!bg-transparent active:before:!bg-transparent",
+          "focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0",
+        ],
         sidebarSection: "px-0",
-        sidebarSectionHeader:
-          "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between px-0",
+        sidebarSectionHeader: [
+          "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 flex h-8 w-[calc(100%+12px)] items-center justify-between rounded-md px-0",
+          "group/section-header",
+          "hover:bg-layer-strong/80",
+        ],
         sidebarItem: [
           "relative mb-0.5 -mx-[var(--sidebar-row-inset-x,6px)] w-[calc(100%+12px)] rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
           "text-[13px] font-medium text-foreground-muted",
-          "has-[[data-slot=chat-sidebar-item-badge]]:[--sidebar-item-title-weight:450]",
           "hover:border-transparent hover:bg-layer-strong/80 hover:text-foreground-strong",
           "active:border-transparent active:bg-layer-strong/80 active:text-foreground-strong",
           "aria-[current=page]:border-transparent aria-[current=page]:bg-layer-panel",
@@ -174,16 +202,16 @@ export const chatSidebar = tv({
           "aria-expanded:border-transparent aria-expanded:bg-layer-panel",
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],
-        sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
+        sidebarItemTitle: "font-[450] text-foreground-muted",
         sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:size-3.5 [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[2.25]",
         sidebarItemSubtitle: "text-ink-30",
         sidebarItemMeta:
-          "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
+          "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarItemIndicator: ["pointer-events-none absolute top-1/2 right-full -translate-y-1/2"],
         sidebarItemPresence: [
-          "pointer-events-none absolute top-1/2 right-full -translate-y-1/2",
+          "pointer-events-none absolute top-1/2 right-[calc(100%+2px)] -translate-y-1/2",
           "[&_[data-slot=status]]:size-2",
         ],
         sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",
@@ -198,18 +226,6 @@ export const chatSidebar = tv({
       },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      unread: true,
-      class: { sidebarItemTitle: "font-bold" },
-    },
-    {
-      theme: "elegant",
-      unread: true,
-      class: { sidebarItemTitle: "[--sidebar-item-title-weight:500]" },
-    },
-  ],
 });
 
 export const chatSidebarItemInlineText = tv({

@@ -1,6 +1,7 @@
 import {
   DropdownMenuItem,
   DropdownMenuItemCount,
+  DropdownMenuItemLabel,
   DropdownMenuPopup,
   DropdownMenuSeparator,
 } from "raft-ui";
@@ -16,34 +17,31 @@ export function ServerSwitcherMenuContent() {
   return (
     <DropdownMenuPopup className="flex w-64 flex-col">
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <DropdownMenuItem
-          data-selected
-          className="[[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:hover:bg-soft-signal [[data-theme=brutal]_&]:data-[highlighted]:bg-soft-signal"
-        >
+        <DropdownMenuItem data-selected data-interaction="signal">
           <Check aria-hidden />
-          <span className="min-w-0 flex-1 truncate text-left">Raft</span>
+          <DropdownMenuItemLabel>Raft</DropdownMenuItemLabel>
         </DropdownMenuItem>
-        <DropdownMenuItem className="font-medium [[data-theme=brutal]_&]:hover:bg-soft-signal [[data-theme=brutal]_&]:data-[highlighted]:bg-soft-signal">
+        <DropdownMenuItem data-interaction="signal">
           <Check aria-hidden className="opacity-0" />
-          <span className="min-w-0 flex-1 truncate text-left">Design Guild</span>
+          <DropdownMenuItemLabel>Design Guild</DropdownMenuItemLabel>
           <DropdownMenuItemCount>4</DropdownMenuItemCount>
         </DropdownMenuItem>
-        <DropdownMenuItem className="font-medium [[data-theme=brutal]_&]:hover:bg-soft-signal [[data-theme=brutal]_&]:data-[highlighted]:bg-soft-signal">
+        <DropdownMenuItem data-interaction="signal">
           <Check aria-hidden className="opacity-0" />
-          <span className="min-w-0 flex-1 truncate text-left">Open Source</span>
+          <DropdownMenuItemLabel>Open Source</DropdownMenuItemLabel>
           <DropdownMenuItemCount>12</DropdownMenuItemCount>
         </DropdownMenuItem>
       </div>
 
       <DropdownMenuSeparator />
 
-      <DropdownMenuItem className="[[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:hover:bg-brutal-pink [[data-theme=brutal]_&]:data-[highlighted]:bg-brutal-pink">
+      <DropdownMenuItem data-emphasis="strong" data-interaction="accent">
         <UserPlus />
-        <span className="min-w-0 flex-1 text-left">Join Community</span>
+        <DropdownMenuItemLabel>Join Community</DropdownMenuItemLabel>
       </DropdownMenuItem>
-      <DropdownMenuItem className="[[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:hover:bg-brutal-pink [[data-theme=brutal]_&]:data-[highlighted]:bg-brutal-pink">
+      <DropdownMenuItem data-emphasis="strong" data-interaction="accent">
         <Plus />
-        <span className="min-w-0 flex-1 text-left">Switch or Create Server</span>
+        <DropdownMenuItemLabel>Switch or Create Server</DropdownMenuItemLabel>
       </DropdownMenuItem>
     </DropdownMenuPopup>
   );

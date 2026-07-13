@@ -27,6 +27,8 @@ const dropdownMenu = tv({
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
       "text-left text-sm outline-none transition-colors",
     ],
+    itemLabel: ["min-w-0 flex-1 truncate text-left"],
+    footer: ["px-3 py-2 text-xs text-foreground-muted tabular-nums"],
     label: [],
     shortcut: ["ml-auto"],
     itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
@@ -45,6 +47,9 @@ const dropdownMenu = tv({
         item: [
           "py-2 font-sans text-sm font-medium text-foreground hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
+          "data-[selected]:font-bold data-[emphasis=strong]:font-bold",
+          "data-[interaction=signal]:hover:bg-soft-signal data-[interaction=signal]:data-[highlighted]:bg-soft-signal",
+          "data-[interaction=accent]:hover:bg-brutal-pink data-[interaction=accent]:data-[highlighted]:bg-brutal-pink",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
         ],
         radioItem: [
@@ -256,6 +261,22 @@ export function DropdownMenuItem({ className, ...props }: DropdownMenuItemProps)
   return (
     <BaseMenu.Item data-slot="dropdown-menu-item" className={item({ className })} {...props} />
   );
+}
+
+export type DropdownMenuItemLabelProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+export function DropdownMenuItemLabel({ className, ...props }: DropdownMenuItemLabelProps) {
+  const { itemLabel } = dropdownMenu();
+  return (
+    <span data-slot="dropdown-menu-item-label" className={itemLabel({ className })} {...props} />
+  );
+}
+
+export type DropdownMenuFooterProps = StyledProps<ComponentPropsWithRef<"div">>;
+
+export function DropdownMenuFooter({ className, ...props }: DropdownMenuFooterProps) {
+  const { footer } = dropdownMenu();
+  return <div data-slot="dropdown-menu-footer" className={footer({ className })} {...props} />;
 }
 
 export type DropdownMenuSubmenuTriggerProps = StyledProps<BaseMenu.SubmenuTrigger.Props>;

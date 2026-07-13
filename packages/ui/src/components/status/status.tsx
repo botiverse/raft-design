@@ -142,7 +142,7 @@ const status = tv({
         root: [
           "isolate overflow-visible",
           "border border-[color-mix(in_oklch,var(--status-color)_58%,transparent)]",
-          "shadow-[inset_0_0.5px_1px_color-mix(in_oklch,oklch(1_0_0)_55%,transparent),0_0_0_1.5px_color-mix(in_oklch,var(--status-color)_38%,transparent),0_1px_1.5px_color-mix(in_oklch,oklch(0_0_0)_18%,transparent)]",
+          "shadow-[inset_0_0.5px_1px_color-mix(in_oklch,oklch(1_0_0)_55%,transparent)]",
         ],
       },
     },

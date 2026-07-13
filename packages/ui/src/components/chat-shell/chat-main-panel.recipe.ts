@@ -73,8 +73,9 @@ export const chatMainPanel = tv({
         ],
         subtitle: "font-sans text-foreground-placeholder",
         titleBadge: [
-          "rounded-md border-0 bg-layer-muted py-0.5",
-          "text-foreground-muted normal-case tracking-normal",
+          "border-0 bg-transparent p-0",
+          "text-foreground-placeholder",
+          "[&_svg]:size-[13px]",
         ],
         content: [
           "relative ml-2 overflow-clip rounded-tl-[var(--shell-surface-radius,10px)]",
@@ -82,8 +83,7 @@ export const chatMainPanel = tv({
         ],
         tabs: [
           "border-b-0 bg-layer-panel",
-          "[&>[data-slot=tabs-list]]:h-11 [&>[data-slot=tabs-list]]:border-b-0",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:h-11 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pt-2.5 [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:pb-2",
+          "[&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
         ],
         body: "bg-[var(--shell-surface-bg,var(--layer-panel))]",

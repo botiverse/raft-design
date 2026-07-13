@@ -1,22 +1,22 @@
-import { DropdownMenuPopup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "raft-ui";
+import { DropdownMenu, DropdownMenuPopup, DropdownMenuTrigger } from "raft-ui";
+import { SidebarDropdownSortItems } from "./sidebar-section-header-menu.composition.tsx";
 
 // @docs-source-strip-start
-import { DropdownMenu, DropdownMenuTrigger } from "raft-ui";
 import { useId } from "react";
 import { cn } from "raft-ui/cn";
 // @docs-source-strip-end
 
+/** Inline popup shell for SourceComparison (always-open preview). */
 export function SidebarSortMenuContent() {
   return (
-    <DropdownMenuPopup className="flex w-[136px] min-w-[136px] flex-col">
-      <DropdownMenuRadioGroup defaultValue="manual">
-        <DropdownMenuRadioItem value="manual">Manual</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="recent">Recent</DropdownMenuRadioItem>
-        <DropdownMenuRadioItem value="az">A-Z</DropdownMenuRadioItem>
-      </DropdownMenuRadioGroup>
+    <DropdownMenuPopup className="flex w-[160px] min-w-[160px] flex-col">
+      <SidebarDropdownSortItems />
     </DropdownMenuPopup>
   );
 }
+
+/** Section-header sort control. Prefer `sidebar-section-header-menu.composition`. */
+export { SidebarSectionSortMenu } from "./sidebar-section-header-menu.composition.tsx";
 
 // @docs-source-strip-start
 export function SidebarSortMenuComposition({ className }: { className?: string }) {
