@@ -12,10 +12,30 @@ import { TaskCardComparisonComposition } from "#/compositions/tasks/task-card-co
 import taskCardComparisonCompositionSource from "#/compositions/tasks/task-card-comparison-composition.tsx?raw";
 import { TaskCardStateMatrixComposition } from "#/compositions/tasks/task-card-state-matrix-composition.tsx";
 import taskCardStateMatrixCompositionSource from "#/compositions/tasks/task-card-state-matrix-composition.tsx?raw";
-import taskCardCompositionSource from "#/compositions/tasks/task-card-composition.tsx?raw";
 import { TaskCardSourceComparisonComposition } from "#/compositions/tasks/tasks-source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import sourceTaskCard from "../../../../../packages/ui/source/tasks/TaskCard.tsx?raw";
+
+const ANATOMY_SNIPPET = `<TaskCard>
+  <TaskCardOpen>
+    <TaskCardRow>
+      <TaskCardBody>
+        <TaskCardMeta>
+          <TaskCardChannel />
+          <TaskCardNumber />
+          <TaskCardLegacy />
+        </TaskCardMeta>
+        <TaskCardTitle />
+        <TaskCardDescription />
+      </TaskCardBody>
+    </TaskCardRow>
+  </TaskCardOpen>
+  <TaskCardFooter>
+    <TaskCardStatus>
+      <TaskCardStatusTrigger />
+    </TaskCardStatus>
+  </TaskCardFooter>
+</TaskCard>`;
 
 const TOC = [
   { id: "states", title: "States" },
@@ -81,8 +101,8 @@ export const Route = createFileRoute("/components/task-card")({
   loader: () =>
     highlightSnippets({
       data: {
+        anatomy: ANATOMY_SNIPPET,
         comparison: taskCardComparisonCompositionSource,
-        composition: taskCardCompositionSource,
         sourceCard: sourceTaskCard,
         states: taskCardStateMatrixCompositionSource,
       },
@@ -120,11 +140,11 @@ function TaskCardDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/compositions/tasks/task-card-composition.tsx"
-          source={taskCardCompositionSource}
-          html={code.composition}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

@@ -21,9 +21,7 @@ const TOC = [
 const SIZES = ["sm", "md"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Switch } from "raft-ui";
-
-<Switch defaultChecked aria-label="Desktop notifications" />`,
+  anatomy: `<Switch />`,
   sizes: `<Switch size="sm" defaultChecked aria-label="Small switch" />
 <Switch size="md" defaultChecked aria-label="Medium switch" />`,
   states: `<Switch aria-label="Off" />
@@ -125,12 +123,11 @@ function SwitchDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Switch.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="sizes" title="Sizes" showThemeSwitcher>

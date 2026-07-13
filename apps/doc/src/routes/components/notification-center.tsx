@@ -143,45 +143,23 @@ const ENTRIES: DemoEntry[] = [
 ];
 
 const SNIPPETS = {
-  anatomy: `import {
-  NotificationCenter,
-  NotificationCenterTrigger,
-  NotificationCenterPopup,
-  NotificationCenterHeader,
-  NotificationCenterTitle,
-  NotificationCenterCount,
-  NotificationCenterScroller,
-  NotificationCenterList,
-  NotificationCenterItem,
-  NotificationCenterItemRow,
-  NotificationCenterItemIcon,
-  NotificationCenterItemContent,
-  NotificationCenterItemTitle,
-  NotificationCenterItemBody,
-  NotificationCenterItemActions,
-  NotificationCenterActionButton,
-} from "raft-ui";
-
-<NotificationCenter modal={false}>
-  <NotificationCenterTrigger render={<button type="button" />}>
-    Notifications
-  </NotificationCenterTrigger>
-  <NotificationCenterPopup viewport="desktop" side="bottom" align="center">
+  anatomy: `<NotificationCenter>
+  <NotificationCenterTrigger />
+  <NotificationCenterPopup>
     <NotificationCenterHeader>
-      <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-      <NotificationCenterCount>3 items</NotificationCenterCount>
+      <NotificationCenterTitle />
+      <NotificationCenterCount />
     </NotificationCenterHeader>
     <NotificationCenterScroller>
       <NotificationCenterList>
         <NotificationCenterItem>
           <NotificationCenterItemRow>
-            <NotificationCenterItemIcon status="success" />
+            <NotificationCenterItemIcon />
             <NotificationCenterItemContent>
-              <NotificationCenterItemTitle>Deploy succeeded</NotificationCenterItemTitle>
-              <NotificationCenterItemBody>raft-ui shipped to production.</NotificationCenterItemBody>
+              <NotificationCenterItemTitle />
+              <NotificationCenterItemBody />
               <NotificationCenterItemActions>
-                <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
-                <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
+                <NotificationCenterActionButton />
               </NotificationCenterItemActions>
             </NotificationCenterItemContent>
           </NotificationCenterItemRow>
@@ -581,16 +559,18 @@ function NotificationCenterDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocNote>
-          NotificationCenterPopup is the surface. Header, scroller, list, and item parts are content
-          slots and should live inside the popup unless you intentionally provide your own shell.
-        </DocNote>
-        <DocsCodeBlock.Panel
-          path="NotificationCenter.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <div className="grid gap-4">
+          <DocNote>
+            NotificationCenterPopup is the surface. Header, scroller, list, and item parts are
+            content slots and should live inside the popup unless you intentionally provide your own
+            shell.
+          </DocNote>
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.anatomy} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
+        </div>
       </DocSection>
 
       <DocSection

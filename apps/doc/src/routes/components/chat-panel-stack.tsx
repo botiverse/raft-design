@@ -26,19 +26,11 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
-  AppShellPanelStack,
-  AppPanelStackRoot,
-  AppPanelStackItem,
-  AppPanelStackContent,
-  AppPanelResizeHandle,
-} from "raft-ui/wip";
-
-<AppShellPanelStack>
-  <AppPanelStackRoot resizable>
+  anatomy: `<AppShellPanelStack>
+  <AppPanelStackRoot>
     <AppPanelStackItem>
       <AppPanelResizeHandle />
-      <AppPanelStackContent>{panelSurface}</AppPanelStackContent>
+      <AppPanelStackContent />
     </AppPanelStackItem>
   </AppPanelStackRoot>
 </AppShellPanelStack>`,
@@ -124,12 +116,11 @@ function AppPanelStackDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="app-panel-stack.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

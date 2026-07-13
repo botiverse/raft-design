@@ -26,9 +26,10 @@ const SNIPPETS = {
 <Status variant="accent" />
 <Status variant="accent" size="xs" />
 <Status variant="warning" />`,
-  anatomy: `import { Status } from "raft-ui";
+  preview: `import { Status } from "raft-ui";
 
 <Status variant="accent" />`,
+  anatomy: `<Status />`,
   sourceDefault: `<AttentionDot />`,
   currentDefault: `<Status variant="accent" />`,
   sourceCompact: `<AttentionDot size="sm" />`,
@@ -66,13 +67,12 @@ function AttentionDotMigrationDoc() {
     >
       <DocSection id="anatomy" title="Anatomy" showThemeSwitcher>
         <div className="space-y-4">
-          <DocsCodeBlock.Panel
-            path="AttentionDot.tsx"
-            source={SNIPPETS.anatomy}
-            html={code.anatomy}
-            collapsedHtml={code.anatomyBody}
-          />
-          <Example html={code.anatomy}>
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.anatomy} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
+          <Example html={code.preview}>
             <Status variant="accent" />
             <Status variant="accent" size="xs" />
             <Status variant="warning" />

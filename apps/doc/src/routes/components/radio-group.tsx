@@ -56,37 +56,8 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "raft-ui";
-import { Check } from "lucide-react";
-
-<RadioGroup
-  ariaLabel="Where did you hear about us?"
-  value={value}
-  onValueChange={setValue}
->
-  <label>
-    <RadioGroupItem value="twitter_x" />
-    Twitter / X
-  </label>
-  <label>
-    <RadioGroupItem value="linkedin" />
-    LinkedIn
-  </label>
-</RadioGroup>
-
-<RadioGroup ariaLabel="Restart mode" value={value} onValueChange={setValue}>
-  <label>
-    <RadioGroupItem value="restart" appearance="none" />
-    Restart
-  </label>
-  <label>
-    <RadioGroupItem value="session">
-      <RadioGroupIndicator>
-        <Check aria-hidden className="size-3" />
-      </RadioGroupIndicator>
-    </RadioGroupItem>
-    Reset session
-  </label>
+  anatomy: `<RadioGroup>
+  <RadioGroupItem />
 </RadioGroup>`,
   field: `<Field className="gap-2.5">
   <FieldLabel>Restart mode</FieldLabel>
@@ -262,12 +233,11 @@ function RadioGroupDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="RadioGroup.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

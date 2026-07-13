@@ -125,43 +125,22 @@ type AnatomyVariantData = {
 };
 
 const SNIPPETS = {
-  anatomy: `import {
-  createToastManager,
-  ToastAction,
-  ToastActions,
-  ToastBody,
-  ToastClose,
-  ToastContent,
-  ToastDescription,
-  ToastIcon,
-  ToastPortal,
-  ToastProvider,
-  ToastRoot,
-  ToastTitle,
-  ToastViewport,
-  useToastManager,
-} from "raft-ui";
-
-const customToastManager = createToastManager();
-
-<ToastProvider toastManager={customToastManager} timeout={3600} limit={3} renderViewport={false}>
+  anatomy: `<ToastProvider>
   <ToastPortal>
     <ToastViewport>
-      {toasts.map((toast) => (
-        <ToastRoot key={toast.id} toast={toast}>
-          <ToastContent>
-            <ToastIcon />
-            <ToastBody>
-              <ToastTitle />
-              <ToastDescription />
-            </ToastBody>
-            <ToastActions>
-              <ToastClose />
-              <ToastAction />
-            </ToastActions>
-          </ToastContent>
-        </ToastRoot>
-      ))}
+      <ToastRoot>
+        <ToastContent>
+          <ToastIcon />
+          <ToastBody>
+            <ToastTitle />
+            <ToastDescription />
+          </ToastBody>
+          <ToastActions>
+            <ToastClose />
+            <ToastAction />
+          </ToastActions>
+        </ToastContent>
+      </ToastRoot>
     </ToastViewport>
   </ToastPortal>
 </ToastProvider>`,
@@ -526,12 +505,11 @@ function ToastDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Toast.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

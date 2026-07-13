@@ -80,48 +80,27 @@ const TODOS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
-  AppShellRoot,
-  AppShellRail,
-  AppShellSidebar,
-  AppShellMain,
-  AppShellPanelStack,
-  AppRailRoot,
-  AppRailNav,
-  AppRailItem,
-  AppRailItemIcon,
-  AppRailItemLabel,
-  ChatSidebarRoot,
-  AppPanelStackRoot,
-  AppPanelStackItem,
-  ChatMainPanelRoot,
-  ChatThreadPanelRoot,
-} from "raft-ui/wip";
-
-<AppShellRoot>
+  anatomy: `<AppShellRoot>
   <AppShellRail>
-    <AppRailRoot value={mode} onValueChange={setMode}>
+    <AppRailRoot>
       <AppRailNav>
-        <AppRailItem value="chat">
-          <AppRailItemIcon><MessageSquare /></AppRailItemIcon>
-          <AppRailItemLabel>Chat</AppRailItemLabel>
+        <AppRailItem>
+          <AppRailItemIcon />
+          <AppRailItemLabel />
         </AppRailItem>
       </AppRailNav>
     </AppRailRoot>
   </AppShellRail>
-
   <AppShellSidebar>
-    <ChatSidebarRoot>...</ChatSidebarRoot>
+    <ChatSidebarRoot />
   </AppShellSidebar>
-
   <AppShellMain>
-    <ChatMainPanelRoot>...</ChatMainPanelRoot>
+    <ChatMainPanelRoot />
   </AppShellMain>
-
   <AppShellPanelStack>
     <AppPanelStackRoot>
       <AppPanelStackItem>
-        <ChatThreadPanelRoot>...</ChatThreadPanelRoot>
+        <ChatThreadPanelRoot />
       </AppPanelStackItem>
     </AppPanelStackRoot>
   </AppShellPanelStack>
@@ -239,12 +218,11 @@ function AppShellDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="app-shell.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="mobile" title="Mobile bar" showThemeSwitcher>

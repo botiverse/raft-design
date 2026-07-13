@@ -68,9 +68,7 @@ const SIZES = ["sm", "lg"] as const;
 const VARIANTS = ["default", "inverse"] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Spinner } from "raft-ui";
-
-<Spinner />`,
+  anatomy: `<Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
   currentColor: `<Spinner className="text-primary-400" />
@@ -198,12 +196,11 @@ function SpinnerDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Spinner.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="sizes" title="Sizes" showThemeSwitcher>

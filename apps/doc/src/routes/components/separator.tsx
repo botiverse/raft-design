@@ -62,10 +62,7 @@ const SNIPPETS = {
   <Separator>Actions</Separator>
   <span>Visibility actions</span>
 </div>`,
-  anatomy: `import { Separator } from "raft-ui";
-
-<Separator />
-<Separator>Actions</Separator>`,
+  anatomy: `<Separator />`,
   orientation: `import { Separator } from "raft-ui";
 
 <Separator />
@@ -156,12 +153,11 @@ function SeparatorDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Separator.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="orientation" title="Orientation" showThemeSwitcher>

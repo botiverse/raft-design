@@ -110,9 +110,7 @@ const SOURCE_SCENES = {
 } as const;
 
 const SNIPPETS = {
-  anatomy: `import { Progress, ProgressIndicator, ProgressTrack } from "raft-ui";
-
-<Progress value={64}>
+  anatomy: `<Progress>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>
@@ -331,12 +329,11 @@ function ProgressDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Progress.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

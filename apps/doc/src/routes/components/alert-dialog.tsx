@@ -37,7 +37,6 @@ import { TypedDeleteAlertDialogComposition } from "#/compositions/alert-dialog/t
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "structure", title: "Structure" },
   { id: "api", title: "API" },
   {
     id: "source-comparison",
@@ -50,11 +49,12 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
+  preview: `import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogBody,
   AlertDialogCancel,
+  AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -71,11 +71,10 @@ const SNIPPETS = {
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogTitle>Delete Task</AlertDialogTitle>
-      <AlertDialogDescription>
-        This action cannot be undone.
-      </AlertDialogDescription>
+      <AlertDialogClose />
     </AlertDialogHeader>
-    <AlertDialogBody>
+    <AlertDialogBody className="grid gap-2">
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
       <p className="m-0 text-sm leading-5 text-foreground/60">
         Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
         <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
@@ -89,14 +88,16 @@ const SNIPPETS = {
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`,
-  structure: `<AlertDialog>
+  anatomy: `<AlertDialog>
   <AlertDialogTrigger />
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogTitle />
-      <AlertDialogDescription />
+      <AlertDialogClose />
     </AlertDialogHeader>
-    <AlertDialogBody />
+    <AlertDialogBody>
+      <AlertDialogDescription />
+    </AlertDialogBody>
     <AlertDialogFooter>
       <AlertDialogCancel />
       <AlertDialogAction />
@@ -325,7 +326,7 @@ function AlertDialogDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.anatomy}>
+        <Example html={code.preview}>
           <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger render={<Button variant="danger" />}>
               Delete task
@@ -354,26 +355,16 @@ function AlertDialogDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="AlertDialog.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
-      </DocSection>
-
-      <DocSection id="structure" title="Structure">
         <div className="grid gap-4">
           <Text.Sans size="body" variant="placeholder" className="max-w-3xl">
             Use AlertDialog for destructive confirmation, irreversible changes, and typed-delete
             flows. Use Dialog for editable forms and non-destructive modal content.
           </Text.Sans>
-          <DocsCodeBlock.Panel
-            path="AlertDialogStructure.tsx"
-            source={SNIPPETS.structure}
-            html={code.structure}
-            collapsedHtml={code.structureBody}
-          />
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.anatomy} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
         </div>
       </DocSection>
 

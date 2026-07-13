@@ -27,23 +27,9 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
-  ToggleGroupCount,
-  ToggleGroupItem,
-  ToggleGroupLabel,
-  ToggleGroup,
-} from "raft-ui";
-
-<ToggleGroup
-  ariaLabel="Filter"
-  value={value}
-  onValueChange={setValue}
->
-  <ToggleGroupItem value="all">
-    <ToggleGroupLabel>All</ToggleGroupLabel>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="unread">
-    <ToggleGroupLabel>Unread</ToggleGroupLabel>
+  anatomy: `<ToggleGroup>
+  <ToggleGroupItem>
+    <ToggleGroupLabel />
   </ToggleGroupItem>
 </ToggleGroup>`,
   counts: `<ToggleGroup
@@ -188,12 +174,11 @@ function ToggleGroupDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="ToggleGroup.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="counts" title="Counts">

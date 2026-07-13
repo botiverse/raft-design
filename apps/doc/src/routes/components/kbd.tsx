@@ -28,13 +28,10 @@ const SNIPPETS = {
   </KbdGroup>
   <Kbd>Esc</Kbd>
 </div>`,
-  anatomy: `import { Kbd, KbdGroup } from "raft-ui";
+  anatomy: `<Kbd />
 
-<Kbd>⌫</Kbd>
-
-<KbdGroup aria-label="Command K">
-  <Kbd>⌘</Kbd>
-  <Kbd>K</Kbd>
+<KbdGroup>
+  <Kbd />
 </KbdGroup>`,
   usageMenu: `import { Kbd } from "raft-ui";
 
@@ -120,12 +117,11 @@ function KbdDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Kbd.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

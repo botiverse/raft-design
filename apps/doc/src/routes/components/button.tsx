@@ -117,9 +117,7 @@ const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
   "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-background";
 
 const SNIPPETS = {
-  anatomy: `import { Button } from "raft-ui";
-
-<Button>Button</Button>`,
+  anatomy: `<Button />`,
   variants: `<Button variant="default">Default</Button>
 <Button variant="primary">Primary</Button>
 <Button variant="outline">Outline</Button>
@@ -403,12 +401,11 @@ function ButtonDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Button.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

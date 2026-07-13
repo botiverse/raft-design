@@ -72,37 +72,17 @@ const REGION_OPTIONS = [
 type SortIconValue = (typeof SORT_ICON_OPTIONS)[number]["value"];
 
 const SNIPPETS = {
-  anatomy: `import {
-  Select,
-  SelectContent,
-  SelectIcon,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
-  SelectList,
-  SelectTrigger,
-  SelectValue,
-} from "raft-ui";
-
-const sortOptions = [
-  { value: "relevance", label: "Relevance" },
-  { value: "recent", label: "Most recent" },
-  { value: "comments", label: "Most commented" },
-] as const;
-
-<Select defaultValue="relevance" items={sortOptions}>
+  anatomy: `<Select>
   <SelectTrigger>
-    <SelectValue placeholder="Sort" />
+    <SelectValue />
     <SelectIcon />
   </SelectTrigger>
-  <SelectContent className="w-[220px]">
+  <SelectContent>
     <SelectList>
-      {sortOptions.map((option) => (
-        <SelectItem key={option.value} value={option.value}>
-          <SelectItemText>{option.label}</SelectItemText>
-          <SelectItemIndicator />
-        </SelectItem>
-      ))}
+      <SelectItem>
+        <SelectItemText />
+        <SelectItemIndicator />
+      </SelectItem>
     </SelectList>
   </SelectContent>
 </Select>`,
@@ -632,12 +612,11 @@ function SelectDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Select.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="icons" title="Icons" showThemeSwitcher>

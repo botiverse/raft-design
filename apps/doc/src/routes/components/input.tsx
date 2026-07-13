@@ -156,9 +156,7 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Input } from "raft-ui";
-
-<Input aria-label="Email" placeholder="you@example.com" />`,
+  anatomy: `<Input />`,
   types: `<Input
   aria-label="Email"
   type="email"
@@ -359,12 +357,11 @@ function InputDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Input.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="types" title="Types" showThemeSwitcher>

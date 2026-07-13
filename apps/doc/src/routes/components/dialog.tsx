@@ -73,7 +73,6 @@ import { ResetAgentDialogComposition } from "#/compositions/dialog/reset-agent-c
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "structure", title: "Structure" },
   { id: "api", title: "API" },
   {
     id: "source-comparison",
@@ -95,7 +94,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
+  preview: `import {
   Button,
   Dialog,
   DialogBody,
@@ -142,7 +141,7 @@ const SNIPPETS = {
     </DialogFooter>
   </DialogContent>
 </Dialog>`,
-  structure: `<Dialog>
+  anatomy: `<Dialog>
   <DialogTrigger />
   <DialogContent>
     <DialogHeader>
@@ -978,7 +977,7 @@ function DialogDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.anatomy}>
+        <Example html={code.preview}>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>
             <DialogContent>
@@ -1010,26 +1009,16 @@ function DialogDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Dialog.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
-      </DocSection>
-
-      <DocSection id="structure" title="Structure">
         <div className="grid gap-4">
           <Text.Sans size="body" variant="placeholder" className="max-w-3xl">
             Use Dialog for content surfaces that need focus trapping and a centered modal frame. Use
             AlertDialog for irreversible confirms and destructive confirmation flows.
           </Text.Sans>
-          <DocsCodeBlock.Panel
-            path="DialogStructure.tsx"
-            source={SNIPPETS.structure}
-            html={code.structure}
-            collapsedHtml={code.structureBody}
-          />
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.anatomy} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
         </div>
       </DocSection>
 

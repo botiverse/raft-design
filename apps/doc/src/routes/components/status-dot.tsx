@@ -24,9 +24,10 @@ const SNIPPETS = {
 // Current
 <Status variant="success" />
 <Status variant="primary" pulse />`,
-  anatomy: `import { Status } from "raft-ui";
+  preview: `import { Status } from "raft-ui";
 
 <Status variant="success" />`,
+  anatomy: `<Status />`,
   sourceDefault: `<StatusDot tone="bg-brutal-lime" />`,
   currentDefault: `<Status variant="success" />`,
   sourcePulse: `<StatusDot tone="bg-brutal-yellow" pulse />`,
@@ -62,13 +63,12 @@ function StatusDotMigrationDoc() {
     >
       <DocSection id="anatomy" title="Anatomy" showThemeSwitcher>
         <div className="space-y-4">
-          <DocsCodeBlock.Panel
-            path="StatusDot.tsx"
-            source={SNIPPETS.anatomy}
-            html={code.anatomy}
-            collapsedHtml={code.anatomyBody}
-          />
-          <Example html={code.anatomy}>
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.anatomy} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
+          <Example html={code.preview}>
             <Status variant="success" />
             <Status variant="primary" pulse />
           </Example>

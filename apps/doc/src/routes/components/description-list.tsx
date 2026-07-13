@@ -30,17 +30,12 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
-  DescriptionDetails,
-  DescriptionItem,
-  DescriptionList,
-  DescriptionTerm,
-} from "raft-ui";
-
-<DescriptionList>
+  anatomy: `<DescriptionList>
   <DescriptionItem>
-    <DescriptionTerm>Display name</DescriptionTerm>
-    <DescriptionDetails>Ada Lovelace</DescriptionDetails>
+    <DescriptionTerm>
+      <DescriptionAction />
+    </DescriptionTerm>
+    <DescriptionDetails />
   </DescriptionItem>
 </DescriptionList>`,
   examples: `<DescriptionList className="flex flex-wrap gap-x-8 gap-y-3">
@@ -198,12 +193,11 @@ function DescriptionListDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="DescriptionList.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />

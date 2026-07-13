@@ -48,11 +48,7 @@ const SOURCE_SCENES = {
 } as const;
 
 const SNIPPETS = {
-  anatomy: `import { Skeleton } from "raft-ui";
-
-<Skeleton variant="line" className="w-40" />
-<Skeleton variant="block" className="size-10" />
-<Skeleton variant="circle" className="size-9" />`,
+  anatomy: `<Skeleton />`,
   variants: `<Skeleton variant="line" className="w-40" />
 <Skeleton variant="block" className="size-12" />
 <Skeleton variant="circle" className="size-10" />`,
@@ -146,12 +142,11 @@ function SkeletonDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Skeleton.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="variants" title="Variants" showThemeSwitcher>

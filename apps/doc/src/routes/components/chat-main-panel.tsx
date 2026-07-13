@@ -55,7 +55,7 @@ const SNIPPETS = {
       <ChatMainPanelSubtitle />
     </ChatMainPanelTitleBlock>
     <ChatMainPanelActions>
-      <PanelButton aria-label="Search conversation">
+      <PanelButton>
         <PanelButtonIcon />
       </PanelButton>
     </ChatMainPanelActions>
@@ -205,12 +205,11 @@ function ChatMainPanelDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="ChatMainPanel.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="combinations" title="Combinations" showThemeSwitcher>

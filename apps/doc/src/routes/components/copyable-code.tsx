@@ -48,13 +48,9 @@ const SNIPPETS = {
   <CopyableCode.Code truncate>{connectCommand}</CopyableCode.Code>
   <CopyableCode.Action ariaLabel="Copy daemon command" />
 </CopyableCode.Root>`,
-  anatomy: `import { CopyableCode } from "raft-ui";
-
-<CopyableCode.Root>
-  <CopyableCode.Code>
-    npx @botiverse/raft-daemon@latest --server-url https://api.raft.build --api-key ...
-  </CopyableCode.Code>
-  <CopyableCode.Action ariaLabel="Copy daemon command" />
+  anatomy: `<CopyableCode.Root>
+  <CopyableCode.Code />
+  <CopyableCode.Action />
 </CopyableCode.Root>`,
 } as const;
 
@@ -185,12 +181,11 @@ function CopyableCodeDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="CopyableCode.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">
