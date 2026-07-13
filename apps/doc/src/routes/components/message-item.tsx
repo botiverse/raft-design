@@ -15,7 +15,7 @@ import messageMediaCompositionsSource from "#/compositions/message-item/message-
 import messageRowToolbarCompositionSource from "#/compositions/message-item/message-row-toolbar-composition.tsx?raw";
 import messageStateMatrixSource from "#/compositions/message-item/message-state-matrix-composition.tsx?raw";
 
-import { getMessageItemComparisonItems } from "./message-item.comparison";
+import { getMessageItemComparisonItems } from "./-message-item.comparison";
 import {
   ActiveMessageRow,
   AuthoredMessageRow,
@@ -32,7 +32,7 @@ import {
 } from "#/compositions/message-item/message-item-preview-composition.tsx";
 import { MessageReactionOverlaysComposition } from "#/compositions/message-item/message-reaction-compositions.tsx";
 import { MessageItemStateMatrix } from "#/compositions/message-item/message-state-matrix-composition.tsx";
-import { ANATOMY_SOURCE, PROPS, TOC } from "./message-item.snippets";
+import { ANATOMY_SOURCE, PROPS, TOC } from "./-message-item.snippets";
 
 const CHROME_OPTIONS = [
   "default",

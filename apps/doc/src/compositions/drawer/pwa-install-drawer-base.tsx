@@ -7,6 +7,7 @@ import {
   DrawerBody,
   DrawerClose,
   DrawerContent,
+  type DrawerContentProps,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
@@ -37,11 +38,15 @@ export type PwaInstallDrawerCompositionProps = Pick<
   "defaultOpen" | "modal" | "onOpenChange" | "open"
 > & {
   mobileOnly?: boolean;
+  portalProps?: DrawerContentProps["portalProps"];
+  showTrigger?: boolean;
   variant: "other" | "safari";
 };
 
 export function PwaInstallDrawerComposition({
   mobileOnly = true,
+  portalProps,
+  showTrigger = true,
   variant,
   ...drawerProps
 }: PwaInstallDrawerCompositionProps) {
@@ -60,13 +65,15 @@ export function PwaInstallDrawerComposition({
 
   return (
     <Drawer {...drawerProps}>
-      <DrawerTrigger render={<Button variant="primary" size="sm" />}>Install</DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Add Raft to your Home Screen</DrawerTitle>
+      {showTrigger ? (
+        <DrawerTrigger render={<Button variant="primary" size="sm" />}>Install</DrawerTrigger>
+      ) : null}
+      <DrawerContent portalProps={portalProps}>
+        <DrawerHeader className="items-start text-left">
+          <DrawerTitle className="text-left">Add Raft to your Home Screen</DrawerTitle>
         </DrawerHeader>
-        <DrawerBody>
-          <DrawerDescription>
+        <DrawerBody className="items-start text-left">
+          <DrawerDescription className="text-left">
             {isSafari
               ? "Open Raft as a fullscreen app — faster, more focused."
               : "Open this page in Safari first, then add it to your Home Screen."}

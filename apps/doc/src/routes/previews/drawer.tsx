@@ -1,11 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import type { ReactNode } from "react";
+import { type ReactNode, type RefObject, useRef, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
-  Banner,
-  BannerDescription,
   Button,
   DrawerActions,
   Text,
@@ -15,10 +13,12 @@ import {
 } from "raft-ui";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
+import { PwaInstallDrawerComposition } from "#/compositions/drawer/pwa-install-drawer-base.tsx";
 
 type DrawerPreviewScene = "leave-channel" | "pwa-install" | "pwa-install-other";
 type DrawerPreviewVariant = "current" | "source";
 type DrawerPreviewViewport = "desktop" | "mobile";
+type ViewportHost = "current-portal" | "current-sheet" | "source-sheet";
 
 export const Route = createFileRoute("/previews/drawer")({
   staticData: { standalone: true },
@@ -67,18 +67,36 @@ function DrawerScenePreview({
   const isPwa = scene !== "leave-channel";
   const pwaVariant = scene === "pwa-install-other" ? "other" : "safari";
 
+  if (isPwa && !isSource) {
+    return (
+      <ViewportFrame viewport={viewport} host="current-portal">
+        {(portalRef) => (
+          <PwaInstallDrawerComposition
+            variant={pwaVariant}
+            defaultOpen
+            mobileOnly={false}
+            showTrigger={false}
+            portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          />
+        )}
+      </ViewportFrame>
+    );
+  }
+
   return (
-    <ViewportFrame viewport={viewport} source={isSource} padded={isSource && isPwa}>
+    <ViewportFrame
+      viewport={viewport}
+      host={isSource ? "source-sheet" : "current-sheet"}
+      padded={isSource && isPwa}
+    >
       {scene === "leave-channel" ? (
         isSource ? (
           <LeaveChannelSourceContent />
         ) : (
           <LeaveChannelContent />
         )
-      ) : isSource ? (
-        <PwaInstallSourceContent variant={pwaVariant} />
       ) : (
-        <PwaInstallContent variant={pwaVariant} />
+        <PwaInstallSourceContent variant={pwaVariant} />
       )}
     </ViewportFrame>
   );
@@ -86,26 +104,25 @@ function DrawerScenePreview({
 
 function ViewportFrame({
   viewport,
-  source,
-  padded,
+  host,
+  padded = false,
   children,
 }: {
   viewport: DrawerPreviewViewport;
-  source: boolean;
-  padded: boolean;
-  children: ReactNode;
+  host: ViewportHost;
+  padded?: boolean;
+  children: ReactNode | ((portalRef: RefObject<HTMLDivElement | null>) => ReactNode);
 }) {
   const theme = useThemeFamily();
   const isDesktop = viewport === "desktop";
   const frameClassName = isDesktop ? "h-[24rem] w-[34rem]" : "h-[42rem] w-[375px]";
-  const sheetClassName = source
-    ? [
-        "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--source-shadow-lg)]",
-        padded ? "p-4" : null,
-      ]
-        .filter(Boolean)
-        .join(" ")
-    : getCurrentSheetClassName(theme, isDesktop, padded);
+  const portalRef = useRef<HTMLDivElement | null>(null);
+  const [portalReady, setPortalReady] = useState(false);
+
+  const setPortalHost = (node: HTMLDivElement | null) => {
+    portalRef.current = node;
+    setPortalReady(node != null);
+  };
 
   return (
     <div
@@ -115,21 +132,38 @@ function ViewportFrame({
         <span>{isDesktop ? "desktop viewport" : "mobile viewport"}</span>
         <span>{isDesktop ? "1024px" : "375px"}</span>
       </div>
-      <div className="relative min-h-0 overflow-hidden bg-gray-50">
-        {source ? (
-          <div className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom,0px))]">
-            <div className={sheetClassName}>{children}</div>
-          </div>
-        ) : (
-          <>
-            <div
-              className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
-              style={{ backgroundColor: "var(--layer-backdrop)" }}
-            />
-            <div className={sheetClassName}>{children}</div>
-          </>
-        )}
-      </div>
+      {host === "current-portal" ? (
+        <div ref={setPortalHost} className="relative min-h-0 overflow-hidden bg-gray-50">
+          {portalReady && typeof children === "function" ? children(portalRef) : null}
+        </div>
+      ) : (
+        <div className="relative min-h-0 overflow-hidden bg-gray-50">
+          {host === "source-sheet" ? (
+            <div className="absolute inset-x-0 bottom-0 z-10 p-3 pb-[max(12px,env(safe-area-inset-bottom,0px))]">
+              <div
+                className={[
+                  "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--source-shadow-lg)]",
+                  padded ? "p-4" : null,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                {typeof children === "function" ? null : children}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div
+                className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+                style={{ backgroundColor: "var(--layer-backdrop)" }}
+              />
+              <div className={getCurrentSheetClassName(theme, isDesktop, padded)}>
+                {typeof children === "function" ? null : children}
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -217,76 +251,6 @@ function LeaveChannelSourceContent() {
       <div className="mt-auto flex flex-col gap-2 p-4">
         <Button variant="danger">Leave</Button>
         <Button variant="default">Cancel</Button>
-      </div>
-    </>
-  );
-}
-
-function PwaInstallContent({ variant }: { variant: "other" | "safari" }) {
-  const isSafari = variant === "safari";
-  const theme = useThemeFamily();
-  const titleClassName =
-    theme === "brutal"
-      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-foreground-strong"
-      : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]";
-
-  return (
-    <>
-      <div className="flex flex-col items-center px-6 pt-8 pb-2 text-center">
-        <Text.Sans render={<div />} size="large" className={titleClassName}>
-          Add Raft to your Home Screen
-        </Text.Sans>
-      </div>
-      <div className="flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center">
-        <Text.Sans
-          size="small"
-          className="max-w-sm text-pretty text-center text-foreground/60 [[data-theme=brutal]_&]:text-black/60"
-        >
-          {isSafari
-            ? "Open Raft as a fullscreen app — faster, more focused."
-            : "Open this page in Safari first, then add it to your Home Screen."}
-        </Text.Sans>
-
-        {isSafari ? (
-          <div className="mt-6 w-full rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
-            <img
-              src="/pwa/ios-add-to-home-screen-3step.svg"
-              alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
-              className="block w-full"
-            />
-          </div>
-        ) : (
-          <Banner status="info" className="mt-6 w-full text-left">
-            <BannerDescription>
-              iOS only allows Home Screen installation from Safari. Copy this page link, open
-              Safari, then use Share → Add to Home Screen.
-            </BannerDescription>
-          </Banner>
-        )}
-      </div>
-      <div className="mt-auto flex flex-col gap-2.5 px-6 py-5">
-        <DrawerActions
-          className={
-            isSafari
-              ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
-              : "w-full max-w-[24rem]"
-          }
-        >
-          {isSafari ? (
-            <Button variant="primary" size="lg">
-              Got it
-            </Button>
-          ) : (
-            <>
-              <Button variant="primary" size="lg">
-                Copy Link
-              </Button>
-              <Button variant="outline" size="lg">
-                Close
-              </Button>
-            </>
-          )}
-        </DrawerActions>
       </div>
     </>
   );
