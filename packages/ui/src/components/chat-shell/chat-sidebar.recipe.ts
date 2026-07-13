@@ -101,7 +101,7 @@ export const chatSidebar = tv({
           "text-black transition-colors hover:text-black/70",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
-        sidebarSectionCount: "ml-auto text-[12px] font-medium text-black/70",
+        sidebarSectionCount: "text-[12px] font-medium text-black/70",
         sidebarSectionAction: [
           "font-sans font-bold text-black/70",
           "transition-colors duration-100",
@@ -117,8 +117,9 @@ export const chatSidebar = tv({
           "aria-expanded:border-black aria-expanded:bg-white aria-expanded:shadow-brutal-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
+        sidebarItemTitle: "font-medium text-black",
         sidebarItemSubtitle: "text-black/40",
-        sidebarItemMeta: "text-black/40",
+        sidebarItemMeta: "text-[12px] font-medium text-black/70",
         sidebarItemMention: "rounded border border-black bg-soft-signal text-black",
         sidebarItemMuted: "text-black/40",
         sidebarItemDraft: "text-black/40",
@@ -148,7 +149,7 @@ export const chatSidebar = tv({
         ],
         sidebarMenuAside: "ml-auto",
         sidebarMenuCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
+          "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarSectionButton: [
           "h-8 w-full justify-start gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-[12px] font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
@@ -156,7 +157,7 @@ export const chatSidebar = tv({
           "[&>svg]:opacity-55",
         ],
         sidebarSectionCount:
-          "ml-auto inline-flex min-w-7 shrink-0 items-center justify-end font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
+          "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarSectionActions: "pr-[var(--sidebar-row-inset-x,6px)]",
         sidebarSectionAction: [
           "shrink-0",
@@ -172,7 +173,6 @@ export const chatSidebar = tv({
         sidebarItem: [
           "relative mb-0.5 -mx-[var(--sidebar-row-inset-x,6px)] w-[calc(100%+12px)] rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
           "text-[13px] font-medium text-foreground-muted",
-          "has-[[data-slot=chat-sidebar-item-badge]]:[--sidebar-item-title-weight:450]",
           "hover:border-transparent hover:bg-layer-strong/80 hover:text-foreground-strong",
           "active:border-transparent active:bg-layer-strong/80 active:text-foreground-strong",
           "aria-[current=page]:border-transparent aria-[current=page]:bg-layer-panel",
@@ -181,13 +181,13 @@ export const chatSidebar = tv({
           "aria-expanded:border-transparent aria-expanded:bg-layer-panel",
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],
-        sidebarItemTitle: "font-[var(--sidebar-item-title-weight,400)]",
+        sidebarItemTitle: "font-[450] text-foreground-muted",
         sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:size-3.5 [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[2.25]",
         sidebarItemSubtitle: "text-ink-30",
         sidebarItemMeta:
-          "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-muted/50",
+          "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
         sidebarItemIndicator: ["pointer-events-none absolute top-1/2 right-full -translate-y-1/2"],
         sidebarItemPresence: [
           "pointer-events-none absolute top-1/2 right-full -translate-y-1/2",
@@ -205,18 +205,6 @@ export const chatSidebar = tv({
       },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      unread: true,
-      class: { sidebarItemTitle: "font-bold" },
-    },
-    {
-      theme: "elegant",
-      unread: true,
-      class: { sidebarItemTitle: "[--sidebar-item-title-weight:500]" },
-    },
-  ],
 });
 
 export const chatSidebarItemInlineText = tv({
