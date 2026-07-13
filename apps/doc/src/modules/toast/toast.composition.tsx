@@ -32,6 +32,8 @@ type ToastDemoData = {
 export type ToastDemoOptions = {
   mode: "stacked" | "anchored";
   placement: "bottom-center" | "bottom-right" | "top-center" | "top-right";
+  side: "top" | "right" | "bottom" | "left";
+  align: "start" | "center" | "end";
   icon: boolean;
   description: boolean;
   action: boolean;
@@ -41,6 +43,8 @@ export type ToastDemoOptions = {
 const DEFAULT_TOAST_DEMO_OPTIONS: ToastDemoOptions = {
   mode: "stacked",
   placement: "bottom-center",
+  side: "bottom",
+  align: "center",
   icon: true,
   description: true,
   action: true,
@@ -83,20 +87,16 @@ export function ToastComposition({
         limit={3}
         renderViewport={false}
       >
-        {controls ? (
-          <div className="relative z-10">
-            <ToastDemoControls options={demoOptions} />
-          </div>
-        ) : (
-          <SeedToast seed={seed} />
-        )}
-        {portalContainer ? (
-          <ToastPortal container={portalContainer}>
+        {controls ? <ToastDemoControls options={demoOptions} /> : <SeedToast seed={seed} />}
+        {controls || portalContainer ? (
+          <ToastPortal container={controls ? undefined : portalContainer}>
             <ToastViewport
-              strategy="absolute"
+              strategy={controls ? "fixed" : "absolute"}
               placement={demoOptions.mode === "anchored" ? "none" : demoOptions.placement}
             >
-              <ToastList />
+              <ToastList
+                placement={demoOptions.mode === "anchored" ? "none" : demoOptions.placement}
+              />
             </ToastViewport>
           </ToastPortal>
         ) : null}
@@ -187,14 +187,14 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
     options.mode === "anchored" && anchor
       ? {
           anchor,
-          side: "bottom" as const,
-          align: "center" as const,
+          side: options.side,
+          align: options.align,
           sideOffset: 8,
         }
       : undefined;
 
   return (
-    <div className="relative z-10 flex flex-wrap items-center justify-center gap-2 pt-3">
+    <div className="absolute inset-0 z-10 flex flex-wrap items-center justify-center gap-2 px-4">
       <Button
         ref={copyButtonRef}
         type="button"
@@ -283,16 +283,16 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
   );
 }
 
-function ToastList() {
+function ToastList({ placement }: { placement: ToastDemoOptions["placement"] | "none" }) {
   const { toasts } = useToastManager<ToastDemoData>();
 
   return toasts.map((toast) =>
     toast.positionerProps ? (
       <ToastPositioner key={toast.id} toast={toast}>
-        <DemoToast toast={toast} layout="inline" showArrow />
+        <DemoToast toast={toast} layout="inline" placement={placement} showArrow />
       </ToastPositioner>
     ) : (
-      <DemoToast key={toast.id} toast={toast} />
+      <DemoToast key={toast.id} toast={toast} placement={placement} />
     ),
   );
 }
@@ -300,10 +300,12 @@ function ToastList() {
 function DemoToast({
   toast,
   layout,
+  placement,
   showArrow = false,
 }: {
   toast: ToastObject<ToastDemoData>;
   layout?: "stacked" | "inline";
+  placement: ToastDemoOptions["placement"] | "none";
   showArrow?: boolean;
 }) {
   const theme = useThemeFamily();
@@ -314,7 +316,11 @@ function DemoToast({
 
   if (theme === "brutal") {
     return (
-      <ToastRoot toast={toast} layout={layout}>
+      <ToastRoot
+        toast={toast}
+        layout={layout}
+        swipeDirection={placement.startsWith("top-") ? ["up", "right"] : undefined}
+      >
         {showArrow ? <ToastArrow /> : null}
         <ToastContent>
           {showIcon ? (
@@ -338,7 +344,11 @@ function DemoToast({
   }
 
   return (
-    <ToastRoot toast={toast} layout={layout}>
+    <ToastRoot
+      toast={toast}
+      layout={layout}
+      swipeDirection={placement.startsWith("top-") ? ["up", "right"] : undefined}
+    >
       {showArrow ? <ToastArrow /> : null}
       <ToastContent>
         {showIcon ? (
