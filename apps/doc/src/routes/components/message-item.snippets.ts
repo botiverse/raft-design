@@ -9,31 +9,18 @@ export const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-export const ANATOMY_SOURCE = `import {
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemFooter,
-  MessageItemHeader,
-  MessageItemMeta,
-  MessageItemSender,
-  MessageItemTime,
-  MessageItemToolbar,
-} from "raft-ui/wip";
-
-<MessageItem>
-  <MessageItemAvatarSlot>{/* Avatar */}</MessageItemAvatarSlot>
+export const ANATOMY_SOURCE = `<MessageItem>
+  <MessageItemAvatarSlot />
   <MessageItemContent>
     <MessageItemHeader>
-      <MessageItemSender>Atlas</MessageItemSender>
-      <MessageItemMeta>claude-opus</MessageItemMeta>
-      <MessageItemTime>2:14 PM</MessageItemTime>
+      <MessageItemSender />
+      <MessageItemMeta />
+      <MessageItemTime />
     </MessageItemHeader>
-    <MessageItemBody>Markdown, mentions, and links stay caller-owned.</MessageItemBody>
-    <MessageItemFooter>{/* badges, reactions, saved indicator */}</MessageItemFooter>
+    <MessageItemBody />
+    <MessageItemFooter />
   </MessageItemContent>
-  <MessageItemToolbar>{/* hover actions */}</MessageItemToolbar>
+  <MessageItemToolbar />
 </MessageItem>`;
 
 export const PROPS: readonly PropRow[] = [

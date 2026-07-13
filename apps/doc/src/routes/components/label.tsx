@@ -98,10 +98,7 @@ const SNIPPETS = {
   preview: `import { Label } from "raft-ui";
 
 <Label htmlFor="email">Email address</Label>`,
-  anatomy: `import { Label, LabelAsterisk } from "raft-ui";
-
-<Label htmlFor="email">
-  Email address
+  anatomy: `<Label>
   <LabelAsterisk />
 </Label>`,
   markers: `<Label htmlFor="email">
@@ -269,12 +266,11 @@ function LabelDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Label.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="markers" title="Markers" showThemeSwitcher>

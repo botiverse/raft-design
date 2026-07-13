@@ -346,10 +346,8 @@ const SOURCE_DIFFERENCE_ROWS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import { Avatar, AvatarFallback, AvatarImage, AvatarBadge } from "raft-ui";
-
-<Avatar size="md" type="human">
-  <AvatarImage src={url} alt="Atlas" />
+  anatomy: `<Avatar>
+  <AvatarImage />
   <AvatarFallback />
   <AvatarBadge />
 </Avatar>`,
@@ -565,12 +563,11 @@ function AvatarDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Avatar.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="image" title="Avatar image" showThemeSwitcher>

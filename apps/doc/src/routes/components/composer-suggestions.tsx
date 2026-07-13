@@ -34,41 +34,23 @@ const INITIAL_VALUE_BY_TRIGGER: Record<PreviewValues["trigger"], string> = {
   "Filtered people": "@av",
 };
 
-const ANATOMY_SNIPPET = `const suggestions = useComposerSuggestions({
-  value,
-  onValueChange: setValue,
-  detectTrigger,
-  getItems,
-  getItemText,
-  isItemDisabled,
-});
-
-<ComposerRoot positioned>
-  {suggestions.open ? (
-    <ComposerSuggestionList
-      {...suggestions.getListProps({ "aria-label": "Composer suggestions" })}
-    >
-      <ComposerSuggestionGroup>
-        <ComposerSuggestionGroupLabel>Available people</ComposerSuggestionGroupLabel>
-        {suggestions.items.map((item, index) => (
-          <ComposerSuggestionOption
-            key={item.id}
-            {...suggestions.getOptionProps(item, index)}
-          >
-            <ComposerSuggestionIcon />
-            <ComposerSuggestionContent>
-              <ComposerSuggestionTitle>{item.name}</ComposerSuggestionTitle>
-              <ComposerSuggestionMeta>{item.role}</ComposerSuggestionMeta>
-              <ComposerSuggestionAside>
-                <ComposerSuggestionBadge />
-              </ComposerSuggestionAside>
-            </ComposerSuggestionContent>
-          </ComposerSuggestionOption>
-        ))}
-      </ComposerSuggestionGroup>
-    </ComposerSuggestionList>
-  ) : null}
-  <ComposerInput {...suggestions.getInputProps({ "aria-label": "Message" })} />
+const ANATOMY_SNIPPET = `<ComposerRoot>
+  <ComposerSuggestionList>
+    <ComposerSuggestionGroup>
+      <ComposerSuggestionGroupLabel />
+      <ComposerSuggestionOption>
+        <ComposerSuggestionIcon />
+        <ComposerSuggestionContent>
+          <ComposerSuggestionTitle />
+          <ComposerSuggestionMeta />
+          <ComposerSuggestionAside>
+            <ComposerSuggestionBadge />
+          </ComposerSuggestionAside>
+        </ComposerSuggestionContent>
+      </ComposerSuggestionOption>
+    </ComposerSuggestionGroup>
+  </ComposerSuggestionList>
+  <ComposerInput />
 </ComposerRoot>`;
 
 const SNIPPETS = {
@@ -195,12 +177,11 @@ function ComposerSuggestionsDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="ComposerSuggestions.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="states" title="States">

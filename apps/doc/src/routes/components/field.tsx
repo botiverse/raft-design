@@ -134,12 +134,10 @@ const SNIPPETS = {
   <Input id="email" type="email" aria-invalid defaultValue="oops" />
   <FieldError match>Email is required.</FieldError>
 </Field>`,
-  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "raft-ui";
-
-<Field>
-  <FieldLabel htmlFor="email">Email</FieldLabel>
-  <Input id="email" type="email" placeholder="you@example.com" />
-  <FieldDescription>Use your work email.</FieldDescription>
+  anatomy: `<Field>
+  <FieldLabel />
+  <Input />
+  <FieldDescription />
 </Field>`,
   structure: `<Field>
   <FieldLabel htmlFor="workspace" required>Workspace</FieldLabel>
@@ -429,12 +427,11 @@ function FieldDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Field.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="structure" title="Structure" showThemeSwitcher>

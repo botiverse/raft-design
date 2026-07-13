@@ -74,10 +74,8 @@ const SOURCE_SCENES = [
 const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
-  anatomy: `import { InputGroup, InputGroupInput } from "raft-ui";
-
-<InputGroup>
-  <InputGroupInput aria-label="Email" placeholder="you@example.com" />
+  anatomy: `<InputGroup>
+  <InputGroupInput />
 </InputGroup>`,
   addons: `import { Search } from "lucide-react";
 
@@ -377,12 +375,11 @@ function InputGroupDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="InputGroup.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="addons" title="Addons" showThemeSwitcher>

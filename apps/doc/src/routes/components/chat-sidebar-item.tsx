@@ -10,7 +10,19 @@ import { ChatSidebarItemStatesComposition } from "#/compositions/chat-sidebar-it
 import chatSidebarItemCompositionSource from "#/compositions/chat-sidebar-item-composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const COMPOSITION_PATH = "apps/doc/src/compositions/chat-sidebar-item-composition.tsx";
+const ANATOMY_SNIPPET = `<ChatSidebarItem>
+  <ChatSidebarItemChannelIcon />
+  <ChatSidebarItemText>
+    <ChatSidebarItemTitle />
+    <ChatSidebarItemSubtitle />
+  </ChatSidebarItemText>
+  <ChatSidebarItemAside>
+    <ChatSidebarItemMention />
+    <ChatSidebarItemBadge />
+    <ChatSidebarItemDraft />
+    <ChatSidebarItemMuted />
+  </ChatSidebarItemAside>
+</ChatSidebarItem>`;
 
 const TOC = [
   { id: "states", title: "States" },
@@ -65,7 +77,7 @@ export const Route = createFileRoute("/components/chat-sidebar-item")({
   component: ChatSidebarItemDoc,
   loader: () =>
     highlightSnippets({
-      data: { composition: chatSidebarItemCompositionSource },
+      data: { anatomy: ANATOMY_SNIPPET, composition: chatSidebarItemCompositionSource },
     }),
 });
 
@@ -94,12 +106,11 @@ function ChatSidebarItemDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path={COMPOSITION_PATH}
-          source={chatSidebarItemCompositionSource}
-          html={code.composition}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

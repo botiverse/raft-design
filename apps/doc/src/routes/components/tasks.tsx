@@ -23,6 +23,61 @@ import { TasksSourcePreview } from "#/compositions/tasks/tasks-source-preview.ts
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import sourceTasksPanel from "../../../../../packages/ui/source/tasks/TasksPanel.tsx?raw";
 
+const ANATOMY_SNIPPET = `<TasksPanelRoot>
+  <TasksPanelToolbar>
+    <TasksPanelToolbarGroup>
+      <TaskFilterTrigger />
+      <TaskFilterClear />
+      <TaskToolbarAction />
+    </TasksPanelToolbarGroup>
+  </TasksPanelToolbar>
+  <TasksPanelViewport>
+    <TaskEmptyState />
+    <TaskDndProvider>
+      <TaskBoardRoot>
+        <TaskBoardColumn>
+          <TaskBoardColumnTrigger>
+            <TaskBoardColumnHeading>
+              <TaskBoardColumnBadge />
+              <TaskBoardColumnCount />
+            </TaskBoardColumnHeading>
+            <TaskBoardColumnChevron />
+          </TaskBoardColumnTrigger>
+          <TaskBoardColumnPanel>
+            <TaskBoardColumnItems>
+              <TaskBoardColumnEmpty>
+                <TaskBoardColumnEmptyIdle />
+                <TaskBoardColumnEmptyAllowed />
+                <TaskBoardColumnEmptyBlocked />
+              </TaskBoardColumnEmpty>
+              <TaskDraggable>
+                <TaskCard />
+              </TaskDraggable>
+            </TaskBoardColumnItems>
+          </TaskBoardColumnPanel>
+        </TaskBoardColumn>
+      </TaskBoardRoot>
+    </TaskDndProvider>
+    <TaskListRoot>
+      <TaskSection>
+        <TaskSectionTrigger>
+          <TaskSectionHeading>
+            <TaskSectionBadge />
+            <TaskSectionCount />
+          </TaskSectionHeading>
+          <TaskSectionChevron />
+        </TaskSectionTrigger>
+        <TaskSectionPanel>
+          <TaskSectionEmpty />
+          <TaskSectionItems>
+            <TaskCard />
+          </TaskSectionItems>
+        </TaskSectionPanel>
+      </TaskSection>
+    </TaskListRoot>
+  </TasksPanelViewport>
+</TasksPanelRoot>`;
+
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
   { id: "panel-states", title: "Panel states" },
@@ -95,6 +150,7 @@ export const Route = createFileRoute("/components/tasks")({
   loader: () =>
     highlightSnippets({
       data: {
+        anatomy: ANATOMY_SNIPPET,
         panel: tasksPanelCompositionSource,
         states: tasksStatesCompositionSource,
         sourcePanel: sourceTasksPanel,
@@ -213,11 +269,11 @@ function TasksDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/compositions/tasks/tasks-panel-composition.tsx"
-          source={tasksPanelCompositionSource}
-          html={code.panel}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

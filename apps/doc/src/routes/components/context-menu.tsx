@@ -92,42 +92,15 @@ type PlaygroundValues = {
   label: string;
 };
 
-const ACTION_MENU_BODY_SNIPPET = `    <ContextMenuLabel>Thread actions</ContextMenuLabel>
+const SNIPPETS = {
+  anatomy: `<ContextMenu>
+  <ContextMenuTrigger />
+  <ContextMenuContent>
+    <ContextMenuLabel />
     <ContextMenuItem>
-      <Pin />
-      <span className="min-w-0 flex-1 truncate">Pin thread</span>
-    </ContextMenuItem>
-    <ContextMenuItem>
-      <Copy />
-      <span className="min-w-0 flex-1 truncate">Copy link</span>
-      <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+      <ContextMenuShortcut />
     </ContextMenuItem>
     <ContextMenuSeparator />
-    <ContextMenuItem>
-      <Archive />
-      <span className="min-w-0 flex-1 truncate">Archive</span>
-    </ContextMenuItem>
-    <ContextMenuItem>
-      <Trash />
-      <span className="min-w-0 flex-1 truncate">Delete</span>
-      <ContextMenuShortcut>⌫</ContextMenuShortcut>
-    </ContextMenuItem>`;
-
-const SNIPPETS = {
-  anatomy: `import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-} from "raft-ui";
-
-<ContextMenu defaultOpen>
-  <ContextMenuTrigger id="context-menu-trigger">Right click this surface</ContextMenuTrigger>
-  <ContextMenuContent>
-${ACTION_MENU_BODY_SNIPPET}
   </ContextMenuContent>
 </ContextMenu>`,
   submenu: `<ContextMenu defaultOpen>
@@ -436,12 +409,11 @@ function ContextMenuDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="ContextMenu.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="submenu" title="Submenu" showThemeSwitcher>

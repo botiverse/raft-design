@@ -23,25 +23,10 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `import {
-  SegmentedControl,
-  SegmentedControlCount,
-  SegmentedControlItem,
-  SegmentedControlLabel,
-} from "raft-ui";
-
-<SegmentedControl
-  ariaLabel="Filter messages"
-  value={value}
-  onValueChange={setValue}
->
-  <SegmentedControlItem value="all">
-    <SegmentedControlLabel>All</SegmentedControlLabel>
-    <SegmentedControlCount>12</SegmentedControlCount>
-  </SegmentedControlItem>
-  <SegmentedControlItem value="unread">
-    <SegmentedControlLabel>Unread</SegmentedControlLabel>
-    <SegmentedControlCount>3</SegmentedControlCount>
+  anatomy: `<SegmentedControl>
+  <SegmentedControlItem>
+    <SegmentedControlLabel />
+    <SegmentedControlCount />
   </SegmentedControlItem>
 </SegmentedControl>`,
   filters: `<SegmentedControl
@@ -177,12 +162,11 @@ function SegmentedControlDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="SegmentedControl.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

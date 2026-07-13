@@ -44,29 +44,44 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  anatomy: `
-<AppShellRoot>
-  {rail}
-  <ChatSidebarResizeGroup orientation="horizontal">
-    <ChatSidebarResizePanel defaultSize={308} minSize={180} maxSize={368}>
-      <AppShellSidebar resizable>
+  anatomy: `<AppShellRoot>
+  <AppShellRail>
+    <AppRailRoot />
+  </AppShellRail>
+  <ChatSidebarResizeGroup>
+    <ChatSidebarResizePanel>
+      <AppShellSidebar>
         <ChatSidebarRoot>
-          <ChatSidebarHeader>{headerActions}</ChatSidebarHeader>
+          <ChatSidebarHeader />
           <ChatSidebarBody>
             <ChatSidebarContent>
-              <ChatSidebarSection defaultOpen>
-                <ChatSidebarSectionHeader>{sectionTrigger}</ChatSidebarSectionHeader>
-                <ChatSidebarList>{destinationRows}</ChatSidebarList>
+              <ChatSidebarSection>
+                <ChatSidebarSectionHeader>
+                  <ChatSidebarSectionButton>
+                    <ChatSidebarSectionChevron />
+                    <ChatSidebarSectionTitle />
+                    <ChatSidebarSectionCount />
+                    <ChatSidebarSectionAttention />
+                  </ChatSidebarSectionButton>
+                  <ChatSidebarSectionActions>
+                    <ChatSidebarAction />
+                  </ChatSidebarSectionActions>
+                </ChatSidebarSectionHeader>
+                <ChatSidebarList>
+                  <ChatSidebarItem />
+                </ChatSidebarList>
               </ChatSidebarSection>
             </ChatSidebarContent>
           </ChatSidebarBody>
-          <ChatSidebarFooter>{footer}</ChatSidebarFooter>
+          <ChatSidebarFooter />
         </ChatSidebarRoot>
       </AppShellSidebar>
     </ChatSidebarResizePanel>
     <ChatSidebarResizeHandle />
-    <ChatSidebarResizePanel minSize={0}>
-      <AppShellMain>{activePanel}</AppShellMain>
+    <ChatSidebarResizePanel>
+      <AppShellMain>
+        <ChatMainPanelRoot />
+      </AppShellMain>
     </ChatSidebarResizePanel>
   </ChatSidebarResizeGroup>
 </AppShellRoot>`,
@@ -192,12 +207,11 @@ function ChatSidebarDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="chat-sidebar.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

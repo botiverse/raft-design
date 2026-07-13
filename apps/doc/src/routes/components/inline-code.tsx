@@ -22,9 +22,7 @@ const SNIPPETS = {
 <p>
   Set <InlineCode>aria-invalid</InlineCode> on the control.
 </p>`,
-  anatomy: `import { InlineCode } from "raft-ui";
-
-<InlineCode>aria-invalid</InlineCode>`,
+  anatomy: `<InlineCode />`,
   usage: `<p>
   Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on the control.
 </p>
@@ -76,12 +74,11 @@ function InlineCodeDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="InlineCode.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

@@ -23,7 +23,7 @@ const TOC = [
 const TODOS = ["Skipped: keep as an app-local security utility, not an raft-ui component"] as const;
 
 const SNIPPETS = {
-  anatomy: `import SandboxedPreviewFrame from "../ui/SandboxedPreviewFrame";
+  preview: `import SandboxedPreviewFrame from "../ui/SandboxedPreviewFrame";
 
 <SandboxedPreviewFrame
   title="Attachment preview"
@@ -31,6 +31,7 @@ const SNIPPETS = {
   sandbox="allow-scripts"
   className="h-full w-full border-0 bg-white"
 />`,
+  anatomy: `<SandboxedPreviewFrame />`,
   usage: `// Static SVG (Mermaid) — maximally locked, zero scripts:
 <SandboxedPreviewFrame title="Diagram" srcDoc={svgDoc} />
 
@@ -188,7 +189,7 @@ function SandboxedPreviewFrameDoc() {
       </DocSection>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.anatomy}>
+        <Example html={code.preview}>
           <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
             <AppSandboxedPreviewFrame
               title="HTML attachment preview"
@@ -201,12 +202,11 @@ function SandboxedPreviewFrameDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="SandboxedPreviewFrame.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

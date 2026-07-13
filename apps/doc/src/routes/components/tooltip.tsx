@@ -46,12 +46,10 @@ import { SmilePlus } from "lucide-react";
     <TooltipContent>Add reaction</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  anatomy: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
-
-<TooltipProvider>
+  anatomy: `<TooltipProvider>
   <Tooltip>
-    <TooltipTrigger>Trigger</TooltipTrigger>
-    <TooltipContent>Content</TooltipContent>
+    <TooltipTrigger />
+    <TooltipContent />
   </Tooltip>
 </TooltipProvider>`,
   usageActions: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
@@ -551,12 +549,11 @@ function TooltipDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="Tooltip.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>

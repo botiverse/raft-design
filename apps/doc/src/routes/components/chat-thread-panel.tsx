@@ -42,36 +42,32 @@ const SNIPPETS = {
   chatThreadPanelComposition: chatThreadPanelCompositionSource,
   anatomy: `<ChatThreadPanelRoot>
   <ChatThreadPanelHeader>
-    <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
+    <ChatThreadPanelTitle />
     <ChatThreadPanelActions>
-      <PanelButton aria-label="Close thread">
-        <PanelButtonIcon>
-          <X />
-        </PanelButtonIcon>
+      <PanelButton>
+        <PanelButtonIcon />
       </PanelButton>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
   <ChatThreadPanelSearch>
-    <ChatThreadPanelSearchIcon render={<Search />} />
-    <ChatThreadPanelSearchInput aria-label="Search in thread" />
-    <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
-    <PanelButton aria-label="Next match">
-      <PanelButtonIcon>
-        <ChevronDown />
-      </PanelButtonIcon>
+    <ChatThreadPanelSearchIcon />
+    <ChatThreadPanelSearchInput />
+    <ChatThreadPanelSearchCount />
+    <PanelButton>
+      <PanelButtonIcon />
     </PanelButton>
   </ChatThreadPanelSearch>
   <ChatThreadPanelParent>
-    <MessageItem>{parentMessage}</MessageItem>
+    <MessageItem />
   </ChatThreadPanelParent>
   <ChatThreadPanelBody>
-    <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
-    <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
-    <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
-    <MessageItem>{reply}</MessageItem>
-    <MessageItemSearchMatch>{activeMatch}</MessageItemSearchMatch>
+    <MessageTimelineNotice />
+    <ChatThreadPanelReplyCount />
+    <MessageTimelineDateDivider />
+    <MessageItem />
+    <MessageItemSearchMatch />
   </ChatThreadPanelBody>
-  <ChatThreadPanelFooter>{composer}</ChatThreadPanelFooter>
+  <ChatThreadPanelFooter />
 </ChatThreadPanelRoot>`,
 } as const;
 
@@ -172,12 +168,11 @@ function ChatThreadPanelDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="chat-thread-panel.tsx"
-          source={SNIPPETS.anatomy}
-          html={code.anatomy}
-          showLineNumbers={false}
-        />
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="states" title="States">
