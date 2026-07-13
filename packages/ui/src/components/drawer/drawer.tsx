@@ -54,7 +54,7 @@ const drawer = tv({
       "[transform-origin:var(--drawer-transform-origin)]",
       "transform-[translate3d(calc(var(--drawer-swipe-x,0px)+var(--drawer-stack-x,0px)),calc(var(--drawer-swipe-y,0px)+var(--drawer-stack-y,0px)),0)_scale(var(--drawer-stack-scale))]",
       "opacity-100 blur-0",
-      "transition-[transform,height,opacity,filter] duration-240 ease-(--drawer-ease) will-change-[transform,height,opacity,filter]",
+      "transition-[transform,height,opacity,filter] duration-240 ease-(--drawer-ease) will-change-[transform,opacity,filter]",
       "data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*180ms)]",
       "data-starting-style:transform-(--closed-transform) data-starting-style:opacity-0 data-starting-style:blur-(--drawer-blur)",
       "data-ending-style:transform-(--closed-transform) data-ending-style:opacity-0 data-ending-style:blur-(--drawer-blur)",
