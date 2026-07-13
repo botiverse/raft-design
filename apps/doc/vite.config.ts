@@ -21,6 +21,10 @@ const raftUiStylesPath = fileURLToPath(
 );
 
 const config = defineConfig({
+  server: {
+    host: "127.0.0.1",
+    strictPort: true,
+  },
   resolve: {
     tsconfigPaths: true,
     alias: [
@@ -39,7 +43,7 @@ const config = defineConfig({
     include: ["foxact/use-clipboard", "foxact/use-media-query", "torph/react"],
   },
   plugins: [
-    devtools(),
+    devtools({ consolePiping: { enabled: false } }),
     cloudflare({ viteEnvironment: { name: "ssr", childEnvironments: ["rsc"] } }),
     tailwindcss(),
     tanstackStart({
