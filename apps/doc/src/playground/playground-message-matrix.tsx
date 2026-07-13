@@ -63,8 +63,11 @@ import {
   openMockAttachmentPreview,
   TaskStatusBadge,
 } from "./playground-message-fixtures.tsx";
+import { ALL_SHOWCASE_THREAD_IDS, getPlaygroundChannel } from "./mock/index.ts";
 import { PlaygroundScenarioMessageRow } from "./playground-message-row.tsx";
-import { ALL_SHOWCASE_THREAD_IDS } from "./mock/index.ts";
+import { usePlaygroundTask } from "./playground-task-state.tsx";
+
+const GENERAL_CHANNEL_NAME = getPlaygroundChannel("general").name;
 
 function PlainRepliesBadge({ count, unread }: { count: number; unread?: number }) {
   const [opened, setOpened] = useState(false);
@@ -313,7 +316,7 @@ function MatrixContentSection() {
             <p>
               Resolving:{" "}
               <MessageReferenceLoadingComposition>
-                #general:67253b90
+                #{GENERAL_CHANNEL_NAME}:67253b90
               </MessageReferenceLoadingComposition>{" "}
               · unknown mention @ghost
             </p>
@@ -324,7 +327,7 @@ function MatrixContentSection() {
               </MessagePermalinkReferenceComposition>{" "}
               vs same-server{" "}
               <MessagePermalinkReferenceComposition href="/playground/general">
-                #general
+                #{GENERAL_CHANNEL_NAME}
               </MessagePermalinkReferenceComposition>
             </p>
           </div>
@@ -640,6 +643,13 @@ function MatrixMediaSection() {
 }
 
 function MatrixStateSection() {
+  const todoTask = usePlaygroundTask("task:frontend:10");
+  const inProgressTask = usePlaygroundTask("task:frontend:11");
+  const inReviewTask = usePlaygroundTask("task:frontend:12");
+  const doneTask = usePlaygroundTask("task:frontend:13");
+  const closedTask = usePlaygroundTask("task:frontend:15");
+  const agentTask = usePlaygroundTask("task:frontend:16");
+
   return (
     <>
       <PlaygroundScenarioMessageRow
@@ -743,42 +753,40 @@ function MatrixStateSection() {
         sender="Developer"
         meta="member"
         time="10:35 AM"
-        body="Check default seed member permissions."
-        footer={
-          <TaskStatusBadge channelId="frontend" status="todo" taskNumber={10} assignee="Ada" />
-        }
+        body={`${todoTask.title}.`}
+        footer={<TaskStatusBadge taskId="task:frontend:10" assignee="Ada" />}
       />
       <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
         time="10:36 AM"
-        body="Verifying the RustFS attachment previews."
-        footer={<TaskStatusBadge channelId="frontend" status="in_progress" taskNumber={11} />}
+        body={`${inProgressTask.title}.`}
+        footer={<TaskStatusBadge taskId="task:frontend:11" />}
       />
       <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
         time="10:37 AM"
-        body="Thread reminder wake regression is up for review."
-        footer={<TaskStatusBadge channelId="frontend" status="in_review" taskNumber={12} />}
+        body={`${inReviewTask.title}.`}
+        footer={<TaskStatusBadge taskId="task:frontend:12" />}
       />
       <PlaygroundScenarioMessageRow
         variant="member"
         sender="Ada"
         meta="member"
         time="10:38 AM"
-        body="Archived-channel smoke check passed."
-        footer={<TaskStatusBadge channelId="frontend" status="done" taskNumber={13} />}
+        body={`${doneTask.title}.`}
+        footer={<TaskStatusBadge taskId="task:frontend:13" />}
       />
       <PlaygroundScenarioMessageRow
         variant="member"
         sender="Developer"
         meta="member"
         time="10:39 AM"
-        body="Closing the duplicate migration ticket."
-        footer={<TaskStatusBadge channelId="frontend" status="closed" taskNumber={15} />}
+        body={`${closedTask.title}.`}
+        footer={<TaskStatusBadge taskId="task:frontend:15" />}
       />
       <PlaygroundScenarioMessageRow
         variant="agent"
@@ -786,8 +794,8 @@ function MatrixStateSection() {
         meta="Design-system agent on the primary online machine."
         status="working"
         time="10:40 AM"
-        body="Updating the status on this one now."
-        footer={<TaskStatusBadge channelId="frontend" status="in_progress" taskNumber={16} busy />}
+        body={`${agentTask.title}.`}
+        footer={<TaskStatusBadge taskId="task:frontend:16" busy />}
       />
 
       <PlaygroundScenarioMessageRow

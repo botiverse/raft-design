@@ -43,8 +43,9 @@ import {
 import {
   getPlaygroundThread,
   type PlaygroundChannel,
+  type PlaygroundChannelRecord,
   type PlaygroundMessage,
-  type PlaygroundScenarioId,
+  type PlaygroundShowcasePreset,
 } from "./mock/index.ts";
 
 const TAB_META: Record<PlaygroundPanelTab, { icon: ReactNode; label: string }> = {
@@ -53,12 +54,11 @@ const TAB_META: Record<PlaygroundPanelTab, { icon: ReactNode; label: string }> =
   files: { icon: <Paperclip />, label: "Files" },
 };
 
-export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel }) {
+export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannelRecord }) {
   const { panelTab, selectPanelTab } = usePlaygroundNavigation();
   const [tabOrder, setTabOrder] = useState<PlaygroundPanelTab[]>(["chat", "tasks", "files"]);
   const composerLabel =
     channel.kind === "dm" ? `Message @${channel.name}` : `Message #${channel.name}`;
-  const uploads = channel.content.kind === "scenario" && channel.content.scenario === "incident";
 
   return (
     <ChatMainPanelRoot>
@@ -80,20 +80,25 @@ export function PlaygroundMainPanel({ channel }: { channel: PlaygroundChannel })
             <MessageTextSelectionComposition>
               <ChannelBody channel={channel} />
             </MessageTextSelectionComposition>
-            <PlaygroundMainComposer channel={channel} label={composerLabel} uploads={uploads} />
+            <PlaygroundMainComposer
+              key={channel.id}
+              channel={channel}
+              label={composerLabel}
+              initialComposer={channel.initialComposer}
+            />
           </PlaygroundSingleComposerMentionProvider>
         ) : panelTab === "tasks" ? (
           <PlaygroundTasksPanel channel={channel} />
         ) : (
-          <PlaygroundFilesPanel channel={channel} onJumpToOriginal={() => selectPanelTab("chat")} />
+          <PlaygroundFilesPanel channel={channel} />
         )}
       </ChatMainPanelContent>
     </ChatMainPanelRoot>
   );
 }
 
-function ScenarioBody({ scenario }: { scenario: PlaygroundScenarioId }) {
-  switch (scenario) {
+function ShowcaseBody({ preset }: { preset: PlaygroundShowcasePreset }) {
+  switch (preset) {
     case "rich":
       return <ProjUiuxBody />;
     case "incident":
@@ -109,8 +114,8 @@ function ChannelBody({ channel }: { channel: PlaygroundChannel }) {
   switch (channel.content.kind) {
     case "messages":
       return <ConversationBody messages={channel.content.messages} />;
-    case "scenario":
-      return <ScenarioBody scenario={channel.content.scenario} />;
+    case "showcase":
+      return <ShowcaseBody preset={channel.content.preset} />;
     case "empty":
       return <NewChannelBody channel={channel} />;
   }

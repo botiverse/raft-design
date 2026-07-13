@@ -33,9 +33,30 @@ import {
   PlaygroundUnreadRepliesBadge as UnreadRepliesBadge,
   type RowVariant,
 } from "./playground-message-row.tsx";
-import { ALL_SHOWCASE_THREAD_IDS } from "./mock/index.ts";
+import {
+  ALL_SHOWCASE_THREAD_IDS,
+  getPlaygroundActor,
+  getPlaygroundChannel,
+  getPlaygroundFilesForMessage,
+  requirePlaygroundThread,
+  type PlaygroundMessageId,
+} from "./mock/index.ts";
+import { usePlaygroundTask } from "./playground-task-state.tsx";
+
+const GENERAL_CHANNEL_NAME = getPlaygroundChannel("general").name;
 
 export function ProjUiuxBody() {
+  const stateModel = requirePlaygroundThread(ALL_SHOWCASE_THREAD_IDS.stateModel).thread.parent;
+  const inviteSecurity = requirePlaygroundThread(ALL_SHOWCASE_THREAD_IDS.inviteSecurity).thread
+    .parent;
+  const selectorPerformance = requirePlaygroundThread(ALL_SHOWCASE_THREAD_IDS.selectorPerformance)
+    .thread.parent;
+  const apiDocs = requirePlaygroundThread(ALL_SHOWCASE_THREAD_IDS.apiDocs).thread.parent;
+  const todoTask = usePlaygroundTask("task:all:10");
+  const inProgressTask = usePlaygroundTask("task:all:11");
+  const inReviewTask = usePlaygroundTask("task:all:12");
+  const doneTask = usePlaygroundTask("task:all:13");
+
   return (
     <ChatMainPanelBody>
       <ChatMainPanelTimeline>
@@ -47,41 +68,45 @@ export function ProjUiuxBody() {
 
           <PlaygroundScenarioMessageRow
             variant="member"
-            sender="Developer"
+            sender={getPlaygroundActor(stateModel.authorId).name}
             meta="member"
-            time="08:17 AM"
-            body="Should we migrate from Zustand to Jotai? Jotai's atom model might be better for our store structure."
-            threadId={ALL_SHOWCASE_THREAD_IDS.stateModel}
-            footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.stateModel} />}
+            time={stateModel.time}
+            body={stateModel.body}
+            threadId={stateModel.id}
+            footer={<RepliesBadge threadId={stateModel.id} />}
+            attachments={<PlaygroundFileAttachments messageId={stateModel.id} />}
           />
           <PlaygroundScenarioMessageRow
             variant="agent"
-            sender="Atlas"
+            sender={getPlaygroundActor(inviteSecurity.authorId).name}
             meta="Design-system agent on the primary online machine."
             status="online"
-            time="08:22 AM"
-            body="The invite link system needs rate limiting. Someone could enumerate valid invite codes."
-            threadId={ALL_SHOWCASE_THREAD_IDS.inviteSecurity}
-            footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.inviteSecurity} />}
+            time={inviteSecurity.time}
+            body={inviteSecurity.body}
+            threadId={inviteSecurity.id}
+            footer={<RepliesBadge threadId={inviteSecurity.id} />}
+            attachments={<PlaygroundFileAttachments messageId={inviteSecurity.id} />}
           />
           <PlaygroundScenarioMessageRow
             variant="member"
-            sender="Developer"
+            sender={getPlaygroundActor(selectorPerformance.authorId).name}
             meta="member"
-            time="08:27 AM"
-            body="Performance: the message list re-renders when any agent activity changes. Need to fix selectors."
-            threadId={ALL_SHOWCASE_THREAD_IDS.selectorPerformance}
-            footer={<UnreadRepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.selectorPerformance} />}
+            time={selectorPerformance.time}
+            body={selectorPerformance.body}
+            threadId={selectorPerformance.id}
+            footer={<UnreadRepliesBadge threadId={selectorPerformance.id} />}
+            attachments={<PlaygroundFileAttachments messageId={selectorPerformance.id} />}
           />
           <PlaygroundScenarioMessageRow
             variant="agent"
-            sender="Atlas"
+            sender={getPlaygroundActor(apiDocs.authorId).name}
             meta="Design-system agent on the primary online machine."
             status="working"
-            time="08:32 AM"
-            body="Documentation: we should auto-generate API docs from the route definitions. Maybe use Swagger."
-            threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs}
-            footer={<RepliesBadge threadId={ALL_SHOWCASE_THREAD_IDS.apiDocs} />}
+            time={apiDocs.time}
+            body={apiDocs.body}
+            threadId={apiDocs.id}
+            footer={<RepliesBadge threadId={apiDocs.id} />}
+            attachments={<PlaygroundFileAttachments messageId={apiDocs.id} />}
           />
           <PlaygroundScenarioMessageRow compact gutterTime="08:34" body="Great work!" />
 
@@ -92,11 +117,13 @@ export function ProjUiuxBody() {
             time="08:35 AM"
             body={
               <>
-                Todo: check default seed member permissions{" "}
-                <MessageReferenceTask href="/playground/all">#10</MessageReferenceTask>
+                {todoTask.title}{" "}
+                <MessageReferenceTask href={`/playground/${todoTask.channelId}`}>
+                  #{todoTask.number}
+                </MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge channelId="all" status="todo" taskNumber={10} />}
+            footer={<TaskStatusBadge taskId="task:all:10" />}
           />
           <PlaygroundScenarioMessageRow
             variant="member"
@@ -105,11 +132,13 @@ export function ProjUiuxBody() {
             time="08:36 AM"
             body={
               <>
-                In progress: verify RustFS attachment previews{" "}
-                <MessageReferenceTask href="/playground/all">#11</MessageReferenceTask>
+                {inProgressTask.title}{" "}
+                <MessageReferenceTask href={`/playground/${inProgressTask.channelId}`}>
+                  #{inProgressTask.number}
+                </MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge channelId="all" status="in_progress" taskNumber={11} />}
+            footer={<TaskStatusBadge taskId="task:all:11" />}
           />
           <PlaygroundScenarioMessageRow
             variant="member"
@@ -118,11 +147,13 @@ export function ProjUiuxBody() {
             time="08:37 AM"
             body={
               <>
-                In review: thread reminder wake regression{" "}
-                <MessageReferenceTask href="/playground/all">#12</MessageReferenceTask>
+                {inReviewTask.title}{" "}
+                <MessageReferenceTask href={`/playground/${inReviewTask.channelId}`}>
+                  #{inReviewTask.number}
+                </MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge channelId="all" status="in_review" taskNumber={12} />}
+            footer={<TaskStatusBadge taskId="task:all:12" />}
           />
           <PlaygroundScenarioMessageRow
             variant="member"
@@ -131,11 +162,13 @@ export function ProjUiuxBody() {
             time="08:38 AM"
             body={
               <>
-                Done: archived-channel smoke check{" "}
-                <MessageReferenceTask href="/playground/all">#13</MessageReferenceTask>
+                {doneTask.title}{" "}
+                <MessageReferenceTask href={`/playground/${doneTask.channelId}`}>
+                  #{doneTask.number}
+                </MessageReferenceTask>
               </>
             }
-            footer={<TaskStatusBadge channelId="all" status="done" taskNumber={13} />}
+            footer={<TaskStatusBadge taskId="task:all:13" />}
           />
 
           <PlaygroundScenarioMessageRow
@@ -204,6 +237,26 @@ export function ProjUiuxBody() {
   );
 }
 
+function PlaygroundFileAttachments({ messageId }: { messageId: PlaygroundMessageId }) {
+  return (
+    <>
+      {getPlaygroundFilesForMessage(messageId).map((file) => {
+        const summary = file.type === "image" ? "Image preview" : "Text document";
+        return (
+          <MessageAttachmentReadyComposition
+            key={file.id}
+            name={file.filename}
+            meta={`${summary} · ${file.size}`}
+            summary={summary}
+            primaryAction={<Eye />}
+            onPrimaryAction={() => window.open(file.previewUrl, "_blank", "noopener,noreferrer")}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 // Rich-text body reproduction (source renders markdown + inline reference chips
 // at the app level; the design-system MessageItemBody is a plain container).
 export function ChipDemoBody() {
@@ -231,18 +284,21 @@ export function ChipDemoBody() {
       </p>
       <p>
         Refs in one line:{" "}
-        <MessageReferenceChannel href="/playground/general">#general</MessageReferenceChannel> task{" "}
-        <MessageReferenceTask href="/playground/frontend">#15</MessageReferenceTask>{" "}
+        <MessageReferenceChannel href="/playground/general">
+          #{GENERAL_CHANNEL_NAME}
+        </MessageReferenceChannel>{" "}
+        task <MessageReferenceTask href="/playground/frontend">#15</MessageReferenceTask>{" "}
         <MessageReferenceThread href="/playground/general">
-          #general:67253b90
+          #{GENERAL_CHANNEL_NAME}:67253b90
         </MessageReferenceThread>{" "}
         <MessagePermalinkReferenceComposition href="/playground/general">
-          #general
+          #{GENERAL_CHANNEL_NAME}
         </MessagePermalinkReferenceComposition>
       </p>
       <blockquote>Quote row repeats the same shapes at one line height.</blockquote>
       <p>
-        Code should not become chips: <MessageInlineCode>@Developer #general</MessageInlineCode>
+        Code should not become chips:{" "}
+        <MessageInlineCode>@Developer #{GENERAL_CHANNEL_NAME}</MessageInlineCode>
       </p>
     </MessageMarkdown>
   );

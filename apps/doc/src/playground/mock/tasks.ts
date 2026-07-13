@@ -1,6 +1,7 @@
 import type { PlaygroundActorId } from "./actors.ts";
 import {
   ALL_SHOWCASE_THREAD_IDS,
+  getPlaygroundThread,
   type PlaygroundChannelId,
   type PlaygroundMessageId,
 } from "./conversations.ts";
@@ -49,7 +50,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 10,
-    title: "Check default seed member permissions",
+    title: "Confirm migration ownership for shared message primitives",
     status: "todo",
     creatorActorId: "developer",
     assigneeActorId: "ada",
@@ -58,15 +59,16 @@ export const PLAYGROUND_TASKS = [
     channelId: "all",
     number: 14,
     title:
-      "Audit long task titles across narrow columns without truncating the decision or losing the task number",
-    description: "This task intentionally exercises the longest card content in the fixture.",
+      "Resolve the remaining Raft UI migration blockers across message actions, thread routing, and narrow task views",
+    description:
+      "The migration can leave review once every blocker has an owner and a verified canonical composition.",
     status: "todo",
     creatorActorId: "cindy",
   }),
   defineTask({
     channelId: "all",
     number: 11,
-    title: "Verify RustFS attachment previews",
+    title: "Verify migrated attachment previews against source behavior",
     status: "in_progress",
     creatorActorId: "developer",
     assigneeActorId: "cuvii",
@@ -74,7 +76,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 1,
-    title: "Migrate the original task registry",
+    title: "Migrate legacy task records into the Raft UI board",
     status: "in_progress",
     creatorActorId: "legacyBot",
     assigneeActorId: "legacyBot",
@@ -84,7 +86,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 15,
-    title: "Review task filter empty states",
+    title: "Review empty states in the migration task filters",
     status: "in_review",
     creatorActorId: "atlas",
     assigneeActorId: "samira",
@@ -92,7 +94,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 12,
-    title: "Review the thread reminder wake regression",
+    title: "Resolve the migrated thread reminder wake regression",
     status: "in_review",
     creatorActorId: "atlas",
     assigneeActorId: "specWriter",
@@ -100,7 +102,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 3,
-    title: "Verify imported legacy task metadata",
+    title: "Verify metadata preserved from imported migration tasks",
     status: "in_review",
     creatorActorId: "legacyBot",
     legacy: true,
@@ -109,7 +111,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 13,
-    title: "Run the archived-channel smoke check",
+    title: "Complete the archived-channel migration check",
     status: "done",
     creatorActorId: "specWriter",
     assigneeActorId: "cuvii",
@@ -117,7 +119,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 2,
-    title: "Archive duplicate task fixtures",
+    title: "Archive superseded migration tasks",
     status: "done",
     creatorActorId: "legacyBot",
     legacy: true,
@@ -126,7 +128,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 16,
-    title: "Retire the superseded release checklist",
+    title: "Close the superseded Raft UI release checklist",
     status: "closed",
     creatorActorId: "releaseScribe",
     assigneeActorId: "avery",
@@ -134,8 +136,9 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 21,
-    title: "Document the state ownership boundary",
-    description: "Keep server state out of the local store before changing the state model.",
+    title: "Document state ownership for migrated message flows",
+    description:
+      "Keep server state outside the local store and assign each interaction to its narrowest owner.",
     status: "todo",
     creatorActorId: "developer",
     assigneeActorId: "atlas",
@@ -144,8 +147,9 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 22,
-    title: "Narrow message-list selectors",
-    description: "Subscribe only to the visible conversation and isolate presence updates.",
+    title: "Narrow selectors for the migrated message list",
+    description:
+      "Subscribe only to the visible conversation and isolate presence updates before the migration ships.",
     status: "in_progress",
     creatorActorId: "developer",
     assigneeActorId: "cuvii",
@@ -154,8 +158,9 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 23,
-    title: "Review invite-code rate limiting",
-    description: "Confirm rejected probes do not reveal whether an invite code exists.",
+    title: "Clear the invite-security migration gate",
+    description:
+      "Confirm rate limits and generic errors prevent rejected probes from revealing valid invite codes.",
     status: "in_review",
     creatorActorId: "atlas",
     assigneeActorId: "samira",
@@ -164,7 +169,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "all",
     number: 24,
-    title: "Compare generated API docs with current examples",
+    title: "Compare generated API docs with canonical compositions",
     status: "in_review",
     creatorActorId: "atlas",
     assigneeActorId: "specWriter",
@@ -173,7 +178,7 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "frontend",
     number: 10,
-    title: "Check default seed member permissions",
+    title: "Verify default member actions across message states",
     status: "todo",
     creatorActorId: "developer",
     assigneeActorId: "ada",
@@ -181,35 +186,35 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "frontend",
     number: 11,
-    title: "Verify the RustFS attachment previews",
+    title: "Verify attachment previews across pending and failed messages",
     status: "in_progress",
     creatorActorId: "ada",
   }),
   defineTask({
     channelId: "frontend",
     number: 12,
-    title: "Review the thread reminder wake regression",
+    title: "Review the thread reminder wake state",
     status: "in_review",
     creatorActorId: "developer",
   }),
   defineTask({
     channelId: "frontend",
     number: 13,
-    title: "Run the archived-channel smoke check",
+    title: "Confirm message actions in archived channels",
     status: "done",
     creatorActorId: "ada",
   }),
   defineTask({
     channelId: "frontend",
     number: 15,
-    title: "Close the duplicate migration ticket",
+    title: "Close duplicate message-state coverage work",
     status: "closed",
     creatorActorId: "developer",
   }),
   defineTask({
     channelId: "frontend",
     number: 16,
-    title: "Update the task status from the agent run",
+    title: "Sync agent progress messages with task state",
     status: "in_progress",
     creatorActorId: "atlas",
     assigneeActorId: "atlas",
@@ -217,8 +222,8 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "general",
     number: 17,
-    title: "Claim the playground data pass",
-    description: "Keep Tasks aligned with the canonical conversation registry.",
+    title: "Confirm owners for this week's engineering priorities",
+    description: "Close the two unowned decisions before tomorrow's planning checkpoint.",
     status: "in_progress",
     creatorActorId: "avery",
     assigneeActorId: "cuvii",
@@ -227,30 +232,44 @@ export const PLAYGROUND_TASKS = [
   defineTask({
     channelId: "design",
     number: 18,
-    title: "Review empty, muted, and unread combinations",
+    title: "Audit empty, muted, and unread sidebar states",
+    description: "Confirm every navigation state has clear context and an accountable owner.",
     status: "todo",
     creatorActorId: "cindy",
     assigneeActorId: "mira",
-    sourceMessageId: "design:opening",
+    sourceMessageId: "design:reply",
   }),
   defineTask({
     channelId: "launch",
     number: 19,
-    title: "Finish the support handoff",
+    title: "Complete the public-launch support handoff",
+    description: "Get Support sign-off on escalation paths and the customer-facing launch guide.",
     status: "in_review",
     creatorActorId: "avery",
     assigneeActorId: "releaseScribe",
-    sourceMessageId: "launch:opening",
+    sourceMessageId: "launch:reply",
   }),
   defineTask({
     channelId: "incidents",
     number: 20,
-    title: "Document the retry-queue detection gap",
+    title: "Document the webhook retry-queue detection gap",
+    description: "Record the missing alert, its trigger threshold, and the follow-up owner.",
     status: "closed",
     creatorActorId: "incidentTriage",
     assigneeActorId: "deployBot",
   }),
 ] as const satisfies readonly PlaygroundTask[];
+
+for (const task of PLAYGROUND_TASKS) {
+  if (!task.sourceMessageId) continue;
+  const source = getPlaygroundThread(task.sourceMessageId);
+  if (!source) {
+    throw new Error(`Unknown source message for playground task: ${task.id}`);
+  }
+  if (source.channelId !== task.channelId) {
+    throw new Error(`Playground task source is in another channel: ${task.id}`);
+  }
+}
 
 export function getPlaygroundTasks(channelId: PlaygroundChannelId): readonly PlaygroundTask[] {
   return PLAYGROUND_TASKS.filter((task) => task.channelId === channelId);
