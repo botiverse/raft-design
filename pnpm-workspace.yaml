@@ -6,9 +6,6 @@ packages:
 catalogMode: prefer
 
 catalog:
-  bumpp: ^11.1.0
-  conventional-changelog: ^8.1.0
-  conventional-changelog-conventionalcommits: ^10.2.1
   "@types/node": ^26.1.1
   typescript: ^7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@0.2.4

@@ -13,6 +13,7 @@ import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
+import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground.index'
 import { Route as MigrationIndexRouteImport } from './routes/migration.index'
@@ -114,6 +115,11 @@ const InstallationRoute = InstallationRouteImport.update({
 const ComponentsRoute = ComponentsRouteImport.update({
   id: '/components',
   path: '/components',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangelogRoute = ChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -541,6 +547,7 @@ const ComponentsBadgeMatrixRoute = ComponentsBadgeMatrixRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
@@ -629,6 +636,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
@@ -716,6 +724,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
@@ -806,6 +815,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/changelog'
     | '/components'
     | '/installation'
     | '/migration'
@@ -894,6 +904,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/changelog'
     | '/components'
     | '/installation'
     | '/components/alert-dialog'
@@ -980,6 +991,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/changelog'
     | '/components'
     | '/installation'
     | '/migration'
@@ -1069,6 +1081,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChangelogRoute: typeof ChangelogRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
@@ -1109,6 +1122,13 @@ declare module '@tanstack/react-router' {
       path: '/components'
       fullPath: '/components'
       preLoaderRoute: typeof ComponentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/changelog': {
+      id: '/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -1889,6 +1909,7 @@ const TokensTypographyRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChangelogRoute: ChangelogRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
