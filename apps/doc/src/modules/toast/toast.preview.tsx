@@ -8,6 +8,7 @@ export function ToastPlaygroundPreview() {
     <ComponentPlayground<PreviewPlaygroundValues>
       defaultValues={{
         mode: "stacked",
+        placement: "bottom-center",
         icon: true,
         description: true,
         action: true,
@@ -15,6 +16,12 @@ export function ToastPlaygroundPreview() {
       }}
       controls={[
         { name: "mode", label: "Mode", type: "radio", options: ["stacked", "anchored"] },
+        {
+          name: "placement",
+          label: "Placement",
+          type: "select",
+          options: ["bottom-center", "bottom-right", "top-center", "top-right"],
+        },
         { name: "icon", label: "Icon", type: "boolean" },
         { name: "description", label: "Description", type: "boolean" },
         { name: "action", label: "Action", type: "boolean" },

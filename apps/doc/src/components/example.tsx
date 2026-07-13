@@ -9,8 +9,9 @@ import type { PreviewMode } from "#/components/preview-theme.tsx";
 import type { Theme } from "raft-ui";
 
 type ExampleProps = {
-  html: ReactNode | AnyRenderableServerComponent;
+  html?: ReactNode | AnyRenderableServerComponent;
   collapsedHtml?: ReactNode | AnyRenderableServerComponent;
+  codeBlock?: ReactNode;
   children: ReactNode;
   previewClassName?: string;
   previewInset?: "default" | "flush";
@@ -22,6 +23,7 @@ type ExampleProps = {
 export function Example({
   html,
   collapsedHtml,
+  codeBlock,
   children,
   previewClassName,
   previewInset,
@@ -52,11 +54,13 @@ export function Example({
             </Button>
           </div>
           <Collapsible.Panel className="min-w-0 border-t border-[oklch(0_0_0_/_0.06)]">
-            <DocsCodeBlock>
-              <DocsCodeBlock.Body showLineNumbers={false}>
-                <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
-              </DocsCodeBlock.Body>
-            </DocsCodeBlock>
+            {codeBlock ?? (
+              <DocsCodeBlock>
+                <DocsCodeBlock.Body showLineNumbers={false}>
+                  <DocsCodeBlock.Content html={html} collapsedHtml={collapsedHtml} />
+                </DocsCodeBlock.Body>
+              </DocsCodeBlock>
+            )}
           </Collapsible.Panel>
         </Collapsible.Root>
       }

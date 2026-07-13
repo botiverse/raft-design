@@ -31,6 +31,7 @@ type ToastDemoData = {
 
 export type ToastDemoOptions = {
   mode: "stacked" | "anchored";
+  placement: "bottom-center" | "bottom-right" | "top-center" | "top-right";
   icon: boolean;
   description: boolean;
   action: boolean;
@@ -39,6 +40,7 @@ export type ToastDemoOptions = {
 
 const DEFAULT_TOAST_DEMO_OPTIONS: ToastDemoOptions = {
   mode: "stacked",
+  placement: "bottom-center",
   icon: true,
   description: true,
   action: true,
@@ -92,7 +94,7 @@ export function ToastComposition({
           <ToastPortal container={portalContainer}>
             <ToastViewport
               strategy="absolute"
-              placement={demoOptions.mode === "anchored" ? "none" : "bottom-center"}
+              placement={demoOptions.mode === "anchored" ? "none" : demoOptions.placement}
             >
               <ToastList />
             </ToastViewport>

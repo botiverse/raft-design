@@ -10,6 +10,7 @@ import { tv } from "tailwind-variants/lite";
 import { TextMorph } from "torph/react";
 
 import { CodeBlock } from "./code-block.tsx";
+import { DocsCodeBlockFiles } from "./docs-code-block-files.tsx";
 import { IconSwap } from "./icon-swap.tsx";
 
 const docsCodeBlock = tv({
@@ -335,4 +336,5 @@ export const DocsCodeBlock = Object.assign(DocsCodeBlockRoot, {
   Content: DocsCodeBlockContent,
   LineNumbers: DocsCodeBlockLineNumbers,
   Panel: DocsCodeBlockPanel,
+  Files: DocsCodeBlockFiles,
 });
