@@ -6,11 +6,31 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
-import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX } from "lucide-react";
-import { Avatar, AvatarFallback, Checkbox } from "raft-ui";
+import {
+  FileText,
+  GitBranch,
+  Hash,
+  ImagePlus,
+  Lock,
+  Paperclip,
+  Send,
+  UserX,
+  X,
+} from "lucide-react";
+import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
+  ComposerAttachment,
+  ComposerAttachmentBody,
+  ComposerAttachmentFailedOverlay,
+  ComposerAttachmentFile,
+  ComposerAttachmentMeta,
+  ComposerAttachmentProgress,
+  ComposerAttachmentRemove,
+  ComposerAttachments,
+  ComposerAttachmentTitle,
+  ComposerAttachmentUploadingOverlay,
   ComposerDropOverlay,
   ComposerDropOverlayLabel,
   ComposerIconButton,
@@ -36,7 +56,11 @@ import {
   ComposerBodyComposition,
 } from "#/compositions/composer-composition.tsx";
 import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
-import type { PlaygroundChannel } from "./mock/index.ts";
+import type {
+  PlaygroundChannel,
+  PlaygroundComposerAttachment,
+  PlaygroundInitialComposer,
+} from "./mock/index.ts";
 import {
   usePlaygroundComposerAutocomplete,
   type ComposerSuggestion,
@@ -44,6 +68,10 @@ import {
 
 type AutocompleteApi = ReturnType<typeof usePlaygroundComposerAutocomplete>;
 type OptionProps = ReturnType<AutocompleteApi["getOptionProps"]>;
+type ComposerAttachmentState =
+  | { kind: "none" }
+  | { kind: "generic" }
+  | { kind: "seeded"; attachments: readonly PlaygroundComposerAttachment[] };
 
 function AutocompleteOption({
   suggestion,
@@ -141,22 +169,80 @@ function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
   );
 }
 
+function PlaygroundSeededComposerAttachments({
+  attachments,
+  onRemove,
+  onRetry,
+}: {
+  attachments: readonly PlaygroundComposerAttachment[];
+  onRemove: (name: string) => void;
+  onRetry: (name: string) => void;
+}) {
+  return (
+    <ComposerAttachments>
+      {attachments.map((attachment) => (
+        <ComposerAttachment key={attachment.name}>
+          <ComposerAttachmentFile>
+            <FileText />
+            <ComposerAttachmentBody>
+              <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
+              <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
+            </ComposerAttachmentBody>
+          </ComposerAttachmentFile>
+          {attachment.state.kind === "uploading" ? (
+            <>
+              <ComposerAttachmentUploadingOverlay>
+                <Spinner size="sm" />
+                {attachment.state.progress}%
+              </ComposerAttachmentUploadingOverlay>
+              <ComposerAttachmentProgress
+                aria-label={`Upload progress for ${attachment.name}`}
+                value={attachment.state.progress}
+              />
+            </>
+          ) : null}
+          {attachment.state.kind === "failed" ? (
+            <ComposerAttachmentFailedOverlay
+              render={<button type="button" />}
+              onClick={() => onRetry(attachment.name)}
+            >
+              Upload failed
+              <span className="underline">Tap to retry</span>
+            </ComposerAttachmentFailedOverlay>
+          ) : null}
+          <ComposerAttachmentRemove
+            aria-label={`Remove ${attachment.name}`}
+            onClick={() => onRemove(attachment.name)}
+          >
+            <X />
+          </ComposerAttachmentRemove>
+        </ComposerAttachment>
+      ))}
+    </ComposerAttachments>
+  );
+}
+
 function PlaygroundComposer({
   channel,
   label,
-  uploads,
+  initialComposer,
   focusOnMount = false,
   footer,
 }: {
   channel: PlaygroundChannel;
   label: string;
-  uploads: boolean;
+  initialComposer?: PlaygroundInitialComposer;
   focusOnMount?: boolean;
   footer: "main" | "thread";
 }) {
   const [draft, setDraft] = useState("");
   const autocomplete = usePlaygroundComposerAutocomplete(channel, draft, setDraft);
-  const [attachmentsVisible, setAttachmentsVisible] = useState(uploads);
+  const [attachmentState, setAttachmentState] = useState<ComposerAttachmentState>(
+    initialComposer
+      ? { kind: "seeded", attachments: initialComposer.attachments }
+      : { kind: "none" },
+  );
+  const attachmentsVisible = attachmentState.kind !== "none";
   const [statusMessage, setStatusMessage] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const dragDepthRef = useRef(0);
@@ -184,7 +270,7 @@ function PlaygroundComposer({
     if (!text && !attachmentsVisible) return;
     setStatusMessage(text ? `Sent: ${text}` : "Attachments sent");
     autocomplete.clear();
-    setAttachmentsVisible(false);
+    setAttachmentState({ kind: "none" });
   };
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -235,7 +321,7 @@ function PlaygroundComposer({
     event.preventDefault();
     dragDepthRef.current = 0;
     setIsDragging(false);
-    setAttachmentsVisible(true);
+    setAttachmentState({ kind: "generic" });
     setStatusMessage("Files attached");
   };
 
@@ -248,10 +334,39 @@ function PlaygroundComposer({
       onDrop={handleDrop}
     >
       {autocomplete.open ? <AutocompleteList autocomplete={autocomplete} /> : null}
-      {attachmentsVisible ? (
+      {attachmentState.kind === "seeded" ? (
+        <PlaygroundSeededComposerAttachments
+          attachments={attachmentState.attachments}
+          onRemove={(name) => {
+            setAttachmentState((state) => {
+              if (state.kind !== "seeded") return state;
+              const attachments = state.attachments.filter(
+                (attachment) => attachment.name !== name,
+              );
+              return attachments.length > 0 ? { kind: "seeded", attachments } : { kind: "none" };
+            });
+            setStatusMessage(`${name} removed`);
+          }}
+          onRetry={(name) => {
+            setAttachmentState((state) =>
+              state.kind === "seeded"
+                ? {
+                    kind: "seeded",
+                    attachments: state.attachments.map((attachment) =>
+                      attachment.name === name
+                        ? { ...attachment, state: { kind: "uploading", progress: 0 } }
+                        : attachment,
+                    ),
+                  }
+                : state,
+            );
+            setStatusMessage(`Retrying ${name}`);
+          }}
+        />
+      ) : attachmentState.kind === "generic" ? (
         <ComposerAttachmentsComposition
           onRemove={(name) => {
-            setAttachmentsVisible(false);
+            setAttachmentState({ kind: "none" });
             setStatusMessage(`${name} removed`);
           }}
           onRetry={(name) => setStatusMessage(`Retrying ${name}`)}
@@ -264,7 +379,7 @@ function PlaygroundComposer({
             <ComposerIconButton
               aria-label="Attach image"
               onClick={() => {
-                setAttachmentsVisible(true);
+                setAttachmentState({ kind: "generic" });
                 setStatusMessage("Mock image attached");
               }}
             >
@@ -273,7 +388,7 @@ function PlaygroundComposer({
             <ComposerIconButton
               aria-label="Attach file"
               onClick={() => {
-                setAttachmentsVisible(true);
+                setAttachmentState({ kind: "generic" });
                 setStatusMessage("Mock file attached");
               }}
             >
@@ -319,29 +434,24 @@ function PlaygroundComposer({
 type PlaygroundComposerProps = {
   channel: PlaygroundChannel;
   label: string;
-  uploads?: boolean;
 };
 
 export function PlaygroundMainComposer({
   channel,
   label,
-  uploads = false,
-}: PlaygroundComposerProps) {
+  initialComposer,
+}: PlaygroundComposerProps & { initialComposer?: PlaygroundInitialComposer }) {
   return (
     <PlaygroundComposer
       channel={channel}
       label={label}
-      uploads={uploads}
+      initialComposer={initialComposer}
       focusOnMount
       footer="main"
     />
   );
 }
 
-export function PlaygroundThreadComposer({
-  channel,
-  label,
-  uploads = false,
-}: PlaygroundComposerProps) {
-  return <PlaygroundComposer channel={channel} label={label} uploads={uploads} footer="thread" />;
+export function PlaygroundThreadComposer({ channel, label }: PlaygroundComposerProps) {
+  return <PlaygroundComposer channel={channel} label={label} footer="thread" />;
 }

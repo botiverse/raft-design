@@ -1,11 +1,19 @@
-import { createContext, use, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  use,
+  useMemo,
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 
-import { PLAYGROUND_TASKS, type PlaygroundTask } from "./mock/index.ts";
+import { PLAYGROUND_TASKS, type PlaygroundTask, type PlaygroundTaskId } from "./mock/index.ts";
 import { PlaygroundMessageWorkflowProvider } from "./playground-message-workflow-state.tsx";
 
 type PlaygroundTaskState = {
   tasks: readonly PlaygroundTask[];
-  setTasks: (tasks: readonly PlaygroundTask[]) => void;
+  setTasks: Dispatch<SetStateAction<readonly PlaygroundTask[]>>;
 };
 
 const PlaygroundTaskStateContext = createContext<PlaygroundTaskState | null>(null);
@@ -28,4 +36,11 @@ export function usePlaygroundTaskState() {
   if (!state)
     throw new Error("usePlaygroundTaskState must be used inside PlaygroundTaskStateProvider");
   return state;
+}
+
+export function usePlaygroundTask(taskId: PlaygroundTaskId): PlaygroundTask {
+  const { tasks } = usePlaygroundTaskState();
+  const task = tasks.find((candidate) => candidate.id === taskId);
+  if (!task) throw new Error(`Unknown playground task: ${taskId}`);
+  return task;
 }

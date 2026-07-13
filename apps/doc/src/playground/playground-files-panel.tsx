@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   FilesPanelComposition,
@@ -5,21 +6,19 @@ import {
 } from "#/compositions/files/files-panel-composition.tsx";
 import {
   getPlaygroundFiles,
-  type PlaygroundChannel,
-  type PlaygroundChannelId,
+  requirePlaygroundFile,
+  type PlaygroundChannelRecord,
   type PlaygroundFile,
 } from "./mock/index.ts";
+import { usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 
 const PAGE_SIZE = 2;
 
-export function PlaygroundFilesPanel({
-  channel,
-  onJumpToOriginal,
-}: {
-  channel: PlaygroundChannel;
-  onJumpToOriginal: () => void;
-}) {
-  const files = getPlaygroundFiles(channel.id as PlaygroundChannelId);
+export function PlaygroundFilesPanel({ channel }: { channel: PlaygroundChannelRecord }) {
+  const navigate = useNavigate();
+  const { selectPanelTab } = usePlaygroundNavigation();
+  const channelId = channel.id;
+  const files = getPlaygroundFiles(channelId);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const visibleFiles = files.slice(0, visibleCount).map(toFileListEntry);
 
@@ -29,13 +28,20 @@ export function PlaygroundFilesPanel({
       hasMore={visibleCount < files.length}
       onLoadMore={() => setVisibleCount((count) => Math.min(files.length, count + PAGE_SIZE))}
       onPreview={(file) => {
-        const source = files.find((item) => item.id === file.id);
-        if (source) window.open(source.previewUrl, "_blank", "noopener,noreferrer");
+        const source = requirePlaygroundFile(file.id);
+        window.open(source.previewUrl, "_blank", "noopener,noreferrer");
       }}
-      onJumpToOriginal={onJumpToOriginal}
+      onJumpToOriginal={(file) => {
+        const source = requirePlaygroundFile(file.id);
+        selectPanelTab("chat");
+        void navigate({
+          to: "/playground/$channelId",
+          params: { channelId },
+          search: { thread: source.sourceMessageId },
+        });
+      }}
       onDownload={(file) => {
-        const source = files.find((item) => item.id === file.id);
-        if (!source) return;
+        const source = requirePlaygroundFile(file.id);
         const link = document.createElement("a");
         link.href = source.previewUrl;
         link.download = source.filename;

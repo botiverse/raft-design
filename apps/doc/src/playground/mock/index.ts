@@ -25,13 +25,15 @@ export {
   type PlaygroundChannelId,
   type PlaygroundChannelKind,
   type PlaygroundChannelRecord,
+  type PlaygroundComposerAttachment,
   type PlaygroundDirectMessage,
+  type PlaygroundInitialComposer,
   type PlaygroundMessage,
   type PlaygroundMessageId,
   type PlaygroundNavigationState,
   type PlaygroundRoomChannel,
   type PlaygroundRoomKind,
-  type PlaygroundScenarioId,
+  type PlaygroundShowcasePreset,
   type PlaygroundThread,
   type PlaygroundThreadContext,
   type PlaygroundThreadId,
@@ -46,4 +48,12 @@ export {
   type PlaygroundTaskStatus,
 } from "./tasks.ts";
 
-export { PLAYGROUND_FILES, getPlaygroundFiles, type PlaygroundFile } from "./files.ts";
+export {
+  PLAYGROUND_FILES,
+  getPlaygroundFile,
+  getPlaygroundFiles,
+  getPlaygroundFilesForMessage,
+  requirePlaygroundFile,
+  type PlaygroundFile,
+  type PlaygroundFileId,
+} from "./files.ts";

@@ -101,6 +101,7 @@ import {
 } from "raft-ui/wip";
 
 import {
+  DEFAULT_CHANNEL_ID,
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_INVITABLE_ACTORS,
   PLAYGROUND_JOINT_CHANNELS,
@@ -289,7 +290,7 @@ function getSidebarRowMenu(row: PlaygroundRoomChannel | PlaygroundDirectMessage)
     pinned: row.navigation.pinned === true,
     muted: row.navigation.muted === true,
     canMute: !row.archived,
-    canArchive: row.name !== "all" && row.kind !== "joint" && !row.archived,
+    canArchive: row.id !== DEFAULT_CHANNEL_ID && row.kind !== "joint" && !row.archived,
   };
 }
 

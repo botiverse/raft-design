@@ -11,8 +11,7 @@ import type { TaskFixture } from "#/compositions/tasks/task-fixtures.ts";
 import {
   PLAYGROUND_ACTORS,
   type PlaygroundActor,
-  type PlaygroundChannel,
-  type PlaygroundChannelId,
+  type PlaygroundChannelRecord,
   type PlaygroundTask,
 } from "./mock/index.ts";
 import { usePlaygroundTaskState } from "./playground-task-state.tsx";
@@ -41,13 +40,13 @@ function persistTaskView(view: TaskView) {
   }
 }
 
-export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannel }) {
+export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannelRecord }) {
   const navigate = useNavigate();
   const [view, setView] = useState<TaskView>(readInitialTaskView);
   const { tasks, setTasks } = usePlaygroundTaskState();
-  const channelId = channel.id as PlaygroundChannelId;
+  const channelId = channel.id;
   const channelTasks = tasks.filter((task) => task.channelId === channelId);
-  const compositionTasks = channelTasks.map((task) => toTaskFixture(task));
+  const compositionTasks = channelTasks.map((task) => toTaskFixture(task, channel.name));
   const creatorOptions = getCreatorOptions();
   const assigneeOptions = getAssigneeOptions();
 
@@ -106,11 +105,11 @@ export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannel }
   );
 }
 
-function toTaskFixture(task: PlaygroundTask): TaskFixture {
+function toTaskFixture(task: PlaygroundTask, channelName: string): TaskFixture {
   return {
     id: task.id,
     taskNumber: task.number,
-    channelName: task.channelId,
+    channelName,
     title: task.title,
     description: task.description,
     status: task.status,
