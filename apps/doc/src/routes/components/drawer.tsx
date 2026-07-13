@@ -8,10 +8,15 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { Example } from "#/components/example.tsx";
+import { DrawerNestedCloseCallbackComposition } from "#/modules/drawer/compositions/nested-close-callback.composition.tsx";
+import nestedCloseCallbackCompositionSource from "#/modules/drawer/compositions/nested-close-callback.composition.tsx?raw";
 import pwaInstallCompositionSource from "#/modules/drawer/compositions/pwa-install-drawer.composition.tsx?raw";
 import pwaInstallOtherCompositionSource from "#/modules/drawer/compositions/pwa-install-other-drawer.composition.tsx?raw";
 import { DrawerResponsivePlacementComposition } from "#/modules/drawer/compositions/responsive-placement.composition.tsx";
 import responsivePlacementCompositionSource from "#/modules/drawer/compositions/responsive-placement.composition.tsx?raw";
+import memberDetailsDrawerSource from "#/modules/drawer/compositions/workspace-settings/member-details-drawer.tsx?raw";
+import removeMemberDrawerSource from "#/modules/drawer/compositions/workspace-settings/remove-member-drawer.tsx?raw";
+import workspaceSettingsDrawerSource from "#/modules/drawer/compositions/workspace-settings/workspace-settings-drawer.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { DrawerPreview, DrawerSideFullWidthUsage } from "#/modules/drawer/drawer.preview.tsx";
 
@@ -136,6 +141,10 @@ const SOURCE_ADAPTIVE_OTHER = `<BottomSheet className="md:hidden" sheetClassName
 const SNIPPETS = {
   anatomy: ANATOMY,
   leaveChannel: ANATOMY,
+  listenNestedCloseComposition: nestedCloseCallbackCompositionSource,
+  listenNestedCloseMemberDetails: memberDetailsDrawerSource,
+  listenNestedCloseRemoveMember: removeMemberDrawerSource,
+  listenNestedCloseWorkspaceSettings: workspaceSettingsDrawerSource,
   pwaInstall: pwaInstallCompositionSource,
   pwaInstallOther: pwaInstallOtherCompositionSource,
   sourceAdaptive: SOURCE_ADAPTIVE,
@@ -161,6 +170,12 @@ const PROPS: readonly PropRow[] = [
     name: "onOpenChange",
     type: "(open: boolean, eventDetails) => void",
     description: "Fires on trigger, close, Escape, outside press, or swipe dismissal.",
+  },
+  {
+    name: "onOpenChangeComplete",
+    type: "(open: boolean) => void",
+    description:
+      "Fires after the opening or closing transition completes. Attach it to a nested Drawer and check for open === false to observe that layer closing.",
   },
   {
     name: "modal",
@@ -266,6 +281,56 @@ function DrawerDoc() {
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">
+              Nested settings flow and close callbacks
+            </h3>
+            <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
+              In product code, each layer is usually its own business screen. This example splits
+              workspace settings, member details, and member removal into separate files. The entry
+              composition nests those screens and attaches{" "}
+              <code className="font-mono text-[0.8125rem]">onOpenChangeComplete</code> to the exact
+              layer it observes; each screen renders the next screen through{" "}
+              <code className="font-mono text-[0.8125rem]">children</code> at the point where that
+              next action belongs. Removing the member closes the controlled confirmation and
+              member-details layers in the same event, so both exit together and reveal workspace
+              settings directly. Other confirmation dismissals return only to member details.
+            </p>
+            <Example
+              codeBlock={
+                <DocsCodeBlock.Files
+                  collapsible={false}
+                  files={[
+                    {
+                      path: "nested-close-callback.composition.tsx",
+                      source: nestedCloseCallbackCompositionSource,
+                      html: code.listenNestedCloseComposition,
+                    },
+                    {
+                      path: "workspace-settings/workspace-settings-drawer.tsx",
+                      source: workspaceSettingsDrawerSource,
+                      html: code.listenNestedCloseWorkspaceSettings,
+                    },
+                    {
+                      path: "workspace-settings/member-details-drawer.tsx",
+                      source: memberDetailsDrawerSource,
+                      html: code.listenNestedCloseMemberDetails,
+                    },
+                    {
+                      path: "workspace-settings/remove-member-drawer.tsx",
+                      source: removeMemberDrawerSource,
+                      html: code.listenNestedCloseRemoveMember,
+                    },
+                  ]}
+                />
+              }
+            >
+              <div className="flex justify-center">
+                <DrawerNestedCloseCallbackComposition />
+              </div>
+            </Example>
+          </div>
+
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">
               Mobile full-width side drawer
