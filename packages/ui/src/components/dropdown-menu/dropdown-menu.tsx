@@ -75,8 +75,7 @@ const dropdownMenu = tv({
       elegant: {
         trigger: [
           "hover:bg-[color-mix(in_oklch,var(--line-subtle)_22%,var(--layer-panel))]",
-          "data-[popup-open]:[--button-focus-outline:transparent] focus-visible:[--button-focus-outline:transparent]",
-          "data-[popup-open]:shadow-[0_0_0_0.5px_color-mix(in_oklch,var(--ink)_14%,transparent),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)] focus-visible:shadow-[0_0_0_0.5px_color-mix(in_oklch,var(--ink)_14%,transparent),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
+          "focus-visible:ring-0 focus-visible:ring-offset-0",
         ],
         content: [
           "gap-0 rounded-md bg-layer-popover p-1",
@@ -84,7 +83,7 @@ const dropdownMenu = tv({
           "flex flex-col",
         ],
         item: [
-          "gap-2 rounded-sm px-3 py-1 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -97,7 +96,7 @@ const dropdownMenu = tv({
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
         radioItem: [
-          "gap-2 rounded-sm px-3 py-1 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -111,7 +110,7 @@ const dropdownMenu = tv({
         ],
         radioLabel: ["min-w-0 flex-1 truncate"],
         submenuTrigger: [
-          "gap-2 rounded-sm px-3 py-1 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -126,7 +125,7 @@ const dropdownMenu = tv({
           "data-[popup-open]:[&>svg]:text-foreground-strong",
         ],
         label: [
-          "-mx-1 border-b border-line-muted px-3 py-2",
+          "-mx-1 mb-1 border-b border-line-muted px-3 py-2",
           "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
         ],
         shortcut: ["text-foreground-muted"],

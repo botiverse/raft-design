@@ -111,8 +111,7 @@ const combobox = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "data-[popup-open]:[--button-focus-outline:transparent]",
-          "data-[popup-open]:shadow-[0_0_0_0.5px_color-mix(in_oklch,var(--ink)_14%,transparent),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
+          "focus-visible:ring-0 focus-visible:ring-offset-0",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         inputGroup: ["border-line-muted bg-layer-popover px-1.5 pt-1 pb-2"],

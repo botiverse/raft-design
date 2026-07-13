@@ -27,7 +27,7 @@ const select = tv({
     ],
     list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-6"],
     item: [
-      "flex h-8 w-full shrink-0 cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3",
+      "flex w-full shrink-0 cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3",
       "text-left outline-none transition-colors",
     ],
     itemLeading: [
@@ -63,7 +63,7 @@ const select = tv({
           "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-[var(--shadow-brutal)]",
         ],
         item: [
-          "h-auto border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground last:border-b-0",
+          "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground last:border-b-0",
           "[&_[data-slot='select-item-text']]:font-bold",
           "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[selected]:bg-layer-popover data-[selected]:hover:bg-soft-signal/30 data-[selected][data-highlighted]:bg-soft-signal/30",
@@ -91,15 +91,14 @@ const select = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "data-[popup-open]:[--button-focus-outline:transparent]",
-          "data-[popup-open]:shadow-[0_0_0_0.5px_color-mix(in_oklch,var(--ink)_14%,transparent),0_0_0_3px_color-mix(in_oklch,var(--primary-400)_80%,transparent)]",
+          "focus-visible:ring-0 focus-visible:ring-offset-0",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
         list: ["flex flex-col gap-0.5 px-1 py-1"],
         item: [
-          "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
+          "rounded-sm bg-transparent px-2 py-2 text-sm font-normal leading-5 tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
           "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground-strong",
