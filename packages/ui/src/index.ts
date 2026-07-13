@@ -57,35 +57,35 @@ export type {
 } from "./components/dialog/index";
 
 export {
-  BottomSheet,
-  BottomSheetActions,
-  BottomSheetBody,
-  BottomSheetClose,
-  BottomSheetContent,
-  BottomSheetDescription,
-  BottomSheetFooter,
-  BottomSheetHeader,
-  BottomSheetOverlay,
-  BottomSheetPortal,
-  BottomSheetPositioner,
-  BottomSheetTitle,
-  BottomSheetTrigger,
-} from "./components/bottom-sheet/index";
+  Drawer,
+  DrawerActions,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerSwipeHandle,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./components/drawer/index";
 export type {
-  BottomSheetActionsProps,
-  BottomSheetBodyProps,
-  BottomSheetCloseProps,
-  BottomSheetContentProps,
-  BottomSheetDescriptionProps,
-  BottomSheetFooterProps,
-  BottomSheetHeaderProps,
-  BottomSheetOverlayProps,
-  BottomSheetPortalProps,
-  BottomSheetPositionerProps,
-  BottomSheetProps,
-  BottomSheetTitleProps,
-  BottomSheetTriggerProps,
-} from "./components/bottom-sheet/index";
+  DrawerActionsProps,
+  DrawerBodyProps,
+  DrawerCloseProps,
+  DrawerContentProps,
+  DrawerDescriptionProps,
+  DrawerFooterProps,
+  DrawerHeaderProps,
+  DrawerOverlayProps,
+  DrawerPortalProps,
+  DrawerProps,
+  DrawerSwipeHandleProps,
+  DrawerTitleProps,
+  DrawerTriggerProps,
+} from "./components/drawer/index";
 
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";

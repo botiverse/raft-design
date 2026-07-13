@@ -28,7 +28,6 @@ catalog:
   "@tanstack/react-hotkeys": ^0.10.0
   "@vitejs/plugin-rsc": ^0.5.27
   "@cloudflare/vite-plugin": ^1.44.0
-  vaul: ^1.1.2
   react-resizable-panels: ^4.12.1
 overrides:
   vite: "catalog:"

@@ -36,8 +36,7 @@
     "shiki": "catalog:",
     "tailwind-variants": "catalog:",
     "tailwindcss": "^4.3.2",
-    "torph": "^0.0.9",
-    "vaul": "catalog:"
+    "torph": "^0.0.9"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "catalog:",
