@@ -207,98 +207,114 @@ export const badge = tv({
       appearance: "solid",
       variant: "default",
       class: {
-        root: "bg-line-muted text-foreground-muted",
+        root: "bg-[oklch(0.209_0.006_91.63_/_0.078)] text-[oklch(0.359_0.005_106.65)]",
       },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "muted",
-      class: { root: "bg-[oklch(0.46_0.004_106.42)] text-[oklch(0.94_0.001_106.42)]" },
+      class: { root: "bg-[oklch(0.573_0_0)] text-[oklch(0.946_0_0)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "primary",
-      class: { root: "bg-primary-400 text-primary-950" },
+      class: { root: "bg-[oklch(0.886_0.155_91.41)] text-[oklch(0.431_0.088_86.67)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info-base text-brutal-cyan-950" },
+      class: { root: "bg-[oklch(0.783_0.135_219.26)] text-[oklch(0.445_0.083_224.7)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "accent",
-      class: { root: "bg-accent-400 text-accent-950" },
+      class: { root: "bg-[oklch(0.749_0.162_0.7)] text-[oklch(0.281_0.112_3.73)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "success",
-      class: { root: "bg-success-base text-foreground-inverse" },
+      class: { root: "bg-[oklch(0.714_0.176_153.03)] text-[oklch(1_0_0)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "warning",
-      class: { root: "bg-warning-base text-foreground-inverse" },
+      class: { root: "bg-[oklch(0.7_0.202_44.44)] text-[oklch(1_0_0)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "danger",
-      class: { root: "bg-[oklch(0.68_0.22_26.758)] text-foreground-inverse" },
+      class: { root: "bg-[oklch(0.672_0.215_26.69)] text-[oklch(1_0_0)]" },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "default",
-      class: { root: "border-transparent bg-secondary-100 text-secondary-800" },
+      class: {
+        root: "border-transparent bg-[oklch(0.946_0_0)] text-[oklch(0.409_0_0)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "muted",
-      class: { root: "border-transparent bg-secondary-200 text-secondary-800" },
+      class: {
+        root: "border-transparent bg-[oklch(0.946_0_0)] text-[oklch(0.447_0.002_67.77)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "primary",
-      class: { root: "border-transparent bg-primary-400/40 text-primary-900" },
+      class: {
+        root: "border-transparent bg-[oklch(0.955_0.067_93.62)] text-[oklch(0.44_0.09_91.39)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "information",
-      class: { root: "border-transparent bg-info-light text-info-dark" },
+      class: {
+        root: "border-transparent bg-[oklch(0.91_0.056_224.02)] text-[oklch(0.441_0.078_221.2)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "accent",
-      class: { root: "border-transparent bg-accent-200 text-accent-700" },
+      class: {
+        root: "border-transparent bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "success",
-      class: { root: "border-transparent bg-success-base/30 text-[oklch(0.39_0.11_153.079)]" },
+      class: {
+        root: "border-transparent bg-[oklch(0.913_0.11_159.9)] text-[oklch(0.425_0.113_151.2)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "warning",
-      class: { root: "border-transparent bg-warning-light text-[oklch(0.43_0.12_44.441)]" },
+      class: {
+        root: "border-transparent bg-[oklch(0.887_0.064_43.95)] text-[oklch(0.499_0.143_43.52)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "soft",
       variant: "danger",
-      class: { root: "border-transparent bg-danger-light text-danger-dark" },
+      class: {
+        root: "border-transparent bg-[oklch(0.898_0.05_22.7)] text-[oklch(0.445_0.153_32.91)]",
+      },
     },
     {
       theme: "elegant",
