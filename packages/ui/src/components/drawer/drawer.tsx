@@ -106,7 +106,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
           className={popup({ className })}
           {...props}
         >
-          <DrawerSwipeHandle />
+          {hasSnapPoints ? <DrawerSwipeHandle /> : null}
           <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
             {children}
           </DrawerPrimitive.Content>

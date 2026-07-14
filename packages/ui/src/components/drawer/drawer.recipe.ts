@@ -4,6 +4,7 @@ const drawerMotion = tv({
   slots: {
     overlay: [
       "fixed inset-0 z-50 min-h-dvh select-none",
+      "bg-layer-backdrop",
       "opacity-[max(var(--drawer-overlay-min-opacity,0),calc(1-var(--drawer-swipe-progress)))]",
       "transition-opacity duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
       "data-starting-style:opacity-0 data-ending-style:pointer-events-none data-ending-style:opacity-0 data-ending-style:duration-150",
@@ -13,6 +14,7 @@ const drawerMotion = tv({
     viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
     popup: [
       "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none select-none",
+      "text-foreground",
       "[--drawer-blur:2px] [--drawer-ease:cubic-bezier(0.32,0.72,0,1)]",
       "[--closed-transform:translate3d(var(--drawer-exit-x,0px),var(--drawer-exit-y,0px),0)]",
       "[--drawer-stack-peek:1rem] [--drawer-stack-step:0.05]",
@@ -34,14 +36,14 @@ const drawerMotion = tv({
       "data-nested-drawer-open:overflow-hidden",
       "data-[swipe-direction=down]:[--drawer-inset:max(0.75rem,env(safe-area-inset-bottom,0px))] data-[swipe-direction=down]:[--drawer-exit-y:calc(100%+var(--drawer-inset)+2px)]",
       "data-[swipe-direction=down]:[--drawer-stack-y:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=down]:[--drawer-transform-origin:50%_100%]",
-      "data-[swipe-direction=down]:right-3 data-[swipe-direction=down]:bottom-(--drawer-inset) data-[swipe-direction=down]:left-3 data-[swipe-direction=down]:mx-auto data-[swipe-direction=down]:mt-24 data-[swipe-direction=down]:min-h-64 data-[swipe-direction=down]:max-h-[82vh]",
+      "data-[swipe-direction=down]:inset-x-3 data-[swipe-direction=down]:bottom-(--drawer-inset) data-[swipe-direction=down]:mx-auto data-[swipe-direction=down]:mt-24 data-[swipe-direction=down]:min-h-64 data-[swipe-direction=down]:max-h-[82vh]",
       "data-[swipe-direction=up]:[--drawer-inset:max(0.75rem,env(safe-area-inset-top,0px))] data-[swipe-direction=up]:[--drawer-exit-y:calc(-100%-var(--drawer-inset)-2px)]",
       "data-[swipe-direction=up]:[--drawer-stack-y:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=up]:[--drawer-transform-origin:50%_0%]",
-      "data-[swipe-direction=up]:top-(--drawer-inset) data-[swipe-direction=up]:right-3 data-[swipe-direction=up]:left-3 data-[swipe-direction=up]:mx-auto data-[swipe-direction=up]:mb-24 data-[swipe-direction=up]:max-h-[80vh]",
+      "data-[swipe-direction=up]:inset-x-3 data-[swipe-direction=up]:top-(--drawer-inset) data-[swipe-direction=up]:mx-auto data-[swipe-direction=up]:mb-24 data-[swipe-direction=up]:max-h-[80vh]",
       "data-[swipe-direction=left]:[--drawer-inset:0.75rem] data-[swipe-direction=left]:[--drawer-exit-x:calc(-100%-var(--drawer-inset)-2px)]",
-      "data-[swipe-direction=left]:[--drawer-stack-x:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=left]:[--drawer-transform-origin:0%_50%] data-[swipe-direction=left]:left-3",
+      "data-[swipe-direction=left]:[--drawer-stack-x:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=left]:[--drawer-transform-origin:0%_50%] data-[swipe-direction=left]:inset-y-3 data-[swipe-direction=left]:left-(--drawer-inset)",
       "data-[swipe-direction=right]:[--drawer-inset:0.75rem] data-[swipe-direction=right]:[--drawer-exit-x:calc(100%+var(--drawer-inset)+2px)]",
-      "data-[swipe-direction=right]:[--drawer-stack-x:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=right]:[--drawer-transform-origin:100%_50%] data-[swipe-direction=right]:right-3",
+      "data-[swipe-direction=right]:[--drawer-stack-x:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=right]:[--drawer-transform-origin:100%_50%] data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:right-(--drawer-inset)",
       "data-[swipe-direction=left]:[--drawer-stack-size:100%] data-[swipe-direction=left]:[--drawer-swipe-x:var(--drawer-swipe-movement-x)] data-[swipe-direction=left]:flex-row data-[swipe-direction=left]:w-3/4 data-[swipe-direction=left]:max-w-sm",
       "data-[swipe-direction=right]:[--drawer-stack-size:100%] data-[swipe-direction=right]:[--drawer-swipe-x:var(--drawer-swipe-movement-x)] data-[swipe-direction=right]:flex-row data-[swipe-direction=right]:w-3/4 data-[swipe-direction=right]:max-w-sm",
       "data-[swipe-direction=down]:[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))] data-[swipe-direction=down]:[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
@@ -82,7 +84,6 @@ const drawerMotion = tv({
     footer: [
       "group-data-[swipe-direction=left]/drawer-popup:py-4 group-data-[swipe-direction=right]/drawer-popup:py-4",
     ],
-    actions: [],
     title: [
       "group-data-[swipe-direction=left]/drawer-popup:min-w-0 group-data-[swipe-direction=left]/drawer-popup:max-w-none group-data-[swipe-direction=left]/drawer-popup:flex-1 group-data-[swipe-direction=left]/drawer-popup:text-left",
       "group-data-[swipe-direction=right]/drawer-popup:min-w-0 group-data-[swipe-direction=right]/drawer-popup:max-w-none group-data-[swipe-direction=right]/drawer-popup:flex-1 group-data-[swipe-direction=right]/drawer-popup:text-left",
@@ -99,7 +100,7 @@ export const drawer = tv({
   slots: {
     header: ["flex flex-col items-center px-6 pt-8 pb-2 text-center"],
     body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
-    footer: ["mt-auto px-6 py-5 md:pb-5"],
+    footer: ["mt-auto px-6 py-5"],
     actions: [
       "mx-auto flex w-full max-w-none flex-col items-stretch gap-2.5",
       "[&_[data-slot=button]]:w-full",
@@ -110,22 +111,21 @@ export const drawer = tv({
   variants: {
     theme: {
       brutal: {
-        overlay: ["bg-layer-backdrop"],
         title: ["font-bold"],
         swipeHandle: ["before:rounded-none before:bg-ink-40"],
         popup: [
-          "border-2 border-line-strong bg-layer-panel text-foreground shadow-brutal-lg",
-          "data-[swipe-direction=left]:inset-y-3 data-[swipe-direction=left]:[--drawer-content-height:calc(100dvh-1.5rem)]",
-          "data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:right-5 data-[swipe-direction=right]:[--drawer-inset:1.25rem] data-[swipe-direction=right]:[--drawer-content-height:calc(100dvh-1.5rem)]",
+          "border-2 border-line-strong bg-layer-panel shadow-brutal-lg",
+          "data-[swipe-direction=left]:[--drawer-content-height:calc(100dvh-1.5rem)]",
+          "data-[swipe-direction=right]:[--drawer-inset:1.25rem] data-[swipe-direction=right]:[--drawer-content-height:calc(100dvh-1.5rem)]",
           "data-[swipe-direction=down]:[--drawer-inset:max(1.25rem,env(safe-area-inset-bottom,0px))]",
         ],
       },
       elegant: {
-        overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
+        overlay: ["backdrop-blur-[2px]"],
         popup: [
-          "overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl md:rounded-xl",
-          "data-[swipe-direction=left]:inset-y-3 data-[swipe-direction=left]:md:max-w-md",
-          "data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:md:max-w-md",
+          "overflow-clip rounded-lg bg-layer-popover shadow-xl md:rounded-xl",
+          "data-[swipe-direction=left]:md:max-w-md",
+          "data-[swipe-direction=right]:md:max-w-md",
         ],
         header: [
           "bg-layer-panel px-8 pt-9 pb-2",
