@@ -278,11 +278,6 @@ export const chatSidebar = tv({
       unread: true,
       class: { sidebarItemTitle: "font-bold" },
     },
-    {
-      theme: "elegant",
-      unread: true,
-      class: { sidebarItemTitle: "font-semibold text-foreground-strong" },
-    },
   ],
 });
 
