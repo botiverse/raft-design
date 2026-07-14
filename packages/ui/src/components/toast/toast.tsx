@@ -3,7 +3,6 @@ import {
   isValidElement,
   type ComponentProps,
   type ComponentPropsWithRef,
-  type CSSProperties,
   type ReactElement,
   type ReactNode,
 } from "react";
@@ -20,15 +19,13 @@ import { cn } from "../../lib/cn";
 const toastStyles = tv({
   slots: {
     viewport: [
-      "pointer-events-auto isolate z-[70] h-[var(--toast-frontmost-height,0px)] w-[min(24rem,calc(100vw-2rem))]",
+      "pointer-events-none isolate z-[70] w-[min(24rem,calc(100vw-2rem))]",
       "outline-none",
-      "[--toast-gap:0.5rem]",
-      "data-[expanded]:h-[calc(var(--toast-items-height)+(var(--toast-gap-count)*var(--toast-gap)))]",
     ],
     positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
-      "select-text overflow-hidden text-foreground-strong",
+      "select-text text-foreground-strong",
       "outline outline-1 outline-offset-2 outline-transparent",
       "[--toast-scale:calc(max(0.84,1-(var(--toast-index)*0.04)))]",
       "[--toast-peek:0.5rem]",
@@ -181,6 +178,7 @@ const toastStyles = tv({
         root: [
           "absolute right-0 bottom-0 left-0 mx-auto h-[var(--toast-stack-height)] w-full origin-bottom",
           "z-[calc(70-var(--toast-index))]",
+          "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+1px)] before:content-['']",
           "[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--toast-peek))))_scale(var(--toast-scale))]",
           "data-[expanded]:h-[var(--toast-height)]",
           "data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(var(--toast-y))_scale(1)]",
@@ -193,6 +191,7 @@ const toastStyles = tv({
           "[&_[data-slot=toast-content][data-behind]]:opacity-0 [&_[data-slot=toast-content][data-expanded]]:opacity-100",
           "[[data-toast-placement$=right]_&]:left-auto [[data-toast-placement$=right]_&]:mx-0",
           "[[data-toast-placement^=top]_&]:top-0 [[data-toast-placement^=top]_&]:bottom-auto [[data-toast-placement^=top]_&]:origin-top",
+          "[[data-toast-placement^=top]_&]:before:top-auto [[data-toast-placement^=top]_&]:before:bottom-full",
           "[[data-toast-placement^=top]_&]:[--toast-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--toast-gap))+var(--toast-swipe-movement-y))]",
           "[[data-toast-placement^=top]_&]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--toast-peek))))_scale(var(--toast-scale))]",
           "[[data-toast-placement^=top]_&[data-starting-style]]:[transform:translateY(-120%)_scale(0.98)]",
@@ -434,38 +433,20 @@ export function ToastPortal(props: ToastPortalProps) {
 export type ToastViewportProps = StyledProps<BaseToast.Viewport.Props> &
   Pick<VariantProps<typeof toastStyles>, "placement" | "strategy">;
 
-type ToastViewportStyle = CSSProperties & {
-  "--toast-gap-count": number;
-  "--toast-items-height": string;
-};
-
 export function ToastViewport({
   placement = "bottom-center",
   strategy = "fixed",
   className,
-  style,
   ...props
 }: ToastViewportProps) {
   const theme = useThemeFamily();
-  const { toasts } = useToastManager<ToastData>();
-  const visibleToasts = toasts.filter((toastObject) => !toastObject.limited);
-  const itemsHeight = visibleToasts.reduce(
-    (total, toastObject) => total + (toastObject.height ?? 0),
-    0,
-  );
   const { viewport } = toastStyles({ theme, placement, strategy });
-  const viewportStyle: ToastViewportStyle = {
-    ...style,
-    "--toast-gap-count": Math.max(visibleToasts.length - 1, 0),
-    "--toast-items-height": `${itemsHeight}px`,
-  };
 
   return (
     <BaseToast.Viewport
       data-slot="toast-viewport"
       data-toast-placement={placement}
       className={viewport({ className })}
-      style={viewportStyle}
       {...props}
     />
   );
