@@ -194,18 +194,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   }
                 />
                 <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
-                <AppRailNavItem
-                  value="members"
-                  label="Members"
-                  icon={<Users />}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    void navigate({
-                      to: "/playground/members",
-                      search: { detail: "agents" },
-                    });
-                  }}
-                />
+                <AppRailNavItem value="members" label="Members" icon={<Users />} />
                 <AppRailNavItem
                   value="computers"
                   label="Computers"
@@ -217,13 +206,6 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                       </AppRailItemAttention>
                     ) : undefined
                   }
-                  onClick={(event) => {
-                    event.preventDefault();
-                    void navigate({
-                      to: "/playground/computers",
-                      search: { detail: "dev-machine" },
-                    });
-                  }}
                 />
               </AppRailNav>
             </div>

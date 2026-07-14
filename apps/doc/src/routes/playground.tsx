@@ -98,6 +98,7 @@ function PlaygroundLayout() {
   const railView = getRailView(pathname);
   const selectRailView = useCallback(
     (view: PlaygroundRailView) => {
+      if (playgroundDisabledRailViews.has(view)) return;
       void navigate({ to: playgroundRailPaths[view], search: {} });
     },
     [navigate],
@@ -320,6 +321,14 @@ const playgroundRailPaths = {
   computers: "/playground/computers",
   settings: "/playground/settings",
 } as const satisfies Record<PlaygroundRailView, string>;
+
+const playgroundDisabledRailViews = new Set<PlaygroundRailView>([
+  "search",
+  "activity",
+  "tasks",
+  "members",
+  "computers",
+]);
 
 function getRailView(pathname: string): PlaygroundRailView {
   const segment = pathname.split("/").filter(Boolean)[1];

@@ -705,14 +705,14 @@ export function PlaygroundSidebar({
         <ChatSidebarBody>
           <ChatSidebarContent className={liveAgentContentPad}>
             <div className="min-h-full">
-              <ChatSidebarItem className="md:hidden" onClick={() => selectRailView("search")}>
+              <ChatSidebarItem className="md:hidden">
                 <ChatSidebarItemIcon aria-hidden>
                   <Search />
                 </ChatSidebarItemIcon>
                 <ChatSidebarItemTitle>Search</ChatSidebarItemTitle>
               </ChatSidebarItem>
 
-              <ChatSidebarItem className="md:hidden" onClick={() => selectRailView("activity")}>
+              <ChatSidebarItem className="md:hidden">
                 <ChatSidebarItemIcon aria-hidden>
                   <Activity />
                 </ChatSidebarItemIcon>
