@@ -151,6 +151,12 @@ export function SidebarSectionChannelsDropdownContent({
         <CreateIcon />
         <DropdownMenuItemLabel>{createLabel}</DropdownMenuItemLabel>
       </DropdownMenuItem>
+      {createIcon === "channel" ? (
+        <DropdownMenuItem disabled={createDisabled}>
+          <GitBranch />
+          <DropdownMenuItemLabel>Create Joint Channel</DropdownMenuItemLabel>
+        </DropdownMenuItem>
+      ) : null}
       <DropdownMenuSeparator />
       <SidebarDropdownSortItems value={sortValue} onValueChange={onSortValueChange} />
       <DropdownMenuSeparator />
@@ -187,6 +193,12 @@ export function SidebarSectionChannelsContextContent({
         <CreateIcon />
         <ContextMenuItemLabel>{createLabel}</ContextMenuItemLabel>
       </ContextMenuItem>
+      {createIcon === "channel" ? (
+        <ContextMenuItem disabled={createDisabled}>
+          <GitBranch />
+          <ContextMenuItemLabel>Create Joint Channel</ContextMenuItemLabel>
+        </ContextMenuItem>
+      ) : null}
       <ContextMenuSeparator />
       <SidebarContextSortItems value={sortValue} onValueChange={onSortValueChange} />
       <ContextMenuSeparator />

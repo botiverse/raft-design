@@ -511,7 +511,6 @@ function JointChannelsSection({
         countLabel="channels"
         createLabel="Create Joint Channel"
         createIcon="joint"
-        createDisabled
       >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
@@ -519,15 +518,14 @@ function JointChannelsSection({
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions>
-            <SidebarSectionAddButton aria-label="Create joint channel" disabled />
+          <ChatSidebarSectionActions className="max-md:static max-md:pointer-events-auto max-md:translate-y-0 max-md:opacity-100">
+            <SidebarSectionAddButton aria-label="Create joint channel" />
             <SidebarSectionChannelsMenu
               aria-label="Joint channels menu"
               count={ordered.length}
               countLabel="channels"
               createLabel="Create Joint Channel"
               createIcon="joint"
-              createDisabled
             />
           </ChatSidebarSectionActions>
         </ChatSidebarSectionTrailing>
