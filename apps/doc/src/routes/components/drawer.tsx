@@ -303,7 +303,8 @@ function DrawerDoc() {
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">Snap points</h3>
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              A release notification expands upward from an 8rem summary to a 24rem detail view.
+              Snap points apply to vertical drawers. Compare separate bottom and top notifications;
+              each expands from an 8rem summary to a 24rem detail view.
             </p>
             <Example html={code.usageSnapPoints}>
               <div className="flex justify-center">

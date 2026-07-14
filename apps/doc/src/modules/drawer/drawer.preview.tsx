@@ -1,9 +1,7 @@
-import { useState } from "react";
 import {
   Avatar,
   AvatarFallback,
   Button,
-  createToastManager,
   Drawer,
   DrawerActions,
   DrawerBody,
@@ -15,7 +13,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
   Text,
-  ToastProvider,
   type DrawerProps,
 } from "raft-ui";
 
@@ -24,122 +21,88 @@ export type DrawerPreviewProps = Pick<DrawerProps, "swipeDirection"> & {
 };
 
 export function DrawerPreview({ swipeDirection, triggerLabel }: DrawerPreviewProps) {
-  const [toastManager] = useState(() => createToastManager());
   const showCornerClose = swipeDirection === "left" || swipeDirection === "right";
-  const toastPlacement =
-    swipeDirection === "up"
-      ? "bottom-center"
-      : swipeDirection === "left" || swipeDirection === "right"
-        ? "top-right"
-        : "top-center";
-  const toastViewportClassName = swipeDirection === "right" ? "right-auto left-4" : undefined;
-  const notifyClosed = (title: string) => {
-    toastManager.add({ title, type: "info" });
-  };
 
   return (
-    <ToastProvider
-      toastManager={toastManager}
-      timeout={2400}
-      limit={3}
-      viewportPlacement={toastPlacement}
-      viewportClassName={toastViewportClassName}
-    >
-      <Drawer
-        swipeDirection={swipeDirection}
-        onOpenChangeComplete={(open) => {
-          if (!open) notifyClosed("Outer drawer closed");
-        }}
-      >
-        <DrawerTrigger render={<Button variant="primary" />}>{triggerLabel}</DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Leave channel?</DrawerTitle>
-            {showCornerClose ? <DrawerClose /> : null}
-          </DrawerHeader>
-          <DrawerBody>
-            <DrawerDescription>You can rejoin anytime from the directory.</DrawerDescription>
-            <div className="mt-6 flex items-center gap-3 text-left">
-              <Avatar size="md" type="agent">
-                <AvatarFallback>DS</AvatarFallback>
-              </Avatar>
-              <div className="min-w-0">
-                <Text.Sans
-                  size="small"
-                  className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black"
-                >
-                  #design-system
-                </Text.Sans>
-                <Text.Sans
-                  size="caption"
-                  className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
-                >
-                  Joined June 12, 2026
-                </Text.Sans>
-              </div>
+    <Drawer swipeDirection={swipeDirection}>
+      <DrawerTrigger render={<Button variant="primary" />}>{triggerLabel}</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Leave channel?</DrawerTitle>
+          {showCornerClose ? <DrawerClose /> : null}
+        </DrawerHeader>
+        <DrawerBody>
+          <DrawerDescription>You can rejoin anytime from the directory.</DrawerDescription>
+          <div className="mt-6 flex items-center gap-3 text-left">
+            <Avatar size="md" type="agent">
+              <AvatarFallback>DS</AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              <Text.Sans
+                size="small"
+                className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black"
+              >
+                #design-system
+              </Text.Sans>
+              <Text.Sans
+                size="caption"
+                className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              >
+                Joined June 12, 2026
+              </Text.Sans>
             </div>
-            <Drawer
-              swipeDirection={swipeDirection}
-              onOpenChangeComplete={(open) => {
-                if (!open) notifyClosed("Nested drawer closed");
-              }}
-            >
-              <DrawerTrigger render={<Button className="mt-6" variant="outline" />}>
-                Open nested drawer
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>Nested drawer</DrawerTitle>
-                  {showCornerClose ? <DrawerClose /> : null}
-                </DrawerHeader>
-                <DrawerBody>
-                  <DrawerDescription>
-                    This drawer was opened from inside another drawer.
-                  </DrawerDescription>
-                  <Drawer
-                    swipeDirection={swipeDirection}
-                    onOpenChangeComplete={(open) => {
-                      if (!open) notifyClosed("Third drawer closed");
-                    }}
-                  >
-                    <DrawerTrigger render={<Button className="mt-6" variant="outline" />}>
-                      Open another drawer
-                    </DrawerTrigger>
-                    <DrawerContent>
-                      <DrawerHeader>
-                        <DrawerTitle>Third drawer</DrawerTitle>
-                        {showCornerClose ? <DrawerClose /> : null}
-                      </DrawerHeader>
-                      <DrawerBody>
-                        <DrawerDescription>
-                          This is the second nested level in the drawer stack.
-                        </DrawerDescription>
-                      </DrawerBody>
-                      <DrawerFooter>
-                        <DrawerActions>
-                          <DrawerClose render={<Button variant="primary" />}>Done</DrawerClose>
-                        </DrawerActions>
-                      </DrawerFooter>
-                    </DrawerContent>
-                  </Drawer>
-                </DrawerBody>
-                <DrawerFooter>
-                  <DrawerActions>
-                    <DrawerClose render={<Button variant="primary" />}>Done</DrawerClose>
-                  </DrawerActions>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
-          </DrawerBody>
-          <DrawerFooter>
-            <DrawerActions>
-              <DrawerClose render={<Button variant="danger" />}>Leave</DrawerClose>
-              <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
-            </DrawerActions>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </ToastProvider>
+          </div>
+          <Drawer swipeDirection={swipeDirection}>
+            <DrawerTrigger render={<Button className="mt-6" variant="outline" />}>
+              Open nested drawer
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Nested drawer</DrawerTitle>
+                {showCornerClose ? <DrawerClose /> : null}
+              </DrawerHeader>
+              <DrawerBody>
+                <DrawerDescription>
+                  This drawer was opened from inside another drawer.
+                </DrawerDescription>
+                <Drawer swipeDirection={swipeDirection}>
+                  <DrawerTrigger render={<Button className="mt-6" variant="outline" />}>
+                    Open another drawer
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>Third drawer</DrawerTitle>
+                      {showCornerClose ? <DrawerClose /> : null}
+                    </DrawerHeader>
+                    <DrawerBody>
+                      <DrawerDescription>
+                        This is the second nested level in the drawer stack.
+                      </DrawerDescription>
+                    </DrawerBody>
+                    <DrawerFooter>
+                      <DrawerActions>
+                        <DrawerClose render={<Button variant="primary" />}>Done</DrawerClose>
+                      </DrawerActions>
+                    </DrawerFooter>
+                  </DrawerContent>
+                </Drawer>
+              </DrawerBody>
+              <DrawerFooter>
+                <DrawerActions>
+                  <DrawerClose render={<Button variant="primary" />}>Done</DrawerClose>
+                </DrawerActions>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerActions>
+            <DrawerClose render={<Button variant="danger" />}>Leave</DrawerClose>
+            <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
+          </DrawerActions>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }
 
