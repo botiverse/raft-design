@@ -9,7 +9,6 @@ export {
   DrawerHeader,
   DrawerOverlay,
   DrawerPortal,
-  DrawerSwipeHandle,
   DrawerTitle,
   DrawerTrigger,
 } from "./drawer";
@@ -24,7 +23,6 @@ export type {
   DrawerOverlayProps,
   DrawerPortalProps,
   DrawerProps,
-  DrawerSwipeHandleProps,
   DrawerTitleProps,
   DrawerTriggerProps,
 } from "./drawer";

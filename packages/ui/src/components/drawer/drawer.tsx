@@ -2,7 +2,7 @@ import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
-import { createContext, type ComponentProps, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { cn } from "../../lib/cn";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -13,7 +13,6 @@ import { drawer } from "./drawer.recipe";
 type DrawerContentConfig = {
   hasSnapPoints: boolean;
   modal: DrawerPrimitive.Root.Props["modal"];
-  showSwipeHandle: boolean;
 };
 
 const DrawerContentConfigContext = createContext<DrawerContentConfig | null>(null);
@@ -28,22 +27,16 @@ function useDrawerContentConfig() {
   return context;
 }
 
-export type DrawerProps = DrawerPrimitive.Root.Props & {
-  showSwipeHandle?: boolean;
-};
+export type DrawerProps = DrawerPrimitive.Root.Props;
 
 export function Drawer({
   modal = true,
-  showSwipeHandle = false,
   snapPoints,
   swipeDirection = "down",
   ...props
 }: DrawerProps) {
   const hasSnapPoints = snapPoints != null && snapPoints.length > 0;
-  const contextValue = useMemo(
-    () => ({ hasSnapPoints, modal, showSwipeHandle }),
-    [hasSnapPoints, modal, showSwipeHandle],
-  );
+  const contextValue = useMemo(() => ({ hasSnapPoints, modal }), [hasSnapPoints, modal]);
 
   return (
     <DrawerContentConfigContext.Provider value={contextValue}>
@@ -84,20 +77,11 @@ export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
   );
 }
 
-export type DrawerSwipeHandleProps = ComponentProps<"div">;
-
-export function DrawerSwipeHandle({ className, ...props }: DrawerSwipeHandleProps) {
+function DrawerSwipeHandle() {
   const theme = useThemeFamily();
   const { swipeHandle } = drawer({ theme });
 
-  return (
-    <div
-      data-slot="drawer-swipe-handle"
-      aria-hidden="true"
-      className={swipeHandle({ className })}
-      {...props}
-    />
-  );
+  return <div data-slot="drawer-swipe-handle" aria-hidden="true" className={swipeHandle()} />;
 }
 
 export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
@@ -105,7 +89,7 @@ export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
 };
 
 export function DrawerContent({ className, children, portalProps, ...props }: DrawerContentProps) {
-  const { hasSnapPoints, modal, showSwipeHandle } = useDrawerContentConfig();
+  const { hasSnapPoints, modal } = useDrawerContentConfig();
   const theme = useThemeFamily();
   const { content, popup, viewport } = drawer({ theme });
 
@@ -122,7 +106,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
           className={popup({ className })}
           {...props}
         >
-          {showSwipeHandle ? <DrawerSwipeHandle /> : null}
+          <DrawerSwipeHandle />
           <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
             {children}
           </DrawerPrimitive.Content>
