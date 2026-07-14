@@ -669,7 +669,11 @@ export function PlaygroundSidebar({
   const { activeServer } = usePlaygroundShellState();
   const selectedChannelId = activeChannelId;
   const liveAgentContentPad =
-    liveAgentActivity == null ? undefined : theme === "elegant" ? "md:pb-[4.25rem]" : "md:pb-20";
+    liveAgentActivity == null
+      ? undefined
+      : theme === "elegant"
+        ? "md:pb-[4.25rem]"
+        : "md:pb-[3.25rem]";
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
     [closedDmIds],

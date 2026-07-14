@@ -170,12 +170,12 @@ export const chatSidebar = tv({
       elegant: {
         sidebarRoot: ["relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]"],
         sidebarHeader: [
-          "relative isolate h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
+          "absolute inset-x-0 top-0 z-20 isolate",
+          "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
           "px-[var(--sidebar-inset-x,26px)]",
-          "max-md:absolute max-md:inset-x-0 max-md:top-0 max-md:z-20",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
-        sidebarHeaderMask: ["max-md:block h-[calc(100%+0.75rem)]"],
+        sidebarHeaderMask: ["block h-[calc(100%+0.75rem)]"],
         sidebarHeaderMaskLayer: [
           "h-full",
           "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--layer-page)_0%,var(--layer-page)_28%,color-mix(in_oklch,var(--layer-page)_82%,transparent)_52%,transparent_100%)]",
@@ -196,7 +196,7 @@ export const chatSidebar = tv({
         sidebarBody: "bg-layer-page",
         sidebarContent: [
           "px-[var(--sidebar-inset-x,26px)]",
-          "max-md:pt-[var(--shell-header-height,3.5rem)]",
+          "pt-[var(--shell-header-height,3.5rem)]",
         ],
         sidebarMenu: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)]",
