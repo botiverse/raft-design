@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CheckSquare } from "lucide-react";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 
 import {
@@ -65,6 +65,10 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   const creatorOptions = getCreatorOptions();
   const assigneeOptions = getAssigneeOptions();
 
+  useEffect(() => {
+    if (viewOverride !== undefined) persistTaskView(viewOverride);
+  }, [viewOverride]);
+
   const updateChannelTasks = (nextTasks: Tasks) => {
     const currentTasks = new Map(visibleTasks.map((task) => [task.id, task]));
     const nextChannelTasks = nextTasks.map((task) => {
@@ -121,10 +125,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
         creatorOptions={creatorOptions}
         assigneeOptions={assigneeOptions}
         onTasksChange={updateChannelTasks}
-        onViewChange={(nextView) => {
-          setViewOverride(nextView);
-          persistTaskView(nextView);
-        }}
+        onViewChange={setViewOverride}
         onOpenTask={(task) => {
           const sourceTask = visibleTasks.find((item) => item.id === task.id);
           if (!sourceTask || sourceTask.legacy) return;

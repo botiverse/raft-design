@@ -5,7 +5,7 @@ import {
   useNavigate,
   useRouterState,
 } from "@tanstack/react-router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useThemeFamily } from "raft-ui";
 import {
   AppPanelStackContent,
@@ -36,6 +36,10 @@ import {
   type PlaygroundThreadId,
 } from "#/playground/mock/index.ts";
 import { PlaygroundRail } from "#/playground/playground-rail.tsx";
+import {
+  PlaygroundMobilePreview,
+  usePlaygroundEmbeddedPreview,
+} from "#/playground/playground-mobile-preview.tsx";
 import {
   PlaygroundRailViewPanel,
   PlaygroundRailViewSidebar,
@@ -83,7 +87,10 @@ export const Route = createFileRoute("/playground")({
 function PlaygroundLayout() {
   const { theme, mode, setTheme } = usePreviewTheme();
   const navigate = useNavigate();
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const location = useRouterState({ select: (state) => state.location });
+  const pathname = location.pathname;
+  const [mobilePreview, setMobilePreview] = useState(false);
+  const embeddedPreview = usePlaygroundEmbeddedPreview(theme, mode);
 
   const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
   const { detail, from, thread } = Route.useSearch();
@@ -112,29 +119,50 @@ function PlaygroundLayout() {
     channelId !== undefined && isPlaygroundChannelId(channelId) ? channelId : DEFAULT_CHANNEL_ID;
   const activeChannel = getPlaygroundChannel(activeChannelId);
   const isRootRoute = channelMatch === undefined;
+  const workspace = (
+    <PreviewThemeScope
+      family={embeddedPreview.theme}
+      mode={embeddedPreview.mode}
+      className="h-full"
+    >
+      <PlaygroundNavigationProvider
+        railView={railView}
+        railDetailId={detail}
+        onRailViewChange={selectRailView}
+        onRailDetailChange={selectRailDetail}
+      >
+        <PlaygroundShellStateProvider>
+          <PlaygroundTaskStateProvider>
+            <PlaygroundWorkspace
+              activeChannel={activeChannel}
+              isRootRoute={isRootRoute}
+              threadSource={from}
+              threadId={isRootRoute ? undefined : thread}
+            />
+          </PlaygroundTaskStateProvider>
+        </PlaygroundShellStateProvider>
+      </PlaygroundNavigationProvider>
+    </PreviewThemeScope>
+  );
 
   return (
     <div className="h-dvh">
-      <PreviewThemeScope className="h-full">
-        <PlaygroundNavigationProvider
-          railView={railView}
-          railDetailId={detail}
-          onRailViewChange={selectRailView}
-          onRailDetailChange={selectRailDetail}
-        >
-          <PlaygroundShellStateProvider>
-            <PlaygroundTaskStateProvider>
-              <PlaygroundWorkspace
-                activeChannel={activeChannel}
-                isRootRoute={isRootRoute}
-                threadSource={from}
-                threadId={isRootRoute ? undefined : thread}
-              />
-            </PlaygroundTaskStateProvider>
-          </PlaygroundShellStateProvider>
-        </PlaygroundNavigationProvider>
-      </PreviewThemeScope>
-      <PlaygroundToolbar theme={theme} mode={mode} onThemeChange={setTheme} />
+      {mobilePreview && !embeddedPreview.embedded ? (
+        <PreviewThemeScope className="h-full">
+          <PlaygroundMobilePreview src={location.href} theme={theme} mode={mode} />
+        </PreviewThemeScope>
+      ) : (
+        workspace
+      )}
+      {embeddedPreview.embedded ? null : (
+        <PlaygroundToolbar
+          theme={theme}
+          mode={mode}
+          mobile={mobilePreview}
+          onThemeChange={setTheme}
+          onMobileChange={setMobilePreview}
+        />
+      )}
     </div>
   );
 }

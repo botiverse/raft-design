@@ -1,4 +1,5 @@
 import { ThemeProvider, type Theme, type ThemeMode } from "raft-ui";
+import { Smartphone } from "lucide-react";
 
 type PlaygroundThemePreset = {
   label: string;
@@ -19,11 +20,15 @@ const idle = "font-medium text-foreground-placeholder hover:text-foreground-mute
 export function PlaygroundToolbar({
   theme,
   mode,
+  mobile,
   onThemeChange,
+  onMobileChange,
 }: {
   theme: Theme;
   mode: ThemeMode;
+  mobile: boolean;
   onThemeChange: (theme: Theme, options?: { mode?: ThemeMode }) => void;
+  onMobileChange: (mobile: boolean) => void;
 }) {
   return (
     <ThemeProvider theme="elegant" mode="light" syncDom={false}>
@@ -49,6 +54,21 @@ export function PlaygroundToolbar({
             );
           })}
         </fieldset>
+        <span aria-hidden className="mx-0.5 h-4 w-px bg-line-subtle" />
+        <button
+          type="button"
+          aria-label="Toggle mobile preview"
+          aria-pressed={mobile}
+          className={[
+            "inline-flex size-6 items-center justify-center rounded-[3px] transition duration-200 ease-out",
+            mobile
+              ? "bg-ink-8 text-foreground-strong"
+              : "text-foreground-placeholder hover:bg-ink-4 hover:text-foreground-muted",
+          ].join(" ")}
+          onClick={() => onMobileChange(!mobile)}
+        >
+          <Smartphone aria-hidden className="size-3.5" />
+        </button>
       </div>
     </ThemeProvider>
   );

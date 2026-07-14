@@ -40,6 +40,25 @@ export const SIDEBAR_SORT_OPTIONS = [
   { value: "az", label: "A-Z", icon: <ArrowDownAZ /> },
 ] as const;
 
+export type SidebarSortValue = (typeof SIDEBAR_SORT_OPTIONS)[number]["value"];
+
+type SidebarSortItemsProps = {
+  value?: SidebarSortValue;
+  defaultValue?: SidebarSortValue;
+  onValueChange?: (value: SidebarSortValue) => void;
+};
+
+function isSidebarSortValue(value: string): value is SidebarSortValue {
+  return SIDEBAR_SORT_OPTIONS.some((option) => option.value === value);
+}
+
+function handleSidebarSortValueChange(
+  onValueChange: ((value: SidebarSortValue) => void) | undefined,
+  value: string,
+) {
+  if (onValueChange && isSidebarSortValue(value)) onValueChange(value);
+}
+
 function ChannelsMenuFooterText({ count, label }: { count: number; label: string }) {
   return (
     <>
@@ -48,9 +67,17 @@ function ChannelsMenuFooterText({ count, label }: { count: number; label: string
   );
 }
 
-export function SidebarDropdownSortItems() {
+export function SidebarDropdownSortItems({
+  value,
+  defaultValue = "manual",
+  onValueChange,
+}: SidebarSortItemsProps = {}) {
   return (
-    <DropdownMenuRadioGroup defaultValue="manual">
+    <DropdownMenuRadioGroup
+      defaultValue={value === undefined ? defaultValue : undefined}
+      value={value}
+      onValueChange={(nextValue) => handleSidebarSortValueChange(onValueChange, nextValue)}
+    >
       {SIDEBAR_SORT_OPTIONS.map((option) => (
         <DropdownMenuRadioItem key={option.value} value={option.value}>
           {option.icon}
@@ -61,9 +88,17 @@ export function SidebarDropdownSortItems() {
   );
 }
 
-export function SidebarContextSortItems() {
+export function SidebarContextSortItems({
+  value,
+  defaultValue = "manual",
+  onValueChange,
+}: SidebarSortItemsProps = {}) {
   return (
-    <ContextMenuRadioGroup defaultValue="manual">
+    <ContextMenuRadioGroup
+      defaultValue={value === undefined ? defaultValue : undefined}
+      value={value}
+      onValueChange={(nextValue) => handleSidebarSortValueChange(onValueChange, nextValue)}
+    >
       {SIDEBAR_SORT_OPTIONS.map((option) => (
         <ContextMenuRadioItem key={option.value} value={option.value}>
           {option.icon}
@@ -74,18 +109,18 @@ export function SidebarContextSortItems() {
   );
 }
 
-export function SidebarSectionSortDropdownContent() {
+export function SidebarSectionSortDropdownContent(props: SidebarSortItemsProps = {}) {
   return (
     <DropdownMenuContent align="end" className={SORT_MENU_CLASS}>
-      <SidebarDropdownSortItems />
+      <SidebarDropdownSortItems {...props} />
     </DropdownMenuContent>
   );
 }
 
-export function SidebarSectionSortContextContent() {
+export function SidebarSectionSortContextContent(props: SidebarSortItemsProps = {}) {
   return (
     <ContextMenuContent className={SORT_MENU_CLASS}>
-      <SidebarContextSortItems />
+      <SidebarContextSortItems {...props} />
     </ContextMenuContent>
   );
 }
@@ -97,6 +132,8 @@ export function SidebarSectionChannelsDropdownContent({
   createIcon = "channel",
   createDisabled = false,
   onCreate,
+  sortValue,
+  onSortValueChange,
 }: {
   count: number;
   countLabel?: string;
@@ -104,6 +141,8 @@ export function SidebarSectionChannelsDropdownContent({
   createIcon?: "channel" | "joint";
   createDisabled?: boolean;
   onCreate?: () => void;
+  sortValue?: SidebarSortValue;
+  onSortValueChange?: (value: SidebarSortValue) => void;
 }) {
   const CreateIcon = createIcon === "joint" ? GitBranch : Plus;
   return (
@@ -113,7 +152,7 @@ export function SidebarSectionChannelsDropdownContent({
         <DropdownMenuItemLabel>{createLabel}</DropdownMenuItemLabel>
       </DropdownMenuItem>
       <DropdownMenuSeparator />
-      <SidebarDropdownSortItems />
+      <SidebarDropdownSortItems value={sortValue} onValueChange={onSortValueChange} />
       <DropdownMenuSeparator />
       <DropdownMenuFooter>
         <ChannelsMenuFooterText count={count} label={countLabel} />
@@ -129,6 +168,8 @@ export function SidebarSectionChannelsContextContent({
   createIcon = "channel",
   createDisabled = false,
   onCreate,
+  sortValue,
+  onSortValueChange,
 }: {
   count: number;
   countLabel?: string;
@@ -136,6 +177,8 @@ export function SidebarSectionChannelsContextContent({
   createIcon?: "channel" | "joint";
   createDisabled?: boolean;
   onCreate?: () => void;
+  sortValue?: SidebarSortValue;
+  onSortValueChange?: (value: SidebarSortValue) => void;
 }) {
   const CreateIcon = createIcon === "joint" ? GitBranch : Plus;
   return (
@@ -145,7 +188,7 @@ export function SidebarSectionChannelsContextContent({
         <ContextMenuItemLabel>{createLabel}</ContextMenuItemLabel>
       </ContextMenuItem>
       <ContextMenuSeparator />
-      <SidebarContextSortItems />
+      <SidebarContextSortItems value={sortValue} onValueChange={onSortValueChange} />
       <ContextMenuSeparator />
       <ContextMenuFooter>
         <ChannelsMenuFooterText count={count} label={countLabel} />
@@ -212,8 +255,12 @@ export function SidebarCreateMenu({
 /** Hover action for Pinned / DM — sort only. */
 export function SidebarSectionSortMenu({
   "aria-label": ariaLabel = "Sort section",
+  value,
+  onValueChange,
 }: {
   "aria-label"?: string;
+  value?: SidebarSortValue;
+  onValueChange?: (value: SidebarSortValue) => void;
 }) {
   return (
     <DropdownMenu>
@@ -224,7 +271,7 @@ export function SidebarSectionSortMenu({
           </ChatSidebarAction>
         }
       />
-      <SidebarSectionSortDropdownContent />
+      <SidebarSectionSortDropdownContent value={value} onValueChange={onValueChange} />
     </DropdownMenu>
   );
 }
@@ -260,6 +307,8 @@ export function SidebarSectionChannelsMenu({
   createIcon,
   createDisabled = false,
   onCreate,
+  sortValue,
+  onSortValueChange,
 }: {
   "aria-label"?: string;
   count: number;
@@ -268,6 +317,8 @@ export function SidebarSectionChannelsMenu({
   createIcon?: "channel" | "joint";
   createDisabled?: boolean;
   onCreate?: () => void;
+  sortValue?: SidebarSortValue;
+  onSortValueChange?: (value: SidebarSortValue) => void;
 }) {
   return (
     <DropdownMenu>
@@ -285,6 +336,8 @@ export function SidebarSectionChannelsMenu({
         createIcon={createIcon}
         createDisabled={createDisabled}
         onCreate={onCreate}
+        sortValue={sortValue}
+        onSortValueChange={onSortValueChange}
       />
     </DropdownMenu>
   );
@@ -299,6 +352,8 @@ type SidebarSectionHeaderMenuProps = {
   createIcon?: "channel" | "joint";
   createDisabled?: boolean;
   onCreate?: () => void;
+  sortValue?: SidebarSortValue;
+  onSortValueChange?: (value: SidebarSortValue) => void;
 };
 
 /** Section header with context menu mirroring the hover dropdown content. */
@@ -311,13 +366,17 @@ export function SidebarSectionHeaderMenu({
   createIcon,
   createDisabled = false,
   onCreate,
+  sortValue,
+  onSortValueChange,
 }: SidebarSectionHeaderMenuProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger className="w-full min-w-0">
         <ChatSidebarSectionHeader>{children}</ChatSidebarSectionHeader>
       </ContextMenuTrigger>
-      {menu === "sort" ? <SidebarSectionSortContextContent /> : null}
+      {menu === "sort" ? (
+        <SidebarSectionSortContextContent value={sortValue} onValueChange={onSortValueChange} />
+      ) : null}
       {menu === "channels" ? (
         <SidebarSectionChannelsContextContent
           count={count}
@@ -326,6 +385,8 @@ export function SidebarSectionHeaderMenu({
           createIcon={createIcon}
           createDisabled={createDisabled}
           onCreate={onCreate}
+          sortValue={sortValue}
+          onSortValueChange={onSortValueChange}
         />
       ) : null}
     </ContextMenu>
