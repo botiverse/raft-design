@@ -303,8 +303,7 @@ function DrawerDoc() {
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">Snap points</h3>
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              <code className="font-mono text-[0.8125rem]">snapPoints</code> makes this bottom
-              drawer resizable between 40% and 75%.
+              A release notification expands upward from an 8rem summary to a 24rem detail view.
             </p>
             <Example html={code.usageSnapPoints}>
               <div className="flex justify-center">

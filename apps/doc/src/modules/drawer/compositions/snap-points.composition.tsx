@@ -1,3 +1,4 @@
+import { useState, type CSSProperties } from "react";
 import {
   Button,
   Drawer,
@@ -6,38 +7,43 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
   type DrawerProps,
 } from "raft-ui";
 
-const SNAP_POINTS: NonNullable<DrawerProps["snapPoints"]> = [0.4, 0.75];
+const EXPANDED_HEIGHT = "24rem";
+const SNAP_POINTS = ["8rem", EXPANDED_HEIGHT] satisfies NonNullable<DrawerProps["snapPoints"]>;
+const SNAP_CONTENT_STYLE = {
+  "--drawer-content-height": EXPANDED_HEIGHT,
+} as CSSProperties;
 
 export function DrawerSnapPointsComposition() {
+  const [snapPoint, setSnapPoint] = useState<DrawerProps["snapPoint"]>(SNAP_POINTS[0]);
+  const isCompact = snapPoint === SNAP_POINTS[0];
+
   return (
-    <Drawer snapPoints={SNAP_POINTS} defaultSnapPoint={SNAP_POINTS[0]}>
-      <DrawerTrigger render={<Button variant="primary" />}>Open resizable drawer</DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Review changes</DrawerTitle>
+    <Drawer snapPoints={SNAP_POINTS} snapPoint={snapPoint} onSnapPointChange={setSnapPoint}>
+      <DrawerTrigger render={<Button variant="primary" />}>Show release notification</DrawerTrigger>
+      <DrawerContent style={SNAP_CONTENT_STYLE}>
+        <DrawerHeader className="py-3">
+          <DrawerTitle>Release ready</DrawerTitle>
+          <DrawerDescription>raft-ui 0.0.21 passed all release checks.</DrawerDescription>
         </DrawerHeader>
-        <DrawerBody>
-          <DrawerDescription>
-            Drag the handle to resize the drawer between its compact and expanded snap points.
-          </DrawerDescription>
-          <div className="mt-6 w-full space-y-3 text-left text-sm leading-6 text-foreground-muted">
-            <p>3 files changed</p>
-            <p>12 additions, 4 deletions</p>
-          </div>
-        </DrawerBody>
-        <DrawerFooter>
-          <DrawerActions>
-            <DrawerClose render={<Button variant="primary" />}>Review</DrawerClose>
-            <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
+        <DrawerBody inert={isCompact} className="min-h-0 overflow-y-auto overscroll-contain">
+          <dl className="mt-6 grid w-full grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-left text-sm leading-6">
+            <dt className="text-foreground-muted">Owner</dt>
+            <dd className="text-foreground-strong">Maya Chen</dd>
+            <dt className="text-foreground-muted">Due</dt>
+            <dd className="text-foreground-strong">July 16, 2026</dd>
+            <dt className="text-foreground-muted">Checklist</dt>
+            <dd className="text-foreground-strong">3 of 5 complete</dd>
+          </dl>
+          <DrawerActions className="mt-6">
+            <DrawerClose render={<Button variant="primary" />}>Dismiss notification</DrawerClose>
           </DrawerActions>
-        </DrawerFooter>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   );
