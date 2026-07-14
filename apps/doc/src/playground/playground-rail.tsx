@@ -211,24 +211,13 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             </div>
             <AppRailFooter>
               <PlaygroundNotificationCenter />
-              <AppRailNavItem
-                value="settings"
-                label="Settings"
-                icon={<Settings />}
-                onClick={(event) => {
-                  event.preventDefault();
-                  void navigate({
-                    to: "/playground/settings",
-                    search: { detail: "account" },
-                  });
-                }}
-              />
+              <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
       </AppShellRail>
       {showBottomNavigation ? (
-        <AppShellRail placement="bottom">
+        <AppShellRail className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
           <AppRailRoot
             value={railView}
             onValueChange={(view) => {

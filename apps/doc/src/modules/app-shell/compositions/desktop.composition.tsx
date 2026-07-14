@@ -25,7 +25,7 @@ export function AppShellDesktopComposition() {
           <ShellRegion className="bg-primary-300 text-primary-950">Rail</ShellRegion>
         </AppShellRail>
 
-        <AppShellSidebar visibility="always">
+        <AppShellSidebar className="flex">
           <ShellRegion className="bg-accent-200 text-accent-950">Sidebar</ShellRegion>
         </AppShellSidebar>
 
@@ -33,7 +33,7 @@ export function AppShellDesktopComposition() {
           <ShellRegion className="bg-primary-100 text-primary-950">Main</ShellRegion>
         </AppShellMain>
 
-        <AppShellPanelStack visibility="always">
+        <AppShellPanelStack className="flex">
           <div className="h-full w-56">
             <ShellRegion className="bg-secondary-200 text-secondary-950">Panel stack</ShellRegion>
           </div>

@@ -38,50 +38,14 @@ const appShell = tv({
         shellPanelStack: "border-l border-line-subtle bg-layer-panel",
       },
     },
-    railPlacement: {
-      side: {
-        shellRail: "",
-      },
-      bottom: {
-        shellRail: "order-last max-md:flex max-md:h-auto max-md:w-full md:hidden",
-      },
-      responsive: {
-        shellRail: "max-md:order-last max-md:flex max-md:h-auto max-md:w-full",
-      },
-    },
-    visibility: {
-      desktop: {},
-      always: {
-        shellSidebar: "flex",
-        shellPanelStack: "flex",
-      },
-    },
-    safeAreaSurface: {
-      chrome: {},
-      content: {},
-    },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      safeAreaSurface: "chrome",
-      class: { root: "max-md:bg-soft-signal" },
-    },
-    {
-      theme: "brutal",
-      safeAreaSurface: "content",
-      class: { root: "max-md:bg-white" },
-    },
-  ],
 });
 
-export type AppShellRootProps = useRender.ComponentProps<"div"> & {
-  safeAreaSurface?: "chrome" | "content";
-};
+export type AppShellRootProps = useRender.ComponentProps<"div">;
 
-export function AppShellRoot({ safeAreaSurface, className, render, ...props }: AppShellRootProps) {
+export function AppShellRoot({ className, render, ...props }: AppShellRootProps) {
   const theme = useThemeFamily();
-  const { root } = appShell({ theme, safeAreaSurface });
+  const { root } = appShell({ theme });
 
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-shell-root",
@@ -95,18 +59,11 @@ export function AppShellRoot({ safeAreaSurface, className, render, ...props }: A
   });
 }
 
-export type AppShellRailProps = useRender.ComponentProps<"aside"> & {
-  placement?: "side" | "bottom" | "responsive";
-};
+export type AppShellRailProps = useRender.ComponentProps<"aside">;
 
-export function AppShellRail({
-  placement = "side",
-  className,
-  render,
-  ...props
-}: AppShellRailProps) {
+export function AppShellRail({ className, render, ...props }: AppShellRailProps) {
   const theme = useThemeFamily();
-  const { shellRail } = appShell({ theme, railPlacement: placement });
+  const { shellRail } = appShell({ theme });
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-rail",
@@ -120,18 +77,11 @@ export function AppShellRail({
   });
 }
 
-export type AppShellSidebarProps = useRender.ComponentProps<"aside"> & {
-  visibility?: "desktop" | "always";
-};
+export type AppShellSidebarProps = useRender.ComponentProps<"aside">;
 
-export function AppShellSidebar({
-  visibility = "desktop",
-  className,
-  render,
-  ...props
-}: AppShellSidebarProps) {
+export function AppShellSidebar({ className, render, ...props }: AppShellSidebarProps) {
   const theme = useThemeFamily();
-  const { shellSidebar } = appShell({ theme, visibility });
+  const { shellSidebar } = appShell({ theme });
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-sidebar",
@@ -163,18 +113,11 @@ export function AppShellMain({ className, render, ...props }: AppShellMainProps)
   });
 }
 
-export type AppShellPanelStackProps = useRender.ComponentProps<"aside"> & {
-  visibility?: "desktop" | "always";
-};
+export type AppShellPanelStackProps = useRender.ComponentProps<"aside">;
 
-export function AppShellPanelStack({
-  visibility = "desktop",
-  className,
-  render,
-  ...props
-}: AppShellPanelStackProps) {
+export function AppShellPanelStack({ className, render, ...props }: AppShellPanelStackProps) {
   const theme = useThemeFamily();
-  const { shellPanelStack } = appShell({ theme, visibility });
+  const { shellPanelStack } = appShell({ theme });
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-panel-stack",

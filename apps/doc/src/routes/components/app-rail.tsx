@@ -23,7 +23,7 @@ const TOC = [
 
 const SNIPPETS = {
   appRailComposition: appRailCompositionSource,
-  anatomy: `<AppShellRail placement="responsive">
+  anatomy: `<AppShellRail>
   <AppRailRoot>
     <AppRailHeader>
       <AppRailServerButton />
@@ -61,9 +61,9 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "AppShellRail",
-    type: 'aside props & { placement?: "side" | "bottom" | "responsive" }',
+    type: 'useRender.ComponentProps<"aside">',
     description:
-      "Navigation region. Use responsive for a desktop rail column that becomes a mobile bottom-navigation row.",
+      "Desktop rail column by default. Override with className when composing a mobile bottom-navigation row.",
   },
   {
     name: "AppRailRoot",

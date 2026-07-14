@@ -102,7 +102,7 @@ export function AppRailComposition() {
   }
 
   return (
-    <AppShellRail placement="responsive">
+    <AppShellRail className="max-md:order-last max-md:flex max-md:h-auto max-md:w-full">
       <AppRailRoot
         value={view}
         onValueChange={(next) => {

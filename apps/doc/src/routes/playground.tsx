@@ -8,6 +8,7 @@ import {
 import { useMediaQuery } from "foxact/use-media-query";
 import { useCallback, useState } from "react";
 import { useThemeFamily } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import {
   AppPanelStackContent,
   AppPanelStackItem,
@@ -234,7 +235,12 @@ function PlaygroundWorkspace({
     Boolean(conversationView && activeThread) && (isDesktop || mobilePanel === "thread");
 
   return (
-    <AppShellRoot safeAreaSurface={mobileTabRoot ? "chrome" : "content"} className="h-full">
+    <AppShellRoot
+      className={cn(
+        "h-full",
+        theme === "brutal" && (mobileTabRoot ? "max-md:bg-soft-signal" : "max-md:bg-white"),
+      )}
+    >
       <PlaygroundRail showBottomNavigation={mobileTabRoot} />
       <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
         {renderSidebarPanel ? (
@@ -247,10 +253,7 @@ function PlaygroundWorkspace({
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
-              <AppShellSidebar
-                visibility="always"
-                className="relative h-full min-w-0 w-auto flex-1 shrink"
-              >
+              <AppShellSidebar className="relative flex h-full min-w-0 w-auto flex-1 shrink">
                 {conversationView ? (
                   <PlaygroundSidebar
                     activeChannelId={activeChannel.id}
@@ -289,7 +292,7 @@ function PlaygroundWorkspace({
               groupResizeBehavior="preserve-pixel-size"
               className="min-w-0"
             >
-              <AppShellPanelStack visibility="always" className="h-full w-full">
+              <AppShellPanelStack className="flex h-full w-full">
                 <AppPanelStackRoot className="w-full">
                   <AppPanelStackItem className="w-full">
                     <AppPanelStackContent>
@@ -328,6 +331,7 @@ const playgroundDisabledRailViews = new Set<PlaygroundRailView>([
   "tasks",
   "members",
   "computers",
+  "settings",
 ]);
 
 function getRailView(pathname: string): PlaygroundRailView {
