@@ -15,18 +15,18 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<AppShellPanelStack>
+  anatomy: `<AppShellPanelStackSlot>
   <AppPanelStackRoot>
     <AppPanelStackItem>
       <AppPanelStackContent />
     </AppPanelStackItem>
   </AppPanelStackRoot>
-</AppShellPanelStack>`,
+</AppShellPanelStackSlot>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "AppShellPanelStack",
+    name: "AppShellPanelStackSlot",
     type: "aside props",
     description:
       "Desktop right-panel host. Hidden below lg to match the source side-thread column.",
@@ -38,7 +38,7 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "AppPanelStackItem",
-    type: "section props & { open?: boolean }",
+    type: "section props",
     description: "One right-panel column. Width and persistence are owned by the consumer.",
   },
   {

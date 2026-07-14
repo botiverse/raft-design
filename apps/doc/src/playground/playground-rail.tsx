@@ -30,7 +30,7 @@ import {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppShellRail,
+  AppShellRailSlot,
   ChatSidebarServer,
   ChatSidebarServerAvatar,
   ChatSidebarServerChevron,
@@ -147,7 +147,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
 
   return (
     <>
-      <AppShellRail>
+      <AppShellRailSlot>
         <AppRailRoot
           value={railView}
           onValueChange={(view) => {
@@ -215,9 +215,9 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
-      </AppShellRail>
+      </AppShellRailSlot>
       {showBottomNavigation ? (
-        <AppShellRail className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
+        <AppShellRailSlot className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
           <AppRailRoot
             value={railView}
             onValueChange={(view) => {
@@ -226,7 +226,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           >
             <AppRailMobileNav />
           </AppRailRoot>
-        </AppShellRail>
+        </AppShellRailSlot>
       ) : null}
     </>
   );

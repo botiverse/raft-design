@@ -23,7 +23,7 @@ const TOC = [
 
 const SNIPPETS = {
   appRailComposition: appRailCompositionSource,
-  anatomy: `<AppShellRail>
+  anatomy: `<AppShellRailSlot>
   <AppRailRoot>
     <AppRailHeader>
       <AppRailServerButton />
@@ -55,12 +55,12 @@ const SNIPPETS = {
       </AppRailNav>
     </TooltipProvider>
   </AppRailRoot>
-</AppShellRail>`,
+</AppShellRailSlot>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "AppShellRail",
+    name: "AppShellRailSlot",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop rail column by default. Override with className when composing a mobile bottom-navigation row.",

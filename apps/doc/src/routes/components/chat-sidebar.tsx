@@ -60,7 +60,7 @@ const SNIPPETS = {
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "AppShellSidebar",
+    name: "AppShellSidebarSlot",
     type: "aside props",
     description: "Sidebar column host. Resizable compositions size it through explicit classes.",
   },

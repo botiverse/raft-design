@@ -15,10 +15,10 @@ const TOC = [
 
 const SNIPPETS = {
   anatomy: `<AppShellRoot>
-  <AppShellRail>...</AppShellRail>
-  <AppShellSidebar>...</AppShellSidebar>
-  <AppShellMain>...</AppShellMain>
-  <AppShellPanelStack>...</AppShellPanelStack>
+  <AppShellRailSlot>...</AppShellRailSlot>
+  <AppShellSidebarSlot>...</AppShellSidebarSlot>
+  <AppShellMainSlot>...</AppShellMainSlot>
+  <AppShellPanelStackSlot>...</AppShellPanelStackSlot>
 </AppShellRoot>`,
 } as const;
 
@@ -30,24 +30,24 @@ const PROPS: readonly PropRow[] = [
       "Owns the responsive row-to-column layout and top safe-area inset. Mobile safe-area surface color stays caller-owned via className.",
   },
   {
-    name: "AppShellRail",
+    name: "AppShellRailSlot",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop rail column by default. Mount a separate instance with className for mobile bottom navigation; visibility stays caller-owned.",
   },
   {
-    name: "AppShellSidebar",
+    name: "AppShellSidebarSlot",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop sidebar column by default. Override with className when the caller mounts it below md.",
   },
   {
-    name: "AppShellMain",
+    name: "AppShellMainSlot",
     type: 'useRender.ComponentProps<"main">',
     description: "Flexible primary content region.",
   },
   {
-    name: "AppShellPanelStack",
+    name: "AppShellPanelStackSlot",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop panel region by default. Override with className when the caller mounts it below lg.",

@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import {
-  AppShellMain,
-  AppShellPanelStack,
-  AppShellRail,
+  AppShellMainSlot,
+  AppShellPanelStackSlot,
+  AppShellRailSlot,
   AppShellRoot,
-  AppShellSidebar,
+  AppShellSidebarSlot,
 } from "raft-ui/wip";
 
 function ShellRegion({ children, className }: { children: ReactNode; className: string }) {
@@ -21,23 +21,23 @@ export function AppShellDesktopComposition() {
   return (
     <div className="w-full overflow-x-auto">
       <AppShellRoot className="h-[420px] min-w-[860px]">
-        <AppShellRail className="flex md:flex">
+        <AppShellRailSlot className="flex md:flex">
           <ShellRegion className="bg-primary-300 text-primary-950">Rail</ShellRegion>
-        </AppShellRail>
+        </AppShellRailSlot>
 
-        <AppShellSidebar className="flex">
+        <AppShellSidebarSlot className="flex">
           <ShellRegion className="bg-accent-200 text-accent-950">Sidebar</ShellRegion>
-        </AppShellSidebar>
+        </AppShellSidebarSlot>
 
-        <AppShellMain>
+        <AppShellMainSlot>
           <ShellRegion className="bg-primary-100 text-primary-950">Main</ShellRegion>
-        </AppShellMain>
+        </AppShellMainSlot>
 
-        <AppShellPanelStack className="flex">
+        <AppShellPanelStackSlot className="flex">
           <div className="h-full w-56">
             <ShellRegion className="bg-secondary-200 text-secondary-950">Panel stack</ShellRegion>
           </div>
-        </AppShellPanelStack>
+        </AppShellPanelStackSlot>
       </AppShellRoot>
     </div>
   );

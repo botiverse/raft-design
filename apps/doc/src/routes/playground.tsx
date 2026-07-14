@@ -13,10 +13,10 @@ import {
   AppPanelStackContent,
   AppPanelStackItem,
   AppPanelStackRoot,
-  AppShellMain,
-  AppShellPanelStack,
+  AppShellMainSlot,
+  AppShellPanelStackSlot,
   AppShellRoot,
-  AppShellSidebar,
+  AppShellSidebarSlot,
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
@@ -253,7 +253,7 @@ function PlaygroundWorkspace({
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
-              <AppShellSidebar className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
                 {conversationView ? (
                   <PlaygroundSidebar
                     activeChannelId={activeChannel.id}
@@ -263,14 +263,14 @@ function PlaygroundWorkspace({
                 ) : auxiliaryView ? (
                   <PlaygroundRailViewSidebar view={auxiliaryView} />
                 ) : null}
-              </AppShellSidebar>
+              </AppShellSidebarSlot>
             </ResizablePanel>
             {renderMainPanel ? <ResizableHandle className="hidden md:flex" /> : null}
           </>
         ) : null}
         {renderMainPanel ? (
           <ResizablePanel id="playground-main" minSize={isDesktop ? 360 : 0} className="min-w-0">
-            <AppShellMain className="flex h-full">
+            <AppShellMainSlot className="flex h-full">
               {isRootRoute && railView === "tasks" ? (
                 <PlaygroundTasksPanel />
               ) : standaloneView ? (
@@ -278,7 +278,7 @@ function PlaygroundWorkspace({
               ) : (
                 <Outlet />
               )}
-            </AppShellMain>
+            </AppShellMainSlot>
           </ResizablePanel>
         ) : null}
         {renderThreadPanel && activeThread ? (
@@ -292,7 +292,7 @@ function PlaygroundWorkspace({
               groupResizeBehavior="preserve-pixel-size"
               className="min-w-0"
             >
-              <AppShellPanelStack className="flex h-full w-full">
+              <AppShellPanelStackSlot className="flex h-full w-full">
                 <AppPanelStackRoot className="w-full">
                   <AppPanelStackItem className="w-full">
                     <AppPanelStackContent>
@@ -305,7 +305,7 @@ function PlaygroundWorkspace({
                     </AppPanelStackContent>
                   </AppPanelStackItem>
                 </AppPanelStackRoot>
-              </AppShellPanelStack>
+              </AppShellPanelStackSlot>
             </ResizablePanel>
           </>
         ) : null}
