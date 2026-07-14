@@ -3,18 +3,12 @@ import { tv } from "../../lib/tv";
 const drawerMotion = tv({
   slots: {
     overlay: [
-      "fixed inset-0 z-50 min-h-dvh select-none",
-      "bg-layer-backdrop",
       "opacity-[max(var(--drawer-overlay-min-opacity,0),calc(1-var(--drawer-swipe-progress)))]",
       "transition-opacity duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
       "data-starting-style:opacity-0 data-ending-style:pointer-events-none data-ending-style:opacity-0 data-ending-style:duration-150",
-      "data-snap-points:[--drawer-overlay-min-opacity:0.5]",
-      "motion-reduce:transition-none supports-[-webkit-touch-callout:none]:absolute",
+      "motion-reduce:transition-none",
     ],
-    viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
     popup: [
-      "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
-      "text-foreground",
       "[--drawer-blur:2px] [--drawer-ease:cubic-bezier(0.32,0.72,0,1)]",
       "[--closed-transform:translate3d(var(--drawer-exit-x,0px),var(--drawer-exit-y,0px),0)]",
       "[--drawer-stack-peek:1rem] [--drawer-stack-step:0.05]",
@@ -32,79 +26,95 @@ const drawerMotion = tv({
       "data-starting-style:transform-(--closed-transform) data-starting-style:opacity-0 data-starting-style:blur-(--drawer-blur)",
       "data-ending-style:transform-(--closed-transform) data-ending-style:opacity-0 data-ending-style:blur-(--drawer-blur)",
       "data-swiping:duration-0 data-nested-drawer-swiping:duration-0 motion-reduce:transition-none",
-      "[--drawer-content-height:var(--drawer-height,auto)]",
-      "data-nested-drawer-open:overflow-hidden",
-      "data-[swipe-direction=down]:[--drawer-inset:max(0.75rem,env(safe-area-inset-bottom,0px))] data-[swipe-direction=down]:[--drawer-exit-y:calc(100%+var(--drawer-inset)+2px)]",
-      "data-[swipe-direction=down]:[--drawer-stack-y:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=down]:[--drawer-transform-origin:50%_100%]",
-      "data-[swipe-direction=down]:inset-x-3 data-[swipe-direction=down]:bottom-(--drawer-inset) data-[swipe-direction=down]:mx-auto data-[swipe-direction=down]:min-h-64 data-[swipe-direction=down]:max-h-[82vh]",
-      "data-[swipe-direction=up]:[--drawer-inset:max(0.75rem,env(safe-area-inset-top,0px))] data-[swipe-direction=up]:[--drawer-exit-y:calc(-100%-var(--drawer-inset)-2px)]",
-      "data-[swipe-direction=up]:[--drawer-stack-y:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=up]:[--drawer-transform-origin:50%_0%]",
-      "data-[swipe-direction=up]:inset-x-3 data-[swipe-direction=up]:top-(--drawer-inset) data-[swipe-direction=up]:mx-auto data-[swipe-direction=up]:max-h-[80vh]",
-      "data-[swipe-direction=left]:[--drawer-inset:0.75rem] data-[swipe-direction=left]:[--drawer-exit-x:calc(-100%-var(--drawer-inset)-2px)]",
-      "data-[swipe-direction=left]:[--drawer-stack-x:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=left]:[--drawer-transform-origin:0%_50%] data-[swipe-direction=left]:inset-y-3 data-[swipe-direction=left]:left-(--drawer-inset)",
-      "data-[swipe-direction=right]:[--drawer-inset:0.75rem] data-[swipe-direction=right]:[--drawer-exit-x:calc(100%+var(--drawer-inset)+2px)]",
-      "data-[swipe-direction=right]:[--drawer-stack-x:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=right]:[--drawer-transform-origin:100%_50%] data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:right-(--drawer-inset)",
-      "data-[swipe-direction=left]:[--drawer-stack-size:100%] data-[swipe-direction=left]:[--drawer-swipe-x:var(--drawer-swipe-movement-x)] data-[swipe-direction=left]:flex-row data-[swipe-direction=left]:w-3/4 data-[swipe-direction=left]:max-w-sm",
-      "data-[swipe-direction=right]:[--drawer-stack-size:100%] data-[swipe-direction=right]:[--drawer-swipe-x:var(--drawer-swipe-movement-x)] data-[swipe-direction=right]:flex-row data-[swipe-direction=right]:w-3/4 data-[swipe-direction=right]:max-w-sm",
-      "data-[swipe-direction=down]:[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))] data-[swipe-direction=down]:[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
-      "data-[swipe-direction=up]:[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))] data-[swipe-direction=up]:[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
-      "data-[swipe-direction=down]:data-nested-drawer-open:h-(--drawer-frontmost-height) data-[swipe-direction=up]:data-nested-drawer-open:h-(--drawer-frontmost-height)",
-      "data-[swipe-direction=down]:md:max-w-md data-[swipe-direction=up]:md:max-w-md",
-      "data-snap-points:data-[swipe-direction=down]:[--drawer-content-height:100dvh] data-snap-points:data-[swipe-direction=up]:[--drawer-content-height:100dvh]",
     ],
     content: [
-      "flex min-h-0 flex-1 flex-col rounded-[inherit] select-text",
-      "group-data-swiping/drawer-popup:select-none",
       "transition-opacity duration-150 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
       "group-data-nested-drawer-open/drawer-popup:opacity-0 group-data-nested-drawer-swiping/drawer-popup:opacity-100",
     ],
     swipeHandle: [
-      "relative z-10 shrink-0 cursor-grab select-none active:cursor-grabbing",
-      "before:absolute before:rounded-full before:bg-ink-20 before:content-['']",
       "transition-opacity duration-150 motion-reduce:transition-none",
       "group-data-nested-drawer-open/drawer-popup:opacity-0 group-data-nested-drawer-swiping/drawer-popup:opacity-100",
-      "group-data-[swipe-direction=down]/drawer-popup:mx-auto group-data-[swipe-direction=down]/drawer-popup:h-11 group-data-[swipe-direction=down]/drawer-popup:w-16",
-      "group-data-[swipe-direction=down]/drawer-popup:before:top-3 group-data-[swipe-direction=down]/drawer-popup:before:left-1/2 group-data-[swipe-direction=down]/drawer-popup:before:h-1.5 group-data-[swipe-direction=down]/drawer-popup:before:w-12 group-data-[swipe-direction=down]/drawer-popup:before:-translate-x-1/2",
-      "group-data-[swipe-direction=up]/drawer-popup:order-last group-data-[swipe-direction=up]/drawer-popup:mx-auto group-data-[swipe-direction=up]/drawer-popup:h-11 group-data-[swipe-direction=up]/drawer-popup:w-16",
-      "group-data-[swipe-direction=up]/drawer-popup:before:bottom-3 group-data-[swipe-direction=up]/drawer-popup:before:left-1/2 group-data-[swipe-direction=up]/drawer-popup:before:h-1.5 group-data-[swipe-direction=up]/drawer-popup:before:w-12 group-data-[swipe-direction=up]/drawer-popup:before:-translate-x-1/2",
-      "group-data-[swipe-direction=left]/drawer-popup:order-last group-data-[swipe-direction=left]/drawer-popup:my-auto group-data-[swipe-direction=left]/drawer-popup:h-16 group-data-[swipe-direction=left]/drawer-popup:w-11",
-      "group-data-[swipe-direction=left]/drawer-popup:before:top-1/2 group-data-[swipe-direction=left]/drawer-popup:before:right-3 group-data-[swipe-direction=left]/drawer-popup:before:h-12 group-data-[swipe-direction=left]/drawer-popup:before:w-1.5 group-data-[swipe-direction=left]/drawer-popup:before:-translate-y-1/2",
-      "group-data-[swipe-direction=right]/drawer-popup:my-auto group-data-[swipe-direction=right]/drawer-popup:h-16 group-data-[swipe-direction=right]/drawer-popup:w-11",
-      "group-data-[swipe-direction=right]/drawer-popup:before:top-1/2 group-data-[swipe-direction=right]/drawer-popup:before:left-3 group-data-[swipe-direction=right]/drawer-popup:before:h-12 group-data-[swipe-direction=right]/drawer-popup:before:w-1.5 group-data-[swipe-direction=right]/drawer-popup:before:-translate-y-1/2",
     ],
-    header: [
-      "group-data-[swipe-direction=down]/drawer-popup:pt-2",
-      "group-data-[swipe-direction=left]/drawer-popup:flex-row group-data-[swipe-direction=left]/drawer-popup:justify-between group-data-[swipe-direction=left]/drawer-popup:gap-3 group-data-[swipe-direction=left]/drawer-popup:pt-6 group-data-[swipe-direction=left]/drawer-popup:text-left",
-      "group-data-[swipe-direction=right]/drawer-popup:flex-row group-data-[swipe-direction=right]/drawer-popup:justify-between group-data-[swipe-direction=right]/drawer-popup:gap-3 group-data-[swipe-direction=right]/drawer-popup:pt-6 group-data-[swipe-direction=right]/drawer-popup:text-left",
-    ],
-    body: [
-      "group-data-[swipe-direction=left]/drawer-popup:items-stretch group-data-[swipe-direction=left]/drawer-popup:text-left",
-      "group-data-[swipe-direction=right]/drawer-popup:items-stretch group-data-[swipe-direction=right]/drawer-popup:text-left",
-    ],
-    footer: [
-      "group-data-[swipe-direction=left]/drawer-popup:py-4 group-data-[swipe-direction=right]/drawer-popup:py-4",
-    ],
-    title: [
-      "group-data-[swipe-direction=left]/drawer-popup:min-w-0 group-data-[swipe-direction=left]/drawer-popup:max-w-none group-data-[swipe-direction=left]/drawer-popup:flex-1 group-data-[swipe-direction=left]/drawer-popup:text-left",
-      "group-data-[swipe-direction=right]/drawer-popup:min-w-0 group-data-[swipe-direction=right]/drawer-popup:max-w-none group-data-[swipe-direction=right]/drawer-popup:flex-1 group-data-[swipe-direction=right]/drawer-popup:text-left",
-    ],
-    description: [
-      "group-data-[swipe-direction=left]/drawer-popup:max-w-none group-data-[swipe-direction=left]/drawer-popup:text-left",
-      "group-data-[swipe-direction=right]/drawer-popup:max-w-none group-data-[swipe-direction=right]/drawer-popup:text-left",
-    ],
+  },
+  variants: {
+    side: {
+      down: {
+        popup: [
+          "[--drawer-exit-y:calc(100%+var(--drawer-inset)+2px)]",
+          "[--drawer-stack-y:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))]",
+          "[--drawer-transform-origin:50%_100%]",
+        ],
+      },
+      up: {
+        popup: [
+          "[--drawer-exit-y:calc(-100%-var(--drawer-inset)-2px)]",
+          "[--drawer-stack-y:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))]",
+          "[--drawer-transform-origin:50%_0%]",
+        ],
+      },
+      left: {
+        popup: [
+          "[--drawer-exit-x:calc(-100%-var(--drawer-inset)-2px)]",
+          "[--drawer-stack-x:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))]",
+          "[--drawer-transform-origin:0%_50%]",
+        ],
+      },
+      right: {
+        popup: [
+          "[--drawer-exit-x:calc(100%+var(--drawer-inset)+2px)]",
+          "[--drawer-stack-x:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))]",
+          "[--drawer-transform-origin:100%_50%]",
+        ],
+      },
+    },
+    axis: {
+      x: {
+        popup: ["[--drawer-stack-size:100%]", "[--drawer-swipe-x:var(--drawer-swipe-movement-x)]"],
+      },
+      y: {
+        popup: [
+          "[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))]",
+          "[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
+        ],
+      },
+    },
+    snapPoints: {
+      true: {
+        overlay: ["[--drawer-overlay-min-opacity:0.5]"],
+      },
+    },
   },
 });
 
 export const drawer = tv({
   extend: drawerMotion,
   slots: {
+    overlay: [
+      "fixed inset-0 z-50 min-h-dvh select-none",
+      "bg-layer-backdrop",
+      "supports-[-webkit-touch-callout:none]:absolute",
+    ],
+    viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
+    popup: [
+      "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
+      "text-foreground",
+      "[--drawer-inset:0.75rem] [--drawer-content-height:var(--drawer-height,auto)]",
+      "data-nested-drawer-open:overflow-hidden",
+    ],
+    content: [
+      "flex min-h-0 flex-1 flex-col rounded-[inherit] select-text",
+      "group-data-swiping/drawer-popup:select-none",
+    ],
+    swipeHandle: [
+      "relative z-10 shrink-0 cursor-grab select-none active:cursor-grabbing",
+      "before:absolute before:rounded-full before:bg-ink-20 before:content-['']",
+    ],
+    close: ["shrink-0"],
+    closeIcon: [],
     header: ["flex flex-col items-center px-6 pt-8 pb-2 text-center"],
     body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
     footer: ["mt-auto px-6 py-5"],
-    actions: [
-      "mx-auto flex w-full max-w-none flex-col items-stretch gap-2.5",
-      "[&_[data-slot=button]]:w-full",
-    ],
+    actions: ["flex w-full flex-col items-stretch gap-2.5", "[&_[data-slot=button]]:w-full"],
     title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground-strong"],
     description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground/60"],
   },
@@ -113,28 +123,106 @@ export const drawer = tv({
       brutal: {
         title: ["font-bold"],
         swipeHandle: ["before:rounded-none before:bg-ink-40"],
-        popup: [
-          "border-2 border-line-strong bg-layer-panel shadow-brutal-lg",
-          "data-[swipe-direction=right]:[--drawer-inset:1.25rem]",
-          "data-[swipe-direction=down]:[--drawer-inset:max(1.25rem,env(safe-area-inset-bottom,0px))]",
-        ],
+        popup: ["border-2 border-line-strong bg-layer-panel shadow-brutal-lg"],
+        close: ["bg-layer-panel"],
+        closeIcon: ["size-5"],
       },
       elegant: {
         overlay: ["backdrop-blur-[2px]"],
-        popup: [
-          "overflow-clip rounded-lg bg-layer-popover shadow-xl md:rounded-xl",
-          "data-[swipe-direction=left]:md:max-w-md",
-          "data-[swipe-direction=right]:md:max-w-md",
-        ],
-        header: [
-          "bg-layer-panel px-8 pt-9 pb-2",
-          "group-data-[swipe-direction=left]/drawer-popup:pt-6 group-data-[swipe-direction=right]/drawer-popup:pt-6",
-        ],
+        popup: ["overflow-clip rounded-lg bg-layer-popover shadow-xl md:rounded-xl"],
+        close: ["p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground"],
+        closeIcon: ["size-4"],
+        header: ["bg-layer-panel px-8 pt-9 pb-2"],
         body: ["bg-layer-panel px-8 pt-4 pb-7"],
         footer: ["mt-0 px-8 py-5"],
         title: ["font-sans text-2xl leading-8 font-semibold"],
         description: ["font-sans text-sm leading-5 text-foreground-muted"],
       },
     },
+    side: {
+      down: {
+        popup: [
+          "[--drawer-inset:max(0.75rem,env(safe-area-inset-bottom,0px))]",
+          "bottom-(--drawer-inset) min-h-64 max-h-[82vh]",
+        ],
+        swipeHandle: ["before:top-3"],
+      },
+      up: {
+        popup: [
+          "[--drawer-inset:max(0.75rem,env(safe-area-inset-top,0px))]",
+          "top-(--drawer-inset) max-h-[80vh]",
+        ],
+        swipeHandle: ["order-last", "before:bottom-3"],
+      },
+      left: {
+        popup: ["left-(--drawer-inset)"],
+        swipeHandle: ["order-last", "before:right-3"],
+      },
+      right: {
+        popup: ["right-(--drawer-inset)"],
+        swipeHandle: ["before:left-3"],
+      },
+    },
+    axis: {
+      x: {
+        popup: ["inset-y-3", "flex-row w-3/4 max-w-sm"],
+        swipeHandle: [
+          "my-auto h-16 w-11",
+          "before:top-1/2 before:h-12 before:w-1.5 before:-translate-y-1/2",
+        ],
+        header: ["flex-row justify-between gap-3 pt-6 text-left"],
+        body: ["items-stretch text-left"],
+        footer: ["py-4"],
+        title: ["min-w-0 max-w-none flex-1 text-left"],
+        description: ["max-w-none text-left"],
+      },
+      y: {
+        popup: [
+          "data-nested-drawer-open:h-(--drawer-frontmost-height)",
+          "inset-x-3 mx-auto md:max-w-md",
+        ],
+        swipeHandle: [
+          "mx-auto h-11 w-16",
+          "before:left-1/2 before:h-1.5 before:w-12 before:-translate-x-1/2",
+        ],
+      },
+    },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      side: "right",
+      class: {
+        popup: ["[--drawer-inset:1.25rem]"],
+      },
+    },
+    {
+      theme: "brutal",
+      side: "down",
+      class: {
+        popup: ["[--drawer-inset:max(1.25rem,env(safe-area-inset-bottom,0px))]"],
+      },
+    },
+    {
+      theme: "elegant",
+      axis: "x",
+      class: {
+        popup: ["md:max-w-md"],
+      },
+    },
+    {
+      side: "down",
+      snapPoints: true,
+      class: {
+        header: ["pt-2"],
+      },
+    },
+    {
+      axis: "y",
+      snapPoints: true,
+      class: {
+        popup: ["[--drawer-content-height:100dvh]"],
+      },
+    },
+  ],
 });
