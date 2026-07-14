@@ -58,7 +58,7 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "AppShellRail",
-    type: "aside props & { hidden?: boolean }",
+    type: "aside props",
     description:
       "Desktop rail column. Hidden by default below md to match source mobile ownership.",
   },

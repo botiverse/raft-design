@@ -1,11 +1,5 @@
-export {
-  AppPanelResizeHandle,
-  AppPanelStackContent,
-  AppPanelStackItem,
-  AppPanelStackRoot,
-} from "./app-panel-stack";
+export { AppPanelStackContent, AppPanelStackItem, AppPanelStackRoot } from "./app-panel-stack";
 export type {
-  AppPanelResizeHandleProps,
   AppPanelStackContentProps,
   AppPanelStackItemProps,
   AppPanelStackRootProps,
@@ -42,7 +36,6 @@ export type {
 
 export {
   AppShellMain,
-  AppShellMobileBar,
   AppShellPanelStack,
   AppShellRail,
   AppShellRoot,
@@ -50,7 +43,6 @@ export {
 } from "./app-shell";
 export type {
   AppShellMainProps,
-  AppShellMobileBarProps,
   AppShellPanelStackProps,
   AppShellRailProps,
   AppShellRootProps,
@@ -252,17 +244,6 @@ export type {
   ChatSidebarItemTextProps,
   ChatSidebarItemTitleProps,
 } from "./chat-sidebar-item";
-
-export {
-  ChatSidebarResizeGroup,
-  ChatSidebarResizeHandle,
-  ChatSidebarResizePanel,
-} from "./chat-sidebar-resize";
-export type {
-  ChatSidebarResizeGroupProps,
-  ChatSidebarResizeHandleProps,
-  ChatSidebarResizePanelProps,
-} from "./chat-sidebar-resize";
 
 export {
   ChatSidebarAction,

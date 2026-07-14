@@ -1,5 +1,4 @@
 export {
-  AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
   AppPanelStackRoot,
@@ -16,7 +15,6 @@ export {
   AppRailRoot,
   AppRailServerButton,
   AppShellMain,
-  AppShellMobileBar,
   AppShellPanelStack,
   AppShellRail,
   AppShellRoot,
@@ -120,9 +118,6 @@ export {
   ChatSidebarMenuCount,
   ChatSidebarMenuIcon,
   ChatSidebarMenuTitle,
-  ChatSidebarResizeGroup,
-  ChatSidebarResizeHandle,
-  ChatSidebarResizePanel,
   ChatSidebarRoot,
   ChatSidebarAction,
   ChatSidebarSection,
@@ -140,7 +135,6 @@ export {
   SortableChatSidebarList,
 } from "./components/chat-shell/index";
 export type {
-  AppPanelResizeHandleProps,
   AppPanelStackContentProps,
   AppPanelStackItemProps,
   AppPanelStackRootProps,
@@ -157,7 +151,6 @@ export type {
   AppRailRootProps,
   AppRailServerButtonProps,
   AppShellMainProps,
-  AppShellMobileBarProps,
   AppShellPanelStackProps,
   AppShellRailProps,
   AppShellRootProps,
@@ -265,9 +258,6 @@ export type {
   ChatSidebarMenuIconProps,
   ChatSidebarMenuProps,
   ChatSidebarMenuTitleProps,
-  ChatSidebarResizeGroupProps,
-  ChatSidebarResizeHandleProps,
-  ChatSidebarResizePanelProps,
   ChatSidebarRootProps,
   ChatSidebarActionProps,
   ChatSidebarSectionProps,
@@ -284,6 +274,13 @@ export type {
   SortableChatSidebarItemProps,
   SortableChatSidebarListProps,
 } from "./components/chat-shell/index";
+
+export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";
+export type {
+  ResizableGroupProps,
+  ResizableHandleProps,
+  ResizablePanelProps,
+} from "./components/resizable/index";
 
 export {
   ToggleGroup,

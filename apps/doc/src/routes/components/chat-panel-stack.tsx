@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import {
-  AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
   AppPanelStackRoot,
@@ -29,7 +28,6 @@ const SNIPPETS = {
   anatomy: `<AppShellPanelStack>
   <AppPanelStackRoot>
     <AppPanelStackItem>
-      <AppPanelResizeHandle />
       <AppPanelStackContent />
     </AppPanelStackItem>
   </AppPanelStackRoot>
@@ -39,13 +37,13 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "AppShellPanelStack",
-    type: "aside props & { hidden?: boolean; resizable?: boolean }",
+    type: "aside props",
     description:
       "Desktop right-panel host. Hidden below lg to match the source side-thread column.",
   },
   {
     name: "AppPanelStackRoot",
-    type: "div props & { resizable?: boolean }",
+    type: "div props",
     description: "Stack container. It only exposes visual structure; stack order stays app-owned.",
   },
   {
@@ -54,10 +52,10 @@ const PROPS: readonly PropRow[] = [
     description: "One right-panel column. Width and persistence are owned by the consumer.",
   },
   {
-    name: "AppPanelStackContent / ResizeHandle",
+    name: "AppPanelStackContent",
     type: "div props",
     description:
-      "Scrollable content host and visual resize affordance. Pointer behavior is app-owned.",
+      "Scrollable content host. Compose resize behavior outside the stack with Resizable primitives.",
   },
 ];
 
@@ -78,14 +76,12 @@ function AppPanelStackDoc() {
           <li>
             does not own thread/profile/task stores, URL sync, modal fallback, or breakpoint logic
           </li>
-          <li>
-            keeps source side-column chrome: white panel, left divider, and left-edge resize
-            affordance
-          </li>
+          <li>keeps source side-column chrome: white panel and left divider</li>
           <li>
             content surfaces remain children; ChatThreadPanel is documented as a separate panel
             surface
           </li>
+          <li>resize behavior is composed separately with the generic Resizable primitives</li>
         </Differences>
       }
       toc={TOC}
@@ -152,9 +148,8 @@ function PanelStackPreview() {
     <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
       <CurrentMainContext />
       <AppShellPanelStack className="flex h-full w-[400px] lg:flex">
-        <AppPanelStackRoot resizable>
+        <AppPanelStackRoot>
           <AppPanelStackItem>
-            <AppPanelResizeHandle />
             <AppPanelStackContent>
               <ChatThreadPanelComposition />
             </AppPanelStackContent>

@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { DataAttributes } from "./data-attributes";
 
@@ -11,7 +11,6 @@ const appShell = tv({
     shellSidebar: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     shellMain: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     shellPanelStack: ["hidden min-h-0 shrink-0 lg:flex"],
-    mobileBar: ["shrink-0 md:hidden"],
   },
   variants: {
     theme: {
@@ -22,7 +21,6 @@ const appShell = tv({
         shellSidebar: "w-60 border-r-2 border-black bg-brutal-cream",
         shellMain: "bg-white",
         shellPanelStack: "border-l-2 border-black bg-white",
-        mobileBar: "border-t-2 border-black bg-white text-black",
       },
       elegant: {
         root: [
@@ -39,30 +37,14 @@ const appShell = tv({
         shellSidebar: "w-[var(--sidebar-width)] border-r-0 bg-transparent",
         shellMain: "bg-layer-page",
         shellPanelStack: "border-l border-line-subtle bg-layer-panel",
-        mobileBar: "border-t border-line-subtle bg-layer-panel text-foreground",
       },
     },
-    resizable: {
-      true: {
-        shellSidebar: "relative min-w-0 w-auto flex-1 shrink",
-      },
-      false: {},
-    },
-  },
-  defaultVariants: {
-    resizable: false,
   },
 });
 
-type HiddenProp = {
-  hidden?: boolean;
-};
+export type AppShellRootProps = useRender.ComponentProps<"div">;
 
-type AppShellVariantProps = Omit<VariantProps<typeof appShell>, "theme">;
-
-export type AppShellRootProps = useRender.ComponentProps<"div"> & HiddenProp;
-
-export function AppShellRoot({ hidden, className, render, ...props }: AppShellRootProps) {
+export function AppShellRoot({ className, render, ...props }: AppShellRootProps) {
   const theme = useThemeFamily();
   const { root } = appShell({ theme });
 
@@ -71,19 +53,16 @@ export function AppShellRoot({ hidden, className, render, ...props }: AppShellRo
     className: root({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
-
-  if (hidden) return null;
-  return element;
 }
 
-export type AppShellRailProps = useRender.ComponentProps<"aside"> & HiddenProp;
+export type AppShellRailProps = useRender.ComponentProps<"aside">;
 
-export function AppShellRail({ hidden, className, render, ...props }: AppShellRailProps) {
+export function AppShellRail({ className, render, ...props }: AppShellRailProps) {
   const theme = useThemeFamily();
   const { shellRail } = appShell({ theme });
 
@@ -92,49 +71,34 @@ export function AppShellRail({ hidden, className, render, ...props }: AppShellRa
     className: shellRail({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "aside",
     render,
     props: mergeProps<"aside">(defaultProps, props),
   });
-
-  if (hidden) return null;
-  return element;
 }
 
-export type AppShellSidebarProps = useRender.ComponentProps<"aside"> &
-  HiddenProp &
-  Pick<AppShellVariantProps, "resizable">;
+export type AppShellSidebarProps = useRender.ComponentProps<"aside">;
 
-export function AppShellSidebar({
-  hidden,
-  resizable,
-  className,
-  render,
-  ...props
-}: AppShellSidebarProps) {
+export function AppShellSidebar({ className, render, ...props }: AppShellSidebarProps) {
   const theme = useThemeFamily();
-  const { shellSidebar } = appShell({ theme, resizable });
+  const { shellSidebar } = appShell({ theme });
 
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
     "data-slot": "app-shell-sidebar",
-    "data-resizable": resizable ? "true" : undefined,
     className: shellSidebar({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "aside",
     render,
     props: mergeProps<"aside">(defaultProps, props),
   });
-
-  if (hidden) return null;
-  return element;
 }
 
-export type AppShellMainProps = useRender.ComponentProps<"main"> & HiddenProp;
+export type AppShellMainProps = useRender.ComponentProps<"main">;
 
-export function AppShellMain({ hidden, className, render, ...props }: AppShellMainProps) {
+export function AppShellMain({ className, render, ...props }: AppShellMainProps) {
   const theme = useThemeFamily();
   const { shellMain } = appShell({ theme });
 
@@ -143,63 +107,27 @@ export function AppShellMain({ hidden, className, render, ...props }: AppShellMa
     className: shellMain({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "main",
     render,
     props: mergeProps<"main">(defaultProps, props),
   });
-
-  if (hidden) return null;
-  return element;
 }
 
-export type AppShellPanelStackProps = useRender.ComponentProps<"aside"> &
-  HiddenProp &
-  Pick<AppShellVariantProps, "resizable">;
+export type AppShellPanelStackProps = useRender.ComponentProps<"aside">;
 
-export function AppShellPanelStack({
-  hidden,
-  resizable,
-  className,
-  render,
-  ...props
-}: AppShellPanelStackProps) {
+export function AppShellPanelStack({ className, render, ...props }: AppShellPanelStackProps) {
   const theme = useThemeFamily();
-  const { shellPanelStack } = appShell({ theme, resizable });
+  const { shellPanelStack } = appShell({ theme });
 
   const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
     "data-slot": "app-shell-panel-stack",
-    "data-resizable": resizable ? "true" : undefined,
     className: shellPanelStack({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "aside",
     render,
     props: mergeProps<"aside">(defaultProps, props),
   });
-
-  if (hidden) return null;
-  return element;
-}
-
-export type AppShellMobileBarProps = useRender.ComponentProps<"nav"> & HiddenProp;
-
-export function AppShellMobileBar({ hidden, className, render, ...props }: AppShellMobileBarProps) {
-  const theme = useThemeFamily();
-  const { mobileBar } = appShell({ theme });
-
-  const defaultProps: useRender.ElementProps<"nav"> & DataAttributes = {
-    "data-slot": "app-shell-mobile-bar",
-    className: mobileBar({ className }),
-  };
-
-  const element = useRender({
-    defaultTagName: "nav",
-    render,
-    props: mergeProps<"nav">(defaultProps, props),
-  });
-
-  if (hidden) return null;
-  return element;
 }

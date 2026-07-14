@@ -7,7 +7,15 @@ export type PropRow = {
   description: string;
 };
 
+const EMPTY_DEFAULTS = new Set(["", "-", "–", "—"]);
+
+function hasDefaultValue(value: string | undefined): value is string {
+  return value != null && !EMPTY_DEFAULTS.has(value.trim());
+}
+
 export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
+  const showDefault = rows.some((row) => hasDefaultValue(row.default));
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
@@ -15,7 +23,7 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
           <tr className="border-b border-line-subtle text-foreground-muted">
             <th className="py-2 pr-6 font-medium">Prop</th>
             <th className="py-2 pr-6 font-medium">Type</th>
-            <th className="py-2 pr-6 font-medium">Default</th>
+            {showDefault ? <th className="py-2 pr-6 font-medium">Default</th> : null}
             <th className="py-2 font-medium">Description</th>
           </tr>
         </thead>
@@ -28,9 +36,11 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
                 </InlineCode>
               </td>
               <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.type}</td>
-              <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
-                {row.default ?? "—"}
-              </td>
+              {showDefault ? (
+                <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
+                  {hasDefaultValue(row.default) ? row.default : "—"}
+                </td>
+              ) : null}
               <td className="py-3 text-foreground-muted">{row.description}</td>
             </tr>
           ))}

@@ -34,6 +34,7 @@ type Control<T> = {
 type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   defaultValues: T;
   controls: readonly Control<T>[];
+  layout?: "stack" | "split";
   previewClassName?: string;
   previewTheme?: Theme;
   previewMode?: PreviewMode;
@@ -127,6 +128,7 @@ function RadioControlInput({ label, options, value, onValueChange }: RadioContro
 export function ComponentPlayground<T extends Record<string, ControlValue>>({
   defaultValues,
   controls,
+  layout = "split",
   previewClassName,
   previewTheme,
   previewMode,
@@ -141,7 +143,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
 
   return (
     <ComponentDemoFrame
-      layout="split"
+      layout={layout}
       previewClassName={previewClassName}
       previewTheme={previewTheme}
       previewMode={previewMode}

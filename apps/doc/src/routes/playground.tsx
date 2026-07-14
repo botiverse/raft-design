@@ -8,9 +8,9 @@ import {
   AppShellPanelStack,
   AppShellRoot,
   AppShellSidebar,
-  ChatSidebarResizeGroup,
-  ChatSidebarResizeHandle,
-  ChatSidebarResizePanel,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
 } from "raft-ui/wip";
 
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
@@ -119,18 +119,23 @@ function PlaygroundWorkspace({
   return (
     <AppShellRoot className="h-full">
       <PlaygroundRail />
-      <ChatSidebarResizeGroup orientation="horizontal" className="min-w-0 flex-1">
+      <ResizableGroup orientation="horizontal" className="min-w-0 flex-1">
         {railView === "search" || railView === "activity" ? null : (
           <>
-            <ChatSidebarResizePanel
+            <ResizablePanel
               key={theme}
               id={`playground-sidebar-${theme}`}
               defaultSize={theme === "brutal" ? 240 : 252}
               minSize={180}
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
+              className={
+                theme === "brutal"
+                  ? "has-[>[data-slot=app-shell-sidebar]]:bg-brutal-cream"
+                  : "has-[>[data-slot=app-shell-sidebar]]:bg-layer-page"
+              }
             >
-              <AppShellSidebar resizable className="h-full">
+              <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink">
                 {conversationView ? (
                   <PlaygroundSidebar
                     activeChannelId={activeChannel.id}
@@ -140,19 +145,19 @@ function PlaygroundWorkspace({
                   <PlaygroundRailViewSidebar view={auxiliaryView} />
                 ) : null}
               </AppShellSidebar>
-            </ChatSidebarResizePanel>
-            <ChatSidebarResizeHandle />
+            </ResizablePanel>
+            <ResizableHandle className="hidden md:flex" />
           </>
         )}
-        <ChatSidebarResizePanel id="playground-main" minSize={360} className="min-w-0">
+        <ResizablePanel id="playground-main" minSize={360} className="min-w-0">
           <AppShellMain className="flex h-full">
             {standaloneView ? <PlaygroundRailViewPanel view={standaloneView} /> : <Outlet />}
           </AppShellMain>
-        </ChatSidebarResizePanel>
+        </ResizablePanel>
         {conversationView && activeThread ? (
           <>
-            <ChatSidebarResizeHandle />
-            <ChatSidebarResizePanel
+            <ResizableHandle className="hidden md:flex" />
+            <ResizablePanel
               id="playground-thread"
               defaultSize={400}
               minSize={320}
@@ -173,10 +178,10 @@ function PlaygroundWorkspace({
                   </AppPanelStackItem>
                 </AppPanelStackRoot>
               </AppShellPanelStack>
-            </ChatSidebarResizePanel>
+            </ResizablePanel>
           </>
         ) : null}
-      </ChatSidebarResizeGroup>
+      </ResizableGroup>
     </AppShellRoot>
   );
 }
