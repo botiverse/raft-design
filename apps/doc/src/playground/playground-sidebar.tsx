@@ -514,7 +514,7 @@ function JointChannelsSection({
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions className="max-md:static max-md:pointer-events-auto max-md:translate-y-0 max-md:opacity-100">
+          <ChatSidebarSectionActions>
             <SidebarSectionAddButton aria-label="Create joint channel" />
             <SidebarSectionChannelsMenu
               aria-label="Joint channels menu"
@@ -588,7 +588,7 @@ function ChannelsSection({
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions className="max-md:static max-md:pointer-events-auto max-md:translate-y-0 max-md:opacity-100">
+          <ChatSidebarSectionActions>
             <SidebarSectionAddButton aria-label="Create channel" />
             <SidebarSectionChannelsMenu
               aria-label="Channels menu"

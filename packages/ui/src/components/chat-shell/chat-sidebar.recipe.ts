@@ -42,9 +42,10 @@ export const chatSidebar = tv({
     sidebarSectionActions: [
       "flex shrink-0 items-center gap-1",
       "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",
-      "group-hover/section-header:pointer-events-auto group-hover/section-header:opacity-100",
-      "focus-within:pointer-events-auto focus-within:opacity-100",
-      "has-[[data-popup-open]]:pointer-events-auto has-[[data-popup-open]]:opacity-100",
+      "max-md:static max-md:pointer-events-auto max-md:translate-y-0 max-md:opacity-100",
+      "md:group-hover/section-header:pointer-events-auto md:group-hover/section-header:opacity-100",
+      "md:focus-within:pointer-events-auto md:focus-within:opacity-100",
+      "md:has-[[data-popup-open]]:pointer-events-auto md:has-[[data-popup-open]]:opacity-100",
     ],
     sidebarSectionAction: [
       "flex size-6 items-center justify-center p-0",
