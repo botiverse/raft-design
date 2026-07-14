@@ -551,11 +551,9 @@ function JointChannelsSection({
 function ChannelsSection({
   activeChannelId,
   onArchive,
-  onCreateChannel,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
-  onCreateChannel: () => void;
 }) {
   const [sortMode, setSortMode] = useState<SidebarSortValue>("manual");
   const { ordered: manualOrder, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
@@ -585,7 +583,6 @@ function ChannelsSection({
         countLabel="channels"
         createLabel="Create Channel"
         createIcon="channel"
-        onCreate={onCreateChannel}
         sortValue={sortMode}
         onSortValueChange={setSortMode}
       >
@@ -596,14 +593,13 @@ function ChannelsSection({
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions className="max-md:static max-md:pointer-events-auto max-md:translate-y-0 max-md:opacity-100">
-            <SidebarSectionAddButton aria-label="Create channel" onClick={onCreateChannel} />
+            <SidebarSectionAddButton aria-label="Create channel" />
             <SidebarSectionChannelsMenu
               aria-label="Channels menu"
               count={ordered.length}
               countLabel="channels"
               createLabel="Create Channel"
               createIcon="channel"
-              onCreate={onCreateChannel}
               sortValue={sortMode}
               onSortValueChange={setSortMode}
             />
@@ -917,7 +913,7 @@ export function PlaygroundSidebar({
               {title}
             </ChatSidebarHeaderTitle>
           </div>
-          <SidebarCreateMenu disabled />
+          <SidebarCreateMenu />
         </ChatSidebarHeader>
         <ChatSidebarBody className="max-md:bg-white">
           <ChatSidebarContent>
@@ -958,7 +954,6 @@ export function PlaygroundSidebar({
               <ChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
-                onCreateChannel={() => setDialog("create-channel")}
               />
               <DirectMessagesSection
                 activeChannelId={selectedChannelId}
