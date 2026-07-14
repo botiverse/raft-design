@@ -52,7 +52,7 @@ export const chatSidebarItem = tv({
         ],
         sidebarItemTitle: "font-medium text-black group-data-[unread=true]/sidebar-item:font-bold",
         sidebarItemSubtitle: "text-black/40",
-        sidebarItemMeta: "text-[12px] font-medium text-black/70",
+        sidebarItemMeta: "text-xs font-medium text-black/70",
         sidebarItemMention: [
           "rounded border border-black bg-soft-signal",
           "text-[10px] font-bold leading-none text-black",
@@ -85,7 +85,7 @@ export const chatSidebarItem = tv({
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[1.5]",
         sidebarItemSubtitle: "text-ink-30",
         sidebarItemMeta:
-          "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
+          "font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
         sidebarItemIndicator: ["pointer-events-none absolute top-1/2 right-full -translate-y-1/2"],
         sidebarItemPresence: [
           "pointer-events-none absolute top-1/2 right-[calc(100%+2px)] -translate-y-1/2",

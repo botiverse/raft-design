@@ -79,10 +79,6 @@ const dropdownMenu = tv({
         indicator: [],
       },
       elegant: {
-        trigger: [
-          "hover:bg-[color-mix(in_oklch,var(--line-subtle)_22%,var(--layer-panel))]",
-          "focus-visible:ring-0 focus-visible:ring-offset-0",
-        ],
         content: [
           "gap-0 rounded-md bg-layer-popover p-1",
           "shadow-lg outline-none",

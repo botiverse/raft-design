@@ -22,24 +22,24 @@ export const chatSidebarMenu = tv({
           "text-black transition-colors hover:text-black/70",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
-        sidebarMenuIcon: ["[&_svg]:![stroke-width:1.5px]", "[&_svg_*]:![stroke-width:1.5px]"],
+        sidebarMenuIcon: ["[&_svg]:[stroke-width:1.5px]", "[&_svg_*]:[stroke-width:1.5px]"],
         sidebarMenuCount: "text-black/40",
       },
       elegant: {
         sidebarMenu: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)]",
-          "text-[12px] leading-none font-normal normal-case tracking-normal",
+          "text-xs leading-none font-normal normal-case tracking-normal",
           "text-foreground-muted",
           "hover:bg-layer-strong/80 hover:text-foreground-strong",
           "active:text-foreground-strong",
         ],
         sidebarMenuIcon: [
           "text-foreground-icon",
-          "[&_svg]:![stroke-width:1px] [&_svg_*]:![stroke-width:1px]",
+          "[&_svg]:[stroke-width:1px] [&_svg_*]:[stroke-width:1px]",
         ],
         sidebarMenuAside: "ml-auto",
         sidebarMenuCount:
-          "shrink-0 font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
+          "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
       },
     },
   },
