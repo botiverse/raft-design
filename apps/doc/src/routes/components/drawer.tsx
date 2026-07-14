@@ -14,6 +14,8 @@ import pwaInstallCompositionSource from "#/modules/drawer/compositions/pwa-insta
 import pwaInstallOtherCompositionSource from "#/modules/drawer/compositions/pwa-install-other-drawer.composition.tsx?raw";
 import { DrawerResponsivePlacementComposition } from "#/modules/drawer/compositions/responsive-placement.composition.tsx";
 import responsivePlacementCompositionSource from "#/modules/drawer/compositions/responsive-placement.composition.tsx?raw";
+import { DrawerSnapPointsComposition } from "#/modules/drawer/compositions/snap-points.composition.tsx";
+import snapPointsCompositionSource from "#/modules/drawer/compositions/snap-points.composition.tsx?raw";
 import memberDetailsDrawerSource from "#/modules/drawer/compositions/workspace-settings/member-details-drawer.tsx?raw";
 import removeMemberDrawerSource from "#/modules/drawer/compositions/workspace-settings/remove-member-drawer.tsx?raw";
 import workspaceSettingsDrawerSource from "#/modules/drawer/compositions/workspace-settings/workspace-settings-drawer.tsx?raw";
@@ -152,6 +154,7 @@ const SNIPPETS = {
   sourceDrawer: SOURCE_DRAWER,
   usageResponsivePlacement: responsivePlacementCompositionSource,
   usageSideFullWidth: USAGE_SIDE_FULL_WIDTH,
+  usageSnapPoints: snapPointsCompositionSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -189,6 +192,22 @@ const PROPS: readonly PropRow[] = [
     type: '"down" | "up" | "left" | "right"',
     default: '"down"',
     description: "Direction the drawer follows and can be swiped to dismiss.",
+  },
+  {
+    name: "snapPoints",
+    type: "Array<number | string>",
+    description:
+      "Preset heights for vertical drawers. Fractions use viewport height, values greater than 1 use pixels, and strings support px or rem.",
+  },
+  {
+    name: "defaultSnapPoint",
+    type: "number | string | null",
+    description: "Initial snap point for an uncontrolled drawer.",
+  },
+  {
+    name: "snapPoint / onSnapPointChange",
+    type: "number | string | null / (snapPoint) => void",
+    description: "Controlled snap-point state and its change callback.",
   },
   {
     name: "DrawerContent",
@@ -282,19 +301,23 @@ function DrawerDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">
-              Nested settings flow and close callbacks
-            </h3>
+            <h3 className="text-sm font-medium text-foreground-strong">Snap points</h3>
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              In product code, each layer is usually its own business screen. This example splits
-              workspace settings, member details, and member removal into separate files. The entry
-              composition nests those screens and attaches{" "}
-              <code className="font-mono text-[0.8125rem]">onOpenChangeComplete</code> to the exact
-              layer it observes; each screen renders the next screen through{" "}
-              <code className="font-mono text-[0.8125rem]">children</code> at the point where that
-              next action belongs. Removing the member closes the controlled confirmation and
-              member-details layers in the same event, so both exit together and reveal workspace
-              settings directly. Other confirmation dismissals return only to member details.
+              Snap points apply to vertical drawers. Compare separate bottom and top notifications;
+              each expands from an 8rem summary to a 24rem detail view.
+            </p>
+            <Example html={code.usageSnapPoints}>
+              <div className="flex justify-center">
+                <DrawerSnapPointsComposition />
+              </div>
+            </Example>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Nested close callbacks</h3>
+            <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
+              Each nested drawer owns its close callback; removing a member closes the confirmation
+              and details layers together.
             </p>
             <Example
               codeBlock={
@@ -332,13 +355,10 @@ function DrawerDoc() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">
-              Mobile full-width side drawer
-            </h3>
+            <h3 className="text-sm font-medium text-foreground-strong">Full-width side drawer</h3>
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> width on
-              small screens so the panel spans the floating inset while keeping the default narrow
-              side panel from <code className="font-mono text-[0.8125rem]">md</code> up.
+              Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> on small
+              screens to span the floating inset.
             </p>
             <Example html={code.usageSideFullWidth}>
               <div className="flex justify-center">
@@ -350,10 +370,8 @@ function DrawerDoc() {
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-foreground-strong">Responsive placement</h3>
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              Drive <code className="font-mono text-[0.8125rem]">swipeDirection</code> from{" "}
-              <code className="font-mono text-[0.8125rem]">foxact/use-media-query</code> so desktop
-              keeps a right edge panel while mobile switches to a bottom sheet. Update the direction
-              in place so an open drawer stays open across the breakpoint.
+              Switch <code className="font-mono text-[0.8125rem]">swipeDirection</code> at md:
+              bottom on mobile, right on desktop.
             </p>
             <Example html={code.usageResponsivePlacement}>
               <div className="flex justify-center">

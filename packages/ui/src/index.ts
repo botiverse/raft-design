@@ -67,7 +67,6 @@ export {
   DrawerHeader,
   DrawerOverlay,
   DrawerPortal,
-  DrawerSwipeHandle,
   DrawerTitle,
   DrawerTrigger,
 } from "./components/drawer/index";
@@ -82,7 +81,6 @@ export type {
   DrawerOverlayProps,
   DrawerPortalProps,
   DrawerProps,
-  DrawerSwipeHandleProps,
   DrawerTitleProps,
   DrawerTriggerProps,
 } from "./components/drawer/index";
