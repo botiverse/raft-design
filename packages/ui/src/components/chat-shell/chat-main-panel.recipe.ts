@@ -60,25 +60,27 @@ export const chatMainPanel = tv({
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-transparent max-md:bg-layer-page",
-          "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto] max-md:grid-rows-[auto_auto]",
-          "max-md:items-center max-md:px-[14px] max-md:pt-3",
+          "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
+          "max-md:items-start max-md:px-[14px] max-md:pt-3",
         ],
-        titleRow: "max-md:col-start-3 max-md:row-start-1 max-md:self-center",
-        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-center",
+        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-start",
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
           "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
           "max-md:col-start-2 max-md:row-start-1 max-md:h-[calc(1.0625rem*1.25)]",
         ],
-        titleBlock: ["flex flex-col md:flex-row md:items-baseline md:gap-2", "max-md:contents"],
+        titleBlock: [
+          "flex flex-col md:flex-row md:items-baseline md:gap-2",
+          "max-md:col-start-3 max-md:row-start-1 max-md:min-w-0 max-md:gap-1",
+        ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
+          "max-md:leading-none",
         ],
         subtitle: [
-          "font-sans text-foreground-placeholder",
-          "max-md:col-start-3 max-md:row-start-2 max-md:self-start",
+          "font-sans leading-none text-foreground-placeholder",
           "max-md:-ml-[calc(0.875rem+0.5rem)]",
         ],
         titleBadge: [
@@ -105,7 +107,7 @@ export const chatMainPanel = tv({
         timeline: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         footer: [
           "max-md:px-2.5 md:px-7 pt-3",
-          "pb-[calc(env(safe-area-inset-bottom)+1.25rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
+          "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-[calc(env(safe-area-inset-bottom)+1.75rem)]",
           "border-t-0",
           "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         ],

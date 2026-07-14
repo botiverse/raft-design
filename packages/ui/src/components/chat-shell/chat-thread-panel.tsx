@@ -51,7 +51,7 @@ const chatThreadPanel = tv({
         parent: "border-b border-line-subtle bg-transparent",
         replyCount: "border-line-muted text-foreground-muted",
         footer: [
-          "pl-7 pr-7 pt-3 pb-[calc(env(safe-area-inset-bottom)+1.25rem)]",
+          "px-7 pt-3 pb-[calc(env(safe-area-inset-bottom)+1.75rem)]",
           "border-t-0 bg-transparent text-foreground-muted",
         ],
       },
