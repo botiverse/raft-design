@@ -1,6 +1,5 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -96,13 +95,7 @@ function TokenOutlet() {
   return <Outlet />;
 }
 
-export function ShadowsDoc({
-  theme,
-  code,
-}: {
-  theme: ShadowTheme;
-  code: Record<string, AnyRenderableServerComponent>;
-}) {
+export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Record<string, string> }) {
   const previews = THEME_PREVIEWS.filter((preview) => preview.theme === theme);
   const title = `${THEME_LABELS[theme]} shadows`;
 
