@@ -895,7 +895,7 @@ export function PlaygroundSidebar({
           </div>
           <SidebarCreateMenu />
         </ChatSidebarHeader>
-        <ChatSidebarBody className="max-md:bg-white">
+        <ChatSidebarBody>
           <ChatSidebarContent>
             <div className="min-h-full">
               <ChatSidebarItem className="md:hidden" onClick={() => selectRailView("search")}>

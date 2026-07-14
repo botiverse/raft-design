@@ -231,7 +231,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
       <ChatSidebarHeader className="max-md:hidden">
         <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
       </ChatSidebarHeader>
-      <ChatSidebarBody className="max-md:bg-white">
+      <ChatSidebarBody>
         <ChatSidebarContent>
           {details.map((detail, index) => {
             const DetailIcon = detail.icon;

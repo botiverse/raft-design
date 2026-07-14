@@ -92,7 +92,7 @@ export const chatSidebar = tv({
         sidebarSection: "px-0",
         sidebarHeader:
           "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
-        sidebarBody: "bg-brutal-cream",
+        sidebarBody: "bg-brutal-cream max-md:bg-white",
         sidebarMenu: [
           "text-black transition-colors hover:text-black/70",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
@@ -131,6 +131,7 @@ export const chatSidebar = tv({
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
       },
       elegant: {
+        sidebarRoot: "[--sidebar-inset-x:24px] md:[--sidebar-inset-x:22px]",
         sidebarHeader:
           "h-[var(--shell-header-height,3.5rem)] border-b-0 px-[var(--sidebar-inset-x,22px)]",
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
