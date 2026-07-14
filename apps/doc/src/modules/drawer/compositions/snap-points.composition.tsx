@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import {
   Button,
   Drawer,
@@ -20,18 +20,15 @@ const SNAP_CONTENT_STYLE = {
 } as CSSProperties;
 
 export function DrawerSnapPointsComposition() {
-  const [snapPoint, setSnapPoint] = useState<DrawerProps["snapPoint"]>(SNAP_POINTS[0]);
-  const isCompact = snapPoint === SNAP_POINTS[0];
-
   return (
-    <Drawer snapPoints={SNAP_POINTS} snapPoint={snapPoint} onSnapPointChange={setSnapPoint}>
+    <Drawer snapPoints={SNAP_POINTS} defaultSnapPoint={SNAP_POINTS[0]}>
       <DrawerTrigger render={<Button variant="primary" />}>Show release notification</DrawerTrigger>
       <DrawerContent style={SNAP_CONTENT_STYLE}>
         <DrawerHeader className="py-3">
           <DrawerTitle>Release ready</DrawerTitle>
           <DrawerDescription>raft-ui 0.0.21 passed all release checks.</DrawerDescription>
         </DrawerHeader>
-        <DrawerBody inert={isCompact} className="min-h-0 overflow-y-auto overscroll-contain">
+        <DrawerBody>
           <dl className="mt-6 grid w-full grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-left text-sm leading-6">
             <dt className="text-foreground-muted">Owner</dt>
             <dd className="text-foreground-strong">Maya Chen</dd>
