@@ -10,7 +10,6 @@ export {
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
-  AppRailServerButton,
 } from "./app-rail";
 export type {
   AppRailFooterProps,
@@ -24,5 +23,4 @@ export type {
   AppRailItemProps,
   AppRailNavProps,
   AppRailRootProps,
-  AppRailServerButtonProps,
 } from "./app-rail";

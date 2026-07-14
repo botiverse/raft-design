@@ -14,14 +14,6 @@ const appRail = tv({
       "max-md:h-auto max-md:items-stretch",
     ],
     header: ["relative flex w-full shrink-0 items-center justify-center"],
-    serverButton: [
-      "relative inline-flex size-10 items-center justify-center",
-      "outline-none",
-      "disabled:pointer-events-none disabled:opacity-45",
-      "[@media(max-height:600px)]:size-9",
-      "[&_img]:size-full [&_img]:min-h-0 [&_img]:min-w-0 [&_img]:object-cover",
-      "[&_[data-slot=app-rail-item-indicator]]:z-10",
-    ],
     nav: [
       "flex w-full flex-1 flex-col items-center gap-1.5 py-2",
       "max-md:grid max-md:flex-none max-md:grid-flow-col max-md:auto-cols-fr max-md:items-stretch max-md:gap-0 max-md:py-0",
@@ -50,15 +42,8 @@ const appRail = tv({
   variants: {
     theme: {
       brutal: {
-        header: "h-[62px] border-b-2 border-black [@media(max-height:600px)]:h-12",
-        serverButton: [
-          "rounded-none border-2 border-black bg-black",
-          "font-sans text-base font-bold text-soft-signal",
-          "shadow-brutal-sm hover:shadow-brutal",
-          "transition-all duration-100",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
-          "[&_img]:rounded-[inherit]",
-        ],
+        header:
+          "h-[var(--shell-header-height,62px)] border-b-2 border-black [@media(max-height:600px)]:h-12",
         nav: [
           "max-md:border-t-2 max-md:border-black max-md:bg-white",
           "max-md:pb-[min(env(safe-area-inset-bottom,0px),34px)] max-md:text-black",
@@ -81,13 +66,6 @@ const appRail = tv({
       },
       elegant: {
         header: "h-[var(--shell-header-height,3.5rem)] border-b-0",
-        serverButton: [
-          "size-8 rounded-md border-0 bg-white shadow-none",
-          "[@media(max-height:600px)]:size-7",
-          "font-heading text-xs font-bold text-primary-400",
-          "transition-[background-color,transform] duration-150 active:translate-y-px",
-          "[&_img]:rounded-[inherit]",
-        ],
         nav: [
           "px-2 pt-4 pb-2",
           "max-md:gap-1 max-md:bg-layer-panel",
@@ -178,23 +156,6 @@ export function AppRailHeader({ className, render, ...props }: AppRailHeaderProp
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type AppRailServerButtonProps = useRender.ComponentProps<"button">;
-
-export function AppRailServerButton({ className, render, ...props }: AppRailServerButtonProps) {
-  const theme = useThemeFamily();
-  const { serverButton } = appRail({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "data-slot": "app-rail-server-button",
-    className: serverButton({ className }),
-  };
-
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
   });
 }
 

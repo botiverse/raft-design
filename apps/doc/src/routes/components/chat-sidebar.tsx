@@ -78,13 +78,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarHeader / Body / Content / Footer",
     type: "div props",
-    description: "Column regions matching source sidebar chrome, scroll ownership, and footer.",
-  },
-  {
-    name: "ChatSidebarServer / Avatar / Label / Chevron / Indicator",
-    type: "div + span props",
     description:
-      "Single-DOM server identity parts. Theme recipes select the desktop and mobile treatment while product content stays caller-owned.",
+      "Column regions matching source sidebar chrome, scroll ownership, and footer. Header is a layout slot for an app-owned server switcher.",
   },
   {
     name: "ChatSidebarMenu / Icon / Title / Aside / Count",

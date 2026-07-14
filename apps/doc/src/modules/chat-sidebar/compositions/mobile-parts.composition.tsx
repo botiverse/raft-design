@@ -12,12 +12,14 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarRoot,
+} from "raft-ui/wip";
+import {
   ChatSidebarServer,
   ChatSidebarServerAvatar,
   ChatSidebarServerChevron,
   ChatSidebarServerIndicator,
   ChatSidebarServerLabel,
-} from "raft-ui/wip";
+} from "../chat-sidebar-server-switcher";
 
 export function ChatSidebarMobilePartsComposition() {
   const [selected, setSelected] = useState("raft-ui-migration");

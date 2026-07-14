@@ -3,7 +3,12 @@ import { tv } from "../../lib/tv";
 export const chatMainPanel = tv({
   slots: {
     root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col", "text-foreground"],
-    header: ["flex h-[62px] shrink-0 items-center gap-2 px-5", "[@media(max-height:600px)]:h-12"],
+    header: [
+      "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5",
+      "[@media(max-height:600px)]:h-12",
+    ],
+    // Additive chrome for ChatMainPanelSectionHeader (composed onto `header`).
+    sectionHeader: "",
     headerIcon: [
       "flex size-9 shrink-0 items-center justify-center",
       "border-2",
@@ -38,6 +43,12 @@ export const chatMainPanel = tv({
       brutal: {
         root: "bg-white font-sans text-black",
         header: "gap-3 border-b-2 border-black bg-white",
+        sectionHeader: [
+          "max-md:bg-primary-400",
+          "[@media(max-height:600px)]:h-[var(--shell-header-height,62px)]",
+          "md:[&>[data-slot=chat-main-panel-header-icon]]:size-10",
+          "md:[&>[data-slot=chat-main-panel-header-icon]]:bg-primary-400",
+        ],
         headerIcon: "border-black bg-soft-signal text-black",
         titleBlock: "flex flex-col",
         title: "text-black",
@@ -113,32 +124,5 @@ export const chatMainPanel = tv({
         ],
       },
     },
-    subtitleSize: {
-      sm: {},
-      md: {
-        subtitle: "text-sm",
-      },
-    },
-    headerMode: {
-      default: {},
-      section: {},
-    },
-  },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      headerMode: "section",
-      class: {
-        header: [
-          "max-md:bg-primary-400",
-          "[@media(max-height:600px)]:h-[62px]",
-          "md:[&>[data-slot=chat-main-panel-header-icon]]:size-10",
-          "md:[&>[data-slot=chat-main-panel-header-icon]]:bg-primary-400",
-        ],
-      },
-    },
-  ],
-  defaultVariants: {
-    headerMode: "default",
   },
 });

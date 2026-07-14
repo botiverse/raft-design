@@ -64,6 +64,8 @@ import { PlaygroundToolbar } from "#/playground/playground-toolbar.tsx";
 type PlaygroundSearch = {
   detail?: string;
   from?: "tasks";
+  /** Mobile conversation-list mode while a channel stays selected in the URL. */
+  panel?: "list";
   thread?: PlaygroundThreadId;
 };
 
@@ -79,6 +81,7 @@ export const Route = createFileRoute("/playground")({
       ...(typeof search.detail === "string" && search.detail.length > 0
         ? { detail: search.detail }
         : {}),
+      ...(search.panel === "list" ? { panel: "list" as const } : {}),
       ...(thread ? { thread } : {}),
       ...(thread && search.from === "tasks" ? { from: "tasks" as const } : {}),
     };
@@ -95,11 +98,20 @@ function PlaygroundLayout() {
   const embedded = usePlaygroundEmbeddedPreview(setTheme);
 
   const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
-  const { detail, from, thread } = Route.useSearch();
+  const { detail, from, panel, thread } = Route.useSearch();
+  const listPanel = panel === "list";
   const railView = getRailView(pathname);
   const selectRailView = useCallback(
     (view: PlaygroundRailView) => {
       if (playgroundDisabledRailViews.has(view)) return;
+      if (view === "chat") {
+        void navigate({
+          to: "/playground/$channelId",
+          params: { channelId: DEFAULT_CHANNEL_ID },
+          search: {},
+        });
+        return;
+      }
       void navigate({ to: playgroundRailPaths[view], search: {} });
     },
     [navigate],
@@ -135,6 +147,7 @@ function PlaygroundLayout() {
             <PlaygroundWorkspace
               activeChannel={activeChannel}
               isRootRoute={isRootRoute}
+              listPanel={listPanel}
               threadSource={from}
               threadId={isRootRoute ? undefined : thread}
             />
@@ -169,11 +182,13 @@ function PlaygroundLayout() {
 function PlaygroundWorkspace({
   activeChannel,
   isRootRoute,
+  listPanel,
   threadSource,
   threadId,
 }: {
   activeChannel: PlaygroundChannelRecord;
   isRootRoute: boolean;
+  listPanel: boolean;
   threadSource?: "tasks";
   threadId?: PlaygroundThreadId;
 }) {
@@ -211,7 +226,13 @@ function PlaygroundWorkspace({
       : null;
   const auxiliaryDetailVisible = auxiliaryView !== null && railDetailId !== undefined;
   const showSidebar = conversationView || auxiliaryView !== null;
+  // ResizablePanel applies className to an inner wrapper, so CSS `hidden` cannot
+  // collapse the outer panel's flexGrow. Unmount inactive panels below md instead.
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+  // Chat keeps a channel selected in the URL; `panel=list` is mobile list-only chrome.
+  const mobileListPanel = listPanel && !isDesktop;
   const showMain =
+    (railView === "chat" && !mobileListPanel) ||
     (!isRootRoute && conversationView) ||
     railView === "tasks" ||
     railView === "search" ||
@@ -219,16 +240,10 @@ function PlaygroundWorkspace({
     railView === "saved" ||
     auxiliaryDetailVisible;
   const mobileTabRoot =
-    isRootRoute &&
     !auxiliaryDetailVisible &&
-    (railView === "chat" ||
-      railView === "tasks" ||
-      railView === "members" ||
-      railView === "settings");
+    ((railView === "chat" && mobileListPanel) ||
+      (isRootRoute && (railView === "tasks" || railView === "members" || railView === "settings")));
   const mobilePanel = conversationView && activeThread ? "thread" : showMain ? "main" : "sidebar";
-  // ResizablePanel applies className to an inner wrapper, so CSS `hidden` cannot
-  // collapse the outer panel's flexGrow. Unmount inactive panels below md instead.
-  const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const renderSidebarPanel = showSidebar && (isDesktop || mobilePanel === "sidebar");
   const renderMainPanel = showMain && (isDesktop || mobilePanel === "main");
   const renderThreadPanel =
@@ -316,7 +331,7 @@ function PlaygroundWorkspace({
 
 const playgroundRailPaths = {
   search: "/playground/search",
-  chat: "/playground",
+  chat: "/playground/$channelId",
   activity: "/playground/activity",
   saved: "/playground/saved",
   tasks: "/playground/tasks",

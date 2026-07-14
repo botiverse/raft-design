@@ -17,7 +17,6 @@ import {
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
-  AppRailServerButton,
   AppShellRailSlot,
 } from "raft-ui/wip";
 import {
@@ -30,6 +29,8 @@ import {
   Settings,
   Users,
 } from "lucide-react";
+
+import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 
 // Tooltip-wrapped desktop rail item. Callers own the icon, an optional attention
 // mask, and an optional handler; selection state comes from the enclosing AppRailRoot.
