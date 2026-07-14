@@ -29,7 +29,6 @@ import {
   AppRailItemIndicator,
   AppRailNav,
   AppRailRoot,
-  AppRailServerButton,
   AppShellRailSlot,
   ChatSidebarServer,
   ChatSidebarServerAvatar,
@@ -49,6 +48,7 @@ import {
 } from "lucide-react";
 
 import { AppRailMobileNav, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
+import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";

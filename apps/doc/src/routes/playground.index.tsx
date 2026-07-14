@@ -1,6 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { PLAYGROUND_TASKS, getPlaygroundThread } from "#/playground/mock/index.ts";
+import {
+  DEFAULT_CHANNEL_ID,
+  PLAYGROUND_TASKS,
+  getPlaygroundThread,
+} from "#/playground/mock/index.ts";
 
 export const Route = createFileRoute("/playground/")({
   beforeLoad: ({ search }) => {
@@ -8,13 +12,12 @@ export const Route = createFileRoute("/playground/")({
     const task = search.thread
       ? PLAYGROUND_TASKS.find((candidate) => candidate.id === search.thread)
       : undefined;
-    const channelId = threadContext?.channelId ?? task?.channelId;
-    if (channelId) {
-      throw redirect({
-        to: "/playground/$channelId",
-        params: { channelId },
-        search,
-      });
-    }
+    const channelId = threadContext?.channelId ?? task?.channelId ?? DEFAULT_CHANNEL_ID;
+    // Chat always has a selected channel; never stay on the bare /playground index.
+    throw redirect({
+      to: "/playground/$channelId",
+      params: { channelId },
+      search,
+    });
   },
 });

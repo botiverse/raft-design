@@ -69,7 +69,7 @@ export const chatSidebar = tv({
       "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
     ],
     sidebarItem: [
-      "mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
+      "group/sidebar-item mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
       "border-2 text-sm font-medium transition-colors",
       "[@media(max-height:600px)]:py-1 md:py-1",
     ],
@@ -106,14 +106,11 @@ export const chatSidebar = tv({
     sidebarFooter: ["shrink-0"],
   },
   variants: {
-    unread: {
-      true: {},
-    },
     theme: {
       brutal: {
         sidebarSection: "px-0",
         sidebarHeader: [
-          "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
+          "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
           "[@media(max-height:600px)]:h-12",
         ],
@@ -153,7 +150,7 @@ export const chatSidebar = tv({
           "aria-expanded:border-black aria-expanded:bg-white aria-expanded:shadow-brutal-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
-        sidebarItemTitle: "font-medium text-black",
+        sidebarItemTitle: "font-medium text-black group-data-[unread=true]/sidebar-item:font-bold",
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-[12px] font-medium text-black/70",
         sidebarItemMention: [
@@ -246,7 +243,11 @@ export const chatSidebar = tv({
           "aria-expanded:border-transparent aria-expanded:bg-layer-panel",
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],
-        sidebarItemTitle: "font-[450] text-foreground-muted",
+        sidebarItemTitle: [
+          "font-[450] text-foreground-muted",
+          "group-data-[unread=true]/sidebar-item:font-semibold",
+          "group-data-[unread=true]/sidebar-item:text-foreground-strong",
+        ],
         sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[1.5]",
@@ -272,13 +273,6 @@ export const chatSidebar = tv({
       },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      unread: true,
-      class: { sidebarItemTitle: "font-bold" },
-    },
-  ],
 });
 
 export const chatSidebarItemInlineText = tv({

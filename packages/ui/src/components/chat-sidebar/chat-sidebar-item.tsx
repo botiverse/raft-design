@@ -1,14 +1,11 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { createContext, use } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { VariantProps } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar, chatSidebarItemInlineText } from "./chat-sidebar.recipe";
-
-const ChatSidebarItemUnreadContext = createContext(false);
 
 export type ChatSidebarItemProps = useRender.ComponentProps<"button">;
 
@@ -27,16 +24,10 @@ function ChatSidebarItemRoot({
     className: sidebarItem({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     render: render ?? <BaseButton />,
     props: mergeProps<"button">(defaultProps, props),
   });
-
-  return (
-    <ChatSidebarItemUnreadContext.Provider value={Boolean(unread)}>
-      {element}
-    </ChatSidebarItemUnreadContext.Provider>
-  );
 }
 
 export function ChatSidebarItem(props: ChatSidebarItemProps) {
@@ -141,8 +132,7 @@ export type ChatSidebarItemTitleProps = useRender.ComponentProps<"span">;
 
 export function ChatSidebarItemTitle({ className, render, ...props }: ChatSidebarItemTitleProps) {
   const theme = useThemeFamily();
-  const unread = use(ChatSidebarItemUnreadContext);
-  const { sidebarItemTitle } = chatSidebar({ theme, unread });
+  const { sidebarItemTitle } = chatSidebar({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-sidebar-item-title",
     className: sidebarItemTitle({ className }),

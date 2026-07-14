@@ -19,7 +19,7 @@ const appShell = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-brutal-cream text-black",
+        root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black"],
         railSlot:
           "w-16 md:border-r-2 md:border-black bg-soft-signal text-foreground md:[@media(max-height:600px)]:w-[50px]",
         sidebarSlot: "w-60 border-r-2 border-black bg-brutal-cream",

@@ -26,7 +26,7 @@ const SNIPPETS = {
   anatomy: `<AppShellRailSlot>
   <AppRailRoot>
     <AppRailHeader>
-      <AppRailServerButton />
+      {/* App-owned server switcher */}
     </AppRailHeader>
     <TooltipProvider>
       <AppRailNav>
@@ -74,7 +74,7 @@ const PROPS: readonly PropRow[] = [
     name: "AppRailHeader / Nav / Footer",
     type: "div / nav props",
     description:
-      "Composable regions. Apps may render separate desktop and mobile Nav compositions inside one controlled Root.",
+      "Composable regions. Header is a layout slot for an app-owned server switcher; apps may also render separate desktop and mobile Nav compositions inside one controlled Root.",
   },
   {
     name: "AppRailItem*",

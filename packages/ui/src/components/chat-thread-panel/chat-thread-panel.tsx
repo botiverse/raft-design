@@ -7,7 +7,10 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 const chatThreadPanel = tv({
   slots: {
     root: ["isolate flex h-full min-h-0 w-full flex-col", "text-foreground"],
-    header: ["flex h-[62px] shrink-0 items-center gap-3 px-5", "[@media(max-height:600px)]:h-12"],
+    header: [
+      "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-3 px-5",
+      "[@media(max-height:600px)]:h-12",
+    ],
     title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],
     actions: ["flex shrink-0 items-center gap-1.5"],

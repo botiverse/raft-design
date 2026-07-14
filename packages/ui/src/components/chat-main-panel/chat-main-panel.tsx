@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
 import { chatMainPanel } from "./chat-main-panel.recipe";
@@ -54,10 +55,10 @@ export function ChatMainPanelSectionHeader({
   ...props
 }: ChatMainPanelSectionHeaderProps) {
   const theme = useThemeFamily();
-  const { header } = chatMainPanel({ theme, headerMode: "section" });
+  const { header, sectionHeader } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header",
-    className: header({ className }),
+    className: header({ className: cn(sectionHeader(), className) }),
     children,
   };
 
@@ -154,10 +155,10 @@ export function ChatMainPanelSubtitle({
   ...props
 }: ChatMainPanelSubtitleProps) {
   const theme = useThemeFamily();
-  const { subtitle } = chatMainPanel({ subtitleSize: size, theme });
+  const { subtitle } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-subtitle",
-    className: subtitle({ className }),
+    className: subtitle({ className: cn(size === "md" && "text-sm", className) }),
   };
 
   return useRender({
