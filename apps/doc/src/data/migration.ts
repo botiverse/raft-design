@@ -1379,32 +1379,22 @@ export const MIGRATION_GUIDES = [
     slug: "components-layout-liveagentactivitybar",
     components: [
       {
-        component: "avatar",
-        componentLabel: "Avatar",
-        refs: ["50"],
-        docsHref: "/components/avatar#source-comparison",
+        component: "live-agent-activity-bar",
+        componentLabel: "LiveAgentActivityBar",
+        refs: ["7-64"],
+        docsHref: "/components/live-agent-activity-bar#source-comparison",
         migration: [
-          "`AvatarSlot` / identity avatar -> `Avatar`, `AvatarImage`, `AvatarFallback`.",
-          "Keep user lookup and initials in the app layer.",
-          "Use `AvatarGroup` for stacked identities.",
+          "Use `LiveAgentActivityBar` for the avatar, pulsing live status, truncating activity copy, and source sidebar/mobile surfaces.",
+          "Pass only the active `thinking` or `working` item; render nothing when no live item exists.",
+          "Resolve source `pixel:key` identities in the app and pass the rendered avatar through `avatar`; use `agentAvatarSrc` only for a real image URL or data URL.",
+          "Keep socket subscriptions, latest-item selection, terminal-state removal, and the 90-second expiry lifecycle in the app layer.",
         ],
         write:
-          "<Avatar><AvatarImage src={src} alt={name} /><AvatarFallback>{initials}</AvatarFallback></Avatar>",
+          '<LiveAgentActivityBar activity={latest.activity} avatar={<AgentAvatar avatarUrl={latest.agentAvatarUrl} className="!size-full" />}>{latest.text}</LiveAgentActivityBar>',
         noDirect: [
-          "No identity resolver API. Resolve `src`, `name`, and `initials` before rendering.",
+          "No store, socket, timer, or activity-normalization API is bundled with the UI component.",
+          "Do not pass source `pixel:key` values to `agentAvatarSrc`; keep identity resolution in the app layer.",
         ],
-      },
-      {
-        component: "status",
-        componentLabel: "Status",
-        refs: ["56"],
-        docsHref: "/components/status#source-comparison",
-        migration: [
-          "`Status` replaces attention/status dots and small state labels.",
-          "`tone` -> `variant`.",
-          "Use `pulse` only for live/activity state.",
-        ],
-        write: '<Status variant="success">Online</Status>',
       },
     ],
   },

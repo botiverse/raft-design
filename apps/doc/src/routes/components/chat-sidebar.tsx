@@ -30,6 +30,7 @@ import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarPreviewComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
+import { SourceLiveAgentActivityBar } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.source-preview.tsx";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
 import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -326,6 +327,7 @@ function SourceSidebarPreview() {
             </div>
           </div>
         </div>
+        <SourceLiveAgentActivityBar />
       </div>
       <div className="relative h-full w-px shrink-0">
         <div className="absolute top-0 bottom-0 left-0 z-10 hidden w-2 -translate-x-1 cursor-col-resize select-none md:block" />

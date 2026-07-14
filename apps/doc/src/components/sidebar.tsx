@@ -83,6 +83,11 @@ const NAV = [
           { label: "ChatSidebarItem", to: "/components/chat-sidebar-item", status: "wip" },
         ],
       },
+      {
+        label: "LiveAgentActivityBar",
+        to: "/components/live-agent-activity-bar",
+        status: "wip",
+      },
       { label: "ChatMainPanel", to: "/components/chat-main-panel", status: "wip" },
       { label: "ChatThreadPanel", to: "/components/chat-thread-panel", status: "wip" },
       { label: "MessageItem", to: "/components/message-item", status: "wip" },

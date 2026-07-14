@@ -297,6 +297,12 @@ export type {
   ResizablePanelProps,
 } from "./components/resizable/index";
 
+export { LiveAgentActivityBar } from "./components/live-agent-activity-bar/index";
+export type {
+  LiveAgentActivity,
+  LiveAgentActivityBarProps,
+} from "./components/live-agent-activity-bar/index";
+
 export {
   ToggleGroup,
   ToggleGroupCount,

@@ -49,6 +49,11 @@ export {
 } from "./tasks.ts";
 
 export {
+  PLAYGROUND_LIVE_AGENT_ACTIVITY,
+  type PlaygroundLiveAgentActivity,
+} from "./live-agent-activity.ts";
+
+export {
   PLAYGROUND_FILES,
   getPlaygroundFile,
   getPlaygroundFiles,
