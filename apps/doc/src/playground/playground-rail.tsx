@@ -30,11 +30,6 @@ import {
   AppRailNav,
   AppRailRoot,
   AppShellRailSlot,
-  ChatSidebarServer,
-  ChatSidebarServerAvatar,
-  ChatSidebarServerChevron,
-  ChatSidebarServerIndicator,
-  ChatSidebarServerLabel,
 } from "raft-ui/wip";
 import {
   Activity,
@@ -49,6 +44,13 @@ import {
 
 import { AppRailMobileNav, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
+import {
+  ChatSidebarServer,
+  ChatSidebarServerAvatar,
+  ChatSidebarServerChevron,
+  ChatSidebarServerIndicator,
+  ChatSidebarServerLabel,
+} from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
 import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";

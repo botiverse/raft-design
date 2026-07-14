@@ -6,11 +6,6 @@ export {
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
   ChatSidebarRoot,
-  ChatSidebarServer,
-  ChatSidebarServerAvatar,
-  ChatSidebarServerChevron,
-  ChatSidebarServerIndicator,
-  ChatSidebarServerLabel,
 } from "./chat-sidebar";
 export type {
   ChatSidebarBodyProps,
@@ -20,11 +15,6 @@ export type {
   ChatSidebarHeaderProps,
   ChatSidebarHeaderTitleProps,
   ChatSidebarRootProps,
-  ChatSidebarServerAvatarProps,
-  ChatSidebarServerChevronProps,
-  ChatSidebarServerIndicatorProps,
-  ChatSidebarServerLabelProps,
-  ChatSidebarServerProps,
 } from "./chat-sidebar";
 
 export {
