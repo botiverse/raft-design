@@ -31,7 +31,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarPreviewComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
-import { SourceAppRailPreview } from "#/modules/chat-rail/chat-rail.source-preview.tsx";
+import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_SIDEBAR_COMPOSITION_PATH =
@@ -49,8 +49,8 @@ const SNIPPETS = {
   <AppShellRail>
     <AppRailRoot />
   </AppShellRail>
-  <ChatSidebarResizeGroup>
-    <ChatSidebarResizePanel>
+  <ResizableGroup>
+    <ResizablePanel>
       <AppShellSidebar>
         <ChatSidebarRoot>
           <ChatSidebarHeader />
@@ -77,28 +77,28 @@ const SNIPPETS = {
           <ChatSidebarFooter />
         </ChatSidebarRoot>
       </AppShellSidebar>
-    </ChatSidebarResizePanel>
-    <ChatSidebarResizeHandle />
-    <ChatSidebarResizePanel>
+    </ResizablePanel>
+    <ResizableHandle />
+    <ResizablePanel>
       <AppShellMain>
         <ChatMainPanelRoot />
       </AppShellMain>
-    </ChatSidebarResizePanel>
-  </ChatSidebarResizeGroup>
+    </ResizablePanel>
+  </ResizableGroup>
 </AppShellRoot>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
     name: "AppShellSidebar",
-    type: "aside props & { hidden?: boolean; resizable?: boolean }",
-    description: "Sidebar column host. Use inside the resize panel when desktop width can change.",
+    type: "aside props",
+    description: "Sidebar column host. Resizable compositions size it through explicit classes.",
   },
   {
-    name: "ChatSidebarResizeGroup / Panel / Handle",
+    name: "ResizableGroup / ResizablePanel / ResizableHandle",
     type: "react-resizable-panels group / panel / separator props",
     description:
-      "Sidebar-owned resize primitives. Keep rail outside the group and resize only the sidebar column.",
+      "Generic resize behavior. Keep rail outside the group and resize only the intended columns.",
   },
   {
     name: "ChatSidebarRoot",

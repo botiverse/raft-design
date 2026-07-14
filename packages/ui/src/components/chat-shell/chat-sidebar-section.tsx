@@ -8,7 +8,7 @@ import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
 import { Status, type StatusProps } from "../status";
-import type { DataAttributes } from "./data-attributes";
+import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
 
 export type ChatSidebarSectionProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {
@@ -55,7 +55,7 @@ export function ChatSidebarSectionHeader({
 }: ChatSidebarSectionHeaderProps) {
   const theme = useThemeFamily();
   const { sidebarSectionHeader } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-section-header",
     className: sidebarSectionHeader({ className }),
   };
@@ -76,7 +76,7 @@ export function ChatSidebarSectionButton({
 }: ChatSidebarSectionButtonProps) {
   const theme = useThemeFamily();
   const { sidebarSectionButton } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "chat-sidebar-section-button",
     className: sidebarSectionButton({ className }),
@@ -113,7 +113,7 @@ export function ChatSidebarSectionTitle({
   ...props
 }: ChatSidebarSectionTitleProps) {
   const { sidebarSectionTitle } = chatSidebar();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-sidebar-section-title",
     className: sidebarSectionTitle({ className }),
   };
@@ -134,7 +134,7 @@ export function ChatSidebarSectionCount({
 }: ChatSidebarSectionCountProps) {
   const theme = useThemeFamily();
   const { sidebarSectionCount } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-sidebar-section-count",
     className: sidebarSectionCount({ className }),
   };
@@ -181,7 +181,7 @@ export function ChatSidebarSectionTrailing({
 }: ChatSidebarSectionTrailingProps) {
   const theme = useThemeFamily();
   const { sidebarSectionTrailing } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-section-trailing",
     className: sidebarSectionTrailing({ className }),
   };
@@ -200,7 +200,7 @@ export function ChatSidebarSectionActions({
 }: ChatSidebarSectionActionsProps) {
   const theme = useThemeFamily();
   const { sidebarSectionActions } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-section-actions",
     className: sidebarSectionActions({ className }),
   };
@@ -242,7 +242,7 @@ export function ChatSidebarSectionAction({
     );
   }
 
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "chat-sidebar-section-action",
     className: sidebarSectionAction({ className }),

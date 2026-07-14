@@ -1,14 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
 
 export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarRoot({ className, render, ...props }: ChatSidebarRootProps) {
   const { sidebarRoot } = chatSidebar();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-root",
     className: sidebarRoot({ className }),
   };
@@ -25,7 +25,7 @@ export type ChatSidebarHeaderProps = useRender.ComponentProps<"div">;
 export function ChatSidebarHeader({ className, render, ...props }: ChatSidebarHeaderProps) {
   const theme = useThemeFamily();
   const { sidebarHeader } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-header",
     className: sidebarHeader({ className }),
   };
@@ -46,7 +46,7 @@ export function ChatSidebarHeaderTitle({
 }: ChatSidebarHeaderTitleProps) {
   const theme = useThemeFamily();
   const { sidebarHeaderTitle } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-header-title",
     className: sidebarHeaderTitle({ className }),
   };
@@ -63,7 +63,7 @@ export type ChatSidebarBodyProps = useRender.ComponentProps<"div">;
 export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBodyProps) {
   const theme = useThemeFamily();
   const { sidebarBody } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-body",
     className: sidebarBody({ className }),
   };
@@ -80,7 +80,7 @@ export type ChatSidebarContentProps = useRender.ComponentProps<"div">;
 export function ChatSidebarContent({ className, render, ...props }: ChatSidebarContentProps) {
   const theme = useThemeFamily();
   const { sidebarContent } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-content",
     className: sidebarContent({ className }),
   };
@@ -97,7 +97,7 @@ export type ChatSidebarFooterProps = useRender.ComponentProps<"div">;
 export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFooterProps) {
   const theme = useThemeFamily();
   const { sidebarFooter } = chatSidebar({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-footer",
     className: sidebarFooter({ className }),
   };

@@ -1,6 +1,6 @@
 import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide-react";
 import { useState } from "react";
-import { Avatar, AvatarFallback, Status } from "raft-ui";
+import { Avatar, AvatarFallback, Status, useThemeFamily } from "raft-ui";
 import {
   AppShellMain,
   AppShellSidebar,
@@ -28,9 +28,6 @@ import {
   ChatSidebarMenuCount,
   ChatSidebarMenuIcon,
   ChatSidebarMenuTitle,
-  ChatSidebarResizeGroup,
-  ChatSidebarResizeHandle,
-  ChatSidebarResizePanel,
   ChatSidebarRoot,
   ChatSidebarAction,
   ChatSidebarSection,
@@ -41,9 +38,12 @@ import {
   ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
 } from "raft-ui/wip";
 
-import { AppRailComposition } from "#/modules/chat-rail/chat-rail.composition.tsx";
+import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx";
 import { ChatMainPanelComposition } from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
 import {
   SidebarSectionAddButton,
@@ -53,28 +53,35 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 
 export function ChatSidebarPreviewComposition() {
+  const theme = useThemeFamily();
+
   return (
     <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm">
       <AppRailComposition />
-      <ChatSidebarResizeGroup className="min-w-0 flex-1" orientation="horizontal">
-        <ChatSidebarResizePanel
+      <ResizableGroup className="min-w-0 flex-1" orientation="horizontal">
+        <ResizablePanel
           id="chat-sidebar"
           defaultSize={308}
           minSize={180}
           maxSize={368}
           groupResizeBehavior="preserve-pixel-size"
+          className={
+            theme === "brutal"
+              ? "has-[>[data-slot=app-shell-sidebar]]:bg-brutal-cream"
+              : "has-[>[data-slot=app-shell-sidebar]]:bg-layer-page"
+          }
         >
-          <AppShellSidebar resizable className="h-full">
+          <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink">
             <ChatSidebarComposition />
           </AppShellSidebar>
-        </ChatSidebarResizePanel>
-        <ChatSidebarResizeHandle />
-        <ChatSidebarResizePanel id="chat-main-panel" minSize={0} className="min-w-0">
+        </ResizablePanel>
+        <ResizableHandle className="hidden md:flex" />
+        <ResizablePanel id="chat-main-panel" minSize={0} className="min-w-0">
           <AppShellMain className="flex h-full">
             <ChatMainPanelComposition />
           </AppShellMain>
-        </ChatSidebarResizePanel>
-      </ChatSidebarResizeGroup>
+        </ResizablePanel>
+      </ResizableGroup>
     </AppShellRoot>
   );
 }

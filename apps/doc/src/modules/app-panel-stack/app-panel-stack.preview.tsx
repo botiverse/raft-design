@@ -1,7 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import {
-  AppPanelResizeHandle,
   AppPanelStackContent,
   AppPanelStackItem,
   AppPanelStackRoot,
@@ -9,124 +7,34 @@ import {
 } from "raft-ui/wip";
 import type { ReactNode } from "react";
 
-import { Differences } from "#/components/differences.tsx";
-import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
-import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatThreadPanelComposition } from "#/modules/chat-thread-panel/chat-thread-panel.composition.tsx";
-import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const TOC = [
-  { id: "source-comparison", title: "Source comparison" },
-  { id: "anatomy", title: "Anatomy" },
-  { id: "api", title: "API" },
-] as const;
-
-const SNIPPETS = {
-  anatomy: `<AppShellPanelStack>
-  <AppPanelStackRoot>
-    <AppPanelStackItem>
-      <AppPanelResizeHandle />
-      <AppPanelStackContent />
-    </AppPanelStackItem>
-  </AppPanelStackRoot>
-</AppShellPanelStack>`,
-} as const;
-
-const PROPS: readonly PropRow[] = [
-  {
-    name: "AppShellPanelStack",
-    type: "aside props & { hidden?: boolean; resizable?: boolean }",
-    description:
-      "Desktop right-panel host. Hidden below lg to match the source side-thread column.",
-  },
-  {
-    name: "AppPanelStackRoot",
-    type: "div props & { resizable?: boolean }",
-    description: "Stack container. It only exposes visual structure; stack order stays app-owned.",
-  },
-  {
-    name: "AppPanelStackItem",
-    type: "section props & { open?: boolean }",
-    description: "One right-panel column. Width and persistence are owned by the consumer.",
-  },
-  {
-    name: "AppPanelStackContent / ResizeHandle",
-    type: "div props",
-    description:
-      "Scrollable content host and visual resize affordance. Pointer behavior is app-owned.",
-  },
-];
-
-export const Route = createFileRoute("/components/chat-panel-stack")({
-  component: AppPanelStackDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
-});
-
-function AppPanelStackDoc() {
-  const code = Route.useLoaderData();
-
+export function AppPanelStackPreview() {
   return (
-    <DocPage
-      title="AppPanelStack"
-      description="Right-side panel stack structure for thread, profile, task, and search-detail side columns."
-      overview={
-        <Differences from="ThreadPanelWrapper, SideThreadColumn, RightPanel">
-          <li>
-            does not own thread/profile/task stores, URL sync, modal fallback, or breakpoint logic
-          </li>
-          <li>
-            keeps source side-column chrome: white panel, left divider, and left-edge resize
-            affordance
-          </li>
-          <li>
-            content surfaces remain children; ChatThreadPanel is documented as a separate panel
-            surface
-          </li>
-        </Differences>
-      }
-      toc={TOC}
-    >
-      <DocSection id="source-comparison" title="Source comparison">
-        <PreviewGrid>
-          <PreviewPane label="Source">
-            <SourceThemeScope className="h-full">
-              <SourcePanelStackPreview />
-            </SourceThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <PanelStackPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <PanelStackPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant dark">
-            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <PanelStackPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
-      </DocSection>
-    </DocPage>
+    <PreviewGrid>
+      <PreviewPane label="Source">
+        <SourceThemeScope className="h-full">
+          <SourcePanelStackPreview />
+        </SourceThemeScope>
+      </PreviewPane>
+      <PreviewPane label="Brutal">
+        <PreviewThemeScope family="brutal" className="h-full">
+          <PanelStackPreview />
+        </PreviewThemeScope>
+      </PreviewPane>
+      <PreviewPane label="Elegant">
+        <PreviewThemeScope family="elegant" mode="light" className="h-full">
+          <PanelStackPreview />
+        </PreviewThemeScope>
+      </PreviewPane>
+      <PreviewPane label="Elegant dark">
+        <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
+          <PanelStackPreview />
+        </PreviewThemeScope>
+      </PreviewPane>
+    </PreviewGrid>
   );
 }
 
@@ -152,9 +60,8 @@ function PanelStackPreview() {
     <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
       <CurrentMainContext />
       <AppShellPanelStack className="flex h-full w-[400px] lg:flex">
-        <AppPanelStackRoot resizable>
+        <AppPanelStackRoot>
           <AppPanelStackItem>
-            <AppPanelResizeHandle />
             <AppPanelStackContent>
               <ChatThreadPanelComposition />
             </AppPanelStackContent>

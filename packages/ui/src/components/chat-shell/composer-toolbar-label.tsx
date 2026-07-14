@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerToolbarLabel = tv({
   slots: {
@@ -30,7 +30,7 @@ export type ComposerToolbarLabelProps = useRender.ComponentProps<"label">;
 export function ComposerToolbarLabel({ className, render, ...props }: ComposerToolbarLabelProps) {
   const theme = useThemeFamily();
   const { root } = composerToolbarLabel({ theme });
-  const defaultProps: useRender.ElementProps<"label"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"label"> = {
     "data-slot": "composer-toolbar-label",
     className: root({ className }),
   };
@@ -51,7 +51,7 @@ export function ComposerToolbarLabelText({
 }: ComposerToolbarLabelTextProps) {
   const theme = useThemeFamily();
   const { label } = composerToolbarLabel({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-toolbar-label-text",
     className: label({ className }),
   };

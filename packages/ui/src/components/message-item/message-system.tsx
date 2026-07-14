@@ -1,13 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { messageSystem } from "./message-system.recipe";
-import { type DataAttributes } from "../../lib/data-attributes";
+import { type SlotElementProps } from "../../lib/data-attributes";
 
 export type SystemMessageItemProps = useRender.ComponentProps<"div">;
 
 export function SystemMessageItem({ className, render, ...props }: SystemMessageItemProps) {
   const { systemRoot } = messageSystem();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     className: systemRoot({ className }),
   };
 

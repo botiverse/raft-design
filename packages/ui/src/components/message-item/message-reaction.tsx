@@ -4,7 +4,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
-import { type DataAttributes } from "../../lib/data-attributes";
+import { type SlotElementProps } from "../../lib/data-attributes";
 
 export type MessageReactionChipProps = useRender.ComponentProps<"button">;
 
@@ -65,7 +65,7 @@ export function MessageReactionGlyph({
 }: MessageReactionGlyphProps) {
   const { glyph: glyphSlot } = messageReaction();
   const glyph = emoji ?? (typeof children === "string" ? children : undefined);
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "aria-label": glyph,
     "data-emoji": glyph ? "true" : undefined,
     children: glyph ?? children,

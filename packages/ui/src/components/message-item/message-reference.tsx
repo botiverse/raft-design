@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageReference, type MessageReferenceVariantProps } from "./message-reference.recipe";
-import { type DataAttributes } from "../../lib/data-attributes";
+import { type SlotElementProps } from "../../lib/data-attributes";
 
 type MessageReferenceTreatment = NonNullable<MessageReferenceVariantProps["treatment"]>;
 type MessageReferenceLinkProps = useRender.ComponentProps<"a">;
@@ -15,7 +15,7 @@ function useMessageReferenceLink(
 ) {
   const theme = useThemeFamily();
   const { root } = messageReference({ treatment, theme });
-  const defaultProps: useRender.ElementProps<"a"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"a"> = {
     "data-message-reference": "",
     className: root({ className }),
   };

@@ -3,14 +3,14 @@ import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
 import { chatMainPanel } from "./chat-main-panel.recipe";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 export type ChatMainPanelRootProps = useRender.ComponentProps<"section">;
 
 export function ChatMainPanelRoot({ className, render, ...props }: ChatMainPanelRootProps) {
   const theme = useThemeFamily();
   const { root } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"section"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "chat-main-panel-root",
     className: root({ className }),
   };
@@ -27,7 +27,7 @@ export type ChatMainPanelHeaderProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelHeader({ className, render, ...props }: ChatMainPanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header",
     className: header({ className }),
   };
@@ -48,7 +48,7 @@ export function ChatMainPanelHeaderIcon({
 }: ChatMainPanelHeaderIconProps) {
   const theme = useThemeFamily();
   const { headerIcon } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header-icon",
     className: headerIcon({ className }),
   };
@@ -69,7 +69,7 @@ export function ChatMainPanelTitleBlock({
 }: ChatMainPanelTitleBlockProps) {
   const theme = useThemeFamily();
   const { titleBlock } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-title-block",
     className: titleBlock({ className }),
   };
@@ -85,7 +85,7 @@ export type ChatMainPanelTitleRowProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelTitleRow({ className, render, ...props }: ChatMainPanelTitleRowProps) {
   const { titleRow } = chatMainPanel();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-title-row",
     className: titleRow({ className }),
   };
@@ -102,7 +102,7 @@ export type ChatMainPanelTitleProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelTitle({ className, render, ...props }: ChatMainPanelTitleProps) {
   const theme = useThemeFamily();
   const { title } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-title",
     className: title({ className }),
   };
@@ -126,7 +126,7 @@ export function ChatMainPanelSubtitle({
 }: ChatMainPanelSubtitleProps) {
   const theme = useThemeFamily();
   const { subtitle } = chatMainPanel({ subtitleSize: size, theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-subtitle",
     className: subtitle({ className }),
   };
@@ -147,7 +147,7 @@ export function ChatMainPanelTitleBadge({
 }: ChatMainPanelTitleBadgeProps) {
   const theme = useThemeFamily();
   const { titleBadge } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-main-panel-title-badge",
     className: titleBadge({ className }),
   };
@@ -163,7 +163,7 @@ export type ChatMainPanelActionsProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelActions({ className, render, ...props }: ChatMainPanelActionsProps) {
   const { actions } = chatMainPanel();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-actions",
     className: actions({ className }),
   };
@@ -185,7 +185,7 @@ export type ChatMainPanelContentProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelContent({ className, render, ...props }: ChatMainPanelContentProps) {
   const theme = useThemeFamily();
   const { content } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-content",
     className: content({ className }),
   };
@@ -202,7 +202,7 @@ export type ChatMainPanelBodyProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelBody({ className, render, ...props }: ChatMainPanelBodyProps) {
   const theme = useThemeFamily();
   const { body } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-body",
     className: body({ className }),
   };
@@ -219,7 +219,7 @@ export type ChatMainPanelTabsProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelTabs({ className, render, ...props }: ChatMainPanelTabsProps) {
   const theme = useThemeFamily();
   const { tabs } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-tabs",
     className: tabs({ className }),
   };
@@ -236,7 +236,7 @@ export type ChatMainPanelTimelineProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelTimeline({ className, render, ...props }: ChatMainPanelTimelineProps) {
   const theme = useThemeFamily();
   const { timeline } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-timeline",
     className: timeline({ className }),
   };
@@ -256,7 +256,7 @@ export function ChatMainPanelMessageList({
   ...props
 }: ChatMainPanelMessageListProps) {
   const { messageList } = chatMainPanel();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-message-list",
     className: messageList({ className }),
   };
@@ -273,7 +273,7 @@ export type ChatMainPanelFooterProps = useRender.ComponentProps<"form">;
 export function ChatMainPanelFooter({ className, render, ...props }: ChatMainPanelFooterProps) {
   const theme = useThemeFamily();
   const { footer } = chatMainPanel({ theme });
-  const defaultProps: useRender.ElementProps<"form"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"form"> = {
     "data-slot": "chat-main-panel-footer",
     className: footer({ className }),
   };
@@ -293,7 +293,7 @@ export function ChatMainPanelJumpToLatestLayout({
   ...props
 }: ChatMainPanelJumpToLatestLayoutProps) {
   const { jumpToLatestLayout } = chatMainPanel();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-jump-to-latest-layout",
     className: jumpToLatestLayout({ className }),
   };

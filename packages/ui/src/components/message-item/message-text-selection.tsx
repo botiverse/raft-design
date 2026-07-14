@@ -15,7 +15,7 @@ import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tv } from "../../lib/tv";
 import { Popover, PopoverClose, PopoverContent, type PopoverContentProps } from "../popover/index";
-import { type DataAttributes } from "../../lib/data-attributes";
+import { type SlotElementProps } from "../../lib/data-attributes";
 
 const messageTextSelection = tv({
   slots: {
@@ -168,7 +168,7 @@ export function MessageTextSelection({
     () => ({ anchor, clear, container, menuRef, text: range?.toString() ?? "" }),
     [anchor, clear, container, range],
   );
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "message-text-selection",
     children: (
       <MessageTextSelectionContext.Provider value={contextValue}>

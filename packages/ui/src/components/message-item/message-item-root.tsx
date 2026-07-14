@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem, type MessageItemVariantProps } from "./message-item.recipe";
-import { type DataAttributes } from "../../lib/data-attributes";
+import { type SlotElementProps } from "../../lib/data-attributes";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
   Pick<MessageItemVariantProps, "compact">;
@@ -18,7 +18,7 @@ function MessageItemRoot({
 }: MessageItemProps & { rowState?: MessageItemRowState }) {
   const theme = useThemeFamily();
   const { root } = messageItem({ compact, rowState, theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-compact": compact ? "true" : undefined,
     className: root({ className }),
   };

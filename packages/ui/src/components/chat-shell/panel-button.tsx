@@ -6,7 +6,7 @@ import { defaultNativeButton } from "../../lib/default-native-button";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const panelControlTheme = {
   brutal: {
@@ -140,7 +140,7 @@ export type PanelButtonIconProps = useRender.ComponentProps<"span">;
 
 export function PanelButtonIcon({ className, render, ...props }: PanelButtonIconProps) {
   const theme = useThemeFamily();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "panel-button-icon",
     className: panelButtonIcon({ theme, className }),
   };
@@ -155,7 +155,7 @@ export function PanelButtonIcon({ className, render, ...props }: PanelButtonIcon
 export type PanelButtonLabelProps = useRender.ComponentProps<"span">;
 
 export function PanelButtonLabel({ className, render, ...props }: PanelButtonLabelProps) {
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "panel-button-label",
     className: panelButtonLabel({ className }),
   };
@@ -170,7 +170,7 @@ export function PanelButtonLabel({ className, render, ...props }: PanelButtonLab
 export type PanelButtonCountProps = useRender.ComponentProps<"span">;
 
 export function PanelButtonCount({ className, render, ...props }: PanelButtonCountProps) {
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "panel-button-count",
     className: panelButtonCount({ className }),
   };

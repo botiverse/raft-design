@@ -8,12 +8,12 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { AppRailComposition } from "#/modules/chat-rail/chat-rail.composition.tsx";
-import chatRailCompositionSource from "#/modules/chat-rail/chat-rail.composition.tsx?raw";
-import { SourceAppRailPreview } from "#/modules/chat-rail/chat-rail.source-preview.tsx";
+import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx";
+import appRailCompositionSource from "#/modules/app-rail/app-rail.composition.tsx?raw";
+import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/chat-rail/chat-rail.composition.tsx";
+const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/app-rail/app-rail.composition.tsx";
 
 const TOC = [
   { id: "anatomy", title: "Anatomy" },
@@ -22,7 +22,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  chatRailComposition: chatRailCompositionSource,
+  appRailComposition: appRailCompositionSource,
   anatomy: `<AppShellRail>
   <AppRailRoot>
     <AppRailHeader>
@@ -58,7 +58,7 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "AppShellRail",
-    type: "aside props & { hidden?: boolean }",
+    type: "aside props",
     description:
       "Desktop rail column. Hidden by default below md to match source mobile ownership.",
   },
@@ -80,7 +80,7 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-export const Route = createFileRoute("/components/chat-rail")({
+export const Route = createFileRoute("/components/app-rail")({
   component: AppRailDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
@@ -144,9 +144,9 @@ function AppRailDoc() {
         </PreviewGrid>
         <DocsCodeBlock.Panel
           path={APP_RAIL_COMPOSITION_PATH}
-          source={chatRailCompositionSource}
-          html={code.chatRailComposition}
-          collapsedHtml={code.chatRailCompositionBody}
+          source={appRailCompositionSource}
+          html={code.appRailComposition}
+          collapsedHtml={code.appRailCompositionBody}
           showLineNumbers={false}
         />
       </DocSection>
