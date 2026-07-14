@@ -1,6 +1,5 @@
 import { InlineCode } from "raft-ui";
 import { createFileRoute } from "@tanstack/react-router";
-import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -164,15 +163,7 @@ export const Route = createFileRoute("/installation")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function CodeSnippet({
-  path,
-  source,
-  html,
-}: {
-  path: string;
-  source: string;
-  html: AnyRenderableServerComponent;
-}) {
+function CodeSnippet({ path, source, html }: { path: string; source: string; html: string }) {
   return <DocsCodeBlock.Panel path={path} source={source} html={html} collapsible={false} />;
 }
 
