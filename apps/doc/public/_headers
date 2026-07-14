@@ -1,0 +1,6 @@
+# Workers Static Assets defaults every response to `max-age=0, must-revalidate`.
+# Everything under /assets/ is content-hashed, so it can never go stale.
+# Prerendered HTML and the unhashed root files (favicons, logo) intentionally
+# keep the revalidating default so a deploy is picked up immediately.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
