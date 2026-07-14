@@ -20,7 +20,6 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useThemeFamily,
 } from "raft-ui";
 import {
   AppRailFooter,
@@ -101,22 +100,24 @@ export function PlaygroundNotificationCenter({ mobile = false }: { mobile?: bool
   );
 }
 
+export function PlaygroundServerSwitcher({ className }: { className?: string }) {
+  return (
+    <AppRailServerButton
+      render={<div />}
+      type={undefined}
+      title={currentServerName}
+      className={className}
+    >
+      <img alt="" src={currentServerAvatarSrc} />
+      <span className="sr-only">{currentServerName}</span>
+      <AppRailItemIndicator size="sm" aria-hidden title="Other servers have unread messages" />
+    </AppRailServerButton>
+  );
+}
+
 export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
   const { railView, selectRailView } = usePlaygroundNavigation();
   const navigate = useNavigate();
-  const theme = useThemeFamily();
-  const mobileNavClassName = [
-    "grid flex-none grid-cols-4 items-stretch gap-0 px-0 pt-0",
-    theme === "brutal"
-      ? "border-t-2 border-black bg-white pb-[min(env(safe-area-inset-bottom,0px),34px)] text-black"
-      : "border-t border-line-subtle bg-layer-panel pb-[min(env(safe-area-inset-bottom,0px),34px)] text-foreground",
-  ].join(" ");
-  const mobileItemClassName = [
-    "size-auto min-w-0 flex-col gap-0.5 rounded-none border-0 border-r-2 px-0 py-2 text-[10px] tracking-wider last:border-r-0",
-    theme === "brutal"
-      ? "border-line-strong text-black hover:border-line-strong hover:bg-ink-2 active:bg-ink-5 data-[selected=true]:border-line-strong data-[selected=true]:bg-primary-400 data-[selected=true]:shadow-none"
-      : "border-line-subtle text-foreground-icon hover:border-line-subtle hover:bg-layer-strong/80 data-[selected=true]:border-line-subtle data-[selected=true]:bg-layer-strong data-[selected=true]:text-foreground data-[selected=true]:shadow-none",
-  ].join(" ");
 
   return (
     <>
@@ -128,17 +129,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           }}
         >
           <AppRailHeader>
-            <AppRailServerButton
-              title={currentServerName}
-              aria-label={`Switch server (current: ${currentServerName})`}
-            >
-              <img alt="" src={currentServerAvatarSrc} />
-              <AppRailItemIndicator
-                size="sm"
-                aria-hidden
-                title="Other servers have unread messages"
-              />
-            </AppRailServerButton>
+            <PlaygroundServerSwitcher />
           </AppRailHeader>
           <TooltipProvider delay={650}>
             <div className="hidden min-h-0 w-full flex-1 md:flex">
@@ -293,40 +284,31 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             onValueChange={(view) => {
               if (isPlaygroundRailView(view)) selectRailView(view);
             }}
-            className="h-auto items-stretch"
           >
-            <AppRailNav aria-label="Primary navigation" className={mobileNavClassName}>
-              <AppRailItem value="chat" aria-label="Home" className={mobileItemClassName}>
+            <AppRailNav aria-label="Primary navigation">
+              <AppRailItem value="chat" aria-label="Home">
                 <AppRailItemIcon>
                   <Home />
                 </AppRailItemIcon>
-                <AppRailItemLabel className="not-sr-only min-w-0 truncate font-medium">
-                  Home
-                </AppRailItemLabel>
+                <AppRailItemLabel>Home</AppRailItemLabel>
               </AppRailItem>
-              <AppRailItem value="tasks" aria-label="Tasks" className={mobileItemClassName}>
+              <AppRailItem value="tasks" aria-label="Tasks">
                 <AppRailItemIcon>
                   <CheckSquare />
                 </AppRailItemIcon>
-                <AppRailItemLabel className="not-sr-only min-w-0 truncate font-medium">
-                  Tasks
-                </AppRailItemLabel>
+                <AppRailItemLabel>Tasks</AppRailItemLabel>
               </AppRailItem>
-              <AppRailItem value="members" aria-label="Members" className={mobileItemClassName}>
+              <AppRailItem value="members" aria-label="Members">
                 <AppRailItemIcon>
                   <Users />
                 </AppRailItemIcon>
-                <AppRailItemLabel className="not-sr-only min-w-0 truncate font-medium">
-                  Members
-                </AppRailItemLabel>
+                <AppRailItemLabel>Members</AppRailItemLabel>
               </AppRailItem>
-              <AppRailItem value="settings" aria-label="Settings" className={mobileItemClassName}>
+              <AppRailItem value="settings" aria-label="Settings">
                 <AppRailItemIcon>
                   <Settings />
                 </AppRailItemIcon>
-                <AppRailItemLabel className="not-sr-only min-w-0 truncate font-medium">
-                  Settings
-                </AppRailItemLabel>
+                <AppRailItemLabel>Settings</AppRailItemLabel>
               </AppRailItem>
             </AppRailNav>
           </AppRailRoot>

@@ -225,7 +225,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
 
   return (
     <ChatSidebarRoot>
-      <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden">
+      <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden [[data-theme=elegant]_&]:bg-layer-page">
         <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
       </ChatSidebarHeader>
       <ChatSidebarHeader className="max-md:hidden">

@@ -126,7 +126,7 @@ import {
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 import { usePlaygroundNavigation } from "./playground-navigation-state.tsx";
-import { PlaygroundNotificationCenter } from "./playground-rail.tsx";
+import { PlaygroundNotificationCenter, PlaygroundServerSwitcher } from "./playground-rail.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
@@ -255,8 +255,8 @@ function DirectMessageRowContent({
         titleWidth="constrained"
       >
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
-        <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}
+        <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
       </ChatSidebarItemInlineText>
       {showAside ? (
         <ChatSidebarItemAside>
@@ -879,11 +879,12 @@ export function PlaygroundSidebar({
   return (
     <>
       <ChatSidebarRoot>
-        <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden">
-          <div className="relative inline-flex shrink-0 -rotate-2 items-center gap-1.5 border-2 border-foreground-strong bg-foreground-strong px-3 py-1 font-sans text-base font-bold text-primary-400 shadow-sm transition-shadow hover:shadow-md">
+        <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden [[data-theme=elegant]_&]:bg-layer-page">
+          <div className="relative inline-flex shrink-0 -rotate-2 items-center gap-1.5 border-2 border-foreground-strong bg-foreground-strong px-3 py-1 font-sans text-base font-bold text-primary-400 shadow-sm transition-shadow hover:shadow-md [[data-theme=elegant]_&]:hidden">
             <span className="max-w-[200px] truncate">{activeServer.name}</span>
             <ChevronDown className="size-4 shrink-0 rotate-2" aria-hidden />
           </div>
+          <PlaygroundServerSwitcher className="hidden [[data-theme=elegant]_&]:inline-flex" />
           <div className="min-w-0 flex-1" />
           <PlaygroundNotificationCenter mobile />
         </ChatSidebarHeader>

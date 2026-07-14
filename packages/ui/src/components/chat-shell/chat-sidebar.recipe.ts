@@ -123,7 +123,7 @@ export const chatSidebar = tv({
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-[12px] font-medium text-black/70",
         sidebarItemMention: "rounded border border-black bg-soft-signal text-black",
-        sidebarItemMuted: "text-black/40",
+        sidebarItemMuted: "text-black",
         sidebarItemDraft: "text-black/40",
         sidebarItemBadge: [
           "h-4 gap-0 rounded border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white",
@@ -198,7 +198,7 @@ export const chatSidebar = tv({
           "[&_[data-slot=status]]:size-2",
         ],
         sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",
-        sidebarItemMuted: "text-foreground-icon",
+        sidebarItemMuted: "text-foreground-muted",
         sidebarItemDraft: "text-foreground-icon",
         sidebarItemBadge: [
           "min-w-[18px] justify-center rounded-sm border-0 bg-primary-400 px-1 py-px text-[10px] text-primary-950 tabular-nums",

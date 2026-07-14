@@ -34,7 +34,7 @@ export function AppRailComposition() {
   return (
     <AppShellRail className="flex md:flex">
       <AppRailRoot value="chat">
-        <AppRailHeader>
+        <AppRailHeader className="max-md:hidden">
           <AppRailServerButton
             title="Raft 中文社区"
             aria-label="Switch server (current: Raft 中文社区)"
@@ -111,7 +111,7 @@ export function AppRailComposition() {
               </Tooltip>
             </AppRailNav>
           </div>
-          <AppRailFooter>
+          <AppRailFooter className="max-md:hidden">
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
