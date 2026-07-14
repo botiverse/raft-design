@@ -1,29 +1,3 @@
-# Vite+ Monorepo Starter
+# raft-ui
 
-A starter for creating a Vite+ monorepo.
-
-## Development
-
-- Check everything is ready:
-
-```bash
-vp run ready
-```
-
-- Run the tests:
-
-```bash
-vp run -r test
-```
-
-- Build the monorepo:
-
-```bash
-vp run -r build
-```
-
-- Run the development server:
-
-```bash
-vp run dev
-```
+React UI component library for Raft, built with Base UI and Tailwind. This monorepo also ships the component docs and playground.
