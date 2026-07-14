@@ -61,9 +61,12 @@ export const chatMainPanel = tv({
         root: "relative bg-layer-page font-sans text-foreground",
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] [@media(max-height:600px)]:h-auto",
-          "border-b-0 bg-transparent max-md:bg-[var(--shell-surface-bg,var(--layer-panel))]",
-          "pl-9 max-md:items-start max-md:px-[14px] max-md:pt-3",
+          "border-b-0 bg-transparent max-md:bg-layer-page",
+          "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto] max-md:grid-rows-[auto_auto]",
+          "max-md:items-center max-md:px-[14px] max-md:pt-3",
         ],
+        titleRow: "max-md:col-start-3 max-md:row-start-1 max-md:self-center",
+        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-center",
         headerMaskLayer: [
           "h-full",
           "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--shell-surface-bg,var(--layer-panel))_0%,var(--shell-surface-bg,var(--layer-panel))_28%,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_82%,transparent)_52%,transparent_100%)]",
@@ -76,17 +79,18 @@ export const chatMainPanel = tv({
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
           "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
-          "max-md:h-[calc(1.0625rem*1.25)]",
+          "max-md:col-start-2 max-md:row-start-1 max-md:h-[calc(1.0625rem*1.25)]",
         ],
-        titleBlock: [
-          "flex flex-col md:flex-row md:items-baseline md:gap-2",
-          "max-md:[&>[data-slot=chat-main-panel-subtitle]]:-ml-[calc(0.875rem+0.5rem)]",
-        ],
+        titleBlock: ["flex flex-col md:flex-row md:items-baseline md:gap-2", "max-md:contents"],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
         ],
-        subtitle: "font-sans text-foreground-placeholder",
+        subtitle: [
+          "font-sans text-foreground-placeholder",
+          "max-md:col-start-3 max-md:row-start-2 max-md:self-start",
+          "max-md:-ml-[calc(0.875rem+0.5rem)]",
+        ],
         titleBadge: [
           "border-0 bg-transparent p-0",
           "text-foreground-placeholder",
@@ -98,7 +102,7 @@ export const chatMainPanel = tv({
           "md:ml-2 md:rounded-tl-[var(--shell-surface-radius,10px)]",
         ],
         tabs: [
-          "border-b-0 bg-layer-panel",
+          "border-b-0 bg-layer-panel max-md:bg-layer-page",
           "max-md:border-b max-md:border-line-subtle",
           "[&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]]:max-md:h-10",
@@ -110,7 +114,7 @@ export const chatMainPanel = tv({
         body: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         timeline: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         footer: [
-          "px-3 max-md:px-1.5 md:px-7 pt-3",
+          "px-3 max-md:px-2.5 md:px-7 pt-3",
           "pb-[calc(env(safe-area-inset-bottom)+1.25rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
           "border-t-0",
           "bg-[var(--shell-surface-bg,var(--layer-panel))]",

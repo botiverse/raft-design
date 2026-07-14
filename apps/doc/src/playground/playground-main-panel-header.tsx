@@ -58,7 +58,7 @@ function MobileBackButton() {
       nativeButton={false}
       variant="outline"
       size="icon-sm"
-      className="mr-1 md:hidden"
+      className="mr-1 max-md:col-start-1 max-md:row-start-1 md:hidden"
       aria-label="Back to conversations"
     >
       <ChevronLeft aria-hidden />
