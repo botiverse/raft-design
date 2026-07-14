@@ -22,31 +22,6 @@ export function ChatMainPanelRoot({ className, render, ...props }: ChatMainPanel
   });
 }
 
-function ChatMainPanelHeaderMask() {
-  const theme = useThemeFamily();
-  const { headerMask, headerMaskLayer } = chatMainPanel({ theme });
-
-  return (
-    <div aria-hidden data-slot="chat-main-panel-header-mask" className={headerMask()}>
-      <div
-        data-slot="chat-main-panel-header-mask-layer"
-        data-layer="solid"
-        className={headerMaskLayer()}
-      />
-      <div
-        data-slot="chat-main-panel-header-mask-layer"
-        data-layer="soft"
-        className={headerMaskLayer()}
-      />
-      <div
-        data-slot="chat-main-panel-header-mask-layer"
-        data-layer="blur"
-        className={headerMaskLayer()}
-      />
-    </div>
-  );
-}
-
 export type ChatMainPanelHeaderProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelHeader({
@@ -60,12 +35,7 @@ export function ChatMainPanelHeader({
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header",
     className: header({ className }),
-    children: (
-      <>
-        <ChatMainPanelHeaderMask />
-        {children}
-      </>
-    ),
+    children,
   };
 
   return useRender({
@@ -88,12 +58,7 @@ export function ChatMainPanelSectionHeader({
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header",
     className: header({ className }),
-    children: (
-      <>
-        <ChatMainPanelHeaderMask />
-        {children}
-      </>
-    ),
+    children,
   };
 
   return useRender({

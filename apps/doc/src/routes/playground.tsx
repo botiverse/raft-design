@@ -288,7 +288,7 @@ function PlaygroundWorkspace({
               groupResizeBehavior="preserve-pixel-size"
               className="min-w-0"
             >
-              <AppShellPanelStack className="h-full w-full max-md:flex">
+              <AppShellPanelStack visibility="always" className="h-full w-full">
                 <AppPanelStackRoot className="w-full">
                   <AppPanelStackItem className="w-full">
                     <AppPanelStackContent>

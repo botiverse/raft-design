@@ -4,8 +4,6 @@ export const chatMainPanel = tv({
   slots: {
     root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col", "text-foreground"],
     header: ["flex h-[62px] shrink-0 items-center gap-2 px-5", "[@media(max-height:600px)]:h-12"],
-    headerMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
-    headerMaskLayer: ["absolute inset-x-0 top-0"],
     headerIcon: [
       "flex size-9 shrink-0 items-center justify-center",
       "border-2",
@@ -67,14 +65,6 @@ export const chatMainPanel = tv({
         ],
         titleRow: "max-md:col-start-3 max-md:row-start-1 max-md:self-center",
         actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-center",
-        headerMaskLayer: [
-          "h-full",
-          "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--shell-surface-bg,var(--layer-panel))_0%,var(--shell-surface-bg,var(--layer-panel))_28%,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_82%,transparent)_52%,transparent_100%)]",
-          "data-[layer=soft]:h-[108%] data-[layer=soft]:bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_48%,transparent)_0%,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_18%,transparent)_40%,transparent_100%)]",
-          "data-[layer=blur]:h-[112%] data-[layer=blur]:backdrop-blur-[14px] data-[layer=blur]:backdrop-saturate-125",
-          "data-[layer=blur]:[mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
-          "data-[layer=blur]:[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
-        ],
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
@@ -114,7 +104,7 @@ export const chatMainPanel = tv({
         body: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         timeline: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
         footer: [
-          "px-3 max-md:px-2.5 md:px-7 pt-3",
+          "max-md:px-2.5 md:px-7 pt-3",
           "pb-[calc(env(safe-area-inset-bottom)+1.25rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
           "border-t-0",
           "bg-[var(--shell-surface-bg,var(--layer-panel))]",

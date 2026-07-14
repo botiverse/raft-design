@@ -40,6 +40,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
   Status,
+  useThemeFamily,
 } from "raft-ui";
 import {
   ChatSidebarBody,
@@ -663,9 +664,12 @@ export function PlaygroundSidebar({
 }) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
+  const theme = useThemeFamily();
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { activeServer } = usePlaygroundShellState();
   const selectedChannelId = activeChannelId;
+  const liveAgentContentPad =
+    liveAgentActivity == null ? undefined : theme === "elegant" ? "md:pb-[4.25rem]" : "md:pb-20";
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
     [closedDmIds],
@@ -695,7 +699,7 @@ export function PlaygroundSidebar({
           <SidebarCreateMenu />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <ChatSidebarContent className={liveAgentActivity ? "md:pb-20" : undefined}>
+          <ChatSidebarContent className={liveAgentContentPad}>
             <div className="min-h-full">
               <ChatSidebarItem className="md:hidden" onClick={() => selectRailView("search")}>
                 <ChatSidebarItemIcon aria-hidden>

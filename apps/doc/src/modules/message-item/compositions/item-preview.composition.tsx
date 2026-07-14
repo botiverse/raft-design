@@ -99,10 +99,12 @@ export function MessageItemPreview({
   if (chrome === "selected") {
     return (
       <MessageMultiSelect defaultActive defaultSelected={new Set(["preview"])}>
-        <MessageItemSelection>
-          <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
-          {content}
-        </MessageItemSelection>
+        <MessageItemInteractionBoundary>
+          <MessageItemSelection>
+            <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
+            {content}
+          </MessageItemSelection>
+        </MessageItemInteractionBoundary>
       </MessageMultiSelect>
     );
   }
