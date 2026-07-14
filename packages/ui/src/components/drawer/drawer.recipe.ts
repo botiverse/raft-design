@@ -7,6 +7,7 @@ const drawerMotion = tv({
       "opacity-[max(var(--drawer-overlay-min-opacity,0),calc(1-var(--drawer-swipe-progress)))]",
       "transition-opacity duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
       "data-starting-style:opacity-0 data-ending-style:pointer-events-none data-ending-style:opacity-0 data-ending-style:duration-150",
+      "data-snap-points:[--drawer-overlay-min-opacity:0.5]",
       "motion-reduce:transition-none supports-[-webkit-touch-callout:none]:absolute",
     ],
     viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
@@ -33,6 +34,23 @@ const drawerMotion = tv({
       "data-swiping:after:opacity-100",
       "[--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
+      "data-[swipe-direction=down]:after:top-full data-[swipe-direction=down]:[--drawer-inset:max(0.75rem,env(safe-area-inset-bottom,0px))] data-[swipe-direction=down]:[--drawer-exit-y:calc(100%+var(--drawer-inset)+2px)]",
+      "data-[swipe-direction=down]:[--drawer-stack-y:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=down]:[--drawer-transform-origin:50%_100%]",
+      "data-[swipe-direction=down]:right-3 data-[swipe-direction=down]:bottom-(--drawer-inset) data-[swipe-direction=down]:left-3 data-[swipe-direction=down]:mx-auto data-[swipe-direction=down]:mt-24 data-[swipe-direction=down]:min-h-64 data-[swipe-direction=down]:max-h-[82vh]",
+      "data-[swipe-direction=up]:after:bottom-full data-[swipe-direction=up]:[--drawer-inset:max(0.75rem,env(safe-area-inset-top,0px))] data-[swipe-direction=up]:[--drawer-exit-y:calc(-100%-var(--drawer-inset)-2px)]",
+      "data-[swipe-direction=up]:[--drawer-stack-y:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=up]:[--drawer-transform-origin:50%_0%]",
+      "data-[swipe-direction=up]:top-(--drawer-inset) data-[swipe-direction=up]:right-3 data-[swipe-direction=up]:left-3 data-[swipe-direction=up]:mx-auto data-[swipe-direction=up]:mb-24 data-[swipe-direction=up]:max-h-[80vh]",
+      "data-[swipe-direction=left]:after:right-full data-[swipe-direction=left]:[--drawer-inset:0.75rem] data-[swipe-direction=left]:[--drawer-exit-x:calc(-100%-var(--drawer-inset)-2px)]",
+      "data-[swipe-direction=left]:[--drawer-stack-x:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] data-[swipe-direction=left]:[--drawer-transform-origin:0%_50%] data-[swipe-direction=left]:left-3",
+      "data-[swipe-direction=right]:after:left-full data-[swipe-direction=right]:[--drawer-inset:0.75rem] data-[swipe-direction=right]:[--drawer-exit-x:calc(100%+var(--drawer-inset)+2px)]",
+      "data-[swipe-direction=right]:[--drawer-stack-x:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] data-[swipe-direction=right]:[--drawer-transform-origin:100%_50%] data-[swipe-direction=right]:right-3",
+      "data-[swipe-direction=left]:after:inset-y-0 data-[swipe-direction=left]:after:w-12 data-[swipe-direction=left]:[--drawer-stack-size:100%] data-[swipe-direction=left]:[--drawer-swipe-x:var(--drawer-swipe-movement-x)] data-[swipe-direction=left]:flex-row data-[swipe-direction=left]:w-3/4 data-[swipe-direction=left]:max-w-sm",
+      "data-[swipe-direction=right]:after:inset-y-0 data-[swipe-direction=right]:after:w-12 data-[swipe-direction=right]:[--drawer-stack-size:100%] data-[swipe-direction=right]:[--drawer-swipe-x:var(--drawer-swipe-movement-x)] data-[swipe-direction=right]:flex-row data-[swipe-direction=right]:w-3/4 data-[swipe-direction=right]:max-w-sm",
+      "data-[swipe-direction=down]:after:inset-x-0 data-[swipe-direction=down]:after:h-12 data-[swipe-direction=down]:[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))] data-[swipe-direction=down]:[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
+      "data-[swipe-direction=up]:after:inset-x-0 data-[swipe-direction=up]:after:h-12 data-[swipe-direction=up]:[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))] data-[swipe-direction=up]:[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
+      "data-[swipe-direction=down]:data-nested-drawer-open:h-(--drawer-frontmost-height) data-[swipe-direction=up]:data-nested-drawer-open:h-(--drawer-frontmost-height)",
+      "data-[swipe-direction=down]:md:max-w-md data-[swipe-direction=up]:md:max-w-md",
+      "data-snap-points:data-[swipe-direction=down]:[--drawer-content-height:100dvh] data-snap-points:data-[swipe-direction=up]:[--drawer-content-height:100dvh]",
     ],
     content: [
       "flex min-h-0 flex-1 flex-col rounded-[inherit] select-text",
@@ -44,84 +62,31 @@ const drawerMotion = tv({
       "relative z-10 shrink-0 cursor-grab rounded-full bg-ink-20",
       "transition-opacity duration-150 active:cursor-grabbing motion-reduce:transition-none",
       "group-data-nested-drawer-open/drawer-popup:opacity-0 group-data-nested-drawer-swiping/drawer-popup:opacity-100",
+      "group-data-[swipe-direction=down]/drawer-popup:mx-auto group-data-[swipe-direction=down]/drawer-popup:mt-3 group-data-[swipe-direction=down]/drawer-popup:h-1.5 group-data-[swipe-direction=down]/drawer-popup:w-12",
+      "group-data-[swipe-direction=up]/drawer-popup:order-last group-data-[swipe-direction=up]/drawer-popup:mx-auto group-data-[swipe-direction=up]/drawer-popup:mb-3 group-data-[swipe-direction=up]/drawer-popup:h-1.5 group-data-[swipe-direction=up]/drawer-popup:w-12",
+      "group-data-[swipe-direction=left]/drawer-popup:order-last group-data-[swipe-direction=left]/drawer-popup:my-auto group-data-[swipe-direction=left]/drawer-popup:mr-3 group-data-[swipe-direction=left]/drawer-popup:h-12 group-data-[swipe-direction=left]/drawer-popup:w-1.5",
+      "group-data-[swipe-direction=right]/drawer-popup:my-auto group-data-[swipe-direction=right]/drawer-popup:ml-3 group-data-[swipe-direction=right]/drawer-popup:h-12 group-data-[swipe-direction=right]/drawer-popup:w-1.5",
     ],
-    header: [],
-    body: [],
-    footer: [],
+    header: [
+      "group-data-[swipe-direction=left]/drawer-popup:flex-row group-data-[swipe-direction=left]/drawer-popup:justify-between group-data-[swipe-direction=left]/drawer-popup:gap-3 group-data-[swipe-direction=left]/drawer-popup:pt-6 group-data-[swipe-direction=left]/drawer-popup:text-left",
+      "group-data-[swipe-direction=right]/drawer-popup:flex-row group-data-[swipe-direction=right]/drawer-popup:justify-between group-data-[swipe-direction=right]/drawer-popup:gap-3 group-data-[swipe-direction=right]/drawer-popup:pt-6 group-data-[swipe-direction=right]/drawer-popup:text-left",
+    ],
+    body: [
+      "group-data-[swipe-direction=left]/drawer-popup:items-stretch group-data-[swipe-direction=left]/drawer-popup:text-left",
+      "group-data-[swipe-direction=right]/drawer-popup:items-stretch group-data-[swipe-direction=right]/drawer-popup:text-left",
+    ],
+    footer: [
+      "group-data-[swipe-direction=left]/drawer-popup:py-4 group-data-[swipe-direction=right]/drawer-popup:py-4",
+    ],
     actions: [],
-    title: [],
-    description: [],
-  },
-  variants: {
-    side: {
-      down: {
-        popup: [
-          "after:top-full",
-          "[--drawer-inset:max(0.75rem,env(safe-area-inset-bottom,0px))] [--drawer-exit-y:calc(100%+var(--drawer-inset)+2px)]",
-          "[--drawer-stack-y:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] [--drawer-transform-origin:50%_100%]",
-          "bottom-(--drawer-inset) mt-24 min-h-64 max-h-[82vh]",
-        ],
-        swipeHandle: ["mt-3"],
-      },
-      up: {
-        popup: [
-          "after:bottom-full",
-          "[--drawer-inset:max(0.75rem,env(safe-area-inset-top,0px))] [--drawer-exit-y:calc(-100%-var(--drawer-inset)-2px)]",
-          "[--drawer-stack-y:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] [--drawer-transform-origin:50%_0%]",
-          "top-(--drawer-inset) mb-24 max-h-[80vh]",
-        ],
-        swipeHandle: ["order-last mb-3"],
-      },
-      left: {
-        popup: [
-          "after:right-full",
-          "[--drawer-inset:0.75rem] [--drawer-exit-x:calc(-100%-var(--drawer-inset)-2px)]",
-          "[--drawer-stack-x:calc(var(--drawer-stack-offset)+var(--drawer-stack-shrink-offset))] [--drawer-transform-origin:0%_50%]",
-          "left-3",
-        ],
-        swipeHandle: ["order-last mr-3"],
-      },
-      right: {
-        popup: [
-          "after:left-full",
-          "[--drawer-inset:0.75rem] [--drawer-exit-x:calc(100%+var(--drawer-inset)+2px)]",
-          "[--drawer-stack-x:calc(0px-var(--drawer-stack-offset)-var(--drawer-stack-shrink-offset))] [--drawer-transform-origin:100%_50%]",
-          "right-3",
-        ],
-        swipeHandle: ["ml-3"],
-      },
-    },
-    axis: {
-      x: {
-        popup: [
-          "after:inset-y-0 after:w-12",
-          "[--drawer-stack-size:100%] [--drawer-swipe-x:var(--drawer-swipe-movement-x)]",
-          "flex-row",
-          "w-3/4 max-w-sm",
-        ],
-        swipeHandle: ["my-auto h-12 w-1.5"],
-        header: ["flex-row justify-between gap-3 pt-6 text-left"],
-        body: ["items-stretch text-left"],
-        footer: ["py-4"],
-        title: ["min-w-0 max-w-none flex-1 text-left"],
-        description: ["max-w-none text-left"],
-      },
-      y: {
-        popup: [
-          "after:inset-x-0 after:h-12",
-          "[--drawer-stack-size:max(0px,var(--drawer-frontmost-height,var(--drawer-height)))]",
-          "[--drawer-swipe-y:calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y))]",
-          "data-nested-drawer-open:h-(--drawer-frontmost-height)",
-          "right-3 left-3 mx-auto md:max-w-md",
-        ],
-        swipeHandle: ["mx-auto h-1.5 w-12"],
-      },
-    },
-    snapPoints: {
-      true: {
-        overlay: ["[--drawer-overlay-min-opacity:0.5]"],
-      },
-    },
+    title: [
+      "group-data-[swipe-direction=left]/drawer-popup:min-w-0 group-data-[swipe-direction=left]/drawer-popup:max-w-none group-data-[swipe-direction=left]/drawer-popup:flex-1 group-data-[swipe-direction=left]/drawer-popup:text-left",
+      "group-data-[swipe-direction=right]/drawer-popup:min-w-0 group-data-[swipe-direction=right]/drawer-popup:max-w-none group-data-[swipe-direction=right]/drawer-popup:flex-1 group-data-[swipe-direction=right]/drawer-popup:text-left",
+    ],
+    description: [
+      "group-data-[swipe-direction=left]/drawer-popup:max-w-none group-data-[swipe-direction=left]/drawer-popup:text-left",
+      "group-data-[swipe-direction=right]/drawer-popup:max-w-none group-data-[swipe-direction=right]/drawer-popup:text-left",
+    ],
   },
 });
 
@@ -143,14 +108,24 @@ export const drawer = tv({
       brutal: {
         overlay: ["bg-layer-backdrop"],
         title: ["font-bold"],
-        popup: ["border-2 border-line-strong bg-layer-panel text-foreground shadow-brutal-lg"],
+        popup: [
+          "border-2 border-line-strong bg-layer-panel text-foreground shadow-brutal-lg",
+          "data-[swipe-direction=left]:inset-y-3 data-[swipe-direction=left]:[--drawer-content-height:calc(100dvh-1.5rem)]",
+          "data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:right-5 data-[swipe-direction=right]:[--drawer-inset:1.25rem] data-[swipe-direction=right]:[--drawer-content-height:calc(100dvh-1.5rem)]",
+          "data-[swipe-direction=down]:[--drawer-inset:max(1.25rem,env(safe-area-inset-bottom,0px))]",
+        ],
       },
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         popup: [
           "overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl md:rounded-xl",
+          "data-[swipe-direction=left]:inset-y-3 data-[swipe-direction=left]:md:max-w-md",
+          "data-[swipe-direction=right]:inset-y-3 data-[swipe-direction=right]:md:max-w-md",
         ],
-        header: ["bg-layer-panel px-8 pt-9 pb-2"],
+        header: [
+          "bg-layer-panel px-8 pt-9 pb-2",
+          "group-data-[swipe-direction=left]/drawer-popup:pt-6 group-data-[swipe-direction=right]/drawer-popup:pt-6",
+        ],
         body: ["bg-layer-panel px-8 pt-4 pb-7"],
         footer: ["mt-0 px-8 py-5"],
         title: ["font-sans text-2xl leading-8 font-semibold"],
@@ -158,42 +133,4 @@ export const drawer = tv({
       },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      axis: "x",
-      class: {
-        popup: ["inset-y-3 [--drawer-content-height:calc(100dvh-1.5rem)]"],
-      },
-    },
-    {
-      theme: "brutal",
-      side: "right",
-      class: {
-        popup: ["right-5 [--drawer-inset:1.25rem]"],
-      },
-    },
-    {
-      theme: "brutal",
-      side: "down",
-      class: {
-        popup: ["[--drawer-inset:max(1.25rem,env(safe-area-inset-bottom,0px))]"],
-      },
-    },
-    {
-      theme: "elegant",
-      axis: "x",
-      class: {
-        popup: ["inset-y-3 md:max-w-md"],
-        header: ["pt-6"],
-      },
-    },
-    {
-      axis: "y",
-      snapPoints: true,
-      class: {
-        popup: ["[--drawer-content-height:100dvh]"],
-      },
-    },
-  ],
 });

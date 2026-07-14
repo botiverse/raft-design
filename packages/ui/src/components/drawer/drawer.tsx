@@ -9,21 +9,19 @@ import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
 
-type DrawerContextValue = {
+type DrawerContentConfig = {
   hasSnapPoints: boolean;
   modal: DrawerPrimitive.Root.Props["modal"];
   showSwipeHandle: boolean;
-  swipeAxis: "x" | "y";
-  swipeDirection: NonNullable<DrawerPrimitive.Root.Props["swipeDirection"]>;
 };
 
-const DrawerContext = createContext<DrawerContextValue | null>(null);
+const DrawerContentConfigContext = createContext<DrawerContentConfig | null>(null);
 
-function useDrawer() {
-  const context = useContext(DrawerContext);
+function useDrawerContentConfig() {
+  const context = useContext(DrawerContentConfigContext);
 
   if (!context) {
-    throw new Error("Drawer parts must be used within Drawer.");
+    throw new Error("DrawerContent must be used within Drawer.");
   }
 
   return context;
@@ -41,21 +39,20 @@ export function Drawer({
   ...props
 }: DrawerProps) {
   const hasSnapPoints = snapPoints != null && snapPoints.length > 0;
-  const swipeAxis: "x" | "y" = swipeDirection === "down" || swipeDirection === "up" ? "y" : "x";
   const contextValue = useMemo(
-    () => ({ hasSnapPoints, modal, showSwipeHandle, swipeAxis, swipeDirection }),
-    [hasSnapPoints, modal, showSwipeHandle, swipeAxis, swipeDirection],
+    () => ({ hasSnapPoints, modal, showSwipeHandle }),
+    [hasSnapPoints, modal, showSwipeHandle],
   );
 
   return (
-    <DrawerContext.Provider value={contextValue}>
+    <DrawerContentConfigContext.Provider value={contextValue}>
       <DrawerPrimitive.Root
         modal={modal}
         snapPoints={snapPoints}
         swipeDirection={swipeDirection}
         {...props}
       />
-    </DrawerContext.Provider>
+    </DrawerContentConfigContext.Provider>
   );
 }
 
@@ -74,10 +71,9 @@ export function DrawerPortal(props: DrawerPortalProps) {
 export type DrawerOverlayProps = StyledProps<DrawerPrimitive.Backdrop.Props>;
 
 export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
-  const { hasSnapPoints } = useDrawer();
   const theme = useThemeFamily();
   const { resolvedMode } = useTheme();
-  const { overlay } = drawer({ theme, snapPoints: hasSnapPoints });
+  const { overlay } = drawer({ theme });
 
   return (
     <DrawerPrimitive.Backdrop
@@ -92,9 +88,8 @@ export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
 export type DrawerSwipeHandleProps = ComponentProps<"div">;
 
 export function DrawerSwipeHandle({ className, ...props }: DrawerSwipeHandleProps) {
-  const { swipeAxis, swipeDirection } = useDrawer();
   const theme = useThemeFamily();
-  const { swipeHandle } = drawer({ theme, side: swipeDirection, axis: swipeAxis });
+  const { swipeHandle } = drawer({ theme });
 
   return (
     <div
@@ -111,19 +106,14 @@ export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
 };
 
 export function DrawerContent({ className, children, portalProps, ...props }: DrawerContentProps) {
-  const { hasSnapPoints, modal, showSwipeHandle, swipeAxis, swipeDirection } = useDrawer();
+  const { hasSnapPoints, modal, showSwipeHandle } = useDrawerContentConfig();
   const theme = useThemeFamily();
   const { resolvedMode } = useTheme();
-  const { content, popup, viewport } = drawer({
-    theme,
-    side: swipeDirection,
-    axis: swipeAxis,
-    snapPoints: hasSnapPoints,
-  });
+  const { content, popup, viewport } = drawer({ theme });
 
   return (
     <DrawerPortal {...portalProps}>
-      {modal === true ? <DrawerOverlay /> : null}
+      {modal === true ? <DrawerOverlay data-snap-points={hasSnapPoints ? "" : undefined} /> : null}
       <DrawerPrimitive.Viewport
         data-slot="drawer-viewport"
         className={cn(viewport(), modal === true && "pointer-events-auto")}
@@ -131,6 +121,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
         <DrawerPrimitive.Popup
           data-slot="drawer-popup"
           data-theme={theme}
+          data-snap-points={hasSnapPoints ? "" : undefined}
           className={cn(popup({ className }), resolvedMode === "dark" && "dark")}
           {...props}
         >
@@ -198,9 +189,8 @@ export function DrawerClose({
 export type DrawerHeaderProps = useRender.ComponentProps<"div">;
 
 export function DrawerHeader({ className, render, ...props }: DrawerHeaderProps) {
-  const { swipeAxis } = useDrawer();
   const theme = useThemeFamily();
-  const { header } = drawer({ theme, axis: swipeAxis });
+  const { header } = drawer({ theme });
   const defaultProps: useRender.ElementProps<"div"> = { className: header({ className }) };
 
   return useRender({
@@ -214,9 +204,8 @@ export function DrawerHeader({ className, render, ...props }: DrawerHeaderProps)
 export type DrawerFooterProps = useRender.ComponentProps<"div">;
 
 export function DrawerFooter({ className, render, ...props }: DrawerFooterProps) {
-  const { swipeAxis } = useDrawer();
   const theme = useThemeFamily();
-  const { footer } = drawer({ theme, axis: swipeAxis });
+  const { footer } = drawer({ theme });
   const defaultProps: useRender.ElementProps<"div"> = { className: footer({ className }) };
 
   return useRender({
@@ -230,9 +219,8 @@ export function DrawerFooter({ className, render, ...props }: DrawerFooterProps)
 export type DrawerBodyProps = useRender.ComponentProps<"div">;
 
 export function DrawerBody({ className, render, ...props }: DrawerBodyProps) {
-  const { swipeAxis } = useDrawer();
   const theme = useThemeFamily();
-  const { body } = drawer({ theme, axis: swipeAxis });
+  const { body } = drawer({ theme });
   const defaultProps: useRender.ElementProps<"div"> = { className: body({ className }) };
 
   return useRender({
@@ -264,9 +252,8 @@ export function DrawerActions({ className, render, children, ...props }: DrawerA
 export type DrawerTitleProps = StyledProps<DrawerPrimitive.Title.Props>;
 
 export function DrawerTitle({ className, ...props }: DrawerTitleProps) {
-  const { swipeAxis } = useDrawer();
   const theme = useThemeFamily();
-  const { title } = drawer({ theme, axis: swipeAxis });
+  const { title } = drawer({ theme });
 
   return (
     <DrawerPrimitive.Title data-slot="drawer-title" className={title({ className })} {...props} />
@@ -276,9 +263,8 @@ export function DrawerTitle({ className, ...props }: DrawerTitleProps) {
 export type DrawerDescriptionProps = StyledProps<DrawerPrimitive.Description.Props>;
 
 export function DrawerDescription({ className, ...props }: DrawerDescriptionProps) {
-  const { swipeAxis } = useDrawer();
   const theme = useThemeFamily();
-  const { description } = drawer({ theme, axis: swipeAxis });
+  const { description } = drawer({ theme });
 
   return (
     <DrawerPrimitive.Description
