@@ -31,7 +31,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarPreviewComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
-import { SourceAppRailPreview } from "#/modules/chat-rail/chat-rail.source-preview.tsx";
+import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_SIDEBAR_COMPOSITION_PATH =

@@ -68,9 +68,6 @@ import { Route as ComponentsCheckboxRouteImport } from './routes/components/chec
 import { Route as ComponentsChatThreadPanelRouteImport } from './routes/components/chat-thread-panel'
 import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
 import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
-import { Route as ComponentsChatShellRouteImport } from './routes/components/chat-shell'
-import { Route as ComponentsChatRailRouteImport } from './routes/components/chat-rail'
-import { Route as ComponentsChatPanelStackRouteImport } from './routes/components/chat-panel-stack'
 import { Route as ComponentsChatMainPanelRouteImport } from './routes/components/chat-main-panel'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
@@ -78,6 +75,9 @@ import { Route as ComponentsBannerRouteImport } from './routes/components/banner
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
 import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
+import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
+import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
+import { Route as ComponentsAppPanelStackRouteImport } from './routes/components/app-panel-stack'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typography/elegant'
 import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
@@ -386,22 +386,6 @@ const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
   path: '/chat-sidebar',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsChatShellRoute = ComponentsChatShellRouteImport.update({
-  id: '/chat-shell',
-  path: '/chat-shell',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsChatRailRoute = ComponentsChatRailRouteImport.update({
-  id: '/chat-rail',
-  path: '/chat-rail',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsChatPanelStackRoute =
-  ComponentsChatPanelStackRouteImport.update({
-    id: '/chat-panel-stack',
-    path: '/chat-panel-stack',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsChatMainPanelRoute = ComponentsChatMainPanelRouteImport.update({
   id: '/chat-main-panel',
   path: '/chat-main-panel',
@@ -435,6 +419,21 @@ const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
 const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
   id: '/attention-dot',
   path: '/attention-dot',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsAppShellRoute = ComponentsAppShellRouteImport.update({
+  id: '/app-shell',
+  path: '/app-shell',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsAppRailRoute = ComponentsAppRailRouteImport.update({
+  id: '/app-rail',
+  path: '/app-rail',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsAppPanelStackRoute = ComponentsAppPanelStackRouteImport.update({
+  id: '/app-panel-stack',
+  path: '/app-panel-stack',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
@@ -471,6 +470,9 @@ export interface FileRoutesByFullPath {
   '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
+  '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
+  '/components/app-rail': typeof ComponentsAppRailRoute
+  '/components/app-shell': typeof ComponentsAppShellRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -478,9 +480,6 @@ export interface FileRoutesByFullPath {
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
-  '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
-  '/components/chat-rail': typeof ComponentsChatRailRoute
-  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
@@ -545,6 +544,9 @@ export interface FileRoutesByTo {
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
+  '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
+  '/components/app-rail': typeof ComponentsAppRailRoute
+  '/components/app-shell': typeof ComponentsAppShellRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -552,9 +554,6 @@ export interface FileRoutesByTo {
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
-  '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
-  '/components/chat-rail': typeof ComponentsChatRailRoute
-  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
@@ -622,6 +621,9 @@ export interface FileRoutesById {
   '/migration': typeof MigrationRouteWithChildren
   '/playground': typeof PlaygroundRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
+  '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
+  '/components/app-rail': typeof ComponentsAppRailRoute
+  '/components/app-shell': typeof ComponentsAppShellRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
@@ -629,9 +631,6 @@ export interface FileRoutesById {
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
-  '/components/chat-panel-stack': typeof ComponentsChatPanelStackRoute
-  '/components/chat-rail': typeof ComponentsChatRailRoute
-  '/components/chat-shell': typeof ComponentsChatShellRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
@@ -700,6 +699,9 @@ export interface FileRouteTypes {
     | '/migration'
     | '/playground'
     | '/components/alert-dialog'
+    | '/components/app-panel-stack'
+    | '/components/app-rail'
+    | '/components/app-shell'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -707,9 +709,6 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/chat-composer'
     | '/components/chat-main-panel'
-    | '/components/chat-panel-stack'
-    | '/components/chat-rail'
-    | '/components/chat-shell'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
     | '/components/chat-thread-panel'
@@ -774,6 +773,9 @@ export interface FileRouteTypes {
     | '/components'
     | '/installation'
     | '/components/alert-dialog'
+    | '/components/app-panel-stack'
+    | '/components/app-rail'
+    | '/components/app-shell'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -781,9 +783,6 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/chat-composer'
     | '/components/chat-main-panel'
-    | '/components/chat-panel-stack'
-    | '/components/chat-rail'
-    | '/components/chat-shell'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
     | '/components/chat-thread-panel'
@@ -850,6 +849,9 @@ export interface FileRouteTypes {
     | '/migration'
     | '/playground'
     | '/components/alert-dialog'
+    | '/components/app-panel-stack'
+    | '/components/app-rail'
+    | '/components/app-shell'
     | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
@@ -857,9 +859,6 @@ export interface FileRouteTypes {
     | '/components/button'
     | '/components/chat-composer'
     | '/components/chat-main-panel'
-    | '/components/chat-panel-stack'
-    | '/components/chat-rail'
-    | '/components/chat-shell'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
     | '/components/chat-thread-panel'
@@ -1349,27 +1348,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsChatSidebarRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/chat-shell': {
-      id: '/components/chat-shell'
-      path: '/chat-shell'
-      fullPath: '/components/chat-shell'
-      preLoaderRoute: typeof ComponentsChatShellRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-rail': {
-      id: '/components/chat-rail'
-      path: '/chat-rail'
-      fullPath: '/components/chat-rail'
-      preLoaderRoute: typeof ComponentsChatRailRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-panel-stack': {
-      id: '/components/chat-panel-stack'
-      path: '/chat-panel-stack'
-      fullPath: '/components/chat-panel-stack'
-      preLoaderRoute: typeof ComponentsChatPanelStackRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/chat-main-panel': {
       id: '/components/chat-main-panel'
       path: '/chat-main-panel'
@@ -1419,6 +1397,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsAttentionDotRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/app-shell': {
+      id: '/components/app-shell'
+      path: '/app-shell'
+      fullPath: '/components/app-shell'
+      preLoaderRoute: typeof ComponentsAppShellRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/app-rail': {
+      id: '/components/app-rail'
+      path: '/app-rail'
+      fullPath: '/components/app-rail'
+      preLoaderRoute: typeof ComponentsAppRailRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/app-panel-stack': {
+      id: '/components/app-panel-stack'
+      path: '/app-panel-stack'
+      fullPath: '/components/app-panel-stack'
+      preLoaderRoute: typeof ComponentsAppPanelStackRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/alert-dialog': {
       id: '/components/alert-dialog'
       path: '/alert-dialog'
@@ -1459,6 +1458,9 @@ declare module '@tanstack/react-router' {
 
 interface ComponentsRouteChildren {
   ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
+  ComponentsAppPanelStackRoute: typeof ComponentsAppPanelStackRoute
+  ComponentsAppRailRoute: typeof ComponentsAppRailRoute
+  ComponentsAppShellRoute: typeof ComponentsAppShellRoute
   ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
   ComponentsAvatarRoute: typeof ComponentsAvatarRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
@@ -1466,9 +1468,6 @@ interface ComponentsRouteChildren {
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
   ComponentsChatMainPanelRoute: typeof ComponentsChatMainPanelRoute
-  ComponentsChatPanelStackRoute: typeof ComponentsChatPanelStackRoute
-  ComponentsChatRailRoute: typeof ComponentsChatRailRoute
-  ComponentsChatShellRoute: typeof ComponentsChatShellRoute
   ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
   ComponentsChatSidebarItemRoute: typeof ComponentsChatSidebarItemRoute
   ComponentsChatThreadPanelRoute: typeof ComponentsChatThreadPanelRoute
@@ -1516,6 +1515,9 @@ interface ComponentsRouteChildren {
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
+  ComponentsAppPanelStackRoute: ComponentsAppPanelStackRoute,
+  ComponentsAppRailRoute: ComponentsAppRailRoute,
+  ComponentsAppShellRoute: ComponentsAppShellRoute,
   ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
   ComponentsAvatarRoute: ComponentsAvatarRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
@@ -1523,9 +1525,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
   ComponentsChatMainPanelRoute: ComponentsChatMainPanelRoute,
-  ComponentsChatPanelStackRoute: ComponentsChatPanelStackRoute,
-  ComponentsChatRailRoute: ComponentsChatRailRoute,
-  ComponentsChatShellRoute: ComponentsChatShellRoute,
   ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
   ComponentsChatSidebarItemRoute: ComponentsChatSidebarItemRoute,
   ComponentsChatThreadPanelRoute: ComponentsChatThreadPanelRoute,

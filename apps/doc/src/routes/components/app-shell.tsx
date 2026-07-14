@@ -50,7 +50,7 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-export const Route = createFileRoute("/components/chat-shell")({
+export const Route = createFileRoute("/components/app-shell")({
   component: AppShellDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });

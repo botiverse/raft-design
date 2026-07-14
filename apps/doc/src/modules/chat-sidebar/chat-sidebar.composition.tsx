@@ -43,7 +43,7 @@ import {
   ResizablePanel,
 } from "raft-ui/wip";
 
-import { AppRailComposition } from "#/modules/chat-rail/chat-rail.composition.tsx";
+import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx";
 import { ChatMainPanelComposition } from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
 import {
   SidebarSectionAddButton,

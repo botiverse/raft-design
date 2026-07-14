@@ -36,9 +36,9 @@ const NAV = [
   {
     title: "Layout",
     items: [
-      { label: "AppShell", to: "/components/chat-shell", status: "wip" },
-      { label: "AppRail", to: "/components/chat-rail", status: "wip" },
-      { label: "AppPanelStack", to: "/components/chat-panel-stack", status: "wip" },
+      { label: "AppShell", to: "/components/app-shell", status: "wip" },
+      { label: "AppRail", to: "/components/app-rail", status: "wip" },
+      { label: "AppPanelStack", to: "/components/app-panel-stack", status: "wip" },
       { label: "Separator", to: "/components/separator", status: "done" },
       {
         label: "Collapsible",

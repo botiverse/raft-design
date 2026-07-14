@@ -2,6 +2,14 @@ export {
   AppPanelStackContent,
   AppPanelStackItem,
   AppPanelStackRoot,
+} from "./components/app-panel-stack/index";
+export type {
+  AppPanelStackContentProps,
+  AppPanelStackItemProps,
+  AppPanelStackRootProps,
+} from "./components/app-panel-stack/index";
+
+export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
@@ -14,11 +22,38 @@ export {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
+} from "./components/app-rail/index";
+export type {
+  AppRailFooterProps,
+  AppRailHeaderProps,
+  AppRailItemAttentionMaskProps,
+  AppRailItemAttentionProps,
+  AppRailItemBadgeProps,
+  AppRailItemIconProps,
+  AppRailItemIndicatorProps,
+  AppRailItemLabelProps,
+  AppRailItemProps,
+  AppRailNavProps,
+  AppRailRootProps,
+  AppRailServerButtonProps,
+} from "./components/app-rail/index";
+
+export {
   AppShellMain,
   AppShellPanelStack,
   AppShellRail,
   AppShellRoot,
   AppShellSidebar,
+} from "./components/app-shell/index";
+export type {
+  AppShellMainProps,
+  AppShellPanelStackProps,
+  AppShellRailProps,
+  AppShellRootProps,
+  AppShellSidebarProps,
+} from "./components/app-shell/index";
+
+export {
   ChatMainPanelActions,
   ChatMainPanelJumpToLatest,
   ChatMainPanelJumpToLatestLayout,
@@ -135,26 +170,6 @@ export {
   SortableChatSidebarList,
 } from "./components/chat-shell/index";
 export type {
-  AppPanelStackContentProps,
-  AppPanelStackItemProps,
-  AppPanelStackRootProps,
-  AppRailFooterProps,
-  AppRailHeaderProps,
-  AppRailItemAttentionMaskProps,
-  AppRailItemAttentionProps,
-  AppRailItemBadgeProps,
-  AppRailItemIconProps,
-  AppRailItemIndicatorProps,
-  AppRailItemLabelProps,
-  AppRailItemProps,
-  AppRailNavProps,
-  AppRailRootProps,
-  AppRailServerButtonProps,
-  AppShellMainProps,
-  AppShellPanelStackProps,
-  AppShellRailProps,
-  AppShellRootProps,
-  AppShellSidebarProps,
   ChatMainPanelActionsProps,
   ChatMainPanelJumpToLatestLayoutProps,
   ChatMainPanelJumpToLatestProps,
