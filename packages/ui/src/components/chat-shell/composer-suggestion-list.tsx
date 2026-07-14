@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
@@ -167,7 +167,7 @@ export function ComposerSuggestionList({
 }: ComposerSuggestionListProps) {
   const theme = useThemeFamily();
   const { root } = composerSuggestionList({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-list",
     className: root({ className }),
   };
@@ -195,7 +195,7 @@ export function ComposerSuggestionGroup({
 }: ComposerSuggestionGroupProps) {
   const theme = useThemeFamily();
   const { group } = composerSuggestionList({ theme, separated });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-group",
     className: group({ className }),
   };
@@ -216,7 +216,7 @@ export function ComposerSuggestionGroupLabel({
 }: ComposerSuggestionGroupLabelProps) {
   const theme = useThemeFamily();
   const { groupLabel } = composerSuggestionList({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-group-label",
     className: groupLabel({ className }),
   };
@@ -239,7 +239,7 @@ export function ComposerSuggestionOption({
 }: ComposerSuggestionOptionProps) {
   const theme = useThemeFamily();
   const { item } = composerSuggestionList({ theme, tone });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "composer-suggestion-option",
     className: item({ className }),
     type: "button",
@@ -260,7 +260,7 @@ export function ComposerSuggestionContent({
   ...props
 }: ComposerSuggestionContentProps) {
   const { content } = composerSuggestionList();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-content",
     className: content({ className }),
   };
@@ -284,7 +284,7 @@ export function ComposerSuggestionIcon({
 }: ComposerSuggestionIconProps) {
   const theme = useThemeFamily();
   const { icon } = composerSuggestionList({ theme, iconVariant: variant });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-icon",
     className: icon({ className }),
   };
@@ -304,7 +304,7 @@ export function ComposerSuggestionTitle({
   ...props
 }: ComposerSuggestionTitleProps) {
   const { title } = composerSuggestionList();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-title",
     className: title({ className }),
   };
@@ -324,7 +324,7 @@ export function ComposerSuggestionAside({
   ...props
 }: ComposerSuggestionAsideProps) {
   const { aside } = composerSuggestionList();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-aside",
     className: aside({ className }),
   };
@@ -348,7 +348,7 @@ export function ComposerSuggestionMeta({
 }: ComposerSuggestionMetaProps) {
   const theme = useThemeFamily();
   const { meta } = composerSuggestionList({ theme, metaVariant: variant });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-meta",
     className: meta({ className }),
   };
@@ -372,7 +372,7 @@ export function ComposerSuggestionBadge({
 }: ComposerSuggestionBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = composerSuggestionList({ theme, badgeVariant: variant });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-badge",
     className: badge({ className }),
   };

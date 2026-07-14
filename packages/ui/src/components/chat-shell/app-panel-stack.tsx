@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const appPanelStack = tv({
   slots: {
@@ -37,7 +37,7 @@ export type AppPanelStackRootProps = useRender.ComponentProps<"div">;
 
 export function AppPanelStackRoot({ className, render, ...props }: AppPanelStackRootProps) {
   const { root } = appPanelStack();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-panel-stack-root",
     className: root({ className }),
   };
@@ -55,7 +55,7 @@ export type AppPanelStackItemProps = useRender.ComponentProps<"section"> &
 export function AppPanelStackItem({ open, className, render, ...props }: AppPanelStackItemProps) {
   const theme = useThemeFamily();
   const { item } = appPanelStack({ theme, open });
-  const defaultProps: useRender.ElementProps<"section"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "app-panel-stack-item",
     "data-open": open === false ? "false" : "true",
     className: item({ className }),
@@ -72,7 +72,7 @@ export type AppPanelStackContentProps = useRender.ComponentProps<"div">;
 
 export function AppPanelStackContent({ className, render, ...props }: AppPanelStackContentProps) {
   const { content } = appPanelStack();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-panel-stack-content",
     className: content({ className }),
   };

@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const messageTimeline = tv({
   slots: {
@@ -80,7 +80,7 @@ export function MessageTimelineDateDivider({
     sticky,
   });
   const chip = <span className={dividerChip()}>{children}</span>;
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "message-timeline-date-divider",
     "data-sticky": sticky ? "true" : undefined,
     className: dividerRoot({ className }),
@@ -113,7 +113,7 @@ export function MessageTimelineNotice({
 }: MessageTimelineNoticeProps) {
   const theme = useThemeFamily();
   const { notice } = messageTimeline({ theme, tone });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "message-timeline-notice",
     className: notice({ className }),
   };
@@ -134,7 +134,7 @@ export function MessageTimelineHistoryLimited({
 }: MessageTimelineHistoryLimitedProps) {
   const theme = useThemeFamily();
   const { limitedTag } = messageTimeline({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "message-timeline-history-limited",
     className: limitedTag({ className }),
   };

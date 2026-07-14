@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const chatThreadPanel = tv({
   slots: {
@@ -64,7 +64,7 @@ export type ChatThreadPanelRootProps = useRender.ComponentProps<"section">;
 export function ChatThreadPanelRoot({ className, render, ...props }: ChatThreadPanelRootProps) {
   const theme = useThemeFamily();
   const { root } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"section"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "chat-thread-panel-root",
     className: root({ className }),
   };
@@ -81,7 +81,7 @@ export type ChatThreadPanelHeaderProps = useRender.ComponentProps<"div">;
 export function ChatThreadPanelHeader({ className, render, ...props }: ChatThreadPanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-header",
     className: header({ className }),
   };
@@ -98,7 +98,7 @@ export type ChatThreadPanelTitleProps = useRender.ComponentProps<"h2">;
 export function ChatThreadPanelTitle({ className, render, ...props }: ChatThreadPanelTitleProps) {
   const theme = useThemeFamily();
   const { title } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"h2"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"h2"> = {
     "data-slot": "chat-thread-panel-title",
     className: title({ className }),
   };
@@ -119,7 +119,7 @@ export function ChatThreadPanelTitleMeta({
 }: ChatThreadPanelTitleMetaProps) {
   const theme = useThemeFamily();
   const { titleMeta } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-thread-panel-title-meta",
     className: titleMeta({ className }),
   };
@@ -139,7 +139,7 @@ export function ChatThreadPanelActions({
   ...props
 }: ChatThreadPanelActionsProps) {
   const { actions } = chatThreadPanel();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-actions",
     className: actions({ className }),
   };
@@ -155,7 +155,7 @@ export type ChatThreadPanelBodyProps = useRender.ComponentProps<"div">;
 
 export function ChatThreadPanelBody({ className, render, ...props }: ChatThreadPanelBodyProps) {
   const { body } = chatThreadPanel();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-body",
     className: body({ className }),
   };
@@ -172,7 +172,7 @@ export type ChatThreadPanelParentProps = useRender.ComponentProps<"div">;
 export function ChatThreadPanelParent({ className, render, ...props }: ChatThreadPanelParentProps) {
   const theme = useThemeFamily();
   const { parent } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-parent",
     className: parent({ className }),
   };
@@ -193,7 +193,7 @@ export function ChatThreadPanelReplyCount({
 }: ChatThreadPanelReplyCountProps) {
   const theme = useThemeFamily();
   const { replyCount } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-reply-count",
     className: replyCount({ className }),
   };
@@ -210,7 +210,7 @@ export type ChatThreadPanelFooterProps = useRender.ComponentProps<"div">;
 export function ChatThreadPanelFooter({ className, render, ...props }: ChatThreadPanelFooterProps) {
   const theme = useThemeFamily();
   const { footer } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-footer",
     className: footer({ className }),
   };
@@ -227,7 +227,7 @@ export type ChatThreadPanelSearchProps = useRender.ComponentProps<"div">;
 export function ChatThreadPanelSearch({ className, render, ...props }: ChatThreadPanelSearchProps) {
   const theme = useThemeFamily();
   const { search } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-search",
     className: search({ className }),
   };
@@ -248,7 +248,7 @@ export function ChatThreadPanelSearchIcon({
 }: ChatThreadPanelSearchIconProps) {
   const theme = useThemeFamily();
   const { searchIcon } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-thread-panel-search-icon",
     className: searchIcon({ className }),
   };
@@ -269,7 +269,7 @@ export function ChatThreadPanelSearchInput({
 }: ChatThreadPanelSearchInputProps) {
   const theme = useThemeFamily();
   const { searchInput } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"input"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"input"> = {
     type: "text",
     "data-slot": "chat-thread-panel-search-input",
     className: searchInput({ className }),
@@ -291,7 +291,7 @@ export function ChatThreadPanelSearchCount({
 }: ChatThreadPanelSearchCountProps) {
   const theme = useThemeFamily();
   const { searchCount } = chatThreadPanel({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-search-count",
     className: searchCount({ className }),
   };

@@ -5,7 +5,7 @@ import { createContext, use, useMemo, type MouseEvent, type ReactNode } from "re
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Status, type StatusProps } from "../status/status";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const appRail = tv({
   slots: {
@@ -123,7 +123,7 @@ export function AppRailRoot({
 }: AppRailRootProps) {
   const { root } = appRail();
   const contextValue = useMemo(() => ({ value, onValueChange }), [value, onValueChange]);
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-root",
     className: root({ className }),
   };
@@ -142,7 +142,7 @@ export type AppRailHeaderProps = useRender.ComponentProps<"div">;
 export function AppRailHeader({ className, render, ...props }: AppRailHeaderProps) {
   const theme = useThemeFamily();
   const { header } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-header",
     className: header({ className }),
   };
@@ -159,7 +159,7 @@ export type AppRailServerButtonProps = useRender.ComponentProps<"button">;
 export function AppRailServerButton({ className, render, ...props }: AppRailServerButtonProps) {
   const theme = useThemeFamily();
   const { serverButton } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "app-rail-server-button",
     className: serverButton({ className }),
@@ -176,7 +176,7 @@ export type AppRailNavProps = useRender.ComponentProps<"nav">;
 export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
   const theme = useThemeFamily();
   const { nav } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"nav"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"nav"> = {
     "data-slot": "app-rail-nav",
     className: nav({ className }),
   };
@@ -214,7 +214,7 @@ export function AppRailItem({
     onSelect?.(value);
     context?.onValueChange?.(value);
   };
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     disabled,
     onClick: handleClick,
@@ -235,7 +235,7 @@ export type AppRailItemIconProps = useRender.ComponentProps<"span">;
 
 export function AppRailItemIcon({ className, render, ...props }: AppRailItemIconProps) {
   const { itemIcon } = appRail();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "app-rail-item-icon",
     className: itemIcon({ className }),
   };
@@ -270,7 +270,7 @@ export function AppRailItemAttentionMask({
 }: AppRailItemAttentionMaskProps) {
   const theme = useThemeFamily();
   const { itemAttentionMask } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "app-rail-item-attention-mask",
     className: itemAttentionMask({ className }),
   };
@@ -286,7 +286,7 @@ export type AppRailItemLabelProps = useRender.ComponentProps<"span">;
 
 export function AppRailItemLabel({ className, render, ...props }: AppRailItemLabelProps) {
   const { itemLabel } = appRail();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "app-rail-item-label",
     className: itemLabel({ className }),
   };
@@ -303,7 +303,7 @@ export type AppRailItemBadgeProps = useRender.ComponentProps<"span">;
 export function AppRailItemBadge({ className, render, ...props }: AppRailItemBadgeProps) {
   const theme = useThemeFamily();
   const { itemBadge } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "app-rail-item-badge",
     className: itemBadge({ className }),
   };
@@ -346,7 +346,7 @@ export type AppRailFooterProps = useRender.ComponentProps<"div">;
 export function AppRailFooter({ className, render, ...props }: AppRailFooterProps) {
   const theme = useThemeFamily();
   const { footer } = appRail({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-footer",
     className: footer({ className }),
   };

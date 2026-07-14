@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageMedia } from "./message-media.recipe";
-import { type DataAttributes } from "../../lib/data-attributes";
+import { type SlotElementProps } from "../../lib/data-attributes";
 
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
@@ -56,7 +56,7 @@ export function MessageImageGalleryItem({
 }: MessageImageGalleryItemProps) {
   const theme = useThemeFamily();
   const { galleryItem } = messageMedia({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-single": single ? "true" : undefined,
     className: galleryItem({ className }),
   };
@@ -82,7 +82,7 @@ export function MessageImageGalleryMedia({
   ...props
 }: MessageImageGalleryMediaProps) {
   const { galleryMedia } = messageMedia();
-  const defaultProps: useRender.ElementProps<"img"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"img"> = {
     "data-fit": fit,
     className: galleryMedia({ className }),
   };

@@ -3,7 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/button";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { composer as composerRecipe } from "./composer.recipe";
 
 export type ComposerProps = useRender.ComponentProps<"div">;
@@ -11,7 +11,7 @@ export type ComposerProps = useRender.ComponentProps<"div">;
 export function Composer({ className, render, ...props }: ComposerProps) {
   const theme = useThemeFamily();
   const { root } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer",
     className: root({ className }),
   };
@@ -28,7 +28,7 @@ export type ComposerInputProps = useRender.ComponentProps<"textarea">;
 export function ComposerInput({ className, render, ...props }: ComposerInputProps) {
   const theme = useThemeFamily();
   const { input } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"textarea"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"textarea"> = {
     rows: 1,
     "data-slot": "composer-input",
     className: input({ className }),
@@ -46,7 +46,7 @@ export type ComposerToolbarProps = useRender.ComponentProps<"div">;
 export function ComposerToolbar({ className, render, ...props }: ComposerToolbarProps) {
   const theme = useThemeFamily();
   const { toolbar } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-toolbar",
     className: toolbar({ className }),
   };
@@ -63,7 +63,7 @@ export type ComposerActionsProps = useRender.ComponentProps<"div">;
 export function ComposerActions({ className, render, ...props }: ComposerActionsProps) {
   const theme = useThemeFamily();
   const { actions } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-actions",
     className: actions({ className }),
   };
@@ -79,7 +79,7 @@ export type ComposerMetaProps = useRender.ComponentProps<"div">;
 
 export function ComposerMeta({ className, render, ...props }: ComposerMetaProps) {
   const { meta } = composerRecipe();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-meta",
     className: meta({ className }),
   };
@@ -115,7 +115,7 @@ export type ComposerSubmitProps = useRender.ComponentProps<"button">;
 export function ComposerSubmit({ className, render, ...props }: ComposerSubmitProps) {
   const theme = useThemeFamily();
   const { submit } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "submit",
     "data-slot": "composer-submit",
     className: submit({ className }),
@@ -131,7 +131,7 @@ export type ComposerAttachmentsProps = useRender.ComponentProps<"div">;
 
 export function ComposerAttachments({ className, render, ...props }: ComposerAttachmentsProps) {
   const { attachments } = composerRecipe();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-attachments",
     className: attachments({ className }),
   };
@@ -147,7 +147,7 @@ export type ComposerAttachmentProps = useRender.ComponentProps<"div">;
 
 export function ComposerAttachment({ className, render, ...props }: ComposerAttachmentProps) {
   const { attachment } = composerRecipe();
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-attachment",
     className: attachment({ className }),
   };
@@ -168,7 +168,7 @@ export function ComposerAttachmentImage({
 }: ComposerAttachmentImageProps) {
   const theme = useThemeFamily();
   const { attachmentImage } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"img"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"img"> = {
     "data-slot": "composer-attachment-image",
     className: attachmentImage({ className }),
   };
@@ -189,7 +189,7 @@ export function ComposerAttachmentFile({
 }: ComposerAttachmentFileProps) {
   const theme = useThemeFamily();
   const { attachmentFile } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-file",
     className: attachmentFile({ className }),
   };
@@ -209,7 +209,7 @@ export function ComposerAttachmentBody({
   ...props
 }: ComposerAttachmentBodyProps) {
   const { attachmentBody } = composerRecipe();
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-body",
     className: attachmentBody({ className }),
   };
@@ -230,7 +230,7 @@ export function ComposerAttachmentTitle({
 }: ComposerAttachmentTitleProps) {
   const theme = useThemeFamily();
   const { attachmentTitle } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-title",
     className: attachmentTitle({ className }),
   };
@@ -251,7 +251,7 @@ export function ComposerAttachmentMeta({
 }: ComposerAttachmentMetaProps) {
   const theme = useThemeFamily();
   const { attachmentMeta } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-meta",
     className: attachmentMeta({ className }),
   };
@@ -272,7 +272,7 @@ export function ComposerAttachmentRemove({
 }: ComposerAttachmentRemoveProps) {
   const theme = useThemeFamily();
   const { attachmentRemove } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "composer-attachment-remove",
     className: attachmentRemove({ className }),
@@ -289,7 +289,7 @@ export type ComposerDropOverlayProps = useRender.ComponentProps<"div">;
 export function ComposerDropOverlay({ className, render, ...props }: ComposerDropOverlayProps) {
   const theme = useThemeFamily();
   const { dropOverlay } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-drop-overlay",
     className: dropOverlay({ className }),
   };
@@ -310,7 +310,7 @@ export function ComposerDropOverlayLabel({
 }: ComposerDropOverlayLabelProps) {
   const theme = useThemeFamily();
   const { dropOverlayLabel } = composerRecipe({ theme });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-drop-overlay-label",
     className: dropOverlayLabel({ className }),
   };
@@ -332,7 +332,7 @@ function ComposerAttachmentOverlay({
 }: ComposerAttachmentOverlayProps & { tone: "uploading" | "failed" }) {
   const theme = useThemeFamily();
   const { attachmentOverlay } = composerRecipe({ theme, attachmentTone: tone });
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-overlay",
     "data-tone": tone,
     className: attachmentOverlay({ className }),
@@ -371,7 +371,7 @@ export function ComposerAttachmentProgress({
   const theme = useThemeFamily();
   const { attachmentProgress, attachmentProgressFill } = composerRecipe({ theme });
   const normalizedValue = Math.min(100, Math.max(0, value));
-  const defaultProps: useRender.ElementProps<"span"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"span"> = {
     "aria-valuemax": 100,
     "aria-valuemin": 0,
     "aria-valuenow": normalizedValue,

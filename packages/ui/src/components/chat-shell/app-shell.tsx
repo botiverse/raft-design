@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { DataAttributes } from "./data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 const appShell = tv({
   slots: {
@@ -43,7 +43,7 @@ export function AppShellRoot({ className, render, ...props }: AppShellRootProps)
   const theme = useThemeFamily();
   const { root } = appShell({ theme });
 
-  const defaultProps: useRender.ElementProps<"div"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-shell-root",
     className: root({ className }),
   };
@@ -61,7 +61,7 @@ export function AppShellRail({ className, render, ...props }: AppShellRailProps)
   const theme = useThemeFamily();
   const { shellRail } = appShell({ theme });
 
-  const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-rail",
     className: shellRail({ className }),
   };
@@ -79,7 +79,7 @@ export function AppShellSidebar({ className, render, ...props }: AppShellSidebar
   const theme = useThemeFamily();
   const { shellSidebar } = appShell({ theme });
 
-  const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-sidebar",
     className: shellSidebar({ className }),
   };
@@ -97,7 +97,7 @@ export function AppShellMain({ className, render, ...props }: AppShellMainProps)
   const theme = useThemeFamily();
   const { shellMain } = appShell({ theme });
 
-  const defaultProps: useRender.ElementProps<"main"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"main"> = {
     "data-slot": "app-shell-main",
     className: shellMain({ className }),
   };
@@ -115,7 +115,7 @@ export function AppShellPanelStack({ className, render, ...props }: AppShellPane
   const theme = useThemeFamily();
   const { shellPanelStack } = appShell({ theme });
 
-  const defaultProps: useRender.ElementProps<"aside"> & DataAttributes = {
+  const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-panel-stack",
     className: shellPanelStack({ className }),
   };
