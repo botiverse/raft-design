@@ -30,7 +30,7 @@ import {
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
-  AppShellRail,
+  AppShellRailSlot,
   ChatSidebarServer,
   ChatSidebarServerAvatar,
   ChatSidebarServerChevron,
@@ -147,7 +147,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
 
   return (
     <>
-      <AppShellRail>
+      <AppShellRailSlot>
         <AppRailRoot
           value={railView}
           onValueChange={(view) => {
@@ -211,24 +211,13 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             </div>
             <AppRailFooter>
               <PlaygroundNotificationCenter />
-              <AppRailNavItem
-                value="settings"
-                label="Settings"
-                icon={<Settings />}
-                onClick={(event) => {
-                  event.preventDefault();
-                  void navigate({
-                    to: "/playground/settings",
-                    search: { detail: "account" },
-                  });
-                }}
-              />
+              <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
-      </AppShellRail>
+      </AppShellRailSlot>
       {showBottomNavigation ? (
-        <AppShellRail placement="bottom">
+        <AppShellRailSlot className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
           <AppRailRoot
             value={railView}
             onValueChange={(view) => {
@@ -237,7 +226,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           >
             <AppRailMobileNav />
           </AppRailRoot>
-        </AppShellRail>
+        </AppShellRailSlot>
       ) : null}
     </>
   );

@@ -3,7 +3,7 @@ import {
   AppPanelStackContent,
   AppPanelStackItem,
   AppPanelStackRoot,
-  AppShellPanelStack,
+  AppShellPanelStackSlot,
 } from "raft-ui/wip";
 import type { ReactNode } from "react";
 
@@ -59,7 +59,7 @@ function PanelStackPreview() {
   return (
     <div className="flex h-full min-w-[920px] overflow-hidden border border-line-strong bg-layer-panel shadow-sm [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:rounded-md [[data-theme=elegant]_&]:border-line-subtle">
       <CurrentMainContext />
-      <AppShellPanelStack className="flex h-full w-[400px] lg:flex">
+      <AppShellPanelStackSlot className="flex h-full w-[400px] lg:flex">
         <AppPanelStackRoot>
           <AppPanelStackItem>
             <AppPanelStackContent>
@@ -67,7 +67,7 @@ function PanelStackPreview() {
             </AppPanelStackContent>
           </AppPanelStackItem>
         </AppPanelStackRoot>
-      </AppShellPanelStack>
+      </AppShellPanelStackSlot>
     </div>
   );
 }

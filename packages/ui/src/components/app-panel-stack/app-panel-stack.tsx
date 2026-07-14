@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
@@ -19,19 +19,8 @@ const appPanelStack = tv({
         item: "w-[var(--panel-stack-width,400px)] border-l border-line-subtle bg-layer-panel first:border-l-0",
       },
     },
-    open: {
-      true: {},
-      false: {
-        item: "hidden",
-      },
-    },
-  },
-  defaultVariants: {
-    open: true,
   },
 });
-
-type AppPanelStackVariantProps = Omit<VariantProps<typeof appPanelStack>, "theme">;
 
 export type AppPanelStackRootProps = useRender.ComponentProps<"div">;
 
@@ -49,15 +38,13 @@ export function AppPanelStackRoot({ className, render, ...props }: AppPanelStack
   });
 }
 
-export type AppPanelStackItemProps = useRender.ComponentProps<"section"> &
-  Pick<AppPanelStackVariantProps, "open">;
+export type AppPanelStackItemProps = useRender.ComponentProps<"section">;
 
-export function AppPanelStackItem({ open, className, render, ...props }: AppPanelStackItemProps) {
+export function AppPanelStackItem({ className, render, ...props }: AppPanelStackItemProps) {
   const theme = useThemeFamily();
-  const { item } = appPanelStack({ theme, open });
+  const { item } = appPanelStack({ theme });
   const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "app-panel-stack-item",
-    "data-open": open === false ? "false" : "true",
     className: item({ className }),
   };
 

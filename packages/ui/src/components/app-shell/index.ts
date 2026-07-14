@@ -1,14 +1,14 @@
 export {
-  AppShellMain,
-  AppShellPanelStack,
-  AppShellRail,
+  AppShellMainSlot,
+  AppShellPanelStackSlot,
+  AppShellRailSlot,
   AppShellRoot,
-  AppShellSidebar,
+  AppShellSidebarSlot,
 } from "./app-shell";
 export type {
-  AppShellMainProps,
-  AppShellPanelStackProps,
-  AppShellRailProps,
+  AppShellMainSlotProps,
+  AppShellPanelStackSlotProps,
+  AppShellRailSlotProps,
   AppShellRootProps,
-  AppShellSidebarProps,
+  AppShellSidebarSlotProps,
 } from "./app-shell";

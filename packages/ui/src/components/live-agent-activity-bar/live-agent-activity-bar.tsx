@@ -23,7 +23,7 @@ const liveAgentActivityBar = tv({
         text: "font-mono text-black/60",
       },
       elegant: {
-        root: "mb-3 rounded-lg border border-line-subtle bg-layer-panel shadow-md",
+        root: "mb-2 rounded-lg border border-line-subtle bg-layer-panel shadow-md",
         content: "contents",
         status: "order-first",
         text: "flex-1 font-sans text-[13px] font-normal text-foreground-muted",

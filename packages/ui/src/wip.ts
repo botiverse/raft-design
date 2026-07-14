@@ -39,18 +39,18 @@ export type {
 } from "./components/app-rail/index";
 
 export {
-  AppShellMain,
-  AppShellPanelStack,
-  AppShellRail,
+  AppShellMainSlot,
+  AppShellPanelStackSlot,
+  AppShellRailSlot,
   AppShellRoot,
-  AppShellSidebar,
+  AppShellSidebarSlot,
 } from "./components/app-shell/index";
 export type {
-  AppShellMainProps,
-  AppShellPanelStackProps,
-  AppShellRailProps,
+  AppShellMainSlotProps,
+  AppShellPanelStackSlotProps,
+  AppShellRailSlotProps,
   AppShellRootProps,
-  AppShellSidebarProps,
+  AppShellSidebarSlotProps,
 } from "./components/app-shell/index";
 
 export {
