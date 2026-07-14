@@ -1,2 +1,17 @@
-export { LiveAgentActivityBar } from "./live-agent-activity-bar";
-export type { LiveAgentActivity, LiveAgentActivityBarProps } from "./live-agent-activity-bar";
+export {
+  LiveAgentActivityBar,
+  LiveAgentActivityBarAvatar,
+  LiveAgentActivityBarContent,
+  LiveAgentActivityBarRow,
+  LiveAgentActivityBarStatus,
+  LiveAgentActivityBarText,
+} from "./live-agent-activity-bar";
+export type {
+  LiveAgentActivity,
+  LiveAgentActivityBarAvatarProps,
+  LiveAgentActivityBarContentProps,
+  LiveAgentActivityBarProps,
+  LiveAgentActivityBarRowProps,
+  LiveAgentActivityBarStatusProps,
+  LiveAgentActivityBarTextProps,
+} from "./live-agent-activity-bar";

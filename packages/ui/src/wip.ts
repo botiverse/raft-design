@@ -297,10 +297,22 @@ export type {
   ResizablePanelProps,
 } from "./components/resizable/index";
 
-export { LiveAgentActivityBar } from "./components/live-agent-activity-bar/index";
+export {
+  LiveAgentActivityBar,
+  LiveAgentActivityBarAvatar,
+  LiveAgentActivityBarContent,
+  LiveAgentActivityBarRow,
+  LiveAgentActivityBarStatus,
+  LiveAgentActivityBarText,
+} from "./components/live-agent-activity-bar/index";
 export type {
   LiveAgentActivity,
+  LiveAgentActivityBarAvatarProps,
+  LiveAgentActivityBarContentProps,
   LiveAgentActivityBarProps,
+  LiveAgentActivityBarRowProps,
+  LiveAgentActivityBarStatusProps,
+  LiveAgentActivityBarTextProps,
 } from "./components/live-agent-activity-bar/index";
 
 export {

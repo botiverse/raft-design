@@ -25,46 +25,40 @@ const TOC = [
 
 const SNIPPETS = {
   composition: liveAgentActivityBarCompositionSource,
-  anatomy: `<LiveAgentActivityBar
-  activity="thinking"
-  agentAvatarSrc={agent.avatarSrc}
->
-  Thinking…
-</LiveAgentActivityBar>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "activity",
-    type: '"thinking" | "working"',
-    description: "The active agent state represented by the pulsing status indicator.",
-  },
-  {
-    name: "agentAvatarSrc",
-    type: "string | null",
-    description: "Resolved image URL or data URL. Falls back to the canonical pixel agent avatar.",
-  },
-  {
-    name: "avatar",
-    type: "ReactNode",
+    name: "LiveAgentActivityBar",
+    type: 'div props + activity: "thinking" | "working"',
     description:
-      "Explicit avatar content for app-owned identity resolvers such as pixel:key avatars. Takes precedence over agentAvatarSrc.",
+      "Live-region root and themed surface. Activity is exposed as data-activity; visible structure is supplied as children.",
   },
   {
-    name: "agentAvatarAlt",
-    type: "string",
-    default: '""',
-    description: "Alternative text when the avatar conveys identity beyond the activity copy.",
-  },
-  {
-    name: "children",
-    type: "ReactNode",
-    description: "The live activity text. String content is also exposed as the truncation title.",
-  },
-  {
-    name: "className / render / native div props",
+    name: "LiveAgentActivityBarRow",
     type: "div props",
-    description: "Root escape hatches and native attributes forwarded through Base UI useRender.",
+    description: "Structural row for the avatar and activity content.",
+  },
+  {
+    name: "LiveAgentActivityBarAvatar",
+    type: "Avatar root props",
+    description:
+      "Fixed xs agent avatar frame with the shared Avatar fallback. Compose an optional AvatarImage as its child.",
+  },
+  {
+    name: "LiveAgentActivityBarContent",
+    type: "div props",
+    description: "Layout region for the live status and activity copy.",
+  },
+  {
+    name: "LiveAgentActivityBarStatus",
+    type: "Status span props",
+    description: "Canonical pulsing primary status indicator with theme-owned placement.",
+  },
+  {
+    name: "LiveAgentActivityBarText",
+    type: "span props",
+    description: "Truncating activity copy with native span props, including an explicit title.",
   },
 ];
 
@@ -84,6 +78,7 @@ function LiveAgentActivityBarDoc() {
         <Differences from="source LiveAgentActivityBar">
           <li>preserves the source avatar, pulsing status, typography, spacing, and surfaces</li>
           <li>uses the source white mobile surface and cream desktop surface responsively</li>
+          <li>exposes avatar, status, and text as explicit composition parts</li>
           <li>keeps stores, socket events, and the 90-second expiry lifecycle consumer-owned</li>
         </Differences>
       }
@@ -100,7 +95,7 @@ function LiveAgentActivityBarDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.composition} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>
@@ -108,8 +103,9 @@ function LiveAgentActivityBarDoc() {
       <DocSection id="api" title="API">
         <DocNote>
           Render the component only while an activity item exists. The consumer owns selection,
-          expiry, and terminal-state removal. Brutal uses the white surface below the md breakpoint
-          and the cream sidebar surface at md and above.
+          expiry, terminal-state removal, and avatar resolution. The component owns its default
+          Avatar fallback. Brutal uses the white surface below the md breakpoint and the cream
+          sidebar surface at md and above.
         </DocNote>
         <div className="mt-4">
           <PropsTable rows={PROPS} />

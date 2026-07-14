@@ -1384,16 +1384,16 @@ export const MIGRATION_GUIDES = [
         refs: ["7-64"],
         docsHref: "/components/live-agent-activity-bar#source-comparison",
         migration: [
-          "Use `LiveAgentActivityBar` for the avatar, pulsing live status, truncating activity copy, and source sidebar/mobile surfaces.",
+          "Compose `LiveAgentActivityBar` with its Row, Avatar, Content, Status, and Text parts for the source sidebar/mobile surfaces.",
           "Pass only the active `thinking` or `working` item; render nothing when no live item exists.",
-          "Resolve source `pixel:key` identities in the app and pass the rendered avatar through `avatar`; use `agentAvatarSrc` only for a real image URL or data URL.",
+          "Resolve source `pixel:key` identities in the app, then compose the resulting `AvatarImage` inside `LiveAgentActivityBarAvatar`; failed or absent images use the shared Avatar fallback.",
           "Keep socket subscriptions, latest-item selection, terminal-state removal, and the 90-second expiry lifecycle in the app layer.",
         ],
         write:
-          '<LiveAgentActivityBar activity={latest.activity} avatar={<AgentAvatar avatarUrl={latest.agentAvatarUrl} className="!size-full" />}>{latest.text}</LiveAgentActivityBar>',
+          '<LiveAgentActivityBar activity={latest.activity}><LiveAgentActivityBarRow><LiveAgentActivityBarAvatar><AvatarImage src={agent.avatarSrc} alt="" /></LiveAgentActivityBarAvatar><LiveAgentActivityBarContent><LiveAgentActivityBarStatus /><LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText></LiveAgentActivityBarContent></LiveAgentActivityBarRow></LiveAgentActivityBar>',
         noDirect: [
           "No store, socket, timer, or activity-normalization API is bundled with the UI component.",
-          "Do not pass source `pixel:key` values to `agentAvatarSrc`; keep identity resolution in the app layer.",
+          "Do not pass source `pixel:key` values to `AvatarImage`; keep identity resolution in the app layer.",
         ],
       },
     ],
