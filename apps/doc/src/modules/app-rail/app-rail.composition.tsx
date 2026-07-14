@@ -1,3 +1,4 @@
+import { useState, type ComponentProps, type ReactNode } from "react";
 import {
   NotificationCenter,
   NotificationCenterTrigger,
@@ -30,14 +31,90 @@ import {
   Users,
 } from "lucide-react";
 
+// Tooltip-wrapped desktop rail item. Callers own the icon, an optional attention
+// mask, and an optional handler; selection state comes from the enclosing AppRailRoot.
+export function AppRailNavItem({
+  value,
+  label,
+  icon,
+  attention,
+  onClick,
+}: {
+  value: string;
+  label: string;
+  icon: ReactNode;
+  attention?: ReactNode;
+  onClick?: ComponentProps<typeof AppRailItem>["onClick"];
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<AppRailItem value={value} onClick={onClick} />}>
+        <AppRailItemIcon>
+          {icon}
+          {attention}
+        </AppRailItemIcon>
+        <AppRailItemLabel>{label}</AppRailItemLabel>
+      </TooltipTrigger>
+      <TooltipContent side="right">{label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+// App-owned mobile bottom-navigation destinations. Shared by this composition and
+// Playground so the two never drift; selection is driven by the enclosing AppRailRoot.
+export function AppRailMobileNav() {
+  return (
+    <AppRailNav aria-label="Primary navigation">
+      <AppRailItem value="chat" aria-label="Home">
+        <AppRailItemIcon>
+          <Home />
+        </AppRailItemIcon>
+        <AppRailItemLabel>Home</AppRailItemLabel>
+      </AppRailItem>
+      <AppRailItem value="tasks" aria-label="Tasks">
+        <AppRailItemIcon>
+          <CheckSquare />
+        </AppRailItemIcon>
+        <AppRailItemLabel>Tasks</AppRailItemLabel>
+      </AppRailItem>
+      <AppRailItem value="members" aria-label="Members">
+        <AppRailItemIcon>
+          <Users />
+        </AppRailItemIcon>
+        <AppRailItemLabel>Members</AppRailItemLabel>
+      </AppRailItem>
+      <AppRailItem value="settings" aria-label="Settings">
+        <AppRailItemIcon>
+          <Settings />
+        </AppRailItemIcon>
+        <AppRailItemLabel>Settings</AppRailItemLabel>
+      </AppRailItem>
+    </AppRailNav>
+  );
+}
+
 export function AppRailComposition() {
+  const [view, setView] = useState("chat");
+  const [announcement, setAnnouncement] = useState({ message: "", sequence: 0 });
+
+  function announce(message: string) {
+    setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
+  }
+
   return (
     <AppShellRail placement="responsive">
-      <AppRailRoot value="chat">
+      <AppRailRoot
+        value={view}
+        onValueChange={(next) => {
+          setView(next);
+          announce(`Opened ${next}`);
+        }}
+      >
         <AppRailHeader className="max-md:hidden">
           <AppRailServerButton
             title="Raft 中文社区"
             aria-label="Switch server (current: Raft 中文社区)"
+            onClick={() => announce("Opened server switcher")}
           >
             <img
               alt=""
@@ -46,112 +123,46 @@ export function AppRailComposition() {
             <AppRailItemIndicator size="sm" aria-hidden />
           </AppRailServerButton>
         </AppRailHeader>
+        <span className="sr-only" aria-live="polite">
+          <span key={announcement.sequence}>{announcement.message}</span>
+        </span>
         <TooltipProvider delay={650}>
           <div className="hidden min-h-0 w-full flex-1 md:flex">
             <AppRailNav>
-              <Tooltip>
-                <TooltipTrigger render={<AppRailItem value="search" aria-label="Search" />}>
-                  <AppRailItemIcon>
-                    <Search />
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Search</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Search</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
-                  <AppRailItemIcon>
-                    <MessageSquare />
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Chat</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Chat</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger render={<AppRailItem value="activity" aria-label="Activity" />}>
-                  <AppRailItemIcon>
+              <AppRailNavItem value="search" label="Search" icon={<Search />} />
+              <AppRailNavItem value="chat" label="Chat" icon={<MessageSquare />} />
+              <AppRailNavItem
+                value="activity"
+                label="Activity"
+                icon={<Activity />}
+                attention={
+                  <AppRailItemAttention>
                     <Activity />
-                    <AppRailItemAttention>
-                      <Activity />
-                    </AppRailItemAttention>
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Activity</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Activity</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger render={<AppRailItem value="tasks" aria-label="Tasks" />}>
-                  <AppRailItemIcon>
-                    <CheckSquare />
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Tasks</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Tasks</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger render={<AppRailItem value="members" aria-label="Members" />}>
-                  <AppRailItemIcon>
-                    <Users />
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Members</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Members</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger render={<AppRailItem value="computers" aria-label="Computers" />}>
-                  <AppRailItemIcon>
+                  </AppRailItemAttention>
+                }
+              />
+              <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
+              <AppRailNavItem value="members" label="Members" icon={<Users />} />
+              <AppRailNavItem
+                value="computers"
+                label="Computers"
+                icon={<Monitor />}
+                attention={
+                  <AppRailItemAttention>
                     <Monitor />
-                    <AppRailItemAttention>
-                      <Monitor />
-                    </AppRailItemAttention>
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Computers</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Computers</TooltipContent>
-              </Tooltip>
+                  </AppRailItemAttention>
+                }
+              />
             </AppRailNav>
           </div>
           <AppRailFooter className="max-md:hidden">
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
-                <AppRailItemIcon>
-                  <Settings />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Settings</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
-            </Tooltip>
+            <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
           </AppRailFooter>
           <div className="w-full md:hidden">
-            <AppRailNav aria-label="Primary navigation">
-              <AppRailItem value="chat" aria-label="Home">
-                <AppRailItemIcon>
-                  <Home />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Home</AppRailItemLabel>
-              </AppRailItem>
-              <AppRailItem value="tasks" aria-label="Tasks">
-                <AppRailItemIcon>
-                  <CheckSquare />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Tasks</AppRailItemLabel>
-              </AppRailItem>
-              <AppRailItem value="members" aria-label="Members">
-                <AppRailItemIcon>
-                  <Users />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Members</AppRailItemLabel>
-              </AppRailItem>
-              <AppRailItem value="settings" aria-label="Settings">
-                <AppRailItemIcon>
-                  <Settings />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Settings</AppRailItemLabel>
-              </AppRailItem>
-            </AppRailNav>
+            <AppRailMobileNav />
           </div>
         </TooltipProvider>
       </AppRailRoot>

@@ -5,6 +5,7 @@ import {
   useNavigate,
   useRouterState,
 } from "@tanstack/react-router";
+import { useMediaQuery } from "foxact/use-media-query";
 import { useCallback, useState } from "react";
 import { useThemeFamily } from "raft-ui";
 import {
@@ -223,14 +224,19 @@ function PlaygroundWorkspace({
       railView === "members" ||
       railView === "settings");
   const mobilePanel = conversationView && activeThread ? "thread" : showMain ? "main" : "sidebar";
-  const mobilePanelClass = (panel: typeof mobilePanel) =>
-    panel === mobilePanel ? "max-md:!flex max-md:!basis-0 max-md:!grow" : "max-md:!hidden";
+  // ResizablePanel applies className to an inner wrapper, so CSS `hidden` cannot
+  // collapse the outer panel's flexGrow. Unmount inactive panels below md instead.
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+  const renderSidebarPanel = showSidebar && (isDesktop || mobilePanel === "sidebar");
+  const renderMainPanel = showMain && (isDesktop || mobilePanel === "main");
+  const renderThreadPanel =
+    Boolean(conversationView && activeThread) && (isDesktop || mobilePanel === "thread");
 
   return (
     <AppShellRoot safeAreaSurface={mobileTabRoot ? "chrome" : "content"} className="h-full">
       <PlaygroundRail showBottomNavigation={mobileTabRoot} />
       <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
-        {showSidebar ? (
+        {renderSidebarPanel ? (
           <>
             <ResizablePanel
               key={theme}
@@ -239,9 +245,11 @@ function PlaygroundWorkspace({
               minSize={180}
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
-              className={mobilePanelClass("sidebar")}
             >
-              <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink max-md:flex">
+              <AppShellSidebar
+                visibility="always"
+                className="relative h-full min-w-0 w-auto flex-1 shrink"
+              >
                 {conversationView ? (
                   <PlaygroundSidebar
                     activeChannelId={activeChannel.id}
@@ -253,15 +261,11 @@ function PlaygroundWorkspace({
                 ) : null}
               </AppShellSidebar>
             </ResizablePanel>
-            {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
+            {renderMainPanel ? <ResizableHandle className="hidden md:flex" /> : null}
           </>
         ) : null}
-        {showMain ? (
-          <ResizablePanel
-            id="playground-main"
-            minSize={360}
-            className={`min-w-0 ${mobilePanelClass("main")}`}
-          >
+        {renderMainPanel ? (
+          <ResizablePanel id="playground-main" minSize={isDesktop ? 360 : 0} className="min-w-0">
             <AppShellMain className="flex h-full">
               {isRootRoute && railView === "tasks" ? (
                 <PlaygroundTasksPanel />
@@ -273,16 +277,16 @@ function PlaygroundWorkspace({
             </AppShellMain>
           </ResizablePanel>
         ) : null}
-        {conversationView && activeThread ? (
+        {renderThreadPanel && activeThread ? (
           <>
-            <ResizableHandle className="hidden md:flex" />
+            {isDesktop ? <ResizableHandle className="hidden md:flex" /> : null}
             <ResizablePanel
               id="playground-thread"
               defaultSize={400}
-              minSize={320}
+              minSize={isDesktop ? 320 : 0}
               maxSize={560}
               groupResizeBehavior="preserve-pixel-size"
-              className={`min-w-0 ${mobilePanelClass("thread")}`}
+              className="min-w-0"
             >
               <AppShellPanelStack className="h-full w-full max-md:flex">
                 <AppPanelStackRoot className="w-full">

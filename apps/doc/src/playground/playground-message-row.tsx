@@ -328,15 +328,11 @@ function MessageRowView({
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
   if (selectMode) {
-    return (
-      <MessageItemInteractionBoundary className="px-3">
-        {messageItem}
-      </MessageItemInteractionBoundary>
-    );
+    return <MessageItemInteractionBoundary>{messageItem}</MessageItemInteractionBoundary>;
   }
 
   return (
-    <MessageItemInteractionBoundary ref={setPortalContainer} className="px-3">
+    <MessageItemInteractionBoundary ref={setPortalContainer}>
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {

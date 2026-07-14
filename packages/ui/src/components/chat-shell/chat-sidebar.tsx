@@ -7,7 +7,8 @@ import { chatSidebar } from "./chat-sidebar.recipe";
 export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarRoot({ className, render, ...props }: ChatSidebarRootProps) {
-  const { sidebarRoot } = chatSidebar();
+  const theme = useThemeFamily();
+  const { sidebarRoot } = chatSidebar({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-root",
     className: sidebarRoot({ className }),

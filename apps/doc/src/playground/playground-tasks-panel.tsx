@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CheckSquare } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, BrutalOnly, ElegantOnly } from "raft-ui";
 import {
   ChatMainPanelHeaderIcon,
   ChatMainPanelSectionHeader,
@@ -115,9 +115,16 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
     <div className="flex min-h-0 flex-1 flex-col">
       {channel ? null : (
         <ChatMainPanelSectionHeader>
-          <ChatMainPanelHeaderIcon>
-            <CheckSquare aria-hidden />
-          </ChatMainPanelHeaderIcon>
+          <BrutalOnly>
+            <ChatMainPanelHeaderIcon className="max-md:hidden">
+              <CheckSquare aria-hidden />
+            </ChatMainPanelHeaderIcon>
+          </BrutalOnly>
+          <ElegantOnly>
+            <ChatMainPanelHeaderIcon>
+              <CheckSquare aria-hidden />
+            </ChatMainPanelHeaderIcon>
+          </ElegantOnly>
           <ChatMainPanelTitleBlock>
             <ChatMainPanelTitle render={<h2 aria-label="Tasks" />}>Tasks</ChatMainPanelTitle>
             <ChatMainPanelSubtitle render={<p />}>

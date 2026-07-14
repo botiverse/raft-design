@@ -116,7 +116,7 @@ const appRail = tv({
           "ring-2 ring-layer-page",
         ],
         itemAttentionMask: [
-          "text-[oklch(73.4%_0.149_89.2)] drop-shadow-[0_0_1px_#FFD440D1]",
+          "text-[oklch(73.4%_0.149_89.2)] drop-shadow-[0_0_1px_oklch(88.3%_0.162_91.9/0.82)]",
           "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
           "[-webkit-mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
         ],
@@ -283,7 +283,9 @@ export function AppRailItemAttention({ title, children }: AppRailItemAttentionPr
   return (
     <>
       <AppRailItemAttentionMask aria-hidden>{children}</AppRailItemAttentionMask>
-      <AppRailItemIndicator aria-hidden title={title} />
+      <AppRailItemIndicator aria-hidden />
+      {/* Surface the attention label to assistive tech; the indicator itself is decorative. */}
+      {title ? <span className="sr-only">{title}</span> : null}
     </>
   );
 }

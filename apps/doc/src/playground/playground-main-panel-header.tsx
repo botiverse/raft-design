@@ -2,6 +2,7 @@ import {
   Bell,
   BellOff,
   ChevronLeft,
+  EllipsisVertical,
   GitBranch,
   Hash,
   Lock,
@@ -16,6 +17,7 @@ import {
   AvatarFallback,
   AvatarImage,
   BrutalOnly,
+  Button,
   Status,
   Tooltip,
   TooltipContent,
@@ -51,16 +53,16 @@ function MobileBackButton() {
   if (!channelMatch) return null;
 
   return (
-    <PanelButton
+    <Button
       render={<Link to="/playground" search={{}} />}
       nativeButton={false}
-      className="size-10 md:hidden"
+      variant="outline"
+      size="icon-sm"
+      className="mr-1 md:hidden"
       aria-label="Back to conversations"
     >
-      <PanelButtonIcon>
-        <ChevronLeft aria-hidden />
-      </PanelButtonIcon>
-    </PanelButton>
+      <ChevronLeft aria-hidden />
+    </Button>
   );
 }
 
@@ -100,6 +102,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipTrigger
               render={
                 <PanelToggleButton
+                  className="max-md:hidden"
                   pressed={isMuted}
                   onPressedChange={setIsMuted}
                   aria-label={
@@ -115,7 +118,14 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             </TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="Stop all agents in this channel" />}>
+            <TooltipTrigger
+              render={
+                <PanelButton
+                  className="max-md:hidden"
+                  aria-label="Stop all agents in this channel"
+                />
+              }
+            >
               <PanelButtonIcon>
                 <Square />
               </PanelButtonIcon>
@@ -123,7 +133,9 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="View participants" />}>
+            <TooltipTrigger
+              render={<PanelButton className="max-md:hidden" aria-label="View participants" />}
+            >
               <PanelButtonIcon>
                 <Users />
               </PanelButtonIcon>
@@ -132,13 +144,20 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipContent side="bottom">View participants</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="Edit channel" />}>
+            <TooltipTrigger
+              render={<PanelButton className="max-md:hidden" aria-label="Edit channel" />}
+            >
               <PanelButtonIcon>
                 <Settings />
               </PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">Edit channel</TooltipContent>
           </Tooltip>
+          <PanelButton className="md:hidden" aria-label="More options">
+            <PanelButtonIcon>
+              <EllipsisVertical />
+            </PanelButtonIcon>
+          </PanelButton>
         </ChatMainPanelActions>
       </TooltipProvider>
     </ChatMainPanelHeader>

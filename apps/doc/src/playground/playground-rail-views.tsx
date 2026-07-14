@@ -44,8 +44,6 @@ import {
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
-  PanelButton,
-  PanelButtonIcon,
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarGroupLabel,
@@ -278,7 +276,9 @@ export function PlaygroundRailViewPanel({
     <ChatMainPanelRoot>
       <ChatMainPanelHeader>
         {mobileBack ? (
-          <PanelButton
+          <Button
+            variant="outline"
+            size="icon-sm"
             className="md:hidden"
             aria-label={auxiliaryDetail ? `Back to ${viewMeta[view].title}` : "Back to Home"}
             onClick={() => {
@@ -286,10 +286,8 @@ export function PlaygroundRailViewPanel({
               else selectRailView("chat");
             }}
           >
-            <PanelButtonIcon>
-              <ChevronLeft aria-hidden />
-            </PanelButtonIcon>
-          </PanelButton>
+            <ChevronLeft aria-hidden />
+          </Button>
         ) : null}
         <ChatMainPanelHeaderIcon>
           <ViewIcon />

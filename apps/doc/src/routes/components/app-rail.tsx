@@ -158,7 +158,7 @@ function AppRailDoc() {
 }
 
 function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-4 gap-4">{children}</div>;
+  return <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{children}</div>;
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {

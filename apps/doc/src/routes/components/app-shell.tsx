@@ -37,8 +37,9 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "AppShellSidebar",
-    type: 'useRender.ComponentProps<"aside">',
-    description: "Desktop sidebar region.",
+    type: 'useRender.ComponentProps<"aside"> & { visibility?: "desktop" | "always" }',
+    description:
+      'Sidebar region. Defaults to desktop-only; set visibility="always" to keep it visible across breakpoints.',
   },
   {
     name: "AppShellMain",
@@ -47,8 +48,9 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "AppShellPanelStack",
-    type: 'useRender.ComponentProps<"aside">',
-    description: "Optional desktop region for caller-owned side panels.",
+    type: 'useRender.ComponentProps<"aside"> & { visibility?: "desktop" | "always" }',
+    description:
+      'Optional region for caller-owned side panels. Defaults to desktop-only; set visibility="always" to keep it visible across breakpoints.',
   },
 ];
 

@@ -4,7 +4,7 @@ export const composer = tv({
   slots: {
     root: ["flex w-full flex-col gap-2 border-2 p-2"],
     input: [
-      "min-h-5 max-h-32 w-full resize-none bg-transparent text-base leading-5 outline-none md:min-h-10 md:text-sm",
+      "min-h-5 max-h-32 w-full resize-none bg-transparent text-sm leading-5 outline-none md:min-h-10",
     ],
     toolbar: ["flex items-center justify-between gap-3"],
     actions: ["flex items-center gap-2"],
@@ -74,14 +74,14 @@ export const composer = tv({
         root: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-[var(--shell-surface-bg,var(--layer-panel))]",
-          "shadow-lg ring-1 ring-ink-2 focus-within:ring-ink-10",
+          "shadow-lg ring-1 ring-ink-2 max-md:ring-ink-2/50 focus-within:ring-ink-10",
         ],
         input: [
-          "min-h-20 md:min-h-20 px-4 pt-4",
+          "min-h-16 px-3 pt-3 md:min-h-20 md:px-4 md:pt-4",
           "font-sans text-foreground",
           "placeholder:text-foreground-placeholder",
         ],
-        toolbar: "gap-2 px-3 pt-1 pb-3",
+        toolbar: "gap-2 px-2.5 pt-1 pb-2.5 md:px-3 md:pb-3",
         actions: "gap-1.5",
         iconButton: [
           "text-foreground-icon",

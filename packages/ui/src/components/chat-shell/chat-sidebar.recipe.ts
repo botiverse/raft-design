@@ -89,8 +89,9 @@ export const chatSidebar = tv({
     sidebarItemIndicator: ["ml-1 shrink-0"],
     sidebarItemPresence: ["shrink-0"],
     sidebarItemMention: [
-      "ml-1 inline-flex size-4 shrink-0 items-center justify-center",
-      "[&_svg]:size-2.5 [&_svg]:shrink-0",
+      "ml-1 size-4 shrink-0 items-center justify-center gap-0 px-0 py-0",
+      "[&:has(svg)]:px-0",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0 [&_svg]:translate-y-0",
     ],
     sidebarItemMuted: [
       "ml-1 inline-flex size-4 shrink-0 items-center justify-center",
@@ -155,7 +156,10 @@ export const chatSidebar = tv({
         sidebarItemTitle: "font-medium text-black",
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-[12px] font-medium text-black/70",
-        sidebarItemMention: "rounded border border-black bg-soft-signal text-black",
+        sidebarItemMention: [
+          "rounded border border-black bg-soft-signal",
+          "text-[10px] font-bold leading-none text-black",
+        ],
         sidebarItemMuted: "text-black",
         sidebarItemDraft: "text-black/40",
         sidebarItemBadge: [
@@ -171,7 +175,7 @@ export const chatSidebar = tv({
           "max-md:absolute max-md:inset-x-0 max-md:top-0 max-md:z-20",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
-        sidebarHeaderMask: ["max-md:block h-[calc(100%+1.5rem)]"],
+        sidebarHeaderMask: ["max-md:block h-[calc(100%+0.75rem)]"],
         sidebarHeaderMaskLayer: [
           "h-full",
           "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--layer-page)_0%,var(--layer-page)_28%,color-mix(in_oklch,var(--layer-page)_82%,transparent)_52%,transparent_100%)]",
@@ -245,7 +249,7 @@ export const chatSidebar = tv({
         sidebarItemTitle: "font-[450] text-foreground-muted",
         sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
-          "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[2.25]",
+          "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[1.5]",
         sidebarItemSubtitle: "text-ink-30",
         sidebarItemMeta:
           "font-sans text-[12px] font-medium leading-none normal-nums text-foreground-icon",
@@ -254,14 +258,32 @@ export const chatSidebar = tv({
           "pointer-events-none absolute top-1/2 right-[calc(100%+2px)] -translate-y-1/2",
           "[&_[data-slot=status]]:size-2",
         ],
-        sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",
+        sidebarItemMention: [
+          "rounded-sm border-0",
+          "text-[10px] font-normal leading-none tracking-normal",
+        ],
         sidebarItemMuted: "text-foreground-muted",
         sidebarItemDraft: "text-foreground-icon",
-        sidebarItemBadge: ["min-w-[18px] justify-center rounded-sm px-1 py-px tabular-nums"],
+        sidebarItemBadge: [
+          "h-4 min-w-4 items-center justify-center rounded-sm px-1 py-0",
+          "text-[10px] font-normal leading-none tabular-nums tracking-normal",
+        ],
         sidebarFooter: "border-t border-line-subtle p-3",
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      unread: true,
+      class: { sidebarItemTitle: "font-bold" },
+    },
+    {
+      theme: "elegant",
+      unread: true,
+      class: { sidebarItemTitle: "font-semibold text-foreground-strong" },
+    },
+  ],
 });
 
 export const chatSidebarItemInlineText = tv({

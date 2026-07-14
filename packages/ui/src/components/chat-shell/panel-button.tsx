@@ -94,7 +94,7 @@ const panelButtonIcon = tv({
 });
 
 const panelButtonLabel = tv({
-  base: ["hidden whitespace-nowrap font-medium leading-4 sm:inline"],
+  base: ["hidden whitespace-nowrap font-medium leading-4 md:inline"],
 });
 
 const panelButtonCount = tv({

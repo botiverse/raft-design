@@ -235,26 +235,28 @@ export function ChatSidebarItemPresence({
   });
 }
 
-export type ChatSidebarItemMentionProps = useRender.ComponentProps<"span">;
+export type ChatSidebarItemMentionProps = BadgeProps;
 
 export function ChatSidebarItemMention({
+  appearance = "solid",
   className,
-  render,
+  uppercase = false,
+  variant = "primary",
   ...props
 }: ChatSidebarItemMentionProps) {
   const theme = useThemeFamily();
   const { sidebarItemMention } = chatSidebar({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-mention",
-    role: "img",
-    className: sidebarItemMention({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
+  return (
+    <Badge
+      data-slot="chat-sidebar-item-mention"
+      role="img"
+      appearance={appearance}
+      uppercase={uppercase}
+      variant={variant}
+      className={sidebarItemMention({ className })}
+      {...props}
+    />
+  );
 }
 
 export type ChatSidebarItemMutedProps = useRender.ComponentProps<"span">;

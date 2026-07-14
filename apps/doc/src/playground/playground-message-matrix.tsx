@@ -851,7 +851,7 @@ function MatrixStateSection() {
         body="Active row (context-menu open / open-thread parent): bordered white."
       />
 
-      <MessageItemInteractionBoundary className="px-3">
+      <MessageItemInteractionBoundary>
         <SystemMessageItem>
           <SystemMessageItemTime>10:50 AM</SystemMessageItemTime>
           <SystemMessageItemContent>

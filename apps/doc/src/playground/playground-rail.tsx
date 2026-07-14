@@ -25,11 +25,8 @@ import {
 import {
   AppRailFooter,
   AppRailHeader,
-  AppRailItem,
   AppRailItemAttention,
-  AppRailItemIcon,
   AppRailItemIndicator,
-  AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
@@ -44,7 +41,6 @@ import {
   Activity,
   CheckSquare,
   ChevronDown,
-  Home,
   MessageSquare,
   Monitor,
   Search,
@@ -52,6 +48,7 @@ import {
   Users,
 } from "lucide-react";
 
+import { AppRailMobileNav, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";
@@ -163,145 +160,87 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           <TooltipProvider delay={650}>
             <div className="hidden min-h-0 w-full flex-1 md:flex">
               <AppRailNav>
-                <Tooltip>
-                  <TooltipTrigger render={<AppRailItem value="search" aria-label="Search" />}>
-                    <AppRailItemIcon>
-                      <Search />
-                    </AppRailItemIcon>
-                    <AppRailItemLabel>Search</AppRailItemLabel>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Search</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <AppRailItem
-                        value="chat"
-                        aria-label="Chat"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          void navigate({
-                            to: "/playground/$channelId",
-                            params: { channelId: DEFAULT_CHANNEL_ID },
-                            search: {},
-                          });
-                        }}
-                      />
-                    }
-                  >
-                    <AppRailItemIcon>
-                      <MessageSquare />
-                      {railView !== "chat" ? (
-                        <AppRailItemAttention title="Unread messages">
-                          <MessageSquare />
-                        </AppRailItemAttention>
-                      ) : null}
-                    </AppRailItemIcon>
-                    <AppRailItemLabel>Chat</AppRailItemLabel>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Chat</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger render={<AppRailItem value="activity" aria-label="Activity" />}>
-                    <AppRailItemIcon>
-                      <Activity />
-                      {railView !== "activity" ? (
-                        <AppRailItemAttention title="Unread activity">
-                          <Activity />
-                        </AppRailItemAttention>
-                      ) : null}
-                    </AppRailItemIcon>
-                    <AppRailItemLabel>Activity</AppRailItemLabel>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Activity</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger render={<AppRailItem value="tasks" aria-label="Tasks" />}>
-                    <AppRailItemIcon>
-                      <CheckSquare />
-                    </AppRailItemIcon>
-                    <AppRailItemLabel>Tasks</AppRailItemLabel>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Tasks</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <AppRailItem
-                        value="members"
-                        aria-label="Members"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          void navigate({
-                            to: "/playground/members",
-                            search: { detail: "agents" },
-                          });
-                        }}
-                      />
-                    }
-                  >
-                    <AppRailItemIcon>
-                      <Users />
-                    </AppRailItemIcon>
-                    <AppRailItemLabel>Members</AppRailItemLabel>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Members</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <AppRailItem
-                        value="computers"
-                        aria-label="Computers"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          void navigate({
-                            to: "/playground/computers",
-                            search: { detail: "dev-machine" },
-                          });
-                        }}
-                      />
-                    }
-                  >
-                    <AppRailItemIcon>
-                      <Monitor />
-                      {railView !== "computers" ? (
-                        <AppRailItemAttention title="A managed computer has an upgrade available">
-                          <Monitor />
-                        </AppRailItemAttention>
-                      ) : null}
-                    </AppRailItemIcon>
-                    <AppRailItemLabel>Computers</AppRailItemLabel>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">Computers</TooltipContent>
-                </Tooltip>
+                <AppRailNavItem value="search" label="Search" icon={<Search />} />
+                <AppRailNavItem
+                  value="chat"
+                  label="Chat"
+                  icon={<MessageSquare />}
+                  attention={
+                    railView !== "chat" ? (
+                      <AppRailItemAttention title="Unread messages">
+                        <MessageSquare />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                  onClick={(event) => {
+                    event.preventDefault();
+                    void navigate({
+                      to: "/playground/$channelId",
+                      params: { channelId: DEFAULT_CHANNEL_ID },
+                      search: {},
+                    });
+                  }}
+                />
+                <AppRailNavItem
+                  value="activity"
+                  label="Activity"
+                  icon={<Activity />}
+                  attention={
+                    railView !== "activity" ? (
+                      <AppRailItemAttention title="Unread activity">
+                        <Activity />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                />
+                <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
+                <AppRailNavItem
+                  value="members"
+                  label="Members"
+                  icon={<Users />}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    void navigate({
+                      to: "/playground/members",
+                      search: { detail: "agents" },
+                    });
+                  }}
+                />
+                <AppRailNavItem
+                  value="computers"
+                  label="Computers"
+                  icon={<Monitor />}
+                  attention={
+                    railView !== "computers" ? (
+                      <AppRailItemAttention title="A managed computer has an upgrade available">
+                        <Monitor />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                  onClick={(event) => {
+                    event.preventDefault();
+                    void navigate({
+                      to: "/playground/computers",
+                      search: { detail: "dev-machine" },
+                    });
+                  }}
+                />
               </AppRailNav>
             </div>
             <AppRailFooter>
               <PlaygroundNotificationCenter />
-              <Tooltip>
-                <TooltipTrigger
-                  render={
-                    <AppRailItem
-                      value="settings"
-                      aria-label="Settings"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        void navigate({
-                          to: "/playground/settings",
-                          search: { detail: "account" },
-                        });
-                      }}
-                    />
-                  }
-                >
-                  <AppRailItemIcon>
-                    <Settings />
-                  </AppRailItemIcon>
-                  <AppRailItemLabel>Settings</AppRailItemLabel>
-                </TooltipTrigger>
-                <TooltipContent side="right">Settings</TooltipContent>
-              </Tooltip>
+              <AppRailNavItem
+                value="settings"
+                label="Settings"
+                icon={<Settings />}
+                onClick={(event) => {
+                  event.preventDefault();
+                  void navigate({
+                    to: "/playground/settings",
+                    search: { detail: "account" },
+                  });
+                }}
+              />
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
@@ -314,32 +253,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
               if (isPlaygroundRailView(view)) selectRailView(view);
             }}
           >
-            <AppRailNav aria-label="Primary navigation">
-              <AppRailItem value="chat" aria-label="Home">
-                <AppRailItemIcon>
-                  <Home />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Home</AppRailItemLabel>
-              </AppRailItem>
-              <AppRailItem value="tasks" aria-label="Tasks">
-                <AppRailItemIcon>
-                  <CheckSquare />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Tasks</AppRailItemLabel>
-              </AppRailItem>
-              <AppRailItem value="members" aria-label="Members">
-                <AppRailItemIcon>
-                  <Users />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Members</AppRailItemLabel>
-              </AppRailItem>
-              <AppRailItem value="settings" aria-label="Settings">
-                <AppRailItemIcon>
-                  <Settings />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Settings</AppRailItemLabel>
-              </AppRailItem>
-            </AppRailNav>
+            <AppRailMobileNav />
           </AppRailRoot>
         </AppShellRail>
       ) : null}

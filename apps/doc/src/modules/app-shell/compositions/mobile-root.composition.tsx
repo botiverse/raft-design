@@ -16,7 +16,7 @@ export function AppShellMobileRootComposition() {
 
   return (
     <AppShellRoot safeAreaSurface="content" className="h-dvh w-full">
-      <AppShellSidebar className="flex min-h-0 w-full flex-1 shrink">
+      <AppShellSidebar visibility="always" className="min-h-0 w-full flex-1 shrink">
         <div className="flex h-full min-h-0 w-full items-center justify-center bg-accent-200 px-4 text-center font-mono text-xs font-semibold uppercase tracking-wide text-accent-950">
           Sidebar · root view
         </div>

@@ -1,10 +1,7 @@
 import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide-react";
 import { useState } from "react";
-import { Avatar, AvatarFallback, Status, useThemeFamily } from "raft-ui";
+import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
-  AppShellMain,
-  AppShellSidebar,
-  AppShellRoot,
   ChatSidebarContent,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
@@ -38,55 +35,14 @@ import {
   ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
-  ResizableGroup,
-  ResizableHandle,
-  ResizablePanel,
 } from "raft-ui/wip";
 
-import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx";
-import { ChatMainPanelComposition } from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
 import {
   SidebarSectionAddButton,
   SidebarSectionChannelsMenu,
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
-import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
-import { LIVE_AGENT_ACTIVITY_PREVIEW } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.fixtures.ts";
-
-export function ChatSidebarPreviewComposition() {
-  const theme = useThemeFamily();
-
-  return (
-    <AppShellRoot className="h-full min-w-[865px] border border-line-strong shadow-sm">
-      <AppRailComposition />
-      <ResizableGroup className="min-w-0 flex-1" orientation="horizontal">
-        <ResizablePanel
-          id="chat-sidebar"
-          defaultSize={308}
-          minSize={180}
-          maxSize={368}
-          groupResizeBehavior="preserve-pixel-size"
-          className={
-            theme === "brutal"
-              ? "has-[>[data-slot=app-shell-sidebar]]:bg-brutal-cream"
-              : "has-[>[data-slot=app-shell-sidebar]]:bg-layer-page"
-          }
-        >
-          <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink">
-            <ChatSidebarComposition />
-          </AppShellSidebar>
-        </ResizablePanel>
-        <ResizableHandle className="hidden md:flex" />
-        <ResizablePanel id="chat-main-panel" minSize={0} className="min-w-0">
-          <AppShellMain className="flex h-full">
-            <ChatMainPanelComposition />
-          </AppShellMain>
-        </ResizablePanel>
-      </ResizableGroup>
-    </AppShellRoot>
-  );
-}
 
 export function ChatSidebarComposition() {
   const [selectedItem, setSelectedItem] = useState("#proj-uiux");
@@ -102,7 +58,7 @@ export function ChatSidebarComposition() {
   }
 
   return (
-    <ChatSidebarRoot className="relative overflow-x-clip">
+    <ChatSidebarRoot className="overflow-x-clip">
       <ChatSidebarHeader>
         <div className="min-w-0 flex-1">
           <ChatSidebarHeaderTitle>Chat</ChatSidebarHeaderTitle>
@@ -115,7 +71,7 @@ export function ChatSidebarComposition() {
         </ChatSidebarAction>
       </ChatSidebarHeader>
       <ChatSidebarBody>
-        <ChatSidebarContent className="min-h-0 px-2 md:pb-20">
+        <ChatSidebarContent className="min-h-0">
           <div className="min-h-full">
             <ChatSidebarSection>
               <ChatSidebarSectionHeader className="mt-0">
@@ -134,7 +90,7 @@ export function ChatSidebarComposition() {
               </ChatSidebarSectionHeader>
             </ChatSidebarSection>
 
-            <ChatSidebarSection className="px-0">
+            <ChatSidebarSection>
               <SidebarSectionHeaderMenu menu="sort">
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
@@ -198,7 +154,7 @@ export function ChatSidebarComposition() {
               </ChatSidebarList>
             </ChatSidebarSection>
 
-            <ChatSidebarSection defaultOpen={false} className="px-0">
+            <ChatSidebarSection defaultOpen={false}>
               <SidebarSectionHeaderMenu
                 menu="channels"
                 count={1}
@@ -243,7 +199,7 @@ export function ChatSidebarComposition() {
               </ChatSidebarList>
             </ChatSidebarSection>
 
-            <ChatSidebarSection className="px-0">
+            <ChatSidebarSection>
               <SidebarSectionHeaderMenu
                 menu="channels"
                 count={2}
@@ -315,7 +271,7 @@ export function ChatSidebarComposition() {
               </ChatSidebarList>
             </ChatSidebarSection>
 
-            <ChatSidebarSection className="px-0">
+            <ChatSidebarSection>
               <SidebarSectionHeaderMenu menu="sort">
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
@@ -370,9 +326,6 @@ export function ChatSidebarComposition() {
           </div>
         </ChatSidebarContent>
       </ChatSidebarBody>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 max-md:hidden">
-        <LiveAgentActivityBarComposition latest={LIVE_AGENT_ACTIVITY_PREVIEW} />
-      </div>
     </ChatSidebarRoot>
   );
 }
