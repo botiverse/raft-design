@@ -298,6 +298,24 @@ export type {
 } from "./components/resizable/index";
 
 export {
+  LiveAgentActivityBar,
+  LiveAgentActivityBarAvatar,
+  LiveAgentActivityBarContent,
+  LiveAgentActivityBarRow,
+  LiveAgentActivityBarStatus,
+  LiveAgentActivityBarText,
+} from "./components/live-agent-activity-bar/index";
+export type {
+  LiveAgentActivity,
+  LiveAgentActivityBarAvatarProps,
+  LiveAgentActivityBarContentProps,
+  LiveAgentActivityBarProps,
+  LiveAgentActivityBarRowProps,
+  LiveAgentActivityBarStatusProps,
+  LiveAgentActivityBarTextProps,
+} from "./components/live-agent-activity-bar/index";
+
+export {
   ToggleGroup,
   ToggleGroupCount,
   ToggleGroupItem,

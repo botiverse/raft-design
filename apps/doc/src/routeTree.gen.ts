@@ -48,6 +48,7 @@ import { Route as ComponentsPreviewCardRouteImport } from './routes/components/p
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
+import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
 import { Route as ComponentsLabelRouteImport } from './routes/components/label'
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
@@ -282,6 +283,12 @@ const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
   path: '/message-item',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsLiveAgentActivityBarRoute =
+  ComponentsLiveAgentActivityBarRouteImport.update({
+    id: '/live-agent-activity-bar',
+    path: '/live-agent-activity-bar',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   id: '/lightbox',
   path: '/lightbox',
@@ -500,6 +507,7 @@ export interface FileRoutesByFullPath {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -574,6 +582,7 @@ export interface FileRoutesByTo {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -651,6 +660,7 @@ export interface FileRoutesById {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -729,6 +739,7 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
+    | '/components/live-agent-activity-bar'
     | '/components/message-item'
     | '/components/notification-center'
     | '/components/popover'
@@ -803,6 +814,7 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
+    | '/components/live-agent-activity-bar'
     | '/components/message-item'
     | '/components/notification-center'
     | '/components/popover'
@@ -879,6 +891,7 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
+    | '/components/live-agent-activity-bar'
     | '/components/message-item'
     | '/components/notification-center'
     | '/components/popover'
@@ -1208,6 +1221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsMessageItemRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/live-agent-activity-bar': {
+      id: '/components/live-agent-activity-bar'
+      path: '/live-agent-activity-bar'
+      fullPath: '/components/live-agent-activity-bar'
+      preLoaderRoute: typeof ComponentsLiveAgentActivityBarRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/lightbox': {
       id: '/components/lightbox'
       path: '/lightbox'
@@ -1488,6 +1508,7 @@ interface ComponentsRouteChildren {
   ComponentsKbdRoute: typeof ComponentsKbdRoute
   ComponentsLabelRoute: typeof ComponentsLabelRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
+  ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
@@ -1545,6 +1566,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsKbdRoute: ComponentsKbdRoute,
   ComponentsLabelRoute: ComponentsLabelRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
+  ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,

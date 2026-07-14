@@ -104,6 +104,10 @@ import {
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import {
+  LiveAgentActivityBarComposition,
+  type LiveAgentActivityBarItem,
+} from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
+import {
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_INVITABLE_ACTORS,
@@ -826,9 +830,11 @@ function CreateJointChannelDialogContent() {
 
 export function PlaygroundSidebar({
   activeChannelId,
+  liveAgentActivity,
   title = "Chat",
 }: {
   activeChannelId: PlaygroundChannelId;
+  liveAgentActivity: LiveAgentActivityBarItem | null;
   title?: string;
 }) {
   const [dialog, setDialog] = useState<ActiveDialog>(null);
@@ -899,6 +905,11 @@ export function PlaygroundSidebar({
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>
+        {liveAgentActivity ? (
+          <div className="pointer-events-none shrink-0">
+            <LiveAgentActivityBarComposition latest={liveAgentActivity} />
+          </div>
+        ) : null}
       </ChatSidebarRoot>
 
       <Dialog

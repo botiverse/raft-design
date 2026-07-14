@@ -16,6 +16,8 @@ import {
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 import {
   DEFAULT_CHANNEL_ID,
+  PLAYGROUND_LIVE_AGENT_ACTIVITY,
+  getPlaygroundActor,
   getPlaygroundChannel,
   getPlaygroundThread,
   isPlaygroundChannelId,
@@ -105,6 +107,15 @@ function PlaygroundWorkspace({
         ? getTaskThread(task)
         : undefined;
   const conversationView = railView === "chat" || railView === "tasks";
+  const liveAgentActor = getPlaygroundActor(PLAYGROUND_LIVE_AGENT_ACTIVITY.actorId);
+  const liveAgentActivity =
+    railView === "chat"
+      ? {
+          activity: PLAYGROUND_LIVE_AGENT_ACTIVITY.activity,
+          agentAvatarSrc: liveAgentActor.avatarSrc,
+          text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
+        }
+      : null;
   const auxiliaryView =
     railView === "members" || railView === "computers" || railView === "settings" ? railView : null;
   const standaloneView =
@@ -139,6 +150,7 @@ function PlaygroundWorkspace({
                 {conversationView ? (
                   <PlaygroundSidebar
                     activeChannelId={activeChannel.id}
+                    liveAgentActivity={liveAgentActivity}
                     title={railView === "tasks" ? "Tasks" : "Chat"}
                   />
                 ) : auxiliaryView ? (
