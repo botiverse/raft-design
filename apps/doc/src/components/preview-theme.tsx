@@ -1,4 +1,5 @@
 import {
+  useCallback,
   createContext,
   useContext,
   useMemo,
@@ -29,12 +30,18 @@ export function PreviewThemeProvider({ children }: { children: ReactNode }) {
     theme: "elegant",
     mode: "light",
   });
+  const setTheme = useCallback<PreviewThemeValue["setTheme"]>((theme, options) => {
+    const mode = options?.mode ?? "light";
+    setSelected((current) =>
+      current.theme === theme && current.mode === mode ? current : { theme, mode },
+    );
+  }, []);
   const value = useMemo<PreviewThemeValue>(
     () => ({
       ...selected,
-      setTheme: (theme, options) => setSelected({ theme, mode: options?.mode ?? "light" }),
+      setTheme,
     }),
-    [selected],
+    [selected, setTheme],
   );
 
   return <PreviewThemeContext.Provider value={value}>{children}</PreviewThemeContext.Provider>;

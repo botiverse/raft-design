@@ -25,18 +25,21 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "AppShellRoot",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Owns the app-shell flex layout and theme-aware background contract.",
+    type: 'useRender.ComponentProps<"div"> & { safeAreaSurface?: "chrome" | "content" }',
+    description:
+      "Owns the responsive row-to-column layout, top safe-area inset, and theme-aware mobile surface.",
   },
   {
     name: "AppShellRail",
-    type: 'useRender.ComponentProps<"aside">',
-    description: "Desktop rail region. Navigation content remains caller-owned children.",
+    type: 'useRender.ComponentProps<"aside"> & { placement?: "side" | "bottom" | "responsive" }',
+    description:
+      "Rail region with explicit side, bottom, or responsive placement. Navigation content remains caller-owned children.",
   },
   {
     name: "AppShellSidebar",
-    type: 'useRender.ComponentProps<"aside">',
-    description: "Desktop sidebar region.",
+    type: 'useRender.ComponentProps<"aside"> & { visibility?: "desktop" | "always" }',
+    description:
+      'Sidebar region. Defaults to desktop-only; set visibility="always" to keep it visible across breakpoints.',
   },
   {
     name: "AppShellMain",
@@ -45,8 +48,9 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "AppShellPanelStack",
-    type: 'useRender.ComponentProps<"aside">',
-    description: "Optional desktop region for caller-owned side panels.",
+    type: 'useRender.ComponentProps<"aside"> & { visibility?: "desktop" | "always" }',
+    description:
+      'Optional region for caller-owned side panels. Defaults to desktop-only; set visibility="always" to keep it visible across breakpoints.',
   },
 ];
 

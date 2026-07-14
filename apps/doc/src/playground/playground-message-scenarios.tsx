@@ -6,6 +6,7 @@ import {
   ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
+  MessageAttachmentGroup,
   MessageMarkdown,
   MessageInlineCode,
   MessageReferenceChannel,
@@ -191,7 +192,7 @@ export function ProjUiuxBody() {
             time="08:41 AM"
             body="Attachments: PNG, JPEG, and a text file are linked to this message."
             attachments={
-              <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+              <MessageAttachmentGroup>
                 <MessageAttachmentReadyComposition
                   name="seed-pixel.png"
                   meta="image/png · 1 KB"
@@ -211,14 +212,14 @@ export function ProjUiuxBody() {
                   primaryAction={<Eye />}
                   onPrimaryAction={openMockAttachmentPreview}
                 />
-              </div>
+              </MessageAttachmentGroup>
             }
           />
           <PlaygroundScenarioMessageRow
             compact
             gutterTime="08:42"
             attachments={
-              <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+              <MessageAttachmentGroup>
                 <MessageAttachmentReadyComposition
                   name="seed-this-is-an-extremely-long-markdown-filename-used-to-verify-attachment-preview-card-truncation.md"
                   meta="Markdown preview · 1 KB"
@@ -226,7 +227,7 @@ export function ProjUiuxBody() {
                   primaryAction={<Eye />}
                   onPrimaryAction={openMockAttachmentPreview}
                 />
-              </div>
+              </MessageAttachmentGroup>
             }
           />
 

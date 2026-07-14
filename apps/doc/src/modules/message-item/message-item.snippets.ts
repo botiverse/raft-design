@@ -9,19 +9,22 @@ export const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-export const ANATOMY_SOURCE = `<MessageItem>
-  <MessageItemAvatarSlot />
-  <MessageItemContent>
-    <MessageItemHeader>
-      <MessageItemSender />
-      <MessageItemMeta />
-      <MessageItemTime />
-    </MessageItemHeader>
-    <MessageItemBody />
-    <MessageItemFooter />
-  </MessageItemContent>
-  <MessageItemToolbar />
-</MessageItem>`;
+export const ANATOMY_SOURCE = `<MessageItemInteractionBoundary>
+  <MessageItem>
+    <MessageItemAvatarSlot />
+    <MessageItemContent>
+      <MessageItemHeader>
+        <MessageItemSender />
+        <MessageItemMeta />
+        <MessageItemTime />
+      </MessageItemHeader>
+      <MessageItemBody />
+      <MessageAttachmentGroup>...</MessageAttachmentGroup>
+      <MessageItemFooter />
+    </MessageItemContent>
+    <MessageItemToolbar />
+  </MessageItem>
+</MessageItemInteractionBoundary>`;
 
 export const PROPS: readonly PropRow[] = [
   {
@@ -34,6 +37,12 @@ export const PROPS: readonly PropRow[] = [
     name: "MessageItemHeader",
     type: 'useRender.ComponentProps<"div">',
     description: "Sender, sender state, metadata, timestamp, and inline delivery state row.",
+  },
+  {
+    name: "MessageItemInteractionBoundary",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Containing block for row overlays and portalled interaction surfaces without clipping visible overflow.",
   },
   {
     name: "MessageMultiSelect / MessageMultiSelectCheckbox",
@@ -102,6 +111,11 @@ export const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"div">',
     description:
       "Attachment card shell. Loading, pending, error, and action visuals are caller-composed parts.",
+  },
+  {
+    name: "MessageAttachmentGroup",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Reusable wrapping layout for one or more attachment cards.",
   },
   {
     name: "MessageVideoPreview",

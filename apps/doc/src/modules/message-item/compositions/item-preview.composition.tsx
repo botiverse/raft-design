@@ -9,6 +9,7 @@ import {
   MessageItemContent,
   MessageItemFooter,
   MessageItemHeader,
+  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
@@ -98,10 +99,12 @@ export function MessageItemPreview({
   if (chrome === "selected") {
     return (
       <MessageMultiSelect defaultActive defaultSelected={new Set(["preview"])}>
-        <MessageItemSelection>
-          <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
-          {content}
-        </MessageItemSelection>
+        <MessageItemInteractionBoundary>
+          <MessageItemSelection>
+            <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
+            {content}
+          </MessageItemSelection>
+        </MessageItemInteractionBoundary>
       </MessageMultiSelect>
     );
   }
@@ -109,7 +112,7 @@ export function MessageItemPreview({
   const RowChrome = ROW_CHROME[chrome];
 
   return (
-    <div ref={setPortalContainer} style={{ contain: "layout style", overflow: "clip visible" }}>
+    <MessageItemInteractionBoundary ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
           <Avatar size="sm" type="agent">
@@ -132,6 +135,6 @@ export function MessageItemPreview({
           Reacted with {reaction}
         </span>
       ) : null}
-    </div>
+    </MessageItemInteractionBoundary>
   );
 }

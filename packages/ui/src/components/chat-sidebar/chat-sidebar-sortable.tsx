@@ -3,6 +3,7 @@
 import {
   closestCenter,
   DndContext,
+  KeyboardSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -12,6 +13,7 @@ import {
 import {
   arrayMove,
   SortableContext,
+  sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -46,8 +48,9 @@ export function SortableChatSidebarList({
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
-  const itemIds = useMemo(() => items.map(String), [items]);
+  const itemIds = useMemo(() => [...items], [items]);
 
   const handleDragEnd = useCallback(
     ({ active, over }: DragEndEvent) => {

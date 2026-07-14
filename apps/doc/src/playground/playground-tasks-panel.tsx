@@ -1,6 +1,14 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { CheckSquare } from "lucide-react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { Avatar, AvatarFallback, AvatarImage, BrutalOnly, ElegantOnly } from "raft-ui";
+import {
+  ChatMainPanelHeaderIcon,
+  ChatMainPanelSectionHeader,
+  ChatMainPanelSubtitle,
+  ChatMainPanelTitle,
+  ChatMainPanelTitleBlock,
+} from "raft-ui/wip";
 
 import {
   TasksPanelComposition,
@@ -10,6 +18,8 @@ import {
 import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
 import {
   PLAYGROUND_ACTORS,
+  DEFAULT_CHANNEL_ID,
+  getPlaygroundChannel,
   type PlaygroundActor,
   type PlaygroundChannelRecord,
   type PlaygroundTask,
@@ -40,18 +50,34 @@ function persistTaskView(view: TaskView) {
   }
 }
 
-export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannelRecord }) {
+function subscribeInitialTaskView() {
+  return () => undefined;
+}
+
+export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelRecord }) {
   const navigate = useNavigate();
-  const [view, setView] = useState<TaskView>(readInitialTaskView);
+  const initialView = useSyncExternalStore(
+    subscribeInitialTaskView,
+    readInitialTaskView,
+    (): TaskView => "board",
+  );
+  const [viewOverride, setViewOverride] = useState<TaskView>();
+  const view = viewOverride ?? initialView;
   const { tasks, setTasks } = usePlaygroundTaskState();
-  const channelId = channel.id;
-  const channelTasks = tasks.filter((task) => task.channelId === channelId);
-  const compositionTasks = channelTasks.map((task) => toTaskFixture(task, channel.name));
+  const fallbackChannelId = channel?.id ?? DEFAULT_CHANNEL_ID;
+  const visibleTasks = channel ? tasks.filter((task) => task.channelId === channel.id) : tasks;
+  const compositionTasks = visibleTasks.map((task) =>
+    toTaskFixture(task, getPlaygroundChannel(task.channelId).name),
+  );
   const creatorOptions = getCreatorOptions();
   const assigneeOptions = getAssigneeOptions();
 
+  useEffect(() => {
+    if (viewOverride !== undefined) persistTaskView(viewOverride);
+  }, [viewOverride]);
+
   const updateChannelTasks = (nextTasks: Tasks) => {
-    const currentTasks = new Map(channelTasks.map((task) => [task.id, task]));
+    const currentTasks = new Map(visibleTasks.map((task) => [task.id, task]));
     const nextChannelTasks = nextTasks.map((task) => {
       const current = currentTasks.get(task.id as PlaygroundTask["id"]);
       if (current) {
@@ -66,8 +92,8 @@ export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannelRe
       }
 
       return {
-        id: `task:${channelId}:${task.taskNumber}`,
-        channelId,
+        id: `task:${fallbackChannelId}:${task.taskNumber}`,
+        channelId: fallbackChannelId,
         number: task.taskNumber,
         title: task.title,
         description: task.description,
@@ -78,30 +104,53 @@ export function PlaygroundTasksPanel({ channel }: { channel: PlaygroundChannelRe
       } satisfies PlaygroundTask;
     });
 
-    setTasks([...tasks.filter((task) => task.channelId !== channelId), ...nextChannelTasks]);
+    setTasks(
+      channel
+        ? [...tasks.filter((task) => task.channelId !== channel.id), ...nextChannelTasks]
+        : nextChannelTasks,
+    );
   };
 
   return (
-    <TasksPanelComposition
-      tasks={compositionTasks}
-      view={view}
-      creatorOptions={creatorOptions}
-      assigneeOptions={assigneeOptions}
-      onTasksChange={updateChannelTasks}
-      onViewChange={(nextView) => {
-        setView(nextView);
-        persistTaskView(nextView);
-      }}
-      onOpenTask={(task) => {
-        const sourceTask = channelTasks.find((item) => item.id === task.id);
-        if (!sourceTask || sourceTask.legacy) return;
-        void navigate({
-          to: "/playground/$channelId",
-          params: { channelId },
-          search: { thread: sourceTask.sourceMessageId ?? sourceTask.id },
-        });
-      }}
-    />
+    <div className="flex min-h-0 flex-1 flex-col">
+      {channel ? null : (
+        <ChatMainPanelSectionHeader>
+          <BrutalOnly>
+            <ChatMainPanelHeaderIcon className="max-md:hidden">
+              <CheckSquare aria-hidden />
+            </ChatMainPanelHeaderIcon>
+          </BrutalOnly>
+          <ElegantOnly>
+            <ChatMainPanelHeaderIcon>
+              <CheckSquare aria-hidden />
+            </ChatMainPanelHeaderIcon>
+          </ElegantOnly>
+          <ChatMainPanelTitleBlock>
+            <ChatMainPanelTitle render={<h2 aria-label="Tasks" />}>Tasks</ChatMainPanelTitle>
+            <ChatMainPanelSubtitle render={<p />}>
+              {compositionTasks.length} channel tasks
+            </ChatMainPanelSubtitle>
+          </ChatMainPanelTitleBlock>
+        </ChatMainPanelSectionHeader>
+      )}
+      <TasksPanelComposition
+        tasks={compositionTasks}
+        view={view}
+        creatorOptions={creatorOptions}
+        assigneeOptions={assigneeOptions}
+        onTasksChange={updateChannelTasks}
+        onViewChange={setViewOverride}
+        onOpenTask={(task) => {
+          const sourceTask = visibleTasks.find((item) => item.id === task.id);
+          if (!sourceTask || sourceTask.legacy) return;
+          void navigate({
+            to: "/playground/$channelId",
+            params: { channelId: sourceTask.channelId },
+            search: { from: "tasks", thread: sourceTask.sourceMessageId ?? sourceTask.id },
+          });
+        }}
+      />
+    </div>
   );
 }
 

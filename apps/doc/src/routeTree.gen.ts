@@ -22,9 +22,18 @@ import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
+import { Route as PlaygroundTasksRouteImport } from './routes/playground.tasks'
+import { Route as PlaygroundSettingsRouteImport } from './routes/playground.settings'
+import { Route as PlaygroundSearchRouteImport } from './routes/playground.search'
+import { Route as PlaygroundSavedRouteImport } from './routes/playground.saved'
+import { Route as PlaygroundMembersRouteImport } from './routes/playground.members'
+import { Route as PlaygroundComputersRouteImport } from './routes/playground.computers'
+import { Route as PlaygroundActivityRouteImport } from './routes/playground.activity'
 import { Route as PlaygroundChannelIdRouteImport } from './routes/playground.$channelId'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
+import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
+import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
@@ -150,6 +159,41 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaygroundTasksRoute = PlaygroundTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const PlaygroundSettingsRoute = PlaygroundSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const PlaygroundSearchRoute = PlaygroundSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const PlaygroundSavedRoute = PlaygroundSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const PlaygroundMembersRoute = PlaygroundMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const PlaygroundComputersRoute = PlaygroundComputersRouteImport.update({
+  id: '/computers',
+  path: '/computers',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
+const PlaygroundActivityRoute = PlaygroundActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => PlaygroundRoute,
+} as any)
 const PlaygroundChannelIdRoute = PlaygroundChannelIdRouteImport.update({
   id: '/$channelId',
   path: '/$channelId',
@@ -163,6 +207,17 @@ const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
 const IframeDrawerRoute = IframeDrawerRouteImport.update({
   id: '/iframe/drawer',
   path: '/iframe/drawer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IframeChatSidebarMobilePartsRoute =
+  IframeChatSidebarMobilePartsRouteImport.update({
+    id: '/iframe/chat-sidebar-mobile-parts',
+    path: '/iframe/chat-sidebar-mobile-parts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
+  id: '/iframe/app-shell-mobile',
+  path: '/iframe/app-shell-mobile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
@@ -531,9 +586,18 @@ export interface FileRoutesByFullPath {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
+  '/playground/activity': typeof PlaygroundActivityRoute
+  '/playground/computers': typeof PlaygroundComputersRoute
+  '/playground/members': typeof PlaygroundMembersRoute
+  '/playground/saved': typeof PlaygroundSavedRoute
+  '/playground/search': typeof PlaygroundSearchRoute
+  '/playground/settings': typeof PlaygroundSettingsRoute
+  '/playground/tasks': typeof PlaygroundTasksRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -606,9 +670,18 @@ export interface FileRoutesByTo {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
+  '/playground/activity': typeof PlaygroundActivityRoute
+  '/playground/computers': typeof PlaygroundComputersRoute
+  '/playground/members': typeof PlaygroundMembersRoute
+  '/playground/saved': typeof PlaygroundSavedRoute
+  '/playground/search': typeof PlaygroundSearchRoute
+  '/playground/settings': typeof PlaygroundSettingsRoute
+  '/playground/tasks': typeof PlaygroundTasksRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -684,9 +757,18 @@ export interface FileRoutesById {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
+  '/playground/activity': typeof PlaygroundActivityRoute
+  '/playground/computers': typeof PlaygroundComputersRoute
+  '/playground/members': typeof PlaygroundMembersRoute
+  '/playground/saved': typeof PlaygroundSavedRoute
+  '/playground/search': typeof PlaygroundSearchRoute
+  '/playground/settings': typeof PlaygroundSettingsRoute
+  '/playground/tasks': typeof PlaygroundTasksRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -763,9 +845,18 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/app-shell-mobile'
+    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
+    | '/playground/activity'
+    | '/playground/computers'
+    | '/playground/members'
+    | '/playground/saved'
+    | '/playground/search'
+    | '/playground/settings'
+    | '/playground/tasks'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -838,9 +929,18 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/app-shell-mobile'
+    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
+    | '/playground/activity'
+    | '/playground/computers'
+    | '/playground/members'
+    | '/playground/saved'
+    | '/playground/search'
+    | '/playground/settings'
+    | '/playground/tasks'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -915,9 +1015,18 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/app-shell-mobile'
+    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
+    | '/playground/activity'
+    | '/playground/computers'
+    | '/playground/members'
+    | '/playground/saved'
+    | '/playground/search'
+    | '/playground/settings'
+    | '/playground/tasks'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -938,6 +1047,8 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRouteWithChildren
+  IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
+  IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
@@ -1039,6 +1150,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/playground/tasks': {
+      id: '/playground/tasks'
+      path: '/tasks'
+      fullPath: '/playground/tasks'
+      preLoaderRoute: typeof PlaygroundTasksRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/playground/settings': {
+      id: '/playground/settings'
+      path: '/settings'
+      fullPath: '/playground/settings'
+      preLoaderRoute: typeof PlaygroundSettingsRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/playground/search': {
+      id: '/playground/search'
+      path: '/search'
+      fullPath: '/playground/search'
+      preLoaderRoute: typeof PlaygroundSearchRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/playground/saved': {
+      id: '/playground/saved'
+      path: '/saved'
+      fullPath: '/playground/saved'
+      preLoaderRoute: typeof PlaygroundSavedRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/playground/members': {
+      id: '/playground/members'
+      path: '/members'
+      fullPath: '/playground/members'
+      preLoaderRoute: typeof PlaygroundMembersRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/playground/computers': {
+      id: '/playground/computers'
+      path: '/computers'
+      fullPath: '/playground/computers'
+      preLoaderRoute: typeof PlaygroundComputersRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
+    '/playground/activity': {
+      id: '/playground/activity'
+      path: '/activity'
+      fullPath: '/playground/activity'
+      preLoaderRoute: typeof PlaygroundActivityRouteImport
+      parentRoute: typeof PlaygroundRoute
+    }
     '/playground/$channelId': {
       id: '/playground/$channelId'
       path: '/$channelId'
@@ -1058,6 +1218,20 @@ declare module '@tanstack/react-router' {
       path: '/iframe/drawer'
       fullPath: '/iframe/drawer'
       preLoaderRoute: typeof IframeDrawerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/chat-sidebar-mobile-parts': {
+      id: '/iframe/chat-sidebar-mobile-parts'
+      path: '/iframe/chat-sidebar-mobile-parts'
+      fullPath: '/iframe/chat-sidebar-mobile-parts'
+      preLoaderRoute: typeof IframeChatSidebarMobilePartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/app-shell-mobile': {
+      id: '/iframe/app-shell-mobile'
+      path: '/iframe/app-shell-mobile'
+      fullPath: '/iframe/app-shell-mobile'
+      preLoaderRoute: typeof IframeAppShellMobileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/tooltip': {
@@ -1612,11 +1786,25 @@ const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
 
 interface PlaygroundRouteChildren {
   PlaygroundChannelIdRoute: typeof PlaygroundChannelIdRoute
+  PlaygroundActivityRoute: typeof PlaygroundActivityRoute
+  PlaygroundComputersRoute: typeof PlaygroundComputersRoute
+  PlaygroundMembersRoute: typeof PlaygroundMembersRoute
+  PlaygroundSavedRoute: typeof PlaygroundSavedRoute
+  PlaygroundSearchRoute: typeof PlaygroundSearchRoute
+  PlaygroundSettingsRoute: typeof PlaygroundSettingsRoute
+  PlaygroundTasksRoute: typeof PlaygroundTasksRoute
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute
 }
 
 const PlaygroundRouteChildren: PlaygroundRouteChildren = {
   PlaygroundChannelIdRoute: PlaygroundChannelIdRoute,
+  PlaygroundActivityRoute: PlaygroundActivityRoute,
+  PlaygroundComputersRoute: PlaygroundComputersRoute,
+  PlaygroundMembersRoute: PlaygroundMembersRoute,
+  PlaygroundSavedRoute: PlaygroundSavedRoute,
+  PlaygroundSearchRoute: PlaygroundSearchRoute,
+  PlaygroundSettingsRoute: PlaygroundSettingsRoute,
+  PlaygroundTasksRoute: PlaygroundTasksRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
 }
 
@@ -1658,6 +1846,8 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
   PlaygroundRoute: PlaygroundRouteWithChildren,
+  IframeAppShellMobileRoute: IframeAppShellMobileRoute,
+  IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,
   IframeDrawerRoute: IframeDrawerRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,

@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import {
   NotificationCenter,
   NotificationCenterActionButton,
@@ -15,6 +16,7 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
+  Status,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -23,185 +25,220 @@ import {
 import {
   AppRailFooter,
   AppRailHeader,
-  AppRailItem,
   AppRailItemAttention,
-  AppRailItemIcon,
   AppRailItemIndicator,
-  AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
   AppRailServerButton,
   AppShellRail,
+  ChatSidebarServer,
+  ChatSidebarServerAvatar,
+  ChatSidebarServerChevron,
+  ChatSidebarServerIndicator,
+  ChatSidebarServerLabel,
 } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
+  ChevronDown,
   MessageSquare,
   Monitor,
   Search,
   Settings,
   Users,
 } from "lucide-react";
-import { useState } from "react";
 
+import { AppRailMobileNav, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
+import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
+import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
 const currentServerName = "Raft 中文社区";
 const currentServerAvatarSrc =
   "https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp";
 
-export function PlaygroundRail() {
-  const { railView, selectRailView } = usePlaygroundNavigation();
-  const [notificationVisible, setNotificationVisible] = useState(true);
+export function PlaygroundNotificationCenter({ mobile = false }: { mobile?: boolean }) {
+  const { dismissNotification, notificationVisible } = usePlaygroundShellState();
+
+  if (!notificationVisible) return null;
 
   return (
-    <AppShellRail>
-      <AppRailRoot
-        value={railView}
-        onValueChange={(view) => {
-          if (isPlaygroundRailView(view)) selectRailView(view);
-        }}
-      >
-        <AppRailHeader>
-          <AppRailServerButton
-            title={currentServerName}
-            aria-label={`Switch server (current: ${currentServerName})`}
+    <NotificationCenter modal={false}>
+      {mobile ? (
+        <NotificationCenterTrigger type="button" aria-label="Notification center" />
+      ) : (
+        <Tooltip>
+          <TooltipTrigger
+            render={<NotificationCenterTrigger type="button" aria-label="Notification center" />}
+          />
+          <TooltipContent side="right">Notification center</TooltipContent>
+        </Tooltip>
+      )}
+      <NotificationCenterPopup side={mobile ? "bottom" : "right"} align="end">
+        <NotificationCenterHeader>
+          <NotificationCenterTitle>Notifications</NotificationCenterTitle>
+          <NotificationCenterCount>1 item</NotificationCenterCount>
+        </NotificationCenterHeader>
+        <NotificationCenterScroller>
+          <NotificationCenterList>
+            <NotificationCenterItem>
+              <NotificationCenterItemRow>
+                <NotificationCenterItemIcon status="success" />
+                <NotificationCenterItemContent>
+                  <NotificationCenterItemTitle>Playground ready</NotificationCenterItemTitle>
+                  <NotificationCenterItemBody>
+                    Component compositions are available for review.
+                  </NotificationCenterItemBody>
+                  <NotificationCenterItemActions>
+                    <NotificationCenterActionButton onClick={dismissNotification}>
+                      Dismiss
+                    </NotificationCenterActionButton>
+                  </NotificationCenterItemActions>
+                </NotificationCenterItemContent>
+              </NotificationCenterItemRow>
+            </NotificationCenterItem>
+          </NotificationCenterList>
+        </NotificationCenterScroller>
+      </NotificationCenterPopup>
+    </NotificationCenter>
+  );
+}
+
+export function PlaygroundServerSwitcher({ className }: { className?: string }) {
+  return (
+    <AppRailServerButton
+      render={<div />}
+      type={undefined}
+      title={currentServerName}
+      className={className}
+    >
+      <img alt="" src={currentServerAvatarSrc} />
+      <span className="sr-only">{currentServerName}</span>
+      <AppRailItemIndicator size="sm" aria-hidden title="Other servers have unread messages" />
+    </AppRailServerButton>
+  );
+}
+
+export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
+  return (
+    <ChatSidebarServer title={name}>
+      <ChatSidebarServerAvatar>
+        <img alt="" src={currentServerAvatarSrc} />
+      </ChatSidebarServerAvatar>
+      <ChatSidebarServerLabel>{name}</ChatSidebarServerLabel>
+      <ChatSidebarServerChevron aria-hidden>
+        <ChevronDown />
+      </ChatSidebarServerChevron>
+      <ChatSidebarServerIndicator>
+        <Status
+          aria-label="Other servers have unread messages"
+          attention
+          size="sm"
+          variant="primary"
+        />
+      </ChatSidebarServerIndicator>
+    </ChatSidebarServer>
+  );
+}
+
+export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
+  const { railView, selectRailView } = usePlaygroundNavigation();
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <AppShellRail>
+        <AppRailRoot
+          value={railView}
+          onValueChange={(view) => {
+            if (isPlaygroundRailView(view)) selectRailView(view);
+          }}
+        >
+          <AppRailHeader>
+            <PlaygroundServerSwitcher />
+          </AppRailHeader>
+          <TooltipProvider delay={650}>
+            <div className="hidden min-h-0 w-full flex-1 md:flex">
+              <AppRailNav>
+                <AppRailNavItem value="search" label="Search" icon={<Search />} />
+                <AppRailNavItem
+                  value="chat"
+                  label="Chat"
+                  icon={<MessageSquare />}
+                  attention={
+                    railView !== "chat" ? (
+                      <AppRailItemAttention title="Unread messages">
+                        <MessageSquare />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                  onClick={(event) => {
+                    event.preventDefault();
+                    void navigate({
+                      to: "/playground/$channelId",
+                      params: { channelId: DEFAULT_CHANNEL_ID },
+                      search: {},
+                    });
+                  }}
+                />
+                <AppRailNavItem
+                  value="activity"
+                  label="Activity"
+                  icon={<Activity />}
+                  attention={
+                    railView !== "activity" ? (
+                      <AppRailItemAttention title="Unread activity">
+                        <Activity />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                />
+                <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
+                <AppRailNavItem value="members" label="Members" icon={<Users />} />
+                <AppRailNavItem
+                  value="computers"
+                  label="Computers"
+                  icon={<Monitor />}
+                  attention={
+                    railView !== "computers" ? (
+                      <AppRailItemAttention title="A managed computer has an upgrade available">
+                        <Monitor />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                />
+              </AppRailNav>
+            </div>
+            <AppRailFooter>
+              <PlaygroundNotificationCenter />
+              <AppRailNavItem
+                value="settings"
+                label="Settings"
+                icon={<Settings />}
+                onClick={(event) => {
+                  event.preventDefault();
+                  void navigate({
+                    to: "/playground/settings",
+                    search: { detail: "account" },
+                  });
+                }}
+              />
+            </AppRailFooter>
+          </TooltipProvider>
+        </AppRailRoot>
+      </AppShellRail>
+      {showBottomNavigation ? (
+        <AppShellRail placement="bottom">
+          <AppRailRoot
+            value={railView}
+            onValueChange={(view) => {
+              if (isPlaygroundRailView(view)) selectRailView(view);
+            }}
           >
-            <img alt="" src={currentServerAvatarSrc} />
-            <AppRailItemIndicator
-              size="sm"
-              aria-hidden
-              title="Other servers have unread messages"
-            />
-          </AppRailServerButton>
-        </AppRailHeader>
-        <TooltipProvider delay={650}>
-          <AppRailNav>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="search" aria-label="Search" />}>
-                <AppRailItemIcon>
-                  <Search />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Search</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Search</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="chat" aria-label="Chat" />}>
-                <AppRailItemIcon>
-                  <MessageSquare />
-                  {railView !== "chat" ? (
-                    <AppRailItemAttention title="Unread messages">
-                      <MessageSquare />
-                    </AppRailItemAttention>
-                  ) : null}
-                </AppRailItemIcon>
-                <AppRailItemLabel>Chat</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Chat</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="activity" aria-label="Activity" />}>
-                <AppRailItemIcon>
-                  <Activity />
-                  {railView !== "activity" ? (
-                    <AppRailItemAttention title="Unread activity">
-                      <Activity />
-                    </AppRailItemAttention>
-                  ) : null}
-                </AppRailItemIcon>
-                <AppRailItemLabel>Activity</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Activity</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="tasks" aria-label="Tasks" />}>
-                <AppRailItemIcon>
-                  <CheckSquare />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Tasks</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Tasks</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="members" aria-label="Members" />}>
-                <AppRailItemIcon>
-                  <Users />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Members</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Members</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="computers" aria-label="Computers" />}>
-                <AppRailItemIcon>
-                  <Monitor />
-                  {railView !== "computers" ? (
-                    <AppRailItemAttention title="A managed computer has an upgrade available">
-                      <Monitor />
-                    </AppRailItemAttention>
-                  ) : null}
-                </AppRailItemIcon>
-                <AppRailItemLabel>Computers</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Computers</TooltipContent>
-            </Tooltip>
-          </AppRailNav>
-          <AppRailFooter>
-            {notificationVisible ? (
-              <NotificationCenter modal={false}>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <NotificationCenterTrigger type="button" aria-label="Notification center" />
-                    }
-                  />
-                  <TooltipContent side="right">Notification center</TooltipContent>
-                </Tooltip>
-                <NotificationCenterPopup side="right" align="end">
-                  <NotificationCenterHeader>
-                    <NotificationCenterTitle>Notifications</NotificationCenterTitle>
-                    <NotificationCenterCount>1 item</NotificationCenterCount>
-                  </NotificationCenterHeader>
-                  <NotificationCenterScroller>
-                    <NotificationCenterList>
-                      <NotificationCenterItem>
-                        <NotificationCenterItemRow>
-                          <NotificationCenterItemIcon status="success" />
-                          <NotificationCenterItemContent>
-                            <NotificationCenterItemTitle>
-                              Playground ready
-                            </NotificationCenterItemTitle>
-                            <NotificationCenterItemBody>
-                              Component compositions are available for review.
-                            </NotificationCenterItemBody>
-                            <NotificationCenterItemActions>
-                              <NotificationCenterActionButton
-                                onClick={() => setNotificationVisible(false)}
-                              >
-                                Dismiss
-                              </NotificationCenterActionButton>
-                            </NotificationCenterItemActions>
-                          </NotificationCenterItemContent>
-                        </NotificationCenterItemRow>
-                      </NotificationCenterItem>
-                    </NotificationCenterList>
-                  </NotificationCenterScroller>
-                </NotificationCenterPopup>
-              </NotificationCenter>
-            ) : null}
-            <Tooltip>
-              <TooltipTrigger render={<AppRailItem value="settings" aria-label="Settings" />}>
-                <AppRailItemIcon>
-                  <Settings />
-                </AppRailItemIcon>
-                <AppRailItemLabel>Settings</AppRailItemLabel>
-              </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
-            </Tooltip>
-          </AppRailFooter>
-        </TooltipProvider>
-      </AppRailRoot>
-    </AppShellRail>
+            <AppRailMobileNav />
+          </AppRailRoot>
+        </AppShellRail>
+      ) : null}
+    </>
   );
 }

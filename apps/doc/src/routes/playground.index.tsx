@@ -1,13 +1,20 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { DEFAULT_CHANNEL_ID } from "#/playground/mock/index.ts";
+import { PLAYGROUND_TASKS, getPlaygroundThread } from "#/playground/mock/index.ts";
 
 export const Route = createFileRoute("/playground/")({
   beforeLoad: ({ search }) => {
-    throw redirect({
-      to: "/playground/$channelId",
-      params: { channelId: DEFAULT_CHANNEL_ID },
-      search,
-    });
+    const threadContext = search.thread ? getPlaygroundThread(search.thread) : undefined;
+    const task = search.thread
+      ? PLAYGROUND_TASKS.find((candidate) => candidate.id === search.thread)
+      : undefined;
+    const channelId = threadContext?.channelId ?? task?.channelId;
+    if (channelId) {
+      throw redirect({
+        to: "/playground/$channelId",
+        params: { channelId },
+        search,
+      });
+    }
   },
 });

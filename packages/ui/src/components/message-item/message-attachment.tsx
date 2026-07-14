@@ -3,6 +3,28 @@ import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageAttachment } from "./message-attachment.recipe";
 
+export type MessageAttachmentGroupProps = useRender.ComponentProps<"div">;
+
+export function MessageAttachmentGroup({
+  className,
+  render,
+  ...props
+}: MessageAttachmentGroupProps) {
+  const { group } = messageAttachment();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: group({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-attachment-group",
+    },
+  });
+}
+
 export type MessageAttachmentCardProps = useRender.ComponentProps<"div">;
 
 export function MessageAttachmentCard({ className, render, ...props }: MessageAttachmentCardProps) {

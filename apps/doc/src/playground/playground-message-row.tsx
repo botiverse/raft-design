@@ -15,6 +15,7 @@ import {
   MessageItemGutter,
   MessageItemHeader,
   MessageItemInlineStatus,
+  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageReactionChip,
   MessageItemSavedIndicator,
@@ -327,19 +328,11 @@ function MessageRowView({
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
   if (selectMode) {
-    return (
-      <div className="px-3" style={{ contain: "layout style", overflow: "clip visible" }}>
-        {messageItem}
-      </div>
-    );
+    return <MessageItemInteractionBoundary>{messageItem}</MessageItemInteractionBoundary>;
   }
 
   return (
-    <div
-      ref={setPortalContainer}
-      className="px-3"
-      style={{ contain: "layout style", overflow: "clip visible" }}
-    >
+    <MessageItemInteractionBoundary ref={setPortalContainer}>
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {
@@ -365,7 +358,7 @@ function MessageRowView({
           onOpenThread={requestThread}
         />
       </ContextMenu>
-    </div>
+    </MessageItemInteractionBoundary>
   );
 }
 

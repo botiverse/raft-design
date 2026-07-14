@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, ChevronUp, ExternalLink, Search, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
 import {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
@@ -24,9 +24,11 @@ import { PlaygroundMessageRow } from "./playground-message-row.tsx";
 import { type PlaygroundChannelRecord, type PlaygroundThread } from "./mock/index.ts";
 
 export function PlaygroundThreadPanel({
+  backToTasks,
   channel,
   thread,
 }: {
+  backToTasks?: boolean;
   channel: PlaygroundChannelRecord;
   thread: PlaygroundThread;
 }) {
@@ -62,6 +64,22 @@ export function PlaygroundThreadPanel({
   return (
     <ChatThreadPanelRoot>
       <ChatThreadPanelHeader>
+        <PanelButton
+          className="lg:hidden"
+          nativeButton={false}
+          aria-label={backToTasks ? "Back to Tasks" : "Back to channel"}
+          render={
+            backToTasks ? (
+              <Link to="/playground/tasks" search={{}} />
+            ) : (
+              <Link to="/playground/$channelId" params={{ channelId: channel.id }} search={{}} />
+            )
+          }
+        >
+          <PanelButtonIcon>
+            <ChevronLeft aria-hidden />
+          </PanelButtonIcon>
+        </PanelButton>
         <ChatThreadPanelTitle>
           Thread
           <ChatThreadPanelTitleMeta>{` — ${channelLabel}`}</ChatThreadPanelTitleMeta>
@@ -73,6 +91,8 @@ export function PlaygroundThreadPanel({
             </PanelButtonIcon>
           </PanelButton>
           <PanelButton
+            className="max-lg:hidden"
+            nativeButton={false}
             aria-label="View in channel"
             render={
               <Link to="/playground/$channelId" params={{ channelId: channel.id }} search={{}} />
@@ -84,6 +104,8 @@ export function PlaygroundThreadPanel({
             <PanelButtonLabel>View in channel</PanelButtonLabel>
           </PanelButton>
           <PanelButton
+            className="max-lg:hidden"
+            nativeButton={false}
             aria-label="Close thread"
             render={
               <Link to="/playground/$channelId" params={{ channelId: channel.id }} search={{}} />

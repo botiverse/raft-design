@@ -24,12 +24,41 @@ export function ChatMainPanelRoot({ className, render, ...props }: ChatMainPanel
 
 export type ChatMainPanelHeaderProps = useRender.ComponentProps<"div">;
 
-export function ChatMainPanelHeader({ className, render, ...props }: ChatMainPanelHeaderProps) {
+export function ChatMainPanelHeader({
+  children,
+  className,
+  render,
+  ...props
+}: ChatMainPanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header",
     className: header({ className }),
+    children,
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelSectionHeaderProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelSectionHeader({
+  children,
+  className,
+  render,
+  ...props
+}: ChatMainPanelSectionHeaderProps) {
+  const theme = useThemeFamily();
+  const { header } = chatMainPanel({ theme, headerMode: "section" });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "chat-main-panel-header",
+    className: header({ className }),
+    children,
   };
 
   return useRender({
@@ -179,8 +208,8 @@ export type ChatMainPanelContentProps = useRender.ComponentProps<"div">;
 
 /**
  * Content region below the main-panel header. A single surface hosting tabs,
- * body, and footer; it carries the elegant inset, radius, shadow, and content
- * clip in one element (an outset shadow is never clipped by its own overflow).
+ * body, and footer; elegant mobile sits flush to the bottom with top radius
+ * and top gap only; desktop keeps the left inset / rounded-tl treatment.
  */
 export function ChatMainPanelContent({ className, render, ...props }: ChatMainPanelContentProps) {
   const theme = useThemeFamily();

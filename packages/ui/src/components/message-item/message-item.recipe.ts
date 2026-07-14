@@ -2,9 +2,16 @@ import { tv, type VariantProps } from "../../lib/tv";
 
 export const messageItem = tv({
   slots: {
-    root: ["group/message relative flex h-fit min-h-[3rem] gap-3", "border-2 border-transparent"],
-    gutter: ["relative w-9 shrink-0 self-stretch"],
-    avatarSlot: ["relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors"],
+    interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]", "px-3 max-md:px-0"],
+    root: [
+      "group/message relative flex h-fit min-h-[3rem] gap-3 max-md:gap-2",
+      "border-2 border-transparent",
+    ],
+    gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
+    avatarSlot: [
+      "relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors",
+      "max-md:[&_[data-slot=avatar][data-size=md]]:size-8",
+    ],
     avatarStatus: [
       "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full",
     ],
@@ -64,7 +71,10 @@ export const messageItem = tv({
           "aria-[pressed=true]:text-brutal-orange aria-[pressed=true]:hover:text-brutal-orange",
       },
       elegant: {
-        root: ["px-7 py-3.5", "hover:bg-layer-strong/35 active:bg-layer-muted/90"],
+        root: [
+          "px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "hover:bg-layer-strong/35 active:bg-layer-muted/90",
+        ],
         continuationTime: [
           "top-0 pt-1.5",
           "text-transparent group-hover/message:text-foreground-muted/60",
@@ -78,7 +88,8 @@ export const messageItem = tv({
         meta: "font-sans text-[12px] leading-none text-foreground-muted/60",
         time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted/60",
         body: [
-          "mt-1.5 mb-1.5 text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
+          "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
+          "text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
           "select-text [&_*]:select-text [&_p]:pb-1 [&_p]:pt-0.5",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
           "group-data-[compact=true]/message:[&_p]:pt-0",
@@ -95,7 +106,7 @@ export const messageItem = tv({
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
         ],
-        footer: "mt-2.5",
+        footer: "mt-2.5 max-md:mt-1.5",
       },
     },
     rowState: {

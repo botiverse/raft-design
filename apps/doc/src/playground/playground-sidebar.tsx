@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import {
+  Activity,
   Archive,
   AtSign,
   Bell,
@@ -14,7 +15,6 @@ import {
   Pencil,
   Pin,
   PinOff,
-  Plus,
   Search,
   X,
 } from "lucide-react";
@@ -33,37 +33,14 @@ import {
   AvatarFallback,
   AvatarImage,
   Banner,
-  BannerAction,
   BannerDescription,
-  Button,
-  Combobox,
-  ComboboxContent,
-  ComboboxControl,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxList,
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-  Dialog,
-  DialogBody,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Field,
-  FieldDescription,
-  FieldLabel,
-  Input,
-  SegmentedControl,
-  SegmentedControlItem,
-  SegmentedControlLabel,
   Status,
-  Textarea,
+  useThemeFamily,
 } from "raft-ui";
 import {
   ChatSidebarBody,
@@ -84,6 +61,7 @@ import {
   ChatSidebarItemPresence,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
+  ChatSidebarList,
   ChatSidebarRoot,
   ChatSidebarSection,
   ChatSidebarSectionActions,
@@ -102,6 +80,7 @@ import {
   SidebarSectionChannelsMenu,
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
+  type SidebarSortValue,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import {
   LiveAgentActivityBarComposition,
@@ -110,7 +89,6 @@ import {
 import {
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_DIRECT_MESSAGES,
-  PLAYGROUND_INVITABLE_ACTORS,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
   getPlaygroundDmActor,
@@ -121,8 +99,13 @@ import {
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
+import { usePlaygroundNavigation } from "./playground-navigation-state.tsx";
+import {
+  PlaygroundNotificationCenter,
+  PlaygroundSidebarServerSwitcher,
+} from "./playground-rail.tsx";
+import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
-type ActiveDialog = "create-channel" | "create-joint" | null;
 type SidebarRowMenu = {
   type: "channel" | "dm";
   name: string;
@@ -133,10 +116,7 @@ type SidebarRowMenu = {
   canArchive?: boolean;
 };
 type PlaygroundDmRecord = Extract<PlaygroundChannelRecord, { kind: "dm" }>;
-
-const dialogMembers = PLAYGROUND_INVITABLE_ACTORS;
-
-type DialogMember = (typeof dialogMembers)[number];
+type PlaygroundRoomRecord = (typeof PLAYGROUND_ROOM_CHANNELS)[number];
 
 function getPlaygroundChannelIcon(channel: PlaygroundRoomChannel) {
   return channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
@@ -247,8 +227,8 @@ function DirectMessageRowContent({
         titleWidth="constrained"
       >
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
-        <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}
+        <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
       </ChatSidebarItemInlineText>
       {showAside ? (
         <ChatSidebarItemAside>
@@ -335,7 +315,6 @@ function PlaygroundSidebarItem({
   onCloseDm,
   render,
   unread,
-  onSelect,
 }: {
   children: ReactNode;
   current: boolean;
@@ -344,7 +323,6 @@ function PlaygroundSidebarItem({
   onCloseDm?: () => void;
   render: ReactElement;
   unread?: boolean;
-  onSelect?: () => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuState, setMenuState] = useState(() => ({
@@ -368,7 +346,6 @@ function PlaygroundSidebarItem({
             aria-current={current ? "page" : undefined}
             aria-expanded={menuOpen || undefined}
             render={render}
-            onClick={onSelect}
           >
             {children}
             <span className="sr-only" aria-live="polite">
@@ -437,13 +414,11 @@ function PinnedSection({
   activeChannelId,
   onArchive,
   onCloseDm,
-  onSelect,
   rows,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
   onCloseDm: (row: PlaygroundDirectMessage) => void;
-  onSelect: () => void;
   rows: readonly PlaygroundChannelRecord[];
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
@@ -457,7 +432,7 @@ function PinnedSection({
       <SidebarSectionHeaderMenu menu="sort">
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron className="size-3" />
+          <ChatSidebarSectionChevron />
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
@@ -476,7 +451,6 @@ function PinnedSection({
               onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -489,10 +463,8 @@ function PinnedSection({
 
 function JointChannelsSection({
   activeChannelId,
-  onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
-  onSelect: () => void;
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedJointChannels);
   const hasUnread = ordered.some(
@@ -507,23 +479,21 @@ function JointChannelsSection({
         countLabel="channels"
         createLabel="Create Joint Channel"
         createIcon="joint"
-        createDisabled
       >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron className="size-3" />
+          <ChatSidebarSectionChevron />
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
-            <SidebarSectionAddButton aria-label="Create joint channel" disabled />
+            <SidebarSectionAddButton aria-label="Create joint channel" />
             <SidebarSectionChannelsMenu
               aria-label="Joint channels menu"
               count={ordered.length}
               countLabel="channels"
               createLabel="Create Joint Channel"
               createIcon="joint"
-              createDisabled
             />
           </ChatSidebarSectionActions>
         </ChatSidebarSectionTrailing>
@@ -536,7 +506,6 @@ function JointChannelsSection({
               menu={getSidebarRowMenu(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -550,15 +519,28 @@ function JointChannelsSection({
 function ChannelsSection({
   activeChannelId,
   onArchive,
-  onSelect,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onArchive: (row: PlaygroundRoomChannel) => void;
-  onSelect: () => void;
 }) {
-  const { ordered, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
+  const [sortMode, setSortMode] = useState<SidebarSortValue>("manual");
+  const { ordered: manualOrder, visibleOrder, onReorder } = useSectionOrder(unpinnedRoomChannels);
+  const ordered = useMemo(() => sortChannels(manualOrder, sortMode), [manualOrder, sortMode]);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
+  );
+
+  const renderChannel = (row: PlaygroundRoomRecord) => (
+    <PlaygroundSidebarItem
+      key={row.id}
+      current={activeChannelId === row.id}
+      menu={getSidebarRowMenu(row)}
+      onArchive={() => onArchive(row)}
+      unread={row.navigation.unread}
+      render={channelLink(row.id)}
+    >
+      <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
+    </PlaygroundSidebarItem>
   );
 
   return (
@@ -569,56 +551,68 @@ function ChannelsSection({
         countLabel="channels"
         createLabel="Create Channel"
         createIcon="channel"
-        createDisabled
+        sortValue={sortMode}
+        onSortValueChange={setSortMode}
       >
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron className="size-3" />
+          <ChatSidebarSectionChevron />
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
           <ChatSidebarSectionActions>
-            <SidebarSectionAddButton aria-label="Create channel" disabled />
+            <SidebarSectionAddButton aria-label="Create channel" />
             <SidebarSectionChannelsMenu
               aria-label="Channels menu"
               count={ordered.length}
               countLabel="channels"
               createLabel="Create Channel"
               createIcon="channel"
-              createDisabled
+              sortValue={sortMode}
+              onSortValueChange={setSortMode}
             />
           </ChatSidebarSectionActions>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
-        {ordered.map((row) => (
-          <SortableChatSidebarItem key={row.id} id={row.id}>
-            <PlaygroundSidebarItem
-              current={activeChannelId === row.id}
-              menu={getSidebarRowMenu(row)}
-              onArchive={() => onArchive(row)}
-              unread={row.navigation.unread}
-              render={channelLink(row.id)}
-              onSelect={onSelect}
-            >
-              <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </PlaygroundSidebarItem>
-          </SortableChatSidebarItem>
-        ))}
-      </SortableChatSidebarList>
+      {sortMode === "manual" ? (
+        <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
+          {ordered.map((row) => (
+            <SortableChatSidebarItem key={row.id} id={row.id}>
+              {renderChannel(row)}
+            </SortableChatSidebarItem>
+          ))}
+        </SortableChatSidebarList>
+      ) : (
+        <ChatSidebarList>{ordered.map(renderChannel)}</ChatSidebarList>
+      )}
     </ChatSidebarSection>
   );
+}
+
+function sortChannels<T extends PlaygroundRoomChannel>(rows: readonly T[], mode: SidebarSortValue) {
+  if (mode === "manual") return rows;
+  if (mode === "az") return [...rows].sort((left, right) => left.name.localeCompare(right.name));
+
+  return [...rows].sort(
+    (left, right) => getChannelActivityRank(right) - getChannelActivityRank(left),
+  );
+}
+
+function getChannelActivityRank(channel: PlaygroundRoomChannel) {
+  if (channel.navigation.mention) return 4;
+  if (channel.navigation.draft) return 3;
+  if (channel.navigation.badge) return 2;
+  if (channel.navigation.unread) return 1;
+  return 0;
 }
 
 function DirectMessagesSection({
   activeChannelId,
   onCloseDm,
-  onSelect,
   rows,
 }: {
   activeChannelId: PlaygroundChannelId | null;
   onCloseDm: (row: PlaygroundDirectMessage) => void;
-  onSelect: () => void;
   rows: readonly PlaygroundDmRecord[];
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
@@ -631,7 +625,7 @@ function DirectMessagesSection({
       <SidebarSectionHeaderMenu menu="sort">
         <ChatSidebarSectionButton type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron className="size-3" />
+          <ChatSidebarSectionChevron />
         </ChatSidebarSectionButton>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
@@ -649,7 +643,6 @@ function DirectMessagesSection({
               onCloseDm={() => onCloseDm(row)}
               unread={row.navigation.unread}
               render={channelLink(row.id)}
-              onSelect={onSelect}
             >
               <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>
@@ -657,174 +650,6 @@ function DirectMessagesSection({
         ))}
       </SortableChatSidebarList>
     </ChatSidebarSection>
-  );
-}
-
-// Create Channel dialog — source `CreateChannelDialog`. Inlined (not the docs
-// composition) so the playground can match source: title-case suffixed uppercase
-// labels, no static archived-name banner, pink (accent) primary action.
-function CreateChannelDialogContent() {
-  return (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Create Channel</DialogTitle>
-        <DialogClose />
-      </DialogHeader>
-      <DialogBody className="grid gap-4">
-        <Field>
-          <FieldLabel htmlFor="dialog-create-channel-name" required>
-            Name
-          </FieldLabel>
-          <Input id="dialog-create-channel-name" placeholder="e.g. ai-research" />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="dialog-create-channel-description" optional>
-            Description
-          </FieldLabel>
-          <Textarea
-            id="dialog-create-channel-description"
-            placeholder="What is this channel about?"
-            className="min-h-16"
-          />
-        </Field>
-        <Field>
-          <FieldLabel>Visibility</FieldLabel>
-          <SegmentedControl defaultValue="public" ariaLabel="Channel visibility">
-            <SegmentedControlItem value="public">
-              <Hash />
-              <SegmentedControlLabel>Public</SegmentedControlLabel>
-            </SegmentedControlItem>
-            <SegmentedControlItem value="private">
-              <Lock />
-              <SegmentedControlLabel>Private</SegmentedControlLabel>
-            </SegmentedControlItem>
-          </SegmentedControl>
-        </Field>
-        <Field>
-          <FieldLabel optional>Members</FieldLabel>
-          <Combobox<DialogMember, true>
-            multiple
-            autoHighlight
-            items={dialogMembers}
-            defaultValue={[dialogMembers[0], dialogMembers[2]]}
-            isItemEqualToValue={(item, value) => item.id === value.id}
-            itemToStringLabel={(member) => member.name}
-          >
-            <ComboboxControl className="w-full">
-              <Search />
-              <ComboboxInput
-                aria-label="Search members"
-                placeholder="Search members by name"
-                suppressPasswordManager
-              />
-            </ComboboxControl>
-            <ComboboxContent className="w-[var(--anchor-width)]">
-              <ComboboxList className="max-h-none">
-                {(member: DialogMember) => (
-                  <ComboboxItem key={member.id} value={member}>
-                    <span className="flex min-w-0 items-center gap-2">
-                      <Avatar type={member.type} size="xs" />
-                      <span className="min-w-0 truncate">{member.name}</span>
-                    </span>
-                    <ComboboxItemIndicator />
-                  </ComboboxItem>
-                )}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
-          <FieldDescription>
-            Select the people and agents that should join immediately.
-          </FieldDescription>
-        </Field>
-      </DialogBody>
-      <DialogFooter>
-        <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent" disabled>
-          Create Channel
-        </Button>
-      </DialogFooter>
-    </DialogContent>
-  );
-}
-
-// Create Joint Channel dialog shell — source `CreateJointChannelDialog`.
-// Structure only (Name, Description, Invite servers); actions inert.
-function CreateJointChannelDialogContent() {
-  return (
-    <DialogContent className="max-w-lg">
-      <DialogHeader>
-        <DialogTitle className="flex min-w-0 items-center gap-2">
-          <GitBranch className="size-[18px] shrink-0" />
-          <span className="truncate">Create Joint Channel</span>
-        </DialogTitle>
-        <DialogClose />
-      </DialogHeader>
-      <DialogBody className="grid gap-4">
-        <Banner status="warning">
-          <BannerDescription>Joint channels requires the Pro plan.</BannerDescription>
-          <BannerAction>
-            <Button type="button" variant="ghost" size="xs" disabled>
-              View Billing
-            </Button>
-          </BannerAction>
-        </Banner>
-        <Field>
-          <FieldLabel htmlFor="dialog-joint-name" required>
-            Name
-          </FieldLabel>
-          <Input id="dialog-joint-name" placeholder="e.g. partner-launch" />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="dialog-joint-description" optional>
-            Description
-          </FieldLabel>
-          <Textarea
-            id="dialog-joint-description"
-            placeholder="What will both servers use this channel for?"
-            className="min-h-16"
-          />
-        </Field>
-        <Field>
-          <span className="flex items-center justify-between gap-3">
-            <FieldLabel>Invite servers</FieldLabel>
-            <Button type="button" variant="outline" size="xs" disabled>
-              <Plus />
-              Add server
-            </Button>
-          </span>
-          <FieldDescription>
-            Joint channels support a maximum of 3 servers, including this server.
-          </FieldDescription>
-          <span className="grid gap-3">
-            <Field>
-              <FieldLabel htmlFor="dialog-joint-slug" required>
-                Server slug
-              </FieldLabel>
-              <Input id="dialog-joint-slug" placeholder="partner-workspace" />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="dialog-joint-people" required>
-                Invited people
-              </FieldLabel>
-              <Textarea
-                id="dialog-joint-people"
-                placeholder="@admin or admin@example.com"
-                className="min-h-12"
-              />
-              <FieldDescription>
-                Use target-server owner/admin handles or emails, separated by commas or new lines.
-              </FieldDescription>
-            </Field>
-          </span>
-        </Field>
-      </DialogBody>
-      <DialogFooter>
-        <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent" disabled>
-          Create Joint Channel
-        </Button>
-      </DialogFooter>
-    </DialogContent>
   );
 }
 
@@ -837,11 +662,18 @@ export function PlaygroundSidebar({
   liveAgentActivity: LiveAgentActivityBarItem | null;
   title?: string;
 }) {
-  const [dialog, setDialog] = useState<ActiveDialog>(null);
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
-  const [savedSelected, setSavedSelected] = useState(false);
-  const selectedChannelId = savedSelected ? null : activeChannelId;
+  const theme = useThemeFamily();
+  const { railView, selectRailView } = usePlaygroundNavigation();
+  const { activeServer } = usePlaygroundShellState();
+  const selectedChannelId = activeChannelId;
+  const liveAgentContentPad =
+    liveAgentActivity == null
+      ? undefined
+      : theme === "elegant"
+        ? "md:pb-[4.25rem]"
+        : "md:pb-[3.25rem]";
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
     [closedDmIds],
@@ -856,25 +688,43 @@ export function PlaygroundSidebar({
 
   return (
     <>
-      <ChatSidebarRoot>
-        <ChatSidebarHeader>
+      <ChatSidebarRoot className="relative overflow-x-clip">
+        <ChatSidebarHeader className="md:hidden">
+          <PlaygroundSidebarServerSwitcher name={activeServer.name} />
+          <div className="min-w-0 flex-1" />
+          <PlaygroundNotificationCenter mobile />
+        </ChatSidebarHeader>
+        <ChatSidebarHeader className="max-md:hidden">
           <div className="min-w-0 flex-1">
             <ChatSidebarHeaderTitle className="leading-tight tabular-nums">
               {title}
             </ChatSidebarHeaderTitle>
           </div>
-          <SidebarCreateMenu disabled />
+          <SidebarCreateMenu />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <ChatSidebarContent>
+          <ChatSidebarContent className={liveAgentContentPad}>
             <div className="min-h-full">
+              <ChatSidebarItem className="md:hidden">
+                <ChatSidebarItemIcon aria-hidden>
+                  <Search />
+                </ChatSidebarItemIcon>
+                <ChatSidebarItemTitle>Search</ChatSidebarItemTitle>
+              </ChatSidebarItem>
+
+              <ChatSidebarItem className="md:hidden">
+                <ChatSidebarItemIcon aria-hidden>
+                  <Activity />
+                </ChatSidebarItemIcon>
+                <ChatSidebarItemTitle>Activity</ChatSidebarItemTitle>
+              </ChatSidebarItem>
+
               <ChatSidebarItem
-                aria-current={savedSelected ? "page" : undefined}
-                data-playground-saved="true"
-                onClick={() => setSavedSelected(true)}
+                aria-current={railView === "saved" ? "page" : undefined}
+                onClick={() => selectRailView("saved")}
               >
                 <ChatSidebarItemIcon aria-hidden>
-                  <Bookmark className="size-3.5" />
+                  <Bookmark />
                 </ChatSidebarItemIcon>
                 <ChatSidebarItemTitle>Saved</ChatSidebarItemTitle>
                 <ChatSidebarItemMeta>33</ChatSidebarItemMeta>
@@ -884,47 +734,27 @@ export function PlaygroundSidebar({
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
                 onCloseDm={closeDirectMessage}
-                onSelect={() => setSavedSelected(false)}
                 rows={visiblePinnedChannels}
               />
-              <JointChannelsSection
-                activeChannelId={selectedChannelId}
-                onSelect={() => setSavedSelected(false)}
-              />
+              <JointChannelsSection activeChannelId={selectedChannelId} />
               <ChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(row) => setArchiveTarget(row.name)}
-                onSelect={() => setSavedSelected(false)}
               />
               <DirectMessagesSection
                 activeChannelId={selectedChannelId}
                 onCloseDm={closeDirectMessage}
-                onSelect={() => setSavedSelected(false)}
                 rows={visibleDirectMessages}
               />
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>
         {liveAgentActivity ? (
-          <div className="pointer-events-none shrink-0">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 max-md:hidden">
             <LiveAgentActivityBarComposition latest={liveAgentActivity} />
           </div>
         ) : null}
       </ChatSidebarRoot>
-
-      <Dialog
-        open={dialog === "create-channel"}
-        onOpenChange={(open) => setDialog(open ? "create-channel" : null)}
-      >
-        <CreateChannelDialogContent />
-      </Dialog>
-
-      <Dialog
-        open={dialog === "create-joint"}
-        onOpenChange={(open) => setDialog(open ? "create-joint" : null)}
-      >
-        <CreateJointChannelDialogContent />
-      </Dialog>
 
       <AlertDialog
         open={archiveTarget !== null}

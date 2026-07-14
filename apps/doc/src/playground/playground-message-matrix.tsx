@@ -16,6 +16,7 @@ import {
   ChatMainPanelJumpToLatestLayout,
   ChatMainPanelMessageList,
   ChatMainPanelTimeline,
+  MessageAttachmentGroup,
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
@@ -24,6 +25,7 @@ import {
   MessageImageGalleryRow,
   MessageItemBadge,
   MessageItemBadgeSeparator,
+  MessageItemInteractionBoundary,
   MessageMultiSelect,
   MessageReferenceChannelUnavailable,
   MessageReferenceTaskUnavailable,
@@ -549,7 +551,7 @@ function MatrixMediaSection() {
         time="10:14 AM"
         body="Attaching the supporting files for review."
         attachments={
-          <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+          <MessageAttachmentGroup>
             <MessageAttachmentReadyComposition
               name="seed-pixel.png"
               meta="image/png · 1 KB"
@@ -559,7 +561,7 @@ function MatrixMediaSection() {
             <MessageAttachmentReadyComposition
               name="seed-notes.txt"
               meta="Text preview · 1 KB"
-              summary={<span className="text-foreground/70">Plain text document</span>}
+              summary={<span>Plain text document</span>}
               primaryAction={<Eye />}
               onPrimaryAction={openMockAttachmentPreview}
               commentCount={3}
@@ -567,14 +569,14 @@ function MatrixMediaSection() {
             <MessageAttachmentReadyComposition
               name="metrics.csv"
               meta="CSV preview · 2 KB"
-              summary={<span className="text-foreground/70">Preview 12 rows · 4 columns</span>}
+              summary={<span>Preview 12 rows · 4 columns</span>}
               primaryAction={<Eye />}
               onPrimaryAction={openMockAttachmentPreview}
             />
             <MessageAttachmentReadyComposition
               name="spec.pdf"
               meta="PDF preview · 1.4 MB"
-              summary={<span className="text-foreground/70">PDF document</span>}
+              summary={<span>PDF document</span>}
               primaryAction={<Eye />}
               onPrimaryAction={openMockAttachmentPreview}
             />
@@ -583,7 +585,7 @@ function MatrixMediaSection() {
               meta="patch · 3 KB"
               summary={
                 <>
-                  <span className="text-foreground/70">3 files · 8 hunks</span>
+                  <span>3 files · 8 hunks</span>
                   <span className="text-success-base">+124</span>
                   <span className="text-danger-base">-37</span>
                 </>
@@ -611,7 +613,7 @@ function MatrixMediaSection() {
               primaryAction={<Download />}
               onPrimaryAction={openMockAttachmentPreview}
             />
-          </div>
+          </MessageAttachmentGroup>
         }
       />
       <PlaygroundScenarioMessageRow
@@ -621,9 +623,9 @@ function MatrixMediaSection() {
         time="10:15 AM"
         body="Uploading one more attachment."
         attachments={
-          <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+          <MessageAttachmentGroup>
             <MessageAttachmentPendingComposition name="uploading.png" meta="image/png · 1 KB" />
-          </div>
+          </MessageAttachmentGroup>
         }
       />
       <PlaygroundScenarioMessageRow
@@ -633,9 +635,9 @@ function MatrixMediaSection() {
         time="10:16 AM"
         body="Opening the spec preview."
         attachments={
-          <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+          <MessageAttachmentGroup>
             <MessageAttachmentOpeningComposition name="opening.pdf" meta="PDF preview · 1 MB" />
-          </div>
+          </MessageAttachmentGroup>
         }
       />
     </>
@@ -849,7 +851,7 @@ function MatrixStateSection() {
         body="Active row (context-menu open / open-thread parent): bordered white."
       />
 
-      <div className="px-3" style={{ contain: "layout style", overflow: "clip visible" }}>
+      <MessageItemInteractionBoundary>
         <SystemMessageItem>
           <SystemMessageItemTime>10:50 AM</SystemMessageItemTime>
           <SystemMessageItemContent>
@@ -857,7 +859,7 @@ function MatrixStateSection() {
           </SystemMessageItemContent>
         </SystemMessageItem>
         <SystemGroupDisclosure />
-      </div>
+      </MessageItemInteractionBoundary>
 
       <PlaygroundScenarioMessageRow
         variant="agent"

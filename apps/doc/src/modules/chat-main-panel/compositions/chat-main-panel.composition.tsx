@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import {
   ArrowDown,
   Bookmark,
@@ -67,13 +68,32 @@ export type ChatMainPanelCompositionProps = {
 
 export function ChatMainPanelComposition({
   conversation = "channel",
-  muted = false,
+  muted: mutedProp = false,
   notificationError = null,
   newMessageCount = 0,
 }: ChatMainPanelCompositionProps = {}) {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const [muted, setMuted] = useState(mutedProp);
+  const [lastMutedProp, setLastMutedProp] = useState(mutedProp);
+  // Sync the local mute demo state when the controlled prop (playground control) changes.
+  if (mutedProp !== lastMutedProp) {
+    setLastMutedProp(mutedProp);
+    setMuted(mutedProp);
+  }
+
+  const handleJump = () => {
+    const el = timelineRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  };
+
   return (
     <ChatMainPanelRoot>
-      <ChatMainPanelHeaderComposition conversation={conversation} muted={muted} />
+      <ChatMainPanelHeaderComposition
+        conversation={conversation}
+        muted={muted}
+        onMutedChange={setMuted}
+      />
       {notificationError ? (
         <Banner
           status="warning"
@@ -106,7 +126,7 @@ export function ChatMainPanelComposition({
           </SortableTabsList>
         </ChatMainPanelTabs>
         <ChatMainPanelBody>
-          <ChatMainPanelTimeline>
+          <ChatMainPanelTimeline ref={timelineRef}>
             <ChatMainPanelMessageList>
               <div className="px-3 pt-3">
                 <MessageTimelineNotice>Beginning of messages</MessageTimelineNotice>
@@ -202,7 +222,7 @@ export function ChatMainPanelComposition({
           </ChatMainPanelTimeline>
           {newMessageCount > 0 ? (
             <ChatMainPanelJumpToLatestLayout>
-              <ChatMainPanelJumpToLatest>
+              <ChatMainPanelJumpToLatest onClick={handleJump}>
                 <ArrowDown />
                 {newMessageCount} new messages
               </ChatMainPanelJumpToLatest>

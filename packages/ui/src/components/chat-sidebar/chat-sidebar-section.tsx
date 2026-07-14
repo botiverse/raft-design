@@ -7,6 +7,7 @@ import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
+import { Spinner } from "../spinner";
 import { Status, type StatusProps } from "../status";
 import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
@@ -220,8 +221,10 @@ export function ChatSidebarSectionAction({
   render,
   size = "icon-sm",
   variant = "ghost",
-  loading,
-  loadingLabel,
+  loading = false,
+  loadingLabel = "Loading",
+  children,
+  disabled,
   ...props
 }: ChatSidebarSectionActionProps) {
   const theme = useThemeFamily();
@@ -235,17 +238,24 @@ export function ChatSidebarSectionAction({
         variant={variant}
         loading={loading}
         loadingLabel={loadingLabel}
+        disabled={disabled}
         className={sidebarSectionAction({ className })}
         render={render}
         {...props}
-      />
+      >
+        {children}
+      </Button>
     );
   }
 
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "chat-sidebar-section-action",
+    "data-loading": loading ? "true" : undefined,
+    disabled: disabled || loading,
+    "aria-disabled": loading || undefined,
     className: sidebarSectionAction({ className }),
+    children: loading ? <Spinner aria-label={loadingLabel} /> : children,
   };
 
   return useRender({

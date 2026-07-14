@@ -4,6 +4,7 @@ export type PlaygroundRailView =
   | "search"
   | "chat"
   | "activity"
+  | "saved"
   | "tasks"
   | "members"
   | "computers"
@@ -15,6 +16,7 @@ const playgroundRailViews = new Set<PlaygroundRailView>([
   "search",
   "chat",
   "activity",
+  "saved",
   "tasks",
   "members",
   "computers",
@@ -31,34 +33,36 @@ type PlaygroundNavigationState = {
   railDetailId?: string;
   selectRailView: (view: PlaygroundRailView) => void;
   selectPanelTab: (tab: PlaygroundPanelTab) => void;
-  selectRailDetail: (id: string) => void;
+  selectRailDetail: (id?: string) => void;
 };
 
 const PlaygroundNavigationContext = createContext<PlaygroundNavigationState | null>(null);
 
-export function PlaygroundNavigationProvider({ children }: { children: ReactNode }) {
-  const [railView, setRailView] = useState<PlaygroundRailView>("chat");
+export function PlaygroundNavigationProvider({
+  children,
+  railDetailId,
+  railView,
+  onRailDetailChange,
+  onRailViewChange,
+}: {
+  children: ReactNode;
+  railDetailId?: string;
+  railView: PlaygroundRailView;
+  onRailDetailChange: (id?: string) => void;
+  onRailViewChange: (view: PlaygroundRailView) => void;
+}) {
   const [panelTab, setPanelTab] = useState<PlaygroundPanelTab>("chat");
-  const [railDetailId, setRailDetailId] = useState<string>();
 
   const value = useMemo<PlaygroundNavigationState>(
     () => ({
       railView,
       panelTab,
       railDetailId,
-      selectRailView: (view) => {
-        setRailView(view);
-        setRailDetailId(undefined);
-        if (view === "chat" || view === "tasks") setPanelTab(view);
-      },
-      selectPanelTab: (tab) => {
-        setPanelTab(tab);
-        setRailView(tab === "tasks" ? "tasks" : "chat");
-        setRailDetailId(undefined);
-      },
-      selectRailDetail: setRailDetailId,
+      selectRailView: onRailViewChange,
+      selectPanelTab: setPanelTab,
+      selectRailDetail: onRailDetailChange,
     }),
-    [panelTab, railDetailId, railView],
+    [onRailDetailChange, onRailViewChange, panelTab, railDetailId, railView],
   );
 
   return <PlaygroundNavigationContext value={value}>{children}</PlaygroundNavigationContext>;

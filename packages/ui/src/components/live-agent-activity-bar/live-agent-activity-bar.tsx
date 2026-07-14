@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { BorderBeam } from "border-beam";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Avatar, AvatarFallback, type AvatarProps } from "../avatar";
@@ -25,7 +26,7 @@ const liveAgentActivityBar = tv({
         root: "mb-3 rounded-lg border border-line-subtle bg-layer-panel shadow-md",
         content: "contents",
         status: "order-first",
-        text: "flex-1 font-sans font-[450] text-foreground",
+        text: "flex-1 font-sans text-[13px] font-normal text-foreground-muted",
       },
     },
   },
@@ -45,6 +46,7 @@ export type LiveAgentActivityBarProps = useRender.ComponentProps<"div"> & {
 
 export function LiveAgentActivityBar({
   activity,
+  children,
   className,
   render,
   ...props
@@ -57,13 +59,30 @@ export function LiveAgentActivityBar({
     "data-slot": "live-agent-activity-bar",
     "data-testid": "live-agent-activity-bar",
     className: root({ className }),
+    children,
   };
 
-  return useRender({
+  const activityBar = useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+
+  if (theme !== "elegant") {
+    return activityBar;
+  }
+
+  return (
+    <BorderBeam
+      size="pulse-outside"
+      colorVariant="colorful"
+      strength={0.75}
+      saturation={0.85}
+      hueRange={12}
+    >
+      {activityBar}
+    </BorderBeam>
+  );
 }
 
 export type LiveAgentActivityBarRowProps = useRender.ComponentProps<"div">;

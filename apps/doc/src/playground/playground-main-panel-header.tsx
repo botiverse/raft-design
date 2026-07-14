@@ -1,6 +1,8 @@
 import {
   Bell,
   BellOff,
+  ChevronLeft,
+  EllipsisVertical,
   GitBranch,
   Hash,
   Lock,
@@ -9,11 +11,13 @@ import {
   Square,
   Users,
 } from "lucide-react";
+import { Link, useMatch } from "@tanstack/react-router";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   BrutalOnly,
+  Button,
   Status,
   Tooltip,
   TooltipContent,
@@ -44,12 +48,31 @@ import {
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
+function MobileBackButton() {
+  const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
+  if (!channelMatch) return null;
+
+  return (
+    <Button
+      render={<Link to="/playground" search={{}} />}
+      nativeButton={false}
+      variant="outline"
+      size="icon-sm"
+      className="mr-1 max-md:col-start-1 max-md:row-start-1 md:hidden"
+      aria-label="Back to conversations"
+    >
+      <ChevronLeft aria-hidden />
+    </Button>
+  );
+}
+
 function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
     <ChatMainPanelHeader>
+      <MobileBackButton />
       <ChatMainPanelHeaderIcon>
         <Icon />
       </ChatMainPanelHeaderIcon>
@@ -79,6 +102,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipTrigger
               render={
                 <PanelToggleButton
+                  className="max-md:hidden"
                   pressed={isMuted}
                   onPressedChange={setIsMuted}
                   aria-label={
@@ -94,7 +118,14 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             </TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="Stop all agents in this channel" />}>
+            <TooltipTrigger
+              render={
+                <PanelButton
+                  className="max-md:hidden"
+                  aria-label="Stop all agents in this channel"
+                />
+              }
+            >
               <PanelButtonIcon>
                 <Square />
               </PanelButtonIcon>
@@ -102,7 +133,9 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="View participants" />}>
+            <TooltipTrigger
+              render={<PanelButton className="max-md:hidden" aria-label="View participants" />}
+            >
               <PanelButtonIcon>
                 <Users />
               </PanelButtonIcon>
@@ -111,13 +144,20 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
             <TooltipContent side="bottom">View participants</TooltipContent>
           </Tooltip>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="Edit channel" />}>
+            <TooltipTrigger
+              render={<PanelButton className="max-md:hidden" aria-label="Edit channel" />}
+            >
               <PanelButtonIcon>
                 <Settings />
               </PanelButtonIcon>
             </TooltipTrigger>
             <TooltipContent side="bottom">Edit channel</TooltipContent>
           </Tooltip>
+          <PanelButton className="md:hidden" aria-label="More options">
+            <PanelButtonIcon>
+              <EllipsisVertical />
+            </PanelButtonIcon>
+          </PanelButton>
         </ChatMainPanelActions>
       </TooltipProvider>
     </ChatMainPanelHeader>
@@ -133,6 +173,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
 
   return (
     <ChatMainPanelHeader>
+      <MobileBackButton />
       <Avatar size="md" type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
         <AvatarFallback>{actor.fallback}</AvatarFallback>

@@ -1,4 +1,5 @@
 import { ThemeProvider, type Theme, type ThemeMode } from "raft-ui";
+import { Smartphone } from "lucide-react";
 
 type PlaygroundThemePreset = {
   label: string;
@@ -19,17 +20,21 @@ const idle = "font-medium text-foreground-placeholder hover:text-foreground-mute
 export function PlaygroundToolbar({
   theme,
   mode,
+  mobile,
   onThemeChange,
+  onMobileChange,
 }: {
   theme: Theme;
   mode: ThemeMode;
+  mobile: boolean;
   onThemeChange: (theme: Theme, options?: { mode?: ThemeMode }) => void;
+  onMobileChange: (mobile: boolean) => void;
 }) {
   return (
     <ThemeProvider theme="elegant" mode="light" syncDom={false}>
       <div
         data-theme="elegant"
-        className="light fixed top-0 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md"
+        className="light fixed top-[env(safe-area-inset-top,0px)] left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md md:top-0"
         style={{ colorScheme: "light" }}
       >
         <fieldset aria-label="Playground theme" className="inline-flex items-center gap-0.5">
@@ -49,6 +54,21 @@ export function PlaygroundToolbar({
             );
           })}
         </fieldset>
+        <span aria-hidden className="mx-0.5 h-4 w-px bg-line-subtle" />
+        <button
+          type="button"
+          aria-label="Toggle mobile preview"
+          aria-pressed={mobile}
+          className={[
+            "inline-flex size-6 items-center justify-center rounded-[3px] transition duration-200 ease-out",
+            mobile
+              ? "bg-ink-8 text-foreground-strong"
+              : "text-foreground-placeholder hover:bg-ink-4 hover:text-foreground-muted",
+          ].join(" ")}
+          onClick={() => onMobileChange(!mobile)}
+        >
+          <Smartphone aria-hidden className="size-3.5" />
+        </button>
       </div>
     </ThemeProvider>
   );
