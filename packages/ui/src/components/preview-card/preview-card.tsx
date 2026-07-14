@@ -1,8 +1,8 @@
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
-import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
 
 const previewCard = tv({
@@ -80,23 +80,19 @@ export function PreviewCardTrigger({
 export type PreviewCardPortalProps = BasePreviewCard.Portal.Props;
 
 export function PreviewCardPortal(props: PreviewCardPortalProps) {
-  return <BasePreviewCard.Portal data-slot="preview-card-portal" {...props} />;
+  return <BasePreviewCard.Portal data-slot="preview-card-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type PreviewCardPopupProps = ComponentPropsWithRef<"div">;
 
 export function PreviewCardPopup({ className, ...props }: PreviewCardPopupProps) {
-  const theme = useThemeFamily();
-  const { resolvedMode } = useTheme();
-  const { popup } = previewCard({ theme });
-  return (
-    <div
-      data-slot="preview-card-content"
-      data-theme={theme}
-      className={cn(popup({ className }), resolvedMode === "dark" && "dark")}
-      {...props}
-    />
+  const themeState = useTheme();
+  const { popup } = previewCard({ theme: themeState.theme });
+  const scopeProps = resolveThemeScopeProps(
+    { ...props, className: popup({ className }) },
+    themeState,
   );
+  return <div data-slot="preview-card-content" {...scopeProps} />;
 }
 
 export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> &
@@ -136,10 +132,9 @@ export function PreviewCardContent({
   ...props
 }: PreviewCardContentProps) {
   const theme = useThemeFamily();
-  const { resolvedMode } = useTheme();
   const { positioner, popup } = previewCard({ theme });
   return (
-    <BasePreviewCard.Portal {...portalProps}>
+    <PreviewCardPortal {...portalProps}>
       <BasePreviewCard.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -157,12 +152,11 @@ export function PreviewCardContent({
       >
         <BasePreviewCard.Popup
           data-slot="preview-card-content"
-          data-theme={theme}
-          className={cn(popup({ className }), resolvedMode === "dark" && "dark")}
+          className={popup({ className })}
           {...props}
         />
       </BasePreviewCard.Positioner>
-    </BasePreviewCard.Portal>
+    </PreviewCardPortal>
   );
 }
 

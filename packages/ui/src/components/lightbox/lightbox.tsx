@@ -6,6 +6,7 @@ import { useCallback, useRef, useState, type ReactNode, type RefObject } from "r
 import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/button";
 
@@ -167,7 +168,7 @@ export function LightboxTrigger(props: LightboxTriggerProps) {
 export type LightboxPortalProps = Dialog.Portal.Props;
 
 export function LightboxPortal(props: LightboxPortalProps) {
-  return <Dialog.Portal data-slot="lightbox-portal" {...props} />;
+  return <Dialog.Portal data-slot="lightbox-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
@@ -182,10 +183,9 @@ export function LightboxContent({
   const { backdrop, content } = lightbox({ theme });
   return (
     <LightboxPortal>
-      <Dialog.Backdrop data-slot="lightbox-backdrop" data-theme={theme} className={backdrop()} />
+      <Dialog.Backdrop data-slot="lightbox-backdrop" className={backdrop()} />
       <Dialog.Popup
         data-slot="lightbox-content"
-        data-theme={theme}
         initialFocus={initialFocus}
         finalFocus={finalFocus}
         className={content({ className })}

@@ -4,7 +4,8 @@ import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
-import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 
 const dialog = tv({
@@ -65,7 +66,7 @@ export function DialogTrigger(props: DialogTriggerProps) {
 export type DialogPortalProps = BaseDialog.Portal.Props;
 
 export function DialogPortal(props: DialogPortalProps) {
-  return <BaseDialog.Portal data-slot="dialog-portal" {...props} />;
+  return <BaseDialog.Portal data-slot="dialog-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
@@ -74,12 +75,7 @@ export function DialogOverlay({ className, ...props }: DialogOverlayProps) {
   const theme = useThemeFamily();
   const { overlay } = dialog({ theme });
   return (
-    <BaseDialog.Backdrop
-      data-slot="dialog-overlay"
-      data-theme={theme}
-      className={overlay({ className })}
-      {...props}
-    />
+    <BaseDialog.Backdrop data-slot="dialog-overlay" className={overlay({ className })} {...props} />
   );
 }
 
@@ -96,18 +92,12 @@ export function DialogContent({
   ...props
 }: DialogContentProps) {
   const theme = useThemeFamily();
-  const { resolvedMode } = useTheme();
   const { content } = dialog({ theme });
 
   return (
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay {...overlay} />}
-      <BaseDialog.Popup
-        data-slot="dialog-content"
-        data-theme={theme}
-        className={cn(content({ className }), resolvedMode === "dark" && "dark")}
-        {...props}
-      >
+      <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
         {children}
       </BaseDialog.Popup>
     </DialogPortal>

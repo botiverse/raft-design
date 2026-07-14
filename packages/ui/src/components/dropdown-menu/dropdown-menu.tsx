@@ -5,6 +5,7 @@ import { Badge, type BadgeProps } from "../badge/index";
 import { Button } from "../button/index";
 import { Kbd, type KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const dropdownMenu = tv({
@@ -176,7 +177,7 @@ export function DropdownMenuTrigger({
 export type DropdownMenuPortalProps = BaseMenu.Portal.Props;
 
 export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
-  return <BaseMenu.Portal data-slot="dropdown-menu-portal" {...props} />;
+  return <BaseMenu.Portal data-slot="dropdown-menu-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type DropdownMenuPopupProps = ComponentPropsWithRef<"div">;
@@ -227,7 +228,7 @@ export function DropdownMenuContent({
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 6 : 4);
   const { positioner, content } = dropdownMenu({ theme });
   return (
-    <BaseMenu.Portal {...portalProps}>
+    <DropdownMenuPortal {...portalProps}>
       <BaseMenu.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -249,7 +250,7 @@ export function DropdownMenuContent({
           {...props}
         />
       </BaseMenu.Positioner>
-    </BaseMenu.Portal>
+    </DropdownMenuPortal>
   );
 }
 

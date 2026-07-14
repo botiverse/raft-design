@@ -4,7 +4,8 @@ import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
-import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 
 const alertDialog = tv({
@@ -65,7 +66,7 @@ export function AlertDialogTrigger(props: AlertDialogTriggerProps) {
 export type AlertDialogPortalProps = BaseDialog.Portal.Props;
 
 export function AlertDialogPortal(props: AlertDialogPortalProps) {
-  return <BaseDialog.Portal data-slot="alert-dialog-portal" {...props} />;
+  return <BaseDialog.Portal data-slot="alert-dialog-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type AlertDialogCloseProps = Omit<BaseDialog.Close.Props, "render"> &
@@ -118,7 +119,6 @@ export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayPr
   return (
     <BaseDialog.Backdrop
       data-slot="alert-dialog-overlay"
-      data-theme={theme}
       className={overlay({ className })}
       {...props}
     />
@@ -138,7 +138,6 @@ export function AlertDialogContent({
   ...props
 }: AlertDialogContentProps) {
   const theme = useThemeFamily();
-  const { resolvedMode } = useTheme();
   const { content } = alertDialog({ theme });
 
   return (
@@ -146,8 +145,7 @@ export function AlertDialogContent({
       {overlay === false ? null : <AlertDialogOverlay {...overlay} />}
       <BaseDialog.Popup
         data-slot="alert-dialog-content"
-        data-theme={theme}
-        className={cn(content({ className }), resolvedMode === "dark" && "dark")}
+        className={content({ className })}
         {...props}
         role="alertdialog"
       >

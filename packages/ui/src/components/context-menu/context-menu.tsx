@@ -3,6 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
 import { Kbd, type KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const contextMenu = tv({
@@ -149,7 +150,7 @@ export function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerPr
 export type ContextMenuPortalProps = BaseContextMenu.Portal.Props;
 
 export function ContextMenuPortal(props: ContextMenuPortalProps) {
-  return <BaseContextMenu.Portal data-slot="context-menu-portal" {...props} />;
+  return <BaseContextMenu.Portal data-slot="context-menu-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
@@ -197,7 +198,7 @@ export function ContextMenuContent({
   const theme = useThemeFamily();
   const { positioner, content } = contextMenu({ theme });
   return (
-    <BaseContextMenu.Portal {...portalProps}>
+    <ContextMenuPortal {...portalProps}>
       <BaseContextMenu.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -219,7 +220,7 @@ export function ContextMenuContent({
           {...props}
         />
       </BaseContextMenu.Positioner>
-    </BaseContextMenu.Portal>
+    </ContextMenuPortal>
   );
 }
 

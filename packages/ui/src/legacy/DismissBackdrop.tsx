@@ -1,6 +1,7 @@
 import type { MouseEvent } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { tv } from "../lib/tv";
+import { useThemeScopeProps } from "../lib/theme/theme-scope";
 
 const dismissBackdrop = tv({
   slots: {
@@ -24,6 +25,10 @@ export type DismissBackdropProps = {
   stopPropagation?: boolean;
 };
 
+function DismissBackdropPortal(props: Dialog.Portal.Props) {
+  return <Dialog.Portal {...useThemeScopeProps(props)} />;
+}
+
 export function DismissBackdrop({
   onDismiss,
   zIndex = 50,
@@ -40,7 +45,7 @@ export function DismissBackdrop({
         if (!open) onDismiss();
       }}
     >
-      <Dialog.Portal>
+      <DismissBackdropPortal>
         <Dialog.Popup
           data-slot="dismiss-backdrop"
           className={popup()}
@@ -62,7 +67,7 @@ export function DismissBackdrop({
               : undefined
           }
         />
-      </Dialog.Portal>
+      </DismissBackdropPortal>
     </Dialog.Root>
   );
 }

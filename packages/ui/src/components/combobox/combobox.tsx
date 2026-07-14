@@ -3,6 +3,7 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 
@@ -360,7 +361,7 @@ export function ComboboxInput({
 export type ComboboxPortalProps = BaseCombobox.Portal.Props;
 
 export function ComboboxPortal(props: ComboboxPortalProps) {
-  return <BaseCombobox.Portal data-slot="combobox-portal" {...props} />;
+  return <BaseCombobox.Portal data-slot="combobox-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type ComboboxPopupProps = ComponentPropsWithRef<"div">;
@@ -436,7 +437,7 @@ export function ComboboxContent({
   const theme = useThemeFamily();
   const { positioner, content } = combobox({ theme });
   return (
-    <BaseCombobox.Portal {...portalProps}>
+    <ComboboxPortal {...portalProps}>
       <BaseCombobox.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -460,7 +461,7 @@ export function ComboboxContent({
           {...props}
         />
       </BaseCombobox.Positioner>
-    </BaseCombobox.Portal>
+    </ComboboxPortal>
   );
 }
 

@@ -5,7 +5,8 @@ import { X } from "lucide-react";
 import { createContext, type ComponentProps, useContext, useMemo } from "react";
 import { cn } from "../../lib/cn";
 import type { StyledProps } from "../../lib/styled-props";
-import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
 
@@ -65,21 +66,19 @@ export function DrawerTrigger(props: DrawerTriggerProps) {
 export type DrawerPortalProps = DrawerPrimitive.Portal.Props;
 
 export function DrawerPortal(props: DrawerPortalProps) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
+  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type DrawerOverlayProps = StyledProps<DrawerPrimitive.Backdrop.Props>;
 
 export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
   const theme = useThemeFamily();
-  const { resolvedMode } = useTheme();
   const { overlay } = drawer({ theme });
 
   return (
     <DrawerPrimitive.Backdrop
       data-slot="drawer-overlay"
-      data-theme={theme}
-      className={cn(overlay({ className }), resolvedMode === "dark" && "dark")}
+      className={overlay({ className })}
       {...props}
     />
   );
@@ -108,7 +107,6 @@ export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
 export function DrawerContent({ className, children, portalProps, ...props }: DrawerContentProps) {
   const { hasSnapPoints, modal, showSwipeHandle } = useDrawerContentConfig();
   const theme = useThemeFamily();
-  const { resolvedMode } = useTheme();
   const { content, popup, viewport } = drawer({ theme });
 
   return (
@@ -120,9 +118,8 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
       >
         <DrawerPrimitive.Popup
           data-slot="drawer-popup"
-          data-theme={theme}
           data-snap-points={hasSnapPoints ? "" : undefined}
-          className={cn(popup({ className }), resolvedMode === "dark" && "dark")}
+          className={popup({ className })}
           {...props}
         >
           {showSwipeHandle ? <DrawerSwipeHandle /> : null}
