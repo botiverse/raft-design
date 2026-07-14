@@ -90,7 +90,7 @@ function PlaygroundLayout() {
   const location = useRouterState({ select: (state) => state.location });
   const pathname = location.pathname;
   const [mobilePreview, setMobilePreview] = useState(false);
-  const embeddedPreview = usePlaygroundEmbeddedPreview(theme, mode);
+  const embedded = usePlaygroundEmbeddedPreview(setTheme);
 
   const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
   const { detail, from, thread } = Route.useSearch();
@@ -120,11 +120,7 @@ function PlaygroundLayout() {
   const activeChannel = getPlaygroundChannel(activeChannelId);
   const isRootRoute = channelMatch === undefined;
   const workspace = (
-    <PreviewThemeScope
-      family={embeddedPreview.theme}
-      mode={embeddedPreview.mode}
-      className="h-full"
-    >
+    <PreviewThemeScope className="h-full">
       <PlaygroundNavigationProvider
         railView={railView}
         railDetailId={detail}
@@ -147,14 +143,14 @@ function PlaygroundLayout() {
 
   return (
     <div className="h-dvh">
-      {mobilePreview && !embeddedPreview.embedded ? (
+      {mobilePreview && !embedded ? (
         <PreviewThemeScope className="h-full">
           <PlaygroundMobilePreview src={location.href} theme={theme} mode={mode} />
         </PreviewThemeScope>
       ) : (
         workspace
       )}
-      {embeddedPreview.embedded ? null : (
+      {embedded ? null : (
         <PlaygroundToolbar
           theme={theme}
           mode={mode}

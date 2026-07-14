@@ -57,10 +57,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
   Field,
   FieldDescription,
   FieldLabel,
@@ -131,7 +127,7 @@ import {
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 import { usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { PlaygroundNotificationCenter } from "./playground-rail.tsx";
-import { PLAYGROUND_SERVERS, usePlaygroundShellState } from "./playground-shell-state.tsx";
+import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
 type ActiveDialog = "create-channel" | "create-joint" | null;
 type SidebarRowMenu = {
@@ -866,7 +862,7 @@ export function PlaygroundSidebar({
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
   const { railView, selectRailView } = usePlaygroundNavigation();
-  const { activeServer, selectServer } = usePlaygroundShellState();
+  const { activeServer } = usePlaygroundShellState();
   const selectedChannelId = activeChannelId;
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
@@ -884,26 +880,10 @@ export function PlaygroundSidebar({
     <>
       <ChatSidebarRoot>
         <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden">
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <button
-                  type="button"
-                  className="relative inline-flex shrink-0 -rotate-2 items-center gap-1.5 border-2 border-foreground-strong bg-foreground-strong px-3 py-1 font-sans text-base font-bold text-primary-400 shadow-sm transition-shadow hover:shadow-md"
-                />
-              }
-            >
-              <span className="max-w-[200px] truncate">{activeServer.name}</span>
-              <ChevronDown className="size-4 shrink-0 rotate-2" aria-hidden />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="min-w-48">
-              {PLAYGROUND_SERVERS.map((server) => (
-                <DropdownMenuItem key={server.id} onClick={() => selectServer(server.id)}>
-                  {server.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="relative inline-flex shrink-0 -rotate-2 items-center gap-1.5 border-2 border-foreground-strong bg-foreground-strong px-3 py-1 font-sans text-base font-bold text-primary-400 shadow-sm transition-shadow hover:shadow-md">
+            <span className="max-w-[200px] truncate">{activeServer.name}</span>
+            <ChevronDown className="size-4 shrink-0 rotate-2" aria-hidden />
+          </div>
           <div className="min-w-0 flex-1" />
           <PlaygroundNotificationCenter mobile />
         </ChatSidebarHeader>
