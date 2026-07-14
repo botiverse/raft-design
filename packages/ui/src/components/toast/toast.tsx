@@ -3,6 +3,7 @@ import {
   isValidElement,
   type ComponentProps,
   type ComponentPropsWithRef,
+  type CSSProperties,
   type ReactElement,
   type ReactNode,
 } from "react";
@@ -19,8 +20,10 @@ import { cn } from "../../lib/cn";
 const toastStyles = tv({
   slots: {
     viewport: [
-      "pointer-events-none isolate z-[70] w-[min(24rem,calc(100vw-2rem))]",
+      "pointer-events-auto isolate z-[70] h-[var(--toast-frontmost-height,0px)] w-[min(24rem,calc(100vw-2rem))]",
       "outline-none",
+      "[--toast-gap:0.5rem]",
+      "data-[expanded]:h-[calc(var(--toast-items-height)+(var(--toast-gap-count)*var(--toast-gap)))]",
     ],
     positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
@@ -431,20 +434,38 @@ export function ToastPortal(props: ToastPortalProps) {
 export type ToastViewportProps = StyledProps<BaseToast.Viewport.Props> &
   Pick<VariantProps<typeof toastStyles>, "placement" | "strategy">;
 
+type ToastViewportStyle = CSSProperties & {
+  "--toast-gap-count": number;
+  "--toast-items-height": string;
+};
+
 export function ToastViewport({
   placement = "bottom-center",
   strategy = "fixed",
   className,
+  style,
   ...props
 }: ToastViewportProps) {
   const theme = useThemeFamily();
+  const { toasts } = useToastManager<ToastData>();
+  const visibleToasts = toasts.filter((toastObject) => !toastObject.limited);
+  const itemsHeight = visibleToasts.reduce(
+    (total, toastObject) => total + (toastObject.height ?? 0),
+    0,
+  );
   const { viewport } = toastStyles({ theme, placement, strategy });
+  const viewportStyle: ToastViewportStyle = {
+    ...style,
+    "--toast-gap-count": Math.max(visibleToasts.length - 1, 0),
+    "--toast-items-height": `${itemsHeight}px`,
+  };
 
   return (
     <BaseToast.Viewport
       data-slot="toast-viewport"
       data-toast-placement={placement}
       className={viewport({ className })}
+      style={viewportStyle}
       {...props}
     />
   );
