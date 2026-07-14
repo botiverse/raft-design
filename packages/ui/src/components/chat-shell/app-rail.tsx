@@ -9,7 +9,7 @@ import type { DataAttributes } from "./data-attributes";
 
 const appRail = tv({
   slots: {
-    root: ["flex h-full w-full flex-col items-center"],
+    root: ["flex h-full w-full flex-col items-center select-none"],
     header: ["relative flex w-full shrink-0 items-center justify-center"],
     serverButton: [
       "relative inline-flex size-10 items-center justify-center",

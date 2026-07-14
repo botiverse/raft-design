@@ -6,8 +6,8 @@ import type { DataAttributes } from "./data-attributes";
 
 const appShell = tv({
   slots: {
-    root: ["flex min-h-0 w-full overflow-hidden", "text-foreground"],
-    shellRail: ["relative hidden h-full shrink-0 flex-col items-center select-none md:flex"],
+    root: ["flex min-h-0 w-full overflow-hidden", "font-sans text-foreground"],
+    shellRail: ["hidden h-full shrink-0 flex-col md:flex"],
     shellSidebar: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     shellMain: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     shellPanelStack: ["hidden min-h-0 shrink-0 lg:flex"],
@@ -15,9 +15,9 @@ const appShell = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-brutal-cream font-sans text-black",
+        root: "bg-brutal-cream text-black",
         shellRail:
-          "w-16 border-r-2 border-black bg-soft-signal font-sans text-foreground [@media(max-height:600px)]:w-[50px]",
+          "w-16 border-r-2 border-black bg-soft-signal text-foreground [@media(max-height:600px)]:w-[50px]",
         shellSidebar: "w-60 border-r-2 border-black bg-brutal-cream",
         shellMain: "bg-white",
         shellPanelStack: "border-l-2 border-black bg-white",
@@ -26,15 +26,10 @@ const appShell = tv({
         root: [
           "[--shell-surface-bg:var(--layer-panel)]",
           "[--shell-header-height:3.5rem]",
-          "[--shell-surface-radius:10px]",
-          "[--sidebar-width:252px]",
-          "[--sidebar-inset-x:22px]",
-          "[--sidebar-row-inset-x:6px]",
-          "[--panel-stack-width:400px]",
-          "bg-layer-page font-sans text-foreground",
+          "bg-layer-page",
         ],
-        shellRail: "w-14 border-r-0 bg-transparent",
-        shellSidebar: "w-[var(--sidebar-width)] border-r-0 bg-transparent",
+        shellRail: "w-14",
+        shellSidebar: "w-[252px]",
         shellMain: "bg-layer-page",
         shellPanelStack: "border-l border-line-subtle bg-layer-panel",
       },
