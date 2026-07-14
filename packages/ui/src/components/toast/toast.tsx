@@ -191,7 +191,7 @@ const toastStyles = tv({
           "[&_[data-slot=toast-content][data-behind]]:opacity-0 [&_[data-slot=toast-content][data-expanded]]:opacity-100",
           "[[data-toast-placement$=right]_&]:left-auto [[data-toast-placement$=right]_&]:mx-0",
           "[[data-toast-placement^=top]_&]:top-0 [[data-toast-placement^=top]_&]:bottom-auto [[data-toast-placement^=top]_&]:origin-top",
-          "[[data-toast-placement^=top]_&]:before:top-auto [[data-toast-placement^=top]_&]:before:bottom-full",
+          "[[data-toast-placement^=top]_&]:before:!top-auto [[data-toast-placement^=top]_&]:before:bottom-full",
           "[[data-toast-placement^=top]_&]:[--toast-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--toast-gap))+var(--toast-swipe-movement-y))]",
           "[[data-toast-placement^=top]_&]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--toast-peek))))_scale(var(--toast-scale))]",
           "[[data-toast-placement^=top]_&[data-starting-style]]:[transform:translateY(-120%)_scale(0.98)]",
