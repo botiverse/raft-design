@@ -10,6 +10,7 @@ import { Toast as BaseToast } from "@base-ui/react/toast";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { buttonVariants } from "../button/index";
 import { Spinner } from "../spinner/index";
@@ -424,7 +425,7 @@ export function ToastProvider({
 export type ToastPortalProps = BaseToast.Portal.Props;
 
 export function ToastPortal(props: ToastPortalProps) {
-  return <BaseToast.Portal data-slot="toast-portal" {...props} />;
+  return <BaseToast.Portal data-slot="toast-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type ToastViewportProps = StyledProps<BaseToast.Viewport.Props> &

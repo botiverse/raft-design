@@ -2,6 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const popover = tv({
@@ -75,7 +76,7 @@ export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
 export type PopoverPortalProps = BasePopover.Portal.Props;
 
 export function PopoverPortal(props: PopoverPortalProps) {
-  return <BasePopover.Portal data-slot="popover-portal" {...props} />;
+  return <BasePopover.Portal data-slot="popover-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type PopoverPopupProps = ComponentPropsWithRef<"div">;
@@ -128,7 +129,7 @@ export function PopoverContent({
   const { positioner, content } = popover({ theme });
   const portalContainer = container !== undefined ? container : portalProps?.container;
   return (
-    <BasePopover.Portal {...portalProps} container={portalContainer}>
+    <PopoverPortal {...portalProps} container={portalContainer}>
       <BasePopover.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -150,7 +151,7 @@ export function PopoverContent({
           {...props}
         />
       </BasePopover.Positioner>
-    </BasePopover.Portal>
+    </PopoverPortal>
   );
 }
 
@@ -244,7 +245,6 @@ export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
   return (
     <BasePopover.Backdrop
       data-slot="popover-backdrop"
-      data-theme={theme}
       className={backdrop({ className })}
       {...props}
     />

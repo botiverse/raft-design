@@ -3,6 +3,7 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 
@@ -178,7 +179,7 @@ export function SelectIcon({ className, children, ...props }: SelectIconProps) {
 export type SelectPortalProps = BaseSelect.Portal.Props;
 
 export function SelectPortal(props: SelectPortalProps) {
-  return <BaseSelect.Portal data-slot="select-portal" {...props} />;
+  return <BaseSelect.Portal data-slot="select-portal" {...useThemeScopeProps(props)} />;
 }
 
 export type SelectPopupProps = ComponentPropsWithRef<"div">;
@@ -250,7 +251,7 @@ export function SelectContent({
     </BaseSelect.Positioner>
   );
 
-  return <BaseSelect.Portal {...portalProps}>{positionerNode}</BaseSelect.Portal>;
+  return <SelectPortal {...portalProps}>{positionerNode}</SelectPortal>;
 }
 
 export type SelectListProps = StyledProps<BaseSelect.List.Props>;

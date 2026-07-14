@@ -2,6 +2,7 @@ import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import { Children, Fragment, isValidElement, type ComponentProps, type ReactNode } from "react";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const tooltip = tv({
@@ -98,7 +99,7 @@ export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
 export type TooltipPortalProps = BaseTooltip.Portal.Props;
 
 export function TooltipPortal(props: TooltipPortalProps) {
-  return <BaseTooltip.Portal data-slot="tooltip-portal" {...props} />;
+  return <BaseTooltip.Portal data-slot="tooltip-portal" {...useThemeScopeProps(props)} />;
 }
 
 type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;
@@ -247,7 +248,7 @@ export function TooltipContent({
   const portalContainer = container !== undefined ? container : portalProps?.container;
 
   return (
-    <BaseTooltip.Portal {...portalProps} container={portalContainer}>
+    <TooltipPortal {...portalProps} container={portalContainer}>
       <BaseTooltip.Positioner
         align={align}
         alignOffset={alignOffset}
@@ -272,6 +273,6 @@ export function TooltipContent({
           <TooltipArrow />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>
-    </BaseTooltip.Portal>
+    </TooltipPortal>
   );
 }
