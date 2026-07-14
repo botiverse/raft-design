@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Bell, BellOff, Hash, Search, Settings, Square, Users } from "lucide-react";
+import { Bell, BellOff, CheckSquare, Hash, Search, Settings, Square, Users } from "lucide-react";
 import { Avatar, AvatarFallback, BrutalOnly, Status } from "raft-ui";
 import {
   ChatMainPanelActions,
   ChatMainPanelHeader,
   ChatMainPanelHeaderIcon,
+  ChatMainPanelSectionHeader,
   ChatMainPanelTitleBadge,
   ChatMainPanelSubtitle,
   ChatMainPanelTitle,
@@ -117,5 +118,19 @@ export function ChatMainPanelDmHeaderComposition() {
 
   return (
     <ChatMainPanelHeaderComposition conversation="dm" muted={muted} onMutedChange={setMuted} />
+  );
+}
+
+export function ChatMainPanelSectionHeaderComposition() {
+  return (
+    <ChatMainPanelSectionHeader>
+      <ChatMainPanelHeaderIcon>
+        <CheckSquare aria-hidden />
+      </ChatMainPanelHeaderIcon>
+      <ChatMainPanelTitleBlock>
+        <ChatMainPanelTitle render={<h2 aria-label="Tasks" />}>Tasks</ChatMainPanelTitle>
+        <ChatMainPanelSubtitle render={<p />}>12 channel tasks</ChatMainPanelSubtitle>
+      </ChatMainPanelTitleBlock>
+    </ChatMainPanelSectionHeader>
   );
 }

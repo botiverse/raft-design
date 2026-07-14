@@ -15,6 +15,7 @@ import {
   MessageItemGutter,
   MessageItemHeader,
   MessageItemInlineStatus,
+  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageReactionChip,
   MessageItemSavedIndicator,
@@ -328,18 +329,14 @@ function MessageRowView({
   // the ContextMenu wrapper entirely.
   if (selectMode) {
     return (
-      <div className="px-3" style={{ contain: "layout style", overflow: "clip visible" }}>
+      <MessageItemInteractionBoundary className="px-3">
         {messageItem}
-      </div>
+      </MessageItemInteractionBoundary>
     );
   }
 
   return (
-    <div
-      ref={setPortalContainer}
-      className="px-3"
-      style={{ contain: "layout style", overflow: "clip visible" }}
-    >
+    <MessageItemInteractionBoundary ref={setPortalContainer} className="px-3">
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {
@@ -365,7 +362,7 @@ function MessageRowView({
           onOpenThread={requestThread}
         />
       </ContextMenu>
-    </div>
+    </MessageItemInteractionBoundary>
   );
 }
 

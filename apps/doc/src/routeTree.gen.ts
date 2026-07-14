@@ -32,6 +32,8 @@ import { Route as PlaygroundActivityRouteImport } from './routes/playground.acti
 import { Route as PlaygroundChannelIdRouteImport } from './routes/playground.$channelId'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
+import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
+import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
@@ -205,6 +207,17 @@ const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
 const IframeDrawerRoute = IframeDrawerRouteImport.update({
   id: '/iframe/drawer',
   path: '/iframe/drawer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IframeChatSidebarMobilePartsRoute =
+  IframeChatSidebarMobilePartsRouteImport.update({
+    id: '/iframe/chat-sidebar-mobile-parts',
+    path: '/iframe/chat-sidebar-mobile-parts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
+  id: '/iframe/app-shell-mobile',
+  path: '/iframe/app-shell-mobile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
@@ -573,6 +586,8 @@ export interface FileRoutesByFullPath {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
@@ -655,6 +670,8 @@ export interface FileRoutesByTo {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
@@ -740,6 +757,8 @@ export interface FileRoutesById {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/playground/$channelId': typeof PlaygroundChannelIdRoute
@@ -826,6 +845,8 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/app-shell-mobile'
+    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
@@ -908,6 +929,8 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/app-shell-mobile'
+    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
@@ -992,6 +1015,8 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/iframe/app-shell-mobile'
+    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
     | '/playground/$channelId'
@@ -1022,6 +1047,8 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   PlaygroundRoute: typeof PlaygroundRouteWithChildren
+  IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
+  IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
@@ -1191,6 +1218,20 @@ declare module '@tanstack/react-router' {
       path: '/iframe/drawer'
       fullPath: '/iframe/drawer'
       preLoaderRoute: typeof IframeDrawerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/chat-sidebar-mobile-parts': {
+      id: '/iframe/chat-sidebar-mobile-parts'
+      path: '/iframe/chat-sidebar-mobile-parts'
+      fullPath: '/iframe/chat-sidebar-mobile-parts'
+      preLoaderRoute: typeof IframeChatSidebarMobilePartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/app-shell-mobile': {
+      id: '/iframe/app-shell-mobile'
+      path: '/iframe/app-shell-mobile'
+      fullPath: '/iframe/app-shell-mobile'
+      preLoaderRoute: typeof IframeAppShellMobileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/tooltip': {
@@ -1805,6 +1846,8 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
   PlaygroundRoute: PlaygroundRouteWithChildren,
+  IframeAppShellMobileRoute: IframeAppShellMobileRoute,
+  IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,
   IframeDrawerRoute: IframeDrawerRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,

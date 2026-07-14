@@ -32,7 +32,7 @@ import {
 
 export function AppRailComposition() {
   return (
-    <AppShellRail className="flex md:flex">
+    <AppShellRail placement="responsive">
       <AppRailRoot value="chat">
         <AppRailHeader className="max-md:hidden">
           <AppRailServerButton

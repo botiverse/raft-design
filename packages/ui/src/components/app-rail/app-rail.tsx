@@ -24,7 +24,7 @@ const appRail = tv({
     ],
     nav: [
       "flex w-full flex-1 flex-col items-center gap-1.5 py-2",
-      "max-md:grid max-md:flex-none max-md:grid-cols-4 max-md:items-stretch max-md:gap-0 max-md:py-0",
+      "max-md:grid max-md:flex-none max-md:grid-flow-col max-md:auto-cols-fr max-md:items-stretch max-md:gap-0 max-md:py-0",
     ],
     footer: ["flex w-full shrink-0 flex-col items-center justify-center gap-1.5"],
     item: [

@@ -222,21 +222,14 @@ function PlaygroundWorkspace({
       railView === "tasks" ||
       railView === "members" ||
       railView === "settings");
+  const mobilePanel = conversationView && activeThread ? "thread" : showMain ? "main" : "sidebar";
+  const mobilePanelClass = (panel: typeof mobilePanel) =>
+    panel === mobilePanel ? "max-md:!flex max-md:!basis-0 max-md:!grow" : "max-md:!hidden";
 
   return (
-    <AppShellRoot
-      className={[
-        "h-full max-md:flex-col max-md:pt-[env(safe-area-inset-top,0px)]",
-        mobileTabRoot
-          ? "max-md:[[data-theme=brutal]_&]:bg-soft-signal"
-          : "max-md:[[data-theme=brutal]_&]:bg-white",
-      ].join(" ")}
-    >
+    <AppShellRoot safeAreaSurface={mobileTabRoot ? "chrome" : "content"} className="h-full">
       <PlaygroundRail showBottomNavigation={mobileTabRoot} />
-      <ResizableGroup
-        orientation="horizontal"
-        className="h-auto min-w-0 flex-1 md:h-full max-md:[&>[data-slot=resizable-panel]]:!hidden max-md:[&>[data-slot=resizable-panel]:last-child]:!flex max-md:[&>[data-slot=resizable-panel]:last-child]:!basis-0 max-md:[&>[data-slot=resizable-panel]:last-child]:!grow"
-      >
+      <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
         {showSidebar ? (
           <>
             <ResizablePanel
@@ -246,11 +239,7 @@ function PlaygroundWorkspace({
               minSize={180}
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
-              className={
-                theme === "brutal"
-                  ? "has-[>[data-slot=app-shell-sidebar]]:bg-brutal-cream"
-                  : "has-[>[data-slot=app-shell-sidebar]]:bg-layer-page"
-              }
+              className={mobilePanelClass("sidebar")}
             >
               <AppShellSidebar className="relative h-full min-w-0 w-auto flex-1 shrink max-md:flex">
                 {conversationView ? (
@@ -268,7 +257,11 @@ function PlaygroundWorkspace({
           </>
         ) : null}
         {showMain ? (
-          <ResizablePanel id="playground-main" minSize={360} className="min-w-0">
+          <ResizablePanel
+            id="playground-main"
+            minSize={360}
+            className={`min-w-0 ${mobilePanelClass("main")}`}
+          >
             <AppShellMain className="flex h-full">
               {isRootRoute && railView === "tasks" ? (
                 <PlaygroundTasksPanel />
@@ -289,7 +282,7 @@ function PlaygroundWorkspace({
               minSize={320}
               maxSize={560}
               groupResizeBehavior="preserve-pixel-size"
-              className="min-w-0"
+              className={`min-w-0 ${mobilePanelClass("thread")}`}
             >
               <AppShellPanelStack className="h-full w-full max-md:flex">
                 <AppPanelStackRoot className="w-full">

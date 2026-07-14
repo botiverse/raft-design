@@ -45,6 +45,7 @@
     "@dnd-kit/sortable": "catalog:",
     "@dnd-kit/utilities": "catalog:",
     "@tanstack/react-hotkeys": "catalog:",
+    "border-beam": "catalog:",
     "cnfast": "catalog:",
     "foxact": "^0.3.8",
     "lucide-react": "catalog:",

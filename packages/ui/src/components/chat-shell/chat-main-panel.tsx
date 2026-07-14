@@ -22,14 +22,78 @@ export function ChatMainPanelRoot({ className, render, ...props }: ChatMainPanel
   });
 }
 
+function ChatMainPanelHeaderMask() {
+  const theme = useThemeFamily();
+  const { headerMask, headerMaskLayer } = chatMainPanel({ theme });
+
+  return (
+    <div aria-hidden data-slot="chat-main-panel-header-mask" className={headerMask()}>
+      <div
+        data-slot="chat-main-panel-header-mask-layer"
+        data-layer="solid"
+        className={headerMaskLayer()}
+      />
+      <div
+        data-slot="chat-main-panel-header-mask-layer"
+        data-layer="soft"
+        className={headerMaskLayer()}
+      />
+      <div
+        data-slot="chat-main-panel-header-mask-layer"
+        data-layer="blur"
+        className={headerMaskLayer()}
+      />
+    </div>
+  );
+}
+
 export type ChatMainPanelHeaderProps = useRender.ComponentProps<"div">;
 
-export function ChatMainPanelHeader({ className, render, ...props }: ChatMainPanelHeaderProps) {
+export function ChatMainPanelHeader({
+  children,
+  className,
+  render,
+  ...props
+}: ChatMainPanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-header",
     className: header({ className }),
+    children: (
+      <>
+        <ChatMainPanelHeaderMask />
+        {children}
+      </>
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatMainPanelSectionHeaderProps = useRender.ComponentProps<"div">;
+
+export function ChatMainPanelSectionHeader({
+  children,
+  className,
+  render,
+  ...props
+}: ChatMainPanelSectionHeaderProps) {
+  const theme = useThemeFamily();
+  const { header } = chatMainPanel({ theme, headerMode: "section" });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "chat-main-panel-header",
+    className: header({ className }),
+    children: (
+      <>
+        <ChatMainPanelHeaderMask />
+        {children}
+      </>
+    ),
   };
 
   return useRender({

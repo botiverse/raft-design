@@ -48,6 +48,7 @@ import {
   PanelButtonIcon,
   ChatSidebarBody,
   ChatSidebarContent,
+  ChatSidebarGroupLabel,
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
   ChatSidebarItem,
@@ -225,7 +226,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
 
   return (
     <ChatSidebarRoot>
-      <ChatSidebarHeader className="border-line-strong bg-primary-400 px-4 md:hidden [[data-theme=elegant]_&]:bg-layer-page">
+      <ChatSidebarHeader className="md:hidden">
         <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
       </ChatSidebarHeader>
       <ChatSidebarHeader className="max-md:hidden">
@@ -239,16 +240,14 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
             return (
               <Fragment key={detail.id}>
                 {detail.group && detail.group !== previousGroup ? (
-                  <div className="px-2 pt-1 pb-2 font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted">
-                    {detail.group}
-                  </div>
+                  <ChatSidebarGroupLabel>{detail.group}</ChatSidebarGroupLabel>
                 ) : null}
                 <ChatSidebarItem
                   aria-current={selectedId === detail.id ? "page" : undefined}
                   onClick={() => selectRailDetail(detail.id)}
                 >
                   <ChatSidebarItemIcon aria-hidden>
-                    <DetailIcon className="size-3.5" />
+                    <DetailIcon />
                   </ChatSidebarItemIcon>
                   <ChatSidebarItemTitle>{detail.label}</ChatSidebarItemTitle>
                   {detail.meta ? <ChatSidebarItemMeta>{detail.meta}</ChatSidebarItemMeta> : null}
@@ -293,7 +292,7 @@ export function PlaygroundRailViewPanel({
           </PanelButton>
         ) : null}
         <ChatMainPanelHeaderIcon>
-          <ViewIcon className="size-[18px]" />
+          <ViewIcon />
         </ChatMainPanelHeaderIcon>
         <ChatMainPanelTitleBlock>
           <ChatMainPanelTitle>{viewMeta[view].title}</ChatMainPanelTitle>

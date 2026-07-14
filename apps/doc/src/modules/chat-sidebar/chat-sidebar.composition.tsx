@@ -102,7 +102,7 @@ export function ChatSidebarComposition() {
   }
 
   return (
-    <ChatSidebarRoot>
+    <ChatSidebarRoot className="relative overflow-x-clip">
       <ChatSidebarHeader>
         <div className="min-w-0 flex-1">
           <ChatSidebarHeaderTitle>Chat</ChatSidebarHeaderTitle>
@@ -115,7 +115,7 @@ export function ChatSidebarComposition() {
         </ChatSidebarAction>
       </ChatSidebarHeader>
       <ChatSidebarBody>
-        <ChatSidebarContent className="min-h-0 px-2">
+        <ChatSidebarContent className="min-h-0 px-2 md:pb-20">
           <div className="min-h-full">
             <ChatSidebarSection>
               <ChatSidebarSectionHeader className="mt-0">
@@ -138,7 +138,7 @@ export function ChatSidebarComposition() {
               <SidebarSectionHeaderMenu menu="sort">
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionChevron className="size-3" />
+                  <ChatSidebarSectionChevron />
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionActions>
@@ -209,7 +209,7 @@ export function ChatSidebarComposition() {
               >
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Joint Channels</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionChevron className="size-3" />
+                  <ChatSidebarSectionChevron />
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionAttention />
@@ -254,7 +254,7 @@ export function ChatSidebarComposition() {
               >
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionChevron className="size-3" />
+                  <ChatSidebarSectionChevron />
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionActions>
@@ -319,7 +319,7 @@ export function ChatSidebarComposition() {
               <SidebarSectionHeaderMenu menu="sort">
                 <ChatSidebarSectionButton type="button">
                   <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-                  <ChatSidebarSectionChevron className="size-3" />
+                  <ChatSidebarSectionChevron />
                 </ChatSidebarSectionButton>
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionActions>
@@ -370,7 +370,7 @@ export function ChatSidebarComposition() {
           </div>
         </ChatSidebarContent>
       </ChatSidebarBody>
-      <div className="pointer-events-none shrink-0">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 max-md:hidden">
         <LiveAgentActivityBarComposition latest={LIVE_AGENT_ACTIVITY_PREVIEW} />
       </div>
     </ChatSidebarRoot>

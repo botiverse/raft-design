@@ -16,6 +16,7 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
+  Status,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -33,10 +34,16 @@ import {
   AppRailRoot,
   AppRailServerButton,
   AppShellRail,
+  ChatSidebarServer,
+  ChatSidebarServerAvatar,
+  ChatSidebarServerChevron,
+  ChatSidebarServerIndicator,
+  ChatSidebarServerLabel,
 } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
+  ChevronDown,
   Home,
   MessageSquare,
   Monitor,
@@ -112,6 +119,28 @@ export function PlaygroundServerSwitcher({ className }: { className?: string }) 
       <span className="sr-only">{currentServerName}</span>
       <AppRailItemIndicator size="sm" aria-hidden title="Other servers have unread messages" />
     </AppRailServerButton>
+  );
+}
+
+export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
+  return (
+    <ChatSidebarServer title={name}>
+      <ChatSidebarServerAvatar>
+        <img alt="" src={currentServerAvatarSrc} />
+      </ChatSidebarServerAvatar>
+      <ChatSidebarServerLabel>{name}</ChatSidebarServerLabel>
+      <ChatSidebarServerChevron aria-hidden>
+        <ChevronDown />
+      </ChatSidebarServerChevron>
+      <ChatSidebarServerIndicator>
+        <Status
+          aria-label="Other servers have unread messages"
+          attention
+          size="sm"
+          variant="primary"
+        />
+      </ChatSidebarServerIndicator>
+    </ChatSidebarServer>
   );
 }
 
@@ -278,7 +307,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
         </AppRailRoot>
       </AppShellRail>
       {showBottomNavigation ? (
-        <AppShellRail className="order-last flex h-auto w-full md:hidden">
+        <AppShellRail placement="bottom">
           <AppRailRoot
             value={railView}
             onValueChange={(view) => {

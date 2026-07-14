@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Download, Eye, Play } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
+  MessageAttachmentGroup,
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
@@ -157,7 +158,7 @@ export function MessageFileAttachmentComposition() {
 
 export function MessageFileAttachmentsComposition() {
   return (
-    <div className="flex max-w-[22.5rem] flex-wrap items-start gap-2">
+    <MessageAttachmentGroup>
       <MessageFileAttachmentComposition />
       <MessageAttachmentReadyComposition
         name="screening.html"
@@ -166,6 +167,6 @@ export function MessageFileAttachmentsComposition() {
         primaryActionLabel="Download screening.html"
         onPrimaryAction={() => downloadMessageFixture("screening.html")}
       />
-    </div>
+    </MessageAttachmentGroup>
   );
 }

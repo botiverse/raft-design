@@ -2,6 +2,13 @@ import { useNavigate } from "@tanstack/react-router";
 import { CheckSquare } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import {
+  ChatMainPanelHeaderIcon,
+  ChatMainPanelSectionHeader,
+  ChatMainPanelSubtitle,
+  ChatMainPanelTitle,
+  ChatMainPanelTitleBlock,
+} from "raft-ui/wip";
 
 import {
   TasksPanelComposition,
@@ -107,17 +114,17 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       {channel ? null : (
-        <div className="flex h-[62px] shrink-0 items-center gap-3 border-b-2 border-line-strong bg-primary-400 px-5 md:bg-white">
-          <div className="hidden size-10 items-center justify-center border-2 border-line-strong bg-primary-400 md:flex">
-            <CheckSquare className="size-[18px]" aria-hidden />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base leading-tight font-bold">Tasks</h2>
-            <p className="font-mono text-xs text-foreground-muted">
+        <ChatMainPanelSectionHeader>
+          <ChatMainPanelHeaderIcon>
+            <CheckSquare aria-hidden />
+          </ChatMainPanelHeaderIcon>
+          <ChatMainPanelTitleBlock>
+            <ChatMainPanelTitle render={<h2 aria-label="Tasks" />}>Tasks</ChatMainPanelTitle>
+            <ChatMainPanelSubtitle render={<p />}>
               {compositionTasks.length} channel tasks
-            </p>
-          </div>
-        </div>
+            </ChatMainPanelSubtitle>
+          </ChatMainPanelTitleBlock>
+        </ChatMainPanelSectionHeader>
       )}
       <TasksPanelComposition
         tasks={compositionTasks}

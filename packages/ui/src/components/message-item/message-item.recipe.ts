@@ -2,6 +2,7 @@ import { tv, type VariantProps } from "../../lib/tv";
 
 export const messageItem = tv({
   slots: {
+    interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]"],
     root: ["group/message relative flex h-fit min-h-[3rem] gap-3", "border-2 border-transparent"],
     gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: ["relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors"],

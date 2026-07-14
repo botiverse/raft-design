@@ -4,6 +4,8 @@ export const chatMainPanel = tv({
   slots: {
     root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col", "text-foreground"],
     header: ["flex h-[62px] shrink-0 items-center gap-2 px-5", "[@media(max-height:600px)]:h-12"],
+    headerMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
+    headerMaskLayer: ["absolute inset-x-0 top-0"],
     headerIcon: [
       "flex size-9 shrink-0 items-center justify-center",
       "border-2",
@@ -55,11 +57,21 @@ export const chatMainPanel = tv({
         footer: "border-t-2 border-black bg-white",
       },
       elegant: {
-        root: "bg-layer-page font-sans text-foreground",
+        root: "relative bg-layer-page font-sans text-foreground",
         header: [
-          "h-auto min-h-[var(--shell-header-height,3.5rem)] [@media(max-height:600px)]:h-auto",
+          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-transparent",
           "pl-9",
+          "max-md:absolute max-md:inset-x-0 max-md:top-0 max-md:z-20 max-md:pl-5",
+        ],
+        headerMask: ["max-md:block h-[calc(100%+1.5rem)]"],
+        headerMaskLayer: [
+          "h-full",
+          "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--shell-surface-bg,var(--layer-panel))_0%,var(--shell-surface-bg,var(--layer-panel))_28%,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_82%,transparent)_52%,transparent_100%)]",
+          "data-[layer=soft]:h-[108%] data-[layer=soft]:bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_48%,transparent)_0%,color-mix(in_oklch,var(--shell-surface-bg,var(--layer-panel))_18%,transparent)_40%,transparent_100%)]",
+          "data-[layer=blur]:h-[112%] data-[layer=blur]:backdrop-blur-[14px] data-[layer=blur]:backdrop-saturate-125",
+          "data-[layer=blur]:[mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
+          "data-[layer=blur]:[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
         ],
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
@@ -78,8 +90,9 @@ export const chatMainPanel = tv({
           "[&_svg]:size-[13px]",
         ],
         content: [
-          "relative ml-2 overflow-clip rounded-tl-[var(--shell-surface-radius,10px)]",
+          "relative overflow-clip md:ml-2 md:rounded-tl-[var(--shell-surface-radius,10px)]",
           "bg-[var(--shell-surface-bg,var(--layer-panel))] shadow-xl",
+          "max-md:pt-[var(--shell-header-height,3.5rem)]",
         ],
         tabs: [
           "border-b-0 bg-layer-panel",
@@ -101,5 +114,27 @@ export const chatMainPanel = tv({
         subtitle: "text-sm",
       },
     },
+    headerMode: {
+      default: {},
+      section: {},
+    },
+  },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      headerMode: "section",
+      class: {
+        header: [
+          "max-md:bg-primary-400",
+          "[@media(max-height:600px)]:h-[62px]",
+          "max-md:[&>[data-slot=chat-main-panel-header-icon]]:hidden",
+          "md:[&>[data-slot=chat-main-panel-header-icon]]:size-10",
+          "md:[&>[data-slot=chat-main-panel-header-icon]]:bg-primary-400",
+        ],
+      },
+    },
+  ],
+  defaultVariants: {
+    headerMode: "default",
   },
 });

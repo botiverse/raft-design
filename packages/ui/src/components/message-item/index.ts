@@ -16,6 +16,7 @@ export {
   MessageItemContent,
   MessageItemEmbedded,
   MessageItemFooter,
+  MessageItemInteractionBoundary,
   MessageItemNotice,
 } from "./message-item-content";
 export {
@@ -54,6 +55,7 @@ export {
   MessageAttachmentBody,
   MessageAttachmentCard,
   MessageAttachmentErrorOverlay,
+  MessageAttachmentGroup,
   MessageAttachmentIcon,
   MessageAttachmentLoadingBar,
   MessageAttachmentMeta,
@@ -142,6 +144,7 @@ export type {
   MessageItemContentProps,
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
+  MessageItemInteractionBoundaryProps,
   MessageItemNoticeProps,
 } from "./message-item-content";
 export type {
@@ -181,6 +184,7 @@ export type {
   MessageAttachmentBodyProps,
   MessageAttachmentCardProps,
   MessageAttachmentErrorOverlayProps,
+  MessageAttachmentGroupProps,
   MessageAttachmentIconProps,
   MessageAttachmentLoadingBarProps,
   MessageAttachmentMetaDetailProps,

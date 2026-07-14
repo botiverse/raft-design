@@ -4,7 +4,24 @@ export const chatSidebar = tv({
   slots: {
     sidebarRoot: ["flex h-full min-h-0 w-full select-none flex-col"],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
+    sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
+    sidebarHeaderMaskLayer: ["absolute inset-x-0 top-0"],
     sidebarHeaderTitle: ["truncate text-lg font-bold text-foreground-strong"],
+    sidebarServer: ["relative inline-flex shrink-0 items-center"],
+    sidebarServerAvatar: [
+      "flex shrink-0 items-center justify-center overflow-hidden",
+      "[&_img]:size-full [&_img]:min-h-0 [&_img]:min-w-0 [&_img]:object-cover",
+    ],
+    sidebarServerLabel: ["min-w-0 truncate"],
+    sidebarServerChevron: [
+      "flex shrink-0 items-center justify-center",
+      "[&_svg]:size-4 [&_svg]:shrink-0",
+    ],
+    sidebarServerIndicator: ["pointer-events-none absolute"],
+    sidebarGroupLabel: [
+      "px-2 pt-1 pb-2",
+      "font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted",
+    ],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
     sidebarContent: ["flex-1 overflow-x-hidden overflow-y-auto px-2 py-3"],
     sidebarMenu: [
@@ -56,7 +73,10 @@ export const chatSidebar = tv({
       "border-2 text-sm font-medium transition-colors",
       "[@media(max-height:600px)]:py-1 md:py-1",
     ],
-    sidebarItemIcon: ["flex size-[18px] shrink-0 items-center justify-center"],
+    sidebarItemIcon: [
+      "flex size-[18px] shrink-0 items-center justify-center",
+      "[&>svg]:size-3.5 [&>svg]:shrink-0",
+    ],
     sidebarItemChannelIcon: [
       "flex shrink-0 items-center justify-center",
       "[&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
@@ -91,8 +111,20 @@ export const chatSidebar = tv({
     theme: {
       brutal: {
         sidebarSection: "px-0",
-        sidebarHeader:
-          "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5 [@media(max-height:600px)]:h-12",
+        sidebarHeader: [
+          "h-[62px] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
+          "max-md:bg-primary-400 max-md:px-4",
+          "[@media(max-height:600px)]:h-12",
+        ],
+        sidebarServer: [
+          "-rotate-2 gap-1.5 border-2 border-black bg-black px-3 py-1",
+          "font-sans text-base font-bold text-primary-400",
+          "shadow-brutal-sm transition-shadow hover:shadow-brutal",
+        ],
+        sidebarServerAvatar: "hidden",
+        sidebarServerLabel: "max-w-[200px]",
+        sidebarServerChevron: "rotate-2",
+        sidebarServerIndicator: "hidden",
         sidebarBody: "bg-brutal-cream max-md:bg-white",
         sidebarMenu: [
           "text-black transition-colors hover:text-black/70",
@@ -132,12 +164,36 @@ export const chatSidebar = tv({
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
       },
       elegant: {
-        sidebarRoot: "[--sidebar-inset-x:24px] md:[--sidebar-inset-x:22px]",
-        sidebarHeader:
-          "h-[var(--shell-header-height,3.5rem)] border-b-0 px-[var(--sidebar-inset-x,22px)]",
+        sidebarRoot: ["relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]"],
+        sidebarHeader: [
+          "relative isolate h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
+          "px-[var(--sidebar-inset-x,26px)]",
+          "max-md:absolute max-md:inset-x-0 max-md:top-0 max-md:z-20",
+          "[&_[data-slot=notification-center-trigger]]:-mr-2",
+        ],
+        sidebarHeaderMask: ["max-md:block h-[calc(100%+1.5rem)]"],
+        sidebarHeaderMaskLayer: [
+          "h-full",
+          "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--layer-page)_0%,var(--layer-page)_28%,color-mix(in_oklch,var(--layer-page)_82%,transparent)_52%,transparent_100%)]",
+          "data-[layer=soft]:h-[108%] data-[layer=soft]:bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--layer-page)_48%,transparent)_0%,color-mix(in_oklch,var(--layer-page)_18%,transparent)_40%,transparent_100%)]",
+          "data-[layer=blur]:h-[112%] data-[layer=blur]:backdrop-blur-[14px] data-[layer=blur]:backdrop-saturate-125",
+          "data-[layer=blur]:[mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
+          "data-[layer=blur]:[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
+        ],
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
+        sidebarServer: [
+          "size-8 justify-center rounded-md bg-layer-panel",
+          "transition-colors hover:bg-layer-strong/80",
+        ],
+        sidebarServerAvatar: "size-8 rounded-[inherit]",
+        sidebarServerLabel: "sr-only",
+        sidebarServerChevron: "hidden",
+        sidebarServerIndicator: "-top-1 -right-1 z-10",
         sidebarBody: "bg-layer-page",
-        sidebarContent: "px-[var(--sidebar-inset-x,22px)]",
+        sidebarContent: [
+          "px-[var(--sidebar-inset-x,26px)]",
+          "max-md:pt-[var(--shell-header-height,3.5rem)]",
+        ],
         sidebarMenu: [
           "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)]",
           "text-[12px] leading-none font-normal normal-case tracking-normal",
@@ -187,7 +243,7 @@ export const chatSidebar = tv({
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],
         sidebarItemTitle: "font-[450] text-foreground-muted",
-        sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:size-3.5 [&_svg]:stroke-[1.5]",
+        sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[2.25]",
         sidebarItemSubtitle: "text-ink-30",
@@ -201,9 +257,7 @@ export const chatSidebar = tv({
         sidebarItemMention: "rounded-sm border-0 bg-primary-400 text-primary-950",
         sidebarItemMuted: "text-foreground-muted",
         sidebarItemDraft: "text-foreground-icon",
-        sidebarItemBadge: [
-          "min-w-[18px] justify-center rounded-sm border-0 bg-primary-400 px-1 py-px text-[10px] text-primary-950 tabular-nums",
-        ],
+        sidebarItemBadge: ["min-w-[18px] justify-center rounded-sm px-1 py-px tabular-nums"],
         sidebarFooter: "border-t border-line-subtle p-3",
       },
     },

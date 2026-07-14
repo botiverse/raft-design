@@ -32,6 +32,7 @@ import chatMainPanelCompositionSource from "#/modules/chat-main-panel/compositio
 import {
   ChatMainPanelChannelHeaderComposition,
   ChatMainPanelDmHeaderComposition,
+  ChatMainPanelSectionHeaderComposition,
 } from "#/modules/chat-main-panel/compositions/chat-main-panel-header.composition.tsx";
 import chatMainPanelHeaderCompositionSource from "#/modules/chat-main-panel/compositions/chat-main-panel-header.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -98,6 +99,12 @@ const PROPS: readonly PropRow[] = [
     name: "ChatMainPanelHeader / HeaderIcon / TitleBlock / TitleRow",
     type: "div props",
     description: "Header structure for caller-owned leading content, title metadata, and actions.",
+  },
+  {
+    name: "ChatMainPanelSectionHeader",
+    type: "div props",
+    description:
+      "Top-level section header with the reusable Brutal mobile accent treatment and standard Elegant header treatment.",
   },
   {
     name: "ChatMainPanelTitle / Subtitle / TitleBadge / Actions",
@@ -225,6 +232,13 @@ function ChatMainPanelDoc() {
             <PreviewThemeScope className="h-full">
               <HeaderPreview>
                 <ChatMainPanelDmHeaderComposition />
+              </HeaderPreview>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Top-level section header">
+            <PreviewThemeScope className="h-full">
+              <HeaderPreview>
+                <ChatMainPanelSectionHeaderComposition />
               </HeaderPreview>
             </PreviewThemeScope>
           </PreviewPane>

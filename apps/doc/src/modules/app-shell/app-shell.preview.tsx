@@ -1,6 +1,6 @@
 import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { usePreviewTheme } from "#/components/preview-theme.tsx";
 import { AppShellDesktopComposition } from "./compositions/desktop.composition.tsx";
-import { AppShellMobileRootComposition } from "./compositions/mobile-root.composition.tsx";
 
 const VIEWPORTS = ["Desktop", "Mobile"] as const;
 
@@ -24,13 +24,24 @@ export function AppShellPreview() {
       previewClassName="!min-h-[28rem] !items-stretch !p-0"
       render={({ viewport }) => (
         <div className="flex min-h-[28rem] w-full min-w-0 items-center justify-center overflow-hidden">
-          {viewport === "Desktop" ? (
-            <AppShellDesktopComposition />
-          ) : (
-            <AppShellMobileRootComposition />
-          )}
+          {viewport === "Desktop" ? <AppShellDesktopComposition /> : <AppShellMobilePreviewFrame />}
         </div>
       )}
+    />
+  );
+}
+
+function AppShellMobilePreviewFrame() {
+  const { mode, theme } = usePreviewTheme();
+  const params = new URLSearchParams({ mode, theme });
+
+  return (
+    <iframe
+      key={`${theme}-${mode}`}
+      title={`App shell mobile preview in ${theme} ${mode}`}
+      src={`/iframe/app-shell-mobile?${params.toString()}`}
+      sandbox="allow-scripts"
+      className="block h-[360px] w-[375px] max-w-full border-0 bg-transparent"
     />
   );
 }

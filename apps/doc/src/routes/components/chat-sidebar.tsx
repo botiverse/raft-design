@@ -26,10 +26,11 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { PreviewThemeScope } from "#/components/preview-theme.tsx";
+import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarPreviewComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
+import chatSidebarMobilePartsSource from "#/modules/chat-sidebar/compositions/mobile-parts.composition.tsx?raw";
 import { SourceLiveAgentActivityBar } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.source-preview.tsx";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
 import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
@@ -40,12 +41,14 @@ const CHAT_SIDEBAR_COMPOSITION_PATH =
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
+  { id: "mobile-parts", title: "Mobile parts" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
 ] as const;
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
+  chatSidebarMobileParts: chatSidebarMobilePartsSource,
   anatomy: `<AppShellRoot>
   <AppShellRail>
     <AppRailRoot />
@@ -112,6 +115,12 @@ const PROPS: readonly PropRow[] = [
     description: "Column regions matching source sidebar chrome, scroll ownership, and footer.",
   },
   {
+    name: "ChatSidebarServer / Avatar / Label / Chevron / Indicator",
+    type: "div + span props",
+    description:
+      "Single-DOM server identity parts. Theme recipes select the desktop and mobile treatment while product content stays caller-owned.",
+  },
+  {
     name: "ChatSidebarMenu / Icon / Title / Aside / Count",
     type: "button + span props",
     description:
@@ -121,6 +130,11 @@ const PROPS: readonly PropRow[] = [
     name: "ChatSidebarSection / List",
     type: "section / div props",
     description: "Section and list wrappers for saved, pinned, channel, joint, and DM groups.",
+  },
+  {
+    name: "ChatSidebarGroupLabel",
+    type: "div props",
+    description: "Static, non-interactive heading for sidebar groups that do not collapse.",
   },
   {
     name: "SortableChatSidebarList",
@@ -208,6 +222,18 @@ function ChatSidebarDoc() {
         />
       </DocSection>
 
+      <DocSection id="mobile-parts" title="Mobile parts" showThemeSwitcher>
+        <div className="max-w-sm overflow-hidden border border-line bg-layer-panel">
+          <ChatSidebarMobilePartsFrame />
+        </div>
+        <DocsCodeBlock.Panel
+          path="apps/doc/src/modules/chat-sidebar/compositions/mobile-parts.composition.tsx"
+          source={chatSidebarMobilePartsSource}
+          html={code.chatSidebarMobileParts}
+          showLineNumbers={false}
+        />
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
@@ -225,6 +251,21 @@ function ChatSidebarDoc() {
 
 function PreviewGrid({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-4">{children}</div>;
+}
+
+function ChatSidebarMobilePartsFrame() {
+  const { mode, theme } = usePreviewTheme();
+  const params = new URLSearchParams({ mode, theme });
+
+  return (
+    <iframe
+      key={`${theme}-${mode}`}
+      title={`Chat sidebar mobile parts in ${theme} ${mode}`}
+      src={`/iframe/chat-sidebar-mobile-parts?${params.toString()}`}
+      sandbox="allow-scripts"
+      className="block h-72 w-full border-0 bg-transparent"
+    />
+  );
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
