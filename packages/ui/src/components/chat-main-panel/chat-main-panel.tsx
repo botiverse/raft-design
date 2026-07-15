@@ -282,6 +282,7 @@ export function ChatMainPanelTimeline({
         render={render}
         data-slot="chat-main-panel-timeline"
         className={timelineViewport({ className })}
+        style={{ ...props.style, overflowX: "hidden" }}
       >
         <ScrollArea.Content className={timelineContent()}>{children}</ScrollArea.Content>
       </ScrollArea.Viewport>

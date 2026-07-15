@@ -36,6 +36,7 @@ import {
 } from "./playground-message-row.tsx";
 import {
   ALL_SHOWCASE_THREAD_IDS,
+  PLAYGROUND_SERVER_SLUG,
   getPlaygroundActor,
   getPlaygroundChannel,
   getPlaygroundFilesForMessage,
@@ -119,7 +120,9 @@ export function ProjUiuxBody() {
             body={
               <>
                 {todoTask.title}{" "}
-                <MessageReferenceTask href={`/playground/${todoTask.channelId}`}>
+                <MessageReferenceTask
+                  href={`/playground/s/${PLAYGROUND_SERVER_SLUG}/channel/${todoTask.channelId}`}
+                >
                   #{todoTask.number}
                 </MessageReferenceTask>
               </>
@@ -134,7 +137,9 @@ export function ProjUiuxBody() {
             body={
               <>
                 {inProgressTask.title}{" "}
-                <MessageReferenceTask href={`/playground/${inProgressTask.channelId}`}>
+                <MessageReferenceTask
+                  href={`/playground/s/${PLAYGROUND_SERVER_SLUG}/channel/${inProgressTask.channelId}`}
+                >
                   #{inProgressTask.number}
                 </MessageReferenceTask>
               </>
@@ -149,7 +154,9 @@ export function ProjUiuxBody() {
             body={
               <>
                 {inReviewTask.title}{" "}
-                <MessageReferenceTask href={`/playground/${inReviewTask.channelId}`}>
+                <MessageReferenceTask
+                  href={`/playground/s/${PLAYGROUND_SERVER_SLUG}/channel/${inReviewTask.channelId}`}
+                >
                   #{inReviewTask.number}
                 </MessageReferenceTask>
               </>
@@ -164,7 +171,9 @@ export function ProjUiuxBody() {
             body={
               <>
                 {doneTask.title}{" "}
-                <MessageReferenceTask href={`/playground/${doneTask.channelId}`}>
+                <MessageReferenceTask
+                  href={`/playground/s/${PLAYGROUND_SERVER_SLUG}/channel/${doneTask.channelId}`}
+                >
                   #{doneTask.number}
                 </MessageReferenceTask>
               </>
@@ -269,14 +278,14 @@ export function ChipDemoBody() {
       <p>
         Self mention:{" "}
         <MessageSelfMentionReferenceComposition
-          href="/playground/dm-code-pilot"
+          href="/playground/s/raft/channel/dm-code-pilot"
           preview={<ProfileCardBody actorId="developer" />}
         >
           @Developer
         </MessageSelfMentionReferenceComposition>{" "}
         is the attention chip. Normal mentions like{" "}
         <MessageMentionReferenceComposition
-          href="/playground/dm-noah"
+          href="/playground/s/raft/channel/dm-noah"
           preview={<ProfileCardBody actorId="noah" />}
         >
           @Member
@@ -285,14 +294,15 @@ export function ChipDemoBody() {
       </p>
       <p>
         Refs in one line:{" "}
-        <MessageReferenceChannel href="/playground/general">
+        <MessageReferenceChannel href="/playground/s/raft/channel/general">
           #{GENERAL_CHANNEL_NAME}
         </MessageReferenceChannel>{" "}
-        task <MessageReferenceTask href="/playground/frontend">#15</MessageReferenceTask>{" "}
-        <MessageReferenceThread href="/playground/general">
+        task{" "}
+        <MessageReferenceTask href="/playground/s/raft/channel/frontend">#15</MessageReferenceTask>{" "}
+        <MessageReferenceThread href="/playground/s/raft/channel/general">
           #{GENERAL_CHANNEL_NAME}:67253b90
         </MessageReferenceThread>{" "}
-        <MessagePermalinkReferenceComposition href="/playground/general">
+        <MessagePermalinkReferenceComposition href="/playground/s/raft/channel/general">
           #{GENERAL_CHANNEL_NAME}
         </MessagePermalinkReferenceComposition>
       </p>

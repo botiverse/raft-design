@@ -169,7 +169,7 @@ const PROPS: readonly PropRow[] = [
     name: "ContextMenuContent",
     type: "Base UI Popup + Positioner props",
     description:
-      "Portaled floating menu shell. Defaults to placing the popup top-left at the context point, with collision correction off unless overridden.",
+      "Portaled floating menu shell. Keeps the menu near the context point while shifting it inside the collision boundary with 8px of padding.",
   },
   {
     name: "ContextMenuItem",

@@ -324,11 +324,14 @@ function MatrixContentSection() {
             </p>
             <p>
               Cross-server permalink:{" "}
-              <MessagePermalinkReferenceComposition external href="/playground/incidents">
+              <MessagePermalinkReferenceComposition
+                external
+                href="/playground/s/raft/channel/incidents"
+              >
                 #ops@other
               </MessagePermalinkReferenceComposition>{" "}
               vs same-server{" "}
-              <MessagePermalinkReferenceComposition href="/playground/general">
+              <MessagePermalinkReferenceComposition href="/playground/s/raft/channel/general">
                 #{GENERAL_CHANNEL_NAME}
               </MessagePermalinkReferenceComposition>
             </p>

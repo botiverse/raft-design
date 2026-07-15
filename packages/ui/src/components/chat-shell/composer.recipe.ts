@@ -4,7 +4,7 @@ export const composer = tv({
   slots: {
     root: ["flex w-full flex-col gap-2 border-2 p-2"],
     input: [
-      "min-h-5 max-h-32 w-full resize-none bg-transparent text-sm leading-5 outline-none md:min-h-10",
+      "min-h-5 max-h-32 w-full resize-none bg-transparent text-base leading-5 outline-none md:min-h-10 md:text-sm",
     ],
     toolbar: ["flex items-center justify-between gap-3"],
     actions: ["flex items-center gap-2"],

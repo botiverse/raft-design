@@ -37,7 +37,7 @@ export function PlaygroundShell() {
   );
 
   return (
-    <div className="h-dvh">
+    <div className="h-dvh overflow-hidden">
       {mobilePreview && !embedded ? (
         <PreviewThemeScope className="h-full">
           <PlaygroundMobilePreview src={location.href} theme={theme} mode={mode} />

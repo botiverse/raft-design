@@ -43,14 +43,14 @@ export function MessageReferenceShowcaseComposition() {
               <p>
                 Ask{" "}
                 <MessageMentionReferenceComposition
-                  href="/playground/atlas"
+                  href="/playground/s/raft/channel/all"
                   portalContainer={portalContainer}
                   preview={<p>Atlas · Design-system agent</p>}
                 >
                   @Atlas
                 </MessageMentionReferenceComposition>{" "}
                 to check the{" "}
-                <MessagePermalinkReferenceComposition href="/playground/message/222">
+                <MessagePermalinkReferenceComposition href="/playground/s/raft/channel/all">
                   message #222
                 </MessagePermalinkReferenceComposition>{" "}
                 rollout, with an external{" "}
@@ -64,7 +64,7 @@ export function MessageReferenceShowcaseComposition() {
               </p>
               <p>
                 <MessageSelfMentionReferenceComposition
-                  href="/playground/me"
+                  href="/playground/s/raft/channel/all"
                   portalContainer={portalContainer}
                   preview={<p>You · Current workspace member</p>}
                 >
