@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
+import { Button } from "raft-ui";
 import {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
@@ -67,8 +68,10 @@ export function PlaygroundThreadPanel({
   return (
     <ChatThreadPanelRoot>
       <ChatThreadPanelHeader>
-        <ChatPanelAction
-          className="lg:hidden"
+        <Button
+          className="mr-1 lg:hidden"
+          variant="outline"
+          size="icon-md"
           nativeButton={false}
           aria-label={backToTasks ? "Back to Tasks" : "Back to channel"}
           render={
@@ -84,7 +87,7 @@ export function PlaygroundThreadPanel({
           }
         >
           <ChevronLeft aria-hidden />
-        </ChatPanelAction>
+        </Button>
         <ChatThreadPanelTitle>
           Thread
           <ChatThreadPanelTitleMeta>{` — ${channelLabel}`}</ChatThreadPanelTitleMeta>

@@ -161,8 +161,8 @@ function PlaygroundChatLayout({
           <ResizablePanel
             id="playground-thread"
             defaultSize={400}
-            minSize={320}
-            maxSize={560}
+            minSize={360}
+            maxSize="60vw"
             groupResizeBehavior="preserve-pixel-size"
             className="min-w-0"
           >

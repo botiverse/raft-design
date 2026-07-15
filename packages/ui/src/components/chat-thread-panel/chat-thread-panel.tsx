@@ -12,7 +12,7 @@ const chatThreadPanel = tv({
       "[@media(max-height:600px)]:h-12",
     ],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
+    title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],
     actions: ["flex shrink-0 items-center gap-1.5"],
     search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2"],
@@ -47,14 +47,20 @@ const chatThreadPanel = tv({
       elegant: {
         root: "bg-transparent font-sans text-foreground",
         header: [
-          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-md:z-10 [@media(max-height:600px)]:h-auto",
+          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-layer-page",
+          "max-lg:gap-2 max-lg:px-[14px]",
+          "max-lg:border-b max-lg:border-line-subtle",
+          "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:z-0 max-lg:before:h-[calc(100%+0.75rem)]",
+          "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-[4px]",
+          "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
+          "max-lg:before:content-[''] max-lg:[&>*]:relative max-lg:[&>*]:z-10",
         ],
         content: ["relative overflow-clip", "bg-layer-panel shadow-xl"],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
-          "max-md:leading-none",
+          "max-lg:leading-none",
         ],
         titleMeta: "text-foreground-muted",
         search: "border-b border-line-subtle bg-transparent",
@@ -174,7 +180,8 @@ export function ChatThreadPanelActions({
   render,
   ...props
 }: ChatThreadPanelActionsProps) {
-  const { actions } = chatThreadPanel();
+  const theme = useThemeFamily();
+  const { actions } = chatThreadPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-actions",
     className: actions({ className }),

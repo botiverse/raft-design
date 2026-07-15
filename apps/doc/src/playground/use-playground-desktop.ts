@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-const desktopBreakpoint = 768;
+const desktopBreakpoint = 1024;
 
 function subscribe(onStoreChange: () => void) {
   const viewport = window.visualViewport;
