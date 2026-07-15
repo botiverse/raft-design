@@ -26,6 +26,11 @@ export const messageItem = tv({
     time: ["shrink-0 whitespace-nowrap"],
     inlineStatus: ["shrink-0 text-[10px] font-bold text-foreground/40"],
     body: ["break-words select-text", "[&_*]:select-text"],
+    translationPlaceholder: ["inline-block h-4 w-44 max-w-full align-middle"],
+    translationOriginal: ["mt-1.5"],
+    translationOriginalLabel: [],
+    translationStatus: ["inline-flex items-center gap-1.5"],
+    translationAction: ["font-bold underline underline-offset-2"],
     embedded: ["mt-1.5 min-w-0"],
     notice: [
       "mt-1 inline-flex max-w-full border border-line-strong bg-soft-signal/40 px-2 py-1",
@@ -53,13 +58,19 @@ export const messageItem = tv({
         header: "items-center gap-2",
         sender: "font-bold text-black",
         senderState: [
-          "border border-line-strong bg-[oklch(0.872_0.01_258.338)] px-1.5 py-0.5",
-          "text-[10px] font-bold uppercase text-foreground/60",
+          "border border-black bg-[oklch(0.872_0.01_258.338)] px-1.5 py-0.5",
+          "text-[10px] font-bold uppercase text-black/60",
         ],
         meta: "font-mono text-xs text-black/40",
         time: "font-mono text-xs text-black/40",
         inlineStatus: "text-black/40",
         body: "text-sm leading-5 text-black",
+        translationPlaceholder: "border-2 border-black/20",
+        translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
+        translationOriginalLabel:
+          "mb-0.5 text-[10px] font-bold uppercase tracking-normal text-black/40",
+        translationStatus: "font-mono text-[11px] text-black/45",
+        translationAction: "decoration-black/40 hover:decoration-black",
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-brutal-sm"],
         toolbarButton: [
           "size-6",
@@ -94,6 +105,13 @@ export const messageItem = tv({
           "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
+        translationPlaceholder: "rounded-sm",
+        translationOriginal: "border-l border-line-subtle pl-2 text-foreground-muted",
+        translationOriginalLabel:
+          "mb-0.5 text-[10px] font-medium uppercase tracking-normal text-foreground-muted",
+        translationStatus: "text-[11px] leading-none text-foreground-muted",
+        translationAction:
+          "decoration-foreground-muted/50 hover:text-foreground hover:decoration-foreground",
         notice: [
           "rounded-md border-0 bg-layer-muted px-2 py-1.5",
           "text-xs font-medium text-foreground-muted",
@@ -128,6 +146,11 @@ export const messageItem = tv({
       true: { body: "mt-0 mb-0" },
     },
     toolbarVisible: { true: { toolbar: "pointer-events-auto opacity-100" } },
+    translationTone: {
+      failed: {},
+      normal: {},
+      pending: { translationStatus: "[&_svg]:animate-pulse" },
+    },
   },
   compoundVariants: [
     { theme: "brutal", rowState: "active", class: { root: "border-line-strong bg-white" } },
@@ -155,6 +178,22 @@ export const messageItem = tv({
           "border-transparent bg-info-base/10 shadow-none",
           "ring-1 ring-inset ring-info-dark",
         ],
+      },
+    },
+    {
+      theme: "brutal",
+      translationTone: "failed",
+      class: {
+        translationStatus: "text-brutal-orange",
+        translationAction: "text-brutal-orange",
+      },
+    },
+    {
+      theme: "elegant",
+      translationTone: "failed",
+      class: {
+        translationStatus: "text-danger-base",
+        translationAction: "text-danger-base",
       },
     },
     { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },

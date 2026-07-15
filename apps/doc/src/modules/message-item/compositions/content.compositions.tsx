@@ -7,16 +7,20 @@ import {
   MessageMarkdown,
   MessageMarkdownTableScroll,
   MessageReferenceLabel,
+  MessageReferenceChannelUnavailable,
   MessageReferenceLoading,
   MessageReferenceMention,
   MessageReferenceMeta,
   MessageReferencePermalink,
   MessageReferenceSelfMention,
+  MessageReferenceTaskUnavailable,
+  MessageReferenceThreadUnavailable,
 } from "raft-ui/wip";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;
   href: string;
+  portalContainer?: HTMLElement | null;
 };
 
 export type MessageSelfMentionReferenceCompositionProps = MessageReferenceCompositionProps & {
@@ -30,6 +34,7 @@ export type MessageMentionReferenceCompositionProps = MessageReferenceCompositio
 export function MessageMentionReferenceComposition({
   children,
   href,
+  portalContainer,
   preview,
 }: MessageMentionReferenceCompositionProps) {
   return (
@@ -41,7 +46,12 @@ export function MessageMentionReferenceComposition({
       >
         {children}
       </PreviewCardTrigger>
-      <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
+      <PreviewCardContent
+        sideOffset={6}
+        collisionPadding={6}
+        portalProps={portalContainer ? { container: portalContainer } : undefined}
+        className="w-[17.5rem]"
+      >
         {preview}
       </PreviewCardContent>
     </PreviewCard>
@@ -51,6 +61,7 @@ export function MessageMentionReferenceComposition({
 export function MessageSelfMentionReferenceComposition({
   children,
   href,
+  portalContainer,
   preview,
 }: MessageSelfMentionReferenceCompositionProps) {
   return (
@@ -62,7 +73,12 @@ export function MessageSelfMentionReferenceComposition({
       >
         {children}
       </PreviewCardTrigger>
-      <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
+      <PreviewCardContent
+        sideOffset={6}
+        collisionPadding={6}
+        portalProps={portalContainer ? { container: portalContainer } : undefined}
+        className="w-[17.5rem]"
+      >
         {preview}
       </PreviewCardContent>
     </PreviewCard>
@@ -89,6 +105,17 @@ export function MessageReferenceLoadingComposition({ children }: { children: Rea
       {children}
       <Spinner size="xs" />
     </MessageReferenceLoading>
+  );
+}
+
+export function MessageUnavailableReferencesComposition() {
+  return (
+    <p>
+      Unavailable references retain their source treatment:{" "}
+      <MessageReferenceChannelUnavailable>#archived</MessageReferenceChannelUnavailable>{" "}
+      <MessageReferenceTaskUnavailable>#404</MessageReferenceTaskUnavailable>{" "}
+      <MessageReferenceThreadUnavailable>#general:deadbeef</MessageReferenceThreadUnavailable>
+    </p>
   );
 }
 

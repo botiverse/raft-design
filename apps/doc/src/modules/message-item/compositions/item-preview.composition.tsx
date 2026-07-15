@@ -1,5 +1,19 @@
 import { useState } from "react";
-import { Ban, Bookmark, Check, CheckCircle, Circle, Eye, Play, Plus } from "lucide-react";
+import {
+  AlertTriangle,
+  Ban,
+  Bookmark,
+  Check,
+  CheckCircle,
+  Circle,
+  ChevronRight,
+  Eye,
+  Languages,
+  MessageSquare,
+  Pencil,
+  Play,
+  Plus,
+} from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -15,28 +29,53 @@ import {
   MessageItemActive,
   MessageItemAttachments,
   MessageItemAvatarSlot,
+  MessageItemBadge,
+  MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
+  MessageItemInlineStatus,
   MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
   MessageItemSelection,
   MessageItemSender,
+  MessageItemSenderState,
   MessageItemTime,
+  MessageItemTranslationAction,
+  MessageItemTranslationOriginal,
+  MessageItemTranslationOriginalLabel,
+  MessageItemTranslationPlaceholder,
+  MessageItemTranslationStatus,
+  MessageMarkdown,
   MessageReactionAddButton,
   MessageReactionGlyph,
   MessageReactionPickerContent,
   MessageReactionQuickButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
+  SystemMessageGroupDisclosure,
+  SystemMessageItem,
+  SystemMessageItemContent,
+  SystemMessageItemTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
-import { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";
+import {
+  MessageCodeBlockComposition,
+  MessageMarkdownComposition,
+} from "./content.compositions.tsx";
+import {
+  MessageProductStatePreview,
+  type MessageProductStatePreviewState,
+} from "./message-product-states.composition.tsx";
+import {
+  MESSAGE_FIXTURE_IMAGE_SRC,
+  MESSAGE_QUICK_REACTIONS,
+} from "#/modules/message-item/message-item.fixtures.ts";
 import {
   MessageFileAttachmentsComposition,
   MessageImageGallerySingleComposition,
@@ -50,6 +89,19 @@ export type MessageItemPreviewChrome =
   | "search-match"
   | "selected"
   | "continuation";
+
+export type MessageItemPreviewTranslation =
+  | "none"
+  | "pending"
+  | "translated"
+  | "bilingual"
+  | "failed";
+
+export type MessageItemPreviewProductState = "none" | MessageProductStatePreviewState;
+
+export type MessageItemPreviewSenderState = "none" | "deleted" | "left" | "removed";
+
+export type MessageItemPreviewSystemEvent = "archive" | "reminder" | "group";
 
 type MessageTaskStatus = "todo" | "in-progress" | "in-review" | "done" | "closed";
 
@@ -69,11 +121,20 @@ const TASK_STATUS_OPTIONS = [
 export type MessageItemPreviewProps = {
   chrome?: MessageItemPreviewChrome;
   meta?: boolean;
+  markdown?: boolean;
+  translation?: MessageItemPreviewTranslation;
+  productState?: MessageItemPreviewProductState;
+  senderState?: MessageItemPreviewSenderState;
+  converting?: boolean;
+  systemEvent?: MessageItemPreviewSystemEvent;
   task?: boolean;
   image?: boolean;
   video?: boolean;
   files?: boolean;
   saved?: boolean;
+  replies?: boolean;
+  newReplies?: boolean;
+  draftReply?: boolean;
   reactions?: boolean;
   mobileReactionAdd?: boolean;
   toolbar?: boolean;
@@ -119,6 +180,58 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+function MessageSystemGroupPreview() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="mb-1">
+      <div className="flex justify-center py-1.5">
+        <SystemMessageGroupDisclosure
+          aria-expanded={expanded}
+          onClick={() => setExpanded((current) => !current)}
+          title="There are 2 system updates: 1 task update, 1 reminder update"
+        >
+          <span className="truncate">
+            There are 2 system updates: 1 task update, 1 reminder update
+          </span>
+          <ChevronRight aria-hidden />
+        </SystemMessageGroupDisclosure>
+      </div>
+      {expanded ? (
+        <div>
+          <SystemMessageItem>
+            <SystemMessageItemTime>2:18 PM</SystemMessageItemTime>
+            <SystemMessageItemContent>Task #41 was completed.</SystemMessageItemContent>
+          </SystemMessageItem>
+          <SystemMessageItem>
+            <SystemMessageItemTime>2:19 PM</SystemMessageItemTime>
+            <SystemMessageItemContent title="Reminder fires Jul 16, 9:00 AM">
+              Reminder scheduled for tomorrow at 9:00 AM.
+            </SystemMessageItemContent>
+          </SystemMessageItem>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent }) {
+  if (event === "group") return <MessageSystemGroupPreview />;
+
+  return (
+    <SystemMessageItem>
+      <SystemMessageItemTime>2:17 PM</SystemMessageItemTime>
+      <SystemMessageItemContent
+        title={event === "reminder" ? "Reminder fires Jul 16, 9:00 AM" : undefined}
+      >
+        {event === "reminder"
+          ? "Reminder scheduled for tomorrow at 9:00 AM."
+          : "Atlas archived this thread."}
+      </SystemMessageItemContent>
+    </SystemMessageItem>
   );
 }
 
@@ -178,11 +291,20 @@ function MessageMobileReactionAdd({
 export function MessageItemPreview({
   chrome = "default",
   meta = true,
+  markdown = false,
+  translation = "none",
+  productState = "none",
+  senderState = "none",
+  converting = false,
+  systemEvent,
   task = false,
   image = false,
   video = false,
   files = false,
   saved = false,
+  replies = false,
+  newReplies = false,
+  draftReply = false,
   reactions = false,
   mobileReactionAdd = false,
   toolbar = false,
@@ -198,10 +320,88 @@ export function MessageItemPreview({
   }
   const [reaction, setReaction] = useState<string>();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [showOriginal, setShowOriginal] = useState(false);
+  const [translationControl, setTranslationControl] = useState(translation);
+  const [retryingTranslation, setRetryingTranslation] = useState(false);
+  if (translation !== translationControl) {
+    setTranslationControl(translation);
+    setShowOriginal(false);
+    setRetryingTranslation(false);
+  }
   const continuation = chrome === "continuation";
 
+  if (systemEvent) return <MessageSystemPreview event={systemEvent} />;
+
+  if (!continuation && productState !== "none") {
+    return <MessageProductStatePreview state={productState} />;
+  }
+  const translationState = retryingTranslation ? "pending" : translation;
+
+  const originalTranslation = "Keep this original message available for the team.";
+  const translatedMessage = "让团队保留这条原始消息。";
+
+  const translationStatus =
+    translationState === "none" ? null : (
+      <MessageItemTranslationStatus
+        tone={
+          translationState === "failed"
+            ? "failed"
+            : translationState === "pending"
+              ? "pending"
+              : "normal"
+        }
+        data-testid={`message-translation-indicator-preview`}
+      >
+        {translationState === "failed" ? <AlertTriangle size={12} /> : <Languages size={12} />}
+        {translationState === "pending" ? <span>Translating…</span> : null}
+        {translationState === "failed" ? (
+          <>
+            <span>Translation unavailable</span>
+            <span aria-hidden>·</span>
+            <MessageItemTranslationAction
+              tone="failed"
+              title="Translation unavailable"
+              aria-label="Retry"
+              onClick={() => setRetryingTranslation(true)}
+            >
+              Retry
+            </MessageItemTranslationAction>
+          </>
+        ) : null}
+        {translationState === "translated" || translationState === "bilingual" ? (
+          <MessageItemTranslationAction
+            title={showOriginal ? "Original shown. Show translation" : "Translated. Show original"}
+            aria-label={showOriginal ? "Show translation" : "Show original"}
+            onClick={() => setShowOriginal((current) => !current)}
+          >
+            {showOriginal ? "Show translation" : "Show original"}
+          </MessageItemTranslationAction>
+        ) : null}
+      </MessageItemTranslationStatus>
+    );
+
+  const messageBody =
+    translationState === "pending" ? (
+      <MessageItemTranslationPlaceholder data-testid="message-translation-placeholder-preview" />
+    ) : translationState === "translated" || translationState === "bilingual" ? (
+      <MessageMarkdown>
+        <p>{showOriginal ? originalTranslation : translatedMessage}</p>
+      </MessageMarkdown>
+    ) : translationState === "failed" ? (
+      <MessageMarkdown>
+        <p>{originalTranslation}</p>
+      </MessageMarkdown>
+    ) : markdown ? (
+      <>
+        <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
+        <MessageCodeBlockComposition />
+      </>
+    ) : (
+      "Toggle the controls to preview row chrome, the saved indicator, reactions, and the hover toolbar. Markdown, mentions, and links stay caller-owned."
+    );
+
   const footer =
-    task || isSaved || reactions ? (
+    task || isSaved || replies || draftReply || reactions ? (
       <MessageItemFooter>
         {task ? <MessageTaskStatusBadge portalContainer={portalContainer} /> : null}
         {isSaved ? (
@@ -212,6 +412,27 @@ export function MessageItemPreview({
             <Bookmark fill="currentColor" />
             <span>Saved</span>
           </MessageItemSavedIndicator>
+        ) : null}
+        {replies || draftReply ? (
+          <MessageItemBadge status={newReplies ? "unread" : "read"}>
+            {replies ? <MessageSquare /> : <Pencil className="text-foreground-muted" />}
+            {replies ? <span>2 replies</span> : null}
+            {newReplies ? (
+              <>
+                <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
+                <span>1 new</span>
+              </>
+            ) : null}
+            {draftReply ? (
+              <>
+                {replies || newReplies ? (
+                  <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
+                ) : null}
+                {replies ? <Pencil className="text-foreground-muted" /> : null}
+                <span className="text-foreground-muted">draft</span>
+              </>
+            ) : null}
+          </MessageItemBadge>
         ) : null}
         {reactions ? (
           <>
@@ -296,13 +517,25 @@ export function MessageItemPreview({
     <MessageItemContent>
       <MessageItemHeader>
         <MessageItemSender>Atlas</MessageItemSender>
+        {senderState !== "none" ? (
+          <MessageItemSenderState>
+            {senderState === "deleted" ? "Deleted" : senderState === "left" ? "Left" : "Removed"}
+          </MessageItemSenderState>
+        ) : null}
         {meta ? <MessageItemMeta>claude-opus</MessageItemMeta> : null}
         <MessageItemTime>2:14 PM</MessageItemTime>
+        {converting ? <MessageItemInlineStatus>Converting…</MessageItemInlineStatus> : null}
       </MessageItemHeader>
-      <MessageItemBody>
-        Toggle the controls to preview row chrome, the saved indicator, reactions, and the hover
-        toolbar. Markdown, mentions, and links stay caller-owned.
-      </MessageItemBody>
+      <MessageItemBody>{messageBody}</MessageItemBody>
+      {translationState === "bilingual" && !showOriginal ? (
+        <MessageItemTranslationOriginal data-testid="message-translation-bilingual-original-preview">
+          <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
+          <MessageMarkdown>
+            <p>{originalTranslation}</p>
+          </MessageMarkdown>
+        </MessageItemTranslationOriginal>
+      ) : null}
+      {translationStatus}
       {attachments}
       {footer}
     </MessageItemContent>
@@ -332,7 +565,11 @@ export function MessageItemPreview({
     <MessageItemInteractionBoundary ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
+          <Avatar
+            size="sm"
+            type="agent"
+            className={senderState === "deleted" ? "grayscale opacity-60" : undefined}
+          >
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
         </MessageItemAvatarSlot>

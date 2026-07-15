@@ -50,6 +50,12 @@ export const messageReference = tv({
           "hover:bg-info-base/45",
         ],
       },
+      comment: {
+        root: [
+          "inline-flex items-center gap-1 align-bottom border border-line-strong px-1 font-bold text-foreground",
+          "[font-size:inherit] leading-[1.5]",
+        ],
+      },
       permalink: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-foreground",
@@ -131,6 +137,13 @@ export const messageReference = tv({
     },
     {
       theme: "brutal",
+      treatment: "comment",
+      class: {
+        root: "cursor-default border-black bg-brutal-stone/25 text-black hover:bg-brutal-stone/40",
+      },
+    },
+    {
+      theme: "brutal",
       treatment: "permalink",
       class: {
         root: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
@@ -175,7 +188,15 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: ["selfMention", "channel", "task", "thread", "permalink", "externalPermalink"],
+      treatment: [
+        "selfMention",
+        "channel",
+        "task",
+        "thread",
+        "comment",
+        "permalink",
+        "externalPermalink",
+      ],
       class: {
         root: [
           "cursor-pointer rounded-sm border-line-subtle px-1.5",
@@ -218,6 +239,13 @@ export const messageReference = tv({
           "border-info-base/20 bg-info-base/10 text-foreground-strong",
           "hover:bg-info-base/20",
         ],
+      },
+    },
+    {
+      theme: "elegant",
+      treatment: "comment",
+      class: {
+        root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
     },
     {

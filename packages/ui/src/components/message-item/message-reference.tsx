@@ -77,6 +77,12 @@ export function MessageReferenceThread(props: MessageReferenceThreadProps) {
   return useMessageReferenceLink("thread", "message-reference-thread", props);
 }
 
+export type MessageReferenceCommentProps = MessageReferenceLinkProps;
+
+export function MessageReferenceComment(props: MessageReferenceCommentProps) {
+  return useMessageReferenceLink("comment", "message-reference-comment", props);
+}
+
 export type MessageReferencePermalinkProps = MessageReferenceLinkProps & {
   external?: boolean;
 };

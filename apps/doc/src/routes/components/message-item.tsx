@@ -6,29 +6,30 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import messageReactionCompositionsSource from "#/modules/message-item/compositions/reaction.compositions.tsx?raw";
-import messageRowCompositionsSource from "#/modules/message-item/compositions/row.compositions.tsx?raw";
-import messageMediaCompositionsSource from "#/modules/message-item/compositions/media.compositions.tsx?raw";
-import messageRowToolbarCompositionSource from "#/modules/message-item/compositions/row-toolbar.composition.tsx?raw";
-import messageStateMatrixSource from "#/modules/message-item/compositions/state-matrix.composition.tsx?raw";
+import messageAttachmentsShowcaseSource from "#/modules/message-item/compositions/message-attachments-showcase.composition.tsx?raw";
+import messageInteractionsShowcaseSource from "#/modules/message-item/compositions/message-interactions-showcase.composition.tsx?raw";
+import messageRowsShowcaseSource from "#/modules/message-item/compositions/message-rows-showcase.composition.tsx?raw";
+import messageSourceVisibleStatesSource from "#/modules/message-item/compositions/message-source-visible-states.composition.tsx?raw";
+import messageContentCompositionsSource from "#/modules/message-item/compositions/content.compositions.tsx?raw";
+import messageProductStatesSource from "#/modules/message-item/compositions/message-product-states.composition.tsx?raw";
+import messageReferenceShowcaseSource from "#/modules/message-item/compositions/reference-showcase.composition.tsx?raw";
+import messageTranslationShowcaseSource from "#/modules/message-item/compositions/translation-showcase.composition.tsx?raw";
 
-import { getMessageItemComparisonItems } from "#/modules/message-item/message-item.comparison.tsx";
 import {
-  ActiveMessageRow,
-  AuthoredMessageRow,
-  ConsecutiveMessageRow,
-  RemovedSenderMessageRow,
-  RichAttachmentMessageRow,
-  SearchMatchMessageRow,
-  SelectedMessageRow,
-  ThreadArchiveEventRow,
-} from "#/modules/message-item/compositions/row.compositions.tsx";
-import { MessageReactionOverlaysComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
-import { MessageItemStateMatrix } from "#/modules/message-item/compositions/state-matrix.composition.tsx";
+  MessageCodeBlockComposition,
+  MessageMarkdownComposition,
+} from "#/modules/message-item/compositions/content.compositions.tsx";
+import { MessageAttachmentsShowcaseComposition } from "#/modules/message-item/compositions/message-attachments-showcase.composition.tsx";
+import { MessageInteractionsShowcaseComposition } from "#/modules/message-item/compositions/message-interactions-showcase.composition.tsx";
+import { MessageProductStatesComposition } from "#/modules/message-item/compositions/message-product-states.composition.tsx";
+import { MessageRowsShowcaseComposition } from "#/modules/message-item/compositions/message-rows-showcase.composition.tsx";
+import { MessageSourceVisibleStatesComposition } from "#/modules/message-item/compositions/message-source-visible-states.composition.tsx";
+import { MessageReferenceShowcaseComposition } from "#/modules/message-item/compositions/reference-showcase.composition.tsx";
+import { MessageTranslationShowcaseComposition } from "#/modules/message-item/compositions/translation-showcase.composition.tsx";
+import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
-import { ANATOMY_SOURCE, PROPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
+import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
 
 export const Route = createFileRoute("/components/message-item")({
   component: MessageItemDoc,
@@ -36,11 +37,14 @@ export const Route = createFileRoute("/components/message-item")({
     highlightSnippets({
       data: {
         anatomy: ANATOMY_SOURCE,
-        rowCompositions: messageRowCompositionsSource,
-        reactionCompositions: messageReactionCompositionsSource,
-        mediaCompositions: messageMediaCompositionsSource,
-        rowToolbarComposition: messageRowToolbarCompositionSource,
-        stateMatrix: messageStateMatrixSource,
+        attachmentsShowcase: messageAttachmentsShowcaseSource,
+        contentCompositions: messageContentCompositionsSource,
+        interactionsShowcase: messageInteractionsShowcaseSource,
+        productStates: messageProductStatesSource,
+        referenceShowcase: messageReferenceShowcaseSource,
+        rowsShowcase: messageRowsShowcaseSource,
+        sourceVisibleStates: messageSourceVisibleStatesSource,
+        translationShowcase: messageTranslationShowcaseSource,
       },
     }),
 });
@@ -82,82 +86,91 @@ function MessageItemDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="state-matrix" title="State matrix" showThemeSwitcher>
-        <Example
-          html={code.stateMatrix}
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <MessageItemStateMatrix />
+      <DocSection id="rows" title="Message rows" showThemeSwitcher>
+        <Example html={code.rowsShowcase} previewMode="light" previewClassName="items-stretch">
+          <MessageRowsShowcaseComposition />
         </Example>
       </DocSection>
 
-      <DocSection id="fixtures" title="Fixtures" showThemeSwitcher>
+      <DocSection id="content" title="Content & references" showThemeSwitcher>
         <Example
-          html={code.rowCompositions}
-          previewTheme="brutal"
+          html={code.contentCompositions}
           previewMode="light"
           previewClassName="items-stretch"
         >
-          <div className="flex w-full max-w-3xl flex-col gap-3">
-            <AuthoredMessageRow />
-            <ConsecutiveMessageRow />
-            <ThreadArchiveEventRow />
-            <RemovedSenderMessageRow />
+          <div className="flex w-full max-w-3xl flex-col gap-5">
+            <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
+            <MessageCodeBlockComposition />
           </div>
         </Example>
-
         <div className="mt-6">
           <Example
-            html={code.rowCompositions}
-            previewTheme="brutal"
+            html={code.translationShowcase}
             previewMode="light"
             previewClassName="items-stretch"
           >
             <div className="w-full max-w-3xl">
-              <RichAttachmentMessageRow />
+              <MessageTranslationShowcaseComposition />
             </div>
           </Example>
         </div>
-
+        <div className="mt-6">
+          <Example html={code.productStates} previewMode="light" previewClassName="items-stretch">
+            <MessageProductStatesComposition />
+          </Example>
+        </div>
         <div className="mt-6">
           <Example
-            html={code.rowCompositions}
-            previewTheme="brutal"
+            html={code.referenceShowcase}
             previewMode="light"
             previewClassName="items-stretch"
           >
-            <div className="flex w-full max-w-3xl flex-col gap-3">
-              <SelectedMessageRow />
-              <ActiveMessageRow />
-              <SearchMatchMessageRow />
+            <div className="w-full max-w-3xl">
+              <MessageReferenceShowcaseComposition />
             </div>
           </Example>
         </div>
+      </DocSection>
 
-        <div className="mt-6">
-          <Example
-            html={code.reactionCompositions}
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <MessageReactionOverlaysComposition />
-          </Example>
-        </div>
+      <DocSection id="attachments" title="Attachments" showThemeSwitcher>
+        <Example
+          html={code.attachmentsShowcase}
+          previewMode="light"
+          previewClassName="items-stretch"
+        >
+          <MessageAttachmentsShowcaseComposition />
+        </Example>
+      </DocSection>
+
+      <DocSection id="interactions" title="Interactions" showThemeSwitcher>
+        <Example
+          html={code.interactionsShowcase}
+          previewMode="light"
+          previewClassName="items-stretch"
+        >
+          <MessageInteractionsShowcaseComposition />
+        </Example>
+      </DocSection>
+
+      <DocSection id="source-visible-states" title="Source-visible states" showThemeSwitcher>
+        <Example
+          html={code.sourceVisibleStates}
+          previewMode="light"
+          previewClassName="items-stretch"
+        >
+          <MessageSourceVisibleStatesComposition />
+        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={getMessageItemComparisonItems(code)}
-          previewSize="tall"
-        />
+        <div className="grid gap-8">
+          {API_GROUPS.map((group) => (
+            <section key={group.title} className="grid gap-3">
+              <h3 className="text-sm font-medium text-foreground-strong">{group.title}</h3>
+              <PropsTable rows={group.rows} />
+            </section>
+          ))}
+        </div>
       </DocSection>
     </DocPage>
   );

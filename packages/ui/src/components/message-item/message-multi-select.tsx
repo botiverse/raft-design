@@ -130,9 +130,9 @@ const messageMultiSelect = tv({
   slots: {
     checkbox: ["mt-1.5 self-start"],
     toolbar: [],
-    toolbarContent: ["flex items-center gap-1.5 px-2 py-2"],
+    toolbarContent: ["flex items-center px-2 py-2"],
     count: ["whitespace-nowrap font-mono text-xs font-bold"],
-    actions: ["flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1.5"],
+    actions: ["flex min-w-0 flex-1 flex-wrap items-center justify-end"],
     action: [
       "inline-flex shrink-0 items-center justify-center whitespace-nowrap outline-none",
       "font-bold leading-none",
@@ -142,8 +142,10 @@ const messageMultiSelect = tv({
   variants: {
     theme: {
       brutal: {
-        toolbar: "border-t-2 border-line-strong bg-soft-signal",
+        toolbar: "safe-bottom border-t-2 border-line-strong bg-soft-signal",
+        toolbarContent: "gap-1 sm:gap-1.5",
         count: "text-foreground/70",
+        actions: "gap-1 sm:gap-1.5",
         action: "btn-brutal-sm",
       },
       elegant: {
@@ -153,7 +155,9 @@ const messageMultiSelect = tv({
           "hover:data-[checked]:!shadow-none hover:data-[indeterminate]:!shadow-none",
         ],
         toolbar: "border-t border-line-subtle bg-layer-panel",
+        toolbarContent: "gap-1.5",
         count: "text-foreground-muted",
+        actions: "gap-1.5",
         action: [
           "rounded-md border border-line-subtle bg-layer-panel text-foreground",
           "shadow-xs hover:bg-layer-muted active:bg-layer-strong",
@@ -231,7 +235,8 @@ export function MessageMultiSelectActions({
   render,
   ...props
 }: MessageMultiSelectActionsProps) {
-  const { actions } = messageMultiSelect();
+  const theme = useThemeFamily();
+  const { actions } = messageMultiSelect({ theme });
   const defaultProps: useRender.ElementProps<"div"> = { className: actions({ className }) };
 
   return useRender({

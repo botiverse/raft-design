@@ -3,10 +3,12 @@ import type { PropRow } from "#/components/props-table.tsx";
 export const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "state-matrix", title: "State matrix" },
-  { id: "fixtures", title: "Fixtures" },
+  { id: "rows", title: "Message rows" },
+  { id: "content", title: "Content & references" },
+  { id: "attachments", title: "Attachments" },
+  { id: "interactions", title: "Interactions" },
+  { id: "source-visible-states", title: "Source-visible states" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 export const ANATOMY_SOURCE = `<MessageItemInteractionBoundary>
@@ -54,13 +56,72 @@ export const PROPS: readonly PropRow[] = [
     name: "MessageItemSenderState",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Sender status badge for removed, deactivated, or similarly caller-owned sender states.",
+      "Source-faithful sender badge. Consumers provide labels such as Deleted, Left, or Removed.",
+  },
+  {
+    name: "MessageItemInlineStatus",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Caller-owned transient header status, such as the source Converting state. It does not own an async workflow.",
   },
   {
     name: "MessageItemBody",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Message content slot. Markdown, mentions, links, and translation output are caller-owned.",
+  },
+  {
+    name: "MessageItemTranslationPlaceholder",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Source-faithful pending translation placeholder. Translation eligibility stays caller-owned.",
+  },
+  {
+    name: "MessageItemTranslationOriginal / MessageItemTranslationOriginalLabel",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Bilingual original-content container and label. Consumers choose when the original is visible.",
+  },
+  {
+    name: "MessageItemTranslationStatus / MessageItemTranslationAction",
+    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
+    description: "Translation status and caller-wired original/translation toggle or retry action.",
+  },
+  {
+    name: "MessageReferenceSelfMention / MessageReferenceChannel / MessageReferenceTask / MessageReferenceThread",
+    type: 'useRender.ComponentProps<"a">',
+    description:
+      "Resolved inline reference treatments. Consumers own entity lookup and navigation, while the primitives preserve the source chip treatment.",
+  },
+  {
+    name: "MessageReferenceChannelUnavailable / MessageReferenceTaskUnavailable / MessageReferenceThreadUnavailable",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Non-interactive unavailable reference treatments. Consumers choose the resolved label and when a referenced entity is unavailable.",
+  },
+  {
+    name: "MessageReferenceComment",
+    type: 'useRender.ComponentProps<"a">',
+    description:
+      "Attachment-comment reference chip. Consumers provide the label, optional quoted context, and jump behavior.",
+  },
+  {
+    name: "MessageForwardedBundle",
+    type: "compound slots",
+    description:
+      "Source-faithful forwarded-message structure. Provenance, permissions, and source navigation remain caller-owned.",
+  },
+  {
+    name: "MessageQuotedPreview",
+    type: "compound slots",
+    description:
+      "Quoted message preview with loaded, loading, and unavailable shells. Fetching and permalink resolution remain caller-owned.",
+  },
+  {
+    name: "MessageActionCard",
+    type: "compound slots",
+    description:
+      "Action-card structure for caller-provided action metadata, callbacks, and completion content.",
   },
   {
     name: "MessageItemToolbar",
@@ -163,8 +224,17 @@ export const PROPS: readonly PropRow[] = [
       "Reactors tooltip with Base UI trigger, positioning, names, and +N overflow anatomy.",
   },
   {
-    name: "SystemMessageItem",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Centered compact system row for join, leave, archive, and similar system events.",
+    name: "SystemMessageItem / SystemMessageGroupDisclosure",
+    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
+    description:
+      "Centered system row and caller-controlled summary disclosure for archive, reminder, join/leave, and grouped system events.",
   },
 ];
+
+export const API_GROUPS = [
+  { title: "Row structure", rows: PROPS.slice(0, 6) },
+  { title: "Content, product states, and footer", rows: PROPS.slice(6, 19) },
+  { title: "Attachments", rows: PROPS.slice(19, 26) },
+  { title: "Reactions", rows: PROPS.slice(26, 32) },
+  { title: "System events", rows: PROPS.slice(32) },
+] as const satisfies readonly { title: string; rows: readonly PropRow[] }[];
