@@ -1,0 +1,74 @@
+import { getRouteApi, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useCallback } from "react";
+
+import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
+import type { PlaygroundRailView } from "./playground-navigation-state.tsx";
+
+const playgroundRoute = getRouteApi("/playground");
+
+const playgroundRailPaths = {
+  search: "/playground/search",
+  chat: "/playground/$channelId",
+  activity: "/playground/activity",
+  saved: "/playground/saved",
+  tasks: "/playground/tasks",
+  members: "/playground/members",
+  computers: "/playground/computers",
+  settings: "/playground/settings",
+} as const satisfies Record<PlaygroundRailView, string>;
+
+const playgroundDisabledRailViews = new Set<PlaygroundRailView>([
+  "search",
+  "activity",
+  "tasks",
+  "members",
+  "computers",
+  "settings",
+]);
+
+export function usePlaygroundRouteState() {
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { detail } = playgroundRoute.useSearch();
+  const railView = getPlaygroundRailView(pathname);
+
+  const selectRailView = useCallback(
+    (view: PlaygroundRailView) => {
+      if (playgroundDisabledRailViews.has(view)) return;
+      if (view === "chat") {
+        void navigate({
+          to: "/playground/$channelId",
+          params: { channelId: DEFAULT_CHANNEL_ID },
+          search: {},
+        });
+        return;
+      }
+      void navigate({ to: playgroundRailPaths[view], search: {} });
+    },
+    [navigate],
+  );
+  const selectRailDetail = useCallback(
+    (id?: string) => {
+      void navigate({
+        to: ".",
+        search: (current) => ({
+          ...current,
+          detail: id,
+        }),
+      });
+    },
+    [navigate],
+  );
+
+  return {
+    railDetailId: detail,
+    railView,
+    selectRailDetail,
+    selectRailView,
+  };
+}
+
+function getPlaygroundRailView(pathname: string): PlaygroundRailView {
+  const segment = pathname.split("/").filter(Boolean)[1];
+  return segment && segment in playgroundRailPaths ? (segment as PlaygroundRailView) : "chat";
+}

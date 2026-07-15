@@ -49,7 +49,10 @@ import {
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 function MobileBackButton() {
-  const channelMatch = useMatch({ from: "/playground/$channelId", shouldThrow: false });
+  const channelMatch = useMatch({
+    from: "/playground/_channel/$channelId",
+    shouldThrow: false,
+  });
   if (!channelMatch) return null;
 
   return (
