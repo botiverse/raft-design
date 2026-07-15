@@ -55,10 +55,10 @@ export function MessageContextMenuComposition({
   return (
     <ContextMenuContent
       aria-label="Message context menu"
-      className="[[data-theme=brutal]_&]:overflow-x-hidden [[data-theme=brutal]_&]:overflow-y-auto"
+      className="overflow-x-hidden overflow-y-auto"
       collisionAvoidance={{ side: "flip", align: "flip" }}
       collisionPadding={8}
-      portalProps={{ container: portalContainer }}
+      portalProps={portalContainer ? { container: portalContainer } : undefined}
     >
       <MessageReactionQuickRow>
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (

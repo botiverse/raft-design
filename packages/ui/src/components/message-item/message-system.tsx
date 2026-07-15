@@ -1,12 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageSystem } from "./message-system.recipe";
 import { type SlotElementProps } from "../../lib/data-attributes";
 
 export type SystemMessageItemProps = useRender.ComponentProps<"div">;
 
 export function SystemMessageItem({ className, render, ...props }: SystemMessageItemProps) {
-  const { systemRoot } = messageSystem();
+  const theme = useThemeFamily();
+  const { systemRoot } = messageSystem({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     className: systemRoot({ className }),
   };
@@ -24,7 +26,8 @@ export function SystemMessageItem({ className, render, ...props }: SystemMessage
 export type SystemMessageItemTimeProps = useRender.ComponentProps<"span">;
 
 export function SystemMessageItemTime({ className, render, ...props }: SystemMessageItemTimeProps) {
-  const { systemTime } = messageSystem();
+  const theme = useThemeFamily();
+  const { systemTime } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemTime({ className }),
   };
@@ -46,7 +49,8 @@ export function SystemMessageItemContent({
   render,
   ...props
 }: SystemMessageItemContentProps) {
-  const { systemContent } = messageSystem();
+  const theme = useThemeFamily();
+  const { systemContent } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemContent({ className }),
   };
@@ -68,7 +72,8 @@ export function SystemMessageGroupDisclosure({
   render,
   ...props
 }: SystemMessageGroupDisclosureProps) {
-  const { systemDisclosure } = messageSystem();
+  const theme = useThemeFamily();
+  const { systemDisclosure } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: systemDisclosure({ className }),

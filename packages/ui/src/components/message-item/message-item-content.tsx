@@ -83,7 +83,8 @@ export function MessageItemEmbedded({ className, render, ...props }: MessageItem
 export type MessageItemNoticeProps = useRender.ComponentProps<"div">;
 
 export function MessageItemNotice({ className, render, ...props }: MessageItemNoticeProps) {
-  const { notice } = messageItem();
+  const theme = useThemeFamily();
+  const { notice } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: notice({ className }),
   };
@@ -123,7 +124,8 @@ export function MessageItemAttachments({
 export type MessageItemFooterProps = useRender.ComponentProps<"div">;
 
 export function MessageItemFooter({ className, render, ...props }: MessageItemFooterProps) {
-  const { footer } = messageItem();
+  const theme = useThemeFamily();
+  const { footer } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: footer({ className }),
   };

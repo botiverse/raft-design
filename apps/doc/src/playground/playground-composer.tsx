@@ -6,31 +6,13 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
-import {
-  FileText,
-  GitBranch,
-  Hash,
-  ImagePlus,
-  Lock,
-  Paperclip,
-  Send,
-  UserX,
-  X,
-} from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  Checkbox,
-  Kbd,
-  Spinner,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "raft-ui";
+import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
+import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
+  Composer,
+  ComposerActions,
   ComposerAttachment,
   ComposerAttachmentBody,
   ComposerAttachmentFailedOverlay,
@@ -42,9 +24,9 @@ import {
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
   ComposerDropOverlay,
-  ComposerDropOverlayLabel,
   ComposerIconButton,
   ComposerInput,
+  ComposerMeta,
   ComposerSuggestionAside,
   ComposerSuggestionBadge,
   ComposerSuggestionContent,
@@ -57,14 +39,15 @@ import {
   ComposerSuggestionTitle,
   ComposerRoot,
   ComposerSubmit,
+  ComposerToolbar,
   ComposerToolbarLabel,
-  ComposerToolbarLabelText,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
 } from "raft-ui/wip";
 
-import {
-  ComposerAttachmentsComposition,
-  ComposerBodyComposition,
-} from "#/modules/chat-composer/chat-composer.composition.tsx";
+import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
+import { ComposerAttachmentsComposition } from "#/modules/chat-composer/compositions/composer-shared.composition.tsx";
 import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
 import type {
   PlaygroundChannel,
@@ -82,6 +65,11 @@ type ComposerAttachmentState =
   | { kind: "none" }
   | { kind: "generic" }
   | { kind: "seeded"; attachments: readonly PlaygroundComposerAttachment[] };
+
+function filePreviewLabel(name: string) {
+  const extension = name.split(".").at(-1);
+  return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
+}
 
 function AutocompleteOption({
   suggestion,
@@ -193,7 +181,11 @@ function PlaygroundSeededComposerAttachments({
       {attachments.map((attachment) => (
         <ComposerAttachment key={attachment.name}>
           <ComposerAttachmentFile>
-            <FileText />
+            <FilePreview>
+              <FilePreviewDocument>
+                <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
+              </FilePreviewDocument>
+            </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
               <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
@@ -382,10 +374,10 @@ function PlaygroundComposer({
           onRetry={(name) => setStatusMessage(`Retrying ${name}`)}
         />
       ) : null}
-      <ComposerBodyComposition
-        input={<ComposerInput {...inputProps} aria-label={label} placeholder={label} />}
-        actions={
-          <>
+      <Composer>
+        <ComposerInput {...inputProps} aria-label={label} placeholder={label} />
+        <ComposerToolbar>
+          <ComposerActions>
             <ComposerIconButton
               aria-label="Attach image"
               onClick={() => {
@@ -404,34 +396,24 @@ function PlaygroundComposer({
             >
               <Paperclip />
             </ComposerIconButton>
-          </>
-        }
-        meta={
-          <>
+          </ComposerActions>
+          <ComposerMeta>
             {footer === "main" ? (
-              <TooltipProvider delay={300}>
-                <Tooltip>
-                  <TooltipTrigger render={<ComposerToolbarLabel />}>
-                    <Checkbox size="sm" aria-label="Send as task" />
-                    <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
-                  </TooltipTrigger>
-                  <TooltipContent side="top">
-                    Send as task
-                    <Kbd>Cmd Shift Enter</Kbd>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <ComposerToolbarLabel>
+                <Checkbox size="sm" aria-label="Send as task" />
+                As Task
+              </ComposerToolbarLabel>
             ) : null}
             <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !attachmentsVisible}>
               <span>Send</span>
               <Send />
             </ComposerSubmit>
-          </>
-        }
-      />
+          </ComposerMeta>
+        </ComposerToolbar>
+      </Composer>
       {isDragging ? (
         <ComposerDropOverlay aria-hidden>
-          <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
+          <ComposerDropOverlayPrompt />
         </ComposerDropOverlay>
       ) : null}
       <span className="sr-only" aria-live="polite">

@@ -1,7 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
+import {
+  DropdownMenuContent,
+  type DropdownMenuContentProps,
+  DropdownMenuPopup,
+  type DropdownMenuPopupProps,
+} from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
 import { type SlotElementProps } from "../../lib/data-attributes";
@@ -181,27 +186,27 @@ export function MessageReactionQuickButton({
   });
 }
 
-export type MessageReactionPickerPanelProps = useRender.ComponentProps<"div">;
+export type MessageReactionPickerPopupProps = DropdownMenuPopupProps;
 
-export function MessageReactionPickerPanel({
+export function MessageReactionPickerPopup({
   className,
-  render,
   ...props
-}: MessageReactionPickerPanelProps) {
+}: MessageReactionPickerPopupProps) {
   const theme = useThemeFamily();
-  const { pickerSurface } = messageReaction({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: pickerSurface({ className }),
-  };
+  const { pickerContent } = messageReaction({ theme });
+  const resolvedClassName = pickerContent({ className });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "message-reaction-picker",
-    },
-  });
+  if (theme === "elegant") {
+    return (
+      <DropdownMenuPopup
+        {...props}
+        data-slot="message-reaction-picker"
+        className={resolvedClassName}
+      />
+    );
+  }
+
+  return <div {...props} data-slot="message-reaction-picker" className={resolvedClassName} />;
 }
 
 export type MessageReactionPickerContentProps = DropdownMenuContentProps;
@@ -211,12 +216,12 @@ export function MessageReactionPickerContent({
   ...props
 }: MessageReactionPickerContentProps) {
   const theme = useThemeFamily();
-  const { pickerSurface } = messageReaction({ theme });
+  const { pickerContent } = messageReaction({ theme });
 
   return (
     <DropdownMenuContent
       data-slot="message-reaction-picker"
-      className={pickerSurface({ className })}
+      className={pickerContent({ className })}
       {...props}
     />
   );

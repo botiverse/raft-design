@@ -214,7 +214,11 @@ function MessageRowView({
   const taskState = workflow.task;
   const lastReaction = workflow.reactions.at(-1) ?? null;
   const [threadRequested, setThreadRequested] = useState(false);
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [contextMenuPortalContainer, setContextMenuPortalContainer] =
+    useState<HTMLDivElement | null>(null);
+  const [reactionPortalContainer, setReactionPortalContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
   const navigate = useNavigate();
   const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const markdownText = typeof body === "string" ? body : "Composed message content";
@@ -314,7 +318,7 @@ function MessageRowView({
       <RowToolbar
         saved={isSaved}
         onReplyInThread={requestThread}
-        portalContainer={portalContainer}
+        portalContainer={reactionPortalContainer}
         onReact={(emoji) => updateWorkflow((current) => ({ ...current, reactions: [emoji] }))}
         onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
       />
@@ -323,6 +327,7 @@ function MessageRowView({
           Thread composer opened
         </span>
       ) : null}
+      <div ref={setReactionPortalContainer} className="contents" />
     </ItemRoot>
   );
 
@@ -333,7 +338,7 @@ function MessageRowView({
   }
 
   return (
-    <MessageItemInteractionBoundary ref={setPortalContainer}>
+    <MessageItemInteractionBoundary ref={setContextMenuPortalContainer}>
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {
@@ -345,7 +350,7 @@ function MessageRowView({
           saved={isSaved}
           followed={isFollowed}
           task={taskState}
-          portalContainer={portalContainer}
+          portalContainer={contextMenuPortalContainer}
           onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
           onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
           onFollowChange={threadContext ? setFollowed : undefined}

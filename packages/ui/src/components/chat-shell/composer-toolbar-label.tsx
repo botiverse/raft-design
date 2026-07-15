@@ -6,20 +6,18 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerToolbarLabel = tv({
   slots: {
-    root: ["inline-flex cursor-pointer select-none items-center gap-1.5"],
-    label: ["text-xs"],
+    root: ["inline-flex cursor-pointer select-none items-center gap-1.5 text-xs"],
   },
   variants: {
     theme: {
       brutal: {
-        label: "font-bold text-foreground/60",
+        root: "font-bold text-foreground/60",
       },
       elegant: {
         root: [
-          "min-h-8 rounded-md border-0 bg-transparent px-2.5 py-1.5",
+          "min-h-8 rounded-md border-0 bg-transparent px-2.5 py-1.5 font-medium text-foreground-muted",
           "transition-colors hover:bg-layer-muted",
         ],
-        label: "font-medium text-foreground-muted",
       },
     },
   },
@@ -39,26 +37,5 @@ export function ComposerToolbarLabel({ className, render, ...props }: ComposerTo
     defaultTagName: "label",
     render,
     props: mergeProps<"label">(defaultProps, props),
-  });
-}
-
-export type ComposerToolbarLabelTextProps = useRender.ComponentProps<"span">;
-
-export function ComposerToolbarLabelText({
-  className,
-  render,
-  ...props
-}: ComposerToolbarLabelTextProps) {
-  const theme = useThemeFamily();
-  const { label } = composerToolbarLabel({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "composer-toolbar-label-text",
-    className: label({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
   });
 }

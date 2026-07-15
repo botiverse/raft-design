@@ -40,8 +40,8 @@ export const composer = tv({
       "[@media(hover:none)]:h-6 [@media(hover:none)]:w-6 [@media(hover:none)]:opacity-100",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
-    dropOverlay: ["absolute inset-0 z-30 flex items-center justify-center border-2 border-dashed"],
-    dropOverlayLabel: ["border-2 px-3 py-1.5 text-sm font-bold"],
+    dropOverlay: ["absolute inset-0 z-30 flex items-center justify-center border-2"],
+    dropOverlayLabel: ["inline-flex items-center gap-1.5 border-2 px-3 py-1.5 text-sm font-bold"],
   },
   variants: {
     theme: {
@@ -67,7 +67,7 @@ export const composer = tv({
         attachmentProgress: "bg-black/15",
         attachmentProgressFill: "bg-brutal-pink",
         attachmentRemove: "bg-black text-white",
-        dropOverlay: "border-brutal-pink bg-brutal-pink/15",
+        dropOverlay: "border-dashed border-brutal-pink bg-brutal-pink/15",
         dropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
       },
       elegant: {
@@ -81,9 +81,11 @@ export const composer = tv({
           "font-sans text-foreground",
           "placeholder:text-foreground-placeholder",
         ],
-        toolbar: "gap-2 px-2.5 pt-1 pb-2.5 md:px-3 md:pb-3",
+        toolbar: "translate-y-1 gap-2 px-2.5 pt-1 pb-2.5 md:px-3 md:pb-3",
         actions: "gap-1.5",
+        attachments: "justify-center pt-0.5",
         iconButton: [
+          "p-[7px]",
           "text-foreground-icon",
           "hover:bg-layer-strong/80 hover:text-foreground",
           "active:bg-layer-strong/80 active:text-foreground",
@@ -97,15 +99,19 @@ export const composer = tv({
           "[&_svg]:size-4",
         ],
         attachmentImage: "rounded-md border-line-subtle",
-        attachmentFile: "rounded-md border-line-subtle bg-layer-muted [&_svg]:text-foreground-icon",
-        attachmentTitle: "text-foreground-strong",
+        attachmentFile:
+          "h-[54px] w-36 gap-3 rounded-md border-0 bg-layer-panel pr-2.5 pl-1.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
+        attachmentTitle: "font-medium text-foreground-strong",
         attachmentMeta: "text-foreground-placeholder",
         attachmentProgress: "bg-ink-6",
         attachmentProgressFill: "bg-accent-400",
         attachmentRemove: "bg-foreground-strong text-foreground-inverse",
-        dropOverlay: "rounded-lg border-accent-400 bg-accent-100/60",
+        dropOverlay: [
+          "-inset-1 rounded-lg border-accent-400/70 bg-accent-100/60",
+          "bg-[radial-gradient(ellipse_at_center,oklch(0_0_0/0.045)_0%,oklch(0_0_0/0.02)_55%,oklch(0_0_0/0.008)_100%)]",
+        ],
         dropOverlayLabel:
-          "rounded-md border-line-subtle bg-layer-popover text-foreground shadow-lg",
+          "flex flex-col items-center gap-2 border-0 p-0 text-center text-base font-medium text-foreground-strong",
       },
     },
     attachmentTone: {

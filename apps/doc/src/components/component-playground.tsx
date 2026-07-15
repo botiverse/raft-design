@@ -21,6 +21,7 @@ import type { PreviewMode } from "./preview-theme.tsx";
 type ControlValue = string | boolean;
 
 type Control<T> = {
+  group?: string;
   name: keyof T & string;
   label: string;
   when?: (values: T) => boolean;
@@ -38,7 +39,10 @@ type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   previewClassName?: string;
   previewTheme?: Theme;
   previewMode?: PreviewMode;
-  render: (values: T) => ReactNode;
+  render: (
+    values: T,
+    onValueChange: (name: keyof T & string, value: ControlValue) => void,
+  ) => ReactNode;
 };
 
 type SelectControlInputProps = {
@@ -138,8 +142,23 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
 
   // DOM inputs surface their value as string | boolean; narrow it back into the
   // generic value slot T[keyof T] — unavoidable at the framework boundary.
-  const update = (name: keyof T, value: ControlValue) =>
+  const update = (name: keyof T & string, value: ControlValue) =>
     setValues((prev) => ({ ...prev, [name]: value as T[keyof T] }));
+  const visibleControls = controls.filter((control) => !control.when || control.when(values));
+  const controlGroups = visibleControls.reduce<{ group?: string; controls: Control<T>[] }[]>(
+    (groups, control) => {
+      const current = groups.find((candidate) => candidate.group === control.group);
+
+      if (current) {
+        current.controls.push(control);
+      } else {
+        groups.push({ group: control.group, controls: [control] });
+      }
+
+      return groups;
+    },
+    [],
+  );
 
   return (
     <ComponentDemoFrame
@@ -152,70 +171,82 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
           <div className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
             CONTROLS
           </div>
-          {controls.map((control) => {
-            if (control.when && !control.when(values)) return null;
+          <div className="grid gap-5">
+            {controlGroups.map(({ group, controls: groupedControls }) => (
+              <div key={group ?? "default"} className="grid gap-y-3">
+                {group ? (
+                  <div className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
+                    {group}
+                  </div>
+                ) : null}
+                {groupedControls.map((control) => {
+                  let input: ReactNode;
+                  if (control.type === "select") {
+                    input = (
+                      <SelectControlInput
+                        id={control.name}
+                        label={control.label}
+                        options={control.options}
+                        value={String(values[control.name])}
+                        onValueChange={(nextValue) => update(control.name, nextValue)}
+                      />
+                    );
+                  } else if (control.type === "radio") {
+                    input = (
+                      <RadioControlInput
+                        label={control.label}
+                        options={control.options}
+                        value={String(values[control.name])}
+                        onValueChange={(nextValue) => update(control.name, nextValue)}
+                      />
+                    );
+                  } else if (control.type === "boolean") {
+                    input = (
+                      <Checkbox
+                        id={control.name}
+                        aria-label={control.label}
+                        checked={Boolean(values[control.name])}
+                        onCheckedChange={(checked) => update(control.name, checked)}
+                        size="sm"
+                      />
+                    );
+                  } else {
+                    input = (
+                      <Input
+                        id={control.name}
+                        aria-label={control.label}
+                        type="text"
+                        value={String(values[control.name])}
+                        onChange={(event) => update(control.name, event.target.value)}
+                        className="h-7 w-full px-2 py-1 text-sm"
+                        suppressPasswordManager
+                      />
+                    );
+                  }
 
-            let input: ReactNode;
-            if (control.type === "select") {
-              input = (
-                <SelectControlInput
-                  id={control.name}
-                  label={control.label}
-                  options={control.options}
-                  value={String(values[control.name])}
-                  onValueChange={(nextValue) => update(control.name, nextValue)}
-                />
-              );
-            } else if (control.type === "radio") {
-              input = (
-                <RadioControlInput
-                  label={control.label}
-                  options={control.options}
-                  value={String(values[control.name])}
-                  onValueChange={(nextValue) => update(control.name, nextValue)}
-                />
-              );
-            } else if (control.type === "boolean") {
-              input = (
-                <Checkbox
-                  id={control.name}
-                  aria-label={control.label}
-                  checked={Boolean(values[control.name])}
-                  onCheckedChange={(checked) => update(control.name, checked)}
-                  size="sm"
-                />
-              );
-            } else {
-              input = (
-                <Input
-                  id={control.name}
-                  aria-label={control.label}
-                  type="text"
-                  value={String(values[control.name])}
-                  onChange={(event) => update(control.name, event.target.value)}
-                  className="h-7 w-full px-2 py-1 text-sm"
-                  suppressPasswordManager
-                />
-              );
-            }
-
-            return (
-              <div
-                key={control.name}
-                className="grid grid-cols-[5rem_minmax(0,1fr)] items-center gap-2"
-              >
-                <label htmlFor={control.name} className="text-xs font-medium text-foreground-muted">
-                  {control.label}
-                </label>
-                {input}
+                  return (
+                    <div
+                      key={control.name}
+                      className="grid grid-cols-[5rem_minmax(0,1fr)] items-center gap-2"
+                    >
+                      <label
+                        htmlFor={control.name}
+                        className="text-xs font-medium text-foreground-muted"
+                      >
+                        {control.label}
+                      </label>
+                      {input}
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       }
       footerClassName="pt-6"
     >
-      {render(values)}
+      {render(values, update)}
     </ComponentDemoFrame>
   );
 }

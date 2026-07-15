@@ -77,6 +77,12 @@ export function MessageReferenceThread(props: MessageReferenceThreadProps) {
   return useMessageReferenceLink("thread", "message-reference-thread", props);
 }
 
+export type MessageReferenceCommentProps = MessageReferenceLinkProps;
+
+export function MessageReferenceComment(props: MessageReferenceCommentProps) {
+  return useMessageReferenceLink("comment", "message-reference-comment", props);
+}
+
 export type MessageReferencePermalinkProps = MessageReferenceLinkProps & {
   external?: boolean;
 };
@@ -140,7 +146,8 @@ export function MessageReferenceLabel({ className, render, ...props }: MessageRe
 export type MessageReferenceMetaProps = useRender.ComponentProps<"span">;
 
 export function MessageReferenceMeta({ className, render, ...props }: MessageReferenceMetaProps) {
-  const { meta } = messageReference();
+  const theme = useThemeFamily();
+  const { meta } = messageReference({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: meta({ className }),
   };

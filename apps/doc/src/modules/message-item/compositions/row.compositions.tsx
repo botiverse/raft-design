@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bookmark, MessageSquare, Play, SmilePlus } from "lucide-react";
+import { Bookmark, ChevronRight, MessageSquare, Play, SmilePlus } from "lucide-react";
 import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
   MessageItem,
@@ -30,6 +30,7 @@ import {
   MessageMultiSelectCheckbox,
   SystemMessageItem,
   SystemMessageItemContent,
+  SystemMessageGroupDisclosure,
   SystemMessageItemTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
@@ -273,6 +274,47 @@ export function ThreadArchiveEventRow() {
   );
 }
 
+export function ReminderReceiptEventRow() {
+  return (
+    <SystemMessageItem>
+      <SystemMessageItemTime>2:17 PM</SystemMessageItemTime>
+      <SystemMessageItemContent title="Reminder fires Jul 16, 9:00 AM">
+        Reminder scheduled for tomorrow at 9:00 AM.
+      </SystemMessageItemContent>
+    </SystemMessageItem>
+  );
+}
+
+export function SystemMessageGroupRow() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="mb-1">
+      <div className="flex justify-center py-1.5">
+        <SystemMessageGroupDisclosure
+          aria-expanded={expanded}
+          onClick={() => setExpanded((current) => !current)}
+          title="There are 2 system updates: 1 task update, 1 reminder update"
+        >
+          <span className="truncate">
+            There are 2 system updates: 1 task update, 1 reminder update
+          </span>
+          <ChevronRight aria-hidden />
+        </SystemMessageGroupDisclosure>
+      </div>
+      {expanded ? (
+        <div>
+          <SystemMessageItem>
+            <SystemMessageItemTime>2:18 PM</SystemMessageItemTime>
+            <SystemMessageItemContent>Task #41 was completed.</SystemMessageItemContent>
+          </SystemMessageItem>
+          <ReminderReceiptEventRow />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export function RemovedSenderMessageRow() {
   return (
     <MessageItem>
@@ -284,15 +326,78 @@ export function RemovedSenderMessageRow() {
       <MessageItemContent>
         <MessageItemHeader>
           <MessageItemSender>Mx. Chen</MessageItemSender>
-          <MessageItemSenderState>removed</MessageItemSenderState>
+          <MessageItemSenderState>Removed</MessageItemSenderState>
           <MessageItemTime>Yesterday</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          This row covers removed human and deactivated agent badges.
+          This history row remains visible after a member was removed.
         </MessageItemBody>
         <MessageItemNotice>
           Message is visible because it belongs to the archived thread.
         </MessageItemNotice>
+      </MessageItemContent>
+    </MessageItem>
+  );
+}
+
+export function LeftSenderMessageRow() {
+  return (
+    <MessageItem>
+      <MessageItemAvatarSlot>
+        <Avatar size="sm" type="human">
+          <AvatarFallback>NO</AvatarFallback>
+        </Avatar>
+      </MessageItemAvatarSlot>
+      <MessageItemContent>
+        <MessageItemHeader>
+          <MessageItemSender>Noah</MessageItemSender>
+          <MessageItemSenderState>Left</MessageItemSenderState>
+          <MessageItemTime>Monday</MessageItemTime>
+        </MessageItemHeader>
+        <MessageItemBody>This history row remains visible after a member left.</MessageItemBody>
+      </MessageItemContent>
+    </MessageItem>
+  );
+}
+
+export function DeactivatedAgentMessageRow() {
+  return (
+    <MessageItem>
+      <MessageItemAvatarSlot>
+        <Avatar size="sm" type="agent" className="grayscale opacity-60">
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+      </MessageItemAvatarSlot>
+      <MessageItemContent>
+        <MessageItemHeader>
+          <MessageItemSender>Atlas</MessageItemSender>
+          <MessageItemSenderState>Deleted</MessageItemSenderState>
+          <MessageItemTime>Last week</MessageItemTime>
+        </MessageItemHeader>
+        <MessageItemBody>
+          This history row remains visible after an agent was deleted.
+        </MessageItemBody>
+      </MessageItemContent>
+    </MessageItem>
+  );
+}
+
+export function ConvertingMessageRow() {
+  return (
+    <MessageItem>
+      <MessageItemAvatarSlot>
+        <Avatar size="sm" type="agent">
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+      </MessageItemAvatarSlot>
+      <MessageItemContent>
+        <MessageItemHeader>
+          <MessageItemSender>Atlas</MessageItemSender>
+          <MessageItemMeta>claude-opus</MessageItemMeta>
+          <MessageItemTime>2:21 PM</MessageItemTime>
+          <MessageItemInlineStatus>Converting…</MessageItemInlineStatus>
+        </MessageItemHeader>
+        <MessageItemBody>Converting the selected message into a task.</MessageItemBody>
       </MessageItemContent>
     </MessageItem>
   );

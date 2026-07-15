@@ -39,7 +39,8 @@ export function MessageMarkdownTableScroll({
   render,
   ...props
 }: MessageMarkdownTableScrollProps) {
-  const { tableScroll } = messageMarkdown();
+  const theme = useThemeFamily();
+  const { tableScroll } = messageMarkdown({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: tableScroll({ className }),
   };

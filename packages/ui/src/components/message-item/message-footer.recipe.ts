@@ -29,7 +29,13 @@ export const messageFooter = tv({
         ],
       },
       elegant: {
-        savedIndicator: "text-primary-400",
+        savedIndicator: [
+          "gap-1.5 rounded-full border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0.5",
+          "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600",
+          "transition-[filter,opacity] duration-100 enabled:hover:brightness-90",
+          "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+          "[&_svg]:size-[11px] [&_svg]:shrink-0",
+        ],
         badge: [
           "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
           "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",

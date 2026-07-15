@@ -2,6 +2,7 @@ import { AtSign, Hash } from "lucide-react";
 import { useState } from "react";
 import {
   ChatMainPanelFooter,
+  Composer,
   ComposerInput,
   ComposerRoot,
   ComposerSuggestionAside,
@@ -17,8 +18,6 @@ import {
   useComposerSuggestions,
   type ComposerSuggestionTriggerMatch,
 } from "raft-ui/wip";
-
-import { ComposerBodyComposition } from "#/modules/chat-composer/chat-composer.composition.tsx";
 
 type PersonSuggestion = {
   disabled?: boolean;
@@ -153,16 +152,14 @@ export function ComposerSuggestionComposition({
               ) : null}
             </ComposerSuggestionList>
           ) : null}
-          <ComposerBodyComposition
-            input={
-              <ComposerInput
-                {...autocomplete.getInputProps({
-                  "aria-label": "Message #proj-uiux",
-                  placeholder: "Type @ for people or # for channels",
-                })}
-              />
-            }
-          />
+          <Composer>
+            <ComposerInput
+              {...autocomplete.getInputProps({
+                "aria-label": "Message #proj-uiux",
+                placeholder: "Type @ for people or # for channels",
+              })}
+            />
+          </Composer>
         </ComposerRoot>
       </ChatMainPanelFooter>
     </div>

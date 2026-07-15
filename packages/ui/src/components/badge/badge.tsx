@@ -9,7 +9,7 @@ export const badge = tv({
       "inline-flex w-fit shrink-0 min-w-0 max-w-full items-center gap-1 px-1.5",
       "overflow-hidden whitespace-nowrap",
       "text-[10px] font-bold leading-none",
-      "transition-[filter,opacity] duration-100 enabled:hover:brightness-90",
+      "transition-[filter,opacity] duration-100",
       "disabled:cursor-not-allowed disabled:opacity-60",
       "[&_[data-slot='spinner']]:!size-3 [&_[data-slot='spinner']]:!text-xs",
     ],
@@ -17,7 +17,7 @@ export const badge = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["h-5 border border-line-strong"],
+        root: ["h-5 border border-line-strong enabled:hover:brightness-90"],
       },
       elegant: {
         root: [
@@ -25,6 +25,7 @@ export const badge = tv({
           "[&:has(svg)]:px-2",
           "[&_svg]:shrink-0 [&_svg]:translate-y-[0.5px]",
           "text-[11px] font-medium leading-3 tracking-[0.22px]",
+          "enabled:hover:brightness-[0.96]",
         ],
       },
     },

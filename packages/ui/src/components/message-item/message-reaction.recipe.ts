@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const messageReaction = tv({
   slots: {
     chip: [
-      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded px-1.5",
+      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded-full px-1.5",
       "whitespace-nowrap text-[12px] font-bold leading-none transition-colors",
     ],
     errorIndicator: ["sr-only"],
@@ -14,7 +14,7 @@ export const messageReaction = tv({
     ],
     count: ["font-mono tabular-nums"],
     addButton: [
-      "inline-flex h-5 min-w-0 items-center justify-center rounded px-1.5",
+      "inline-flex h-5 min-w-0 items-center justify-center rounded-full px-1.5",
       "transition-colors",
       "[&_svg]:size-[13px] [&_svg]:shrink-0",
     ],
@@ -23,10 +23,7 @@ export const messageReaction = tv({
       "flex !size-7 !w-7 items-center justify-center rounded !p-0",
       "bg-transparent transition-colors",
     ],
-    pickerSurface: [
-      "inline-flex items-center gap-0.5 border-2 border-line-strong px-1.5 py-1",
-      "shadow-soft-popover",
-    ],
+    pickerContent: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
     tooltip: ["inline-block max-w-[280px] px-2 py-1.5 text-xs"],
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
@@ -49,13 +46,17 @@ export const messageReaction = tv({
         ],
         quickRow: "bg-white",
         quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
-        pickerSurface: "rounded-none border-black bg-white !shadow-soft-popover",
+        pickerContent: [
+          "rounded-none border-2 border-line-strong border-black bg-white",
+          "shadow-soft-popover !shadow-soft-popover",
+        ],
         tooltip: "border-2 border-line-strong bg-white font-bold text-black",
       },
       elegant: {
         chip: [
-          "bg-layer-muted text-foreground-muted",
-          "hover:bg-layer-strong",
+          "gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
+          "bg-layer-strong text-foreground-muted",
+          "hover:bg-ink-10",
           "aria-[pressed=true]:bg-accent-200/50 aria-[pressed=true]:text-accent-700 aria-[pressed=true]:hover:bg-accent-200/70",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-lighter has-[[data-slot=message-reaction-error-indicator]]:text-danger-base",
         ],
@@ -64,8 +65,8 @@ export const messageReaction = tv({
           "hover:bg-layer-strong active:bg-layer-strong",
         ],
         quickRow: "bg-layer-popover",
-        quickButton: "hover:bg-layer-muted active:bg-layer-strong",
-        pickerSurface: "rounded-lg border-line-subtle bg-layer-popover shadow-xl",
+        quickButton: "hover:!bg-ink-10 data-[highlighted]:!bg-ink-10 active:!bg-ink-16",
+        pickerContent: "min-w-0 flex-row",
       },
     },
   },

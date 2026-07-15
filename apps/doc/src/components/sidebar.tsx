@@ -243,6 +243,7 @@ const NAV = [
     title: "Data Display",
     items: [
       { label: "Avatar", to: "/components/avatar", status: "done" },
+      { label: "FilePreview", to: "/components/file-preview", status: "wip" },
       {
         label: "DescriptionList",
         to: "/components/description-list",

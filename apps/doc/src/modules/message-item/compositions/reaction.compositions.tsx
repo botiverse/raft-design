@@ -4,7 +4,7 @@ import {
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionErrorIndicator,
-  MessageReactionPickerPanel,
+  MessageReactionPickerPopup,
   MessageReactionQuickButton,
   MessageReactionTooltipContent,
   MessageReactionTooltipMeta,
@@ -29,7 +29,7 @@ export function MessageQuickReactionPickerComposition() {
   const [selectedReaction, setSelectedReaction] = useState<string>();
 
   return (
-    <MessageReactionPickerPanel>
+    <MessageReactionPickerPopup>
       {MESSAGE_QUICK_REACTIONS.map((emoji) => (
         <MessageReactionQuickButton
           key={emoji}
@@ -40,7 +40,7 @@ export function MessageQuickReactionPickerComposition() {
           <MessageReactionGlyphComposition emoji={emoji} size={18} />
         </MessageReactionQuickButton>
       ))}
-    </MessageReactionPickerPanel>
+    </MessageReactionPickerPopup>
   );
 }
 

@@ -5,6 +5,57 @@ export {
   MessageItemSelection,
 } from "./message-item-root";
 export {
+  MessageActionCard,
+  MessageActionCardActions,
+  MessageActionCardCompletion,
+  MessageActionCardContent,
+  MessageActionCardDetails,
+  MessageActionCardHeader,
+  MessageActionCardHint,
+} from "./message-action-card";
+export {
+  MessageForwardedBundle,
+  MessageForwardedBundleAttachment,
+  MessageForwardedBundleAttachmentMeta,
+  MessageForwardedBundleAttachmentName,
+  MessageForwardedBundleAttachments,
+  MessageForwardedBundleCollapsedFade,
+  MessageForwardedBundleContent,
+  MessageForwardedBundleFooter,
+  MessageForwardedBundleHeader,
+  MessageForwardedBundleHeaderCount,
+  MessageForwardedBundleHeaderLabel,
+  MessageForwardedBundleItem,
+  MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemMeta,
+  MessageForwardedBundleItems,
+  MessageForwardedBundleSource,
+  MessageForwardedBundleToggle,
+} from "./message-forwarded-bundle";
+export {
+  MessageQuotedPreview,
+  MessageQuotedPreviewAttachment,
+  MessageQuotedPreviewAttachments,
+  MessageQuotedPreviewAuthor,
+  MessageQuotedPreviewAuthorMeta,
+  MessageQuotedPreviewAuthorName,
+  MessageQuotedPreviewBody,
+  MessageQuotedPreviewChannel,
+  MessageQuotedPreviewContent,
+  MessageQuotedPreviewContext,
+  MessageQuotedPreviewHeader,
+  MessageQuotedPreviewLoading,
+  MessageQuotedPreviewLoadingAvatar,
+  MessageQuotedPreviewLoadingContent,
+  MessageQuotedPreviewLoadingHeader,
+  MessageQuotedPreviewLoadingLine,
+  MessageQuotedPreviewLoadingLines,
+  MessageQuotedPreviewSeparator,
+  MessageQuotedPreviewText,
+  MessageQuotedPreviewTimestamp,
+  MessageQuotedPreviewUnavailable,
+} from "./message-quoted-preview";
+export {
   MessageItemAvatarSlot,
   MessageItemAvatarStatus,
   MessageItemContinuationTime,
@@ -43,6 +94,13 @@ export {
   MessageMarkdown,
   MessageMarkdownTableScroll,
 } from "./message-markdown";
+export {
+  MessageItemTranslationAction,
+  MessageItemTranslationOriginal,
+  MessageItemTranslationOriginalLabel,
+  MessageItemTranslationPlaceholder,
+  MessageItemTranslationStatus,
+} from "./message-translation";
 export {
   SystemMessageGroupDisclosure,
   SystemMessageItem,
@@ -86,7 +144,7 @@ export {
   MessageReactionErrorIndicator,
   MessageReactionGlyph,
   MessageReactionPickerContent,
-  MessageReactionPickerPanel,
+  MessageReactionPickerPopup,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
   MessageReactionTooltipContent,
@@ -98,6 +156,7 @@ export {
 } from "./message-reaction";
 export {
   MessageReferenceChannel,
+  MessageReferenceComment,
   MessageReferenceLabel,
   MessageReferenceLoading,
   MessageReferenceMention,
@@ -132,6 +191,57 @@ export type {
   MessageItemSearchMatchProps,
   MessageItemSelectionProps,
 } from "./message-item-root";
+export type {
+  MessageActionCardActionsProps,
+  MessageActionCardCompletionProps,
+  MessageActionCardContentProps,
+  MessageActionCardDetailsProps,
+  MessageActionCardHeaderProps,
+  MessageActionCardHintProps,
+  MessageActionCardProps,
+} from "./message-action-card";
+export type {
+  MessageForwardedBundleAttachmentMetaProps,
+  MessageForwardedBundleAttachmentNameProps,
+  MessageForwardedBundleAttachmentProps,
+  MessageForwardedBundleAttachmentsProps,
+  MessageForwardedBundleCollapsedFadeProps,
+  MessageForwardedBundleContentProps,
+  MessageForwardedBundleFooterProps,
+  MessageForwardedBundleHeaderCountProps,
+  MessageForwardedBundleHeaderLabelProps,
+  MessageForwardedBundleHeaderProps,
+  MessageForwardedBundleItemAuthorProps,
+  MessageForwardedBundleItemMetaProps,
+  MessageForwardedBundleItemProps,
+  MessageForwardedBundleItemsProps,
+  MessageForwardedBundleProps,
+  MessageForwardedBundleSourceProps,
+  MessageForwardedBundleToggleProps,
+} from "./message-forwarded-bundle";
+export type {
+  MessageQuotedPreviewAttachmentProps,
+  MessageQuotedPreviewAttachmentsProps,
+  MessageQuotedPreviewAuthorMetaProps,
+  MessageQuotedPreviewAuthorNameProps,
+  MessageQuotedPreviewAuthorProps,
+  MessageQuotedPreviewBodyProps,
+  MessageQuotedPreviewChannelProps,
+  MessageQuotedPreviewContentProps,
+  MessageQuotedPreviewContextProps,
+  MessageQuotedPreviewHeaderProps,
+  MessageQuotedPreviewLoadingAvatarProps,
+  MessageQuotedPreviewLoadingContentProps,
+  MessageQuotedPreviewLoadingHeaderProps,
+  MessageQuotedPreviewLoadingLineProps,
+  MessageQuotedPreviewLoadingLinesProps,
+  MessageQuotedPreviewLoadingProps,
+  MessageQuotedPreviewProps,
+  MessageQuotedPreviewSeparatorProps,
+  MessageQuotedPreviewTextProps,
+  MessageQuotedPreviewTimestampProps,
+  MessageQuotedPreviewUnavailableProps,
+} from "./message-quoted-preview";
 export type {
   MessageItemAvatarSlotProps,
   MessageItemAvatarStatusProps,
@@ -172,6 +282,14 @@ export type {
   MessageMarkdownProps,
   MessageMarkdownTableScrollProps,
 } from "./message-markdown";
+export type {
+  MessageItemTranslationActionProps,
+  MessageItemTranslationOriginalLabelProps,
+  MessageItemTranslationOriginalProps,
+  MessageItemTranslationPlaceholderProps,
+  MessageItemTranslationStatusProps,
+  MessageItemTranslationTone,
+} from "./message-translation";
 export type {
   SystemMessageGroupDisclosureProps,
   SystemMessageItemContentProps,
@@ -215,7 +333,7 @@ export type {
   MessageReactionErrorIndicatorProps,
   MessageReactionGlyphProps,
   MessageReactionPickerContentProps,
-  MessageReactionPickerPanelProps,
+  MessageReactionPickerPopupProps,
   MessageReactionQuickButtonProps,
   MessageReactionQuickRowProps,
   MessageReactionTooltipContentProps,
@@ -227,6 +345,7 @@ export type {
 } from "./message-reaction";
 export type {
   MessageReferenceChannelProps,
+  MessageReferenceCommentProps,
   MessageReferenceLabelProps,
   MessageReferenceLoadingProps,
   MessageReferenceMentionProps,

@@ -80,11 +80,8 @@ export type {
 export { ComposerRoot } from "./composer-root";
 export type { ComposerRootProps } from "./composer-root";
 
-export { ComposerToolbarLabel, ComposerToolbarLabelText } from "./composer-toolbar-label";
-export type {
-  ComposerToolbarLabelProps,
-  ComposerToolbarLabelTextProps,
-} from "./composer-toolbar-label";
+export { ComposerToolbarLabel } from "./composer-toolbar-label";
+export type { ComposerToolbarLabelProps } from "./composer-toolbar-label";
 
 export {
   MessageTimelineDateDivider,

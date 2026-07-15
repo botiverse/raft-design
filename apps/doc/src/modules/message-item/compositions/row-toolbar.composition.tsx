@@ -51,7 +51,7 @@ export function MessageRowToolbar({
 
   return (
     <MessageItemToolbar
-      visible={visible}
+      visible={visible || reactionOpen}
       onMouseEnter={clearCloseTimer}
       onMouseLeave={reactionOpen ? scheduleClose : undefined}
     >
