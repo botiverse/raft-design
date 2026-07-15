@@ -18,6 +18,8 @@ import {
   AppRailNav,
   AppRailRoot,
   AppShellRailSlot,
+  MobileNavItem,
+  MobileNavRoot,
 } from "raft-ui/wip";
 import {
   Activity,
@@ -62,35 +64,29 @@ export function AppRailNavItem({
 }
 
 // App-owned mobile bottom-navigation destinations. Shared by this composition and
-// Playground so the two never drift; selection is driven by the enclosing AppRailRoot.
-export function AppRailMobileNav() {
+// Playground so the two never drift; selection stays coordinated with the desktop rail.
+export function MobileNavDestinations({
+  value,
+  onValueChange,
+}: {
+  value?: string;
+  onValueChange?: (value: string) => void;
+}) {
   return (
-    <AppRailNav aria-label="Primary navigation">
-      <AppRailItem value="chat" aria-label="Home">
-        <AppRailItemIcon>
-          <Home />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Home</AppRailItemLabel>
-      </AppRailItem>
-      <AppRailItem value="tasks" aria-label="Tasks">
-        <AppRailItemIcon>
-          <CheckSquare />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Tasks</AppRailItemLabel>
-      </AppRailItem>
-      <AppRailItem value="members" aria-label="Members">
-        <AppRailItemIcon>
-          <Users />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Members</AppRailItemLabel>
-      </AppRailItem>
-      <AppRailItem value="settings" aria-label="Settings">
-        <AppRailItemIcon>
-          <Settings />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Settings</AppRailItemLabel>
-      </AppRailItem>
-    </AppRailNav>
+    <MobileNavRoot value={value} onValueChange={onValueChange} aria-label="Primary navigation">
+      <MobileNavItem value="chat" aria-label="Home">
+        <Home />
+      </MobileNavItem>
+      <MobileNavItem value="tasks" aria-label="Tasks">
+        <CheckSquare />
+      </MobileNavItem>
+      <MobileNavItem value="members" aria-label="Members">
+        <Users />
+      </MobileNavItem>
+      <MobileNavItem value="settings" aria-label="Settings">
+        <Settings />
+      </MobileNavItem>
+    </MobileNavRoot>
   );
 }
 
@@ -102,15 +98,14 @@ export function AppRailComposition() {
     setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
   }
 
+  function selectView(next: string) {
+    setView(next);
+    announce(`Opened ${next}`);
+  }
+
   return (
     <AppShellRailSlot className="max-md:order-last max-md:flex max-md:h-auto max-md:w-full">
-      <AppRailRoot
-        value={view}
-        onValueChange={(next) => {
-          setView(next);
-          announce(`Opened ${next}`);
-        }}
-      >
+      <AppRailRoot value={view} onValueChange={selectView}>
         <AppRailHeader className="max-md:hidden">
           <AppRailServerButton
             title="Raft 中文社区"
@@ -163,7 +158,7 @@ export function AppRailComposition() {
             <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
           </AppRailFooter>
           <div className="w-full md:hidden">
-            <AppRailMobileNav />
+            <MobileNavDestinations value={view} onValueChange={selectView} />
           </div>
         </TooltipProvider>
       </AppRailRoot>

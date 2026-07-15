@@ -13,7 +13,7 @@ export const chatSidebar = tv({
     ],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
-    sidebarViewport: ["h-full min-h-0 overflow-x-hidden overflow-y-auto"],
+    sidebarViewport: ["h-full min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"],
     sidebarContentInner: ["min-h-full px-2 py-3"],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",

@@ -42,7 +42,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { AppRailMobileNav, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
+import { MobileNavDestinations, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 import {
   ChatSidebarServer,
@@ -51,7 +51,7 @@ import {
   ChatSidebarServerIndicator,
   ChatSidebarServerLabel,
 } from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
-import { DEFAULT_CHANNEL_ID, PLAYGROUND_SERVER_SLUG } from "./mock/index.ts";
+import { PLAYGROUND_SERVER_SLUG } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
@@ -177,8 +177,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   onClick={(event) => {
                     event.preventDefault();
                     void navigate({
-                      to: "/playground/s/$serverSlug/channel/$channelId",
-                      params: { channelId: DEFAULT_CHANNEL_ID, serverSlug: PLAYGROUND_SERVER_SLUG },
+                      to: "/playground/s/$serverSlug",
+                      params: { serverSlug: PLAYGROUND_SERVER_SLUG },
                       search: {},
                     });
                   }}
@@ -219,15 +219,13 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
         </AppRailRoot>
       </AppShellRailSlot>
       {showBottomNavigation ? (
-        <AppShellRailSlot className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
-          <AppRailRoot
+        <AppShellRailSlot className="fixed inset-x-0 bottom-0 z-40 order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
+          <MobileNavDestinations
             value={railView}
             onValueChange={(view) => {
               if (isPlaygroundRailView(view)) selectRailView(view);
             }}
-          >
-            <AppRailMobileNav />
-          </AppRailRoot>
+          />
         </AppShellRailSlot>
       ) : null}
     </>

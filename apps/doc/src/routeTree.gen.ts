@@ -96,6 +96,7 @@ import { Route as PlaygroundPlainActivityRouteImport } from './routes/playground
 import { Route as PlaygroundBrowseMembersRouteImport } from './routes/playground/_browse/members'
 import { Route as PlaygroundBrowseComputersRouteImport } from './routes/playground/_browse/computers'
 import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
+import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
 import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
 import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './routes/playground/s/$serverSlug/channel/$channelId'
 
@@ -543,6 +544,12 @@ const PlaygroundSServerSlugRouteRoute =
     path: '/$serverSlug',
     getParentRoute: () => PlaygroundSRouteRoute,
   } as any)
+const PlaygroundSServerSlugIndexRoute =
+  PlaygroundSServerSlugIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
+  } as any)
 const PlaygroundSServerSlugChannelRouteRoute =
   PlaygroundSServerSlugChannelRouteRouteImport.update({
     id: '/channel',
@@ -643,6 +650,7 @@ export interface FileRoutesByFullPath {
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
   '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
 }
 export interface FileRoutesByTo {
@@ -717,7 +725,6 @@ export interface FileRoutesByTo {
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration': typeof MigrationIndexRoute
-  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
   '/playground/activity': typeof PlaygroundPlainActivityRoute
@@ -730,6 +737,7 @@ export interface FileRoutesByTo {
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugIndexRoute
   '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
 }
 export interface FileRoutesById {
@@ -822,6 +830,7 @@ export interface FileRoutesById {
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
   '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
 }
 export interface FileRouteTypes {
@@ -913,6 +922,7 @@ export interface FileRouteTypes {
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
+    | '/playground/s/$serverSlug/'
     | '/playground/s/$serverSlug/channel/$channelId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -987,7 +997,6 @@ export interface FileRouteTypes {
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/migration'
-    | '/playground/s/$serverSlug'
     | '/playground/computers'
     | '/playground/members'
     | '/playground/activity'
@@ -1000,6 +1009,7 @@ export interface FileRouteTypes {
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
+    | '/playground/s/$serverSlug'
     | '/playground/s/$serverSlug/channel/$channelId'
   id:
     | '__root__'
@@ -1091,6 +1101,7 @@ export interface FileRouteTypes {
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
+    | '/playground/s/$serverSlug/'
     | '/playground/s/$serverSlug/channel/$channelId'
   fileRoutesById: FileRoutesById
 }
@@ -1722,6 +1733,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
       parentRoute: typeof PlaygroundSRouteRoute
     }
+    '/playground/s/$serverSlug/': {
+      id: '/playground/s/$serverSlug/'
+      path: '/'
+      fullPath: '/playground/s/$serverSlug/'
+      preLoaderRoute: typeof PlaygroundSServerSlugIndexRouteImport
+      parentRoute: typeof PlaygroundSServerSlugRouteRoute
+    }
     '/playground/s/$serverSlug/channel': {
       id: '/playground/s/$serverSlug/channel'
       path: '/channel'
@@ -1790,12 +1808,14 @@ const PlaygroundSServerSlugChannelRouteRouteWithChildren =
 
 interface PlaygroundSServerSlugRouteRouteChildren {
   PlaygroundSServerSlugChannelRouteRoute: typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  PlaygroundSServerSlugIndexRoute: typeof PlaygroundSServerSlugIndexRoute
 }
 
 const PlaygroundSServerSlugRouteRouteChildren: PlaygroundSServerSlugRouteRouteChildren =
   {
     PlaygroundSServerSlugChannelRouteRoute:
       PlaygroundSServerSlugChannelRouteRouteWithChildren,
+    PlaygroundSServerSlugIndexRoute: PlaygroundSServerSlugIndexRoute,
   }
 
 const PlaygroundSServerSlugRouteRouteWithChildren =

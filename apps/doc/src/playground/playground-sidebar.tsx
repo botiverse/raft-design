@@ -667,7 +667,7 @@ export function PlaygroundSidebar({
   liveAgentActivity,
   title = "Chat",
 }: {
-  activeChannelId: PlaygroundChannelId;
+  activeChannelId: PlaygroundChannelId | null;
   liveAgentActivity: LiveAgentActivityBarItem | null;
   title?: string;
 }) {

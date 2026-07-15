@@ -58,9 +58,9 @@ function MobileBackButton() {
     <Button
       render={
         <Link
-          to="/playground/s/$serverSlug/channel/$channelId"
-          params={{ channelId: channelMatch.params.channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
-          search={{ panel: "list" }}
+          to="/playground/s/$serverSlug"
+          params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
+          search={{}}
         />
       }
       nativeButton={false}
