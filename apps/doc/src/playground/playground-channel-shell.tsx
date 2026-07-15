@@ -1,5 +1,6 @@
 import { Outlet, getRouteApi } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
+import type { ReactNode } from "react";
 import { useThemeFamily } from "raft-ui";
 import { cn } from "raft-ui/cn";
 import {
@@ -29,15 +30,14 @@ import { PlaygroundSidebar } from "./playground-sidebar.tsx";
 import { PlaygroundThreadPanel } from "./playground-thread-panel.tsx";
 import { usePlaygroundTaskState } from "./playground-task-state.tsx";
 
-const playgroundRoute = getRouteApi("/playground");
-const playgroundChannelRoute = getRouteApi("/playground/_channel/$channelId");
+const playgroundChannelRoute = getRouteApi("/playground/s/$serverSlug/channel");
+const playgroundChannelIdRoute = getRouteApi("/playground/s/$serverSlug/channel/$channelId");
 
 export function PlaygroundChannelShell() {
-  const { channelId } = playgroundChannelRoute.useParams();
-  const { from, panel, thread } = playgroundRoute.useSearch();
+  const { channelId } = playgroundChannelIdRoute.useParams();
+  const { from, panel, thread } = playgroundChannelRoute.useSearch();
   const { tasks } = usePlaygroundTaskState();
   const theme = useThemeFamily();
-  const isDesktop = useMediaQuery("(min-width: 768px)", false);
 
   if (!isPlaygroundChannelId(channelId)) return null;
 
@@ -50,11 +50,7 @@ export function PlaygroundChannelShell() {
       : task?.channelId === channel.id
         ? getPlaygroundTaskThread(task)
         : undefined;
-  const mobileListPanel = panel === "list" && !isDesktop;
-  const mobilePanel = activeThread ? "thread" : mobileListPanel ? "sidebar" : "main";
-  const renderSidebarPanel = isDesktop || mobilePanel === "sidebar";
-  const renderMainPanel = isDesktop || mobilePanel === "main";
-  const renderThreadPanel = Boolean(activeThread) && (isDesktop || mobilePanel === "thread");
+  const mobileListPanel = panel === "list" && !activeThread;
   const liveAgentActor = getPlaygroundActor(PLAYGROUND_LIVE_AGENT_ACTIVITY.actorId);
 
   return (
@@ -66,49 +62,27 @@ export function PlaygroundChannelShell() {
     >
       <PlaygroundRail showBottomNavigation={mobileListPanel} />
       <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
-        {renderSidebarPanel ? (
+        <PlaygroundChannelSidebarSlot key={theme} mobileVisible={mobileListPanel} theme={theme}>
+          <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+            <PlaygroundSidebar
+              activeChannelId={channel.id}
+              liveAgentActivity={{
+                activity: PLAYGROUND_LIVE_AGENT_ACTIVITY.activity,
+                agentAvatarSrc: liveAgentActor.avatarSrc,
+                text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
+              }}
+              title="Chat"
+            />
+          </AppShellSidebarSlot>
+        </PlaygroundChannelSidebarSlot>
+        <ResizableHandle className="hidden md:flex" />
+        <PlaygroundChannelMainSlot hiddenOnMobile={mobileListPanel || Boolean(activeThread)}>
+          <Outlet />
+        </PlaygroundChannelMainSlot>
+        {activeThread ? (
           <>
-            <ResizablePanel
-              key={theme}
-              id={`playground-sidebar-${theme}`}
-              defaultSize={theme === "brutal" ? 240 : 252}
-              minSize={180}
-              maxSize={368}
-              groupResizeBehavior="preserve-pixel-size"
-            >
-              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
-                <PlaygroundSidebar
-                  activeChannelId={channel.id}
-                  liveAgentActivity={{
-                    activity: PLAYGROUND_LIVE_AGENT_ACTIVITY.activity,
-                    agentAvatarSrc: liveAgentActor.avatarSrc,
-                    text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
-                  }}
-                  title="Chat"
-                />
-              </AppShellSidebarSlot>
-            </ResizablePanel>
-            {renderMainPanel ? <ResizableHandle className="hidden md:flex" /> : null}
-          </>
-        ) : null}
-        {renderMainPanel ? (
-          <ResizablePanel id="playground-main" minSize={isDesktop ? 360 : 0} className="min-w-0">
-            <AppShellMainSlot className="flex h-full">
-              <Outlet />
-            </AppShellMainSlot>
-          </ResizablePanel>
-        ) : null}
-        {renderThreadPanel && activeThread ? (
-          <>
-            {isDesktop ? <ResizableHandle className="hidden md:flex" /> : null}
-            <ResizablePanel
-              id="playground-thread"
-              defaultSize={400}
-              minSize={isDesktop ? 320 : 0}
-              maxSize={560}
-              groupResizeBehavior="preserve-pixel-size"
-              className="min-w-0"
-            >
+            <ResizableHandle className="hidden md:flex" />
+            <PlaygroundChannelThreadSlot>
               <AppShellPanelStackSlot className="flex h-full w-full">
                 <AppPanelStackRoot className="w-full">
                   <AppPanelStackItem className="w-full">
@@ -123,11 +97,73 @@ export function PlaygroundChannelShell() {
                   </AppPanelStackItem>
                 </AppPanelStackRoot>
               </AppShellPanelStackSlot>
-            </ResizablePanel>
+            </PlaygroundChannelThreadSlot>
           </>
         ) : null}
       </ResizableGroup>
     </AppShellRoot>
+  );
+}
+
+function PlaygroundChannelSidebarSlot({
+  children,
+  mobileVisible,
+  theme,
+}: {
+  children: ReactNode;
+  mobileVisible: boolean;
+  theme: "brutal" | "elegant";
+}) {
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+
+  return (
+    <ResizablePanel
+      id={`playground-sidebar-${theme}`}
+      defaultSize={theme === "brutal" ? 240 : 252}
+      minSize={isDesktop ? 180 : 0}
+      maxSize={368}
+      groupResizeBehavior="preserve-pixel-size"
+      className={cn("min-w-0", !mobileVisible && "max-md:hidden")}
+    >
+      {children}
+    </ResizablePanel>
+  );
+}
+
+function PlaygroundChannelMainSlot({
+  children,
+  hiddenOnMobile,
+}: {
+  children: ReactNode;
+  hiddenOnMobile: boolean;
+}) {
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+
+  return (
+    <ResizablePanel
+      id="playground-main"
+      minSize={isDesktop ? 360 : 0}
+      className={cn("min-w-0", hiddenOnMobile && "max-md:hidden")}
+    >
+      <AppShellMainSlot className="flex h-full">{children}</AppShellMainSlot>
+    </ResizablePanel>
+  );
+}
+
+function PlaygroundChannelThreadSlot({ children }: { children: ReactNode }) {
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+
+  return (
+    <ResizablePanel
+      id="playground-thread"
+      defaultSize={400}
+      minSize={isDesktop ? 320 : 0}
+      maxSize={560}
+      groupResizeBehavior="preserve-pixel-size"
+      className="min-w-0"
+    >
+      {children}
+    </ResizablePanel>
   );
 }
 

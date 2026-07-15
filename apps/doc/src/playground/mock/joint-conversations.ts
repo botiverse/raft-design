@@ -96,7 +96,7 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   defineStandardRoom({
     id: "shared-roadmap",
     name: "raft-northstar-q3",
-    navigation: { mention: true, badge: "1" },
+    navigation: { mention: true, badge: "1", muted: true },
     kind: "joint",
     subtitle: "Quarterly planning across Raft and Northstar",
     memberCount: 15,

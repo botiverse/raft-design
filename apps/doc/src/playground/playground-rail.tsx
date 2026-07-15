@@ -51,7 +51,7 @@ import {
   ChatSidebarServerIndicator,
   ChatSidebarServerLabel,
 } from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
-import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
+import { DEFAULT_CHANNEL_ID, PLAYGROUND_SERVER_SLUG } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
@@ -177,8 +177,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   onClick={(event) => {
                     event.preventDefault();
                     void navigate({
-                      to: "/playground/$channelId",
-                      params: { channelId: DEFAULT_CHANNEL_ID },
+                      to: "/playground/s/$serverSlug/channel/$channelId",
+                      params: { channelId: DEFAULT_CHANNEL_ID, serverSlug: PLAYGROUND_SERVER_SLUG },
                       search: {},
                     });
                   }}

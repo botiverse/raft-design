@@ -39,6 +39,11 @@ export type PlaygroundThreadId = PlaygroundMessageId;
 export type PlaygroundChannelRecord = PlaygroundChannel & { id: PlaygroundChannelId };
 
 export const DEFAULT_CHANNEL_ID: PlaygroundChannelId = "all";
+export const PLAYGROUND_SERVER_SLUG = "raft";
+
+export function isPlaygroundServerSlug(value: string): value is typeof PLAYGROUND_SERVER_SLUG {
+  return value === PLAYGROUND_SERVER_SLUG;
+}
 
 const channelsById = new Map<PlaygroundChannelId, PlaygroundChannelRecord>();
 const channelIds = new Set<string>();

@@ -43,9 +43,9 @@ const SNIPPETS = {
       <ChatMainPanelSubtitle />
     </ChatMainPanelTitleBlock>
     <ChatMainPanelActions>
-      <PanelButton>
-        <PanelButtonIcon />
-      </PanelButton>
+      <ChatPanelAction>
+        <Search />
+      </ChatPanelAction>
     </ChatMainPanelActions>
   </ChatMainPanelHeader>
   <ChatMainPanelContent>
@@ -99,15 +99,10 @@ const PROPS: readonly PropRow[] = [
     description: "Explicit title content and action regions; business copy remains caller-owned.",
   },
   {
-    name: "PanelButton",
+    name: "ChatPanelAction",
     type: "button props",
-    description: "Shared panel action root for search, details, and app-owned commands.",
-  },
-  {
-    name: "PanelButtonIcon / Label / Count",
-    type: "span props",
     description:
-      "Explicit content parts. Label is hidden below md and enters layout at md; Icon and Count remain visible at every size.",
+      "Chat-panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
   {
     name: "ChatMainPanelContent",

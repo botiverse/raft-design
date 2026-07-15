@@ -65,13 +65,16 @@ export const chatSidebarItem = tv({
       },
       elegant: {
         sidebarItem: [
-          "relative mb-0.5 -mx-[var(--sidebar-row-inset-x,6px)] w-[calc(100%+12px)] rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
+          "relative isolate mb-0.5 -mx-[var(--sidebar-row-inset-x,6px)] w-[calc(100%+12px)] rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
+          "[&>*]:z-10",
           "text-[13px] font-medium text-foreground-muted",
           "hover:border-transparent hover:bg-layer-strong/80 hover:text-foreground-strong",
           "active:border-transparent active:bg-layer-strong/80 active:text-foreground-strong",
           "aria-[current=page]:border-transparent aria-[current=page]:bg-layer-panel",
           "aria-[current=page]:text-foreground",
-          "aria-[current=page]:shadow-xs aria-[current=page]:ring-1 aria-[current=page]:ring-line-subtle/30",
+          "aria-[current=page]:shadow-sm aria-[current=page]:ring-1 aria-[current=page]:ring-line-subtle/45",
+          "aria-[current=page]:before:pointer-events-none aria-[current=page]:before:absolute aria-[current=page]:before:inset-0 aria-[current=page]:before:z-0 aria-[current=page]:before:rounded-[inherit]",
+          "aria-[current=page]:before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_3%)_100%)] aria-[current=page]:before:content-['']",
           "aria-expanded:border-transparent aria-expanded:bg-layer-panel",
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],

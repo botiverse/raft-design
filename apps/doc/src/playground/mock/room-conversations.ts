@@ -92,7 +92,7 @@ export const PLAYGROUND_ROOM_CHANNELS = [
         },
       ],
     },
-    navigation: { badge: "12", unread: true, mention: true },
+    navigation: { badge: "12", unread: true, mention: true, muted: true },
     subtitle: "Delivery degraded — retries queued",
     memberCount: 14,
     memberIds: ["deployBot", "mxChen", "ada", "mateo", "incidentTriage"],

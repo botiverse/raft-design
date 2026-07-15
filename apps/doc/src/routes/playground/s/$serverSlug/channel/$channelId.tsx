@@ -8,12 +8,12 @@ import {
   isPlaygroundChannelId,
 } from "#/playground/mock/index.ts";
 
-export const Route = createFileRoute("/playground/_channel/$channelId")({
+export const Route = createFileRoute("/playground/s/$serverSlug/channel/$channelId")({
   beforeLoad: ({ params, search }) => {
     if (!isPlaygroundChannelId(params.channelId)) {
       throw redirect({
-        to: "/playground/$channelId",
-        params: { channelId: DEFAULT_CHANNEL_ID },
+        to: "/playground/s/$serverSlug/channel/$channelId",
+        params: { channelId: DEFAULT_CHANNEL_ID, serverSlug: params.serverSlug },
         search: {},
       });
     }
@@ -21,8 +21,8 @@ export const Route = createFileRoute("/playground/_channel/$channelId")({
     const threadContext = search.thread ? getPlaygroundThread(search.thread) : undefined;
     if (threadContext && threadContext.channelId !== params.channelId) {
       throw redirect({
-        to: "/playground/$channelId",
-        params: { channelId: params.channelId },
+        to: "/playground/s/$serverSlug/channel/$channelId",
+        params: { channelId: params.channelId, serverSlug: params.serverSlug },
         search: {},
         replace: true,
       });

@@ -19,6 +19,7 @@ import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
 import {
   PLAYGROUND_ACTORS,
   DEFAULT_CHANNEL_ID,
+  PLAYGROUND_SERVER_SLUG,
   getPlaygroundChannel,
   type PlaygroundActor,
   type PlaygroundChannelRecord,
@@ -144,8 +145,8 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
           const sourceTask = visibleTasks.find((item) => item.id === task.id);
           if (!sourceTask || sourceTask.legacy) return;
           void navigate({
-            to: "/playground/$channelId",
-            params: { channelId: sourceTask.channelId },
+            to: "/playground/s/$serverSlug/channel/$channelId",
+            params: { channelId: sourceTask.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
             search: { from: "tasks", thread: sourceTask.sourceMessageId ?? sourceTask.id },
           });
         }}

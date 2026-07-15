@@ -10,6 +10,7 @@ export {
 export {
   ALL_SHOWCASE_THREAD_IDS,
   DEFAULT_CHANNEL_ID,
+  PLAYGROUND_SERVER_SLUG,
   PLAYGROUND_CHANNELS,
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
@@ -19,6 +20,7 @@ export {
   getPlaygroundMembers,
   getPlaygroundThread,
   isPlaygroundChannelId,
+  isPlaygroundServerSlug,
   isPlaygroundThreadId,
   requirePlaygroundThread,
   type PlaygroundChannel,

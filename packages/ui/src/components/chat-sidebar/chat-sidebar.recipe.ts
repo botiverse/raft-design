@@ -12,7 +12,15 @@ export const chatSidebar = tv({
       "font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted",
     ],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
-    sidebarContent: ["flex-1 overflow-x-hidden overflow-y-auto px-2 py-3"],
+    sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
+    sidebarViewport: ["h-full min-h-0 overflow-x-hidden overflow-y-auto"],
+    sidebarContentInner: ["min-h-full px-2 py-3"],
+    sidebarScrollbar: [
+      "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
+      "pointer-events-none",
+      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
+    ],
+    sidebarScrollbarThumb: ["w-1.5 rounded-full"],
     sidebarFooter: ["shrink-0"],
   },
   variants: {
@@ -25,13 +33,17 @@ export const chatSidebar = tv({
         ],
         sidebarBody: "bg-brutal-cream max-md:bg-white",
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
+        sidebarScrollbarThumb: "bg-black/35 hover:bg-black/55",
       },
       elegant: {
-        sidebarRoot: ["relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]"],
+        sidebarRoot: [
+          "relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
+          "md:[--sidebar-inset-end:18px]",
+        ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",
           "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
-          "px-[var(--sidebar-inset-x,26px)]",
+          "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
         sidebarHeaderMask: ["block h-[calc(100%+0.75rem)]"],
@@ -45,10 +57,12 @@ export const chatSidebar = tv({
         ],
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
         sidebarBody: "bg-layer-page",
-        sidebarContent: [
-          "px-[var(--sidebar-inset-x,26px)]",
+        sidebarContentInner: [
+          "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "pt-[var(--shell-header-height,3.5rem)]",
         ],
+        sidebarScrollbar: "justify-end",
+        sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         sidebarFooter: "border-t border-line-subtle p-3",
       },
     },

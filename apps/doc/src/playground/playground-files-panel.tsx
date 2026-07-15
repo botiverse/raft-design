@@ -6,6 +6,7 @@ import {
 } from "#/modules/files/files-panel.composition.tsx";
 import {
   getPlaygroundFiles,
+  PLAYGROUND_SERVER_SLUG,
   requirePlaygroundFile,
   type PlaygroundChannelRecord,
   type PlaygroundFile,
@@ -35,8 +36,8 @@ export function PlaygroundFilesPanel({ channel }: { channel: PlaygroundChannelRe
         const source = requirePlaygroundFile(file.id);
         selectPanelTab("chat");
         void navigate({
-          to: "/playground/$channelId",
-          params: { channelId },
+          to: "/playground/s/$serverSlug/channel/$channelId",
+          params: { channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
           search: { thread: source.sourceMessageId },
         });
       }}

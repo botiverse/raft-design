@@ -26,9 +26,8 @@ const messageTimeline = tv({
       },
       elegant: {
         dividerRule: "border-t border-line-muted",
-        dividerChipWrap: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
-        dividerChip:
-          "bg-[var(--shell-surface-bg,var(--layer-panel))] font-mono text-[11px] font-normal text-foreground-muted",
+        dividerChipWrap: "bg-layer-panel",
+        dividerChip: "bg-layer-panel font-mono text-[11px] font-normal text-foreground-muted",
         notice: "font-sans",
         limitedTag: "rounded border-line-subtle bg-layer-panel/70",
       },

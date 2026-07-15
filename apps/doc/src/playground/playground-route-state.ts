@@ -1,14 +1,14 @@
 import { getRouteApi, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useCallback } from "react";
 
-import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
+import { DEFAULT_CHANNEL_ID, PLAYGROUND_SERVER_SLUG } from "./mock/index.ts";
 import type { PlaygroundRailView } from "./playground-navigation-state.tsx";
 
 const playgroundRoute = getRouteApi("/playground");
 
 const playgroundRailPaths = {
   search: "/playground/search",
-  chat: "/playground/$channelId",
+  chat: "/playground/s/$serverSlug/channel/$channelId",
   activity: "/playground/activity",
   saved: "/playground/saved",
   tasks: "/playground/tasks",
@@ -37,8 +37,8 @@ export function usePlaygroundRouteState() {
       if (playgroundDisabledRailViews.has(view)) return;
       if (view === "chat") {
         void navigate({
-          to: "/playground/$channelId",
-          params: { channelId: DEFAULT_CHANNEL_ID },
+          to: "/playground/s/$serverSlug/channel/$channelId",
+          params: { channelId: DEFAULT_CHANNEL_ID, serverSlug: PLAYGROUND_SERVER_SLUG },
           search: {},
         });
         return;

@@ -27,11 +27,7 @@ const appShell = tv({
         panelStackSlot: "border-l-2 border-black bg-white",
       },
       elegant: {
-        root: [
-          "[--shell-surface-bg:var(--layer-panel)]",
-          "[--shell-header-height:3.5rem]",
-          "bg-layer-page",
-        ],
+        root: ["[--shell-header-height:3.5rem]", "bg-layer-page"],
         railSlot: "w-14",
         sidebarSlot: "w-[252px]",
         mainSlot: "bg-layer-page",

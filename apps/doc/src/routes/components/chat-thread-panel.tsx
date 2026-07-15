@@ -44,18 +44,18 @@ const SNIPPETS = {
   <ChatThreadPanelHeader>
     <ChatThreadPanelTitle />
     <ChatThreadPanelActions>
-      <PanelButton>
-        <PanelButtonIcon />
-      </PanelButton>
+      <ChatPanelAction>
+        <X />
+      </ChatPanelAction>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
   <ChatThreadPanelSearch>
     <ChatThreadPanelSearchIcon />
     <ChatThreadPanelSearchInput />
     <ChatThreadPanelSearchCount />
-    <PanelButton>
-      <PanelButtonIcon />
-    </PanelButton>
+    <ChatPanelAction>
+      <Search />
+    </ChatPanelAction>
   </ChatThreadPanelSearch>
   <ChatThreadPanelParent>
     <MessageItem />
@@ -83,22 +83,16 @@ const PROPS: readonly PropRow[] = [
     description: "Fixed thread header regions matching source panel chrome.",
   },
   {
-    name: "PanelButton",
+    name: "ChatPanelAction",
     type: "button props",
     description:
-      "Shared panel action root. Its width follows the explicit Icon, Label, and Count children.",
-  },
-  {
-    name: "PanelButtonIcon / Label / Count",
-    type: "span props",
-    description:
-      "Explicit content parts. Label is hidden below sm and enters layout at sm; Icon and Count remain visible at every size.",
+      "Chat-panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
   {
     name: "ChatThreadPanelSearch / SearchIcon / SearchInput / SearchCount",
     type: "div / span / input props",
     description:
-      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via PanelButton.",
+      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via ChatPanelAction.",
   },
   {
     name: "ChatThreadPanelParent / ReplyCount",

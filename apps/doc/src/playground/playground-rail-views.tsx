@@ -60,6 +60,7 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
+  PLAYGROUND_SERVER_SLUG,
 } from "./mock/index.ts";
 import {
   usePlaygroundNavigation,
@@ -355,7 +356,11 @@ function PlaygroundSearchView() {
               variant="outline"
               nativeButton={false}
               render={
-                <Link to="/playground/$channelId" params={{ channelId: channel.id }} search={{}} />
+                <Link
+                  to="/playground/s/$serverSlug/channel/$channelId"
+                  params={{ channelId: channel.id, serverSlug: PLAYGROUND_SERVER_SLUG }}
+                  search={{}}
+                />
               }
             >
               {channel.kind === "dm" ? "@" : "#"}

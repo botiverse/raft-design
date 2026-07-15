@@ -73,7 +73,7 @@ export const composer = tv({
       elegant: {
         root: [
           "overflow-hidden rounded-lg border-0 p-0",
-          "bg-[var(--shell-surface-bg,var(--layer-panel))]",
+          "bg-layer-panel",
           "shadow-lg ring-1 ring-ink-2 max-md:ring-ink-2/50 focus-within:ring-ink-10",
         ],
         input: [

@@ -91,6 +91,7 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
+  PLAYGROUND_SERVER_SLUG,
   getPlaygroundDmActor,
   type PlaygroundChannelId,
   type PlaygroundChannelRecord,
@@ -304,7 +305,13 @@ function useSectionOrder<T extends { id: string; name: string }>(rows: readonly 
 }
 
 function channelLink(channelId: PlaygroundChannelId) {
-  return <Link to="/playground/$channelId" params={{ channelId }} search={{}} />;
+  return (
+    <Link
+      to="/playground/s/$serverSlug/channel/$channelId"
+      params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
+      search={{}}
+    />
+  );
 }
 
 function PlaygroundSidebarItem({
@@ -688,7 +695,7 @@ export function PlaygroundSidebar({
 
   return (
     <>
-      <ChatSidebarRoot className="relative overflow-x-clip">
+      <ChatSidebarRoot className="relative overflow-clip">
         <ChatSidebarHeader className="md:hidden">
           <PlaygroundSidebarServerSwitcher name={activeServer.name} />
           <div className="min-w-0 flex-1" />
@@ -750,8 +757,26 @@ export function PlaygroundSidebar({
           </ChatSidebarContent>
         </ChatSidebarBody>
         {liveAgentActivity ? (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 max-md:hidden">
-            <LiveAgentActivityBarComposition latest={liveAgentActivity} />
+          <div
+            className={
+              theme === "elegant"
+                ? [
+                    "pointer-events-none absolute inset-x-0 bottom-3 z-10 max-md:hidden",
+                    "before:pointer-events-none before:absolute before:inset-x-0 before:-bottom-3 before:z-0 before:h-20",
+                    "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-page))] before:backdrop-blur-[4px]",
+                    "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
+                    "before:content-[''] [&>*]:relative [&>*]:z-10",
+                  ].join(" ")
+                : "pointer-events-none absolute inset-x-0 bottom-0 z-40 max-md:hidden"
+            }
+          >
+            {theme === "elegant" ? (
+              <div className="ml-[calc(var(--sidebar-inset-x,26px)-var(--sidebar-row-inset-x,6px))] mr-[calc(var(--sidebar-inset-end,var(--sidebar-inset-x,26px))-var(--sidebar-row-inset-x,6px))]">
+                <LiveAgentActivityBarComposition latest={liveAgentActivity} />
+              </div>
+            ) : (
+              <LiveAgentActivityBarComposition latest={liveAgentActivity} />
+            )}
           </div>
         ) : null}
       </ChatSidebarRoot>

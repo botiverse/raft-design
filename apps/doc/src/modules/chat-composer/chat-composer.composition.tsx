@@ -1,6 +1,14 @@
 import type { ReactNode } from "react";
 import { FileText, ImagePlus, Paperclip, Send, X } from "lucide-react";
-import { Checkbox, Spinner } from "raft-ui";
+import {
+  Checkbox,
+  Kbd,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
 import {
   Composer,
   ComposerActions,
@@ -86,10 +94,18 @@ export function ComposerComposition() {
           }
           meta={
             <>
-              <ComposerToolbarLabel>
-                <Checkbox size="sm" aria-label="Send as task" />
-                <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
-              </ComposerToolbarLabel>
+              <TooltipProvider delay={300}>
+                <Tooltip>
+                  <TooltipTrigger render={<ComposerToolbarLabel />}>
+                    <Checkbox size="sm" aria-label="Send as task" />
+                    <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">
+                    Send as task
+                    <Kbd>Cmd Shift Enter</Kbd>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <ComposerSubmit aria-label="Send" disabled>
                 <span>Send</span>
                 <Send />

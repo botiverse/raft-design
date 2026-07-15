@@ -33,15 +33,14 @@ import {
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
   ChatMainPanelTitleRow,
-  PanelButton,
-  PanelButtonCount,
-  PanelButtonIcon,
-  PanelToggleButton,
+  ChatPanelAction,
+  ChatPanelToggleAction,
 } from "raft-ui/wip";
 import { useState } from "react";
 
 import {
   getPlaygroundDmActor,
+  PLAYGROUND_SERVER_SLUG,
   type PlaygroundChannel,
   type PlaygroundDirectMessage,
   type PlaygroundRoomChannel,
@@ -50,7 +49,7 @@ import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 function MobileBackButton() {
   const channelMatch = useMatch({
-    from: "/playground/_channel/$channelId",
+    from: "/playground/s/$serverSlug/channel/$channelId",
     shouldThrow: false,
   });
   if (!channelMatch) return null;
@@ -59,8 +58,8 @@ function MobileBackButton() {
     <Button
       render={
         <Link
-          to="/playground/$channelId"
-          params={{ channelId: channelMatch.params.channelId }}
+          to="/playground/s/$serverSlug/channel/$channelId"
+          params={{ channelId: channelMatch.params.channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
           search={{ panel: "list" }}
         />
       }
@@ -100,17 +99,15 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
       <TooltipProvider delay={650}>
         <ChatMainPanelActions>
           <Tooltip>
-            <TooltipTrigger render={<PanelButton aria-label="Search this channel" />}>
-              <PanelButtonIcon>
-                <Search />
-              </PanelButtonIcon>
+            <TooltipTrigger render={<ChatPanelAction aria-label="Search this channel" />}>
+              <Search />
             </TooltipTrigger>
             <TooltipContent side="bottom">Search this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
               render={
-                <PanelToggleButton
+                <ChatPanelToggleAction
                   className="max-md:hidden"
                   pressed={isMuted}
                   onPressedChange={setIsMuted}
@@ -120,7 +117,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
                 />
               }
             >
-              <PanelButtonIcon>{isMuted ? <BellOff /> : <Bell />}</PanelButtonIcon>
+              {isMuted ? <BellOff /> : <Bell />}
             </TooltipTrigger>
             <TooltipContent side="bottom">
               {isMuted ? "Unmute activity for this channel" : "Mute activity for this channel"}
@@ -129,44 +126,37 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
           <Tooltip>
             <TooltipTrigger
               render={
-                <PanelButton
+                <ChatPanelAction
                   className="max-md:hidden"
                   aria-label="Stop all agents in this channel"
                 />
               }
             >
-              <PanelButtonIcon>
-                <Square />
-              </PanelButtonIcon>
+              <Square />
             </TooltipTrigger>
             <TooltipContent side="bottom">Stop all agents in this channel</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
-              render={<PanelButton className="max-md:hidden" aria-label="View participants" />}
+              render={<ChatPanelAction className="max-md:hidden" aria-label="View participants" />}
             >
-              <PanelButtonIcon>
-                <Users />
-              </PanelButtonIcon>
-              <PanelButtonCount>{channel.memberCount}</PanelButtonCount>
+              <Users />
+
+              {channel.memberCount}
             </TooltipTrigger>
             <TooltipContent side="bottom">View participants</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
-              render={<PanelButton className="max-md:hidden" aria-label="Edit channel" />}
+              render={<ChatPanelAction className="max-md:hidden" aria-label="Edit channel" />}
             >
-              <PanelButtonIcon>
-                <Settings />
-              </PanelButtonIcon>
+              <Settings />
             </TooltipTrigger>
             <TooltipContent side="bottom">Edit channel</TooltipContent>
           </Tooltip>
-          <PanelButton className="md:hidden" aria-label="More options">
-            <PanelButtonIcon>
-              <EllipsisVertical />
-            </PanelButtonIcon>
-          </PanelButton>
+          <ChatPanelAction className="md:hidden" aria-label="More options">
+            <EllipsisVertical />
+          </ChatPanelAction>
         </ChatMainPanelActions>
       </TooltipProvider>
     </ChatMainPanelHeader>
@@ -201,14 +191,14 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
           <Tooltip>
             <TooltipTrigger
               render={
-                <PanelToggleButton
+                <ChatPanelToggleAction
                   aria-label={isMuted ? "Unmute activity for this DM" : "Mute activity for this DM"}
                   pressed={isMuted}
                   onPressedChange={setIsMuted}
                 />
               }
             >
-              <PanelButtonIcon>{isMuted ? <BellOff /> : <Bell />}</PanelButtonIcon>
+              {isMuted ? <BellOff /> : <Bell />}
             </TooltipTrigger>
             <TooltipContent side="bottom">
               {isMuted ? "Unmute activity for this DM" : "Mute activity for this DM"}

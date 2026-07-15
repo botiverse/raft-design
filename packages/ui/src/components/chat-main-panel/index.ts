@@ -38,3 +38,7 @@ export type {
   ChatMainPanelTitleProps,
   ChatMainPanelTitleRowProps,
 } from "./chat-main-panel";
+export { ChatPanelAction } from "./chat-panel-action";
+export type { ChatPanelActionProps } from "./chat-panel-action";
+export { ChatPanelToggleAction } from "./chat-panel-toggle-action";
+export type { ChatPanelToggleActionProps } from "./chat-panel-toggle-action";

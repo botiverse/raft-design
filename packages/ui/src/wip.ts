@@ -123,20 +123,10 @@ export type {
   ChatThreadPanelTitleMetaProps,
 } from "./components/chat-thread-panel/chat-thread-panel";
 
-export {
-  PanelButton,
-  PanelButtonCount,
-  PanelButtonIcon,
-  PanelButtonLabel,
-  PanelToggleButton,
-} from "./components/panel-button/panel-button";
-export type {
-  PanelButtonProps,
-  PanelButtonCountProps,
-  PanelButtonIconProps,
-  PanelButtonLabelProps,
-  PanelToggleButtonProps,
-} from "./components/panel-button/panel-button";
+export { ChatPanelAction } from "./components/chat-main-panel/chat-panel-action";
+export type { ChatPanelActionProps } from "./components/chat-main-panel/chat-panel-action";
+export { ChatPanelToggleAction } from "./components/chat-main-panel/chat-panel-toggle-action";
+export type { ChatPanelToggleActionProps } from "./components/chat-main-panel/chat-panel-toggle-action";
 
 export {
   ComposerAttachments,

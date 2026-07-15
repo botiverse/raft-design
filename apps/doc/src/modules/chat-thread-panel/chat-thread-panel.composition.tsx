@@ -31,8 +31,7 @@ import {
   MessageItemTime,
   MessageTimelineDateDivider,
   MessageTimelineNotice,
-  PanelButton,
-  PanelButtonIcon,
+  ChatPanelAction,
 } from "raft-ui/wip";
 
 type ChatThreadPanelState = "default" | "empty" | "loading";
@@ -53,21 +52,15 @@ function ThreadSearchRow() {
         value="chrome"
       />
       <ChatThreadPanelSearchCount>1/2</ChatThreadPanelSearchCount>
-      <PanelButton aria-label="Previous match">
-        <PanelButtonIcon>
-          <ChevronUp />
-        </PanelButtonIcon>
-      </PanelButton>
-      <PanelButton aria-label="Next match">
-        <PanelButtonIcon>
-          <ChevronDown />
-        </PanelButtonIcon>
-      </PanelButton>
-      <PanelButton aria-label="Close thread search">
-        <PanelButtonIcon>
-          <X />
-        </PanelButtonIcon>
-      </PanelButton>
+      <ChatPanelAction aria-label="Previous match">
+        <ChevronUp />
+      </ChatPanelAction>
+      <ChatPanelAction aria-label="Next match">
+        <ChevronDown />
+      </ChatPanelAction>
+      <ChatPanelAction aria-label="Close thread search">
+        <X />
+      </ChatPanelAction>
     </ChatThreadPanelSearch>
   );
 }
@@ -156,11 +149,9 @@ export function ChatThreadPanelComposition({
       <ChatThreadPanelHeader>
         <ChatThreadPanelTitle>Thread</ChatThreadPanelTitle>
         <ChatThreadPanelActions>
-          <PanelButton aria-label="Close thread">
-            <PanelButtonIcon>
-              <X />
-            </PanelButtonIcon>
-          </PanelButton>
+          <ChatPanelAction aria-label="Close thread">
+            <X />
+          </ChatPanelAction>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
       {search ? <ThreadSearchRow /> : null}

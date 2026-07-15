@@ -17,7 +17,17 @@ import {
   UserX,
   X,
 } from "lucide-react";
-import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  Checkbox,
+  Kbd,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
 import {
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
@@ -399,10 +409,18 @@ function PlaygroundComposer({
         meta={
           <>
             {footer === "main" ? (
-              <ComposerToolbarLabel>
-                <Checkbox size="sm" aria-label="Send as task" />
-                <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
-              </ComposerToolbarLabel>
+              <TooltipProvider delay={300}>
+                <Tooltip>
+                  <TooltipTrigger render={<ComposerToolbarLabel />}>
+                    <Checkbox size="sm" aria-label="Send as task" />
+                    <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">
+                    Send as task
+                    <Kbd>Cmd Shift Enter</Kbd>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             ) : null}
             <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !attachmentsVisible}>
               <span>Send</span>
