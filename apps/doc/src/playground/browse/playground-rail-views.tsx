@@ -28,7 +28,6 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-  Input,
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
@@ -249,7 +248,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
 export function PlaygroundRailViewPanel({
   view,
 }: {
-  view: Exclude<PlaygroundRailView, "chat" | "tasks">;
+  view: Exclude<PlaygroundRailView, "search" | "chat" | "tasks">;
 }) {
   const ViewIcon = viewMeta[view].icon;
   const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
@@ -257,8 +256,7 @@ export function PlaygroundRailViewPanel({
   const auxiliaryDetail =
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
-  const mobileBack =
-    view === "search" || view === "activity" || view === "saved" || auxiliaryDetail;
+  const mobileBack = view === "activity" || view === "saved" || auxiliaryDetail;
 
   if (selectedMember) {
     return (
@@ -306,9 +304,7 @@ export function PlaygroundRailViewPanel({
         </PanelHeaderContent>
       </PanelHeader>
       <ConversationPanelContent>
-        {view === "search" ? (
-          <PlaygroundSearchView />
-        ) : view === "activity" ? (
+        {view === "activity" ? (
           <PlaygroundActivityView />
         ) : view === "saved" ? (
           <PlaygroundSavedView />
@@ -365,53 +361,6 @@ function PlaygroundSavedView() {
           </EmptyStateDescription>
         </EmptyStateContent>
       </EmptyState>
-    </ConversationPanelBody>
-  );
-}
-
-function PlaygroundSearchView() {
-  const [query, setQuery] = useState("");
-  const normalizedQuery = query.trim().toLocaleLowerCase();
-  const results = [
-    ...PLAYGROUND_JOINT_CHANNELS,
-    ...PLAYGROUND_ROOM_CHANNELS,
-    ...PLAYGROUND_DIRECT_MESSAGES,
-  ].filter((channel) => channel.name.toLocaleLowerCase().includes(normalizedQuery));
-
-  return (
-    <ConversationPanelBody>
-      <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto p-4">
-        <Input
-          aria-label="Search channels and direct messages"
-          value={query}
-          onChange={(event) => setQuery(event.currentTarget.value)}
-          placeholder="Search channels and direct messages…"
-        />
-        <div className="grid gap-2">
-          {results.slice(0, 8).map((channel) => (
-            <Button
-              key={channel.id}
-              variant="outline"
-              nativeButton={false}
-              render={<PlaygroundConversationLink conversation={channel} />}
-            >
-              {channel.kind === "dm" ? "@" : "#"}
-              {channel.name}
-            </Button>
-          ))}
-        </div>
-        {results.length === 0 ? (
-          <EmptyState className="min-h-48">
-            <EmptyStateContent>
-              <EmptyStateIcon>
-                <Search />
-              </EmptyStateIcon>
-              <EmptyStateTitle>No matches</EmptyStateTitle>
-              <EmptyStateDescription>Try another channel or member name.</EmptyStateDescription>
-            </EmptyStateContent>
-          </EmptyState>
-        ) : null}
-      </div>
     </ConversationPanelBody>
   );
 }

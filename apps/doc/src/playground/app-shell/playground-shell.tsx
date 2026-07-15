@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 
@@ -21,6 +22,18 @@ export function PlaygroundShell() {
   const location = useLocation();
   usePlaygroundEmbeddedPreview(setTheme);
   const route = usePlaygroundRouteState();
+
+  useEffect(() => {
+    const openSearch = (event: KeyboardEvent) => {
+      if (event.isComposing || event.key.toLocaleLowerCase() !== "k") return;
+      if (!event.metaKey && !event.ctrlKey) return;
+      event.preventDefault();
+      route.selectRailView("search");
+    };
+    window.addEventListener("keydown", openSearch);
+    return () => window.removeEventListener("keydown", openSearch);
+  }, [route.selectRailView]);
+
   const isChatRoute = location.pathname.startsWith("/playground/s/");
   const lockMobileHeight = isChatRoute || playgroundPlainPaths.has(location.pathname);
   const content = (

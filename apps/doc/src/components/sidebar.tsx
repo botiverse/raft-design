@@ -112,6 +112,7 @@ const NAV = [
         to: "/components/conversation-panel",
         status: "done",
       },
+      { label: "Search", to: "/components/search", status: "todo" },
       { label: "FilesPanel", to: "/components/files", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       {
@@ -129,11 +130,11 @@ const NAV = [
   {
     title: "Tasks",
     items: [
-      { label: "TasksPanel", to: "/components/tasks", status: "done" },
-      { label: "TaskBoard", to: "/components/task-board", status: "done" },
-      { label: "TaskList", to: "/components/task-list", status: "done" },
-      { label: "TaskDnd", to: "/components/task-dnd", status: "done" },
-      { label: "TaskCard", to: "/components/task-card", status: "done" },
+      { label: "TasksPanel", to: "/components/tasks", status: "todo" },
+      { label: "TaskBoard", to: "/components/task-board", status: "todo" },
+      { label: "TaskList", to: "/components/task-list", status: "todo" },
+      { label: "TaskDnd", to: "/components/task-dnd", status: "todo" },
+      { label: "TaskCard", to: "/components/task-card", status: "todo" },
     ],
   },
   {

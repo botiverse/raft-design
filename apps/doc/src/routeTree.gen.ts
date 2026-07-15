@@ -68,6 +68,7 @@ import { Route as ComponentsProgressRouteImport } from './routes/components/prog
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
+import { Route as ComponentsSearchRouteImport } from './routes/components/search'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
@@ -432,6 +433,11 @@ const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
   path: '/scroll-area',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsSearchRoute = ComponentsSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsSegmentedControlRoute =
   ComponentsSegmentedControlRouteImport.update({
     id: '/segmented-control',
@@ -776,6 +782,7 @@ export interface FileRoutesByFullPath {
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
+  '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -889,6 +896,7 @@ export interface FileRoutesByTo {
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
+  '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -1004,6 +1012,7 @@ export interface FileRoutesById {
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
+  '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -1120,6 +1129,7 @@ export interface FileRouteTypes {
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
+    | '/components/search'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1233,6 +1243,7 @@ export interface FileRouteTypes {
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
+    | '/components/search'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1347,6 +1358,7 @@ export interface FileRouteTypes {
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
+    | '/components/search'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1832,6 +1844,13 @@ declare module '@tanstack/react-router' {
       path: '/scroll-area'
       fullPath: '/components/scroll-area'
       preLoaderRoute: typeof ComponentsScrollAreaRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/search': {
+      id: '/components/search'
+      path: '/search'
+      fullPath: '/components/search'
+      preLoaderRoute: typeof ComponentsSearchRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/segmented-control': {
@@ -2387,6 +2406,7 @@ interface ComponentsRouteChildren {
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsScrollAreaRoute: typeof ComponentsScrollAreaRoute
+  ComponentsSearchRoute: typeof ComponentsSearchRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
@@ -2466,6 +2486,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsScrollAreaRoute: ComponentsScrollAreaRoute,
+  ComponentsSearchRoute: ComponentsSearchRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,
