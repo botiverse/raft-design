@@ -18,19 +18,19 @@ export function LiveAgentActivityBarComposition({
 }: {
   latest: LiveAgentActivityBarItem | null;
 }) {
-  if (!latest) return null;
-
   return (
     <LiveAgentActivityBar>
-      <LiveAgentActivityBarRow>
-        <LiveAgentActivityBarAvatar>
-          {latest.agentAvatarSrc ? <AvatarImage src={latest.agentAvatarSrc} alt="" /> : null}
-        </LiveAgentActivityBarAvatar>
-        <LiveAgentActivityBarContent>
-          <LiveAgentActivityBarStatus />
-          <LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText>
-        </LiveAgentActivityBarContent>
-      </LiveAgentActivityBarRow>
+      {latest ? (
+        <LiveAgentActivityBarRow>
+          <LiveAgentActivityBarAvatar>
+            {latest.agentAvatarSrc ? <AvatarImage src={latest.agentAvatarSrc} alt="" /> : null}
+          </LiveAgentActivityBarAvatar>
+          <LiveAgentActivityBarContent>
+            <LiveAgentActivityBarStatus />
+            <LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText>
+          </LiveAgentActivityBarContent>
+        </LiveAgentActivityBarRow>
+      ) : null}
     </LiveAgentActivityBar>
   );
 }

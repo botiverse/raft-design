@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useEffect, useState, type ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Avatar, AvatarFallback, type AvatarProps } from "../avatar";
@@ -39,6 +40,8 @@ type LiveAgentActivityBarDataAttributes = {
 
 export type LiveAgentActivityBarProps = useRender.ComponentProps<"div">;
 
+const EXIT_DURATION = 220;
+
 export function LiveAgentActivityBar({
   children,
   className,
@@ -47,13 +50,47 @@ export function LiveAgentActivityBar({
 }: LiveAgentActivityBarProps) {
   const theme = useThemeFamily();
   const { root } = liveAgentActivityBar({ theme });
+  const shouldAnimate = theme === "elegant";
+  const [displayedChildren, setDisplayedChildren] = useState<ReactNode>(children);
+  const [motion, setMotion] = useState<"entering" | "entered" | "exiting">("entered");
 
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setDisplayedChildren(children);
+      setMotion("entered");
+      return;
+    }
+
+    if (children != null) {
+      setDisplayedChildren(children);
+      setMotion((previous) =>
+        displayedChildren == null || previous === "exiting" ? "entering" : previous,
+      );
+      return;
+    }
+
+    if (displayedChildren != null) setMotion("exiting");
+  }, [children, displayedChildren, shouldAnimate]);
+
+  useEffect(() => {
+    if (!shouldAnimate || motion !== "entering") return;
+    const frame = requestAnimationFrame(() => setMotion("entered"));
+    return () => cancelAnimationFrame(frame);
+  }, [motion, shouldAnimate]);
+
+  useEffect(() => {
+    if (!shouldAnimate || motion !== "exiting") return;
+    const timeout = window.setTimeout(() => setDisplayedChildren(null), EXIT_DURATION);
+    return () => window.clearTimeout(timeout);
+  }, [motion, shouldAnimate]);
+
+  const renderedChildren = shouldAnimate ? displayedChildren : children;
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "aria-live": "polite",
     "data-slot": "live-agent-activity-bar",
     "data-testid": "live-agent-activity-bar",
     className: root({ className }),
-    children,
+    children: renderedChildren,
   };
 
   const activityBar = useRender({
@@ -62,7 +99,13 @@ export function LiveAgentActivityBar({
     props: mergeProps<"div">(defaultProps, props),
   });
 
-  return <LiveAgentActivityBeam enabled={theme === "elegant"}>{activityBar}</LiveAgentActivityBeam>;
+  if (renderedChildren == null) return null;
+
+  return (
+    <LiveAgentActivityBeam enabled={shouldAnimate} motion={shouldAnimate ? motion : undefined}>
+      {activityBar}
+    </LiveAgentActivityBeam>
+  );
 }
 
 export type LiveAgentActivityBarRowProps = useRender.ComponentProps<"div">;

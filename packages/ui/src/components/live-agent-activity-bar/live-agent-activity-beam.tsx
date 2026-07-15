@@ -74,6 +74,15 @@ type DriverConfig = {
   oscillators: Oscillator[];
 };
 
+type LiveAgentActivityMotion = "entering" | "entered" | "exiting";
+
+const activityMotionClass = [
+  "motion-safe:transition-[transform,opacity,filter] motion-safe:duration-[220ms] motion-safe:ease-[cubic-bezier(0.32,0.72,0,1)] motion-safe:will-change-[transform,opacity,filter]",
+  "data-[motion=entering]:translate-y-2 data-[motion=entering]:opacity-0 data-[motion=entering]:blur-[2px]",
+  "data-[motion=exiting]:translate-y-2 data-[motion=exiting]:opacity-0 data-[motion=exiting]:blur-[2px]",
+  "motion-reduce:!translate-y-0 motion-reduce:!blur-none motion-reduce:transition-opacity",
+].join(" ");
+
 const pulseInstances = new Set<{ element: HTMLElement; config: DriverConfig }>();
 let pulseFrame: number | null = null;
 let lastPulseFrame = 0;
@@ -303,9 +312,11 @@ function beamStyles(id: string, borderRadius: number) {
 export function LiveAgentActivityBeam({
   children,
   enabled,
+  motion,
 }: {
   children: ReactNode;
   enabled: boolean;
+  motion?: LiveAgentActivityMotion;
 }) {
   const id = useId().replace(/:/g, "-");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -373,7 +384,8 @@ export function LiveAgentActivityBeam({
       <div
         ref={rootRef}
         data-beam={enabled ? id : undefined}
-        className={enabled ? undefined : "contents"}
+        data-motion={enabled ? motion : undefined}
+        className={enabled ? activityMotionClass : "contents"}
         style={enabled ? style : undefined}
       >
         {children}

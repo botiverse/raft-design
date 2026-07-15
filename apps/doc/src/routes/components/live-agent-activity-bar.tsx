@@ -93,7 +93,7 @@ function LiveAgentActivityBarDoc() {
           controls={[{ name: "active", label: "Activity", type: "boolean" }]}
           previewClassName="overflow-visible"
           render={(values) => (
-            <div className="w-72 self-center overflow-visible border-x border-line-subtle">
+            <div className="w-72 self-center overflow-visible">
               <LiveAgentActivityBarComposition
                 latest={values.active ? LIVE_AGENT_ACTIVITY_PREVIEW : null}
               />
@@ -112,10 +112,10 @@ function LiveAgentActivityBarDoc() {
 
       <DocSection id="api" title="API">
         <DocNote>
-          Render the component only while an activity item exists. The consumer owns selection,
-          expiry, terminal-state removal, and avatar resolution. The component owns its default
-          Avatar fallback. Brutal uses the white surface below the md breakpoint and the cream
-          sidebar surface at md and above.
+          Pass `null` when activity ends. The consumer owns selection, expiry, terminal-state
+          removal, and avatar resolution; Elegant retains the prior content briefly for its exit
+          transition. The component owns its default Avatar fallback. Brutal uses the white surface
+          below the md breakpoint and the cream sidebar surface at md and above.
         </DocNote>
         <div className="mt-4">
           <PropsTable rows={PROPS} />
