@@ -1,19 +1,19 @@
-import { useThemeFamily } from "raft-ui";
-import { cn } from "raft-ui/cn";
+import {
+  ChatMainPanelEmptyState,
+  ChatMainPanelEmptyStateBrand,
+  ChatMainPanelEmptyStateBrandMark,
+  RaftLogo,
+} from "raft-ui/wip";
 
 export function PlaygroundChannelEmptyState() {
-  const theme = useThemeFamily();
-
   return (
-    <div
-      className={cn(
-        "flex h-full min-h-0 flex-1 items-center justify-center uppercase",
-        theme === "brutal"
-          ? "font-display text-lg font-bold text-black/40"
-          : "font-heading text-sm font-medium tracking-wide text-foreground-muted",
-      )}
-    >
-      Select a channel
-    </div>
+    <ChatMainPanelEmptyState>
+      <ChatMainPanelEmptyStateBrand>
+        <ChatMainPanelEmptyStateBrandMark>
+          <RaftLogo aria-hidden />
+        </ChatMainPanelEmptyStateBrandMark>
+      </ChatMainPanelEmptyStateBrand>
+      <span>Select a channel</span>
+    </ChatMainPanelEmptyState>
   );
 }

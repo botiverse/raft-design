@@ -42,6 +42,9 @@ export type {
   MobileNavRootProps,
 } from "./components/mobile-nav";
 
+export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
+export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
+
 export {
   AppShellMainSlot,
   AppShellPanelStackSlot,
@@ -97,6 +100,16 @@ export type {
   ChatMainPanelTitleProps,
   ChatMainPanelTitleRowProps,
 } from "./components/chat-main-panel/chat-main-panel";
+export {
+  ChatMainPanelEmptyState,
+  ChatMainPanelEmptyStateBrand,
+  ChatMainPanelEmptyStateBrandMark,
+} from "./components/chat-main-panel/chat-main-panel-empty-state";
+export type {
+  ChatMainPanelEmptyStateBrandMarkProps,
+  ChatMainPanelEmptyStateBrandProps,
+  ChatMainPanelEmptyStateProps,
+} from "./components/chat-main-panel/chat-main-panel-empty-state";
 
 export {
   ChatThreadPanelActions,
