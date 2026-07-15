@@ -631,7 +631,15 @@ function TypographySpecMeta({ items }: { items: { label: string; value: string }
 }
 
 function TypographySpecRow({ spec }: { spec: TypographySpec }) {
-  const lineHeight = spec.leadingPx ?? toLeadingPx(spec.px, spec.leading);
+  const weight = [spec.weight, spec.weightValue].filter(Boolean).join(" / ");
+  const lineHeight =
+    spec.leadingPx ?? (spec.px && spec.leading ? toLeadingPx(spec.px, spec.leading) : "");
+  const metaItems = [
+    { label: "Weight", value: weight },
+    { label: "Font size", value: spec.px },
+    { label: "Line height", value: lineHeight },
+    { label: "Letter spacing", value: formatTracking(spec.tracking) },
+  ].filter((item) => item.value);
 
   return (
     <div className="py-11">
@@ -639,14 +647,7 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
         <p className="text-sm font-medium uppercase text-foreground-strong">
           {spec.category ? `${spec.category} / ${spec.name}` : spec.name}
         </p>
-        <TypographySpecMeta
-          items={[
-            { label: "Weight", value: `${spec.weight} / ${spec.weightValue}` },
-            { label: "Font size", value: spec.px },
-            { label: "Line height", value: lineHeight },
-            { label: "Letter spacing", value: formatTracking(spec.tracking) },
-          ]}
-        />
+        {metaItems.length > 0 ? <TypographySpecMeta items={metaItems} /> : null}
       </div>
       <div className="mt-[60px] min-w-0 overflow-x-auto text-[var(--foreground-strong)]">
         {spec.preview}
