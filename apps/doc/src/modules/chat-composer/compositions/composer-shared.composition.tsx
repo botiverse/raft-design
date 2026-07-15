@@ -1,4 +1,4 @@
-import { FileText, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
   ComposerAttachment,
@@ -12,6 +12,9 @@ import {
   ComposerAttachments,
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
@@ -51,10 +54,14 @@ export function ComposerAttachmentsComposition({
       {file ? (
         <ComposerAttachment>
           <ComposerAttachmentFile>
-            <FileText />
+            <FilePreview>
+              <FilePreviewDocument>
+                <FilePreviewBadge>PDF</FilePreviewBadge>
+              </FilePreviewDocument>
+            </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>release-notes.pdf</ComposerAttachmentTitle>
-              <ComposerAttachmentMeta>application/pdf</ComposerAttachmentMeta>
+              <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
             </ComposerAttachmentBody>
           </ComposerAttachmentFile>
           <ComposerAttachmentRemove
@@ -69,10 +76,14 @@ export function ComposerAttachmentsComposition({
       {failed ? (
         <ComposerAttachment>
           <ComposerAttachmentFile>
-            <FileText />
+            <FilePreview>
+              <FilePreviewDocument>
+                <FilePreviewBadge>KEY</FilePreviewBadge>
+              </FilePreviewDocument>
+            </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>deck.key</ComposerAttachmentTitle>
-              <ComposerAttachmentMeta>application/octet-stream</ComposerAttachmentMeta>
+              <ComposerAttachmentMeta>1.2 MB</ComposerAttachmentMeta>
             </ComposerAttachmentBody>
           </ComposerAttachmentFile>
           <ComposerAttachmentFailedOverlay

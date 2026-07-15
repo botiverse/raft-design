@@ -81,9 +81,10 @@ export const composer = tv({
           "font-sans text-foreground",
           "placeholder:text-foreground-placeholder",
         ],
-        toolbar: "gap-2 px-2.5 pt-1 pb-2.5 md:px-3 md:pb-3",
+        toolbar: "translate-y-1 gap-2 px-2.5 pt-1 pb-2.5 md:px-3 md:pb-3",
         actions: "gap-1.5",
         iconButton: [
+          "p-[7px]",
           "text-foreground-icon",
           "hover:bg-layer-strong/80 hover:text-foreground",
           "active:bg-layer-strong/80 active:text-foreground",
@@ -97,8 +98,9 @@ export const composer = tv({
           "[&_svg]:size-4",
         ],
         attachmentImage: "rounded-md border-line-subtle",
-        attachmentFile: "rounded-md border-line-subtle bg-layer-muted [&_svg]:text-foreground-icon",
-        attachmentTitle: "text-foreground-strong",
+        attachmentFile:
+          "h-13 w-36 gap-3 rounded-md border-0 bg-layer-panel px-2.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
+        attachmentTitle: "font-medium text-foreground-strong",
         attachmentMeta: "text-foreground-placeholder",
         attachmentProgress: "bg-ink-6",
         attachmentProgressFill: "bg-accent-400",

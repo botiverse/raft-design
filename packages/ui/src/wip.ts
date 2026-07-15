@@ -52,6 +52,24 @@ export {
   AppShellRoot,
   AppShellSidebarSlot,
 } from "./components/app-shell/index";
+
+export {
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
+  FilePreviewImage,
+  FilePreviewMedia,
+  FilePreviewVideo,
+} from "./components/file-preview/index";
+export type {
+  FilePreviewBadgeProps,
+  FilePreviewBadgeTone,
+  FilePreviewDocumentProps,
+  FilePreviewImageProps,
+  FilePreviewMediaProps,
+  FilePreviewProps,
+  FilePreviewVideoProps,
+} from "./components/file-preview/index";
 export type {
   AppShellMainSlotProps,
   AppShellPanelStackSlotProps,

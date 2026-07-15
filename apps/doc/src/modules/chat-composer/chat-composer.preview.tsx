@@ -61,10 +61,16 @@ export function ChatComposerPreview() {
               />
               <ComposerToolbar>
                 <ComposerActions>
-                  <ComposerIconButton aria-label="Attach image" disabled>
+                  <ComposerIconButton
+                    aria-label="Attach image"
+                    onClick={() => onValueChange("imageUpload", !values.imageUpload)}
+                  >
                     <ImagePlus />
                   </ComposerIconButton>
-                  <ComposerIconButton aria-label="Attach file" disabled>
+                  <ComposerIconButton
+                    aria-label="Attach file"
+                    onClick={() => onValueChange("fileUpload", !values.fileUpload)}
+                  >
                     <Paperclip />
                   </ComposerIconButton>
                 </ComposerActions>
@@ -73,7 +79,7 @@ export function ChatComposerPreview() {
                     <Checkbox size="sm" aria-label="Send as task" />
                     As Task
                   </ComposerToolbarLabel>
-                  <ComposerSubmit aria-label="Send" disabled>
+                  <ComposerSubmit aria-label="Send" disabled={!values.draft.trim()}>
                     <span>Send</span>
                     <Send />
                   </ComposerSubmit>

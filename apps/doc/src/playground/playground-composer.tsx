@@ -6,23 +6,8 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
-import {
-  FileText,
-  GitBranch,
-  Hash,
-  ImagePlus,
-  Lock,
-  Paperclip,
-  Send,
-  UserX,
-  X,
-} from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  Checkbox,
-  Spinner,
-} from "raft-ui";
+import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
+import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
@@ -56,6 +41,9 @@ import {
   ComposerSubmit,
   ComposerToolbar,
   ComposerToolbarLabel,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
 } from "raft-ui/wip";
 
 import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
@@ -77,6 +65,11 @@ type ComposerAttachmentState =
   | { kind: "none" }
   | { kind: "generic" }
   | { kind: "seeded"; attachments: readonly PlaygroundComposerAttachment[] };
+
+function filePreviewLabel(name: string) {
+  const extension = name.split(".").at(-1);
+  return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
+}
 
 function AutocompleteOption({
   suggestion,
@@ -188,7 +181,11 @@ function PlaygroundSeededComposerAttachments({
       {attachments.map((attachment) => (
         <ComposerAttachment key={attachment.name}>
           <ComposerAttachmentFile>
-            <FileText />
+            <FilePreview>
+              <FilePreviewDocument>
+                <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
+              </FilePreviewDocument>
+            </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
               <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>

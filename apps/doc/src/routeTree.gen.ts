@@ -58,6 +58,7 @@ import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
+import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
 import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
@@ -352,6 +353,11 @@ const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
   path: '/inline-code',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
+  id: '/file-preview',
+  path: '/file-preview',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
   id: '/field',
   path: '/field',
@@ -608,6 +614,7 @@ export interface FileRoutesByFullPath {
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -699,6 +706,7 @@ export interface FileRoutesByTo {
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -792,6 +800,7 @@ export interface FileRoutesById {
   '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
+  '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -886,6 +895,7 @@ export interface FileRouteTypes {
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
+    | '/components/file-preview'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -977,6 +987,7 @@ export interface FileRouteTypes {
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
+    | '/components/file-preview'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1069,6 +1080,7 @@ export interface FileRouteTypes {
     | '/components/dropdown-menu'
     | '/components/empty-state'
     | '/components/field'
+    | '/components/file-preview'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1489,6 +1501,13 @@ declare module '@tanstack/react-router' {
       path: '/inline-code'
       fullPath: '/components/inline-code'
       preLoaderRoute: typeof ComponentsInlineCodeRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/file-preview': {
+      id: '/components/file-preview'
+      path: '/file-preview'
+      fullPath: '/components/file-preview'
+      preLoaderRoute: typeof ComponentsFilePreviewRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/field': {
@@ -1916,6 +1935,7 @@ interface ComponentsRouteChildren {
   ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
+  ComponentsFilePreviewRoute: typeof ComponentsFilePreviewRoute
   ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
@@ -1976,6 +1996,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
+  ComponentsFilePreviewRoute: ComponentsFilePreviewRoute,
   ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
