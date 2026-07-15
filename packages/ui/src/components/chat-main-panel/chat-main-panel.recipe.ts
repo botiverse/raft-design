@@ -2,13 +2,17 @@ import { tv } from "../../lib/tv";
 
 export const chatMainPanel = tv({
   slots: {
-    root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col", "text-foreground"],
+    root: [
+      "flex h-full min-h-0 min-w-0 flex-1 flex-col",
+      "[--chat-panel-footer-clearance:10rem]",
+      "text-foreground",
+    ],
     header: [
       "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5",
       "[@media(max-height:600px)]:h-12",
     ],
     // Additive chrome for ChatMainPanelSectionHeader (composed onto `header`).
-    sectionHeader: "",
+    sectionHeader: "max-md:before:hidden",
     headerIcon: [
       "flex size-9 shrink-0 items-center justify-center",
       "border-2",
@@ -28,10 +32,18 @@ export const chatMainPanel = tv({
     tabs: ["shrink-0"],
     jumpToLatestLayout: ["absolute bottom-3 left-1/2 z-10 -translate-x-1/2"],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
-    timeline: [
-      "relative h-full overflow-y-auto overscroll-contain",
+    timeline: ["relative h-full min-h-0"],
+    timelineViewport: [
+      "h-full min-h-0 overflow-y-auto overscroll-contain",
       "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
     ],
+    timelineContent: ["min-h-full"],
+    timelineScrollbar: [
+      "z-30 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
+      "pointer-events-none",
+      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
+    ],
+    timelineScrollbarThumb: ["w-1.5 rounded-full"],
     messageList: ["flex min-h-full flex-col"],
     footer: [
       "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
@@ -54,6 +66,7 @@ export const chatMainPanel = tv({
         title: "text-black",
         subtitle: "text-black/50",
         titleBadge: "border-2 border-black bg-brutal-orange/25 text-black",
+        actions: "max-md:gap-1.5",
         content: "bg-white",
         tabs: [
           "border-b-2 border-black bg-white",
@@ -63,16 +76,22 @@ export const chatMainPanel = tv({
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]+[data-slot=tabs-tab]]:before:bg-black",
         ],
         body: "bg-white",
-        timeline: "bg-white",
+        timelineViewport: "bg-white",
+        timelineScrollbarThumb: "bg-black/35 hover:bg-black/55",
         footer: "border-t-2 border-black bg-white",
       },
       elegant: {
         root: "relative bg-layer-page font-sans text-foreground",
+        jumpToLatestLayout: "md:bottom-40",
         header: [
-          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] [@media(max-height:600px)]:h-auto",
-          "border-b-0 bg-transparent max-md:bg-layer-page",
+          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-md:z-10 [@media(max-height:600px)]:h-auto",
+          "border-b-0 bg-transparent",
           "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
           "max-md:items-start max-md:px-[14px] max-md:pt-3",
+          "max-md:before:pointer-events-none max-md:before:absolute max-md:before:inset-x-0 max-md:before:top-0 max-md:before:z-0 max-md:before:h-[calc(100%+0.75rem)]",
+          "max-md:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-md:before:backdrop-blur-[4px]",
+          "max-md:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-md:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
+          "max-md:before:content-[''] max-md:[&>*]:relative max-md:[&>*]:z-10",
         ],
         actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-start",
         headerIcon: [
@@ -101,8 +120,8 @@ export const chatMainPanel = tv({
         ],
         content: [
           "relative overflow-clip",
-          "bg-[var(--shell-surface-bg,var(--layer-panel))] shadow-xl",
-          "md:ml-2 md:rounded-tl-[var(--shell-surface-radius,10px)]",
+          "bg-layer-panel shadow-xl",
+          "md:ml-2 md:rounded-tl-[10px]",
         ],
         tabs: [
           "border-b-0 bg-layer-panel max-md:bg-layer-page",
@@ -114,13 +133,19 @@ export const chatMainPanel = tv({
           "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
           "max-md:[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:h-px",
         ],
-        body: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
-        timeline: "bg-[var(--shell-surface-bg,var(--layer-panel))]",
+        body: "bg-layer-panel",
+        timelineViewport: "bg-layer-panel",
+        timelineContent: "pb-[var(--chat-panel-footer-clearance)]",
+        timelineScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         footer: [
-          "max-md:px-2.5 md:px-7 pt-3",
-          "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-[calc(env(safe-area-inset-bottom)+1.75rem)]",
-          "border-t-0",
-          "bg-[var(--shell-surface-bg,var(--layer-panel))]",
+          "absolute inset-x-0 bottom-0 z-40",
+          "max-md:px-2.5 md:px-7 max-md:pt-3 md:pt-0",
+          "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-3",
+          "border-t-0 bg-transparent",
+          "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
+          "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-panel))] before:backdrop-blur-[4px]",
+          "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
+          "before:content-[''] [&>*]:relative [&>*]:z-10",
         ],
       },
     },

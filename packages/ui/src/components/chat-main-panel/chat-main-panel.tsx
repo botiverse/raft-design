@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ScrollArea } from "@base-ui/react/scroll-area";
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
@@ -192,7 +193,8 @@ export function ChatMainPanelTitleBadge({
 export type ChatMainPanelActionsProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelActions({ className, render, ...props }: ChatMainPanelActionsProps) {
-  const { actions } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { actions } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-actions",
     className: actions({ className }),
@@ -263,19 +265,31 @@ export function ChatMainPanelTabs({ className, render, ...props }: ChatMainPanel
 
 export type ChatMainPanelTimelineProps = useRender.ComponentProps<"div">;
 
-export function ChatMainPanelTimeline({ className, render, ...props }: ChatMainPanelTimelineProps) {
+export function ChatMainPanelTimeline({
+  children,
+  className,
+  render,
+  ...props
+}: ChatMainPanelTimelineProps) {
   const theme = useThemeFamily();
-  const { timeline } = chatMainPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-main-panel-timeline",
-    className: timeline({ className }),
-  };
+  const { timeline, timelineContent, timelineScrollbar, timelineScrollbarThumb, timelineViewport } =
+    chatMainPanel({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <ScrollArea.Root data-slot="chat-main-panel-timeline-scroll-area" className={timeline()}>
+      <ScrollArea.Viewport
+        {...props}
+        render={render}
+        data-slot="chat-main-panel-timeline"
+        className={timelineViewport({ className })}
+      >
+        <ScrollArea.Content className={timelineContent()}>{children}</ScrollArea.Content>
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar className={timelineScrollbar()}>
+        <ScrollArea.Thumb className={timelineScrollbarThumb()} />
+      </ScrollArea.Scrollbar>
+    </ScrollArea.Root>
+  );
 }
 
 export type ChatMainPanelMessageListProps = useRender.ComponentProps<"div">;
@@ -322,7 +336,8 @@ export function ChatMainPanelJumpToLatestLayout({
   render,
   ...props
 }: ChatMainPanelJumpToLatestLayoutProps) {
-  const { jumpToLatestLayout } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { jumpToLatestLayout } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-jump-to-latest-layout",
     className: jumpToLatestLayout({ className }),

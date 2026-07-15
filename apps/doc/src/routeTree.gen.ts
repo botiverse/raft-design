@@ -9,27 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as ChangelogRouteImport } from './routes/changelog'
+import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PlaygroundIndexRouteImport } from './routes/playground.index'
+import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as MigrationIndexRouteImport } from './routes/migration.index'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
-import { Route as PlaygroundTasksRouteImport } from './routes/playground.tasks'
-import { Route as PlaygroundSettingsRouteImport } from './routes/playground.settings'
-import { Route as PlaygroundSearchRouteImport } from './routes/playground.search'
-import { Route as PlaygroundSavedRouteImport } from './routes/playground.saved'
-import { Route as PlaygroundMembersRouteImport } from './routes/playground.members'
-import { Route as PlaygroundComputersRouteImport } from './routes/playground.computers'
-import { Route as PlaygroundActivityRouteImport } from './routes/playground.activity'
-import { Route as PlaygroundChannelIdRouteImport } from './routes/playground.$channelId'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
@@ -56,7 +48,9 @@ import { Route as ComponentsProgressRouteImport } from './routes/components/prog
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
+import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
 import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
 import { Route as ComponentsLabelRouteImport } from './routes/components/label'
@@ -89,16 +83,25 @@ import { Route as ComponentsAppShellRouteImport } from './routes/components/app-
 import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
 import { Route as ComponentsAppPanelStackRouteImport } from './routes/components/app-panel-stack'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
+import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
+import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
+import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
 import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typography/elegant'
 import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
 import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
 import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
+import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
+import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
+import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_plain/search'
+import { Route as PlaygroundPlainSavedRouteImport } from './routes/playground/_plain/saved'
+import { Route as PlaygroundPlainActivityRouteImport } from './routes/playground/_plain/activity'
+import { Route as PlaygroundBrowseMembersRouteImport } from './routes/playground/_browse/members'
+import { Route as PlaygroundBrowseComputersRouteImport } from './routes/playground/_browse/computers'
+import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
+import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
+import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
+import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './routes/playground/s/$serverSlug/channel/$channelId'
 
-const PlaygroundRoute = PlaygroundRouteImport.update({
-  id: '/playground',
-  path: '/playground',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MigrationRoute = MigrationRouteImport.update({
   id: '/migration',
   path: '/migration',
@@ -119,6 +122,11 @@ const ChangelogRoute = ChangelogRouteImport.update({
   path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
+  id: '/playground',
+  path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -127,7 +135,7 @@ const IndexRoute = IndexRouteImport.update({
 const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => PlaygroundRoute,
+  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const MigrationIndexRoute = MigrationIndexRouteImport.update({
   id: '/',
@@ -158,46 +166,6 @@ const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
   id: '/skills/migration',
   path: '/skills/migration',
   getParentRoute: () => rootRouteImport,
-} as any)
-const PlaygroundTasksRoute = PlaygroundTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundSettingsRoute = PlaygroundSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundSearchRoute = PlaygroundSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundSavedRoute = PlaygroundSavedRouteImport.update({
-  id: '/saved',
-  path: '/saved',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundMembersRoute = PlaygroundMembersRouteImport.update({
-  id: '/members',
-  path: '/members',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundComputersRoute = PlaygroundComputersRouteImport.update({
-  id: '/computers',
-  path: '/computers',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundActivityRoute = PlaygroundActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => PlaygroundRoute,
-} as any)
-const PlaygroundChannelIdRoute = PlaygroundChannelIdRouteImport.update({
-  id: '/$channelId',
-  path: '/$channelId',
-  getParentRoute: () => PlaygroundRoute,
 } as any)
 const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
   id: '/$sourceFile',
@@ -333,9 +301,19 @@ const ComponentsNotificationCenterRoute =
     path: '/notification-center',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
+  id: '/mobile-nav',
+  path: '/mobile-nav',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
   id: '/message-item',
   path: '/message-item',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
+  id: '/logo',
+  path: '/logo',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsLiveAgentActivityBarRoute =
@@ -503,6 +481,19 @@ const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
   path: '/alert-dialog',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
+  id: '/s',
+  path: '/s',
+  getParentRoute: () => PlaygroundRouteRoute,
+} as any)
+const PlaygroundPlainRouteRoute = PlaygroundPlainRouteRouteImport.update({
+  id: '/_plain',
+  getParentRoute: () => PlaygroundRouteRoute,
+} as any)
+const PlaygroundBrowseRouteRoute = PlaygroundBrowseRouteRouteImport.update({
+  id: '/_browse',
+  getParentRoute: () => PlaygroundRouteRoute,
+} as any)
 const TokensTypographyElegantRoute = TokensTypographyElegantRouteImport.update({
   id: '/elegant',
   path: '/elegant',
@@ -523,14 +514,75 @@ const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
   path: '/brutal',
   getParentRoute: () => TokensShadowsRoute,
 } as any)
+const PlaygroundPlainTasksRoute = PlaygroundPlainTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainSettingsRoute = PlaygroundPlainSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainSearchRoute = PlaygroundPlainSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainSavedRoute = PlaygroundPlainSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainActivityRoute = PlaygroundPlainActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundBrowseMembersRoute = PlaygroundBrowseMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => PlaygroundBrowseRouteRoute,
+} as any)
+const PlaygroundBrowseComputersRoute =
+  PlaygroundBrowseComputersRouteImport.update({
+    id: '/computers',
+    path: '/computers',
+    getParentRoute: () => PlaygroundBrowseRouteRoute,
+  } as any)
+const PlaygroundSServerSlugRouteRoute =
+  PlaygroundSServerSlugRouteRouteImport.update({
+    id: '/$serverSlug',
+    path: '/$serverSlug',
+    getParentRoute: () => PlaygroundSRouteRoute,
+  } as any)
+const PlaygroundSServerSlugIndexRoute =
+  PlaygroundSServerSlugIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
+  } as any)
+const PlaygroundSServerSlugChannelRouteRoute =
+  PlaygroundSServerSlugChannelRouteRouteImport.update({
+    id: '/channel',
+    path: '/channel',
+    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
+  } as any)
+const PlaygroundSServerSlugChannelChannelIdRoute =
+  PlaygroundSServerSlugChannelChannelIdRouteImport.update({
+    id: '/$channelId',
+    path: '/$channelId',
+    getParentRoute: () => PlaygroundSServerSlugChannelRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/playground': typeof PlaygroundRouteWithChildren
+  '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
@@ -563,7 +615,9 @@ export interface FileRoutesByFullPath {
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
+  '/components/logo': typeof ComponentsLogoRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
+  '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
@@ -590,14 +644,6 @@ export interface FileRoutesByFullPath {
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
-  '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/playground/activity': typeof PlaygroundActivityRoute
-  '/playground/computers': typeof PlaygroundComputersRoute
-  '/playground/members': typeof PlaygroundMembersRoute
-  '/playground/saved': typeof PlaygroundSavedRoute
-  '/playground/search': typeof PlaygroundSearchRoute
-  '/playground/settings': typeof PlaygroundSettingsRoute
-  '/playground/tasks': typeof PlaygroundTasksRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -605,16 +651,29 @@ export interface FileRoutesByFullPath {
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
+  '/playground/computers': typeof PlaygroundBrowseComputersRoute
+  '/playground/members': typeof PlaygroundBrowseMembersRoute
+  '/playground/activity': typeof PlaygroundPlainActivityRoute
+  '/playground/saved': typeof PlaygroundPlainSavedRoute
+  '/playground/search': typeof PlaygroundPlainSearchRoute
+  '/playground/settings': typeof PlaygroundPlainSettingsRoute
+  '/playground/tasks': typeof PlaygroundPlainTasksRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
+  '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
+  '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/playground': typeof PlaygroundIndexRoute
+  '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
@@ -647,7 +706,9 @@ export interface FileRoutesByTo {
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
+  '/components/logo': typeof ComponentsLogoRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
+  '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
@@ -674,34 +735,38 @@ export interface FileRoutesByTo {
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
-  '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/playground/activity': typeof PlaygroundActivityRoute
-  '/playground/computers': typeof PlaygroundComputersRoute
-  '/playground/members': typeof PlaygroundMembersRoute
-  '/playground/saved': typeof PlaygroundSavedRoute
-  '/playground/search': typeof PlaygroundSearchRoute
-  '/playground/settings': typeof PlaygroundSettingsRoute
-  '/playground/tasks': typeof PlaygroundTasksRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration': typeof MigrationIndexRoute
-  '/playground': typeof PlaygroundIndexRoute
+  '/playground/computers': typeof PlaygroundBrowseComputersRoute
+  '/playground/members': typeof PlaygroundBrowseMembersRoute
+  '/playground/activity': typeof PlaygroundPlainActivityRoute
+  '/playground/saved': typeof PlaygroundPlainSavedRoute
+  '/playground/search': typeof PlaygroundPlainSearchRoute
+  '/playground/settings': typeof PlaygroundPlainSettingsRoute
+  '/playground/tasks': typeof PlaygroundPlainTasksRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
+  '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugIndexRoute
+  '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/migration': typeof MigrationRouteWithChildren
-  '/playground': typeof PlaygroundRouteWithChildren
+  '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
+  '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
+  '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
@@ -734,7 +799,9 @@ export interface FileRoutesById {
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
+  '/components/logo': typeof ComponentsLogoRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
+  '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
@@ -761,14 +828,6 @@ export interface FileRoutesById {
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
-  '/playground/$channelId': typeof PlaygroundChannelIdRoute
-  '/playground/activity': typeof PlaygroundActivityRoute
-  '/playground/computers': typeof PlaygroundComputersRoute
-  '/playground/members': typeof PlaygroundMembersRoute
-  '/playground/saved': typeof PlaygroundSavedRoute
-  '/playground/search': typeof PlaygroundSearchRoute
-  '/playground/settings': typeof PlaygroundSettingsRoute
-  '/playground/tasks': typeof PlaygroundTasksRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -776,20 +835,32 @@ export interface FileRoutesById {
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
   '/migration/': typeof MigrationIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
+  '/playground/_browse/computers': typeof PlaygroundBrowseComputersRoute
+  '/playground/_browse/members': typeof PlaygroundBrowseMembersRoute
+  '/playground/_plain/activity': typeof PlaygroundPlainActivityRoute
+  '/playground/_plain/saved': typeof PlaygroundPlainSavedRoute
+  '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
+  '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
+  '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
+  '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
+  '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/playground'
     | '/changelog'
     | '/components'
     | '/installation'
     | '/migration'
-    | '/playground'
+    | '/playground/s'
     | '/components/alert-dialog'
     | '/components/app-panel-stack'
     | '/components/app-rail'
@@ -822,7 +893,9 @@ export interface FileRouteTypes {
     | '/components/label'
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
+    | '/components/logo'
     | '/components/message-item'
+    | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
     | '/components/preview-card'
@@ -849,14 +922,6 @@ export interface FileRouteTypes {
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
-    | '/playground/$channelId'
-    | '/playground/activity'
-    | '/playground/computers'
-    | '/playground/members'
-    | '/playground/saved'
-    | '/playground/search'
-    | '/playground/settings'
-    | '/playground/tasks'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -864,16 +929,29 @@ export interface FileRouteTypes {
     | '/tokens/typography'
     | '/migration/'
     | '/playground/'
+    | '/playground/s/$serverSlug'
+    | '/playground/computers'
+    | '/playground/members'
+    | '/playground/activity'
+    | '/playground/saved'
+    | '/playground/search'
+    | '/playground/settings'
+    | '/playground/tasks'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
+    | '/playground/s/$serverSlug/channel'
+    | '/playground/s/$serverSlug/'
+    | '/playground/s/$serverSlug/channel/$channelId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/playground'
+    | '/playground/s'
     | '/components/alert-dialog'
     | '/components/app-panel-stack'
     | '/components/app-rail'
@@ -906,7 +984,9 @@ export interface FileRouteTypes {
     | '/components/label'
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
+    | '/components/logo'
     | '/components/message-item'
+    | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
     | '/components/preview-card'
@@ -933,33 +1013,37 @@ export interface FileRouteTypes {
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
-    | '/playground/$channelId'
-    | '/playground/activity'
-    | '/playground/computers'
-    | '/playground/members'
-    | '/playground/saved'
-    | '/playground/search'
-    | '/playground/settings'
-    | '/playground/tasks'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/migration'
-    | '/playground'
+    | '/playground/computers'
+    | '/playground/members'
+    | '/playground/activity'
+    | '/playground/saved'
+    | '/playground/search'
+    | '/playground/settings'
+    | '/playground/tasks'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
+    | '/playground/s/$serverSlug/channel'
+    | '/playground/s/$serverSlug'
+    | '/playground/s/$serverSlug/channel/$channelId'
   id:
     | '__root__'
     | '/'
+    | '/playground'
     | '/changelog'
     | '/components'
     | '/installation'
     | '/migration'
-    | '/playground'
+    | '/playground/_browse'
+    | '/playground/_plain'
+    | '/playground/s'
     | '/components/alert-dialog'
     | '/components/app-panel-stack'
     | '/components/app-rail'
@@ -992,7 +1076,9 @@ export interface FileRouteTypes {
     | '/components/label'
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
+    | '/components/logo'
     | '/components/message-item'
+    | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
     | '/components/preview-card'
@@ -1019,14 +1105,6 @@ export interface FileRouteTypes {
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
     | '/migration/$sourceFile'
-    | '/playground/$channelId'
-    | '/playground/activity'
-    | '/playground/computers'
-    | '/playground/members'
-    | '/playground/saved'
-    | '/playground/search'
-    | '/playground/settings'
-    | '/playground/tasks'
     | '/skills/migration'
     | '/skills/new-component'
     | '/tokens/colors'
@@ -1034,19 +1112,30 @@ export interface FileRouteTypes {
     | '/tokens/typography'
     | '/migration/'
     | '/playground/'
+    | '/playground/s/$serverSlug'
+    | '/playground/_browse/computers'
+    | '/playground/_browse/members'
+    | '/playground/_plain/activity'
+    | '/playground/_plain/saved'
+    | '/playground/_plain/search'
+    | '/playground/_plain/settings'
+    | '/playground/_plain/tasks'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
+    | '/playground/s/$serverSlug/channel'
+    | '/playground/s/$serverSlug/'
+    | '/playground/s/$serverSlug/channel/$channelId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
   ChangelogRoute: typeof ChangelogRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
   MigrationRoute: typeof MigrationRouteWithChildren
-  PlaygroundRoute: typeof PlaygroundRouteWithChildren
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
@@ -1059,13 +1148,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/playground': {
-      id: '/playground'
-      path: '/playground'
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/migration': {
       id: '/migration'
       path: '/migration'
@@ -1094,6 +1176,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/playground': {
+      id: '/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -1106,7 +1195,7 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/playground/'
       preLoaderRoute: typeof PlaygroundIndexRouteImport
-      parentRoute: typeof PlaygroundRoute
+      parentRoute: typeof PlaygroundRouteRoute
     }
     '/migration/': {
       id: '/migration/'
@@ -1149,62 +1238,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/skills/migration'
       preLoaderRoute: typeof SkillsMigrationRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/playground/tasks': {
-      id: '/playground/tasks'
-      path: '/tasks'
-      fullPath: '/playground/tasks'
-      preLoaderRoute: typeof PlaygroundTasksRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/settings': {
-      id: '/playground/settings'
-      path: '/settings'
-      fullPath: '/playground/settings'
-      preLoaderRoute: typeof PlaygroundSettingsRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/search': {
-      id: '/playground/search'
-      path: '/search'
-      fullPath: '/playground/search'
-      preLoaderRoute: typeof PlaygroundSearchRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/saved': {
-      id: '/playground/saved'
-      path: '/saved'
-      fullPath: '/playground/saved'
-      preLoaderRoute: typeof PlaygroundSavedRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/members': {
-      id: '/playground/members'
-      path: '/members'
-      fullPath: '/playground/members'
-      preLoaderRoute: typeof PlaygroundMembersRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/computers': {
-      id: '/playground/computers'
-      path: '/computers'
-      fullPath: '/playground/computers'
-      preLoaderRoute: typeof PlaygroundComputersRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/activity': {
-      id: '/playground/activity'
-      path: '/activity'
-      fullPath: '/playground/activity'
-      preLoaderRoute: typeof PlaygroundActivityRouteImport
-      parentRoute: typeof PlaygroundRoute
-    }
-    '/playground/$channelId': {
-      id: '/playground/$channelId'
-      path: '/$channelId'
-      fullPath: '/playground/$channelId'
-      preLoaderRoute: typeof PlaygroundChannelIdRouteImport
-      parentRoute: typeof PlaygroundRoute
     }
     '/migration/$sourceFile': {
       id: '/migration/$sourceFile'
@@ -1388,11 +1421,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/mobile-nav': {
+      id: '/components/mobile-nav'
+      path: '/mobile-nav'
+      fullPath: '/components/mobile-nav'
+      preLoaderRoute: typeof ComponentsMobileNavRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/message-item': {
       id: '/components/message-item'
       path: '/message-item'
       fullPath: '/components/message-item'
       preLoaderRoute: typeof ComponentsMessageItemRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/logo': {
+      id: '/components/logo'
+      path: '/logo'
+      fullPath: '/components/logo'
+      preLoaderRoute: typeof ComponentsLogoRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/live-agent-activity-bar': {
@@ -1619,6 +1666,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsAlertDialogRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/playground/s': {
+      id: '/playground/s'
+      path: '/s'
+      fullPath: '/playground/s'
+      preLoaderRoute: typeof PlaygroundSRouteRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
+    }
+    '/playground/_plain': {
+      id: '/playground/_plain'
+      path: ''
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundPlainRouteRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
+    }
+    '/playground/_browse': {
+      id: '/playground/_browse'
+      path: ''
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundBrowseRouteRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
+    }
     '/tokens/typography/elegant': {
       id: '/tokens/typography/elegant'
       path: '/elegant'
@@ -1647,8 +1715,180 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TokensShadowsBrutalRouteImport
       parentRoute: typeof TokensShadowsRoute
     }
+    '/playground/_plain/tasks': {
+      id: '/playground/_plain/tasks'
+      path: '/tasks'
+      fullPath: '/playground/tasks'
+      preLoaderRoute: typeof PlaygroundPlainTasksRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
+    }
+    '/playground/_plain/settings': {
+      id: '/playground/_plain/settings'
+      path: '/settings'
+      fullPath: '/playground/settings'
+      preLoaderRoute: typeof PlaygroundPlainSettingsRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
+    }
+    '/playground/_plain/search': {
+      id: '/playground/_plain/search'
+      path: '/search'
+      fullPath: '/playground/search'
+      preLoaderRoute: typeof PlaygroundPlainSearchRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
+    }
+    '/playground/_plain/saved': {
+      id: '/playground/_plain/saved'
+      path: '/saved'
+      fullPath: '/playground/saved'
+      preLoaderRoute: typeof PlaygroundPlainSavedRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
+    }
+    '/playground/_plain/activity': {
+      id: '/playground/_plain/activity'
+      path: '/activity'
+      fullPath: '/playground/activity'
+      preLoaderRoute: typeof PlaygroundPlainActivityRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
+    }
+    '/playground/_browse/members': {
+      id: '/playground/_browse/members'
+      path: '/members'
+      fullPath: '/playground/members'
+      preLoaderRoute: typeof PlaygroundBrowseMembersRouteImport
+      parentRoute: typeof PlaygroundBrowseRouteRoute
+    }
+    '/playground/_browse/computers': {
+      id: '/playground/_browse/computers'
+      path: '/computers'
+      fullPath: '/playground/computers'
+      preLoaderRoute: typeof PlaygroundBrowseComputersRouteImport
+      parentRoute: typeof PlaygroundBrowseRouteRoute
+    }
+    '/playground/s/$serverSlug': {
+      id: '/playground/s/$serverSlug'
+      path: '/$serverSlug'
+      fullPath: '/playground/s/$serverSlug'
+      preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
+      parentRoute: typeof PlaygroundSRouteRoute
+    }
+    '/playground/s/$serverSlug/': {
+      id: '/playground/s/$serverSlug/'
+      path: '/'
+      fullPath: '/playground/s/$serverSlug/'
+      preLoaderRoute: typeof PlaygroundSServerSlugIndexRouteImport
+      parentRoute: typeof PlaygroundSServerSlugRouteRoute
+    }
+    '/playground/s/$serverSlug/channel': {
+      id: '/playground/s/$serverSlug/channel'
+      path: '/channel'
+      fullPath: '/playground/s/$serverSlug/channel'
+      preLoaderRoute: typeof PlaygroundSServerSlugChannelRouteRouteImport
+      parentRoute: typeof PlaygroundSServerSlugRouteRoute
+    }
+    '/playground/s/$serverSlug/channel/$channelId': {
+      id: '/playground/s/$serverSlug/channel/$channelId'
+      path: '/$channelId'
+      fullPath: '/playground/s/$serverSlug/channel/$channelId'
+      preLoaderRoute: typeof PlaygroundSServerSlugChannelChannelIdRouteImport
+      parentRoute: typeof PlaygroundSServerSlugChannelRouteRoute
+    }
   }
 }
+
+interface PlaygroundBrowseRouteRouteChildren {
+  PlaygroundBrowseComputersRoute: typeof PlaygroundBrowseComputersRoute
+  PlaygroundBrowseMembersRoute: typeof PlaygroundBrowseMembersRoute
+}
+
+const PlaygroundBrowseRouteRouteChildren: PlaygroundBrowseRouteRouteChildren = {
+  PlaygroundBrowseComputersRoute: PlaygroundBrowseComputersRoute,
+  PlaygroundBrowseMembersRoute: PlaygroundBrowseMembersRoute,
+}
+
+const PlaygroundBrowseRouteRouteWithChildren =
+  PlaygroundBrowseRouteRoute._addFileChildren(
+    PlaygroundBrowseRouteRouteChildren,
+  )
+
+interface PlaygroundPlainRouteRouteChildren {
+  PlaygroundPlainActivityRoute: typeof PlaygroundPlainActivityRoute
+  PlaygroundPlainSavedRoute: typeof PlaygroundPlainSavedRoute
+  PlaygroundPlainSearchRoute: typeof PlaygroundPlainSearchRoute
+  PlaygroundPlainSettingsRoute: typeof PlaygroundPlainSettingsRoute
+  PlaygroundPlainTasksRoute: typeof PlaygroundPlainTasksRoute
+}
+
+const PlaygroundPlainRouteRouteChildren: PlaygroundPlainRouteRouteChildren = {
+  PlaygroundPlainActivityRoute: PlaygroundPlainActivityRoute,
+  PlaygroundPlainSavedRoute: PlaygroundPlainSavedRoute,
+  PlaygroundPlainSearchRoute: PlaygroundPlainSearchRoute,
+  PlaygroundPlainSettingsRoute: PlaygroundPlainSettingsRoute,
+  PlaygroundPlainTasksRoute: PlaygroundPlainTasksRoute,
+}
+
+const PlaygroundPlainRouteRouteWithChildren =
+  PlaygroundPlainRouteRoute._addFileChildren(PlaygroundPlainRouteRouteChildren)
+
+interface PlaygroundSServerSlugChannelRouteRouteChildren {
+  PlaygroundSServerSlugChannelChannelIdRoute: typeof PlaygroundSServerSlugChannelChannelIdRoute
+}
+
+const PlaygroundSServerSlugChannelRouteRouteChildren: PlaygroundSServerSlugChannelRouteRouteChildren =
+  {
+    PlaygroundSServerSlugChannelChannelIdRoute:
+      PlaygroundSServerSlugChannelChannelIdRoute,
+  }
+
+const PlaygroundSServerSlugChannelRouteRouteWithChildren =
+  PlaygroundSServerSlugChannelRouteRoute._addFileChildren(
+    PlaygroundSServerSlugChannelRouteRouteChildren,
+  )
+
+interface PlaygroundSServerSlugRouteRouteChildren {
+  PlaygroundSServerSlugChannelRouteRoute: typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
+  PlaygroundSServerSlugIndexRoute: typeof PlaygroundSServerSlugIndexRoute
+}
+
+const PlaygroundSServerSlugRouteRouteChildren: PlaygroundSServerSlugRouteRouteChildren =
+  {
+    PlaygroundSServerSlugChannelRouteRoute:
+      PlaygroundSServerSlugChannelRouteRouteWithChildren,
+    PlaygroundSServerSlugIndexRoute: PlaygroundSServerSlugIndexRoute,
+  }
+
+const PlaygroundSServerSlugRouteRouteWithChildren =
+  PlaygroundSServerSlugRouteRoute._addFileChildren(
+    PlaygroundSServerSlugRouteRouteChildren,
+  )
+
+interface PlaygroundSRouteRouteChildren {
+  PlaygroundSServerSlugRouteRoute: typeof PlaygroundSServerSlugRouteRouteWithChildren
+}
+
+const PlaygroundSRouteRouteChildren: PlaygroundSRouteRouteChildren = {
+  PlaygroundSServerSlugRouteRoute: PlaygroundSServerSlugRouteRouteWithChildren,
+}
+
+const PlaygroundSRouteRouteWithChildren =
+  PlaygroundSRouteRoute._addFileChildren(PlaygroundSRouteRouteChildren)
+
+interface PlaygroundRouteRouteChildren {
+  PlaygroundBrowseRouteRoute: typeof PlaygroundBrowseRouteRouteWithChildren
+  PlaygroundPlainRouteRoute: typeof PlaygroundPlainRouteRouteWithChildren
+  PlaygroundSRouteRoute: typeof PlaygroundSRouteRouteWithChildren
+  PlaygroundIndexRoute: typeof PlaygroundIndexRoute
+}
+
+const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
+  PlaygroundBrowseRouteRoute: PlaygroundBrowseRouteRouteWithChildren,
+  PlaygroundPlainRouteRoute: PlaygroundPlainRouteRouteWithChildren,
+  PlaygroundSRouteRoute: PlaygroundSRouteRouteWithChildren,
+  PlaygroundIndexRoute: PlaygroundIndexRoute,
+}
+
+const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
+  PlaygroundRouteRouteChildren,
+)
 
 interface ComponentsRouteChildren {
   ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
@@ -1683,7 +1923,9 @@ interface ComponentsRouteChildren {
   ComponentsLabelRoute: typeof ComponentsLabelRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
+  ComponentsLogoRoute: typeof ComponentsLogoRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
+  ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
@@ -1741,7 +1983,9 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLabelRoute: ComponentsLabelRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
+  ComponentsLogoRoute: ComponentsLogoRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
+  ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
@@ -1784,34 +2028,6 @@ const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
   MigrationRouteChildren,
 )
 
-interface PlaygroundRouteChildren {
-  PlaygroundChannelIdRoute: typeof PlaygroundChannelIdRoute
-  PlaygroundActivityRoute: typeof PlaygroundActivityRoute
-  PlaygroundComputersRoute: typeof PlaygroundComputersRoute
-  PlaygroundMembersRoute: typeof PlaygroundMembersRoute
-  PlaygroundSavedRoute: typeof PlaygroundSavedRoute
-  PlaygroundSearchRoute: typeof PlaygroundSearchRoute
-  PlaygroundSettingsRoute: typeof PlaygroundSettingsRoute
-  PlaygroundTasksRoute: typeof PlaygroundTasksRoute
-  PlaygroundIndexRoute: typeof PlaygroundIndexRoute
-}
-
-const PlaygroundRouteChildren: PlaygroundRouteChildren = {
-  PlaygroundChannelIdRoute: PlaygroundChannelIdRoute,
-  PlaygroundActivityRoute: PlaygroundActivityRoute,
-  PlaygroundComputersRoute: PlaygroundComputersRoute,
-  PlaygroundMembersRoute: PlaygroundMembersRoute,
-  PlaygroundSavedRoute: PlaygroundSavedRoute,
-  PlaygroundSearchRoute: PlaygroundSearchRoute,
-  PlaygroundSettingsRoute: PlaygroundSettingsRoute,
-  PlaygroundTasksRoute: PlaygroundTasksRoute,
-  PlaygroundIndexRoute: PlaygroundIndexRoute,
-}
-
-const PlaygroundRouteWithChildren = PlaygroundRoute._addFileChildren(
-  PlaygroundRouteChildren,
-)
-
 interface TokensShadowsRouteChildren {
   TokensShadowsBrutalRoute: typeof TokensShadowsBrutalRoute
   TokensShadowsElegantRoute: typeof TokensShadowsElegantRoute
@@ -1841,11 +2057,11 @@ const TokensTypographyRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
   ChangelogRoute: ChangelogRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
   MigrationRoute: MigrationRouteWithChildren,
-  PlaygroundRoute: PlaygroundRouteWithChildren,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,
   IframeDrawerRoute: IframeDrawerRoute,

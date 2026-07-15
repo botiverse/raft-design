@@ -44,6 +44,7 @@ import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-
 import {
   getPlaygroundActor,
   getPlaygroundThread,
+  PLAYGROUND_SERVER_SLUG,
   requirePlaygroundThread,
   type PlaygroundActorId,
   type PlaygroundMessage,
@@ -232,8 +233,8 @@ function MessageRowView({
     threadId && threadContext
       ? () => {
           void navigate({
-            to: "/playground/$channelId",
-            params: { channelId: threadContext.channelId },
+            to: "/playground/s/$serverSlug/channel/$channelId",
+            params: { channelId: threadContext.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
             search: { thread: threadId },
           });
         }
@@ -396,7 +397,11 @@ export function PlaygroundRepliesBadge({ threadId }: { threadId: PlaygroundThrea
     <MessageItemBadge
       className="cursor-pointer"
       render={
-        <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
+        <Link
+          to="/playground/s/$serverSlug/channel/$channelId"
+          params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
+          search={{ thread: threadId }}
+        />
       }
     >
       <MessageSquare />
@@ -417,7 +422,11 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
       status="unread"
       className="cursor-pointer"
       render={
-        <Link to="/playground/$channelId" params={{ channelId }} search={{ thread: threadId }} />
+        <Link
+          to="/playground/s/$serverSlug/channel/$channelId"
+          params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
+          search={{ thread: threadId }}
+        />
       }
     >
       <MessageSquare />

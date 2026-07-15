@@ -22,7 +22,6 @@ import {
 import {
   Activity,
   CheckSquare,
-  Home,
   MessageSquare,
   Monitor,
   Search,
@@ -32,16 +31,15 @@ import {
 
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 
-// Tooltip-wrapped desktop rail item. Callers own the icon, an optional attention
-// mask, and an optional handler; selection state comes from the enclosing AppRailRoot.
+// Tooltip-wrapped desktop rail item. Callers own selection and navigation behavior.
 export function AppRailNavItem({
-  value,
+  selected,
   label,
   icon,
   attention,
   onClick,
 }: {
-  value: string;
+  selected?: boolean;
   label: string;
   icon: ReactNode;
   attention?: ReactNode;
@@ -49,7 +47,7 @@ export function AppRailNavItem({
 }) {
   return (
     <Tooltip>
-      <TooltipTrigger render={<AppRailItem value={value} onClick={onClick} />}>
+      <TooltipTrigger render={<AppRailItem selected={selected} onClick={onClick} />}>
         <AppRailItemIcon>
           {icon}
           {attention}
@@ -61,39 +59,6 @@ export function AppRailNavItem({
   );
 }
 
-// App-owned mobile bottom-navigation destinations. Shared by this composition and
-// Playground so the two never drift; selection is driven by the enclosing AppRailRoot.
-export function AppRailMobileNav() {
-  return (
-    <AppRailNav aria-label="Primary navigation">
-      <AppRailItem value="chat" aria-label="Home">
-        <AppRailItemIcon>
-          <Home />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Home</AppRailItemLabel>
-      </AppRailItem>
-      <AppRailItem value="tasks" aria-label="Tasks">
-        <AppRailItemIcon>
-          <CheckSquare />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Tasks</AppRailItemLabel>
-      </AppRailItem>
-      <AppRailItem value="members" aria-label="Members">
-        <AppRailItemIcon>
-          <Users />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Members</AppRailItemLabel>
-      </AppRailItem>
-      <AppRailItem value="settings" aria-label="Settings">
-        <AppRailItemIcon>
-          <Settings />
-        </AppRailItemIcon>
-        <AppRailItemLabel>Settings</AppRailItemLabel>
-      </AppRailItem>
-    </AppRailNav>
-  );
-}
-
 export function AppRailComposition() {
   const [view, setView] = useState("chat");
   const [announcement, setAnnouncement] = useState({ message: "", sequence: 0 });
@@ -102,16 +67,15 @@ export function AppRailComposition() {
     setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
   }
 
+  function selectView(next: string) {
+    setView(next);
+    announce(`Opened ${next}`);
+  }
+
   return (
-    <AppShellRailSlot className="max-md:order-last max-md:flex max-md:h-auto max-md:w-full">
-      <AppRailRoot
-        value={view}
-        onValueChange={(next) => {
-          setView(next);
-          announce(`Opened ${next}`);
-        }}
-      >
-        <AppRailHeader className="max-md:hidden">
+    <AppShellRailSlot>
+      <AppRailRoot>
+        <AppRailHeader>
           <AppRailServerButton
             title="Raft 中文社区"
             aria-label="Switch server (current: Raft 中文社区)"
@@ -128,43 +92,65 @@ export function AppRailComposition() {
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
         <TooltipProvider delay={650}>
-          <div className="hidden min-h-0 w-full flex-1 md:flex">
-            <AppRailNav>
-              <AppRailNavItem value="search" label="Search" icon={<Search />} />
-              <AppRailNavItem value="chat" label="Chat" icon={<MessageSquare />} />
-              <AppRailNavItem
-                value="activity"
-                label="Activity"
-                icon={<Activity />}
-                attention={
-                  <AppRailItemAttention>
-                    <Activity />
-                  </AppRailItemAttention>
-                }
-              />
-              <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
-              <AppRailNavItem value="members" label="Members" icon={<Users />} />
-              <AppRailNavItem
-                value="computers"
-                label="Computers"
-                icon={<Monitor />}
-                attention={
-                  <AppRailItemAttention>
-                    <Monitor />
-                  </AppRailItemAttention>
-                }
-              />
-            </AppRailNav>
-          </div>
-          <AppRailFooter className="max-md:hidden">
+          <AppRailNav>
+            <AppRailNavItem
+              selected={view === "search"}
+              onClick={() => selectView("search")}
+              label="Search"
+              icon={<Search />}
+            />
+            <AppRailNavItem
+              selected={view === "chat"}
+              onClick={() => selectView("chat")}
+              label="Chat"
+              icon={<MessageSquare />}
+            />
+            <AppRailNavItem
+              selected={view === "activity"}
+              onClick={() => selectView("activity")}
+              label="Activity"
+              icon={<Activity />}
+              attention={
+                <AppRailItemAttention>
+                  <Activity />
+                </AppRailItemAttention>
+              }
+            />
+            <AppRailNavItem
+              selected={view === "tasks"}
+              onClick={() => selectView("tasks")}
+              label="Tasks"
+              icon={<CheckSquare />}
+            />
+            <AppRailNavItem
+              selected={view === "members"}
+              onClick={() => selectView("members")}
+              label="Members"
+              icon={<Users />}
+            />
+            <AppRailNavItem
+              selected={view === "computers"}
+              onClick={() => selectView("computers")}
+              label="Computers"
+              icon={<Monitor />}
+              attention={
+                <AppRailItemAttention>
+                  <Monitor />
+                </AppRailItemAttention>
+              }
+            />
+          </AppRailNav>
+          <AppRailFooter>
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
-            <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
+            <AppRailNavItem
+              selected={view === "settings"}
+              onClick={() => selectView("settings")}
+              label="Settings"
+              icon={<Settings />}
+            />
           </AppRailFooter>
-          <div className="w-full md:hidden">
-            <AppRailMobileNav />
-          </div>
         </TooltipProvider>
       </AppRailRoot>
     </AppShellRailSlot>

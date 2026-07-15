@@ -35,6 +35,15 @@ export type {
   AppRailNavProps,
   AppRailRootProps,
 } from "./components/app-rail/index";
+export { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./components/mobile-nav";
+export type {
+  MobileNavItemProps,
+  MobileNavLabelProps,
+  MobileNavRootProps,
+} from "./components/mobile-nav";
+
+export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
+export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
 
 export {
   AppShellMainSlot,
@@ -91,10 +100,21 @@ export type {
   ChatMainPanelTitleProps,
   ChatMainPanelTitleRowProps,
 } from "./components/chat-main-panel/chat-main-panel";
+export {
+  ChatMainPanelEmptyState,
+  ChatMainPanelEmptyStateBrand,
+  ChatMainPanelEmptyStateBrandMark,
+} from "./components/chat-main-panel/chat-main-panel-empty-state";
+export type {
+  ChatMainPanelEmptyStateBrandMarkProps,
+  ChatMainPanelEmptyStateBrandProps,
+  ChatMainPanelEmptyStateProps,
+} from "./components/chat-main-panel/chat-main-panel-empty-state";
 
 export {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
+  ChatThreadPanelContent,
   ChatThreadPanelFooter,
   ChatThreadPanelParent,
   ChatThreadPanelReplyCount,
@@ -110,6 +130,7 @@ export {
 export type {
   ChatThreadPanelActionsProps,
   ChatThreadPanelBodyProps,
+  ChatThreadPanelContentProps,
   ChatThreadPanelFooterProps,
   ChatThreadPanelParentProps,
   ChatThreadPanelReplyCountProps,
@@ -123,20 +144,10 @@ export type {
   ChatThreadPanelTitleMetaProps,
 } from "./components/chat-thread-panel/chat-thread-panel";
 
-export {
-  PanelButton,
-  PanelButtonCount,
-  PanelButtonIcon,
-  PanelButtonLabel,
-  PanelToggleButton,
-} from "./components/panel-button/panel-button";
-export type {
-  PanelButtonProps,
-  PanelButtonCountProps,
-  PanelButtonIconProps,
-  PanelButtonLabelProps,
-  PanelToggleButtonProps,
-} from "./components/panel-button/panel-button";
+export { ChatPanelAction } from "./components/chat-main-panel/chat-panel-action";
+export type { ChatPanelActionProps } from "./components/chat-main-panel/chat-panel-action";
+export { ChatPanelToggleAction } from "./components/chat-main-panel/chat-panel-toggle-action";
+export type { ChatPanelToggleActionProps } from "./components/chat-main-panel/chat-panel-toggle-action";
 
 export {
   ComposerAttachments,
@@ -223,6 +234,7 @@ export type {
 
 export {
   ChatSidebarBody,
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarFooter,
   ChatSidebarGroupLabel,
@@ -268,6 +280,7 @@ export {
 } from "./components/chat-sidebar/index";
 export type {
   ChatSidebarBodyProps,
+  ChatSidebarActivitySlotProps,
   ChatSidebarContentProps,
   ChatSidebarFooterProps,
   ChatSidebarGroupLabelProps,
@@ -328,7 +341,6 @@ export {
   LiveAgentActivityBarText,
 } from "./components/live-agent-activity-bar/index";
 export type {
-  LiveAgentActivity,
   LiveAgentActivityBarAvatarProps,
   LiveAgentActivityBarContentProps,
   LiveAgentActivityBarProps,

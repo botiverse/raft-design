@@ -2,6 +2,7 @@ import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide
 import { useState } from "react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
@@ -43,6 +44,7 @@ import {
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
+import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 
 export function ChatSidebarComposition() {
   const [selectedItem, setSelectedItem] = useState("#proj-uiux");
@@ -105,7 +107,7 @@ export function ChatSidebarComposition() {
               <ChatSidebarList>
                 <ChatSidebarItem
                   type="button"
-                  aria-current={selectedItem === "#proj-uiux" ? "page" : undefined}
+                  current={selectedItem === "#proj-uiux"}
                   onClick={() => openDestination("#proj-uiux")}
                 >
                   <ChatSidebarItemChannelIcon aria-hidden>
@@ -118,7 +120,7 @@ export function ChatSidebarComposition() {
                 </ChatSidebarItem>
                 <ChatSidebarItem
                   type="button"
-                  aria-current={selectedItem === "Atlas planning" ? "page" : undefined}
+                  current={selectedItem === "Atlas planning"}
                   onClick={() => openDestination("Atlas planning")}
                 >
                   <ChatSidebarItemIcon>
@@ -136,7 +138,7 @@ export function ChatSidebarComposition() {
                 </ChatSidebarItem>
                 <ChatSidebarItem
                   type="button"
-                  aria-current={selectedItem === "#proj-theme" ? "page" : undefined}
+                  current={selectedItem === "#proj-theme"}
                   onClick={() => openDestination("#proj-theme")}
                 >
                   <ChatSidebarItemChannelIcon aria-hidden>
@@ -185,7 +187,7 @@ export function ChatSidebarComposition() {
               <ChatSidebarList>
                 <ChatSidebarItem
                   type="button"
-                  aria-current={selectedItem === "#partners" ? "page" : undefined}
+                  current={selectedItem === "#partners"}
                   onClick={() => openDestination("#partners")}
                 >
                   <ChatSidebarItemChannelIcon aria-hidden>
@@ -229,7 +231,7 @@ export function ChatSidebarComposition() {
               <ChatSidebarList>
                 <ChatSidebarItemUnread
                   type="button"
-                  aria-current={selectedItem === "#general" ? "page" : undefined}
+                  current={selectedItem === "#general"}
                   onClick={() => openDestination("#general")}
                 >
                   <ChatSidebarItemChannelIcon aria-hidden>
@@ -247,7 +249,7 @@ export function ChatSidebarComposition() {
                 </ChatSidebarItemUnread>
                 <ChatSidebarItem
                   type="button"
-                  aria-current={selectedItem === "#release" ? "page" : undefined}
+                  current={selectedItem === "#release"}
                   onClick={() => openDestination("#release")}
                 >
                   <ChatSidebarItemChannelIcon aria-hidden>
@@ -286,7 +288,7 @@ export function ChatSidebarComposition() {
               <ChatSidebarList>
                 <ChatSidebarItemUnread
                   type="button"
-                  aria-current={selectedItem === "Cindy" ? "page" : undefined}
+                  current={selectedItem === "Cindy"}
                   onClick={() => openDestination("Cindy")}
                 >
                   <ChatSidebarItemIcon>
@@ -305,7 +307,7 @@ export function ChatSidebarComposition() {
                 </ChatSidebarItemUnread>
                 <ChatSidebarItem
                   type="button"
-                  aria-current={selectedItem === "Atlas idle" ? "page" : undefined}
+                  current={selectedItem === "Atlas idle"}
                   onClick={() => openDestination("Atlas idle")}
                 >
                   <ChatSidebarItemIcon>
@@ -326,6 +328,11 @@ export function ChatSidebarComposition() {
           </div>
         </ChatSidebarContent>
       </ChatSidebarBody>
+      <ChatSidebarActivitySlot>
+        <LiveAgentActivityBarComposition
+          latest={{ text: "Preparing the next release candidate" }}
+        />
+      </ChatSidebarActivitySlot>
     </ChatSidebarRoot>
   );
 }

@@ -14,11 +14,16 @@ import {
   Banner,
   BannerDescription,
   Checkbox,
+  Kbd,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
   TabsIndicator,
   TabsLabel,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "raft-ui";
 import {
   ChatMainPanelBody,
@@ -214,6 +219,33 @@ export function ChatMainPanelComposition({
                   </MessageItem>
                 </div>
               </div>
+              {Array.from({ length: 8 }, (_, index) => (
+                <div
+                  key={`preview-overflow-${index}`}
+                  data-index={index + 3}
+                  data-message-id={`preview-overflow-${index}`}
+                >
+                  <div>
+                    <MessageItem>
+                      <MessageItemAvatarSlot>
+                        <Avatar size="md" type={index % 2 === 0 ? "human" : "agent"} />
+                      </MessageItemAvatarSlot>
+                      <MessageItemContent>
+                        <MessageItemHeader>
+                          <MessageItemSender>
+                            {index % 2 === 0 ? "Cindy" : "Atlas"}
+                          </MessageItemSender>
+                          <MessageItemTime>10:{46 + index}</MessageItemTime>
+                        </MessageItemHeader>
+                        <MessageItemBody>
+                          Timeline content continues behind the floating composer while the message
+                          list remains the only scroll owner.
+                        </MessageItemBody>
+                      </MessageItemContent>
+                    </MessageItem>
+                  </div>
+                </div>
+              ))}
               <div className="h-px" aria-hidden />
               <div className="px-3 pb-3">
                 <div className="h-3" />
@@ -247,10 +279,18 @@ export function ChatMainPanelComposition({
                   </ComposerIconButton>
                 </ComposerActions>
                 <ComposerMeta>
-                  <ComposerToolbarLabel>
-                    <Checkbox size="sm" aria-label="Send as task" />
-                    <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
-                  </ComposerToolbarLabel>
+                  <TooltipProvider delay={300}>
+                    <Tooltip>
+                      <TooltipTrigger render={<ComposerToolbarLabel />}>
+                        <Checkbox size="sm" aria-label="Send as task" />
+                        <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
+                      </TooltipTrigger>
+                      <TooltipContent side="top">
+                        Send as task
+                        <Kbd>Cmd Shift Enter</Kbd>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   <ComposerSubmit aria-label="Send" disabled>
                     <span>Send</span>
                     <Send />

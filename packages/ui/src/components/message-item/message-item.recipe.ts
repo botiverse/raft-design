@@ -2,7 +2,7 @@ import { tv, type VariantProps } from "../../lib/tv";
 
 export const messageItem = tv({
   slots: {
-    interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]", "px-3 max-md:px-0"],
+    interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]"],
     root: [
       "group/message relative flex h-fit min-h-[3rem] gap-3 max-md:gap-2",
       "border-2 border-transparent",

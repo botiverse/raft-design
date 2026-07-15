@@ -26,7 +26,6 @@ catalog:
   "@vitejs/plugin-rsc": ^0.5.27
   "@cloudflare/vite-plugin": ^1.44.0
   react-resizable-panels: ^4.12.1
-  border-beam: ^1.3.0
 overrides:
   vite: "catalog:"
   vitest: "catalog:"

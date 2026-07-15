@@ -54,6 +54,9 @@ const SNIPPETS = {
       </ChatSidebarSection>
     </ChatSidebarContent>
   </ChatSidebarBody>
+  <ChatSidebarActivitySlot>
+    <LiveAgentActivityBar />
+  </ChatSidebarActivitySlot>
   <ChatSidebarFooter />
 </ChatSidebarRoot>`,
 } as const;
@@ -80,6 +83,12 @@ const PROPS: readonly PropRow[] = [
     type: "div props",
     description:
       "Column regions matching source sidebar chrome, scroll ownership, and footer. Header is a layout slot for an app-owned server switcher.",
+  },
+  {
+    name: "ChatSidebarActivitySlot",
+    type: "div props",
+    description:
+      "Optional desktop floating-activity host. It owns theme spacing, progressive blur, and the matching scroll-content clearance while the caller owns activity content.",
   },
   {
     name: "ChatSidebarMenu / Icon / Title / Aside / Count",

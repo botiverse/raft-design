@@ -1060,6 +1060,24 @@ export const MIGRATION_GUIDES = [
     ],
   },
   {
+    sourceFile: "packages/web/src/components/brand/SlockBrandLockup.tsx",
+    slug: "components-brand-slockbrandlockup",
+    components: [
+      {
+        component: "logo",
+        componentLabel: "Logo",
+        refs: ["9"],
+        docsHref: "/components/logo#accessibility",
+        migration: [
+          "Static Raft brand assets -> `RaftLogo`, `RaftWordmark`, or `RaftLogoLockup`.",
+          "Use the combined lockup when the mark and wordmark must scale as one graphic.",
+          "Give a standalone SVG an accessible name; use `aria-hidden` when adjacent visible text already names Raft.",
+        ],
+        write: '<RaftLogoLockup role="img" aria-label="Raft" className="h-10 w-auto" />',
+      },
+    ],
+  },
+  {
     sourceFile: "packages/web/src/components/channel/AddMembersDialog.tsx",
     slug: "components-channel-addmembersdialog",
     components: [
@@ -1390,7 +1408,7 @@ export const MIGRATION_GUIDES = [
           "Keep socket subscriptions, latest-item selection, terminal-state removal, and the 90-second expiry lifecycle in the app layer.",
         ],
         write:
-          '<LiveAgentActivityBar activity={latest.activity}><LiveAgentActivityBarRow><LiveAgentActivityBarAvatar><AvatarImage src={agent.avatarSrc} alt="" /></LiveAgentActivityBarAvatar><LiveAgentActivityBarContent><LiveAgentActivityBarStatus /><LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText></LiveAgentActivityBarContent></LiveAgentActivityBarRow></LiveAgentActivityBar>',
+          '<LiveAgentActivityBar><LiveAgentActivityBarRow><LiveAgentActivityBarAvatar><AvatarImage src={agent.avatarSrc} alt="" /></LiveAgentActivityBarAvatar><LiveAgentActivityBarContent><LiveAgentActivityBarStatus /><LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText></LiveAgentActivityBarContent></LiveAgentActivityBarRow></LiveAgentActivityBar>',
         noDirect: [
           "No store, socket, timer, or activity-normalization API is bundled with the UI component.",
           "Do not pass source `pixel:key` values to `AvatarImage`; keep identity resolution in the app layer.",

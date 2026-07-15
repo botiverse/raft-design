@@ -15,6 +15,8 @@ import {
   type ChatMainPanelCompositionProps,
 } from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx";
 import chatMainPanelCompositionSource from "#/modules/chat-main-panel/compositions/chat-main-panel.composition.tsx?raw";
+import { ChatMainPanelEmptyStateComposition } from "#/modules/chat-main-panel/compositions/chat-main-panel-empty-state.composition.tsx";
+import chatMainPanelEmptyStateCompositionSource from "#/modules/chat-main-panel/compositions/chat-main-panel-empty-state.composition.tsx?raw";
 import {
   ChatMainPanelChannelHeaderComposition,
   ChatMainPanelDmHeaderComposition,
@@ -43,9 +45,9 @@ const SNIPPETS = {
       <ChatMainPanelSubtitle />
     </ChatMainPanelTitleBlock>
     <ChatMainPanelActions>
-      <PanelButton>
-        <PanelButtonIcon />
-      </PanelButton>
+      <ChatPanelAction>
+        <Search />
+      </ChatPanelAction>
     </ChatMainPanelActions>
   </ChatMainPanelHeader>
   <ChatMainPanelContent>
@@ -65,7 +67,16 @@ const SNIPPETS = {
     </ChatMainPanelFooter>
   </ChatMainPanelContent>
 </ChatMainPanelRoot>`,
+  emptyStateAnatomy: `<ChatMainPanelRoot>
+  <ChatMainPanelEmptyState>
+    <ChatMainPanelEmptyStateBrand>
+      <ChatMainPanelEmptyStateBrandMark />
+    </ChatMainPanelEmptyStateBrand>
+    <span>Select a conversation</span>
+  </ChatMainPanelEmptyState>
+</ChatMainPanelRoot>`,
   chatMainPanelComposition: chatMainPanelCompositionSource,
+  chatMainPanelEmptyStateComposition: chatMainPanelEmptyStateCompositionSource,
   chatMainPanelHeaderComposition: chatMainPanelHeaderCompositionSource,
 } as const;
 
@@ -99,15 +110,16 @@ const PROPS: readonly PropRow[] = [
     description: "Explicit title content and action regions; business copy remains caller-owned.",
   },
   {
-    name: "PanelButton",
+    name: "ChatPanelAction",
     type: "button props",
-    description: "Shared panel action root for search, details, and app-owned commands.",
+    description:
+      "Chat-panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
   {
-    name: "PanelButtonIcon / Label / Count",
-    type: "span props",
+    name: "ChatPanelToggleAction",
+    type: "Toggle button props",
     description:
-      "Explicit content parts. Label is hidden below md and enters layout at md; Icon and Count remain visible at every size.",
+      "Controlled pressed action for binary panel state. Pass pressed and onPressedChange; the caller owns the icon and accessible label for each state.",
   },
   {
     name: "ChatMainPanelContent",
@@ -117,12 +129,19 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ChatMainPanelTabs / Body / Timeline / MessageList / Footer",
     type: "div / form props",
-    description: "Tab chrome, positioned body, scroll owner, list flow, and footer boundary.",
+    description:
+      "Tab chrome, scroll owner, list flow, and floating footer boundary. Override --chat-panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
   },
   {
     name: "ChatMainPanelJumpToLatestLayout / JumpToLatest",
     type: "div / button props",
     description: "Explicit positioning layout and independently rendered jump button.",
+  },
+  {
+    name: "ChatMainPanelEmptyState / EmptyStateBrand / EmptyStateBrandMark",
+    type: "div props",
+    description:
+      "Centered inactive-panel state with an optional nested brand treatment. The caller owns its icon and copy.",
   },
   {
     name: "ComposerAttachment*",
@@ -204,6 +223,11 @@ function ChatMainPanelDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.emptyStateAnatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="combinations" title="Combinations" showThemeSwitcher>
@@ -237,11 +261,24 @@ function ChatMainPanelDoc() {
               />
             </PreviewThemeScope>
           </PreviewPane>
+          <PreviewPane label="No active conversation">
+            <PreviewThemeScope className="h-full">
+              <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-theme=elegant]_&]:bg-layer-page">
+                <ChatMainPanelEmptyStateComposition />
+              </div>
+            </PreviewThemeScope>
+          </PreviewPane>
         </PreviewGrid>
         <DocsCodeBlock.Panel
           path="apps/doc/src/modules/chat-main-panel/compositions/chat-main-panel-header.composition.tsx"
           source={SNIPPETS.chatMainPanelHeaderComposition}
           html={code.chatMainPanelHeaderComposition}
+          showLineNumbers={false}
+        />
+        <DocsCodeBlock.Panel
+          path="apps/doc/src/modules/chat-main-panel/compositions/chat-main-panel-empty-state.composition.tsx"
+          source={SNIPPETS.chatMainPanelEmptyStateComposition}
+          html={code.chatMainPanelEmptyStateComposition}
           showLineNumbers={false}
         />
       </DocSection>

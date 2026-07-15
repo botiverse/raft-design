@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ScrollArea } from "@base-ui/react/scroll-area";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
@@ -122,19 +123,41 @@ export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBody
 
 export type ChatSidebarContentProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarContent({ className, render, ...props }: ChatSidebarContentProps) {
+export function ChatSidebarContent({
+  children,
+  className,
+  render,
+  ...props
+}: ChatSidebarContentProps) {
   const theme = useThemeFamily();
-  const { sidebarContent } = chatSidebar({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-content",
-    className: sidebarContent({ className }),
-  };
+  const {
+    sidebarContent,
+    sidebarContentInner,
+    sidebarScrollbar,
+    sidebarScrollbarThumb,
+    sidebarViewport,
+  } = chatSidebar({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <ScrollArea.Root data-slot="chat-sidebar-scroll-area" className={sidebarContent()}>
+      <ScrollArea.Viewport
+        {...props}
+        render={render}
+        data-slot="chat-sidebar-content"
+        className={sidebarViewport()}
+      >
+        <ScrollArea.Content
+          className={sidebarContentInner({ className })}
+          style={{ minWidth: 0, width: "100%" }}
+        >
+          {children}
+        </ScrollArea.Content>
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar className={sidebarScrollbar()}>
+        <ScrollArea.Thumb className={sidebarScrollbarThumb()} />
+      </ScrollArea.Scrollbar>
+    </ScrollArea.Root>
+  );
 }
 
 export type ChatSidebarFooterProps = useRender.ComponentProps<"div">;
@@ -145,6 +168,33 @@ export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFo
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-footer",
     className: sidebarFooter({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatSidebarActivitySlotProps = useRender.ComponentProps<"div">;
+
+export function ChatSidebarActivitySlot({
+  children,
+  className,
+  render,
+  ...props
+}: ChatSidebarActivitySlotProps) {
+  const theme = useThemeFamily();
+  const { sidebarActivitySlot, sidebarActivitySlotContent } = chatSidebar({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "chat-sidebar-activity-slot",
+    className: sidebarActivitySlot({ className }),
+    children: (
+      <div data-slot="chat-sidebar-activity-slot-content" className={sidebarActivitySlotContent()}>
+        {children}
+      </div>
+    ),
   };
 
   return useRender({

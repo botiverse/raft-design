@@ -37,7 +37,10 @@ export function PlaygroundToolbar({
         className="light fixed top-[env(safe-area-inset-top,0px)] left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-b-xl border border-t-0 border-line-subtle bg-layer-panel px-2 py-1 shadow-md md:top-0"
         style={{ colorScheme: "light" }}
       >
-        <fieldset aria-label="Playground theme" className="inline-flex items-center gap-0.5">
+        <fieldset
+          aria-label="Playground theme"
+          className="inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap"
+        >
           {PRESETS.map((preset) => {
             const isActive = theme === preset.family && mode === preset.mode;
 
@@ -54,13 +57,13 @@ export function PlaygroundToolbar({
             );
           })}
         </fieldset>
-        <span aria-hidden className="mx-0.5 h-4 w-px bg-line-subtle" />
+        <span aria-hidden className="mx-0.5 h-4 w-px bg-line-subtle max-md:hidden" />
         <button
           type="button"
           aria-label="Toggle mobile preview"
           aria-pressed={mobile}
           className={[
-            "inline-flex size-6 items-center justify-center rounded-[3px] transition duration-200 ease-out",
+            "inline-flex size-6 items-center justify-center rounded-[3px] transition duration-200 ease-out max-md:hidden",
             mobile
               ? "bg-ink-8 text-foreground-strong"
               : "text-foreground-placeholder hover:bg-ink-4 hover:text-foreground-muted",

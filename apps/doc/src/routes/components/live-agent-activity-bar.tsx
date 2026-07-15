@@ -2,11 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -27,12 +27,15 @@ const SNIPPETS = {
   composition: liveAgentActivityBarCompositionSource,
 } as const;
 
+type PreviewValues = {
+  active: boolean;
+};
+
 const PROPS: readonly PropRow[] = [
   {
     name: "LiveAgentActivityBar",
-    type: 'div props + activity: "thinking" | "working"',
-    description:
-      "Live-region root and themed surface. Activity is exposed as data-activity; visible structure is supplied as children.",
+    type: "div props",
+    description: "Live-region root and themed surface. Visible structure is supplied as children.",
   },
   {
     name: "LiveAgentActivityBarRow",
@@ -85,11 +88,18 @@ function LiveAgentActivityBarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.composition} previewClassName="items-stretch">
-          <div className="w-72 self-center overflow-hidden border-x border-line-subtle">
-            <LiveAgentActivityBarComposition latest={LIVE_AGENT_ACTIVITY_PREVIEW} />
-          </div>
-        </Example>
+        <ComponentPlayground<PreviewValues>
+          defaultValues={{ active: true }}
+          controls={[{ name: "active", label: "Activity", type: "boolean" }]}
+          previewClassName="overflow-visible"
+          render={(values) => (
+            <div className="w-72 self-center overflow-visible">
+              <LiveAgentActivityBarComposition
+                latest={values.active ? LIVE_AGENT_ACTIVITY_PREVIEW : null}
+              />
+            </div>
+          )}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -102,10 +112,10 @@ function LiveAgentActivityBarDoc() {
 
       <DocSection id="api" title="API">
         <DocNote>
-          Render the component only while an activity item exists. The consumer owns selection,
-          expiry, terminal-state removal, and avatar resolution. The component owns its default
-          Avatar fallback. Brutal uses the white surface below the md breakpoint and the cream
-          sidebar surface at md and above.
+          Pass `null` when activity ends. The consumer owns selection, expiry, terminal-state
+          removal, and avatar resolution; Elegant retains the prior content briefly for its exit
+          transition. The component owns its default Avatar fallback. Brutal uses the white surface
+          below the md breakpoint and the cream sidebar surface at md and above.
         </DocNote>
         <div className="mt-4">
           <PropsTable rows={PROPS} />

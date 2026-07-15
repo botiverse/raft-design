@@ -44,18 +44,19 @@ const SNIPPETS = {
   <ChatThreadPanelHeader>
     <ChatThreadPanelTitle />
     <ChatThreadPanelActions>
-      <PanelButton>
-        <PanelButtonIcon />
-      </PanelButton>
+      <ChatPanelAction>
+        <X />
+      </ChatPanelAction>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
+  <ChatThreadPanelContent>
   <ChatThreadPanelSearch>
     <ChatThreadPanelSearchIcon />
     <ChatThreadPanelSearchInput />
     <ChatThreadPanelSearchCount />
-    <PanelButton>
-      <PanelButtonIcon />
-    </PanelButton>
+    <ChatPanelAction>
+      <Search />
+    </ChatPanelAction>
   </ChatThreadPanelSearch>
   <ChatThreadPanelParent>
     <MessageItem />
@@ -68,6 +69,7 @@ const SNIPPETS = {
     <MessageItemSearchMatch />
   </ChatThreadPanelBody>
   <ChatThreadPanelFooter />
+  </ChatThreadPanelContent>
 </ChatThreadPanelRoot>`,
 } as const;
 
@@ -83,22 +85,21 @@ const PROPS: readonly PropRow[] = [
     description: "Fixed thread header regions matching source panel chrome.",
   },
   {
-    name: "PanelButton",
-    type: "button props",
-    description:
-      "Shared panel action root. Its width follows the explicit Icon, Label, and Count children.",
+    name: "ChatThreadPanelContent",
+    type: "div props",
+    description: "Thread surface below the header, including search, messages, and composer slots.",
   },
   {
-    name: "PanelButtonIcon / Label / Count",
-    type: "span props",
+    name: "ChatPanelAction",
+    type: "button props",
     description:
-      "Explicit content parts. Label is hidden below sm and enters layout at sm; Icon and Count remain visible at every size.",
+      "Chat-panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
   {
     name: "ChatThreadPanelSearch / SearchIcon / SearchInput / SearchCount",
     type: "div / span / input props",
     description:
-      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via PanelButton.",
+      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via ChatPanelAction.",
   },
   {
     name: "ChatThreadPanelParent / ReplyCount",
@@ -110,7 +111,7 @@ const PROPS: readonly PropRow[] = [
     name: "ChatThreadPanelBody / Footer",
     type: "div props",
     description:
-      "Scrollable message body and composer/footer slot. Message rows remain caller-owned children.",
+      "Scrollable message body and floating composer/footer slot. Override --chat-panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
   },
   {
     name: "MessageTimelineDateDivider / Notice",
@@ -202,6 +203,20 @@ function ChatThreadPanelDoc() {
             <PreviewThemeScope family="elegant" mode="light" className="h-full">
               <ThreadPanelFrame>
                 <ChatThreadPanelComposition state="loading" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Scrollable replies · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition search={false} />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Scrollable replies · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition search={false} />
               </ThreadPanelFrame>
             </PreviewThemeScope>
           </PreviewPane>

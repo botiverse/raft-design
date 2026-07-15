@@ -7,7 +7,6 @@ export {
   LiveAgentActivityBarText,
 } from "./live-agent-activity-bar";
 export type {
-  LiveAgentActivity,
   LiveAgentActivityBarAvatarProps,
   LiveAgentActivityBarContentProps,
   LiveAgentActivityBarProps,

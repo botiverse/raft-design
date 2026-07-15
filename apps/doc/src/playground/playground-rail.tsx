@@ -30,11 +30,15 @@ import {
   AppRailNav,
   AppRailRoot,
   AppShellRailSlot,
+  MobileNavItem,
+  MobileNavLabel,
+  MobileNavRoot,
 } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
   ChevronDown,
+  Home,
   MessageSquare,
   Monitor,
   Search,
@@ -42,7 +46,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { AppRailMobileNav, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
+import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 import {
   ChatSidebarServer,
@@ -51,7 +55,7 @@ import {
   ChatSidebarServerIndicator,
   ChatSidebarServerLabel,
 } from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
-import { DEFAULT_CHANNEL_ID } from "./mock/index.ts";
+import { PLAYGROUND_SERVER_SLUG } from "./mock/index.ts";
 import { isPlaygroundRailView, usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import { usePlaygroundShellState } from "./playground-shell-state.tsx";
 
@@ -147,24 +151,28 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
   const { railView, selectRailView } = usePlaygroundNavigation();
   const navigate = useNavigate();
 
+  function selectView(view: string) {
+    if (isPlaygroundRailView(view)) selectRailView(view);
+  }
+
   return (
     <>
       <AppShellRailSlot>
-        <AppRailRoot
-          value={railView}
-          onValueChange={(view) => {
-            if (isPlaygroundRailView(view)) selectRailView(view);
-          }}
-        >
+        <AppRailRoot>
           <AppRailHeader>
             <PlaygroundServerSwitcher />
           </AppRailHeader>
           <TooltipProvider delay={650}>
             <div className="hidden min-h-0 w-full flex-1 md:flex">
               <AppRailNav>
-                <AppRailNavItem value="search" label="Search" icon={<Search />} />
                 <AppRailNavItem
-                  value="chat"
+                  selected={railView === "search"}
+                  onClick={() => selectView("search")}
+                  label="Search"
+                  icon={<Search />}
+                />
+                <AppRailNavItem
+                  selected={railView === "chat"}
                   label="Chat"
                   icon={<MessageSquare />}
                   attention={
@@ -174,17 +182,17 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                       </AppRailItemAttention>
                     ) : undefined
                   }
-                  onClick={(event) => {
-                    event.preventDefault();
+                  onClick={() => {
                     void navigate({
-                      to: "/playground/$channelId",
-                      params: { channelId: DEFAULT_CHANNEL_ID },
+                      to: "/playground/s/$serverSlug",
+                      params: { serverSlug: PLAYGROUND_SERVER_SLUG },
                       search: {},
                     });
                   }}
                 />
                 <AppRailNavItem
-                  value="activity"
+                  selected={railView === "activity"}
+                  onClick={() => selectView("activity")}
                   label="Activity"
                   icon={<Activity />}
                   attention={
@@ -195,10 +203,21 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                     ) : undefined
                   }
                 />
-                <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
-                <AppRailNavItem value="members" label="Members" icon={<Users />} />
                 <AppRailNavItem
-                  value="computers"
+                  selected={railView === "tasks"}
+                  onClick={() => selectView("tasks")}
+                  label="Tasks"
+                  icon={<CheckSquare />}
+                />
+                <AppRailNavItem
+                  selected={railView === "members"}
+                  onClick={() => selectView("members")}
+                  label="Members"
+                  icon={<Users />}
+                />
+                <AppRailNavItem
+                  selected={railView === "computers"}
+                  onClick={() => selectView("computers")}
                   label="Computers"
                   icon={<Monitor />}
                   attention={
@@ -213,22 +232,54 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             </div>
             <AppRailFooter>
               <PlaygroundNotificationCenter />
-              <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
+              <AppRailNavItem
+                selected={railView === "settings"}
+                onClick={() => selectView("settings")}
+                label="Settings"
+                icon={<Settings />}
+              />
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
       </AppShellRailSlot>
       {showBottomNavigation ? (
-        <AppShellRailSlot className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
-          <AppRailRoot
-            value={railView}
-            onValueChange={(view) => {
-              if (isPlaygroundRailView(view)) selectRailView(view);
-            }}
+        <MobileNavRoot
+          className="fixed inset-x-0 bottom-0 z-40 mx-auto md:hidden"
+          aria-label="Primary navigation"
+        >
+          <MobileNavItem
+            selected={railView === "chat"}
+            onClick={() => selectView("chat")}
+            aria-label="Home"
           >
-            <AppRailMobileNav />
-          </AppRailRoot>
-        </AppShellRailSlot>
+            <Home />
+            <MobileNavLabel>Home</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "tasks"}
+            onClick={() => selectView("tasks")}
+            aria-label="Tasks"
+          >
+            <CheckSquare />
+            <MobileNavLabel>Tasks</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "members"}
+            onClick={() => selectView("members")}
+            aria-label="Members"
+          >
+            <Users />
+            <MobileNavLabel>Members</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "settings"}
+            onClick={() => selectView("settings")}
+            aria-label="Settings"
+          >
+            <Settings />
+            <MobileNavLabel>Settings</MobileNavLabel>
+          </MobileNavItem>
+        </MobileNavRoot>
       ) : null}
     </>
   );

@@ -2,7 +2,10 @@ import { tv } from "../../lib/tv";
 
 export const chatSidebar = tv({
   slots: {
-    sidebarRoot: ["flex h-full min-h-0 w-full select-none flex-col"],
+    sidebarRoot: [
+      "relative flex h-full min-h-0 w-full select-none flex-col",
+      "has-[>[data-slot=chat-sidebar-activity-slot]_[data-slot=live-agent-activity-bar]]:overflow-clip",
+    ],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
     sidebarHeaderMaskLayer: ["absolute inset-x-0 top-0"],
@@ -12,12 +15,27 @@ export const chatSidebar = tv({
       "font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted",
     ],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
-    sidebarContent: ["flex-1 overflow-x-hidden overflow-y-auto px-2 py-3"],
+    sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
+    sidebarViewport: ["h-full min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"],
+    sidebarContentInner: [
+      "min-h-full min-w-0 w-full px-2 pt-3",
+      "pb-[var(--chat-sidebar-content-bottom,0.75rem)]",
+    ],
+    sidebarScrollbar: [
+      "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
+      "pointer-events-none",
+      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
+    ],
+    sidebarScrollbarThumb: ["w-1.5 rounded-full"],
     sidebarFooter: ["shrink-0"],
+    sidebarActivitySlot: ["pointer-events-none absolute inset-x-0 max-md:hidden"],
+    sidebarActivitySlotContent: [],
   },
   variants: {
     theme: {
       brutal: {
+        sidebarRoot:
+          "md:has-[>[data-slot=chat-sidebar-activity-slot]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:3.25rem]",
         sidebarHeader: [
           "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
@@ -25,13 +43,20 @@ export const chatSidebar = tv({
         ],
         sidebarBody: "bg-brutal-cream max-md:bg-white",
         sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
+        sidebarActivitySlot: "bottom-0 z-40",
+        sidebarActivitySlotContent: "contents",
+        sidebarScrollbarThumb: "bg-black/35 hover:bg-black/55",
       },
       elegant: {
-        sidebarRoot: ["relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]"],
+        sidebarRoot: [
+          "relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
+          "md:[--sidebar-inset-end:18px]",
+          "md:has-[>[data-slot=chat-sidebar-activity-slot]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:4.25rem]",
+        ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",
           "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
-          "px-[var(--sidebar-inset-x,26px)]",
+          "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
         sidebarHeaderMask: ["block h-[calc(100%+0.75rem)]"],
@@ -45,11 +70,22 @@ export const chatSidebar = tv({
         ],
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
         sidebarBody: "bg-layer-page",
-        sidebarContent: [
-          "px-[var(--sidebar-inset-x,26px)]",
+        sidebarContentInner: [
+          "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "pt-[var(--shell-header-height,3.5rem)]",
         ],
+        sidebarScrollbar: "justify-end",
+        sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         sidebarFooter: "border-t border-line-subtle p-3",
+        sidebarActivitySlot: [
+          "bottom-3 z-10",
+          "has-[_[data-slot=live-agent-activity-bar]]:before:pointer-events-none has-[_[data-slot=live-agent-activity-bar]]:before:absolute has-[_[data-slot=live-agent-activity-bar]]:before:inset-x-0 has-[_[data-slot=live-agent-activity-bar]]:before:-bottom-3 has-[_[data-slot=live-agent-activity-bar]]:before:z-0 has-[_[data-slot=live-agent-activity-bar]]:before:h-20",
+          "has-[_[data-slot=live-agent-activity-bar]]:before:bg-[linear-gradient(to_bottom,transparent,var(--layer-page))] has-[_[data-slot=live-agent-activity-bar]]:before:backdrop-blur-[4px]",
+          "has-[_[data-slot=live-agent-activity-bar]]:before:[mask-image:linear-gradient(to_top,black_50%,transparent)] has-[_[data-slot=live-agent-activity-bar]]:before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
+          "has-[_[data-slot=live-agent-activity-bar]]:before:content-[''] [&>*]:relative [&>*]:z-10",
+        ],
+        sidebarActivitySlotContent:
+          "ml-[calc(var(--sidebar-inset-x,26px)-var(--sidebar-row-inset-x,6px))] mr-[calc(var(--sidebar-inset-end,var(--sidebar-inset-x,26px))-var(--sidebar-row-inset-x,6px))]",
       },
     },
   },

@@ -60,6 +60,7 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
+  PLAYGROUND_SERVER_SLUG,
 } from "./mock/index.ts";
 import {
   usePlaygroundNavigation,
@@ -241,7 +242,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
                   <ChatSidebarGroupLabel>{detail.group}</ChatSidebarGroupLabel>
                 ) : null}
                 <ChatSidebarItem
-                  aria-current={selectedId === detail.id ? "page" : undefined}
+                  current={selectedId === detail.id}
                   onClick={() => selectRailDetail(detail.id)}
                 >
                   <ChatSidebarItemIcon aria-hidden>
@@ -355,7 +356,11 @@ function PlaygroundSearchView() {
               variant="outline"
               nativeButton={false}
               render={
-                <Link to="/playground/$channelId" params={{ channelId: channel.id }} search={{}} />
+                <Link
+                  to="/playground/s/$serverSlug/channel/$channelId"
+                  params={{ channelId: channel.id, serverSlug: PLAYGROUND_SERVER_SLUG }}
+                  search={{}}
+                />
               }
             >
               {channel.kind === "dm" ? "@" : "#"}

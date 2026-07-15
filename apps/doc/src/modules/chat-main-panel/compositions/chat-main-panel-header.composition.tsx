@@ -21,10 +21,8 @@ import {
   ChatMainPanelTitle,
   ChatMainPanelTitleBlock,
   ChatMainPanelTitleRow,
-  PanelButton,
-  PanelButtonCount,
-  PanelButtonIcon,
-  PanelToggleButton,
+  ChatPanelAction,
+  ChatPanelToggleAction,
 } from "raft-ui/wip";
 
 export type ChatMainPanelHeaderCompositionProps = {
@@ -52,13 +50,13 @@ export function ChatMainPanelHeaderComposition({
           </ChatMainPanelTitleRow>
         </ChatMainPanelTitleBlock>
         <ChatMainPanelActions>
-          <PanelToggleButton
+          <ChatPanelToggleAction
             pressed={muted}
             onPressedChange={onMutedChange}
             aria-label={muted ? "Unmute activity for this DM" : "Mute activity for this DM"}
           >
-            <PanelButtonIcon>{muted ? <BellOff /> : <Bell />}</PanelButtonIcon>
-          </PanelToggleButton>
+            {muted ? <BellOff /> : <Bell />}
+          </ChatPanelToggleAction>
         </ChatMainPanelActions>
       </ChatMainPanelHeader>
     );
@@ -82,44 +80,34 @@ export function ChatMainPanelHeaderComposition({
         <ChatMainPanelSubtitle>Design system migration</ChatMainPanelSubtitle>
       </ChatMainPanelTitleBlock>
       <ChatMainPanelActions>
-        <PanelButton aria-label="Search conversation" disabled>
-          <PanelButtonIcon>
-            <Search />
-          </PanelButtonIcon>
-        </PanelButton>
-        <PanelToggleButton
+        <ChatPanelAction aria-label="Search conversation" disabled>
+          <Search />
+        </ChatPanelAction>
+        <ChatPanelToggleAction
           className="max-md:hidden"
           pressed={muted}
           onPressedChange={onMutedChange}
           aria-label={muted ? "Unmute channel activity" : "Mute channel activity"}
         >
-          <PanelButtonIcon>{muted ? <BellOff /> : <Bell />}</PanelButtonIcon>
-        </PanelToggleButton>
-        <PanelButton
+          {muted ? <BellOff /> : <Bell />}
+        </ChatPanelToggleAction>
+        <ChatPanelAction
           className="max-md:hidden"
           aria-label="Stop all agents in this channel"
           disabled
         >
-          <PanelButtonIcon>
-            <Square />
-          </PanelButtonIcon>
-        </PanelButton>
-        <PanelButton className="max-md:hidden" aria-label="View participants" disabled>
-          <PanelButtonIcon>
-            <Users />
-          </PanelButtonIcon>
-          <PanelButtonCount>13</PanelButtonCount>
-        </PanelButton>
-        <PanelButton className="max-md:hidden" aria-label="Channel options" disabled>
-          <PanelButtonIcon>
-            <Settings />
-          </PanelButtonIcon>
-        </PanelButton>
-        <PanelButton className="md:hidden" aria-label="More options">
-          <PanelButtonIcon>
-            <EllipsisVertical />
-          </PanelButtonIcon>
-        </PanelButton>
+          <Square />
+        </ChatPanelAction>
+        <ChatPanelAction className="max-md:hidden" aria-label="View participants" disabled>
+          <Users />
+          13
+        </ChatPanelAction>
+        <ChatPanelAction className="max-md:hidden" aria-label="Channel options" disabled>
+          <Settings />
+        </ChatPanelAction>
+        <ChatPanelAction className="md:hidden" aria-label="More options">
+          <EllipsisVertical />
+        </ChatPanelAction>
       </ChatMainPanelActions>
     </ChatMainPanelHeader>
   );

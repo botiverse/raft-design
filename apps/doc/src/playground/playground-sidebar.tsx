@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useMediaQuery } from "foxact/use-media-query";
 import {
   Activity,
   Archive,
@@ -40,10 +41,10 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
   Status,
-  useThemeFamily,
 } from "raft-ui";
 import {
   ChatSidebarBody,
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
@@ -91,6 +92,7 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
+  PLAYGROUND_SERVER_SLUG,
   getPlaygroundDmActor,
   type PlaygroundChannelId,
   type PlaygroundChannelRecord,
@@ -304,7 +306,13 @@ function useSectionOrder<T extends { id: string; name: string }>(rows: readonly 
 }
 
 function channelLink(channelId: PlaygroundChannelId) {
-  return <Link to="/playground/$channelId" params={{ channelId }} search={{}} />;
+  return (
+    <Link
+      to="/playground/s/$serverSlug/channel/$channelId"
+      params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
+      search={{}}
+    />
+  );
 }
 
 function PlaygroundSidebarItem({
@@ -343,6 +351,7 @@ function PlaygroundSidebarItem({
       <ContextMenuTrigger
         render={
           <Item
+            current={current}
             aria-current={current ? "page" : undefined}
             aria-expanded={menuOpen || undefined}
             render={render}
@@ -656,24 +665,23 @@ function DirectMessagesSection({
 export function PlaygroundSidebar({
   activeChannelId,
   liveAgentActivity,
+  mobileBottomNavigation = false,
   title = "Chat",
 }: {
-  activeChannelId: PlaygroundChannelId;
+  activeChannelId: PlaygroundChannelId | null;
   liveAgentActivity: LiveAgentActivityBarItem | null;
+  mobileBottomNavigation?: boolean;
   title?: string;
 }) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
-  const theme = useThemeFamily();
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { activeServer } = usePlaygroundShellState();
-  const selectedChannelId = activeChannelId;
-  const liveAgentContentPad =
-    liveAgentActivity == null
-      ? undefined
-      : theme === "elegant"
-        ? "md:pb-[4.25rem]"
-        : "md:pb-[3.25rem]";
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+  const selectedChannelId = isDesktop ? activeChannelId : null;
+  const mobileNavigationContentPad = mobileBottomNavigation
+    ? "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
+    : undefined;
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
     [closedDmIds],
@@ -688,7 +696,7 @@ export function PlaygroundSidebar({
 
   return (
     <>
-      <ChatSidebarRoot className="relative overflow-x-clip">
+      <ChatSidebarRoot className="relative overflow-clip">
         <ChatSidebarHeader className="md:hidden">
           <PlaygroundSidebarServerSwitcher name={activeServer.name} />
           <div className="min-w-0 flex-1" />
@@ -703,7 +711,7 @@ export function PlaygroundSidebar({
           <SidebarCreateMenu />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <ChatSidebarContent className={liveAgentContentPad}>
+          <ChatSidebarContent className={mobileNavigationContentPad}>
             <div className="min-h-full">
               <ChatSidebarItem className="md:hidden">
                 <ChatSidebarItemIcon aria-hidden>
@@ -720,7 +728,7 @@ export function PlaygroundSidebar({
               </ChatSidebarItem>
 
               <ChatSidebarItem
-                aria-current={railView === "saved" ? "page" : undefined}
+                current={railView === "saved"}
                 onClick={() => selectRailView("saved")}
               >
                 <ChatSidebarItemIcon aria-hidden>
@@ -749,11 +757,9 @@ export function PlaygroundSidebar({
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>
-        {liveAgentActivity ? (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 max-md:hidden">
-            <LiveAgentActivityBarComposition latest={liveAgentActivity} />
-          </div>
-        ) : null}
+        <ChatSidebarActivitySlot>
+          <LiveAgentActivityBarComposition latest={liveAgentActivity} />
+        </ChatSidebarActivitySlot>
       </ChatSidebarRoot>
 
       <AlertDialog
