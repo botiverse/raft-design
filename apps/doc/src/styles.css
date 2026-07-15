@@ -17,6 +17,22 @@ body,
   min-height: 100%;
 }
 
+html[data-standalone] {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body[data-standalone] {
+  min-height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body[data-standalone] #app {
+  height: 100%;
+}
+
 body {
   margin: 0;
   overflow-y: auto;
