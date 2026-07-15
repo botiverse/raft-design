@@ -1,6 +1,7 @@
 import { Outlet } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
 import { useThemeFamily } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import {
   AppShellMainSlot,
   AppShellRoot,
@@ -24,10 +25,11 @@ export function PlaygroundBrowseShell() {
 
   const showMain = isDesktop || railDetailId !== undefined;
   const showSidebar = isDesktop || !showMain;
+  const showBottomNavigation = view === "members" && !showMain;
 
   return (
     <AppShellRoot className="h-full">
-      <PlaygroundRail showBottomNavigation={view === "members" && !showMain} />
+      <PlaygroundRail showBottomNavigation={showBottomNavigation} />
       <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
         {showSidebar ? (
           <>
@@ -39,7 +41,14 @@ export function PlaygroundBrowseShell() {
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
-              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+              <AppShellSidebarSlot
+                className={cn(
+                  "relative flex h-full min-w-0 w-auto flex-1 shrink",
+                  theme === "elegant" &&
+                    showBottomNavigation &&
+                    "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
+                )}
+              >
                 <PlaygroundRailViewSidebar view={view} />
               </AppShellSidebarSlot>
             </ResizablePanel>

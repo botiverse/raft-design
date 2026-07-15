@@ -19,6 +19,7 @@ import {
   AppRailRoot,
   AppShellRailSlot,
   MobileNavItem,
+  MobileNavLabel,
   MobileNavRoot,
 } from "raft-ui/wip";
 import {
@@ -79,6 +80,7 @@ export function MobileNavDestinations({
         aria-label="Home"
       >
         <Home />
+        <MobileNavLabel>Home</MobileNavLabel>
       </MobileNavItem>
       <MobileNavItem
         selected={value === "tasks"}
@@ -86,6 +88,7 @@ export function MobileNavDestinations({
         aria-label="Tasks"
       >
         <CheckSquare />
+        <MobileNavLabel>Tasks</MobileNavLabel>
       </MobileNavItem>
       <MobileNavItem
         selected={value === "members"}
@@ -93,6 +96,7 @@ export function MobileNavDestinations({
         aria-label="Members"
       >
         <Users />
+        <MobileNavLabel>Members</MobileNavLabel>
       </MobileNavItem>
       <MobileNavItem
         selected={value === "settings"}
@@ -100,6 +104,7 @@ export function MobileNavDestinations({
         aria-label="Settings"
       >
         <Settings />
+        <MobileNavLabel>Settings</MobileNavLabel>
       </MobileNavItem>
     </MobileNavRoot>
   );

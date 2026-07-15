@@ -74,6 +74,9 @@ export function PlaygroundChatShell() {
             className={cn(
               "relative flex h-full min-w-0",
               isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
+              theme === "elegant" &&
+                mobileListPanel &&
+                "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
             )}
           >
             <PlaygroundSidebar

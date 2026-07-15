@@ -13,6 +13,7 @@ const mobileNav = tv({
       "disabled:pointer-events-none disabled:opacity-45",
       "[&_svg]:size-[18px] [&_svg]:shrink-0",
     ],
+    itemLabel: ["min-w-0 truncate"],
   },
   variants: {
     theme: {
@@ -41,6 +42,7 @@ const mobileNav = tv({
           "data-[selected=true]:before:pointer-events-none data-[selected=true]:before:absolute data-[selected=true]:before:inset-0 data-[selected=true]:before:z-0 data-[selected=true]:before:rounded-[inherit]",
           "data-[selected=true]:before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_12%)_0%,oklab(0%_0_0_/_6%)_100%)] data-[selected=true]:before:content-['']",
         ],
+        itemLabel: "sr-only",
       },
     },
   },
@@ -81,5 +83,22 @@ export function MobileNavItem({ selected, className, render, ...props }: MobileN
   return useRender({
     render: render ?? <BaseButton />,
     props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type MobileNavLabelProps = useRender.ComponentProps<"span">;
+
+export function MobileNavLabel({ className, render, ...props }: MobileNavLabelProps) {
+  const theme = useThemeFamily();
+  const { itemLabel } = mobileNav({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "mobile-nav-item-label",
+    className: itemLabel({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
   });
 }

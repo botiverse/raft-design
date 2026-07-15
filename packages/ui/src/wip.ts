@@ -35,8 +35,12 @@ export type {
   AppRailNavProps,
   AppRailRootProps,
 } from "./components/app-rail/index";
-export { MobileNavItem, MobileNavRoot } from "./components/mobile-nav";
-export type { MobileNavItemProps, MobileNavRootProps } from "./components/mobile-nav";
+export { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./components/mobile-nav";
+export type {
+  MobileNavItemProps,
+  MobileNavLabelProps,
+  MobileNavRootProps,
+} from "./components/mobile-nav";
 
 export {
   AppShellMainSlot,
