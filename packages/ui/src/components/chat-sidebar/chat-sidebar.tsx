@@ -146,7 +146,10 @@ export function ChatSidebarContent({
         data-slot="chat-sidebar-content"
         className={sidebarViewport()}
       >
-        <ScrollArea.Content className={sidebarContentInner({ className })}>
+        <ScrollArea.Content
+          className={sidebarContentInner({ className })}
+          style={{ minWidth: 0, width: "100%" }}
+        >
           {children}
         </ScrollArea.Content>
       </ScrollArea.Viewport>
