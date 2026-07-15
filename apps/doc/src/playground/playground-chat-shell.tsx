@@ -28,7 +28,7 @@ import { PlaygroundRail } from "./playground-rail.tsx";
 import { PlaygroundSidebar } from "./playground-sidebar.tsx";
 import { PlaygroundThreadPanel } from "./playground-thread-panel.tsx";
 import { usePlaygroundTaskState } from "./playground-task-state.tsx";
-import { usePlaygroundDesktop } from "./use-playground-desktop.ts";
+import { usePlaygroundDesktop, usePlaygroundLargeDesktop } from "./use-playground-desktop.ts";
 
 export function PlaygroundChatShell() {
   const channelMatch = useMatch({
@@ -42,6 +42,7 @@ export function PlaygroundChatShell() {
   const { tasks } = usePlaygroundTaskState();
   const theme = useThemeFamily();
   const isDesktop = usePlaygroundDesktop();
+  const isLargeDesktop = usePlaygroundLargeDesktop();
   const channelId = channelMatch?.params.channelId;
   const { from, panel, thread } = channelRouteMatch?.search ?? {};
 
@@ -68,6 +69,7 @@ export function PlaygroundChatShell() {
       <PlaygroundRail showBottomNavigation={mobileListPanel} />
       <PlaygroundChatLayout
         isDesktop={isDesktop}
+        isLargeDesktop={isLargeDesktop}
         mobileListPanel={mobileListPanel}
         sidebar={
           <AppShellSidebarSlot
@@ -114,6 +116,7 @@ export function PlaygroundChatShell() {
 
 function PlaygroundChatLayout({
   isDesktop,
+  isLargeDesktop,
   main,
   mobileListPanel,
   sidebar,
@@ -121,6 +124,7 @@ function PlaygroundChatLayout({
   thread,
 }: {
   isDesktop: boolean;
+  isLargeDesktop: boolean;
   main: ReactNode;
   mobileListPanel: boolean;
   sidebar: ReactNode;
@@ -150,10 +154,13 @@ function PlaygroundChatLayout({
         {sidebar}
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel id="playground-main" minSize={360} className="min-w-0">
+      <ResizablePanel id="playground-main" minSize={360} className="relative min-w-0">
         <AppShellMainSlot className="flex h-full">{main}</AppShellMainSlot>
+        {thread && !isLargeDesktop ? (
+          <div className="absolute inset-0 z-20 flex min-h-0 min-w-0">{thread}</div>
+        ) : null}
       </ResizablePanel>
-      {thread ? (
+      {thread && isLargeDesktop ? (
         <>
           <ResizableHandle />
           <ResizablePanel

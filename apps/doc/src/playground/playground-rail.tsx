@@ -30,11 +30,15 @@ import {
   AppRailNav,
   AppRailRoot,
   AppShellRailSlot,
+  MobileNavItem,
+  MobileNavLabel,
+  MobileNavRoot,
 } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
   ChevronDown,
+  Home,
   MessageSquare,
   Monitor,
   Search,
@@ -42,7 +46,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { MobileNavDestinations, AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
+import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 import {
   ChatSidebarServer,
@@ -239,11 +243,43 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
         </AppRailRoot>
       </AppShellRailSlot>
       {showBottomNavigation ? (
-        <MobileNavDestinations
-          className="fixed inset-x-0 bottom-0 z-40 mx-auto lg:hidden"
-          value={railView}
-          onValueChange={selectView}
-        />
+        <MobileNavRoot
+          className="fixed inset-x-0 bottom-0 z-40 mx-auto md:hidden"
+          aria-label="Primary navigation"
+        >
+          <MobileNavItem
+            selected={railView === "chat"}
+            onClick={() => selectView("chat")}
+            aria-label="Home"
+          >
+            <Home />
+            <MobileNavLabel>Home</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "tasks"}
+            onClick={() => selectView("tasks")}
+            aria-label="Tasks"
+          >
+            <CheckSquare />
+            <MobileNavLabel>Tasks</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "members"}
+            onClick={() => selectView("members")}
+            aria-label="Members"
+          >
+            <Users />
+            <MobileNavLabel>Members</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "settings"}
+            onClick={() => selectView("settings")}
+            aria-label="Settings"
+          >
+            <Settings />
+            <MobileNavLabel>Settings</MobileNavLabel>
+          </MobileNavItem>
+        </MobileNavRoot>
       ) : null}
     </>
   );

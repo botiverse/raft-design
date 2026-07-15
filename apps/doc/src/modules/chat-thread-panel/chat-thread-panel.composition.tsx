@@ -71,7 +71,7 @@ function ThreadReplies() {
     <>
       <div className="px-3 pt-2">
         <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
-        <ChatThreadPanelReplyCount>2 replies</ChatThreadPanelReplyCount>
+        <ChatThreadPanelReplyCount>12 replies</ChatThreadPanelReplyCount>
       </div>
       <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
       <div className="px-3">
@@ -106,6 +106,25 @@ function ThreadReplies() {
           </MessageItemContent>
         </MessageItemSearchMatch>
       </div>
+      {Array.from({ length: 10 }, (_, index) => (
+        <div key={`thread-overflow-${index}`} className="px-3">
+          <MessageItem>
+            <MessageItemAvatarSlot>
+              <Avatar size="md" type={index % 2 === 0 ? "human" : "agent"} />
+            </MessageItemAvatarSlot>
+            <MessageItemContent>
+              <MessageItemHeader>
+                <MessageItemSender>{index % 2 === 0 ? "Cindy" : "Atlas"}</MessageItemSender>
+                <MessageItemTime>10:{12 + index}</MessageItemTime>
+              </MessageItemHeader>
+              <MessageItemBody>
+                Thread replies continue behind the floating composer while the body remains the only
+                scroll owner.
+              </MessageItemBody>
+            </MessageItemContent>
+          </MessageItem>
+        </div>
+      ))}
       <div className="h-6" aria-hidden />
     </>
   );

@@ -1060,6 +1060,24 @@ export const MIGRATION_GUIDES = [
     ],
   },
   {
+    sourceFile: "packages/web/src/components/brand/SlockBrandLockup.tsx",
+    slug: "components-brand-slockbrandlockup",
+    components: [
+      {
+        component: "logo",
+        componentLabel: "Logo",
+        refs: ["9"],
+        docsHref: "/components/logo#accessibility",
+        migration: [
+          "Static Raft brand assets -> `RaftLogo`, `RaftWordmark`, or `RaftLogoLockup`.",
+          "Use the combined lockup when the mark and wordmark must scale as one graphic.",
+          "Give a standalone SVG an accessible name; use `aria-hidden` when adjacent visible text already names Raft.",
+        ],
+        write: '<RaftLogoLockup role="img" aria-label="Raft" className="h-10 w-auto" />',
+      },
+    ],
+  },
+  {
     sourceFile: "packages/web/src/components/channel/AddMembersDialog.tsx",
     slug: "components-channel-addmembersdialog",
     components: [

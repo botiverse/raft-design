@@ -300,7 +300,13 @@ function beamStyles(id: string, borderRadius: number) {
 @media (prefers-reduced-motion: reduce) { [data-beam="${id}"] { --beam-opacity-${id}: 1; animation: none; } }`;
 }
 
-export function LiveAgentActivityBeam({ children }: { children: ReactNode }) {
+export function LiveAgentActivityBeam({
+  children,
+  enabled,
+}: {
+  children: ReactNode;
+  enabled: boolean;
+}) {
   const id = useId().replace(/:/g, "-");
   const rootRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
@@ -308,6 +314,7 @@ export function LiveAgentActivityBeam({ children }: { children: ReactNode }) {
   const [glowScale, setGlowScale] = useState({ x: 1, y: 1 });
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root) return;
     const child = root.firstElementChild as HTMLElement | null;
@@ -330,9 +337,10 @@ export function LiveAgentActivityBeam({ children }: { children: ReactNode }) {
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(child);
     return () => resizeObserver.disconnect();
-  }, [children]);
+  }, [children, enabled]);
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(
@@ -343,13 +351,14 @@ export function LiveAgentActivityBeam({ children }: { children: ReactNode }) {
     );
     observer.observe(root);
     return () => observer.disconnect();
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     return registerPulseInstance(root, pulseDriverConfig(id));
-  }, [id, visible]);
+  }, [enabled, id, visible]);
 
   const styles = useMemo(() => beamStyles(id, borderRadius), [borderRadius, id]);
   const style = {
@@ -360,10 +369,19 @@ export function LiveAgentActivityBeam({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <style>{styles}</style>
-      <div ref={rootRef} data-beam={id} style={style}>
+      <style>{enabled ? styles : undefined}</style>
+      <div
+        ref={rootRef}
+        data-beam={enabled ? id : undefined}
+        className={enabled ? undefined : "contents"}
+        style={enabled ? style : undefined}
+      >
         {children}
-        <div aria-hidden data-beam-bloom />
+        <div
+          aria-hidden
+          data-beam-bloom={enabled ? "" : undefined}
+          className={enabled ? undefined : "hidden"}
+        />
       </div>
     </>
   );

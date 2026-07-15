@@ -47,6 +47,7 @@ export function LiveAgentActivityBar({
 }: LiveAgentActivityBarProps) {
   const theme = useThemeFamily();
   const { root } = liveAgentActivityBar({ theme });
+
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "aria-live": "polite",
     "data-slot": "live-agent-activity-bar",
@@ -61,11 +62,7 @@ export function LiveAgentActivityBar({
     props: mergeProps<"div">(defaultProps, props),
   });
 
-  if (theme !== "elegant") {
-    return activityBar;
-  }
-
-  return <LiveAgentActivityBeam>{activityBar}</LiveAgentActivityBeam>;
+  return <LiveAgentActivityBeam enabled={theme === "elegant"}>{activityBar}</LiveAgentActivityBeam>;
 }
 
 export type LiveAgentActivityBarRowProps = useRender.ComponentProps<"div">;

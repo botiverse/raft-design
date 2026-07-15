@@ -18,14 +18,10 @@ import {
   AppRailNav,
   AppRailRoot,
   AppShellRailSlot,
-  MobileNavItem,
-  MobileNavLabel,
-  MobileNavRoot,
 } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
-  Home,
   MessageSquare,
   Monitor,
   Search,
@@ -63,55 +59,6 @@ export function AppRailNavItem({
   );
 }
 
-// App-owned mobile bottom-navigation destinations. Shared by this composition and
-// Playground so the two never drift; selection stays coordinated with the desktop rail.
-export function MobileNavDestinations({
-  className,
-  value,
-  onValueChange,
-}: {
-  className?: string;
-  value?: string;
-  onValueChange?: (value: string) => void;
-}) {
-  return (
-    <MobileNavRoot className={className} aria-label="Primary navigation">
-      <MobileNavItem
-        selected={value === "chat"}
-        onClick={() => onValueChange?.("chat")}
-        aria-label="Home"
-      >
-        <Home />
-        <MobileNavLabel>Home</MobileNavLabel>
-      </MobileNavItem>
-      <MobileNavItem
-        selected={value === "tasks"}
-        onClick={() => onValueChange?.("tasks")}
-        aria-label="Tasks"
-      >
-        <CheckSquare />
-        <MobileNavLabel>Tasks</MobileNavLabel>
-      </MobileNavItem>
-      <MobileNavItem
-        selected={value === "members"}
-        onClick={() => onValueChange?.("members")}
-        aria-label="Members"
-      >
-        <Users />
-        <MobileNavLabel>Members</MobileNavLabel>
-      </MobileNavItem>
-      <MobileNavItem
-        selected={value === "settings"}
-        onClick={() => onValueChange?.("settings")}
-        aria-label="Settings"
-      >
-        <Settings />
-        <MobileNavLabel>Settings</MobileNavLabel>
-      </MobileNavItem>
-    </MobileNavRoot>
-  );
-}
-
 export function AppRailComposition() {
   const [view, setView] = useState("chat");
   const [announcement, setAnnouncement] = useState({ message: "", sequence: 0 });
@@ -126,9 +73,9 @@ export function AppRailComposition() {
   }
 
   return (
-    <AppShellRailSlot className="max-md:order-last max-md:flex max-md:h-auto max-md:w-full">
+    <AppShellRailSlot>
       <AppRailRoot>
-        <AppRailHeader className="max-md:hidden">
+        <AppRailHeader>
           <AppRailServerButton
             title="Raft 中文社区"
             aria-label="Switch server (current: Raft 中文社区)"
@@ -145,57 +92,55 @@ export function AppRailComposition() {
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
         <TooltipProvider delay={650}>
-          <div className="hidden min-h-0 w-full flex-1 md:flex">
-            <AppRailNav>
-              <AppRailNavItem
-                selected={view === "search"}
-                onClick={() => selectView("search")}
-                label="Search"
-                icon={<Search />}
-              />
-              <AppRailNavItem
-                selected={view === "chat"}
-                onClick={() => selectView("chat")}
-                label="Chat"
-                icon={<MessageSquare />}
-              />
-              <AppRailNavItem
-                selected={view === "activity"}
-                onClick={() => selectView("activity")}
-                label="Activity"
-                icon={<Activity />}
-                attention={
-                  <AppRailItemAttention>
-                    <Activity />
-                  </AppRailItemAttention>
-                }
-              />
-              <AppRailNavItem
-                selected={view === "tasks"}
-                onClick={() => selectView("tasks")}
-                label="Tasks"
-                icon={<CheckSquare />}
-              />
-              <AppRailNavItem
-                selected={view === "members"}
-                onClick={() => selectView("members")}
-                label="Members"
-                icon={<Users />}
-              />
-              <AppRailNavItem
-                selected={view === "computers"}
-                onClick={() => selectView("computers")}
-                label="Computers"
-                icon={<Monitor />}
-                attention={
-                  <AppRailItemAttention>
-                    <Monitor />
-                  </AppRailItemAttention>
-                }
-              />
-            </AppRailNav>
-          </div>
-          <AppRailFooter className="max-md:hidden">
+          <AppRailNav>
+            <AppRailNavItem
+              selected={view === "search"}
+              onClick={() => selectView("search")}
+              label="Search"
+              icon={<Search />}
+            />
+            <AppRailNavItem
+              selected={view === "chat"}
+              onClick={() => selectView("chat")}
+              label="Chat"
+              icon={<MessageSquare />}
+            />
+            <AppRailNavItem
+              selected={view === "activity"}
+              onClick={() => selectView("activity")}
+              label="Activity"
+              icon={<Activity />}
+              attention={
+                <AppRailItemAttention>
+                  <Activity />
+                </AppRailItemAttention>
+              }
+            />
+            <AppRailNavItem
+              selected={view === "tasks"}
+              onClick={() => selectView("tasks")}
+              label="Tasks"
+              icon={<CheckSquare />}
+            />
+            <AppRailNavItem
+              selected={view === "members"}
+              onClick={() => selectView("members")}
+              label="Members"
+              icon={<Users />}
+            />
+            <AppRailNavItem
+              selected={view === "computers"}
+              onClick={() => selectView("computers")}
+              label="Computers"
+              icon={<Monitor />}
+              attention={
+                <AppRailItemAttention>
+                  <Monitor />
+                </AppRailItemAttention>
+              }
+            />
+          </AppRailNav>
+          <AppRailFooter>
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
@@ -206,9 +151,6 @@ export function AppRailComposition() {
               icon={<Settings />}
             />
           </AppRailFooter>
-          <div className="w-full md:hidden">
-            <MobileNavDestinations value={view} onValueChange={selectView} />
-          </div>
         </TooltipProvider>
       </AppRailRoot>
     </AppShellRailSlot>

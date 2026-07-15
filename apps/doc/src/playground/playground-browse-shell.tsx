@@ -27,6 +27,35 @@ export function PlaygroundBrowseShell() {
   const showSidebar = isDesktop || !showMain;
   const showBottomNavigation = view === "members" && !showMain;
 
+  const sidebar = (
+    <AppShellSidebarSlot
+      className={cn(
+        "relative flex h-full min-w-0",
+        isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
+        theme === "elegant" &&
+          showBottomNavigation &&
+          "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
+      )}
+    >
+      <PlaygroundRailViewSidebar view={view} />
+    </AppShellSidebarSlot>
+  );
+
+  const main = (
+    <AppShellMainSlot className="flex h-full">
+      <Outlet />
+    </AppShellMainSlot>
+  );
+
+  if (!isDesktop) {
+    return (
+      <AppShellRoot className="h-full">
+        <PlaygroundRail showBottomNavigation={showBottomNavigation} />
+        <div className="flex h-full min-h-0 min-w-0 flex-1">{showSidebar ? sidebar : main}</div>
+      </AppShellRoot>
+    );
+  }
+
   return (
     <AppShellRoot className="h-full">
       <PlaygroundRail showBottomNavigation={showBottomNavigation} />
@@ -41,25 +70,14 @@ export function PlaygroundBrowseShell() {
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
-              <AppShellSidebarSlot
-                className={cn(
-                  "relative flex h-full min-w-0 w-auto flex-1 shrink",
-                  theme === "elegant" &&
-                    showBottomNavigation &&
-                    "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
-                )}
-              >
-                <PlaygroundRailViewSidebar view={view} />
-              </AppShellSidebarSlot>
+              {sidebar}
             </ResizablePanel>
             {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
           </>
         ) : null}
         {showMain ? (
           <ResizablePanel id="playground-main" minSize={isDesktop ? 360 : 0} className="min-w-0">
-            <AppShellMainSlot className="flex h-full">
-              <Outlet />
-            </AppShellMainSlot>
+            {main}
           </ResizablePanel>
         ) : null}
       </ResizableGroup>

@@ -1,5 +1,6 @@
 export {
   ChatSidebarBody,
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarFooter,
   ChatSidebarGroupLabel,
@@ -9,6 +10,7 @@ export {
 } from "./chat-sidebar";
 export type {
   ChatSidebarBodyProps,
+  ChatSidebarActivitySlotProps,
   ChatSidebarContentProps,
   ChatSidebarFooterProps,
   ChatSidebarGroupLabelProps,

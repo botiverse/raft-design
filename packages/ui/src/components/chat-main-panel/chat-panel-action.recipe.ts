@@ -3,14 +3,14 @@ import { tv } from "../../lib/tv";
 const chatPanelActionBase = tv({
   base: [
     "relative inline-flex w-auto shrink-0 items-center justify-center",
-    "overflow-visible font-sans leading-none tabular-nums select-none outline-none",
+    "overflow-visible font-sans !leading-none tabular-nums select-none outline-none",
     "transition-all duration-100",
     "[&>svg]:pointer-events-none [&>svg]:shrink-0",
   ],
   variants: {
     theme: {
       brutal: [
-        "rounded-none border-2 border-black bg-white px-1 py-1 text-black",
+        "rounded-none border-2 border-black bg-white px-1 py-[5px] text-black",
         "shadow-brutal-sm",
         "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",

@@ -2,6 +2,7 @@ import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide
 import { useState } from "react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarItemAside,
   ChatSidebarItemBadge,
@@ -43,6 +44,7 @@ import {
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
+import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 
 export function ChatSidebarComposition() {
   const [selectedItem, setSelectedItem] = useState("#proj-uiux");
@@ -326,6 +328,11 @@ export function ChatSidebarComposition() {
           </div>
         </ChatSidebarContent>
       </ChatSidebarBody>
+      <ChatSidebarActivitySlot>
+        <LiveAgentActivityBarComposition
+          latest={{ text: "Preparing the next release candidate" }}
+        />
+      </ChatSidebarActivitySlot>
     </ChatSidebarRoot>
   );
 }

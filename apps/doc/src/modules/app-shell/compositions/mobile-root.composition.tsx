@@ -3,14 +3,11 @@ import { useState } from "react";
 import { useThemeFamily } from "raft-ui";
 import { cn } from "raft-ui/cn";
 import {
-  AppRailItem,
-  AppRailItemIcon,
-  AppRailItemLabel,
-  AppRailNav,
-  AppRailRoot,
-  AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
+  MobileNavItem,
+  MobileNavLabel,
+  MobileNavRoot,
 } from "raft-ui/wip";
 
 export function AppShellMobileRootComposition() {
@@ -24,24 +21,16 @@ export function AppShellMobileRootComposition() {
           Sidebar · root view
         </div>
       </AppShellSidebarSlot>
-      <AppShellRailSlot className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
-        <AppRailRoot>
-          <AppRailNav aria-label="Primary navigation">
-            <AppRailItem selected={value === "home"} onClick={() => setValue("home")}>
-              <AppRailItemIcon>
-                <Home />
-              </AppRailItemIcon>
-              <AppRailItemLabel>Home</AppRailItemLabel>
-            </AppRailItem>
-            <AppRailItem selected={value === "settings"} onClick={() => setValue("settings")}>
-              <AppRailItemIcon>
-                <Settings />
-              </AppRailItemIcon>
-              <AppRailItemLabel>Settings</AppRailItemLabel>
-            </AppRailItem>
-          </AppRailNav>
-        </AppRailRoot>
-      </AppShellRailSlot>
+      <MobileNavRoot className="order-last md:hidden" aria-label="Primary navigation">
+        <MobileNavItem selected={value === "home"} onClick={() => setValue("home")}>
+          <Home />
+          <MobileNavLabel>Home</MobileNavLabel>
+        </MobileNavItem>
+        <MobileNavItem selected={value === "settings"} onClick={() => setValue("settings")}>
+          <Settings />
+          <MobileNavLabel>Settings</MobileNavLabel>
+        </MobileNavItem>
+      </MobileNavRoot>
     </AppShellRoot>
   );
 }

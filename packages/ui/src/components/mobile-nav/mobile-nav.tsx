@@ -1,9 +1,9 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { SlotElementProps } from "../lib/data-attributes";
-import { useThemeFamily } from "../lib/theme/use-theme";
-import { tv } from "../lib/tv";
+import type { SlotElementProps } from "../../lib/data-attributes";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { tv } from "../../lib/tv";
 
 const mobileNav = tv({
   slots: {

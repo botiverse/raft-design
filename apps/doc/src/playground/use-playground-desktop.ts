@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 
-const desktopBreakpoint = 1024;
+const desktopBreakpoint = 768;
+const largeDesktopBreakpoint = 1024;
 
 function subscribe(onStoreChange: () => void) {
   const viewport = window.visualViewport;
@@ -14,8 +15,12 @@ function subscribe(onStoreChange: () => void) {
   };
 }
 
-function getSnapshot() {
+function getDesktopSnapshot() {
   return window.innerWidth >= desktopBreakpoint;
+}
+
+function getLargeDesktopSnapshot() {
+  return window.innerWidth >= largeDesktopBreakpoint;
 }
 
 function getServerSnapshot() {
@@ -23,5 +28,9 @@ function getServerSnapshot() {
 }
 
 export function usePlaygroundDesktop() {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getDesktopSnapshot, getServerSnapshot);
+}
+
+export function usePlaygroundLargeDesktop() {
+  return useSyncExternalStore(subscribe, getLargeDesktopSnapshot, getServerSnapshot);
 }

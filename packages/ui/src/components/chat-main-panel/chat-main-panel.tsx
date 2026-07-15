@@ -193,7 +193,8 @@ export function ChatMainPanelTitleBadge({
 export type ChatMainPanelActionsProps = useRender.ComponentProps<"div">;
 
 export function ChatMainPanelActions({ className, render, ...props }: ChatMainPanelActionsProps) {
-  const { actions } = chatMainPanel();
+  const theme = useThemeFamily();
+  const { actions } = chatMainPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-actions",
     className: actions({ className }),

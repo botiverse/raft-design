@@ -111,7 +111,7 @@ const PROPS: readonly PropRow[] = [
     name: "ChatThreadPanelBody / Footer",
     type: "div props",
     description:
-      "Scrollable message body and composer/footer slot. Message rows remain caller-owned children.",
+      "Scrollable message body and floating composer/footer slot. Override --chat-panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
   },
   {
     name: "MessageTimelineDateDivider / Notice",
@@ -203,6 +203,20 @@ function ChatThreadPanelDoc() {
             <PreviewThemeScope family="elegant" mode="light" className="h-full">
               <ThreadPanelFrame>
                 <ChatThreadPanelComposition state="loading" />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Scrollable replies · Brutal">
+            <PreviewThemeScope family="brutal" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition search={false} />
+              </ThreadPanelFrame>
+            </PreviewThemeScope>
+          </PreviewPane>
+          <PreviewPane label="Scrollable replies · Elegant">
+            <PreviewThemeScope family="elegant" mode="light" className="h-full">
+              <ThreadPanelFrame>
+                <ChatThreadPanelComposition search={false} />
               </ThreadPanelFrame>
             </PreviewThemeScope>
           </PreviewPane>

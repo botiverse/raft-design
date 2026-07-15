@@ -97,7 +97,6 @@ export function PlaygroundThreadPanel({
             <Search />
           </ChatPanelAction>
           <ChatPanelAction
-            className="max-lg:hidden"
             nativeButton={false}
             aria-label="View in channel"
             render={
@@ -110,7 +109,7 @@ export function PlaygroundThreadPanel({
           >
             <ExternalLink />
 
-            <span className="hidden whitespace-nowrap font-medium leading-4 md:inline">
+            <span className="hidden whitespace-nowrap font-medium leading-none md:inline">
               View in channel
             </span>
           </ChatPanelAction>

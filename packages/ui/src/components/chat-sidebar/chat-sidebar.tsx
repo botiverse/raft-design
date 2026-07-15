@@ -146,10 +146,7 @@ export function ChatSidebarContent({
         data-slot="chat-sidebar-content"
         className={sidebarViewport()}
       >
-        <ScrollArea.Content
-          className={sidebarContentInner({ className })}
-          style={{ minWidth: 0, width: "100%" }}
-        >
+        <ScrollArea.Content className={sidebarContentInner({ className })}>
           {children}
         </ScrollArea.Content>
       </ScrollArea.Viewport>
@@ -168,6 +165,33 @@ export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFo
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-footer",
     className: sidebarFooter({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatSidebarActivitySlotProps = useRender.ComponentProps<"div">;
+
+export function ChatSidebarActivitySlot({
+  children,
+  className,
+  render,
+  ...props
+}: ChatSidebarActivitySlotProps) {
+  const theme = useThemeFamily();
+  const { sidebarActivitySlot, sidebarActivitySlotContent } = chatSidebar({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "chat-sidebar-activity-slot",
+    className: sidebarActivitySlot({ className }),
+    children: (
+      <div data-slot="chat-sidebar-activity-slot-content" className={sidebarActivitySlotContent()}>
+        {children}
+      </div>
+    ),
   };
 
   return useRender({

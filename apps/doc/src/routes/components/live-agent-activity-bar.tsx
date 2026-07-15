@@ -2,11 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
+import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -26,6 +26,10 @@ const TOC = [
 const SNIPPETS = {
   composition: liveAgentActivityBarCompositionSource,
 } as const;
+
+type PreviewValues = {
+  active: boolean;
+};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -84,11 +88,18 @@ function LiveAgentActivityBarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.composition} previewClassName="items-stretch">
-          <div className="w-72 self-center overflow-hidden border-x border-line-subtle">
-            <LiveAgentActivityBarComposition latest={LIVE_AGENT_ACTIVITY_PREVIEW} />
-          </div>
-        </Example>
+        <ComponentPlayground<PreviewValues>
+          defaultValues={{ active: true }}
+          controls={[{ name: "active", label: "Activity", type: "boolean" }]}
+          previewClassName="overflow-visible"
+          render={(values) => (
+            <div className="w-72 self-center overflow-visible border-x border-line-subtle">
+              <LiveAgentActivityBarComposition
+                latest={values.active ? LIVE_AGENT_ACTIVITY_PREVIEW : null}
+              />
+            </div>
+          )}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

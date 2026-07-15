@@ -50,6 +50,7 @@ import { Route as ComponentsPopoverRouteImport } from './routes/components/popov
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
+import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
 import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
 import { Route as ComponentsLabelRouteImport } from './routes/components/label'
@@ -308,6 +309,11 @@ const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
 const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
   id: '/message-item',
   path: '/message-item',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
+  id: '/logo',
+  path: '/logo',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsLiveAgentActivityBarRoute =
@@ -609,6 +615,7 @@ export interface FileRoutesByFullPath {
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
+  '/components/logo': typeof ComponentsLogoRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
@@ -699,6 +706,7 @@ export interface FileRoutesByTo {
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
+  '/components/logo': typeof ComponentsLogoRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
@@ -791,6 +799,7 @@ export interface FileRoutesById {
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
+  '/components/logo': typeof ComponentsLogoRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
@@ -884,6 +893,7 @@ export interface FileRouteTypes {
     | '/components/label'
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
+    | '/components/logo'
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
@@ -974,6 +984,7 @@ export interface FileRouteTypes {
     | '/components/label'
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
+    | '/components/logo'
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
@@ -1065,6 +1076,7 @@ export interface FileRouteTypes {
     | '/components/label'
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
+    | '/components/logo'
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
@@ -1421,6 +1433,13 @@ declare module '@tanstack/react-router' {
       path: '/message-item'
       fullPath: '/components/message-item'
       preLoaderRoute: typeof ComponentsMessageItemRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/logo': {
+      id: '/components/logo'
+      path: '/logo'
+      fullPath: '/components/logo'
+      preLoaderRoute: typeof ComponentsLogoRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/live-agent-activity-bar': {
@@ -1904,6 +1923,7 @@ interface ComponentsRouteChildren {
   ComponentsLabelRoute: typeof ComponentsLabelRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
+  ComponentsLogoRoute: typeof ComponentsLogoRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
@@ -1963,6 +1983,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLabelRoute: ComponentsLabelRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
+  ComponentsLogoRoute: ComponentsLogoRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,

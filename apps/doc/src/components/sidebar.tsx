@@ -39,6 +39,7 @@ const NAV = [
       { label: "AppShell", to: "/components/app-shell", status: "wip" },
       { label: "AppRail", to: "/components/app-rail", status: "wip" },
       { label: "MobileNav", to: "/components/mobile-nav", status: "wip" },
+      { label: "Logo", to: "/components/logo", status: "wip" },
       { label: "AppPanelStack", to: "/components/app-panel-stack", status: "wip" },
       { label: "Separator", to: "/components/separator", status: "done" },
       {

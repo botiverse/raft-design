@@ -2,7 +2,11 @@ import { tv } from "../../lib/tv";
 
 export const chatMainPanel = tv({
   slots: {
-    root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col", "text-foreground"],
+    root: [
+      "flex h-full min-h-0 min-w-0 flex-1 flex-col",
+      "[--chat-panel-footer-clearance:10rem]",
+      "text-foreground",
+    ],
     header: [
       "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5",
       "[@media(max-height:600px)]:h-12",
@@ -62,6 +66,7 @@ export const chatMainPanel = tv({
         title: "text-black",
         subtitle: "text-black/50",
         titleBadge: "border-2 border-black bg-brutal-orange/25 text-black",
+        actions: "max-md:gap-1.5",
         content: "bg-white",
         tabs: [
           "border-b-2 border-black bg-white",
@@ -130,7 +135,7 @@ export const chatMainPanel = tv({
         ],
         body: "bg-layer-panel",
         timelineViewport: "bg-layer-panel",
-        timelineContent: "pb-40",
+        timelineContent: "pb-[var(--chat-panel-footer-clearance)]",
         timelineScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         footer: [
           "absolute inset-x-0 bottom-0 z-40",

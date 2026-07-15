@@ -234,6 +234,7 @@ export type {
 
 export {
   ChatSidebarBody,
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarFooter,
   ChatSidebarGroupLabel,
@@ -279,6 +280,7 @@ export {
 } from "./components/chat-sidebar/index";
 export type {
   ChatSidebarBodyProps,
+  ChatSidebarActivitySlotProps,
   ChatSidebarContentProps,
   ChatSidebarFooterProps,
   ChatSidebarGroupLabelProps,

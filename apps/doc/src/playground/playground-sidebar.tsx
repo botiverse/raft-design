@@ -41,11 +41,10 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
   Status,
-  useThemeFamily,
 } from "raft-ui";
-import { cn } from "raft-ui/cn";
 import {
   ChatSidebarBody,
+  ChatSidebarActivitySlot,
   ChatSidebarContent,
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
@@ -676,19 +675,12 @@ export function PlaygroundSidebar({
 }) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
-  const theme = useThemeFamily();
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { activeServer } = usePlaygroundShellState();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const selectedChannelId = isDesktop ? activeChannelId : null;
-  const liveAgentContentPad =
-    liveAgentActivity == null
-      ? undefined
-      : theme === "elegant"
-        ? "md:pb-[4.25rem]"
-        : "md:pb-[3.25rem]";
   const mobileNavigationContentPad = mobileBottomNavigation
-    ? "max-lg:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
+    ? "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
     : undefined;
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
@@ -719,7 +711,7 @@ export function PlaygroundSidebar({
           <SidebarCreateMenu />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <ChatSidebarContent className={cn(liveAgentContentPad, mobileNavigationContentPad)}>
+          <ChatSidebarContent className={mobileNavigationContentPad}>
             <div className="min-h-full">
               <ChatSidebarItem className="md:hidden">
                 <ChatSidebarItemIcon aria-hidden>
@@ -765,29 +757,9 @@ export function PlaygroundSidebar({
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>
-        {liveAgentActivity ? (
-          <div
-            className={
-              theme === "elegant"
-                ? [
-                    "pointer-events-none absolute inset-x-0 bottom-3 z-10 max-md:hidden",
-                    "before:pointer-events-none before:absolute before:inset-x-0 before:-bottom-3 before:z-0 before:h-20",
-                    "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-page))] before:backdrop-blur-[4px]",
-                    "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
-                    "before:content-[''] [&>*]:relative [&>*]:z-10",
-                  ].join(" ")
-                : "pointer-events-none absolute inset-x-0 bottom-0 z-40 max-md:hidden"
-            }
-          >
-            {theme === "elegant" ? (
-              <div className="ml-[calc(var(--sidebar-inset-x,26px)-var(--sidebar-row-inset-x,6px))] mr-[calc(var(--sidebar-inset-end,var(--sidebar-inset-x,26px))-var(--sidebar-row-inset-x,6px))]">
-                <LiveAgentActivityBarComposition latest={liveAgentActivity} />
-              </div>
-            ) : (
-              <LiveAgentActivityBarComposition latest={liveAgentActivity} />
-            )}
-          </div>
-        ) : null}
+        <ChatSidebarActivitySlot>
+          <LiveAgentActivityBarComposition latest={liveAgentActivity} />
+        </ChatSidebarActivitySlot>
       </ChatSidebarRoot>
 
       <AlertDialog
