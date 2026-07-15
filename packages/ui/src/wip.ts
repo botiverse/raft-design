@@ -114,6 +114,7 @@ export type {
 export {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
+  ChatThreadPanelContent,
   ChatThreadPanelFooter,
   ChatThreadPanelParent,
   ChatThreadPanelReplyCount,
@@ -129,6 +130,7 @@ export {
 export type {
   ChatThreadPanelActionsProps,
   ChatThreadPanelBodyProps,
+  ChatThreadPanelContentProps,
   ChatThreadPanelFooterProps,
   ChatThreadPanelParentProps,
   ChatThreadPanelReplyCountProps,

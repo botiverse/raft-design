@@ -4,6 +4,7 @@ import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lu
 import {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
+  ChatThreadPanelContent,
   ChatThreadPanelHeader,
   ChatThreadPanelParent,
   ChatThreadPanelReplyCount,
@@ -126,65 +127,67 @@ export function PlaygroundThreadPanel({
           </ChatPanelAction>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
-      {searchOpen ? (
-        <ChatThreadPanelSearch>
-          <ChatThreadPanelSearchIcon render={<Search />} />
-          <ChatThreadPanelSearchInput
-            aria-label="Search this thread"
-            placeholder="Search this thread"
-            value={searchQuery}
-            onChange={(event) => {
-              setSearchQuery(event.target.value);
-              setActiveMatchIndex(0);
-            }}
-          />
-          <ChatThreadPanelSearchCount aria-live="polite">
-            {matchCountLabel}
-          </ChatThreadPanelSearchCount>
-          <ChatPanelAction
-            aria-label="Previous match"
-            disabled={!matchingMessages.length}
-            onClick={() => moveToMatch(-1)}
-          >
-            <ChevronUp />
-          </ChatPanelAction>
-          <ChatPanelAction
-            aria-label="Next match"
-            disabled={!matchingMessages.length}
-            onClick={() => moveToMatch(1)}
-          >
-            <ChevronDown />
-          </ChatPanelAction>
-          <ChatPanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
-            <X />
-          </ChatPanelAction>
-        </ChatThreadPanelSearch>
-      ) : null}
-      <ChatThreadPanelParent>
-        <PlaygroundMessageRow
-          message={thread.parent}
-          searchMatch={activeMatch?.id === thread.parent.id}
-          threadId={thread.parent.id}
-        />
-      </ChatThreadPanelParent>
-      <ChatThreadPanelBody>
-        <div className="px-3 pt-2">
-          <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
-          <ChatThreadPanelReplyCount>
-            {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
-          </ChatThreadPanelReplyCount>
-        </div>
-        {thread.replies.map((message) => (
+      <ChatThreadPanelContent>
+        {searchOpen ? (
+          <ChatThreadPanelSearch>
+            <ChatThreadPanelSearchIcon render={<Search />} />
+            <ChatThreadPanelSearchInput
+              aria-label="Search this thread"
+              placeholder="Search this thread"
+              value={searchQuery}
+              onChange={(event) => {
+                setSearchQuery(event.target.value);
+                setActiveMatchIndex(0);
+              }}
+            />
+            <ChatThreadPanelSearchCount aria-live="polite">
+              {matchCountLabel}
+            </ChatThreadPanelSearchCount>
+            <ChatPanelAction
+              aria-label="Previous match"
+              disabled={!matchingMessages.length}
+              onClick={() => moveToMatch(-1)}
+            >
+              <ChevronUp />
+            </ChatPanelAction>
+            <ChatPanelAction
+              aria-label="Next match"
+              disabled={!matchingMessages.length}
+              onClick={() => moveToMatch(1)}
+            >
+              <ChevronDown />
+            </ChatPanelAction>
+            <ChatPanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
+              <X />
+            </ChatPanelAction>
+          </ChatThreadPanelSearch>
+        ) : null}
+        <ChatThreadPanelParent>
           <PlaygroundMessageRow
-            key={message.id}
-            message={message}
-            searchMatch={activeMatch?.id === message.id}
+            message={thread.parent}
+            searchMatch={activeMatch?.id === thread.parent.id}
             threadId={thread.parent.id}
           />
-        ))}
-        <div className="h-6" aria-hidden />
-      </ChatThreadPanelBody>
-      <PlaygroundThreadComposer channel={channel} label="Message thread" />
+        </ChatThreadPanelParent>
+        <ChatThreadPanelBody>
+          <div className="px-3 pt-2">
+            <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
+            <ChatThreadPanelReplyCount>
+              {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
+            </ChatThreadPanelReplyCount>
+          </div>
+          {thread.replies.map((message) => (
+            <PlaygroundMessageRow
+              key={message.id}
+              message={message}
+              searchMatch={activeMatch?.id === message.id}
+              threadId={thread.parent.id}
+            />
+          ))}
+          <div className="h-6" aria-hidden />
+        </ChatThreadPanelBody>
+        <PlaygroundThreadComposer channel={channel} label="Message thread" />
+      </ChatThreadPanelContent>
     </ChatThreadPanelRoot>
   );
 }

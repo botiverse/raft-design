@@ -1,6 +1,7 @@
 export {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
+  ChatThreadPanelContent,
   ChatThreadPanelFooter,
   ChatThreadPanelHeader,
   ChatThreadPanelParent,
@@ -16,6 +17,7 @@ export {
 export type {
   ChatThreadPanelActionsProps,
   ChatThreadPanelBodyProps,
+  ChatThreadPanelContentProps,
   ChatThreadPanelFooterProps,
   ChatThreadPanelHeaderProps,
   ChatThreadPanelParentProps,

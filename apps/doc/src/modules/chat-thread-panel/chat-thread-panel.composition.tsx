@@ -11,6 +11,7 @@ import {
 import {
   ChatThreadPanelActions,
   ChatThreadPanelBody,
+  ChatThreadPanelContent,
   ChatThreadPanelFooter,
   ChatThreadPanelHeader,
   ChatThreadPanelParent,
@@ -154,31 +155,33 @@ export function ChatThreadPanelComposition({
           </ChatPanelAction>
         </ChatThreadPanelActions>
       </ChatThreadPanelHeader>
-      {search ? <ThreadSearchRow /> : null}
-      <ChatThreadPanelParent>
-        <MessageItem>
-          <MessageItemAvatarSlot>
-            <Avatar size="md" type="human" />
-          </MessageItemAvatarSlot>
-          <MessageItemContent>
-            <MessageItemHeader>
-              <MessageItemSender>Cindy</MessageItemSender>
-              <MessageItemTime>10:08</MessageItemTime>
-            </MessageItemHeader>
-            <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
-          </MessageItemContent>
-        </MessageItem>
-      </ChatThreadPanelParent>
-      <ChatThreadPanelBody>
-        {state === "empty" ? (
-          <ThreadEmpty />
-        ) : state === "loading" ? (
-          <ThreadLoading />
-        ) : (
-          <ThreadReplies />
-        )}
-      </ChatThreadPanelBody>
-      <ChatThreadPanelFooter>Reply composer slot</ChatThreadPanelFooter>
+      <ChatThreadPanelContent>
+        {search ? <ThreadSearchRow /> : null}
+        <ChatThreadPanelParent>
+          <MessageItem>
+            <MessageItemAvatarSlot>
+              <Avatar size="md" type="human" />
+            </MessageItemAvatarSlot>
+            <MessageItemContent>
+              <MessageItemHeader>
+                <MessageItemSender>Cindy</MessageItemSender>
+                <MessageItemTime>10:08</MessageItemTime>
+              </MessageItemHeader>
+              <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
+            </MessageItemContent>
+          </MessageItem>
+        </ChatThreadPanelParent>
+        <ChatThreadPanelBody>
+          {state === "empty" ? (
+            <ThreadEmpty />
+          ) : state === "loading" ? (
+            <ThreadLoading />
+          ) : (
+            <ThreadReplies />
+          )}
+        </ChatThreadPanelBody>
+        <ChatThreadPanelFooter>Reply composer slot</ChatThreadPanelFooter>
+      </ChatThreadPanelContent>
     </ChatThreadPanelRoot>
   );
 }

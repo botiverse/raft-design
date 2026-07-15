@@ -11,6 +11,7 @@ const chatThreadPanel = tv({
       "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-3 px-5",
       "[@media(max-height:600px)]:h-12",
     ],
+    content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     title: ["min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],
     actions: ["flex shrink-0 items-center gap-1.5"],
@@ -22,7 +23,8 @@ const chatThreadPanel = tv({
     parent: ["shrink-0 px-3 py-1"],
     replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
     footer: [
-      "relative flex shrink-0 items-center px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]",
+      "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
+      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
       "text-xs",
     ],
   },
@@ -31,6 +33,7 @@ const chatThreadPanel = tv({
       brutal: {
         root: "bg-white font-sans text-black",
         header: "border-b-2 border-black bg-white",
+        content: "bg-white",
         title: "text-black",
         titleMeta: "text-black/50",
         search: "border-b-2 border-black bg-white",
@@ -43,8 +46,16 @@ const chatThreadPanel = tv({
       },
       elegant: {
         root: "bg-transparent font-sans text-foreground",
-        header: "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
-        title: "text-foreground-strong",
+        header: [
+          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-md:z-10 [@media(max-height:600px)]:h-auto",
+          "border-b-0 bg-layer-page",
+        ],
+        content: ["relative overflow-clip", "bg-layer-panel shadow-xl"],
+        title: [
+          "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
+          "text-foreground-muted",
+          "max-md:leading-none",
+        ],
         titleMeta: "text-foreground-muted",
         search: "border-b border-line-subtle bg-transparent",
         searchIcon: "text-foreground-muted",
@@ -54,7 +65,8 @@ const chatThreadPanel = tv({
         parent: "border-b border-line-subtle bg-transparent",
         replyCount: "border-line-muted text-foreground-muted",
         footer: [
-          "px-7 pt-3 pb-[calc(env(safe-area-inset-bottom)+1.75rem)]",
+          "max-md:px-2.5 md:px-7 max-md:pt-3 md:pt-0",
+          "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-3",
           "border-t-0 bg-transparent text-foreground-muted",
         ],
       },
@@ -87,6 +99,27 @@ export function ChatThreadPanelHeader({ className, render, ...props }: ChatThrea
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-thread-panel-header",
     className: header({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ChatThreadPanelContentProps = useRender.ComponentProps<"div">;
+
+export function ChatThreadPanelContent({
+  className,
+  render,
+  ...props
+}: ChatThreadPanelContentProps) {
+  const theme = useThemeFamily();
+  const { content } = chatThreadPanel({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "chat-thread-panel-content",
+    className: content({ className }),
   };
 
   return useRender({

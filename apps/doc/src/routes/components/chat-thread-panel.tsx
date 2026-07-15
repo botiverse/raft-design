@@ -49,6 +49,7 @@ const SNIPPETS = {
       </ChatPanelAction>
     </ChatThreadPanelActions>
   </ChatThreadPanelHeader>
+  <ChatThreadPanelContent>
   <ChatThreadPanelSearch>
     <ChatThreadPanelSearchIcon />
     <ChatThreadPanelSearchInput />
@@ -68,6 +69,7 @@ const SNIPPETS = {
     <MessageItemSearchMatch />
   </ChatThreadPanelBody>
   <ChatThreadPanelFooter />
+  </ChatThreadPanelContent>
 </ChatThreadPanelRoot>`,
 } as const;
 
@@ -81,6 +83,11 @@ const PROPS: readonly PropRow[] = [
     name: "ChatThreadPanelHeader / Title / Actions",
     type: "div / h2 props",
     description: "Fixed thread header regions matching source panel chrome.",
+  },
+  {
+    name: "ChatThreadPanelContent",
+    type: "div props",
+    description: "Thread surface below the header, including search, messages, and composer slots.",
   },
   {
     name: "ChatPanelAction",
