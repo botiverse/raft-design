@@ -116,14 +116,22 @@ function PlaygroundChannelSidebarSlot({
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
 
+  if (!isDesktop) {
+    return (
+      <div className={cn("flex h-full min-h-0 min-w-0 flex-1", !mobileVisible && "hidden")}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <ResizablePanel
       id={`playground-sidebar-${theme}`}
       defaultSize={theme === "brutal" ? 240 : 252}
-      minSize={isDesktop ? 180 : 0}
+      minSize={180}
       maxSize={368}
       groupResizeBehavior="preserve-pixel-size"
-      className={cn("min-w-0", !mobileVisible && "max-md:hidden")}
+      className="min-w-0"
     >
       {children}
     </ResizablePanel>
@@ -139,12 +147,16 @@ function PlaygroundChannelMainSlot({
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
 
+  if (!isDesktop) {
+    return (
+      <div className={cn("flex h-full min-h-0 min-w-0 flex-1", hiddenOnMobile && "hidden")}>
+        <AppShellMainSlot className="flex h-full">{children}</AppShellMainSlot>
+      </div>
+    );
+  }
+
   return (
-    <ResizablePanel
-      id="playground-main"
-      minSize={isDesktop ? 360 : 0}
-      className={cn("min-w-0", hiddenOnMobile && "max-md:hidden")}
-    >
+    <ResizablePanel id="playground-main" minSize={360} className="min-w-0">
       <AppShellMainSlot className="flex h-full">{children}</AppShellMainSlot>
     </ResizablePanel>
   );
@@ -153,11 +165,15 @@ function PlaygroundChannelMainSlot({
 function PlaygroundChannelThreadSlot({ children }: { children: ReactNode }) {
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
 
+  if (!isDesktop) {
+    return <div className="flex h-full min-h-0 min-w-0 flex-1">{children}</div>;
+  }
+
   return (
     <ResizablePanel
       id="playground-thread"
       defaultSize={400}
-      minSize={isDesktop ? 320 : 0}
+      minSize={320}
       maxSize={560}
       groupResizeBehavior="preserve-pixel-size"
       className="min-w-0"

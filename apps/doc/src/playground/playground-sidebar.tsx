@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useMediaQuery } from "foxact/use-media-query";
 import {
   Activity,
   Archive,
@@ -350,6 +351,7 @@ function PlaygroundSidebarItem({
       <ContextMenuTrigger
         render={
           <Item
+            current={current}
             aria-current={current ? "page" : undefined}
             aria-expanded={menuOpen || undefined}
             render={render}
@@ -674,7 +676,8 @@ export function PlaygroundSidebar({
   const theme = useThemeFamily();
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { activeServer } = usePlaygroundShellState();
-  const selectedChannelId = activeChannelId;
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+  const selectedChannelId = isDesktop ? activeChannelId : null;
   const liveAgentContentPad =
     liveAgentActivity == null
       ? undefined
@@ -727,7 +730,7 @@ export function PlaygroundSidebar({
               </ChatSidebarItem>
 
               <ChatSidebarItem
-                aria-current={railView === "saved" ? "page" : undefined}
+                current={railView === "saved"}
                 onClick={() => selectRailView("saved")}
               >
                 <ChatSidebarItemIcon aria-hidden>

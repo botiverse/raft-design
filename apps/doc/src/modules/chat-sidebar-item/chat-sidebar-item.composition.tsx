@@ -28,7 +28,7 @@ export function ChatSidebarItemStatesComposition() {
     <div className="grid w-full max-w-2xl gap-6 md:grid-cols-2">
       <StateGroup title="Channel rows">
         <ChatSidebarItem
-          aria-current={currentItem === "selected" ? "page" : undefined}
+          current={currentItem === "selected"}
           onClick={() => setCurrentItem("selected")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
@@ -41,7 +41,7 @@ export function ChatSidebarItemStatesComposition() {
         </ChatSidebarItem>
 
         <ChatSidebarItem
-          aria-current={currentItem === "channel" ? "page" : undefined}
+          current={currentItem === "channel"}
           onClick={() => setCurrentItem("channel")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
@@ -54,7 +54,7 @@ export function ChatSidebarItemStatesComposition() {
         </ChatSidebarItem>
 
         <ChatSidebarItemUnread
-          aria-current={currentItem === "unread" ? "page" : undefined}
+          current={currentItem === "unread"}
           onClick={() => setCurrentItem("unread")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
@@ -67,7 +67,7 @@ export function ChatSidebarItemStatesComposition() {
         </ChatSidebarItemUnread>
 
         <ChatSidebarItemUnread
-          aria-current={currentItem === "mention" ? "page" : undefined}
+          current={currentItem === "mention"}
           onClick={() => setCurrentItem("mention")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
@@ -87,10 +87,7 @@ export function ChatSidebarItemStatesComposition() {
       </StateGroup>
 
       <StateGroup title="Metadata and direct messages">
-        <ChatSidebarItem
-          aria-current={currentItem === "draft" ? "page" : undefined}
-          onClick={() => setCurrentItem("draft")}
-        >
+        <ChatSidebarItem current={currentItem === "draft"} onClick={() => setCurrentItem("draft")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
@@ -105,10 +102,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
-        <ChatSidebarItem
-          aria-current={currentItem === "muted" ? "page" : undefined}
-          onClick={() => setCurrentItem("muted")}
-        >
+        <ChatSidebarItem current={currentItem === "muted"} onClick={() => setCurrentItem("muted")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
@@ -123,10 +117,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
-        <ChatSidebarItemUnread
-          aria-current={currentItem === "dm" ? "page" : undefined}
-          onClick={() => setCurrentItem("dm")}
-        >
+        <ChatSidebarItemUnread current={currentItem === "dm"} onClick={() => setCurrentItem("dm")}>
           <ChatSidebarItemIcon>
             <Avatar size="2xs" type="human">
               <AvatarFallback>C</AvatarFallback>

@@ -7,10 +7,13 @@ import { Badge, type BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebarItem, chatSidebarItemInlineText } from "./chat-sidebar-item.recipe";
 
-export type ChatSidebarItemProps = useRender.ComponentProps<"button">;
+export type ChatSidebarItemProps = useRender.ComponentProps<"button"> & {
+  current?: boolean;
+};
 
 function ChatSidebarItemRoot({
   className,
+  current = false,
   render,
   unread = false,
   ...props
@@ -20,6 +23,7 @@ function ChatSidebarItemRoot({
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "chat-sidebar-item",
+    "data-current": current ? "true" : undefined,
     "data-unread": unread ? "true" : undefined,
     className: sidebarItem({ className }),
   };

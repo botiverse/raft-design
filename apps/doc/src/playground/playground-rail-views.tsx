@@ -242,7 +242,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
                   <ChatSidebarGroupLabel>{detail.group}</ChatSidebarGroupLabel>
                 ) : null}
                 <ChatSidebarItem
-                  aria-current={selectedId === detail.id ? "page" : undefined}
+                  current={selectedId === detail.id}
                   onClick={() => selectRailDetail(detail.id)}
                 >
                   <ChatSidebarItemIcon aria-hidden>
