@@ -83,6 +83,7 @@ export const composer = tv({
         ],
         toolbar: "translate-y-1 gap-2 px-2.5 pt-1 pb-2.5 md:px-3 md:pb-3",
         actions: "gap-1.5",
+        attachments: "justify-center pt-0.5",
         iconButton: [
           "p-[7px]",
           "text-foreground-icon",
@@ -99,7 +100,7 @@ export const composer = tv({
         ],
         attachmentImage: "rounded-md border-line-subtle",
         attachmentFile:
-          "h-13 w-36 gap-3 rounded-md border-0 bg-layer-panel px-2.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
+          "h-[54px] w-36 gap-3 rounded-md border-0 bg-layer-panel pr-2.5 pl-1.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
         attachmentTitle: "font-medium text-foreground-strong",
         attachmentMeta: "text-foreground-placeholder",
         attachmentProgress: "bg-ink-6",

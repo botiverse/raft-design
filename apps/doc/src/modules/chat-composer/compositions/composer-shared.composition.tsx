@@ -22,16 +22,27 @@ import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 export function ComposerAttachmentsComposition({
   image = true,
   file = true,
+  fileCount,
   failed = true,
   onRemove,
   onRetry,
 }: {
   image?: boolean;
   file?: boolean;
+  fileCount?: number;
   failed?: boolean;
   onRemove?: (name: string) => void;
   onRetry?: (name: string) => void;
 } = {}) {
+  const maxFileCount = 10 - Number(image) - Number(failed);
+  const files = Array.from(
+    { length: Math.min(fileCount ?? Number(file), maxFileCount) },
+    (_, index) => ({
+      name: index === 0 ? "release-notes.pdf" : `attachment-${index + 1}.pdf`,
+      size: index === 0 ? "18 KB" : `${12 + index * 7} KB`,
+    }),
+  );
+
   return (
     <ComposerAttachments>
       {image ? (
@@ -51,33 +62,33 @@ export function ComposerAttachmentsComposition({
           </ComposerAttachmentRemove>
         </ComposerAttachment>
       ) : null}
-      {file ? (
-        <ComposerAttachment>
+      {files.map((item) => (
+        <ComposerAttachment key={item.name}>
           <ComposerAttachmentFile>
             <FilePreview>
-              <FilePreviewDocument>
+              <FilePreviewDocument className="rounded-none rounded-tr-[15%]">
                 <FilePreviewBadge>PDF</FilePreviewBadge>
               </FilePreviewDocument>
             </FilePreview>
             <ComposerAttachmentBody>
-              <ComposerAttachmentTitle>release-notes.pdf</ComposerAttachmentTitle>
-              <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+              <ComposerAttachmentTitle>{item.name}</ComposerAttachmentTitle>
+              <ComposerAttachmentMeta>{item.size}</ComposerAttachmentMeta>
             </ComposerAttachmentBody>
           </ComposerAttachmentFile>
           <ComposerAttachmentRemove
-            aria-label="Remove release-notes.pdf"
+            aria-label={`Remove ${item.name}`}
             disabled={!onRemove}
-            onClick={() => onRemove?.("release-notes.pdf")}
+            onClick={() => onRemove?.(item.name)}
           >
             <X />
           </ComposerAttachmentRemove>
         </ComposerAttachment>
-      ) : null}
+      ))}
       {failed ? (
         <ComposerAttachment>
           <ComposerAttachmentFile>
             <FilePreview>
-              <FilePreviewDocument>
+              <FilePreviewDocument className="rounded-none rounded-tr-[15%]">
                 <FilePreviewBadge>KEY</FilePreviewBadge>
               </FilePreviewDocument>
             </FilePreview>

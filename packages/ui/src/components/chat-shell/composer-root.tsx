@@ -5,11 +5,12 @@ import { tv, type VariantProps } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerRoot = tv({
-  base: ["flex w-full flex-col gap-2"],
+  base: ["flex w-full flex-col"],
   variants: {
     theme: {
-      brutal: {},
+      brutal: "gap-2",
       elegant: [
+        "gap-[6px]",
         "has-[>[data-slot=composer-attachments]]:relative",
         "has-[>[data-slot=composer-attachments]]:isolate",
         "has-[>[data-slot=composer-attachments]]:before:pointer-events-none",

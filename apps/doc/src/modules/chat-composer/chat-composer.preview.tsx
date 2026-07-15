@@ -21,6 +21,7 @@ type ComposerPreviewValues = {
   draft: string;
   imageUpload: boolean;
   fileUpload: boolean;
+  manyAttachments: boolean;
   failedUpload: boolean;
   dropOverlay: boolean;
 };
@@ -32,23 +33,34 @@ export function ChatComposerPreview() {
         draft: "",
         imageUpload: false,
         fileUpload: false,
+        manyAttachments: false,
         failedUpload: false,
         dropOverlay: false,
       }}
       controls={[
         { group: "Attachments", name: "imageUpload", label: "Image upload", type: "boolean" },
         { group: "Attachments", name: "fileUpload", label: "File upload", type: "boolean" },
+        {
+          group: "Attachments",
+          name: "manyAttachments",
+          label: "Many attachments",
+          type: "boolean",
+        },
         { group: "Attachments", name: "failedUpload", label: "Failed upload", type: "boolean" },
         { group: "Feedback", name: "dropOverlay", label: "Drop overlay", type: "boolean" },
       ]}
       previewClassName="items-stretch"
       render={(values, onValueChange) => (
-        <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end px-2">
+        <div className="flex min-h-[22rem] w-full min-w-0 flex-col justify-end px-2">
           <ComposerRoot positioned={values.dropOverlay}>
-            {values.imageUpload || values.fileUpload || values.failedUpload ? (
+            {values.imageUpload ||
+            values.fileUpload ||
+            values.manyAttachments ||
+            values.failedUpload ? (
               <ComposerAttachmentsComposition
                 image={values.imageUpload}
                 file={values.fileUpload}
+                fileCount={values.manyAttachments ? 10 : undefined}
                 failed={values.failedUpload}
               />
             ) : null}
