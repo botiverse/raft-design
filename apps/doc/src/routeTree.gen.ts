@@ -48,6 +48,7 @@ import { Route as ComponentsProgressRouteImport } from './routes/components/prog
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
 import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
@@ -299,6 +300,11 @@ const ComponentsNotificationCenterRoute =
     path: '/notification-center',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
+  id: '/mobile-nav',
+  path: '/mobile-nav',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
   id: '/message-item',
   path: '/message-item',
@@ -604,6 +610,7 @@ export interface FileRoutesByFullPath {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
+  '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
@@ -693,6 +700,7 @@ export interface FileRoutesByTo {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
+  '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
@@ -784,6 +792,7 @@ export interface FileRoutesById {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
+  '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
@@ -876,6 +885,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
     | '/components/message-item'
+    | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
     | '/components/preview-card'
@@ -965,6 +975,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
     | '/components/message-item'
+    | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
     | '/components/preview-card'
@@ -1055,6 +1066,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
     | '/components/message-item'
+    | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
     | '/components/preview-card'
@@ -1395,6 +1407,13 @@ declare module '@tanstack/react-router' {
       path: '/notification-center'
       fullPath: '/components/notification-center'
       preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/mobile-nav': {
+      id: '/components/mobile-nav'
+      path: '/mobile-nav'
+      fullPath: '/components/mobile-nav'
+      preLoaderRoute: typeof ComponentsMobileNavRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/message-item': {
@@ -1886,6 +1905,7 @@ interface ComponentsRouteChildren {
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
+  ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
@@ -1944,6 +1964,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
+  ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
