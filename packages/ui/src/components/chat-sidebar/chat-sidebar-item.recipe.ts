@@ -50,7 +50,7 @@ export const chatSidebarItem = tv({
           "aria-expanded:border-black aria-expanded:bg-white aria-expanded:shadow-brutal-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
-        sidebarItemTitle: "font-medium text-black group-data-[unread=true]/sidebar-item:font-bold",
+        sidebarItemTitle: "font-medium text-black",
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-xs font-medium text-black/70",
         sidebarItemMention: [
@@ -75,11 +75,7 @@ export const chatSidebarItem = tv({
           "aria-expanded:border-transparent aria-expanded:bg-layer-panel",
           "aria-expanded:shadow-xs aria-expanded:ring-1 aria-expanded:ring-line-subtle/30",
         ],
-        sidebarItemTitle: [
-          "font-[450] text-foreground-muted",
-          "group-data-[unread=true]/sidebar-item:font-semibold",
-          "group-data-[unread=true]/sidebar-item:text-foreground-strong",
-        ],
+        sidebarItemTitle: "font-[450] text-foreground-muted",
         sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon:
           "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[1.5]",
