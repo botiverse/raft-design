@@ -39,7 +39,6 @@ import {
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
   ComposerDropOverlay,
-  ComposerDropOverlayLabel,
   ComposerIconButton,
   ComposerInput,
   ComposerMeta,
@@ -59,6 +58,7 @@ import {
   ComposerToolbarLabel,
 } from "raft-ui/wip";
 
+import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
 import { ComposerAttachmentsComposition } from "#/modules/chat-composer/compositions/composer-shared.composition.tsx";
 import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
 import type {
@@ -416,7 +416,7 @@ function PlaygroundComposer({
       </Composer>
       {isDragging ? (
         <ComposerDropOverlay aria-hidden>
-          <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
+          <ComposerDropOverlayPrompt />
         </ComposerDropOverlay>
       ) : null}
       <span className="sr-only" aria-live="polite">

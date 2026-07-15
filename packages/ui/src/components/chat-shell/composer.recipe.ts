@@ -40,8 +40,8 @@ export const composer = tv({
       "[@media(hover:none)]:h-6 [@media(hover:none)]:w-6 [@media(hover:none)]:opacity-100",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
-    dropOverlay: ["absolute inset-0 z-30 flex items-center justify-center border-2 border-dashed"],
-    dropOverlayLabel: ["border-2 px-3 py-1.5 text-sm font-bold"],
+    dropOverlay: ["absolute inset-0 z-30 flex items-center justify-center border-2"],
+    dropOverlayLabel: ["inline-flex items-center gap-1.5 border-2 px-3 py-1.5 text-sm font-bold"],
   },
   variants: {
     theme: {
@@ -67,7 +67,7 @@ export const composer = tv({
         attachmentProgress: "bg-black/15",
         attachmentProgressFill: "bg-brutal-pink",
         attachmentRemove: "bg-black text-white",
-        dropOverlay: "border-brutal-pink bg-brutal-pink/15",
+        dropOverlay: "border-dashed border-brutal-pink bg-brutal-pink/15",
         dropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
       },
       elegant: {
@@ -103,9 +103,12 @@ export const composer = tv({
         attachmentProgress: "bg-ink-6",
         attachmentProgressFill: "bg-accent-400",
         attachmentRemove: "bg-foreground-strong text-foreground-inverse",
-        dropOverlay: "rounded-lg border-accent-400 bg-accent-100/60",
+        dropOverlay: [
+          "-inset-1 rounded-lg border-accent-400/70 bg-accent-100/60",
+          "bg-[radial-gradient(ellipse_at_center,oklch(0_0_0/0.045)_0%,oklch(0_0_0/0.02)_55%,oklch(0_0_0/0.008)_100%)]",
+        ],
         dropOverlayLabel:
-          "rounded-md border-line-subtle bg-layer-popover text-foreground shadow-lg",
+          "flex flex-col items-center gap-2 border-0 p-0 text-center text-base font-medium text-foreground-strong",
       },
     },
     attachmentTone: {

@@ -4,7 +4,6 @@ import {
   Composer,
   ComposerActions,
   ComposerDropOverlay,
-  ComposerDropOverlayLabel,
   ComposerIconButton,
   ComposerInput,
   ComposerMeta,
@@ -16,10 +15,10 @@ import {
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { ComposerAttachmentsComposition } from "./compositions/composer-shared.composition.tsx";
+import { ComposerDropOverlayPrompt } from "./compositions/composer-drop-overlay-prompt.composition.tsx";
 
 type ComposerPreviewValues = {
   draft: string;
-  asTask: boolean;
   imageUpload: boolean;
   fileUpload: boolean;
   failedUpload: boolean;
@@ -31,14 +30,12 @@ export function ChatComposerPreview() {
     <ComponentPlayground<ComposerPreviewValues>
       defaultValues={{
         draft: "",
-        asTask: false,
         imageUpload: false,
         fileUpload: false,
         failedUpload: false,
         dropOverlay: false,
       }}
       controls={[
-        { group: "Toolbar", name: "asTask", label: "As Task", type: "boolean" },
         { group: "Attachments", name: "imageUpload", label: "Image upload", type: "boolean" },
         { group: "Attachments", name: "fileUpload", label: "File upload", type: "boolean" },
         { group: "Attachments", name: "failedUpload", label: "Failed upload", type: "boolean" },
@@ -73,12 +70,7 @@ export function ChatComposerPreview() {
                 </ComposerActions>
                 <ComposerMeta>
                   <ComposerToolbarLabel>
-                    <Checkbox
-                      checked={values.asTask}
-                      onCheckedChange={(checked) => onValueChange("asTask", checked)}
-                      size="sm"
-                      aria-label="Send as task"
-                    />
+                    <Checkbox size="sm" aria-label="Send as task" />
                     As Task
                   </ComposerToolbarLabel>
                   <ComposerSubmit aria-label="Send" disabled>
@@ -90,7 +82,7 @@ export function ChatComposerPreview() {
             </Composer>
             {values.dropOverlay ? (
               <ComposerDropOverlay aria-hidden>
-                <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
+                <ComposerDropOverlayPrompt />
               </ComposerDropOverlay>
             ) : null}
           </ComposerRoot>
