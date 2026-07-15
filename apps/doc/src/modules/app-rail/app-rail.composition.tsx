@@ -66,14 +66,16 @@ export function AppRailNavItem({
 // App-owned mobile bottom-navigation destinations. Shared by this composition and
 // Playground so the two never drift; selection stays coordinated with the desktop rail.
 export function MobileNavDestinations({
+  className,
   value,
   onValueChange,
 }: {
+  className?: string;
   value?: string;
   onValueChange?: (value: string) => void;
 }) {
   return (
-    <MobileNavRoot aria-label="Primary navigation">
+    <MobileNavRoot className={className} aria-label="Primary navigation">
       <MobileNavItem
         selected={value === "chat"}
         onClick={() => onValueChange?.("chat")}

@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ScrollArea } from "@base-ui/react/scroll-area";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -19,7 +20,18 @@ const chatThreadPanel = tv({
     searchIcon: ["size-3.5 shrink-0"],
     searchInput: ["min-w-0 flex-1 border-2 px-2 py-1 text-sm font-medium outline-none"],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
-    body: ["min-h-0 flex-1 overflow-y-auto"],
+    body: ["relative min-h-0 flex-1 overflow-hidden"],
+    bodyViewport: [
+      "h-full min-h-0 overflow-y-auto overscroll-contain",
+      "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
+    ],
+    bodyContent: ["min-h-full"],
+    bodyScrollbar: [
+      "z-30 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
+      "pointer-events-none",
+      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
+    ],
+    bodyScrollbarThumb: ["w-1.5 rounded-full"],
     parent: ["shrink-0 px-3 py-1"],
     replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
     footer: [
@@ -42,6 +54,9 @@ const chatThreadPanel = tv({
         searchCount: "text-black/50",
         parent: "border-b-2 border-black bg-white",
         replyCount: "border-black/10 text-black/40",
+        body: "bg-white",
+        bodyViewport: "bg-white",
+        bodyScrollbarThumb: "bg-black/35 hover:bg-black/55",
         footer: "border-t-2 border-black bg-white text-black/50",
       },
       elegant: {
@@ -70,10 +85,19 @@ const chatThreadPanel = tv({
         searchCount: "text-foreground-muted",
         parent: "border-b border-line-subtle bg-transparent",
         replyCount: "border-line-muted text-foreground-muted",
+        body: "bg-layer-panel",
+        bodyViewport: "bg-layer-panel",
+        bodyContent: "pb-40",
+        bodyScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         footer: [
+          "absolute inset-x-0 bottom-0 z-40",
           "max-md:px-2.5 md:px-7 max-md:pt-3 md:pt-0",
           "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-3",
           "border-t-0 bg-transparent text-foreground-muted",
+          "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
+          "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-panel))] before:backdrop-blur-[4px]",
+          "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
+          "before:content-[''] [&>*]:relative [&>*]:z-10",
         ],
       },
     },
@@ -196,18 +220,32 @@ export function ChatThreadPanelActions({
 
 export type ChatThreadPanelBodyProps = useRender.ComponentProps<"div">;
 
-export function ChatThreadPanelBody({ className, render, ...props }: ChatThreadPanelBodyProps) {
-  const { body } = chatThreadPanel();
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-thread-panel-body",
-    className: body({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
+export function ChatThreadPanelBody({
+  children,
+  className,
+  render,
+  ...props
+}: ChatThreadPanelBodyProps) {
+  const theme = useThemeFamily();
+  const { body, bodyContent, bodyScrollbar, bodyScrollbarThumb, bodyViewport } = chatThreadPanel({
+    theme,
   });
+
+  return (
+    <ScrollArea.Root data-slot="chat-thread-panel-body-scroll-area" className={body()}>
+      <ScrollArea.Viewport
+        {...props}
+        render={render}
+        data-slot="chat-thread-panel-body"
+        className={bodyViewport({ className })}
+      >
+        <ScrollArea.Content className={bodyContent()}>{children}</ScrollArea.Content>
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar className={bodyScrollbar()}>
+        <ScrollArea.Thumb className={bodyScrollbarThumb()} />
+      </ScrollArea.Scrollbar>
+    </ScrollArea.Root>
+  );
 }
 
 export type ChatThreadPanelParentProps = useRender.ComponentProps<"div">;

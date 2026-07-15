@@ -43,6 +43,7 @@ import {
   Status,
   useThemeFamily,
 } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import {
   ChatSidebarBody,
   ChatSidebarContent,
@@ -665,10 +666,12 @@ function DirectMessagesSection({
 export function PlaygroundSidebar({
   activeChannelId,
   liveAgentActivity,
+  mobileBottomNavigation = false,
   title = "Chat",
 }: {
   activeChannelId: PlaygroundChannelId | null;
   liveAgentActivity: LiveAgentActivityBarItem | null;
+  mobileBottomNavigation?: boolean;
   title?: string;
 }) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
@@ -684,6 +687,9 @@ export function PlaygroundSidebar({
       : theme === "elegant"
         ? "md:pb-[4.25rem]"
         : "md:pb-[3.25rem]";
+  const mobileNavigationContentPad = mobileBottomNavigation
+    ? "max-lg:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
+    : undefined;
   const visiblePinnedChannels = useMemo(
     () => pinnedChannels.filter((row) => row.kind !== "dm" || !closedDmIds.has(row.id)),
     [closedDmIds],
@@ -713,7 +719,7 @@ export function PlaygroundSidebar({
           <SidebarCreateMenu />
         </ChatSidebarHeader>
         <ChatSidebarBody>
-          <ChatSidebarContent className={liveAgentContentPad}>
+          <ChatSidebarContent className={cn(liveAgentContentPad, mobileNavigationContentPad)}>
             <div className="min-h-full">
               <ChatSidebarItem className="md:hidden">
                 <ChatSidebarItemIcon aria-hidden>

@@ -74,9 +74,6 @@ export function PlaygroundChatShell() {
             className={cn(
               "relative flex h-full min-w-0",
               isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
-              theme === "elegant" &&
-                mobileListPanel &&
-                "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
             )}
           >
             <PlaygroundSidebar
@@ -85,6 +82,7 @@ export function PlaygroundChatShell() {
                 agentAvatarSrc: liveAgentActor.avatarSrc,
                 text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
               }}
+              mobileBottomNavigation={mobileListPanel}
               title="Chat"
             />
           </AppShellSidebarSlot>
@@ -131,7 +129,7 @@ function PlaygroundChatLayout({
 }) {
   if (!isDesktop) {
     return (
-      <div className="flex h-auto min-w-0 flex-1 md:h-full">
+      <div className="flex h-full min-h-0 min-w-0 flex-1">
         {mobileListPanel
           ? sidebar
           : (thread ?? <AppShellMainSlot className="flex h-full">{main}</AppShellMainSlot>)}

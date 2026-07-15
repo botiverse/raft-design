@@ -239,9 +239,11 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
         </AppRailRoot>
       </AppShellRailSlot>
       {showBottomNavigation ? (
-        <AppShellRailSlot className="fixed inset-x-0 bottom-0 z-40 order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
-          <MobileNavDestinations value={railView} onValueChange={selectView} />
-        </AppShellRailSlot>
+        <MobileNavDestinations
+          className="fixed inset-x-0 bottom-0 z-40 mx-auto lg:hidden"
+          value={railView}
+          onValueChange={selectView}
+        />
       ) : null}
     </>
   );
