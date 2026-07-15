@@ -14,16 +14,11 @@ import {
   Banner,
   BannerDescription,
   Checkbox,
-  Kbd,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
   TabsIndicator,
   TabsLabel,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
 } from "raft-ui";
 import {
   ChatMainPanelBody,
@@ -37,7 +32,6 @@ import {
   ComposerSubmit,
   ComposerToolbar,
   ComposerToolbarLabel,
-  ComposerToolbarLabelText,
   ChatMainPanelFooter,
   ChatMainPanelJumpToLatest,
   ChatMainPanelJumpToLatestLayout,
@@ -279,18 +273,10 @@ export function ChatMainPanelComposition({
                   </ComposerIconButton>
                 </ComposerActions>
                 <ComposerMeta>
-                  <TooltipProvider delay={300}>
-                    <Tooltip>
-                      <TooltipTrigger render={<ComposerToolbarLabel />}>
-                        <Checkbox size="sm" aria-label="Send as task" />
-                        <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
-                      </TooltipTrigger>
-                      <TooltipContent side="top">
-                        Send as task
-                        <Kbd>Cmd Shift Enter</Kbd>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ComposerToolbarLabel>
+                    <Checkbox size="sm" aria-label="Send as task" />
+                    As Task
+                  </ComposerToolbarLabel>
                   <ComposerSubmit aria-label="Send" disabled>
                     <span>Send</span>
                     <Send />

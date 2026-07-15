@@ -11,22 +11,20 @@ export const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-export const ANATOMY_SOURCE = `<MessageItemInteractionBoundary>
-  <MessageItem>
-    <MessageItemAvatarSlot />
-    <MessageItemContent>
-      <MessageItemHeader>
-        <MessageItemSender />
-        <MessageItemMeta />
-        <MessageItemTime />
-      </MessageItemHeader>
-      <MessageItemBody />
-      <MessageAttachmentGroup>...</MessageAttachmentGroup>
-      <MessageItemFooter />
-    </MessageItemContent>
-    <MessageItemToolbar />
-  </MessageItem>
-</MessageItemInteractionBoundary>`;
+export const ANATOMY_SOURCE = `<MessageItem>
+  <MessageItemAvatarSlot />
+  <MessageItemContent>
+    <MessageItemHeader>
+      <MessageItemSender />
+      <MessageItemMeta />
+      <MessageItemTime />
+    </MessageItemHeader>
+    <MessageItemBody />
+    <MessageAttachmentGroup>...</MessageAttachmentGroup>
+    <MessageItemFooter />
+  </MessageItemContent>
+  <MessageItemToolbar />
+</MessageItem>`;
 
 export const PROPS: readonly PropRow[] = [
   {
@@ -39,12 +37,6 @@ export const PROPS: readonly PropRow[] = [
     name: "MessageItemHeader",
     type: 'useRender.ComponentProps<"div">',
     description: "Sender, sender state, metadata, timestamp, and inline delivery state row.",
-  },
-  {
-    name: "MessageItemInteractionBoundary",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Containing block for row overlays and portalled interaction surfaces without clipping visible overflow.",
   },
   {
     name: "MessageMultiSelect / MessageMultiSelectCheckbox",
@@ -232,9 +224,9 @@ export const PROPS: readonly PropRow[] = [
 ];
 
 export const API_GROUPS = [
-  { title: "Row structure", rows: PROPS.slice(0, 6) },
-  { title: "Content, product states, and footer", rows: PROPS.slice(6, 19) },
-  { title: "Attachments", rows: PROPS.slice(19, 26) },
-  { title: "Reactions", rows: PROPS.slice(26, 32) },
-  { title: "System events", rows: PROPS.slice(32) },
+  { title: "Row structure", rows: PROPS.slice(0, 5) },
+  { title: "Content, product states, and footer", rows: PROPS.slice(5, 18) },
+  { title: "Attachments", rows: PROPS.slice(18, 25) },
+  { title: "Reactions", rows: PROPS.slice(25, 31) },
+  { title: "System events", rows: PROPS.slice(31) },
 ] as const satisfies readonly { title: string; rows: readonly PropRow[] }[];

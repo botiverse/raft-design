@@ -39,7 +39,10 @@ type ComponentPlaygroundProps<T extends Record<string, ControlValue>> = {
   previewClassName?: string;
   previewTheme?: Theme;
   previewMode?: PreviewMode;
-  render: (values: T) => ReactNode;
+  render: (
+    values: T,
+    onValueChange: (name: keyof T & string, value: ControlValue) => void,
+  ) => ReactNode;
 };
 
 type SelectControlInputProps = {
@@ -139,7 +142,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
 
   // DOM inputs surface their value as string | boolean; narrow it back into the
   // generic value slot T[keyof T] — unavoidable at the framework boundary.
-  const update = (name: keyof T, value: ControlValue) =>
+  const update = (name: keyof T & string, value: ControlValue) =>
     setValues((prev) => ({ ...prev, [name]: value as T[keyof T] }));
   const visibleControls = controls.filter((control) => !control.when || control.when(values));
   const controlGroups = visibleControls.reduce<{ group?: string; controls: Control<T>[] }[]>(
@@ -243,7 +246,7 @@ export function ComponentPlayground<T extends Record<string, ControlValue>>({
       }
       footerClassName="pt-6"
     >
-      {render(values)}
+      {render(values, update)}
     </ComponentDemoFrame>
   );
 }

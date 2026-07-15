@@ -21,16 +21,13 @@ import {
   Avatar,
   AvatarFallback,
   Checkbox,
-  Kbd,
   Spinner,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
 } from "raft-ui";
 import {
   ChatMainPanelFooter,
   ChatThreadPanelFooter,
+  Composer,
+  ComposerActions,
   ComposerAttachment,
   ComposerAttachmentBody,
   ComposerAttachmentFailedOverlay,
@@ -45,6 +42,7 @@ import {
   ComposerDropOverlayLabel,
   ComposerIconButton,
   ComposerInput,
+  ComposerMeta,
   ComposerSuggestionAside,
   ComposerSuggestionBadge,
   ComposerSuggestionContent,
@@ -57,14 +55,11 @@ import {
   ComposerSuggestionTitle,
   ComposerRoot,
   ComposerSubmit,
+  ComposerToolbar,
   ComposerToolbarLabel,
-  ComposerToolbarLabelText,
 } from "raft-ui/wip";
 
-import {
-  ComposerAttachmentsComposition,
-  ComposerBodyComposition,
-} from "#/modules/chat-composer/chat-composer.composition.tsx";
+import { ComposerAttachmentsComposition } from "#/modules/chat-composer/compositions/composer-shared.composition.tsx";
 import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
 import type {
   PlaygroundChannel,
@@ -382,10 +377,10 @@ function PlaygroundComposer({
           onRetry={(name) => setStatusMessage(`Retrying ${name}`)}
         />
       ) : null}
-      <ComposerBodyComposition
-        input={<ComposerInput {...inputProps} aria-label={label} placeholder={label} />}
-        actions={
-          <>
+      <Composer>
+        <ComposerInput {...inputProps} aria-label={label} placeholder={label} />
+        <ComposerToolbar>
+          <ComposerActions>
             <ComposerIconButton
               aria-label="Attach image"
               onClick={() => {
@@ -404,31 +399,21 @@ function PlaygroundComposer({
             >
               <Paperclip />
             </ComposerIconButton>
-          </>
-        }
-        meta={
-          <>
+          </ComposerActions>
+          <ComposerMeta>
             {footer === "main" ? (
-              <TooltipProvider delay={300}>
-                <Tooltip>
-                  <TooltipTrigger render={<ComposerToolbarLabel />}>
-                    <Checkbox size="sm" aria-label="Send as task" />
-                    <ComposerToolbarLabelText>As Task</ComposerToolbarLabelText>
-                  </TooltipTrigger>
-                  <TooltipContent side="top">
-                    Send as task
-                    <Kbd>Cmd Shift Enter</Kbd>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <ComposerToolbarLabel>
+                <Checkbox size="sm" aria-label="Send as task" />
+                As Task
+              </ComposerToolbarLabel>
             ) : null}
             <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !attachmentsVisible}>
               <span>Send</span>
               <Send />
             </ComposerSubmit>
-          </>
-        }
-      />
+          </ComposerMeta>
+        </ComposerToolbar>
+      </Composer>
       {isDragging ? (
         <ComposerDropOverlay aria-hidden>
           <ComposerDropOverlayLabel>Drop files to attach</ComposerDropOverlayLabel>
