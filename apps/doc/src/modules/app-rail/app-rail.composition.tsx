@@ -34,16 +34,15 @@ import {
 
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 
-// Tooltip-wrapped desktop rail item. Callers own the icon, an optional attention
-// mask, and an optional handler; selection state comes from the enclosing AppRailRoot.
+// Tooltip-wrapped desktop rail item. Callers own selection and navigation behavior.
 export function AppRailNavItem({
-  value,
+  selected,
   label,
   icon,
   attention,
   onClick,
 }: {
-  value: string;
+  selected?: boolean;
   label: string;
   icon: ReactNode;
   attention?: ReactNode;
@@ -51,7 +50,7 @@ export function AppRailNavItem({
 }) {
   return (
     <Tooltip>
-      <TooltipTrigger render={<AppRailItem value={value} onClick={onClick} />}>
+      <TooltipTrigger render={<AppRailItem selected={selected} onClick={onClick} />}>
         <AppRailItemIcon>
           {icon}
           {attention}
@@ -73,17 +72,33 @@ export function MobileNavDestinations({
   onValueChange?: (value: string) => void;
 }) {
   return (
-    <MobileNavRoot value={value} onValueChange={onValueChange} aria-label="Primary navigation">
-      <MobileNavItem value="chat" aria-label="Home">
+    <MobileNavRoot aria-label="Primary navigation">
+      <MobileNavItem
+        selected={value === "chat"}
+        onClick={() => onValueChange?.("chat")}
+        aria-label="Home"
+      >
         <Home />
       </MobileNavItem>
-      <MobileNavItem value="tasks" aria-label="Tasks">
+      <MobileNavItem
+        selected={value === "tasks"}
+        onClick={() => onValueChange?.("tasks")}
+        aria-label="Tasks"
+      >
         <CheckSquare />
       </MobileNavItem>
-      <MobileNavItem value="members" aria-label="Members">
+      <MobileNavItem
+        selected={value === "members"}
+        onClick={() => onValueChange?.("members")}
+        aria-label="Members"
+      >
         <Users />
       </MobileNavItem>
-      <MobileNavItem value="settings" aria-label="Settings">
+      <MobileNavItem
+        selected={value === "settings"}
+        onClick={() => onValueChange?.("settings")}
+        aria-label="Settings"
+      >
         <Settings />
       </MobileNavItem>
     </MobileNavRoot>
@@ -105,7 +120,7 @@ export function AppRailComposition() {
 
   return (
     <AppShellRailSlot className="max-md:order-last max-md:flex max-md:h-auto max-md:w-full">
-      <AppRailRoot value={view} onValueChange={selectView}>
+      <AppRailRoot>
         <AppRailHeader className="max-md:hidden">
           <AppRailServerButton
             title="Raft 中文社区"
@@ -125,10 +140,21 @@ export function AppRailComposition() {
         <TooltipProvider delay={650}>
           <div className="hidden min-h-0 w-full flex-1 md:flex">
             <AppRailNav>
-              <AppRailNavItem value="search" label="Search" icon={<Search />} />
-              <AppRailNavItem value="chat" label="Chat" icon={<MessageSquare />} />
               <AppRailNavItem
-                value="activity"
+                selected={view === "search"}
+                onClick={() => selectView("search")}
+                label="Search"
+                icon={<Search />}
+              />
+              <AppRailNavItem
+                selected={view === "chat"}
+                onClick={() => selectView("chat")}
+                label="Chat"
+                icon={<MessageSquare />}
+              />
+              <AppRailNavItem
+                selected={view === "activity"}
+                onClick={() => selectView("activity")}
                 label="Activity"
                 icon={<Activity />}
                 attention={
@@ -137,10 +163,21 @@ export function AppRailComposition() {
                   </AppRailItemAttention>
                 }
               />
-              <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
-              <AppRailNavItem value="members" label="Members" icon={<Users />} />
               <AppRailNavItem
-                value="computers"
+                selected={view === "tasks"}
+                onClick={() => selectView("tasks")}
+                label="Tasks"
+                icon={<CheckSquare />}
+              />
+              <AppRailNavItem
+                selected={view === "members"}
+                onClick={() => selectView("members")}
+                label="Members"
+                icon={<Users />}
+              />
+              <AppRailNavItem
+                selected={view === "computers"}
+                onClick={() => selectView("computers")}
                 label="Computers"
                 icon={<Monitor />}
                 attention={
@@ -155,7 +192,12 @@ export function AppRailComposition() {
             <NotificationCenter modal={false}>
               <NotificationCenterTrigger type="button" aria-label="Notification center" />
             </NotificationCenter>
-            <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
+            <AppRailNavItem
+              selected={view === "settings"}
+              onClick={() => selectView("settings")}
+              label="Settings"
+              icon={<Settings />}
+            />
           </AppRailFooter>
           <div className="w-full md:hidden">
             <MobileNavDestinations value={view} onValueChange={selectView} />

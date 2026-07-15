@@ -147,24 +147,28 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
   const { railView, selectRailView } = usePlaygroundNavigation();
   const navigate = useNavigate();
 
+  function selectView(view: string) {
+    if (isPlaygroundRailView(view)) selectRailView(view);
+  }
+
   return (
     <>
       <AppShellRailSlot>
-        <AppRailRoot
-          value={railView}
-          onValueChange={(view) => {
-            if (isPlaygroundRailView(view)) selectRailView(view);
-          }}
-        >
+        <AppRailRoot>
           <AppRailHeader>
             <PlaygroundServerSwitcher />
           </AppRailHeader>
           <TooltipProvider delay={650}>
             <div className="hidden min-h-0 w-full flex-1 md:flex">
               <AppRailNav>
-                <AppRailNavItem value="search" label="Search" icon={<Search />} />
                 <AppRailNavItem
-                  value="chat"
+                  selected={railView === "search"}
+                  onClick={() => selectView("search")}
+                  label="Search"
+                  icon={<Search />}
+                />
+                <AppRailNavItem
+                  selected={railView === "chat"}
                   label="Chat"
                   icon={<MessageSquare />}
                   attention={
@@ -174,8 +178,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                       </AppRailItemAttention>
                     ) : undefined
                   }
-                  onClick={(event) => {
-                    event.preventDefault();
+                  onClick={() => {
                     void navigate({
                       to: "/playground/s/$serverSlug",
                       params: { serverSlug: PLAYGROUND_SERVER_SLUG },
@@ -184,7 +187,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   }}
                 />
                 <AppRailNavItem
-                  value="activity"
+                  selected={railView === "activity"}
+                  onClick={() => selectView("activity")}
                   label="Activity"
                   icon={<Activity />}
                   attention={
@@ -195,10 +199,21 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                     ) : undefined
                   }
                 />
-                <AppRailNavItem value="tasks" label="Tasks" icon={<CheckSquare />} />
-                <AppRailNavItem value="members" label="Members" icon={<Users />} />
                 <AppRailNavItem
-                  value="computers"
+                  selected={railView === "tasks"}
+                  onClick={() => selectView("tasks")}
+                  label="Tasks"
+                  icon={<CheckSquare />}
+                />
+                <AppRailNavItem
+                  selected={railView === "members"}
+                  onClick={() => selectView("members")}
+                  label="Members"
+                  icon={<Users />}
+                />
+                <AppRailNavItem
+                  selected={railView === "computers"}
+                  onClick={() => selectView("computers")}
                   label="Computers"
                   icon={<Monitor />}
                   attention={
@@ -213,19 +228,19 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             </div>
             <AppRailFooter>
               <PlaygroundNotificationCenter />
-              <AppRailNavItem value="settings" label="Settings" icon={<Settings />} />
+              <AppRailNavItem
+                selected={railView === "settings"}
+                onClick={() => selectView("settings")}
+                label="Settings"
+                icon={<Settings />}
+              />
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
       </AppShellRailSlot>
       {showBottomNavigation ? (
         <AppShellRailSlot className="fixed inset-x-0 bottom-0 z-40 order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
-          <MobileNavDestinations
-            value={railView}
-            onValueChange={(view) => {
-              if (isPlaygroundRailView(view)) selectRailView(view);
-            }}
-          />
+          <MobileNavDestinations value={railView} onValueChange={selectView} />
         </AppShellRailSlot>
       ) : null}
     </>

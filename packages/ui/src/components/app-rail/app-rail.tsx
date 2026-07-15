@@ -1,49 +1,26 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { createContext, use, useMemo, type MouseEvent, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Status, type StatusProps } from "../status/status";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { appRail } from "./app-rail.recipe";
 
-type AppRailContextValue = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
+export type AppRailRootProps = useRender.ComponentProps<"div">;
 
-const AppRailContext = createContext<AppRailContextValue | null>(null);
-
-function useAppRail() {
-  return use(AppRailContext);
-}
-
-export type AppRailRootProps = useRender.ComponentProps<"div"> & {
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
-
-export function AppRailRoot({
-  value,
-  onValueChange,
-  className,
-  render,
-  ...props
-}: AppRailRootProps) {
+export function AppRailRoot({ className, render, ...props }: AppRailRootProps) {
   const { root } = appRail();
-  const contextValue = useMemo(() => ({ value, onValueChange }), [value, onValueChange]);
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-root",
     className: root({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
-
-  return <AppRailContext.Provider value={contextValue}>{element}</AppRailContext.Provider>;
 }
 
 export type AppRailHeaderProps = useRender.ComponentProps<"div">;
@@ -80,39 +57,19 @@ export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
   });
 }
 
-export type AppRailItemProps = Omit<useRender.ComponentProps<"button">, "value"> & {
-  value?: string;
+export type AppRailItemProps = useRender.ComponentProps<"button"> & {
   selected?: boolean;
-  onSelect?: (value: string) => void;
 };
 
-export function AppRailItem({
-  value,
-  selected,
-  disabled,
-  onSelect,
-  onClick,
-  className,
-  render,
-  ...props
-}: AppRailItemProps) {
+export function AppRailItem({ selected, disabled, className, render, ...props }: AppRailItemProps) {
   const theme = useThemeFamily();
-  const context = useAppRail();
-  const isSelected = selected ?? (value !== undefined && context?.value === value);
   const { item } = appRail({ theme });
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    onClick?.(event);
-    if (event.defaultPrevented || disabled || value === undefined) return;
-    onSelect?.(value);
-    context?.onValueChange?.(value);
-  };
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     disabled,
-    onClick: handleClick,
-    "aria-pressed": isSelected,
+    "aria-pressed": selected,
     "data-slot": "app-rail-item",
-    "data-selected": isSelected ? "true" : undefined,
+    "data-selected": selected ? "true" : undefined,
     "data-disabled": disabled ? "true" : undefined,
     className: item({ className }),
   };

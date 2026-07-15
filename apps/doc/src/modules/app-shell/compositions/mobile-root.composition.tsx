@@ -25,15 +25,15 @@ export function AppShellMobileRootComposition() {
         </div>
       </AppShellSidebarSlot>
       <AppShellRailSlot className="order-last max-md:flex max-md:h-auto max-md:w-full md:hidden">
-        <AppRailRoot value={value} onValueChange={setValue}>
+        <AppRailRoot>
           <AppRailNav aria-label="Primary navigation">
-            <AppRailItem value="home">
+            <AppRailItem selected={value === "home"} onClick={() => setValue("home")}>
               <AppRailItemIcon>
                 <Home />
               </AppRailItemIcon>
               <AppRailItemLabel>Home</AppRailItemLabel>
             </AppRailItem>
-            <AppRailItem value="settings">
+            <AppRailItem selected={value === "settings"} onClick={() => setValue("settings")}>
               <AppRailItemIcon>
                 <Settings />
               </AppRailItemIcon>

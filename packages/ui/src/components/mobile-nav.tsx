@@ -1,7 +1,6 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { createContext, use, useMemo, type MouseEvent } from "react";
 import type { SlotElementProps } from "../lib/data-attributes";
 import { useThemeFamily } from "../lib/theme/use-theme";
 import { tv } from "../lib/tv";
@@ -47,80 +46,35 @@ const mobileNav = tv({
   },
 });
 
-type MobileNavContextValue = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
+export type MobileNavRootProps = useRender.ComponentProps<"nav">;
 
-const MobileNavContext = createContext<MobileNavContextValue | null>(null);
-
-function useMobileNav() {
-  return use(MobileNavContext);
-}
-
-export type MobileNavRootProps = useRender.ComponentProps<"nav"> & {
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
-
-export function MobileNavRoot({
-  value,
-  onValueChange,
-  className,
-  render,
-  ...props
-}: MobileNavRootProps) {
+export function MobileNavRoot({ className, render, ...props }: MobileNavRootProps) {
   const theme = useThemeFamily();
   const { root } = mobileNav({ theme });
-  const contextValue = useMemo(() => ({ value, onValueChange }), [value, onValueChange]);
   const defaultProps: SlotElementProps<"nav"> = {
     "data-slot": "mobile-nav-root",
     className: root({ className }),
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "nav",
     render,
     props: mergeProps<"nav">(defaultProps, props),
   });
-
-  return <MobileNavContext.Provider value={contextValue}>{element}</MobileNavContext.Provider>;
 }
 
-export type MobileNavItemProps = Omit<useRender.ComponentProps<"button">, "value"> & {
-  value?: string;
+export type MobileNavItemProps = useRender.ComponentProps<"button"> & {
   selected?: boolean;
-  onSelect?: (value: string) => void;
 };
 
-export function MobileNavItem({
-  value,
-  selected,
-  disabled,
-  onSelect,
-  onClick,
-  className,
-  render,
-  ...props
-}: MobileNavItemProps) {
+export function MobileNavItem({ selected, className, render, ...props }: MobileNavItemProps) {
   const theme = useThemeFamily();
-  const context = useMobileNav();
-  const isSelected = selected ?? (value !== undefined && context?.value === value);
   const { item } = mobileNav({ theme });
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    onClick?.(event);
-    if (event.defaultPrevented || disabled || value === undefined) return;
-    onSelect?.(value);
-    context?.onValueChange?.(value);
-  };
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    disabled,
-    onClick: handleClick,
-    "aria-pressed": isSelected,
+    "aria-pressed": selected,
     "data-slot": "mobile-nav-item",
-    "data-selected": isSelected ? "true" : undefined,
-    "data-disabled": disabled ? "true" : undefined,
+    "data-selected": selected ? "true" : undefined,
     className: item({ className }),
   };
 
