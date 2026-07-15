@@ -1,10 +1,10 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { BorderBeam } from "border-beam";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Avatar, AvatarFallback, type AvatarProps } from "../avatar";
 import { Status, type StatusProps } from "../status";
+import { LiveAgentActivityBeam } from "./live-agent-activity-beam";
 
 const liveAgentActivityBar = tv({
   slots: {
@@ -32,20 +32,14 @@ const liveAgentActivityBar = tv({
   },
 });
 
-export type LiveAgentActivity = "thinking" | "working";
-
 type LiveAgentActivityBarDataAttributes = {
-  "data-activity"?: LiveAgentActivity;
   "data-slot"?: string;
   "data-testid"?: string;
 };
 
-export type LiveAgentActivityBarProps = useRender.ComponentProps<"div"> & {
-  activity: LiveAgentActivity;
-};
+export type LiveAgentActivityBarProps = useRender.ComponentProps<"div">;
 
 export function LiveAgentActivityBar({
-  activity,
   children,
   className,
   render,
@@ -55,7 +49,6 @@ export function LiveAgentActivityBar({
   const { root } = liveAgentActivityBar({ theme });
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "aria-live": "polite",
-    "data-activity": activity,
     "data-slot": "live-agent-activity-bar",
     "data-testid": "live-agent-activity-bar",
     className: root({ className }),
@@ -72,17 +65,7 @@ export function LiveAgentActivityBar({
     return activityBar;
   }
 
-  return (
-    <BorderBeam
-      size="pulse-outside"
-      colorVariant="colorful"
-      strength={0.75}
-      saturation={0.85}
-      hueRange={12}
-    >
-      {activityBar}
-    </BorderBeam>
-  );
+  return <LiveAgentActivityBeam>{activityBar}</LiveAgentActivityBeam>;
 }
 
 export type LiveAgentActivityBarRowProps = useRender.ComponentProps<"div">;

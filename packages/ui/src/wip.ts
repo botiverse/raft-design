@@ -337,7 +337,6 @@ export {
   LiveAgentActivityBarText,
 } from "./components/live-agent-activity-bar/index";
 export type {
-  LiveAgentActivity,
   LiveAgentActivityBarAvatarProps,
   LiveAgentActivityBarContentProps,
   LiveAgentActivityBarProps,

@@ -30,9 +30,8 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "LiveAgentActivityBar",
-    type: 'div props + activity: "thinking" | "working"',
-    description:
-      "Live-region root and themed surface. Activity is exposed as data-activity; visible structure is supplied as children.",
+    type: "div props",
+    description: "Live-region root and themed surface. Visible structure is supplied as children.",
   },
   {
     name: "LiveAgentActivityBarRow",

@@ -6,11 +6,9 @@ import {
   LiveAgentActivityBarRow,
   LiveAgentActivityBarStatus,
   LiveAgentActivityBarText,
-  type LiveAgentActivity,
 } from "raft-ui/wip";
 
 export type LiveAgentActivityBarItem = {
-  activity: LiveAgentActivity;
   agentAvatarSrc?: string | null;
   text: string;
 };
@@ -23,7 +21,7 @@ export function LiveAgentActivityBarComposition({
   if (!latest) return null;
 
   return (
-    <LiveAgentActivityBar activity={latest.activity}>
+    <LiveAgentActivityBar>
       <LiveAgentActivityBarRow>
         <LiveAgentActivityBarAvatar>
           {latest.agentAvatarSrc ? <AvatarImage src={latest.agentAvatarSrc} alt="" /> : null}

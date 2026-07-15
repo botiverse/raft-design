@@ -82,7 +82,6 @@ export function PlaygroundChatShell() {
             <PlaygroundSidebar
               activeChannelId={channel?.id ?? null}
               liveAgentActivity={{
-                activity: PLAYGROUND_LIVE_AGENT_ACTIVITY.activity,
                 agentAvatarSrc: liveAgentActor.avatarSrc,
                 text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
               }}

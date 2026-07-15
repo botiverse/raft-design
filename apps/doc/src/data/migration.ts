@@ -1390,7 +1390,7 @@ export const MIGRATION_GUIDES = [
           "Keep socket subscriptions, latest-item selection, terminal-state removal, and the 90-second expiry lifecycle in the app layer.",
         ],
         write:
-          '<LiveAgentActivityBar activity={latest.activity}><LiveAgentActivityBarRow><LiveAgentActivityBarAvatar><AvatarImage src={agent.avatarSrc} alt="" /></LiveAgentActivityBarAvatar><LiveAgentActivityBarContent><LiveAgentActivityBarStatus /><LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText></LiveAgentActivityBarContent></LiveAgentActivityBarRow></LiveAgentActivityBar>',
+          '<LiveAgentActivityBar><LiveAgentActivityBarRow><LiveAgentActivityBarAvatar><AvatarImage src={agent.avatarSrc} alt="" /></LiveAgentActivityBarAvatar><LiveAgentActivityBarContent><LiveAgentActivityBarStatus /><LiveAgentActivityBarText title={latest.text}>{latest.text}</LiveAgentActivityBarText></LiveAgentActivityBarContent></LiveAgentActivityBarRow></LiveAgentActivityBar>',
         noDirect: [
           "No store, socket, timer, or activity-normalization API is bundled with the UI component.",
           "Do not pass source `pixel:key` values to `AvatarImage`; keep identity resolution in the app layer.",
