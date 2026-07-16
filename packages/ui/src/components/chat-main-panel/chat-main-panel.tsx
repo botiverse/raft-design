@@ -4,6 +4,16 @@ import { ScrollArea } from "@base-ui/react/scroll-area";
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button";
+import {
+  Panel,
+  PanelBody,
+  PanelFormFooter,
+  PanelHeader,
+  PanelScrollContent,
+  PanelScrollbar,
+  PanelScrollbarThumb,
+  PanelScrollViewport,
+} from "../panel";
 import { chatMainPanel } from "./chat-main-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
@@ -12,16 +22,15 @@ export type ChatMainPanelRootProps = useRender.ComponentProps<"section">;
 export function ChatMainPanelRoot({ className, render, ...props }: ChatMainPanelRootProps) {
   const theme = useThemeFamily();
   const { root } = chatMainPanel({ theme });
-  const defaultProps: SlotElementProps<"section"> = {
-    "data-slot": "chat-main-panel-root",
-    className: root({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "section",
-    render,
-    props: mergeProps<"section">(defaultProps, props),
-  });
+  return (
+    <Panel
+      {...props}
+      render={render}
+      data-slot="chat-main-panel-root"
+      className={root({ className })}
+    />
+  );
 }
 
 export type ChatMainPanelHeaderProps = useRender.ComponentProps<"div">;
@@ -34,17 +43,16 @@ export function ChatMainPanelHeader({
 }: ChatMainPanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = chatMainPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-main-panel-header",
-    className: header({ className }),
-    children,
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <PanelHeader
+      {...props}
+      render={render}
+      data-slot="chat-main-panel-header"
+      className={header({ className })}
+    >
+      {children}
+    </PanelHeader>
+  );
 }
 
 export type ChatMainPanelSectionHeaderProps = useRender.ComponentProps<"div">;
@@ -57,17 +65,17 @@ export function ChatMainPanelSectionHeader({
 }: ChatMainPanelSectionHeaderProps) {
   const theme = useThemeFamily();
   const { header, sectionHeader } = chatMainPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-main-panel-header",
-    className: header({ className: cn(sectionHeader(), className) }),
-    children,
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <PanelHeader
+      {...props}
+      render={render}
+      data-slot="chat-main-panel-header"
+      className={header({ className: cn(sectionHeader(), className) })}
+    >
+      {children}
+    </PanelHeader>
+  );
 }
 
 export type ChatMainPanelHeaderIconProps = useRender.ComponentProps<"div">;
@@ -156,10 +164,10 @@ export function ChatMainPanelSubtitle({
   ...props
 }: ChatMainPanelSubtitleProps) {
   const theme = useThemeFamily();
-  const { subtitle } = chatMainPanel({ theme });
+  const { subtitle } = chatMainPanel({ theme, size });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "chat-main-panel-subtitle",
-    className: subtitle({ className: cn(size === "md" && "text-sm", className) }),
+    className: subtitle({ className }),
   };
 
   return useRender({
@@ -234,16 +242,15 @@ export type ChatMainPanelBodyProps = useRender.ComponentProps<"div">;
 export function ChatMainPanelBody({ className, render, ...props }: ChatMainPanelBodyProps) {
   const theme = useThemeFamily();
   const { body } = chatMainPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-main-panel-body",
-    className: body({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <PanelBody
+      {...props}
+      render={render}
+      data-slot="chat-main-panel-body"
+      className={body({ className })}
+    />
+  );
 }
 
 export type ChatMainPanelTabsProps = useRender.ComponentProps<"div">;
@@ -272,23 +279,22 @@ export function ChatMainPanelTimeline({
   ...props
 }: ChatMainPanelTimelineProps) {
   const theme = useThemeFamily();
-  const { timeline, timelineContent, timelineScrollbar, timelineScrollbarThumb, timelineViewport } =
-    chatMainPanel({ theme });
+  const { scrollViewport, timeline } = chatMainPanel({ theme });
 
   return (
     <ScrollArea.Root data-slot="chat-main-panel-timeline-scroll-area" className={timeline()}>
-      <ScrollArea.Viewport
+      <PanelScrollViewport
         {...props}
-        render={render}
+        render={<ScrollArea.Viewport render={render} />}
         data-slot="chat-main-panel-timeline"
-        className={timelineViewport({ className })}
+        className={cn("min-w-0", scrollViewport({ className }))}
         style={{ ...props.style, overflowX: "hidden" }}
       >
-        <ScrollArea.Content className={timelineContent()}>{children}</ScrollArea.Content>
-      </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={timelineScrollbar()}>
-        <ScrollArea.Thumb className={timelineScrollbarThumb()} />
-      </ScrollArea.Scrollbar>
+        <PanelScrollContent render={<ScrollArea.Content />}>{children}</PanelScrollContent>
+      </PanelScrollViewport>
+      <PanelScrollbar render={<ScrollArea.Scrollbar />}>
+        <PanelScrollbarThumb render={<ScrollArea.Thumb />} />
+      </PanelScrollbar>
     </ScrollArea.Root>
   );
 }
@@ -318,16 +324,15 @@ export type ChatMainPanelFooterProps = useRender.ComponentProps<"form">;
 export function ChatMainPanelFooter({ className, render, ...props }: ChatMainPanelFooterProps) {
   const theme = useThemeFamily();
   const { footer } = chatMainPanel({ theme });
-  const defaultProps: SlotElementProps<"form"> = {
-    "data-slot": "chat-main-panel-footer",
-    className: footer({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "form",
-    render,
-    props: mergeProps<"form">(defaultProps, props),
-  });
+  return (
+    <PanelFormFooter
+      {...props}
+      render={render}
+      data-slot="chat-main-panel-footer"
+      className={footer({ className })}
+    />
+  );
 }
 
 export type ChatMainPanelJumpToLatestLayoutProps = useRender.ComponentProps<"div">;

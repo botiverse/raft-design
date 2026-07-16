@@ -111,7 +111,7 @@ const PROPS: readonly PropRow[] = [
     name: "ChatThreadPanelBody / Footer",
     type: "div props",
     description:
-      "Scrollable message body and floating composer/footer slot. Override --chat-panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
+      "Scrollable message body and floating composer/footer slot. Override --panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
   },
   {
     name: "MessageTimelineDateDivider / Notice",
@@ -143,7 +143,9 @@ function ChatThreadPanelDoc() {
         <Differences from="ThreadPanel">
           <li>does not own message loading, reply mutations, route state, or close behavior</li>
           <li>keeps the source fixed header, scroll body, action button, and composer boundary</li>
-          <li>stays separate from AppPanelStack so the stack remains a generic right-panel host</li>
+          <li>
+            stays a standalone panel; the consuming layout decides placement and resize behavior
+          </li>
         </Differences>
       }
       toc={TOC}

@@ -2,15 +2,8 @@ import { tv } from "../../lib/tv";
 
 export const chatMainPanel = tv({
   slots: {
-    root: [
-      "flex h-full min-h-0 min-w-0 flex-1 flex-col",
-      "[--chat-panel-footer-clearance:10rem]",
-      "text-foreground",
-    ],
-    header: [
-      "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5",
-      "[@media(max-height:600px)]:h-12",
-    ],
+    root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col"],
+    header: ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5"],
     // Additive chrome for ChatMainPanelSectionHeader (composed onto `header`).
     sectionHeader: "max-md:before:hidden",
     headerIcon: [
@@ -31,24 +24,11 @@ export const chatMainPanel = tv({
     content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     tabs: ["shrink-0"],
     jumpToLatestLayout: ["absolute bottom-3 left-1/2 z-10 -translate-x-1/2"],
-    body: ["relative min-h-0 flex-1 overflow-hidden"],
+    body: [],
     timeline: ["relative h-full min-h-0"],
-    timelineViewport: [
-      "h-full min-h-0 min-w-0 overflow-y-auto overscroll-contain",
-      "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
-    ],
-    timelineContent: ["min-h-full"],
-    timelineScrollbar: [
-      "z-30 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
-      "pointer-events-none",
-      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
-    ],
-    timelineScrollbarThumb: ["w-1.5 rounded-full"],
+    scrollViewport: [],
     messageList: ["flex min-h-full flex-col"],
-    footer: [
-      "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
-      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
-    ],
+    footer: [],
   },
   variants: {
     theme: {
@@ -58,6 +38,7 @@ export const chatMainPanel = tv({
         sectionHeader: [
           "max-md:bg-primary-400",
           "[@media(max-height:600px)]:h-[var(--shell-header-height,62px)]",
+          "max-md:[&>[data-slot=chat-main-panel-header-icon]]:hidden",
           "md:[&>[data-slot=chat-main-panel-header-icon]]:size-10",
           "md:[&>[data-slot=chat-main-panel-header-icon]]:bg-primary-400",
         ],
@@ -76,8 +57,7 @@ export const chatMainPanel = tv({
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]+[data-slot=tabs-tab]]:before:bg-black",
         ],
         body: "bg-white",
-        timelineViewport: "bg-white",
-        timelineScrollbarThumb: "bg-black/35 hover:bg-black/55",
+        scrollViewport: "bg-white",
         footer: "border-t-2 border-black bg-white",
       },
       elegant: {
@@ -134,20 +114,12 @@ export const chatMainPanel = tv({
           "max-md:[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:h-px",
         ],
         body: "bg-layer-panel",
-        timelineViewport: "bg-layer-panel",
-        timelineContent: "pb-[var(--chat-panel-footer-clearance)]",
-        timelineScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
-        footer: [
-          "absolute inset-x-0 bottom-0 z-40",
-          "max-md:px-2.5 md:px-7 max-md:pt-3 md:pt-0",
-          "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-3",
-          "border-t-0 bg-transparent",
-          "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
-          "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-panel))] before:backdrop-blur-[4px]",
-          "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
-          "before:content-[''] [&>*]:relative [&>*]:z-10",
-        ],
+        scrollViewport: "bg-layer-panel",
       },
+    },
+    size: {
+      sm: {},
+      md: { subtitle: "text-sm" },
     },
   },
 });

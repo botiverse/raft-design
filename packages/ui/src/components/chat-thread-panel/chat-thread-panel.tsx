@@ -1,128 +1,34 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ScrollArea } from "@base-ui/react/scroll-area";
-import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import {
+  Panel,
+  PanelBody,
+  PanelFooter,
+  PanelHeader,
+  PanelScrollContent,
+  PanelScrollbar,
+  PanelScrollbarThumb,
+  PanelScrollViewport,
+} from "../panel";
+import { chatThreadPanel } from "./chat-thread-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
-
-const chatThreadPanel = tv({
-  slots: {
-    root: [
-      "isolate flex h-full min-h-0 w-full flex-col",
-      "[--chat-panel-footer-clearance:10rem]",
-      "text-foreground",
-    ],
-    header: [
-      "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-3 px-5",
-      "[@media(max-height:600px)]:h-12",
-    ],
-    content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],
-    titleMeta: ["font-normal"],
-    actions: ["flex shrink-0 items-center gap-1.5"],
-    search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2"],
-    searchIcon: ["size-3.5 shrink-0"],
-    searchInput: ["min-w-0 flex-1 border-2 px-2 py-1 text-sm font-medium outline-none"],
-    searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
-    body: ["relative min-h-0 flex-1 overflow-hidden"],
-    bodyViewport: [
-      "h-full min-h-0 overflow-y-auto overscroll-contain",
-      "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
-    ],
-    bodyContent: ["min-h-full"],
-    bodyScrollbar: [
-      "z-30 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
-      "pointer-events-none",
-      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
-    ],
-    bodyScrollbarThumb: ["w-1.5 rounded-full"],
-    parent: ["shrink-0 px-3 py-1"],
-    replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
-    footer: [
-      "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
-      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
-      "text-xs",
-    ],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        root: "bg-white font-sans text-black",
-        header: "border-b-2 border-black bg-white",
-        content: "bg-white",
-        title: "text-black",
-        titleMeta: "text-black/50",
-        search: "border-b-2 border-black bg-white",
-        searchIcon: "text-black/50",
-        searchInput: "border-black bg-white text-black focus:shadow-brutal-sm",
-        searchCount: "text-black/50",
-        parent: "border-b-2 border-black bg-white",
-        replyCount: "border-black/10 text-black/40",
-        body: "bg-white",
-        bodyViewport: "bg-white",
-        bodyScrollbarThumb: "bg-black/35 hover:bg-black/55",
-        footer: "border-t-2 border-black bg-white text-black/50",
-      },
-      elegant: {
-        root: "bg-transparent font-sans text-foreground",
-        header: [
-          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
-          "border-b-0 bg-layer-page",
-          "max-lg:gap-2 max-lg:px-[14px]",
-          "max-lg:border-b max-lg:border-line-subtle",
-          "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:z-0 max-lg:before:h-[calc(100%+0.75rem)]",
-          "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-[4px]",
-          "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
-          "max-lg:before:content-[''] max-lg:[&>*]:relative max-lg:[&>*]:z-10",
-        ],
-        content: ["relative overflow-clip", "bg-layer-panel shadow-xl"],
-        title: [
-          "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
-          "text-foreground-muted",
-          "max-lg:leading-none",
-        ],
-        titleMeta: "text-foreground-muted",
-        search: "border-b border-line-subtle bg-transparent",
-        searchIcon: "text-foreground-muted",
-        searchInput:
-          "rounded-md border-line-subtle bg-layer-field text-foreground-strong focus:ring-2 focus:ring-line-focus",
-        searchCount: "text-foreground-muted",
-        parent: "border-b border-line-subtle bg-transparent",
-        replyCount: "border-line-muted text-foreground-muted",
-        body: "bg-layer-panel",
-        bodyViewport: "bg-layer-panel",
-        bodyContent: "pb-[var(--chat-panel-footer-clearance)]",
-        bodyScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
-        footer: [
-          "absolute inset-x-0 bottom-0 z-40",
-          "max-md:px-2.5 md:px-7 max-md:pt-3 md:pt-0",
-          "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-3",
-          "border-t-0 bg-transparent text-foreground-muted",
-          "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
-          "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-panel))] before:backdrop-blur-[4px]",
-          "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
-          "before:content-[''] [&>*]:relative [&>*]:z-10",
-        ],
-      },
-    },
-  },
-});
 
 export type ChatThreadPanelRootProps = useRender.ComponentProps<"section">;
 
 export function ChatThreadPanelRoot({ className, render, ...props }: ChatThreadPanelRootProps) {
   const theme = useThemeFamily();
   const { root } = chatThreadPanel({ theme });
-  const defaultProps: SlotElementProps<"section"> = {
-    "data-slot": "chat-thread-panel-root",
-    className: root({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "section",
-    render,
-    props: mergeProps<"section">(defaultProps, props),
-  });
+  return (
+    <Panel
+      {...props}
+      render={render}
+      data-slot="chat-thread-panel-root"
+      className={root({ className })}
+    />
+  );
 }
 
 export type ChatThreadPanelHeaderProps = useRender.ComponentProps<"div">;
@@ -130,16 +36,15 @@ export type ChatThreadPanelHeaderProps = useRender.ComponentProps<"div">;
 export function ChatThreadPanelHeader({ className, render, ...props }: ChatThreadPanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = chatThreadPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-thread-panel-header",
-    className: header({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <PanelHeader
+      {...props}
+      render={render}
+      data-slot="chat-thread-panel-header"
+      className={header({ className })}
+    />
+  );
 }
 
 export type ChatThreadPanelContentProps = useRender.ComponentProps<"div">;
@@ -231,24 +136,25 @@ export function ChatThreadPanelBody({
   ...props
 }: ChatThreadPanelBodyProps) {
   const theme = useThemeFamily();
-  const { body, bodyContent, bodyScrollbar, bodyScrollbarThumb, bodyViewport } = chatThreadPanel({
-    theme,
-  });
+  const { body, scrollViewport } = chatThreadPanel({ theme });
 
   return (
-    <ScrollArea.Root data-slot="chat-thread-panel-body-scroll-area" className={body()}>
-      <ScrollArea.Viewport
+    <PanelBody
+      render={<ScrollArea.Root data-slot="chat-thread-panel-body-scroll-area" />}
+      className={body()}
+    >
+      <PanelScrollViewport
         {...props}
-        render={render}
+        render={<ScrollArea.Viewport render={render} />}
         data-slot="chat-thread-panel-body"
-        className={bodyViewport({ className })}
+        className={scrollViewport({ className })}
       >
-        <ScrollArea.Content className={bodyContent()}>{children}</ScrollArea.Content>
-      </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={bodyScrollbar()}>
-        <ScrollArea.Thumb className={bodyScrollbarThumb()} />
-      </ScrollArea.Scrollbar>
-    </ScrollArea.Root>
+        <PanelScrollContent render={<ScrollArea.Content />}>{children}</PanelScrollContent>
+      </PanelScrollViewport>
+      <PanelScrollbar render={<ScrollArea.Scrollbar />}>
+        <PanelScrollbarThumb render={<ScrollArea.Thumb />} />
+      </PanelScrollbar>
+    </PanelBody>
   );
 }
 
@@ -295,16 +201,15 @@ export type ChatThreadPanelFooterProps = useRender.ComponentProps<"div">;
 export function ChatThreadPanelFooter({ className, render, ...props }: ChatThreadPanelFooterProps) {
   const theme = useThemeFamily();
   const { footer } = chatThreadPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-thread-panel-footer",
-    className: footer({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <PanelFooter
+      {...props}
+      render={render}
+      data-slot="chat-thread-panel-footer"
+      className={footer({ className })}
+    />
+  );
 }
 
 export type ChatThreadPanelSearchProps = useRender.ComponentProps<"div">;

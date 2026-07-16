@@ -1,15 +1,4 @@
 export {
-  AppPanelStackContent,
-  AppPanelStackItem,
-  AppPanelStackRoot,
-} from "./components/app-panel-stack/index";
-export type {
-  AppPanelStackContentProps,
-  AppPanelStackItemProps,
-  AppPanelStackRootProps,
-} from "./components/app-panel-stack/index";
-
-export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
@@ -47,7 +36,6 @@ export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./co
 
 export {
   AppShellMainSlot,
-  AppShellPanelStackSlot,
   AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
@@ -72,7 +60,6 @@ export type {
 } from "./components/file-preview/index";
 export type {
   AppShellMainSlotProps,
-  AppShellPanelStackSlotProps,
   AppShellRailSlotProps,
   AppShellRootProps,
   AppShellSidebarSlotProps,
@@ -262,12 +249,11 @@ export {
   ChatSidebarItem,
   ChatSidebarItemIcon,
   ChatSidebarItemIndicator,
-  ChatSidebarItemInlineText,
+  ChatSidebarItemContent,
   ChatSidebarItemMeta,
   ChatSidebarItemMetaIcon,
   ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarMenu,
@@ -304,13 +290,12 @@ export type {
   ChatSidebarItemChannelIconProps,
   ChatSidebarItemIconProps,
   ChatSidebarItemIndicatorProps,
-  ChatSidebarItemInlineTextProps,
+  ChatSidebarItemContentProps,
   ChatSidebarItemMetaProps,
   ChatSidebarItemMetaIconProps,
   ChatSidebarItemStatusProps,
   ChatSidebarItemProps,
   ChatSidebarItemSubtitleProps,
-  ChatSidebarItemTextProps,
   ChatSidebarItemTitleProps,
   ChatSidebarListProps,
   ChatSidebarMenuAsideProps,

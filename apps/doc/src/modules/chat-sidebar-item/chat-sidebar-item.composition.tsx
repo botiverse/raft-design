@@ -11,7 +11,7 @@ import {
   ChatSidebarItemMetaIcon,
   ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
+  ChatSidebarItemContent,
   ChatSidebarItemTitle,
 } from "raft-ui/wip";
 
@@ -32,10 +32,10 @@ export function ChatSidebarItemStatesComposition() {
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Selected channel</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
         </ChatSidebarItem>
 
         <ChatSidebarItem
@@ -45,20 +45,20 @@ export function ChatSidebarItemStatesComposition() {
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Channel</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
         </ChatSidebarItem>
 
         <ChatSidebarItem active={currentItem === "unread"} onClick={() => setCurrentItem("unread")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Unread activity</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
         </ChatSidebarItem>
 
         <ChatSidebarItem
@@ -68,10 +68,10 @@ export function ChatSidebarItemStatesComposition() {
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#design</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Mention and badge</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
               <AtSign aria-hidden />
@@ -86,10 +86,10 @@ export function ChatSidebarItemStatesComposition() {
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#planning</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Draft</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
               <Pencil aria-hidden />
@@ -101,10 +101,10 @@ export function ChatSidebarItemStatesComposition() {
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#announcements</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Muted</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemMetaIcon role="img" aria-label="Activity muted">
               <BellOff aria-hidden />
@@ -118,10 +118,10 @@ export function ChatSidebarItemStatesComposition() {
               <AvatarFallback>C</AvatarFallback>
             </Avatar>
           </ChatSidebarItemIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>Cindy</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Direct message</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemStatus>
               <Status aria-label="Online" size="xs" variant="success" />

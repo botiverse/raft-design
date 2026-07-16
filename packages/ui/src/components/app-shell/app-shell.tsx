@@ -14,7 +14,6 @@ const appShell = tv({
     railSlot: ["hidden h-full shrink-0 flex-col md:flex"],
     sidebarSlot: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     mainSlot: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    panelStackSlot: ["hidden min-h-0 shrink-0 lg:flex"],
   },
   variants: {
     theme: {
@@ -24,14 +23,12 @@ const appShell = tv({
           "w-16 md:border-r-2 md:border-black bg-soft-signal text-foreground md:[@media(max-height:600px)]:w-[50px]",
         sidebarSlot: "w-60 border-r-2 border-black bg-brutal-cream",
         mainSlot: "bg-white",
-        panelStackSlot: "border-l-2 border-black bg-white",
       },
       elegant: {
         root: ["[--shell-header-height:3.5rem]", "bg-layer-page"],
         railSlot: "w-14",
         sidebarSlot: "w-[252px]",
         mainSlot: "bg-layer-page",
-        panelStackSlot: "border-l border-line-subtle bg-layer-panel",
       },
     },
   },
@@ -106,27 +103,5 @@ export function AppShellMainSlot({ className, render, ...props }: AppShellMainSl
     defaultTagName: "main",
     render,
     props: mergeProps<"main">(defaultProps, props),
-  });
-}
-
-export type AppShellPanelStackSlotProps = useRender.ComponentProps<"aside">;
-
-export function AppShellPanelStackSlot({
-  className,
-  render,
-  ...props
-}: AppShellPanelStackSlotProps) {
-  const theme = useThemeFamily();
-  const { panelStackSlot } = appShell({ theme });
-
-  const defaultProps: SlotElementProps<"aside"> = {
-    "data-slot": "app-shell-panel-stack-slot",
-    className: panelStackSlot({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "aside",
-    render,
-    props: mergeProps<"aside">(defaultProps, props),
   });
 }

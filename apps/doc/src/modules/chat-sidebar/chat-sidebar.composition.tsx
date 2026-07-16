@@ -14,9 +14,8 @@ import {
   ChatSidebarItemChannelIcon,
   ChatSidebarItemIndicator,
   ChatSidebarItemMetaIcon,
-  ChatSidebarItemInlineText,
+  ChatSidebarItemContent,
   ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarMenu,
@@ -111,10 +110,10 @@ export function ChatSidebarComposition() {
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemText>
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle className="shrink-0">#proj-uiux</ChatSidebarItemTitle>
                     <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
-                  </ChatSidebarItemText>
+                  </ChatSidebarItemContent>
                 </ChatSidebarItem>
                 <ChatSidebarItem
                   type="button"
@@ -126,10 +125,10 @@ export function ChatSidebarComposition() {
                       <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
                     </Avatar>
                   </ChatSidebarItemIcon>
-                  <ChatSidebarItemInlineText titleWidth="constrained">
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
                     <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
-                  </ChatSidebarItemInlineText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemAside>
                     <Status aria-hidden variant="success" size="md" />
                   </ChatSidebarItemAside>
@@ -142,9 +141,9 @@ export function ChatSidebarComposition() {
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemText>
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>#proj-theme</ChatSidebarItemTitle>
-                  </ChatSidebarItemText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemAside>
                     <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
                       <Pencil aria-hidden />
@@ -191,9 +190,9 @@ export function ChatSidebarComposition() {
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <GitBranch />
                   </ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemText>
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>#partners</ChatSidebarItemTitle>
-                  </ChatSidebarItemText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemCount>3</ChatSidebarItemCount>
                 </ChatSidebarItem>
               </ChatSidebarList>
@@ -235,9 +234,9 @@ export function ChatSidebarComposition() {
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemText>
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
-                  </ChatSidebarItemText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemAside>
                     <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
                       <AtSign aria-hidden />
@@ -253,7 +252,7 @@ export function ChatSidebarComposition() {
                   <ChatSidebarItemChannelIcon aria-hidden>
                     <Hash />
                   </ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemInlineText align="center">
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
                     <ChatSidebarItemMetaIcon
                       role="img"
@@ -262,7 +261,7 @@ export function ChatSidebarComposition() {
                     >
                       <BellOff aria-hidden />
                     </ChatSidebarItemMetaIcon>
-                  </ChatSidebarItemInlineText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemAside>
                     <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
                       <Pencil aria-hidden />
@@ -295,10 +294,10 @@ export function ChatSidebarComposition() {
                       <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
                     </Avatar>
                   </ChatSidebarItemIcon>
-                  <ChatSidebarItemInlineText titleWidth="constrained">
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>Cindy</ChatSidebarItemTitle>
                     <ChatSidebarItemSubtitle>design</ChatSidebarItemSubtitle>
-                  </ChatSidebarItemInlineText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemAside>
                     <Status aria-hidden variant="success" size="md" />
                     <ChatSidebarItemCount>4</ChatSidebarItemCount>
@@ -312,10 +311,10 @@ export function ChatSidebarComposition() {
                   <ChatSidebarItemIcon>
                     <Avatar size="2xs" type="agent" />
                   </ChatSidebarItemIcon>
-                  <ChatSidebarItemInlineText titleWidth="constrained">
+                  <ChatSidebarItemContent>
                     <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
                     <ChatSidebarItemSubtitle>idle</ChatSidebarItemSubtitle>
-                  </ChatSidebarItemInlineText>
+                  </ChatSidebarItemContent>
                   <ChatSidebarItemAside>
                     <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
                       <Pencil aria-hidden />

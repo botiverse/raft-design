@@ -53,7 +53,7 @@ import {
   ChatSidebarItemCount,
   ChatSidebarItemChannelIcon,
   ChatSidebarItemIcon,
-  ChatSidebarItemInlineText,
+  ChatSidebarItemContent,
   ChatSidebarItemIndicator,
   ChatSidebarItemMeta,
   ChatSidebarItemMetaIcon,
@@ -169,10 +169,10 @@ function ChannelRowContent({
           <ChannelIcon />
         </ChatSidebarItemChannelIcon>
       </ChatSidebarItemIcon>
-      <ChatSidebarItemInlineText align={navigation.muted ? "center" : undefined}>
+      <ChatSidebarItemContent>
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}
-      </ChatSidebarItemInlineText>
+      </ChatSidebarItemContent>
       {showAside ? (
         <ChatSidebarItemAside>
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}
@@ -223,14 +223,11 @@ function DirectMessageRowContent({
           ) : null}
         </Avatar>
       </ChatSidebarItemIcon>
-      <ChatSidebarItemInlineText
-        align={navigation.muted ? "center" : undefined}
-        titleWidth="constrained"
-      >
+      <ChatSidebarItemContent>
         <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}
         <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
-      </ChatSidebarItemInlineText>
+      </ChatSidebarItemContent>
       {showAside ? (
         <ChatSidebarItemAside>
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}

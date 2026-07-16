@@ -38,9 +38,10 @@ const NAV = [
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "wip" },
       { label: "AppRail", to: "/components/app-rail", status: "wip" },
+      { label: "Panel", to: "/components/panel", status: "done" },
+      { label: "Resizable", to: "/components/resizable", status: "done" },
       { label: "MobileNav", to: "/components/mobile-nav", status: "wip" },
       { label: "Logo", to: "/components/logo", status: "wip" },
-      { label: "AppPanelStack", to: "/components/app-panel-stack", status: "wip" },
       { label: "Separator", to: "/components/separator", status: "done" },
       {
         label: "Collapsible",
@@ -59,12 +60,6 @@ const NAV = [
         status: "parked",
         docsHref: "https://base-ui.com/react/components/scroll-area",
         reason: "Prefer native scrolling until custom scrollbar behavior is required.",
-      },
-      {
-        label: "Resizable",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Wait for explicit panel-resize requirements.",
       },
       {
         label: "Sidebar",

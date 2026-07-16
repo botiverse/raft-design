@@ -2,10 +2,9 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { VariantProps } from "../../lib/tv";
 import { Badge, type BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { chatSidebarItem, chatSidebarItemInlineText } from "./chat-sidebar-item.recipe";
+import { chatSidebarItem } from "./chat-sidebar-item.recipe";
 
 export type ChatSidebarItemProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
@@ -74,40 +73,20 @@ export function ChatSidebarItemChannelIcon({
   });
 }
 
-export type ChatSidebarItemTextProps = useRender.ComponentProps<"span">;
+export type ChatSidebarItemContentProps = useRender.ComponentProps<"span"> & {
+  stacked?: boolean;
+};
 
-export function ChatSidebarItemText({ className, render, ...props }: ChatSidebarItemTextProps) {
-  const { sidebarItemText } = chatSidebarItem();
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-text",
-    className: sidebarItemText({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
-type ChatSidebarItemInlineTextVariantProps = VariantProps<typeof chatSidebarItemInlineText>;
-
-export type ChatSidebarItemInlineTextProps = useRender.ComponentProps<"span"> &
-  ChatSidebarItemInlineTextVariantProps;
-
-export function ChatSidebarItemInlineText({
-  align,
+export function ChatSidebarItemContent({
   className,
   render,
-  titleWidth,
+  stacked,
   ...props
-}: ChatSidebarItemInlineTextProps) {
-  const { sidebarItemText } = chatSidebarItem();
+}: ChatSidebarItemContentProps) {
+  const { sidebarItemContent } = chatSidebarItem();
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-inline-text",
-    className: sidebarItemText({
-      className: chatSidebarItemInlineText({ align, className, titleWidth }),
-    }),
+    "data-slot": "chat-sidebar-item-content",
+    className: sidebarItemContent({ className, stacked }),
   };
 
   return useRender({

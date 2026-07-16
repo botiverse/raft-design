@@ -15,7 +15,11 @@ export const chatSidebarItem = tv({
       "flex shrink-0 items-center justify-center",
       "[&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
     ],
-    sidebarItemText: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"],
+    sidebarItemContent: [
+      "has-[>[data-slot=chat-sidebar-item-subtitle]]:[&>[data-slot=chat-sidebar-item-title]]:max-w-[70%]",
+      "has-[>[data-slot=chat-sidebar-item-subtitle]]:[&>[data-slot=chat-sidebar-item-title]]:shrink-0",
+      "has-[>[data-slot=chat-sidebar-item-meta-icon]]:items-center",
+    ],
     sidebarItemTitle: ["block min-w-0 truncate"],
     sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs font-normal"],
     sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
@@ -93,26 +97,12 @@ export const chatSidebarItem = tv({
         ],
       },
     },
-  },
-});
-
-export const chatSidebarItemInlineText = tv({
-  base: ["min-w-0"],
-  variants: {
-    align: {
-      baseline: "",
-      center: "items-center",
-    },
-    titleWidth: {
-      auto: "",
-      constrained: [
-        "[&>[data-slot=chat-sidebar-item-title]]:max-w-[70%]",
-        "[&>[data-slot=chat-sidebar-item-title]]:shrink-0",
-      ],
+    stacked: {
+      false: { sidebarItemContent: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"] },
+      true: { sidebarItemContent: ["min-w-0 flex-1 text-left"] },
     },
   },
   defaultVariants: {
-    align: "baseline",
-    titleWidth: "auto",
+    stacked: false,
   },
 });

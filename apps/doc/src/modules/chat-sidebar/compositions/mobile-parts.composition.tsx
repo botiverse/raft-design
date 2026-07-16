@@ -8,7 +8,7 @@ import {
   ChatSidebarHeader,
   ChatSidebarItem,
   ChatSidebarItemChannelIcon,
-  ChatSidebarItemText,
+  ChatSidebarItemContent,
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarRoot,
@@ -63,9 +63,9 @@ export function ChatSidebarMobilePartsComposition() {
               <ChatSidebarItemChannelIcon aria-hidden>
                 <Hash />
               </ChatSidebarItemChannelIcon>
-              <ChatSidebarItemText>
+              <ChatSidebarItemContent>
                 <ChatSidebarItemTitle>raft-ui-migration</ChatSidebarItemTitle>
-              </ChatSidebarItemText>
+              </ChatSidebarItemContent>
             </ChatSidebarItem>
             <ChatSidebarItem
               active={selected === "weekly-priorities"}
@@ -74,9 +74,9 @@ export function ChatSidebarMobilePartsComposition() {
               <ChatSidebarItemChannelIcon aria-hidden>
                 <Hash />
               </ChatSidebarItemChannelIcon>
-              <ChatSidebarItemText>
+              <ChatSidebarItemContent>
                 <ChatSidebarItemTitle>weekly-priorities</ChatSidebarItemTitle>
-              </ChatSidebarItemText>
+              </ChatSidebarItemContent>
             </ChatSidebarItem>
           </ChatSidebarList>
         </ChatSidebarContent>

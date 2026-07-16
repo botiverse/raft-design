@@ -130,7 +130,7 @@ const PROPS: readonly PropRow[] = [
     name: "ChatMainPanelTabs / Body / Timeline / MessageList / Footer",
     type: "div / form props",
     description:
-      "Tab chrome, scroll owner, list flow, and floating footer boundary. Override --chat-panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
+      "Tab chrome, scroll owner, list flow, and floating footer boundary. Override --panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
   },
   {
     name: "ChatMainPanelJumpToLatestLayout / JumpToLatest",

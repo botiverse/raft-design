@@ -41,12 +41,11 @@ export {
   ChatSidebarItemChannelIcon,
   ChatSidebarItemIcon,
   ChatSidebarItemIndicator,
-  ChatSidebarItemInlineText,
+  ChatSidebarItemContent,
   ChatSidebarItemMeta,
   ChatSidebarItemMetaIcon,
   ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
   ChatSidebarItemTitle,
 } from "./chat-sidebar-item";
 export type {
@@ -55,13 +54,12 @@ export type {
   ChatSidebarItemChannelIconProps,
   ChatSidebarItemIconProps,
   ChatSidebarItemIndicatorProps,
-  ChatSidebarItemInlineTextProps,
+  ChatSidebarItemContentProps,
   ChatSidebarItemMetaProps,
   ChatSidebarItemMetaIconProps,
   ChatSidebarItemStatusProps,
   ChatSidebarItemProps,
   ChatSidebarItemSubtitleProps,
-  ChatSidebarItemTextProps,
   ChatSidebarItemTitleProps,
 } from "./chat-sidebar-item";
 

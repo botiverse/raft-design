@@ -1,19 +1,9 @@
 import { Outlet, useMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useThemeFamily } from "raft-ui";
+import { ResizableGroup, ResizableHandle, ResizablePanel } from "raft-ui";
 import { cn } from "raft-ui/cn";
-import {
-  AppPanelStackContent,
-  AppPanelStackItem,
-  AppPanelStackRoot,
-  AppShellMainSlot,
-  AppShellPanelStackSlot,
-  AppShellRoot,
-  AppShellSidebarSlot,
-  ResizableGroup,
-  ResizableHandle,
-  ResizablePanel,
-} from "raft-ui/wip";
+import { AppShellMainSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui/wip";
 
 import {
   PLAYGROUND_LIVE_AGENT_ACTIVITY,
@@ -93,20 +83,12 @@ export function PlaygroundChatShell() {
         theme={theme}
         thread={
           activeThread && channel ? (
-            <AppShellPanelStackSlot className="flex h-full w-full">
-              <AppPanelStackRoot className="w-full">
-                <AppPanelStackItem className="w-full">
-                  <AppPanelStackContent>
-                    <PlaygroundThreadPanel
-                      key={activeThread.parent.id}
-                      backToTasks={from === "tasks"}
-                      channel={channel}
-                      thread={activeThread}
-                    />
-                  </AppPanelStackContent>
-                </AppPanelStackItem>
-              </AppPanelStackRoot>
-            </AppShellPanelStackSlot>
+            <PlaygroundThreadPanel
+              key={activeThread.parent.id}
+              backToTasks={from === "tasks"}
+              channel={channel}
+              thread={activeThread}
+            />
           ) : undefined
         }
       />

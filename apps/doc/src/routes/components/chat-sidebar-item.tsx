@@ -12,10 +12,10 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const ANATOMY_SNIPPET = `<ChatSidebarItem>
   <ChatSidebarItemChannelIcon />
-  <ChatSidebarItemText>
+  <ChatSidebarItemContent>
     <ChatSidebarItemTitle />
     <ChatSidebarItemSubtitle />
-  </ChatSidebarItemText>
+  </ChatSidebarItemContent>
   <ChatSidebarItemAside>
     <ChatSidebarItemIndicator />
     <ChatSidebarItemCount />
@@ -42,10 +42,10 @@ const PROPS: readonly PropRow[] = [
     description: "Leading visual slots for direct-message avatars and channel glyphs.",
   },
   {
-    name: "ChatSidebarItemText / ChatSidebarItemInlineText",
-    type: "span props & inline text variants",
+    name: "ChatSidebarItemContent",
+    type: "span props",
     description:
-      "Text layouts. InlineText supports alignment and constrained title width without changing row structure.",
+      "Groups title and subtitle content. Its layout adapts automatically when those parts are present.",
   },
   {
     name: "ChatSidebarItemTitle / Subtitle / Meta",
