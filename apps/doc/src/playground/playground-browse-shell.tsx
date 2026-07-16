@@ -1,15 +1,8 @@
 import { Outlet } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
-import { useThemeFamily } from "raft-ui";
+import { ResizableGroup, ResizableHandle, ResizablePanel, useThemeFamily } from "raft-ui";
 import { cn } from "raft-ui/cn";
-import {
-  AppShellMainSlot,
-  AppShellRoot,
-  AppShellSidebarSlot,
-  ResizableGroup,
-  ResizableHandle,
-  ResizablePanel,
-} from "raft-ui/wip";
+import { AppShellMainSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui/wip";
 
 import { PlaygroundRail } from "./playground-rail.tsx";
 import { PlaygroundRailViewSidebar } from "./playground-rail-views.tsx";

@@ -213,7 +213,9 @@ function ChatComposerDoc() {
         </DocNote>
         <div className="grid gap-8 lg:grid-cols-2">
           <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Main panel footer</h3>
+            <h3 className="text-sm font-medium text-foreground-strong">
+              Conversation panel footer
+            </h3>
             <div className="h-[22rem] overflow-hidden">
               <ComposerFooterIntegrationComposition host="main" />
             </div>

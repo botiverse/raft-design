@@ -640,6 +640,34 @@ export type {
 export { Separator } from "./components/separator/index";
 export type { SeparatorProps } from "./components/separator/index";
 
+export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";
+export type {
+  ResizableGroupProps,
+  ResizableHandleProps,
+  ResizablePanelProps,
+} from "./components/resizable/index";
+
+export {
+  Panel,
+  PanelBody,
+  PanelFooter,
+  PanelHeader,
+  PanelScrollContent,
+  PanelScrollbar,
+  PanelScrollbarThumb,
+  PanelScrollViewport,
+} from "./components/panel/index";
+export type {
+  PanelBodyProps,
+  PanelFooterProps,
+  PanelHeaderProps,
+  PanelProps,
+  PanelScrollContentProps,
+  PanelScrollbarProps,
+  PanelScrollbarThumbProps,
+  PanelScrollViewportProps,
+} from "./components/panel/index";
+
 export { BrutalOnly, ElegantOnly } from "./components/theme-only/index";
 export type { ThemeOnlyProps } from "./components/theme-only/index";
 

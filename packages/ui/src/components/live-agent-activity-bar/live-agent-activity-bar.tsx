@@ -42,7 +42,7 @@ export type LiveAgentActivityBarProps = useRender.ComponentProps<"div">;
 
 const EXIT_DURATION = 220;
 
-export function LiveAgentActivityBar({
+function LiveAgentActivityBarRoot({
   children,
   className,
   render,
@@ -50,61 +50,94 @@ export function LiveAgentActivityBar({
 }: LiveAgentActivityBarProps) {
   const theme = useThemeFamily();
   const { root } = liveAgentActivityBar({ theme });
-  const shouldAnimate = theme === "elegant";
-  const [displayedChildren, setDisplayedChildren] = useState<ReactNode>(children);
-  const [motion, setMotion] = useState<"entering" | "entered" | "exiting">("entered");
-
-  useEffect(() => {
-    if (!shouldAnimate) {
-      setDisplayedChildren(children);
-      setMotion("entered");
-      return;
-    }
-
-    if (children != null) {
-      setDisplayedChildren(children);
-      setMotion((previous) =>
-        displayedChildren == null || previous === "exiting" ? "entering" : previous,
-      );
-      return;
-    }
-
-    if (displayedChildren != null) setMotion("exiting");
-  }, [children, displayedChildren, shouldAnimate]);
-
-  useEffect(() => {
-    if (!shouldAnimate || motion !== "entering") return;
-    const frame = requestAnimationFrame(() => setMotion("entered"));
-    return () => cancelAnimationFrame(frame);
-  }, [motion, shouldAnimate]);
-
-  useEffect(() => {
-    if (!shouldAnimate || motion !== "exiting") return;
-    const timeout = window.setTimeout(() => setDisplayedChildren(null), EXIT_DURATION);
-    return () => window.clearTimeout(timeout);
-  }, [motion, shouldAnimate]);
-
-  const renderedChildren = shouldAnimate ? displayedChildren : children;
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "aria-live": "polite",
     "data-slot": "live-agent-activity-bar",
     "data-testid": "live-agent-activity-bar",
     className: root({ className }),
-    children: renderedChildren,
+    children,
   };
 
-  const activityBar = useRender({
+  return useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+}
 
-  if (renderedChildren == null) return null;
+function ElegantLiveAgentActivityMotion({
+  children,
+  ...activityBarProps
+}: LiveAgentActivityBarProps) {
+  const [transition, setTransition] = useState<{
+    children: ReactNode;
+    motion: "entering" | "entered" | "exiting";
+  }>({ children, motion: "entered" });
+
+  useEffect(() => {
+    setTransition((previous) => {
+      if (children != null) {
+        const motion =
+          previous.children == null || previous.motion === "exiting" ? "entering" : previous.motion;
+        return previous.children === children && previous.motion === motion
+          ? previous
+          : { children, motion };
+      }
+
+      return previous.children == null ? previous : { ...previous, motion: "exiting" };
+    });
+  }, [children]);
+
+  useEffect(() => {
+    if (transition.motion !== "entering") return;
+    const frame = requestAnimationFrame(() =>
+      setTransition((previous) =>
+        previous.motion === "entering" ? { ...previous, motion: "entered" } : previous,
+      ),
+    );
+    return () => cancelAnimationFrame(frame);
+  }, [transition.motion]);
+
+  useEffect(() => {
+    if (transition.motion !== "exiting") return;
+    const timeout = window.setTimeout(
+      () => setTransition((previous) => ({ ...previous, children: null })),
+      EXIT_DURATION,
+    );
+    return () => window.clearTimeout(timeout);
+  }, [transition.motion]);
+
+  if (transition.children == null) return null;
 
   return (
-    <LiveAgentActivityBeam enabled={shouldAnimate} motion={shouldAnimate ? motion : undefined}>
-      {activityBar}
+    <LiveAgentActivityBeam motion={transition.motion}>
+      <LiveAgentActivityBarRoot {...activityBarProps}>
+        {transition.children}
+      </LiveAgentActivityBarRoot>
     </LiveAgentActivityBeam>
+  );
+}
+
+export function LiveAgentActivityBar({
+  children,
+  className,
+  render,
+  ...props
+}: LiveAgentActivityBarProps) {
+  const theme = useThemeFamily();
+
+  if (theme === "elegant") {
+    return (
+      <ElegantLiveAgentActivityMotion className={className} render={render} {...props}>
+        {children}
+      </ElegantLiveAgentActivityMotion>
+    );
+  }
+
+  return children == null ? null : (
+    <LiveAgentActivityBarRoot className={className} render={render} {...props}>
+      {children}
+    </LiveAgentActivityBarRoot>
   );
 }
 

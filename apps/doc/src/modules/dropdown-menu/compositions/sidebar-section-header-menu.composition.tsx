@@ -29,7 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "raft-ui";
-import { ChatSidebarAction, ChatSidebarSectionHeader } from "raft-ui/wip";
+import { ChatSidebarControl, ChatSidebarSectionHeader } from "raft-ui/wip";
 
 const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
 const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";
@@ -278,9 +278,9 @@ export function SidebarSectionSortMenu({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <ChatSidebarAction type="button" aria-label={ariaLabel}>
+          <ChatSidebarControl type="button" aria-label={ariaLabel}>
             <ArrowUpDown />
-          </ChatSidebarAction>
+          </ChatSidebarControl>
         }
       />
       <SidebarSectionSortDropdownContent value={value} onValueChange={onValueChange} />
@@ -299,14 +299,14 @@ export function SidebarSectionAddButton({
   onClick?: () => void;
 }) {
   return (
-    <ChatSidebarAction
+    <ChatSidebarControl
       type="button"
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={disabled ? undefined : onClick}
     >
       <Plus />
-    </ChatSidebarAction>
+    </ChatSidebarControl>
   );
 }
 
@@ -336,9 +336,9 @@ export function SidebarSectionChannelsMenu({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <ChatSidebarAction type="button" aria-label={ariaLabel}>
+          <ChatSidebarControl type="button" aria-label={ariaLabel}>
             <EllipsisVertical />
-          </ChatSidebarAction>
+          </ChatSidebarControl>
         }
       />
       <SidebarSectionChannelsDropdownContent

@@ -4,17 +4,15 @@ import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
   ChatSidebarItem,
   ChatSidebarItemAside,
-  ChatSidebarItemBadge,
+  ChatSidebarItemCount,
   ChatSidebarItemChannelIcon,
-  ChatSidebarItemDraft,
   ChatSidebarItemIcon,
-  ChatSidebarItemMention,
-  ChatSidebarItemMuted,
-  ChatSidebarItemPresence,
+  ChatSidebarItemIndicator,
+  ChatSidebarItemMetaIcon,
+  ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
-  ChatSidebarItemText,
+  ChatSidebarItemContent,
   ChatSidebarItemTitle,
-  ChatSidebarItemUnread,
 } from "raft-ui/wip";
 
 const ITEMS = ["selected", "channel", "unread", "mention", "draft", "muted", "dm"] as const;
@@ -28,112 +26,109 @@ export function ChatSidebarItemStatesComposition() {
     <div className="grid w-full max-w-2xl gap-6 md:grid-cols-2">
       <StateGroup title="Channel rows">
         <ChatSidebarItem
-          current={currentItem === "selected"}
+          active={currentItem === "selected"}
           onClick={() => setCurrentItem("selected")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Selected channel</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
         </ChatSidebarItem>
 
         <ChatSidebarItem
-          current={currentItem === "channel"}
+          active={currentItem === "channel"}
           onClick={() => setCurrentItem("channel")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Channel</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
         </ChatSidebarItem>
 
-        <ChatSidebarItemUnread
-          current={currentItem === "unread"}
-          onClick={() => setCurrentItem("unread")}
-        >
+        <ChatSidebarItem active={currentItem === "unread"} onClick={() => setCurrentItem("unread")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Unread activity</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
-        </ChatSidebarItemUnread>
+          </ChatSidebarItemContent>
+        </ChatSidebarItem>
 
-        <ChatSidebarItemUnread
-          current={currentItem === "mention"}
+        <ChatSidebarItem
+          active={currentItem === "mention"}
           onClick={() => setCurrentItem("mention")}
         >
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#design</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Mention and badge</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
-            <ChatSidebarItemMention aria-label="Mentioned you">
+            <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
               <AtSign aria-hidden />
-            </ChatSidebarItemMention>
-            <ChatSidebarItemBadge>12</ChatSidebarItemBadge>
+            </ChatSidebarItemIndicator>
+            <ChatSidebarItemCount>12</ChatSidebarItemCount>
           </ChatSidebarItemAside>
-        </ChatSidebarItemUnread>
+        </ChatSidebarItem>
       </StateGroup>
 
       <StateGroup title="Metadata and direct messages">
-        <ChatSidebarItem current={currentItem === "draft"} onClick={() => setCurrentItem("draft")}>
+        <ChatSidebarItem active={currentItem === "draft"} onClick={() => setCurrentItem("draft")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#planning</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Draft</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
-            <ChatSidebarItemDraft aria-label="Draft">
+            <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
               <Pencil aria-hidden />
-            </ChatSidebarItemDraft>
+            </ChatSidebarItemMetaIcon>
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
-        <ChatSidebarItem current={currentItem === "muted"} onClick={() => setCurrentItem("muted")}>
+        <ChatSidebarItem active={currentItem === "muted"} onClick={() => setCurrentItem("muted")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>#announcements</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Muted</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
-            <ChatSidebarItemMuted aria-label="Activity muted">
+            <ChatSidebarItemMetaIcon role="img" aria-label="Activity muted">
               <BellOff aria-hidden />
-            </ChatSidebarItemMuted>
+            </ChatSidebarItemMetaIcon>
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
-        <ChatSidebarItemUnread current={currentItem === "dm"} onClick={() => setCurrentItem("dm")}>
+        <ChatSidebarItem active={currentItem === "dm"} onClick={() => setCurrentItem("dm")}>
           <ChatSidebarItemIcon>
             <Avatar size="2xs" type="human">
               <AvatarFallback>C</AvatarFallback>
             </Avatar>
           </ChatSidebarItemIcon>
-          <ChatSidebarItemText>
+          <ChatSidebarItemContent>
             <ChatSidebarItemTitle>Cindy</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Direct message</ChatSidebarItemSubtitle>
-          </ChatSidebarItemText>
+          </ChatSidebarItemContent>
           <ChatSidebarItemAside>
-            <ChatSidebarItemPresence>
+            <ChatSidebarItemStatus>
               <Status aria-label="Online" size="xs" variant="success" />
-            </ChatSidebarItemPresence>
-            <ChatSidebarItemBadge>4</ChatSidebarItemBadge>
+            </ChatSidebarItemStatus>
+            <ChatSidebarItemCount>4</ChatSidebarItemCount>
           </ChatSidebarItemAside>
-        </ChatSidebarItemUnread>
+        </ChatSidebarItem>
       </StateGroup>
     </div>
   );

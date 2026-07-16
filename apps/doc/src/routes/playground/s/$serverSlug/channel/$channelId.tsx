@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { PlaygroundMainPanel } from "#/playground/playground-main-panel.tsx";
+import { PlaygroundConversationPanel } from "#/playground/playground-conversation-panel.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   getPlaygroundChannel,
@@ -40,5 +40,5 @@ function PlaygroundChannelRoute() {
 
   const channel = getPlaygroundChannel(channelId);
 
-  return <PlaygroundMainPanel channel={channel} />;
+  return <PlaygroundConversationPanel channel={channel} />;
 }

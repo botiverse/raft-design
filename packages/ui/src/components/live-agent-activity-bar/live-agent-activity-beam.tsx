@@ -311,12 +311,10 @@ function beamStyles(id: string, borderRadius: number) {
 
 export function LiveAgentActivityBeam({
   children,
-  enabled,
   motion,
 }: {
   children: ReactNode;
-  enabled: boolean;
-  motion?: LiveAgentActivityMotion;
+  motion: LiveAgentActivityMotion;
 }) {
   const id = useId().replace(/:/g, "-");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -325,7 +323,6 @@ export function LiveAgentActivityBeam({
   const [glowScale, setGlowScale] = useState({ x: 1, y: 1 });
 
   useEffect(() => {
-    if (!enabled) return;
     const root = rootRef.current;
     if (!root) return;
     const child = root.firstElementChild as HTMLElement | null;
@@ -348,10 +345,9 @@ export function LiveAgentActivityBeam({
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(child);
     return () => resizeObserver.disconnect();
-  }, [children, enabled]);
+  }, [children]);
 
   useEffect(() => {
-    if (!enabled) return;
     const root = rootRef.current;
     if (!root || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(
@@ -362,14 +358,13 @@ export function LiveAgentActivityBeam({
     );
     observer.observe(root);
     return () => observer.disconnect();
-  }, [enabled]);
+  }, []);
 
   useEffect(() => {
-    if (!enabled) return;
     const root = rootRef.current;
     if (!root || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     return registerPulseInstance(root, pulseDriverConfig(id));
-  }, [enabled, id, visible]);
+  }, [id, visible]);
 
   const styles = useMemo(() => beamStyles(id, borderRadius), [borderRadius, id]);
   const style = {
@@ -380,20 +375,16 @@ export function LiveAgentActivityBeam({
 
   return (
     <>
-      <style>{enabled ? styles : undefined}</style>
+      <style>{styles}</style>
       <div
         ref={rootRef}
-        data-beam={enabled ? id : undefined}
-        data-motion={enabled ? motion : undefined}
-        className={enabled ? activityMotionClass : "contents"}
-        style={enabled ? style : undefined}
+        data-beam={id}
+        data-motion={motion}
+        className={activityMotionClass}
+        style={style}
       >
         {children}
-        <div
-          aria-hidden
-          data-beam-bloom={enabled ? "" : undefined}
-          className={enabled ? undefined : "hidden"}
-        />
+        <div aria-hidden data-beam-bloom="" />
       </div>
     </>
   );

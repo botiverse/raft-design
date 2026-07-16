@@ -1,25 +1,27 @@
 import type { FormEvent } from "react";
-import { ChatMainPanelFooter, ChatThreadPanelFooter } from "raft-ui/wip";
+import { ConversationPanelFooter, ThreadPanelFooter } from "raft-ui/wip";
 
 import { ComposerDefaultComposition } from "./composer-default.composition.tsx";
+
+function preventSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+}
 
 export function ComposerFooterIntegrationComposition({
   host = "main",
 }: {
   host?: "main" | "thread";
 }) {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => event.preventDefault();
-
   return (
     <div className="flex h-full flex-col justify-end bg-layer-panel">
       {host === "main" ? (
-        <ChatMainPanelFooter onSubmit={handleSubmit}>
-          <ComposerDefaultComposition />
-        </ChatMainPanelFooter>
+        <ConversationPanelFooter>
+          <ComposerDefaultComposition onSubmit={preventSubmit} />
+        </ConversationPanelFooter>
       ) : (
-        <ChatThreadPanelFooter render={<form onSubmit={handleSubmit} />}>
-          <ComposerDefaultComposition />
-        </ChatThreadPanelFooter>
+        <ThreadPanelFooter>
+          <ComposerDefaultComposition onSubmit={preventSubmit} />
+        </ThreadPanelFooter>
       )}
     </div>
   );

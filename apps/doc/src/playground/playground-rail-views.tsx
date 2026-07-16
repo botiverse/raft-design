@@ -36,14 +36,14 @@ import {
   SegmentedControlLabel,
 } from "raft-ui";
 import {
-  ChatMainPanelBody,
-  ChatMainPanelContent,
-  ChatMainPanelHeader,
-  ChatMainPanelHeaderIcon,
-  ChatMainPanelRoot,
-  ChatMainPanelSubtitle,
-  ChatMainPanelTitle,
-  ChatMainPanelTitleBlock,
+  ConversationPanelBody,
+  ConversationPanelContent,
+  ConversationPanelHeader,
+  ConversationPanelHeaderIcon,
+  ConversationPanelRoot,
+  ConversationPanelMeta,
+  ConversationPanelTitle,
+  ConversationPanelHeaderContent,
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarGroupLabel,
@@ -242,7 +242,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
                   <ChatSidebarGroupLabel>{detail.group}</ChatSidebarGroupLabel>
                 ) : null}
                 <ChatSidebarItem
-                  current={selectedId === detail.id}
+                  active={selectedId === detail.id}
                   onClick={() => selectRailDetail(detail.id)}
                 >
                   <ChatSidebarItemIcon aria-hidden>
@@ -274,8 +274,8 @@ export function PlaygroundRailViewPanel({
     view === "search" || view === "activity" || view === "saved" || auxiliaryDetail;
 
   return (
-    <ChatMainPanelRoot>
-      <ChatMainPanelHeader>
+    <ConversationPanelRoot>
+      <ConversationPanelHeader>
         {mobileBack ? (
           <Button
             variant="outline"
@@ -290,15 +290,15 @@ export function PlaygroundRailViewPanel({
             <ChevronLeft aria-hidden />
           </Button>
         ) : null}
-        <ChatMainPanelHeaderIcon>
+        <ConversationPanelHeaderIcon>
           <ViewIcon />
-        </ChatMainPanelHeaderIcon>
-        <ChatMainPanelTitleBlock>
-          <ChatMainPanelTitle>{viewMeta[view].title}</ChatMainPanelTitle>
-          <ChatMainPanelSubtitle>Playground preview</ChatMainPanelSubtitle>
-        </ChatMainPanelTitleBlock>
-      </ChatMainPanelHeader>
-      <ChatMainPanelContent>
+        </ConversationPanelHeaderIcon>
+        <ConversationPanelHeaderContent>
+          <ConversationPanelTitle>{viewMeta[view].title}</ConversationPanelTitle>
+          <ConversationPanelMeta>Playground preview</ConversationPanelMeta>
+        </ConversationPanelHeaderContent>
+      </ConversationPanelHeader>
+      <ConversationPanelContent>
         {view === "search" ? (
           <PlaygroundSearchView />
         ) : view === "activity" ? (
@@ -308,14 +308,14 @@ export function PlaygroundRailViewPanel({
         ) : (
           <PlaygroundDetailView view={view} />
         )}
-      </ChatMainPanelContent>
-    </ChatMainPanelRoot>
+      </ConversationPanelContent>
+    </ConversationPanelRoot>
   );
 }
 
 function PlaygroundSavedView() {
   return (
-    <ChatMainPanelBody>
+    <ConversationPanelBody>
       <EmptyState className="min-h-full">
         <EmptyStateContent>
           <EmptyStateIcon>
@@ -327,7 +327,7 @@ function PlaygroundSavedView() {
           </EmptyStateDescription>
         </EmptyStateContent>
       </EmptyState>
-    </ChatMainPanelBody>
+    </ConversationPanelBody>
   );
 }
 
@@ -341,7 +341,7 @@ function PlaygroundSearchView() {
   ].filter((channel) => channel.name.toLocaleLowerCase().includes(normalizedQuery));
 
   return (
-    <ChatMainPanelBody>
+    <ConversationPanelBody>
       <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto p-4">
         <Input
           aria-label="Search channels and direct messages"
@@ -380,7 +380,7 @@ function PlaygroundSearchView() {
           </EmptyState>
         ) : null}
       </div>
-    </ChatMainPanelBody>
+    </ConversationPanelBody>
   );
 }
 
@@ -393,7 +393,7 @@ function PlaygroundActivityView() {
   } as const;
 
   return (
-    <ChatMainPanelBody>
+    <ConversationPanelBody>
       <div className="flex h-full min-h-0 flex-col gap-4 p-4">
         <SegmentedControl ariaLabel="Filter activity" value={filter} onValueChange={setFilter}>
           <SegmentedControlItem value="all">
@@ -418,7 +418,7 @@ function PlaygroundActivityView() {
           </EmptyStateContent>
         </EmptyState>
       </div>
-    </ChatMainPanelBody>
+    </ConversationPanelBody>
   );
 }
 
@@ -429,7 +429,7 @@ function PlaygroundDetailView({ view }: { view: AuxiliaryRailView }) {
   const DetailIcon = detail?.icon ?? viewMeta[view].icon;
 
   return (
-    <ChatMainPanelBody>
+    <ConversationPanelBody>
       <div className="flex h-full items-center justify-center p-4">
         <EmptyState>
           <EmptyStateContent>
@@ -443,6 +443,6 @@ function PlaygroundDetailView({ view }: { view: AuxiliaryRailView }) {
           </EmptyStateContent>
         </EmptyState>
       </div>
-    </ChatMainPanelBody>
+    </ConversationPanelBody>
   );
 }

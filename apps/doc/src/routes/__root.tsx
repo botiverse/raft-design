@@ -83,15 +83,21 @@ function RootDocument({ children }: { children: ReactNode }) {
   const documentTitle = getDocumentTitle(location.pathname);
 
   return (
-    <html lang="en" data-theme="elegant" className="light">
+    <html
+      lang="en"
+      data-standalone={isStandalonePage || undefined}
+      data-theme="elegant"
+      className="light"
+    >
       <head>
         <title>{documentTitle}</title>
         <HeadContent />
       </head>
       <body
+        data-standalone={isStandalonePage || undefined}
         className={
           isStandalonePage
-            ? "bg-background text-foreground antialiased"
+            ? "h-dvh overflow-hidden overscroll-none bg-background text-foreground antialiased"
             : "bg-layer-panel text-foreground antialiased"
         }
       >
@@ -100,12 +106,20 @@ function RootDocument({ children }: { children: ReactNode }) {
             <div
               className={
                 isStandalonePage
-                  ? "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem]"
+                  ? "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]"
                   : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
               }
             >
               {isStandalonePage ? null : <Sidebar />}
-              <main className="min-h-screen pl-[var(--sidebar-w)]">{children}</main>
+              <main
+                className={
+                  isStandalonePage
+                    ? "h-full pl-[var(--sidebar-w)]"
+                    : "min-h-screen pl-[var(--sidebar-w)]"
+                }
+              >
+                {children}
+              </main>
             </div>
           </DocumentThemeProvider>
         </PreviewThemeProvider>

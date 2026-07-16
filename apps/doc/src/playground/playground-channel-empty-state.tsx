@@ -1,19 +1,19 @@
 import {
-  ChatMainPanelEmptyState,
-  ChatMainPanelEmptyStateBrand,
-  ChatMainPanelEmptyStateBrandMark,
+  ConversationPanelEmptyState,
+  ConversationPanelEmptyStateBrand,
+  ConversationPanelEmptyStateBrandMark,
   RaftLogo,
 } from "raft-ui/wip";
 
 export function PlaygroundChannelEmptyState() {
   return (
-    <ChatMainPanelEmptyState>
-      <ChatMainPanelEmptyStateBrand>
-        <ChatMainPanelEmptyStateBrandMark>
+    <ConversationPanelEmptyState>
+      <ConversationPanelEmptyStateBrand>
+        <ConversationPanelEmptyStateBrandMark>
           <RaftLogo aria-hidden />
-        </ChatMainPanelEmptyStateBrandMark>
-      </ChatMainPanelEmptyStateBrand>
+        </ConversationPanelEmptyStateBrandMark>
+      </ConversationPanelEmptyStateBrand>
       <span>Select a channel</span>
-    </ChatMainPanelEmptyState>
+    </ConversationPanelEmptyState>
   );
 }

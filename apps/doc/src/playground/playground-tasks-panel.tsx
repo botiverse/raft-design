@@ -3,11 +3,11 @@ import { CheckSquare } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Avatar, AvatarFallback, AvatarImage, BrutalOnly, ElegantOnly } from "raft-ui";
 import {
-  ChatMainPanelHeaderIcon,
-  ChatMainPanelSectionHeader,
-  ChatMainPanelSubtitle,
-  ChatMainPanelTitle,
-  ChatMainPanelTitleBlock,
+  ConversationPanelHeaderIcon,
+  ConversationPanelSectionHeader,
+  ConversationPanelMeta,
+  ConversationPanelTitle,
+  ConversationPanelHeaderContent,
 } from "raft-ui/wip";
 
 import {
@@ -115,24 +115,26 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       {channel ? null : (
-        <ChatMainPanelSectionHeader>
+        <ConversationPanelSectionHeader>
           <BrutalOnly>
-            <ChatMainPanelHeaderIcon className="max-md:hidden">
+            <ConversationPanelHeaderIcon className="max-md:hidden">
               <CheckSquare aria-hidden />
-            </ChatMainPanelHeaderIcon>
+            </ConversationPanelHeaderIcon>
           </BrutalOnly>
           <ElegantOnly>
-            <ChatMainPanelHeaderIcon>
+            <ConversationPanelHeaderIcon>
               <CheckSquare aria-hidden />
-            </ChatMainPanelHeaderIcon>
+            </ConversationPanelHeaderIcon>
           </ElegantOnly>
-          <ChatMainPanelTitleBlock>
-            <ChatMainPanelTitle render={<h2 aria-label="Tasks" />}>Tasks</ChatMainPanelTitle>
-            <ChatMainPanelSubtitle render={<p />}>
+          <ConversationPanelHeaderContent>
+            <ConversationPanelTitle render={<h2 aria-label="Tasks" />}>
+              Tasks
+            </ConversationPanelTitle>
+            <ConversationPanelMeta render={<p />}>
               {compositionTasks.length} channel tasks
-            </ChatMainPanelSubtitle>
-          </ChatMainPanelTitleBlock>
-        </ChatMainPanelSectionHeader>
+            </ConversationPanelMeta>
+          </ConversationPanelHeaderContent>
+        </ConversationPanelSectionHeader>
       )}
       <TasksPanelComposition
         tasks={compositionTasks}

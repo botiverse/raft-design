@@ -12,9 +12,13 @@ import {
   ComposerToolbarLabel,
 } from "raft-ui/wip";
 
-export function ComposerDefaultComposition() {
+export function ComposerDefaultComposition({
+  onSubmit,
+}: {
+  onSubmit?: FormEventHandler<HTMLFormElement>;
+} = {}) {
   return (
-    <ComposerRoot>
+    <ComposerRoot onSubmit={onSubmit}>
       <Composer>
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>
@@ -41,3 +45,4 @@ export function ComposerDefaultComposition() {
     </ComposerRoot>
   );
 }
+import type { FormEventHandler } from "react";

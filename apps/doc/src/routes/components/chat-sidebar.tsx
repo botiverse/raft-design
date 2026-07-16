@@ -30,22 +30,22 @@ const SNIPPETS = {
   anatomy: `<ChatSidebarRoot>
   <ChatSidebarHeader>
     <ChatSidebarHeaderTitle />
-    <ChatSidebarAction />
+    <ChatSidebarControl />
   </ChatSidebarHeader>
   <ChatSidebarBody>
     <ChatSidebarContent>
       <ChatSidebarSection>
         <ChatSidebarSectionHeader>
-          <ChatSidebarSectionButton>
+          <ChatSidebarSectionDisclosure>
             <ChatSidebarSectionTitle />
             <ChatSidebarSectionCount />
             <ChatSidebarSectionChevron />
-          </ChatSidebarSectionButton>
+          </ChatSidebarSectionDisclosure>
           <ChatSidebarSectionTrailing>
             <ChatSidebarSectionAttention />
-            <ChatSidebarSectionActions>
-              <ChatSidebarAction />
-            </ChatSidebarSectionActions>
+          <ChatSidebarSectionControls>
+              <ChatSidebarControl />
+            </ChatSidebarSectionControls>
           </ChatSidebarSectionTrailing>
         </ChatSidebarSectionHeader>
         <ChatSidebarList>
@@ -54,10 +54,9 @@ const SNIPPETS = {
       </ChatSidebarSection>
     </ChatSidebarContent>
   </ChatSidebarBody>
-  <ChatSidebarActivitySlot>
+  <ChatSidebarLiveActivity>
     <LiveAgentActivityBar />
-  </ChatSidebarActivitySlot>
-  <ChatSidebarFooter />
+  </ChatSidebarLiveActivity>
 </ChatSidebarRoot>`,
 } as const;
 
@@ -79,16 +78,16 @@ const PROPS: readonly PropRow[] = [
     description: "Full-height sidebar surface that keeps the header and scroll body aligned.",
   },
   {
-    name: "ChatSidebarHeader / Body / Content / Footer",
+    name: "ChatSidebarHeader / Body / Content",
     type: "div props",
     description:
-      "Column regions matching source sidebar chrome, scroll ownership, and footer. Header is a layout slot for an app-owned server switcher.",
+      "Column regions matching source sidebar chrome and scroll ownership. Header is a layout slot for an app-owned server switcher.",
   },
   {
-    name: "ChatSidebarActivitySlot",
+    name: "ChatSidebarLiveActivity",
     type: "div props",
     description:
-      "Optional desktop floating-activity host. It owns theme spacing, progressive blur, and the matching scroll-content clearance while the caller owns activity content.",
+      "Optional desktop live-agent overlay. It owns the full-width fade, theme spacing, and matching scroll-content clearance.",
   },
   {
     name: "ChatSidebarMenu / Icon / Title / Aside / Count",
@@ -124,9 +123,10 @@ const PROPS: readonly PropRow[] = [
       "Base UI Collapsible header parts for ChatSidebarSectionChevron, title, count, ChatSidebarSectionAttention, and action slots.",
   },
   {
-    name: "ChatSidebarAction",
+    name: "ChatSidebarControl",
     type: "button props",
-    description: "Theme-aware action button shared by the sidebar header and section action slots.",
+    description:
+      "Theme-aware control button shared by the sidebar header and section control slots.",
   },
 ];
 

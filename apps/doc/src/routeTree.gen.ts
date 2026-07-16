@@ -43,10 +43,12 @@ import { Route as ComponentsSeparatorRouteImport } from './routes/components/sep
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
+import { Route as ComponentsResizableRouteImport } from './routes/components/resizable'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
+import { Route as ComponentsPanelRouteImport } from './routes/components/panel'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
@@ -70,10 +72,10 @@ import { Route as ComponentsContextMenuRouteImport } from './routes/components/c
 import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
-import { Route as ComponentsChatThreadPanelRouteImport } from './routes/components/chat-thread-panel'
+import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
 import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
 import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
-import { Route as ComponentsChatMainPanelRouteImport } from './routes/components/chat-main-panel'
+import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -82,7 +84,6 @@ import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar
 import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
 import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
 import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
-import { Route as ComponentsAppPanelStackRouteImport } from './routes/components/app-panel-stack'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
 import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
@@ -276,6 +277,11 @@ const ComponentsSandboxedPreviewFrameRoute =
     path: '/sandboxed-preview-frame',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsResizableRoute = ComponentsResizableRouteImport.update({
+  id: '/resizable',
+  path: '/resizable',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
   id: '/radio-group',
   path: '/radio-group',
@@ -294,6 +300,11 @@ const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
 const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
   id: '/popover',
   path: '/popover',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsPanelRoute = ComponentsPanelRouteImport.update({
+  id: '/panel',
+  path: '/panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsNotificationCenterRoute =
@@ -415,10 +426,10 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   path: '/checkbox',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsChatThreadPanelRoute =
-  ComponentsChatThreadPanelRouteImport.update({
-    id: '/chat-thread-panel',
-    path: '/chat-thread-panel',
+const ComponentsThreadPanelRoute =
+  ComponentsThreadPanelRouteImport.update({
+    id: '/thread-panel',
+    path: '/thread-panel',
     getParentRoute: () => ComponentsRoute,
   } as any)
 const ComponentsChatSidebarItemRoute =
@@ -432,9 +443,9 @@ const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
   path: '/chat-sidebar',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsChatMainPanelRoute = ComponentsChatMainPanelRouteImport.update({
-  id: '/chat-main-panel',
-  path: '/chat-main-panel',
+const ComponentsConversationPanelRoute = ComponentsConversationPanelRouteImport.update({
+  id: '/conversation-panel',
+  path: '/conversation-panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
@@ -475,11 +486,6 @@ const ComponentsAppShellRoute = ComponentsAppShellRouteImport.update({
 const ComponentsAppRailRoute = ComponentsAppRailRouteImport.update({
   id: '/app-rail',
   path: '/app-rail',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsAppPanelStackRoute = ComponentsAppPanelStackRouteImport.update({
-  id: '/app-panel-stack',
-  path: '/app-panel-stack',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
@@ -590,7 +596,6 @@ export interface FileRoutesByFullPath {
   '/migration': typeof MigrationRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
-  '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
@@ -599,10 +604,10 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
+  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
-  '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
+  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
@@ -626,10 +631,12 @@ export interface FileRoutesByFullPath {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
+  '/components/resizable': typeof ComponentsResizableRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -682,7 +689,6 @@ export interface FileRoutesByTo {
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
-  '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
@@ -691,10 +697,10 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
+  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
-  '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
+  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
@@ -718,10 +724,12 @@ export interface FileRoutesByTo {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
+  '/components/resizable': typeof ComponentsResizableRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -776,7 +784,6 @@ export interface FileRoutesById {
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
-  '/components/app-panel-stack': typeof ComponentsAppPanelStackRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
   '/components/attention-dot': typeof ComponentsAttentionDotRoute
@@ -785,10 +792,10 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/chat-main-panel': typeof ComponentsChatMainPanelRoute
+  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
-  '/components/chat-thread-panel': typeof ComponentsChatThreadPanelRoute
+  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
@@ -812,10 +819,12 @@ export interface FileRoutesById {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
+  '/components/resizable': typeof ComponentsResizableRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -871,7 +880,6 @@ export interface FileRouteTypes {
     | '/migration'
     | '/playground/s'
     | '/components/alert-dialog'
-    | '/components/app-panel-stack'
     | '/components/app-rail'
     | '/components/app-shell'
     | '/components/attention-dot'
@@ -880,10 +888,10 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/chat-main-panel'
+    | '/components/conversation-panel'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
-    | '/components/chat-thread-panel'
+    | '/components/thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/composer-suggestions'
@@ -907,10 +915,12 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
+    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
+    | '/components/resizable'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -963,7 +973,6 @@ export interface FileRouteTypes {
     | '/playground'
     | '/playground/s'
     | '/components/alert-dialog'
-    | '/components/app-panel-stack'
     | '/components/app-rail'
     | '/components/app-shell'
     | '/components/attention-dot'
@@ -972,10 +981,10 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/chat-main-panel'
+    | '/components/conversation-panel'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
-    | '/components/chat-thread-panel'
+    | '/components/thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/composer-suggestions'
@@ -999,10 +1008,12 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
+    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
+    | '/components/resizable'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1056,7 +1067,6 @@ export interface FileRouteTypes {
     | '/playground/_plain'
     | '/playground/s'
     | '/components/alert-dialog'
-    | '/components/app-panel-stack'
     | '/components/app-rail'
     | '/components/app-shell'
     | '/components/attention-dot'
@@ -1065,10 +1075,10 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/chat-main-panel'
+    | '/components/conversation-panel'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
-    | '/components/chat-thread-panel'
+    | '/components/thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/composer-suggestions'
@@ -1092,10 +1102,12 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
+    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
+    | '/components/resizable'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1398,6 +1410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/resizable': {
+      id: '/components/resizable'
+      path: '/resizable'
+      fullPath: '/components/resizable'
+      preLoaderRoute: typeof ComponentsResizableRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/radio-group': {
       id: '/components/radio-group'
       path: '/radio-group'
@@ -1424,6 +1443,13 @@ declare module '@tanstack/react-router' {
       path: '/popover'
       fullPath: '/components/popover'
       preLoaderRoute: typeof ComponentsPopoverRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/panel': {
+      id: '/components/panel'
+      path: '/panel'
+      fullPath: '/components/panel'
+      preLoaderRoute: typeof ComponentsPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/notification-center': {
@@ -1587,11 +1613,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/chat-thread-panel': {
-      id: '/components/chat-thread-panel'
-      path: '/chat-thread-panel'
-      fullPath: '/components/chat-thread-panel'
-      preLoaderRoute: typeof ComponentsChatThreadPanelRouteImport
+    '/components/thread-panel': {
+      id: '/components/thread-panel'
+      path: '/thread-panel'
+      fullPath: '/components/thread-panel'
+      preLoaderRoute: typeof ComponentsThreadPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/chat-sidebar-item': {
@@ -1608,11 +1634,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsChatSidebarRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/chat-main-panel': {
-      id: '/components/chat-main-panel'
-      path: '/chat-main-panel'
-      fullPath: '/components/chat-main-panel'
-      preLoaderRoute: typeof ComponentsChatMainPanelRouteImport
+    '/components/conversation-panel': {
+      id: '/components/conversation-panel'
+      path: '/conversation-panel'
+      fullPath: '/components/conversation-panel'
+      preLoaderRoute: typeof ComponentsConversationPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/chat-composer': {
@@ -1669,13 +1695,6 @@ declare module '@tanstack/react-router' {
       path: '/app-rail'
       fullPath: '/components/app-rail'
       preLoaderRoute: typeof ComponentsAppRailRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/app-panel-stack': {
-      id: '/components/app-panel-stack'
-      path: '/app-panel-stack'
-      fullPath: '/components/app-panel-stack'
-      preLoaderRoute: typeof ComponentsAppPanelStackRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/alert-dialog': {
@@ -1911,7 +1930,6 @@ const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
 
 interface ComponentsRouteChildren {
   ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
-  ComponentsAppPanelStackRoute: typeof ComponentsAppPanelStackRoute
   ComponentsAppRailRoute: typeof ComponentsAppRailRoute
   ComponentsAppShellRoute: typeof ComponentsAppShellRoute
   ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
@@ -1920,10 +1938,10 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
-  ComponentsChatMainPanelRoute: typeof ComponentsChatMainPanelRoute
+  ComponentsConversationPanelRoute: typeof ComponentsConversationPanelRoute
   ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
   ComponentsChatSidebarItemRoute: typeof ComponentsChatSidebarItemRoute
-  ComponentsChatThreadPanelRoute: typeof ComponentsChatThreadPanelRoute
+  ComponentsThreadPanelRoute: typeof ComponentsThreadPanelRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
@@ -1947,10 +1965,12 @@ interface ComponentsRouteChildren {
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
+  ComponentsPanelRoute: typeof ComponentsPanelRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
+  ComponentsResizableRoute: typeof ComponentsResizableRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
@@ -1972,7 +1992,6 @@ interface ComponentsRouteChildren {
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
-  ComponentsAppPanelStackRoute: ComponentsAppPanelStackRoute,
   ComponentsAppRailRoute: ComponentsAppRailRoute,
   ComponentsAppShellRoute: ComponentsAppShellRoute,
   ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
@@ -1981,10 +2000,10 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
-  ComponentsChatMainPanelRoute: ComponentsChatMainPanelRoute,
+  ComponentsConversationPanelRoute: ComponentsConversationPanelRoute,
   ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
   ComponentsChatSidebarItemRoute: ComponentsChatSidebarItemRoute,
-  ComponentsChatThreadPanelRoute: ComponentsChatThreadPanelRoute,
+  ComponentsThreadPanelRoute: ComponentsThreadPanelRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
@@ -2008,10 +2027,12 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
+  ComponentsPanelRoute: ComponentsPanelRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
+  ComponentsResizableRoute: ComponentsResizableRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,

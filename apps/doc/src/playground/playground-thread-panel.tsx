@@ -3,21 +3,22 @@ import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
 import { Button } from "raft-ui";
 import {
-  ChatThreadPanelActions,
-  ChatThreadPanelBody,
-  ChatThreadPanelContent,
-  ChatThreadPanelHeader,
-  ChatThreadPanelParent,
-  ChatThreadPanelReplyCount,
-  ChatThreadPanelRoot,
-  ChatThreadPanelSearch,
-  ChatThreadPanelSearchCount,
-  ChatThreadPanelSearchIcon,
-  ChatThreadPanelSearchInput,
-  ChatThreadPanelTitle,
-  ChatThreadPanelTitleMeta,
-  MessageTimelineNotice,
-  ChatPanelAction,
+  ThreadPanelActions,
+  ThreadPanelBody,
+  ThreadPanelContent,
+  ThreadPanelHeader,
+  ThreadPanelOriginalMessage,
+  ThreadPanelReplyCount,
+  ThreadPanelRoot,
+  ThreadPanelSearch,
+  ThreadPanelSearchCount,
+  ThreadPanelSearchIcon,
+  ThreadPanelSearchInput,
+  ThreadPanelTitle,
+  ThreadPanelTitleMeta,
+  MessageList,
+  MessageListNotice,
+  PanelAction,
 } from "raft-ui/wip";
 import { PlaygroundThreadComposer } from "./playground-composer.tsx";
 import { PlaygroundMessageRow } from "./playground-message-row.tsx";
@@ -66,8 +67,8 @@ export function PlaygroundThreadPanel({
   }
 
   return (
-    <ChatThreadPanelRoot>
-      <ChatThreadPanelHeader>
+    <ThreadPanelRoot>
+      <ThreadPanelHeader>
         <Button
           className="mr-1 lg:hidden"
           variant="outline"
@@ -88,15 +89,15 @@ export function PlaygroundThreadPanel({
         >
           <ChevronLeft aria-hidden />
         </Button>
-        <ChatThreadPanelTitle>
+        <ThreadPanelTitle>
           Thread
-          <ChatThreadPanelTitleMeta>{` — ${channelLabel}`}</ChatThreadPanelTitleMeta>
-        </ChatThreadPanelTitle>
-        <ChatThreadPanelActions>
-          <ChatPanelAction aria-label="Search in thread" onClick={() => setSearchOpen(true)}>
+          <ThreadPanelTitleMeta>{` — ${channelLabel}`}</ThreadPanelTitleMeta>
+        </ThreadPanelTitle>
+        <ThreadPanelActions>
+          <PanelAction aria-label="Search in thread" onClick={() => setSearchOpen(true)}>
             <Search />
-          </ChatPanelAction>
-          <ChatPanelAction
+          </PanelAction>
+          <PanelAction
             nativeButton={false}
             aria-label="View in channel"
             render={
@@ -112,8 +113,8 @@ export function PlaygroundThreadPanel({
             <span className="hidden whitespace-nowrap font-medium leading-none md:inline">
               View in channel
             </span>
-          </ChatPanelAction>
-          <ChatPanelAction
+          </PanelAction>
+          <PanelAction
             className="max-lg:hidden"
             nativeButton={false}
             aria-label="Close thread"
@@ -126,14 +127,14 @@ export function PlaygroundThreadPanel({
             }
           >
             <X />
-          </ChatPanelAction>
-        </ChatThreadPanelActions>
-      </ChatThreadPanelHeader>
-      <ChatThreadPanelContent>
+          </PanelAction>
+        </ThreadPanelActions>
+      </ThreadPanelHeader>
+      <ThreadPanelContent>
         {searchOpen ? (
-          <ChatThreadPanelSearch>
-            <ChatThreadPanelSearchIcon render={<Search />} />
-            <ChatThreadPanelSearchInput
+          <ThreadPanelSearch>
+            <ThreadPanelSearchIcon render={<Search />} />
+            <ThreadPanelSearchInput
               aria-label="Search this thread"
               placeholder="Search this thread"
               value={searchQuery}
@@ -142,54 +143,56 @@ export function PlaygroundThreadPanel({
                 setActiveMatchIndex(0);
               }}
             />
-            <ChatThreadPanelSearchCount aria-live="polite">
-              {matchCountLabel}
-            </ChatThreadPanelSearchCount>
-            <ChatPanelAction
+            <ThreadPanelSearchCount aria-live="polite">{matchCountLabel}</ThreadPanelSearchCount>
+            <PanelAction
               aria-label="Previous match"
               disabled={!matchingMessages.length}
               onClick={() => moveToMatch(-1)}
             >
               <ChevronUp />
-            </ChatPanelAction>
-            <ChatPanelAction
+            </PanelAction>
+            <PanelAction
               aria-label="Next match"
               disabled={!matchingMessages.length}
               onClick={() => moveToMatch(1)}
             >
               <ChevronDown />
-            </ChatPanelAction>
-            <ChatPanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
+            </PanelAction>
+            <PanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
               <X />
-            </ChatPanelAction>
-          </ChatThreadPanelSearch>
+            </PanelAction>
+          </ThreadPanelSearch>
         ) : null}
-        <ChatThreadPanelParent>
-          <PlaygroundMessageRow
-            message={thread.parent}
-            searchMatch={activeMatch?.id === thread.parent.id}
-            threadId={thread.parent.id}
-          />
-        </ChatThreadPanelParent>
-        <ChatThreadPanelBody>
-          <div className="px-3 pt-2">
-            <MessageTimelineNotice>Beginning of replies</MessageTimelineNotice>
-            <ChatThreadPanelReplyCount>
-              {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
-            </ChatThreadPanelReplyCount>
-          </div>
-          {thread.replies.map((message) => (
+        <ThreadPanelOriginalMessage
+          render={
             <PlaygroundMessageRow
-              key={message.id}
-              message={message}
-              searchMatch={activeMatch?.id === message.id}
+              message={thread.parent}
+              searchMatch={activeMatch?.id === thread.parent.id}
               threadId={thread.parent.id}
             />
-          ))}
-          <div className="h-6" aria-hidden />
-        </ChatThreadPanelBody>
+          }
+        />
+        <ThreadPanelBody>
+          <MessageList>
+            <div className="px-3 pt-2">
+              <MessageListNotice>Beginning of replies</MessageListNotice>
+              <ThreadPanelReplyCount>
+                {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
+              </ThreadPanelReplyCount>
+            </div>
+            {thread.replies.map((message) => (
+              <PlaygroundMessageRow
+                key={message.id}
+                message={message}
+                searchMatch={activeMatch?.id === message.id}
+                threadId={thread.parent.id}
+              />
+            ))}
+            <div className="h-6" aria-hidden />
+          </MessageList>
+        </ThreadPanelBody>
         <PlaygroundThreadComposer channel={channel} label="Message thread" />
-      </ChatThreadPanelContent>
-    </ChatThreadPanelRoot>
+      </ThreadPanelContent>
+    </ThreadPanelRoot>
   );
 }

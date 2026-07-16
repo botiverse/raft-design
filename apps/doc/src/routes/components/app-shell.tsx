@@ -18,7 +18,6 @@ const SNIPPETS = {
   <AppShellRailSlot>...</AppShellRailSlot>
   <AppShellSidebarSlot>...</AppShellSidebarSlot>
   <AppShellMainSlot>...</AppShellMainSlot>
-  <AppShellPanelStackSlot>...</AppShellPanelStackSlot>
 </AppShellRoot>`,
 } as const;
 
@@ -46,12 +45,6 @@ const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"main">',
     description: "Flexible primary content region.",
   },
-  {
-    name: "AppShellPanelStackSlot",
-    type: 'useRender.ComponentProps<"aside">',
-    description:
-      "Desktop panel region by default. Override with className when the caller mounts it below lg.",
-  },
 ];
 
 export const Route = createFileRoute("/components/app-shell")({
@@ -65,7 +58,7 @@ function AppShellDoc() {
   return (
     <DocPage
       title="AppShell"
-      description="Layout-only foundations for rail, sidebar, main content, and side panels."
+      description="Layout-only foundations for rail, sidebar, and main content."
       toc={TOC}
       articleClassName="max-w-none"
     >
