@@ -74,8 +74,7 @@ export const chatSidebar = tv({
         sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         sidebarLiveActivity: [
           "bottom-3 z-10",
-          "pl-[calc(var(--sidebar-inset-x,26px)-var(--sidebar-row-inset-x,6px))]",
-          "pr-[calc(var(--sidebar-inset-end,var(--sidebar-inset-x,26px))-var(--sidebar-row-inset-x,6px))]",
+          "pl-[26px] pr-4",
           "has-[_[data-slot=live-agent-activity-bar]]:before:pointer-events-none has-[_[data-slot=live-agent-activity-bar]]:before:absolute has-[_[data-slot=live-agent-activity-bar]]:before:inset-x-0 has-[_[data-slot=live-agent-activity-bar]]:before:-bottom-3 has-[_[data-slot=live-agent-activity-bar]]:before:z-0 has-[_[data-slot=live-agent-activity-bar]]:before:h-20",
           "has-[_[data-slot=live-agent-activity-bar]]:before:bg-[linear-gradient(to_bottom,transparent,var(--layer-page))] has-[_[data-slot=live-agent-activity-bar]]:before:backdrop-blur-[4px]",
           "has-[_[data-slot=live-agent-activity-bar]]:before:[mask-image:linear-gradient(to_top,black_50%,transparent)] has-[_[data-slot=live-agent-activity-bar]]:before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
