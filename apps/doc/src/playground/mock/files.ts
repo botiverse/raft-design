@@ -1,5 +1,5 @@
 import {
-  ALL_SHOWCASE_THREAD_IDS,
+  RAFT_UI_MIGRATION_THREAD_IDS,
   getPlaygroundThread,
   type PlaygroundChannelId,
   type PlaygroundMessageId,
@@ -31,7 +31,7 @@ export const PLAYGROUND_FILES = [
     previewUrl: "/raft-logo.svg",
     thumbnailUrl: "/raft-logo.svg",
     imageFit: "contain",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.selectorPerformance,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.selectorPerformance,
   },
   {
     id: "file:all:state-ownership-notes",
@@ -42,7 +42,7 @@ export const PLAYGROUND_FILES = [
     type: "file",
     previewUrl:
       "data:text/plain;charset=utf-8,Raft%20UI%20migration%20notes%0A%0AKeep%20server%20state%20outside%20the%20local%20message%20store.%0AAssign%20interaction%20state%20to%20the%20narrowest%20owner.",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.stateModel,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },
   {
     id: "file:all:invite-security-acceptance",
@@ -53,7 +53,7 @@ export const PLAYGROUND_FILES = [
     type: "file",
     previewUrl:
       "data:text/plain;charset=utf-8,Invite%20security%20acceptance%0A%0ARate-limit%20workspace%20probes.%0AKeep%20rejection%20copy%20generic.%0ALog%20the%20migration%20security%20decision.",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.inviteSecurity,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.inviteSecurity,
   },
   {
     id: "file:all:canonical-composition-source-index",
@@ -64,7 +64,7 @@ export const PLAYGROUND_FILES = [
     type: "file",
     previewUrl:
       "data:text/plain;charset=utf-8,Canonical%20composition%20source%20index%0A%0AMessage%20items%3A%20message-item-compositions.tsx%0AFiles%3A%20files-panel-composition.tsx%0ATasks%3A%20tasks-panel-composition.tsx",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.apiDocs,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.apiDocs,
   },
 ] as const satisfies readonly PlaygroundFile[];
 

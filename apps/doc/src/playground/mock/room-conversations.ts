@@ -1,14 +1,26 @@
-import { defineEmptyRoom, defineShowcaseRoom, defineStandardRoom } from "./conversation-model.ts";
-import { ALL_SHOWCASE_THREADS } from "./showcase-threads.ts";
-export const PLAYGROUND_ROOM_CHANNELS = [
-  defineShowcaseRoom({
+import { defineEmptyRoom, defineStandardRoom } from "./conversation-model.ts";
+import { RAFT_UI_MIGRATION_THREADS } from "./raft-ui-migration-threads.ts";
+export const PLAYGROUND_ROOM_CONVERSATIONS = [
+  defineStandardRoom({
     id: "all",
     name: "raft-ui-migration",
-    preset: "rich",
     subtitle: "Company-wide announcements and shared updates",
     memberCount: 42,
     memberIds: ["developer", "atlas", "ada", "cindy", "cuvii", "samira"],
-    threads: ALL_SHOWCASE_THREADS,
+    threads: RAFT_UI_MIGRATION_THREADS,
+    story: {
+      opening: {
+        senderId: "developer",
+        content:
+          "The migration plan is ready for review. The remaining work is keeping the message and thread data model coherent.",
+      },
+      reply: {
+        senderId: "cuvii",
+        content:
+          "I am reviewing the mock conversation flow now so every panel reads the same data.",
+      },
+      thread: { replies: [] },
+    },
   }),
   defineStandardRoom({
     id: "general",
@@ -18,12 +30,14 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["avery", "cuvii"],
     story: {
       opening: {
-        authorId: "avery",
-        body: "I posted the weekly priorities and called out the decisions that need owners by tomorrow.",
+        senderId: "avery",
+        content:
+          "I posted the weekly priorities and called out the decisions that need owners by tomorrow.",
       },
       reply: {
-        authorId: "cuvii",
-        body: "I claimed the playground data pass and added the dependency notes to the planning doc.",
+        senderId: "cuvii",
+        content:
+          "I claimed the playground data pass and added the dependency notes to the planning doc.",
         reactions: [
           { emoji: "👍", count: 1, reactorIds: ["avery"] },
           { emoji: "👀", count: 1, reactorIds: ["avery"] },
@@ -32,12 +46,13 @@ export const PLAYGROUND_ROOM_CHANNELS = [
       thread: {
         replies: [
           {
-            authorId: "avery",
-            body: "The data pass blocks sidebar sign-off, so I moved it ahead of the notification polish.",
+            senderId: "avery",
+            content:
+              "The data pass blocks sidebar sign-off, so I moved it ahead of the notification polish.",
           },
           {
-            authorId: "cuvii",
-            body: "That ordering is reflected in the weekly plan and tomorrow's owner check-in.",
+            senderId: "cuvii",
+            content: "That ordering is reflected in the weekly plan and tomorrow's owner check-in.",
           },
         ],
       },
@@ -52,39 +67,42 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["cindy", "mira"],
     story: {
       opening: {
-        authorId: "cindy",
-        body: "The sidebar states are aligned. I still want a pass on empty, muted, and unread combinations.",
+        senderId: "cindy",
+        content:
+          "The sidebar states are aligned. I still want a pass on empty, muted, and unread combinations.",
       },
       reply: {
-        authorId: "mira",
-        body: "I prepared a coverage matrix and highlighted states without realistic content.",
+        senderId: "mira",
+        content: "I prepared a coverage matrix and highlighted states without realistic content.",
       },
       updates: [
         {
-          authorId: "mira",
-          time: "09:29 AM",
+          senderId: "mira",
+          createdAt: "09:29 AM",
           unread: true,
-          body: "The revised matrix now ties every visible badge to an actual message or thread state.",
+          content:
+            "The revised matrix now ties every visible badge to an actual message or thread state.",
         },
       ],
       thread: {
         replies: [
           {
-            authorId: "cindy",
-            body: "Muted plus unread is the only combination whose hierarchy still feels ambiguous.",
+            senderId: "cindy",
+            content:
+              "Muted plus unread is the only combination whose hierarchy still feels ambiguous.",
           },
           {
-            authorId: "mira",
-            body: "I added realistic copy for that row and kept the unread count visible but quiet.",
+            senderId: "mira",
+            content:
+              "I added realistic copy for that row and kept the unread count visible but quiet.",
           },
         ],
       },
     },
   }),
-  defineShowcaseRoom({
+  defineStandardRoom({
     id: "incidents",
     name: "webhook-retry-incident",
-    preset: "incident",
     initialComposer: {
       attachments: [
         {
@@ -108,6 +126,36 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     subtitle: "Delivery degraded — retries queued",
     memberCount: 14,
     memberIds: ["deployBot", "mxChen", "ada", "mateo", "incidentTriage"],
+    story: {
+      opening: {
+        senderId: "deployBot",
+        content:
+          "Webhook delivery is degraded. Retries are queued while we isolate the failed worker batch.",
+      },
+      reply: {
+        senderId: "incidentTriage",
+        content:
+          "I opened the incident channel and assigned the retry sample to the investigation owner.",
+      },
+      updates: [
+        {
+          senderId: "mateo",
+          createdAt: "09:31 AM",
+          unread: true,
+          content:
+            "The retry queue is draining normally after the worker restart; we are monitoring the remaining delayed deliveries.",
+        },
+      ],
+      thread: {
+        replies: [
+          {
+            senderId: "ada",
+            content:
+              "The failed batch is limited to the old retry worker. The replacement is accepting new deliveries.",
+          },
+        ],
+      },
+    },
   }),
   defineStandardRoom({
     id: "launch",
@@ -117,45 +165,47 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["avery", "releaseScribe"],
     story: {
       opening: {
-        authorId: "avery",
-        body: "The launch checklist is at 86%. Pricing copy and the support handoff remain.",
+        senderId: "avery",
+        content: "The launch checklist is at 86%. Pricing copy and the support handoff remain.",
       },
       reply: {
-        authorId: "releaseScribe",
-        body: "I updated the launch brief and drafted the handoff note for Support to review.",
+        senderId: "releaseScribe",
+        content: "I updated the launch brief and drafted the handoff note for Support to review.",
       },
       updates: [
         {
-          authorId: "releaseScribe",
-          time: "09:28 AM",
+          senderId: "releaseScribe",
+          createdAt: "09:28 AM",
           unread: true,
-          body: "Support approved the migration fallback wording and assigned launch-day coverage.",
+          content:
+            "Support approved the migration fallback wording and assigned launch-day coverage.",
         },
         {
-          authorId: "releaseScribe",
-          time: "09:32 AM",
+          senderId: "releaseScribe",
+          createdAt: "09:32 AM",
           unread: true,
-          body: "The remaining pricing review is scheduled before the public announcement window.",
+          content:
+            "The remaining pricing review is scheduled before the public announcement window.",
         },
       ],
       thread: {
         replies: [
           {
-            authorId: "avery",
-            body: "Support needs the migration fallback and the billing escalation path before approving the handoff.",
+            senderId: "avery",
+            content:
+              "Support needs the migration fallback and the billing escalation path before approving the handoff.",
           },
           {
-            authorId: "releaseScribe",
-            body: "Both paths are in the draft now, with owners for launch day coverage.",
+            senderId: "releaseScribe",
+            content: "Both paths are in the draft now, with owners for launch day coverage.",
           },
         ],
       },
     },
   }),
-  defineShowcaseRoom({
+  defineStandardRoom({
     id: "frontend",
     name: "message-state-lab",
-    preset: "matrix",
     subtitle: "Components, application shell, and client architecture",
     memberCount: 13,
     memberIds: [
@@ -170,6 +220,35 @@ export const PLAYGROUND_ROOM_CHANNELS = [
       "elliot",
       "codePilot",
     ],
+    story: {
+      opening: {
+        senderId: "ada",
+        content:
+          "The message states are now represented by normal conversation data instead of a channel-specific render branch.",
+      },
+      reply: {
+        senderId: "codePilot",
+        content:
+          "The timeline can render one message shape for channels, DMs, and threads. Visual coverage belongs in the message docs.",
+      },
+      updates: [
+        {
+          senderId: "developer",
+          createdAt: "09:30 AM",
+          content:
+            "I linked the state examples to the component compositions and kept this channel as a real team conversation.",
+        },
+      ],
+      thread: {
+        replies: [
+          {
+            senderId: "atlas",
+            content:
+              "That keeps the product shell data-driven while preserving focused component coverage outside it.",
+          },
+        ],
+      },
+    },
   }),
   defineStandardRoom({
     id: "customer-notes",
@@ -179,36 +258,42 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["noah", "researchLark"],
     story: {
       opening: {
-        authorId: "noah",
-        body: "Three teams asked for clearer separation between shared channels and internal project rooms.",
+        senderId: "noah",
+        content:
+          "Three teams asked for clearer separation between shared channels and internal project rooms.",
       },
       reply: {
-        authorId: "researchLark",
-        body: "I clustered the interviews and added supporting quotes to the navigation findings.",
+        senderId: "researchLark",
+        content:
+          "I clustered the interviews and added supporting quotes to the navigation findings.",
       },
       updates: [
         {
-          authorId: "researchLark",
-          time: "09:27 AM",
+          senderId: "researchLark",
+          createdAt: "09:27 AM",
           unread: true,
-          body: "The new-member interviews consistently ask who owns a shared room before they ask about permissions.",
+          content:
+            "The new-member interviews consistently ask who owns a shared room before they ask about permissions.",
         },
         {
-          authorId: "researchLark",
-          time: "09:31 AM",
+          senderId: "researchLark",
+          createdAt: "09:31 AM",
           unread: true,
-          body: "I added that wording to the onboarding recommendation with the supporting excerpts.",
+          content:
+            "I added that wording to the onboarding recommendation with the supporting excerpts.",
         },
       ],
       thread: {
         replies: [
           {
-            authorId: "noah",
-            body: "Admins understand the distinction, but new members confuse partner rooms with internal projects.",
+            senderId: "noah",
+            content:
+              "Admins understand the distinction, but new members confuse partner rooms with internal projects.",
           },
           {
-            authorId: "researchLark",
-            body: "I added onboarding language that explains ownership before the first shared channel is joined.",
+            senderId: "researchLark",
+            content:
+              "I added onboarding language that explains ownership before the first shared channel is joined.",
           },
         ],
       },
@@ -223,22 +308,25 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["avery", "cuvii"],
     story: {
       opening: {
-        authorId: "avery",
-        body: "The final interview loop is scheduled. Please add scorecards before tomorrow's debrief.",
+        senderId: "avery",
+        content:
+          "The final interview loop is scheduled. Please add scorecards before tomorrow's debrief.",
       },
       reply: {
-        authorId: "cuvii",
-        body: "I added my notes and separated evidence from the hiring recommendation.",
+        senderId: "cuvii",
+        content: "I added my notes and separated evidence from the hiring recommendation.",
       },
       thread: {
         replies: [
           {
-            authorId: "avery",
-            body: "The systems exercise showed strong tradeoff reasoning; the collaboration signal needs more evidence.",
+            senderId: "avery",
+            content:
+              "The systems exercise showed strong tradeoff reasoning; the collaboration signal needs more evidence.",
           },
           {
-            authorId: "cuvii",
-            body: "I linked the relevant interview notes so the debrief can discuss each signal separately.",
+            senderId: "cuvii",
+            content:
+              "I linked the relevant interview notes so the debrief can discuss each signal separately.",
           },
         ],
       },
@@ -253,67 +341,103 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["avery", "dataWeaver"],
     story: {
       opening: {
-        authorId: "avery",
-        body: "The Q3 review draft is ready. Retention and support load need updated commentary.",
+        senderId: "avery",
+        content:
+          "The Q3 review draft is ready. Retention and support load need updated commentary.",
       },
       reply: {
-        authorId: "dataWeaver",
-        body: "I refreshed the charts from the weekly dataset and annotated the two largest changes.",
+        senderId: "dataWeaver",
+        content:
+          "I refreshed the charts from the weekly dataset and annotated the two largest changes.",
       },
       updates: [
         {
-          authorId: "dataWeaver",
-          time: "09:27 AM",
+          senderId: "dataWeaver",
+          createdAt: "09:27 AM",
           unread: true,
-          body: "The retention movement is concentrated in the new-workspace cohort, not the installed base.",
+          content:
+            "The retention movement is concentrated in the new-workspace cohort, not the installed base.",
         },
         {
-          authorId: "dataWeaver",
-          time: "09:31 AM",
+          senderId: "dataWeaver",
+          createdAt: "09:31 AM",
           unread: true,
-          body: "Support load rose around migration questions but stayed flat for standard onboarding.",
+          content:
+            "Support load rose around migration questions but stayed flat for standard onboarding.",
         },
         {
-          authorId: "dataWeaver",
-          time: "09:35 AM",
+          senderId: "dataWeaver",
+          createdAt: "09:35 AM",
           unread: true,
-          body: "I separated launch-week volume from the recurring weekly trend in the appendix.",
+          content:
+            "I separated launch-week volume from the recurring weekly trend in the appendix.",
         },
         {
-          authorId: "dataWeaver",
-          time: "09:39 AM",
+          senderId: "dataWeaver",
+          createdAt: "09:39 AM",
           unread: true,
-          body: "The revised chart includes the confidence range requested in the leadership review.",
+          content:
+            "The revised chart includes the confidence range requested in the leadership review.",
         },
         {
-          authorId: "dataWeaver",
-          time: "09:43 AM",
+          senderId: "dataWeaver",
+          createdAt: "09:43 AM",
           unread: true,
-          body: "The operating note is ready for sign-off with the cohort caveat called out.",
+          content: "The operating note is ready for sign-off with the cohort caveat called out.",
         },
       ],
       thread: {
         replies: [
           {
-            authorId: "avery",
-            body: "Retention improved in small teams, while support load shifted toward migration questions.",
+            senderId: "avery",
+            content:
+              "Retention improved in small teams, while support load shifted toward migration questions.",
           },
           {
-            authorId: "dataWeaver",
-            body: "The operating note now separates durable product movement from launch-week volume.",
+            senderId: "dataWeaver",
+            content:
+              "The operating note now separates durable product movement from launch-week volume.",
           },
         ],
       },
     },
   }),
-  defineShowcaseRoom({
+  defineStandardRoom({
     id: "release-notes",
     name: "v2-4-release-control",
-    preset: "release",
     navigation: { muted: true },
     subtitle: "Release coordination and changelog drafting",
     memberCount: 12,
     memberIds: ["ada", "atlas", "developer", "cuvii", "releaseScribe"],
+    story: {
+      opening: {
+        senderId: "releaseScribe",
+        content:
+          "The v2.4 changelog draft is ready for final owner review. I grouped each entry by the user-visible outcome.",
+      },
+      reply: {
+        senderId: "ada",
+        content:
+          "I verified the migration notes and added the fallback behavior to the release checklist.",
+      },
+      updates: [
+        {
+          senderId: "releaseScribe",
+          createdAt: "09:33 AM",
+          content:
+            "The release branch is tagged for the final smoke test once the owner approvals land.",
+        },
+      ],
+      thread: {
+        replies: [
+          {
+            senderId: "cuvii",
+            content:
+              "Please keep the changelog examples concrete and avoid exposing internal component state names.",
+          },
+        ],
+      },
+    },
   }),
   defineStandardRoom({
     id: "random",
@@ -324,22 +448,26 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["cindy", "elliot"],
     story: {
       opening: {
-        authorId: "cindy",
-        body: "I made a playlist for Friday's demo session. Add anything that keeps the energy up.",
+        senderId: "cindy",
+        content:
+          "I made a playlist for Friday's demo session. Add anything that keeps the energy up.",
       },
       reply: {
-        authorId: "elliot",
-        body: "Added two instrumental tracks and moved the louder ones to the post-demo section.",
+        senderId: "elliot",
+        content:
+          "Added two instrumental tracks and moved the louder ones to the post-demo section.",
       },
       thread: {
         replies: [
           {
-            authorId: "cindy",
-            body: "The opening track should stay low-key while people join and set up their demos.",
+            senderId: "cindy",
+            content:
+              "The opening track should stay low-key while people join and set up their demos.",
           },
           {
-            authorId: "elliot",
-            body: "I reordered the list so the higher-energy section starts after the final presentation.",
+            senderId: "elliot",
+            content:
+              "I reordered the list so the higher-energy section starts after the final presentation.",
           },
         ],
       },
@@ -354,22 +482,25 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     memberIds: ["cindy", "mira"],
     story: {
       opening: {
-        authorId: "cindy",
-        body: "The shell works, but mock hierarchy breaks trust when rows do not change context.",
+        senderId: "cindy",
+        content:
+          "The shell works, but mock hierarchy breaks trust when rows do not change context.",
       },
       reply: {
-        authorId: "mira",
-        body: "The fix is one conversation registry shared by navigation, routes, and panels.",
+        senderId: "mira",
+        content: "The fix is one conversation registry shared by navigation, routes, and panels.",
       },
       thread: {
         replies: [
           {
-            authorId: "cindy",
-            body: "Changing channels must update the title, members, timeline, tasks, files, and open thread together.",
+            senderId: "cindy",
+            content:
+              "Changing channels must update the title, members, timeline, tasks, files, and open thread together.",
           },
           {
-            authorId: "mira",
-            body: "I documented those regions as one consistency check for the next critique pass.",
+            senderId: "mira",
+            content:
+              "I documented those regions as one consistency check for the next critique pass.",
           },
         ],
       },
@@ -392,22 +523,25 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     archived: true,
     story: {
       opening: {
-        authorId: "samira",
-        body: "The retention sweep found nine inactive channels. Owners have one week to review them.",
+        senderId: "samira",
+        content:
+          "The retention sweep found nine inactive channels. Owners have one week to review them.",
       },
       reply: {
-        authorId: "atlas",
-        body: "I generated a list with last activity, owner, and linked project for every channel.",
+        senderId: "atlas",
+        content:
+          "I generated a list with last activity, owner, and linked project for every channel.",
       },
       thread: {
         replies: [
           {
-            authorId: "samira",
-            body: "Three channels have active linked projects and should be exempt from this sweep.",
+            senderId: "samira",
+            content:
+              "Three channels have active linked projects and should be exempt from this sweep.",
           },
           {
-            authorId: "atlas",
-            body: "I marked the exemptions and left the remaining six ready for owner review.",
+            senderId: "atlas",
+            content: "I marked the exemptions and left the remaining six ready for owner review.",
           },
         ],
       },

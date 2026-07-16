@@ -12,9 +12,12 @@ export type PlaygroundMessageReaction = {
 
 export type PlaygroundMessage = {
   id: PlaygroundMessageId;
-  authorId: PlaygroundActorId;
-  time: string;
-  body: string;
+  channelId: string;
+  senderType: "user" | "agent";
+  senderId: PlaygroundActorId;
+  messageType: "chat" | "system";
+  content: string;
+  createdAt: string;
   reactions: readonly PlaygroundMessageReaction[];
   unread?: boolean;
 };
@@ -24,8 +27,6 @@ export type PlaygroundThread = {
   replies: readonly PlaygroundMessage[];
   unreadCount?: number;
 };
-
-export type PlaygroundShowcasePreset = "rich" | "incident" | "release" | "matrix";
 
 export type PlaygroundNavigationState = {
   badge?: string;
@@ -48,11 +49,6 @@ export type PlaygroundInitialComposer = {
   attachments: readonly [PlaygroundComposerAttachment, ...PlaygroundComposerAttachment[]];
 };
 
-type PlaygroundChannelContent =
-  | { kind: "messages"; messages: readonly PlaygroundMessage[] }
-  | { kind: "empty" }
-  | { kind: "showcase"; preset: PlaygroundShowcasePreset };
-
 type PlaygroundChannelBase = {
   id: string;
   name: string;
@@ -63,8 +59,6 @@ type PlaygroundChannelBase = {
   archived: boolean;
   navigation: PlaygroundNavigationState;
   initialComposer?: PlaygroundInitialComposer;
-  content: PlaygroundChannelContent;
-  threads: readonly PlaygroundThread[];
 };
 
 export type PlaygroundRoomChannel = PlaygroundChannelBase & {
@@ -78,10 +72,16 @@ export type PlaygroundDirectMessage = PlaygroundChannelBase & {
 
 export type PlaygroundChannel = PlaygroundRoomChannel | PlaygroundDirectMessage;
 
+export type PlaygroundConversation<TChannel extends PlaygroundChannel = PlaygroundChannel> = {
+  conversation: TChannel;
+  messages: readonly PlaygroundMessage[];
+  threads: readonly PlaygroundThread[];
+};
+
 export type PlaygroundStoryMessageInput = {
-  authorId: PlaygroundActorId;
-  body: string;
-  time?: string;
+  senderId: PlaygroundActorId;
+  content: string;
+  createdAt?: string;
   reactions?: readonly PlaygroundMessageReaction[];
   unread?: boolean;
 };
@@ -104,7 +104,9 @@ type StandardRoomInput<TId extends string> = {
   memberIds: readonly [PlaygroundActorId, PlaygroundActorId, ...PlaygroundActorId[]];
   story: PlaygroundConversationStory;
   archived?: boolean;
+  initialComposer?: PlaygroundInitialComposer;
   navigation?: PlaygroundNavigationInput;
+  threads?: readonly PlaygroundThread[];
 };
 
 type StandardDmInput<TId extends string> = {
@@ -125,61 +127,64 @@ function defaultThreadReplyTime(index: number): string {
 }
 
 function buildStandardStory<TId extends string>(
-  id: TId,
+  channelId: TId,
   story: PlaygroundConversationStory,
 ): {
-  content: { kind: "messages"; messages: readonly PlaygroundMessage[] };
+  messages: readonly PlaygroundMessage[];
   threads: readonly [PlaygroundThread];
 } {
   const opening = definePlaygroundMessage(
-    `${id}:opening`,
-    story.opening.authorId,
-    story.opening.time ?? "09:18 AM",
-    story.opening.body,
+    `${channelId}:opening`,
+    channelId,
+    story.opening.senderId,
+    story.opening.createdAt ?? "09:18 AM",
+    story.opening.content,
     story.opening.unread,
     story.opening.reactions,
   );
   const reply = definePlaygroundMessage(
-    `${id}:reply`,
-    story.reply.authorId,
-    story.reply.time ?? "09:24 AM",
-    story.reply.body,
+    `${channelId}:reply`,
+    channelId,
+    story.reply.senderId,
+    story.reply.createdAt ?? "09:24 AM",
+    story.reply.content,
     story.reply.unread,
     story.reply.reactions,
   );
   const updates = (story.updates ?? []).map((update, index) =>
     definePlaygroundMessage(
-      `${id}:update-${index + 1}`,
-      update.authorId,
-      update.time ?? defaultThreadReplyTime(index),
-      update.body,
+      `${channelId}:update-${index + 1}`,
+      channelId,
+      update.senderId,
+      update.createdAt ?? defaultThreadReplyTime(index),
+      update.content,
       update.unread,
       update.reactions,
     ),
   );
   const replies = story.thread.replies.map((threadReply, index) =>
     definePlaygroundMessage(
-      `${id}:thread-reply-${index + 1}`,
-      threadReply.authorId,
-      threadReply.time ?? defaultThreadReplyTime(index),
-      threadReply.body,
+      `${channelId}:thread-reply-${index + 1}`,
+      `${channelId}:reply`,
+      threadReply.senderId,
+      threadReply.createdAt ?? defaultThreadReplyTime(index),
+      threadReply.content,
       threadReply.unread,
       threadReply.reactions,
     ),
   );
 
   return {
-    content: { kind: "messages", messages: [opening, reply, ...updates] },
+    messages: [opening, reply, ...updates],
     threads: [definePlaygroundThread(reply, replies)],
   };
 }
 
 function deriveNavigation(
   input: PlaygroundNavigationInput | undefined,
-  content: PlaygroundChannelContent,
+  messages: readonly PlaygroundMessage[],
 ): PlaygroundNavigationState {
-  const unreadCount =
-    content.kind === "messages" ? content.messages.filter((message) => message.unread).length : 0;
+  const unreadCount = messages.filter((message) => message.unread).length;
 
   return {
     ...input,
@@ -189,62 +194,43 @@ function deriveNavigation(
 
 export function defineStandardRoom<const TId extends string>(
   input: StandardRoomInput<TId>,
-): PlaygroundRoomChannel & { id: TId } {
+): PlaygroundConversation<PlaygroundRoomChannel & { id: TId }> {
   const story = buildStandardStory(input.id, input.story);
   return {
-    id: input.id,
-    name: input.name,
-    kind: input.kind ?? "channel",
-    subtitle: input.subtitle,
-    memberCount: input.memberCount,
-    memberIds: input.memberIds,
-    archived: input.archived ?? false,
-    ...story,
-    navigation: deriveNavigation(input.navigation, story.content),
+    conversation: {
+      id: input.id,
+      name: input.name,
+      kind: input.kind ?? "channel",
+      subtitle: input.subtitle,
+      memberCount: input.memberCount,
+      memberIds: input.memberIds,
+      archived: input.archived ?? false,
+      ...(input.initialComposer ? { initialComposer: input.initialComposer } : {}),
+      navigation: deriveNavigation(input.navigation, story.messages),
+    },
+    messages: story.messages,
+    threads: input.threads ?? story.threads,
   };
 }
 
 export function defineStandardDm<const TId extends string>(
   input: StandardDmInput<TId>,
-): PlaygroundDirectMessage & { id: TId } {
+): PlaygroundConversation<PlaygroundDirectMessage & { id: TId }> {
   const story = buildStandardStory(input.id, input.story);
   return {
-    id: input.id,
-    name: getPlaygroundActor(input.otherActorId).name,
-    kind: "dm",
-    otherActorId: input.otherActorId,
-    subtitle: input.subtitle,
-    memberCount: 2,
-    memberIds: [input.otherActorId, "cuvii"],
-    archived: false,
-    ...story,
-    navigation: deriveNavigation(input.navigation, story.content),
-  };
-}
-
-export function defineShowcaseRoom<const TId extends string>(input: {
-  id: TId;
-  name: string;
-  subtitle: string;
-  memberCount: number;
-  memberIds: readonly [PlaygroundActorId, ...PlaygroundActorId[]];
-  threads?: readonly PlaygroundThread[];
-  preset: PlaygroundShowcasePreset;
-  initialComposer?: PlaygroundInitialComposer;
-  navigation?: PlaygroundNavigationInput;
-}): PlaygroundRoomChannel & { id: TId } {
-  return {
-    id: input.id,
-    name: input.name,
-    kind: "channel",
-    subtitle: input.subtitle,
-    memberCount: input.memberCount,
-    memberIds: input.memberIds,
-    archived: false,
-    navigation: deriveNavigation(input.navigation, { kind: "showcase", preset: input.preset }),
-    ...(input.initialComposer ? { initialComposer: input.initialComposer } : {}),
-    content: { kind: "showcase", preset: input.preset },
-    threads: input.threads ?? [],
+    conversation: {
+      id: input.id,
+      name: getPlaygroundActor(input.otherActorId).name,
+      kind: "dm",
+      otherActorId: input.otherActorId,
+      subtitle: input.subtitle,
+      memberCount: 2,
+      memberIds: [input.otherActorId, "cuvii"],
+      archived: false,
+      navigation: deriveNavigation(input.navigation, story.messages),
+    },
+    messages: story.messages,
+    threads: story.threads,
   };
 }
 
@@ -255,30 +241,44 @@ export function defineEmptyRoom<const TId extends string>(input: {
   memberCount: number;
   memberIds: readonly [PlaygroundActorId, ...PlaygroundActorId[]];
   navigation?: PlaygroundNavigationInput;
-}): PlaygroundRoomChannel & { id: TId } {
+}): PlaygroundConversation<PlaygroundRoomChannel & { id: TId }> {
   return {
-    id: input.id,
-    name: input.name,
-    kind: "channel",
-    subtitle: input.subtitle,
-    memberCount: input.memberCount,
-    memberIds: input.memberIds,
-    archived: false,
-    navigation: deriveNavigation(input.navigation, { kind: "empty" }),
-    content: { kind: "empty" },
+    conversation: {
+      id: input.id,
+      name: input.name,
+      kind: "channel",
+      subtitle: input.subtitle,
+      memberCount: input.memberCount,
+      memberIds: input.memberIds,
+      archived: false,
+      navigation: deriveNavigation(input.navigation, []),
+    },
+    messages: [],
     threads: [],
   };
 }
 
 export function definePlaygroundMessage(
   id: PlaygroundMessageId,
-  authorId: PlaygroundActorId,
-  time: string,
-  body: string,
+  channelId: string,
+  senderId: PlaygroundActorId,
+  createdAt: string,
+  content: string,
   unread?: boolean,
   reactions: readonly PlaygroundMessageReaction[] = [],
 ): PlaygroundMessage {
-  return { id, authorId, time, body, reactions, ...(unread ? { unread: true } : {}) };
+  const sender = getPlaygroundActor(senderId);
+  return {
+    id,
+    channelId,
+    senderType: sender.type === "agent" ? "agent" : "user",
+    senderId,
+    messageType: "chat",
+    content,
+    createdAt,
+    reactions,
+    ...(unread ? { unread: true } : {}),
+  };
 }
 
 export function definePlaygroundThread(

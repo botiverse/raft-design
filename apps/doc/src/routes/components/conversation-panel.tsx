@@ -23,6 +23,8 @@ import {
   ConversationPanelSectionHeaderComposition,
 } from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx";
 import conversationPanelHeaderCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx?raw";
+import { NativeScrollPaginationComposition } from "#/modules/conversation-panel/compositions/native-scroll-pagination.composition.tsx";
+import nativeScrollPaginationCompositionSource from "#/modules/conversation-panel/compositions/native-scroll-pagination.composition.tsx?raw";
 import { SourceConversationPanelPreview } from "#/modules/conversation-panel/conversation-panel.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -77,6 +79,7 @@ const SNIPPETS = {
   conversationPanelComposition: conversationPanelCompositionSource,
   conversationPanelEmptyStateComposition: conversationPanelEmptyStateCompositionSource,
   conversationPanelHeaderComposition: conversationPanelHeaderCompositionSource,
+  nativeScrollPaginationComposition: nativeScrollPaginationCompositionSource,
 } as const;
 
 type PlaygroundValues = {
@@ -232,6 +235,11 @@ function ConversationPanelDoc() {
 
       <DocSection id="combinations" title="Combinations" showThemeSwitcher>
         <PreviewGrid>
+          <PreviewPane label="Native scroll pagination">
+            <PreviewThemeScope className="h-full">
+              <NativeScrollPaginationComposition />
+            </PreviewThemeScope>
+          </PreviewPane>
           <PreviewPane label="Muted channel header">
             <PreviewThemeScope className="h-full">
               <HeaderPreview>
@@ -269,6 +277,12 @@ function ConversationPanelDoc() {
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
+        <DocsCodeBlock.Panel
+          path="apps/doc/src/modules/conversation-panel/compositions/native-scroll-pagination.composition.tsx"
+          source={SNIPPETS.nativeScrollPaginationComposition}
+          html={code.nativeScrollPaginationComposition}
+          showLineNumbers={false}
+        />
         <DocsCodeBlock.Panel
           path="apps/doc/src/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx"
           source={SNIPPETS.conversationPanelHeaderComposition}

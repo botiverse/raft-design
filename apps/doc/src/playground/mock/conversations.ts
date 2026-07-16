@@ -5,18 +5,16 @@ import type {
   PlaygroundMessageId,
   PlaygroundThread,
 } from "./conversation-model.ts";
-import { PLAYGROUND_DIRECT_MESSAGES } from "./direct-messages.ts";
-import { PLAYGROUND_JOINT_CHANNELS } from "./joint-conversations.ts";
-import { PLAYGROUND_ROOM_CHANNELS } from "./room-conversations.ts";
+import { PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS } from "./direct-messages.ts";
+import { PLAYGROUND_JOINT_CONVERSATIONS } from "./joint-conversations.ts";
+import { PLAYGROUND_ROOM_CONVERSATIONS } from "./room-conversations.ts";
 
-export { ALL_SHOWCASE_THREAD_IDS } from "./showcase-threads.ts";
-export { PLAYGROUND_DIRECT_MESSAGES } from "./direct-messages.ts";
-export { PLAYGROUND_JOINT_CHANNELS } from "./joint-conversations.ts";
-export { PLAYGROUND_ROOM_CHANNELS } from "./room-conversations.ts";
+export { RAFT_UI_MIGRATION_THREAD_IDS } from "./raft-ui-migration-threads.ts";
 export type {
   PlaygroundChannel,
   PlaygroundChannelKind,
   PlaygroundComposerAttachment,
+  PlaygroundConversation,
   PlaygroundDirectMessage,
   PlaygroundInitialComposer,
   PlaygroundMessage,
@@ -25,18 +23,29 @@ export type {
   PlaygroundNavigationState,
   PlaygroundRoomChannel,
   PlaygroundRoomKind,
-  PlaygroundShowcasePreset,
   PlaygroundThread,
 } from "./conversation-model.ts";
 
-export const PLAYGROUND_CHANNELS = [
-  ...PLAYGROUND_JOINT_CHANNELS,
-  ...PLAYGROUND_ROOM_CHANNELS,
-  ...PLAYGROUND_DIRECT_MESSAGES,
+export const PLAYGROUND_CONVERSATIONS = [
+  ...PLAYGROUND_JOINT_CONVERSATIONS,
+  ...PLAYGROUND_ROOM_CONVERSATIONS,
+  ...PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS,
 ] as const;
 
-export type PlaygroundChannelId = (typeof PLAYGROUND_CHANNELS)[number]["id"];
-export type PlaygroundDmId = (typeof PLAYGROUND_DIRECT_MESSAGES)[number]["id"];
+export const PLAYGROUND_ROOM_CHANNELS = PLAYGROUND_ROOM_CONVERSATIONS.map(
+  ({ conversation }) => conversation,
+);
+export const PLAYGROUND_JOINT_CHANNELS = PLAYGROUND_JOINT_CONVERSATIONS.map(
+  ({ conversation }) => conversation,
+);
+export const PLAYGROUND_DIRECT_MESSAGES = PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS.map(
+  ({ conversation }) => conversation,
+);
+export const PLAYGROUND_CHANNELS = PLAYGROUND_CONVERSATIONS.map(({ conversation }) => conversation);
+
+export type PlaygroundChannelId = (typeof PLAYGROUND_CONVERSATIONS)[number]["conversation"]["id"];
+export type PlaygroundDmId =
+  (typeof PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS)[number]["conversation"]["id"];
 export type PlaygroundRoomChannelId = Exclude<PlaygroundChannelId, PlaygroundDmId>;
 export type PlaygroundThreadId = PlaygroundMessageId;
 export type PlaygroundChannelRecord = PlaygroundChannel & { id: PlaygroundChannelId };
@@ -52,10 +61,17 @@ export function isPlaygroundServerSlug(value: string): value is typeof PLAYGROUN
 
 const channelsById = new Map<PlaygroundChannelId, PlaygroundChannelRecord>();
 const directMessagesById = new Map<PlaygroundDmId, PlaygroundDirectMessageRecord>();
+const messagesByConversationId = new Map<
+  PlaygroundChannelId,
+  readonly import("./conversation-model.ts").PlaygroundMessage[]
+>();
 const channelIds = new Set<string>();
 const directMessageIds = new Set<string>();
 const channelNames = new Set<string>();
-for (const channel of PLAYGROUND_CHANNELS) {
+const threadContexts = new Map<string, PlaygroundThreadContext>();
+
+for (const conversation of PLAYGROUND_CONVERSATIONS) {
+  const channel = conversation.conversation as PlaygroundChannelRecord;
   if (channelIds.has(channel.id)) {
     throw new Error(`Duplicate playground channel: ${channel.id}`);
   }
@@ -65,10 +81,8 @@ for (const channel of PLAYGROUND_CHANNELS) {
   if (channel.kind !== "dm" && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(channel.name)) {
     throw new Error(`Invalid playground channel name: ${channel.name}`);
   }
-  const unreadMessageCount =
-    channel.content.kind === "messages"
-      ? channel.content.messages.filter((message) => message.unread).length
-      : 0;
+
+  const unreadMessageCount = conversation.messages.filter((message) => message.unread).length;
   const expectedBadge = unreadMessageCount > 0 ? String(unreadMessageCount) : undefined;
   if (channel.navigation.badge !== expectedBadge) {
     throw new Error(`Mismatched unread badge for playground channel: ${channel.id}`);
@@ -76,11 +90,11 @@ for (const channel of PLAYGROUND_CHANNELS) {
   if (Boolean(channel.navigation.unread) !== unreadMessageCount > 0) {
     throw new Error(`Mismatched unread state for playground channel: ${channel.id}`);
   }
-  const messages = [
-    ...(channel.content.kind === "messages" ? channel.content.messages : []),
-    ...channel.threads.flatMap((thread) => [thread.parent, ...thread.replies]),
-  ];
-  for (const message of messages) {
+
+  for (const message of [
+    ...conversation.messages,
+    ...conversation.threads.flatMap((thread) => [thread.parent, ...thread.replies]),
+  ]) {
     const emojis = new Set<string>();
     for (const reaction of message.reactions) {
       if (!reaction.emoji || emojis.has(reaction.emoji)) {
@@ -96,12 +110,21 @@ for (const channel of PLAYGROUND_CHANNELS) {
       emojis.add(reaction.emoji);
     }
   }
+
   channelIds.add(channel.id);
   channelNames.add(channel.name);
   channelsById.set(channel.id, channel);
+  messagesByConversationId.set(channel.id, conversation.messages);
   if (channel.kind === "dm") {
-    directMessageIds.add(channel.id);
-    directMessagesById.set(channel.id, channel);
+    const directMessage = channel as PlaygroundDirectMessageRecord;
+    directMessageIds.add(directMessage.id);
+    directMessagesById.set(directMessage.id as PlaygroundDmId, directMessage);
+  }
+  for (const thread of conversation.threads) {
+    if (threadContexts.has(thread.parent.id)) {
+      throw new Error(`Duplicate playground thread: ${thread.parent.id}`);
+    }
+    threadContexts.set(thread.parent.id, { channel, channelId: channel.id, thread });
   }
 }
 
@@ -110,20 +133,6 @@ export type PlaygroundThreadContext = {
   channelId: PlaygroundChannelId;
   thread: PlaygroundThread;
 };
-
-const threadContexts = new Map<string, PlaygroundThreadContext>();
-for (const channel of PLAYGROUND_CHANNELS) {
-  for (const channelThread of channel.threads) {
-    if (threadContexts.has(channelThread.parent.id)) {
-      throw new Error(`Duplicate playground thread: ${channelThread.parent.id}`);
-    }
-    threadContexts.set(channelThread.parent.id, {
-      channel,
-      channelId: channel.id,
-      thread: channelThread,
-    });
-  }
-}
 
 export function isPlaygroundChannelId(value: string): value is PlaygroundChannelId {
   return channelIds.has(value);
@@ -141,6 +150,14 @@ export function getPlaygroundChannel(id: PlaygroundChannelId): PlaygroundChannel
   const channel = channelsById.get(id);
   if (!channel) throw new Error(`Unknown playground channel: ${id}`);
   return channel;
+}
+
+export function getPlaygroundConversationMessages(
+  id: PlaygroundChannelId,
+): readonly import("./conversation-model.ts").PlaygroundMessage[] {
+  const messages = messagesByConversationId.get(id);
+  if (!messages) throw new Error(`Unknown playground conversation: ${id}`);
+  return messages;
 }
 
 export function getPlaygroundDirectMessage(id: PlaygroundDmId): PlaygroundDirectMessageRecord {

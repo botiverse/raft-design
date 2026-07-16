@@ -1,79 +1,28 @@
 "use client";
 
-import {
-  closestCenter,
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { useDraggable } from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  useCallback,
-  useId,
-  useMemo,
-  type CSSProperties,
-  type HTMLAttributes,
-  type ReactNode,
-} from "react";
+import { type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
 import { ChatSidebarList, type ChatSidebarListProps } from "./chat-sidebar-section";
 
 export type SortableChatSidebarListProps = ChatSidebarListProps & {
-  /** Stable item ids for this section only — do not mix ids across sections. */
+  /** Stable sortable ids for this section. The parent owns the shared DnD context. */
   items: readonly string[];
-  onReorder: (items: string[]) => void;
 };
 
 /**
- * Within-section reorder container (source Sidebar `DndContext` + `SortableContext`).
- * Each Pinned / Joint / Channels / DM list gets its own instance — no cross-section drag.
+ * Sortable region inside a consumer-owned DnD context.
+ *
+ * The parent chooses whether sections can interact; this part only registers
+ * the vertical list's sortable items.
  */
-export function SortableChatSidebarList({
-  items,
-  onReorder,
-  ...props
-}: SortableChatSidebarListProps) {
-  const dndContextId = useId();
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
-  const itemIds = useMemo(() => [...items], [items]);
-
-  const handleDragEnd = useCallback(
-    ({ active, over }: DragEndEvent) => {
-      if (!over || active.id === over.id) return;
-      const oldIndex = itemIds.indexOf(String(active.id));
-      const newIndex = itemIds.indexOf(String(over.id));
-      if (oldIndex === -1 || newIndex === -1) return;
-      onReorder(arrayMove([...itemIds], oldIndex, newIndex));
-    },
-    [itemIds, onReorder],
-  );
-
+export function SortableChatSidebarList({ items, ...props }: SortableChatSidebarListProps) {
   return (
-    <DndContext
-      id={dndContextId}
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-        <ChatSidebarList {...props} />
-      </SortableContext>
-    </DndContext>
+    <SortableContext items={[...items]} strategy={verticalListSortingStrategy}>
+      <ChatSidebarList {...props} />
+    </SortableContext>
   );
 }
 
@@ -112,6 +61,49 @@ export function SortableChatSidebarItem({
       data-dragging={isDragging ? "true" : undefined}
       className={cn("cursor-grab active:cursor-grabbing", className)}
       style={sortableStyle}
+      {...attributes}
+      {...listeners}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+export type DraggableChatSidebarItemProps = HTMLAttributes<HTMLDivElement> & {
+  id: string;
+  children: ReactNode;
+  disabled?: boolean;
+};
+
+/** Draggable row for destinations that accept a drop without supporting local reorder. */
+export function DraggableChatSidebarItem({
+  id,
+  children,
+  className,
+  disabled = false,
+  style,
+  ...props
+}: DraggableChatSidebarItemProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id,
+    disabled,
+  });
+  const verticalTransform = transform ? { ...transform, x: 0 } : null;
+  const draggableStyle: CSSProperties = {
+    transform: CSS.Transform.toString(verticalTransform),
+    opacity: isDragging ? 0.6 : 1,
+    zIndex: isDragging ? 10 : undefined,
+    ...style,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      data-slot="chat-sidebar-draggable-item"
+      data-dragging={isDragging ? "true" : undefined}
+      className={cn("cursor-grab active:cursor-grabbing", className)}
+      style={draggableStyle}
       {...attributes}
       {...listeners}
       {...props}

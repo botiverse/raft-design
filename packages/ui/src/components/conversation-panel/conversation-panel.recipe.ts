@@ -59,7 +59,7 @@ export const conversationPanel = tv({
       elegant: {
         root: "relative bg-layer-page font-sans text-foreground",
         header: [
-          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-md:z-10 [@media(max-height:600px)]:h-auto",
+          "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-transparent max-md:bg-layer-page",
           "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
           "max-md:items-start max-md:px-[14px] max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
@@ -109,6 +109,11 @@ export const conversationPanel = tv({
     mobileVisible: {
       true: {
         status: "max-md:!inline-flex",
+      },
+    },
+    mobileSticky: {
+      true: {
+        header: "max-md:sticky max-md:top-0 max-md:z-30",
       },
     },
     size: {

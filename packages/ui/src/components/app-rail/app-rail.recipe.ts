@@ -42,7 +42,7 @@ export const appRail = tv({
         itemAttentionMask: "hidden",
       },
       elegant: {
-        header: "h-[var(--shell-header-height,3.5rem)] border-b-0",
+        header: "h-[var(--shell-header-height,56px)] border-b-0",
         nav: ["px-2 pt-4 pb-2"],
         footer: ["h-auto gap-1.5 px-2 pb-2", "[&>[data-slot=app-rail-item]]:text-foreground-muted"],
         item: [
