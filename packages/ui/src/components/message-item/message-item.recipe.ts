@@ -11,10 +11,10 @@ export const messageItem = tv({
     gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
     avatarSlot: [
       "relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors",
-      "max-md:[&_[data-slot=avatar][data-size=md]]:size-8",
+      "max-md:[&_[data-slot=avatar][data-size=md]]:size-7",
     ],
     avatarStatus: [
-      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full",
+      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full max-md:size-2.5",
     ],
     continuationTime: [
       "absolute right-1 top-1 select-none font-mono text-[10px] leading-none tabular-nums",

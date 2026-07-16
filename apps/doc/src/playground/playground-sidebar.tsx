@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
 import {
   Activity,
@@ -63,6 +62,7 @@ import {
   ChatSidebarList,
   ChatSidebarRoot,
   ChatSidebarSection,
+  ChatSidebarSectionEmpty,
   ChatSidebarSectionControls,
   ChatSidebarSectionDisclosure,
   ChatSidebarSectionChevron,
@@ -90,7 +90,6 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
-  PLAYGROUND_SERVER_SLUG,
   getPlaygroundDmActor,
   type PlaygroundChannelId,
   type PlaygroundChannelRecord,
@@ -99,6 +98,7 @@ import {
   type PlaygroundRoomChannel,
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
+import { PlaygroundConversationLink } from "./playground-conversation-link.tsx";
 import { usePlaygroundNavigation } from "./playground-navigation-state.tsx";
 import {
   PlaygroundNotificationCenter,
@@ -301,16 +301,6 @@ function useSectionOrder<T extends { id: string; name: string }>(rows: readonly 
   return { ordered, visibleOrder, onReorder };
 }
 
-function channelLink(channelId: PlaygroundChannelId) {
-  return (
-    <Link
-      to="/playground/s/$serverSlug/channel/$channelId"
-      params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
-      search={{}}
-    />
-  );
-}
-
 function PlaygroundSidebarItem({
   children,
   active,
@@ -422,7 +412,6 @@ function PinnedSection({
   rows: readonly PlaygroundChannelRecord[];
 }) {
   const { ordered, visibleOrder, onReorder } = useSectionOrder(rows);
-  if (ordered.length === 0) return null;
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -441,21 +430,25 @@ function PinnedSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
-        {ordered.map((row) => (
-          <SortableChatSidebarItem key={row.id} id={row.id}>
-            <PlaygroundSidebarItem
-              active={activeChannelId === row.id}
-              menu={getSidebarRowMenu(row)}
-              onArchive={row.kind === "dm" ? undefined : () => onArchive(row)}
-              onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
-              render={channelLink(row.id)}
-            >
-              <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </PlaygroundSidebarItem>
-          </SortableChatSidebarItem>
-        ))}
-      </SortableChatSidebarList>
+      {ordered.length === 0 ? (
+        <ChatSidebarSectionEmpty>Drag channels or DMs here to pin</ChatSidebarSectionEmpty>
+      ) : (
+        <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
+          {ordered.map((row) => (
+            <SortableChatSidebarItem key={row.id} id={row.id}>
+              <PlaygroundSidebarItem
+                active={activeChannelId === row.id}
+                menu={getSidebarRowMenu(row)}
+                onArchive={row.kind === "dm" ? undefined : () => onArchive(row)}
+                onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
+                render={<PlaygroundConversationLink conversation={row} />}
+              >
+                <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
+              </PlaygroundSidebarItem>
+            </SortableChatSidebarItem>
+          ))}
+        </SortableChatSidebarList>
+      )}
     </ChatSidebarSection>
   );
 }
@@ -497,19 +490,23 @@ function JointChannelsSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
-        {ordered.map((row) => (
-          <SortableChatSidebarItem key={row.id} id={row.id}>
-            <PlaygroundSidebarItem
-              active={activeChannelId === row.id}
-              menu={getSidebarRowMenu(row)}
-              render={channelLink(row.id)}
-            >
-              <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-            </PlaygroundSidebarItem>
-          </SortableChatSidebarItem>
-        ))}
-      </SortableChatSidebarList>
+      {ordered.length === 0 ? (
+        <ChatSidebarSectionEmpty>No joint channels yet</ChatSidebarSectionEmpty>
+      ) : (
+        <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
+          {ordered.map((row) => (
+            <SortableChatSidebarItem key={row.id} id={row.id}>
+              <PlaygroundSidebarItem
+                active={activeChannelId === row.id}
+                menu={getSidebarRowMenu(row)}
+                render={<PlaygroundConversationLink conversation={row} />}
+              >
+                <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
+              </PlaygroundSidebarItem>
+            </SortableChatSidebarItem>
+          ))}
+        </SortableChatSidebarList>
+      )}
     </ChatSidebarSection>
   );
 }
@@ -534,7 +531,7 @@ function ChannelsSection({
       active={activeChannelId === row.id}
       menu={getSidebarRowMenu(row)}
       onArchive={() => onArchive(row)}
-      render={channelLink(row.id)}
+      render={<PlaygroundConversationLink conversation={row} />}
     >
       <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
     </PlaygroundSidebarItem>
@@ -571,7 +568,9 @@ function ChannelsSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      {sortMode === "manual" ? (
+      {ordered.length === 0 ? (
+        <ChatSidebarSectionEmpty>No channels yet</ChatSidebarSectionEmpty>
+      ) : sortMode === "manual" ? (
         <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
           {ordered.map((row) => (
             <SortableChatSidebarItem key={row.id} id={row.id}>
@@ -638,7 +637,7 @@ function DirectMessagesSection({
               active={activeChannelId === row.id}
               menu={getSidebarRowMenu(row)}
               onCloseDm={() => onCloseDm(row)}
-              render={channelLink(row.id)}
+              render={<PlaygroundConversationLink conversation={row} />}
             >
               <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
             </PlaygroundSidebarItem>

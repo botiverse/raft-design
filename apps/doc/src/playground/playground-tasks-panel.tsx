@@ -146,9 +146,19 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
         onOpenTask={(task) => {
           const sourceTask = visibleTasks.find((item) => item.id === task.id);
           if (!sourceTask || sourceTask.legacy) return;
+          const conversation = getPlaygroundChannel(sourceTask.channelId);
+          if (conversation.kind === "dm") {
+            void navigate({
+              to: "/playground/s/$serverSlug/dm/$dmId",
+              params: { dmId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
+              search: { from: "tasks", thread: sourceTask.sourceMessageId ?? sourceTask.id },
+            });
+            return;
+          }
+
           void navigate({
             to: "/playground/s/$serverSlug/channel/$channelId",
-            params: { channelId: sourceTask.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+            params: { channelId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
             search: { from: "tasks", thread: sourceTask.sourceMessageId ?? sourceTask.id },
           });
         }}

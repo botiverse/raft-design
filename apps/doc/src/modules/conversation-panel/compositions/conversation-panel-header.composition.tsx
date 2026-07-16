@@ -45,19 +45,12 @@ export function ConversationPanelHeaderComposition({
         <ConversationPanelHeaderContent>
           <ConversationPanelHeading>
             <ConversationPanelTitle>Atlas</ConversationPanelTitle>
-            <Status aria-hidden size="md" variant="success" pulse />
-            <ConversationPanelMeta size="md">Working · replies in ~1m</ConversationPanelMeta>
+            <ConversationPanelStatus mobileVisible title="Working…">
+              <Status aria-hidden size="md" variant="success" pulse />
+              Working…
+            </ConversationPanelStatus>
           </ConversationPanelHeading>
         </ConversationPanelHeaderContent>
-        <ConversationPanelActions>
-          <PanelToggleAction
-            pressed={muted}
-            onPressedChange={onMutedChange}
-            aria-label={muted ? "Unmute activity for this DM" : "Mute activity for this DM"}
-          >
-            {muted ? <BellOff /> : <Bell />}
-          </PanelToggleAction>
-        </ConversationPanelActions>
       </ConversationPanelHeader>
     );
   }

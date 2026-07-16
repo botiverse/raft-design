@@ -9,8 +9,10 @@ import {
   PLAYGROUND_LIVE_AGENT_ACTIVITY,
   getPlaygroundActor,
   getPlaygroundChannel,
+  getPlaygroundDirectMessage,
   getPlaygroundThread,
   isPlaygroundChannelId,
+  isPlaygroundDmId,
   type PlaygroundTask,
   type PlaygroundThread,
 } from "./mock/index.ts";
@@ -25,8 +27,16 @@ export function PlaygroundChatShell() {
     from: "/playground/s/$serverSlug/channel/$channelId",
     shouldThrow: false,
   });
+  const dmMatch = useMatch({
+    from: "/playground/s/$serverSlug/dm/$dmId",
+    shouldThrow: false,
+  });
   const channelRouteMatch = useMatch({
     from: "/playground/s/$serverSlug/channel",
+    shouldThrow: false,
+  });
+  const dmRouteMatch = useMatch({
+    from: "/playground/s/$serverSlug/dm",
     shouldThrow: false,
   });
   const { tasks } = usePlaygroundTaskState();
@@ -34,10 +44,15 @@ export function PlaygroundChatShell() {
   const isDesktop = usePlaygroundDesktop();
   const isLargeDesktop = usePlaygroundLargeDesktop();
   const channelId = channelMatch?.params.channelId;
-  const { from, panel, thread } = channelRouteMatch?.search ?? {};
+  const dmId = dmMatch?.params.dmId;
+  const { from, panel, thread } = channelRouteMatch?.search ?? dmRouteMatch?.search ?? {};
 
   const channel =
-    channelId && isPlaygroundChannelId(channelId) ? getPlaygroundChannel(channelId) : null;
+    channelId && isPlaygroundChannelId(channelId)
+      ? getPlaygroundChannel(channelId)
+      : dmId && isPlaygroundDmId(dmId)
+        ? getPlaygroundDirectMessage(dmId)
+        : null;
   const threadContext = thread ? getPlaygroundThread(thread) : undefined;
   const task = thread ? tasks.find((item) => item.id === thread) : undefined;
   const activeThread =

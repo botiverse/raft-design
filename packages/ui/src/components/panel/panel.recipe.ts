@@ -11,7 +11,7 @@ export const panel = tv({
     ],
     scrollContent: ["min-h-full"],
     scrollbar: [
-      "z-30 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
+      "z-50 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
       "pointer-events-none",
       "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
     ],

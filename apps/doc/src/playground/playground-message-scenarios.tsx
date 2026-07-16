@@ -274,14 +274,14 @@ export function ChipDemoBody() {
       <p>
         Self mention:{" "}
         <MessageSelfMentionReferenceComposition
-          href="/playground/s/raft/channel/dm-code-pilot"
+          href="/playground/s/raft/dm/dm-code-pilot"
           preview={<ProfileCardBody actorId="developer" />}
         >
           @Developer
         </MessageSelfMentionReferenceComposition>{" "}
         is the attention chip. Normal mentions like{" "}
         <MessageMentionReferenceComposition
-          href="/playground/s/raft/channel/dm-noah"
+          href="/playground/s/raft/dm/dm-noah"
           preview={<ProfileCardBody actorId="noah" />}
         >
           @Member

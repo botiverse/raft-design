@@ -106,6 +106,11 @@ export const conversationPanel = tv({
         ],
       },
     },
+    mobileVisible: {
+      true: {
+        status: "max-md:!inline-flex",
+      },
+    },
     size: {
       sm: {},
       md: { meta: "text-sm" },

@@ -106,7 +106,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelTitle / Meta / Status / Actions",
     type: "div / span props",
-    description: "Explicit title content and action regions; business copy remains caller-owned.",
+    description:
+      "Explicit title content and action regions; set ConversationPanelStatus mobileVisible when its caller-owned status must remain visible on mobile.",
   },
   {
     name: "PanelAction",
