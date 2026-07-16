@@ -57,7 +57,7 @@ export function ChatSidebarMobilePartsComposition() {
           <ChatSidebarGroupLabel>Workspace</ChatSidebarGroupLabel>
           <ChatSidebarList>
             <ChatSidebarItem
-              current={selected === "raft-ui-migration"}
+              active={selected === "raft-ui-migration"}
               onClick={() => setSelected("raft-ui-migration")}
             >
               <ChatSidebarItemChannelIcon aria-hidden>
@@ -68,7 +68,7 @@ export function ChatSidebarMobilePartsComposition() {
               </ChatSidebarItemText>
             </ChatSidebarItem>
             <ChatSidebarItem
-              current={selected === "weekly-priorities"}
+              active={selected === "weekly-priorities"}
               onClick={() => setSelected("weekly-priorities")}
             >
               <ChatSidebarItemChannelIcon aria-hidden>

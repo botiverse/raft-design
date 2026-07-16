@@ -49,17 +49,15 @@ import {
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
   ChatSidebarItem,
-  ChatSidebarItemUnread,
   ChatSidebarItemAside,
-  ChatSidebarItemBadge,
+  ChatSidebarItemCount,
   ChatSidebarItemChannelIcon,
-  ChatSidebarItemDraft,
   ChatSidebarItemIcon,
   ChatSidebarItemInlineText,
-  ChatSidebarItemMention,
+  ChatSidebarItemIndicator,
   ChatSidebarItemMeta,
-  ChatSidebarItemMuted,
-  ChatSidebarItemPresence,
+  ChatSidebarItemMetaIcon,
+  ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
   ChatSidebarList,
@@ -126,28 +124,29 @@ function getPlaygroundChannelIcon(channel: PlaygroundRoomChannel) {
 
 function PlaygroundMutedIndicator() {
   return (
-    <ChatSidebarItemMuted
+    <ChatSidebarItemMetaIcon
+      role="img"
       aria-label="Activity muted"
       title="Activity muted. Direct mentions can still notify you."
     >
       <BellOff aria-hidden />
-    </ChatSidebarItemMuted>
+    </ChatSidebarItemMetaIcon>
   );
 }
 
 function PlaygroundMentionIndicator() {
   return (
-    <ChatSidebarItemMention aria-label="Mentioned you">
+    <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
       <AtSign aria-hidden />
-    </ChatSidebarItemMention>
+    </ChatSidebarItemIndicator>
   );
 }
 
 function PlaygroundDraftIndicator() {
   return (
-    <ChatSidebarItemDraft aria-label="Draft">
+    <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
       <Pencil aria-hidden />
-    </ChatSidebarItemDraft>
+    </ChatSidebarItemMetaIcon>
   );
 }
 
@@ -177,7 +176,7 @@ function ChannelRowContent({
       {showAside ? (
         <ChatSidebarItemAside>
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}
-          {showBadge ? <ChatSidebarItemBadge>{navigation.badge}</ChatSidebarItemBadge> : null}
+          {showBadge ? <ChatSidebarItemCount>{navigation.badge}</ChatSidebarItemCount> : null}
           {navigation.draft ? <PlaygroundDraftIndicator /> : null}
         </ChatSidebarItemAside>
       ) : null}
@@ -236,11 +235,11 @@ function DirectMessageRowContent({
         <ChatSidebarItemAside>
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}
           {actor.presence ? (
-            <ChatSidebarItemPresence>
+            <ChatSidebarItemStatus>
               <DirectMessageStatus status={actor.presence} size="md" />
-            </ChatSidebarItemPresence>
+            </ChatSidebarItemStatus>
           ) : null}
-          {showBadge ? <ChatSidebarItemBadge>{navigation.badge}</ChatSidebarItemBadge> : null}
+          {showBadge ? <ChatSidebarItemCount>{navigation.badge}</ChatSidebarItemCount> : null}
           {navigation.draft ? <PlaygroundDraftIndicator /> : null}
         </ChatSidebarItemAside>
       ) : null}
@@ -317,29 +316,25 @@ function channelLink(channelId: PlaygroundChannelId) {
 
 function PlaygroundSidebarItem({
   children,
-  current,
+  active,
   menu,
   onArchive,
   onCloseDm,
   render,
-  unread,
 }: {
   children: ReactNode;
-  current: boolean;
+  active: boolean;
   menu: SidebarRowMenu;
   onArchive?: () => void;
   onCloseDm?: () => void;
   render: ReactElement;
-  unread?: boolean;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [menuState, setMenuState] = useState(() => ({
     unread: menu.unread,
     pinned: menu.pinned,
     muted: menu.muted === true,
   }));
   const [announcement, setAnnouncement] = useState("");
-  const Item = unread ? ChatSidebarItemUnread : ChatSidebarItem;
 
   const announce = (message: string) => {
     setAnnouncement("");
@@ -347,20 +342,19 @@ function PlaygroundSidebarItem({
   };
 
   return (
-    <ContextMenu onOpenChange={setMenuOpen}>
+    <ContextMenu>
       <ContextMenuTrigger
         render={
-          <Item
-            current={current}
-            aria-current={current ? "page" : undefined}
-            aria-expanded={menuOpen || undefined}
+          <ChatSidebarItem
+            active={active}
+            aria-current={active ? "page" : undefined}
             render={render}
           >
             {children}
             <span className="sr-only" aria-live="polite">
               {announcement}
             </span>
-          </Item>
+          </ChatSidebarItem>
         }
       />
       <ContextMenuContent className="flex w-48 flex-col">
@@ -454,11 +448,10 @@ function PinnedSection({
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
-              current={activeChannelId === row.id}
+              active={activeChannelId === row.id}
               menu={getSidebarRowMenu(row)}
               onArchive={row.kind === "dm" ? undefined : () => onArchive(row)}
               onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
-              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <PinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
@@ -511,9 +504,8 @@ function JointChannelsSection({
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
-              current={activeChannelId === row.id}
+              active={activeChannelId === row.id}
               menu={getSidebarRowMenu(row)}
-              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
@@ -542,10 +534,9 @@ function ChannelsSection({
   const renderChannel = (row: PlaygroundRoomRecord) => (
     <PlaygroundSidebarItem
       key={row.id}
-      current={activeChannelId === row.id}
+      active={activeChannelId === row.id}
       menu={getSidebarRowMenu(row)}
       onArchive={() => onArchive(row)}
-      unread={row.navigation.unread}
       render={channelLink(row.id)}
     >
       <ChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
@@ -647,10 +638,9 @@ function DirectMessagesSection({
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
             <PlaygroundSidebarItem
-              current={activeChannelId === row.id}
+              active={activeChannelId === row.id}
               menu={getSidebarRowMenu(row)}
               onCloseDm={() => onCloseDm(row)}
-              unread={row.navigation.unread}
               render={channelLink(row.id)}
             >
               <DirectMessageRowContent row={row} hideBadge={activeChannelId === row.id} />
@@ -728,7 +718,7 @@ export function PlaygroundSidebar({
               </ChatSidebarItem>
 
               <ChatSidebarItem
-                current={railView === "saved"}
+                active={railView === "saved"}
                 onClick={() => selectRailView("saved")}
               >
                 <ChatSidebarItemIcon aria-hidden>

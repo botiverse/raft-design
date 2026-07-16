@@ -8,23 +8,21 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebarItem, chatSidebarItemInlineText } from "./chat-sidebar-item.recipe";
 
 export type ChatSidebarItemProps = useRender.ComponentProps<"button"> & {
-  current?: boolean;
+  active?: boolean;
 };
 
 function ChatSidebarItemRoot({
+  active = false,
   className,
-  current = false,
   render,
-  unread = false,
   ...props
-}: ChatSidebarItemProps & { unread?: boolean }) {
+}: ChatSidebarItemProps) {
   const theme = useThemeFamily();
   const { sidebarItem } = chatSidebarItem({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "chat-sidebar-item",
-    "data-current": current ? "true" : undefined,
-    "data-unread": unread ? "true" : undefined,
+    "data-active": active ? "true" : undefined,
     className: sidebarItem({ className }),
   };
 
@@ -36,12 +34,6 @@ function ChatSidebarItemRoot({
 
 export function ChatSidebarItem(props: ChatSidebarItemProps) {
   return <ChatSidebarItemRoot {...props} />;
-}
-
-export type ChatSidebarItemUnreadProps = ChatSidebarItemProps;
-
-export function ChatSidebarItemUnread(props: ChatSidebarItemUnreadProps) {
-  return <ChatSidebarItemRoot unread {...props} />;
 }
 
 export type ChatSidebarItemIconProps = useRender.ComponentProps<"span">;
@@ -82,20 +74,13 @@ export function ChatSidebarItemChannelIcon({
   });
 }
 
-export type ChatSidebarItemTextProps = useRender.ComponentProps<"span"> & {
-  stacked?: boolean;
-};
+export type ChatSidebarItemTextProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarItemText({
-  className,
-  render,
-  stacked,
-  ...props
-}: ChatSidebarItemTextProps) {
-  const { sidebarItemText, sidebarItemTextStack } = chatSidebarItem();
+export function ChatSidebarItemText({ className, render, ...props }: ChatSidebarItemTextProps) {
+  const { sidebarItemText } = chatSidebarItem();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "chat-sidebar-item-text",
-    className: stacked ? sidebarItemTextStack({ className }) : sidebarItemText({ className }),
+    className: sidebarItemText({ className }),
   };
 
   return useRender({
@@ -187,99 +172,58 @@ export function ChatSidebarItemMeta({ className, render, ...props }: ChatSidebar
   });
 }
 
-export type ChatSidebarItemIndicatorProps = useRender.ComponentProps<"span">;
+export type ChatSidebarItemStatusProps = useRender.ComponentProps<"span">;
+
+export function ChatSidebarItemStatus({ className, render, ...props }: ChatSidebarItemStatusProps) {
+  const theme = useThemeFamily();
+  const { sidebarItemStatus } = chatSidebarItem({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "chat-sidebar-item-status",
+    className: sidebarItemStatus({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ChatSidebarItemIndicatorProps = BadgeProps;
 
 export function ChatSidebarItemIndicator({
-  className,
-  render,
-  ...props
-}: ChatSidebarItemIndicatorProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemIndicator } = chatSidebarItem({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-indicator",
-    className: sidebarItemIndicator({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarItemPresenceProps = useRender.ComponentProps<"span">;
-
-export function ChatSidebarItemPresence({
-  className,
-  render,
-  ...props
-}: ChatSidebarItemPresenceProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemPresence } = chatSidebarItem({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-presence",
-    className: sidebarItemPresence({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarItemMentionProps = BadgeProps;
-
-export function ChatSidebarItemMention({
   appearance = "solid",
   className,
   uppercase = false,
   variant = "primary",
   ...props
-}: ChatSidebarItemMentionProps) {
+}: ChatSidebarItemIndicatorProps) {
   const theme = useThemeFamily();
-  const { sidebarItemMention } = chatSidebarItem({ theme });
+  const { sidebarItemIndicator } = chatSidebarItem({ theme });
   return (
     <Badge
-      data-slot="chat-sidebar-item-mention"
-      role="img"
+      data-slot="chat-sidebar-item-indicator"
       appearance={appearance}
       uppercase={uppercase}
       variant={variant}
-      className={sidebarItemMention({ className })}
+      className={sidebarItemIndicator({ className })}
       {...props}
     />
   );
 }
 
-export type ChatSidebarItemMutedProps = useRender.ComponentProps<"span">;
+export type ChatSidebarItemMetaIconProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarItemMuted({ className, render, ...props }: ChatSidebarItemMutedProps) {
+export function ChatSidebarItemMetaIcon({
+  className,
+  render,
+  ...props
+}: ChatSidebarItemMetaIconProps) {
   const theme = useThemeFamily();
-  const { sidebarItemMuted } = chatSidebarItem({ theme });
+  const { sidebarItemMetaIcon } = chatSidebarItem({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-muted",
-    role: "img",
-    className: sidebarItemMuted({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarItemDraftProps = useRender.ComponentProps<"span">;
-
-export function ChatSidebarItemDraft({ className, render, ...props }: ChatSidebarItemDraftProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemDraft } = chatSidebarItem({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-item-draft",
-    role: "img",
-    className: sidebarItemDraft({ className }),
+    "data-slot": "chat-sidebar-item-meta-icon",
+    className: sidebarItemMetaIcon({ className }),
   };
 
   return useRender({
@@ -305,24 +249,24 @@ export function ChatSidebarItemAside({ className, render, ...props }: ChatSideba
   });
 }
 
-export type ChatSidebarItemBadgeProps = BadgeProps;
+export type ChatSidebarItemCountProps = BadgeProps;
 
-export function ChatSidebarItemBadge({
+export function ChatSidebarItemCount({
   appearance = "solid",
   className,
   uppercase = false,
   variant = "primary",
   ...props
-}: ChatSidebarItemBadgeProps) {
+}: ChatSidebarItemCountProps) {
   const theme = useThemeFamily();
-  const { sidebarItemBadge } = chatSidebarItem({ theme });
+  const { sidebarItemCount } = chatSidebarItem({ theme });
   return (
     <Badge
-      data-slot="chat-sidebar-item-badge"
+      data-slot="chat-sidebar-item-count"
       appearance={appearance}
       uppercase={uppercase}
       variant={variant}
-      className={sidebarItemBadge({ className })}
+      className={sidebarItemCount({ className })}
       {...props}
     />
   );

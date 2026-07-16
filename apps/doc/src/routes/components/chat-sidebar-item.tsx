@@ -17,10 +17,9 @@ const ANATOMY_SNIPPET = `<ChatSidebarItem>
     <ChatSidebarItemSubtitle />
   </ChatSidebarItemText>
   <ChatSidebarItemAside>
-    <ChatSidebarItemMention />
-    <ChatSidebarItemBadge />
-    <ChatSidebarItemDraft />
-    <ChatSidebarItemMuted />
+    <ChatSidebarItemIndicator />
+    <ChatSidebarItemCount />
+    <ChatSidebarItemMetaIcon />
   </ChatSidebarItemAside>
 </ChatSidebarItem>`;
 
@@ -32,10 +31,10 @@ const TOC = [
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItem / ChatSidebarItemUnread",
+    name: "ChatSidebarItem",
     type: "button props",
     description:
-      "Interactive row root. Use the explicit unread root for unread title weight and aria-current for the current destination.",
+      "Interactive row root. Use active for visual state; route consumers provide aria-current for the current destination, and unread state is composed from explicit indicators and counts.",
   },
   {
     name: "ChatSidebarItemIcon / ChatSidebarItemChannelIcon",
@@ -46,7 +45,7 @@ const PROPS: readonly PropRow[] = [
     name: "ChatSidebarItemText / ChatSidebarItemInlineText",
     type: "span props & inline text variants",
     description:
-      "Stacked or inline text layouts. InlineText supports alignment and constrained title width without changing row structure.",
+      "Text layouts. InlineText supports alignment and constrained title width without changing row structure.",
   },
   {
     name: "ChatSidebarItemTitle / Subtitle / Meta",
@@ -60,13 +59,12 @@ const PROPS: readonly PropRow[] = [
     description: "Trailing layout slot for consumer-chosen metadata parts.",
   },
   {
-    name: "ChatSidebarItemIndicator / Presence",
+    name: "ChatSidebarItemStatus",
     type: "span props",
-    description:
-      "Generic and presence-specific indicator slots. Consumers provide the Status or other indicator content.",
+    description: "Availability-status slot. Consumers provide the Status content.",
   },
   {
-    name: "ChatSidebarItemMention / Badge / Draft / Muted",
+    name: "ChatSidebarItemIndicator / Count / MetaIcon",
     type: "span or Badge props",
     description:
       "Explicit metadata parts. The consumer decides which statuses apply and supplies accessible labels.",
