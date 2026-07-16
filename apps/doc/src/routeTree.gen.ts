@@ -29,6 +29,7 @@ import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-sh
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
+import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
@@ -68,14 +69,13 @@ import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer
 import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
 import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
 import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
+import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
-import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
 import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
 import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
-import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -203,6 +203,11 @@ const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
 const ComponentsToastRoute = ComponentsToastRouteImport.update({
   id: '/toast',
   path: '/toast',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsThreadPanelRoute = ComponentsThreadPanelRouteImport.update({
+  id: '/thread-panel',
+  path: '/thread-panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
@@ -405,6 +410,12 @@ const ComponentsCopyableCodeRoute = ComponentsCopyableCodeRouteImport.update({
   path: '/copyable-code',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsConversationPanelRoute =
+  ComponentsConversationPanelRouteImport.update({
+    id: '/conversation-panel',
+    path: '/conversation-panel',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
   id: '/context-menu',
   path: '/context-menu',
@@ -426,12 +437,6 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   path: '/checkbox',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsThreadPanelRoute =
-  ComponentsThreadPanelRouteImport.update({
-    id: '/thread-panel',
-    path: '/thread-panel',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsChatSidebarItemRoute =
   ComponentsChatSidebarItemRouteImport.update({
     id: '/chat-sidebar-item',
@@ -441,11 +446,6 @@ const ComponentsChatSidebarItemRoute =
 const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
   id: '/chat-sidebar',
   path: '/chat-sidebar',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsConversationPanelRoute = ComponentsConversationPanelRouteImport.update({
-  id: '/conversation-panel',
-  path: '/conversation-panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
@@ -604,14 +604,13 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
-  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
+  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -651,6 +650,7 @@ export interface FileRoutesByFullPath {
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -697,14 +697,13 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
-  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
+  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -744,6 +743,7 @@ export interface FileRoutesByTo {
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -792,14 +792,13 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
-  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
+  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
   '/components/copyable-code': typeof ComponentsCopyableCodeRoute
   '/components/description-list': typeof ComponentsDescriptionListRoute
   '/components/dialog': typeof ComponentsDialogRoute
@@ -839,6 +838,7 @@ export interface FileRoutesById {
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
+  '/components/thread-panel': typeof ComponentsThreadPanelRoute
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -888,14 +888,13 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/conversation-panel'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
-    | '/components/thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
+    | '/components/conversation-panel'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -935,6 +934,7 @@ export interface FileRouteTypes {
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
+    | '/components/thread-panel'
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -981,14 +981,13 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/conversation-panel'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
-    | '/components/thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
+    | '/components/conversation-panel'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -1028,6 +1027,7 @@ export interface FileRouteTypes {
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
+    | '/components/thread-panel'
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -1075,14 +1075,13 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/conversation-panel'
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
-    | '/components/thread-panel'
     | '/components/checkbox'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
+    | '/components/conversation-panel'
     | '/components/copyable-code'
     | '/components/description-list'
     | '/components/dialog'
@@ -1122,6 +1121,7 @@ export interface FileRouteTypes {
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
+    | '/components/thread-panel'
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -1310,6 +1310,13 @@ declare module '@tanstack/react-router' {
       path: '/toast'
       fullPath: '/components/toast'
       preLoaderRoute: typeof ComponentsToastRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/thread-panel': {
+      id: '/components/thread-panel'
+      path: '/thread-panel'
+      fullPath: '/components/thread-panel'
+      preLoaderRoute: typeof ComponentsThreadPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/textarea': {
@@ -1585,6 +1592,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCopyableCodeRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/conversation-panel': {
+      id: '/components/conversation-panel'
+      path: '/conversation-panel'
+      fullPath: '/components/conversation-panel'
+      preLoaderRoute: typeof ComponentsConversationPanelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/context-menu': {
       id: '/components/context-menu'
       path: '/context-menu'
@@ -1613,13 +1627,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsCheckboxRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/thread-panel': {
-      id: '/components/thread-panel'
-      path: '/thread-panel'
-      fullPath: '/components/thread-panel'
-      preLoaderRoute: typeof ComponentsThreadPanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/chat-sidebar-item': {
       id: '/components/chat-sidebar-item'
       path: '/chat-sidebar-item'
@@ -1632,13 +1639,6 @@ declare module '@tanstack/react-router' {
       path: '/chat-sidebar'
       fullPath: '/components/chat-sidebar'
       preLoaderRoute: typeof ComponentsChatSidebarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/conversation-panel': {
-      id: '/components/conversation-panel'
-      path: '/conversation-panel'
-      fullPath: '/components/conversation-panel'
-      preLoaderRoute: typeof ComponentsConversationPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/chat-composer': {
@@ -1938,14 +1938,13 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
-  ComponentsConversationPanelRoute: typeof ComponentsConversationPanelRoute
   ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
   ComponentsChatSidebarItemRoute: typeof ComponentsChatSidebarItemRoute
-  ComponentsThreadPanelRoute: typeof ComponentsThreadPanelRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
+  ComponentsConversationPanelRoute: typeof ComponentsConversationPanelRoute
   ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
   ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
   ComponentsDialogRoute: typeof ComponentsDialogRoute
@@ -1985,6 +1984,7 @@ interface ComponentsRouteChildren {
   ComponentsTasksRoute: typeof ComponentsTasksRoute
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
+  ComponentsThreadPanelRoute: typeof ComponentsThreadPanelRoute
   ComponentsToastRoute: typeof ComponentsToastRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
@@ -2000,14 +2000,13 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
-  ComponentsConversationPanelRoute: ComponentsConversationPanelRoute,
   ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
   ComponentsChatSidebarItemRoute: ComponentsChatSidebarItemRoute,
-  ComponentsThreadPanelRoute: ComponentsThreadPanelRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
+  ComponentsConversationPanelRoute: ComponentsConversationPanelRoute,
   ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
   ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
   ComponentsDialogRoute: ComponentsDialogRoute,
@@ -2047,6 +2046,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTasksRoute: ComponentsTasksRoute,
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
+  ComponentsThreadPanelRoute: ComponentsThreadPanelRoute,
   ComponentsToastRoute: ComponentsToastRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,

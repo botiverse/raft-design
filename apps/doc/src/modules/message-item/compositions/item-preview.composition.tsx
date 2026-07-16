@@ -53,9 +53,6 @@ import {
   MessageItemTranslationStatus,
   MessageMarkdown,
   MessageReactionAddButton,
-  MessageReactionGlyph,
-  MessageReactionPickerContent,
-  MessageReactionQuickButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   SystemMessageGroupDisclosure,
@@ -72,16 +69,14 @@ import {
   MessageProductStatePreview,
   type MessageProductStatePreviewState,
 } from "./message-product-states.composition.tsx";
-import {
-  MESSAGE_FIXTURE_IMAGE_SRC,
-  MESSAGE_QUICK_REACTIONS,
-} from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import {
   MessageFileAttachmentsComposition,
   MessageImageGallerySingleComposition,
   MessageVideoPreviewComposition,
 } from "./media.compositions.tsx";
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
+import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 
 export type MessageItemPreviewChrome =
   | "default"
@@ -235,7 +230,7 @@ function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent 
   );
 }
 
-function MessageMobileReactionAdd({
+export function MessageMobileReactionAdd({
   portalContainer,
   onReact,
 }: {
@@ -245,41 +240,23 @@ function MessageMobileReactionAdd({
   const [open, setOpen] = useState(false);
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger
-        render={
-          <MessageReactionAddButton
-            aria-label="Add reaction"
-            data-message-affordance="mobile-reaction-add"
-          />
-        }
-      >
-        <Plus strokeWidth={2.5} />
-      </DropdownMenuTrigger>
-      <MessageReactionPickerContent
-        align="start"
-        side="top"
-        portalProps={portalContainer ? { container: portalContainer } : undefined}
-      >
-        {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <DropdownMenuItem
-            key={emoji}
-            render={
-              <MessageReactionQuickButton
-                title={`React with ${emoji}`}
-                aria-label={`React with ${emoji}`}
-              />
-            }
-            onClick={() => {
-              onReact(emoji);
-              setOpen(false);
-            }}
-          >
-            <MessageReactionGlyph emoji={emoji} size={18} />
-          </DropdownMenuItem>
-        ))}
-      </MessageReactionPickerContent>
-    </DropdownMenu>
+    <MessageQuickReactionPicker
+      open={open}
+      onOpenChange={setOpen}
+      onReact={onReact}
+      trigger={
+        <MessageReactionAddButton
+          aria-label="Add reaction"
+          data-message-affordance="mobile-reaction-add"
+          className="md:hidden"
+        >
+          <Plus strokeWidth={2.5} />
+        </MessageReactionAddButton>
+      }
+      side="top"
+      align="center"
+      portalContainer={portalContainer}
+    />
   );
 }
 

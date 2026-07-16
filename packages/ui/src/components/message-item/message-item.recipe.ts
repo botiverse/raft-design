@@ -6,6 +6,7 @@ export const messageItem = tv({
     root: [
       "group/message relative flex h-fit min-h-[3rem] gap-3 max-md:gap-2",
       "border-2 border-transparent",
+      "[@media(hover:none)]:select-none [@media(hover:none)]:[&_*]:select-none",
     ],
     gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
     avatarSlot: [

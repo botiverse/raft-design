@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { type SyntheticEvent } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem, type MessageItemVariantProps } from "./message-item.recipe";
 import { type SlotElementProps } from "../../lib/data-attributes";
@@ -8,6 +9,12 @@ export type MessageItemProps = useRender.ComponentProps<"div"> &
   Pick<MessageItemVariantProps, "compact">;
 
 type MessageItemRowState = "active" | "search-match" | "select";
+
+function clearTouchTextSelection(event: SyntheticEvent) {
+  if (!window.matchMedia("(hover: none)").matches) return;
+  event.preventDefault();
+  window.getSelection()?.removeAllRanges();
+}
 
 function MessageItemRoot({
   className,
@@ -18,9 +25,10 @@ function MessageItemRoot({
 }: MessageItemProps & { rowState?: MessageItemRowState }) {
   const theme = useThemeFamily();
   const { root } = messageItem({ compact, rowState, theme });
-  const defaultProps: SlotElementProps<"div"> = {
+  const defaultProps: useRender.ElementProps<"div"> & SlotElementProps<"div"> = {
     "data-compact": compact ? "true" : undefined,
     className: root({ className }),
+    onSelect: clearTouchTextSelection,
   };
 
   return useRender({

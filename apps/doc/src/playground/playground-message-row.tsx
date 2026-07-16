@@ -33,6 +33,7 @@ import {
   MessageContextMenuComposition,
   type MessageTaskState,
 } from "#/modules/message-item/compositions/context-menu.composition.tsx";
+import { MessageMobileReactionAdd } from "#/modules/message-item/compositions/item-preview.composition.tsx";
 import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
 import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
 import {
@@ -341,6 +342,12 @@ function MessageRowView({
                 </MessageReactionChip>
               );
             })}
+            {workflow.reactions.length > 0 ? (
+              <MessageMobileReactionAdd
+                portalContainer={reactionPortalContainer}
+                onReact={toggleReaction}
+              />
+            ) : null}
           </MessageItemFooter>
         ) : null}
       </MessageItemContent>
@@ -401,24 +408,24 @@ function MessageRowView({
 // stay keyed to the message while transient picker state remains in the composition.
 function RowToolbar({
   saved,
-  portalContainer,
   onReact,
   onReplyInThread,
   onSavedChange,
+  portalContainer,
 }: {
   saved?: boolean;
-  portalContainer: HTMLElement | null;
   onReact: (emoji: string) => void;
   onReplyInThread?: () => void;
   onSavedChange: (saved: boolean) => void;
+  portalContainer?: HTMLElement | null;
 }) {
   return (
     <MessageRowToolbar
       saved={saved}
-      portalContainer={portalContainer}
       onReact={onReact}
       onReplyInThread={onReplyInThread}
       onSavedChange={onSavedChange}
+      portalContainer={portalContainer}
     />
   );
 }
