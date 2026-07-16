@@ -8,6 +8,7 @@ import {
   ChatSidebarItemChannelIcon,
   ChatSidebarItemIcon,
   ChatSidebarItemIndicator,
+  ChatSidebarItemMeta,
   ChatSidebarItemMetaIcon,
   ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
@@ -15,7 +16,17 @@ import {
   ChatSidebarItemTitle,
 } from "raft-ui";
 
-const ITEMS = ["selected", "channel", "unread", "mention", "draft", "muted", "dm"] as const;
+const ITEMS = [
+  "selected",
+  "channel",
+  "popup",
+  "unread",
+  "mention",
+  "draft",
+  "muted",
+  "agent",
+  "dm",
+] as const;
 
 type ItemKey = (typeof ITEMS)[number];
 
@@ -23,7 +34,7 @@ export function ChatSidebarItemStatesComposition() {
   const [currentItem, setCurrentItem] = useState<ItemKey>("selected");
 
   return (
-    <div className="grid w-full max-w-2xl gap-6 md:grid-cols-2">
+    <div className="grid w-full max-w-2xl gap-y-6 md:grid-cols-2 md:gap-x-[36px]">
       <StateGroup title="Channel rows">
         <ChatSidebarItem
           active={currentItem === "selected"}
@@ -33,7 +44,7 @@ export function ChatSidebarItemStatesComposition() {
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
-            <ChatSidebarItemTitle>#proj-uiux</ChatSidebarItemTitle>
+            <ChatSidebarItemTitle>proj-uiux</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Selected channel</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
         </ChatSidebarItem>
@@ -46,8 +57,23 @@ export function ChatSidebarItemStatesComposition() {
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
-            <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
+            <ChatSidebarItemTitle>general</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Channel</ChatSidebarItemSubtitle>
+            <ChatSidebarItemMeta>2h</ChatSidebarItemMeta>
+          </ChatSidebarItemContent>
+        </ChatSidebarItem>
+
+        <ChatSidebarItem
+          data-popup-open
+          active={currentItem === "popup"}
+          onClick={() => setCurrentItem("popup")}
+        >
+          <ChatSidebarItemChannelIcon aria-hidden>
+            <Hash />
+          </ChatSidebarItemChannelIcon>
+          <ChatSidebarItemContent>
+            <ChatSidebarItemTitle>community</ChatSidebarItemTitle>
+            <ChatSidebarItemSubtitle>Menu open</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
         </ChatSidebarItem>
 
@@ -56,9 +82,15 @@ export function ChatSidebarItemStatesComposition() {
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
-            <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
+            <ChatSidebarItemTitle>release</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Unread activity</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
+          <ChatSidebarItemAside>
+            <ChatSidebarItemCount>3</ChatSidebarItemCount>
+            <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
+              <Pencil aria-hidden />
+            </ChatSidebarItemMetaIcon>
+          </ChatSidebarItemAside>
         </ChatSidebarItem>
 
         <ChatSidebarItem
@@ -69,7 +101,7 @@ export function ChatSidebarItemStatesComposition() {
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
-            <ChatSidebarItemTitle>#design</ChatSidebarItemTitle>
+            <ChatSidebarItemTitle>design</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Mention and badge</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
@@ -77,6 +109,9 @@ export function ChatSidebarItemStatesComposition() {
               <AtSign aria-hidden />
             </ChatSidebarItemIndicator>
             <ChatSidebarItemCount>12</ChatSidebarItemCount>
+            <ChatSidebarItemMetaIcon role="img" aria-label="Activity muted">
+              <BellOff aria-hidden />
+            </ChatSidebarItemMetaIcon>
           </ChatSidebarItemAside>
         </ChatSidebarItem>
       </StateGroup>
@@ -87,7 +122,7 @@ export function ChatSidebarItemStatesComposition() {
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
-            <ChatSidebarItemTitle>#planning</ChatSidebarItemTitle>
+            <ChatSidebarItemTitle>planning</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Draft</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
@@ -102,13 +137,31 @@ export function ChatSidebarItemStatesComposition() {
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
-            <ChatSidebarItemTitle>#announcements</ChatSidebarItemTitle>
+            <ChatSidebarItemTitle>announcements</ChatSidebarItemTitle>
             <ChatSidebarItemSubtitle>Muted</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemMetaIcon role="img" aria-label="Activity muted">
               <BellOff aria-hidden />
             </ChatSidebarItemMetaIcon>
+          </ChatSidebarItemAside>
+        </ChatSidebarItem>
+
+        <ChatSidebarItem active={currentItem === "agent"} onClick={() => setCurrentItem("agent")}>
+          <ChatSidebarItemIcon>
+            <Avatar size="2xs" type="agent">
+              <AvatarFallback>A</AvatarFallback>
+            </Avatar>
+          </ChatSidebarItemIcon>
+          <ChatSidebarItemContent>
+            <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
+            <ChatSidebarItemSubtitle>Agent activity</ChatSidebarItemSubtitle>
+          </ChatSidebarItemContent>
+          <ChatSidebarItemAside>
+            <ChatSidebarItemStatus>
+              <Status aria-label="Working" size="xs" variant="primary" />
+            </ChatSidebarItemStatus>
+            <ChatSidebarItemCount>2</ChatSidebarItemCount>
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
@@ -127,6 +180,9 @@ export function ChatSidebarItemStatesComposition() {
               <Status aria-label="Online" size="xs" variant="success" />
             </ChatSidebarItemStatus>
             <ChatSidebarItemCount>4</ChatSidebarItemCount>
+            <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
+              <Pencil aria-hidden />
+            </ChatSidebarItemMetaIcon>
           </ChatSidebarItemAside>
         </ChatSidebarItem>
       </StateGroup>

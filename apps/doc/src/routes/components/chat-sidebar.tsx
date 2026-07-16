@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -67,10 +66,19 @@ const PROPS: readonly PropRow[] = [
     description: "Sidebar column host. Resizable compositions size it through explicit classes.",
   },
   {
-    name: "ResizableGroup / ResizablePanel / ResizableHandle",
-    type: "react-resizable-panels group / panel / separator props",
-    description:
-      "Generic resize behavior. Keep rail outside the group and resize only the intended columns.",
+    name: "ResizableGroup",
+    type: "react-resizable-panels group props",
+    description: "Groups the sidebar and adjacent resizable columns.",
+  },
+  {
+    name: "ResizablePanel",
+    type: "react-resizable-panels panel props",
+    description: "Defines one resizable column in the group.",
+  },
+  {
+    name: "ResizableHandle",
+    type: "react-resizable-panels separator props",
+    description: "Resize handle between adjacent panels.",
   },
   {
     name: "ChatSidebarRoot",
@@ -78,10 +86,24 @@ const PROPS: readonly PropRow[] = [
     description: "Full-height sidebar surface that keeps the header and scroll body aligned.",
   },
   {
-    name: "ChatSidebarHeader / Body / Content",
+    name: "ChatSidebarHeader",
     type: "div props",
-    description:
-      "Column regions matching source sidebar chrome and scroll ownership. Header is a layout slot for an app-owned server switcher.",
+    description: "Header layout slot for app-owned navigation and controls.",
+  },
+  {
+    name: "ChatSidebarHeaderTitle",
+    type: "div props",
+    description: "Truncated sidebar heading.",
+  },
+  {
+    name: "ChatSidebarBody",
+    type: "div props",
+    description: "Owns the sidebar's scrollable body region.",
+  },
+  {
+    name: "ChatSidebarContent",
+    type: "div props",
+    description: "Full-height scroll-content wrapper.",
   },
   {
     name: "ChatSidebarLiveActivity",
@@ -90,16 +112,89 @@ const PROPS: readonly PropRow[] = [
       "Optional desktop live-agent overlay. It owns the full-width fade, theme spacing, and matching scroll-content clearance.",
   },
   {
-    name: "ChatSidebarMenu / Icon / Title / Aside / Count",
-    type: "button + span props",
-    description:
-      "Top-level sidebar destinations such as Saved, with explicit leading and metadata parts.",
+    name: "ChatSidebarMenu",
+    type: "button props",
+    description: "Top-level destination such as Saved.",
   },
   {
-    name: "ChatSidebarSection / List",
-    type: "section / div props",
-    description:
-      "Section, list, and compact empty-state wrappers for saved, pinned, channel, joint, and DM groups.",
+    name: "ChatSidebarMenuIcon",
+    type: "span props",
+    description: "Leading icon slot for a menu destination.",
+  },
+  {
+    name: "ChatSidebarMenuTitle",
+    type: "span props",
+    description: "Menu destination label.",
+  },
+  {
+    name: "ChatSidebarMenuAside",
+    type: "span props",
+    description: "Trailing metadata slot for a menu destination.",
+  },
+  {
+    name: "ChatSidebarMenuCount",
+    type: "span props",
+    description: "Compact trailing count for a menu destination.",
+  },
+  {
+    name: "ChatSidebarSection",
+    type: "section props",
+    description: "Groups a saved, pinned, channel, joint, or DM region.",
+  },
+  {
+    name: "ChatSidebarSectionHeader",
+    type: "div props",
+    description: "Structural header wrapper for a sidebar section.",
+  },
+  {
+    name: "ChatSidebarSectionDisclosure",
+    type: "button props",
+    description: "Collapsible section trigger.",
+  },
+  {
+    name: "ChatSidebarSectionTitle",
+    type: "span props",
+    description: "Section heading label.",
+  },
+  {
+    name: "ChatSidebarSectionCount",
+    type: "span props",
+    description: "Section item count.",
+  },
+  {
+    name: "ChatSidebarSectionChevron",
+    type: "span props",
+    description: "Disclosure indicator for a collapsible section.",
+  },
+  {
+    name: "ChatSidebarSectionTrailing",
+    type: "div props",
+    description: "Trailing area of a section header.",
+  },
+  {
+    name: "ChatSidebarSectionAttention",
+    type: "span props",
+    description: "Unread or attention indicator in a section header.",
+  },
+  {
+    name: "ChatSidebarSectionControls",
+    type: "div props",
+    description: "Control group in a section header.",
+  },
+  {
+    name: "ChatSidebarSectionControl",
+    type: "button props",
+    description: "Single section-header control slot.",
+  },
+  {
+    name: "ChatSidebarSectionEmpty",
+    type: "div props",
+    description: "Compact empty-state wrapper for a section.",
+  },
+  {
+    name: "ChatSidebarList",
+    type: "div props",
+    description: "List wrapper for sidebar rows.",
   },
   {
     name: "ChatSidebarGroupLabel",
@@ -107,10 +202,64 @@ const PROPS: readonly PropRow[] = [
     description: "Static, non-interactive heading for sidebar groups that do not collapse.",
   },
   {
-    name: "ChatSidebarSectionHeader*",
-    type: "div + button + span props",
-    description:
-      "Base UI Collapsible header parts for ChatSidebarSectionChevron, title, count, ChatSidebarSectionAttention, and action slots.",
+    name: "ChatSidebarItem",
+    type: "button props",
+    description: "Interactive sidebar conversation or channel row.",
+  },
+  {
+    name: "ChatSidebarItemIcon",
+    type: "span props",
+    description: "Leading icon or avatar slot for a row.",
+  },
+  {
+    name: "ChatSidebarItemChannelIcon",
+    type: "span props",
+    description: "Leading channel icon slot for a row.",
+  },
+  {
+    name: "ChatSidebarItemContent",
+    type: "div props",
+    description: "Main text content region for a row.",
+  },
+  {
+    name: "ChatSidebarItemTitle",
+    type: "span props",
+    description: "Primary row label.",
+  },
+  {
+    name: "ChatSidebarItemSubtitle",
+    type: "span props",
+    description: "Secondary row detail.",
+  },
+  {
+    name: "ChatSidebarItemMeta",
+    type: "span props",
+    description: "Inline metadata slot beside a row title.",
+  },
+  {
+    name: "ChatSidebarItemMetaIcon",
+    type: "span props",
+    description: "Inline metadata icon beside a row title.",
+  },
+  {
+    name: "ChatSidebarItemAside",
+    type: "span props",
+    description: "Trailing metadata region for a row.",
+  },
+  {
+    name: "ChatSidebarItemCount",
+    type: "span props",
+    description: "Unread count in a row's trailing area.",
+  },
+  {
+    name: "ChatSidebarItemIndicator",
+    type: "span props",
+    description: "Mention or attention indicator in a row.",
+  },
+  {
+    name: "ChatSidebarItemStatus",
+    type: "span props",
+    description: "Presence or workflow status slot for a row.",
   },
   {
     name: "ChatSidebarControl",
@@ -132,18 +281,6 @@ function ChatSidebarDoc() {
     <DocPage
       title="ChatSidebar"
       description="Controlled chat sidebar column structure for saved items, pinned items, channels, joint channels, and direct messages."
-      overview={
-        <Differences from="Sidebar">
-          <li>does not own stores, sorting, context menus, drag state, or create dialogs</li>
-          <li>
-            keeps source column shape: cream sidebar, panel-header height, and scrollable body
-          </li>
-          <li>
-            rows remain children so products can compose MediaListItem, SectionHeader, badges, and
-            menus
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

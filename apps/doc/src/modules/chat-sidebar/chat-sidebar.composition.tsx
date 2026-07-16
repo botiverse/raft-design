@@ -15,6 +15,7 @@ import {
   ChatSidebarItemIndicator,
   ChatSidebarItemMetaIcon,
   ChatSidebarItemContent,
+  ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
   ChatSidebarList,
@@ -64,8 +65,8 @@ export function ChatSidebarComposition({
   contentState = "populated",
   liveActivityState = "active",
 }: ChatSidebarCompositionProps) {
-  const [selectedItem, setSelectedItem] = useState("#proj-uiux");
-  const [announcement, setAnnouncement] = useState({ message: "Opened #proj-uiux", sequence: 0 });
+  const [selectedItem, setSelectedItem] = useState("proj-uiux");
+  const [announcement, setAnnouncement] = useState({ message: "Opened proj-uiux", sequence: 0 });
   const isEmpty = contentState === "empty";
 
   function announce(message: string) {
@@ -86,35 +87,29 @@ export function ChatSidebarComposition({
         <span className="sr-only" aria-live="polite">
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
-        <SidebarCreateMenu disabled />
+        <SidebarCreateMenu
+          onCreateChannel={() => announce("Create Channel")}
+          onCreateJoint={() => announce("Create Joint Channel")}
+        />
       </ChatSidebarHeader>
       <ChatSidebarBody>
         <ChatSidebarContent className="min-h-0">
           <div className="min-h-full">
             <ChatSidebarSection>
-              {isEmpty ? (
-                <>
-                  <ChatSidebarSectionHeader className="mt-0">
-                    <ChatSidebarSectionTitle>Saved</ChatSidebarSectionTitle>
-                  </ChatSidebarSectionHeader>
-                  <ChatSidebarSectionEmpty>No saved conversations yet</ChatSidebarSectionEmpty>
-                </>
-              ) : (
-                <ChatSidebarSectionHeader className="mt-0">
-                  <ChatSidebarMenu
-                    aria-current={selectedItem === "Saved" ? "page" : undefined}
-                    onClick={() => openDestination("Saved")}
-                  >
-                    <ChatSidebarMenuIcon>
-                      <Bookmark />
-                    </ChatSidebarMenuIcon>
-                    <ChatSidebarMenuTitle>Saved</ChatSidebarMenuTitle>
-                    <ChatSidebarMenuAside>
-                      <ChatSidebarMenuCount>2</ChatSidebarMenuCount>
-                    </ChatSidebarMenuAside>
-                  </ChatSidebarMenu>
-                </ChatSidebarSectionHeader>
-              )}
+              <ChatSidebarSectionHeader className="mt-0">
+                <ChatSidebarMenu
+                  aria-current={selectedItem === "Saved" ? "page" : undefined}
+                  onClick={() => openDestination("Saved")}
+                >
+                  <ChatSidebarMenuIcon>
+                    <Bookmark />
+                  </ChatSidebarMenuIcon>
+                  <ChatSidebarMenuTitle>Saved</ChatSidebarMenuTitle>
+                  <ChatSidebarMenuAside>
+                    <ChatSidebarMenuCount>2</ChatSidebarMenuCount>
+                  </ChatSidebarMenuAside>
+                </ChatSidebarMenu>
+              </ChatSidebarSectionHeader>
             </ChatSidebarSection>
 
             <ChatSidebarSection>
@@ -135,14 +130,14 @@ export function ChatSidebarComposition({
                 <ChatSidebarList>
                   <ChatSidebarItem
                     type="button"
-                    active={selectedItem === "#proj-uiux"}
-                    onClick={() => openDestination("#proj-uiux")}
+                    active={selectedItem === "proj-uiux"}
+                    onClick={() => openDestination("proj-uiux")}
                   >
                     <ChatSidebarItemChannelIcon aria-hidden>
                       <Hash />
                     </ChatSidebarItemChannelIcon>
                     <ChatSidebarItemContent>
-                      <ChatSidebarItemTitle className="shrink-0">#proj-uiux</ChatSidebarItemTitle>
+                      <ChatSidebarItemTitle className="shrink-0">proj-uiux</ChatSidebarItemTitle>
                       <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
                     </ChatSidebarItemContent>
                   </ChatSidebarItem>
@@ -161,19 +156,21 @@ export function ChatSidebarComposition({
                       <ChatSidebarItemSubtitle>planning</ChatSidebarItemSubtitle>
                     </ChatSidebarItemContent>
                     <ChatSidebarItemAside>
-                      <Status aria-hidden variant="success" size="md" />
+                      <ChatSidebarItemStatus>
+                        <Status aria-hidden variant="success" size="md" />
+                      </ChatSidebarItemStatus>
                     </ChatSidebarItemAside>
                   </ChatSidebarItem>
                   <ChatSidebarItem
                     type="button"
-                    active={selectedItem === "#proj-theme"}
-                    onClick={() => openDestination("#proj-theme")}
+                    active={selectedItem === "proj-theme"}
+                    onClick={() => openDestination("proj-theme")}
                   >
                     <ChatSidebarItemChannelIcon aria-hidden>
                       <Hash />
                     </ChatSidebarItemChannelIcon>
                     <ChatSidebarItemContent>
-                      <ChatSidebarItemTitle>#proj-theme</ChatSidebarItemTitle>
+                      <ChatSidebarItemTitle>proj-theme</ChatSidebarItemTitle>
                     </ChatSidebarItemContent>
                     <ChatSidebarItemAside>
                       <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
@@ -249,14 +246,14 @@ export function ChatSidebarComposition({
                 <ChatSidebarList>
                   <ChatSidebarItem
                     type="button"
-                    active={selectedItem === "#general"}
-                    onClick={() => openDestination("#general")}
+                    active={selectedItem === "general"}
+                    onClick={() => openDestination("general")}
                   >
                     <ChatSidebarItemChannelIcon aria-hidden>
                       <Hash />
                     </ChatSidebarItemChannelIcon>
                     <ChatSidebarItemContent>
-                      <ChatSidebarItemTitle>#general</ChatSidebarItemTitle>
+                      <ChatSidebarItemTitle>general</ChatSidebarItemTitle>
                     </ChatSidebarItemContent>
                     <ChatSidebarItemAside>
                       <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
@@ -267,14 +264,14 @@ export function ChatSidebarComposition({
                   </ChatSidebarItem>
                   <ChatSidebarItem
                     type="button"
-                    active={selectedItem === "#release"}
-                    onClick={() => openDestination("#release")}
+                    active={selectedItem === "release"}
+                    onClick={() => openDestination("release")}
                   >
                     <ChatSidebarItemChannelIcon aria-hidden>
                       <Hash />
                     </ChatSidebarItemChannelIcon>
                     <ChatSidebarItemContent>
-                      <ChatSidebarItemTitle>#release</ChatSidebarItemTitle>
+                      <ChatSidebarItemTitle>release</ChatSidebarItemTitle>
                       <ChatSidebarItemMetaIcon
                         role="img"
                         aria-label="Activity muted"
@@ -324,7 +321,9 @@ export function ChatSidebarComposition({
                       <ChatSidebarItemSubtitle>design</ChatSidebarItemSubtitle>
                     </ChatSidebarItemContent>
                     <ChatSidebarItemAside>
-                      <Status aria-hidden variant="success" size="md" />
+                      <ChatSidebarItemStatus>
+                        <Status aria-hidden variant="success" size="md" />
+                      </ChatSidebarItemStatus>
                       <ChatSidebarItemCount>4</ChatSidebarItemCount>
                     </ChatSidebarItemAside>
                   </ChatSidebarItem>
