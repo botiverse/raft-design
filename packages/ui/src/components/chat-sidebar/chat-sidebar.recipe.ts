@@ -9,7 +9,7 @@ const headerMaskLayers = [
 ];
 
 const liveActivityFadeOverlay = [
-  "has-[_[data-slot=live-agent-activity-bar]]:before:pointer-events-none has-[_[data-slot=live-agent-activity-bar]]:before:absolute has-[_[data-slot=live-agent-activity-bar]]:before:inset-x-0 has-[_[data-slot=live-agent-activity-bar]]:before:-bottom-3 has-[_[data-slot=live-agent-activity-bar]]:before:z-0 has-[_[data-slot=live-agent-activity-bar]]:before:h-20",
+  "has-[_[data-slot=live-agent-activity-bar]]:before:pointer-events-none has-[_[data-slot=live-agent-activity-bar]]:before:absolute has-[_[data-slot=live-agent-activity-bar]]:before:inset-x-0 has-[_[data-slot=live-agent-activity-bar]]:before:-bottom-[12px] has-[_[data-slot=live-agent-activity-bar]]:before:z-0 has-[_[data-slot=live-agent-activity-bar]]:before:h-[80px]",
   "has-[_[data-slot=live-agent-activity-bar]]:before:bg-[linear-gradient(to_bottom,transparent,var(--layer-page))] has-[_[data-slot=live-agent-activity-bar]]:before:backdrop-blur-[4px]",
   "has-[_[data-slot=live-agent-activity-bar]]:before:[mask-image:linear-gradient(to_top,black_50%,transparent)]",
   "has-[_[data-slot=live-agent-activity-bar]]:before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
@@ -35,7 +35,7 @@ export const chatSidebar = tv({
     sidebarViewport: ["h-full min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"],
     sidebarContentInner: [
       "min-h-full min-w-0 w-full px-2 pt-3",
-      "pb-[var(--chat-sidebar-content-bottom,0.75rem)]",
+      "pb-[var(--chat-sidebar-content-bottom,12px)]",
     ],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
@@ -49,7 +49,7 @@ export const chatSidebar = tv({
     theme: {
       brutal: {
         sidebarRoot:
-          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:3.25rem]",
+          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:52px]",
         sidebarHeader: [
           "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
@@ -63,7 +63,7 @@ export const chatSidebar = tv({
         sidebarRoot: [
           "relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
           "md:[--sidebar-inset-end:18px]",
-          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:4.25rem]",
+          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:68px]",
         ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",
@@ -71,7 +71,7 @@ export const chatSidebar = tv({
           "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
-        sidebarHeaderMask: ["block h-[calc(100%+0.75rem)]"],
+        sidebarHeaderMask: ["block h-[calc(100%+12px)]"],
         sidebarHeaderMaskLayer: ["h-full", ...headerMaskLayers],
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
         sidebarBody: "bg-layer-page",
@@ -82,8 +82,8 @@ export const chatSidebar = tv({
         sidebarScrollbar: "justify-end",
         sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         sidebarLiveActivity: [
-          "bottom-3 z-10",
-          "pl-[26px] pr-4",
+          "bottom-[12px] z-10",
+          "pl-[26px] pr-[16px]",
           ...liveActivityFadeOverlay,
           "[&>*]:relative [&>*]:z-10",
         ],

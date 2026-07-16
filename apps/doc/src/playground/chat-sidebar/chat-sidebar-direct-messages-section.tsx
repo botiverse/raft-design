@@ -6,8 +6,6 @@ import {
   ChatSidebarSectionDisclosure,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
-  SortableChatSidebarItem,
-  SortableChatSidebarList,
 } from "raft-ui";
 
 import {
@@ -16,6 +14,7 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
 import { ChatSidebarDirectMessageItem } from "./chat-sidebar-direct-message-item.tsx";
+import { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable.tsx";
 import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarDirectMessagesSection({

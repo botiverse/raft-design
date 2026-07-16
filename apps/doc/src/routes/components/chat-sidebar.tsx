@@ -107,22 +107,6 @@ const PROPS: readonly PropRow[] = [
     description: "Static, non-interactive heading for sidebar groups that do not collapse.",
   },
   {
-    name: "SortableChatSidebarList",
-    type: "ChatSidebarList props & { items: string[] }",
-    description: "Registers a section's sortable rows inside the consumer-owned DndContext.",
-  },
-  {
-    name: "SortableChatSidebarItem",
-    type: "div props & { id: string; disabled?: boolean }",
-    description: "Sortable row wrapper (source SortableSidebarItem). Wrap each ChatSidebarItem.",
-  },
-  {
-    name: "DraggableChatSidebarItem",
-    type: "div props & { id: string; disabled?: boolean }",
-    description:
-      "Draggable-only row wrapper for lists that accept cross-section drops but are not manually sortable.",
-  },
-  {
     name: "ChatSidebarSectionHeader*",
     type: "div + button + span props",
     description:
