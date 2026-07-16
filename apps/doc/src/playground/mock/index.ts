@@ -8,7 +8,7 @@ export {
 } from "./actors.ts";
 
 export {
-  ALL_SHOWCASE_THREAD_IDS,
+  RAFT_UI_MIGRATION_THREAD_IDS,
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_SERVER_SLUG,
   PLAYGROUND_CHANNELS,
@@ -16,6 +16,7 @@ export {
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
   getPlaygroundChannel,
+  getPlaygroundConversationMessages,
   getPlaygroundDirectMessage,
   getPlaygroundDmActor,
   getPlaygroundMembers,
@@ -31,6 +32,7 @@ export {
   type PlaygroundChannelKind,
   type PlaygroundChannelRecord,
   type PlaygroundComposerAttachment,
+  type PlaygroundConversation,
   type PlaygroundDirectMessage,
   type PlaygroundDirectMessageRecord,
   type PlaygroundDmId,
@@ -43,7 +45,6 @@ export {
   type PlaygroundRoomChannelId,
   type PlaygroundRoomChannelRecord,
   type PlaygroundRoomKind,
-  type PlaygroundShowcasePreset,
   type PlaygroundThread,
   type PlaygroundThreadContext,
   type PlaygroundThreadId,

@@ -1,6 +1,6 @@
 import type { PlaygroundActorId } from "./actors.ts";
 import {
-  ALL_SHOWCASE_THREAD_IDS,
+  RAFT_UI_MIGRATION_THREAD_IDS,
   getPlaygroundThread,
   type PlaygroundChannelId,
   type PlaygroundMessageId,
@@ -142,7 +142,7 @@ export const PLAYGROUND_TASKS = [
     status: "todo",
     creatorActorId: "developer",
     assigneeActorId: "atlas",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.stateModel,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   }),
   defineTask({
     channelId: "all",
@@ -153,7 +153,7 @@ export const PLAYGROUND_TASKS = [
     status: "in_progress",
     creatorActorId: "developer",
     assigneeActorId: "cuvii",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.selectorPerformance,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.selectorPerformance,
   }),
   defineTask({
     channelId: "all",
@@ -164,7 +164,7 @@ export const PLAYGROUND_TASKS = [
     status: "in_review",
     creatorActorId: "atlas",
     assigneeActorId: "samira",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.inviteSecurity,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.inviteSecurity,
   }),
   defineTask({
     channelId: "all",
@@ -173,7 +173,7 @@ export const PLAYGROUND_TASKS = [
     status: "in_review",
     creatorActorId: "atlas",
     assigneeActorId: "specWriter",
-    sourceMessageId: ALL_SHOWCASE_THREAD_IDS.apiDocs,
+    sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.apiDocs,
   }),
   defineTask({
     channelId: "frontend",

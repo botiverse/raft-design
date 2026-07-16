@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { PlaygroundDmPanel } from "#/playground/playground-dm-panel.tsx";
+import { PlaygroundDmPanel } from "#/playground/conversation/playground-dm-panel.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   getPlaygroundDirectMessage,

@@ -90,7 +90,7 @@ for (const activity of PLAYGROUND_ACTIVITY) {
   if (source.channelId !== activity.channelId) {
     throw new Error(`Playground activity source is in another channel: ${activity.id}`);
   }
-  if (activity.kind !== "reaction" && source.thread.parent.authorId !== activity.actorId) {
+  if (activity.kind !== "reaction" && source.thread.parent.senderId !== activity.actorId) {
     throw new Error(`Playground activity actor does not own its source message: ${activity.id}`);
   }
 }

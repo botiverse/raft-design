@@ -11,7 +11,7 @@ Playground is a coherent mock product application that composes and exercises `r
 - Page and shell layout needed to combine rail, sidebar, main panel, thread panel, and composer.
 - Deterministic mock behavior needed to verify interactions across components.
 
-Discriminated unions such as `content.kind` are encouraged for the mock domain. The component-library restriction on structural `kind/state` props does not apply to properly modeled application data.
+Model explicit product state in mock data, but do not use a channel-level discriminator to select unrelated timeline structures. Conversations expose ordinary metadata; messages, threads, and other entities stay in their own indexed collections.
 
 ## What Does Not Belong Here
 
