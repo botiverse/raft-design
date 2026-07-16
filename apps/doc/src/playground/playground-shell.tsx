@@ -1,23 +1,16 @@
-import { Outlet, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { Outlet } from "@tanstack/react-router";
 
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 
-import {
-  PlaygroundMobilePreview,
-  usePlaygroundEmbeddedPreview,
-} from "./playground-mobile-preview.tsx";
+import { usePlaygroundEmbeddedPreview } from "./playground-mobile-preview.tsx";
 import { PlaygroundNavigationProvider } from "./playground-navigation-state.tsx";
 import { usePlaygroundRouteState } from "./playground-route-state.ts";
 import { PlaygroundShellStateProvider } from "./playground-shell-state.tsx";
 import { PlaygroundTaskStateProvider } from "./playground-task-state.tsx";
-import { PlaygroundToolbar } from "./playground-toolbar.tsx";
 
 export function PlaygroundShell() {
-  const { theme, mode, setTheme } = usePreviewTheme();
-  const location = useRouterState({ select: (state) => state.location });
-  const [mobilePreview, setMobilePreview] = useState(false);
-  const embedded = usePlaygroundEmbeddedPreview(setTheme);
+  const { setTheme } = usePreviewTheme();
+  usePlaygroundEmbeddedPreview(setTheme);
   const route = usePlaygroundRouteState();
   const content = (
     <PreviewThemeScope className="h-full max-md:h-auto max-md:min-h-dvh">
@@ -38,22 +31,7 @@ export function PlaygroundShell() {
 
   return (
     <div className="h-dvh overflow-hidden max-md:h-auto max-md:min-h-dvh max-md:overflow-visible">
-      {mobilePreview && !embedded ? (
-        <PreviewThemeScope className="h-full">
-          <PlaygroundMobilePreview src={location.href} theme={theme} mode={mode} />
-        </PreviewThemeScope>
-      ) : (
-        content
-      )}
-      {embedded ? null : (
-        <PlaygroundToolbar
-          theme={theme}
-          mode={mode}
-          mobile={mobilePreview}
-          onThemeChange={setTheme}
-          onMobileChange={setMobilePreview}
-        />
-      )}
+      {content}
     </div>
   );
 }
