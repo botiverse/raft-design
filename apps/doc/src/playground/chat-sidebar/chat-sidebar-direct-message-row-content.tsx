@@ -7,7 +7,7 @@ import {
   ChatSidebarItemStatus,
   ChatSidebarItemSubtitle,
   ChatSidebarItemTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import {
   getPlaygroundDmActor,

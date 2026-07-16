@@ -12,7 +12,7 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarLiveActivity,
   ChatSidebarRoot,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { SidebarCreateMenu } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import {

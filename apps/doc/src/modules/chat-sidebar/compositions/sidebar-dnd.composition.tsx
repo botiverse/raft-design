@@ -25,7 +25,7 @@ import {
   ChatSidebarSectionTitle,
   SortableChatSidebarItem,
   SortableChatSidebarList,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 const PINNED_DROP_TARGET_ID = "chat-sidebar-dnd:pinned";
 const ROWS = [

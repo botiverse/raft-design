@@ -29,7 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "raft-ui";
-import { ChatSidebarControl, ChatSidebarSectionHeader } from "raft-ui/wip";
+import { ChatSidebarControl, ChatSidebarSectionHeader } from "raft-ui";
 
 const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
 const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";

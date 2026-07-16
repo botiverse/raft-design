@@ -9,7 +9,7 @@ import {
   ChatSidebarSectionTrailing,
   SortableChatSidebarItem,
   SortableChatSidebarList,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { useDroppable } from "@dnd-kit/core";
 import { cn } from "raft-ui/cn";
 

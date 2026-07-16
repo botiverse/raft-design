@@ -5,14 +5,12 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
+import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
-import { ChatSidebarDndComposition } from "#/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx";
+import { ChatSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.preview.tsx";
 import { SourceSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.source-preview.tsx";
-import chatSidebarMobilePartsSource from "#/modules/chat-sidebar/compositions/mobile-parts.composition.tsx?raw";
-import chatSidebarDndSource from "#/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx?raw";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -24,14 +22,10 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "drag-and-drop", title: "Drag and drop" },
-  { id: "mobile-parts", title: "Mobile parts" },
 ] as const;
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  chatSidebarDnd: chatSidebarDndSource,
-  chatSidebarMobileParts: chatSidebarMobilePartsSource,
   anatomy: `<ChatSidebarRoot>
   <ChatSidebarHeader>
     <ChatSidebarHeaderTitle />
@@ -169,11 +163,7 @@ function ChatSidebarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <div className="h-[560px] overflow-hidden border border-line bg-layer-panel p-2">
-          <PreviewThemeScope className="flex h-full w-[308px] items-stretch bg-layer-page">
-            <ChatSidebarComposition />
-          </PreviewThemeScope>
-        </div>
+        <ChatSidebarPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -230,51 +220,12 @@ function ChatSidebarDoc() {
           showLineNumbers={false}
         />
       </DocSection>
-
-      <DocSection id="drag-and-drop" title="Drag and drop" showThemeSwitcher>
-        <div className="w-72 overflow-hidden border border-line bg-layer-panel">
-          <ChatSidebarDndComposition />
-        </div>
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx"
-          source={chatSidebarDndSource}
-          html={code.chatSidebarDnd}
-          showLineNumbers={false}
-        />
-      </DocSection>
-
-      <DocSection id="mobile-parts" title="Mobile parts" showThemeSwitcher>
-        <div className="max-w-sm overflow-hidden border border-line bg-layer-panel">
-          <ChatSidebarMobilePartsFrame />
-        </div>
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/chat-sidebar/compositions/mobile-parts.composition.tsx"
-          source={chatSidebarMobilePartsSource}
-          html={code.chatSidebarMobileParts}
-          showLineNumbers={false}
-        />
-      </DocSection>
     </DocPage>
   );
 }
 
 function PreviewGrid({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-4">{children}</div>;
-}
-
-function ChatSidebarMobilePartsFrame() {
-  const { mode, theme } = usePreviewTheme();
-  const params = new URLSearchParams({ mode, theme });
-
-  return (
-    <iframe
-      key={`${theme}-${mode}`}
-      title={`Chat sidebar mobile parts in ${theme} ${mode}`}
-      src={`/iframe/chat-sidebar-mobile-parts?${params.toString()}`}
-      sandbox="allow-scripts"
-      className="block h-72 w-full border-0 bg-transparent"
-    />
-  );
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {

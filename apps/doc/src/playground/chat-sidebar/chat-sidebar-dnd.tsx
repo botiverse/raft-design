@@ -20,7 +20,7 @@ import {
   type PlaygroundChannelId,
   type PlaygroundChannelRecord,
 } from "../mock/index.ts";
-import { ChatSidebarItem } from "raft-ui/wip";
+import { ChatSidebarItem } from "raft-ui";
 import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
 import { ChatSidebarDndContext, type ChatSidebarDndValue } from "./chat-sidebar-dnd-context.ts";
 import {

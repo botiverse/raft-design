@@ -6,7 +6,7 @@ import {
   ChatSidebarItemCount,
   ChatSidebarItemIcon,
   ChatSidebarItemTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import {

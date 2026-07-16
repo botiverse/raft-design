@@ -75,10 +75,7 @@ const NAV = [
       {
         label: "ChatSidebar",
         to: "/components/chat-sidebar",
-        status: "wip",
-        children: [
-          { label: "ChatSidebarItem", to: "/components/chat-sidebar-item", status: "wip" },
-        ],
+        children: [{ label: "ChatSidebarItem", to: "/components/chat-sidebar-item" }],
       },
       {
         label: "LiveAgentActivityBar",

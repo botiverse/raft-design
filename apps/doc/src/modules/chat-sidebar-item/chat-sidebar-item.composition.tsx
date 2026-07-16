@@ -13,7 +13,7 @@ import {
   ChatSidebarItemSubtitle,
   ChatSidebarItemContent,
   ChatSidebarItemTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 const ITEMS = ["selected", "channel", "unread", "mention", "draft", "muted", "dm"] as const;
 

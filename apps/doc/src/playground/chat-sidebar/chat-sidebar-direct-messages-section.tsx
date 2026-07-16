@@ -8,7 +8,7 @@ import {
   ChatSidebarSectionTrailing,
   SortableChatSidebarItem,
   SortableChatSidebarList,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import {
   SidebarSectionHeaderMenu,
