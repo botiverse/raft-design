@@ -1,10 +1,14 @@
 import { createContext, use, useCallback, useMemo, useState, type ReactNode } from "react";
 
 import type { MessageTaskState } from "#/modules/message-item/compositions/context-menu.composition.tsx";
-import type { PlaygroundMessageId, PlaygroundThreadId } from "./mock/index.ts";
+import type {
+  PlaygroundMessageId,
+  PlaygroundMessageReaction,
+  PlaygroundThreadId,
+} from "./mock/index.ts";
 
 export type PlaygroundMessageWorkflow = {
-  reactions: readonly string[];
+  reactions: readonly PlaygroundMessageReaction[];
   saved: boolean;
   task: MessageTaskState;
 };

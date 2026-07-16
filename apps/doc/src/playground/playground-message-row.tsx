@@ -52,6 +52,10 @@ import {
   type PlaygroundThreadId,
 } from "./mock/index.ts";
 import {
+  isPlaygroundReactionFromViewer,
+  togglePlaygroundMessageReaction,
+} from "./playground-message-reactions.ts";
+import {
   usePlaygroundMessageWorkflow,
   usePlaygroundThreadFollow,
 } from "./playground-message-workflow-state.tsx";
@@ -110,6 +114,7 @@ export function PlaygroundMessageRow({
       attachments={attachments}
       body={message.body}
       footer={footer}
+      reactions={message.reactions}
       rowState={searchMatch ? "search-match" : undefined}
       selectId={message.id}
       time={message.time}
@@ -137,6 +142,7 @@ export type PlaygroundScenarioMessageRowProps = {
   saved?: boolean;
   followed?: boolean;
   task?: MessageTaskState;
+  reactions?: PlaygroundMessage["reactions"];
   rowState?: "active" | "search-match";
   selectId?: string;
   threadId?: PlaygroundThreadId;
@@ -176,6 +182,7 @@ function MessageRowView({
   saved,
   followed,
   task = "none",
+  reactions = [],
   rowState,
   selectId,
   threadId,
@@ -199,6 +206,7 @@ function MessageRowView({
   saved?: boolean;
   followed?: boolean;
   task?: MessageTaskState;
+  reactions?: PlaygroundMessage["reactions"];
   rowState?: "active" | "search-match";
   selectId: PlaygroundMessageId;
   threadId?: PlaygroundThreadId;
@@ -214,7 +222,10 @@ function MessageRowView({
   const [menuOpen, setMenuOpen] = useState(false);
   const { workflow, update: updateWorkflow } = usePlaygroundMessageWorkflow(
     rowSelectId,
-    useMemo(() => ({ saved: Boolean(saved), task: task ?? "none" }), [saved, task]),
+    useMemo(
+      () => ({ reactions, saved: Boolean(saved), task: task ?? "none" }),
+      [reactions, saved, task],
+    ),
   );
   const { followed: isFollowed, setFollowed } = usePlaygroundThreadFollow(
     threadId,
@@ -222,7 +233,11 @@ function MessageRowView({
   );
   const isSaved = workflow.saved;
   const taskState = workflow.task;
-  const lastReaction = workflow.reactions.at(-1) ?? null;
+  const toggleReaction = (emoji: string) =>
+    updateWorkflow((current) => ({
+      ...current,
+      reactions: togglePlaygroundMessageReaction(current.reactions, emoji),
+    }));
   const [threadRequested, setThreadRequested] = useState(false);
   const [contextMenuPortalContainer, setContextMenuPortalContainer] =
     useState<HTMLDivElement | null>(null);
@@ -295,7 +310,7 @@ function MessageRowView({
         ) : null}
         {body ? <MessageItemBody>{body}</MessageItemBody> : null}
         {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
-        {footer || lastReaction || isSaved ? (
+        {footer || workflow.reactions.length > 0 || isSaved ? (
           <MessageItemFooter>
             {footer}
             {isSaved ? (
@@ -312,16 +327,20 @@ function MessageRowView({
                 <span>Saved</span>
               </MessageItemSavedIndicator>
             ) : null}
-            {lastReaction ? (
-              <MessageReactionChip
-                aria-label={`${lastReaction} 1`}
-                aria-pressed
-                onClick={() => updateWorkflow((current) => ({ ...current, reactions: [] }))}
-              >
-                <MessageReactionGlyphComposition emoji={lastReaction} />
-                <MessageReactionCount>1</MessageReactionCount>
-              </MessageReactionChip>
-            ) : null}
+            {workflow.reactions.map((reaction) => {
+              const reacted = isPlaygroundReactionFromViewer(reaction);
+              return (
+                <MessageReactionChip
+                  key={reaction.emoji}
+                  aria-label={`${reaction.emoji} ${reaction.count}`}
+                  aria-pressed={reacted}
+                  onClick={() => toggleReaction(reaction.emoji)}
+                >
+                  <MessageReactionGlyphComposition emoji={reaction.emoji} />
+                  <MessageReactionCount>{reaction.count}</MessageReactionCount>
+                </MessageReactionChip>
+              );
+            })}
           </MessageItemFooter>
         ) : null}
       </MessageItemContent>
@@ -329,7 +348,7 @@ function MessageRowView({
         saved={isSaved}
         onReplyInThread={requestThread}
         portalContainer={reactionPortalContainer}
-        onReact={(emoji) => updateWorkflow((current) => ({ ...current, reactions: [emoji] }))}
+        onReact={toggleReaction}
         onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
       />
       {threadRequested ? (
@@ -365,7 +384,7 @@ function MessageRowView({
           onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
           onFollowChange={threadContext ? setFollowed : undefined}
           onQuickReact={(emoji) => {
-            updateWorkflow((current) => ({ ...current, reactions: [emoji] }));
+            toggleReaction(emoji);
             setMenuOpen(false);
           }}
           onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}

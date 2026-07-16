@@ -32,6 +32,7 @@ export {
   type PlaygroundInitialComposer,
   type PlaygroundMessage,
   type PlaygroundMessageId,
+  type PlaygroundMessageReaction,
   type PlaygroundNavigationState,
   type PlaygroundRoomChannel,
   type PlaygroundRoomKind,

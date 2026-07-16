@@ -168,6 +168,7 @@ function getPlaygroundTaskThread(task: PlaygroundTask): PlaygroundThread {
       authorId: task.creatorActorId,
       time: `Task #${task.number}`,
       body: task.description ? `${task.title}\n${task.description}` : task.title,
+      reactions: [],
     },
     replies: [],
   };
