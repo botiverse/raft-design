@@ -320,6 +320,9 @@ export type {
   LightboxTriggerProps,
 } from "./components/lightbox/index";
 
+export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
+export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
+
 export {
   Tooltip,
   TooltipContent,

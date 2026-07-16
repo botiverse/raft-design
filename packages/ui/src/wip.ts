@@ -5,9 +5,6 @@ export type {
   MobileNavRootProps,
 } from "./components/mobile-nav";
 
-export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
-export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
-
 export {
   FilePreview,
   FilePreviewBadge,
