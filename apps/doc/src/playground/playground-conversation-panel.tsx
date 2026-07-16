@@ -121,6 +121,8 @@ function ChannelBody({ channel }: { channel: PlaygroundChannel }) {
 }
 
 function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[] }) {
+  const unreadCount = messages.filter((message) => message.unread).length;
+
   return (
     <ConversationPanelBody>
       <MessageList>
@@ -128,6 +130,13 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
           <MessageListNotice>Beginning of messages</MessageListNotice>
         </div>
         <MessageListDateDivider>Today</MessageListDateDivider>
+        {unreadCount > 0 ? (
+          <div className="px-3 pt-3">
+            <MessageListNotice tone="muted">
+              {unreadCount === 1 ? "1 unread message" : `${unreadCount} unread messages`}
+            </MessageListNotice>
+          </div>
+        ) : null}
         {messages.map((message) => {
           const thread = getPlaygroundThread(message.id)?.thread;
           return (

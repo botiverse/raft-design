@@ -42,7 +42,7 @@ export const PLAYGROUND_ROOM_CHANNELS = [
   defineStandardRoom({
     id: "design",
     name: "sidebar-state-audit",
-    navigation: { badge: "1", pinned: true },
+    navigation: { pinned: true },
     subtitle: "Interaction design and system patterns",
     memberCount: 11,
     memberIds: ["cindy", "mira"],
@@ -55,6 +55,14 @@ export const PLAYGROUND_ROOM_CHANNELS = [
         authorId: "mira",
         body: "I prepared a coverage matrix and highlighted states without realistic content.",
       },
+      updates: [
+        {
+          authorId: "mira",
+          time: "09:29 AM",
+          unread: true,
+          body: "The revised matrix now ties every visible badge to an actual message or thread state.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -92,7 +100,7 @@ export const PLAYGROUND_ROOM_CHANNELS = [
         },
       ],
     },
-    navigation: { badge: "12", unread: true, mention: true, muted: true },
+    navigation: { mention: true, muted: true },
     subtitle: "Delivery degraded — retries queued",
     memberCount: 14,
     memberIds: ["deployBot", "mxChen", "ada", "mateo", "incidentTriage"],
@@ -100,7 +108,6 @@ export const PLAYGROUND_ROOM_CHANNELS = [
   defineStandardRoom({
     id: "launch",
     name: "public-launch-readiness",
-    navigation: { badge: "2" },
     subtitle: "Launch checklist, messaging, and rollout status",
     memberCount: 17,
     memberIds: ["avery", "releaseScribe"],
@@ -113,6 +120,20 @@ export const PLAYGROUND_ROOM_CHANNELS = [
         authorId: "releaseScribe",
         body: "I updated the launch brief and drafted the handoff note for Support to review.",
       },
+      updates: [
+        {
+          authorId: "releaseScribe",
+          time: "09:28 AM",
+          unread: true,
+          body: "Support approved the migration fallback wording and assigned launch-day coverage.",
+        },
+        {
+          authorId: "releaseScribe",
+          time: "09:32 AM",
+          unread: true,
+          body: "The remaining pricing review is scheduled before the public announcement window.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -131,7 +152,6 @@ export const PLAYGROUND_ROOM_CHANNELS = [
     id: "frontend",
     name: "message-state-lab",
     preset: "matrix",
-    navigation: { badge: "4" },
     subtitle: "Components, application shell, and client architecture",
     memberCount: 13,
     memberIds: [
@@ -150,7 +170,6 @@ export const PLAYGROUND_ROOM_CHANNELS = [
   defineStandardRoom({
     id: "customer-notes",
     name: "shared-channel-research",
-    navigation: { badge: "2" },
     subtitle: "Interview notes and customer follow-ups",
     memberCount: 10,
     memberIds: ["noah", "researchLark"],
@@ -163,6 +182,20 @@ export const PLAYGROUND_ROOM_CHANNELS = [
         authorId: "researchLark",
         body: "I clustered the interviews and added supporting quotes to the navigation findings.",
       },
+      updates: [
+        {
+          authorId: "researchLark",
+          time: "09:27 AM",
+          unread: true,
+          body: "The new-member interviews consistently ask who owns a shared room before they ask about permissions.",
+        },
+        {
+          authorId: "researchLark",
+          time: "09:31 AM",
+          unread: true,
+          body: "I added that wording to the onboarding recommendation with the supporting excerpts.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -210,7 +243,6 @@ export const PLAYGROUND_ROOM_CHANNELS = [
   defineStandardRoom({
     id: "exec",
     name: "q3-operating-review",
-    navigation: { badge: "5", unread: true },
     kind: "private",
     subtitle: "Private leadership planning and decisions",
     memberCount: 4,
@@ -224,6 +256,38 @@ export const PLAYGROUND_ROOM_CHANNELS = [
         authorId: "dataWeaver",
         body: "I refreshed the charts from the weekly dataset and annotated the two largest changes.",
       },
+      updates: [
+        {
+          authorId: "dataWeaver",
+          time: "09:27 AM",
+          unread: true,
+          body: "The retention movement is concentrated in the new-workspace cohort, not the installed base.",
+        },
+        {
+          authorId: "dataWeaver",
+          time: "09:31 AM",
+          unread: true,
+          body: "Support load rose around migration questions but stayed flat for standard onboarding.",
+        },
+        {
+          authorId: "dataWeaver",
+          time: "09:35 AM",
+          unread: true,
+          body: "I separated launch-week volume from the recurring weekly trend in the appendix.",
+        },
+        {
+          authorId: "dataWeaver",
+          time: "09:39 AM",
+          unread: true,
+          body: "The revised chart includes the confidence range requested in the leadership review.",
+        },
+        {
+          authorId: "dataWeaver",
+          time: "09:43 AM",
+          unread: true,
+          body: "The operating note is ready for sign-off with the cohort caveat called out.",
+        },
+      ],
       thread: {
         replies: [
           {

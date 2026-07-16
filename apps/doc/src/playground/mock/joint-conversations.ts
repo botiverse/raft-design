@@ -4,7 +4,7 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   defineStandardRoom({
     id: "partner-ops",
     name: "northstar-launch-handoff",
-    navigation: { badge: "3", pinned: true },
+    navigation: { pinned: true },
     kind: "joint",
     subtitle: "Launch readiness with Northstar",
     memberCount: 8,
@@ -18,6 +18,26 @@ export const PLAYGROUND_JOINT_CHANNELS = [
         authorId: "atlas",
         body: "I checked the dependencies and flagged the two items that still need partner approval.",
       },
+      updates: [
+        {
+          authorId: "avery",
+          time: "09:27 AM",
+          unread: true,
+          body: "Northstar confirmed the data-import owner and added the handoff contact.",
+        },
+        {
+          authorId: "atlas",
+          time: "09:31 AM",
+          unread: true,
+          body: "The rollback path now names both the decision owner and the partner escalation route.",
+        },
+        {
+          authorId: "avery",
+          time: "09:35 AM",
+          unread: true,
+          body: "I moved the remaining approval into the shared launch checklist for tomorrow's checkpoint.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -96,7 +116,7 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   defineStandardRoom({
     id: "shared-roadmap",
     name: "raft-northstar-q3",
-    navigation: { mention: true, badge: "1", muted: true },
+    navigation: { mention: true, muted: true },
     kind: "joint",
     subtitle: "Quarterly planning across Raft and Northstar",
     memberCount: 15,
@@ -110,6 +130,14 @@ export const PLAYGROUND_JOINT_CHANNELS = [
         authorId: "specWriter",
         body: "The brief now includes owners, confidence, and the decision date for every milestone.",
       },
+      updates: [
+        {
+          authorId: "specWriter",
+          time: "09:28 AM",
+          unread: true,
+          body: "The Tuesday checkpoint now includes a decision note for the provisioning dependency.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -158,7 +186,6 @@ export const PLAYGROUND_JOINT_CHANNELS = [
   defineStandardRoom({
     id: "partner-launch",
     name: "friday-partner-rollout",
-    navigation: { badge: "7", unread: true },
     kind: "joint",
     subtitle: "Coordinating Friday's partner rollout",
     memberCount: 18,
@@ -172,6 +199,50 @@ export const PLAYGROUND_JOINT_CHANNELS = [
         authorId: "deployWatch",
         body: "I am watching both deployment regions and will post here if configuration drift appears.",
       },
+      updates: [
+        {
+          authorId: "mateo",
+          time: "09:28 AM",
+          unread: true,
+          body: "The first partner health probe is green in both regions.",
+        },
+        {
+          authorId: "deployWatch",
+          time: "09:32 AM",
+          unread: true,
+          body: "Configuration hashes match the approved release candidate.",
+        },
+        {
+          authorId: "mateo",
+          time: "09:36 AM",
+          unread: true,
+          body: "Northstar posted the final approval for the staged rollout.",
+        },
+        {
+          authorId: "deployWatch",
+          time: "09:40 AM",
+          unread: true,
+          body: "The first traffic slice completed without retry growth or latency drift.",
+        },
+        {
+          authorId: "mateo",
+          time: "09:44 AM",
+          unread: true,
+          body: "I expanded the rollout to the second cohort and recorded the checkpoint.",
+        },
+        {
+          authorId: "deployWatch",
+          time: "09:48 AM",
+          unread: true,
+          body: "Both regions remain within the expected error budget after expansion.",
+        },
+        {
+          authorId: "mateo",
+          time: "09:52 AM",
+          unread: true,
+          body: "The rollout is complete; I linked the partner handoff summary for review.",
+        },
+      ],
       thread: {
         replies: [
           {
