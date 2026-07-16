@@ -4,11 +4,18 @@ export type PlaygroundRoomKind = "channel" | "joint" | "private";
 export type PlaygroundChannelKind = PlaygroundRoomKind | "dm";
 export type PlaygroundMessageId = `${string}:${string}`;
 
+export type PlaygroundMessageReaction = {
+  emoji: string;
+  count: number;
+  reactorIds: readonly PlaygroundActorId[];
+};
+
 export type PlaygroundMessage = {
   id: PlaygroundMessageId;
   authorId: PlaygroundActorId;
   time: string;
   body: string;
+  reactions: readonly PlaygroundMessageReaction[];
   unread?: boolean;
 };
 
@@ -75,6 +82,7 @@ export type PlaygroundStoryMessageInput = {
   authorId: PlaygroundActorId;
   body: string;
   time?: string;
+  reactions?: readonly PlaygroundMessageReaction[];
   unread?: boolean;
 };
 
@@ -128,6 +136,8 @@ function buildStandardStory<TId extends string>(
     story.opening.authorId,
     story.opening.time ?? "09:18 AM",
     story.opening.body,
+    story.opening.unread,
+    story.opening.reactions,
   );
   const reply = definePlaygroundMessage(
     `${id}:reply`,
@@ -135,6 +145,7 @@ function buildStandardStory<TId extends string>(
     story.reply.time ?? "09:24 AM",
     story.reply.body,
     story.reply.unread,
+    story.reply.reactions,
   );
   const updates = (story.updates ?? []).map((update, index) =>
     definePlaygroundMessage(
@@ -143,6 +154,7 @@ function buildStandardStory<TId extends string>(
       update.time ?? defaultThreadReplyTime(index),
       update.body,
       update.unread,
+      update.reactions,
     ),
   );
   const replies = story.thread.replies.map((threadReply, index) =>
@@ -151,6 +163,8 @@ function buildStandardStory<TId extends string>(
       threadReply.authorId,
       threadReply.time ?? defaultThreadReplyTime(index),
       threadReply.body,
+      threadReply.unread,
+      threadReply.reactions,
     ),
   );
 
@@ -262,8 +276,9 @@ export function definePlaygroundMessage(
   time: string,
   body: string,
   unread?: boolean,
+  reactions: readonly PlaygroundMessageReaction[] = [],
 ): PlaygroundMessage {
-  return { id, authorId, time, body, ...(unread ? { unread: true } : {}) };
+  return { id, authorId, time, body, reactions, ...(unread ? { unread: true } : {}) };
 }
 
 export function definePlaygroundThread(

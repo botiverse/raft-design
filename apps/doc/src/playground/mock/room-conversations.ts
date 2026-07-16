@@ -24,6 +24,10 @@ export const PLAYGROUND_ROOM_CHANNELS = [
       reply: {
         authorId: "cuvii",
         body: "I claimed the playground data pass and added the dependency notes to the planning doc.",
+        reactions: [
+          { emoji: "👍", count: 1, reactorIds: ["avery"] },
+          { emoji: "👀", count: 1, reactorIds: ["avery"] },
+        ],
       },
       thread: {
         replies: [

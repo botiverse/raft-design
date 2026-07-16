@@ -21,6 +21,7 @@ export type {
   PlaygroundInitialComposer,
   PlaygroundMessage,
   PlaygroundMessageId,
+  PlaygroundMessageReaction,
   PlaygroundNavigationState,
   PlaygroundRoomChannel,
   PlaygroundRoomKind,
@@ -68,6 +69,26 @@ for (const channel of PLAYGROUND_CHANNELS) {
   }
   if (Boolean(channel.navigation.unread) !== unreadMessageCount > 0) {
     throw new Error(`Mismatched unread state for playground channel: ${channel.id}`);
+  }
+  const messages = [
+    ...(channel.content.kind === "messages" ? channel.content.messages : []),
+    ...channel.threads.flatMap((thread) => [thread.parent, ...thread.replies]),
+  ];
+  for (const message of messages) {
+    const emojis = new Set<string>();
+    for (const reaction of message.reactions) {
+      if (!reaction.emoji || emojis.has(reaction.emoji)) {
+        throw new Error(`Duplicate or empty message reaction: ${message.id}`);
+      }
+      if (!Number.isSafeInteger(reaction.count) || reaction.count < reaction.reactorIds.length) {
+        throw new Error(`Invalid message reaction count: ${message.id}`);
+      }
+      const reactorIds = new Set(reaction.reactorIds);
+      if (reactorIds.size !== reaction.reactorIds.length) {
+        throw new Error(`Duplicate message reaction actor: ${message.id}`);
+      }
+      emojis.add(reaction.emoji);
+    }
   }
   channelIds.add(channel.id);
   channelNames.add(channel.name);
