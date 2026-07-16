@@ -746,6 +746,21 @@ export type {
 export { Separator } from "./components/separator/index";
 export type { SeparatorProps } from "./components/separator/index";
 
+export {
+  AppShellMainSlot,
+  AppShellMobileContent,
+  AppShellRailSlot,
+  AppShellRoot,
+  AppShellSidebarSlot,
+} from "./components/app-shell/index";
+export type {
+  AppShellMainSlotProps,
+  AppShellMobileContentProps,
+  AppShellRailSlotProps,
+  AppShellRootProps,
+  AppShellSidebarSlotProps,
+} from "./components/app-shell/index";
+
 export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";
 export type {
   ResizableGroupProps,

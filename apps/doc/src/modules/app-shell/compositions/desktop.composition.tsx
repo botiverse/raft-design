@@ -1,7 +1,12 @@
 import type { ReactNode } from "react";
-import { useThemeFamily } from "raft-ui";
+import {
+  AppShellMainSlot,
+  AppShellRailSlot,
+  AppShellRoot,
+  AppShellSidebarSlot,
+  useThemeFamily,
+} from "raft-ui";
 import { cn } from "raft-ui/cn";
-import { AppShellMainSlot, AppShellRailSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui/wip";
 
 function ShellRegion({ children, className }: { children: ReactNode; className: string }) {
   return (

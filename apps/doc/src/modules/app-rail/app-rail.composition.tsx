@@ -1,5 +1,6 @@
 import { useState, type ComponentProps, type ReactNode } from "react";
 import {
+  AppShellRailSlot,
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
@@ -16,7 +17,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
-import { AppShellRailSlot } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,

@@ -9,13 +9,6 @@ export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
 export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
 
 export {
-  AppShellMainSlot,
-  AppShellRailSlot,
-  AppShellRoot,
-  AppShellSidebarSlot,
-} from "./components/app-shell/index";
-
-export {
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
@@ -32,13 +25,6 @@ export type {
   FilePreviewProps,
   FilePreviewVideoProps,
 } from "./components/file-preview/index";
-export type {
-  AppShellMainSlotProps,
-  AppShellRailSlotProps,
-  AppShellRootProps,
-  AppShellSidebarSlotProps,
-} from "./components/app-shell/index";
-
 export {
   ConversationPanelActions,
   ConversationPanelBody,
