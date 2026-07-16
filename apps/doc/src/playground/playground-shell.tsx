@@ -20,7 +20,7 @@ export function PlaygroundShell() {
   const embedded = usePlaygroundEmbeddedPreview(setTheme);
   const route = usePlaygroundRouteState();
   const content = (
-    <PreviewThemeScope className="h-full">
+    <PreviewThemeScope className="h-full max-md:h-auto max-md:min-h-dvh">
       <PlaygroundNavigationProvider
         railView={route.railView}
         railDetailId={route.railDetailId}
@@ -37,7 +37,7 @@ export function PlaygroundShell() {
   );
 
   return (
-    <div className="h-dvh overflow-hidden">
+    <div className="h-dvh overflow-hidden max-md:h-auto max-md:min-h-dvh max-md:overflow-visible">
       {mobilePreview && !embedded ? (
         <PreviewThemeScope className="h-full">
           <PlaygroundMobilePreview src={location.href} theme={theme} mode={mode} />

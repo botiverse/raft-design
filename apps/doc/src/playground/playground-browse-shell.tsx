@@ -42,9 +42,21 @@ export function PlaygroundBrowseShell() {
 
   if (!isDesktop) {
     return (
-      <AppShellRoot className="h-full">
+      <AppShellRoot
+        className={cn(
+          "h-full",
+          showBottomNavigation && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
+        )}
+      >
         <PlaygroundRail showBottomNavigation={showBottomNavigation} />
-        <div className="flex h-full min-h-0 min-w-0 flex-1">{showSidebar ? sidebar : main}</div>
+        <div
+          className={cn(
+            "flex h-full min-h-0 min-w-0 flex-1",
+            showBottomNavigation && "max-md:h-auto max-md:min-h-0",
+          )}
+        >
+          {showSidebar ? sidebar : main}
+        </div>
       </AppShellRoot>
     );
   }
