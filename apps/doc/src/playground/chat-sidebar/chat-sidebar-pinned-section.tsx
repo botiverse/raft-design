@@ -7,9 +7,7 @@ import {
   ChatSidebarSectionEmpty,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
-  SortableChatSidebarItem,
-  SortableChatSidebarList,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { useDroppable } from "@dnd-kit/core";
 import { cn } from "raft-ui/cn";
 
@@ -25,6 +23,7 @@ import type {
 } from "../mock/index.ts";
 import { ChatSidebarPinnedItem } from "./chat-sidebar-pinned-item.tsx";
 import { PLAYGROUND_PINNED_DROP_TARGET_ID } from "./chat-sidebar-dnd-ids.ts";
+import { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable.tsx";
 import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarPinnedSection({

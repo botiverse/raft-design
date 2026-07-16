@@ -7,7 +7,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "raft-ui";
-import { ChatSidebarItem as ChatSidebarItemRoot } from "raft-ui/wip";
+import { ChatSidebarItem as ChatSidebarItemRoot } from "raft-ui";
 
 import {
   DEFAULT_CHANNEL_ID,

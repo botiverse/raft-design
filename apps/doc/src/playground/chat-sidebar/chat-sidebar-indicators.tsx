@@ -1,5 +1,5 @@
 import { AtSign, BellOff, Pencil } from "lucide-react";
-import { ChatSidebarItemIndicator, ChatSidebarItemMetaIcon } from "raft-ui/wip";
+import { ChatSidebarItemIndicator, ChatSidebarItemMetaIcon } from "raft-ui";
 
 export function PlaygroundMutedIndicator() {
   return (

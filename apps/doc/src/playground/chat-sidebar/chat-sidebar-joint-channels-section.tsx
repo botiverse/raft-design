@@ -7,9 +7,7 @@ import {
   ChatSidebarSectionEmpty,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
-  SortableChatSidebarItem,
-  SortableChatSidebarList,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import {
   SidebarSectionAddButton,
@@ -18,6 +16,7 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
+import { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable.tsx";
 import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarJointChannelsSection({

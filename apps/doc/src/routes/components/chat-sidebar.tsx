@@ -1,18 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
+import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
-import { ChatSidebarDndComposition } from "#/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx";
+import { ChatSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.preview.tsx";
 import { SourceSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.source-preview.tsx";
-import chatSidebarMobilePartsSource from "#/modules/chat-sidebar/compositions/mobile-parts.composition.tsx?raw";
-import chatSidebarDndSource from "#/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx?raw";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -24,14 +21,10 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
-  { id: "drag-and-drop", title: "Drag and drop" },
-  { id: "mobile-parts", title: "Mobile parts" },
 ] as const;
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  chatSidebarDnd: chatSidebarDndSource,
-  chatSidebarMobileParts: chatSidebarMobilePartsSource,
   anatomy: `<ChatSidebarRoot>
   <ChatSidebarHeader>
     <ChatSidebarHeaderTitle />
@@ -73,10 +66,19 @@ const PROPS: readonly PropRow[] = [
     description: "Sidebar column host. Resizable compositions size it through explicit classes.",
   },
   {
-    name: "ResizableGroup / ResizablePanel / ResizableHandle",
-    type: "react-resizable-panels group / panel / separator props",
-    description:
-      "Generic resize behavior. Keep rail outside the group and resize only the intended columns.",
+    name: "ResizableGroup",
+    type: "react-resizable-panels group props",
+    description: "Groups the sidebar and adjacent resizable columns.",
+  },
+  {
+    name: "ResizablePanel",
+    type: "react-resizable-panels panel props",
+    description: "Defines one resizable column in the group.",
+  },
+  {
+    name: "ResizableHandle",
+    type: "react-resizable-panels separator props",
+    description: "Resize handle between adjacent panels.",
   },
   {
     name: "ChatSidebarRoot",
@@ -84,10 +86,24 @@ const PROPS: readonly PropRow[] = [
     description: "Full-height sidebar surface that keeps the header and scroll body aligned.",
   },
   {
-    name: "ChatSidebarHeader / Body / Content",
+    name: "ChatSidebarHeader",
     type: "div props",
-    description:
-      "Column regions matching source sidebar chrome and scroll ownership. Header is a layout slot for an app-owned server switcher.",
+    description: "Header layout slot for app-owned navigation and controls.",
+  },
+  {
+    name: "ChatSidebarHeaderTitle",
+    type: "div props",
+    description: "Truncated sidebar heading.",
+  },
+  {
+    name: "ChatSidebarBody",
+    type: "div props",
+    description: "Owns the sidebar's scrollable body region.",
+  },
+  {
+    name: "ChatSidebarContent",
+    type: "div props",
+    description: "Full-height scroll-content wrapper.",
   },
   {
     name: "ChatSidebarLiveActivity",
@@ -96,16 +112,89 @@ const PROPS: readonly PropRow[] = [
       "Optional desktop live-agent overlay. It owns the full-width fade, theme spacing, and matching scroll-content clearance.",
   },
   {
-    name: "ChatSidebarMenu / Icon / Title / Aside / Count",
-    type: "button + span props",
-    description:
-      "Top-level sidebar destinations such as Saved, with explicit leading and metadata parts.",
+    name: "ChatSidebarMenu",
+    type: "button props",
+    description: "Top-level destination such as Saved.",
   },
   {
-    name: "ChatSidebarSection / List",
-    type: "section / div props",
-    description:
-      "Section, list, and compact empty-state wrappers for saved, pinned, channel, joint, and DM groups.",
+    name: "ChatSidebarMenuIcon",
+    type: "span props",
+    description: "Leading icon slot for a menu destination.",
+  },
+  {
+    name: "ChatSidebarMenuTitle",
+    type: "span props",
+    description: "Menu destination label.",
+  },
+  {
+    name: "ChatSidebarMenuAside",
+    type: "span props",
+    description: "Trailing metadata slot for a menu destination.",
+  },
+  {
+    name: "ChatSidebarMenuCount",
+    type: "span props",
+    description: "Compact trailing count for a menu destination.",
+  },
+  {
+    name: "ChatSidebarSection",
+    type: "section props",
+    description: "Groups a saved, pinned, channel, joint, or DM region.",
+  },
+  {
+    name: "ChatSidebarSectionHeader",
+    type: "div props",
+    description: "Structural header wrapper for a sidebar section.",
+  },
+  {
+    name: "ChatSidebarSectionDisclosure",
+    type: "button props",
+    description: "Collapsible section trigger.",
+  },
+  {
+    name: "ChatSidebarSectionTitle",
+    type: "span props",
+    description: "Section heading label.",
+  },
+  {
+    name: "ChatSidebarSectionCount",
+    type: "span props",
+    description: "Section item count.",
+  },
+  {
+    name: "ChatSidebarSectionChevron",
+    type: "span props",
+    description: "Disclosure indicator for a collapsible section.",
+  },
+  {
+    name: "ChatSidebarSectionTrailing",
+    type: "div props",
+    description: "Trailing area of a section header.",
+  },
+  {
+    name: "ChatSidebarSectionAttention",
+    type: "span props",
+    description: "Unread or attention indicator in a section header.",
+  },
+  {
+    name: "ChatSidebarSectionControls",
+    type: "div props",
+    description: "Control group in a section header.",
+  },
+  {
+    name: "ChatSidebarSectionControl",
+    type: "button props",
+    description: "Single section-header control slot.",
+  },
+  {
+    name: "ChatSidebarSectionEmpty",
+    type: "div props",
+    description: "Compact empty-state wrapper for a section.",
+  },
+  {
+    name: "ChatSidebarList",
+    type: "div props",
+    description: "List wrapper for sidebar rows.",
   },
   {
     name: "ChatSidebarGroupLabel",
@@ -113,26 +202,64 @@ const PROPS: readonly PropRow[] = [
     description: "Static, non-interactive heading for sidebar groups that do not collapse.",
   },
   {
-    name: "SortableChatSidebarList",
-    type: "ChatSidebarList props & { items: string[] }",
-    description: "Registers a section's sortable rows inside the consumer-owned DndContext.",
+    name: "ChatSidebarItem",
+    type: "button props",
+    description: "Interactive sidebar conversation or channel row.",
   },
   {
-    name: "SortableChatSidebarItem",
-    type: "div props & { id: string; disabled?: boolean }",
-    description: "Sortable row wrapper (source SortableSidebarItem). Wrap each ChatSidebarItem.",
+    name: "ChatSidebarItemIcon",
+    type: "span props",
+    description: "Leading icon or avatar slot for a row.",
   },
   {
-    name: "DraggableChatSidebarItem",
-    type: "div props & { id: string; disabled?: boolean }",
-    description:
-      "Draggable-only row wrapper for lists that accept cross-section drops but are not manually sortable.",
+    name: "ChatSidebarItemChannelIcon",
+    type: "span props",
+    description: "Leading channel icon slot for a row.",
   },
   {
-    name: "ChatSidebarSectionHeader*",
-    type: "div + button + span props",
-    description:
-      "Base UI Collapsible header parts for ChatSidebarSectionChevron, title, count, ChatSidebarSectionAttention, and action slots.",
+    name: "ChatSidebarItemContent",
+    type: "div props",
+    description: "Main text content region for a row.",
+  },
+  {
+    name: "ChatSidebarItemTitle",
+    type: "span props",
+    description: "Primary row label.",
+  },
+  {
+    name: "ChatSidebarItemSubtitle",
+    type: "span props",
+    description: "Secondary row detail.",
+  },
+  {
+    name: "ChatSidebarItemMeta",
+    type: "span props",
+    description: "Inline metadata slot beside a row title.",
+  },
+  {
+    name: "ChatSidebarItemMetaIcon",
+    type: "span props",
+    description: "Inline metadata icon beside a row title.",
+  },
+  {
+    name: "ChatSidebarItemAside",
+    type: "span props",
+    description: "Trailing metadata region for a row.",
+  },
+  {
+    name: "ChatSidebarItemCount",
+    type: "span props",
+    description: "Unread count in a row's trailing area.",
+  },
+  {
+    name: "ChatSidebarItemIndicator",
+    type: "span props",
+    description: "Mention or attention indicator in a row.",
+  },
+  {
+    name: "ChatSidebarItemStatus",
+    type: "span props",
+    description: "Presence or workflow status slot for a row.",
   },
   {
     name: "ChatSidebarControl",
@@ -154,26 +281,10 @@ function ChatSidebarDoc() {
     <DocPage
       title="ChatSidebar"
       description="Controlled chat sidebar column structure for saved items, pinned items, channels, joint channels, and direct messages."
-      overview={
-        <Differences from="Sidebar">
-          <li>does not own stores, sorting, context menus, drag state, or create dialogs</li>
-          <li>
-            keeps source column shape: cream sidebar, panel-header height, and scrollable body
-          </li>
-          <li>
-            rows remain children so products can compose MediaListItem, SectionHeader, badges, and
-            menus
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <div className="h-[560px] overflow-hidden border border-line bg-layer-panel p-2">
-          <PreviewThemeScope className="flex h-full w-[308px] items-stretch bg-layer-page">
-            <ChatSidebarComposition />
-          </PreviewThemeScope>
-        </div>
+        <ChatSidebarPreview />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -230,51 +341,12 @@ function ChatSidebarDoc() {
           showLineNumbers={false}
         />
       </DocSection>
-
-      <DocSection id="drag-and-drop" title="Drag and drop" showThemeSwitcher>
-        <div className="w-72 overflow-hidden border border-line bg-layer-panel">
-          <ChatSidebarDndComposition />
-        </div>
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx"
-          source={chatSidebarDndSource}
-          html={code.chatSidebarDnd}
-          showLineNumbers={false}
-        />
-      </DocSection>
-
-      <DocSection id="mobile-parts" title="Mobile parts" showThemeSwitcher>
-        <div className="max-w-sm overflow-hidden border border-line bg-layer-panel">
-          <ChatSidebarMobilePartsFrame />
-        </div>
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/chat-sidebar/compositions/mobile-parts.composition.tsx"
-          source={chatSidebarMobilePartsSource}
-          html={code.chatSidebarMobileParts}
-          showLineNumbers={false}
-        />
-      </DocSection>
     </DocPage>
   );
 }
 
 function PreviewGrid({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-4">{children}</div>;
-}
-
-function ChatSidebarMobilePartsFrame() {
-  const { mode, theme } = usePreviewTheme();
-  const params = new URLSearchParams({ mode, theme });
-
-  return (
-    <iframe
-      key={`${theme}-${mode}`}
-      title={`Chat sidebar mobile parts in ${theme} ${mode}`}
-      src={`/iframe/chat-sidebar-mobile-parts?${params.toString()}`}
-      sandbox="allow-scripts"
-      className="block h-72 w-full border-0 bg-transparent"
-    />
-  );
 }
 
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {

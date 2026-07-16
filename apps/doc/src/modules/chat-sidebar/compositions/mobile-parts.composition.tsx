@@ -12,7 +12,7 @@ import {
   ChatSidebarItemTitle,
   ChatSidebarList,
   ChatSidebarRoot,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   ChatSidebarServer,
   ChatSidebarServerAvatar,

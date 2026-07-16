@@ -91,14 +91,3 @@ export type {
   ChatSidebarSectionTitleProps,
   ChatSidebarSectionTrailingProps,
 } from "./chat-sidebar-section";
-
-export {
-  DraggableChatSidebarItem,
-  SortableChatSidebarItem,
-  SortableChatSidebarList,
-} from "./chat-sidebar-sortable";
-export type {
-  DraggableChatSidebarItemProps,
-  SortableChatSidebarItemProps,
-  SortableChatSidebarListProps,
-} from "./chat-sidebar-sortable";

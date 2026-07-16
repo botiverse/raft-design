@@ -33,16 +33,6 @@ import {
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
-} from "raft-ui";
-import {
-  ConversationPanelBody,
-  ConversationPanelContent,
-  ConversationPanelHeader,
-  ConversationPanelHeaderIcon,
-  ConversationPanelRoot,
-  ConversationPanelMeta,
-  ConversationPanelTitle,
-  ConversationPanelHeaderContent,
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarGroupLabel,
@@ -53,6 +43,16 @@ import {
   ChatSidebarItemMeta,
   ChatSidebarItemTitle,
   ChatSidebarRoot,
+} from "raft-ui";
+import {
+  ConversationPanelBody,
+  ConversationPanelContent,
+  ConversationPanelHeader,
+  ConversationPanelHeaderIcon,
+  ConversationPanelRoot,
+  ConversationPanelMeta,
+  ConversationPanelTitle,
+  ConversationPanelHeaderContent,
 } from "raft-ui/wip";
 
 import {
