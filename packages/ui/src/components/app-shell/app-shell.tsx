@@ -25,7 +25,7 @@ const appShell = tv({
         mainSlot: "bg-white",
       },
       elegant: {
-        root: ["[--shell-header-height:3.5rem]", "bg-layer-page"],
+        root: ["[--shell-header-height:56px]", "bg-layer-page"],
         railSlot: "w-14",
         sidebarSlot: "w-[252px]",
         mainSlot: "bg-layer-page",

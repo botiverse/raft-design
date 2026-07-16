@@ -55,7 +55,7 @@ export function PlaygroundMobilePreview({ src, theme, mode }: PlaygroundMobilePr
         ref={frameRef}
         src={src}
         title="Mobile Playground preview"
-        className="h-[min(844px,calc(100dvh-3.5rem))] w-[390px] max-w-full shrink-0 bg-white shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.12)]"
+        className="h-[min(844px,calc(100dvh-56px))] w-[390px] max-w-full shrink-0 bg-white shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.12)]"
         onLoad={syncTheme}
       />
     </div>

@@ -48,7 +48,7 @@ export const threadPanel = tv({
       elegant: {
         root: "bg-transparent font-sans text-foreground",
         header: [
-          "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
+          "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-layer-page",
           "max-lg:gap-2 max-lg:px-[14px] max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[env(safe-area-inset-top,0px)]",
           "max-lg:border-b max-lg:border-line-subtle",

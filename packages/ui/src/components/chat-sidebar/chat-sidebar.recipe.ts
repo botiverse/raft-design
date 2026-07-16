@@ -51,7 +51,7 @@ export const chatSidebar = tv({
         ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",
-          "h-[var(--shell-header-height,3.5rem)] border-b-0 bg-transparent",
+          "h-[var(--shell-header-height,56px)] border-b-0 bg-transparent",
           "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
@@ -68,7 +68,7 @@ export const chatSidebar = tv({
         sidebarBody: "bg-layer-page",
         sidebarContentInner: [
           "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
-          "pt-[var(--shell-header-height,3.5rem)]",
+          "pt-[var(--shell-header-height,56px)]",
         ],
         sidebarScrollbar: "justify-end",
         sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
