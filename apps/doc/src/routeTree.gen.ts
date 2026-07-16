@@ -44,12 +44,10 @@ import { Route as ComponentsSeparatorRouteImport } from './routes/components/sep
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
-import { Route as ComponentsResizableRouteImport } from './routes/components/resizable'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
-import { Route as ComponentsPanelRouteImport } from './routes/components/panel'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
@@ -284,11 +282,6 @@ const ComponentsSandboxedPreviewFrameRoute =
     path: '/sandboxed-preview-frame',
     getParentRoute: () => ComponentsRoute,
   } as any)
-const ComponentsResizableRoute = ComponentsResizableRouteImport.update({
-  id: '/resizable',
-  path: '/resizable',
-  getParentRoute: () => ComponentsRoute,
-} as any)
 const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
   id: '/radio-group',
   path: '/radio-group',
@@ -307,11 +300,6 @@ const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
 const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
   id: '/popover',
   path: '/popover',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPanelRoute = ComponentsPanelRouteImport.update({
-  id: '/panel',
-  path: '/panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsNotificationCenterRoute =
@@ -644,12 +632,10 @@ export interface FileRoutesByFullPath {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/resizable': typeof ComponentsResizableRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -739,12 +725,10 @@ export interface FileRoutesByTo {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/resizable': typeof ComponentsResizableRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -836,12 +820,10 @@ export interface FileRoutesById {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/resizable': typeof ComponentsResizableRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -934,12 +916,10 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
-    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/resizable'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1029,12 +1009,10 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
-    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/resizable'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1125,12 +1103,10 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/mobile-nav'
     | '/components/notification-center'
-    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/resizable'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1443,13 +1419,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/resizable': {
-      id: '/components/resizable'
-      path: '/resizable'
-      fullPath: '/components/resizable'
-      preLoaderRoute: typeof ComponentsResizableRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/radio-group': {
       id: '/components/radio-group'
       path: '/radio-group'
@@ -1476,13 +1445,6 @@ declare module '@tanstack/react-router' {
       path: '/popover'
       fullPath: '/components/popover'
       preLoaderRoute: typeof ComponentsPopoverRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/panel': {
-      id: '/components/panel'
-      path: '/panel'
-      fullPath: '/components/panel'
-      preLoaderRoute: typeof ComponentsPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/notification-center': {
@@ -2021,12 +1983,10 @@ interface ComponentsRouteChildren {
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
-  ComponentsPanelRoute: typeof ComponentsPanelRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
-  ComponentsResizableRoute: typeof ComponentsResizableRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
@@ -2083,12 +2043,10 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
-  ComponentsPanelRoute: ComponentsPanelRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
-  ComponentsResizableRoute: ComponentsResizableRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
