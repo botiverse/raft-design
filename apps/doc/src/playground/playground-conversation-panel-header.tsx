@@ -47,6 +47,8 @@ import {
 } from "./mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
+const mobileStickyHeaderClassName = "max-md:sticky max-md:top-0 max-md:z-30";
+
 function MobileBackButton() {
   const channelMatch = useMatch({
     from: "/playground/s/$serverSlug/channel/$channelId",
@@ -79,7 +81,7 @@ function ChannelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
-    <ConversationPanelHeader>
+    <ConversationPanelHeader className={mobileStickyHeaderClassName}>
       <MobileBackButton />
       <ConversationPanelHeaderIcon>
         <Icon />
@@ -171,7 +173,7 @@ function DmHeader({ channel }: { channel: PlaygroundDirectMessage }) {
     : PLAYGROUND_PRESENCE_STATUS.offline;
 
   return (
-    <ConversationPanelHeader>
+    <ConversationPanelHeader className={mobileStickyHeaderClassName}>
       <MobileBackButton />
       <Avatar size="md" type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}

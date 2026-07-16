@@ -8,13 +8,21 @@ import {
 } from "../panel/panel";
 import { messageList } from "./message-list.recipe";
 
-export type MessageListProps = useRender.ComponentProps<"div">;
+export type MessageListProps = useRender.ComponentProps<"div"> & {
+  rootClassName?: string;
+};
 
-export function MessageList({ children, className, render, ...props }: MessageListProps) {
+export function MessageList({
+  children,
+  className,
+  render,
+  rootClassName,
+  ...props
+}: MessageListProps) {
   const { content, root, viewport } = messageList();
 
   return (
-    <ScrollArea.Root data-slot="message-list" className={root()}>
+    <ScrollArea.Root data-slot="message-list" className={root({ className: rootClassName })}>
       <PanelScrollViewport
         {...props}
         render={<ScrollArea.Viewport render={render} />}

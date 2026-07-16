@@ -67,8 +67,8 @@ export function PlaygroundThreadPanel({
   }
 
   return (
-    <ThreadPanelRoot>
-      <ThreadPanelHeader>
+    <ThreadPanelRoot className="max-md:h-auto max-md:min-h-dvh max-md:flex-none max-md:overflow-visible">
+      <ThreadPanelHeader className="max-md:sticky max-md:top-0 max-md:z-30">
         <Button
           className="mr-1 lg:hidden"
           variant="outline"
@@ -130,7 +130,7 @@ export function PlaygroundThreadPanel({
           </PanelAction>
         </ThreadPanelActions>
       </ThreadPanelHeader>
-      <ThreadPanelContent>
+      <ThreadPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
         {searchOpen ? (
           <ThreadPanelSearch>
             <ThreadPanelSearchIcon render={<Search />} />
@@ -172,8 +172,11 @@ export function PlaygroundThreadPanel({
             />
           }
         />
-        <ThreadPanelBody>
-          <MessageList>
+        <ThreadPanelBody className="max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))] max-md:flex-none max-md:overflow-visible">
+          <MessageList
+            rootClassName="max-md:h-auto max-md:min-h-0"
+            className="max-md:!h-auto max-md:!min-h-0 max-md:!overflow-visible"
+          >
             <div className="px-3 pt-2">
               <MessageListNotice>Beginning of replies</MessageListNotice>
               <ThreadPanelReplyCount>
@@ -188,7 +191,7 @@ export function PlaygroundThreadPanel({
                 threadId={thread.parent.id}
               />
             ))}
-            <div className="h-6" aria-hidden />
+            <div className="h-6 max-md:h-[var(--panel-footer-clearance)]" aria-hidden />
           </MessageList>
         </ThreadPanelBody>
         <PlaygroundThreadComposer channel={channel} label="Message thread" />

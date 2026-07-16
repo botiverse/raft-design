@@ -244,7 +244,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
       </AppShellRailSlot>
       {showBottomNavigation ? (
         <MobileNavRoot
-          className="fixed inset-x-0 bottom-0 z-40 mx-auto md:hidden"
+          className="fixed inset-x-0 -bottom-1 z-40 mx-auto md:hidden"
           aria-label="Primary navigation"
         >
           <MobileNavItem

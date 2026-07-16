@@ -53,6 +53,8 @@ export function PlaygroundChatShell() {
     <AppShellRoot
       className={cn(
         "h-full",
+        !isDesktop && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
+        !mobileListPanel && "max-md:!pt-0",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
       )}
     >
@@ -66,6 +68,7 @@ export function PlaygroundChatShell() {
             className={cn(
               "relative flex h-full min-w-0",
               isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
+              !isDesktop && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
             )}
           >
             <PlaygroundSidebar
@@ -115,10 +118,14 @@ function PlaygroundChatLayout({
 }) {
   if (!isDesktop) {
     return (
-      <div className="flex h-full min-h-0 min-w-0 flex-1">
+      <div className="flex h-full min-h-0 min-w-0 flex-1 max-md:h-auto max-md:min-h-0">
         {mobileListPanel
           ? sidebar
-          : (thread ?? <AppShellMainSlot className="flex h-full">{main}</AppShellMainSlot>)}
+          : (thread ?? (
+              <AppShellMainSlot className="flex h-full max-md:h-auto max-md:min-h-dvh max-md:overflow-visible">
+                {main}
+              </AppShellMainSlot>
+            ))}
       </div>
     );
   }
