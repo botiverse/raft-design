@@ -59,12 +59,6 @@ const NAV = [
         docsHref: "https://base-ui.com/react/components/scroll-area",
         reason: "Prefer native scrolling until custom scrollbar behavior is required.",
       },
-      {
-        label: "Sidebar",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Current sidebar is app shell, not a reusable UI primitive.",
-      },
     ],
   },
   {

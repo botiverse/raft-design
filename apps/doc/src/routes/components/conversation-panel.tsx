@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { ConversationPanelRoot } from "raft-ui/wip";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -15,16 +13,6 @@ import {
   type ConversationPanelCompositionProps,
 } from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
 import conversationPanelCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx?raw";
-import { ConversationPanelEmptyStateComposition } from "#/modules/conversation-panel/compositions/conversation-panel-empty-state.composition.tsx";
-import conversationPanelEmptyStateCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-empty-state.composition.tsx?raw";
-import {
-  ConversationPanelChannelHeaderComposition,
-  ConversationPanelDmHeaderComposition,
-  ConversationPanelSectionHeaderComposition,
-} from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx";
-import conversationPanelHeaderCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx?raw";
-import { NativeScrollPaginationComposition } from "#/modules/conversation-panel/compositions/native-scroll-pagination.composition.tsx";
-import nativeScrollPaginationCompositionSource from "#/modules/conversation-panel/compositions/native-scroll-pagination.composition.tsx?raw";
 import { SourceConversationPanelPreview } from "#/modules/conversation-panel/conversation-panel.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -33,7 +21,6 @@ const CONVERSATIONS = ["channel", "dm"] as const;
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "combinations", title: "Combinations" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -41,30 +28,36 @@ const TOC = [
 const SNIPPETS = {
   anatomy: `<ConversationPanelRoot>
   <ConversationPanelHeader>
+    {/* Sticks to the top on mobile by default. */}
+    {/* optional caller-owned leading content */}
     <ConversationPanelHeaderIcon />
     <ConversationPanelHeaderContent>
+      {/* use Heading when Title and Status form one group */}
       <ConversationPanelHeading>
         <ConversationPanelTitle />
+        {/* optional */}
         <ConversationPanelStatus />
       </ConversationPanelHeading>
+      {/* optional */}
       <ConversationPanelMeta />
     </ConversationPanelHeaderContent>
+    {/* optional caller-owned actions */}
     <ConversationPanelActions>
-      <PanelAction>
-        <Search />
-      </PanelAction>
+      {/* PanelAction / PanelToggleAction */}
     </ConversationPanelActions>
   </ConversationPanelHeader>
+
+  {/* optional caller-owned state layer, e.g. Banner */}
+
   <ConversationPanelContent>
+    {/* optional caller-owned tabs */}
     <ConversationPanelTabs />
     <ConversationPanelBody>
-      <MessageList />
-      <ScrollToLatest />
+      {/* caller-owned scroll content, e.g. MessageList and ScrollToLatest */}
     </ConversationPanelBody>
+    {/* optional caller-owned footer */}
     <ConversationPanelFooter>
-      <ComposerRoot>
-        <Composer />
-      </ComposerRoot>
+      {/* e.g. ComposerRoot */}
     </ConversationPanelFooter>
   </ConversationPanelContent>
 </ConversationPanelRoot>`,
@@ -77,9 +70,6 @@ const SNIPPETS = {
   </ConversationPanelEmptyState>
 </ConversationPanelRoot>`,
   conversationPanelComposition: conversationPanelCompositionSource,
-  conversationPanelEmptyStateComposition: conversationPanelEmptyStateCompositionSource,
-  conversationPanelHeaderComposition: conversationPanelHeaderCompositionSource,
-  nativeScrollPaginationComposition: nativeScrollPaginationCompositionSource,
 } as const;
 
 type PlaygroundValues = {
@@ -96,9 +86,10 @@ const PROPS: readonly PropRow[] = [
     description: "Full-height active conversation surface between sidebar and panel stack.",
   },
   {
-    name: "ConversationPanelHeader / HeaderIcon / HeaderContent / Heading",
+    name: "ConversationPanelHeader",
     type: "div props",
-    description: "Header structure for caller-owned leading content, title metadata, and actions.",
+    description:
+      "Header layout for caller-owned leading content, title metadata, and actions. It sticks to the top on mobile by default.",
   },
   {
     name: "ConversationPanelSectionHeader",
@@ -107,10 +98,41 @@ const PROPS: readonly PropRow[] = [
       "Top-level section header with the reusable Brutal mobile accent treatment and standard Elegant header treatment.",
   },
   {
-    name: "ConversationPanelTitle / Meta / Status / Actions",
-    type: "div / span props",
+    name: "ConversationPanelHeaderIcon",
+    type: "div props",
+    description: "Optional leading icon slot for a channel or section header.",
+  },
+  {
+    name: "ConversationPanelHeaderContent",
+    type: "div props",
+    description: "Flexible header-content region for title, metadata, and status parts.",
+  },
+  {
+    name: "ConversationPanelHeading",
+    type: "div props",
+    description: "Optional inline group for a title and its adjacent status.",
+  },
+  {
+    name: "ConversationPanelTitle",
+    type: "div props",
+    description: "Caller-owned conversation or section title.",
+  },
+  {
+    name: "ConversationPanelMeta",
+    type: 'div props & { size?: "sm" | "md" }',
+    description: "Optional secondary metadata below or alongside the title.",
+  },
+  {
+    name: "ConversationPanelStatus",
+    type: "span props & { mobileVisible?: boolean }",
     description:
-      "Explicit title content and action regions; set ConversationPanelStatus mobileVisible when its caller-owned status must remain visible on mobile.",
+      "Optional caller-owned status. Set mobileVisible when it must remain visible on mobile.",
+  },
+  {
+    name: "ConversationPanelActions",
+    type: "div props",
+    description:
+      "Optional action region for caller-owned PanelAction and PanelToggleAction controls.",
   },
   {
     name: "PanelAction",
@@ -130,37 +152,35 @@ const PROPS: readonly PropRow[] = [
     description: "Single content region below the header, containing tabs, body, and footer.",
   },
   {
-    name: "ConversationPanelTabs / Body / Timeline / MessageList / Footer",
-    type: "div / form props",
-    description:
-      "Tab chrome, scroll owner, list flow, and floating footer boundary. Override --panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
+    name: "ConversationPanelTabs",
+    type: "div props",
+    description: "Optional tab-chrome region. The caller provides the tab primitive and labels.",
   },
   {
-    name: "ScrollToLatest",
-    type: "div / button props",
-    description: "Explicit positioning layout and independently rendered jump button.",
+    name: "ConversationPanelBody",
+    type: "div props",
+    description: "Scroll boundary for caller-owned message or task content.",
   },
   {
-    name: "ConversationPanelEmptyState / EmptyStateBrand / EmptyStateBrandMark",
+    name: "ConversationPanelFooter",
     type: "div props",
     description:
-      "Centered inactive-panel state with an optional nested brand treatment. The caller owns its icon and copy.",
+      "Optional floating footer boundary. Override --panel-footer-clearance on the root when custom footer content needs more or less than the 10rem default.",
   },
   {
-    name: "ComposerAttachment*",
-    type: "div / span / img / button props",
-    description:
-      "Pending-upload strip above the composer: image and file tiles, uploading/failed overlays, progress bar, and remove affordance.",
+    name: "ConversationPanelEmptyState",
+    type: "div props",
+    description: "Centered inactive-panel state. The caller owns its icon and copy.",
   },
   {
-    name: "ComposerDropOverlay / DropOverlayLabel",
-    type: "div / span props",
-    description: "Drag-and-drop overlay covering the composer form while files hover over it.",
+    name: "ConversationPanelEmptyStateBrand",
+    type: "div props",
+    description: "Optional brand wrapper for the empty state.",
   },
   {
-    name: "Composer*",
-    type: "div / span / textarea / button props",
-    description: "Composer parts rendered inside ConversationPanelFooter via ComposerRoot.",
+    name: "ConversationPanelEmptyStateBrandMark",
+    type: "div props",
+    description: "Optional inner mark frame for caller-owned brand artwork.",
   },
 ];
 
@@ -176,13 +196,6 @@ function ConversationPanelDoc() {
     <DocPage
       title="ConversationPanel"
       description="Active conversation panel between chat sidebar and panel stack."
-      overview={
-        <Differences from="Main chat content">
-          <li>does not own message data, footer content, routing, or realtime subscriptions</li>
-          <li>owns the panel header, tabs, content surface, scroll body, and footer boundary</li>
-          <li>keeps product state and visible business structure in caller compositions</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -233,70 +246,6 @@ function ConversationPanelDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="combinations" title="Combinations" showThemeSwitcher>
-        <PreviewGrid>
-          <PreviewPane label="Native scroll pagination">
-            <PreviewThemeScope className="h-full">
-              <NativeScrollPaginationComposition />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Muted channel header">
-            <PreviewThemeScope className="h-full">
-              <HeaderPreview>
-                <ConversationPanelChannelHeaderComposition />
-              </HeaderPreview>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Direct message header">
-            <PreviewThemeScope className="h-full">
-              <HeaderPreview>
-                <ConversationPanelDmHeaderComposition />
-              </HeaderPreview>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Top-level section header">
-            <PreviewThemeScope className="h-full">
-              <HeaderPreview>
-                <ConversationPanelSectionHeaderComposition />
-              </HeaderPreview>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Banner and jump-to-latest">
-            <PreviewThemeScope className="h-full">
-              <CurrentConversationPanelPreview
-                notificationError="Couldn’t update Activity mute for this conversation."
-                newMessageCount={3}
-              />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="No active conversation">
-            <PreviewThemeScope className="h-full">
-              <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-theme=elegant]_&]:bg-layer-page">
-                <ConversationPanelEmptyStateComposition />
-              </div>
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/conversation-panel/compositions/native-scroll-pagination.composition.tsx"
-          source={SNIPPETS.nativeScrollPaginationComposition}
-          html={code.nativeScrollPaginationComposition}
-          showLineNumbers={false}
-        />
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx"
-          source={SNIPPETS.conversationPanelHeaderComposition}
-          html={code.conversationPanelHeaderComposition}
-          showLineNumbers={false}
-        />
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/conversation-panel/compositions/conversation-panel-empty-state.composition.tsx"
-          source={SNIPPETS.conversationPanelEmptyStateComposition}
-          html={code.conversationPanelEmptyStateComposition}
-          showLineNumbers={false}
-        />
-      </DocSection>
-
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>
@@ -345,17 +294,9 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
       <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </div>
-      <div className="flex h-[420px] items-stretch justify-start overflow-x-auto bg-white p-2">
-        {children}
+      <div className="flex h-[420px] overflow-x-auto bg-white p-2">
+        <div className="flex h-full min-w-full justify-center">{children}</div>
       </div>
-    </div>
-  );
-}
-
-function HeaderPreview({ children }: { children: ReactNode }) {
-  return (
-    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-theme=elegant]_&]:bg-layer-page">
-      <ConversationPanelRoot>{children}</ConversationPanelRoot>
     </div>
   );
 }

@@ -33,7 +33,7 @@ export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundR
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
-    <ConversationPanelHeader mobileSticky>
+    <ConversationPanelHeader>
       <PlaygroundConversationBackButton />
       <ConversationPanelHeaderIcon>
         <Icon />

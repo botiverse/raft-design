@@ -1,8 +1,6 @@
-import { useState } from "react";
 import {
   Bell,
   BellOff,
-  CheckSquare,
   EllipsisVertical,
   Hash,
   Search,
@@ -10,12 +8,11 @@ import {
   Square,
   Users,
 } from "lucide-react";
-import { Avatar, AvatarFallback, BrutalOnly, ElegantOnly, Status } from "raft-ui";
+import { Avatar, AvatarFallback, BrutalOnly, Status } from "raft-ui";
 import {
   ConversationPanelActions,
   ConversationPanelHeader,
   ConversationPanelHeaderIcon,
-  ConversationPanelSectionHeader,
   ConversationPanelStatus,
   ConversationPanelMeta,
   ConversationPanelTitle,
@@ -73,7 +70,7 @@ export function ConversationPanelHeaderComposition({
         <ConversationPanelMeta>Design system migration</ConversationPanelMeta>
       </ConversationPanelHeaderContent>
       <ConversationPanelActions>
-        <PanelAction aria-label="Search conversation" disabled>
+        <PanelAction aria-label="Search conversation">
           <Search />
         </PanelAction>
         <PanelToggleAction
@@ -84,18 +81,14 @@ export function ConversationPanelHeaderComposition({
         >
           {muted ? <BellOff /> : <Bell />}
         </PanelToggleAction>
-        <PanelAction
-          className="max-md:hidden"
-          aria-label="Stop all agents in this channel"
-          disabled
-        >
+        <PanelAction className="max-md:hidden" aria-label="Stop all agents in this channel">
           <Square />
         </PanelAction>
-        <PanelAction className="max-md:hidden" aria-label="View participants" disabled>
+        <PanelAction className="max-md:hidden" aria-label="View participants">
           <Users />
           13
         </PanelAction>
-        <PanelAction className="max-md:hidden" aria-label="Channel options" disabled>
+        <PanelAction className="max-md:hidden" aria-label="Channel options">
           <Settings />
         </PanelAction>
         <PanelAction className="md:hidden" aria-label="More options">
@@ -103,47 +96,5 @@ export function ConversationPanelHeaderComposition({
         </PanelAction>
       </ConversationPanelActions>
     </ConversationPanelHeader>
-  );
-}
-
-export function ConversationPanelChannelHeaderComposition() {
-  const [muted, setMuted] = useState(true);
-
-  return (
-    <ConversationPanelHeaderComposition
-      conversation="channel"
-      muted={muted}
-      onMutedChange={setMuted}
-    />
-  );
-}
-
-export function ConversationPanelDmHeaderComposition() {
-  const [muted, setMuted] = useState(false);
-
-  return (
-    <ConversationPanelHeaderComposition conversation="dm" muted={muted} onMutedChange={setMuted} />
-  );
-}
-
-export function ConversationPanelSectionHeaderComposition() {
-  return (
-    <ConversationPanelSectionHeader>
-      {/* Brutal hides the section icon on mobile; elegant keeps it at every size. */}
-      <BrutalOnly>
-        <ConversationPanelHeaderIcon className="max-md:hidden">
-          <CheckSquare aria-hidden />
-        </ConversationPanelHeaderIcon>
-      </BrutalOnly>
-      <ElegantOnly>
-        <ConversationPanelHeaderIcon>
-          <CheckSquare aria-hidden />
-        </ConversationPanelHeaderIcon>
-      </ElegantOnly>
-      <ConversationPanelHeaderContent>
-        <ConversationPanelTitle render={<h2 aria-label="Tasks" />}>Tasks</ConversationPanelTitle>
-        <ConversationPanelMeta render={<p />}>12 channel tasks</ConversationPanelMeta>
-      </ConversationPanelHeaderContent>
-    </ConversationPanelSectionHeader>
   );
 }
