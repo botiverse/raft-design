@@ -37,7 +37,7 @@ export const conversationPanel = tv({
     title: ["truncate text-base font-bold leading-tight"],
     meta: ["min-w-0 truncate font-mono text-xs"],
     status: [
-      "inline-flex shrink-0 items-center gap-1 max-md:hidden",
+      "inline-flex shrink-0 items-center gap-1",
       "px-1.5 py-1 text-[11px] font-bold uppercase leading-none",
       "[&_svg]:size-[11px] [&_svg]:shrink-0",
     ],
@@ -117,11 +117,6 @@ export const conversationPanel = tv({
           "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
           "max-md:[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:h-px",
         ],
-      },
-    },
-    mobileVisible: {
-      true: {
-        status: "max-md:!inline-flex",
       },
     },
     size: {

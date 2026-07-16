@@ -8,8 +8,10 @@ export const threadPanel = tv({
     title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],
     actions: ["flex shrink-0 items-center gap-1.5"],
-    search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2"],
-    searchIcon: ["size-3.5 shrink-0"],
+    search: [
+      "relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2",
+      "[&>[data-slot=input-group]]:min-w-0 [&>[data-slot=input-group]]:flex-1",
+    ],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
     originalMessage: [
       "shrink-0",
@@ -31,7 +33,6 @@ export const threadPanel = tv({
         title: "text-black",
         titleMeta: "text-black/50",
         search: "border-b-2 border-black bg-white",
-        searchIcon: "text-black/50",
         searchCount: "text-black/50",
         originalMessage: [
           "bg-white",
@@ -62,8 +63,10 @@ export const threadPanel = tv({
           "max-lg:leading-none",
         ],
         titleMeta: "text-foreground-muted",
-        search: "border-b border-line-subtle bg-transparent",
-        searchIcon: "text-foreground-muted",
+        search: [
+          "border-b border-line-subtle bg-transparent",
+          "[&>[data-slot=thread-panel-actions]]:gap-0.5",
+        ],
         searchCount: "text-foreground-muted",
         originalMessage: [
           "bg-transparent",

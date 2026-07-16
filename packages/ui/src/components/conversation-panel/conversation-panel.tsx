@@ -174,18 +174,15 @@ export function ConversationPanelMeta({
   });
 }
 
-export type ConversationPanelStatusProps = useRender.ComponentProps<"span"> & {
-  mobileVisible?: boolean;
-};
+export type ConversationPanelStatusProps = useRender.ComponentProps<"span">;
 
 export function ConversationPanelStatus({
   className,
-  mobileVisible = false,
   render,
   ...props
 }: ConversationPanelStatusProps) {
   const theme = useThemeFamily();
-  const { status } = conversationPanel({ theme, mobileVisible });
+  const { status } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "conversation-panel-status",
     className: status({ className }),

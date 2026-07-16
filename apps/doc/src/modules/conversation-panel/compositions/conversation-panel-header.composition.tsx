@@ -42,7 +42,7 @@ export function ConversationPanelHeaderComposition({
         <ConversationPanelHeaderContent>
           <ConversationPanelHeading>
             <ConversationPanelTitle>Atlas</ConversationPanelTitle>
-            <ConversationPanelStatus mobileVisible title="Working…">
+            <ConversationPanelStatus title="Working…">
               <Status aria-hidden size="md" variant="success" pulse />
               Working…
             </ConversationPanelStatus>

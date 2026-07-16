@@ -124,9 +124,8 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ConversationPanelStatus",
-    type: "span props & { mobileVisible?: boolean }",
-    description:
-      "Optional caller-owned status. Set mobileVisible when it must remain visible on mobile.",
+    type: "span props",
+    description: "Optional caller-owned status. It remains visible on mobile by default.",
   },
   {
     name: "ConversationPanelActions",

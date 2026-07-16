@@ -33,11 +33,7 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
             {dm.name}
           </ConversationPanelTitle>
           {isAgent ? (
-            <ConversationPanelStatus
-              className="normal-case font-normal"
-              mobileVisible
-              title={presence.label}
-            >
+            <ConversationPanelStatus className="normal-case font-normal" title={presence.label}>
               <Status aria-hidden size="sm" variant={presence.variant} pulse={presence.pulse} />
               {presence.label}
             </ConversationPanelStatus>
