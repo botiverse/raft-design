@@ -6,6 +6,8 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import messageAttachmentsShowcaseSource from "#/modules/message-item/compositions/message-attachments-showcase.composition.tsx?raw";
 import messageInteractionsShowcaseSource from "#/modules/message-item/compositions/message-interactions-showcase.composition.tsx?raw";
@@ -29,7 +31,22 @@ import { MessageReferenceShowcaseComposition } from "#/modules/message-item/comp
 import { MessageTranslationShowcaseComposition } from "#/modules/message-item/compositions/translation-showcase.composition.tsx";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
+import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
+import { MessageItemPreview } from "#/modules/message-item/compositions/item-preview.composition.tsx";
+import messageItemPreviewSource from "#/modules/message-item/compositions/item-preview.composition.tsx?raw";
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock message row",
+    scenes: [
+      {
+        label: "MessageItem.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
+      },
+    ],
+  },
+] as const;
 
 export const Route = createFileRoute("/components/message-item")({
   component: MessageItemDoc,
@@ -171,6 +188,32 @@ function MessageItemDoc() {
             </section>
           ))}
         </div>
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          items={[
+            {
+              label: "Standard message row",
+              status: "review",
+              note: "The source fixture preserves the visible sender, content, and reply structure; product data, reactions, and thread navigation remain consumer-owned composition.",
+              sourceScenes: SOURCE_SCENES,
+              source: (
+                <SourceThemeScope>
+                  <SourceMessageItemPreview />
+                </SourceThemeScope>
+              ),
+              brutal: <MessageItemPreview reactions replies toolbar />,
+              elegant: <MessageItemPreview reactions replies toolbar />,
+              elegantDark: <MessageItemPreview reactions replies toolbar />,
+              compositionCode: messageItemPreviewSource,
+              compositionPath:
+                "apps/doc/src/modules/message-item/compositions/item-preview.composition.tsx",
+              compositionSource: messageItemPreviewSource,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

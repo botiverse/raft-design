@@ -20,11 +20,12 @@ const CHAT_SIDEBAR_COMPOSITION_PATH =
   "apps/doc/src/modules/chat-sidebar/chat-sidebar.composition.tsx";
 
 const TOC = [
+  { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
+  { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
   { id: "drag-and-drop", title: "Drag and drop" },
   { id: "mobile-parts", title: "Mobile parts" },
-  { id: "anatomy", title: "Anatomy" },
-  { id: "api", title: "API" },
 ] as const;
 
 const SNIPPETS = {
@@ -167,6 +168,26 @@ function ChatSidebarDoc() {
       }
       toc={TOC}
     >
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <div className="h-[560px] overflow-hidden border border-line bg-layer-panel p-2">
+          <PreviewThemeScope className="flex h-full w-[308px] items-stretch bg-layer-page">
+            <ChatSidebarComposition />
+          </PreviewThemeScope>
+        </div>
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <PreviewGrid>
           <PreviewPane label="Source">
@@ -232,18 +253,6 @@ function ChatSidebarDoc() {
           html={code.chatSidebarMobileParts}
           showLineNumbers={false}
         />
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

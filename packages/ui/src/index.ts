@@ -88,6 +88,33 @@ export type {
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
 
+export {
+  AppRailFooter,
+  AppRailHeader,
+  AppRailItem,
+  AppRailItemAttention,
+  AppRailItemAttentionMask,
+  AppRailItemBadge,
+  AppRailItemIcon,
+  AppRailItemIndicator,
+  AppRailItemLabel,
+  AppRailNav,
+  AppRailRoot,
+} from "./components/app-rail/index";
+export type {
+  AppRailFooterProps,
+  AppRailHeaderProps,
+  AppRailItemAttentionMaskProps,
+  AppRailItemAttentionProps,
+  AppRailItemBadgeProps,
+  AppRailItemIconProps,
+  AppRailItemIndicatorProps,
+  AppRailItemLabelProps,
+  AppRailItemProps,
+  AppRailNavProps,
+  AppRailRootProps,
+} from "./components/app-rail/index";
+
 export { CopyableCode } from "./components/copyable-code/index";
 export type {
   CopyableCodeActionProps,

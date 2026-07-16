@@ -5,14 +5,35 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { MobileNavComposition } from "#/modules/mobile-nav/mobile-nav.composition.tsx";
 import { MobileNavPreview } from "#/modules/mobile-nav/mobile-nav.preview.tsx";
+import { SourceMobileNavPreview } from "#/modules/mobile-nav/mobile-nav.source-preview.tsx";
 import mobileNavCompositionSource from "#/modules/mobile-nav/mobile-nav.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
+] as const;
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock mobile navigation",
+    scenes: [
+      {
+        label: "MainLayout.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/layout/MainLayout.tsx",
+      },
+      {
+        label: "mobileNavStore.ts",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/store/mobileNavStore.ts",
+      },
+    ],
+  },
 ] as const;
 
 const SNIPPETS = {
@@ -80,6 +101,31 @@ function MobileNavDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          items={[
+            {
+              label: "Four-tab mobile bar",
+              status: "match",
+              note: "The source keeps Home, Tasks, Members, and Settings as the mobile destinations; selection and navigation remain consumer-owned.",
+              sourceScenes: SOURCE_SCENES,
+              source: (
+                <SourceThemeScope className="w-full">
+                  <SourceMobileNavPreview />
+                </SourceThemeScope>
+              ),
+              brutal: <MobileNavComposition />,
+              elegant: <MobileNavComposition />,
+              elegantDark: <MobileNavComposition />,
+              compositionCode: mobileNavCompositionSource,
+              compositionPath: "apps/doc/src/modules/mobile-nav/mobile-nav.composition.tsx",
+              compositionSource: mobileNavCompositionSource,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

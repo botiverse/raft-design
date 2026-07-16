@@ -1,13 +1,5 @@
 import { useState, type ComponentProps, type ReactNode } from "react";
 import {
-  NotificationCenter,
-  NotificationCenterTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "raft-ui";
-import {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,
@@ -17,8 +9,14 @@ import {
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
-  AppShellRailSlot,
-} from "raft-ui/wip";
+  NotificationCenter,
+  NotificationCenterTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
+import { AppShellRailSlot } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
@@ -31,23 +29,23 @@ import {
 
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 
-// Tooltip-wrapped desktop rail item. Callers own selection and navigation behavior.
+// Tooltip-wrapped desktop rail item. Callers own the rendered navigation or action target.
 export function AppRailNavItem({
   selected,
   label,
   icon,
   attention,
-  onClick,
+  render,
 }: {
   selected?: boolean;
   label: string;
   icon: ReactNode;
   attention?: ReactNode;
-  onClick?: ComponentProps<typeof AppRailItem>["onClick"];
+  render: ComponentProps<typeof AppRailItem>["render"];
 }) {
   return (
     <Tooltip>
-      <TooltipTrigger render={<AppRailItem selected={selected} onClick={onClick} />}>
+      <TooltipTrigger render={<AppRailItem selected={selected} render={render} />}>
         <AppRailItemIcon>
           {icon}
           {attention}
@@ -95,19 +93,19 @@ export function AppRailComposition() {
           <AppRailNav>
             <AppRailNavItem
               selected={view === "search"}
-              onClick={() => selectView("search")}
+              render={<button type="button" onClick={() => selectView("search")} />}
               label="Search"
               icon={<Search />}
             />
             <AppRailNavItem
               selected={view === "chat"}
-              onClick={() => selectView("chat")}
+              render={<button type="button" onClick={() => selectView("chat")} />}
               label="Chat"
               icon={<MessageSquare />}
             />
             <AppRailNavItem
               selected={view === "activity"}
-              onClick={() => selectView("activity")}
+              render={<button type="button" onClick={() => selectView("activity")} />}
               label="Activity"
               icon={<Activity />}
               attention={
@@ -118,19 +116,19 @@ export function AppRailComposition() {
             />
             <AppRailNavItem
               selected={view === "tasks"}
-              onClick={() => selectView("tasks")}
+              render={<button type="button" onClick={() => selectView("tasks")} />}
               label="Tasks"
               icon={<CheckSquare />}
             />
             <AppRailNavItem
               selected={view === "members"}
-              onClick={() => selectView("members")}
+              render={<button type="button" onClick={() => selectView("members")} />}
               label="Members"
               icon={<Users />}
             />
             <AppRailNavItem
               selected={view === "computers"}
-              onClick={() => selectView("computers")}
+              render={<button type="button" onClick={() => selectView("computers")} />}
               label="Computers"
               icon={<Monitor />}
               attention={
@@ -146,7 +144,7 @@ export function AppRailComposition() {
             </NotificationCenter>
             <AppRailNavItem
               selected={view === "settings"}
-              onClick={() => selectView("settings")}
+              render={<button type="button" onClick={() => selectView("settings")} />}
               label="Settings"
               icon={<Settings />}
             />

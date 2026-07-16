@@ -9,6 +9,7 @@ export const TOC = [
   { id: "interactions", title: "Interactions" },
   { id: "source-visible-states", title: "Source-visible states" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 export const ANATOMY_SOURCE = `<MessageItem>

@@ -1,5 +1,11 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import {
+  AppRailFooter,
+  AppRailHeader,
+  AppRailItemAttention,
+  AppRailItemIndicator,
+  AppRailNav,
+  AppRailRoot,
   NotificationCenter,
   NotificationCenterActionButton,
   NotificationCenterCount,
@@ -22,18 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
-import {
-  AppRailFooter,
-  AppRailHeader,
-  AppRailItemAttention,
-  AppRailItemIndicator,
-  AppRailNav,
-  AppRailRoot,
-  AppShellRailSlot,
-  MobileNavItem,
-  MobileNavLabel,
-  MobileNavRoot,
-} from "raft-ui/wip";
+import { AppShellRailSlot, MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
@@ -150,7 +145,6 @@ export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
 
 export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
   const { railView, selectRailView } = usePlaygroundNavigation();
-  const navigate = useNavigate();
 
   function selectView(view: string) {
     if (isPlaygroundRailView(view)) selectRailView(view);
@@ -168,12 +162,19 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
               <AppRailNav>
                 <AppRailNavItem
                   selected={railView === "search"}
-                  onClick={() => selectView("search")}
+                  render={<button type="button" onClick={() => selectView("search")} />}
                   label="Search"
                   icon={<Search />}
                 />
                 <AppRailNavItem
                   selected={railView === "chat"}
+                  render={
+                    <Link
+                      to="/playground/s/$serverSlug"
+                      params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
+                      search={{}}
+                    />
+                  }
                   label="Chat"
                   icon={<MessageSquare />}
                   attention={
@@ -183,17 +184,10 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                       </AppRailItemAttention>
                     ) : undefined
                   }
-                  onClick={() => {
-                    void navigate({
-                      to: "/playground/s/$serverSlug",
-                      params: { serverSlug: PLAYGROUND_SERVER_SLUG },
-                      search: {},
-                    });
-                  }}
                 />
                 <AppRailNavItem
                   selected={railView === "activity"}
-                  onClick={() => selectView("activity")}
+                  render={<button type="button" onClick={() => selectView("activity")} />}
                   label="Activity"
                   icon={<Activity />}
                   attention={
@@ -206,19 +200,19 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                 />
                 <AppRailNavItem
                   selected={railView === "tasks"}
-                  onClick={() => selectView("tasks")}
+                  render={<button type="button" onClick={() => selectView("tasks")} />}
                   label="Tasks"
                   icon={<CheckSquare />}
                 />
                 <AppRailNavItem
                   selected={railView === "members"}
-                  onClick={() => selectView("members")}
+                  render={<button type="button" onClick={() => selectView("members")} />}
                   label="Members"
                   icon={<Users />}
                 />
                 <AppRailNavItem
                   selected={railView === "computers"}
-                  onClick={() => selectView("computers")}
+                  render={<button type="button" onClick={() => selectView("computers")} />}
                   label="Computers"
                   icon={<Monitor />}
                   attention={
@@ -235,7 +229,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
               <PlaygroundNotificationCenter />
               <AppRailNavItem
                 selected={railView === "settings"}
-                onClick={() => selectView("settings")}
+                render={<button type="button" onClick={() => selectView("settings")} />}
                 label="Settings"
                 icon={<Settings />}
               />
