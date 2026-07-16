@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
-import { Button } from "raft-ui";
+import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
 import {
   ThreadPanelActions,
   ThreadPanelBody,
@@ -12,8 +12,6 @@ import {
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
-  ThreadPanelSearchIcon,
-  ThreadPanelSearchInput,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
   MessageList,
@@ -115,34 +113,40 @@ export function PlaygroundThreadPanel({
       <ThreadPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
         {searchOpen ? (
           <ThreadPanelSearch>
-            <ThreadPanelSearchIcon render={<Search />} />
-            <ThreadPanelSearchInput
-              aria-label="Search this thread"
-              placeholder="Search this thread"
-              value={searchQuery}
-              onChange={(event) => {
-                setSearchQuery(event.target.value);
-                setActiveMatchIndex(0);
-              }}
-            />
+            <InputGroup>
+              <InputGroupAddon>
+                <Search />
+              </InputGroupAddon>
+              <InputGroupInput
+                aria-label="Search this thread"
+                placeholder="Search this thread"
+                value={searchQuery}
+                onChange={(event) => {
+                  setSearchQuery(event.target.value);
+                  setActiveMatchIndex(0);
+                }}
+              />
+            </InputGroup>
             <ThreadPanelSearchCount aria-live="polite">{matchCountLabel}</ThreadPanelSearchCount>
-            <PanelAction
-              aria-label="Previous match"
-              disabled={!matchingMessages.length}
-              onClick={() => moveToMatch(-1)}
-            >
-              <ChevronUp />
-            </PanelAction>
-            <PanelAction
-              aria-label="Next match"
-              disabled={!matchingMessages.length}
-              onClick={() => moveToMatch(1)}
-            >
-              <ChevronDown />
-            </PanelAction>
-            <PanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
-              <X />
-            </PanelAction>
+            <ThreadPanelActions>
+              <PanelAction
+                aria-label="Previous match"
+                disabled={!matchingMessages.length}
+                onClick={() => moveToMatch(-1)}
+              >
+                <ChevronUp />
+              </PanelAction>
+              <PanelAction
+                aria-label="Next match"
+                disabled={!matchingMessages.length}
+                onClick={() => moveToMatch(1)}
+              >
+                <ChevronDown />
+              </PanelAction>
+              <PanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
+                <X />
+              </PanelAction>
+            </ThreadPanelActions>
           </ThreadPanelSearch>
         ) : null}
         <ThreadPanelOriginalMessage

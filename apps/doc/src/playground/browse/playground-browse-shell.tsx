@@ -1,8 +1,16 @@
 import { Outlet } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
-import { ResizableGroup, ResizableHandle, ResizablePanel, useThemeFamily } from "raft-ui";
+import {
+  AppShellMainSlot,
+  AppShellMobileContent,
+  AppShellRoot,
+  AppShellSidebarSlot,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  useThemeFamily,
+} from "raft-ui";
 import { cn } from "raft-ui/cn";
-import { AppShellMainSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui/wip";
 
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundRailViewSidebar } from "./playground-rail-views.tsx";
@@ -20,19 +28,7 @@ export function PlaygroundBrowseShell() {
   const showSidebar = isDesktop || !showMain;
   const showBottomNavigation = view === "members" && !showMain;
 
-  const sidebar = (
-    <AppShellSidebarSlot
-      className={cn(
-        "relative flex h-full min-w-0",
-        isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
-        theme === "elegant" &&
-          showBottomNavigation &&
-          "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
-      )}
-    >
-      <PlaygroundRailViewSidebar view={view} />
-    </AppShellSidebarSlot>
-  );
+  const sidebar = <PlaygroundRailViewSidebar view={view} />;
 
   const main = (
     <AppShellMainSlot className="flex h-full">
@@ -49,14 +45,24 @@ export function PlaygroundBrowseShell() {
         )}
       >
         <PlaygroundRail showBottomNavigation={showBottomNavigation} />
-        <div
-          className={cn(
-            "flex h-full min-h-0 min-w-0 flex-1",
-            showBottomNavigation && "max-md:h-auto max-md:min-h-0",
-          )}
+        <AppShellMobileContent
+          className={cn("h-full", showBottomNavigation && "max-md:h-auto max-md:min-h-0")}
         >
-          {showSidebar ? sidebar : main}
-        </div>
+          {showSidebar ? (
+            <div
+              className={cn(
+                "relative flex h-full min-h-0 w-full flex-1",
+                theme === "elegant" &&
+                  showBottomNavigation &&
+                  "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
+              )}
+            >
+              {sidebar}
+            </div>
+          ) : (
+            main
+          )}
+        </AppShellMobileContent>
       </AppShellRoot>
     );
   }
@@ -75,7 +81,9 @@ export function PlaygroundBrowseShell() {
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
             >
-              {sidebar}
+              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+                {sidebar}
+              </AppShellSidebarSlot>
             </ResizablePanel>
             {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
           </>

@@ -68,4 +68,17 @@ export function ButtonComposition() {
   return <Button>Save</Button>;
 }`);
   });
+
+  it("removes JSX blocks wrapped in strip markers", () => {
+    const code = `<MobileNavRoot>
+  {/* ... */}
+  {/* @docs-source-strip-start */}
+  <MobileNavItem>Home</MobileNavItem>
+  {/* @docs-source-strip-end */}
+</MobileNavRoot>`;
+
+    expect(stripSourceCodeBlocks(code)).toBe(`<MobileNavRoot>
+  {/* ... */}
+</MobileNavRoot>`);
+  });
 });

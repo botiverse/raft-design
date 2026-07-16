@@ -2,8 +2,8 @@ import {
   ConversationPanelEmptyState,
   ConversationPanelEmptyStateBrand,
   ConversationPanelEmptyStateBrandMark,
-  RaftLogo,
 } from "raft-ui/wip";
+import { RaftLogo } from "raft-ui";
 
 export function PlaygroundChannelEmptyState() {
   return (

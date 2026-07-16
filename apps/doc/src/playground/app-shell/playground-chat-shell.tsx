@@ -1,9 +1,16 @@
 import { Outlet, useMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { useThemeFamily } from "raft-ui";
-import { ResizableGroup, ResizableHandle, ResizablePanel } from "raft-ui";
+import {
+  AppShellMainSlot,
+  AppShellMobileContent,
+  AppShellRoot,
+  AppShellSidebarSlot,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  useThemeFamily,
+} from "raft-ui";
 import { cn } from "raft-ui/cn";
-import { AppShellMainSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui/wip";
 
 import {
   PLAYGROUND_LIVE_AGENT_ACTIVITY,
@@ -68,7 +75,7 @@ export function PlaygroundChatShell() {
     <AppShellRoot
       className={cn(
         "h-full",
-        !isDesktop && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
+        !isDesktop && "max-md:h-auto max-md:min-h-dvh",
         !mobileListPanel && "max-md:!pt-0",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
       )}
@@ -79,23 +86,15 @@ export function PlaygroundChatShell() {
         isLargeDesktop={isLargeDesktop}
         mobileListPanel={mobileListPanel}
         sidebar={
-          <AppShellSidebarSlot
-            className={cn(
-              "relative flex h-full min-w-0",
-              isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
-              !isDesktop && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
-            )}
-          >
-            <PlaygroundSidebar
-              activeChannelId={channel?.id ?? null}
-              liveAgentActivity={{
-                agentAvatarSrc: liveAgentActor.avatarSrc,
-                text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
-              }}
-              mobileBottomNavigation={mobileListPanel}
-              title="Chat"
-            />
-          </AppShellSidebarSlot>
+          <PlaygroundSidebar
+            activeChannelId={channel?.id ?? null}
+            liveAgentActivity={{
+              agentAvatarSrc: liveAgentActor.avatarSrc,
+              text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
+            }}
+            mobileBottomNavigation={mobileListPanel}
+            title="Chat"
+          />
         }
         main={<Outlet />}
         theme={theme}
@@ -133,15 +132,15 @@ function PlaygroundChatLayout({
 }) {
   if (!isDesktop) {
     return (
-      <div className="flex h-full min-h-0 min-w-0 flex-1 max-md:h-auto max-md:min-h-0">
+      <AppShellMobileContent className="h-full max-md:h-auto max-md:min-h-0">
         {mobileListPanel
           ? sidebar
           : (thread ?? (
-              <AppShellMainSlot className="flex h-full max-md:h-auto max-md:min-h-dvh max-md:overflow-visible">
+              <AppShellMainSlot className="flex h-full max-md:h-auto max-md:min-h-dvh">
                 {main}
               </AppShellMainSlot>
             ))}
-      </div>
+      </AppShellMobileContent>
     );
   }
 
@@ -155,7 +154,9 @@ function PlaygroundChatLayout({
         groupResizeBehavior="preserve-pixel-size"
         className="min-w-0"
       >
-        {sidebar}
+        <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+          {sidebar}
+        </AppShellSidebarSlot>
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel id="playground-main" minSize={360} className="relative min-w-0">

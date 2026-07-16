@@ -1,27 +1,17 @@
-import { ChevronDown, ChevronUp, MessageSquare, Search, X } from "lucide-react";
-import {
-  Avatar,
-  EmptyState,
-  EmptyStateContent,
-  EmptyStateDescription,
-  EmptyStateIcon,
-  EmptyStateTitle,
-  Spinner,
-} from "raft-ui";
+import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
+import { Avatar, Button, InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
 import {
   ThreadPanelActions,
   ThreadPanelBody,
   ThreadPanelContent,
-  ThreadPanelFooter,
   ThreadPanelHeader,
   ThreadPanelOriginalMessage,
   ThreadPanelReplyCount,
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
-  ThreadPanelSearchIcon,
-  ThreadPanelSearchInput,
   ThreadPanelTitle,
+  ThreadPanelTitleMeta,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -36,33 +26,36 @@ import {
   PanelAction,
 } from "raft-ui/wip";
 
-type ThreadPanelState = "default" | "empty" | "loading";
-
 interface ThreadPanelCompositionProps {
-  state?: ThreadPanelState;
   search?: boolean;
 }
 
 function ThreadSearchRow() {
   return (
     <ThreadPanelSearch>
-      <ThreadPanelSearchIcon render={<Search />} />
-      <ThreadPanelSearchInput
-        aria-label="Search in thread"
-        placeholder="Search in thread"
-        readOnly
-        value="chrome"
-      />
+      <InputGroup>
+        <InputGroupAddon>
+          <Search />
+        </InputGroupAddon>
+        <InputGroupInput
+          aria-label="Search in thread"
+          placeholder="Search in thread"
+          readOnly
+          value="chrome"
+        />
+      </InputGroup>
       <ThreadPanelSearchCount>1/2</ThreadPanelSearchCount>
-      <PanelAction aria-label="Previous match">
-        <ChevronUp />
-      </PanelAction>
-      <PanelAction aria-label="Next match">
-        <ChevronDown />
-      </PanelAction>
-      <PanelAction aria-label="Close thread search">
-        <X />
-      </PanelAction>
+      <ThreadPanelActions>
+        <PanelAction aria-label="Previous match">
+          <ChevronUp />
+        </PanelAction>
+        <PanelAction aria-label="Next match">
+          <ChevronDown />
+        </PanelAction>
+        <PanelAction aria-label="Close thread search">
+          <X />
+        </PanelAction>
+      </ThreadPanelActions>
     </ThreadPanelSearch>
   );
 }
@@ -131,45 +124,25 @@ function ThreadReplies() {
   );
 }
 
-function ThreadEmpty() {
-  return (
-    <div className="flex min-h-[240px] flex-col items-center justify-center px-6 py-10">
-      <EmptyState>
-        <EmptyStateContent>
-          <EmptyStateIcon>
-            <MessageSquare />
-          </EmptyStateIcon>
-          <EmptyStateTitle>No replies yet</EmptyStateTitle>
-          <EmptyStateDescription>
-            Start the conversation by replying in this thread.
-          </EmptyStateDescription>
-        </EmptyStateContent>
-      </EmptyState>
-    </div>
-  );
-}
-
-function ThreadLoading() {
-  return (
-    <div
-      role="status"
-      className="flex min-h-[240px] flex-col items-center justify-center gap-3 px-6 py-10"
-    >
-      <Spinner />
-      <span className="font-mono text-xs text-foreground-muted">Loading replies…</span>
-    </div>
-  );
-}
-
-export function ThreadPanelComposition({
-  state = "default",
-  search = state === "default",
-}: ThreadPanelCompositionProps = {}) {
+export function ThreadPanelComposition({ search = true }: ThreadPanelCompositionProps = {}) {
   return (
     <ThreadPanelRoot>
       <ThreadPanelHeader>
-        <ThreadPanelTitle>Thread</ThreadPanelTitle>
+        <Button variant="outline" size="icon-md" aria-label="Back to channel">
+          <ChevronLeft />
+        </Button>
+        <ThreadPanelTitle>
+          Thread
+          <ThreadPanelTitleMeta> — #acme-design</ThreadPanelTitleMeta>
+        </ThreadPanelTitle>
         <ThreadPanelActions>
+          <PanelAction aria-label="Search in thread">
+            <Search />
+          </PanelAction>
+          <PanelAction aria-label="View in channel">
+            <ExternalLink />
+            <span className="whitespace-nowrap font-medium leading-none">View in channel</span>
+          </PanelAction>
           <PanelAction aria-label="Close thread">
             <X />
           </PanelAction>
@@ -191,16 +164,9 @@ export function ThreadPanelComposition({
         </ThreadPanelOriginalMessage>
         <ThreadPanelBody>
           <MessageList>
-            {state === "empty" ? (
-              <ThreadEmpty />
-            ) : state === "loading" ? (
-              <ThreadLoading />
-            ) : (
-              <ThreadReplies />
-            )}
+            <ThreadReplies />
           </MessageList>
         </ThreadPanelBody>
-        <ThreadPanelFooter>Reply composer slot</ThreadPanelFooter>
       </ThreadPanelContent>
     </ThreadPanelRoot>
   );

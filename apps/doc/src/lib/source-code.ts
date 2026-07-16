@@ -1,6 +1,10 @@
 export function stripSourceCodeBlocks(code: string) {
   return code
     .replace(/^\s*\/\/ @docs-source-strip-start\n[\s\S]*?^\s*\/\/ @docs-source-strip-end\n?/gm, "")
+    .replace(
+      /^\s*\{\/\* @docs-source-strip-start \*\/\}\n[\s\S]*?^\s*\{\/\* @docs-source-strip-end \*\/\}\n?/gm,
+      "",
+    )
     .trimEnd();
 }
 

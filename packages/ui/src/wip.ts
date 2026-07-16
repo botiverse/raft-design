@@ -5,16 +5,6 @@ export type {
   MobileNavRootProps,
 } from "./components/mobile-nav";
 
-export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
-export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
-
-export {
-  AppShellMainSlot,
-  AppShellRailSlot,
-  AppShellRoot,
-  AppShellSidebarSlot,
-} from "./components/app-shell/index";
-
 export {
   FilePreview,
   FilePreviewBadge,
@@ -32,13 +22,6 @@ export type {
   FilePreviewProps,
   FilePreviewVideoProps,
 } from "./components/file-preview/index";
-export type {
-  AppShellMainSlotProps,
-  AppShellRailSlotProps,
-  AppShellRootProps,
-  AppShellSidebarSlotProps,
-} from "./components/app-shell/index";
-
 export {
   ConversationPanelActions,
   ConversationPanelBody,
@@ -86,8 +69,6 @@ export {
   ThreadPanelOriginalMessage,
   ThreadPanelReplyCount,
   ThreadPanelSearch,
-  ThreadPanelSearchIcon,
-  ThreadPanelSearchInput,
   ThreadPanelSearchCount,
   ThreadPanelHeader,
   ThreadPanelRoot,
@@ -102,8 +83,6 @@ export type {
   ThreadPanelOriginalMessageProps,
   ThreadPanelReplyCountProps,
   ThreadPanelSearchProps,
-  ThreadPanelSearchIconProps,
-  ThreadPanelSearchInputProps,
   ThreadPanelSearchCountProps,
   ThreadPanelHeaderProps,
   ThreadPanelRootProps,

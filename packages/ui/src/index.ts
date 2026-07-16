@@ -320,6 +320,9 @@ export type {
   LightboxTriggerProps,
 } from "./components/lightbox/index";
 
+export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
+export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
+
 export {
   Tooltip,
   TooltipContent,
@@ -745,6 +748,21 @@ export type {
 
 export { Separator } from "./components/separator/index";
 export type { SeparatorProps } from "./components/separator/index";
+
+export {
+  AppShellMainSlot,
+  AppShellMobileContent,
+  AppShellRailSlot,
+  AppShellRoot,
+  AppShellSidebarSlot,
+} from "./components/app-shell/index";
+export type {
+  AppShellMainSlotProps,
+  AppShellMobileContentProps,
+  AppShellRailSlotProps,
+  AppShellRootProps,
+  AppShellSidebarSlotProps,
+} from "./components/app-shell/index";
 
 export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";
 export type {

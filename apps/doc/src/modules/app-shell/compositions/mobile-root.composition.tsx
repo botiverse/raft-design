@@ -1,27 +1,25 @@
+// @docs-source-strip-start
 import { Home, Settings } from "lucide-react";
 import { useState } from "react";
-import { useThemeFamily } from "raft-ui";
-import { cn } from "raft-ui/cn";
-import {
-  AppShellRoot,
-  AppShellSidebarSlot,
-  MobileNavItem,
-  MobileNavLabel,
-  MobileNavRoot,
-} from "raft-ui/wip";
+import { AppShellMobileContent, AppShellRoot } from "raft-ui";
+import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
+// @docs-source-strip-end
 
 export function AppShellMobileRootComposition() {
+  // @docs-source-strip-start
   const [value, setValue] = useState("home");
-  const theme = useThemeFamily();
+  // @docs-source-strip-end
 
   return (
-    <AppShellRoot className={cn("h-dvh w-full", theme === "brutal" && "max-md:bg-white")}>
-      <AppShellSidebarSlot className="flex min-h-0 w-full flex-1 shrink">
+    <AppShellRoot className="h-dvh w-full">
+      <AppShellMobileContent>
         <div className="flex h-full min-h-0 w-full items-center justify-center bg-accent-200 px-4 text-center font-mono text-xs font-semibold uppercase tracking-wide text-accent-950">
           Sidebar · root view
         </div>
-      </AppShellSidebarSlot>
+      </AppShellMobileContent>
       <MobileNavRoot className="order-last md:hidden" aria-label="Primary navigation">
+        {/* ... */}
+        {/* @docs-source-strip-start */}
         <MobileNavItem selected={value === "home"} onClick={() => setValue("home")}>
           <Home />
           <MobileNavLabel>Home</MobileNavLabel>
@@ -30,6 +28,7 @@ export function AppShellMobileRootComposition() {
           <Settings />
           <MobileNavLabel>Settings</MobileNavLabel>
         </MobileNavItem>
+        {/* @docs-source-strip-end */}
       </MobileNavRoot>
     </AppShellRoot>
   );

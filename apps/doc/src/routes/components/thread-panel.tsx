@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown, ChevronUp, Search, User, X } from "lucide-react";
 import type { ReactNode } from "react";
+import { Badge } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
@@ -20,30 +21,33 @@ const CHAT_THREAD_PANEL_COMPOSITION_PATH =
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "states", title: "States" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const STATE_OPTIONS = ["Default", "No replies", "Loading"] as const;
-
 type PlaygroundValues = {
-  state: (typeof STATE_OPTIONS)[number];
   search: boolean;
-};
-
-const STATE_BY_LABEL: Record<PlaygroundValues["state"], "default" | "empty" | "loading"> = {
-  Default: "default",
-  "No replies": "empty",
-  Loading: "loading",
 };
 
 const SNIPPETS = {
   threadPanelComposition: threadPanelCompositionSource,
   anatomy: `<ThreadPanelRoot>
   <ThreadPanelHeader>
-    <ThreadPanelTitle />
+    <Button variant="outline" size="icon-md">
+      <ChevronLeft />
+    </Button>
+    <ThreadPanelTitle>
+      Thread
+      <ThreadPanelTitleMeta> — #acme-design</ThreadPanelTitleMeta>
+    </ThreadPanelTitle>
     <ThreadPanelActions>
+      <PanelAction>
+        <Search />
+      </PanelAction>
+      <PanelAction>
+        <ExternalLink />
+        View in channel
+      </PanelAction>
       <PanelAction>
         <X />
       </PanelAction>
@@ -51,12 +55,18 @@ const SNIPPETS = {
   </ThreadPanelHeader>
   <ThreadPanelContent>
   <ThreadPanelSearch>
-    <ThreadPanelSearchIcon />
-    <ThreadPanelSearchInput />
+    <InputGroup>
+      <InputGroupAddon>
+        <Search />
+      </InputGroupAddon>
+      <InputGroupInput />
+    </InputGroup>
     <ThreadPanelSearchCount />
-    <PanelAction>
-      <Search />
-    </PanelAction>
+    <ThreadPanelActions>
+      <PanelAction>
+        <Search />
+      </PanelAction>
+    </ThreadPanelActions>
   </ThreadPanelSearch>
   <ThreadPanelOriginalMessage render={<MessageItem />} />
   <ThreadPanelBody>
@@ -80,9 +90,24 @@ const PROPS: readonly PropRow[] = [
     description: "Full-height thread panel surface. It does not own thread data or routing.",
   },
   {
-    name: "ThreadPanelHeader / Title / Actions",
-    type: "div / h2 props",
-    description: "Fixed thread header regions matching source panel chrome.",
+    name: "ThreadPanelHeader",
+    type: "div props",
+    description: "Fixed thread header region.",
+  },
+  {
+    name: "ThreadPanelTitle",
+    type: "h2 props",
+    description: "Primary thread title. Truncates within the header.",
+  },
+  {
+    name: "ThreadPanelTitleMeta",
+    type: "span props",
+    description: "Secondary title metadata, such as the parent channel name.",
+  },
+  {
+    name: "ThreadPanelActions",
+    type: "div props",
+    description: "Action cluster for header or search controls.",
   },
   {
     name: "ThreadPanelContent",
@@ -96,28 +121,47 @@ const PROPS: readonly PropRow[] = [
       "Panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
   {
-    name: "ThreadPanelSearch / SearchIcon / SearchInput / SearchCount",
-    type: "div / span / input props",
-    description:
-      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via PanelAction.",
-  },
-  {
-    name: "ThreadPanelOriginalMessage / ReplyCount",
+    name: "ThreadPanelSearch",
     type: "div props",
     description:
-      "Original message slot above the scroll body. Use render to merge its styling into MessageItem without another wrapper; ReplyCount labels the replies below it.",
+      "In-thread search row under the header. Compose it with InputGroup, a match counter, and PanelAction controls.",
   },
   {
-    name: "ThreadPanelBody / Footer",
+    name: "ThreadPanelSearchCount",
+    type: "div props",
+    description: "Match-count region in the thread search row.",
+  },
+  {
+    name: "ThreadPanelOriginalMessage",
     type: "div props",
     description:
-      "Scrollable message body and floating composer/footer slot. Override --panel-footer-clearance on the root when a custom composer needs more or less than the 10rem default.",
+      "Original message region above the scroll body. Use render to merge its styling into MessageItem without another wrapper.",
   },
   {
-    name: "MessageListDateDivider / Notice",
-    type: "div / span props",
+    name: "ThreadPanelReplyCount",
+    type: "div props",
+    description: "Labels the reply count above the message list.",
+  },
+  {
+    name: "ThreadPanelBody",
+    type: "div props",
+    description: "Scrollable message body.",
+  },
+  {
+    name: "ThreadPanelFooter",
+    type: "div props",
     description:
-      "Shared message-list markers: day-boundary divider (inline or sticky) and list notices.",
+      "Optional composer/footer boundary. Override --panel-footer-clearance on the root for a custom composer height.",
+  },
+  {
+    name: "MessageListDateDivider",
+    type: "div props",
+    description: "Day-boundary marker in the message list.",
+  },
+  {
+    name: "MessageListNotice",
+    type: "div props",
+    description: "Inline notice in the message list.",
   },
   {
     name: "MessageItemSearchMatch",
@@ -152,18 +196,12 @@ function ThreadPanelDoc() {
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ state: "Default", search: true }}
-          controls={[
-            { name: "state", label: "State", type: "select", options: STATE_OPTIONS },
-            { name: "search", label: "Search", type: "boolean" },
-          ]}
+          defaultValues={{ search: true }}
+          controls={[{ name: "search", label: "Search", type: "boolean" }]}
           render={(values) => (
             <div className="flex h-[420px] w-full justify-start overflow-x-auto">
               <ThreadPanelFrame>
-                <ThreadPanelComposition
-                  state={STATE_BY_LABEL[values.state]}
-                  search={values.search}
-                />
+                <ThreadPanelComposition search={values.search} />
               </ThreadPanelFrame>
             </div>
           )}
@@ -176,53 +214,6 @@ function ThreadPanelDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="states" title="States">
-        <PreviewGrid columns={2}>
-          <PreviewPane label="No replies · Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition state="empty" />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="No replies · Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition state="empty" />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Loading · Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition state="loading" />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Loading · Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition state="loading" />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Scrollable replies · Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition search={false} />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Scrollable replies · Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition search={false} />
-              </ThreadPanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
       </DocSection>
 
       <DocSection id="api" title="API">
@@ -246,7 +237,7 @@ function ThreadPanelDoc() {
               <CurrentThreadPanelPreview />
             </PreviewThemeScope>
           </PreviewPane>
-          <PreviewPane label="Elegant dark">
+          <PreviewPane label="Elegant dark" wip>
             <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
               <CurrentThreadPanelPreview />
             </PreviewThemeScope>
@@ -264,19 +255,28 @@ function ThreadPanelDoc() {
   );
 }
 
-function PreviewGrid({ children, columns = 1 }: { children: ReactNode; columns?: 1 | 2 }) {
-  return (
-    <div className={columns === 2 ? "grid gap-4 md:grid-cols-2" : "flex flex-col gap-4"}>
-      {children}
-    </div>
-  );
+function PreviewGrid({ children }: { children: ReactNode }) {
+  return <div className="flex flex-col gap-4">{children}</div>;
 }
 
-function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
+function PreviewPane({
+  label,
+  wip = false,
+  children,
+}: {
+  label: string;
+  wip?: boolean;
+  children: ReactNode;
+}) {
   return (
     <div className="min-w-0 overflow-hidden rounded-none border border-line bg-layer-panel">
-      <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
-        {label}
+      <div className="flex items-center gap-1.5 border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
+        <span>{label}</span>
+        {wip ? (
+          <Badge appearance="soft" variant="warning" uppercase className="h-4 px-1.5 text-[9px]">
+            WIP
+          </Badge>
+        ) : null}
       </div>
       <div className="flex h-[420px] items-stretch justify-start overflow-x-auto bg-white p-2">
         {children}
@@ -287,7 +287,7 @@ function PreviewPane({ label, children }: { label: string; children: ReactNode }
 
 function ThreadPanelFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="h-full w-[400px] shrink-0 overflow-hidden border-l-2 border-line-strong bg-layer-panel [[data-theme=elegant]_&]:border-l [[data-theme=elegant]_&]:border-line-subtle">
+    <div className="h-full w-full overflow-hidden border-l-2 border-line-strong bg-layer-panel [[data-theme=elegant]_&]:border-l [[data-theme=elegant]_&]:border-line-subtle">
       {children}
     </div>
   );

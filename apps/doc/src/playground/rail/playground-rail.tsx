@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import {
+  AppShellRailSlot,
   AppRailItem,
   AppRailFooter,
   AppRailHeader,
@@ -32,7 +33,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
-import { AppShellRailSlot, MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
+import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,

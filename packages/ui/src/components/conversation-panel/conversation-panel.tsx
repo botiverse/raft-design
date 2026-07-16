@@ -22,25 +22,22 @@ export function ConversationPanelRoot({ className, render, ...props }: Conversat
   );
 }
 
-export type ConversationPanelHeaderProps = useRender.ComponentProps<"div"> & {
-  mobileSticky?: boolean;
-};
+export type ConversationPanelHeaderProps = useRender.ComponentProps<"div">;
 
 export function ConversationPanelHeader({
   children,
   className,
-  mobileSticky = false,
   render,
   ...props
 }: ConversationPanelHeaderProps) {
   const theme = useThemeFamily();
-  const { header } = conversationPanel({ theme, mobileSticky });
+  const { header } = conversationPanel({ theme });
   return (
     <PanelHeader
       {...props}
       render={render}
       data-slot="conversation-panel-header"
-      className={header({ className })}
+      className={header({ className: cn("max-md:sticky max-md:top-0 max-md:z-30", className) })}
     >
       {children}
     </PanelHeader>
@@ -56,14 +53,14 @@ export function ConversationPanelSectionHeader({
   ...props
 }: ConversationPanelSectionHeaderProps) {
   const theme = useThemeFamily();
-  const { header, sectionHeader } = conversationPanel({ theme });
+  const { sectionHeader } = conversationPanel({ theme });
 
   return (
     <PanelHeader
       {...props}
       render={render}
       data-slot="conversation-panel-section-header"
-      className={header({ className: cn(sectionHeader(), className) })}
+      className={sectionHeader({ className })}
     >
       {children}
     </PanelHeader>
@@ -177,18 +174,15 @@ export function ConversationPanelMeta({
   });
 }
 
-export type ConversationPanelStatusProps = useRender.ComponentProps<"span"> & {
-  mobileVisible?: boolean;
-};
+export type ConversationPanelStatusProps = useRender.ComponentProps<"span">;
 
 export function ConversationPanelStatus({
   className,
-  mobileVisible = false,
   render,
   ...props
 }: ConversationPanelStatusProps) {
   const theme = useThemeFamily();
-  const { status } = conversationPanel({ theme, mobileVisible });
+  const { status } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "conversation-panel-status",
     className: status({ className }),
