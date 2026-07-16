@@ -65,7 +65,7 @@ export function PlaygroundConversationPanel({
       {header}
       <ConversationPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
         <ConversationPanelTabs
-          className="max-md:sticky max-md:top-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:z-30"
+          className="max-md:sticky max-md:top-[var(--shell-header-height-with-safe-area)] max-md:z-30"
           render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}
         >
           <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">

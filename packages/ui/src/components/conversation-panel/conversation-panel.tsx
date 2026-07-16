@@ -53,14 +53,14 @@ export function ConversationPanelSectionHeader({
   ...props
 }: ConversationPanelSectionHeaderProps) {
   const theme = useThemeFamily();
-  const { header, sectionHeader } = conversationPanel({ theme });
+  const { sectionHeader } = conversationPanel({ theme });
 
   return (
     <PanelHeader
       {...props}
       render={render}
       data-slot="conversation-panel-section-header"
-      className={header({ className: cn(sectionHeader(), className) })}
+      className={sectionHeader({ className })}
     >
       {children}
     </PanelHeader>

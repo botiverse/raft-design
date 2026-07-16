@@ -10,7 +10,6 @@ export const threadPanel = tv({
     actions: ["flex shrink-0 items-center gap-1.5"],
     search: ["relative z-20 flex shrink-0 items-center gap-1.5 px-2 py-2"],
     searchIcon: ["size-3.5 shrink-0"],
-    searchInput: ["min-w-0 flex-1 border-2 px-2 py-1 text-sm font-medium outline-none"],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
     originalMessage: [
       "shrink-0",
@@ -26,14 +25,13 @@ export const threadPanel = tv({
         root: "bg-white font-sans text-black",
         header: [
           "border-b-2 border-black bg-white",
-          "max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[env(safe-area-inset-top,0px)]",
+          "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[env(safe-area-inset-top,0px)]",
         ],
         content: "bg-white",
         title: "text-black",
         titleMeta: "text-black/50",
         search: "border-b-2 border-black bg-white",
         searchIcon: "text-black/50",
-        searchInput: "border-black bg-white text-black focus:shadow-brutal-sm",
         searchCount: "text-black/50",
         originalMessage: [
           "bg-white",
@@ -50,10 +48,10 @@ export const threadPanel = tv({
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-layer-page",
-          "max-lg:gap-2 max-lg:px-[14px] max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[env(safe-area-inset-top,0px)]",
+          "max-lg:gap-2 max-lg:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[env(safe-area-inset-top,0px)]",
           "max-lg:border-b max-lg:border-line-subtle",
-          "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:z-0 max-lg:before:h-[calc(100%+0.75rem)]",
-          "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-[4px]",
+          "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
+          "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
           "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
           "max-lg:before:content-[''] max-lg:[&>*]:relative max-lg:[&>*]:z-10",
         ],
@@ -66,8 +64,6 @@ export const threadPanel = tv({
         titleMeta: "text-foreground-muted",
         search: "border-b border-line-subtle bg-transparent",
         searchIcon: "text-foreground-muted",
-        searchInput:
-          "rounded-md border-line-subtle bg-layer-field text-foreground-strong focus:ring-2 focus:ring-line-focus",
         searchCount: "text-foreground-muted",
         originalMessage: [
           "bg-transparent",

@@ -204,28 +204,6 @@ export function ThreadPanelSearchIcon({ className, render, ...props }: ThreadPan
   });
 }
 
-export type ThreadPanelSearchInputProps = useRender.ComponentProps<"input">;
-
-export function ThreadPanelSearchInput({
-  className,
-  render,
-  ...props
-}: ThreadPanelSearchInputProps) {
-  const theme = useThemeFamily();
-  const { searchInput } = threadPanel({ theme });
-  const defaultProps: SlotElementProps<"input"> = {
-    type: "text",
-    "data-slot": "thread-panel-search-input",
-    className: searchInput({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "input",
-    render,
-    props: mergeProps<"input">(defaultProps, props),
-  });
-}
-
 export type ThreadPanelSearchCountProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelSearchCount({

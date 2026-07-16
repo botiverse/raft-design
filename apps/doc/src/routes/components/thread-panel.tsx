@@ -52,7 +52,7 @@ const SNIPPETS = {
   <ThreadPanelContent>
   <ThreadPanelSearch>
     <ThreadPanelSearchIcon />
-    <ThreadPanelSearchInput />
+    <Input className="min-w-0 flex-1" />
     <ThreadPanelSearchCount />
     <PanelAction>
       <Search />
@@ -96,10 +96,10 @@ const PROPS: readonly PropRow[] = [
       "Panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
   {
-    name: "ThreadPanelSearch / SearchIcon / SearchInput / SearchCount",
-    type: "div / span / input props",
+    name: "ThreadPanelSearch / SearchIcon / SearchCount",
+    type: "div / span / div props",
     description:
-      "In-thread search row under the header: icon, input, match counter, and prev/next/close actions via PanelAction.",
+      "In-thread search row under the header: compose it with the shared Input, match counter, and prev/next/close PanelAction controls.",
   },
   {
     name: "ThreadPanelOriginalMessage / ReplyCount",

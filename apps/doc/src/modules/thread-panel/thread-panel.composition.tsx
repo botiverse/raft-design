@@ -6,6 +6,7 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  Input,
   Spinner,
 } from "raft-ui";
 import {
@@ -20,7 +21,6 @@ import {
   ThreadPanelSearch,
   ThreadPanelSearchCount,
   ThreadPanelSearchIcon,
-  ThreadPanelSearchInput,
   ThreadPanelTitle,
   MessageItem,
   MessageItemAvatarSlot,
@@ -47,7 +47,8 @@ function ThreadSearchRow() {
   return (
     <ThreadPanelSearch>
       <ThreadPanelSearchIcon render={<Search />} />
-      <ThreadPanelSearchInput
+      <Input
+        className="min-w-0 flex-1"
         aria-label="Search in thread"
         placeholder="Search in thread"
         readOnly

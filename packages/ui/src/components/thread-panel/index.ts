@@ -10,7 +10,6 @@ export {
   ThreadPanelSearch,
   ThreadPanelSearchCount,
   ThreadPanelSearchIcon,
-  ThreadPanelSearchInput,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "./thread-panel";
@@ -25,7 +24,6 @@ export type {
   ThreadPanelRootProps,
   ThreadPanelSearchCountProps,
   ThreadPanelSearchIconProps,
-  ThreadPanelSearchInputProps,
   ThreadPanelSearchProps,
   ThreadPanelTitleMetaProps,
   ThreadPanelTitleProps,

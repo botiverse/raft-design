@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
-import { Button } from "raft-ui";
+import { Button, Input } from "raft-ui";
 import {
   ThreadPanelActions,
   ThreadPanelBody,
@@ -13,7 +13,6 @@ import {
   ThreadPanelSearch,
   ThreadPanelSearchCount,
   ThreadPanelSearchIcon,
-  ThreadPanelSearchInput,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
   MessageList,
@@ -116,7 +115,8 @@ export function PlaygroundThreadPanel({
         {searchOpen ? (
           <ThreadPanelSearch>
             <ThreadPanelSearchIcon render={<Search />} />
-            <ThreadPanelSearchInput
+            <Input
+              className="min-w-0 flex-1"
               aria-label="Search this thread"
               placeholder="Search this thread"
               value={searchQuery}
