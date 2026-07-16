@@ -8,19 +8,21 @@ import {
   Square,
   Users,
 } from "lucide-react";
-import { Avatar, AvatarFallback, BrutalOnly, Status } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  BrutalOnly,
   ConversationPanelActions,
   ConversationPanelHeader,
-  ConversationPanelHeaderIcon,
-  ConversationPanelStatus,
-  ConversationPanelMeta,
-  ConversationPanelTitle,
   ConversationPanelHeaderContent,
+  ConversationPanelHeaderIcon,
   ConversationPanelHeading,
-  PanelAction,
-  PanelToggleAction,
-} from "raft-ui/wip";
+  ConversationPanelMeta,
+  ConversationPanelStatus,
+  ConversationPanelTitle,
+  Status,
+} from "raft-ui";
+import { PanelAction, PanelToggleAction } from "raft-ui/wip";
 
 export type ConversationPanelHeaderCompositionProps = {
   conversation: "channel" | "dm";

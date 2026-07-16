@@ -6,21 +6,17 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  ConversationPanelBody,
+  ConversationPanelContent,
+  ConversationPanelRoot,
+  ConversationPanelTabs,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
   TabsIndicator,
   TabsLabel,
 } from "raft-ui";
-import {
-  ConversationPanelBody,
-  ConversationPanelContent,
-  MessageList,
-  ConversationPanelRoot,
-  ConversationPanelTabs,
-  MessageListDateDivider,
-  MessageListNotice,
-} from "raft-ui/wip";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui/wip";
 
 import { MessageTextSelectionComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundMainComposer } from "../composer/playground-composer.tsx";

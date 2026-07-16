@@ -38,7 +38,7 @@ const NAV = [
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
-      { label: "MobileNav", to: "/components/mobile-nav", status: "wip" },
+      { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
       { label: "Logo", to: "/components/logo", status: "done" },
       { label: "Separator", to: "/components/separator", status: "done" },
       {
@@ -72,10 +72,10 @@ const NAV = [
       {
         label: "LiveAgentActivityBar",
         to: "/components/live-agent-activity-bar",
-        status: "wip",
+        status: "done",
       },
-      { label: "ConversationPanel", to: "/components/conversation-panel", status: "wip" },
-      { label: "ThreadPanel", to: "/components/thread-panel", status: "wip" },
+      { label: "ConversationPanel", to: "/components/conversation-panel", status: "done" },
+      { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       { label: "MessageItem", to: "/components/message-item", status: "wip" },
       {
         label: "Composer",

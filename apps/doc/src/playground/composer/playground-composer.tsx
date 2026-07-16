@@ -7,10 +7,15 @@ import {
   type KeyboardEvent,
 } from "react";
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
-import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  Checkbox,
   ConversationPanelFooter,
   ThreadPanelFooter,
+  Spinner,
+} from "raft-ui";
+import {
   Composer,
   ComposerActions,
   ComposerAttachment,

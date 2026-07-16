@@ -11,8 +11,8 @@ import {
   Users,
 } from "lucide-react";
 import { useState } from "react";
-import { BrutalOnly, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
 import {
+  BrutalOnly,
   ConversationPanelActions,
   ConversationPanelHeader,
   ConversationPanelHeaderContent,
@@ -21,9 +21,12 @@ import {
   ConversationPanelMeta,
   ConversationPanelStatus,
   ConversationPanelTitle,
-  PanelAction,
-  PanelToggleAction,
-} from "raft-ui/wip";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
+import { PanelAction, PanelToggleAction } from "raft-ui/wip";
 
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";

@@ -1,6 +1,10 @@
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
-import { Avatar, Button, InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
 import {
+  Avatar,
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
   ThreadPanelActions,
   ThreadPanelBody,
   ThreadPanelContent,
@@ -12,6 +16,8 @@ import {
   ThreadPanelSearchCount,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
+} from "raft-ui";
+import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,

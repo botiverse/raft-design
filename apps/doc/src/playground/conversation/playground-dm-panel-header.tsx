@@ -1,11 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   ConversationPanelHeader,
   ConversationPanelHeaderContent,
   ConversationPanelHeading,
   ConversationPanelStatus,
   ConversationPanelTitle,
-} from "raft-ui/wip";
+  Status,
+} from "raft-ui";
 
 import { getPlaygroundDmActor, type PlaygroundDirectMessage } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";

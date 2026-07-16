@@ -1,8 +1,13 @@
 // @docs-source-strip-start
 import { Home, Settings } from "lucide-react";
 import { useState } from "react";
-import { AppShellMobileContent, AppShellRoot } from "raft-ui";
-import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
+import {
+  AppShellMobileContent,
+  AppShellRoot,
+  MobileNavItem,
+  MobileNavLabel,
+  MobileNavRoot,
+} from "raft-ui";
 // @docs-source-strip-end
 
 export function AppShellMobileRootComposition() {

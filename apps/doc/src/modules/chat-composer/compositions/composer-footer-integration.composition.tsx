@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import { ConversationPanelFooter, ThreadPanelFooter } from "raft-ui/wip";
+import { ConversationPanelFooter, ThreadPanelFooter } from "raft-ui";
 
 import { ComposerDefaultComposition } from "./composer-default.composition.tsx";
 

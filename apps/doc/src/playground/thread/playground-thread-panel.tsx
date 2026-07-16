@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
-import { Button, InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
 import {
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
   ThreadPanelActions,
   ThreadPanelBody,
   ThreadPanelContent,
@@ -14,10 +17,8 @@ import {
   ThreadPanelSearchCount,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
-  MessageList,
-  MessageListNotice,
-  PanelAction,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { MessageList, MessageListNotice, PanelAction } from "raft-ui/wip";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";

@@ -237,7 +237,7 @@ function ThreadPanelDoc() {
               <CurrentThreadPanelPreview />
             </PreviewThemeScope>
           </PreviewPane>
-          <PreviewPane label="Elegant dark" wip>
+          <PreviewPane label="Elegant dark">
             <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
               <CurrentThreadPanelPreview />
             </PreviewThemeScope>

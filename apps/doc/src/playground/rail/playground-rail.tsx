@@ -27,13 +27,15 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
+  MobileNavItem,
+  MobileNavLabel,
+  MobileNavRoot,
   Status,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
-import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,

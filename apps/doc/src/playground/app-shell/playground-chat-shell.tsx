@@ -167,7 +167,13 @@ function PlaygroundChatLayout({
       </ResizablePanel>
       {thread && isLargeDesktop ? (
         <>
-          <ResizableHandle />
+          <ResizableHandle
+            className={
+              theme === "brutal"
+                ? "ml-0 w-0 border-l-2 border-black bg-transparent"
+                : "bg-line-subtle"
+            }
+          />
           <ResizablePanel
             id="playground-thread"
             defaultSize={400}

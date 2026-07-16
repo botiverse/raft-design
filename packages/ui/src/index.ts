@@ -165,6 +165,45 @@ export {
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
 } from "./components/chat-sidebar/index";
+
+export {
+  ConversationPanelActions,
+  ConversationPanelBody,
+  ConversationPanelContent,
+  ConversationPanelEmptyState,
+  ConversationPanelEmptyStateBrand,
+  ConversationPanelEmptyStateBrandMark,
+  ConversationPanelFooter,
+  ConversationPanelHeader,
+  ConversationPanelHeaderContent,
+  ConversationPanelHeaderIcon,
+  ConversationPanelHeading,
+  ConversationPanelMeta,
+  ConversationPanelRoot,
+  ConversationPanelSectionHeader,
+  ConversationPanelStatus,
+  ConversationPanelTabs,
+  ConversationPanelTitle,
+} from "./components/conversation-panel/index";
+export type {
+  ConversationPanelActionsProps,
+  ConversationPanelBodyProps,
+  ConversationPanelContentProps,
+  ConversationPanelEmptyStateBrandMarkProps,
+  ConversationPanelEmptyStateBrandProps,
+  ConversationPanelEmptyStateProps,
+  ConversationPanelFooterProps,
+  ConversationPanelHeaderContentProps,
+  ConversationPanelHeaderIconProps,
+  ConversationPanelHeaderProps,
+  ConversationPanelHeadingProps,
+  ConversationPanelMetaProps,
+  ConversationPanelRootProps,
+  ConversationPanelSectionHeaderProps,
+  ConversationPanelStatusProps,
+  ConversationPanelTabsProps,
+  ConversationPanelTitleProps,
+} from "./components/conversation-panel/index";
 export type {
   ChatSidebarBodyProps,
   ChatSidebarLiveActivityProps,
@@ -322,6 +361,13 @@ export type {
 
 export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
 export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
+
+export { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./components/mobile-nav";
+export type {
+  MobileNavItemProps,
+  MobileNavLabelProps,
+  MobileNavRootProps,
+} from "./components/mobile-nav";
 
 export {
   Tooltip,
@@ -791,6 +837,35 @@ export type {
   PanelScrollbarThumbProps,
   PanelScrollViewportProps,
 } from "./components/panel/index";
+
+export {
+  ThreadPanelActions,
+  ThreadPanelBody,
+  ThreadPanelContent,
+  ThreadPanelFooter,
+  ThreadPanelHeader,
+  ThreadPanelOriginalMessage,
+  ThreadPanelReplyCount,
+  ThreadPanelRoot,
+  ThreadPanelSearch,
+  ThreadPanelSearchCount,
+  ThreadPanelTitle,
+  ThreadPanelTitleMeta,
+} from "./components/thread-panel/index";
+export type {
+  ThreadPanelActionsProps,
+  ThreadPanelBodyProps,
+  ThreadPanelContentProps,
+  ThreadPanelFooterProps,
+  ThreadPanelHeaderProps,
+  ThreadPanelOriginalMessageProps,
+  ThreadPanelReplyCountProps,
+  ThreadPanelRootProps,
+  ThreadPanelSearchCountProps,
+  ThreadPanelSearchProps,
+  ThreadPanelTitleMetaProps,
+  ThreadPanelTitleProps,
+} from "./components/thread-panel/index";
 
 export { BrutalOnly, ElegantOnly } from "./components/theme-only/index";
 export type { ThemeOnlyProps } from "./components/theme-only/index";

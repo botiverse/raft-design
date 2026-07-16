@@ -1,14 +1,18 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CheckSquare } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { Avatar, AvatarFallback, AvatarImage, BrutalOnly, ElegantOnly } from "raft-ui";
 import {
-  ConversationPanelHeaderIcon,
-  ConversationPanelSectionHeader,
-  ConversationPanelMeta,
-  ConversationPanelTitle,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  BrutalOnly,
   ConversationPanelHeaderContent,
-} from "raft-ui/wip";
+  ConversationPanelHeaderIcon,
+  ConversationPanelMeta,
+  ConversationPanelSectionHeader,
+  ConversationPanelTitle,
+  ElegantOnly,
+} from "raft-ui";
 
 import {
   TasksPanelComposition,

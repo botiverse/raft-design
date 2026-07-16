@@ -14,7 +14,7 @@ export const threadPanel = tv({
     ],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
     originalMessage: [
-      "shrink-0",
+      "relative shrink-0",
       "[&[data-slot=thread-panel-original-message]]:px-3",
       "[&[data-slot=thread-panel-original-message]]:py-1",
     ],
@@ -69,7 +69,7 @@ export const threadPanel = tv({
         ],
         searchCount: "text-foreground-muted",
         originalMessage: [
-          "bg-transparent",
+          "bg-transparent after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-line-subtle after:content-['']",
           "[&[data-slot=thread-panel-original-message]]:border-b",
           "[&[data-slot=thread-panel-original-message]]:border-line-subtle",
           "[&[data-slot=message-item]]:border-transparent [&[data-slot=message-item]]:border-b [&[data-slot=message-item]]:border-b-line-subtle",

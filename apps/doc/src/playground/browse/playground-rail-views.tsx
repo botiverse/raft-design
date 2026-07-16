@@ -43,17 +43,15 @@ import {
   ChatSidebarItemMeta,
   ChatSidebarItemTitle,
   ChatSidebarRoot,
-} from "raft-ui";
-import {
   ConversationPanelBody,
   ConversationPanelContent,
   ConversationPanelHeader,
-  ConversationPanelHeaderIcon,
-  ConversationPanelRoot,
-  ConversationPanelMeta,
-  ConversationPanelTitle,
   ConversationPanelHeaderContent,
-} from "raft-ui/wip";
+  ConversationPanelHeaderIcon,
+  ConversationPanelMeta,
+  ConversationPanelRoot,
+  ConversationPanelTitle,
+} from "raft-ui";
 
 import {
   PLAYGROUND_DIRECT_MESSAGES,

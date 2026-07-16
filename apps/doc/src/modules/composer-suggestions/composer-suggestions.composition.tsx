@@ -1,7 +1,7 @@
 import { AtSign, Hash } from "lucide-react";
 import { useState } from "react";
+import { ConversationPanelFooter } from "raft-ui";
 import {
-  ConversationPanelFooter,
   Composer,
   ComposerInput,
   ComposerRoot,
