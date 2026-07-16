@@ -6,7 +6,10 @@ import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarItemStatesComposition } from "#/modules/chat-sidebar-item/chat-sidebar-item.composition.tsx";
+import { SourceChatSidebarItemPreview } from "#/modules/chat-sidebar-item/chat-sidebar-item.source-preview.tsx";
 import chatSidebarItemCompositionSource from "#/modules/chat-sidebar-item/chat-sidebar-item.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -24,9 +27,22 @@ const ANATOMY_SNIPPET = `<ChatSidebarItem>
 </ChatSidebarItem>`;
 
 const TOC = [
-  { id: "states", title: "States" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
+] as const;
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock sidebar rows",
+    scenes: [
+      {
+        label: "Sidebar.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/layout/Sidebar.tsx",
+      },
+    ],
+  },
 ] as const;
 
 const PROPS: readonly PropRow[] = [
@@ -97,7 +113,7 @@ function ChatSidebarItemDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="states" title="Channel and direct-message states" showThemeSwitcher>
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.composition} previewClassName="items-stretch">
           <ChatSidebarItemStatesComposition />
         </Example>
@@ -113,6 +129,32 @@ function ChatSidebarItemDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          items={[
+            {
+              label: "Channel and direct-message rows",
+              status: "review",
+              note: "The source fixture preserves the visible row anatomy and metadata treatments; sort, drag, and routing policy remain consumer-owned.",
+              sourceScenes: SOURCE_SCENES,
+              source: (
+                <SourceThemeScope>
+                  <SourceChatSidebarItemPreview />
+                </SourceThemeScope>
+              ),
+              brutal: <ChatSidebarItemStatesComposition />,
+              elegant: <ChatSidebarItemStatesComposition />,
+              elegantDark: <ChatSidebarItemStatesComposition />,
+              compositionCode: chatSidebarItemCompositionSource,
+              compositionPath:
+                "apps/doc/src/modules/chat-sidebar-item/chat-sidebar-item.composition.tsx",
+              compositionSource: chatSidebarItemCompositionSource,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

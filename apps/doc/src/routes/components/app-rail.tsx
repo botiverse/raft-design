@@ -16,6 +16,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/app-rail/app-rail.composition.tsx";
 
 const TOC = [
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
@@ -31,7 +32,9 @@ const SNIPPETS = {
     <TooltipProvider>
       <AppRailNav>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger
+            render={<AppRailItem render={<Link to="/chat" />} />}
+          >
             <AppRailItemIcon>
               <AppRailItemAttention />
             </AppRailItemIcon>
@@ -110,6 +113,14 @@ function AppRailDoc() {
       }
       toc={TOC}
     >
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <div className="h-[586px] overflow-hidden border border-line bg-layer-panel p-2">
+          <PreviewThemeScope className="flex h-full items-stretch justify-start bg-layer-page">
+            <AppRailComposition />
+          </PreviewThemeScope>
+        </div>
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
