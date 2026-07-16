@@ -9,6 +9,7 @@ import {
   ChatSidebarSectionEmpty,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
+  DraggableChatSidebarItem,
   SortableChatSidebarItem,
   SortableChatSidebarList,
 } from "raft-ui/wip";
@@ -21,7 +22,7 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
-import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
+import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarChannelsSection({
   activeChannelId,
@@ -33,7 +34,8 @@ export function ChatSidebarChannelsSection({
   rows: readonly PlaygroundRoomChannelRecord[];
 }) {
   const [sortMode, setSortMode] = useState<SidebarSortValue>("manual");
-  const { ordered: manualOrder, visibleOrder, onReorder } = useChatSidebarSectionOrder(rows);
+  const { getDragId, orderRows } = useChatSidebarDnd();
+  const manualOrder = orderRows("channels", rows);
   const ordered = useMemo(() => sortChannels(manualOrder, sortMode), [manualOrder, sortMode]);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
@@ -73,9 +75,9 @@ export function ChatSidebarChannelsSection({
       {ordered.length === 0 ? (
         <ChatSidebarSectionEmpty>No channels yet</ChatSidebarSectionEmpty>
       ) : sortMode === "manual" ? (
-        <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
+        <SortableChatSidebarList items={ordered.map((row) => getDragId("channels", row.id))}>
           {ordered.map((row) => (
-            <SortableChatSidebarItem key={row.id} id={row.id}>
+            <SortableChatSidebarItem key={row.id} id={getDragId("channels", row.id)}>
               <ChatSidebarChannelItem
                 activeChannelId={activeChannelId}
                 channel={row}
@@ -87,12 +89,13 @@ export function ChatSidebarChannelsSection({
       ) : (
         <ChatSidebarList>
           {ordered.map((row) => (
-            <ChatSidebarChannelItem
-              key={row.id}
-              activeChannelId={activeChannelId}
-              channel={row}
-              onArchive={onArchive}
-            />
+            <DraggableChatSidebarItem key={row.id} id={getDragId("channels", row.id)}>
+              <ChatSidebarChannelItem
+                activeChannelId={activeChannelId}
+                channel={row}
+                onArchive={onArchive}
+              />
+            </DraggableChatSidebarItem>
           ))}
         </ChatSidebarList>
       )}

@@ -9,8 +9,10 @@ import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.t
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ChatSidebarComposition } from "#/modules/chat-sidebar/chat-sidebar.composition.tsx";
+import { ChatSidebarDndComposition } from "#/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx";
 import { SourceSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.source-preview.tsx";
 import chatSidebarMobilePartsSource from "#/modules/chat-sidebar/compositions/mobile-parts.composition.tsx?raw";
+import chatSidebarDndSource from "#/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx?raw";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -19,6 +21,7 @@ const CHAT_SIDEBAR_COMPOSITION_PATH =
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
+  { id: "drag-and-drop", title: "Drag and drop" },
   { id: "mobile-parts", title: "Mobile parts" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
@@ -26,6 +29,7 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
+  chatSidebarDnd: chatSidebarDndSource,
   chatSidebarMobileParts: chatSidebarMobilePartsSource,
   anatomy: `<ChatSidebarRoot>
   <ChatSidebarHeader>
@@ -109,14 +113,19 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "SortableChatSidebarList",
-    type: "ChatSidebarList props & { items: string[]; onReorder: (items: string[]) => void }",
-    description:
-      "Within-section dnd-kit reorder container. One instance per Pinned / Joint / Channels / DM list — no cross-section drag.",
+    type: "ChatSidebarList props & { items: string[] }",
+    description: "Registers a section's sortable rows inside the consumer-owned DndContext.",
   },
   {
     name: "SortableChatSidebarItem",
     type: "div props & { id: string; disabled?: boolean }",
     description: "Sortable row wrapper (source SortableSidebarItem). Wrap each ChatSidebarItem.",
+  },
+  {
+    name: "DraggableChatSidebarItem",
+    type: "div props & { id: string; disabled?: boolean }",
+    description:
+      "Draggable-only row wrapper for lists that accept cross-section drops but are not manually sortable.",
   },
   {
     name: "ChatSidebarSectionHeader*",
@@ -197,6 +206,18 @@ function ChatSidebarDoc() {
           source={chatSidebarCompositionSource}
           html={code.chatSidebarComposition}
           collapsedHtml={code.chatSidebarCompositionBody}
+          showLineNumbers={false}
+        />
+      </DocSection>
+
+      <DocSection id="drag-and-drop" title="Drag and drop" showThemeSwitcher>
+        <div className="w-72 overflow-hidden border border-line bg-layer-panel">
+          <ChatSidebarDndComposition />
+        </div>
+        <DocsCodeBlock.Panel
+          path="apps/doc/src/modules/chat-sidebar/compositions/sidebar-dnd.composition.tsx"
+          source={chatSidebarDndSource}
+          html={code.chatSidebarDnd}
           showLineNumbers={false}
         />
       </DocSection>

@@ -16,7 +16,7 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
 import { ChatSidebarDirectMessageItem } from "./chat-sidebar-direct-message-item.tsx";
-import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
+import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarDirectMessagesSection({
   activeChannelId,
@@ -27,7 +27,8 @@ export function ChatSidebarDirectMessagesSection({
   onCloseDm: (row: PlaygroundDirectMessageRecord) => void;
   rows: readonly PlaygroundDirectMessageRecord[];
 }) {
-  const { ordered, visibleOrder, onReorder } = useChatSidebarSectionOrder(rows);
+  const { getDragId, orderRows } = useChatSidebarDnd();
+  const ordered = orderRows("dms", rows);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -46,9 +47,9 @@ export function ChatSidebarDirectMessagesSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
+      <SortableChatSidebarList items={ordered.map((row) => getDragId("dms", row.id))}>
         {ordered.map((row) => (
-          <SortableChatSidebarItem key={row.id} id={row.id}>
+          <SortableChatSidebarItem key={row.id} id={getDragId("dms", row.id)}>
             <ChatSidebarDirectMessageItem
               activeChannelId={activeChannelId}
               directMessage={row}

@@ -16,6 +16,7 @@ import {
 } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
+import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarChannelItem({
   activeChannelId,
@@ -31,10 +32,11 @@ export function ChatSidebarChannelItem({
   const [unread, setUnread] = useState(() =>
     Boolean(channel.navigation.unread || channel.navigation.badge),
   );
-  const [pinned, setPinned] = useState(() => channel.navigation.pinned === true);
   const [muted, setMuted] = useState(() => channel.navigation.muted === true);
   const [announcement, setAnnouncement] = useState("");
+  const { isPinned, togglePinned } = useChatSidebarDnd();
   const active = activeChannelId === channel.id;
+  const pinned = isPinned(channel.id);
   const canMute = !channel.archived;
   const canArchive =
     onArchive && channel.id !== DEFAULT_CHANNEL_ID && channel.kind !== "joint" && !channel.archived;
@@ -72,7 +74,7 @@ export function ChatSidebarChannelItem({
         </ContextMenuItem>
         <ContextMenuItem
           onClick={() => {
-            setPinned(!pinned);
+            togglePinned(channel.id);
             announce(`${channel.name} ${pinned ? "unpinned" : "pinned"}`);
           }}
         >

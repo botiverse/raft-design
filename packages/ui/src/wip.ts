@@ -253,6 +253,7 @@ export {
   ChatSidebarSectionAttention,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
+  DraggableChatSidebarItem,
   SortableChatSidebarItem,
   SortableChatSidebarList,
 } from "./components/chat-sidebar/index";
@@ -294,6 +295,7 @@ export type {
   ChatSidebarSectionAttentionProps,
   ChatSidebarSectionTitleProps,
   ChatSidebarSectionTrailingProps,
+  DraggableChatSidebarItemProps,
   SortableChatSidebarItemProps,
   SortableChatSidebarListProps,
 } from "./components/chat-sidebar/index";

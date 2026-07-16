@@ -18,7 +18,7 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
-import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
+import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarJointChannelsSection({
   activeChannelId,
@@ -27,7 +27,8 @@ export function ChatSidebarJointChannelsSection({
   activeChannelId: PlaygroundChannelId | null;
   rows: readonly PlaygroundRoomChannelRecord[];
 }) {
-  const { ordered, visibleOrder, onReorder } = useChatSidebarSectionOrder(rows);
+  const { getDragId, orderRows } = useChatSidebarDnd();
+  const ordered = orderRows("joint", rows);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -62,9 +63,9 @@ export function ChatSidebarJointChannelsSection({
       {ordered.length === 0 ? (
         <ChatSidebarSectionEmpty>No joint channels yet</ChatSidebarSectionEmpty>
       ) : (
-        <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
+        <SortableChatSidebarList items={ordered.map((row) => getDragId("joint", row.id))}>
           {ordered.map((row) => (
-            <SortableChatSidebarItem key={row.id} id={row.id}>
+            <SortableChatSidebarItem key={row.id} id={getDragId("joint", row.id)}>
               <ChatSidebarChannelItem activeChannelId={activeChannelId} channel={row} />
             </SortableChatSidebarItem>
           ))}

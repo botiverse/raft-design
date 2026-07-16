@@ -12,6 +12,7 @@ import { ChatSidebarItem as ChatSidebarItemRoot } from "raft-ui/wip";
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { ChatSidebarDirectMessageRowContent } from "./chat-sidebar-direct-message-row-content.tsx";
+import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarDirectMessageItem({
   activeChannelId,
@@ -27,9 +28,10 @@ export function ChatSidebarDirectMessageItem({
   const [unread, setUnread] = useState(() =>
     Boolean(directMessage.navigation.unread || directMessage.navigation.badge),
   );
-  const [pinned, setPinned] = useState(() => directMessage.navigation.pinned === true);
   const [announcement, setAnnouncement] = useState("");
+  const { isPinned, togglePinned } = useChatSidebarDnd();
   const active = activeChannelId === directMessage.id;
+  const pinned = isPinned(directMessage.id);
 
   function announce(message: string) {
     setAnnouncement("");
@@ -66,7 +68,7 @@ export function ChatSidebarDirectMessageItem({
         </ContextMenuItem>
         <ContextMenuItem
           onClick={() => {
-            setPinned(!pinned);
+            togglePinned(directMessage.id);
             announce(`${directMessage.name} ${pinned ? "unpinned" : "pinned"}`);
           }}
         >

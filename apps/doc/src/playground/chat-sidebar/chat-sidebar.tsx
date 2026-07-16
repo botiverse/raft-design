@@ -19,7 +19,14 @@ import {
   LiveAgentActivityBarComposition,
   type LiveAgentActivityBarItem,
 } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
-import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
+import {
+  PLAYGROUND_CHANNELS,
+  PLAYGROUND_DIRECT_MESSAGES,
+  PLAYGROUND_JOINT_CHANNELS,
+  PLAYGROUND_ROOM_CHANNELS,
+  type PlaygroundChannelId,
+  type PlaygroundDirectMessageRecord,
+} from "../mock/index.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import {
   PlaygroundNotificationCenter,
@@ -28,29 +35,36 @@ import {
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
 import { ChatSidebarArchiveDialog } from "./chat-sidebar-archive-dialog.tsx";
 import { ChatSidebarChannelsSection } from "./chat-sidebar-channels-section.tsx";
-import {
-  CHAT_SIDEBAR_DIRECT_MESSAGES,
-  CHAT_SIDEBAR_JOINT_CONVERSATIONS,
-  CHAT_SIDEBAR_PINNED_CONVERSATIONS,
-  CHAT_SIDEBAR_ROOM_CONVERSATIONS,
-} from "./chat-sidebar-data.ts";
+import { ChatSidebarDndProvider } from "./chat-sidebar-dnd.tsx";
+import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 import { ChatSidebarDirectMessagesSection } from "./chat-sidebar-direct-messages-section.tsx";
 import { ChatSidebarJointChannelsSection } from "./chat-sidebar-joint-channels-section.tsx";
 import { ChatSidebarPinnedSection } from "./chat-sidebar-pinned-section.tsx";
 
-export function PlaygroundSidebar({
-  activeChannelId,
-  liveAgentActivity,
-  mobileBottomNavigation = false,
-  title = "Chat",
-}: {
+type PlaygroundSidebarProps = {
   activeChannelId: PlaygroundChannelId | null;
   liveAgentActivity: LiveAgentActivityBarItem | null;
   mobileBottomNavigation?: boolean;
   title?: string;
-}) {
+};
+
+export function PlaygroundSidebar(props: PlaygroundSidebarProps) {
+  return (
+    <ChatSidebarDndProvider>
+      <PlaygroundSidebarContent {...props} />
+    </ChatSidebarDndProvider>
+  );
+}
+
+function PlaygroundSidebarContent({
+  activeChannelId,
+  liveAgentActivity,
+  mobileBottomNavigation = false,
+  title = "Chat",
+}: PlaygroundSidebarProps) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
+  const { isPinned } = useChatSidebarDnd();
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { activeServer } = usePlaygroundShellState();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
@@ -60,14 +74,27 @@ export function PlaygroundSidebar({
     : undefined;
   const visiblePinnedChannels = useMemo(
     () =>
-      CHAT_SIDEBAR_PINNED_CONVERSATIONS.filter(
-        (conversation) => conversation.kind !== "dm" || !closedDmIds.has(conversation.id),
+      PLAYGROUND_CHANNELS.filter(
+        (conversation) =>
+          isPinned(conversation.id) &&
+          (conversation.kind !== "dm" || !closedDmIds.has(conversation.id)),
       ),
-    [closedDmIds],
+    [closedDmIds, isPinned],
   );
   const visibleDirectMessages = useMemo(
-    () => CHAT_SIDEBAR_DIRECT_MESSAGES.filter((conversation) => !closedDmIds.has(conversation.id)),
-    [closedDmIds],
+    () =>
+      PLAYGROUND_DIRECT_MESSAGES.filter(
+        (conversation) => !isPinned(conversation.id) && !closedDmIds.has(conversation.id),
+      ),
+    [closedDmIds, isPinned],
+  );
+  const visibleJointChannels = useMemo(
+    () => PLAYGROUND_JOINT_CHANNELS.filter((conversation) => !isPinned(conversation.id)),
+    [isPinned],
+  );
+  const visibleRoomChannels = useMemo(
+    () => PLAYGROUND_ROOM_CHANNELS.filter((conversation) => !isPinned(conversation.id)),
+    [isPinned],
   );
   const closeDirectMessage = (conversation: PlaygroundDirectMessageRecord) => {
     setClosedDmIds((current) => new Set(current).add(conversation.id));
@@ -125,12 +152,12 @@ export function PlaygroundSidebar({
               />
               <ChatSidebarJointChannelsSection
                 activeChannelId={selectedChannelId}
-                rows={CHAT_SIDEBAR_JOINT_CONVERSATIONS}
+                rows={visibleJointChannels}
               />
               <ChatSidebarChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(conversation) => setArchiveTarget(conversation.name)}
-                rows={CHAT_SIDEBAR_ROOM_CONVERSATIONS}
+                rows={visibleRoomChannels}
               />
               <ChatSidebarDirectMessagesSection
                 activeChannelId={selectedChannelId}
