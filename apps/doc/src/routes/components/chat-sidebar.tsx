@@ -51,6 +51,7 @@ const SNIPPETS = {
         <ChatSidebarList>
           <ChatSidebarItem />
         </ChatSidebarList>
+        <ChatSidebarSectionEmpty />
       </ChatSidebarSection>
     </ChatSidebarContent>
   </ChatSidebarBody>
@@ -98,7 +99,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarSection / List",
     type: "section / div props",
-    description: "Section and list wrappers for saved, pinned, channel, joint, and DM groups.",
+    description:
+      "Section, list, and compact empty-state wrappers for saved, pinned, channel, joint, and DM groups.",
   },
   {
     name: "ChatSidebarGroupLabel",

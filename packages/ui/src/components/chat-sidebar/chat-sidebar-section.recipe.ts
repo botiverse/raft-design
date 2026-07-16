@@ -4,6 +4,7 @@ export const chatSidebarSection = tv({
   slots: {
     sidebarSection: [],
     sidebarList: [],
+    sidebarSectionEmpty: [],
     sidebarSectionHeader: ["flex items-center justify-between", "group/section-header"],
     sidebarSectionDisclosure: [
       "flex min-w-0 flex-1 items-center",
@@ -37,6 +38,7 @@ export const chatSidebarSection = tv({
       brutal: {
         sidebarSection: "px-0",
         sidebarSectionHeader: "mt-3 mb-1 h-6 px-2",
+        sidebarSectionEmpty: ["px-2", "font-sans text-xs leading-snug", "text-black/50"],
         sidebarSectionDisclosure: [
           "h-6 gap-1 text-xs font-bold tracking-widest uppercase",
           "text-black transition-colors hover:text-black/70",
@@ -54,6 +56,11 @@ export const chatSidebarSection = tv({
       },
       elegant: {
         sidebarSection: "px-0",
+        sidebarSectionEmpty: [
+          "px-[var(--sidebar-row-inset-x,6px)]",
+          "text-xs leading-snug",
+          "text-foreground-icon",
+        ],
         sidebarSectionHeader: [
           "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
           "hover:bg-layer-strong/80",
