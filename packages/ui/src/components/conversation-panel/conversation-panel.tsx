@@ -22,16 +22,19 @@ export function ConversationPanelRoot({ className, render, ...props }: Conversat
   );
 }
 
-export type ConversationPanelHeaderProps = useRender.ComponentProps<"div">;
+export type ConversationPanelHeaderProps = useRender.ComponentProps<"div"> & {
+  mobileSticky?: boolean;
+};
 
 export function ConversationPanelHeader({
   children,
   className,
+  mobileSticky = false,
   render,
   ...props
 }: ConversationPanelHeaderProps) {
   const theme = useThemeFamily();
-  const { header } = conversationPanel({ theme });
+  const { header } = conversationPanel({ theme, mobileSticky });
   return (
     <PanelHeader
       {...props}

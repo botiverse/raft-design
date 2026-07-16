@@ -111,6 +111,11 @@ export const conversationPanel = tv({
         status: "max-md:!inline-flex",
       },
     },
+    mobileSticky: {
+      true: {
+        header: "max-md:sticky max-md:top-0 max-md:z-30",
+      },
+    },
     size: {
       sm: {},
       md: { meta: "text-sm" },

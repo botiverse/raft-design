@@ -60,7 +60,7 @@ export function ChatSidebarChannelItem({
           </ChatSidebarItemRoot>
         }
       />
-      <ContextMenuContent className="flex w-48 flex-col">
+      <ContextMenuContent className="w-48">
         <ContextMenuItem
           onClick={() => {
             setUnread(!unread);

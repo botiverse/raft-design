@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
-import { cn } from "raft-ui/cn";
 import {
   ConversationPanelHeader,
   ConversationPanelHeaderContent,
@@ -12,8 +11,6 @@ import { getPlaygroundDmActor, type PlaygroundDirectMessage } from "../mock/inde
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
 
-const mobileStickyHeaderClassName = "max-md:sticky max-md:top-0 max-md:z-30";
-
 export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage }) {
   const actor = getPlaygroundDmActor(dm);
   const isAgent = actor.type === "agent";
@@ -22,7 +19,7 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
     : PLAYGROUND_PRESENCE_STATUS.offline;
 
   return (
-    <ConversationPanelHeader className={cn(mobileStickyHeaderClassName, "max-md:items-center")}>
+    <ConversationPanelHeader mobileSticky className="max-md:items-center">
       <PlaygroundConversationBackButton />
       <Avatar size={isAgent ? "sm" : "md"} type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}

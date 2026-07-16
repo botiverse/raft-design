@@ -28,14 +28,12 @@ import {
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 
-const mobileStickyHeaderClassName = "max-md:sticky max-md:top-0 max-md:z-30";
-
 export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
-    <ConversationPanelHeader className={mobileStickyHeaderClassName}>
+    <ConversationPanelHeader mobileSticky>
       <PlaygroundConversationBackButton />
       <ConversationPanelHeaderIcon>
         <Icon />

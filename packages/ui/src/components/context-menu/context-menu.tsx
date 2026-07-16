@@ -11,7 +11,7 @@ const contextMenu = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "max-h-[var(--available-height)] min-w-48 overflow-hidden bg-layer-panel",
+      "flex flex-col max-h-[var(--available-height)] min-w-48 overflow-hidden bg-layer-panel",
       "outline-none",
     ],
     item: [
@@ -63,11 +63,7 @@ const contextMenu = tv({
         indicator: [],
       },
       elegant: {
-        content: [
-          "gap-0.5 rounded-md bg-layer-popover p-1",
-          "shadow-lg outline-none",
-          "flex flex-col",
-        ],
+        content: ["gap-0.5 rounded-md bg-layer-popover p-1", "shadow-lg outline-none"],
         item: [
           "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
           "text-foreground-muted",
