@@ -66,93 +66,79 @@ export type {
 } from "./components/app-shell/index";
 
 export {
-  ChatMainPanelActions,
-  ChatMainPanelJumpToLatest,
-  ChatMainPanelJumpToLatestLayout,
-  ChatMainPanelBody,
-  ChatMainPanelContent,
-  ChatMainPanelFooter,
-  ChatMainPanelHeader,
-  ChatMainPanelHeaderIcon,
-  ChatMainPanelMessageList,
-  ChatMainPanelSectionHeader,
-  ChatMainPanelTitleBadge,
-  ChatMainPanelRoot,
-  ChatMainPanelSubtitle,
-  ChatMainPanelTabs,
-  ChatMainPanelTimeline,
-  ChatMainPanelTitle,
-  ChatMainPanelTitleBlock,
-  ChatMainPanelTitleRow,
-} from "./components/chat-main-panel/chat-main-panel";
+  ConversationPanelActions,
+  ConversationPanelBody,
+  ConversationPanelContent,
+  ConversationPanelFooter,
+  ConversationPanelHeader,
+  ConversationPanelHeaderIcon,
+  ConversationPanelSectionHeader,
+  ConversationPanelStatus,
+  ConversationPanelRoot,
+  ConversationPanelMeta,
+  ConversationPanelTabs,
+  ConversationPanelTitle,
+  ConversationPanelHeaderContent,
+  ConversationPanelHeading,
+  ConversationPanelEmptyState,
+  ConversationPanelEmptyStateBrand,
+  ConversationPanelEmptyStateBrandMark,
+} from "./components/conversation-panel/index";
 export type {
-  ChatMainPanelActionsProps,
-  ChatMainPanelJumpToLatestLayoutProps,
-  ChatMainPanelJumpToLatestProps,
-  ChatMainPanelBodyProps,
-  ChatMainPanelContentProps,
-  ChatMainPanelFooterProps,
-  ChatMainPanelHeaderIconProps,
-  ChatMainPanelHeaderProps,
-  ChatMainPanelMessageListProps,
-  ChatMainPanelSectionHeaderProps,
-  ChatMainPanelTitleBadgeProps,
-  ChatMainPanelRootProps,
-  ChatMainPanelSubtitleProps,
-  ChatMainPanelTabsProps,
-  ChatMainPanelTimelineProps,
-  ChatMainPanelTitleBlockProps,
-  ChatMainPanelTitleProps,
-  ChatMainPanelTitleRowProps,
-} from "./components/chat-main-panel/chat-main-panel";
-export {
-  ChatMainPanelEmptyState,
-  ChatMainPanelEmptyStateBrand,
-  ChatMainPanelEmptyStateBrandMark,
-} from "./components/chat-main-panel/chat-main-panel-empty-state";
-export type {
-  ChatMainPanelEmptyStateBrandMarkProps,
-  ChatMainPanelEmptyStateBrandProps,
-  ChatMainPanelEmptyStateProps,
-} from "./components/chat-main-panel/chat-main-panel-empty-state";
+  ConversationPanelActionsProps,
+  ConversationPanelBodyProps,
+  ConversationPanelContentProps,
+  ConversationPanelFooterProps,
+  ConversationPanelHeaderIconProps,
+  ConversationPanelHeaderProps,
+  ConversationPanelSectionHeaderProps,
+  ConversationPanelStatusProps,
+  ConversationPanelRootProps,
+  ConversationPanelMetaProps,
+  ConversationPanelTabsProps,
+  ConversationPanelHeaderContentProps,
+  ConversationPanelTitleProps,
+  ConversationPanelHeadingProps,
+  ConversationPanelEmptyStateBrandMarkProps,
+  ConversationPanelEmptyStateBrandProps,
+  ConversationPanelEmptyStateProps,
+} from "./components/conversation-panel/index";
 
 export {
-  ChatThreadPanelActions,
-  ChatThreadPanelBody,
-  ChatThreadPanelContent,
-  ChatThreadPanelFooter,
-  ChatThreadPanelParent,
-  ChatThreadPanelReplyCount,
-  ChatThreadPanelSearch,
-  ChatThreadPanelSearchIcon,
-  ChatThreadPanelSearchInput,
-  ChatThreadPanelSearchCount,
-  ChatThreadPanelHeader,
-  ChatThreadPanelRoot,
-  ChatThreadPanelTitle,
-  ChatThreadPanelTitleMeta,
-} from "./components/chat-thread-panel/chat-thread-panel";
+  ThreadPanelActions,
+  ThreadPanelBody,
+  ThreadPanelContent,
+  ThreadPanelFooter,
+  ThreadPanelOriginalMessage,
+  ThreadPanelReplyCount,
+  ThreadPanelSearch,
+  ThreadPanelSearchIcon,
+  ThreadPanelSearchInput,
+  ThreadPanelSearchCount,
+  ThreadPanelHeader,
+  ThreadPanelRoot,
+  ThreadPanelTitle,
+  ThreadPanelTitleMeta,
+} from "./components/thread-panel/index";
 export type {
-  ChatThreadPanelActionsProps,
-  ChatThreadPanelBodyProps,
-  ChatThreadPanelContentProps,
-  ChatThreadPanelFooterProps,
-  ChatThreadPanelParentProps,
-  ChatThreadPanelReplyCountProps,
-  ChatThreadPanelSearchProps,
-  ChatThreadPanelSearchIconProps,
-  ChatThreadPanelSearchInputProps,
-  ChatThreadPanelSearchCountProps,
-  ChatThreadPanelHeaderProps,
-  ChatThreadPanelRootProps,
-  ChatThreadPanelTitleProps,
-  ChatThreadPanelTitleMetaProps,
-} from "./components/chat-thread-panel/chat-thread-panel";
+  ThreadPanelActionsProps,
+  ThreadPanelBodyProps,
+  ThreadPanelContentProps,
+  ThreadPanelFooterProps,
+  ThreadPanelOriginalMessageProps,
+  ThreadPanelReplyCountProps,
+  ThreadPanelSearchProps,
+  ThreadPanelSearchIconProps,
+  ThreadPanelSearchInputProps,
+  ThreadPanelSearchCountProps,
+  ThreadPanelHeaderProps,
+  ThreadPanelRootProps,
+  ThreadPanelTitleProps,
+  ThreadPanelTitleMetaProps,
+} from "./components/thread-panel/index";
 
-export { ChatPanelAction } from "./components/chat-main-panel/chat-panel-action";
-export type { ChatPanelActionProps } from "./components/chat-main-panel/chat-panel-action";
-export { ChatPanelToggleAction } from "./components/chat-main-panel/chat-panel-toggle-action";
-export type { ChatPanelToggleActionProps } from "./components/chat-main-panel/chat-panel-toggle-action";
+export { PanelAction, PanelToggleAction } from "./components/panel/index";
+export type { PanelActionProps, PanelToggleActionProps } from "./components/panel/index";
 
 export {
   ComposerAttachments,
@@ -188,10 +174,7 @@ export {
   ComposerRoot,
   ComposerToolbarLabel,
   useComposerSuggestions,
-  MessageTimelineDateDivider,
-  MessageTimelineHistoryLimited,
-  MessageTimelineNotice,
-} from "./components/chat-shell/index";
+} from "./components/composer/index";
 export type {
   ComposerAttachmentsProps,
   ComposerAttachmentProps,
@@ -230,16 +213,12 @@ export type {
   ComposerSuggestionsOptionProps,
   ComposerSuggestionTriggerMatch,
   UseComposerSuggestionsParams,
-  MessageTimelineDateDividerProps,
-  MessageTimelineHistoryLimitedProps,
-  MessageTimelineNoticeProps,
-} from "./components/chat-shell/index";
+} from "./components/composer/index";
 
 export {
   ChatSidebarBody,
-  ChatSidebarActivitySlot,
+  ChatSidebarLiveActivity,
   ChatSidebarContent,
-  ChatSidebarFooter,
   ChatSidebarGroupLabel,
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
@@ -262,16 +241,15 @@ export {
   ChatSidebarMenuIcon,
   ChatSidebarMenuTitle,
   ChatSidebarRoot,
-  ChatSidebarAction,
+  ChatSidebarControl,
   ChatSidebarSection,
-  ChatSidebarSectionAction,
-  ChatSidebarSectionActions,
-  ChatSidebarSectionButton,
+  ChatSidebarSectionControl,
+  ChatSidebarSectionControls,
+  ChatSidebarSectionDisclosure,
   ChatSidebarSectionChevron,
   ChatSidebarSectionCount,
   ChatSidebarSectionHeader,
   ChatSidebarSectionAttention,
-  ChatSidebarSectionIndicator,
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
   SortableChatSidebarItem,
@@ -279,9 +257,8 @@ export {
 } from "./components/chat-sidebar/index";
 export type {
   ChatSidebarBodyProps,
-  ChatSidebarActivitySlotProps,
+  ChatSidebarLiveActivityProps,
   ChatSidebarContentProps,
-  ChatSidebarFooterProps,
   ChatSidebarGroupLabelProps,
   ChatSidebarHeaderProps,
   ChatSidebarHeaderTitleProps,
@@ -304,16 +281,15 @@ export type {
   ChatSidebarMenuProps,
   ChatSidebarMenuTitleProps,
   ChatSidebarRootProps,
-  ChatSidebarActionProps,
+  ChatSidebarControlProps,
   ChatSidebarSectionProps,
-  ChatSidebarSectionActionProps,
-  ChatSidebarSectionActionsProps,
-  ChatSidebarSectionButtonProps,
+  ChatSidebarSectionControlProps,
+  ChatSidebarSectionControlsProps,
+  ChatSidebarSectionDisclosureProps,
   ChatSidebarSectionChevronProps,
   ChatSidebarSectionCountProps,
   ChatSidebarSectionHeaderProps,
   ChatSidebarSectionAttentionProps,
-  ChatSidebarSectionIndicatorProps,
   ChatSidebarSectionTitleProps,
   ChatSidebarSectionTrailingProps,
   SortableChatSidebarItemProps,
@@ -525,6 +501,22 @@ export {
   useMessageMultiSelect,
   useMessageTextSelection,
 } from "./components/message-item/index";
+
+export {
+  MessageList,
+  MessageListDateDivider,
+  MessageListHistoryLimited,
+  MessageListNotice,
+} from "./components/message-list/index";
+export type {
+  MessageListDateDividerProps,
+  MessageListHistoryLimitedProps,
+  MessageListNoticeProps,
+  MessageListProps,
+} from "./components/message-list/index";
+
+export { ScrollToLatest } from "./components/scroll-to-latest/index";
+export type { ScrollToLatestProps } from "./components/scroll-to-latest/index";
 
 export * from "./components/tasks/index";
 export * from "./components/files/index";

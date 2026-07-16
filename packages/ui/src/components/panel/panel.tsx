@@ -105,16 +105,3 @@ export function PanelFooter({ className, render, ...props }: PanelFooterProps) {
     props: { ...props, className: footer({ className }) },
   });
 }
-
-export type PanelFormFooterProps = useRender.ComponentProps<"form">;
-
-export function PanelFormFooter({ className, render, ...props }: PanelFormFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = panel({ theme });
-
-  return useRender({
-    defaultTagName: "form",
-    render,
-    props: { ...props, className: footer({ className }) },
-  });
-}

@@ -2,7 +2,7 @@ import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide
 import { useState } from "react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
-  ChatSidebarActivitySlot,
+  ChatSidebarLiveActivity,
   ChatSidebarContent,
   ChatSidebarItemAside,
   ChatSidebarItemCount,
@@ -24,11 +24,11 @@ import {
   ChatSidebarMenuIcon,
   ChatSidebarMenuTitle,
   ChatSidebarRoot,
-  ChatSidebarAction,
+  ChatSidebarControl,
   ChatSidebarSection,
-  ChatSidebarSectionActions,
+  ChatSidebarSectionControls,
   ChatSidebarSectionAttention,
-  ChatSidebarSectionButton,
+  ChatSidebarSectionDisclosure,
   ChatSidebarSectionChevron,
   ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
@@ -65,9 +65,9 @@ export function ChatSidebarComposition() {
         <span className="sr-only" aria-live="polite">
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
-        <ChatSidebarAction type="button" aria-label="Add channel" disabled>
+        <ChatSidebarControl type="button" aria-label="Add channel" disabled>
           <Plus />
-        </ChatSidebarAction>
+        </ChatSidebarControl>
       </ChatSidebarHeader>
       <ChatSidebarBody>
         <ChatSidebarContent className="min-h-0">
@@ -91,14 +91,14 @@ export function ChatSidebarComposition() {
 
             <ChatSidebarSection>
               <SidebarSectionHeaderMenu menu="sort">
-                <ChatSidebarSectionButton type="button">
+                <ChatSidebarSectionDisclosure type="button">
                   <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
                   <ChatSidebarSectionChevron />
-                </ChatSidebarSectionButton>
+                </ChatSidebarSectionDisclosure>
                 <ChatSidebarSectionTrailing>
-                  <ChatSidebarSectionActions>
+                  <ChatSidebarSectionControls>
                     <SidebarSectionSortMenu aria-label="Sort pinned" />
-                  </ChatSidebarSectionActions>
+                  </ChatSidebarSectionControls>
                 </ChatSidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
               <ChatSidebarList>
@@ -162,13 +162,13 @@ export function ChatSidebarComposition() {
                 createIcon="joint"
                 createDisabled
               >
-                <ChatSidebarSectionButton type="button">
+                <ChatSidebarSectionDisclosure type="button">
                   <ChatSidebarSectionTitle>Joint Channels</ChatSidebarSectionTitle>
                   <ChatSidebarSectionChevron />
-                </ChatSidebarSectionButton>
+                </ChatSidebarSectionDisclosure>
                 <ChatSidebarSectionTrailing>
                   <ChatSidebarSectionAttention />
-                  <ChatSidebarSectionActions>
+                  <ChatSidebarSectionControls>
                     <SidebarSectionAddButton aria-label="Create joint channel" disabled />
                     <SidebarSectionChannelsMenu
                       aria-label="Joint channels menu"
@@ -178,7 +178,7 @@ export function ChatSidebarComposition() {
                       createIcon="joint"
                       createDisabled
                     />
-                  </ChatSidebarSectionActions>
+                  </ChatSidebarSectionControls>
                 </ChatSidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
               <ChatSidebarList>
@@ -207,12 +207,12 @@ export function ChatSidebarComposition() {
                 createIcon="channel"
                 createDisabled
               >
-                <ChatSidebarSectionButton type="button">
+                <ChatSidebarSectionDisclosure type="button">
                   <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
                   <ChatSidebarSectionChevron />
-                </ChatSidebarSectionButton>
+                </ChatSidebarSectionDisclosure>
                 <ChatSidebarSectionTrailing>
-                  <ChatSidebarSectionActions>
+                  <ChatSidebarSectionControls>
                     <SidebarSectionAddButton aria-label="Create channel" disabled />
                     <SidebarSectionChannelsMenu
                       aria-label="Channels menu"
@@ -222,7 +222,7 @@ export function ChatSidebarComposition() {
                       createIcon="channel"
                       createDisabled
                     />
-                  </ChatSidebarSectionActions>
+                  </ChatSidebarSectionControls>
                 </ChatSidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
               <ChatSidebarList>
@@ -273,14 +273,14 @@ export function ChatSidebarComposition() {
 
             <ChatSidebarSection>
               <SidebarSectionHeaderMenu menu="sort">
-                <ChatSidebarSectionButton type="button">
+                <ChatSidebarSectionDisclosure type="button">
                   <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
                   <ChatSidebarSectionChevron />
-                </ChatSidebarSectionButton>
+                </ChatSidebarSectionDisclosure>
                 <ChatSidebarSectionTrailing>
-                  <ChatSidebarSectionActions>
+                  <ChatSidebarSectionControls>
                     <SidebarSectionSortMenu aria-label="Sort direct messages" />
-                  </ChatSidebarSectionActions>
+                  </ChatSidebarSectionControls>
                 </ChatSidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
               <ChatSidebarList>
@@ -326,11 +326,11 @@ export function ChatSidebarComposition() {
           </div>
         </ChatSidebarContent>
       </ChatSidebarBody>
-      <ChatSidebarActivitySlot>
+      <ChatSidebarLiveActivity>
         <LiveAgentActivityBarComposition
           latest={{ text: "Preparing the next release candidate" }}
         />
-      </ChatSidebarActivitySlot>
+      </ChatSidebarLiveActivity>
     </ChatSidebarRoot>
   );
 }

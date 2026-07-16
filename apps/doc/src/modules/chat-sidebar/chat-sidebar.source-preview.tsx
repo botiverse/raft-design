@@ -159,7 +159,8 @@ function SourceSidebarMainPreview() {
             <div className="h-px" aria-hidden />
             <div className="flex-1" aria-hidden />
             <SourceMainMessage author="Cindy" time="10:42">
-              Rail and sidebar own navigation. The main panel owns the active conversation chrome.
+              Rail and sidebar own navigation. The conversation panel owns the active conversation
+              chrome.
             </SourceMainMessage>
             <SourceMainMessage author="Atlas" avatarTone="bg-brutal-cyan" time="10:44">
               Message rows, composer behavior, route sync, and realtime data stay app-owned.

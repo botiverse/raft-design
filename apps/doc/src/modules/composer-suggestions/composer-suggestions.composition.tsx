@@ -1,7 +1,7 @@
 import { AtSign, Hash } from "lucide-react";
 import { useState } from "react";
 import {
-  ChatMainPanelFooter,
+  ConversationPanelFooter,
   Composer,
   ComposerInput,
   ComposerRoot,
@@ -130,8 +130,8 @@ export function ComposerSuggestionComposition({
 
   return (
     <div className="flex h-full flex-col justify-end bg-layer-panel">
-      <ChatMainPanelFooter onSubmit={(event) => event.preventDefault()}>
-        <ComposerRoot positioned>
+      <ConversationPanelFooter>
+        <ComposerRoot positioned onSubmit={(event) => event.preventDefault()}>
           {autocomplete.open ? (
             <ComposerSuggestionList
               {...autocomplete.getListProps({ "aria-label": "Composer suggestions" })}
@@ -161,7 +161,7 @@ export function ComposerSuggestionComposition({
             />
           </Composer>
         </ComposerRoot>
-      </ChatMainPanelFooter>
+      </ConversationPanelFooter>
     </div>
   );
 }

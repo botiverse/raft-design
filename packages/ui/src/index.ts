@@ -651,7 +651,6 @@ export {
   Panel,
   PanelBody,
   PanelFooter,
-  PanelFormFooter,
   PanelHeader,
   PanelScrollContent,
   PanelScrollbar,
@@ -661,7 +660,6 @@ export {
 export type {
   PanelBodyProps,
   PanelFooterProps,
-  PanelFormFooterProps,
   PanelHeaderProps,
   PanelProps,
   PanelScrollContentProps,

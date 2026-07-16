@@ -4,7 +4,7 @@ export const chatSidebar = tv({
   slots: {
     sidebarRoot: [
       "relative flex h-full min-h-0 w-full select-none flex-col",
-      "has-[>[data-slot=chat-sidebar-activity-slot]_[data-slot=live-agent-activity-bar]]:overflow-clip",
+      "has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
     ],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
@@ -27,31 +27,27 @@ export const chatSidebar = tv({
       "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
     ],
     sidebarScrollbarThumb: ["w-1.5 rounded-full"],
-    sidebarFooter: ["shrink-0"],
-    sidebarActivitySlot: ["pointer-events-none absolute inset-x-0 max-md:hidden"],
-    sidebarActivitySlotContent: [],
+    sidebarLiveActivity: ["pointer-events-none absolute inset-x-0 max-md:hidden"],
   },
   variants: {
     theme: {
       brutal: {
         sidebarRoot:
-          "md:has-[>[data-slot=chat-sidebar-activity-slot]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:3.25rem]",
+          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:3.25rem]",
         sidebarHeader: [
           "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
           "[@media(max-height:600px)]:h-12",
         ],
         sidebarBody: "bg-brutal-cream max-md:bg-white",
-        sidebarFooter: "border-t-2 border-black bg-brutal-cream p-3",
-        sidebarActivitySlot: "bottom-0 z-40",
-        sidebarActivitySlotContent: "contents",
+        sidebarLiveActivity: "bottom-0 z-40",
         sidebarScrollbarThumb: "bg-black/35 hover:bg-black/55",
       },
       elegant: {
         sidebarRoot: [
           "relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
           "md:[--sidebar-inset-end:18px]",
-          "md:has-[>[data-slot=chat-sidebar-activity-slot]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:4.25rem]",
+          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:4.25rem]",
         ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",
@@ -76,16 +72,15 @@ export const chatSidebar = tv({
         ],
         sidebarScrollbar: "justify-end",
         sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
-        sidebarFooter: "border-t border-line-subtle p-3",
-        sidebarActivitySlot: [
+        sidebarLiveActivity: [
           "bottom-3 z-10",
+          "pl-[calc(var(--sidebar-inset-x,26px)-var(--sidebar-row-inset-x,6px))]",
+          "pr-[calc(var(--sidebar-inset-end,var(--sidebar-inset-x,26px))-var(--sidebar-row-inset-x,6px))]",
           "has-[_[data-slot=live-agent-activity-bar]]:before:pointer-events-none has-[_[data-slot=live-agent-activity-bar]]:before:absolute has-[_[data-slot=live-agent-activity-bar]]:before:inset-x-0 has-[_[data-slot=live-agent-activity-bar]]:before:-bottom-3 has-[_[data-slot=live-agent-activity-bar]]:before:z-0 has-[_[data-slot=live-agent-activity-bar]]:before:h-20",
           "has-[_[data-slot=live-agent-activity-bar]]:before:bg-[linear-gradient(to_bottom,transparent,var(--layer-page))] has-[_[data-slot=live-agent-activity-bar]]:before:backdrop-blur-[4px]",
           "has-[_[data-slot=live-agent-activity-bar]]:before:[mask-image:linear-gradient(to_top,black_50%,transparent)] has-[_[data-slot=live-agent-activity-bar]]:before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
           "has-[_[data-slot=live-agent-activity-bar]]:before:content-[''] [&>*]:relative [&>*]:z-10",
         ],
-        sidebarActivitySlotContent:
-          "ml-[calc(var(--sidebar-inset-x,26px)-var(--sidebar-row-inset-x,6px))] mr-[calc(var(--sidebar-inset-end,var(--sidebar-inset-x,26px))-var(--sidebar-row-inset-x,6px))]",
       },
     },
   },

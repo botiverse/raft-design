@@ -11,11 +11,9 @@ import {
 } from "lucide-react";
 import { Banner, BannerDescription, Spinner } from "raft-ui";
 import {
-  ChatMainPanelBody,
-  ChatMainPanelJumpToLatest,
-  ChatMainPanelJumpToLatestLayout,
-  ChatMainPanelMessageList,
-  ChatMainPanelTimeline,
+  ConversationPanelBody,
+  ScrollToLatest,
+  MessageList,
   MessageAttachmentGroup,
   MessageImageGallery,
   MessageImageGalleryAction,
@@ -30,7 +28,7 @@ import {
   MessageReferenceChannelUnavailable,
   MessageReferenceTaskUnavailable,
   MessageReferenceThreadUnavailable,
-  MessageTimelineDateDivider,
+  MessageListDateDivider,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
@@ -894,27 +892,23 @@ function MatrixStateSection() {
 
 export function MatrixBody() {
   return (
-    <ChatMainPanelBody>
-      <ChatMainPanelTimeline>
-        <ChatMainPanelMessageList>
-          <SelectableMessageList>
-            <HistoryTopStates />
+    <ConversationPanelBody>
+      <MessageList>
+        <SelectableMessageList>
+          <HistoryTopStates />
 
-            <MessageTimelineDateDivider>Today</MessageTimelineDateDivider>
+          <MessageListDateDivider>Today</MessageListDateDivider>
 
-            <MatrixContentSection />
-            <MatrixMediaSection />
-            <MatrixStateSection />
-            <SelectModeToolbarSlot />
-          </SelectableMessageList>
-        </ChatMainPanelMessageList>
-      </ChatMainPanelTimeline>
-      <ChatMainPanelJumpToLatestLayout>
-        <ChatMainPanelJumpToLatest disabled>
-          <ArrowDown />3 new messages
-        </ChatMainPanelJumpToLatest>
-      </ChatMainPanelJumpToLatestLayout>
-    </ChatMainPanelBody>
+          <MatrixContentSection />
+          <MatrixMediaSection />
+          <MatrixStateSection />
+          <SelectModeToolbarSlot />
+        </SelectableMessageList>
+      </MessageList>
+      <ScrollToLatest disabled>
+        <ArrowDown />3 new messages
+      </ScrollToLatest>
+    </ConversationPanelBody>
   );
 }
 

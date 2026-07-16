@@ -9,8 +9,8 @@ import {
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
 import { Avatar, AvatarFallback, Checkbox, Spinner } from "raft-ui";
 import {
-  ChatMainPanelFooter,
-  ChatThreadPanelFooter,
+  ConversationPanelFooter,
+  ThreadPanelFooter,
   Composer,
   ComposerActions,
   ComposerAttachment,
@@ -297,20 +297,20 @@ function PlaygroundComposer({
   };
   const inputProps = autocomplete.getInputProps({ onKeyDown: handleInputKeyDown });
 
-  const isFileDrag = (event: DragEvent<HTMLDivElement>) =>
+  const isFileDrag = (event: DragEvent<HTMLFormElement>) =>
     event.dataTransfer.types.includes("Files");
-  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragEnter = (event: DragEvent<HTMLFormElement>) => {
     if (!isFileDrag(event)) return;
     event.preventDefault();
     dragDepthRef.current += 1;
     setIsDragging(true);
   };
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (event: DragEvent<HTMLFormElement>) => {
     if (!isFileDrag(event)) return;
     event.preventDefault();
     event.dataTransfer.dropEffect = "copy";
   };
-  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (event: DragEvent<HTMLFormElement>) => {
     if (!isFileDrag(event)) return;
     dragDepthRef.current -= 1;
     if (dragDepthRef.current <= 0) {
@@ -318,7 +318,7 @@ function PlaygroundComposer({
       setIsDragging(false);
     }
   };
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+  const handleDrop = (event: DragEvent<HTMLFormElement>) => {
     if (!isFileDrag(event)) return;
     event.preventDefault();
     dragDepthRef.current = 0;
@@ -330,6 +330,7 @@ function PlaygroundComposer({
   const composer = (
     <ComposerRoot
       positioned
+      onSubmit={handleFormSubmit}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -423,11 +424,9 @@ function PlaygroundComposer({
   );
 
   return footer === "main" ? (
-    <ChatMainPanelFooter onSubmit={handleFormSubmit}>{composer}</ChatMainPanelFooter>
+    <ConversationPanelFooter>{composer}</ConversationPanelFooter>
   ) : (
-    <ChatThreadPanelFooter render={<form onSubmit={handleFormSubmit} />}>
-      {composer}
-    </ChatThreadPanelFooter>
+    <ThreadPanelFooter>{composer}</ThreadPanelFooter>
   );
 }
 

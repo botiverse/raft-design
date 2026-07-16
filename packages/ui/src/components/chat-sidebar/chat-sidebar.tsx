@@ -160,41 +160,20 @@ export function ChatSidebarContent({
   );
 }
 
-export type ChatSidebarFooterProps = useRender.ComponentProps<"div">;
+export type ChatSidebarLiveActivityProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarFooter({ className, render, ...props }: ChatSidebarFooterProps) {
-  const theme = useThemeFamily();
-  const { sidebarFooter } = chatSidebar({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-footer",
-    className: sidebarFooter({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ChatSidebarActivitySlotProps = useRender.ComponentProps<"div">;
-
-export function ChatSidebarActivitySlot({
+export function ChatSidebarLiveActivity({
   children,
   className,
   render,
   ...props
-}: ChatSidebarActivitySlotProps) {
+}: ChatSidebarLiveActivityProps) {
   const theme = useThemeFamily();
-  const { sidebarActivitySlot, sidebarActivitySlotContent } = chatSidebar({ theme });
+  const { sidebarLiveActivity } = chatSidebar({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-activity-slot",
-    className: sidebarActivitySlot({ className }),
-    children: (
-      <div data-slot="chat-sidebar-activity-slot-content" className={sidebarActivitySlotContent()}>
-        {children}
-      </div>
-    ),
+    "data-slot": "chat-sidebar-live-activity",
+    className: sidebarLiveActivity({ className }),
+    children,
   };
 
   return useRender({

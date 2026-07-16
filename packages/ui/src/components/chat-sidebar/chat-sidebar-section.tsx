@@ -68,19 +68,19 @@ export function ChatSidebarSectionHeader({
   });
 }
 
-export type ChatSidebarSectionButtonProps = useRender.ComponentProps<"button">;
+export type ChatSidebarSectionDisclosureProps = useRender.ComponentProps<"button">;
 
-export function ChatSidebarSectionButton({
+export function ChatSidebarSectionDisclosure({
   className,
   render,
   ...props
-}: ChatSidebarSectionButtonProps) {
+}: ChatSidebarSectionDisclosureProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionButton } = chatSidebarSection({ theme });
+  const { sidebarSectionDisclosure } = chatSidebarSection({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    "data-slot": "chat-sidebar-section-button",
-    className: sidebarSectionButton({ className }),
+    "data-slot": "chat-sidebar-section-disclosure",
+    className: sidebarSectionDisclosure({ className }),
   };
 
   return useRender({
@@ -96,7 +96,8 @@ export function ChatSidebarSectionChevron({
   render,
   ...props
 }: ChatSidebarSectionChevronProps) {
-  const defaultProps: useRender.ElementProps<"svg"> = {
+  const defaultProps: useRender.ElementProps<"svg"> & DataAttributes = {
+    "data-slot": "chat-sidebar-section-chevron",
     className: cn("size-3", className),
   };
 
@@ -147,33 +148,30 @@ export function ChatSidebarSectionCount({
   });
 }
 
-export type ChatSidebarSectionIndicatorProps = StatusProps;
+export type ChatSidebarSectionAttentionProps = StatusProps;
 
-export function ChatSidebarSectionIndicator({
+export function ChatSidebarSectionAttention({
   className,
   size = "md",
   variant,
   ...props
-}: ChatSidebarSectionIndicatorProps) {
+}: ChatSidebarSectionAttentionProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionIndicator } = chatSidebarSection();
+  const { sidebarSectionAttention } = chatSidebarSection();
   const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
   return (
     <span
       aria-hidden
-      data-slot="chat-sidebar-section-indicator"
-      className={sidebarSectionIndicator()}
+      data-slot="chat-sidebar-section-attention"
+      className={sidebarSectionAttention()}
     >
       <Status size={size} variant={resolvedVariant} className={className} {...props} />
     </span>
   );
 }
 
-export type ChatSidebarSectionAttentionProps = ChatSidebarSectionIndicatorProps;
-export const ChatSidebarSectionAttention = ChatSidebarSectionIndicator;
-
 export type ChatSidebarSectionTrailingProps = useRender.ComponentProps<"div">;
-export type ChatSidebarSectionActionsProps = useRender.ComponentProps<"div">;
+export type ChatSidebarSectionControlsProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarSectionTrailing({
   className,
@@ -194,16 +192,16 @@ export function ChatSidebarSectionTrailing({
   });
 }
 
-export function ChatSidebarSectionActions({
+export function ChatSidebarSectionControls({
   className,
   render,
   ...props
-}: ChatSidebarSectionActionsProps) {
+}: ChatSidebarSectionControlsProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionActions } = chatSidebarSection({ theme });
+  const { sidebarSectionControls } = chatSidebarSection({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-section-actions",
-    className: sidebarSectionActions({ className }),
+    "data-slot": "chat-sidebar-section-controls",
+    className: sidebarSectionControls({ className }),
   };
 
   return useRender({
@@ -213,10 +211,10 @@ export function ChatSidebarSectionActions({
   });
 }
 
-export type ChatSidebarSectionActionProps = useRender.ComponentProps<"button"> &
+export type ChatSidebarSectionControlProps = useRender.ComponentProps<"button"> &
   Pick<ButtonProps, "size" | "variant" | "loading" | "loadingLabel">;
 
-export function ChatSidebarSectionAction({
+export function ChatSidebarSectionControl({
   className,
   render,
   size = "icon-sm",
@@ -226,20 +224,20 @@ export function ChatSidebarSectionAction({
   children,
   disabled,
   ...props
-}: ChatSidebarSectionActionProps) {
+}: ChatSidebarSectionControlProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionAction } = chatSidebarSection({ theme });
+  const { sidebarSectionControl } = chatSidebarSection({ theme });
 
   if (theme === "elegant") {
     return (
       <Button
-        data-slot="chat-sidebar-section-action"
+        data-slot="chat-sidebar-section-control"
         size={size}
         variant={variant}
         loading={loading}
         loadingLabel={loadingLabel}
         disabled={disabled}
-        className={sidebarSectionAction({ className })}
+        className={sidebarSectionControl({ className })}
         render={render}
         {...props}
       >
@@ -250,11 +248,11 @@ export function ChatSidebarSectionAction({
 
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    "data-slot": "chat-sidebar-section-action",
+    "data-slot": "chat-sidebar-section-control",
     "data-loading": loading ? "true" : undefined,
     disabled: disabled || loading,
     "aria-disabled": loading || undefined,
-    className: sidebarSectionAction({ className }),
+    className: sidebarSectionControl({ className }),
     children: loading ? <Spinner aria-label={loadingLabel} /> : children,
   };
 
@@ -264,5 +262,5 @@ export function ChatSidebarSectionAction({
   });
 }
 
-export type ChatSidebarActionProps = ChatSidebarSectionActionProps;
-export const ChatSidebarAction = ChatSidebarSectionAction;
+export type ChatSidebarControlProps = ChatSidebarSectionControlProps;
+export const ChatSidebarControl = ChatSidebarSectionControl;

@@ -91,6 +91,8 @@ export type PlaygroundMessageRowProps = {
   attachments?: ReactNode;
   footer?: ReactNode;
   threadId?: PlaygroundThreadId;
+  className?: string;
+  "data-thread-panel-slot"?: "original-message";
 };
 
 export function PlaygroundMessageRow({
@@ -99,6 +101,8 @@ export function PlaygroundMessageRow({
   attachments,
   footer,
   threadId,
+  className,
+  "data-thread-panel-slot": threadPanelSlot,
 }: PlaygroundMessageRowProps) {
   return (
     <MessageRowView
@@ -110,6 +114,8 @@ export function PlaygroundMessageRow({
       selectId={message.id}
       time={message.time}
       threadId={threadId}
+      className={className}
+      data-thread-panel-slot={threadPanelSlot}
     />
   );
 }
@@ -173,6 +179,8 @@ function MessageRowView({
   rowState,
   selectId,
   threadId,
+  className,
+  "data-thread-panel-slot": threadPanelSlot,
 }: {
   actorId: PlaygroundActorId;
   sender?: string;
@@ -194,6 +202,8 @@ function MessageRowView({
   rowState?: "active" | "search-match";
   selectId: PlaygroundMessageId;
   threadId?: PlaygroundThreadId;
+  className?: string;
+  "data-thread-panel-slot"?: "original-message";
 }) {
   const actor = getPlaygroundActor(actorId);
   const resolvedSender = sender ?? actor.name;
@@ -246,7 +256,7 @@ function MessageRowView({
   const requestThread = openThread ?? (() => setThreadRequested(true));
 
   const messageItem = (
-    <ItemRoot compact={compact}>
+    <ItemRoot compact={compact} className={className} data-thread-panel-slot={threadPanelSlot}>
       {selectMode ? (
         <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
       ) : null}

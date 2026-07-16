@@ -44,7 +44,7 @@ import {
 } from "raft-ui";
 import {
   ChatSidebarBody,
-  ChatSidebarActivitySlot,
+  ChatSidebarLiveActivity,
   ChatSidebarContent,
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
@@ -63,8 +63,8 @@ import {
   ChatSidebarList,
   ChatSidebarRoot,
   ChatSidebarSection,
-  ChatSidebarSectionActions,
-  ChatSidebarSectionButton,
+  ChatSidebarSectionControls,
+  ChatSidebarSectionDisclosure,
   ChatSidebarSectionChevron,
   ChatSidebarSectionAttention,
   ChatSidebarSectionTitle,
@@ -430,15 +430,15 @@ function PinnedSection({
   return (
     <ChatSidebarSection>
       <SidebarSectionHeaderMenu menu="sort">
-        <ChatSidebarSectionButton type="button">
+        <ChatSidebarSectionDisclosure type="button">
           <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron />
-        </ChatSidebarSectionButton>
+        </ChatSidebarSectionDisclosure>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions>
+          <ChatSidebarSectionControls>
             <SidebarSectionSortMenu aria-label="Sort pinned" />
-          </ChatSidebarSectionActions>
+          </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -479,13 +479,13 @@ function JointChannelsSection({
         createLabel="Create Joint Channel"
         createIcon="joint"
       >
-        <ChatSidebarSectionButton type="button">
+        <ChatSidebarSectionDisclosure type="button">
           <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron />
-        </ChatSidebarSectionButton>
+        </ChatSidebarSectionDisclosure>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions>
+          <ChatSidebarSectionControls>
             <SidebarSectionAddButton aria-label="Create joint channel" />
             <SidebarSectionChannelsMenu
               aria-label="Joint channels menu"
@@ -494,7 +494,7 @@ function JointChannelsSection({
               createLabel="Create Joint Channel"
               createIcon="joint"
             />
-          </ChatSidebarSectionActions>
+          </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -551,13 +551,13 @@ function ChannelsSection({
         sortValue={sortMode}
         onSortValueChange={setSortMode}
       >
-        <ChatSidebarSectionButton type="button">
+        <ChatSidebarSectionDisclosure type="button">
           <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron />
-        </ChatSidebarSectionButton>
+        </ChatSidebarSectionDisclosure>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions>
+          <ChatSidebarSectionControls>
             <SidebarSectionAddButton aria-label="Create channel" />
             <SidebarSectionChannelsMenu
               aria-label="Channels menu"
@@ -568,7 +568,7 @@ function ChannelsSection({
               sortValue={sortMode}
               onSortValueChange={setSortMode}
             />
-          </ChatSidebarSectionActions>
+          </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       {sortMode === "manual" ? (
@@ -620,15 +620,15 @@ function DirectMessagesSection({
   return (
     <ChatSidebarSection>
       <SidebarSectionHeaderMenu menu="sort">
-        <ChatSidebarSectionButton type="button">
+        <ChatSidebarSectionDisclosure type="button">
           <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
           <ChatSidebarSectionChevron />
-        </ChatSidebarSectionButton>
+        </ChatSidebarSectionDisclosure>
         <ChatSidebarSectionTrailing>
           {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionActions>
+          <ChatSidebarSectionControls>
             <SidebarSectionSortMenu aria-label="Sort direct messages" />
-          </ChatSidebarSectionActions>
+          </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
@@ -744,9 +744,9 @@ export function PlaygroundSidebar({
             </div>
           </ChatSidebarContent>
         </ChatSidebarBody>
-        <ChatSidebarActivitySlot>
+        <ChatSidebarLiveActivity>
           <LiveAgentActivityBarComposition latest={liveAgentActivity} />
-        </ChatSidebarActivitySlot>
+        </ChatSidebarLiveActivity>
       </ChatSidebarRoot>
 
       <AlertDialog

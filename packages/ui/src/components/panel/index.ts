@@ -2,7 +2,6 @@ export {
   Panel,
   PanelBody,
   PanelFooter,
-  PanelFormFooter,
   PanelHeader,
   PanelScrollContent,
   PanelScrollbar,
@@ -12,7 +11,6 @@ export {
 export type {
   PanelBodyProps,
   PanelFooterProps,
-  PanelFormFooterProps,
   PanelHeaderProps,
   PanelProps,
   PanelScrollContentProps,
@@ -20,3 +18,7 @@ export type {
   PanelScrollbarThumbProps,
   PanelScrollViewportProps,
 } from "./panel";
+export { PanelAction } from "./panel-action";
+export type { PanelActionProps } from "./panel-action";
+export { PanelToggleAction } from "./panel-toggle-action";
+export type { PanelToggleActionProps } from "./panel-toggle-action";

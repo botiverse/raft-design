@@ -85,8 +85,8 @@ const NAV = [
         to: "/components/live-agent-activity-bar",
         status: "wip",
       },
-      { label: "ChatMainPanel", to: "/components/chat-main-panel", status: "wip" },
-      { label: "ChatThreadPanel", to: "/components/chat-thread-panel", status: "wip" },
+      { label: "ConversationPanel", to: "/components/conversation-panel", status: "wip" },
+      { label: "ThreadPanel", to: "/components/thread-panel", status: "wip" },
       { label: "MessageItem", to: "/components/message-item", status: "wip" },
       {
         label: "Composer",
