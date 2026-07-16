@@ -35,6 +35,15 @@ export function PlaygroundFilesPanel({ channel }: { channel: PlaygroundChannelRe
       onJumpToOriginal={(file) => {
         const source = requirePlaygroundFile(file.id);
         selectPanelTab("chat");
+        if (channel.kind === "dm") {
+          void navigate({
+            to: "/playground/s/$serverSlug/dm/$dmId",
+            params: { dmId: channel.id, serverSlug: PLAYGROUND_SERVER_SLUG },
+            search: { thread: source.sourceMessageId },
+          });
+          return;
+        }
+
         void navigate({
           to: "/playground/s/$serverSlug/channel/$channelId",
           params: { channelId, serverSlug: PLAYGROUND_SERVER_SLUG },

@@ -1,16 +1,26 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { PlaygroundConversationPanel } from "#/playground/playground-conversation-panel.tsx";
+import { PlaygroundChannelPanel } from "#/playground/playground-channel-panel.tsx";
 import {
   DEFAULT_CHANNEL_ID,
   getPlaygroundChannel,
   getPlaygroundThread,
-  isPlaygroundChannelId,
+  isPlaygroundDmId,
+  isPlaygroundRoomChannelId,
 } from "#/playground/mock/index.ts";
 
 export const Route = createFileRoute("/playground/s/$serverSlug/channel/$channelId")({
   beforeLoad: ({ params, search }) => {
-    if (!isPlaygroundChannelId(params.channelId)) {
+    if (isPlaygroundDmId(params.channelId)) {
+      throw redirect({
+        to: "/playground/s/$serverSlug/dm/$dmId",
+        params: { dmId: params.channelId, serverSlug: params.serverSlug },
+        search,
+        replace: true,
+      });
+    }
+
+    if (!isPlaygroundRoomChannelId(params.channelId)) {
       throw redirect({
         to: "/playground/s/$serverSlug/channel/$channelId",
         params: { channelId: DEFAULT_CHANNEL_ID, serverSlug: params.serverSlug },
@@ -34,11 +44,11 @@ export const Route = createFileRoute("/playground/s/$serverSlug/channel/$channel
 function PlaygroundChannelRoute() {
   const { channelId } = Route.useParams();
 
-  if (!isPlaygroundChannelId(channelId)) {
+  if (!isPlaygroundRoomChannelId(channelId)) {
     return null;
   }
 
   const channel = getPlaygroundChannel(channelId);
 
-  return <PlaygroundConversationPanel channel={channel} />;
+  return channel.kind === "dm" ? null : <PlaygroundChannelPanel channel={channel} />;
 }

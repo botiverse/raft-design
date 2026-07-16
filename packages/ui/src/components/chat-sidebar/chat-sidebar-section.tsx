@@ -47,6 +47,28 @@ export function ChatSidebarList({ className, render, ...props }: ChatSidebarList
   return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;
 }
 
+export type ChatSidebarSectionEmptyProps = Omit<
+  ComponentProps<typeof Collapsible.Panel>,
+  "className"
+> & {
+  className?: string;
+};
+
+export function ChatSidebarSectionEmpty({
+  className,
+  render,
+  ...props
+}: ChatSidebarSectionEmptyProps) {
+  const theme = useThemeFamily();
+  const { sidebarSectionEmpty } = chatSidebarSection({ theme });
+  const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
+    "data-slot": "chat-sidebar-section-empty",
+    className: sidebarSectionEmpty({ className }),
+  };
+
+  return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;
+}
+
 export type ChatSidebarSectionHeaderProps = useRender.ComponentProps<"div">;
 
 export function ChatSidebarSectionHeader({

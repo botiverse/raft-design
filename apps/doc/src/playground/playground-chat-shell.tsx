@@ -9,8 +9,10 @@ import {
   PLAYGROUND_LIVE_AGENT_ACTIVITY,
   getPlaygroundActor,
   getPlaygroundChannel,
+  getPlaygroundDirectMessage,
   getPlaygroundThread,
   isPlaygroundChannelId,
+  isPlaygroundDmId,
   type PlaygroundTask,
   type PlaygroundThread,
 } from "./mock/index.ts";
@@ -25,8 +27,16 @@ export function PlaygroundChatShell() {
     from: "/playground/s/$serverSlug/channel/$channelId",
     shouldThrow: false,
   });
+  const dmMatch = useMatch({
+    from: "/playground/s/$serverSlug/dm/$dmId",
+    shouldThrow: false,
+  });
   const channelRouteMatch = useMatch({
     from: "/playground/s/$serverSlug/channel",
+    shouldThrow: false,
+  });
+  const dmRouteMatch = useMatch({
+    from: "/playground/s/$serverSlug/dm",
     shouldThrow: false,
   });
   const { tasks } = usePlaygroundTaskState();
@@ -34,10 +44,15 @@ export function PlaygroundChatShell() {
   const isDesktop = usePlaygroundDesktop();
   const isLargeDesktop = usePlaygroundLargeDesktop();
   const channelId = channelMatch?.params.channelId;
-  const { from, panel, thread } = channelRouteMatch?.search ?? {};
+  const dmId = dmMatch?.params.dmId;
+  const { from, panel, thread } = channelRouteMatch?.search ?? dmRouteMatch?.search ?? {};
 
   const channel =
-    channelId && isPlaygroundChannelId(channelId) ? getPlaygroundChannel(channelId) : null;
+    channelId && isPlaygroundChannelId(channelId)
+      ? getPlaygroundChannel(channelId)
+      : dmId && isPlaygroundDmId(dmId)
+        ? getPlaygroundDirectMessage(dmId)
+        : null;
   const threadContext = thread ? getPlaygroundThread(thread) : undefined;
   const task = thread ? tasks.find((item) => item.id === thread) : undefined;
   const activeThread =
@@ -53,6 +68,8 @@ export function PlaygroundChatShell() {
     <AppShellRoot
       className={cn(
         "h-full",
+        !isDesktop && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
+        !mobileListPanel && "max-md:!pt-0",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
       )}
     >
@@ -66,6 +83,7 @@ export function PlaygroundChatShell() {
             className={cn(
               "relative flex h-full min-w-0",
               isDesktop ? "w-auto flex-1 shrink" : "!w-full !flex-none !shrink-0",
+              !isDesktop && "max-md:h-auto max-md:min-h-dvh max-md:overflow-visible",
             )}
           >
             <PlaygroundSidebar
@@ -115,10 +133,14 @@ function PlaygroundChatLayout({
 }) {
   if (!isDesktop) {
     return (
-      <div className="flex h-full min-h-0 min-w-0 flex-1">
+      <div className="flex h-full min-h-0 min-w-0 flex-1 max-md:h-auto max-md:min-h-0">
         {mobileListPanel
           ? sidebar
-          : (thread ?? <AppShellMainSlot className="flex h-full">{main}</AppShellMainSlot>)}
+          : (thread ?? (
+              <AppShellMainSlot className="flex h-full max-md:h-auto max-md:min-h-dvh max-md:overflow-visible">
+                {main}
+              </AppShellMainSlot>
+            ))}
       </div>
     );
   }

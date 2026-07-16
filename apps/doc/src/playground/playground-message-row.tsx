@@ -1,5 +1,5 @@
 import { useId, useMemo, useState, type ReactNode } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { Bookmark, MessageSquare } from "lucide-react";
 import { ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
@@ -33,6 +33,8 @@ import {
   MessageContextMenuComposition,
   type MessageTaskState,
 } from "#/modules/message-item/compositions/context-menu.composition.tsx";
+import { MessageMobileReactionAdd } from "#/modules/message-item/compositions/item-preview.composition.tsx";
+import { PlaygroundConversationLink } from "./playground-conversation-link.tsx";
 import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
 import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
 import {
@@ -261,9 +263,18 @@ function MessageRowView({
   const openThread =
     threadId && threadContext
       ? () => {
+          if (threadContext.channel.kind === "dm") {
+            void navigate({
+              to: "/playground/s/$serverSlug/dm/$dmId",
+              params: { dmId: threadContext.channel.id, serverSlug: PLAYGROUND_SERVER_SLUG },
+              search: { thread: threadId },
+            });
+            return;
+          }
+
           void navigate({
             to: "/playground/s/$serverSlug/channel/$channelId",
-            params: { channelId: threadContext.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+            params: { channelId: threadContext.channel.id, serverSlug: PLAYGROUND_SERVER_SLUG },
             search: { thread: threadId },
           });
         }
@@ -341,6 +352,12 @@ function MessageRowView({
                 </MessageReactionChip>
               );
             })}
+            {workflow.reactions.length > 0 ? (
+              <MessageMobileReactionAdd
+                portalContainer={reactionPortalContainer}
+                onReact={toggleReaction}
+              />
+            ) : null}
           </MessageItemFooter>
         ) : null}
       </MessageItemContent>
@@ -401,42 +418,36 @@ function MessageRowView({
 // stay keyed to the message while transient picker state remains in the composition.
 function RowToolbar({
   saved,
-  portalContainer,
   onReact,
   onReplyInThread,
   onSavedChange,
+  portalContainer,
 }: {
   saved?: boolean;
-  portalContainer: HTMLElement | null;
   onReact: (emoji: string) => void;
   onReplyInThread?: () => void;
   onSavedChange: (saved: boolean) => void;
+  portalContainer?: HTMLElement | null;
 }) {
   return (
     <MessageRowToolbar
       saved={saved}
-      portalContainer={portalContainer}
       onReact={onReact}
       onReplyInThread={onReplyInThread}
       onSavedChange={onSavedChange}
+      portalContainer={portalContainer}
     />
   );
 }
 
 // Plain reply badge for a read thread.
 export function PlaygroundRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
-  const { channelId, thread } = requirePlaygroundThread(threadId);
+  const { channel, thread } = requirePlaygroundThread(threadId);
 
   return (
     <MessageItemBadge
       className="cursor-pointer"
-      render={
-        <Link
-          to="/playground/s/$serverSlug/channel/$channelId"
-          params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
-          search={{ thread: threadId }}
-        />
-      }
+      render={<PlaygroundConversationLink conversation={channel} search={{ thread: threadId }} />}
     >
       <MessageSquare />
       {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
@@ -446,7 +457,7 @@ export function PlaygroundRepliesBadge({ threadId }: { threadId: PlaygroundThrea
 
 // Source ThreadRepliesBadge: one default pill with reply count + "· N new".
 export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: PlaygroundThreadId }) {
-  const { channelId, thread } = requirePlaygroundThread(threadId);
+  const { channel, thread } = requirePlaygroundThread(threadId);
   if (!thread.unreadCount) {
     throw new Error(`Unread thread badge requires unread replies: ${threadId}`);
   }
@@ -455,13 +466,7 @@ export function PlaygroundUnreadRepliesBadge({ threadId }: { threadId: Playgroun
     <MessageItemBadge
       status="unread"
       className="cursor-pointer"
-      render={
-        <Link
-          to="/playground/s/$serverSlug/channel/$channelId"
-          params={{ channelId, serverSlug: PLAYGROUND_SERVER_SLUG }}
-          search={{ thread: threadId }}
-        />
-      }
+      render={<PlaygroundConversationLink conversation={channel} search={{ thread: threadId }} />}
     >
       <MessageSquare />
       {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}

@@ -24,7 +24,10 @@ export const threadPanel = tv({
     theme: {
       brutal: {
         root: "bg-white font-sans text-black",
-        header: "border-b-2 border-black bg-white",
+        header: [
+          "border-b-2 border-black bg-white",
+          "max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[env(safe-area-inset-top,0px)]",
+        ],
         content: "bg-white",
         title: "text-black",
         titleMeta: "text-black/50",
@@ -47,7 +50,7 @@ export const threadPanel = tv({
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "border-b-0 bg-layer-page",
-          "max-lg:gap-2 max-lg:px-[14px]",
+          "max-lg:gap-2 max-lg:px-[14px] max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[env(safe-area-inset-top,0px)]",
           "max-lg:border-b max-lg:border-line-subtle",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:z-0 max-lg:before:h-[calc(100%+0.75rem)]",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-[4px]",

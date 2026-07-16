@@ -1,19 +1,12 @@
 import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
+import { useMediaQuery } from "foxact/use-media-query";
 import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger } from "raft-ui";
-import {
-  MessageItemSaveButton,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
-  MessageReactionPickerContent,
-  MessageReactionQuickButton,
-} from "raft-ui/wip";
-import { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";
-import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";
+import { MessageItemSaveButton, MessageItemToolbar, MessageItemToolbarButton } from "raft-ui/wip";
+import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 
 export type MessageRowToolbarProps = {
   saved?: boolean;
-  portalContainer: HTMLElement | null;
+  portalContainer?: HTMLElement | null;
   replyRender?: ReactElement;
   onReact: (emoji: string) => void;
   onReplyInThread?: () => void;
@@ -30,6 +23,7 @@ export function MessageRowToolbar({
   onSavedChange,
   visible,
 }: MessageRowToolbarProps) {
+  const coarsePointer = useMediaQuery("(pointer: coarse)", false);
   const [reactionOpen, setReactionOpen] = useState(false);
   const closeTimerRef = useRef<number | null>(null);
 
@@ -48,6 +42,8 @@ export function MessageRowToolbar({
   }, [clearCloseTimer]);
 
   useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
+
+  if (coarsePointer) return null;
 
   return (
     <MessageItemToolbar
@@ -68,43 +64,22 @@ export function MessageRowToolbar({
           <MessageSquare />
         </MessageItemToolbarButton>
       )}
-      <DropdownMenu open={reactionOpen} onOpenChange={setReactionOpen}>
-        <DropdownMenuTrigger
-          render={
-            <MessageItemToolbarButton aria-pressed={reactionOpen} aria-label="Add reaction">
-              <SmilePlus />
-            </MessageItemToolbarButton>
-          }
-        />
-        <MessageReactionPickerContent
-          side="bottom"
-          align="end"
-          sideOffset={4}
-          collisionAvoidance={{ side: "flip", align: "flip" }}
-          collisionPadding={8}
-          portalProps={{ container: portalContainer }}
-          onMouseEnter={clearCloseTimer}
-          onMouseLeave={scheduleClose}
-        >
-          {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-            <DropdownMenuItem
-              key={emoji}
-              render={
-                <MessageReactionQuickButton
-                  title={`React with ${emoji}`}
-                  aria-label={`React with ${emoji}`}
-                />
-              }
-              onClick={() => {
-                onReact(emoji);
-                setReactionOpen(false);
-              }}
-            >
-              <MessageReactionGlyphComposition emoji={emoji} size={18} />
-            </DropdownMenuItem>
-          ))}
-        </MessageReactionPickerContent>
-      </DropdownMenu>
+      <MessageQuickReactionPicker
+        open={reactionOpen}
+        onOpenChange={setReactionOpen}
+        onReact={onReact}
+        trigger={
+          <MessageItemToolbarButton aria-pressed={reactionOpen} aria-label="Add reaction">
+            <SmilePlus />
+          </MessageItemToolbarButton>
+        }
+        side="bottom"
+        align="end"
+        sideOffset={4}
+        portalContainer={portalContainer}
+        contentOnMouseEnter={clearCloseTimer}
+        contentOnMouseLeave={scheduleClose}
+      />
       <MessageItemSaveButton
         aria-pressed={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}

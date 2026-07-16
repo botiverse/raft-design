@@ -9,6 +9,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider } from "raft-ui";
+import { cn } from "raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
@@ -23,7 +24,8 @@ export const Route = createRootRoute({
       },
       {
         name: "viewport",
-        content: "width=device-width, initial-scale=1",
+        content:
+          "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover",
       },
       {
         name: "description",
@@ -80,6 +82,7 @@ function RootDocument({ children }: { children: ReactNode }) {
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
+  const isPlaygroundPage = isStandalonePage && location.pathname.startsWith("/playground");
   const documentTitle = getDocumentTitle(location.pathname);
 
   return (
@@ -87,7 +90,11 @@ function RootDocument({ children }: { children: ReactNode }) {
       lang="en"
       data-standalone={isStandalonePage || undefined}
       data-theme="elegant"
-      className="light"
+      className={cn(
+        "light",
+        isPlaygroundPage &&
+          "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
+      )}
     >
       <head>
         <title>{documentTitle}</title>
@@ -97,7 +104,11 @@ function RootDocument({ children }: { children: ReactNode }) {
         data-standalone={isStandalonePage || undefined}
         className={
           isStandalonePage
-            ? "h-dvh overflow-hidden overscroll-none bg-background text-foreground antialiased"
+            ? cn(
+                "h-dvh overflow-hidden overscroll-none bg-background text-foreground antialiased",
+                isPlaygroundPage &&
+                  "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
+              )
             : "bg-layer-panel text-foreground antialiased"
         }
       >
@@ -106,7 +117,11 @@ function RootDocument({ children }: { children: ReactNode }) {
             <div
               className={
                 isStandalonePage
-                  ? "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]"
+                  ? cn(
+                      "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
+                      isPlaygroundPage &&
+                        "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
+                    )
                   : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
               }
             >
@@ -114,7 +129,11 @@ function RootDocument({ children }: { children: ReactNode }) {
               <main
                 className={
                   isStandalonePage
-                    ? "h-full pl-[var(--sidebar-w)]"
+                    ? cn(
+                        "h-full pl-[var(--sidebar-w)]",
+                        isPlaygroundPage &&
+                          "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
+                      )
                     : "min-h-screen pl-[var(--sidebar-w)]"
                 }
               >

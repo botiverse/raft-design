@@ -36,8 +36,12 @@ export const PLAYGROUND_CHANNELS = [
 ] as const;
 
 export type PlaygroundChannelId = (typeof PLAYGROUND_CHANNELS)[number]["id"];
+export type PlaygroundDmId = (typeof PLAYGROUND_DIRECT_MESSAGES)[number]["id"];
+export type PlaygroundRoomChannelId = Exclude<PlaygroundChannelId, PlaygroundDmId>;
 export type PlaygroundThreadId = PlaygroundMessageId;
 export type PlaygroundChannelRecord = PlaygroundChannel & { id: PlaygroundChannelId };
+export type PlaygroundDirectMessageRecord = Extract<PlaygroundChannelRecord, { kind: "dm" }>;
+export type PlaygroundRoomChannelRecord = Exclude<PlaygroundChannelRecord, { kind: "dm" }>;
 
 export const DEFAULT_CHANNEL_ID: PlaygroundChannelId = "all";
 export const PLAYGROUND_SERVER_SLUG = "raft";
@@ -47,7 +51,9 @@ export function isPlaygroundServerSlug(value: string): value is typeof PLAYGROUN
 }
 
 const channelsById = new Map<PlaygroundChannelId, PlaygroundChannelRecord>();
+const directMessagesById = new Map<PlaygroundDmId, PlaygroundDirectMessageRecord>();
 const channelIds = new Set<string>();
+const directMessageIds = new Set<string>();
 const channelNames = new Set<string>();
 for (const channel of PLAYGROUND_CHANNELS) {
   if (channelIds.has(channel.id)) {
@@ -93,6 +99,10 @@ for (const channel of PLAYGROUND_CHANNELS) {
   channelIds.add(channel.id);
   channelNames.add(channel.name);
   channelsById.set(channel.id, channel);
+  if (channel.kind === "dm") {
+    directMessageIds.add(channel.id);
+    directMessagesById.set(channel.id, channel);
+  }
 }
 
 export type PlaygroundThreadContext = {
@@ -119,10 +129,24 @@ export function isPlaygroundChannelId(value: string): value is PlaygroundChannel
   return channelIds.has(value);
 }
 
+export function isPlaygroundDmId(value: string): value is PlaygroundDmId {
+  return directMessageIds.has(value);
+}
+
+export function isPlaygroundRoomChannelId(value: string): value is PlaygroundRoomChannelId {
+  return channelIds.has(value) && !directMessageIds.has(value);
+}
+
 export function getPlaygroundChannel(id: PlaygroundChannelId): PlaygroundChannelRecord {
   const channel = channelsById.get(id);
   if (!channel) throw new Error(`Unknown playground channel: ${id}`);
   return channel;
+}
+
+export function getPlaygroundDirectMessage(id: PlaygroundDmId): PlaygroundDirectMessageRecord {
+  const directMessage = directMessagesById.get(id);
+  if (!directMessage) throw new Error(`Unknown playground DM: ${id}`);
+  return directMessage;
 }
 
 export function isPlaygroundThreadId(value: string): value is PlaygroundThreadId {

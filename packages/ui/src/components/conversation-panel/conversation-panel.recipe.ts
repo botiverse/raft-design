@@ -29,7 +29,10 @@ export const conversationPanel = tv({
     theme: {
       brutal: {
         root: "bg-white font-sans text-black",
-        header: "gap-3 border-b-2 border-black bg-white",
+        header: [
+          "gap-3 border-b-2 border-black bg-white",
+          "max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
+        ],
         sectionHeader: [
           "max-md:bg-primary-400",
           "[@media(max-height:600px)]:h-[var(--shell-header-height,62px)]",
@@ -57,13 +60,9 @@ export const conversationPanel = tv({
         root: "relative bg-layer-page font-sans text-foreground",
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,3.5rem)] max-md:z-10 [@media(max-height:600px)]:h-auto",
-          "border-b-0 bg-transparent",
+          "border-b-0 bg-transparent max-md:bg-layer-page",
           "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-          "max-md:items-start max-md:px-[14px] max-md:pt-3",
-          "max-md:before:pointer-events-none max-md:before:absolute max-md:before:inset-x-0 max-md:before:top-0 max-md:before:z-0 max-md:before:h-[calc(100%+0.75rem)]",
-          "max-md:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-md:before:backdrop-blur-[4px]",
-          "max-md:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-md:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
-          "max-md:before:content-[''] max-md:[&>*]:relative max-md:[&>*]:z-10",
+          "max-md:items-start max-md:px-[14px] max-md:!h-[calc(var(--shell-header-height)+env(safe-area-inset-top,0px))] max-md:!pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
         ],
         actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-start",
         headerIcon: [
@@ -105,6 +104,11 @@ export const conversationPanel = tv({
           "[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400",
           "max-md:[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:h-px",
         ],
+      },
+    },
+    mobileVisible: {
+      true: {
+        status: "max-md:!inline-flex",
       },
     },
     size: {

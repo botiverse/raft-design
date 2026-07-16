@@ -1,4 +1,4 @@
-import { AtSign, BellOff, Bookmark, GitBranch, Hash, Pencil, Plus } from "lucide-react";
+import { AtSign, BellOff, Bookmark, Hash, Pencil, Plus } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
@@ -26,6 +26,7 @@ import {
   ChatSidebarRoot,
   ChatSidebarControl,
   ChatSidebarSection,
+  ChatSidebarSectionEmpty,
   ChatSidebarSectionControls,
   ChatSidebarSectionAttention,
   ChatSidebarSectionDisclosure,
@@ -153,10 +154,10 @@ export function ChatSidebarComposition() {
               </ChatSidebarList>
             </ChatSidebarSection>
 
-            <ChatSidebarSection defaultOpen={false}>
+            <ChatSidebarSection>
               <SidebarSectionHeaderMenu
                 menu="channels"
-                count={1}
+                count={0}
                 countLabel="channels"
                 createLabel="Create Joint Channel"
                 createIcon="joint"
@@ -181,21 +182,7 @@ export function ChatSidebarComposition() {
                   </ChatSidebarSectionControls>
                 </ChatSidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
-              <ChatSidebarList>
-                <ChatSidebarItem
-                  type="button"
-                  active={selectedItem === "#partners"}
-                  onClick={() => openDestination("#partners")}
-                >
-                  <ChatSidebarItemChannelIcon aria-hidden>
-                    <GitBranch />
-                  </ChatSidebarItemChannelIcon>
-                  <ChatSidebarItemContent>
-                    <ChatSidebarItemTitle>#partners</ChatSidebarItemTitle>
-                  </ChatSidebarItemContent>
-                  <ChatSidebarItemCount>3</ChatSidebarItemCount>
-                </ChatSidebarItem>
-              </ChatSidebarList>
+              <ChatSidebarSectionEmpty>No joint channels yet</ChatSidebarSectionEmpty>
             </ChatSidebarSection>
 
             <ChatSidebarSection>

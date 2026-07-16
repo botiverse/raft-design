@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import {
   Activity,
   AtSign,
@@ -60,8 +59,8 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
-  PLAYGROUND_SERVER_SLUG,
 } from "./mock/index.ts";
+import { PlaygroundConversationLink } from "./playground-conversation-link.tsx";
 import {
   usePlaygroundNavigation,
   type PlaygroundRailView,
@@ -355,13 +354,7 @@ function PlaygroundSearchView() {
               key={channel.id}
               variant="outline"
               nativeButton={false}
-              render={
-                <Link
-                  to="/playground/s/$serverSlug/channel/$channelId"
-                  params={{ channelId: channel.id, serverSlug: PLAYGROUND_SERVER_SLUG }}
-                  search={{}}
-                />
-              }
+              render={<PlaygroundConversationLink conversation={channel} />}
             >
               {channel.kind === "dm" ? "@" : "#"}
               {channel.name}
