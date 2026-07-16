@@ -1,29 +1,3 @@
-export {
-  AppRailFooter,
-  AppRailHeader,
-  AppRailItem,
-  AppRailItemAttention,
-  AppRailItemAttentionMask,
-  AppRailItemBadge,
-  AppRailItemIcon,
-  AppRailItemIndicator,
-  AppRailItemLabel,
-  AppRailNav,
-  AppRailRoot,
-} from "./components/app-rail/index";
-export type {
-  AppRailFooterProps,
-  AppRailHeaderProps,
-  AppRailItemAttentionMaskProps,
-  AppRailItemAttentionProps,
-  AppRailItemBadgeProps,
-  AppRailItemIconProps,
-  AppRailItemIndicatorProps,
-  AppRailItemLabelProps,
-  AppRailItemProps,
-  AppRailNavProps,
-  AppRailRootProps,
-} from "./components/app-rail/index";
 export { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./components/mobile-nav";
 export type {
   MobileNavItemProps,
