@@ -1,7 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { Select as BaseSelect } from "@base-ui/react/select";
 import {
+  AppRailItem,
   AppRailFooter,
   AppRailHeader,
+  AppRailItemIcon,
+  AppRailItemLabel,
   AppRailItemAttention,
   AppRailItemIndicator,
   AppRailNav,
@@ -54,6 +58,7 @@ import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
+import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
 
 const currentServerName = "Raft 中文社区";
 const currentServerAvatarSrc =
@@ -227,12 +232,24 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             </div>
             <AppRailFooter>
               <PlaygroundNotificationCenter />
-              <AppRailNavItem
-                selected={railView === "settings"}
-                render={<button type="button" onClick={() => selectView("settings")} />}
-                label="Settings"
-                icon={<Settings />}
-              />
+              <PlaygroundThemeSelect side="right">
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <BaseSelect.Trigger
+                        render={<AppRailItem />}
+                        aria-label="Select Playground theme"
+                      />
+                    }
+                  >
+                    <AppRailItemIcon>
+                      <Settings />
+                    </AppRailItemIcon>
+                    <AppRailItemLabel>Settings</AppRailItemLabel>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Settings</TooltipContent>
+                </Tooltip>
+              </PlaygroundThemeSelect>
             </AppRailFooter>
           </TooltipProvider>
         </AppRailRoot>
@@ -266,14 +283,12 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             <Users />
             <MobileNavLabel>Members</MobileNavLabel>
           </MobileNavItem>
-          <MobileNavItem
-            selected={railView === "settings"}
-            onClick={() => selectView("settings")}
-            aria-label="Settings"
-          >
-            <Settings />
-            <MobileNavLabel>Settings</MobileNavLabel>
-          </MobileNavItem>
+          <PlaygroundThemeSelect side="top">
+            <BaseSelect.Trigger render={<MobileNavItem aria-label="Select Playground theme" />}>
+              <Settings />
+              <MobileNavLabel>Settings</MobileNavLabel>
+            </BaseSelect.Trigger>
+          </PlaygroundThemeSelect>
         </MobileNavRoot>
       ) : null}
     </>

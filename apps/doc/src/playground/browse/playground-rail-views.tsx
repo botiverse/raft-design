@@ -139,7 +139,7 @@ const auxiliaryViewDetails: Record<AuxiliaryRailView, readonly RailDetail[]> = {
     {
       id: "appearance",
       label: "Appearance",
-      description: "Theme controls remain available in the Playground toolbar.",
+      description: "Choose a theme from the Settings menu in the navigation.",
       group: "Personal",
       icon: Palette,
     },
