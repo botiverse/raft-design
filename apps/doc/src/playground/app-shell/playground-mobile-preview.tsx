@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
-import type { SetTheme, Theme, ThemeMode } from "raft-ui";
+import { useCallback, useEffect, useRef } from "react";
+import type { Theme, ThemeMode } from "raft-ui";
 
 const THEME_MESSAGE = "playground-preview-theme";
 const PREVIEW_READY_MESSAGE = "playground-preview-ready";
@@ -19,10 +19,6 @@ type PlaygroundMobilePreviewProps = {
   theme: Theme;
   mode: ThemeMode;
 };
-
-const subscribeToEmbeddingState = () => () => undefined;
-const readEmbeddingState = () => window.self !== window.top;
-const readServerEmbeddingState = () => false;
 
 export function PlaygroundMobilePreview({ src, theme, mode }: PlaygroundMobilePreviewProps) {
   const frameRef = useRef<HTMLIFrameElement>(null);
@@ -63,51 +59,6 @@ export function PlaygroundMobilePreview({ src, theme, mode }: PlaygroundMobilePr
         onLoad={syncTheme}
       />
     </div>
-  );
-}
-
-export function usePlaygroundEmbeddedPreview(setTheme: SetTheme) {
-  const embedded = useSyncExternalStore(
-    subscribeToEmbeddingState,
-    readEmbeddingState,
-    readServerEmbeddingState,
-  );
-  useEffect(() => {
-    if (!embedded) return;
-
-    const handleMessage = (event: MessageEvent) => {
-      if (
-        event.origin !== window.location.origin ||
-        event.source !== window.parent ||
-        !isThemeMessage(event.data)
-      ) {
-        return;
-      }
-
-      if (event.data.theme === "brutal") {
-        setTheme("brutal");
-      } else {
-        setTheme("elegant", { mode: event.data.mode });
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-    const readyMessage: PlaygroundPreviewReadyMessage = { type: PREVIEW_READY_MESSAGE };
-    window.parent.postMessage(readyMessage, window.location.origin);
-    return () => window.removeEventListener("message", handleMessage);
-  }, [embedded, setTheme]);
-
-  return embedded;
-}
-
-function isThemeMessage(value: unknown): value is PlaygroundThemeMessage {
-  if (!value || typeof value !== "object") return false;
-
-  const message = value as Partial<PlaygroundThemeMessage>;
-  return (
-    message.type === THEME_MESSAGE &&
-    (message.theme === "brutal" || message.theme === "elegant") &&
-    (message.mode === "light" || message.mode === "dark" || message.mode === "system")
   );
 }
 

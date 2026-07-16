@@ -6,7 +6,7 @@ import { AppShellMainSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui/wip
 
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundRailViewSidebar } from "./playground-rail-views.tsx";
-import { usePlaygroundNavigation } from "../navigation/playground-navigation-state.tsx";
+import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
 export function PlaygroundBrowseShell() {
   const theme = useThemeFamily();

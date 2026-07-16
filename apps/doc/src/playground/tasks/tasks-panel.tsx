@@ -25,7 +25,7 @@ import {
   type PlaygroundChannelRecord,
   type PlaygroundTask,
 } from "../mock/index.ts";
-import { usePlaygroundTaskState } from "./task-state.tsx";
+import { usePlaygroundTaskState } from "./use-playground-task-state.ts";
 
 type Tasks = NonNullable<TasksPanelCompositionProps["tasks"]>;
 type TaskView = NonNullable<TasksPanelCompositionProps["view"]>;

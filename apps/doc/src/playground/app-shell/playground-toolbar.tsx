@@ -1,4 +1,5 @@
 import { ThemeProvider, type Theme, type ThemeMode } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import { Smartphone } from "lucide-react";
 
 type PlaygroundThemePreset = {
@@ -49,7 +50,7 @@ export function PlaygroundToolbar({
                 key={preset.label}
                 type="button"
                 aria-pressed={isActive}
-                className={`${segment} ${isActive ? active : idle}`}
+                className={cn(segment, isActive ? active : idle)}
                 onClick={() => onThemeChange(preset.family, { mode: preset.mode })}
               >
                 {preset.label}
@@ -62,12 +63,12 @@ export function PlaygroundToolbar({
           type="button"
           aria-label="Toggle mobile preview"
           aria-pressed={mobile}
-          className={[
+          className={cn(
             "inline-flex size-6 items-center justify-center rounded-[3px] transition duration-200 ease-out max-md:hidden",
             mobile
               ? "bg-ink-8 text-foreground-strong"
               : "text-foreground-placeholder hover:bg-ink-4 hover:text-foreground-muted",
-          ].join(" ")}
+          )}
           onClick={() => onMobileChange(!mobile)}
         >
           <Smartphone aria-hidden className="size-3.5" />

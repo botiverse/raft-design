@@ -61,10 +61,8 @@ import {
   PLAYGROUND_ROOM_CHANNELS,
 } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
-import {
-  usePlaygroundNavigation,
-  type PlaygroundRailView,
-} from "../navigation/playground-navigation-state.tsx";
+import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
+import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;
 

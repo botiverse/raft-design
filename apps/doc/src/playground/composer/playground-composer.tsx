@@ -48,7 +48,7 @@ import {
 
 import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
 import { ComposerAttachmentsComposition } from "#/modules/chat-composer/compositions/composer-shared.composition.tsx";
-import { usePlaygroundSingleComposerMentionTarget } from "./playground-composer-mentions.tsx";
+import { usePlaygroundSingleComposerMentionTarget } from "./use-playground-single-composer-mention-target.ts";
 import type {
   PlaygroundChannel,
   PlaygroundComposerAttachment,
@@ -120,6 +120,22 @@ function AutocompleteOption({
   );
 }
 
+function AutocompleteOptions({
+  autocomplete,
+  items,
+}: {
+  autocomplete: AutocompleteApi;
+  items: readonly { index: number; suggestion: ComposerSuggestion }[];
+}) {
+  return items.map(({ index, suggestion }) => (
+    <AutocompleteOption
+      key={suggestion.kind === "mention" ? suggestion.handle : suggestion.id}
+      suggestion={suggestion}
+      optionProps={autocomplete.getOptionProps(suggestion, index)}
+    />
+  ));
+}
+
 function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
   const indexedItems = autocomplete.items.map((suggestion, index) => ({ index, suggestion }));
   const inChannel = indexedItems.filter(
@@ -128,20 +144,6 @@ function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
   const outsideChannel = indexedItems.filter(
     ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "outside-channel",
   );
-  const renderOption = ({
-    index,
-    suggestion,
-  }: {
-    index: number;
-    suggestion: ComposerSuggestion;
-  }) => (
-    <AutocompleteOption
-      key={suggestion.kind === "mention" ? suggestion.handle : suggestion.id}
-      suggestion={suggestion}
-      optionProps={autocomplete.getOptionProps(suggestion, index)}
-    />
-  );
-
   return (
     <ComposerSuggestionList
       {...autocomplete.getListProps({ "aria-label": "Mention and channel suggestions" })}
@@ -149,7 +151,7 @@ function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
       {inChannel.length > 0 ? (
         <ComposerSuggestionGroup role="group" aria-label="In this channel">
           <ComposerSuggestionGroupLabel aria-hidden>In this channel</ComposerSuggestionGroupLabel>
-          {inChannel.map(renderOption)}
+          <AutocompleteOptions autocomplete={autocomplete} items={inChannel} />
         </ComposerSuggestionGroup>
       ) : null}
       {outsideChannel.length > 0 ? (
@@ -157,12 +159,12 @@ function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
           <ComposerSuggestionGroupLabel aria-hidden>
             Not in this channel
           </ComposerSuggestionGroupLabel>
-          {outsideChannel.map(renderOption)}
+          <AutocompleteOptions autocomplete={autocomplete} items={outsideChannel} />
         </ComposerSuggestionGroup>
       ) : null}
-      {inChannel.length === 0 && outsideChannel.length === 0
-        ? indexedItems.map(renderOption)
-        : null}
+      {inChannel.length === 0 && outsideChannel.length === 0 ? (
+        <AutocompleteOptions autocomplete={autocomplete} items={indexedItems} />
+      ) : null}
     </ComposerSuggestionList>
   );
 }
@@ -254,7 +256,9 @@ function PlaygroundComposer({
 
   // Keep the latest insert handler in a ref so the registration below stays subscribed
   // to `mentionTarget` alone without re-running as the composer draft changes.
-  insertMentionRef.current = (handle) => autocomplete.insert(`@${handle} `);
+  useEffect(() => {
+    insertMentionRef.current = (handle) => autocomplete.insert(`@${handle} `);
+  }, [autocomplete]);
 
   useEffect(() => {
     if (!mentionTarget) return;

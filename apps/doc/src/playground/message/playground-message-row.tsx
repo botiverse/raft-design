@@ -42,7 +42,7 @@ import {
   type PlaygroundAgentStatus,
   type PlaygroundAvatarVariant,
 } from "./playground-message-avatar.tsx";
-import { usePlaygroundSingleComposerMentionTarget } from "../composer/playground-composer-mentions.tsx";
+import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
   getPlaygroundActor,
   getPlaygroundThread,
@@ -60,7 +60,7 @@ import {
 import {
   usePlaygroundMessageWorkflow,
   usePlaygroundThreadFollow,
-} from "./playground-message-workflow-state.tsx";
+} from "./use-playground-message-workflow.ts";
 
 export type RowVariant = PlaygroundAvatarVariant;
 

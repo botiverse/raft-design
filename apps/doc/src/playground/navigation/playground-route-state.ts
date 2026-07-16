@@ -2,7 +2,7 @@ import { getRouteApi, useNavigate, useRouterState } from "@tanstack/react-router
 import { useCallback } from "react";
 
 import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
-import type { PlaygroundRailView } from "./playground-navigation-state.tsx";
+import type { PlaygroundRailView } from "./playground-navigation.ts";
 
 const playgroundRoute = getRouteApi("/playground");
 

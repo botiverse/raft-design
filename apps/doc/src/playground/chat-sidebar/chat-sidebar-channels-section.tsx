@@ -20,10 +20,7 @@ import {
   type SidebarSortValue,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
-import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
-import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
-import { PlaygroundChatSidebarItem } from "./chat-sidebar-item.tsx";
-import { getChatSidebarRowMenu } from "./chat-sidebar-row-menu.ts";
+import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
 import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
 
 export function ChatSidebarChannelsSection({
@@ -40,18 +37,6 @@ export function ChatSidebarChannelsSection({
   const ordered = useMemo(() => sortChannels(manualOrder, sortMode), [manualOrder, sortMode]);
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
-  );
-
-  const renderChannel = (row: PlaygroundRoomChannelRecord) => (
-    <PlaygroundChatSidebarItem
-      key={row.id}
-      active={activeChannelId === row.id}
-      menu={getChatSidebarRowMenu(row)}
-      onArchive={() => onArchive(row)}
-      render={<PlaygroundConversationLink conversation={row} />}
-    >
-      <ChatSidebarChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-    </PlaygroundChatSidebarItem>
   );
 
   return (
@@ -91,12 +76,25 @@ export function ChatSidebarChannelsSection({
         <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
           {ordered.map((row) => (
             <SortableChatSidebarItem key={row.id} id={row.id}>
-              {renderChannel(row)}
+              <ChatSidebarChannelItem
+                activeChannelId={activeChannelId}
+                channel={row}
+                onArchive={onArchive}
+              />
             </SortableChatSidebarItem>
           ))}
         </SortableChatSidebarList>
       ) : (
-        <ChatSidebarList>{ordered.map(renderChannel)}</ChatSidebarList>
+        <ChatSidebarList>
+          {ordered.map((row) => (
+            <ChatSidebarChannelItem
+              key={row.id}
+              activeChannelId={activeChannelId}
+              channel={row}
+              onArchive={onArchive}
+            />
+          ))}
+        </ChatSidebarList>
       )}
     </ChatSidebarSection>
   );

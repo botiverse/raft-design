@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import {
   ConversationPanelHeader,
   ConversationPanelHeaderContent,
@@ -21,7 +22,7 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
     : PLAYGROUND_PRESENCE_STATUS.offline;
 
   return (
-    <ConversationPanelHeader className={`${mobileStickyHeaderClassName} max-md:items-center`}>
+    <ConversationPanelHeader className={cn(mobileStickyHeaderClassName, "max-md:items-center")}>
       <PlaygroundConversationBackButton />
       <Avatar size={isAgent ? "sm" : "md"} type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}

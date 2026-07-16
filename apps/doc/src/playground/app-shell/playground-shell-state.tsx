@@ -1,21 +1,10 @@
-import { createContext, use, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
-export const PLAYGROUND_SERVERS = [
-  { id: "raft", name: "Raft Playground", initial: "R" },
-  { id: "design-guild", name: "Design Guild", initial: "D" },
-  { id: "open-source", name: "Open Source", initial: "O" },
-] as const;
-
-type PlaygroundServerId = (typeof PLAYGROUND_SERVERS)[number]["id"];
-
-type PlaygroundShellState = {
-  activeServer: (typeof PLAYGROUND_SERVERS)[number];
-  notificationVisible: boolean;
-  dismissNotification: () => void;
-  selectServer: (serverId: PlaygroundServerId) => void;
-};
-
-const PlaygroundShellContext = createContext<PlaygroundShellState | null>(null);
+import {
+  PlaygroundShellContext,
+  type PlaygroundShellState,
+} from "./playground-shell-state-context.ts";
+import { PLAYGROUND_SERVERS, type PlaygroundServerId } from "./playground-servers.ts";
 
 export function PlaygroundShellStateProvider({ children }: { children: ReactNode }) {
   const [serverId, setServerId] = useState<PlaygroundServerId>("raft");
@@ -33,12 +22,4 @@ export function PlaygroundShellStateProvider({ children }: { children: ReactNode
   );
 
   return <PlaygroundShellContext value={value}>{children}</PlaygroundShellContext>;
-}
-
-export function usePlaygroundShellState() {
-  const state = use(PlaygroundShellContext);
-  if (!state) {
-    throw new Error("usePlaygroundShellState must be used inside PlaygroundShellStateProvider");
-  }
-  return state;
 }

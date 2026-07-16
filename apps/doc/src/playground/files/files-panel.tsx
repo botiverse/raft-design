@@ -11,7 +11,7 @@ import {
   type PlaygroundChannelRecord,
   type PlaygroundFile,
 } from "../mock/index.ts";
-import { usePlaygroundNavigation } from "../navigation/playground-navigation-state.tsx";
+import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
 const PAGE_SIZE = 2;
 

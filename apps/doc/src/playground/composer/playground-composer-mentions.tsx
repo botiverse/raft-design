@@ -1,16 +1,10 @@
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
-type MentionInserter = (handle: string) => void;
-
-interface PlaygroundSingleComposerMentionTarget {
-  /** Inserts a stable actor handle into this provider's single composer. */
-  insertMention: MentionInserter;
-  /** Registers the provider's only composer and returns its scoped cleanup. */
-  registerComposer: (inserter: MentionInserter) => () => void;
-}
-
-const PlaygroundSingleComposerMentionContext =
-  createContext<PlaygroundSingleComposerMentionTarget | null>(null);
+import {
+  PlaygroundSingleComposerMentionContext,
+  type MentionInserter,
+  type PlaygroundSingleComposerMentionTarget,
+} from "./playground-composer-mention-context.ts";
 
 /**
  * Scopes mention coordination between a panel's message rows and its only composer.
@@ -37,8 +31,4 @@ export function PlaygroundSingleComposerMentionProvider({ children }: { children
       {children}
     </PlaygroundSingleComposerMentionContext.Provider>
   );
-}
-
-export function usePlaygroundSingleComposerMentionTarget() {
-  return useContext(PlaygroundSingleComposerMentionContext);
 }

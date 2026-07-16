@@ -15,10 +15,7 @@ import {
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
-import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
-import { ChatSidebarDirectMessageRowContent } from "./chat-sidebar-direct-message-row-content.tsx";
-import { PlaygroundChatSidebarItem } from "./chat-sidebar-item.tsx";
-import { getChatSidebarRowMenu } from "./chat-sidebar-row-menu.ts";
+import { ChatSidebarDirectMessageItem } from "./chat-sidebar-direct-message-item.tsx";
 import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
 
 export function ChatSidebarDirectMessagesSection({
@@ -52,17 +49,11 @@ export function ChatSidebarDirectMessagesSection({
       <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
         {ordered.map((row) => (
           <SortableChatSidebarItem key={row.id} id={row.id}>
-            <PlaygroundChatSidebarItem
-              active={activeChannelId === row.id}
-              menu={getChatSidebarRowMenu(row)}
-              onCloseDm={() => onCloseDm(row)}
-              render={<PlaygroundConversationLink conversation={row} />}
-            >
-              <ChatSidebarDirectMessageRowContent
-                row={row}
-                hideBadge={activeChannelId === row.id}
-              />
-            </PlaygroundChatSidebarItem>
+            <ChatSidebarDirectMessageItem
+              activeChannelId={activeChannelId}
+              directMessage={row}
+              onClose={onCloseDm}
+            />
           </SortableChatSidebarItem>
         ))}
       </SortableChatSidebarList>

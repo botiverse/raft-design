@@ -2,7 +2,7 @@ import { Outlet } from "@tanstack/react-router";
 
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 
-import { usePlaygroundEmbeddedPreview } from "./playground-mobile-preview.tsx";
+import { usePlaygroundEmbeddedPreview } from "./use-playground-embedded-preview.ts";
 import { PlaygroundNavigationProvider } from "../navigation/playground-navigation-state.tsx";
 import { usePlaygroundRouteState } from "../navigation/playground-route-state.ts";
 import { PlaygroundTaskStateProvider } from "../tasks/task-state.tsx";

@@ -1,8 +1,15 @@
-import { Badge, DropdownMenu, DropdownMenuTrigger } from "raft-ui";
+import { Check } from "lucide-react";
+import {
+  Badge,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "raft-ui";
 
-import type { PlaygroundTaskId } from "../mock/index.ts";
-import { usePlaygroundTask } from "./task-state.tsx";
-import { TASK_STATUS_CONFIG, TaskStatusMenuContent } from "./task-status-menu-content.tsx";
+import type { PlaygroundTaskId, PlaygroundTaskStatus } from "../mock/index.ts";
+import { usePlaygroundTask, usePlaygroundTaskState } from "./use-playground-task-state.ts";
+import { TASK_STATUS_CONFIG } from "./task-status-config.ts";
 
 export function TaskStatusBadge({
   taskId,
@@ -23,18 +30,7 @@ export function TaskStatusBadge({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Badge
-            appearance="solid"
-            variant={config.variant}
-            render={
-              <button
-                type="button"
-                disabled={busy}
-                title={`${fullLabel} · Change task status`}
-                aria-label={`Change status for ${fullLabel}`}
-              />
-            }
-          />
+          <TaskStatusBadgeTrigger variant={config.variant} busy={busy} fullLabel={fullLabel} />
         }
       >
         <Icon size={10} />
@@ -43,5 +39,63 @@ export function TaskStatusBadge({
       </DropdownMenuTrigger>
       <TaskStatusMenuContent taskId={task.id} status={status} />
     </DropdownMenu>
+  );
+}
+
+function TaskStatusBadgeTrigger({
+  variant,
+  busy,
+  fullLabel,
+}: {
+  variant: (typeof TASK_STATUS_CONFIG)[PlaygroundTaskStatus]["variant"];
+  busy?: boolean;
+  fullLabel: string;
+}) {
+  return (
+    <Badge
+      appearance="solid"
+      variant={variant}
+      render={
+        <button
+          type="button"
+          disabled={busy}
+          title={`${fullLabel} · Change task status`}
+          aria-label={`Change status for ${fullLabel}`}
+        />
+      }
+    />
+  );
+}
+
+function TaskStatusMenuContent({
+  taskId,
+  status,
+}: {
+  taskId: PlaygroundTaskId;
+  status: PlaygroundTaskStatus;
+}) {
+  const { setTasks } = usePlaygroundTaskState();
+
+  return (
+    <DropdownMenuContent align="start" className="min-w-[140px]">
+      {Object.keys(TASK_STATUS_CONFIG).map((id) => {
+        const taskStatus = id as PlaygroundTaskStatus;
+        return (
+          <DropdownMenuItem
+            key={taskStatus}
+            onClick={() =>
+              setTasks((tasks) =>
+                tasks.map((candidate) =>
+                  candidate.id === taskId ? { ...candidate, status: taskStatus } : candidate,
+                ),
+              )
+            }
+          >
+            <span>{TASK_STATUS_CONFIG[taskStatus].label}</span>
+            {taskStatus === status ? <Check size={14} /> : null}
+          </DropdownMenuItem>
+        );
+      })}
+    </DropdownMenuContent>
   );
 }

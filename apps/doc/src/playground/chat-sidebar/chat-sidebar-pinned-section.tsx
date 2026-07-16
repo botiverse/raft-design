@@ -21,10 +21,7 @@ import type {
   PlaygroundDirectMessageRecord,
   PlaygroundRoomChannelRecord,
 } from "../mock/index.ts";
-import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
-import { PlaygroundChatSidebarItem } from "./chat-sidebar-item.tsx";
-import { ChatSidebarPinnedRowContent } from "./chat-sidebar-pinned-row-content.tsx";
-import { getChatSidebarRowMenu } from "./chat-sidebar-row-menu.ts";
+import { ChatSidebarPinnedItem } from "./chat-sidebar-pinned-item.tsx";
 import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
 
 export function ChatSidebarPinnedSection({
@@ -63,15 +60,12 @@ export function ChatSidebarPinnedSection({
         <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
           {ordered.map((row) => (
             <SortableChatSidebarItem key={row.id} id={row.id}>
-              <PlaygroundChatSidebarItem
-                active={activeChannelId === row.id}
-                menu={getChatSidebarRowMenu(row)}
-                onArchive={row.kind === "dm" ? undefined : () => onArchive(row)}
-                onCloseDm={row.kind === "dm" ? () => onCloseDm(row) : undefined}
-                render={<PlaygroundConversationLink conversation={row} />}
-              >
-                <ChatSidebarPinnedRowContent row={row} hideBadge={activeChannelId === row.id} />
-              </PlaygroundChatSidebarItem>
+              <ChatSidebarPinnedItem
+                activeChannelId={activeChannelId}
+                conversation={row}
+                onArchive={onArchive}
+                onCloseDm={onCloseDm}
+              />
             </SortableChatSidebarItem>
           ))}
         </SortableChatSidebarList>

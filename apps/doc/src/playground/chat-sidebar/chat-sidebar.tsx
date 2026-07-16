@@ -20,12 +20,12 @@ import {
   type LiveAgentActivityBarItem,
 } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
-import { usePlaygroundNavigation } from "../navigation/playground-navigation-state.tsx";
+import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import {
   PlaygroundNotificationCenter,
   PlaygroundSidebarServerSwitcher,
 } from "../rail/playground-rail.tsx";
-import { usePlaygroundShellState } from "../app-shell/playground-shell-state.tsx";
+import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
 import { ChatSidebarArchiveDialog } from "./chat-sidebar-archive-dialog.tsx";
 import { ChatSidebarChannelsSection } from "./chat-sidebar-channels-section.tsx";
 import {

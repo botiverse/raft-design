@@ -1,42 +1,10 @@
-import { createContext, use, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
-export type PlaygroundRailView =
-  | "search"
-  | "chat"
-  | "activity"
-  | "saved"
-  | "tasks"
-  | "members"
-  | "computers"
-  | "settings";
-
-export type PlaygroundPanelTab = "chat" | "tasks" | "files";
-
-const playgroundRailViews = new Set<PlaygroundRailView>([
-  "search",
-  "chat",
-  "activity",
-  "saved",
-  "tasks",
-  "members",
-  "computers",
-  "settings",
-]);
-
-export function isPlaygroundRailView(value: string): value is PlaygroundRailView {
-  return playgroundRailViews.has(value as PlaygroundRailView);
-}
-
-type PlaygroundNavigationState = {
-  railView: PlaygroundRailView;
-  panelTab: PlaygroundPanelTab;
-  railDetailId?: string;
-  selectRailView: (view: PlaygroundRailView) => void;
-  selectPanelTab: (tab: PlaygroundPanelTab) => void;
-  selectRailDetail: (id?: string) => void;
-};
-
-const PlaygroundNavigationContext = createContext<PlaygroundNavigationState | null>(null);
+import {
+  PlaygroundNavigationContext,
+  type PlaygroundNavigationState,
+} from "./playground-navigation-context.ts";
+import type { PlaygroundPanelTab, PlaygroundRailView } from "./playground-navigation.ts";
 
 export function PlaygroundNavigationProvider({
   children,
@@ -66,12 +34,4 @@ export function PlaygroundNavigationProvider({
   );
 
   return <PlaygroundNavigationContext value={value}>{children}</PlaygroundNavigationContext>;
-}
-
-export function usePlaygroundNavigation() {
-  const state = use(PlaygroundNavigationContext);
-  if (!state) {
-    throw new Error("usePlaygroundNavigation must be used inside PlaygroundNavigationProvider");
-  }
-  return state;
 }

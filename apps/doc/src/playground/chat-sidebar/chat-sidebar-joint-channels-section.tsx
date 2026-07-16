@@ -17,10 +17,7 @@ import {
   SidebarSectionHeaderMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
-import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
-import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
-import { PlaygroundChatSidebarItem } from "./chat-sidebar-item.tsx";
-import { getChatSidebarRowMenu } from "./chat-sidebar-row-menu.ts";
+import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
 import { useChatSidebarSectionOrder } from "./use-chat-sidebar-section-order.ts";
 
 export function ChatSidebarJointChannelsSection({
@@ -68,13 +65,7 @@ export function ChatSidebarJointChannelsSection({
         <SortableChatSidebarList items={visibleOrder} onReorder={onReorder}>
           {ordered.map((row) => (
             <SortableChatSidebarItem key={row.id} id={row.id}>
-              <PlaygroundChatSidebarItem
-                active={activeChannelId === row.id}
-                menu={getChatSidebarRowMenu(row)}
-                render={<PlaygroundConversationLink conversation={row} />}
-              >
-                <ChatSidebarChannelRowContent row={row} hideBadge={activeChannelId === row.id} />
-              </PlaygroundChatSidebarItem>
+              <ChatSidebarChannelItem activeChannelId={activeChannelId} channel={row} />
             </SortableChatSidebarItem>
           ))}
         </SortableChatSidebarList>

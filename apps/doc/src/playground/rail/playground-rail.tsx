@@ -56,11 +56,9 @@ import {
   ChatSidebarServerLabel,
 } from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
 import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
-import {
-  isPlaygroundRailView,
-  usePlaygroundNavigation,
-} from "../navigation/playground-navigation-state.tsx";
-import { usePlaygroundShellState } from "../app-shell/playground-shell-state.tsx";
+import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
+import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
+import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
 
 const currentServerName = "Raft 中文社区";
 const currentServerAvatarSrc =

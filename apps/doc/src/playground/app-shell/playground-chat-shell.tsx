@@ -19,7 +19,7 @@ import {
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundSidebar } from "../chat-sidebar/chat-sidebar.tsx";
 import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
-import { usePlaygroundTaskState } from "../tasks/task-state.tsx";
+import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { usePlaygroundDesktop, usePlaygroundLargeDesktop } from "./use-playground-desktop.ts";
 
 export function PlaygroundChatShell() {
