@@ -33,11 +33,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
-import {
-  MobileNavItem,
-  MobileNavLabel,
-  MobileNavRoot,
-} from "raft-ui/wip";
+import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui/wip";
 import {
   Activity,
   CheckSquare,
