@@ -58,6 +58,17 @@ for (const channel of PLAYGROUND_CHANNELS) {
   if (channel.kind !== "dm" && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(channel.name)) {
     throw new Error(`Invalid playground channel name: ${channel.name}`);
   }
+  const unreadMessageCount =
+    channel.content.kind === "messages"
+      ? channel.content.messages.filter((message) => message.unread).length
+      : 0;
+  const expectedBadge = unreadMessageCount > 0 ? String(unreadMessageCount) : undefined;
+  if (channel.navigation.badge !== expectedBadge) {
+    throw new Error(`Mismatched unread badge for playground channel: ${channel.id}`);
+  }
+  if (Boolean(channel.navigation.unread) !== unreadMessageCount > 0) {
+    throw new Error(`Mismatched unread state for playground channel: ${channel.id}`);
+  }
   channelIds.add(channel.id);
   channelNames.add(channel.name);
   channelsById.set(channel.id, channel);

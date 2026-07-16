@@ -3,7 +3,6 @@ import { defineStandardDm } from "./conversation-model.ts";
 export const PLAYGROUND_DIRECT_MESSAGES = [
   defineStandardDm({
     id: "dm-noah",
-    navigation: { badge: "12" },
     otherActorId: "noah",
     subtitle: "Growth experiments and activation metrics.",
     story: {
@@ -15,6 +14,80 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "That matches the interviews. Keep detailed configuration available after first success.",
       },
+      updates: [
+        {
+          authorId: "noah",
+          time: "09:27 AM",
+          unread: true,
+          body: "The invite prompt is now the highest-converting step after workspace creation.",
+        },
+        {
+          authorId: "noah",
+          time: "09:31 AM",
+          unread: true,
+          body: "Teams that skip it still reach activation, but they take an extra session to get there.",
+        },
+        {
+          authorId: "noah",
+          time: "09:36 AM",
+          unread: true,
+          body: "I separated the effect from campaign traffic so it is not a source-mix artifact.",
+        },
+        {
+          authorId: "noah",
+          time: "09:40 AM",
+          unread: true,
+          body: "The strongest cohort is new workspaces with two to five members.",
+        },
+        {
+          authorId: "noah",
+          time: "09:44 AM",
+          unread: true,
+          body: "Larger teams respond better when an owner completes setup before sending invitations.",
+        },
+        {
+          authorId: "noah",
+          time: "09:48 AM",
+          unread: true,
+          body: "I added the breakdown to the experiment note with confidence intervals.",
+        },
+        {
+          authorId: "noah",
+          time: "09:53 AM",
+          unread: true,
+          body: "There is no retention regression in the early-access cohort so far.",
+        },
+        {
+          authorId: "noah",
+          time: "09:57 AM",
+          unread: true,
+          body: "One caveat: mobile completion is still below desktop after the first invite.",
+        },
+        {
+          authorId: "noah",
+          time: "10:01 AM",
+          unread: true,
+          body: "I opened a follow-up for the smaller-screen invitation layout.",
+        },
+        {
+          authorId: "noah",
+          time: "10:05 AM",
+          unread: true,
+          body: "The next readout will include day-seven activation, not just first-session success.",
+        },
+        {
+          authorId: "noah",
+          time: "10:09 AM",
+          unread: true,
+          body: "I tagged the customers who mentioned configuration anxiety in their interviews.",
+        },
+        {
+          authorId: "noah",
+          time: "10:13 AM",
+          unread: true,
+          body: "Those notes support keeping advanced settings available without putting them in the critical path.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -58,7 +131,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-elliot",
-    navigation: { badge: "1" },
     otherActorId: "elliot",
     subtitle: "Developer experience and local tooling.",
     story: {
@@ -70,6 +142,14 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Nice. I will document the cached path separately so the baseline stays honest.",
       },
+      updates: [
+        {
+          authorId: "elliot",
+          time: "09:29 AM",
+          unread: true,
+          body: "I added a cold-start trace so the generated-assets step is visible in the setup report.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -86,7 +166,7 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-claude",
-    navigation: { badge: "1", unread: true, pinned: true },
+    navigation: { pinned: true },
     otherActorId: "claudeAssistant",
     subtitle: "Planning on the primary online machine.",
     story: {
@@ -98,6 +178,14 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Send me the exact files and I will re-sync them before the release cut.",
       },
+      updates: [
+        {
+          authorId: "claudeAssistant",
+          time: "09:30 AM",
+          unread: true,
+          body: "I posted both source paths and the expected DOM snapshots in the fixture audit.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -114,7 +202,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-olivia",
-    navigation: { badge: "1" },
     otherActorId: "olivia",
     subtitle: "QA lead for desktop and mobile.",
     story: {
@@ -126,6 +213,14 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "I will check the composed button size and keep the fix local to responsive chrome.",
       },
+      updates: [
+        {
+          authorId: "olivia",
+          time: "09:31 AM",
+          unread: true,
+          body: "I attached the 320px reproduction and the keyboard sequence that makes the close target fail.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -142,7 +237,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-mateo",
-    navigation: { badge: "1" },
     otherActorId: "mateo",
     subtitle: "Infrastructure and staging deploys.",
     story: {
@@ -154,6 +248,14 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Perfect. I will wait for the checkpoint before starting product verification.",
       },
+      updates: [
+        {
+          authorId: "mateo",
+          time: "09:32 AM",
+          unread: true,
+          body: "The replay finished cleanly; the checkpoint and worker health summary are ready.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -197,7 +299,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-release",
-    navigation: { badge: "1" },
     otherActorId: "releaseScribe",
     subtitle: "Drafting release notes and changelogs.",
     story: {
@@ -209,6 +310,14 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Tighten the first item around workflow improvement, not implementation detail.",
       },
+      updates: [
+        {
+          authorId: "releaseScribe",
+          time: "09:33 AM",
+          unread: true,
+          body: "Updated — the opening now leads with faster thread triage and cites the measurable outcome.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -225,7 +334,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-code-pilot",
-    navigation: { badge: "3", unread: true },
     otherActorId: "codePilot",
     subtitle: "Active — refactoring the auth module.",
     story: {
@@ -237,6 +345,26 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Verify redirect behavior for expired and revoked sessions separately.",
       },
+      updates: [
+        {
+          authorId: "codePilot",
+          time: "09:29 AM",
+          unread: true,
+          body: "Expired sessions now preserve the intended destination after sign-in.",
+        },
+        {
+          authorId: "codePilot",
+          time: "09:33 AM",
+          unread: true,
+          body: "Revoked sessions clear cached permissions before the redirect runs.",
+        },
+        {
+          authorId: "codePilot",
+          time: "09:37 AM",
+          unread: true,
+          body: "I added route-level coverage for both paths and the stale-token boundary.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -280,7 +408,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-qa-sentinel",
-    navigation: { badge: "5" },
     otherActorId: "qaSentinel",
     subtitle: "Regression checks and focused test plans.",
     story: {
@@ -292,6 +419,38 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Prioritize route ownership and data consistency; visual coverage can follow.",
       },
+      updates: [
+        {
+          authorId: "qaSentinel",
+          time: "09:28 AM",
+          unread: true,
+          body: "The route matrix now covers direct links, invalid thread IDs, and channel changes.",
+        },
+        {
+          authorId: "qaSentinel",
+          time: "09:32 AM",
+          unread: true,
+          body: "Header, task, and file fixtures are checked against the active conversation ID.",
+        },
+        {
+          authorId: "qaSentinel",
+          time: "09:36 AM",
+          unread: true,
+          body: "I separated desktop resize coverage from keyboard navigation to keep failures attributable.",
+        },
+        {
+          authorId: "qaSentinel",
+          time: "09:40 AM",
+          unread: true,
+          body: "The first run found no cross-channel thread fallback after route cleanup.",
+        },
+        {
+          authorId: "qaSentinel",
+          time: "09:44 AM",
+          unread: true,
+          body: "I queued the visual pass after the data assertions so it can focus on layout only.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -308,7 +467,7 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-deploy-watch",
-    navigation: { unread: true, mention: true },
+    navigation: { mention: true },
     otherActorId: "deployWatch",
     subtitle: "Working — staging drift detected in us-east.",
     story: {
@@ -320,6 +479,14 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Patch staging only and post the environment diff before restarting the worker.",
       },
+      updates: [
+        {
+          authorId: "deployWatch",
+          time: "09:30 AM",
+          unread: true,
+          body: "The missing variable is restored in staging and the worker restarted with a healthy checkpoint.",
+        },
+      ],
       thread: {
         replies: [
           {
@@ -419,7 +586,6 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
   }),
   defineStandardDm({
     id: "dm-support-guide",
-    navigation: { badge: "2" },
     otherActorId: "supportGuide",
     subtitle: "Idle — customer support playbooks available.",
     story: {
@@ -431,6 +597,20 @@ export const PLAYGROUND_DIRECT_MESSAGES = [
         authorId: "cuvii",
         body: "Add diagnostics for customers whose shared channels do not appear after joining.",
       },
+      updates: [
+        {
+          authorId: "supportGuide",
+          time: "09:34 AM",
+          unread: true,
+          body: "The revised playbook now links the escalation bundle directly from the discovery checklist.",
+        },
+        {
+          authorId: "supportGuide",
+          time: "09:38 AM",
+          unread: true,
+          body: "I added an example for a partner approval that is pending but not visibly blocked.",
+        },
+      ],
       thread: {
         replies: [
           {

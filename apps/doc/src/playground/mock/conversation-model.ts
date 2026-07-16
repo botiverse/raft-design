@@ -9,6 +9,7 @@ export type PlaygroundMessage = {
   authorId: PlaygroundActorId;
   time: string;
   body: string;
+  unread?: boolean;
 };
 
 export type PlaygroundThread = {
@@ -27,6 +28,8 @@ export type PlaygroundNavigationState = {
   draft?: boolean;
   pinned?: boolean;
 };
+
+type PlaygroundNavigationInput = Omit<PlaygroundNavigationState, "badge" | "unread">;
 
 export type PlaygroundComposerAttachment = {
   name: string;
@@ -72,11 +75,13 @@ export type PlaygroundStoryMessageInput = {
   authorId: PlaygroundActorId;
   body: string;
   time?: string;
+  unread?: boolean;
 };
 
 export type PlaygroundConversationStory = {
   opening: PlaygroundStoryMessageInput;
   reply: PlaygroundStoryMessageInput;
+  updates?: readonly PlaygroundStoryMessageInput[];
   thread: {
     replies: readonly PlaygroundStoryMessageInput[];
   };
@@ -91,7 +96,7 @@ type StandardRoomInput<TId extends string> = {
   memberIds: readonly [PlaygroundActorId, PlaygroundActorId, ...PlaygroundActorId[]];
   story: PlaygroundConversationStory;
   archived?: boolean;
-  navigation?: PlaygroundNavigationState;
+  navigation?: PlaygroundNavigationInput;
 };
 
 type StandardDmInput<TId extends string> = {
@@ -99,7 +104,7 @@ type StandardDmInput<TId extends string> = {
   otherActorId: PlaygroundActorId;
   subtitle: string;
   story: PlaygroundConversationStory;
-  navigation?: PlaygroundNavigationState;
+  navigation?: PlaygroundNavigationInput;
 };
 
 function defaultThreadReplyTime(index: number): string {
@@ -115,7 +120,7 @@ function buildStandardStory<TId extends string>(
   id: TId,
   story: PlaygroundConversationStory,
 ): {
-  content: { kind: "messages"; messages: readonly [PlaygroundMessage, PlaygroundMessage] };
+  content: { kind: "messages"; messages: readonly PlaygroundMessage[] };
   threads: readonly [PlaygroundThread];
 } {
   const opening = definePlaygroundMessage(
@@ -129,6 +134,16 @@ function buildStandardStory<TId extends string>(
     story.reply.authorId,
     story.reply.time ?? "09:24 AM",
     story.reply.body,
+    story.reply.unread,
+  );
+  const updates = (story.updates ?? []).map((update, index) =>
+    definePlaygroundMessage(
+      `${id}:update-${index + 1}`,
+      update.authorId,
+      update.time ?? defaultThreadReplyTime(index),
+      update.body,
+      update.unread,
+    ),
   );
   const replies = story.thread.replies.map((threadReply, index) =>
     definePlaygroundMessage(
@@ -140,14 +155,28 @@ function buildStandardStory<TId extends string>(
   );
 
   return {
-    content: { kind: "messages", messages: [opening, reply] },
+    content: { kind: "messages", messages: [opening, reply, ...updates] },
     threads: [definePlaygroundThread(reply, replies)],
+  };
+}
+
+function deriveNavigation(
+  input: PlaygroundNavigationInput | undefined,
+  content: PlaygroundChannelContent,
+): PlaygroundNavigationState {
+  const unreadCount =
+    content.kind === "messages" ? content.messages.filter((message) => message.unread).length : 0;
+
+  return {
+    ...input,
+    ...(unreadCount > 0 ? { badge: String(unreadCount), unread: true } : {}),
   };
 }
 
 export function defineStandardRoom<const TId extends string>(
   input: StandardRoomInput<TId>,
 ): PlaygroundRoomChannel & { id: TId } {
+  const story = buildStandardStory(input.id, input.story);
   return {
     id: input.id,
     name: input.name,
@@ -156,14 +185,15 @@ export function defineStandardRoom<const TId extends string>(
     memberCount: input.memberCount,
     memberIds: input.memberIds,
     archived: input.archived ?? false,
-    navigation: input.navigation ?? {},
-    ...buildStandardStory(input.id, input.story),
+    ...story,
+    navigation: deriveNavigation(input.navigation, story.content),
   };
 }
 
 export function defineStandardDm<const TId extends string>(
   input: StandardDmInput<TId>,
 ): PlaygroundDirectMessage & { id: TId } {
+  const story = buildStandardStory(input.id, input.story);
   return {
     id: input.id,
     name: getPlaygroundActor(input.otherActorId).name,
@@ -173,8 +203,8 @@ export function defineStandardDm<const TId extends string>(
     memberCount: 2,
     memberIds: [input.otherActorId, "cuvii"],
     archived: false,
-    navigation: input.navigation ?? {},
-    ...buildStandardStory(input.id, input.story),
+    ...story,
+    navigation: deriveNavigation(input.navigation, story.content),
   };
 }
 
@@ -187,7 +217,7 @@ export function defineShowcaseRoom<const TId extends string>(input: {
   threads?: readonly PlaygroundThread[];
   preset: PlaygroundShowcasePreset;
   initialComposer?: PlaygroundInitialComposer;
-  navigation?: PlaygroundNavigationState;
+  navigation?: PlaygroundNavigationInput;
 }): PlaygroundRoomChannel & { id: TId } {
   return {
     id: input.id,
@@ -197,7 +227,7 @@ export function defineShowcaseRoom<const TId extends string>(input: {
     memberCount: input.memberCount,
     memberIds: input.memberIds,
     archived: false,
-    navigation: input.navigation ?? {},
+    navigation: deriveNavigation(input.navigation, { kind: "showcase", preset: input.preset }),
     ...(input.initialComposer ? { initialComposer: input.initialComposer } : {}),
     content: { kind: "showcase", preset: input.preset },
     threads: input.threads ?? [],
@@ -210,7 +240,7 @@ export function defineEmptyRoom<const TId extends string>(input: {
   subtitle: string;
   memberCount: number;
   memberIds: readonly [PlaygroundActorId, ...PlaygroundActorId[]];
-  navigation?: PlaygroundNavigationState;
+  navigation?: PlaygroundNavigationInput;
 }): PlaygroundRoomChannel & { id: TId } {
   return {
     id: input.id,
@@ -220,7 +250,7 @@ export function defineEmptyRoom<const TId extends string>(input: {
     memberCount: input.memberCount,
     memberIds: input.memberIds,
     archived: false,
-    navigation: input.navigation ?? {},
+    navigation: deriveNavigation(input.navigation, { kind: "empty" }),
     content: { kind: "empty" },
     threads: [],
   };
@@ -231,8 +261,9 @@ export function definePlaygroundMessage(
   authorId: PlaygroundActorId,
   time: string,
   body: string,
+  unread?: boolean,
 ): PlaygroundMessage {
-  return { id, authorId, time, body };
+  return { id, authorId, time, body, ...(unread ? { unread: true } : {}) };
 }
 
 export function definePlaygroundThread(
