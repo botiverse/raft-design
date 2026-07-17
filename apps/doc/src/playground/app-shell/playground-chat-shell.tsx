@@ -162,7 +162,9 @@ function PlaygroundChatLayout({
       <ResizablePanel id="playground-main" minSize={360} className="relative min-w-0">
         <AppShellMainSlot className="flex h-full">{main}</AppShellMainSlot>
         {thread && !isLargeDesktop ? (
-          <div className="absolute inset-0 z-20 flex min-h-0 min-w-0">{thread}</div>
+          <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-['']">
+            {thread}
+          </div>
         ) : null}
       </ResizablePanel>
       {thread && isLargeDesktop ? (
@@ -170,8 +172,8 @@ function PlaygroundChatLayout({
           <ResizableHandle
             className={
               theme === "brutal"
-                ? "ml-0 w-0 border-l-2 border-black bg-transparent"
-                : "bg-line-subtle"
+                ? "z-50 ml-0 w-0 border-l-2 border-black bg-transparent"
+                : "z-50 bg-line-subtle"
             }
           />
           <ResizablePanel

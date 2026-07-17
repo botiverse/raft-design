@@ -140,10 +140,16 @@ export function ThreadPanelOriginalMessage({
   // Without `render` the part owns a padded container region; with `render` it
   // merges the flush styling into the provided element (typically a MessageItem)
   // instead of wrapping it, so the message keeps its own data-slot.
-  const defaultProps: SlotElementProps<"div"> = render
-    ? { className: originalMessageItem({ className }) }
+  const defaultProps: SlotElementProps<"div"> & {
+    "data-thread-panel-slot": "original-message";
+  } = render
+    ? {
+        "data-thread-panel-slot": "original-message",
+        className: originalMessageItem({ className }),
+      }
     : {
         "data-slot": "thread-panel-original-message",
+        "data-thread-panel-slot": "original-message",
         className: originalMessage({ className }),
       };
 

@@ -1,5 +1,27 @@
 import { tv } from "../../lib/tv";
 
+const originalMessageBase = [
+  "relative shrink-0",
+  "[&[data-slot=thread-panel-original-message]]:px-3",
+  "[&[data-slot=thread-panel-original-message]]:py-1",
+];
+
+const originalMessageBrutal = [
+  "bg-white",
+  "[&[data-slot=thread-panel-original-message]]:border-b-2",
+  "[&[data-slot=thread-panel-original-message]]:border-black",
+  "[&[data-slot=message-item]]:m-0 [&[data-slot=message-item]]:px-5 [&[data-slot=message-item]]:py-3.5",
+  "[&[data-slot=message-item]]:border-transparent [&[data-slot=message-item]]:border-b-2 [&[data-slot=message-item]]:border-b-black",
+];
+
+const originalMessageElegant = [
+  "bg-transparent after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-line-subtle after:content-['']",
+  "[&[data-slot=thread-panel-original-message]]:border-b",
+  "[&[data-slot=thread-panel-original-message]]:border-line-subtle",
+  "[&[data-slot=message-item]]:border-transparent [&[data-slot=message-item]]:border-b [&[data-slot=message-item]]:border-b-line-subtle",
+  "[&[data-slot=message-item]]:px-10 [&[data-slot=message-item]]:pt-[18px] [&[data-slot=message-item]]:pb-5",
+];
+
 export const threadPanel = tv({
   slots: {
     root: ["isolate flex h-full min-h-0 w-full flex-col"],
@@ -13,8 +35,8 @@ export const threadPanel = tv({
       "[&>[data-slot=input-group]]:min-w-0 [&>[data-slot=input-group]]:flex-1",
     ],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
-    originalMessage: ["relative shrink-0", "px-3 py-1"],
-    originalMessageItem: ["relative shrink-0"],
+    originalMessage: originalMessageBase,
+    originalMessageItem: originalMessageBase,
     replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
     footer: ["text-xs"],
   },
@@ -31,11 +53,8 @@ export const threadPanel = tv({
         titleMeta: "text-black/50",
         search: "border-b-2 border-black bg-white",
         searchCount: "text-black/50",
-        originalMessage: ["border-b-2 border-black bg-white"],
-        originalMessageItem: [
-          "m-0 px-5 py-3.5",
-          "border-transparent border-b-2 border-b-black bg-white",
-        ],
+        originalMessage: originalMessageBrutal,
+        originalMessageItem: originalMessageBrutal,
         replyCount: "border-black/10 text-black/40",
         footer: "border-t-2 border-black bg-white text-black/50",
       },
@@ -63,15 +82,8 @@ export const threadPanel = tv({
           "[&>[data-slot=thread-panel-actions]]:gap-0.5",
         ],
         searchCount: "text-foreground-muted",
-        originalMessage: [
-          "border-b border-line-subtle bg-transparent",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-line-subtle after:content-['']",
-        ],
-        originalMessageItem: [
-          "px-10 pt-[18px] pb-5",
-          "border-transparent border-b border-b-line-subtle bg-transparent",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-line-subtle after:content-['']",
-        ],
+        originalMessage: originalMessageElegant,
+        originalMessageItem: originalMessageElegant,
         replyCount: "border-line-muted text-foreground-muted",
         footer: "text-foreground-muted",
       },
