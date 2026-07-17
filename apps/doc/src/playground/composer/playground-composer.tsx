@@ -422,7 +422,9 @@ function PlaygroundComposer({
       event.currentTarget.form?.requestSubmit();
     }
   };
-  const inputProps = autocomplete.getInputProps({ onKeyDown: handleInputKeyDown });
+  const { onBlur: handleAutocompleteBlur, ...inputProps } = autocomplete.getInputProps({
+    onKeyDown: handleInputKeyDown,
+  });
 
   const isFileDrag = (event: DragEvent<HTMLFormElement>) =>
     event.dataTransfer.types.includes("Files");
@@ -515,6 +517,7 @@ function PlaygroundComposer({
           aria-label={label}
           placeholder={label}
           disabled={sendState.kind === "sending"}
+          onBlur={handleAutocompleteBlur}
         />
         <ComposerToolbar>
           <ComposerActions>
@@ -582,13 +585,9 @@ function PlaygroundComposer({
   );
 
   return footer === "main" ? (
-    <ConversationPanelFooter className="max-md:!fixed max-md:inset-x-0 max-md:bottom-0">
-      {composer}
-    </ConversationPanelFooter>
+    <ConversationPanelFooter>{composer}</ConversationPanelFooter>
   ) : (
-    <ThreadPanelFooter className="max-md:!fixed max-md:inset-x-0 max-md:bottom-0">
-      {composer}
-    </ThreadPanelFooter>
+    <ThreadPanelFooter>{composer}</ThreadPanelFooter>
   );
 }
 

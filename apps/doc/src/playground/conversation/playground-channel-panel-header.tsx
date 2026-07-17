@@ -38,10 +38,10 @@ export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundR
   return (
     <ConversationPanelHeader>
       <PlaygroundConversationBackButton />
-      <ConversationPanelHeaderIcon>
-        <Icon />
-      </ConversationPanelHeaderIcon>
       <ConversationPanelHeaderContent>
+        <ConversationPanelHeaderIcon>
+          <Icon />
+        </ConversationPanelHeaderIcon>
         <ConversationPanelHeading>
           <ConversationPanelTitle>{channel.name}</ConversationPanelTitle>
           {isMuted ? (

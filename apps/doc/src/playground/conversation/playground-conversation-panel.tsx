@@ -57,13 +57,10 @@ export function PlaygroundConversationPanel({
   const [tabOrder, setTabOrder] = useState<PlaygroundPanelTab[]>(["chat", "tasks", "files"]);
 
   return (
-    <ConversationPanelRoot className="max-md:h-auto max-md:min-h-dvh max-md:flex-none max-md:overflow-visible">
+    <ConversationPanelRoot>
       {header}
-      <ConversationPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
-        <ConversationPanelTabs
-          className="max-md:sticky max-md:top-[var(--shell-header-height-with-safe-area)] max-md:z-30"
-          render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}
-        >
+      <ConversationPanelContent>
+        <ConversationPanelTabs render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}>
           <SortableTabsList value={tabOrder} onReorder={setTabOrder} variant="underline">
             {tabOrder.map((id) => (
               <SortableTabsTab key={id} value={id}>
@@ -109,11 +106,8 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
   const unreadCount = messages.filter((message) => message.unread).length;
 
   return (
-    <ConversationPanelBody className="max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))] max-md:flex-none max-md:overflow-visible">
-      <MessageList
-        rootClassName="max-md:h-auto max-md:min-h-0"
-        className="max-md:!h-auto max-md:!min-h-0 max-md:!overflow-visible"
-      >
+    <ConversationPanelBody>
+      <MessageList>
         <div className="px-3 pt-3">
           <MessageListNotice>Beginning of messages</MessageListNotice>
         </div>
@@ -144,7 +138,7 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
             />
           );
         })}
-        <div className="pb-3 max-md:pb-[var(--panel-footer-clearance)]" aria-hidden />
+        <div className="pb-3" aria-hidden />
       </MessageList>
     </ConversationPanelBody>
   );
@@ -152,7 +146,7 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
 
 function NewChannelBody({ channel }: { channel: PlaygroundChannel }) {
   return (
-    <ConversationPanelBody className="max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))] max-md:flex-none max-md:overflow-visible">
+    <ConversationPanelBody>
       <div className="flex h-full items-center justify-center">
         <EmptyState>
           <EmptyStateIcon>

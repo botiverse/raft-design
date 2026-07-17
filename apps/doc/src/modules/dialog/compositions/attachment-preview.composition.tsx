@@ -79,7 +79,7 @@ export function AttachmentPreviewDialogComposition({ className }: { className?: 
   return (
     <SourceComparisonModalPreview
       className={className}
-      contentClassName="!max-w-3xl !overflow-hidden !p-0"
+      contentClassName="max-w-3xl overflow-hidden p-0"
       minHeightClassName="min-h-96"
     >
       {({ portalProps, contentClassName }) => (

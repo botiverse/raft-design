@@ -84,8 +84,14 @@ function PlaygroundAvatarContent({
   const isAgent = actor.type === "agent";
   if (actor.avatarSrc) return <AvatarImage src={actor.avatarSrc} alt="" />;
   return (
-    <AvatarFallback className={!isAgent && compactHumanIcon ? "[&>svg]:!size-4" : undefined}>
-      {isAgent ? undefined : <User aria-hidden />}
+    <AvatarFallback>
+      {isAgent ? undefined : (
+        <User
+          aria-hidden
+          size={compactHumanIcon ? 16 : undefined}
+          style={compactHumanIcon ? { width: "1rem", height: "1rem" } : undefined}
+        />
+      )}
     </AvatarFallback>
   );
 }

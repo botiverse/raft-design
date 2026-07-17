@@ -76,8 +76,8 @@ export function EditChannelManagementDialogComposition({ className }: { classNam
   return (
     <SourceComparisonModalPreview
       className={className}
-      contentClassName="!max-w-md"
-      portalClassName="!px-0"
+      contentClassName="max-w-md"
+      portalClassName="px-0"
     >
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>

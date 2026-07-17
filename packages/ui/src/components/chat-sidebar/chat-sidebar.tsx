@@ -2,6 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ScrollArea } from "@base-ui/react/scroll-area";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
 
@@ -129,6 +130,7 @@ export function ChatSidebarContent({
   render,
   ...props
 }: ChatSidebarContentProps) {
+  const isMobile = useMobileViewport();
   const theme = useThemeFamily();
   const {
     sidebarContent,
@@ -137,6 +139,29 @@ export function ChatSidebarContent({
     sidebarScrollbarThumb,
     sidebarViewport,
   } = chatSidebar({ theme });
+
+  const nativeViewportProps: SlotElementProps<"div"> = {
+    "data-slot": "chat-sidebar-content",
+    className: sidebarViewport(),
+    children: (
+      <div className={sidebarContentInner({ className })} style={{ minWidth: 0, width: "100%" }}>
+        {children}
+      </div>
+    ),
+  };
+  const nativeViewport = useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(nativeViewportProps, props),
+  });
+
+  if (isMobile) {
+    return (
+      <div data-slot="chat-sidebar-native-scroll-area" className={sidebarContent()}>
+        {nativeViewport}
+      </div>
+    );
+  }
 
   return (
     <ScrollArea.Root data-slot="chat-sidebar-scroll-area" className={sidebarContent()}>

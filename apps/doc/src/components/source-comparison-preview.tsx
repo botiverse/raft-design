@@ -50,8 +50,7 @@ type SourceComparisonModalPreviewProps = {
   backdrop?: boolean;
 };
 
-const modalContentClassName =
-  "!relative !top-auto !left-auto !z-0 !w-full !translate-x-0 !translate-y-0";
+const modalContentClassName = "relative top-auto left-auto z-0 w-full translate-x-0 translate-y-0";
 
 export function SourceComparisonModalPreview({
   children,

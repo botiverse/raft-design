@@ -4,14 +4,10 @@ const desktopBreakpoint = 768;
 const largeDesktopBreakpoint = 1024;
 
 function subscribe(onStoreChange: () => void) {
-  const viewport = window.visualViewport;
-
   window.addEventListener("resize", onStoreChange);
-  viewport?.addEventListener("resize", onStoreChange);
 
   return () => {
     window.removeEventListener("resize", onStoreChange);
-    viewport?.removeEventListener("resize", onStoreChange);
   };
 }
 

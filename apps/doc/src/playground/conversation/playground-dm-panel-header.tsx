@@ -24,11 +24,15 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
   return (
     <ConversationPanelHeader>
       <PlaygroundConversationBackButton />
-      <Avatar size={isAgent ? "sm" : "md"} type={actor.type}>
-        {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
-        <AvatarFallback>{actor.fallback}</AvatarFallback>
-      </Avatar>
       <ConversationPanelHeaderContent>
+        <Avatar
+          data-slot="conversation-panel-header-icon"
+          size={isAgent ? "sm" : "md"}
+          type={actor.type}
+        >
+          {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
+          <AvatarFallback>{actor.fallback}</AvatarFallback>
+        </Avatar>
         <ConversationPanelHeading
           className={isAgent ? "max-md:flex-col max-md:items-start max-md:gap-0.5" : undefined}
         >

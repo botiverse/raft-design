@@ -100,8 +100,8 @@ export function OnboardingDialogComposition({ className }: { className?: string 
   return (
     <SourceComparisonModalPreview
       className={className}
-      contentClassName="!max-w-lg"
-      portalClassName="!px-0"
+      contentClassName="max-w-lg"
+      portalClassName="px-0"
       backdrop={false}
     >
       {({ portalProps, contentClassName }) => (

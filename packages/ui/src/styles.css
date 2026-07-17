@@ -11,12 +11,6 @@
   }
 }
 
-:root {
-  --shell-header-height-with-safe-area: calc(
-    var(--shell-header-height, 62px) + env(safe-area-inset-top, 0px)
-  );
-}
-
 @theme {
   --shadow-*: initial;
 

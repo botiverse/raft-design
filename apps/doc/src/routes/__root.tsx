@@ -83,6 +83,8 @@ function RootDocument({ children }: { children: ReactNode }) {
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
   const isPlaygroundPage = isStandalonePage && location.pathname.startsWith("/playground");
+  const isPlaygroundChatPage = isPlaygroundPage && location.pathname.startsWith("/playground/s/");
+  const usesPlaygroundDocumentScroll = isPlaygroundPage && !isPlaygroundChatPage;
   const documentTitle = getDocumentTitle(location.pathname);
 
   return (
@@ -92,7 +94,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       data-theme="elegant"
       className={cn(
         "light",
-        isPlaygroundPage &&
+        usesPlaygroundDocumentScroll &&
           "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
       )}
     >
@@ -106,7 +108,7 @@ function RootDocument({ children }: { children: ReactNode }) {
           isStandalonePage
             ? cn(
                 "h-dvh overflow-hidden overscroll-none bg-background text-foreground antialiased",
-                isPlaygroundPage &&
+                usesPlaygroundDocumentScroll &&
                   "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
               )
             : "bg-layer-panel text-foreground antialiased"
@@ -119,7 +121,7 @@ function RootDocument({ children }: { children: ReactNode }) {
                 isStandalonePage
                   ? cn(
                       "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
-                      isPlaygroundPage &&
+                      usesPlaygroundDocumentScroll &&
                         "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
                     )
                   : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
@@ -131,7 +133,7 @@ function RootDocument({ children }: { children: ReactNode }) {
                   isStandalonePage
                     ? cn(
                         "h-full pl-[var(--sidebar-w)]",
-                        isPlaygroundPage &&
+                        usesPlaygroundDocumentScroll &&
                           "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
                       )
                     : "min-h-screen pl-[var(--sidebar-w)]"

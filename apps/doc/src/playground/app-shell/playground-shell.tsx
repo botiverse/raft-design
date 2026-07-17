@@ -1,4 +1,4 @@
-import { Outlet } from "@tanstack/react-router";
+import { Outlet, useLocation } from "@tanstack/react-router";
 
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 
@@ -10,10 +10,12 @@ import { PlaygroundShellStateProvider } from "./playground-shell-state.tsx";
 
 export function PlaygroundShell() {
   const { setTheme } = usePreviewTheme();
+  const location = useLocation();
   usePlaygroundEmbeddedPreview(setTheme);
   const route = usePlaygroundRouteState();
+  const isChatRoute = location.pathname.startsWith("/playground/s/");
   const content = (
-    <PreviewThemeScope className="h-full max-md:h-auto max-md:min-h-dvh">
+    <PreviewThemeScope className={isChatRoute ? "h-full" : "h-full max-md:h-auto max-md:min-h-dvh"}>
       <PlaygroundNavigationProvider
         railView={route.railView}
         railDetailId={route.railDetailId}
@@ -30,7 +32,13 @@ export function PlaygroundShell() {
   );
 
   return (
-    <div className="h-dvh overflow-hidden max-md:h-auto max-md:min-h-dvh max-md:overflow-visible">
+    <div
+      className={
+        isChatRoute
+          ? "h-dvh overflow-hidden"
+          : "h-dvh overflow-hidden max-md:h-auto max-md:min-h-dvh max-md:overflow-visible"
+      }
+    >
       {content}
     </div>
   );

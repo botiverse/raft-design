@@ -256,7 +256,7 @@ export function CreateTaskDialogStatesComposition() {
           Open Create Task dialog
         </Button>
       ) : null}
-      <SourceComparisonModalPreview className="min-h-[30rem]" contentClassName="!max-w-md">
+      <SourceComparisonModalPreview className="min-h-[30rem]" contentClassName="max-w-md">
         {({ portalProps, contentClassName }) => (
           <CreateTaskDialogComposition
             key={scenario}

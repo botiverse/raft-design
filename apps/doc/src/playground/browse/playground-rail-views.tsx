@@ -47,6 +47,7 @@ import {
   ConversationPanelContent,
   ConversationPanelHeader,
   ConversationPanelHeaderContent,
+  ConversationPanelHeading,
   ConversationPanelHeaderIcon,
   ConversationPanelMeta,
   ConversationPanelRoot,
@@ -285,11 +286,13 @@ export function PlaygroundRailViewPanel({
             <ChevronLeft aria-hidden />
           </Button>
         ) : null}
-        <ConversationPanelHeaderIcon>
-          <ViewIcon />
-        </ConversationPanelHeaderIcon>
         <ConversationPanelHeaderContent>
-          <ConversationPanelTitle>{viewMeta[view].title}</ConversationPanelTitle>
+          <ConversationPanelHeaderIcon>
+            <ViewIcon />
+          </ConversationPanelHeaderIcon>
+          <ConversationPanelHeading>
+            <ConversationPanelTitle>{viewMeta[view].title}</ConversationPanelTitle>
+          </ConversationPanelHeading>
           <ConversationPanelMeta>Playground preview</ConversationPanelMeta>
         </ConversationPanelHeaderContent>
       </ConversationPanelHeader>

@@ -20,7 +20,7 @@ export const messageReaction = tv({
     ],
     quickRow: ["flex h-9 shrink-0 items-center gap-1 px-2"],
     quickButton: [
-      "flex !size-7 !w-7 items-center justify-center rounded !p-0",
+      "flex !size-7 items-center justify-center rounded !p-0",
       "bg-transparent transition-colors",
     ],
     pickerContent: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
@@ -48,7 +48,7 @@ export const messageReaction = tv({
         quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
         pickerContent: [
           "rounded-none border-2 border-line-strong border-black bg-white",
-          "shadow-soft-popover !shadow-soft-popover",
+          "shadow-soft-popover",
         ],
         tooltip: "border-2 border-line-strong bg-white font-bold text-black",
       },

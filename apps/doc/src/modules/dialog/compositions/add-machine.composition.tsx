@@ -60,7 +60,7 @@ export function AddMachineDialogContent() {
 // @docs-source-strip-start
 export function AddMachineDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="!max-w-lg">
+    <SourceComparisonModalPreview className={className} contentClassName="max-w-lg">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

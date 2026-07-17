@@ -155,7 +155,7 @@ export function CreateChannelDialogContent() {
 // @docs-source-strip-start
 export function CreateChannelDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="!max-w-md">
+    <SourceComparisonModalPreview className={className} contentClassName="max-w-md">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

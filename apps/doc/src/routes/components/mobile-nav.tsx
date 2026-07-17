@@ -82,11 +82,7 @@ function MobileNavDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example
-          html={code.mobileNavComposition}
-          previewClassName="!items-stretch !p-0"
-          previewInset="flush"
-        >
+        <Example html={code.mobileNavComposition} previewInset="flush">
           <MobileNavPreview />
         </Example>
       </DocSection>
