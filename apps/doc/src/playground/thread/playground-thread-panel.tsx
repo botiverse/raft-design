@@ -64,8 +64,8 @@ export function PlaygroundThreadPanel({
   }
 
   return (
-    <ThreadPanelRoot className="max-md:h-auto max-md:min-h-dvh max-md:flex-none max-md:overflow-visible">
-      <ThreadPanelHeader className="max-md:sticky max-md:top-0 max-md:z-30">
+    <ThreadPanelRoot mobileScroll="page">
+      <ThreadPanelHeader>
         <Button
           className="mr-1 lg:hidden"
           variant="outline"
@@ -111,7 +111,7 @@ export function PlaygroundThreadPanel({
           </PanelAction>
         </ThreadPanelActions>
       </ThreadPanelHeader>
-      <ThreadPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
+      <ThreadPanelContent>
         {searchOpen ? (
           <ThreadPanelSearch>
             <InputGroup>
@@ -159,11 +159,8 @@ export function PlaygroundThreadPanel({
             />
           }
         />
-        <ThreadPanelBody className="max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))] max-md:flex-none max-md:overflow-visible">
-          <MessageList
-            rootClassName="max-md:h-auto max-md:min-h-0"
-            className="max-md:!h-auto max-md:!min-h-0 max-md:!overflow-visible"
-          >
+        <ThreadPanelBody>
+          <MessageList>
             <div className="px-3 pt-2">
               <MessageListNotice>Beginning of replies</MessageListNotice>
               <ThreadPanelReplyCount>

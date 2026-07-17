@@ -1,18 +1,28 @@
+import { use } from "react";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { panel } from "./panel.recipe";
+import { PanelMobileScrollContext, type PanelMobileScroll } from "./panel-mobile-scroll-context";
 
-export type PanelProps = useRender.ComponentProps<"section">;
+export type PanelProps = useRender.ComponentProps<"section"> & {
+  mobileScroll?: PanelMobileScroll;
+};
 
-export function Panel({ className, render, ...props }: PanelProps) {
+export function Panel({ className, mobileScroll = "panel", render, ...props }: PanelProps) {
   const theme = useThemeFamily();
   const { root } = panel({ theme });
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "section",
     render,
     props: { ...props, className: root({ className }) },
   });
+
+  return (
+    <PanelMobileScrollContext.Provider value={mobileScroll}>
+      {element}
+    </PanelMobileScrollContext.Provider>
+  );
 }
 
 export type PanelHeaderProps = useRender.ComponentProps<"div">;
@@ -32,7 +42,8 @@ export type PanelBodyProps = useRender.ComponentProps<"div">;
 
 export function PanelBody({ className, render, ...props }: PanelBodyProps) {
   const theme = useThemeFamily();
-  const { body } = panel({ theme });
+  const mobileScroll = use(PanelMobileScrollContext);
+  const { body } = panel({ theme, mobileScroll });
 
   return useRender({
     defaultTagName: "div",
@@ -45,7 +56,8 @@ export type PanelScrollViewportProps = useRender.ComponentProps<"div">;
 
 export function PanelScrollViewport({ className, render, ...props }: PanelScrollViewportProps) {
   const theme = useThemeFamily();
-  const { scrollViewport } = panel({ theme });
+  const mobileScroll = use(PanelMobileScrollContext);
+  const { scrollViewport } = panel({ theme, mobileScroll });
 
   return useRender({
     defaultTagName: "div",
@@ -97,7 +109,8 @@ export type PanelFooterProps = useRender.ComponentProps<"div">;
 
 export function PanelFooter({ className, render, ...props }: PanelFooterProps) {
   const theme = useThemeFamily();
-  const { footer } = panel({ theme });
+  const mobileScroll = use(PanelMobileScrollContext);
+  const { footer } = panel({ theme, mobileScroll });
 
   return useRender({
     defaultTagName: "div",

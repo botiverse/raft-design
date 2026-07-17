@@ -41,5 +41,19 @@ export const panel = tv({
         ],
       },
     },
+    mobileScroll: {
+      panel: {},
+      page: {
+        body: [
+          "max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))]",
+          "max-md:flex-none max-md:overflow-visible",
+        ],
+        scrollViewport: ["max-md:h-auto max-md:min-h-0 max-md:overflow-visible"],
+        footer: ["max-md:fixed max-md:inset-x-0 max-md:bottom-0"],
+      },
+    },
+  },
+  defaultVariants: {
+    mobileScroll: "panel",
   },
 });

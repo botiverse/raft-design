@@ -47,6 +47,14 @@ export const messageList = tv({
         notice: "text-foreground/50",
       },
     },
+    mobileScroll: {
+      panel: {},
+      page: {
+        root: "max-md:h-auto max-md:min-h-0",
+        viewport:
+          "max-md:[--message-list-overflow-x:visible] max-md:[--message-list-overflow-y:visible]",
+      },
+    },
   },
   compoundVariants: [
     {
@@ -58,5 +66,6 @@ export const messageList = tv({
   defaultVariants: {
     sticky: false,
     tone: "faint",
+    mobileScroll: "panel",
   },
 });

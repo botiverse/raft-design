@@ -831,6 +831,7 @@ export type {
   PanelBodyProps,
   PanelFooterProps,
   PanelHeaderProps,
+  PanelMobileScroll,
   PanelProps,
   PanelScrollContentProps,
   PanelScrollbarProps,

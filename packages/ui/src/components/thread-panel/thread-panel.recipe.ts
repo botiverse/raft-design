@@ -79,5 +79,16 @@ export const threadPanel = tv({
         footer: "text-foreground-muted",
       },
     },
+    mobileScroll: {
+      panel: {},
+      page: {
+        root: ["max-md:h-auto max-md:min-h-dvh max-md:flex-none max-md:overflow-visible"],
+        content: ["max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible"],
+        header: ["max-md:sticky max-md:top-0 max-md:z-30"],
+      },
+    },
+  },
+  defaultVariants: {
+    mobileScroll: "panel",
   },
 });

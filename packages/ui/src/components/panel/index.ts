@@ -18,6 +18,7 @@ export type {
   PanelScrollbarThumbProps,
   PanelScrollViewportProps,
 } from "./panel";
+export type { PanelMobileScroll } from "./panel-mobile-scroll-context";
 export { PanelAction } from "./panel-action";
 export type { PanelActionProps } from "./panel-action";
 export { PanelToggleAction } from "./panel-toggle-action";

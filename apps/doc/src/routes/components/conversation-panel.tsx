@@ -83,7 +83,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelRoot",
     type: "section props",
-    description: "Full-height active conversation surface between sidebar and panel stack.",
+    description:
+      'Full-height active conversation surface between sidebar and panel stack. Set mobileScroll="page" to release internal scroll on mobile so the panel joins the document scroll, stickies its tabs, and fixes its composer footer.',
   },
   {
     name: "ConversationPanelHeader",

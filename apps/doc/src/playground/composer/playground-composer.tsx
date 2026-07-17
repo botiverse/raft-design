@@ -433,13 +433,9 @@ function PlaygroundComposer({
   );
 
   return footer === "main" ? (
-    <ConversationPanelFooter className="max-md:!fixed max-md:inset-x-0 max-md:bottom-0">
-      {composer}
-    </ConversationPanelFooter>
+    <ConversationPanelFooter>{composer}</ConversationPanelFooter>
   ) : (
-    <ThreadPanelFooter className="max-md:!fixed max-md:inset-x-0 max-md:bottom-0">
-      {composer}
-    </ThreadPanelFooter>
+    <ThreadPanelFooter>{composer}</ThreadPanelFooter>
   );
 }
 

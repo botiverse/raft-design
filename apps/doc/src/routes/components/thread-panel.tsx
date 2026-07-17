@@ -87,7 +87,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ThreadPanelRoot",
     type: "section props",
-    description: "Full-height thread panel surface. It does not own thread data or routing.",
+    description:
+      'Full-height thread panel surface. It does not own thread data or routing. Set mobileScroll="page" to release internal scroll on mobile so the panel joins the document scroll, stickies its header, and fixes its composer footer.',
   },
   {
     name: "ThreadPanelHeader",
