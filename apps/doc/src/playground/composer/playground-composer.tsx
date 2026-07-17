@@ -116,17 +116,19 @@ function AutocompleteOption({
       <ComposerSuggestionIcon variant="framed">
         <ChannelIcon />
       </ComposerSuggestionIcon>
-      <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
-      {suggestion.subtitle ? (
-        <ComposerSuggestionMeta>{suggestion.subtitle}</ComposerSuggestionMeta>
-      ) : null}
-      {suggestion.archived ? (
-        <ComposerSuggestionAside>
-          <Badge appearance="soft" variant="muted">
-            archived
-          </Badge>
-        </ComposerSuggestionAside>
-      ) : null}
+      <ComposerSuggestionContent>
+        <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+        {suggestion.subtitle ? (
+          <ComposerSuggestionMeta>{suggestion.subtitle}</ComposerSuggestionMeta>
+        ) : null}
+        {suggestion.archived ? (
+          <ComposerSuggestionAside>
+            <Badge appearance="soft" variant="muted">
+              archived
+            </Badge>
+          </ComposerSuggestionAside>
+        ) : null}
+      </ComposerSuggestionContent>
     </ComposerSuggestionOption>
   );
 }

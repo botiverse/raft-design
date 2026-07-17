@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Kbd } from "raft-ui";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -32,9 +31,7 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
         <ComposerSuggestionContent>
           <ComposerSuggestionTitle />
           <ComposerSuggestionMeta />
-          <ComposerSuggestionAside>
-            <Status />
-          </ComposerSuggestionAside>
+          <ComposerSuggestionAside />
         </ComposerSuggestionContent>
       </ComposerSuggestionOption>
     </ComposerSuggestionGroup>
@@ -144,20 +141,6 @@ function ComposerSuggestionsDoc() {
     <DocPage
       title="ComposerSuggestions"
       description="Headless inline @/# autocomplete behavior paired with composable, theme-aware suggestion parts."
-      overview={
-        <Differences from="Composer autocomplete">
-          <li>keeps the controlled draft value and suggestion data in the consumer</li>
-          <li>
-            owns keyboard navigation, IME safety, active-descendant semantics, and caret-preserving
-            insertion
-          </li>
-          <li>keeps popup visuals explicit through list, group, option, content, and meta parts</li>
-          <li>
-            differs from Combobox: suggestions are anchored to an inline textarea trigger rather
-            than a standalone input or trigger control
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -181,7 +164,7 @@ function ComposerSuggestionsDoc() {
 
       <DocSection id="states" title="States">
         <PreviewGrid>
-          <PreviewPane label="Brutal · people and disabled option">
+          <PreviewPane label="Brutal · people in and out of channel">
             <PreviewThemeScope family="brutal" className="h-full">
               <PanelFrame>
                 <ComposerSuggestionComposition />
