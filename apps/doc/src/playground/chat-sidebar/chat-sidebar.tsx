@@ -102,7 +102,7 @@ function PlaygroundSidebarContent({
 
   return (
     <>
-      <ChatSidebarRoot className="relative overflow-clip">
+      <ChatSidebarRoot>
         <ChatSidebarHeader className="md:hidden">
           <PlaygroundSidebarServerSwitcher name={activeServer.name} />
           <div className="min-w-0 flex-1" />

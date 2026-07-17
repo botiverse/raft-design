@@ -74,7 +74,6 @@ export function PlaygroundChatShell() {
     <AppShellRoot
       className={cn(
         "h-full max-md:h-dvh max-md:overflow-hidden",
-        !mobileListPanel && "max-md:!pt-0",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
       )}
     >

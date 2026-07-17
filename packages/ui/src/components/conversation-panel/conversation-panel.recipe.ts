@@ -2,10 +2,7 @@ import { tv } from "../../lib/tv";
 
 const headerFrame = ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5"];
 
-const brutalHeader = [
-  "gap-3 border-b-2 border-black bg-white",
-  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[env(safe-area-inset-top,0px)]",
-];
+const brutalHeader = ["gap-3 border-b-2 border-black bg-white"];
 
 const brutalSectionHeader = [
   "max-md:bg-primary-400",
@@ -19,7 +16,7 @@ const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
   "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-  "max-md:items-center max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[env(safe-area-inset-top,0px)]",
+  "max-md:h-[var(--shell-header-height,56px)] max-md:items-center max-md:px-[14px]",
 ];
 
 export const conversationPanel = tv({

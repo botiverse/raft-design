@@ -1,5 +1,6 @@
 import { ScrollArea } from "@base-ui/react/scroll-area";
 import { useRender } from "@base-ui/react/use-render";
+import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import {
   PanelScrollContent,
   PanelScrollbar,
@@ -19,7 +20,24 @@ export function MessageList({
   rootClassName,
   ...props
 }: MessageListProps) {
+  const isMobile = useMobileViewport();
   const { content, root, viewport } = messageList();
+
+  if (isMobile) {
+    return (
+      <div data-slot="message-list" className={root({ className: rootClassName })}>
+        <PanelScrollViewport
+          {...props}
+          render={render}
+          data-slot="message-list-viewport"
+          className={viewport({ className })}
+          style={{ ...props.style, overflowX: "hidden" }}
+        >
+          <PanelScrollContent className={content()}>{children}</PanelScrollContent>
+        </PanelScrollViewport>
+      </div>
+    );
+  }
 
   return (
     <ScrollArea.Root data-slot="message-list" className={root({ className: rootClassName })}>

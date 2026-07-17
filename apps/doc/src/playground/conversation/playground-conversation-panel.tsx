@@ -16,7 +16,7 @@ import {
   TabsIndicator,
   TabsLabel,
 } from "raft-ui";
-import { MessageListDateDivider, MessageListNotice } from "raft-ui/wip";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui/wip";
 
 import { MessageTextSelectionComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundMainComposer } from "../composer/playground-composer.tsx";
@@ -25,7 +25,6 @@ import type { PlaygroundPanelTab } from "../navigation/playground-navigation.ts"
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { PlaygroundFilesPanel } from "../files/files-panel.tsx";
 import { PlaygroundTasksPanel } from "../tasks/tasks-panel.tsx";
-import { PlaygroundMessageList } from "../message/playground-message-list.tsx";
 import {
   PlaygroundMessageRow,
   PlaygroundRepliesBadge,
@@ -108,7 +107,7 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
 
   return (
     <ConversationPanelBody>
-      <PlaygroundMessageList>
+      <MessageList>
         <div className="px-3 pt-3">
           <MessageListNotice>Beginning of messages</MessageListNotice>
         </div>
@@ -140,7 +139,7 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
           );
         })}
         <div className="pb-3" aria-hidden />
-      </PlaygroundMessageList>
+      </MessageList>
     </ConversationPanelBody>
   );
 }

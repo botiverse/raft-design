@@ -1,28 +1,10 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ScrollArea } from "@base-ui/react/scroll-area";
-import { useSyncExternalStore } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { chatSidebar } from "./chat-sidebar.recipe";
-
-const MOBILE_QUERY = "(max-width: 767px)";
-
-function subscribeMobileViewport(onStoreChange: () => void) {
-  if (typeof window === "undefined") return () => undefined;
-
-  const media = window.matchMedia(MOBILE_QUERY);
-  media.addEventListener("change", onStoreChange);
-  return () => media.removeEventListener("change", onStoreChange);
-}
-
-function getMobileViewportSnapshot() {
-  return typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches;
-}
-
-function useMobileViewport() {
-  return useSyncExternalStore(subscribeMobileViewport, getMobileViewportSnapshot, () => false);
-}
 
 export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
 
