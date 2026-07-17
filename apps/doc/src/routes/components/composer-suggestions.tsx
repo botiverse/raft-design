@@ -50,7 +50,16 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
       </ComposerSuggestionOption>
     </ComposerSuggestionGroup>
   </ComposerSuggestionList>
-  <ComposerInput />
+  <Composer>
+    <ComposerInput />
+    <ComposerToolbar>
+      <ComposerActions />
+      <ComposerMeta>
+        <ComposerToolbarLabel />
+        <ComposerSubmit />
+      </ComposerMeta>
+    </ComposerToolbar>
+  </Composer>
 </ComposerRoot>`;
 
 const SNIPPETS = {
@@ -92,7 +101,7 @@ const PROPS: readonly PropRow[] = [
     name: "getInputProps / getListProps / getOptionProps",
     type: "native prop getters",
     description:
-      "Merge the hook's combobox semantics, refs, keyboard handlers, selection state, and option identity into native textarea, list, and button props.",
+      "Merge the hook's combobox semantics, refs, keyboard handlers, highlight state, and option identity into native textarea, list, and option props.",
   },
   {
     name: "open / items / highlightedIndex / activeItem",
@@ -113,7 +122,7 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ComposerSuggestionOption",
-    type: 'button props & { tone?: "signal" | "accent" }',
+    type: "div props",
     description:
       "Visual option root. Spread getOptionProps onto it so highlighted and disabled states remain keyboard-complete.",
   },

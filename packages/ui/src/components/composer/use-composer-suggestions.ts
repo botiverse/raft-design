@@ -52,9 +52,10 @@ export type ComposerSuggestionsListProps = Omit<
   );
 
 export type ComposerSuggestionsOptionProps = Omit<
-  ComponentPropsWithoutRef<"button">,
+  ComponentPropsWithoutRef<"div">,
   | "aria-disabled"
   | "aria-selected"
+  | "data-disabled"
   | "data-composer-suggestion-index"
   | "data-highlighted"
   | "id"
@@ -83,13 +84,12 @@ interface ComposerSuggestionsListInternalProps {
 
 interface ComposerSuggestionsOptionInternalProps {
   "aria-disabled": boolean;
-  "aria-selected": boolean;
+  "data-disabled": boolean;
   "data-composer-suggestion-index": number;
   "data-highlighted": boolean;
-  disabled: boolean;
   id: string;
   onClick: () => void;
-  onPointerDown: (event: PointerEvent<HTMLButtonElement>) => void;
+  onPointerDown: (event: PointerEvent<HTMLDivElement>) => void;
   role: "option";
 }
 
@@ -122,7 +122,7 @@ function normalizeHighlightedIndex<TItem>(
  * Headless behavior for an inline trigger-driven suggestion popup (@mention, #channel)
  * layered over a composer textarea. Owns open state, highlighted option, keyboard
  * navigation, IME guarding, and caret-preserving insertion. The consumer supplies
- * trigger detection, item data, insertion text, and native textarea/button semantics.
+ * trigger detection, item data, insertion text, and textarea/listbox option semantics.
  */
 export function useComposerSuggestions<TItem extends object>({
   value,
@@ -317,10 +317,9 @@ export function useComposerSuggestions<TItem extends object>({
   ): ComposerSuggestionsOptionInternalProps & ComposerSuggestionsOptionProps => {
     const internalProps: ComposerSuggestionsOptionInternalProps = {
       "aria-disabled": isItemDisabled(item),
-      "aria-selected": index === highlightedIndex,
+      "data-disabled": isItemDisabled(item),
       "data-composer-suggestion-index": index,
       "data-highlighted": index === highlightedIndex,
-      disabled: isItemDisabled(item),
       id: `${listId}-option-${index}`,
       role: "option",
       onClick: () => select(item),
@@ -330,7 +329,7 @@ export function useComposerSuggestions<TItem extends object>({
     };
 
     // Base UI `mergeProps` infers a widened prop record; assert the precise merged shape we control.
-    return mergeProps<"button">(props, internalProps) as ComposerSuggestionsOptionInternalProps &
+    return mergeProps<"div">(props, internalProps) as ComposerSuggestionsOptionInternalProps &
       ComposerSuggestionsOptionProps;
   };
 

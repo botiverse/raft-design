@@ -6,14 +6,14 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
-    root: ["absolute right-7 bottom-full left-7 mb-1 max-h-48 overflow-y-auto", "outline-none"],
+    root: ["absolute bottom-full mb-1 max-h-48 overflow-y-auto", "outline-none"],
     group: [],
     groupLabel: ["px-3 py-1.5", "text-xs"],
     item: [
       "group/composer-suggestion-option",
       "flex w-full items-center gap-2 px-3 py-2 text-left",
       "text-sm transition-colors outline-none",
-      "disabled:cursor-not-allowed disabled:opacity-65",
+      "cursor-pointer data-[disabled=true]:cursor-not-allowed",
     ],
     content: [
       "flex min-w-0 flex-1 items-center gap-1.5 text-left",
@@ -28,21 +28,22 @@ const composerSuggestionList = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border-2 border-line-strong bg-layer-popover shadow-lg",
+        root: "right-3 left-3 border-2 border-black bg-white shadow-brutal",
         groupLabel: "font-bold tracking-widest uppercase text-black/60",
-        item: "font-medium text-black data-[highlighted=true]:font-bold disabled:text-black/55",
-        meta: "text-black/40",
+        item: [
+          "font-medium text-black data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
+          "hover:bg-soft-signal/50",
+          "data-[disabled=true]:text-black/50 data-[disabled=true]:hover:bg-black/5",
+        ],
+        meta: "text-black/50",
       },
       elegant: {
-        root: [
-          "rounded-lg border border-line-subtle bg-layer-popover p-1 shadow-xl",
-          "ring-1 ring-ink-2",
-        ],
+        root: "right-7 left-7 rounded-lg border border-line-subtle bg-layer-popover p-1 shadow-xl",
         groupLabel: "font-medium text-foreground-muted",
         item: [
           "rounded-md font-normal text-foreground-muted",
-          "data-[highlighted=true]:font-medium data-[highlighted=true]:text-foreground-strong",
-          "disabled:text-foreground-placeholder",
+          "data-[highlighted=true]:bg-layer-strong data-[highlighted=true]:font-medium data-[highlighted=true]:text-foreground-strong",
+          "data-[disabled=true]:opacity-65 data-[disabled=true]:text-foreground-placeholder",
         ],
         meta: "text-foreground-placeholder",
       },
@@ -50,10 +51,6 @@ const composerSuggestionList = tv({
     separated: {
       true: {},
       false: {},
-    },
-    tone: {
-      signal: {},
-      accent: {},
     },
     iconVariant: {
       avatar: {},
@@ -88,28 +85,6 @@ const composerSuggestionList = tv({
     },
     {
       theme: "brutal",
-      tone: "signal",
-      class: { item: "data-[highlighted=true]:bg-soft-signal" },
-    },
-    {
-      theme: "brutal",
-      tone: "accent",
-      class: { item: "data-[highlighted=true]:bg-brutal-pink" },
-    },
-    {
-      theme: "elegant",
-      tone: "accent",
-      class: {
-        item: "data-[highlighted=true]:bg-accent-100 data-[highlighted=true]:text-accent-900",
-      },
-    },
-    {
-      theme: "elegant",
-      tone: "signal",
-      class: { item: "data-[highlighted=true]:bg-layer-strong" },
-    },
-    {
-      theme: "brutal",
       iconVariant: "framed",
       class: { icon: "border-black bg-soft-signal text-black" },
     },
@@ -122,6 +97,11 @@ const composerSuggestionList = tv({
       theme: "brutal",
       iconVariant: "auxiliary",
       class: { icon: "text-black/40" },
+    },
+    {
+      theme: "brutal",
+      metaVariant: "code",
+      class: { meta: "text-black/40" },
     },
     {
       theme: "elegant",
@@ -151,7 +131,6 @@ const composerSuggestionList = tv({
   ],
   defaultVariants: {
     separated: false,
-    tone: "signal",
     iconVariant: "avatar",
     metaVariant: "text",
     badgeVariant: "label",
@@ -228,27 +207,25 @@ export function ComposerSuggestionGroupLabel({
   });
 }
 
-export type ComposerSuggestionOptionProps = useRender.ComponentProps<"button"> &
-  Pick<ComposerSuggestionListVariantProps, "tone">;
+export type ComposerSuggestionOptionProps = useRender.ComponentProps<"div">;
 
 export function ComposerSuggestionOption({
-  tone = "signal",
   className,
   render,
   ...props
 }: ComposerSuggestionOptionProps) {
   const theme = useThemeFamily();
-  const { item } = composerSuggestionList({ theme, tone });
-  const defaultProps: SlotElementProps<"button"> = {
+  const { item } = composerSuggestionList({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-option",
     className: item({ className }),
-    type: "button",
+    role: "option",
   };
 
   return useRender({
-    defaultTagName: "button",
+    defaultTagName: "div",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 

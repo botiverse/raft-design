@@ -16,8 +16,9 @@ export const composer = tv({
       brutal: {
         root: "border-black bg-white shadow-brutal-sm focus-within:shadow-brutal",
         input: "font-sans text-black placeholder:text-black/35",
+        meta: "gap-3",
         iconButton: [
-          "border-black bg-white text-black shadow-brutal-sm",
+          "size-[26px] p-1 border-black bg-white text-black shadow-brutal-sm",
           "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-brutal",
           "active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs",
         ],

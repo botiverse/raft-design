@@ -113,7 +113,7 @@ function AutocompleteOption({
   const ChannelIcon =
     suggestion.roomKind === "joint" ? GitBranch : suggestion.roomKind === "private" ? Lock : Hash;
   return (
-    <ComposerSuggestionOption {...optionProps} tone="accent">
+    <ComposerSuggestionOption {...optionProps}>
       <ComposerSuggestionIcon variant="framed">
         <ChannelIcon />
       </ComposerSuggestionIcon>

@@ -81,7 +81,8 @@ export function ComposerActions({ className, render, ...props }: ComposerActions
 export type ComposerMetaProps = useRender.ComponentProps<"div">;
 
 export function ComposerMeta({ className, render, ...props }: ComposerMetaProps) {
-  const { meta } = composerRecipe();
+  const theme = useThemeFamily();
+  const { meta } = composerRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-meta",
     className: meta({ className }),
