@@ -170,6 +170,26 @@ export function ComposerAttachmentFile({
   });
 }
 
+export type ComposerAttachmentImageProps = useRender.ComponentProps<"span">;
+
+export function ComposerAttachmentImage({
+  className,
+  render,
+  ...props
+}: ComposerAttachmentImageProps) {
+  const { attachmentImage } = composerRecipe();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "composer-attachment-image",
+    className: attachmentImage({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type ComposerAttachmentBodyProps = useRender.ComponentProps<"span">;
 
 export function ComposerAttachmentBody({
@@ -241,9 +261,49 @@ export function ComposerAttachmentUploadingOverlay({
 }: ComposerAttachmentUploadingOverlayProps) {
   const theme = useThemeFamily();
   const { attachmentUploadingOverlay } = composerRecipe({ theme });
+
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-uploading-overlay",
     className: attachmentUploadingOverlay({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ComposerAttachmentUploadProgressBarProps = Omit<
+  useRender.ComponentProps<"span">,
+  "children"
+> & {
+  value: number;
+};
+
+export function ComposerAttachmentUploadProgressBar({
+  className,
+  render,
+  value,
+  ...props
+}: ComposerAttachmentUploadProgressBarProps) {
+  const theme = useThemeFamily();
+  const { attachmentUploadProgressBar, attachmentUploadProgressBarIndicator } = composerRecipe({
+    theme,
+  });
+
+  const progress = Math.max(4, Math.min(value, 100));
+  const defaultProps: SlotElementProps<"span"> = {
+    "aria-hidden": true,
+    "data-slot": "composer-attachment-upload-progress-bar",
+    className: attachmentUploadProgressBar({ className }),
+    children: (
+      <span
+        data-slot="composer-attachment-upload-progress-bar-indicator"
+        className={attachmentUploadProgressBarIndicator()}
+        style={{ width: `${progress}%` }}
+      />
+    ),
   };
 
   return useRender({
@@ -371,7 +431,7 @@ export function ComposerDropOverlayPrompt({
           <ImageIcon className="size-4 text-foreground-icon" />
         </span>
       </span>
-      <span>Drop files here</span>
+      <span>Drop files to attach</span>
     </ComposerDropOverlayLabel>
   );
 }

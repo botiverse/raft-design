@@ -34,13 +34,14 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
       <ComposerAttachmentFile>
         <ComposerAttachmentBody>
           <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta />
+          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
         </ComposerAttachmentBody>
       </ComposerAttachmentFile>
       <ComposerAttachmentUploadingOverlay>
         <Spinner />
         64%
       </ComposerAttachmentUploadingOverlay>
+      <ComposerAttachmentUploadProgressBar value={64} />
       <ComposerAttachmentRemove />
     </ComposerAttachment>
     <ComposerAttachment>
@@ -145,6 +146,11 @@ const PROPS: readonly PropRow[] = [
     description: "File-chip tile for non-image uploads.",
   },
   {
+    name: "ComposerAttachmentImage",
+    type: "span props",
+    description: "Fixed 64px image attachment frame; place a FilePreview media child inside.",
+  },
+  {
     name: "ComposerAttachmentBody",
     type: "span props",
     description: "File-chip text block.",
@@ -162,12 +168,17 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentUploadingOverlay",
     type: "span props",
-    description: "Borderless theme-surface mask for caller-owned upload feedback.",
+    description: "White upload overlay for caller-owned progress content.",
+  },
+  {
+    name: "ComposerAttachmentUploadProgressBar",
+    type: "span props & { value: number }",
+    description: "Bottom linear upload progress bar.",
   },
   {
     name: "ComposerAttachmentFailedOverlay",
     type: "span props",
-    description: "Failed overlay for caller-owned retry content.",
+    description: "Borderless failed-upload mask for caller-owned retry feedback.",
   },
   {
     name: "ComposerAttachmentRemove",

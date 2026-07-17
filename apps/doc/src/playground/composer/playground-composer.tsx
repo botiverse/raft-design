@@ -22,11 +22,13 @@ import {
   ComposerAttachmentBody,
   ComposerAttachmentFailedOverlay,
   ComposerAttachmentFile,
+  ComposerAttachmentImage,
   ComposerAttachmentMeta,
   ComposerAttachmentRemove,
   ComposerAttachments,
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
+  ComposerAttachmentUploadProgressBar,
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
   ComposerIconButton,
@@ -190,37 +192,59 @@ function PlaygroundSeededComposerAttachments({
     <ComposerAttachments>
       {attachments.map((attachment) => (
         <ComposerAttachment key={attachment.name}>
-          <ComposerAttachmentFile>
-            <FilePreview>
-              {attachment.mediaType.startsWith("image/") ? (
-                <FilePreviewMedia>
+          {attachment.mediaType.startsWith("image/") ? (
+            <ComposerAttachmentImage>
+              <FilePreview>
+                <FilePreviewMedia className="!shadow-none !ring-0">
                   <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
                 </FilePreviewMedia>
-              ) : (
-                <FilePreviewDocument />
-              )}
-              {!attachment.mediaType.startsWith("image/") ? (
-                <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
+              </FilePreview>
+            </ComposerAttachmentImage>
+          ) : (
+            <ComposerAttachmentFile>
+              <FilePreview>
+                <FilePreviewDocument
+                  className={
+                    attachment.state.kind === "uploading" ? "!shadow-none !ring-0" : undefined
+                  }
+                />
+                <FilePreviewBadge
+                  className={attachment.state.kind === "uploading" ? "!shadow-none" : undefined}
+                >
+                  {filePreviewLabel(attachment.name)}
+                </FilePreviewBadge>
+              </FilePreview>
+              <ComposerAttachmentBody>
+                <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
+                <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
+              </ComposerAttachmentBody>
+              {attachment.state.kind === "uploading" ? (
+                <>
+                  <ComposerAttachmentUploadingOverlay>
+                    <Spinner size="sm" className="mb-1" />
+                    {Math.round(attachment.state.progress)}%
+                  </ComposerAttachmentUploadingOverlay>
+                  <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+                </>
               ) : null}
-            </FilePreview>
-            <ComposerAttachmentBody>
-              <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
-              <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
-            </ComposerAttachmentBody>
-          </ComposerAttachmentFile>
-          {attachment.state.kind === "uploading" ? (
-            <ComposerAttachmentUploadingOverlay>
-              <Spinner size="sm" />
-              {attachment.state.progress}%
-            </ComposerAttachmentUploadingOverlay>
+            </ComposerAttachmentFile>
+          )}
+          {attachment.mediaType.startsWith("image/") && attachment.state.kind === "uploading" ? (
+            <>
+              <ComposerAttachmentUploadingOverlay>
+                <Spinner size="sm" className="mb-1" />
+                {Math.round(attachment.state.progress)}%
+              </ComposerAttachmentUploadingOverlay>
+              <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+            </>
           ) : null}
           {attachment.state.kind === "failed" ? (
             <ComposerAttachmentFailedOverlay
               render={<button type="button" />}
               onClick={() => onRetry(attachment.name)}
             >
-              Upload failed
-              <span className="underline">Tap to retry</span>
+              <span>Upload failed</span>
+              <span className="underline underline-offset-2">Retry</span>
             </ComposerAttachmentFailedOverlay>
           ) : null}
           <ComposerAttachmentRemove
