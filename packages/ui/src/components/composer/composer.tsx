@@ -1,9 +1,12 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { FileText, Image as ImageIcon, Upload } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/button";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { composerAttachment as composerAttachmentRecipe } from "./composer-attachment.recipe";
+import { composerDropOverlay as composerDropOverlayRecipe } from "./composer-drop-overlay.recipe";
 import { composer as composerRecipe } from "./composer.recipe";
 
 export type ComposerProps = useRender.ComponentProps<"div">;
@@ -110,27 +113,17 @@ export function ComposerIconButton({ className, ...props }: ComposerIconButtonPr
   );
 }
 
-export type ComposerSubmitProps = useRender.ComponentProps<"button">;
+export type ComposerSubmitProps = Omit<ButtonProps, "variant">;
 
-export function ComposerSubmit({ className, render, ...props }: ComposerSubmitProps) {
-  const theme = useThemeFamily();
-  const { submit } = composerRecipe({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "submit",
-    "data-slot": "composer-submit",
-    className: submit({ className }),
-  };
-
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
-  });
+export function ComposerSubmit({ type = "submit", ...props }: ComposerSubmitProps) {
+  return <Button {...props} type={type} variant="accent" />;
 }
 
 export type ComposerAttachmentsProps = useRender.ComponentProps<"div">;
 
 export function ComposerAttachments({ className, render, ...props }: ComposerAttachmentsProps) {
-  const { attachments } = composerRecipe();
+  const theme = useThemeFamily();
+  const { attachments } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-attachments",
     className: attachments({ className }),
@@ -146,7 +139,7 @@ export function ComposerAttachments({ className, render, ...props }: ComposerAtt
 export type ComposerAttachmentProps = useRender.ComponentProps<"div">;
 
 export function ComposerAttachment({ className, render, ...props }: ComposerAttachmentProps) {
-  const { attachment } = composerRecipe();
+  const { attachment } = composerAttachmentRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-attachment",
     className: attachment({ className }),
@@ -159,27 +152,6 @@ export function ComposerAttachment({ className, render, ...props }: ComposerAtta
   });
 }
 
-export type ComposerAttachmentImageProps = useRender.ComponentProps<"img">;
-
-export function ComposerAttachmentImage({
-  className,
-  render,
-  ...props
-}: ComposerAttachmentImageProps) {
-  const theme = useThemeFamily();
-  const { attachmentImage } = composerRecipe({ theme });
-  const defaultProps: SlotElementProps<"img"> = {
-    "data-slot": "composer-attachment-image",
-    className: attachmentImage({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "img",
-    render,
-    props: mergeProps<"img">(defaultProps, props),
-  });
-}
-
 export type ComposerAttachmentFileProps = useRender.ComponentProps<"span">;
 
 export function ComposerAttachmentFile({
@@ -188,10 +160,30 @@ export function ComposerAttachmentFile({
   ...props
 }: ComposerAttachmentFileProps) {
   const theme = useThemeFamily();
-  const { attachmentFile } = composerRecipe({ theme });
+  const { attachmentFile } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-file",
     className: attachmentFile({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ComposerAttachmentImageProps = useRender.ComponentProps<"span">;
+
+export function ComposerAttachmentImage({
+  className,
+  render,
+  ...props
+}: ComposerAttachmentImageProps) {
+  const { attachmentImage } = composerAttachmentRecipe();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "composer-attachment-image",
+    className: attachmentImage({ className }),
   };
 
   return useRender({
@@ -208,7 +200,7 @@ export function ComposerAttachmentBody({
   render,
   ...props
 }: ComposerAttachmentBodyProps) {
-  const { attachmentBody } = composerRecipe();
+  const { attachmentBody } = composerAttachmentRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-body",
     className: attachmentBody({ className }),
@@ -229,7 +221,7 @@ export function ComposerAttachmentTitle({
   ...props
 }: ComposerAttachmentTitleProps) {
   const theme = useThemeFamily();
-  const { attachmentTitle } = composerRecipe({ theme });
+  const { attachmentTitle } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-title",
     className: attachmentTitle({ className }),
@@ -250,10 +242,93 @@ export function ComposerAttachmentMeta({
   ...props
 }: ComposerAttachmentMetaProps) {
   const theme = useThemeFamily();
-  const { attachmentMeta } = composerRecipe({ theme });
+  const { attachmentMeta } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-meta",
     className: attachmentMeta({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ComposerAttachmentUploadingOverlayProps = useRender.ComponentProps<"span">;
+
+export function ComposerAttachmentUploadingOverlay({
+  className,
+  render,
+  ...props
+}: ComposerAttachmentUploadingOverlayProps) {
+  const theme = useThemeFamily();
+  const { attachmentUploadingOverlay } = composerAttachmentRecipe({ theme });
+
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "composer-attachment-uploading-overlay",
+    className: attachmentUploadingOverlay({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ComposerAttachmentUploadProgressBarProps = Omit<
+  useRender.ComponentProps<"span">,
+  "children"
+> & {
+  value: number;
+};
+
+export function ComposerAttachmentUploadProgressBar({
+  className,
+  render,
+  value,
+  ...props
+}: ComposerAttachmentUploadProgressBarProps) {
+  const theme = useThemeFamily();
+  const { attachmentUploadProgressBar, attachmentUploadProgressBarIndicator } =
+    composerAttachmentRecipe({
+      theme,
+    });
+
+  const progress = Math.max(4, Math.min(value, 100));
+  const defaultProps: SlotElementProps<"span"> = {
+    "aria-hidden": true,
+    "data-slot": "composer-attachment-upload-progress-bar",
+    className: attachmentUploadProgressBar({ className }),
+    children: (
+      <span
+        data-slot="composer-attachment-upload-progress-bar-indicator"
+        className={attachmentUploadProgressBarIndicator()}
+        style={{ width: `${progress}%` }}
+      />
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type ComposerAttachmentFailedOverlayProps = useRender.ComponentProps<"span">;
+
+export function ComposerAttachmentFailedOverlay({
+  className,
+  render,
+  ...props
+}: ComposerAttachmentFailedOverlayProps) {
+  const theme = useThemeFamily();
+  const { attachmentFailedOverlay } = composerAttachmentRecipe({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "composer-attachment-failed-overlay",
+    className: attachmentFailedOverlay({ className }),
   };
 
   return useRender({
@@ -271,7 +346,7 @@ export function ComposerAttachmentRemove({
   ...props
 }: ComposerAttachmentRemoveProps) {
   const theme = useThemeFamily();
-  const { attachmentRemove } = composerRecipe({ theme });
+  const { attachmentRemove } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "composer-attachment-remove",
@@ -288,7 +363,7 @@ export type ComposerDropOverlayProps = useRender.ComponentProps<"div">;
 
 export function ComposerDropOverlay({ className, render, ...props }: ComposerDropOverlayProps) {
   const theme = useThemeFamily();
-  const { dropOverlay } = composerRecipe({ theme });
+  const { dropOverlay } = composerDropOverlayRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-drop-overlay",
     className: dropOverlay({ className }),
@@ -309,7 +384,7 @@ export function ComposerDropOverlayLabel({
   ...props
 }: ComposerDropOverlayLabelProps) {
   const theme = useThemeFamily();
-  const { dropOverlayLabel } = composerRecipe({ theme });
+  const { dropOverlayLabel } = composerDropOverlayRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-drop-overlay-label",
     className: dropOverlayLabel({ className }),
@@ -322,75 +397,45 @@ export function ComposerDropOverlayLabel({
   });
 }
 
-type ComposerAttachmentOverlayProps = useRender.ComponentProps<"span">;
+export type ComposerDropOverlayPromptProps = ComposerDropOverlayLabelProps;
 
-function ComposerAttachmentOverlay({
+export function ComposerDropOverlayPrompt({
+  children,
   className,
-  render,
-  tone,
   ...props
-}: ComposerAttachmentOverlayProps & { tone: "uploading" | "failed" }) {
+}: ComposerDropOverlayPromptProps) {
   const theme = useThemeFamily();
-  const { attachmentOverlay } = composerRecipe({ theme, attachmentTone: tone });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "composer-attachment-overlay",
-    "data-tone": tone,
-    className: attachmentOverlay({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
+  if (children) {
+    return (
+      <ComposerDropOverlayLabel className={className} {...props}>
+        {children}
+      </ComposerDropOverlayLabel>
+    );
+  }
 
-export type ComposerAttachmentUploadingOverlayProps = ComposerAttachmentOverlayProps;
+  if (theme !== "elegant") {
+    return (
+      <ComposerDropOverlayLabel className={className} {...props}>
+        Drop files to attach
+      </ComposerDropOverlayLabel>
+    );
+  }
 
-export function ComposerAttachmentUploadingOverlay(props: ComposerAttachmentUploadingOverlayProps) {
-  return <ComposerAttachmentOverlay tone="uploading" {...props} />;
-}
-
-export type ComposerAttachmentFailedOverlayProps = ComposerAttachmentOverlayProps;
-
-export function ComposerAttachmentFailedOverlay(props: ComposerAttachmentFailedOverlayProps) {
-  return <ComposerAttachmentOverlay tone="failed" {...props} />;
-}
-
-export type ComposerAttachmentProgressProps = useRender.ComponentProps<"span"> & {
-  value?: number;
-};
-
-export function ComposerAttachmentProgress({
-  className,
-  render,
-  style,
-  value = 0,
-  ...props
-}: ComposerAttachmentProgressProps) {
-  const theme = useThemeFamily();
-  const { attachmentProgress, attachmentProgressFill } = composerRecipe({ theme });
-  const normalizedValue = Math.min(100, Math.max(0, value));
-  const defaultProps: SlotElementProps<"span"> = {
-    "aria-valuemax": 100,
-    "aria-valuemin": 0,
-    "aria-valuenow": normalizedValue,
-    "data-slot": "composer-attachment-progress",
-    role: "progressbar",
-    className: attachmentProgress({ className }),
-    children: (
-      <span
-        aria-hidden="true"
-        className={attachmentProgressFill()}
-        style={{ width: `${normalizedValue}%` }}
-      />
-    ),
-    style,
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
+  return (
+    <ComposerDropOverlayLabel className={`gap-3.5${className ? ` ${className}` : ""}`} {...props}>
+      <span aria-hidden className="relative flex h-10 w-22 items-center justify-center">
+        <span className="absolute -translate-x-6 translate-y-1 -rotate-12 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+          <FileText className="size-4 text-foreground-icon" />
+        </span>
+        <span className="absolute z-10 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+          <Upload className="size-4 text-foreground-icon" />
+        </span>
+        <span className="absolute z-20 translate-x-7 translate-y-1 rotate-12 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+          <ImageIcon className="size-4 text-foreground-icon" />
+        </span>
+      </span>
+      <span>Drop files to attach</span>
+    </ComposerDropOverlayLabel>
+  );
 }

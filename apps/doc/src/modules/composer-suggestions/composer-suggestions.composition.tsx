@@ -131,7 +131,7 @@ export function ComposerSuggestionComposition({
   return (
     <div className="flex h-full flex-col justify-end bg-layer-panel">
       <ConversationPanelFooter>
-        <ComposerRoot positioned onSubmit={(event) => event.preventDefault()}>
+        <ComposerRoot onSubmit={(event) => event.preventDefault()}>
           {autocomplete.open ? (
             <ComposerSuggestionList
               {...autocomplete.getListProps({ "aria-label": "Composer suggestions" })}

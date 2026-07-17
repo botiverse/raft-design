@@ -9,6 +9,8 @@ import filePreviewDefaultCompositionSource from "#/modules/file-preview/composit
 import { FilePreviewDefaultComposition } from "#/modules/file-preview/compositions/default.composition.tsx";
 import filePreviewFormatsCompositionSource from "#/modules/file-preview/compositions/formats.composition.tsx?raw";
 import { FilePreviewFormatsComposition } from "#/modules/file-preview/compositions/formats.composition.tsx";
+import filePreviewIllustrationsCompositionSource from "#/modules/file-preview/compositions/illustrations.composition.tsx?raw";
+import { FilePreviewIllustrationsComposition } from "#/modules/file-preview/compositions/illustrations.composition.tsx";
 import filePreviewMediaCompositionSource from "#/modules/file-preview/compositions/media.composition.tsx?raw";
 import { FilePreviewMediaComposition } from "#/modules/file-preview/compositions/media.composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -18,66 +20,55 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "formats", title: "Format labels" },
-  { id: "custom-media", title: "Custom media" },
+  { id: "illustrations", title: "File kinds" },
+  { id: "customization", title: "Customization" },
   { id: "api", title: "API" },
 ] as const;
 
 const SNIPPETS = {
   anatomy: `<FilePreview>
-  <FilePreviewDocument>
-    <FilePreviewBadge tone="rose">PDF</FilePreviewBadge>
-  </FilePreviewDocument>
+  <FilePreviewDocument />
+  <FilePreviewBadge color="rose">PDF</FilePreviewBadge>
 </FilePreview>`,
   default: stripSourceCodeBlocks(filePreviewDefaultCompositionSource),
   formats: stripSourceCodeBlocks(filePreviewFormatsCompositionSource),
+  illustrations: stripSourceCodeBlocks(filePreviewIllustrationsCompositionSource),
   media: stripSourceCodeBlocks(filePreviewMediaCompositionSource),
 } as const;
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "FilePreviewDocument",
+    name: "FilePreview",
     type: "span props",
-    description: "Document-sheet illustration. Nest FilePreviewBadge for a format label.",
+    description: "Preview root and positioning context for the visual part and badge.",
   },
   {
-    name: "FilePreviewImage | FilePreviewVideo",
-    type: "img props | video props",
-    description: "Native image or video thumbnail slots for consumer-provided media.",
+    name: "FilePreviewDocument",
+    type: "span props",
+    description: "Document-sheet illustration.",
+  },
+  {
+    name: "FilePreviewFile",
+    type: "span props",
+    description: "Archive/file illustration.",
+  },
+  {
+    name: "FilePreviewCode",
+    type: "span props",
+    description: "Code-file illustration.",
   },
   {
     name: "FilePreviewMedia",
     type: "span props",
-    description: "Generic custom-media slot for SVGs, canvases, or caller-owned preview markup.",
+    description:
+      "Cropped media frame. Pass image, video, SVG, or other decorative preview content as children; image and video thumbnails typically use size-full object-cover.",
   },
   {
     name: "FilePreviewBadge",
-    type: "span props",
+    type: 'span props & { color?: "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral" }',
+    default: 'color: "rose"',
     description:
-      "Format label such as PDF or TXT. One shared visual treatment is used for every label.",
-  },
-  {
-    name: "tone",
-    type: '"rose" | "blue" | "amber" | "emerald" | "violet" | "neutral"',
-    default: '"rose"',
-    description:
-      "Optional badge color. Choose it at the callsite; FilePreview never infers a tone from a file name.",
-  },
-  {
-    name: "className",
-    type: "string",
-    description: "Optional layout or positioning override for the decorative preview root.",
-  },
-  {
-    name: "render",
-    type: "ReactElement | (props, state) => ReactElement",
-    description:
-      "Base UI render hook for changing the root element when required by a parent layout.",
-  },
-  {
-    name: "...props",
-    type: 'ComponentPropsWithRef<"span">',
-    description:
-      "Native span attributes. The preview is decorative; pair it with visible file metadata.",
+      "Format label such as PDF or TXT. Render it beside the visual part; choose color at the callsite rather than inferring it from a file name.",
   },
 ];
 
@@ -92,7 +83,7 @@ function FilePreviewDoc() {
   return (
     <DocPage
       title="FilePreview"
-      description="A compact, decorative document thumbnail for file attachment metadata."
+      description="Compact file, code, and media thumbnails for file attachment metadata."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -117,10 +108,22 @@ function FilePreviewDoc() {
         </Example>
       </DocSection>
 
-      <DocSection id="custom-media" title="Custom media" showThemeSwitcher>
-        <Example html={code.media}>
-          <FilePreviewMediaComposition />
+      <DocSection id="illustrations" title="File kinds" showThemeSwitcher>
+        <Example html={code.illustrations}>
+          <FilePreviewIllustrationsComposition />
         </Example>
+      </DocSection>
+
+      <DocSection id="customization" title="Customization" showThemeSwitcher>
+        <div className="grid gap-3">
+          <p className="text-sm text-foreground">
+            FilePreviewMedia owns the frame, crop, and rounding. Supply an image, video, SVG, or
+            other preview through children.
+          </p>
+          <Example html={code.media}>
+            <FilePreviewMediaComposition />
+          </Example>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

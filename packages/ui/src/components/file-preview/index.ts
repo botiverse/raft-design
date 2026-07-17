@@ -1,17 +1,17 @@
 export {
   FilePreview,
   FilePreviewBadge,
+  FilePreviewCode,
   FilePreviewDocument,
-  FilePreviewImage,
+  FilePreviewFile,
   FilePreviewMedia,
-  FilePreviewVideo,
 } from "./file-preview";
 export type {
   FilePreviewBadgeProps,
-  FilePreviewBadgeTone,
+  FilePreviewBadgeColor,
+  FilePreviewCodeProps,
   FilePreviewDocumentProps,
-  FilePreviewImageProps,
+  FilePreviewFileProps,
   FilePreviewMediaProps,
   FilePreviewProps,
-  FilePreviewVideoProps,
 } from "./file-preview";

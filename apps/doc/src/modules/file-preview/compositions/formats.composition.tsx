@@ -4,19 +4,16 @@ export function FilePreviewFormatsComposition() {
   return (
     <div className="flex flex-wrap items-center gap-5">
       <FilePreview>
-        <FilePreviewDocument>
-          <FilePreviewBadge>PDF</FilePreviewBadge>
-        </FilePreviewDocument>
+        <FilePreviewDocument />
+        <FilePreviewBadge>PDF</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
-        <FilePreviewDocument>
-          <FilePreviewBadge tone="blue">DOCX</FilePreviewBadge>
-        </FilePreviewDocument>
+        <FilePreviewDocument />
+        <FilePreviewBadge color="blue">DOCX</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
-        <FilePreviewDocument>
-          <FilePreviewBadge tone="neutral">TXT</FilePreviewBadge>
-        </FilePreviewDocument>
+        <FilePreviewDocument />
+        <FilePreviewBadge color="neutral">TXT</FilePreviewBadge>
       </FilePreview>
     </div>
   );

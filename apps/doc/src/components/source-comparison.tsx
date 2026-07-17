@@ -92,7 +92,7 @@ const STATUS_ICON = {
   todo: Circle,
 } as const;
 
-const frameClass = "overflow-clip bg-white shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
+const frameClass = "overflow-clip shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
 const horizontalDividerClass = "border-[oklch(0_0_0_/_0.06)]";
 
 function ComparisonPreview({
@@ -341,7 +341,7 @@ export function SourceComparison({
               : "md:grid-cols-2";
         const previewFrameClass = isGridLayout
           ? `grid gap-px bg-[oklch(0_0_0_/_0.10)] ${columnClass} ${frameClass}`
-          : `grid divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
+          : `grid bg-white divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
         return (
           <section
             key={item.id ?? `${item.label}-${index}`}

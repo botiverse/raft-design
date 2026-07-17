@@ -1,6 +1,7 @@
 import { Paperclip, Send } from "lucide-react";
 import {
   ComposerDropOverlay,
+  ComposerDropOverlayPrompt,
   Composer,
   ComposerActions,
   ComposerIconButton,
@@ -11,11 +12,9 @@ import {
   ComposerToolbar,
 } from "raft-ui/wip";
 
-import { ComposerDropOverlayPrompt } from "./composer-drop-overlay-prompt.composition.tsx";
-
 export function ComposerDropOverlayComposition() {
   return (
-    <ComposerRoot positioned>
+    <ComposerRoot>
       <Composer>
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>

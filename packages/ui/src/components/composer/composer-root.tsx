@@ -1,16 +1,16 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerRoot = tv({
-  base: ["flex w-full flex-col"],
+  base: ["relative flex w-full flex-col"],
   variants: {
     theme: {
       brutal: "gap-2",
       elegant: [
-        "gap-[6px]",
+        "gap-1.5",
         "has-[>[data-slot=composer-attachments]]:relative",
         "has-[>[data-slot=composer-attachments]]:isolate",
         "has-[>[data-slot=composer-attachments]]:before:pointer-events-none",
@@ -23,24 +23,16 @@ const composerRoot = tv({
         "has-[>[data-slot=composer-attachments]]:before:ring-line-subtle/60",
       ],
     },
-    positioned: {
-      true: "relative",
-      false: "",
-    },
-  },
-  defaultVariants: {
-    positioned: false,
   },
 });
 
-export type ComposerRootProps = useRender.ComponentProps<"form"> &
-  Omit<VariantProps<typeof composerRoot>, "theme">;
+export type ComposerRootProps = useRender.ComponentProps<"form">;
 
-export function ComposerRoot({ className, positioned, render, ...props }: ComposerRootProps) {
+export function ComposerRoot({ className, render, ...props }: ComposerRootProps) {
   const theme = useThemeFamily();
   const defaultProps: SlotElementProps<"form"> = {
     "data-slot": "composer-root",
-    className: composerRoot({ theme, positioned, className }),
+    className: composerRoot({ theme, className }),
   };
 
   return useRender({

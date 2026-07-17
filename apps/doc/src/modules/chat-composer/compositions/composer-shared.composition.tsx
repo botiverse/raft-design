@@ -7,105 +7,148 @@ import {
   ComposerAttachmentFile,
   ComposerAttachmentImage,
   ComposerAttachmentMeta,
-  ComposerAttachmentProgress,
   ComposerAttachmentRemove,
   ComposerAttachments,
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
+  ComposerAttachmentUploadProgressBar,
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
+  FilePreviewMedia,
 } from "raft-ui/wip";
 
-import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
+import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
+
+type AttachmentState = "uploaded" | "uploading" | "failed";
 
 export function ComposerAttachmentsComposition({
-  image = true,
-  file = true,
-  fileCount,
-  failed = true,
+  imageStates = ["uploading"],
+  fileStates = ["uploaded", "failed"],
   onRemove,
   onRetry,
 }: {
-  image?: boolean;
-  file?: boolean;
-  fileCount?: number;
-  failed?: boolean;
+  imageStates?: readonly AttachmentState[];
+  fileStates?: readonly AttachmentState[];
   onRemove?: (name: string) => void;
   onRetry?: (name: string) => void;
 } = {}) {
-  const maxFileCount = 10 - Number(image) - Number(failed);
-  const files = Array.from(
-    { length: Math.min(fileCount ?? Number(file), maxFileCount) },
-    (_, index) => ({
-      name: index === 0 ? "release-notes.pdf" : `attachment-${index + 1}.pdf`,
-      size: index === 0 ? "18 KB" : `${12 + index * 7} KB`,
-    }),
-  );
+  const imageNames = {
+    uploaded: "screenshot.png",
+    uploading: "uploading-screenshot.png",
+    failed: "failed-screenshot.png",
+  } as const;
+  const fileNames = {
+    uploading: "uploading-notes.pdf",
+    failed: "failed-upload.pdf",
+  } as const;
+  const uploadedFileNames = [
+    "release-notes.pdf",
+    "design-spec.pdf",
+    "research-notes.pdf",
+    "api-contract.pdf",
+  ];
+  const files = fileStates.map((state, index) => {
+    const uploadedIndex = fileStates
+      .slice(0, index)
+      .filter((candidate) => candidate === "uploaded").length;
+
+    return {
+      state,
+      name:
+        state === "uploaded"
+          ? (uploadedFileNames[uploadedIndex] ?? `attachment-${uploadedIndex + 1}.pdf`)
+          : fileNames[state],
+    };
+  });
 
   return (
     <ComposerAttachments>
-      {image ? (
-        <ComposerAttachment>
-          <ComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
-          <ComposerAttachmentUploadingOverlay>
-            <Spinner size="sm" />
-            64%
-          </ComposerAttachmentUploadingOverlay>
-          <ComposerAttachmentProgress aria-label="Upload progress for screenshot.png" value={64} />
-          <ComposerAttachmentRemove
-            aria-label="Remove screenshot.png"
-            disabled={!onRemove}
-            onClick={() => onRemove?.("screenshot.png")}
-          >
-            <X />
-          </ComposerAttachmentRemove>
-        </ComposerAttachment>
-      ) : null}
-      {files.map((item) => (
-        <ComposerAttachment key={item.name}>
-          <ComposerAttachmentFile>
-            <FilePreview>
-              <FilePreviewDocument className="rounded-none rounded-tr-[15%]">
-                <FilePreviewBadge>PDF</FilePreviewBadge>
-              </FilePreviewDocument>
-            </FilePreview>
-            <ComposerAttachmentBody>
-              <ComposerAttachmentTitle>{item.name}</ComposerAttachmentTitle>
-              <ComposerAttachmentMeta>{item.size}</ComposerAttachmentMeta>
-            </ComposerAttachmentBody>
-          </ComposerAttachmentFile>
-          <ComposerAttachmentRemove
-            aria-label={`Remove ${item.name}`}
-            disabled={!onRemove}
-            onClick={() => onRemove?.(item.name)}
-          >
-            <X />
-          </ComposerAttachmentRemove>
-        </ComposerAttachment>
-      ))}
-      {failed ? (
-        <ComposerAttachment>
-          <ComposerAttachmentFile>
-            <FilePreview>
-              <FilePreviewDocument className="rounded-none rounded-tr-[15%]">
-                <FilePreviewBadge>KEY</FilePreviewBadge>
-              </FilePreviewDocument>
-            </FilePreview>
-            <ComposerAttachmentBody>
-              <ComposerAttachmentTitle>deck.key</ComposerAttachmentTitle>
-              <ComposerAttachmentMeta>1.2 MB</ComposerAttachmentMeta>
-            </ComposerAttachmentBody>
-          </ComposerAttachmentFile>
-          <ComposerAttachmentFailedOverlay
-            render={<button type="button" disabled={!onRetry} />}
-            onClick={() => onRetry?.("deck.key")}
-          >
-            Upload failed
-            <span className="underline">Tap to retry</span>
-          </ComposerAttachmentFailedOverlay>
-        </ComposerAttachment>
-      ) : null}
+      {imageStates.map((state) => {
+        const name = imageNames[state];
+
+        return (
+          <ComposerAttachment key={name}>
+            <ComposerAttachmentImage>
+              <FilePreview>
+                <FilePreviewMedia className="!shadow-none !ring-0">
+                  <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
+                </FilePreviewMedia>
+              </FilePreview>
+            </ComposerAttachmentImage>
+            {state === "uploading" ? (
+              <>
+                <ComposerAttachmentUploadingOverlay>
+                  <Spinner size="sm" className="mb-1" />
+                  64%
+                </ComposerAttachmentUploadingOverlay>
+                <ComposerAttachmentUploadProgressBar value={64} />
+              </>
+            ) : null}
+            {state === "failed" ? (
+              <ComposerAttachmentFailedOverlay
+                render={<button type="button" disabled={!onRetry} />}
+                onClick={() => onRetry?.(name)}
+              >
+                <span>Upload failed</span>
+                <span className="underline underline-offset-2">Retry</span>
+              </ComposerAttachmentFailedOverlay>
+            ) : null}
+            <ComposerAttachmentRemove
+              aria-label={`Remove ${name}`}
+              disabled={!onRemove}
+              onClick={() => onRemove?.(name)}
+            >
+              <X />
+            </ComposerAttachmentRemove>
+          </ComposerAttachment>
+        );
+      })}
+      {files.map(({ name, state }) => {
+        return (
+          <ComposerAttachment key={name}>
+            <ComposerAttachmentFile>
+              <FilePreview className="h-[46px]">
+                <FilePreviewDocument
+                  className={state === "uploading" ? "h-[46px] !shadow-none !ring-0" : "h-[46px]"}
+                />
+                <FilePreviewBadge className={state === "uploading" ? "!shadow-none" : undefined}>
+                  PDF
+                </FilePreviewBadge>
+              </FilePreview>
+              <ComposerAttachmentBody>
+                <ComposerAttachmentTitle>{name}</ComposerAttachmentTitle>
+                <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+              </ComposerAttachmentBody>
+              {state === "uploading" ? (
+                <>
+                  <ComposerAttachmentUploadingOverlay>
+                    <Spinner size="sm" className="mb-1" />
+                    64%
+                  </ComposerAttachmentUploadingOverlay>
+                  <ComposerAttachmentUploadProgressBar value={64} />
+                </>
+              ) : null}
+            </ComposerAttachmentFile>
+            {state === "failed" ? (
+              <ComposerAttachmentFailedOverlay
+                render={<button type="button" disabled={!onRetry} />}
+                onClick={() => onRetry?.(name)}
+              >
+                <span>Upload failed</span>
+                <span className="underline underline-offset-2">Retry</span>
+              </ComposerAttachmentFailedOverlay>
+            ) : null}
+            <ComposerAttachmentRemove
+              aria-label={`Remove ${name}`}
+              disabled={!onRemove}
+              onClick={() => onRemove?.(name)}
+            >
+              <X />
+            </ComposerAttachmentRemove>
+          </ComposerAttachment>
+        );
+      })}
     </ComposerAttachments>
   );
 }
