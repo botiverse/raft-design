@@ -1,12 +1,5 @@
 import type { ReactNode } from "react";
-import {
-  AppShellMainSlot,
-  AppShellRailSlot,
-  AppShellRoot,
-  AppShellSidebarSlot,
-  useThemeFamily,
-} from "raft-ui";
-import { cn } from "raft-ui/cn";
+import { AppShellMainSlot, AppShellRailSlot, AppShellRoot, AppShellSidebarSlot } from "raft-ui";
 
 function ShellRegion({ children, className }: { children: ReactNode; className: string }) {
   return (
@@ -19,8 +12,6 @@ function ShellRegion({ children, className }: { children: ReactNode; className: 
 }
 
 export function AppShellDesktopComposition() {
-  const theme = useThemeFamily();
-
   return (
     <div className="w-full overflow-x-auto">
       <AppShellRoot className="h-[420px] min-w-[860px]">
@@ -28,7 +19,7 @@ export function AppShellDesktopComposition() {
           <ShellRegion className="bg-primary-300 text-primary-950">Rail</ShellRegion>
         </AppShellRailSlot>
 
-        <AppShellSidebarSlot className={cn("flex", theme === "brutal" ? "w-60" : "w-[252px]")}>
+        <AppShellSidebarSlot className="flex">
           <ShellRegion className="bg-accent-200 text-accent-950">Sidebar</ShellRegion>
         </AppShellSidebarSlot>
 
