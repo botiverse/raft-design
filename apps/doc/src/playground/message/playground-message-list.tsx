@@ -9,6 +9,8 @@ export function PlaygroundMessageList({ children }: { children: ReactNode }) {
   return isDesktop ? (
     <MessageList>{children}</MessageList>
   ) : (
-    <div className="flex w-full min-w-0 flex-col">{children}</div>
+    <div className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]">
+      {children}
+    </div>
   );
 }

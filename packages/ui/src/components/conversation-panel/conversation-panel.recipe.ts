@@ -100,7 +100,8 @@ export const conversationPanel = tv({
           "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:row-span-2",
           "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-heading]]:col-start-2",
           "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-title]]:col-start-2",
-          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-meta]]:col-start-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-meta]]:col-span-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-meta]]:col-start-1",
           "max-md:has-[>[data-slot=conversation-panel-header-icon]]:col-start-2 max-md:has-[>[data-slot=conversation-panel-header-icon]]:col-span-2",
           "max-md:has-[>[data-slot=conversation-panel-header-icon]]:self-center",
           "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:row-span-1",
@@ -110,9 +111,8 @@ export const conversationPanel = tv({
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
-          "max-md:leading-none",
         ],
-        meta: "font-sans leading-none text-foreground-placeholder",
+        meta: "font-sans leading-none text-foreground-placeholder max-md:leading-tight",
         status: [
           "border-0 bg-transparent p-0",
           "text-foreground-placeholder",
