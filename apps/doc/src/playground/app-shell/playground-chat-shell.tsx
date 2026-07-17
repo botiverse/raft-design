@@ -154,7 +154,7 @@ function PlaygroundChatLayout({
         </AppShellSidebarSlot>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel id="playground-main" minSize={360} className="relative">
+      <ResizablePanel id="playground-main" minSize={360} className="relative !overflow-visible">
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {main}
           {thread && !isLargeDesktop ? (

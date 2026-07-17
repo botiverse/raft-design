@@ -87,7 +87,11 @@ export function PlaygroundBrowseShell() {
           </>
         ) : null}
         {showMain ? (
-          <ResizablePanel id="playground-main" minSize={isDesktop ? 360 : 0} className="relative">
+          <ResizablePanel
+            id="playground-main"
+            minSize={isDesktop ? 360 : 0}
+            className="relative !overflow-visible"
+          >
             <AppShellMainSlot className="flex h-full min-w-0 flex-1">
               <Outlet />
             </AppShellMainSlot>
