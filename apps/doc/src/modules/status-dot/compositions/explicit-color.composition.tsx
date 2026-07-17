@@ -1,2 +1,5 @@
-// Generated source-comparison composition fixture.
-export const compositionSource = '<Status variant="success" />;';
+import { Status } from "raft-ui";
+
+export function StatusDotExplicitColorComposition() {
+  return <Status variant="success" />;
+}

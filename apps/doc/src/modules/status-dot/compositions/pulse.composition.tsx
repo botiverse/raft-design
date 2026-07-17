@@ -1,2 +1,5 @@
-// Generated source-comparison composition fixture.
-export const compositionSource = '<Status variant="primary" pulse />;';
+import { Status } from "raft-ui";
+
+export function StatusDotPulseComposition() {
+  return <Status variant="primary" pulse />;
+}

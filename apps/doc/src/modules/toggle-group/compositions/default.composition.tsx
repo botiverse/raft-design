@@ -1,3 +1,28 @@
-// Generated source-comparison composition fixture.
-export const compositionSource =
-  '<ToggleGroup ariaLabel="Filter" value={value} onValueChange={setValue}>\n  <ToggleGroupItem value="all">\n    <ToggleGroupLabel>All</ToggleGroupLabel>\n    <ToggleGroupCount>12</ToggleGroupCount>\n  </ToggleGroupItem>\n  <ToggleGroupItem value="unread">\n    <ToggleGroupLabel>Unread</ToggleGroupLabel>\n    <ToggleGroupCount>3</ToggleGroupCount>\n  </ToggleGroupItem>\n  <ToggleGroupItem value="mentions">\n    <ToggleGroupLabel>Mentions</ToggleGroupLabel>\n  </ToggleGroupItem>\n</ToggleGroup>;';
+import { ToggleGroup, ToggleGroupCount, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
+import { useState } from "react";
+
+// @docs-source-strip-start
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+// @docs-source-strip-end
+
+export function ToggleGroupDefaultComposition() {
+  const [value, setValue] = useState("all");
+
+  return (
+    <SourceComparisonPreview>
+      <ToggleGroup ariaLabel="Filter" value={value} onValueChange={setValue}>
+        <ToggleGroupItem value="all">
+          <ToggleGroupLabel>All</ToggleGroupLabel>
+          <ToggleGroupCount>12</ToggleGroupCount>
+        </ToggleGroupItem>
+        <ToggleGroupItem value="unread">
+          <ToggleGroupLabel>Unread</ToggleGroupLabel>
+          <ToggleGroupCount>3</ToggleGroupCount>
+        </ToggleGroupItem>
+        <ToggleGroupItem value="mentions">
+          <ToggleGroupLabel>Mentions</ToggleGroupLabel>
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </SourceComparisonPreview>
+  );
+}

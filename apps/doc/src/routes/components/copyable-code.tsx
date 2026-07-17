@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Copy } from "lucide-react";
-import { CopyableCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -10,7 +9,15 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import {
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import compactDetailCommandCompositionSource from "#/modules/copyable-code/compositions/compact-detail-command.composition.tsx?raw";
+import { CompactDetailCommandComposition } from "#/modules/copyable-code/compositions/compact-detail-command.composition.tsx";
+import dialogSetupCommandCompositionSource from "#/modules/copyable-code/compositions/dialog-setup-command.composition.tsx?raw";
+import { DialogSetupCommandComposition } from "#/modules/copyable-code/compositions/dialog-setup-command.composition.tsx";
 
 const CONNECT_COMMAND =
   "npx @botiverse/raft-daemon@latest --server-url https://api.raft.build --api-key sk_machine_0000000000000000000000000000000000000000000000000000000000000000 # Zolplay";
@@ -52,6 +59,23 @@ const SNIPPETS = {
   <CopyableCode.Code />
   <CopyableCode.Action />
 </CopyableCode.Root>`,
+} as const;
+
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  CompactDetailCommand: compactDetailCommandCompositionSource,
+  DialogSetupCommand: dialogSetupCommandCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  CompactDetailCommand: "copyableCodeCompactDetailCommandComposition",
+  DialogSetupCommand: "copyableCodeDialogSetupCommandComposition",
+});
+
+const COMPOSITION_PATHS = {
+  CompactDetailCommand:
+    "apps/doc/src/modules/copyable-code/compositions/compact-detail-command.composition.tsx",
+  DialogSetupCommand:
+    "apps/doc/src/modules/copyable-code/compositions/dialog-setup-command.composition.tsx",
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -110,7 +134,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/copyable-code")({
   component: CopyableCodeDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
 });
 
 function SourceCommandPreview({ size = "md" }: { size?: "sm" | "md" }) {
@@ -135,25 +159,6 @@ function SourceCommandPreview({ size = "md" }: { size?: "sm" | "md" }) {
   );
 }
 
-function CommandCopyRow({
-  ariaLabel,
-  children,
-  size,
-  truncate,
-}: {
-  ariaLabel: string;
-  children: string;
-  size?: "sm" | "md";
-  truncate?: boolean;
-}) {
-  return (
-    <CopyableCode.Root size={size}>
-      <CopyableCode.Code truncate={truncate}>{children}</CopyableCode.Code>
-      <CopyableCode.Action ariaLabel={ariaLabel} />
-    </CopyableCode.Root>
-  );
-}
-
 function CopyableCodeDoc() {
   const code = Route.useLoaderData();
 
@@ -171,10 +176,8 @@ function CopyableCodeDoc() {
           </DocNote>
           <Example html={code.preview} previewClassName="min-h-40">
             <div className="grid w-full max-w-lg gap-4">
-              <CommandCopyRow ariaLabel="Copy daemon command">{CONNECT_COMMAND}</CommandCopyRow>
-              <CommandCopyRow ariaLabel="Copy computer setup command" size="sm" truncate>
-                {COMPUTER_COMMAND}
-              </CommandCopyRow>
+              <DialogSetupCommandComposition />
+              <CompactDetailCommandComposition />
             </div>
           </Example>
         </div>
@@ -201,36 +204,24 @@ function CopyableCodeDoc() {
               status: "difference",
               note: "Source repeated a brutal code row with a separate copy button. Current extracts the row and copy feedback into CopyableCode.",
               source: <SourceCommandPreview />,
-              brutal: (
-                <CommandCopyRow ariaLabel="Copy daemon command">{CONNECT_COMMAND}</CommandCopyRow>
-              ),
-              elegant: (
-                <CommandCopyRow ariaLabel="Copy daemon command">{CONNECT_COMMAND}</CommandCopyRow>
-              ),
-              elegantDark: (
-                <CommandCopyRow ariaLabel="Copy daemon command">{CONNECT_COMMAND}</CommandCopyRow>
-              ),
+              brutal: <DialogSetupCommandComposition />,
+              elegant: <DialogSetupCommandComposition />,
+              elegantDark: <DialogSetupCommandComposition />,
+              compositionCode: code.copyableCodeDialogSetupCommandComposition,
+              compositionPath: COMPOSITION_PATHS.DialogSetupCommand,
+              compositionSource: COMPOSITION_SOURCES.DialogSetupCommand,
             },
             {
               label: "Compact detail command",
               status: "difference",
               note: "MachineDetailPanel uses the same row at a tighter density for offline reconnect commands.",
               source: <SourceCommandPreview size="sm" />,
-              brutal: (
-                <CommandCopyRow ariaLabel="Copy computer setup command" size="sm" truncate>
-                  {COMPUTER_COMMAND}
-                </CommandCopyRow>
-              ),
-              elegant: (
-                <CommandCopyRow ariaLabel="Copy computer setup command" size="sm" truncate>
-                  {COMPUTER_COMMAND}
-                </CommandCopyRow>
-              ),
-              elegantDark: (
-                <CommandCopyRow ariaLabel="Copy computer setup command" size="sm" truncate>
-                  {COMPUTER_COMMAND}
-                </CommandCopyRow>
-              ),
+              brutal: <CompactDetailCommandComposition />,
+              elegant: <CompactDetailCommandComposition />,
+              elegantDark: <CompactDetailCommandComposition />,
+              compositionCode: code.copyableCodeCompactDetailCommandComposition,
+              compositionPath: COMPOSITION_PATHS.CompactDetailCommand,
+              compositionSource: COMPOSITION_SOURCES.CompactDetailCommand,
             },
           ]}
         />

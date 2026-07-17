@@ -11,7 +11,15 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
+import {
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import defaultCompositionSource from "#/modules/toggle-group/compositions/default.composition.tsx?raw";
+import { ToggleGroupDefaultComposition } from "#/modules/toggle-group/compositions/default.composition.tsx";
+import disabledCompositionSource from "#/modules/toggle-group/compositions/disabled.composition.tsx?raw";
+import { ToggleGroupDisabledComposition } from "#/modules/toggle-group/compositions/disabled.composition.tsx";
 import LegacySegmentedControl from "../../../../../packages/ui/src/legacy/SegmentedControl.tsx";
 
 const TOC = [
@@ -64,23 +72,6 @@ const SNIPPETS = {
     { value: "mentions", label: "Mentions" },
   ]}
 />`,
-  currentDefault: `<ToggleGroup
-  ariaLabel="Filter"
-  value={value}
-  onValueChange={setValue}
->
-  <ToggleGroupItem value="all">
-    <ToggleGroupLabel>All</ToggleGroupLabel>
-    <ToggleGroupCount>12</ToggleGroupCount>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="unread">
-    <ToggleGroupLabel>Unread</ToggleGroupLabel>
-    <ToggleGroupCount>3</ToggleGroupCount>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="mentions">
-    <ToggleGroupLabel>Mentions</ToggleGroupLabel>
-  </ToggleGroupItem>
-</ToggleGroup>`,
   sourceDisabled: `<SegmentedControl
   disabled
   value="all"
@@ -90,18 +81,21 @@ const SNIPPETS = {
     { value: "unread", label: "Unread" },
   ]}
 />`,
-  currentDisabled: `<ToggleGroup
-  disabled
-  value="all"
-  onValueChange={() => {}}
->
-  <ToggleGroupItem value="all">
-    <ToggleGroupLabel>All</ToggleGroupLabel>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="unread">
-    <ToggleGroupLabel>Unread</ToggleGroupLabel>
-  </ToggleGroupItem>
-</ToggleGroup>`,
+} as const;
+
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  Default: defaultCompositionSource,
+  Disabled: disabledCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  Default: "toggleGroupDefaultComposition",
+  Disabled: "toggleGroupDisabledComposition",
+});
+
+const COMPOSITION_PATHS = {
+  Default: "apps/doc/src/modules/toggle-group/compositions/default.composition.tsx",
+  Disabled: "apps/doc/src/modules/toggle-group/compositions/disabled.composition.tsx",
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -123,7 +117,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/toggle-group")({
   component: ToggleGroupDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
 });
 
 const OPTIONS = [
@@ -136,7 +130,6 @@ function ToggleGroupDoc() {
   const code = Route.useLoaderData();
   const [value, setValue] = useState<string>("all");
   const [sourceComparisonValue, setSourceComparisonValue] = useState<string>("all");
-  const [currentComparisonValue, setCurrentComparisonValue] = useState<string>("all");
 
   return (
     <DocPage
@@ -217,27 +210,12 @@ function ToggleGroupDoc() {
                   options={OPTIONS.map((o) => ({ ...o }))}
                 />
               ),
-              current: (
-                <ToggleGroup
-                  ariaLabel="Filter"
-                  value={currentComparisonValue}
-                  onValueChange={setCurrentComparisonValue}
-                >
-                  {OPTIONS.map((option) => (
-                    <ToggleGroupItem key={option.value} value={option.value}>
-                      <ToggleGroupLabel>{option.label}</ToggleGroupLabel>
-                      {"count" in option && option.count > 0 ? (
-                        <ToggleGroupCount>{option.count}</ToggleGroupCount>
-                      ) : null}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
-              ),
+              current: <ToggleGroupDefaultComposition />,
               sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
-              compositionCode: code.currentDefault,
-              compositionPath: "apps/doc/src/compositions/toggle-group/default-composition.tsx",
-              compositionSource: SNIPPETS.currentDefault,
+              currentCode: code.toggleGroupDefaultComposition,
+              compositionCode: code.toggleGroupDefaultComposition,
+              compositionPath: COMPOSITION_PATHS.Default,
+              compositionSource: COMPOSITION_SOURCES.Default,
             },
             {
               label: "Disabled",
@@ -254,21 +232,12 @@ function ToggleGroupDoc() {
                   ]}
                 />
               ),
-              current: (
-                <ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
-                  <ToggleGroupItem value="all">
-                    <ToggleGroupLabel>All</ToggleGroupLabel>
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="unread">
-                    <ToggleGroupLabel>Unread</ToggleGroupLabel>
-                  </ToggleGroupItem>
-                </ToggleGroup>
-              ),
+              current: <ToggleGroupDisabledComposition />,
               sourceCode: code.sourceDisabled,
-              currentCode: code.currentDisabled,
-              compositionCode: code.currentDisabled,
-              compositionPath: "apps/doc/src/compositions/toggle-group/disabled-composition.tsx",
-              compositionSource: SNIPPETS.currentDisabled,
+              currentCode: code.toggleGroupDisabledComposition,
+              compositionCode: code.toggleGroupDisabledComposition,
+              compositionPath: COMPOSITION_PATHS.Disabled,
+              compositionSource: COMPOSITION_SOURCES.Disabled,
             },
           ]}
         />

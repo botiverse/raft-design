@@ -9,7 +9,19 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import {
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import dialogCopyCompositionSource from "#/modules/text/compositions/dialog-copy.composition.tsx?raw";
+import { TextDialogCopyComposition } from "#/modules/text/compositions/dialog-copy.composition.tsx";
+import detailCopyCompositionSource from "#/modules/text/compositions/detail-copy.composition.tsx?raw";
+import { TextDetailCopyComposition } from "#/modules/text/compositions/detail-copy.composition.tsx";
+import panelCopyCompositionSource from "#/modules/text/compositions/panel-copy.composition.tsx?raw";
+import { TextPanelCopyComposition } from "#/modules/text/compositions/panel-copy.composition.tsx";
+import taskRowCompositionSource from "#/modules/text/compositions/task-row.composition.tsx?raw";
+import { TextTaskRowComposition } from "#/modules/text/compositions/task-row.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -106,6 +118,27 @@ const SNIPPETS = {
 </div>`,
 } as const;
 
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  DialogCopy: dialogCopyCompositionSource,
+  DetailCopy: detailCopyCompositionSource,
+  PanelCopy: panelCopyCompositionSource,
+  TaskRow: taskRowCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  DialogCopy: "textDialogCopyComposition",
+  DetailCopy: "textDetailCopyComposition",
+  PanelCopy: "textPanelCopyComposition",
+  TaskRow: "textTaskRowComposition",
+});
+
+const COMPOSITION_PATHS = {
+  DialogCopy: "apps/doc/src/modules/text/compositions/dialog-copy.composition.tsx",
+  DetailCopy: "apps/doc/src/modules/text/compositions/detail-copy.composition.tsx",
+  PanelCopy: "apps/doc/src/modules/text/compositions/panel-copy.composition.tsx",
+  TaskRow: "apps/doc/src/modules/text/compositions/task-row.composition.tsx",
+} as const;
+
 const PROPS: readonly PropRow[] = [
   {
     name: "Text.Heading",
@@ -136,7 +169,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/text")({
   component: TextDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
 });
 
 function SourcePanelCopyPreview() {
@@ -153,18 +186,6 @@ function SourcePanelCopyPreview() {
   );
 }
 
-function CurrentPanelCopyPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-56">
-      <div className="grid w-[18rem] gap-2">
-        <Text.Heading level={6}>Tasks</Text.Heading>
-        <Text.Sans size="small">4 open tasks across 2 channels.</Text.Sans>
-        <Text.Mono size="eyebrow">Updated 3 min ago</Text.Mono>
-      </div>
-    </SourceComparisonPreview>
-  );
-}
-
 function SourceTaskRowPreview() {
   return (
     <SourceComparisonPreview className="min-h-56">
@@ -176,31 +197,6 @@ function SourceTaskRowPreview() {
         <p className="m-0 text-xs leading-5 text-black/60">
           Compare source usage before replacing legacy primitives.
         </p>
-      </div>
-    </SourceComparisonPreview>
-  );
-}
-
-function CurrentTaskRowPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-56">
-      <div className="grid w-[20rem] gap-1">
-        <div className="flex items-center justify-between gap-3">
-          <Text.Sans
-            render={<span />}
-            size="small"
-            variant="default"
-            className="truncate font-medium text-foreground-strong"
-          >
-            Audit component migration
-          </Text.Sans>
-          <Text.Mono render={<span />} size="meta">
-            Today
-          </Text.Mono>
-        </div>
-        <Text.Sans size="caption">
-          Compare source usage before replacing legacy primitives.
-        </Text.Sans>
       </div>
     </SourceComparisonPreview>
   );
@@ -227,31 +223,6 @@ function SourceDetailCopyPreview() {
   );
 }
 
-function CurrentDetailCopyPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-56">
-      <dl className="grid w-[18rem] gap-3">
-        <div className="grid gap-1">
-          <Text.Mono render={<dt />} size="eyebrow">
-            Owner
-          </Text.Mono>
-          <Text.Sans render={<dd />} size="small" variant="default" className="font-medium">
-            Mira
-          </Text.Sans>
-        </div>
-        <div className="grid gap-1">
-          <Text.Mono render={<dt />} size="eyebrow">
-            Notes
-          </Text.Mono>
-          <Text.Sans render={<dd />} size="caption">
-            Ready for source comparison.
-          </Text.Sans>
-        </div>
-      </dl>
-    </SourceComparisonPreview>
-  );
-}
-
 function SourceDialogCopyPreview() {
   return (
     <SourceComparisonPreview className="min-h-56">
@@ -263,18 +234,6 @@ function SourceDialogCopyPreview() {
         <p className="m-0 text-sm leading-5 text-black/60">
           Add teammates now or continue with a private workspace.
         </p>
-      </div>
-    </SourceComparisonPreview>
-  );
-}
-
-function CurrentDialogCopyPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-56">
-      <div className="grid w-[18rem] gap-2">
-        <Text.Mono size="eyebrow">Workspace setup</Text.Mono>
-        <Text.Heading level={6}>Invite people</Text.Heading>
-        <Text.Sans size="small">Add teammates now or continue with a private workspace.</Text.Sans>
       </div>
     </SourceComparisonPreview>
   );
@@ -351,7 +310,11 @@ function TextDoc() {
               status: "difference",
               note: "Source scenes: ThreadsInbox.tsx:162; TasksPanel.tsx:135,241,824; LegacyTaskPanel.tsx:112,141,154.",
               source: <SourcePanelCopyPreview />,
-              current: <CurrentPanelCopyPreview />,
+              current: <TextPanelCopyComposition />,
+              currentCode: code.textPanelCopyComposition,
+              compositionCode: code.textPanelCopyComposition,
+              compositionPath: COMPOSITION_PATHS.PanelCopy,
+              compositionSource: COMPOSITION_SOURCES.PanelCopy,
             },
             {
               id: "source-comparison-task-row",
@@ -359,7 +322,11 @@ function TextDoc() {
               status: "difference",
               note: "Source scenes: TaskItem.tsx:59-80,125,130; ActionCard.tsx:280,285,291,431-502.",
               source: <SourceTaskRowPreview />,
-              current: <CurrentTaskRowPreview />,
+              current: <TextTaskRowComposition />,
+              currentCode: code.textTaskRowComposition,
+              compositionCode: code.textTaskRowComposition,
+              compositionPath: COMPOSITION_PATHS.TaskRow,
+              compositionSource: COMPOSITION_SOURCES.TaskRow,
             },
             {
               id: "source-comparison-detail-copy",
@@ -367,7 +334,11 @@ function TextDoc() {
               status: "difference",
               note: "Source scenes: HumanDetailPanel.tsx:267,275,279,319,360,368,374,397,475,481,530.",
               source: <SourceDetailCopyPreview />,
-              current: <CurrentDetailCopyPreview />,
+              current: <TextDetailCopyComposition />,
+              currentCode: code.textDetailCopyComposition,
+              compositionCode: code.textDetailCopyComposition,
+              compositionPath: COMPOSITION_PATHS.DetailCopy,
+              compositionSource: COMPOSITION_SOURCES.DetailCopy,
             },
             {
               id: "source-comparison-dialog-copy",
@@ -375,7 +346,11 @@ function TextDoc() {
               status: "difference",
               note: "Source scenes: AnnouncementModal.tsx:122,139,157-159; OnboardingStepDialog.tsx:77,80,114; CreateTaskDialog.tsx:59.",
               source: <SourceDialogCopyPreview />,
-              current: <CurrentDialogCopyPreview />,
+              current: <TextDialogCopyComposition />,
+              currentCode: code.textDialogCopyComposition,
+              compositionCode: code.textDialogCopyComposition,
+              compositionPath: COMPOSITION_PATHS.DialogCopy,
+              compositionSource: COMPOSITION_SOURCES.DialogCopy,
             },
           ]}
         />

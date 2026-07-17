@@ -7,7 +7,15 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
+import {
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import explicitColorCompositionSource from "#/modules/status-dot/compositions/explicit-color.composition.tsx?raw";
+import { StatusDotExplicitColorComposition } from "#/modules/status-dot/compositions/explicit-color.composition.tsx";
+import pulseCompositionSource from "#/modules/status-dot/compositions/pulse.composition.tsx?raw";
+import { StatusDotPulseComposition } from "#/modules/status-dot/compositions/pulse.composition.tsx";
 import LegacyStatusDot from "../../../../../packages/ui/src/legacy/StatusDot.tsx";
 
 const TOC = [
@@ -29,9 +37,22 @@ const SNIPPETS = {
 <Status variant="success" />`,
   anatomy: `<Status />`,
   sourceDefault: `<StatusDot tone="bg-brutal-lime" />`,
-  currentDefault: `<Status variant="success" />`,
   sourcePulse: `<StatusDot tone="bg-brutal-yellow" pulse />`,
-  currentPulse: `<Status variant="primary" pulse />`,
+} as const;
+
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  ExplicitColor: explicitColorCompositionSource,
+  Pulse: pulseCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  ExplicitColor: "statusDotExplicitColorComposition",
+  Pulse: "statusDotPulseComposition",
+});
+
+const COMPOSITION_PATHS = {
+  ExplicitColor: "apps/doc/src/modules/status-dot/compositions/explicit-color.composition.tsx",
+  Pulse: "apps/doc/src/modules/status-dot/compositions/pulse.composition.tsx",
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -49,7 +70,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/status-dot")({
   component: StatusDotMigrationDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
 });
 
 function StatusDotMigrationDoc() {
@@ -87,25 +108,24 @@ function StatusDotMigrationDoc() {
               status: "difference",
               note: 'tone="bg-brutal-lime" -> variant="success".',
               source: <LegacyStatusDot tone="bg-brutal-lime" />,
-              current: <Status variant="success" />,
+              current: <StatusDotExplicitColorComposition />,
               sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
-              compositionCode: code.currentDefault,
-              compositionPath:
-                "apps/doc/src/compositions/status-dot/explicit-color-composition.tsx",
-              compositionSource: SNIPPETS.currentDefault,
+              currentCode: code.statusDotExplicitColorComposition,
+              compositionCode: code.statusDotExplicitColorComposition,
+              compositionPath: COMPOSITION_PATHS.ExplicitColor,
+              compositionSource: COMPOSITION_SOURCES.ExplicitColor,
             },
             {
               label: "Pulse",
               status: "difference",
               note: 'tone="bg-brutal-yellow" pulse -> variant="primary" pulse.',
               source: <LegacyStatusDot tone="bg-brutal-yellow" pulse />,
-              current: <Status variant="primary" pulse />,
+              current: <StatusDotPulseComposition />,
               sourceCode: code.sourcePulse,
-              currentCode: code.currentPulse,
-              compositionCode: code.currentPulse,
-              compositionPath: "apps/doc/src/compositions/status-dot/pulse-composition.tsx",
-              compositionSource: SNIPPETS.currentPulse,
+              currentCode: code.statusDotPulseComposition,
+              compositionCode: code.statusDotPulseComposition,
+              compositionPath: COMPOSITION_PATHS.Pulse,
+              compositionSource: COMPOSITION_SOURCES.Pulse,
             },
           ]}
         />

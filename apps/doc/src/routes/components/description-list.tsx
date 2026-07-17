@@ -16,7 +16,17 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
+import {
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import detailMetadataCompositionSource from "#/modules/description-list/compositions/detail-metadata.composition.tsx?raw";
+import { DetailMetadataComposition } from "#/modules/description-list/compositions/detail-metadata.composition.tsx";
+import longMonospaceValueCompositionSource from "#/modules/description-list/compositions/long-monospace-value.composition.tsx?raw";
+import { LongMonospaceValueComposition } from "#/modules/description-list/compositions/long-monospace-value.composition.tsx";
+import richCreatorValueCompositionSource from "#/modules/description-list/compositions/rich-creator-value.composition.tsx?raw";
+import { RichCreatorValueComposition } from "#/modules/description-list/compositions/rich-creator-value.composition.tsx";
 import LegacyKeyValueRow from "../../../../../packages/ui/src/legacy/KeyValueRow.tsx";
 
 const TOC = [
@@ -64,19 +74,7 @@ const SNIPPETS = {
   </DescriptionItem>
 </DescriptionList>`,
   sourceCreated: `<KeyValueRow label="Created" value={createdDate} mono />`,
-  currentCreated: `<DescriptionList>
-  <DescriptionItem>
-    <DescriptionTerm>Created</DescriptionTerm>
-    <DescriptionDetails className="font-mono">{createdDate}</DescriptionDetails>
-  </DescriptionItem>
-</DescriptionList>`,
   sourceEmail: `<KeyValueRow label="Email" value={human.email} mono breakAll />`,
-  currentEmail: `<DescriptionList>
-  <DescriptionItem>
-    <DescriptionTerm>Email</DescriptionTerm>
-    <DescriptionDetails className="break-all font-mono">{human.email}</DescriptionDetails>
-  </DescriptionItem>
-</DescriptionList>`,
   sourceCreator: `<KeyValueRow
   label="Creator"
   valueClassName="flex items-center gap-2"
@@ -88,18 +86,27 @@ const SNIPPETS = {
     </button>
   }
 />`,
-  currentCreator: `<DescriptionList>
-  <DescriptionItem>
-    <DescriptionTerm>Creator</DescriptionTerm>
-    <DescriptionDetails className="flex items-center gap-2">
-      <button type="button" className="flex items-center gap-2 text-sm text-black hover:underline">
-        <span className="size-5 border-2 border-black bg-brutal-yellow" />
-        <span className="font-bold">Ada Lovelace</span>
-        <span className="font-mono text-xs text-black/50">@ada</span>
-      </button>
-    </DescriptionDetails>
-  </DescriptionItem>
-</DescriptionList>`,
+} as const;
+
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  DetailMetadata: detailMetadataCompositionSource,
+  LongMonospaceValue: longMonospaceValueCompositionSource,
+  RichCreatorValue: richCreatorValueCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  DetailMetadata: "descriptionListDetailMetadataComposition",
+  LongMonospaceValue: "descriptionListLongMonospaceValueComposition",
+  RichCreatorValue: "descriptionListRichCreatorValueComposition",
+});
+
+const COMPOSITION_PATHS = {
+  DetailMetadata:
+    "apps/doc/src/modules/description-list/compositions/detail-metadata.composition.tsx",
+  LongMonospaceValue:
+    "apps/doc/src/modules/description-list/compositions/long-monospace-value.composition.tsx",
+  RichCreatorValue:
+    "apps/doc/src/modules/description-list/compositions/rich-creator-value.composition.tsx",
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -133,7 +140,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/description-list")({
   component: DescriptionListDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
 });
 
 function DescriptionListDoc() {
@@ -211,42 +218,24 @@ function DescriptionListDoc() {
               status: "difference",
               note: "Source packed label, value, and mono into one props object. Current preserves the same visual contract through term/details slots.",
               source: <LegacyKeyValueRow label="Created" value="Jun 5, 2026" mono />,
-              current: (
-                <DescriptionList>
-                  <DescriptionItem>
-                    <DescriptionTerm>Created</DescriptionTerm>
-                    <DescriptionDetails className="font-mono">Jun 5, 2026</DescriptionDetails>
-                  </DescriptionItem>
-                </DescriptionList>
-              ),
+              current: <DetailMetadataComposition />,
               sourceCode: code.sourceCreated,
-              currentCode: code.currentCreated,
-              compositionCode: code.currentCreated,
-              compositionPath:
-                "apps/doc/src/compositions/description-list/detail-metadata-composition.tsx",
-              compositionSource: SNIPPETS.currentCreated,
+              currentCode: code.descriptionListDetailMetadataComposition,
+              compositionCode: code.descriptionListDetailMetadataComposition,
+              compositionPath: COMPOSITION_PATHS.DetailMetadata,
+              compositionSource: COMPOSITION_SOURCES.DetailMetadata,
             },
             {
               label: "Long monospace value",
               status: "difference",
               note: "Source used boolean styling props. Current keeps the same classes at the value slot callsite.",
               source: <LegacyKeyValueRow label="Email" value="ada@example.com" mono breakAll />,
-              current: (
-                <DescriptionList>
-                  <DescriptionItem>
-                    <DescriptionTerm>Email</DescriptionTerm>
-                    <DescriptionDetails className="break-all font-mono">
-                      ada@example.com
-                    </DescriptionDetails>
-                  </DescriptionItem>
-                </DescriptionList>
-              ),
+              current: <LongMonospaceValueComposition />,
               sourceCode: code.sourceEmail,
-              currentCode: code.currentEmail,
-              compositionCode: code.currentEmail,
-              compositionPath:
-                "apps/doc/src/compositions/description-list/long-monospace-value-composition.tsx",
-              compositionSource: SNIPPETS.currentEmail,
+              currentCode: code.descriptionListLongMonospaceValueComposition,
+              compositionCode: code.descriptionListLongMonospaceValueComposition,
+              compositionPath: COMPOSITION_PATHS.LongMonospaceValue,
+              compositionSource: COMPOSITION_SOURCES.LongMonospaceValue,
             },
             {
               label: "Rich creator value",
@@ -268,29 +257,12 @@ function DescriptionListDoc() {
                   }
                 />
               ),
-              current: (
-                <DescriptionList>
-                  <DescriptionItem>
-                    <DescriptionTerm>Creator</DescriptionTerm>
-                    <DescriptionDetails className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        className="flex items-center gap-2 text-sm text-black hover:underline"
-                      >
-                        <span className="size-5 border-2 border-black bg-brutal-yellow" />
-                        <span className="font-bold">Ada Lovelace</span>
-                        <span className="font-mono text-xs text-black/50">@ada</span>
-                      </button>
-                    </DescriptionDetails>
-                  </DescriptionItem>
-                </DescriptionList>
-              ),
+              current: <RichCreatorValueComposition />,
               sourceCode: code.sourceCreator,
-              currentCode: code.currentCreator,
-              compositionCode: code.currentCreator,
-              compositionPath:
-                "apps/doc/src/compositions/description-list/rich-creator-value-composition.tsx",
-              compositionSource: SNIPPETS.currentCreator,
+              currentCode: code.descriptionListRichCreatorValueComposition,
+              compositionCode: code.descriptionListRichCreatorValueComposition,
+              compositionPath: COMPOSITION_PATHS.RichCreatorValue,
+              compositionSource: COMPOSITION_SOURCES.RichCreatorValue,
             },
           ]}
         />
