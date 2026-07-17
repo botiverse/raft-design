@@ -59,7 +59,7 @@ const COMPOSITION_SOURCES = createCompositionSourceMap({
 });
 
 const COMPOSITION_PATHS = {
-  Basic: "apps/doc/src/compositions/skeleton/basic-composition.tsx",
+  Basic: "apps/doc/src/modules/skeleton/compositions/basic.composition.tsx",
 } as const;
 
 const COMPOSITION_SNIPPET_IDS = {

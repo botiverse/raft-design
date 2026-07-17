@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
-  Badge,
   Button,
   Lightbox,
   LightboxClose,
@@ -42,7 +41,9 @@ import {
 } from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import attachmentPreviewShellCompositionSource from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx?raw";
+import { AttachmentPreviewShellComposition } from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx";
 import imageLightboxShellCompositionSource from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx?raw";
+import { ImageLightboxShellComposition } from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -329,9 +330,9 @@ function LightboxDoc() {
               status: "difference",
               note: "Source mixed the visual shell and image switching into ImageLightbox. Current keeps the same caller-owned navigation boundary while expressing the header, action cluster, stage, and media slots through the Lightbox composition family.",
               source: <SourceImageLightboxPreview />,
-              brutal: <CurrentImageLightboxPreview />,
-              elegant: <CurrentImageLightboxPreview />,
-              elegantDark: <CurrentImageLightboxPreview />,
+              brutal: <ImageLightboxShellComposition />,
+              elegant: <ImageLightboxShellComposition />,
+              elegantDark: <ImageLightboxShellComposition />,
               sourceCode: code.sourceImageShell,
               ...compositionPanelProps(code, "ImageLightboxShell"),
             },
@@ -340,9 +341,9 @@ function LightboxDoc() {
               status: "todo",
               note: "Source passed positioning, scroll locking, and backdrop classes directly to the primitive for attachment previews. Current keeps those concerns at the composition boundary instead of expanding the public root API.",
               source: <SourceAttachmentPreview />,
-              brutal: <CurrentAttachmentPreview />,
-              elegant: <CurrentAttachmentPreview />,
-              elegantDark: <CurrentAttachmentPreview />,
+              brutal: <AttachmentPreviewShellComposition />,
+              elegant: <AttachmentPreviewShellComposition />,
+              elegantDark: <AttachmentPreviewShellComposition />,
               sourceCode: code.sourceAttachmentShell,
               ...compositionPanelProps(code, "AttachmentPreviewShell"),
             },
@@ -536,32 +537,12 @@ function SourceImageLightboxPreview() {
   );
 }
 
-function CurrentImageLightboxPreview() {
-  return (
-    <div className="relative flex h-44 w-full max-w-sm flex-col overflow-hidden bg-layer-backdrop [[data-theme=elegant]_&]:bg-[oklch(0_0_0_/_0.72)]">
-      <CurrentImageLightboxChrome />
-      <CurrentLightboxStage />
-    </div>
-  );
-}
-
 function SourceAttachmentPreview() {
   return (
     <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-brutal-cream">
       <SourceLightboxHeader title="diagram-export.html" label="HTML preview" />
       <div className="flex min-h-0 flex-1 items-center justify-center p-4">
         <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--source-shadow)]" />
-      </div>
-    </div>
-  );
-}
-
-function CurrentAttachmentPreview() {
-  return (
-    <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-layer-backdrop [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=elegant]_&]:bg-[oklch(0_0_0_/_0.72)]">
-      <CurrentLightboxHeader title="diagram-export.html" label="HTML preview" />
-      <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--source-shadow)] [[data-theme=elegant]_&]:border [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:shadow-none" />
       </div>
     </div>
   );
@@ -602,93 +583,6 @@ function SourceIconGroup() {
       <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
         <X size={12} aria-hidden />
       </span>
-    </div>
-  );
-}
-
-function CurrentLightboxHeader({
-  title,
-  label,
-  compact,
-}: {
-  title: string;
-  label?: string;
-  compact?: boolean;
-}) {
-  return (
-    <div className="shrink-0 border-b-2 border-black bg-white shadow-none [[data-theme=elegant]_&]:border-b [[data-theme=elegant]_&]:border-line-subtle [[data-theme=elegant]_&]:bg-layer-popover">
-      <div className={`${compact ? "h-9" : "h-10"} flex items-center gap-2 px-3`}>
-        <div className="min-w-0 flex-1 truncate font-heading text-xs font-bold text-black [[data-theme=elegant]_&]:font-sans [[data-theme=elegant]_&]:font-medium [[data-theme=elegant]_&]:text-foreground-strong">
-          {title}
-        </div>
-        {label ? (
-          <Badge appearance="soft" uppercase className="shrink-0">
-            {label}
-          </Badge>
-        ) : null}
-        <CurrentIconGroup />
-      </div>
-    </div>
-  );
-}
-
-function CurrentIconGroup() {
-  return (
-    <div className="flex gap-1">
-      <Button type="button" variant="outline" size="icon-xs" aria-label="Download">
-        <Download />
-      </Button>
-      <Button type="button" variant="outline" size="icon-xs" aria-label="Close">
-        <X />
-      </Button>
-    </div>
-  );
-}
-
-function CurrentImageLightboxChrome() {
-  return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-end p-2">
-      <Button
-        type="button"
-        variant="outline"
-        size="icon-sm"
-        aria-label="Close"
-        className="pointer-events-auto"
-      >
-        <X className="size-4" />
-      </Button>
-    </div>
-  );
-}
-
-function CurrentImageInfoRail() {
-  return (
-    <LightboxInfoBar className="absolute right-3 bottom-3 left-3 z-10 mx-auto">
-      <LightboxInfoTitle>release-card-final-approved-for-directory-cover.png</LightboxInfoTitle>
-      <LightboxInfoActions>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-xs"
-          aria-label="Download"
-          className="shrink-0"
-        >
-          <Download />
-        </Button>
-      </LightboxInfoActions>
-    </LightboxInfoBar>
-  );
-}
-
-function CurrentLightboxStage() {
-  const image = DEMO_IMAGES[0];
-
-  return (
-    <div className="relative flex min-h-0 flex-1 items-center justify-center p-4">
-      <div className="aspect-[4/3] h-full max-h-24 bg-white shadow-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-white [[data-theme=brutal]_&]:shadow-[6px_6px_0_0_oklch(0_0_0)] [[data-theme=elegant]_&]:border-0 [[data-theme=elegant]_&]:shadow-none">
-        <img src={image.thumb} alt={image.filename} className="size-full object-cover" />
-      </div>
-      <CurrentImageInfoRail />
     </div>
   );
 }

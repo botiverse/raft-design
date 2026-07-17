@@ -1,2 +1,5 @@
-// Generated source-comparison composition fixture.
-export const compositionSource = '<Status variant="accent" />;';
+import { Status } from "raft-ui";
+
+export function AttentionDotDefaultComposition() {
+  return <Status variant="accent" />;
+}

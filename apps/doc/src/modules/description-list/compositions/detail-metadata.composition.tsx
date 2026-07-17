@@ -1,3 +1,26 @@
-// Generated source-comparison composition fixture.
-export const compositionSource =
-  '<DescriptionList>\n  <DescriptionItem>\n    <DescriptionTerm>Created</DescriptionTerm>\n    <DescriptionDetails className="font-mono">{createdDate}</DescriptionDetails>\n  </DescriptionItem>\n</DescriptionList>;';
+import { DescriptionDetails, DescriptionItem, DescriptionList, DescriptionTerm } from "raft-ui/wip";
+
+// @docs-source-strip-start
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+// @docs-source-strip-end
+
+// @docs-source-strip-start
+export function DetailMetadataComposition() {
+  return (
+    <SourceComparisonPreview>
+      <DetailMetadataContent />
+    </SourceComparisonPreview>
+  );
+}
+// @docs-source-strip-end
+
+export function DetailMetadataContent() {
+  return (
+    <DescriptionList>
+      <DescriptionItem>
+        <DescriptionTerm>Created</DescriptionTerm>
+        <DescriptionDetails className="font-mono">Jun 5, 2026</DescriptionDetails>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}

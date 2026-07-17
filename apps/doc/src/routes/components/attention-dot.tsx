@@ -7,7 +7,17 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
+import {
+  createCompositionSnippetMap,
+  createCompositionSourceMap,
+} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import compactCompositionSource from "#/modules/attention-dot/compositions/compact.composition.tsx?raw";
+import { AttentionDotCompactComposition } from "#/modules/attention-dot/compositions/compact.composition.tsx";
+import defaultCompositionSource from "#/modules/attention-dot/compositions/default.composition.tsx?raw";
+import { AttentionDotDefaultComposition } from "#/modules/attention-dot/compositions/default.composition.tsx";
+import explicitColorCompositionSource from "#/modules/attention-dot/compositions/explicit-color.composition.tsx?raw";
+import { AttentionDotExplicitColorComposition } from "#/modules/attention-dot/compositions/explicit-color.composition.tsx";
 import LegacyAttentionDot from "../../../../../packages/ui/src/legacy/AttentionDot.tsx";
 
 const TOC = [
@@ -31,11 +41,26 @@ const SNIPPETS = {
 <Status variant="accent" />`,
   anatomy: `<Status />`,
   sourceDefault: `<AttentionDot />`,
-  currentDefault: `<Status variant="accent" />`,
   sourceCompact: `<AttentionDot size="sm" />`,
-  currentCompact: `<Status variant="accent" size="xs" />`,
   sourceTone: `<AttentionDot tone="bg-brutal-orange" />`,
-  currentTone: `<Status variant="warning" />`,
+} as const;
+
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  Compact: compactCompositionSource,
+  Default: defaultCompositionSource,
+  ExplicitColor: explicitColorCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  Compact: "attentionDotCompactComposition",
+  Default: "attentionDotDefaultComposition",
+  ExplicitColor: "attentionDotExplicitColorComposition",
+});
+
+const COMPOSITION_PATHS = {
+  Compact: "apps/doc/src/modules/attention-dot/compositions/compact.composition.tsx",
+  Default: "apps/doc/src/modules/attention-dot/compositions/default.composition.tsx",
+  ExplicitColor: "apps/doc/src/modules/attention-dot/compositions/explicit-color.composition.tsx",
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -53,7 +78,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/attention-dot")({
   component: AttentionDotMigrationDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
 });
 
 function AttentionDotMigrationDoc() {
@@ -92,37 +117,36 @@ function AttentionDotMigrationDoc() {
               status: "difference",
               note: 'AttentionDot -> Status variant="accent".',
               source: <LegacyAttentionDot />,
-              current: <Status variant="accent" />,
+              current: <AttentionDotDefaultComposition />,
               sourceCode: code.sourceDefault,
-              currentCode: code.currentDefault,
-              compositionCode: code.currentDefault,
-              compositionPath: "apps/doc/src/compositions/attention-dot/default-composition.tsx",
-              compositionSource: SNIPPETS.currentDefault,
+              currentCode: code.attentionDotDefaultComposition,
+              compositionCode: code.attentionDotDefaultComposition,
+              compositionPath: COMPOSITION_PATHS.Default,
+              compositionSource: COMPOSITION_SOURCES.Default,
             },
             {
               label: "Compact",
               status: "difference",
               note: 'AttentionDot size="sm" -> Status size="xs".',
               source: <LegacyAttentionDot size="sm" />,
-              current: <Status variant="accent" size="xs" />,
+              current: <AttentionDotCompactComposition />,
               sourceCode: code.sourceCompact,
-              currentCode: code.currentCompact,
-              compositionCode: code.currentCompact,
-              compositionPath: "apps/doc/src/compositions/attention-dot/compact-composition.tsx",
-              compositionSource: SNIPPETS.currentCompact,
+              currentCode: code.attentionDotCompactComposition,
+              compositionCode: code.attentionDotCompactComposition,
+              compositionPath: COMPOSITION_PATHS.Compact,
+              compositionSource: COMPOSITION_SOURCES.Compact,
             },
             {
               label: "Explicit color",
               status: "difference",
               note: 'tone="bg-brutal-orange" -> variant="warning".',
               source: <LegacyAttentionDot tone="bg-brutal-orange" />,
-              current: <Status variant="warning" />,
+              current: <AttentionDotExplicitColorComposition />,
               sourceCode: code.sourceTone,
-              currentCode: code.currentTone,
-              compositionCode: code.currentTone,
-              compositionPath:
-                "apps/doc/src/compositions/attention-dot/explicit-color-composition.tsx",
-              compositionSource: SNIPPETS.currentTone,
+              currentCode: code.attentionDotExplicitColorComposition,
+              compositionCode: code.attentionDotExplicitColorComposition,
+              compositionPath: COMPOSITION_PATHS.ExplicitColor,
+              compositionSource: COMPOSITION_SOURCES.ExplicitColor,
             },
           ]}
         />

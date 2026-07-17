@@ -1,3 +1,26 @@
-// Generated source-comparison composition fixture.
-export const compositionSource =
-  '<DescriptionList>\n  <DescriptionItem>\n    <DescriptionTerm>Email</DescriptionTerm>\n    <DescriptionDetails className="break-all font-mono">{human.email}</DescriptionDetails>\n  </DescriptionItem>\n</DescriptionList>;';
+import { DescriptionDetails, DescriptionItem, DescriptionList, DescriptionTerm } from "raft-ui/wip";
+
+// @docs-source-strip-start
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+// @docs-source-strip-end
+
+// @docs-source-strip-start
+export function LongMonospaceValueComposition() {
+  return (
+    <SourceComparisonPreview>
+      <LongMonospaceValueContent />
+    </SourceComparisonPreview>
+  );
+}
+// @docs-source-strip-end
+
+export function LongMonospaceValueContent() {
+  return (
+    <DescriptionList>
+      <DescriptionItem>
+        <DescriptionTerm>Email</DescriptionTerm>
+        <DescriptionDetails className="break-all font-mono">ada@example.com</DescriptionDetails>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
