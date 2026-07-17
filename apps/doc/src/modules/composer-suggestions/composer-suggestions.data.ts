@@ -1,10 +1,13 @@
 import type { ComposerSuggestionTriggerMatch } from "raft-ui/wip";
 
 export type PersonSuggestion = {
-  disabled?: boolean;
+  avatarFallback: string;
+  avatarSrc?: string;
+  description?: string;
   handle: string;
   name: string;
-  role: string;
+  outOfChannel?: boolean;
+  type: "agent" | "human";
 };
 
 export type ChannelSuggestion = {
@@ -15,10 +18,33 @@ export type ChannelSuggestion = {
 
 export type Suggestion = PersonSuggestion | ChannelSuggestion;
 
+const humanAvatar = (photoId: string) =>
+  `https://unsplash.com/photos/${photoId}/download?force=true&w=80&h=80&fit=crop&crop=faces`;
+
 const people: readonly PersonSuggestion[] = [
-  { handle: "atlas", name: "Atlas", role: "Design" },
-  { handle: "avery", name: "Avery", role: "Engineering" },
-  { disabled: true, handle: "morgan", name: "Morgan", role: "Unavailable" },
+  {
+    avatarFallback: "A",
+    avatarSrc: humanAvatar("n4KewLKFOZw"),
+    description: "Design",
+    handle: "atlas",
+    name: "Atlas",
+    type: "agent",
+  },
+  {
+    avatarFallback: "A",
+    avatarSrc: humanAvatar("H6FbE_vxaxQ"),
+    handle: "avery",
+    name: "Avery",
+    type: "human",
+  },
+  {
+    avatarFallback: "M",
+    avatarSrc: humanAvatar("mxwcEIqJ63Y"),
+    handle: "morgan",
+    name: "Morgan",
+    outOfChannel: true,
+    type: "human",
+  },
 ];
 
 const channels: readonly ChannelSuggestion[] = [
@@ -52,14 +78,12 @@ export function getSuggestionText(suggestion: Suggestion) {
 }
 
 export function isSuggestionDisabled(suggestion: Suggestion) {
-  return isPersonSuggestion(suggestion)
-    ? Boolean(suggestion.disabled)
-    : Boolean(suggestion.archived);
+  return !isPersonSuggestion(suggestion) && Boolean(suggestion.archived);
 }
 
 function matchesQuery(suggestion: Suggestion, query: string) {
   const searchable = isPersonSuggestion(suggestion)
-    ? `${suggestion.name} ${suggestion.handle} ${suggestion.role}`
+    ? `${suggestion.name} ${suggestion.handle} ${suggestion.description ?? ""}`
     : `${suggestion.name} ${suggestion.description}`;
   return searchable.toLocaleLowerCase().includes(query.toLocaleLowerCase());
 }

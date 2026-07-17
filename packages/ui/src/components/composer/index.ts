@@ -47,7 +47,6 @@ export type {
 
 export {
   ComposerSuggestionAside,
-  ComposerSuggestionBadge,
   ComposerSuggestionContent,
   ComposerSuggestionGroup,
   ComposerSuggestionGroupLabel,
@@ -59,7 +58,6 @@ export {
 } from "./composer-suggestion-list";
 export type {
   ComposerSuggestionAsideProps,
-  ComposerSuggestionBadgeProps,
   ComposerSuggestionContentProps,
   ComposerSuggestionGroupLabelProps,
   ComposerSuggestionGroupProps,

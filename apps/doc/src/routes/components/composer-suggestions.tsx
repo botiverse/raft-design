@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { Kbd } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { ComposerSuggestionComposition } from "#/modules/composer-suggestions/composer-suggestions.composition.tsx";
@@ -22,18 +23,6 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const TRIGGERS = ["People", "Channels", "Filtered people"] as const;
-
-type PreviewValues = {
-  trigger: (typeof TRIGGERS)[number];
-};
-
-const INITIAL_VALUE_BY_TRIGGER: Record<PreviewValues["trigger"], string> = {
-  People: "@",
-  Channels: "#",
-  "Filtered people": "@av",
-};
-
 const ANATOMY_SNIPPET = `<ComposerRoot>
   <ComposerSuggestionList>
     <ComposerSuggestionGroup>
@@ -44,7 +33,7 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
           <ComposerSuggestionTitle />
           <ComposerSuggestionMeta />
           <ComposerSuggestionAside>
-            <ComposerSuggestionBadge />
+            <Status />
           </ComposerSuggestionAside>
         </ComposerSuggestionContent>
       </ComposerSuggestionOption>
@@ -132,10 +121,14 @@ const PROPS: readonly PropRow[] = [
     description: "Explicit option structure for caller-owned icons, labels, and trailing content.",
   },
   {
-    name: "ComposerSuggestionMeta / Badge",
+    name: "ComposerSuggestionMeta / Aside",
     type: "span props & visual variant",
-    description:
-      "Secondary text and status parts. Meta supports text/code; Badge supports label/indicator.",
+    description: "Secondary text and trailing-content parts. Meta supports text/code.",
+  },
+  {
+    name: "Badge / Status",
+    type: "shared primitive props",
+    description: "Caller-owned status labels and availability indicators for suggestion content.",
   },
 ];
 
@@ -158,9 +151,7 @@ function ComposerSuggestionsDoc() {
             owns keyboard navigation, IME safety, active-descendant semantics, and caret-preserving
             insertion
           </li>
-          <li>
-            keeps popup visuals explicit through list, group, option, content, meta, and badge parts
-          </li>
+          <li>keeps popup visuals explicit through list, group, option, content, and meta parts</li>
           <li>
             differs from Combobox: suggestions are anchored to an inline textarea trigger rather
             than a standalone input or trigger control
@@ -170,19 +161,14 @@ function ComposerSuggestionsDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PreviewValues>
-          defaultValues={{ trigger: "People" }}
-          controls={[{ name: "trigger", label: "Trigger", type: "select", options: TRIGGERS }]}
-          previewClassName="items-stretch"
-          render={(values) => {
-            const initialValue = INITIAL_VALUE_BY_TRIGGER[values.trigger];
-            return (
-              <div className="h-[340px] w-full overflow-hidden">
-                <ComposerSuggestionComposition key={initialValue} initialValue={initialValue} />
-              </div>
-            );
-          }}
-        />
+        <Example html={code.composition} previewClassName="items-stretch">
+          <div className="relative h-[460px] w-full overflow-hidden">
+            <p className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-xs text-foreground-muted">
+              Use <Kbd>@</Kbd> to mention people or <Kbd>#</Kbd> to find channels.
+            </p>
+            <ComposerSuggestionComposition initialValue="" />
+          </div>
+        </Example>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
