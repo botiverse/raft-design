@@ -27,11 +27,11 @@ export const panel = tv({
         scrollbarThumb: "bg-black/35 hover:bg-black/55",
       },
       elegant: {
-        scrollContent: "pb-[var(--panel-footer-clearance)]",
+        scrollContent: "md:pb-[var(--panel-footer-clearance)]",
         scrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         footer: [
-          "absolute inset-x-0 bottom-0 z-40",
-          "max-md:px-2.5 md:px-7 max-md:pt-3 md:pt-0",
+          "z-40 md:absolute md:inset-x-0 md:bottom-0",
+          "max-md:px-2.5 md:px-7 max-md:pt-0 md:pt-0",
           "max-md:pb-[calc(env(safe-area-inset-bottom)+0.625rem)] md:pb-3",
           "border-t-0 bg-transparent",
           "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
