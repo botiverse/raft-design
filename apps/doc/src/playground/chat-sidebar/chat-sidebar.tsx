@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import {
   ChatSidebarBody,
   ChatSidebarContent,
-  ChatSidebarControl,
   ChatSidebarHeader,
   ChatSidebarHeaderTitle,
   ChatSidebarItem,
@@ -34,7 +33,6 @@ import {
   PlaygroundSidebarServerSwitcher,
 } from "../rail/playground-rail.tsx";
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
-import { SidebarCollapseIcon } from "../app-shell/sidebar-toggle-icon.tsx";
 import { ChatSidebarArchiveDialog } from "./chat-sidebar-archive-dialog.tsx";
 import { ChatSidebarChannelsSection } from "./chat-sidebar-channels-section.tsx";
 import { ChatSidebarDndProvider } from "./chat-sidebar-dnd.tsx";
@@ -68,7 +66,7 @@ function PlaygroundSidebarContent({
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
   const { isPinned } = useChatSidebarDnd();
   const { railView, selectRailView } = usePlaygroundNavigation();
-  const { activeServer, toggleSidebar } = usePlaygroundShellState();
+  const { activeServer } = usePlaygroundShellState();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const selectedChannelId = isDesktop ? activeChannelId : null;
   const mobileNavigationContentPad = mobileBottomNavigation
@@ -117,14 +115,6 @@ function PlaygroundSidebarContent({
             </ChatSidebarHeaderTitle>
           </div>
           <SidebarCreateMenu />
-          <ChatSidebarControl
-            className="max-md:hidden"
-            aria-label="Collapse sidebar"
-            title="Collapse sidebar"
-            onClick={toggleSidebar}
-          >
-            <SidebarCollapseIcon />
-          </ChatSidebarControl>
         </ChatSidebarHeader>
         <ChatSidebarBody>
           <ChatSidebarContent className={mobileNavigationContentPad}>

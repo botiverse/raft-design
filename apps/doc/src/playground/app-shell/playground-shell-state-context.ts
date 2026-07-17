@@ -5,10 +5,8 @@ import type { PlaygroundServer, PlaygroundServerId } from "./playground-servers.
 export type PlaygroundShellState = {
   activeServer: PlaygroundServer;
   notificationVisible: boolean;
-  sidebarCollapsed: boolean;
   dismissNotification: () => void;
   selectServer: (serverId: PlaygroundServerId) => void;
-  toggleSidebar: () => void;
 };
 
 export const PlaygroundShellContext = createContext<PlaygroundShellState | null>(null);
