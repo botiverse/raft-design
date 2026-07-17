@@ -18,7 +18,7 @@ export const panel = tv({
     scrollbarThumb: ["w-1.5 rounded-full"],
     footer: [
       "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
-      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
+      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+0.375rem)]",
     ],
   },
   variants: {
@@ -36,7 +36,9 @@ export const panel = tv({
           "border-t-0 bg-transparent",
           "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
           "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-panel))] before:backdrop-blur-[4px]",
-          "before:[mask-image:linear-gradient(to_top,black_50%,transparent)] before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
+          "before:[mask-image:linear-gradient(to_top,black_50%,transparent),linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]",
+          "before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent),linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]",
+          "before:[mask-composite:intersect] before:[-webkit-mask-composite:source-in]",
           "before:content-[''] [&>*]:relative [&>*]:z-10",
         ],
       },

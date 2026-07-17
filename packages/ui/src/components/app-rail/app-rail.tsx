@@ -58,16 +58,24 @@ export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
 }
 
 export type AppRailItemProps = useRender.ComponentProps<"button"> & {
+  nativeButton?: boolean;
   selected?: boolean;
 };
 
-export function AppRailItem({ selected, disabled, className, render, ...props }: AppRailItemProps) {
+export function AppRailItem({
+  nativeButton = true,
+  selected,
+  disabled,
+  className,
+  render,
+  ...props
+}: AppRailItemProps) {
   const theme = useThemeFamily();
   const { item } = appRail({ theme });
   const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    disabled,
-    "aria-pressed": selected,
+    type: nativeButton ? "button" : undefined,
+    disabled: nativeButton ? disabled : undefined,
+    "aria-pressed": nativeButton ? selected : undefined,
     "data-slot": "app-rail-item",
     "data-selected": selected ? "true" : undefined,
     "data-disabled": disabled ? "true" : undefined,

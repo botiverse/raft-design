@@ -38,12 +38,19 @@ const appRailServerButton = tv({
   },
 });
 
-export type AppRailServerButtonProps = useRender.ComponentProps<"button">;
+export type AppRailServerButtonProps = useRender.ComponentProps<"button"> & {
+  nativeButton?: boolean;
+};
 
-export function AppRailServerButton({ className, render, ...props }: AppRailServerButtonProps) {
+export function AppRailServerButton({
+  nativeButton = true,
+  className,
+  render,
+  ...props
+}: AppRailServerButtonProps) {
   const theme = useThemeFamily();
   const defaultProps = {
-    type: "button" as const,
+    type: nativeButton ? ("button" as const) : undefined,
     className: cn(appRailServerButton({ theme }), className),
     "data-slot": "app-rail-server-button",
   };

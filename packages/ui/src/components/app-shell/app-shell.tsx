@@ -14,7 +14,6 @@ const appShell = tv({
     railSlot: ["hidden h-full shrink-0 flex-col md:flex"],
     sidebarSlot: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     mainSlot: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    mobileContent: ["flex min-h-0 min-w-0 w-full flex-1 flex-col md:hidden"],
   },
   variants: {
     theme: {
@@ -104,23 +103,5 @@ export function AppShellMainSlot({ className, render, ...props }: AppShellMainSl
     defaultTagName: "main",
     render,
     props: mergeProps<"main">(defaultProps, props),
-  });
-}
-
-export type AppShellMobileContentProps = useRender.ComponentProps<"div">;
-
-export function AppShellMobileContent({ className, render, ...props }: AppShellMobileContentProps) {
-  const theme = useThemeFamily();
-  const { mobileContent } = appShell({ theme });
-
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "app-shell-mobile-content",
-    className: mobileContent({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
   });
 }

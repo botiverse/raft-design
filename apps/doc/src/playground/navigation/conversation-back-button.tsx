@@ -26,8 +26,8 @@ export function PlaygroundConversationBackButton() {
       }
       nativeButton={false}
       variant="outline"
-      size="icon-md"
-      className="mr-1 max-md:col-start-1 max-md:row-start-1 md:hidden"
+      size="icon-sm"
+      className="mr-1 md:hidden"
       aria-label="Back to conversations"
     >
       <ChevronLeft aria-hidden />

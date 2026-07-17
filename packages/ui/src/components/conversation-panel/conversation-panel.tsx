@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel, PanelBody, PanelFooter, PanelHeader } from "../panel/panel";
 import { conversationPanel } from "./conversation-panel.recipe";
@@ -37,7 +36,7 @@ export function ConversationPanelHeader({
       {...props}
       render={render}
       data-slot="conversation-panel-header"
-      className={header({ className: cn("max-md:sticky max-md:top-0 max-md:z-30", className) })}
+      className={header({ className })}
     >
       {children}
     </PanelHeader>

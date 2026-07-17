@@ -32,7 +32,7 @@ const mobileNav = tv({
       elegant: {
         root: [
           "flex w-fit max-w-full flex-none self-center items-center gap-2 rounded-full bg-layer-panel p-1 shadow-lg",
-          "mt-2 mb-[max(0.5rem,env(safe-area-inset-bottom,0px))]",
+          "mt-2 mb-[max(8px,env(safe-area-inset-bottom,0px))]",
         ],
         item: [
           "relative size-11 min-w-0 gap-0 rounded-full border-0 p-0",
@@ -66,15 +66,22 @@ export function MobileNavRoot({ className, render, ...props }: MobileNavRootProp
 }
 
 export type MobileNavItemProps = useRender.ComponentProps<"button"> & {
+  nativeButton?: boolean;
   selected?: boolean;
 };
 
-export function MobileNavItem({ selected, className, render, ...props }: MobileNavItemProps) {
+export function MobileNavItem({
+  nativeButton = true,
+  selected,
+  className,
+  render,
+  ...props
+}: MobileNavItemProps) {
   const theme = useThemeFamily();
   const { item } = mobileNav({ theme });
   const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "aria-pressed": selected,
+    type: nativeButton ? "button" : undefined,
+    "aria-pressed": nativeButton ? selected : undefined,
     "data-slot": "mobile-nav-item",
     "data-selected": selected ? "true" : undefined,
     className: item({ className }),

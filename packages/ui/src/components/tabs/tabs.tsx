@@ -88,7 +88,7 @@ const tabs = tv({
         background: ["pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-line-muted"],
         tab: [
           "group/tabs-tab h-12 justify-center px-3 pb-3 pt-3.5",
-          "text-[0.8125rem] font-medium tracking-[-0.005em] text-foreground-placeholder",
+          "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",
           "transition-colors duration-200 ease-out",
           "hover:text-foreground-muted",
           "data-[active]:text-foreground-strong",
@@ -122,12 +122,12 @@ const tabs = tv({
         background: ["pointer-events-none absolute inset-0 z-0 rounded-[7px] bg-layer-muted"],
         tab: [
           "group/tabs-tab h-9 justify-center gap-1.5 rounded-md px-3.5 py-2",
-          "text-[0.8125rem] font-medium tracking-[-0.005em] text-foreground-placeholder",
+          "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",
           "transition-[background-color,box-shadow,color] duration-150 ease-out",
           "hover:text-[oklch(0.42_0.006_106.42)]",
           "data-[active]:text-[oklch(0.38_0.006_106.42)]",
           "data-[active]:hover:text-[oklch(0.38_0.006_106.42)]",
-          "data-[active]:[&_[data-slot=tabs-label]]:text-[0.8125rem]",
+          "data-[active]:[&_[data-slot=tabs-label]]:text-[13px]",
           "data-[reorderable=true]:data-[active]:bg-layer-panel",
           "data-[reorderable=true]:data-[active]:shadow-[0_0_0_1px_oklch(0_0_0_/_.1),0_1px_1px_-1px_oklch(0_0_0_/_.04),0_1px_2px_oklch(0_0_0_/_.03)]",
           "group-has-[>[data-slot=tabs-background]]/tabs-list:data-[reorderable=true]:data-[active]:shadow-[0_0_0_1px_oklch(0_0_0_/_.045),0_1px_1px_-1px_oklch(0_0_0_/_.025),0_1px_2px_oklch(0_0_0_/_.02)]",

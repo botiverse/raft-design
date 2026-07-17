@@ -83,7 +83,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelRoot",
     type: "section props",
-    description: "Full-height active conversation surface between sidebar and panel stack.",
+    description:
+      "Full-height active conversation surface between sidebar and panel stack. Product shells own responsive placement and scroll behavior.",
   },
   {
     name: "ConversationPanelHeader",

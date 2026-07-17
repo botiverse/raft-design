@@ -33,7 +33,7 @@ const SNIPPETS = {
       <AppRailNav>
         <Tooltip>
           <TooltipTrigger
-            render={<AppRailItem render={<Link to="/chat" />} />}
+            render={<AppRailItem nativeButton={false} render={<Link to="/chat" />} />}
           >
             <AppRailItemIcon>
               <AppRailItemAttention />
@@ -81,8 +81,9 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "AppRailItem*",
-    type: "button + span props",
-    description: "Composable icon, label, badge, and indicator parts for app-owned rail actions.",
+    type: "button + span props; nativeButton?: boolean",
+    description:
+      "Composable icon, label, badge, and indicator parts for app-owned rail actions. Set nativeButton={false} when render replaces the native button.",
   },
 ];
 

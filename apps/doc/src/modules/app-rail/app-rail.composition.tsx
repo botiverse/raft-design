@@ -31,12 +31,14 @@ import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.t
 
 // Tooltip-wrapped desktop rail item. Callers own the rendered navigation or action target.
 export function AppRailNavItem({
+  nativeButton,
   selected,
   label,
   icon,
   attention,
   render,
 }: {
+  nativeButton?: boolean;
   selected?: boolean;
   label: string;
   icon: ReactNode;
@@ -45,7 +47,9 @@ export function AppRailNavItem({
 }) {
   return (
     <Tooltip>
-      <TooltipTrigger render={<AppRailItem selected={selected} render={render} />}>
+      <TooltipTrigger
+        render={<AppRailItem nativeButton={nativeButton} selected={selected} render={render} />}
+      >
         <AppRailItemIcon>
           {icon}
           {attention}

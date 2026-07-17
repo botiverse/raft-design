@@ -4,7 +4,7 @@ const headerFrame = ["flex h-[var(--shell-header-height,62px)] shrink-0 items-ce
 
 const brutalHeader = [
   "gap-3 border-b-2 border-black bg-white",
-  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
+  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
 ];
 
 const brutalSectionHeader = [
@@ -19,13 +19,13 @@ const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
   "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-  "max-md:items-start max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
+  "max-md:items-start max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
 ];
 
 export const conversationPanel = tv({
   slots: {
     root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col"],
-    header: headerFrame,
+    header: [...headerFrame, "max-md:sticky max-md:top-0 max-md:z-30"],
     sectionHeader: [],
     headerIcon: [
       "flex size-9 shrink-0 items-center justify-center",
@@ -82,7 +82,7 @@ export const conversationPanel = tv({
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
           "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
-          "max-md:col-start-2 max-md:row-start-1 max-md:h-[calc(1.0625rem*1.25)]",
+          "max-md:col-start-2 max-md:row-start-1 max-md:h-[21.25px]",
         ],
         headerContent: [
           "flex flex-col md:flex-row md:items-baseline md:gap-2",
@@ -93,10 +93,7 @@ export const conversationPanel = tv({
           "text-foreground-muted",
           "max-md:leading-none",
         ],
-        meta: [
-          "font-sans leading-none text-foreground-placeholder",
-          "max-md:-ml-[calc(0.875rem+0.5rem)]",
-        ],
+        meta: ["font-sans leading-none text-foreground-placeholder", "max-md:-ml-[22px]"],
         status: [
           "border-0 bg-transparent p-0",
           "text-foreground-placeholder",

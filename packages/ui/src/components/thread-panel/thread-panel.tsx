@@ -113,28 +113,22 @@ export function ThreadPanelBody({ className, render, ...props }: ThreadPanelBody
   );
 }
 
-export type ThreadPanelOriginalMessageProps = useRender.ComponentProps<"div">;
+export type ThreadPanelOriginalMessageProps = Omit<useRender.ComponentProps<"div">, "render">;
 
 export function ThreadPanelOriginalMessage({
   className,
-  render,
   ...props
 }: ThreadPanelOriginalMessageProps) {
   const theme = useThemeFamily();
   const { originalMessage } = threadPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> & {
-    "data-thread-panel-slot": "original-message";
-  } = {
-    ...(render ? {} : { "data-slot": "thread-panel-original-message" }),
-    "data-thread-panel-slot": "original-message",
-    className: originalMessage({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <div
+      {...props}
+      data-slot="thread-panel-original-message"
+      className={originalMessage({ className })}
+    />
+  );
 }
 
 export type ThreadPanelReplyCountProps = useRender.ComponentProps<"div">;

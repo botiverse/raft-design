@@ -117,8 +117,8 @@ export function PlaygroundNotificationCenter({ mobile = false }: { mobile?: bool
 export function PlaygroundServerSwitcher({ className }: { className?: string }) {
   return (
     <AppRailServerButton
+      nativeButton={false}
       render={<div />}
-      type={undefined}
       title={currentServerName}
       className={className}
     >
@@ -176,6 +176,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                 />
                 <AppRailNavItem
                   selected={railView === "chat"}
+                  nativeButton={false}
                   render={
                     <Link
                       to="/playground/s/$serverSlug"

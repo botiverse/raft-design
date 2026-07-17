@@ -2,7 +2,7 @@
 import { Home, Settings } from "lucide-react";
 import { useState } from "react";
 import {
-  AppShellMobileContent,
+  AppShellMainSlot,
   AppShellRoot,
   MobileNavItem,
   MobileNavLabel,
@@ -17,11 +17,11 @@ export function AppShellMobileRootComposition() {
 
   return (
     <AppShellRoot className="h-dvh w-full">
-      <AppShellMobileContent>
+      <AppShellMainSlot>
         <div className="flex h-full min-h-0 w-full items-center justify-center bg-accent-200 px-4 text-center font-mono text-xs font-semibold uppercase tracking-wide text-accent-950">
           Sidebar · root view
         </div>
-      </AppShellMobileContent>
+      </AppShellMainSlot>
       <MobileNavRoot className="order-last md:hidden" aria-label="Primary navigation">
         {/* ... */}
         {/* @docs-source-strip-start */}
