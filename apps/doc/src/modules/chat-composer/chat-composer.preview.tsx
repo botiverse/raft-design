@@ -52,7 +52,7 @@ export function ChatComposerPreview() {
       previewClassName="items-stretch"
       render={(values, onValueChange) => (
         <div className="flex min-h-[22rem] w-full min-w-0 flex-col justify-end px-2">
-          <ComposerRoot positioned={values.dropOverlay}>
+          <ComposerRoot>
             {values.imageUpload ||
             values.fileUpload ||
             values.manyAttachments ||

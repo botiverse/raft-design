@@ -9,12 +9,13 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
   ComposerAttachmentStatesComposition,
+  ComposerCompactReplyComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
-  ComposerFooterIntegrationComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
+import composerCompactReplySource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -24,7 +25,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "states", title: "States" },
-  { id: "integration", title: "Integration" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -71,6 +71,7 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   attachmentStates: composerAttachmentStatesSource,
+  compactReply: composerCompactReplySource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
 } as const;
@@ -78,26 +79,45 @@ const SNIPPETS = {
 const PROPS: readonly PropRow[] = [
   {
     name: "ComposerRoot",
-    type: "div props & { positioned?: boolean }",
+    type: "form props",
     description:
       "Composition root for autocomplete, pending attachments, and the bordered composer surface.",
   },
   {
-    name: "Composer / ComposerInput",
-    type: "div / textarea props",
-    description: "Bordered composer shell and the auto-growing message textarea.",
-  },
-  {
-    name: "ComposerToolbar / ComposerActions / ComposerMeta",
+    name: "Composer",
     type: "div props",
-    description:
-      "Toolbar row under the input: caller-owned action cluster and caller-owned metadata cluster.",
+    description: "Bordered composer shell.",
   },
   {
-    name: "ComposerIconButton / ComposerSubmit",
+    name: "ComposerInput",
+    type: "textarea props",
+    description: "Auto-growing message textarea.",
+  },
+  {
+    name: "ComposerToolbar",
+    type: "div props",
+    description: "Toolbar row under the input.",
+  },
+  {
+    name: "ComposerActions",
+    type: "div props",
+    description: "Caller-owned action cluster in the toolbar.",
+  },
+  {
+    name: "ComposerMeta",
+    type: "div props",
+    description: "Caller-owned metadata cluster in the toolbar.",
+  },
+  {
+    name: "ComposerIconButton",
+    type: "button props",
+    description: "Attach-action icon button.",
+  },
+  {
+    name: "ComposerSubmit",
     type: "button props",
     description:
-      "Attach-action icon buttons and the primary send button. Pass visible content as children; brutal may hide the text label through its recipe.",
+      "Primary send button. Pass visible content as children; brutal may hide its text label through the recipe.",
   },
   {
     name: "ComposerToolbarLabel",
@@ -105,36 +125,69 @@ const PROPS: readonly PropRow[] = [
     description: "A labelled checkbox or status cluster with theme-aware spacing and typography.",
   },
   {
-    name: "ComposerAttachments / ComposerAttachment",
+    name: "ComposerAttachments",
     type: "div props",
-    description: "Pending-upload strip above the input and each attachment tile within it.",
+    description: "Pending-upload strip above the input.",
   },
   {
-    name: "ComposerAttachmentImage / ComposerAttachmentFile",
-    type: "img / span props",
-    description: "Image thumbnail tile and file-chip tile for non-image uploads.",
+    name: "ComposerAttachment",
+    type: "div props",
+    description: "Attachment tile within the pending-upload strip.",
   },
   {
-    name: "ComposerAttachmentBody / ComposerAttachmentTitle / ComposerAttachmentMeta",
+    name: "ComposerAttachmentImage",
+    type: "img props",
+    description: "Image thumbnail tile.",
+  },
+  {
+    name: "ComposerAttachmentFile",
     type: "span props",
-    description: "File-chip text block: filename title and mime/type metadata.",
+    description: "File-chip tile for non-image uploads.",
   },
   {
-    name: "ComposerAttachmentUploadingOverlay / ComposerAttachmentFailedOverlay",
+    name: "ComposerAttachmentBody",
     type: "span props",
-    description:
-      "Explicit uploading and failed overlays for caller-owned spinner, progress, and retry content.",
+    description: "File-chip text block.",
   },
   {
-    name: "ComposerAttachmentProgress / ComposerAttachmentRemove",
-    type: "span / button props",
-    description:
-      "Upload progress indicator along the tile bottom and the corner remove affordance.",
+    name: "ComposerAttachmentTitle",
+    type: "span props",
+    description: "Attachment filename.",
   },
   {
-    name: "ComposerDropOverlay / ComposerDropOverlayLabel",
-    type: "div / span props",
+    name: "ComposerAttachmentMeta",
+    type: "span props",
+    description: "Attachment mime/type metadata.",
+  },
+  {
+    name: "ComposerAttachmentUploadingOverlay",
+    type: "span props",
+    description: "Uploading overlay for caller-owned spinner and progress content.",
+  },
+  {
+    name: "ComposerAttachmentFailedOverlay",
+    type: "span props",
+    description: "Failed overlay for caller-owned retry content.",
+  },
+  {
+    name: "ComposerAttachmentProgress",
+    type: "span props",
+    description: "Upload progress indicator along the tile bottom.",
+  },
+  {
+    name: "ComposerAttachmentRemove",
+    type: "button props",
+    description: "Corner remove affordance.",
+  },
+  {
+    name: "ComposerDropOverlay",
+    type: "div props",
     description: "Drag-and-drop overlay covering the composer root while files hover over it.",
+  },
+  {
+    name: "ComposerDropOverlayLabel",
+    type: "span props",
+    description: "Visible drop feedback content.",
   },
 ];
 
@@ -203,30 +256,18 @@ function ChatComposerDoc() {
             </Example>
           </section>
         </div>
-      </DocSection>
-
-      <DocSection id="integration" title="Integration" showThemeSwitcher>
-        <DocNote>
-          Composer supplies only the editor structure. The consumer selects the panel footer host,
-          owns the form submit handler and draft lifecycle, and places <code>ComposerRoot</code>{" "}
-          inside that host.
-        </DocNote>
-        <div className="grid gap-8 lg:grid-cols-2">
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">
-              Conversation panel footer
-            </h3>
-            <div className="h-[22rem] overflow-hidden">
-              <ComposerFooterIntegrationComposition host="main" />
+        <section className="mt-8 grid gap-3">
+          <h3 className="text-sm font-medium text-foreground-strong">Compact thread reply</h3>
+          <DocNote>
+            Compact consumers compose fewer parts and own their send lifecycle. The first submit in
+            this example fails deterministically, then restores the draft for a successful retry.
+          </DocNote>
+          <Example html={code.compactReply} previewClassName="items-stretch">
+            <div className="w-full min-w-0">
+              <ComposerCompactReplyComposition />
             </div>
-          </section>
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Thread panel footer</h3>
-            <div className="h-[22rem] overflow-hidden">
-              <ComposerFooterIntegrationComposition host="thread" />
-            </div>
-          </section>
-        </div>
+          </Example>
+        </section>
       </DocSection>
 
       <DocSection id="api" title="API">

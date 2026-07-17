@@ -15,7 +15,7 @@ import { ComposerDropOverlayPrompt } from "./composer-drop-overlay-prompt.compos
 
 export function ComposerDropOverlayComposition() {
   return (
-    <ComposerRoot positioned>
+    <ComposerRoot>
       <Composer>
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>
