@@ -1,6 +1,6 @@
 import { ImagePlus, Paperclip, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Checkbox, useThemeFamily } from "raft-ui";
+import { Checkbox } from "raft-ui";
 import {
   Composer,
   ComposerActions,
@@ -33,8 +33,6 @@ export function ComposerSuggestionComposition({
   const [value, setValue] = useState(initialValue);
   const [alsoCreateTask, setAlsoCreateTask] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  const theme = useThemeFamily();
-  const sourceParityControlsActive = theme === "brutal";
   const autocomplete = useComposerSuggestions<Suggestion>({
     value,
     onValueChange: setValue,
@@ -70,14 +68,12 @@ export function ComposerSuggestionComposition({
             <ComposerActions>
               <ComposerIconButton
                 aria-label="Attach image"
-                disabled={!sourceParityControlsActive}
                 onClick={() => setStatusMessage("Image attachment selected")}
               >
                 <ImagePlus />
               </ComposerIconButton>
               <ComposerIconButton
                 aria-label="Attach file"
-                disabled={!sourceParityControlsActive}
                 onClick={() => setStatusMessage("File attachment selected")}
               >
                 <Paperclip />
@@ -89,15 +85,11 @@ export function ComposerSuggestionComposition({
                   size="sm"
                   aria-label="Send as task"
                   checked={alsoCreateTask}
-                  disabled={!sourceParityControlsActive}
                   onCheckedChange={setAlsoCreateTask}
                 />
                 As Task
               </ComposerToolbarLabel>
-              <ComposerSubmit
-                aria-label="Send"
-                disabled={!sourceParityControlsActive || !value.trim()}
-              >
+              <ComposerSubmit aria-label="Send" disabled={!value.trim()}>
                 <span>Send</span>
                 <Send />
               </ComposerSubmit>

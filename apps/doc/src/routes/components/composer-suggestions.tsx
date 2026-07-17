@@ -1,25 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
 import { Kbd } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
-import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ComposerSuggestionComposition } from "#/modules/composer-suggestions/composer-suggestions.composition.tsx";
 import composerSuggestionCompositionSource from "#/modules/composer-suggestions/composer-suggestions.composition.tsx?raw";
+import { ComposerSuggestionsSourceComparison } from "#/modules/composer-suggestions/composer-suggestions.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-
-const COMPOSER_SUGGESTION_COMPOSITION_PATH =
-  "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "states", title: "States" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
+] as const;
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock MessageInput autocomplete",
+    scenes: [
+      {
+        label: "Mention candidates",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1562",
+      },
+      {
+        label: "Channel candidates",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1625",
+      },
+    ],
+  },
 ] as const;
 
 const ANATOMY_SNIPPET = `<ComposerRoot>
@@ -61,9 +76,14 @@ const PROPS: readonly PropRow[] = [
       "Headless inline-trigger behavior. Owns open state, highlighted option, keyboard navigation, IME guarding, focus return, and caret-preserving insertion.",
   },
   {
-    name: "value / onValueChange",
-    type: "string / (value: string) => void",
-    description: "Controlled composer value and its change callback.",
+    name: "value",
+    type: "string",
+    description: "Controlled composer draft.",
+  },
+  {
+    name: "onValueChange",
+    type: "(value: string) => void",
+    description: "Called when typing or insertion changes the draft.",
   },
   {
     name: "detectTrigger",
@@ -72,10 +92,14 @@ const PROPS: readonly PropRow[] = [
       "Caller-owned trigger parser. The match identifies the marker, query, and marker start index before the caret.",
   },
   {
-    name: "getItems / getItemText",
-    type: "(match) => readonly TItem[] / (item) => string",
-    description:
-      "Caller-owned filtering and insertion text. Returning no items closes the suggestion list.",
+    name: "getItems",
+    type: "(match) => readonly TItem[]",
+    description: "Returns items for the active trigger. An empty list closes the popup.",
+  },
+  {
+    name: "getItemText",
+    type: "(item) => string",
+    description: "Returns the insertion text for a selected item.",
   },
   {
     name: "isItemDisabled",
@@ -84,27 +108,69 @@ const PROPS: readonly PropRow[] = [
       "Optional disabled predicate. Disabled items remain visible but are skipped by keyboard navigation and cannot be selected.",
   },
   {
-    name: "getInputProps / getListProps / getOptionProps",
-    type: "native prop getters",
-    description:
-      "Merge the hook's combobox semantics, refs, keyboard handlers, highlight state, and option identity into native textarea, list, and option props.",
+    name: "getInputProps",
+    type: "textarea prop getter",
+    description: "Merges textarea value, keyboard handling, refs, and combobox semantics.",
   },
   {
-    name: "open / items / highlightedIndex / activeItem",
-    type: "derived suggestion state",
-    description: "Render data exposed by the hook for composing the popup and its visual states.",
+    name: "getListProps",
+    type: "listbox prop getter",
+    description: "Merges listbox role, id, and ref.",
   },
   {
-    name: "select / insert / clear",
-    type: "imperative actions",
-    description:
-      "Selection and editing helpers that preserve focus and restore the caret after updating the controlled value.",
+    name: "getOptionProps",
+    type: "option prop getter",
+    description: "Merges option identity, highlight state, selection, and pointer behavior.",
   },
   {
-    name: "ComposerSuggestionList / Group / GroupLabel",
+    name: "open",
+    type: "boolean",
+    description: "Whether an active trigger has suggestion items.",
+  },
+  {
+    name: "items",
+    type: "readonly TItem[]",
+    description: "Items for the active trigger.",
+  },
+  {
+    name: "highlightedIndex",
+    type: "number",
+    description: "Keyboard-highlighted item index, or -1.",
+  },
+  {
+    name: "activeItem",
+    type: "TItem | undefined",
+    description: "Currently highlighted item, when one exists.",
+  },
+  {
+    name: "select",
+    type: "(item: TItem) => void",
+    description: "Inserts a selectable item's text in place of the trigger.",
+  },
+  {
+    name: "insert",
+    type: "(text: string) => void",
+    description: "Inserts text at the current caret.",
+  },
+  {
+    name: "clear",
+    type: "() => void",
+    description: "Clears the draft and closes suggestions.",
+  },
+  {
+    name: "ComposerSuggestionList",
     type: "div props",
-    description:
-      "Styling-only popup and grouping parts. Behavior and ARIA semantics come from the hook prop getters.",
+    description: "Popup container. Spread getListProps onto it.",
+  },
+  {
+    name: "ComposerSuggestionGroup",
+    type: "div props",
+    description: "Optional visual group of suggestion options.",
+  },
+  {
+    name: "ComposerSuggestionGroupLabel",
+    type: "div props",
+    description: "Optional label for a suggestion group.",
   },
   {
     name: "ComposerSuggestionOption",
@@ -113,19 +179,39 @@ const PROPS: readonly PropRow[] = [
       "Visual option root. Spread getOptionProps onto it so highlighted and disabled states remain keyboard-complete.",
   },
   {
-    name: "ComposerSuggestionContent / Icon / Title / Aside",
-    type: "div / span props",
-    description: "Explicit option structure for caller-owned icons, labels, and trailing content.",
+    name: "ComposerSuggestionContent",
+    type: "div props",
+    description: "Flexible content row for title, metadata, and trailing content.",
   },
   {
-    name: "ComposerSuggestionMeta / Aside",
-    type: "span props & visual variant",
-    description: "Secondary text and trailing-content parts. Meta supports text/code.",
+    name: "ComposerSuggestionIcon",
+    type: "div props",
+    description: "Leading icon or avatar slot.",
   },
   {
-    name: "Badge / Status",
+    name: "ComposerSuggestionTitle",
+    type: "span props",
+    description: "Primary option label.",
+  },
+  {
+    name: "ComposerSuggestionMeta",
+    type: 'span props & { variant?: "text" | "code" }',
+    description: "Secondary option text.",
+  },
+  {
+    name: "ComposerSuggestionAside",
+    type: "div props",
+    description: "Trailing option content slot.",
+  },
+  {
+    name: "Badge",
     type: "shared primitive props",
-    description: "Caller-owned status labels and availability indicators for suggestion content.",
+    description: "Caller-owned label for a suggestion state.",
+  },
+  {
+    name: "Status",
+    type: "shared primitive props",
+    description: "Caller-owned availability indicator.",
   },
 ];
 
@@ -163,61 +249,89 @@ function ComposerSuggestionsDoc() {
       </DocSection>
 
       <DocSection id="states" title="States">
-        <PreviewGrid>
-          <PreviewPane label="Brutal · people in and out of channel">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <PanelFrame>
+        <div className="grid gap-8">
+          <section className="grid gap-3">
+            <h3 className="text-sm font-medium text-foreground-strong">People</h3>
+            <Example
+              html={code.composition}
+              previewClassName="min-h-[26rem] items-stretch"
+              previewTheme="brutal"
+            >
+              <div className="h-[26rem] w-full max-w-[560px]">
                 <ComposerSuggestionComposition />
-              </PanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant · channels and archived option">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <PanelFrame>
+              </div>
+            </Example>
+          </section>
+          <section className="grid gap-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Channels</h3>
+            <Example
+              html={code.composition}
+              previewClassName="min-h-[26rem] items-stretch"
+              previewTheme="elegant"
+            >
+              <div className="h-[26rem] w-full max-w-[560px]">
                 <ComposerSuggestionComposition initialValue="#" />
-              </PanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant dark · filtered results">
-            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <PanelFrame>
+              </div>
+            </Example>
+          </section>
+          <section className="grid gap-3">
+            <h3 className="text-sm font-medium text-foreground-strong">Filtered people</h3>
+            <Example
+              html={code.composition}
+              previewClassName="min-h-[26rem] items-stretch"
+              previewMode="dark"
+              previewTheme="elegant"
+            >
+              <div className="h-[26rem] w-full max-w-[560px]">
                 <ComposerSuggestionComposition initialValue="@av" />
-              </PanelFrame>
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
-        <DocsCodeBlock.Panel
-          path={COMPOSER_SUGGESTION_COMPOSITION_PATH}
-          source={SNIPPETS.composition}
-          html={code.composition}
-          showLineNumbers={false}
-        />
+              </div>
+            </Example>
+          </section>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          previewSize="popover"
+          sourceScenes={SOURCE_SCENES}
+          items={[
+            {
+              label: "Message composer autocomplete",
+              status: "difference",
+              note: "Source keeps popup positioning and rendering inside MessageInput. The current implementation retains that inline anchor while exposing behavior and visuals as composable parts.",
+              source: (
+                <SourceThemeScope className="w-full">
+                  <ComposerSuggestionsSourceComparison />
+                </SourceThemeScope>
+              ),
+              brutal: (
+                <div className="h-[21rem] w-full max-w-[560px]">
+                  <ComposerSuggestionComposition initialValue="@" />
+                </div>
+              ),
+              elegant: (
+                <div className="h-[21rem] w-full max-w-[560px]">
+                  <ComposerSuggestionComposition initialValue="@" />
+                </div>
+              ),
+              elegantDark: (
+                <div className="h-[21rem] w-full max-w-[560px]">
+                  <ComposerSuggestionComposition initialValue="@" />
+                </div>
+              ),
+              compositionCode: code.composition,
+              compositionPath:
+                "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx",
+              compositionSource: composerSuggestionCompositionSource,
+            },
+          ]}
+        />
+      </DocSection>
     </DocPage>
   );
-}
-
-function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-4">{children}</div>;
-}
-
-function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="min-w-0 overflow-hidden rounded-none border border-line bg-layer-panel">
-      <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
-        {label}
-      </div>
-      <div className="flex h-[420px] items-stretch justify-start overflow-x-auto bg-white p-2">
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function PanelFrame({ children }: { children: ReactNode }) {
-  return <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel">{children}</div>;
 }

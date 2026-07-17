@@ -6,7 +6,7 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
-    root: "absolute bottom-full left-0 mb-1 w-80 max-w-full max-h-48 overflow-y-auto",
+    root: "absolute inset-x-0 bottom-full w-auto max-h-48 overflow-y-auto",
     group: [],
     groupLabel: ["px-3 py-1.5", "text-xs"],
     item: [
@@ -26,7 +26,7 @@ const composerSuggestionList = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border-2 border-black bg-white shadow-brutal",
+        root: "mb-2 border-2 border-black bg-white shadow-brutal",
         groupLabel: "font-bold tracking-widest uppercase text-black/60",
         item: [
           "font-medium text-black data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
@@ -37,7 +37,7 @@ const composerSuggestionList = tv({
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-lg p-1 bg-layer-popover",
+          "mb-1 overflow-x-hidden rounded-lg p-1 bg-layer-popover",
           "shadow-lg max-md:shadow-sm ring-1 ring-ink-2 max-md:ring-ink-6",
         ],
         group: "flex flex-col gap-0.5",
@@ -48,7 +48,7 @@ const composerSuggestionList = tv({
         item: [
           "cursor-default gap-2.5 rounded-sm text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground-strong",
+          "hover:bg-ink-2 hover:text-foreground-strong",
           "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground-strong",
           "data-[disabled=true]:pointer-events-none data-[disabled=true]:text-foreground-disabled",
         ],
@@ -95,7 +95,10 @@ const composerSuggestionList = tv({
       theme: "elegant",
       iconVariant: "framed",
       class: {
-        icon: ["flex size-4 items-center justify-center", "text-foreground-icon [&_svg]:size-4"],
+        icon: [
+          "-mr-1 flex size-3.5 items-center justify-center",
+          "text-foreground-icon [&_svg]:size-3.5",
+        ],
       },
     },
     {

@@ -67,7 +67,6 @@ function getMentionSuggestions(channel: PlaygroundChannel): readonly MentionSugg
   );
   const outsideChannel = Object.values(PLAYGROUND_ACTORS)
     .filter((actor) => !memberIds.has(actor.id))
-    .slice(0, 3)
     .map(
       (actor): MentionSuggestion => ({
         disabled: true,

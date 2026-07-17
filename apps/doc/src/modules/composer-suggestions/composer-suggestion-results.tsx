@@ -121,7 +121,11 @@ function ChannelSuggestion({ suggestion, optionProps }: ChannelSuggestionProps) 
       </ComposerSuggestionIcon>
       <ComposerSuggestionContent>
         <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
-        <ComposerSuggestionMeta>{suggestion.description}</ComposerSuggestionMeta>
+        <ComposerSuggestionMeta
+          className={suggestion.archived ? "text-foreground-disabled/70" : undefined}
+        >
+          {suggestion.description}
+        </ComposerSuggestionMeta>
         <ComposerSuggestionAside>
           {suggestion.archived ? (
             <Badge appearance="soft" variant="muted">
