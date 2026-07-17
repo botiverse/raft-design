@@ -10,10 +10,12 @@ import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "luc
 import {
   Avatar,
   AvatarFallback,
+  Badge,
   Checkbox,
   ConversationPanelFooter,
   ThreadPanelFooter,
   Spinner,
+  Status,
 } from "raft-ui";
 import {
   Composer,
@@ -35,7 +37,6 @@ import {
   ComposerInput,
   ComposerMeta,
   ComposerSuggestionAside,
-  ComposerSuggestionBadge,
   ComposerSuggestionContent,
   ComposerSuggestionGroup,
   ComposerSuggestionGroupLabel,
@@ -99,9 +100,7 @@ function AutocompleteOption({
         ) : null}
         <ComposerSuggestionContent>
           <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
-          {suggestion.type === "agent" ? (
-            <ComposerSuggestionBadge aria-hidden variant="indicator" />
-          ) : null}
+          {suggestion.type === "agent" ? <Status aria-hidden size="md" variant="success" /> : null}
           <ComposerSuggestionAside>
             <ComposerSuggestionMeta variant="code">@{suggestion.handle}</ComposerSuggestionMeta>
           </ComposerSuggestionAside>
@@ -117,15 +116,19 @@ function AutocompleteOption({
       <ComposerSuggestionIcon variant="framed">
         <ChannelIcon />
       </ComposerSuggestionIcon>
-      <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
-      {suggestion.subtitle ? (
-        <ComposerSuggestionMeta>{suggestion.subtitle}</ComposerSuggestionMeta>
-      ) : null}
-      {suggestion.archived ? (
-        <ComposerSuggestionAside>
-          <ComposerSuggestionBadge>archived</ComposerSuggestionBadge>
-        </ComposerSuggestionAside>
-      ) : null}
+      <ComposerSuggestionContent>
+        <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+        {suggestion.subtitle ? (
+          <ComposerSuggestionMeta>{suggestion.subtitle}</ComposerSuggestionMeta>
+        ) : null}
+        {suggestion.archived ? (
+          <ComposerSuggestionAside>
+            <Badge appearance="soft" variant="muted">
+              archived
+            </Badge>
+          </ComposerSuggestionAside>
+        ) : null}
+      </ComposerSuggestionContent>
     </ComposerSuggestionOption>
   );
 }

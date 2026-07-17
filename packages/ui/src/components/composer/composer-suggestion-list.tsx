@@ -6,13 +6,12 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
-    root: ["absolute bottom-full mb-1 max-h-48 overflow-y-auto", "outline-none"],
+    root: "absolute inset-x-0 bottom-full w-auto max-h-48 overflow-y-auto",
     group: [],
     groupLabel: ["px-3 py-1.5", "text-xs"],
     item: [
-      "group/composer-suggestion-option",
       "flex w-full items-center gap-2 px-3 py-2 text-left",
-      "text-sm transition-colors outline-none",
+      "text-sm transition-colors",
       "cursor-pointer data-[disabled=true]:cursor-not-allowed",
     ],
     content: [
@@ -23,12 +22,11 @@ const composerSuggestionList = tv({
     title: ["truncate"],
     aside: ["ml-auto flex shrink-0 items-center"],
     meta: ["text-xs"],
-    badge: ["shrink-0"],
   },
   variants: {
     theme: {
       brutal: {
-        root: "right-3 left-3 border-2 border-black bg-white shadow-brutal",
+        root: "mb-2 border-2 border-black bg-white shadow-brutal",
         groupLabel: "font-bold tracking-widest uppercase text-black/60",
         item: [
           "font-medium text-black data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
@@ -38,12 +36,21 @@ const composerSuggestionList = tv({
         meta: "text-black/50",
       },
       elegant: {
-        root: "right-7 left-7 rounded-lg border border-line-subtle bg-layer-popover p-1 shadow-xl",
-        groupLabel: "font-medium text-foreground-muted",
+        root: [
+          "mb-1 overflow-x-hidden rounded-lg p-1 bg-layer-popover",
+          "shadow-lg max-md:shadow-sm ring-1 ring-ink-2 max-md:ring-ink-6",
+        ],
+        group: "flex flex-col gap-0.5",
+        groupLabel: [
+          "mb-0.5 px-3 py-2",
+          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
+        ],
         item: [
-          "rounded-md font-normal text-foreground-muted",
-          "data-[highlighted=true]:bg-layer-strong data-[highlighted=true]:font-medium data-[highlighted=true]:text-foreground-strong",
-          "data-[disabled=true]:opacity-65 data-[disabled=true]:text-foreground-placeholder",
+          "cursor-default gap-2.5 rounded-sm text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
+          "transition-[background-color,color] duration-150",
+          "hover:bg-ink-2 hover:text-foreground-strong",
+          "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground-strong",
+          "data-[disabled=true]:pointer-events-none data-[disabled=true]:text-foreground-disabled",
         ],
         meta: "text-foreground-placeholder",
       },
@@ -54,44 +61,45 @@ const composerSuggestionList = tv({
     },
     iconVariant: {
       avatar: {},
-      framed: {
-        icon: ["flex size-5 items-center justify-center border", "[&_svg]:size-3"],
-      },
+      framed: {},
       auxiliary: { icon: "-ml-1 size-3" },
     },
     metaVariant: {
       text: { meta: "truncate" },
       code: { meta: "shrink-0 font-mono" },
     },
-    badgeVariant: {
-      indicator: {
-        badge: ["inline-block size-2.5 rounded-full border"],
-      },
-      label: {
-        badge: ["border px-1 py-0.5", "text-[9px] font-bold leading-none"],
-      },
-    },
   },
   compoundVariants: [
     {
       theme: "brutal",
       separated: true,
-      class: { group: "border-t-2 border-black" },
+      class: { group: "mt-1 pt-1" },
     },
     {
       theme: "elegant",
       separated: true,
-      class: { group: "border-t border-line-subtle" },
+      class: { group: "mt-1 pt-1" },
     },
     {
       theme: "brutal",
       iconVariant: "framed",
-      class: { icon: "border-black bg-soft-signal text-black" },
+      class: {
+        icon: [
+          "flex size-5 items-center justify-center border",
+          "[&_svg]:size-3",
+          "border-black bg-soft-signal text-black",
+        ],
+      },
     },
     {
       theme: "elegant",
       iconVariant: "framed",
-      class: { icon: "rounded-sm border-line-subtle bg-layer-muted text-foreground-icon" },
+      class: {
+        icon: [
+          "-mr-1 flex size-3.5 items-center justify-center",
+          "text-foreground-icon [&_svg]:size-3.5",
+        ],
+      },
     },
     {
       theme: "brutal",
@@ -108,32 +116,11 @@ const composerSuggestionList = tv({
       iconVariant: "auxiliary",
       class: { icon: "text-foreground-placeholder" },
     },
-    {
-      theme: "brutal",
-      badgeVariant: "indicator",
-      class: { badge: "border-black bg-brutal-lime" },
-    },
-    {
-      theme: "elegant",
-      badgeVariant: "indicator",
-      class: { badge: "border-layer-popover bg-success-base" },
-    },
-    {
-      theme: "brutal",
-      badgeVariant: "label",
-      class: { badge: "border-black/40 bg-black/5 text-black/45" },
-    },
-    {
-      theme: "elegant",
-      badgeVariant: "label",
-      class: { badge: "rounded-sm border-line-subtle bg-layer-muted text-foreground-placeholder" },
-    },
   ],
   defaultVariants: {
     separated: false,
     iconVariant: "avatar",
     metaVariant: "text",
-    badgeVariant: "label",
   },
 });
 
@@ -328,30 +315,6 @@ export function ComposerSuggestionMeta({
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-meta",
     className: meta({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
-export type ComposerSuggestionBadgeProps = useRender.ComponentProps<"span"> & {
-  variant?: ComposerSuggestionListVariantProps["badgeVariant"];
-};
-
-export function ComposerSuggestionBadge({
-  variant = "label",
-  className,
-  render,
-  ...props
-}: ComposerSuggestionBadgeProps) {
-  const theme = useThemeFamily();
-  const { badge } = composerSuggestionList({ theme, badgeVariant: variant });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "composer-suggestion-badge",
-    className: badge({ className }),
   };
 
   return useRender({
