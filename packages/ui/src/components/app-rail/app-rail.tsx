@@ -5,7 +5,6 @@ import { type ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Status, type StatusProps } from "../status/status";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { rendersNativeButton } from "../../lib/renders-native-button";
 import { appRail } from "./app-rail.recipe";
 
 export type AppRailRootProps = useRender.ComponentProps<"div">;
@@ -59,17 +58,23 @@ export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
 }
 
 export type AppRailItemProps = useRender.ComponentProps<"button"> & {
+  nativeButton?: boolean;
   selected?: boolean;
 };
 
-export function AppRailItem({ selected, disabled, className, render, ...props }: AppRailItemProps) {
+export function AppRailItem({
+  nativeButton = true,
+  selected,
+  disabled,
+  className,
+  render,
+  ...props
+}: AppRailItemProps) {
   const theme = useThemeFamily();
   const { item } = appRail({ theme });
-  // Emit button-only attributes only for a native button render target.
-  const nativeButton = rendersNativeButton(render);
   const defaultProps: SlotElementProps<"button"> = {
     type: nativeButton ? "button" : undefined,
-    disabled,
+    disabled: nativeButton ? disabled : undefined,
     "aria-pressed": nativeButton ? selected : undefined,
     "data-slot": "app-rail-item",
     "data-selected": selected ? "true" : undefined,

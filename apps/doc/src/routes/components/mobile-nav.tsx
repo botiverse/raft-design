@@ -55,9 +55,9 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "MobileNavItem",
-    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
+    type: 'useRender.ComponentProps<"button"> & { nativeButton?: boolean; selected?: boolean }',
     description:
-      "One app-owned destination. Pass selected and native onClick from the consuming route or local state.",
+      "One app-owned destination. Pass selected and native onClick from the consuming route or local state; set nativeButton={false} when render replaces the native button.",
   },
   {
     name: "MobileNavLabel",
