@@ -49,10 +49,18 @@ export const filePreview = tv({
     },
     theme: {
       brutal: {
-        document:
-          "flex size-4 items-center justify-center [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-black/70",
+        document: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
+        file: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
+        code: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
+        media: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
+        badge: [
+          "-right-2 -bottom-1 rounded-none border-2 border-black px-1 py-0.5",
+          "font-bold text-foreground-inverse shadow-brutal-sm [text-shadow:none] after:hidden",
+        ],
       },
-      elegant: {},
+      elegant: {
+        badge: "px-1",
+      },
     },
   },
   defaultVariants: {

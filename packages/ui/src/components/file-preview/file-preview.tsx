@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { FileText } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { filePreview } from "./file-preview.recipe";
@@ -35,30 +34,24 @@ export function FilePreviewDocument({
     "aria-hidden": true,
     "data-slot": "file-preview-document",
     className: document({ className }),
-    children:
-      theme === "brutal" ? (
-        <>
-          <FileText />
-          {children}
-        </>
-      ) : (
-        <>
-          <span className="block h-0.5 w-full rounded-full bg-ink-10" />
-          <span className="flex gap-0.5">
-            <span className="h-0.5 w-1/3 rounded-full bg-ink-10" />
-            <span className="h-0.5 w-2/3 rounded-full bg-ink-10" />
-          </span>
-          <span className="flex gap-0.5">
-            <span className="h-0.5 w-1/2 rounded-full bg-ink-10" />
-            <span className="h-0.5 w-1/2 rounded-full bg-ink-10" />
-          </span>
-          <span className="flex gap-0.5">
-            <span className="h-0.5 w-1/3 rounded-full bg-ink-10" />
-            <span className="h-0.5 w-2/3 rounded-full bg-ink-10" />
-          </span>
-          {children}
-        </>
-      ),
+    children: (
+      <>
+        <span className="block h-0.5 w-full rounded-full bg-ink-10" />
+        <span className="flex gap-0.5">
+          <span className="h-0.5 w-1/3 rounded-full bg-ink-10" />
+          <span className="h-0.5 w-2/3 rounded-full bg-ink-10" />
+        </span>
+        <span className="flex gap-0.5">
+          <span className="h-0.5 w-1/2 rounded-full bg-ink-10" />
+          <span className="h-0.5 w-1/2 rounded-full bg-ink-10" />
+        </span>
+        <span className="flex gap-0.5">
+          <span className="h-0.5 w-1/3 rounded-full bg-ink-10" />
+          <span className="h-0.5 w-2/3 rounded-full bg-ink-10" />
+        </span>
+        {children}
+      </>
+    ),
   };
 
   return useRender({
@@ -201,7 +194,8 @@ export function FilePreviewBadge({
   color = "rose",
   ...props
 }: FilePreviewBadgeProps & { color?: FilePreviewBadgeColor }) {
-  const { badge } = filePreview({ badgeColor: color });
+  const theme = useThemeFamily();
+  const { badge } = filePreview({ theme, badgeColor: color });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "file-preview-badge",
     className: badge({ className }),
@@ -217,7 +211,8 @@ export function FilePreviewBadge({
 export type FilePreviewMediaProps = useRender.ComponentProps<"span">;
 
 export function FilePreviewMedia({ children, className, render, ...props }: FilePreviewMediaProps) {
-  const { media } = filePreview();
+  const theme = useThemeFamily();
+  const { media } = filePreview({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "aria-hidden": true,
     "data-slot": "file-preview-media",
