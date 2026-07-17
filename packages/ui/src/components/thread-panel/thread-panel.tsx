@@ -1,32 +1,19 @@
-import { use } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel, PanelBody, PanelFooter, PanelHeader } from "../panel/panel";
-import {
-  PanelMobileScrollContext,
-  type PanelMobileScroll,
-} from "../panel/panel-mobile-scroll-context";
 import { threadPanel } from "./thread-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
-export type ThreadPanelRootProps = useRender.ComponentProps<"section"> & {
-  mobileScroll?: PanelMobileScroll;
-};
+export type ThreadPanelRootProps = useRender.ComponentProps<"section">;
 
-export function ThreadPanelRoot({
-  className,
-  mobileScroll = "panel",
-  render,
-  ...props
-}: ThreadPanelRootProps) {
+export function ThreadPanelRoot({ className, render, ...props }: ThreadPanelRootProps) {
   const theme = useThemeFamily();
-  const { root } = threadPanel({ theme, mobileScroll });
+  const { root } = threadPanel({ theme });
 
   return (
     <Panel
       {...props}
-      mobileScroll={mobileScroll}
       render={render}
       data-slot="thread-panel-root"
       className={root({ className })}
@@ -38,8 +25,7 @@ export type ThreadPanelHeaderProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelHeader({ className, render, ...props }: ThreadPanelHeaderProps) {
   const theme = useThemeFamily();
-  const mobileScroll = use(PanelMobileScrollContext);
-  const { header } = threadPanel({ theme, mobileScroll });
+  const { header } = threadPanel({ theme });
 
   return (
     <PanelHeader
@@ -55,8 +41,7 @@ export type ThreadPanelContentProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelContent({ className, render, ...props }: ThreadPanelContentProps) {
   const theme = useThemeFamily();
-  const mobileScroll = use(PanelMobileScrollContext);
-  const { content } = threadPanel({ theme, mobileScroll });
+  const { content } = threadPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-content",
     className: content({ className }),
@@ -128,36 +113,22 @@ export function ThreadPanelBody({ className, render, ...props }: ThreadPanelBody
   );
 }
 
-export type ThreadPanelOriginalMessageProps = useRender.ComponentProps<"div">;
+export type ThreadPanelOriginalMessageProps = Omit<useRender.ComponentProps<"div">, "render">;
 
 export function ThreadPanelOriginalMessage({
   className,
-  render,
   ...props
 }: ThreadPanelOriginalMessageProps) {
   const theme = useThemeFamily();
-  const { originalMessage, originalMessageItem } = threadPanel({ theme });
-  // Without `render` the part owns a padded container region; with `render` it
-  // merges the flush styling into the provided element (typically a MessageItem)
-  // instead of wrapping it, so the message keeps its own data-slot.
-  const defaultProps: SlotElementProps<"div"> & {
-    "data-thread-panel-slot": "original-message";
-  } = render
-    ? {
-        "data-thread-panel-slot": "original-message",
-        className: originalMessageItem({ className }),
-      }
-    : {
-        "data-slot": "thread-panel-original-message",
-        "data-thread-panel-slot": "original-message",
-        className: originalMessage({ className }),
-      };
+  const { originalMessage } = threadPanel({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
+  return (
+    <div
+      {...props}
+      data-slot="thread-panel-original-message"
+      className={originalMessage({ className })}
+    />
+  );
 }
 
 export type ThreadPanelReplyCountProps = useRender.ComponentProps<"div">;

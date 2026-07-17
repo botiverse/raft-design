@@ -22,7 +22,7 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
     : PLAYGROUND_PRESENCE_STATUS.offline;
 
   return (
-    <ConversationPanelHeader className="max-md:items-center">
+    <ConversationPanelHeader>
       <PlaygroundConversationBackButton />
       <Avatar size={isAgent ? "sm" : "md"} type={actor.type}>
         {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}

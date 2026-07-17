@@ -156,17 +156,19 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
       </ThreadPanelHeader>
       <ThreadPanelContent>
         {search ? <ThreadSearchRow /> : null}
-        <ThreadPanelOriginalMessage render={<MessageItem />}>
-          <MessageItemAvatarSlot>
-            <Avatar size="md" type="human" />
-          </MessageItemAvatarSlot>
-          <MessageItemContent>
-            <MessageItemHeader>
-              <MessageItemSender>Cindy</MessageItemSender>
-              <MessageItemTime>10:08</MessageItemTime>
-            </MessageItemHeader>
-            <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
-          </MessageItemContent>
+        <ThreadPanelOriginalMessage>
+          <MessageItem>
+            <MessageItemAvatarSlot>
+              <Avatar size="md" type="human" />
+            </MessageItemAvatarSlot>
+            <MessageItemContent>
+              <MessageItemHeader>
+                <MessageItemSender>Cindy</MessageItemSender>
+                <MessageItemTime>10:08</MessageItemTime>
+              </MessageItemHeader>
+              <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
+            </MessageItemContent>
+          </MessageItem>
         </ThreadPanelOriginalMessage>
         <ThreadPanelBody>
           <MessageList>

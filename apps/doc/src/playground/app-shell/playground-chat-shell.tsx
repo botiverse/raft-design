@@ -76,7 +76,7 @@ export function PlaygroundChatShell() {
       className={cn(
         "h-full",
         !isDesktop && "max-md:h-auto max-md:min-h-dvh",
-        !mobileListPanel && "max-md:pt-0",
+        !mobileListPanel && "max-md:!pt-0",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
       )}
     >

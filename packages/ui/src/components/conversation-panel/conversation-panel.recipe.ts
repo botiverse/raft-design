@@ -18,8 +18,7 @@ const brutalSectionHeader = [
 const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
-  "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-  "max-md:items-start max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
+  "pl-9 max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
 ];
 
 export const conversationPanel = tv({
@@ -77,28 +76,19 @@ export const conversationPanel = tv({
         root: "relative bg-layer-page font-sans text-foreground",
         header: elegantHeader,
         sectionHeader: [...headerFrame, ...elegantHeader, "max-md:before:hidden"],
-        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-start",
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
           "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
-          // Matches the title line height (17px * 1.25 leading) so the icon centers on the first title line.
-          "max-md:col-start-2 max-md:row-start-1 max-md:h-[21.25px]",
+          "max-md:h-[21.25px]",
         ],
-        headerContent: [
-          "flex flex-col md:flex-row md:items-baseline md:gap-2",
-          "max-md:col-start-3 max-md:row-start-1 max-md:min-w-0 max-md:gap-1",
-        ],
+        headerContent: ["flex flex-col md:flex-row md:items-baseline md:gap-2", "max-md:gap-1"],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
           "max-md:leading-none",
         ],
-        meta: [
-          "font-sans leading-none text-foreground-placeholder",
-          // Pulls meta left past the header icon column (14px icon + 8px header gap) so it aligns with the icon's left edge.
-          "max-md:-ml-[22px]",
-        ],
+        meta: ["font-sans leading-none text-foreground-placeholder", "max-md:-ml-[22px]"],
         status: [
           "border-0 bg-transparent p-0",
           "text-foreground-placeholder",
@@ -125,16 +115,5 @@ export const conversationPanel = tv({
       sm: {},
       md: { meta: "text-sm" },
     },
-    mobileScroll: {
-      panel: {},
-      page: {
-        root: ["max-md:h-auto max-md:min-h-dvh max-md:flex-none max-md:overflow-visible"],
-        content: ["max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible"],
-        tabs: ["max-md:sticky max-md:top-[var(--shell-header-height-with-safe-area)] max-md:z-30"],
-      },
-    },
-  },
-  defaultVariants: {
-    mobileScroll: "panel",
   },
 });

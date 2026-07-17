@@ -1,32 +1,19 @@
-import { use } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel, PanelBody, PanelFooter, PanelHeader } from "../panel/panel";
-import {
-  PanelMobileScrollContext,
-  type PanelMobileScroll,
-} from "../panel/panel-mobile-scroll-context";
 import { conversationPanel } from "./conversation-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
-export type ConversationPanelRootProps = useRender.ComponentProps<"section"> & {
-  mobileScroll?: PanelMobileScroll;
-};
+export type ConversationPanelRootProps = useRender.ComponentProps<"section">;
 
-export function ConversationPanelRoot({
-  className,
-  mobileScroll = "panel",
-  render,
-  ...props
-}: ConversationPanelRootProps) {
+export function ConversationPanelRoot({ className, render, ...props }: ConversationPanelRootProps) {
   const theme = useThemeFamily();
-  const { root } = conversationPanel({ theme, mobileScroll });
+  const { root } = conversationPanel({ theme });
 
   return (
     <Panel
       {...props}
-      mobileScroll={mobileScroll}
       render={render}
       data-slot="conversation-panel-root"
       className={root({ className })}
@@ -241,8 +228,7 @@ export function ConversationPanelContent({
   ...props
 }: ConversationPanelContentProps) {
   const theme = useThemeFamily();
-  const mobileScroll = use(PanelMobileScrollContext);
-  const { content } = conversationPanel({ theme, mobileScroll });
+  const { content } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "conversation-panel-content",
     className: content({ className }),
@@ -272,8 +258,7 @@ export type ConversationPanelTabsProps = useRender.ComponentProps<"div">;
 
 export function ConversationPanelTabs({ className, render, ...props }: ConversationPanelTabsProps) {
   const theme = useThemeFamily();
-  const mobileScroll = use(PanelMobileScrollContext);
-  const { tabs } = conversationPanel({ theme, mobileScroll });
+  const { tabs } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "conversation-panel-tabs",
     className: tabs({ className }),

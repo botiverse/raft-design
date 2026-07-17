@@ -64,12 +64,12 @@ export function PlaygroundThreadPanel({
   }
 
   return (
-    <ThreadPanelRoot mobileScroll="page">
-      <ThreadPanelHeader>
+    <ThreadPanelRoot className="max-md:h-auto max-md:min-h-dvh max-md:flex-none max-md:overflow-visible">
+      <ThreadPanelHeader className="max-md:sticky max-md:top-0 max-md:z-30">
         <Button
           className="mr-1 lg:hidden"
           variant="outline"
-          size="icon-md"
+          size="icon-sm"
           nativeButton={false}
           aria-label={backToTasks ? "Back to Tasks" : `Back to ${conversationLabel}`}
           render={
@@ -111,7 +111,7 @@ export function PlaygroundThreadPanel({
           </PanelAction>
         </ThreadPanelActions>
       </ThreadPanelHeader>
-      <ThreadPanelContent>
+      <ThreadPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
         {searchOpen ? (
           <ThreadPanelSearch>
             <InputGroup>
@@ -150,17 +150,18 @@ export function PlaygroundThreadPanel({
             </ThreadPanelActions>
           </ThreadPanelSearch>
         ) : null}
-        <ThreadPanelOriginalMessage
-          render={
-            <PlaygroundMessageRow
-              message={thread.parent}
-              searchMatch={activeMatch?.id === thread.parent.id}
-              threadId={thread.parent.id}
-            />
-          }
-        />
-        <ThreadPanelBody>
-          <MessageList>
+        <ThreadPanelOriginalMessage>
+          <PlaygroundMessageRow
+            message={thread.parent}
+            searchMatch={activeMatch?.id === thread.parent.id}
+            threadId={thread.parent.id}
+          />
+        </ThreadPanelOriginalMessage>
+        <ThreadPanelBody className="max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))] max-md:flex-none max-md:overflow-visible">
+          <MessageList
+            rootClassName="max-md:h-auto max-md:min-h-0"
+            className="max-md:!h-auto max-md:!min-h-0 max-md:!overflow-visible"
+          >
             <div className="px-3 pt-2">
               <MessageListNotice>Beginning of replies</MessageListNotice>
               <ThreadPanelReplyCount>

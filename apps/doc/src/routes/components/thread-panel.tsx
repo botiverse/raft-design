@@ -68,7 +68,9 @@ const SNIPPETS = {
       </PanelAction>
     </ThreadPanelActions>
   </ThreadPanelSearch>
-  <ThreadPanelOriginalMessage render={<MessageItem />} />
+  <ThreadPanelOriginalMessage>
+    <MessageItem />
+  </ThreadPanelOriginalMessage>
   <ThreadPanelBody>
     <MessageList>
       <MessageListNotice />
@@ -88,7 +90,7 @@ const PROPS: readonly PropRow[] = [
     name: "ThreadPanelRoot",
     type: "section props",
     description:
-      'Full-height thread panel surface. It does not own thread data or routing. Set mobileScroll="page" to release internal scroll on mobile so the panel joins the document scroll, stickies its header, and fixes its composer footer.',
+      "Full-height thread panel surface. It does not own thread data, routing, responsive placement, or document scroll behavior.",
   },
   {
     name: "ThreadPanelHeader",
@@ -135,8 +137,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ThreadPanelOriginalMessage",
     type: "div props",
-    description:
-      "Original message region above the scroll body. Use render to merge its styling into MessageItem without another wrapper.",
+    description: "Original message region above the scroll body. Place a MessageItem inside it.",
   },
   {
     name: "ThreadPanelReplyCount",
