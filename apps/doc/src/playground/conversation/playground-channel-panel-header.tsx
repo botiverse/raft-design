@@ -28,6 +28,7 @@ import {
 } from "raft-ui";
 import { PanelAction, PanelToggleAction } from "raft-ui/wip";
 
+import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 
@@ -38,6 +39,7 @@ export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundR
   return (
     <ConversationPanelHeader>
       <PlaygroundConversationBackButton />
+      <PlaygroundSidebarTrigger />
       <ConversationPanelHeaderContent>
         <ConversationPanelHeaderIcon>
           <Icon />

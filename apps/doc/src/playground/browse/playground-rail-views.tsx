@@ -54,6 +54,7 @@ import {
   ConversationPanelTitle,
 } from "raft-ui";
 
+import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
@@ -286,6 +287,7 @@ export function PlaygroundRailViewPanel({
             <ChevronLeft aria-hidden />
           </Button>
         ) : null}
+        <PlaygroundSidebarTrigger />
         <ConversationPanelHeaderContent>
           <ConversationPanelHeaderIcon>
             <ViewIcon />

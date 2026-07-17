@@ -11,6 +11,7 @@ export function PlaygroundShellStateProvider({ children }: { children: ReactNode
   const [notificationVisible, setNotificationVisible] = useState(true);
   const activeServer =
     PLAYGROUND_SERVERS.find((server) => server.id === serverId) ?? PLAYGROUND_SERVERS[0];
+
   const value = useMemo<PlaygroundShellState>(
     () => ({
       activeServer,

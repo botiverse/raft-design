@@ -72,6 +72,7 @@ export function PlaygroundChatShell() {
 
   return (
     <AppShellRoot
+      sidebarCollapsible={isDesktop}
       className={cn(
         "h-full max-md:h-dvh max-md:overflow-hidden",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
@@ -127,6 +128,8 @@ function PlaygroundChatLayout({
   theme: "brutal" | "elegant";
   thread?: ReactNode;
 }) {
+  const sidebarDefaultSize = theme === "brutal" ? 240 : 252;
+
   if (!isDesktop) {
     return (
       <AppShellMainSlot className="h-full w-full bg-transparent">
@@ -140,24 +143,26 @@ function PlaygroundChatLayout({
     <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
       <ResizablePanel
         id={`playground-sidebar-${theme}`}
-        defaultSize={theme === "brutal" ? 240 : 252}
+        defaultSize={sidebarDefaultSize}
         minSize={180}
         maxSize={368}
         groupResizeBehavior="preserve-pixel-size"
-        className="min-w-0"
+        className="relative min-w-0"
       >
-        <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+        <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1">
           {sidebar}
         </AppShellSidebarSlot>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel id="playground-main" minSize={360} className="relative min-w-0">
-        <AppShellMainSlot className="flex h-full">{main}</AppShellMainSlot>
-        {thread && !isLargeDesktop ? (
-          <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-['']">
-            {thread}
-          </div>
-        ) : null}
+      <ResizablePanel id="playground-main" minSize={360} className="relative !overflow-visible">
+        <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+          {main}
+          {thread && !isLargeDesktop ? (
+            <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-['']">
+              {thread}
+            </div>
+          ) : null}
+        </AppShellMainSlot>
       </ResizablePanel>
       {thread && isLargeDesktop ? (
         <>

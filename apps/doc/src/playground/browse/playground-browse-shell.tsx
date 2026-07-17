@@ -20,6 +20,7 @@ export function PlaygroundBrowseShell() {
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const { railDetailId, railView } = usePlaygroundNavigation();
   const view = railView === "members" || railView === "computers" ? railView : null;
+  const sidebarDefaultSize = theme === "brutal" ? 240 : 252;
 
   if (!view) return null;
 
@@ -28,12 +29,6 @@ export function PlaygroundBrowseShell() {
   const showBottomNavigation = view === "members" && !showMain;
 
   const sidebar = <PlaygroundRailViewSidebar view={view} />;
-
-  const main = (
-    <AppShellMainSlot className="flex h-full">
-      <Outlet />
-    </AppShellMainSlot>
-  );
 
   if (!isDesktop) {
     return (
@@ -70,7 +65,7 @@ export function PlaygroundBrowseShell() {
   }
 
   return (
-    <AppShellRoot className="h-full">
+    <AppShellRoot sidebarCollapsible className="h-full">
       <PlaygroundRail showBottomNavigation={showBottomNavigation} />
       <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
         {showSidebar ? (
@@ -78,12 +73,13 @@ export function PlaygroundBrowseShell() {
             <ResizablePanel
               key={theme}
               id={`playground-sidebar-${theme}`}
-              defaultSize={theme === "brutal" ? 240 : 252}
+              defaultSize={sidebarDefaultSize}
               minSize={180}
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
+              className="relative min-w-0"
             >
-              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1">
                 {sidebar}
               </AppShellSidebarSlot>
             </ResizablePanel>
@@ -91,8 +87,14 @@ export function PlaygroundBrowseShell() {
           </>
         ) : null}
         {showMain ? (
-          <ResizablePanel id="playground-main" minSize={isDesktop ? 360 : 0} className="min-w-0">
-            {main}
+          <ResizablePanel
+            id="playground-main"
+            minSize={isDesktop ? 360 : 0}
+            className="relative !overflow-visible"
+          >
+            <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+              <Outlet />
+            </AppShellMainSlot>
           </ResizablePanel>
         ) : null}
       </ResizableGroup>
