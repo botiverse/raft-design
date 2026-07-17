@@ -84,7 +84,6 @@ export const chatSidebarItem = tv({
           "font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
         sidebarItemStatus: [
           "pointer-events-none absolute top-1/2 right-[calc(100%+2px)] -translate-y-1/2",
-          "[&_[data-slot=status]]:size-2",
         ],
         sidebarItemIndicator: [
           "rounded-sm border-0",

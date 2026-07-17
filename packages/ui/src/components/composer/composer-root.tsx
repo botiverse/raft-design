@@ -10,7 +10,7 @@ const composerRoot = tv({
     theme: {
       brutal: "gap-2",
       elegant: [
-        "gap-[6px]",
+        "gap-1.5",
         "has-[>[data-slot=composer-attachments]]:relative",
         "has-[>[data-slot=composer-attachments]]:isolate",
         "has-[>[data-slot=composer-attachments]]:before:pointer-events-none",

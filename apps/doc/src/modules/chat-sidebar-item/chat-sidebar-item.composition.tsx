@@ -159,7 +159,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemStatus>
-              <Status aria-label="Working" size="xs" variant="primary" />
+              <Status aria-label="Working" variant="primary" />
             </ChatSidebarItemStatus>
             <ChatSidebarItemCount>2</ChatSidebarItemCount>
           </ChatSidebarItemAside>
@@ -177,7 +177,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemStatus>
-              <Status aria-label="Online" size="xs" variant="success" />
+              <Status aria-label="Online" variant="success" />
             </ChatSidebarItemStatus>
             <ChatSidebarItemCount>4</ChatSidebarItemCount>
             <ChatSidebarItemMetaIcon role="img" aria-label="Draft">

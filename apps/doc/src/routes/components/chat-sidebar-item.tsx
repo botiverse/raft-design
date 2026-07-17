@@ -7,11 +7,12 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import {
-  ChatSidebarItemDirectMessageComparison,
-  ChatSidebarItemNotificationComparison,
-  ChatSidebarItemSelectedComparison,
-} from "#/modules/chat-sidebar-item/chat-sidebar-item.comparison.tsx";
+import { ChatSidebarItemAgentPresenceComposition } from "#/modules/chat-sidebar-item/compositions/agent-presence.composition.tsx";
+import agentPresenceCompositionSource from "#/modules/chat-sidebar-item/compositions/agent-presence.composition.tsx?raw";
+import { ChatSidebarItemMentionAndUnreadComposition } from "#/modules/chat-sidebar-item/compositions/mention-and-unread.composition.tsx";
+import mentionAndUnreadCompositionSource from "#/modules/chat-sidebar-item/compositions/mention-and-unread.composition.tsx?raw";
+import { ChatSidebarItemSelectedChannelComposition } from "#/modules/chat-sidebar-item/compositions/selected-channel.composition.tsx";
+import selectedChannelCompositionSource from "#/modules/chat-sidebar-item/compositions/selected-channel.composition.tsx?raw";
 import { ChatSidebarItemStatesComposition } from "#/modules/chat-sidebar-item/chat-sidebar-item.composition.tsx";
 import {
   SourceChatSidebarItemDirectMessagePreview,
@@ -122,7 +123,13 @@ export const Route = createFileRoute("/components/chat-sidebar-item")({
   component: ChatSidebarItemDoc,
   loader: () =>
     highlightSnippets({
-      data: { anatomy: ANATOMY_SNIPPET, composition: chatSidebarItemCompositionSource },
+      data: {
+        anatomy: ANATOMY_SNIPPET,
+        composition: chatSidebarItemCompositionSource,
+        selectedChannel: selectedChannelCompositionSource,
+        mentionAndUnread: mentionAndUnreadCompositionSource,
+        agentPresence: agentPresenceCompositionSource,
+      },
     }),
 });
 
@@ -166,9 +173,13 @@ function ChatSidebarItemDoc() {
                   <SourceChatSidebarItemSelectedPreview />
                 </SourceThemeScope>
               ),
-              brutal: <ChatSidebarItemSelectedComparison />,
-              elegant: <ChatSidebarItemSelectedComparison />,
-              elegantDark: <ChatSidebarItemSelectedComparison />,
+              brutal: <ChatSidebarItemSelectedChannelComposition />,
+              elegant: <ChatSidebarItemSelectedChannelComposition />,
+              elegantDark: <ChatSidebarItemSelectedChannelComposition />,
+              compositionCode: code.selectedChannel,
+              compositionPath:
+                "apps/doc/src/modules/chat-sidebar-item/compositions/selected-channel.composition.tsx",
+              compositionSource: selectedChannelCompositionSource,
             },
             {
               label: "Mention and unread metadata",
@@ -178,9 +189,13 @@ function ChatSidebarItemDoc() {
                   <SourceChatSidebarItemNotificationPreview />
                 </SourceThemeScope>
               ),
-              brutal: <ChatSidebarItemNotificationComparison />,
-              elegant: <ChatSidebarItemNotificationComparison />,
-              elegantDark: <ChatSidebarItemNotificationComparison />,
+              brutal: <ChatSidebarItemMentionAndUnreadComposition />,
+              elegant: <ChatSidebarItemMentionAndUnreadComposition />,
+              elegantDark: <ChatSidebarItemMentionAndUnreadComposition />,
+              compositionCode: code.mentionAndUnread,
+              compositionPath:
+                "apps/doc/src/modules/chat-sidebar-item/compositions/mention-and-unread.composition.tsx",
+              compositionSource: mentionAndUnreadCompositionSource,
             },
             {
               label: "Agent presence",
@@ -190,9 +205,13 @@ function ChatSidebarItemDoc() {
                   <SourceChatSidebarItemDirectMessagePreview />
                 </SourceThemeScope>
               ),
-              brutal: <ChatSidebarItemDirectMessageComparison />,
-              elegant: <ChatSidebarItemDirectMessageComparison />,
-              elegantDark: <ChatSidebarItemDirectMessageComparison />,
+              brutal: <ChatSidebarItemAgentPresenceComposition />,
+              elegant: <ChatSidebarItemAgentPresenceComposition />,
+              elegantDark: <ChatSidebarItemAgentPresenceComposition />,
+              compositionCode: code.agentPresence,
+              compositionPath:
+                "apps/doc/src/modules/chat-sidebar-item/compositions/agent-presence.composition.tsx",
+              compositionSource: agentPresenceCompositionSource,
             },
           ]}
         />
