@@ -246,7 +246,7 @@ const DIALOG_COMPOSITION_PATHS = {
 
 type DialogCompositionKey = keyof typeof DIALOG_COMPOSITION_SOURCES;
 
-const modalComparisonPreviewClassName = "!px-0 !py-0";
+const modalComparisonPreviewClassName = "px-0 py-0";
 
 function compositionPanelProps(
   code: Record<string, ReactNode | AnyRenderableServerComponent>,

@@ -118,9 +118,9 @@ export function AnnouncementDialogContent() {
 export function AnnouncementDialogComposition({ className }: { className?: string }) {
   return (
     <SourceComparisonModalPreview
-      className={cn("!px-0 !py-0", className)}
-      contentClassName="!w-full !max-w-xl !p-0"
-      portalClassName="!p-0"
+      className={cn("px-0 py-0", className)}
+      contentClassName="w-full max-w-xl p-0"
+      portalClassName="p-0"
       backdrop={false}
     >
       {({ portalProps, contentClassName }) => (
