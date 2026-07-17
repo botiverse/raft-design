@@ -1,4 +1,4 @@
-import { createContext, use, useState, type ComponentPropsWithRef } from "react";
+import { createContext, use, useMemo, useState, type ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv";
@@ -216,13 +216,12 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
 
   const resolvedInputValue = inputValue === undefined ? uncontrolledInputValue : inputValue;
   const resolvedValue = value === undefined ? uncontrolledValue : value;
+  const clearVisible =
+    hasClearableValue(resolvedValue) || hasClearableInputValue(resolvedInputValue);
+  const clearContextValue = useMemo(() => ({ visible: clearVisible }), [clearVisible]);
 
   return (
-    <ComboboxClearContext.Provider
-      value={{
-        visible: hasClearableValue(resolvedValue) || hasClearableInputValue(resolvedInputValue),
-      }}
-    >
+    <ComboboxClearContext.Provider value={clearContextValue}>
       <BaseCombobox.Root
         data-slot="combobox"
         defaultInputValue={defaultInputValue}

@@ -1,6 +1,7 @@
 {
+  "$schema": "https://react.doctor/schema/config.json",
   "ignore": {
-    "files": ["src/legacy/**", "packages/ui/src/legacy/**"],
+    "files": ["src/legacy/**", "packages/ui/src/legacy/**", "**/source/**", "**/legacy/**"],
     "overrides": [
       {
         "files": ["apps/doc/src/routes/**", "src/routes/**"],

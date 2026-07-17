@@ -249,6 +249,19 @@ export function ChatSidebarSectionControl({
 }: ChatSidebarSectionControlProps) {
   const theme = useThemeFamily();
   const { sidebarSectionControl } = chatSidebarSection({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    type: "button",
+    "data-slot": "chat-sidebar-section-control",
+    "data-loading": loading ? "true" : undefined,
+    disabled: disabled || loading,
+    "aria-disabled": loading || undefined,
+    className: sidebarSectionControl({ className }),
+    children: loading ? <Spinner aria-label={loadingLabel} /> : children,
+  };
+  const brutalControl = useRender({
+    render: render ?? <BaseButton />,
+    props: mergeProps<"button">(defaultProps, props),
+  });
 
   if (theme === "elegant") {
     return (
@@ -268,20 +281,7 @@ export function ChatSidebarSectionControl({
     );
   }
 
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "data-slot": "chat-sidebar-section-control",
-    "data-loading": loading ? "true" : undefined,
-    disabled: disabled || loading,
-    "aria-disabled": loading || undefined,
-    className: sidebarSectionControl({ className }),
-    children: loading ? <Spinner aria-label={loadingLabel} /> : children,
-  };
-
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
-  });
+  return brutalControl;
 }
 
 export type ChatSidebarControlProps = ChatSidebarSectionControlProps;
