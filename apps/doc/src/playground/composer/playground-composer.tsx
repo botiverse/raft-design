@@ -48,7 +48,7 @@ import {
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
-  FilePreviewImage,
+  FilePreviewMedia,
 } from "raft-ui/wip";
 
 import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
@@ -193,12 +193,15 @@ function PlaygroundSeededComposerAttachments({
           <ComposerAttachmentFile>
             <FilePreview>
               {attachment.mediaType.startsWith("image/") ? (
-                <FilePreviewImage alt={attachment.name} src={COMPOSER_IMAGE_SRC} />
+                <FilePreviewMedia>
+                  <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
+                </FilePreviewMedia>
               ) : (
-                <FilePreviewDocument>
-                  <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
-                </FilePreviewDocument>
+                <FilePreviewDocument />
               )}
+              {!attachment.mediaType.startsWith("image/") ? (
+                <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
+              ) : null}
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>

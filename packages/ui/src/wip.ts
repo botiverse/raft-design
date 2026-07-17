@@ -1,19 +1,19 @@
 export {
   FilePreview,
   FilePreviewBadge,
+  FilePreviewCode,
   FilePreviewDocument,
-  FilePreviewImage,
+  FilePreviewFile,
   FilePreviewMedia,
-  FilePreviewVideo,
 } from "./components/file-preview/index";
 export type {
   FilePreviewBadgeProps,
-  FilePreviewBadgeTone,
+  FilePreviewBadgeColor,
+  FilePreviewCodeProps,
   FilePreviewDocumentProps,
-  FilePreviewImageProps,
+  FilePreviewFileProps,
   FilePreviewMediaProps,
   FilePreviewProps,
-  FilePreviewVideoProps,
 } from "./components/file-preview/index";
 export { PanelAction, PanelToggleAction } from "./components/panel/index";
 export type { PanelActionProps, PanelToggleActionProps } from "./components/panel/index";

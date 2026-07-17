@@ -13,7 +13,7 @@ import {
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
-  FilePreviewImage,
+  FilePreviewMedia,
 } from "raft-ui/wip";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
@@ -50,7 +50,9 @@ export function ComposerAttachmentsComposition({
         <ComposerAttachment>
           <ComposerAttachmentFile>
             <FilePreview>
-              <FilePreviewImage alt="" src={COMPOSER_IMAGE_SRC} />
+              <FilePreviewMedia>
+                <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
+              </FilePreviewMedia>
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>screenshot.png</ComposerAttachmentTitle>
@@ -74,9 +76,8 @@ export function ComposerAttachmentsComposition({
         <ComposerAttachment key={item.name}>
           <ComposerAttachmentFile>
             <FilePreview>
-              <FilePreviewDocument className="rounded-none rounded-tr-[15%]">
-                <FilePreviewBadge>PDF</FilePreviewBadge>
-              </FilePreviewDocument>
+              <FilePreviewDocument className="rounded-none rounded-tr-[15%]" />
+              <FilePreviewBadge>PDF</FilePreviewBadge>
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>{item.name}</ComposerAttachmentTitle>
@@ -102,9 +103,8 @@ export function ComposerAttachmentsComposition({
         <ComposerAttachment>
           <ComposerAttachmentFile>
             <FilePreview>
-              <FilePreviewDocument className="rounded-none rounded-tr-[15%]">
-                <FilePreviewBadge>KEY</FilePreviewBadge>
-              </FilePreviewDocument>
+              <FilePreviewDocument className="rounded-none rounded-tr-[15%]" />
+              <FilePreviewBadge>KEY</FilePreviewBadge>
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>deck.key</ComposerAttachmentTitle>

@@ -37,7 +37,10 @@ export function FilePreviewDocument({
     className: document({ className }),
     children:
       theme === "brutal" ? (
-        <FileText />
+        <>
+          <FileText />
+          {children}
+        </>
       ) : (
         <>
           <span className="block h-0.5 w-full rounded-full bg-ink-10" />
@@ -65,17 +68,140 @@ export function FilePreviewDocument({
   });
 }
 
+export type FilePreviewFileProps = useRender.ComponentProps<"span">;
+
+export function FilePreviewFile({ children, className, render, ...props }: FilePreviewFileProps) {
+  const theme = useThemeFamily();
+  const {
+    file,
+    fileZip,
+    fileZipDark,
+    fileZipLight,
+    fileZipPull,
+    fileZipRow,
+    fileZipStack,
+    fileZipTeeth,
+  } = filePreview({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "aria-hidden": true,
+    "data-slot": "file-preview-file",
+    className: file({ className }),
+    children: (
+      <>
+        <span className={fileZip()}>
+          <span className={fileZipStack()}>
+            <span className={fileZipTeeth()}>
+              <span className={fileZipRow()}>
+                <span className={fileZipDark()} />
+                <span className={fileZipLight()} />
+              </span>
+              <span className={fileZipRow()}>
+                <span className={fileZipLight()} />
+                <span className={fileZipDark()} />
+              </span>
+              <span className={fileZipRow()}>
+                <span className={fileZipDark()} />
+                <span className={fileZipLight()} />
+              </span>
+              <span className={fileZipRow()}>
+                <span className={fileZipLight()} />
+                <span className={fileZipDark()} />
+              </span>
+              <span className={fileZipRow()}>
+                <span className={fileZipDark()} />
+                <span className={fileZipLight()} />
+              </span>
+            </span>
+            <span className={fileZipPull()} />
+          </span>
+        </span>
+        {children}
+      </>
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type FilePreviewCodeProps = useRender.ComponentProps<"span">;
+
+export function FilePreviewCode({ children, className, render, ...props }: FilePreviewCodeProps) {
+  const theme = useThemeFamily();
+  const {
+    code,
+    codeAttributeLine,
+    codeGlyph,
+    codeRow,
+    codeRowIndent,
+    codeSelfClosingLine,
+    codeStack,
+    codeTagLine,
+    codeTextLine,
+    codeTextRow,
+  } = filePreview({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "aria-hidden": true,
+    "data-slot": "file-preview-code",
+    className: code({ className }),
+    children: (
+      <>
+        <span className={codeStack()}>
+          <span className={codeRow()}>
+            <span className={codeGlyph()}>&lt;</span>
+            <span className={codeTagLine()} />
+            <span className={codeGlyph()}>&gt;</span>
+          </span>
+          <span className={codeRowIndent()}>
+            <span className={codeGlyph()}>&lt;</span>
+            <span className={codeAttributeLine()} />
+            <span className={codeGlyph()}>&gt;</span>
+          </span>
+          <span className={codeTextRow()}>
+            <span className={codeTextLine()} />
+          </span>
+          <span className={codeRowIndent()}>
+            <span className={codeGlyph()}>&lt;/</span>
+            <span className={codeAttributeLine()} />
+            <span className={codeGlyph()}>&gt;</span>
+          </span>
+          <span className={codeRowIndent()}>
+            <span className={codeGlyph()}>&lt;</span>
+            <span className={codeSelfClosingLine()} />
+            <span className={codeGlyph()}>/&gt;</span>
+          </span>
+          <span className={codeRow()}>
+            <span className={codeGlyph()}>&lt;/</span>
+            <span className={codeTagLine()} />
+            <span className={codeGlyph()}>&gt;</span>
+          </span>
+        </span>
+        {children}
+      </>
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type FilePreviewBadgeProps = useRender.ComponentProps<"span">;
 
-export type FilePreviewBadgeTone = "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral";
+export type FilePreviewBadgeColor = "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral";
 
 export function FilePreviewBadge({
   className,
   render,
-  tone = "rose",
+  color = "rose",
   ...props
-}: FilePreviewBadgeProps & { tone?: FilePreviewBadgeTone }) {
-  const { badge } = filePreview({ badgeTone: tone });
+}: FilePreviewBadgeProps & { color?: FilePreviewBadgeColor }) {
+  const { badge } = filePreview({ badgeColor: color });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "file-preview-badge",
     className: badge({ className }),
@@ -90,51 +216,18 @@ export function FilePreviewBadge({
 
 export type FilePreviewMediaProps = useRender.ComponentProps<"span">;
 
-export function FilePreviewMedia({ className, render, ...props }: FilePreviewMediaProps) {
+export function FilePreviewMedia({ children, className, render, ...props }: FilePreviewMediaProps) {
   const { media } = filePreview();
   const defaultProps: SlotElementProps<"span"> = {
+    "aria-hidden": true,
     "data-slot": "file-preview-media",
     className: media({ className }),
+    children,
   };
 
   return useRender({
     defaultTagName: "span",
     render,
     props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
-export type FilePreviewImageProps = useRender.ComponentProps<"img">;
-
-export function FilePreviewImage({ className, render, ...props }: FilePreviewImageProps) {
-  const { image } = filePreview();
-  const defaultProps: SlotElementProps<"img"> = {
-    "data-slot": "file-preview-image",
-    className: image({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "img",
-    render,
-    props: mergeProps<"img">(defaultProps, props),
-  });
-}
-
-export type FilePreviewVideoProps = useRender.ComponentProps<"video">;
-
-export function FilePreviewVideo({ className, render, ...props }: FilePreviewVideoProps) {
-  const { video } = filePreview();
-  const defaultProps: SlotElementProps<"video"> = {
-    "data-slot": "file-preview-video",
-    className: video({ className }),
-    muted: true,
-    playsInline: true,
-    preload: "metadata",
-  };
-
-  return useRender({
-    defaultTagName: "video",
-    render,
-    props: mergeProps<"video">(defaultProps, props),
   });
 }
