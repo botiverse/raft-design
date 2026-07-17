@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import {
   AppShellMainSlot,
   AppShellRoot,
-  AppShellSidebarSlot,
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
@@ -26,7 +25,10 @@ import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundSidebar } from "../chat-sidebar/chat-sidebar.tsx";
 import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
+import { usePlaygroundShellState } from "./use-playground-shell-state.ts";
 import { usePlaygroundDesktop, usePlaygroundLargeDesktop } from "./use-playground-desktop.ts";
+import { useSidebarPanelLayout } from "./use-sidebar-panel-layout.ts";
+import { PlaygroundSidebarPresence } from "./playground-sidebar-presence.tsx";
 
 export function PlaygroundChatShell() {
   const channelMatch = useMatch({
@@ -46,6 +48,7 @@ export function PlaygroundChatShell() {
     shouldThrow: false,
   });
   const { tasks } = usePlaygroundTaskState();
+  const { sidebarCollapsed } = usePlaygroundShellState();
   const theme = useThemeFamily();
   const isDesktop = usePlaygroundDesktop();
   const isLargeDesktop = usePlaygroundLargeDesktop();
@@ -82,6 +85,7 @@ export function PlaygroundChatShell() {
         isDesktop={isDesktop}
         isLargeDesktop={isLargeDesktop}
         mobileListPanel={mobileListPanel}
+        sidebarCollapsed={sidebarCollapsed}
         sidebar={
           <PlaygroundSidebar
             activeChannelId={channel?.id ?? null}
@@ -115,6 +119,7 @@ function PlaygroundChatLayout({
   isLargeDesktop,
   main,
   mobileListPanel,
+  sidebarCollapsed,
   sidebar,
   theme,
   thread,
@@ -123,10 +128,16 @@ function PlaygroundChatLayout({
   isLargeDesktop: boolean;
   main: ReactNode;
   mobileListPanel: boolean;
+  sidebarCollapsed: boolean;
   sidebar: ReactNode;
   theme: "brutal" | "elegant";
   thread?: ReactNode;
 }) {
+  const sidebarPanelRef = useSidebarPanelLayout({
+    active: isDesktop,
+    collapsed: sidebarCollapsed,
+  });
+
   if (!isDesktop) {
     return (
       <AppShellMainSlot className="h-full w-full bg-transparent">
@@ -137,18 +148,24 @@ function PlaygroundChatLayout({
   }
 
   return (
-    <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
+    <ResizableGroup
+      orientation="horizontal"
+      className="h-auto min-w-0 flex-1 [&>[data-panel]]:transition-[flex] [&>[data-panel]]:duration-[220ms] [&>[data-panel]]:ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:[&>[data-panel]]:transition-none md:h-full"
+    >
       <ResizablePanel
         id={`playground-sidebar-${theme}`}
         defaultSize={theme === "brutal" ? 240 : 252}
         minSize={180}
         maxSize={368}
+        collapsible
+        collapsedSize={0}
         groupResizeBehavior="preserve-pixel-size"
-        className="min-w-0"
+        panelRef={sidebarPanelRef}
+        className="relative min-w-0"
       >
-        <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+        <PlaygroundSidebarPresence collapsed={sidebarCollapsed}>
           {sidebar}
-        </AppShellSidebarSlot>
+        </PlaygroundSidebarPresence>
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel id="playground-main" minSize={360} className="relative min-w-0">

@@ -61,6 +61,7 @@ import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
+import { SidebarCollapseIcon, SidebarExpandIcon } from "../app-shell/sidebar-toggle-icon.tsx";
 import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
 
 const currentServerName = "Raft 中文社区";
@@ -153,6 +154,7 @@ export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
 
 export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
   const { railView, selectRailView } = usePlaygroundNavigation();
+  const { sidebarCollapsed, toggleSidebar } = usePlaygroundShellState();
 
   function selectView(view: string) {
     if (isPlaygroundRailView(view)) selectRailView(view);
@@ -235,6 +237,26 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
               </AppRailNav>
             </div>
             <AppRailFooter>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <AppRailItem
+                      aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                      onClick={toggleSidebar}
+                    />
+                  }
+                >
+                  <AppRailItemIcon>
+                    {sidebarCollapsed ? <SidebarExpandIcon /> : <SidebarCollapseIcon />}
+                  </AppRailItemIcon>
+                  <AppRailItemLabel>
+                    {sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                  </AppRailItemLabel>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  {sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                </TooltipContent>
+              </Tooltip>
               <PlaygroundNotificationCenter />
               <PlaygroundThemeSelect side="right">
                 <Tooltip>

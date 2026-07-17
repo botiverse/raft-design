@@ -3,7 +3,6 @@ import { useMediaQuery } from "foxact/use-media-query";
 import {
   AppShellMainSlot,
   AppShellRoot,
-  AppShellSidebarSlot,
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
@@ -14,12 +13,20 @@ import { cn } from "raft-ui/cn";
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundRailViewSidebar } from "./playground-rail-views.tsx";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
+import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
+import { useSidebarPanelLayout } from "../app-shell/use-sidebar-panel-layout.ts";
+import { PlaygroundSidebarPresence } from "../app-shell/playground-sidebar-presence.tsx";
 
 export function PlaygroundBrowseShell() {
   const theme = useThemeFamily();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const { railDetailId, railView } = usePlaygroundNavigation();
+  const { sidebarCollapsed } = usePlaygroundShellState();
   const view = railView === "members" || railView === "computers" ? railView : null;
+  const sidebarPanelRef = useSidebarPanelLayout({
+    active: isDesktop,
+    collapsed: sidebarCollapsed,
+  });
 
   if (!view) return null;
 
@@ -72,7 +79,10 @@ export function PlaygroundBrowseShell() {
   return (
     <AppShellRoot className="h-full">
       <PlaygroundRail showBottomNavigation={showBottomNavigation} />
-      <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
+      <ResizableGroup
+        orientation="horizontal"
+        className="h-auto min-w-0 flex-1 [&>[data-panel]]:transition-[flex] [&>[data-panel]]:duration-[220ms] [&>[data-panel]]:ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:[&>[data-panel]]:transition-none md:h-full"
+      >
         {showSidebar ? (
           <>
             <ResizablePanel
@@ -81,11 +91,15 @@ export function PlaygroundBrowseShell() {
               defaultSize={theme === "brutal" ? 240 : 252}
               minSize={180}
               maxSize={368}
+              collapsible
+              collapsedSize={0}
               groupResizeBehavior="preserve-pixel-size"
+              panelRef={sidebarPanelRef}
+              className="relative min-w-0"
             >
-              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1 shrink">
+              <PlaygroundSidebarPresence collapsed={sidebarCollapsed}>
                 {sidebar}
-              </AppShellSidebarSlot>
+              </PlaygroundSidebarPresence>
             </ResizablePanel>
             {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
           </>
