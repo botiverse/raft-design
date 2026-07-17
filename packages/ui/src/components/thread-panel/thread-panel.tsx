@@ -136,14 +136,16 @@ export function ThreadPanelOriginalMessage({
   ...props
 }: ThreadPanelOriginalMessageProps) {
   const theme = useThemeFamily();
-  const { originalMessage } = threadPanel({ theme });
-  const defaultProps: SlotElementProps<"div"> & {
-    "data-thread-panel-slot": "original-message";
-  } = {
-    ...(render ? {} : { "data-slot": "thread-panel-original-message" }),
-    "data-thread-panel-slot": "original-message",
-    className: originalMessage({ className }),
-  };
+  const { originalMessage, originalMessageItem } = threadPanel({ theme });
+  // Without `render` the part owns a padded container region; with `render` it
+  // merges the flush styling into the provided element (typically a MessageItem)
+  // instead of wrapping it, so the message keeps its own data-slot.
+  const defaultProps: SlotElementProps<"div"> = render
+    ? { className: originalMessageItem({ className }) }
+    : {
+        "data-slot": "thread-panel-original-message",
+        className: originalMessage({ className }),
+      };
 
   return useRender({
     defaultTagName: "div",
