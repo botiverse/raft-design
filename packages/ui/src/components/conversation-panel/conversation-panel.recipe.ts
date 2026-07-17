@@ -4,7 +4,7 @@ const headerFrame = ["flex h-[var(--shell-header-height,62px)] shrink-0 items-ce
 
 const brutalHeader = [
   "gap-3 border-b-2 border-black bg-white",
-  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
+  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[env(safe-area-inset-top,0px)]",
 ];
 
 const brutalSectionHeader = [
@@ -19,7 +19,7 @@ const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
   "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-  "max-md:items-start max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
+  "max-md:items-center max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[env(safe-area-inset-top,0px)]",
 ];
 
 export const conversationPanel = tv({
@@ -58,7 +58,15 @@ export const conversationPanel = tv({
           ...brutalSectionHeader,
         ],
         headerIcon: "border-black bg-soft-signal text-black",
-        headerContent: "flex flex-col",
+        headerContent: [
+          "flex flex-col",
+          "has-[>[data-slot=conversation-panel-header-icon]]:grid has-[>[data-slot=conversation-panel-header-icon]]:grid-cols-[auto_minmax(0,1fr)]",
+          "has-[>[data-slot=conversation-panel-header-icon]]:items-center has-[>[data-slot=conversation-panel-header-icon]]:gap-x-3",
+          "has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:row-span-2",
+          "has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-heading]]:col-start-2",
+          "has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-title]]:col-start-2",
+          "has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-meta]]:col-start-2",
+        ],
         title: "text-black",
         meta: "text-black/50",
         status: "border-2 border-black bg-brutal-orange/25 text-black",
@@ -77,23 +85,34 @@ export const conversationPanel = tv({
         root: "relative bg-layer-page font-sans text-foreground",
         header: elegantHeader,
         sectionHeader: [...headerFrame, ...elegantHeader, "max-md:before:hidden"],
-        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-start",
+        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-center",
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
           "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
-          "max-md:col-start-2 max-md:row-start-1 max-md:h-[21.25px]",
+          "max-md:col-start-2 max-md:row-start-1 max-md:self-center",
         ],
         headerContent: [
           "flex flex-col md:flex-row md:items-baseline md:gap-2",
-          "max-md:col-start-3 max-md:row-start-1 max-md:min-w-0 max-md:gap-1",
+          "max-md:col-start-3 max-md:row-start-1 max-md:min-w-0 max-md:gap-1 max-md:self-start",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:grid max-md:has-[>[data-slot=conversation-panel-header-icon]]:grid-cols-[auto_minmax(0,1fr)]",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:items-center max-md:has-[>[data-slot=conversation-panel-header-icon]]:gap-x-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:row-span-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-heading]]:col-start-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-title]]:col-start-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-meta]]:col-start-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:col-start-2 max-md:has-[>[data-slot=conversation-panel-header-icon]]:col-span-2",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:self-center",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:row-span-1",
+          "max-md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:col-start-1",
+          "md:has-[>[data-slot=conversation-panel-header-icon]]:[&>[data-slot=conversation-panel-header-icon]]:self-center",
         ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
           "max-md:leading-none",
         ],
-        meta: ["font-sans leading-none text-foreground-placeholder", "max-md:-ml-[22px]"],
+        meta: "font-sans leading-none text-foreground-placeholder",
         status: [
           "border-0 bg-transparent p-0",
           "text-foreground-placeholder",
@@ -101,7 +120,7 @@ export const conversationPanel = tv({
         ],
         content: [
           "relative overflow-clip",
-          "bg-layer-panel shadow-xl",
+          "bg-layer-panel md:shadow-xl",
           "md:ml-2 md:rounded-tl-[10px]",
         ],
         tabs: [

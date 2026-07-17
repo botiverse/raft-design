@@ -18,9 +18,10 @@ import {
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "raft-ui";
-import { MessageList, MessageListNotice, PanelAction } from "raft-ui/wip";
+import { MessageListNotice, PanelAction } from "raft-ui/wip";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
+import { PlaygroundMessageList } from "../message/playground-message-list.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
 import { type PlaygroundChannelRecord, type PlaygroundThread } from "../mock/index.ts";
 
@@ -111,7 +112,7 @@ export function PlaygroundThreadPanel({
           </PanelAction>
         </ThreadPanelActions>
       </ThreadPanelHeader>
-      <ThreadPanelContent className="max-md:h-auto max-md:min-h-0 max-md:flex-none max-md:overflow-visible">
+      <ThreadPanelContent className="max-md:min-h-0 max-md:overflow-visible">
         {searchOpen ? (
           <ThreadPanelSearch>
             <InputGroup>
@@ -157,11 +158,8 @@ export function PlaygroundThreadPanel({
             threadId={thread.parent.id}
           />
         </ThreadPanelOriginalMessage>
-        <ThreadPanelBody className="max-md:h-auto max-md:min-h-[calc(100dvh-var(--shell-header-height))] max-md:flex-none max-md:overflow-visible">
-          <MessageList
-            rootClassName="max-md:h-auto max-md:min-h-0"
-            className="max-md:!h-auto max-md:!min-h-0 max-md:!overflow-visible"
-          >
+        <ThreadPanelBody className="max-md:min-h-0 max-md:overflow-visible">
+          <PlaygroundMessageList>
             <div className="px-3 pt-2">
               <MessageListNotice>Beginning of replies</MessageListNotice>
               <ThreadPanelReplyCount>
@@ -177,7 +175,7 @@ export function PlaygroundThreadPanel({
               />
             ))}
             <div className="h-6 max-md:h-[var(--panel-footer-clearance)]" aria-hidden />
-          </MessageList>
+          </PlaygroundMessageList>
         </ThreadPanelBody>
         <PlaygroundThreadComposer channel={channel} label="Message thread" />
       </ThreadPanelContent>

@@ -51,7 +51,7 @@ export const messageItem = tv({
     theme: {
       brutal: {
         root: [
-          "mb-1 mt-1.5 px-2 py-1",
+          "mb-1 mt-1.5 px-5 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
         avatarStatus: "border border-black",

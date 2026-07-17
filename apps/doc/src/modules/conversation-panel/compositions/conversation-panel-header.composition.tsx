@@ -38,10 +38,10 @@ export function ConversationPanelHeaderComposition({
   if (conversation === "dm") {
     return (
       <ConversationPanelHeader>
-        <Avatar size="md" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
         <ConversationPanelHeaderContent>
+          <Avatar data-slot="conversation-panel-header-icon" size="md" type="agent">
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
           <ConversationPanelHeading>
             <ConversationPanelTitle>Atlas</ConversationPanelTitle>
             <ConversationPanelStatus title="Working…">
@@ -56,10 +56,10 @@ export function ConversationPanelHeaderComposition({
 
   return (
     <ConversationPanelHeader>
-      <ConversationPanelHeaderIcon>
-        <Hash />
-      </ConversationPanelHeaderIcon>
       <ConversationPanelHeaderContent>
+        <ConversationPanelHeaderIcon>
+          <Hash />
+        </ConversationPanelHeaderIcon>
         <ConversationPanelHeading>
           <ConversationPanelTitle>proj-uiux</ConversationPanelTitle>
           {muted ? (

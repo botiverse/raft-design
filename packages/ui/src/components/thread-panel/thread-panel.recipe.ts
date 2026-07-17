@@ -13,7 +13,7 @@ export const threadPanel = tv({
       "[&>[data-slot=input-group]]:min-w-0 [&>[data-slot=input-group]]:flex-1",
     ],
     searchCount: ["w-20 shrink-0 text-center font-mono text-xs"],
-    originalMessage: ["relative shrink-0 px-3 py-1", "[&>[data-slot=message-item]]:m-0"],
+    originalMessage: ["relative shrink-0", "[&>[data-slot=message-item]]:m-0"],
     replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
     footer: ["text-xs"],
   },
@@ -32,7 +32,7 @@ export const threadPanel = tv({
         searchCount: "text-black/50",
         originalMessage: [
           "bg-white border-b-2 border-black",
-          "[&>[data-slot=message-item]]:bg-white [&>[data-slot=message-item]]:px-5 [&>[data-slot=message-item]]:py-3.5",
+          "[&>[data-slot=message-item]]:bg-white [&>[data-slot=message-item]]:p-0",
         ],
         replyCount: "border-black/10 text-black/40",
         footer: "border-t-2 border-black bg-white text-black/50",
@@ -49,11 +49,10 @@ export const threadPanel = tv({
           "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
           "max-lg:before:content-[''] max-lg:[&>*]:relative max-lg:[&>*]:z-10",
         ],
-        content: ["relative overflow-clip", "bg-layer-panel shadow-xl"],
+        content: ["relative overflow-clip", "bg-layer-panel md:shadow-xl"],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
-          "max-lg:leading-none",
         ],
         titleMeta: "text-foreground-muted",
         search: [
@@ -64,7 +63,7 @@ export const threadPanel = tv({
         originalMessage: [
           "bg-transparent",
           "border-b border-line-subtle",
-          "[&>[data-slot=message-item]]:bg-transparent [&>[data-slot=message-item]]:px-10 [&>[data-slot=message-item]]:pt-[18px] [&>[data-slot=message-item]]:pb-5",
+          "[&>[data-slot=message-item]]:bg-transparent [&>[data-slot=message-item]]:p-0",
         ],
         replyCount: "border-line-muted text-foreground-muted",
         footer: "text-foreground-muted",

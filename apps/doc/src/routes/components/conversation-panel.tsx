@@ -29,9 +29,9 @@ const SNIPPETS = {
   anatomy: `<ConversationPanelRoot>
   <ConversationPanelHeader>
     {/* Sticks to the top on mobile by default. */}
-    {/* optional caller-owned leading content */}
-    <ConversationPanelHeaderIcon />
     <ConversationPanelHeaderContent>
+      {/* optional caller-owned identity; it shares the title row on mobile */}
+      <ConversationPanelHeaderIcon />
       {/* use Heading when Title and Status form one group */}
       <ConversationPanelHeading>
         <ConversationPanelTitle />
@@ -101,12 +101,14 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelHeaderIcon",
     type: "div props",
-    description: "Optional leading icon slot for a channel or section header.",
+    description:
+      "Optional identity icon. Put it inside HeaderContent to align it with the title on mobile.",
   },
   {
     name: "ConversationPanelHeaderContent",
     type: "div props",
-    description: "Flexible header-content region for title, metadata, and status parts.",
+    description:
+      "Flexible identity region for an optional icon, title, metadata, and status parts.",
   },
   {
     name: "ConversationPanelHeading",
