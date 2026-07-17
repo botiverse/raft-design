@@ -4,7 +4,6 @@ export {
   AppShellRoot,
   AppShellSidebarSlot,
   AppShellSidebarTrigger,
-  useAppShellSidebar,
 } from "./app-shell";
 export type {
   AppShellMainSlotProps,

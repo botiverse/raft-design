@@ -800,12 +800,14 @@ export {
   AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
+  AppShellSidebarTrigger,
 } from "./components/app-shell/index";
 export type {
   AppShellMainSlotProps,
   AppShellRailSlotProps,
   AppShellRootProps,
   AppShellSidebarSlotProps,
+  AppShellSidebarTriggerProps,
 } from "./components/app-shell/index";
 
 export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";

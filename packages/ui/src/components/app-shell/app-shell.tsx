@@ -62,15 +62,6 @@ function useOptionalAppShellSidebar() {
   return useContext(AppShellSidebarContext);
 }
 
-export function useAppShellSidebar() {
-  const context = useOptionalAppShellSidebar();
-  if (!context?.collapsible) {
-    throw new Error("useAppShellSidebar must be used within a collapsible AppShellRoot.");
-  }
-
-  return context;
-}
-
 export type AppShellRootProps = useRender.ComponentProps<"div"> & {
   defaultSidebarOpen?: boolean;
   onSidebarOpenChange?: (open: boolean) => void;

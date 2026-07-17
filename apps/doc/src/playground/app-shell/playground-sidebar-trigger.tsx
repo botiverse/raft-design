@@ -1,5 +1,5 @@
 import { PanelLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { AppShellSidebarTrigger } from "raft-ui/wip";
+import { AppShellSidebarTrigger } from "raft-ui";
 
 export function PlaygroundSidebarTrigger() {
   return (

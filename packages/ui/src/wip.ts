@@ -100,9 +100,6 @@ export type {
   ResizablePanelProps,
 } from "./components/resizable/index";
 
-export { AppShellSidebarTrigger, useAppShellSidebar } from "./components/app-shell/index";
-export type { AppShellSidebarTriggerProps } from "./components/app-shell/index";
-
 export {
   LiveAgentActivityBar,
   LiveAgentActivityBarAvatar,
