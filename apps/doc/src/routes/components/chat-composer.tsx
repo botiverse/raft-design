@@ -31,11 +31,16 @@ const TOC = [
 const ANATOMY_SNIPPET = `<ComposerRoot>
   <ComposerAttachments>
     <ComposerAttachment>
-      <ComposerAttachmentImage />
+      <ComposerAttachmentFile>
+        <ComposerAttachmentBody>
+          <ComposerAttachmentTitle />
+          <ComposerAttachmentMeta />
+        </ComposerAttachmentBody>
+      </ComposerAttachmentFile>
       <ComposerAttachmentUploadingOverlay>
         <Spinner />
+        64%
       </ComposerAttachmentUploadingOverlay>
-      <ComposerAttachmentProgress />
       <ComposerAttachmentRemove />
     </ComposerAttachment>
     <ComposerAttachment>
@@ -135,11 +140,6 @@ const PROPS: readonly PropRow[] = [
     description: "Attachment tile within the pending-upload strip.",
   },
   {
-    name: "ComposerAttachmentImage",
-    type: "img props",
-    description: "Image thumbnail tile.",
-  },
-  {
     name: "ComposerAttachmentFile",
     type: "span props",
     description: "File-chip tile for non-image uploads.",
@@ -162,17 +162,12 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentUploadingOverlay",
     type: "span props",
-    description: "Uploading overlay for caller-owned spinner and progress content.",
+    description: "Borderless theme-surface mask for caller-owned upload feedback.",
   },
   {
     name: "ComposerAttachmentFailedOverlay",
     type: "span props",
     description: "Failed overlay for caller-owned retry content.",
-  },
-  {
-    name: "ComposerAttachmentProgress",
-    type: "span props",
-    description: "Upload progress indicator along the tile bottom.",
   },
   {
     name: "ComposerAttachmentRemove",

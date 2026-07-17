@@ -38,8 +38,18 @@ export function ChatComposerPreview() {
         dropOverlay: false,
       }}
       controls={[
-        { group: "Attachments", name: "imageUpload", label: "Image upload", type: "boolean" },
-        { group: "Attachments", name: "fileUpload", label: "File upload", type: "boolean" },
+        {
+          group: "Attachments",
+          name: "imageUpload",
+          label: "Uploading image",
+          type: "boolean",
+        },
+        {
+          group: "Attachments",
+          name: "fileUpload",
+          label: "Uploading file",
+          type: "boolean",
+        },
         {
           group: "Attachments",
           name: "manyAttachments",
@@ -61,6 +71,7 @@ export function ChatComposerPreview() {
                 image={values.imageUpload}
                 file={values.fileUpload}
                 fileCount={values.manyAttachments ? 10 : undefined}
+                fileUploading={values.fileUpload}
                 failed={values.failedUpload}
               />
             ) : null}

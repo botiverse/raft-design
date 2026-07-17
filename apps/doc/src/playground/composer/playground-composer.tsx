@@ -23,7 +23,6 @@ import {
   ComposerAttachmentFailedOverlay,
   ComposerAttachmentFile,
   ComposerAttachmentMeta,
-  ComposerAttachmentProgress,
   ComposerAttachmentRemove,
   ComposerAttachments,
   ComposerAttachmentTitle,
@@ -49,9 +48,11 @@ import {
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
+  FilePreviewImage,
 } from "raft-ui/wip";
 
 import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
+import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "./use-playground-single-composer-mention-target.ts";
 import type {
   PlaygroundChannel,
@@ -191,9 +192,13 @@ function PlaygroundSeededComposerAttachments({
         <ComposerAttachment key={attachment.name}>
           <ComposerAttachmentFile>
             <FilePreview>
-              <FilePreviewDocument>
-                <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
-              </FilePreviewDocument>
+              {attachment.mediaType.startsWith("image/") ? (
+                <FilePreviewImage alt={attachment.name} src={COMPOSER_IMAGE_SRC} />
+              ) : (
+                <FilePreviewDocument>
+                  <FilePreviewBadge>{filePreviewLabel(attachment.name)}</FilePreviewBadge>
+                </FilePreviewDocument>
+              )}
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
@@ -201,16 +206,10 @@ function PlaygroundSeededComposerAttachments({
             </ComposerAttachmentBody>
           </ComposerAttachmentFile>
           {attachment.state.kind === "uploading" ? (
-            <>
-              <ComposerAttachmentUploadingOverlay>
-                <Spinner size="sm" />
-                {attachment.state.progress}%
-              </ComposerAttachmentUploadingOverlay>
-              <ComposerAttachmentProgress
-                aria-label={`Upload progress for ${attachment.name}`}
-                value={attachment.state.progress}
-              />
-            </>
+            <ComposerAttachmentUploadingOverlay>
+              <Spinner size="sm" />
+              {attachment.state.progress}%
+            </ComposerAttachmentUploadingOverlay>
           ) : null}
           {attachment.state.kind === "failed" ? (
             <ComposerAttachmentFailedOverlay

@@ -20,20 +20,21 @@ export const composer = tv({
     ],
     attachments: ["flex flex-wrap gap-2"],
     attachment: ["group/composer-attachment relative"],
-    attachmentImage: ["size-16 border-2 object-cover"],
     attachmentFile: [
-      "flex h-16 w-32 items-center gap-2 border-2 px-2",
+      "relative flex h-16 w-32 items-start gap-2 border-2 px-2 pt-2",
       "[&_svg]:size-4 [&_svg]:shrink-0",
     ],
     attachmentBody: ["block min-w-0"],
-    attachmentTitle: ["block truncate text-xs font-bold"],
-    attachmentMeta: ["block truncate text-[10px]"],
-    attachmentOverlay: [
-      "absolute inset-0 z-10 flex flex-col items-center justify-center border-2 px-1",
-      "text-center text-[10px] font-bold",
+    attachmentTitle: ["block translate-y-0.5 truncate text-xs font-bold"],
+    attachmentMeta: ["absolute right-2 bottom-2 truncate text-[10px]"],
+    attachmentUploadingOverlay: [
+      "absolute inset-0 z-10 flex flex-col items-center justify-center px-1",
+      "text-center text-[10px] font-bold leading-3",
     ],
-    attachmentProgress: ["absolute bottom-0 left-0 h-1 w-full"],
-    attachmentProgressFill: ["h-full"],
+    attachmentFailedOverlay: [
+      "absolute inset-0 z-10 flex flex-col items-center justify-center border-2 px-1",
+      "text-center text-[10px] font-bold leading-3",
+    ],
     attachmentRemove: [
       "absolute -top-1.5 -right-1.5 z-20 flex size-4 items-center justify-center rounded-full",
       "opacity-0 transition-opacity group-hover/composer-attachment:opacity-100",
@@ -60,12 +61,11 @@ export const composer = tv({
           "disabled:shadow-brutal-sm",
           "[&>span]:hidden",
         ],
-        attachmentImage: "border-black",
         attachmentFile: "border-black bg-white [&_svg]:text-black/70",
         attachmentTitle: "text-black",
         attachmentMeta: "text-black/50",
-        attachmentProgress: "bg-black/15",
-        attachmentProgressFill: "bg-brutal-pink",
+        attachmentUploadingOverlay: "bg-layer-panel/85 text-foreground-strong",
+        attachmentFailedOverlay: "border-black bg-brutal-orange/90 text-black",
         attachmentRemove: "bg-black text-white",
         dropOverlay: "border-dashed border-brutal-pink bg-brutal-pink/15",
         dropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
@@ -98,13 +98,13 @@ export const composer = tv({
           "active:translate-x-0 active:translate-y-0 active:scale-[0.985]",
           "[&_svg]:size-4",
         ],
-        attachmentImage: "rounded-md border-line-subtle",
         attachmentFile:
-          "h-[54px] w-36 gap-3 rounded-md border-0 bg-layer-panel pr-2.5 pl-1.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
+          "h-[54px] w-36 gap-3 rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
         attachmentTitle: "font-medium text-foreground-strong",
-        attachmentMeta: "text-foreground-placeholder",
-        attachmentProgress: "bg-ink-6",
-        attachmentProgressFill: "bg-accent-400",
+        attachmentMeta: "right-2.5 bottom-1.5 text-foreground-placeholder",
+        attachmentUploadingOverlay: "rounded-md bg-layer-popover/90 text-foreground-muted",
+        attachmentFailedOverlay:
+          "rounded-md border-danger-base/30 bg-danger-lighter/95 text-danger-base",
         attachmentRemove: "bg-foreground-strong text-foreground-inverse",
         dropOverlay: [
           "-inset-1 rounded-lg border-accent-400/70 bg-accent-100/60",
@@ -114,38 +114,5 @@ export const composer = tv({
           "flex flex-col items-center gap-2 border-0 p-0 text-center text-base font-medium text-foreground-strong",
       },
     },
-    attachmentTone: {
-      uploading: {},
-      failed: {
-        attachmentOverlay: "leading-3",
-      },
-    },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      attachmentTone: "uploading",
-      class: { attachmentOverlay: "border-black bg-white/85 text-black" },
-    },
-    {
-      theme: "brutal",
-      attachmentTone: "failed",
-      class: { attachmentOverlay: "border-black bg-brutal-orange/90 text-black" },
-    },
-    {
-      theme: "elegant",
-      attachmentTone: "uploading",
-      class: {
-        attachmentOverlay:
-          "rounded-md border-line-subtle bg-layer-popover/90 text-foreground-muted",
-      },
-    },
-    {
-      theme: "elegant",
-      attachmentTone: "failed",
-      class: {
-        attachmentOverlay: "rounded-md border-danger-base/30 bg-danger-lighter/95 text-danger-base",
-      },
-    },
-  ],
 });

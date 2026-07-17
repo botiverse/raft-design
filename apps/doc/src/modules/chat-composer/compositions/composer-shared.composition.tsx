@@ -5,9 +5,7 @@ import {
   ComposerAttachmentBody,
   ComposerAttachmentFailedOverlay,
   ComposerAttachmentFile,
-  ComposerAttachmentImage,
   ComposerAttachmentMeta,
-  ComposerAttachmentProgress,
   ComposerAttachmentRemove,
   ComposerAttachments,
   ComposerAttachmentTitle,
@@ -15,14 +13,16 @@ import {
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
+  FilePreviewImage,
 } from "raft-ui/wip";
 
-import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
+import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 
 export function ComposerAttachmentsComposition({
   image = true,
   file = true,
   fileCount,
+  fileUploading = false,
   failed = true,
   onRemove,
   onRetry,
@@ -30,6 +30,7 @@ export function ComposerAttachmentsComposition({
   image?: boolean;
   file?: boolean;
   fileCount?: number;
+  fileUploading?: boolean;
   failed?: boolean;
   onRemove?: (name: string) => void;
   onRetry?: (name: string) => void;
@@ -47,12 +48,19 @@ export function ComposerAttachmentsComposition({
     <ComposerAttachments>
       {image ? (
         <ComposerAttachment>
-          <ComposerAttachmentImage alt="" src={COMPOSER_IMAGE_SRC} />
+          <ComposerAttachmentFile>
+            <FilePreview>
+              <FilePreviewImage alt="" src={COMPOSER_IMAGE_SRC} />
+            </FilePreview>
+            <ComposerAttachmentBody>
+              <ComposerAttachmentTitle>screenshot.png</ComposerAttachmentTitle>
+              <ComposerAttachmentMeta>image/png</ComposerAttachmentMeta>
+            </ComposerAttachmentBody>
+          </ComposerAttachmentFile>
           <ComposerAttachmentUploadingOverlay>
             <Spinner size="sm" />
             64%
           </ComposerAttachmentUploadingOverlay>
-          <ComposerAttachmentProgress aria-label="Upload progress for screenshot.png" value={64} />
           <ComposerAttachmentRemove
             aria-label="Remove screenshot.png"
             disabled={!onRemove}
@@ -75,6 +83,12 @@ export function ComposerAttachmentsComposition({
               <ComposerAttachmentMeta>{item.size}</ComposerAttachmentMeta>
             </ComposerAttachmentBody>
           </ComposerAttachmentFile>
+          {fileUploading ? (
+            <ComposerAttachmentUploadingOverlay>
+              <Spinner size="sm" />
+              64%
+            </ComposerAttachmentUploadingOverlay>
+          ) : null}
           <ComposerAttachmentRemove
             aria-label={`Remove ${item.name}`}
             disabled={!onRemove}
