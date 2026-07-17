@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "raft-ui";
+import { rendersNativeButton, useThemeFamily } from "raft-ui";
 import { cn } from "raft-ui/cn";
 import { tv } from "tailwind-variants/lite";
 
@@ -42,8 +42,9 @@ export type AppRailServerButtonProps = useRender.ComponentProps<"button">;
 
 export function AppRailServerButton({ className, render, ...props }: AppRailServerButtonProps) {
   const theme = useThemeFamily();
+  // Emit type="button" only for a native button render target.
   const defaultProps = {
-    type: "button" as const,
+    type: rendersNativeButton(render) ? ("button" as const) : undefined,
     className: cn(appRailServerButton({ theme }), className),
     "data-slot": "app-rail-server-button",
   };

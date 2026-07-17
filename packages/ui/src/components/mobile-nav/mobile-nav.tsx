@@ -2,6 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { rendersNativeButton } from "../../lib/renders-native-button";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tv } from "../../lib/tv";
 
@@ -72,9 +73,11 @@ export type MobileNavItemProps = useRender.ComponentProps<"button"> & {
 export function MobileNavItem({ selected, className, render, ...props }: MobileNavItemProps) {
   const theme = useThemeFamily();
   const { item } = mobileNav({ theme });
+  // Emit button-only attributes only for a native button render target.
+  const nativeButton = rendersNativeButton(render);
   const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "aria-pressed": selected,
+    type: nativeButton ? "button" : undefined,
+    "aria-pressed": nativeButton ? selected : undefined,
     "data-slot": "mobile-nav-item",
     "data-selected": selected ? "true" : undefined,
     className: item({ className }),

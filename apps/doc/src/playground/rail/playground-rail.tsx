@@ -116,12 +116,7 @@ export function PlaygroundNotificationCenter({ mobile = false }: { mobile?: bool
 
 export function PlaygroundServerSwitcher({ className }: { className?: string }) {
   return (
-    <AppRailServerButton
-      render={<div />}
-      type={undefined}
-      title={currentServerName}
-      className={className}
-    >
+    <AppRailServerButton render={<div />} title={currentServerName} className={className}>
       <img alt="" src={currentServerAvatarSrc} />
       <span className="sr-only">{currentServerName}</span>
       <AppRailItemIndicator size="sm" aria-hidden title="Other servers have unread messages" />

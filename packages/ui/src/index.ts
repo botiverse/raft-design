@@ -871,6 +871,7 @@ export { BrutalOnly, ElegantOnly } from "./components/theme-only/index";
 export type { ThemeOnlyProps } from "./components/theme-only/index";
 
 export { cn } from "./lib/cn";
+export { rendersNativeButton } from "./lib/renders-native-button";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme, useThemeFamily } from "./lib/theme/use-theme";
