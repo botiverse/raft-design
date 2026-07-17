@@ -7,19 +7,24 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { AppShellCollapsibleSidebarComposition } from "#/modules/app-shell/compositions/collapsible-sidebar.composition.tsx";
 import { AppShellDesktopComposition } from "#/modules/app-shell/compositions/desktop.composition.tsx";
 import { AppShellPreview } from "#/modules/app-shell/app-shell.preview.tsx";
 import { SourceAppShellPreview } from "#/modules/app-shell/app-shell.source-preview.tsx";
+import appShellCollapsibleSidebarCompositionSource from "#/modules/app-shell/compositions/collapsible-sidebar.composition.tsx?raw";
 import appShellDesktopCompositionSource from "#/modules/app-shell/compositions/desktop.composition.tsx?raw";
 import appShellResponsiveCompositionSource from "#/modules/app-shell/compositions/responsive.composition.tsx?raw";
 
 const APP_SHELL_RESPONSIVE_COMPOSITION_PATH =
   "apps/doc/src/modules/app-shell/compositions/responsive.composition.tsx";
+const APP_SHELL_COLLAPSIBLE_SIDEBAR_COMPOSITION_PATH =
+  "apps/doc/src/modules/app-shell/compositions/collapsible-sidebar.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "responsive", title: "Responsive" },
+  { id: "collapsible-sidebar", title: "Collapsible sidebar" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -45,6 +50,7 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
+  collapsibleSidebarComposition: appShellCollapsibleSidebarCompositionSource,
   desktopComposition: appShellDesktopCompositionSource,
   responsiveComposition: appShellResponsiveCompositionSource,
   anatomy: `<AppShellRoot>
@@ -59,7 +65,7 @@ const PROPS: readonly PropRow[] = [
     name: "AppShellRoot",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Owns the responsive row-to-column layout and top safe-area inset. Mobile safe-area surface color stays caller-owned via className.",
+      "Owns the responsive row-to-column layout and top safe-area inset. Set sidebarCollapsible to coordinate sidebar visibility; use defaultSidebarOpen for uncontrolled state or sidebarOpen and onSidebarOpenChange for controlled state.",
   },
   {
     name: "AppShellRailSlot",
@@ -71,12 +77,19 @@ const PROPS: readonly PropRow[] = [
     name: "AppShellSidebarSlot",
     type: 'useRender.ComponentProps<"aside">',
     description:
-      "Desktop sidebar column by default. Override with className when the caller mounts it below md.",
+      "Desktop sidebar column by default. When the root is collapsible, its measured width drives the main-panel transition. Override with className when the caller mounts it below md.",
   },
   {
     name: "AppShellMainSlot",
     type: 'useRender.ComponentProps<"main">',
-    description: "Flexible primary content region.",
+    description:
+      "Flexible primary content region. In a collapsible desktop layout, mount it inside a relative main panel so it can expand over the sidebar.",
+  },
+  {
+    name: "AppShellSidebarTrigger",
+    type: "PanelAction props",
+    description:
+      "Toggles a collapsible root and returns null otherwise. Provide the caller-owned icon as children; it supplies accessible collapse and expand labels.",
   },
 ];
 
@@ -119,6 +132,26 @@ function AppShellDoc() {
           collapsedHtml={code.responsiveCompositionBody}
           showLineNumbers={false}
         />
+      </DocSection>
+
+      <DocSection id="collapsible-sidebar" title="Collapsible sidebar">
+        <p>
+          Set <code>sidebarCollapsible</code> on the root and render{" "}
+          <code>AppShellSidebarTrigger</code> in the main panel. The sidebar remains caller-owned;
+          the shell only measures its width and coordinates the collapse transition. For a resizable
+          desktop shell, keep the sidebar and main slots in sibling relative panels as shown below.
+        </p>
+        <div className="mt-4">
+          <AppShellCollapsibleSidebarComposition />
+        </div>
+        <div className="mt-4">
+          <DocsCodeBlock.Panel
+            path={APP_SHELL_COLLAPSIBLE_SIDEBAR_COMPOSITION_PATH}
+            source={appShellCollapsibleSidebarCompositionSource}
+            html={code.collapsibleSidebarComposition}
+            showLineNumbers={false}
+          />
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

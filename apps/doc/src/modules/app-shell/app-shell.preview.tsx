@@ -1,6 +1,6 @@
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
-import { AppShellDesktopComposition } from "./compositions/desktop.composition.tsx";
+import { AppShellCollapsibleSidebarComposition } from "./compositions/collapsible-sidebar.composition.tsx";
 
 const VIEWPORTS = ["Desktop", "Mobile"] as const;
 
@@ -24,7 +24,11 @@ export function AppShellPreview() {
       previewClassName="!min-h-[28rem] !items-stretch !p-0"
       render={({ viewport }) => (
         <div className="flex min-h-[28rem] w-full min-w-0 items-center justify-center overflow-hidden">
-          {viewport === "Desktop" ? <AppShellDesktopComposition /> : <AppShellMobilePreviewFrame />}
+          {viewport === "Desktop" ? (
+            <AppShellCollapsibleSidebarComposition />
+          ) : (
+            <AppShellMobilePreviewFrame />
+          )}
         </div>
       )}
     />
