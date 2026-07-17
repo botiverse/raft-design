@@ -9,13 +9,13 @@ import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
   ComposerAttachmentStatesComposition,
-  ComposerCompactReplyComposition,
+  ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
-import composerCompactReplySource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
+import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -69,14 +69,14 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
     </ComposerToolbar>
   </Composer>
   <ComposerDropOverlay>
-    <ComposerDropOverlayLabel />
+    <ComposerDropOverlayPrompt />
   </ComposerDropOverlay>
 </ComposerRoot>`;
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   attachmentStates: composerAttachmentStatesSource,
-  compactReply: composerCompactReplySource,
+  compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
 } as const;
@@ -120,9 +120,9 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "ComposerSubmit",
-    type: "button props",
+    type: "Button props",
     description:
-      "Primary send button. Pass visible content as children; brutal may hide its text label through the recipe.",
+      "Accent Button used for submit. Use Button size, loading, and render props; pass visible content as children.",
   },
   {
     name: "ComposerToolbarLabel",
@@ -183,6 +183,11 @@ const PROPS: readonly PropRow[] = [
     name: "ComposerDropOverlayLabel",
     type: "span props",
     description: "Visible drop feedback content.",
+  },
+  {
+    name: "ComposerDropOverlayPrompt",
+    type: "span props",
+    description: "Default drop feedback prompt; pass children to replace its visible content.",
   },
 ];
 
@@ -252,14 +257,15 @@ function ChatComposerDoc() {
           </section>
         </div>
         <section className="mt-8 grid gap-3">
-          <h3 className="text-sm font-medium text-foreground-strong">Compact thread reply</h3>
+          <h3 className="text-sm font-medium text-foreground-strong">Compact composer</h3>
           <DocNote>
-            Compact consumers compose fewer parts and own their send lifecycle. The first submit in
-            this example fails deterministically, then restores the draft for a successful retry.
+            Compact consumers omit attachment actions and use only a shorter input, status, and
+            submit. Use this shape for a comment or note; thread replies use the full composer with
+            attachments.
           </DocNote>
-          <Example html={code.compactReply} previewClassName="items-stretch">
+          <Example html={code.compact} previewClassName="items-stretch">
             <div className="w-full min-w-0">
-              <ComposerCompactReplyComposition />
+              <ComposerCompactComposition />
             </div>
           </Example>
         </section>

@@ -28,6 +28,7 @@ import {
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
   ComposerDropOverlay,
+  ComposerDropOverlayPrompt,
   ComposerIconButton,
   ComposerInput,
   ComposerMeta,
@@ -51,7 +52,6 @@ import {
   FilePreviewMedia,
 } from "raft-ui/wip";
 
-import { ComposerDropOverlayPrompt } from "#/modules/chat-composer/compositions/composer-drop-overlay-prompt.composition.tsx";
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "./use-playground-single-composer-mention-target.ts";
 import type {

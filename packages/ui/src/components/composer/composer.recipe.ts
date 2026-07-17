@@ -10,14 +10,6 @@ export const composer = tv({
     actions: ["flex items-center gap-2"],
     meta: ["flex items-center gap-4"],
     iconButton: [],
-    submit: [
-      "inline-flex size-7 shrink-0 items-center justify-center",
-      "border-2 font-sans font-bold leading-none outline-none",
-      "transition-all duration-100",
-      "active:translate-x-[1px] active:translate-y-[1px]",
-      "disabled:pointer-events-none disabled:opacity-30 disabled:transform-none",
-      "[&_svg]:size-3.5 [&_svg]:shrink-0",
-    ],
     attachments: ["flex flex-wrap gap-2"],
     attachment: ["group/composer-attachment relative"],
     attachmentFile: [
@@ -54,13 +46,6 @@ export const composer = tv({
           "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-brutal",
           "active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs",
         ],
-        submit: [
-          "border-black bg-brutal-pink text-black shadow-brutal-sm",
-          "hover:-translate-y-px hover:shadow-brutal",
-          "active:shadow-xs",
-          "disabled:shadow-brutal-sm",
-          "[&>span]:hidden",
-        ],
         attachmentFile: "border-black bg-white [&_svg]:text-black/70",
         attachmentTitle: "text-black",
         attachmentMeta: "text-black/50",
@@ -89,14 +74,6 @@ export const composer = tv({
           "text-foreground-icon",
           "hover:bg-layer-strong/80 hover:text-foreground",
           "active:bg-layer-strong/80 active:text-foreground",
-        ],
-        submit: [
-          "size-auto h-auto w-auto gap-1.5 rounded-md border-0 px-3 py-[6.75px]",
-          "bg-accent-400 text-sm font-medium text-white",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
-          "hover:bg-accent-hover",
-          "active:translate-x-0 active:translate-y-0 active:scale-[0.985]",
-          "[&_svg]:size-4",
         ],
         attachmentFile:
           "h-[54px] w-36 gap-3 rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon",

@@ -1,6 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { FileText, Image as ImageIcon, Upload } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button, type ButtonProps } from "../button/button";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -110,21 +111,10 @@ export function ComposerIconButton({ className, ...props }: ComposerIconButtonPr
   );
 }
 
-export type ComposerSubmitProps = useRender.ComponentProps<"button">;
+export type ComposerSubmitProps = Omit<ButtonProps, "variant">;
 
-export function ComposerSubmit({ className, render, ...props }: ComposerSubmitProps) {
-  const theme = useThemeFamily();
-  const { submit } = composerRecipe({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "submit",
-    "data-slot": "composer-submit",
-    className: submit({ className }),
-  };
-
-  return useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
-  });
+export function ComposerSubmit({ type = "submit", ...props }: ComposerSubmitProps) {
+  return <Button {...props} type={type} variant="accent" />;
 }
 
 export type ComposerAttachmentsProps = useRender.ComponentProps<"div">;
@@ -341,4 +331,47 @@ export function ComposerDropOverlayLabel({
     render,
     props: mergeProps<"span">(defaultProps, props),
   });
+}
+
+export type ComposerDropOverlayPromptProps = ComposerDropOverlayLabelProps;
+
+export function ComposerDropOverlayPrompt({
+  children,
+  className,
+  ...props
+}: ComposerDropOverlayPromptProps) {
+  const theme = useThemeFamily();
+
+  if (children) {
+    return (
+      <ComposerDropOverlayLabel className={className} {...props}>
+        {children}
+      </ComposerDropOverlayLabel>
+    );
+  }
+
+  if (theme !== "elegant") {
+    return (
+      <ComposerDropOverlayLabel className={className} {...props}>
+        Drop files to attach
+      </ComposerDropOverlayLabel>
+    );
+  }
+
+  return (
+    <ComposerDropOverlayLabel className={`gap-3.5${className ? ` ${className}` : ""}`} {...props}>
+      <span aria-hidden className="relative flex h-10 w-22 items-center justify-center">
+        <span className="absolute -translate-x-6 translate-y-1 -rotate-12 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+          <FileText className="size-4 text-foreground-icon" />
+        </span>
+        <span className="absolute z-10 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+          <Upload className="size-4 text-foreground-icon" />
+        </span>
+        <span className="absolute z-20 translate-x-7 translate-y-1 rotate-12 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+          <ImageIcon className="size-4 text-foreground-icon" />
+        </span>
+      </span>
+      <span>Drop files here</span>
+    </ComposerDropOverlayLabel>
+  );
 }

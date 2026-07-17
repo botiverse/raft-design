@@ -4,6 +4,7 @@ import {
   Composer,
   ComposerActions,
   ComposerDropOverlay,
+  ComposerDropOverlayPrompt,
   ComposerIconButton,
   ComposerInput,
   ComposerMeta,
@@ -15,7 +16,6 @@ import {
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { ComposerAttachmentsComposition } from "./compositions/composer-shared.composition.tsx";
-import { ComposerDropOverlayPrompt } from "./compositions/composer-drop-overlay-prompt.composition.tsx";
 
 type ComposerPreviewValues = {
   draft: string;

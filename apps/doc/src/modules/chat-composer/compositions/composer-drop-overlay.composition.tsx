@@ -1,6 +1,7 @@
 import { Paperclip, Send } from "lucide-react";
 import {
   ComposerDropOverlay,
+  ComposerDropOverlayPrompt,
   Composer,
   ComposerActions,
   ComposerIconButton,
@@ -10,8 +11,6 @@ import {
   ComposerSubmit,
   ComposerToolbar,
 } from "raft-ui/wip";
-
-import { ComposerDropOverlayPrompt } from "./composer-drop-overlay-prompt.composition.tsx";
 
 export function ComposerDropOverlayComposition() {
   return (
