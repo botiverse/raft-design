@@ -202,10 +202,12 @@ function PlaygroundSeededComposerAttachments({
             </ComposerAttachmentImage>
           ) : (
             <ComposerAttachmentFile>
-              <FilePreview>
+              <FilePreview className="h-[46px]">
                 <FilePreviewDocument
                   className={
-                    attachment.state.kind === "uploading" ? "!shadow-none !ring-0" : undefined
+                    attachment.state.kind === "uploading"
+                      ? "h-[46px] !shadow-none !ring-0"
+                      : "h-[46px]"
                   }
                 />
                 <FilePreviewBadge

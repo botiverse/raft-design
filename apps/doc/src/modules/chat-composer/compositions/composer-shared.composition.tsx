@@ -108,9 +108,9 @@ export function ComposerAttachmentsComposition({
         return (
           <ComposerAttachment key={name}>
             <ComposerAttachmentFile>
-              <FilePreview>
+              <FilePreview className="h-[46px]">
                 <FilePreviewDocument
-                  className={state === "uploading" ? "!shadow-none !ring-0" : undefined}
+                  className={state === "uploading" ? "h-[46px] !shadow-none !ring-0" : "h-[46px]"}
                 />
                 <FilePreviewBadge className={state === "uploading" ? "!shadow-none" : undefined}>
                   PDF
