@@ -32,7 +32,7 @@ const mobileNav = tv({
       elegant: {
         root: [
           "flex w-fit max-w-full flex-none self-center items-center gap-2 rounded-full bg-layer-panel p-1 shadow-lg",
-          "mt-2 mb-[max(0.5rem,env(safe-area-inset-bottom,0px))]",
+          "mt-2 mb-[max(8px,env(safe-area-inset-bottom,0px))]",
         ],
         item: [
           "relative size-11 min-w-0 gap-0 rounded-full border-0 p-0",

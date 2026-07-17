@@ -18,12 +18,12 @@ const heading = tv({
   base: ["m-0 font-heading font-medium text-foreground-strong"],
   variants: {
     level: {
-      1: ["text-[3.5rem] tracking-[-0.01em] leading-[64px]"],
-      2: ["text-[3rem] tracking-[-0.01em] leading-[56px]"],
-      3: ["text-[2.5rem] tracking-[-0.01em] leading-[48px]"],
-      4: ["text-[2rem] tracking-[-0.005em] leading-[40px]"],
-      5: ["text-[1.5rem] leading-8"],
-      6: ["text-[1.25rem] leading-7"],
+      1: ["text-[56px] tracking-[-0.01em] leading-[64px]"],
+      2: ["text-[48px] tracking-[-0.01em] leading-[56px]"],
+      3: ["text-[40px] tracking-[-0.01em] leading-[48px]"],
+      4: ["text-[32px] tracking-[-0.005em] leading-[40px]"],
+      5: ["text-[24px] leading-[32px]"],
+      6: ["text-[20px] leading-[28px]"],
     },
     variant: textColorVariants,
   },

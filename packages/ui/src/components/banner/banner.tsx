@@ -37,7 +37,7 @@ const banner = tv({
       elegant: {
         root: [
           "group/banner grid w-full items-center gap-x-2 gap-y-0 rounded-sm border-0",
-          "text-[0.8125rem] leading-5 tracking-[-0.005em] text-foreground-strong",
+          "text-[13px] leading-5 tracking-[-0.005em] text-foreground-strong",
           "grid-cols-[minmax(0,1fr)]",
           "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
@@ -51,11 +51,11 @@ const banner = tv({
           "[&>[data-slot=status]]:col-start-1 [&>[data-slot=status]]:row-start-1 [&>[data-slot=status]]:self-center",
         ],
         title: [
-          "col-start-1 row-start-1 flex h-5 min-w-0 items-center text-[0.84375rem] font-medium leading-5 text-foreground-strong",
+          "col-start-1 row-start-1 flex h-5 min-w-0 items-center text-[13.5px] font-medium leading-5 text-foreground-strong",
           "group-has-[>svg]/banner:col-start-2",
           "group-has-[>[data-slot=status]]/banner:col-start-2",
-          "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:text-[0.8125rem] group-data-[size=sm]/banner:leading-4",
-          "group-data-[size=lg]/banner:h-6 group-data-[size=lg]/banner:text-[0.90625rem] group-data-[size=lg]/banner:leading-6",
+          "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:text-[13px] group-data-[size=sm]/banner:leading-4",
+          "group-data-[size=lg]/banner:h-6 group-data-[size=lg]/banner:text-[14.5px] group-data-[size=lg]/banner:leading-6",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         description: [
@@ -64,7 +64,7 @@ const banner = tv({
           "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
-          "group-data-[size=lg]/banner:text-[0.875rem] group-data-[size=lg]/banner:leading-5",
+          "group-data-[size=lg]/banner:text-[14px] group-data-[size=lg]/banner:leading-5",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         action: [

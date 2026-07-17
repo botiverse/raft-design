@@ -18,7 +18,7 @@ export const panel = tv({
     scrollbarThumb: ["w-1.5 rounded-full"],
     footer: [
       "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
-      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+6px)]",
+      "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+0.375rem)]",
     ],
   },
   variants: {

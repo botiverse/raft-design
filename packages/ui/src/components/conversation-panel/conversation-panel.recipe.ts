@@ -4,7 +4,7 @@ const headerFrame = ["flex h-[var(--shell-header-height,62px)] shrink-0 items-ce
 
 const brutalHeader = [
   "gap-3 border-b-2 border-black bg-white",
-  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
+  "max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
 ];
 
 const brutalSectionHeader = [
@@ -18,7 +18,7 @@ const brutalSectionHeader = [
 const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
-  "pl-9 max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(0.75rem+env(safe-area-inset-top,0px))]",
+  "pl-9 max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
 ];
 
 export const conversationPanel = tv({

@@ -11,7 +11,7 @@ const drawerMotion = tv({
     popup: [
       "[--drawer-blur:2px] [--drawer-ease:cubic-bezier(0.32,0.72,0,1)]",
       "[--closed-transform:translate3d(var(--drawer-exit-x,0px),var(--drawer-exit-y,0px),0)]",
-      "[--drawer-stack-peek:1rem] [--drawer-stack-step:0.05]",
+      "[--drawer-stack-peek:16px] [--drawer-stack-step:0.05]",
       "[--drawer-stack-progress:clamp(0,var(--drawer-swipe-progress),1)]",
       "[--drawer-stack-offset:max(0px,calc((var(--nested-drawers)-var(--drawer-stack-progress))*var(--drawer-stack-peek)))]",
       "[--drawer-stack-scale-base:calc(max(0,1-(var(--nested-drawers)*var(--drawer-stack-step))))]",
@@ -98,7 +98,7 @@ export const drawer = tv({
     popup: [
       "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
       "text-foreground",
-      "[--drawer-inset:0.75rem] [--drawer-content-height:var(--drawer-height,auto)]",
+      "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
     ],
     content: [
@@ -142,14 +142,14 @@ export const drawer = tv({
     side: {
       down: {
         popup: [
-          "[--drawer-inset:max(0.75rem,env(safe-area-inset-bottom,0px))]",
+          "[--drawer-inset:max(12px,env(safe-area-inset-bottom,0px))]",
           "bottom-(--drawer-inset) min-h-64 max-h-[82vh]",
         ],
         swipeHandle: ["before:top-3"],
       },
       up: {
         popup: [
-          "[--drawer-inset:max(0.75rem,env(safe-area-inset-top,0px))]",
+          "[--drawer-inset:max(12px,env(safe-area-inset-top,0px))]",
           "top-(--drawer-inset) max-h-[80vh]",
         ],
         swipeHandle: ["order-last", "before:bottom-3"],
@@ -193,14 +193,14 @@ export const drawer = tv({
       theme: "brutal",
       side: "right",
       class: {
-        popup: ["[--drawer-inset:1.25rem]"],
+        popup: ["[--drawer-inset:20px]"],
       },
     },
     {
       theme: "brutal",
       side: "down",
       class: {
-        popup: ["[--drawer-inset:max(1.25rem,env(safe-area-inset-bottom,0px))]"],
+        popup: ["[--drawer-inset:max(20px,env(safe-area-inset-bottom,0px))]"],
       },
     },
     {
