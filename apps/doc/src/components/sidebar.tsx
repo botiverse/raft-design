@@ -94,8 +94,8 @@ const NAV = [
   {
     title: "Tasks",
     items: [
-      { label: "TasksPanel", to: "/components/tasks", status: "wip" },
-      { label: "TaskCard", to: "/components/task-card", status: "wip" },
+      { label: "TasksPanel", to: "/components/tasks", status: "todo" },
+      { label: "TaskCard", to: "/components/task-card", status: "todo" },
     ],
   },
   {
