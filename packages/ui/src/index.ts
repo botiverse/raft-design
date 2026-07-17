@@ -797,14 +797,12 @@ export type { SeparatorProps } from "./components/separator/index";
 
 export {
   AppShellMainSlot,
-  AppShellMobileContent,
   AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
 } from "./components/app-shell/index";
 export type {
   AppShellMainSlotProps,
-  AppShellMobileContentProps,
   AppShellRailSlotProps,
   AppShellRootProps,
   AppShellSidebarSlotProps,

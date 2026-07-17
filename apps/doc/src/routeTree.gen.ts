@@ -44,7 +44,6 @@ import { Route as ComponentsSeparatorRouteImport } from './routes/components/sep
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
-import { Route as ComponentsResponsiveRouteImport } from './routes/components/responsive'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
@@ -283,11 +282,6 @@ const ComponentsSandboxedPreviewFrameRoute =
     path: '/sandboxed-preview-frame',
     getParentRoute: () => ComponentsRoute,
   } as any)
-const ComponentsResponsiveRoute = ComponentsResponsiveRouteImport.update({
-  id: '/responsive',
-  path: '/responsive',
-  getParentRoute: () => ComponentsRoute,
-} as any)
 const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
   id: '/radio-group',
   path: '/radio-group',
@@ -642,7 +636,6 @@ export interface FileRoutesByFullPath {
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/responsive': typeof ComponentsResponsiveRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -736,7 +729,6 @@ export interface FileRoutesByTo {
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/responsive': typeof ComponentsResponsiveRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -832,7 +824,6 @@ export interface FileRoutesById {
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/responsive': typeof ComponentsResponsiveRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
@@ -929,7 +920,6 @@ export interface FileRouteTypes {
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/responsive'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1023,7 +1013,6 @@ export interface FileRouteTypes {
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/responsive'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1118,7 +1107,6 @@ export interface FileRouteTypes {
     | '/components/preview-card'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/responsive'
     | '/components/sandboxed-preview-frame'
     | '/components/segmented-control'
     | '/components/select'
@@ -1429,13 +1417,6 @@ declare module '@tanstack/react-router' {
       path: '/sandboxed-preview-frame'
       fullPath: '/components/sandboxed-preview-frame'
       preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/responsive': {
-      id: '/components/responsive'
-      path: '/responsive'
-      fullPath: '/components/responsive'
-      preLoaderRoute: typeof ComponentsResponsiveRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/radio-group': {
@@ -2006,7 +1987,6 @@ interface ComponentsRouteChildren {
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
-  ComponentsResponsiveRoute: typeof ComponentsResponsiveRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
@@ -2067,7 +2047,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
-  ComponentsResponsiveRoute: ComponentsResponsiveRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,

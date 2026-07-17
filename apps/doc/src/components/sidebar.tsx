@@ -37,7 +37,6 @@ const NAV = [
     title: "Layout",
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
-      { label: "Responsive", to: "/components/responsive", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
       { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
       { label: "Logo", to: "/components/logo", status: "done" },

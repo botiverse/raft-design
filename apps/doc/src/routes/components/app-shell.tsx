@@ -11,15 +11,15 @@ import { AppShellDesktopComposition } from "#/modules/app-shell/compositions/des
 import { AppShellPreview } from "#/modules/app-shell/app-shell.preview.tsx";
 import { SourceAppShellPreview } from "#/modules/app-shell/app-shell.source-preview.tsx";
 import appShellDesktopCompositionSource from "#/modules/app-shell/compositions/desktop.composition.tsx?raw";
-import appShellMobileCompositionSource from "#/modules/app-shell/compositions/mobile-root.composition.tsx?raw";
+import appShellResponsiveCompositionSource from "#/modules/app-shell/compositions/responsive.composition.tsx?raw";
 
-const APP_SHELL_MOBILE_COMPOSITION_PATH =
-  "apps/doc/src/modules/app-shell/compositions/mobile-root.composition.tsx";
+const APP_SHELL_RESPONSIVE_COMPOSITION_PATH =
+  "apps/doc/src/modules/app-shell/compositions/responsive.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "mobile-composition", title: "Mobile composition" },
+  { id: "responsive", title: "Responsive" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -45,7 +45,8 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  mobileComposition: appShellMobileCompositionSource,
+  desktopComposition: appShellDesktopCompositionSource,
+  responsiveComposition: appShellResponsiveCompositionSource,
   anatomy: `<AppShellRoot>
   <AppShellRailSlot>...</AppShellRailSlot>
   <AppShellSidebarSlot>...</AppShellSidebarSlot>
@@ -77,12 +78,6 @@ const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"main">',
     description: "Flexible primary content region.",
   },
-  {
-    name: "AppShellMobileContent",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Full-width mobile content region. The caller chooses which product panel to render; this part owns the responsive container layout.",
-  },
 ];
 
 export const Route = createFileRoute("/components/app-shell")({
@@ -112,16 +107,16 @@ function AppShellDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="mobile-composition" title="Mobile composition">
+      <DocSection id="responsive" title="Responsive">
         <p>
-          AppShell provides the mobile content container while the composition chooses the active
-          product panel and any bottom navigation. Rail and sidebar slots remain desktop regions.
+          AppShell hides the rail and sidebar and switches to a column below md. Keep the active
+          page in AppShellMainSlot and add mobile navigation with md:hidden.
         </p>
         <DocsCodeBlock.Panel
-          path={APP_SHELL_MOBILE_COMPOSITION_PATH}
-          source={appShellMobileCompositionSource}
-          html={code.mobileComposition}
-          collapsedHtml={code.mobileCompositionBody}
+          path={APP_SHELL_RESPONSIVE_COMPOSITION_PATH}
+          source={appShellResponsiveCompositionSource}
+          html={code.responsiveComposition}
+          collapsedHtml={code.responsiveCompositionBody}
           showLineNumbers={false}
         />
       </DocSection>
@@ -147,7 +142,7 @@ function AppShellDoc() {
               brutal: <AppShellDesktopComposition />,
               elegant: <AppShellDesktopComposition />,
               elegantDark: <AppShellDesktopComposition />,
-              compositionCode: appShellDesktopCompositionSource,
+              compositionCode: code.desktopComposition,
               compositionPath:
                 "apps/doc/src/modules/app-shell/compositions/desktop.composition.tsx",
               compositionSource: appShellDesktopCompositionSource,

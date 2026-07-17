@@ -2,7 +2,6 @@ import { Outlet, useMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
   AppShellMainSlot,
-  AppShellMobileContent,
   AppShellRoot,
   AppShellSidebarSlot,
   ResizableGroup,
@@ -132,15 +131,14 @@ function PlaygroundChatLayout({
 }) {
   if (!isDesktop) {
     return (
-      <AppShellMobileContent className="h-full max-md:h-auto max-md:min-h-0">
-        {mobileListPanel
-          ? sidebar
-          : (thread ?? (
-              <AppShellMainSlot className="flex h-full max-md:h-auto max-md:min-h-dvh">
-                {main}
-              </AppShellMainSlot>
-            ))}
-      </AppShellMobileContent>
+      <AppShellMainSlot
+        className={cn(
+          "h-full w-full bg-transparent max-md:h-auto max-md:min-h-0",
+          !mobileListPanel && !thread && "max-md:min-h-dvh",
+        )}
+      >
+        {mobileListPanel ? sidebar : (thread ?? main)}
+      </AppShellMainSlot>
     );
   }
 

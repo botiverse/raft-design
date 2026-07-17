@@ -18,7 +18,8 @@ const brutalSectionHeader = [
 const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
-  "pl-9 max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
+  "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
+  "max-md:items-start max-md:px-[14px] max-md:h-[var(--shell-header-height-with-safe-area)] max-md:pt-[calc(12px+env(safe-area-inset-top,0px))]",
 ];
 
 export const conversationPanel = tv({
@@ -76,13 +77,17 @@ export const conversationPanel = tv({
         root: "relative bg-layer-page font-sans text-foreground",
         header: elegantHeader,
         sectionHeader: [...headerFrame, ...elegantHeader, "max-md:before:hidden"],
+        actions: "max-md:col-start-4 max-md:row-start-1 max-md:self-start",
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
           "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
-          "max-md:h-[21.25px]",
+          "max-md:col-start-2 max-md:row-start-1 max-md:h-[21.25px]",
         ],
-        headerContent: ["flex flex-col md:flex-row md:items-baseline md:gap-2", "max-md:gap-1"],
+        headerContent: [
+          "flex flex-col md:flex-row md:items-baseline md:gap-2",
+          "max-md:col-start-3 max-md:row-start-1 max-md:min-w-0 max-md:gap-1",
+        ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",

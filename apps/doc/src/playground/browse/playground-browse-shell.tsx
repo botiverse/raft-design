@@ -2,7 +2,6 @@ import { Outlet } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
 import {
   AppShellMainSlot,
-  AppShellMobileContent,
   AppShellRoot,
   AppShellSidebarSlot,
   ResizableGroup,
@@ -45,8 +44,11 @@ export function PlaygroundBrowseShell() {
         )}
       >
         <PlaygroundRail showBottomNavigation={showBottomNavigation} />
-        <AppShellMobileContent
-          className={cn("h-full", showBottomNavigation && "max-md:h-auto max-md:min-h-0")}
+        <AppShellMainSlot
+          className={cn(
+            "h-full w-full bg-transparent",
+            showBottomNavigation && "max-md:h-auto max-md:min-h-0",
+          )}
         >
           {showSidebar ? (
             <div
@@ -60,9 +62,9 @@ export function PlaygroundBrowseShell() {
               {sidebar}
             </div>
           ) : (
-            main
+            <Outlet />
           )}
-        </AppShellMobileContent>
+        </AppShellMainSlot>
       </AppShellRoot>
     );
   }
