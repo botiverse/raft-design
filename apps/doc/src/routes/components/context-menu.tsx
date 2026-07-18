@@ -21,7 +21,7 @@ import { cn } from "tailwind-variants";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -44,20 +44,9 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "submenu", title: "Submenu" },
-  { id: "radio-group", title: "Radio group" },
-  { id: "checkboxes", title: "Checkboxes" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-action-menu", title: "Action menu" },
-      { id: "source-comparison-message-menu", title: "Message menu" },
-      { id: "source-comparison-selection-menu", title: "Selection menu" },
-      { id: "source-comparison-sidebar-menu", title: "Sidebar menu" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -416,36 +405,40 @@ function ContextMenuDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="submenu" title="Submenu" showThemeSwitcher>
-        <Example html={code.submenu} previewClassName="min-h-[22rem] items-start pt-12">
-          <OpenContextMenuExample triggerId="context-submenu-trigger" label="Right click item">
-            <SubmenuRows />
-          </OpenContextMenuExample>
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="submenu" title="Submenu">
+            <Example html={code.submenu} previewClassName="min-h-[22rem] items-start pt-12">
+              <OpenContextMenuExample triggerId="context-submenu-trigger" label="Right click item">
+                <SubmenuRows />
+              </OpenContextMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="radio-group" title="Radio group" showThemeSwitcher>
-        <Example html={code.radioGroup} previewClassName="min-h-[24rem] items-start pt-12">
-          <OpenContextMenuExample
-            triggerId="context-radio-trigger"
-            label="Right click notification"
-            contentClassName="flex w-60 min-w-60 flex-col"
-          >
-            <RadioGroupRows />
-          </OpenContextMenuExample>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="radio-group" title="Radio group">
+            <Example html={code.radioGroup} previewClassName="min-h-[24rem] items-start pt-12">
+              <OpenContextMenuExample
+                triggerId="context-radio-trigger"
+                label="Right click notification"
+                contentClassName="flex w-60 min-w-60 flex-col"
+              >
+                <RadioGroupRows />
+              </OpenContextMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="checkboxes" title="Checkboxes" showThemeSwitcher>
-        <Example html={code.checkboxes} previewClassName="min-h-[22rem] items-start pt-12">
-          <OpenContextMenuExample
-            triggerId="context-checkbox-trigger"
-            label="Right click list"
-            contentClassName="flex w-64 min-w-64 flex-col"
-          >
-            <CheckboxRows />
-          </OpenContextMenuExample>
-        </Example>
+          <DocSubsection parentId="usage" id="checkboxes" title="Checkboxes">
+            <Example html={code.checkboxes} previewClassName="min-h-[22rem] items-start pt-12">
+              <OpenContextMenuExample
+                triggerId="context-checkbox-trigger"
+                label="Right click list"
+                contentClassName="flex w-64 min-w-64 flex-col"
+              >
+                <CheckboxRows />
+              </OpenContextMenuExample>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

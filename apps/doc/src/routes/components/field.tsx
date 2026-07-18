@@ -19,7 +19,7 @@ import {
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -43,9 +43,7 @@ import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "structure", title: "Structure" },
-  { id: "states", title: "States" },
-  { id: "controls", title: "Controls" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -373,112 +371,112 @@ function FieldDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="structure" title="Structure" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Field owns the form copy structure. Keep the control itself narrow: use{" "}
-            <Link to="/components/input">Input</Link>,{" "}
-            <Link to="/components/textarea">Textarea</Link>, or another control inside it.
-          </DocNote>
-          <Example html={code.structure} previewClassName={PREVIEW_TOP_CLASS}>
-            <div className="grid w-80 gap-6">
-              <Field>
-                <FieldLabel htmlFor="field-workspace" required>
-                  Workspace
-                </FieldLabel>
-                <Input id="field-workspace" defaultValue="raft-design" />
-                <FieldDescription>Visible to everyone in this server.</FieldDescription>
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="field-middle-name" optional>
-                  Middle name
-                </FieldLabel>
-                <Input id="field-middle-name" placeholder="Alex" />
-              </Field>
-            </div>
-          </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <Example html={code.states} previewClassName={PREVIEW_TOP_CLASS}>
-          <div className="grid w-80 gap-6">
-            <Field>
-              <FieldLabel htmlFor="field-state-email">Email</FieldLabel>
-              <Input id="field-state-email" placeholder="you@example.com" />
-              <FieldDescription>Use your work email.</FieldDescription>
-            </Field>
-            <Field invalid>
-              <FieldLabel htmlFor="field-state-invalid-email">Email</FieldLabel>
-              <Input id="field-state-invalid-email" aria-invalid defaultValue="oops" />
-              <FieldError match>Email is required.</FieldError>
-            </Field>
-            <Field disabled>
-              <FieldLabel htmlFor="field-state-disabled-email">Email</FieldLabel>
-              <Input id="field-state-disabled-email" disabled placeholder="Disabled" />
-              <FieldDescription>This field is locked.</FieldDescription>
-            </Field>
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="controls" title="Controls" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Use <InlineCode>FieldItem</InlineCode> for choice controls where the label and helper
-            copy should sit beside the control instead of above it.
-          </DocNote>
-          <Example html={code.controls} previewClassName={PREVIEW_TOP_CLASS}>
-            <div className="grid w-[min(40rem,100%)] gap-5 sm:grid-cols-2">
-              <Field>
-                <FieldLabel htmlFor="field-project-name" required>
-                  Project name
-                </FieldLabel>
-                <Input id="field-project-name" defaultValue="Raft" />
-                <FieldDescription>Visible in the project switcher.</FieldDescription>
-              </Field>
-              <Field invalid>
-                <FieldLabel htmlFor="field-project-slug">Slug</FieldLabel>
-                <InputGroup>
-                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                  <InputGroupInput
-                    id="field-project-slug"
-                    aria-invalid
-                    defaultValue="Draft Space"
-                  />
-                </InputGroup>
-                <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
-              </Field>
-              <Field className="sm:col-span-2">
-                <FieldLabel htmlFor="field-release-notes" optional>
-                  Release notes
-                </FieldLabel>
-                <TextareaGroup>
-                  <Textarea id="field-release-notes" rows={4} placeholder="Write a note..." />
-                  <TextareaCounter value="" limit={160} />
-                </TextareaGroup>
-                <FieldDescription>Markdown is supported.</FieldDescription>
-              </Field>
-              <Field disabled>
-                <FieldLabel htmlFor="field-owner">Owner</FieldLabel>
-                <Input id="field-owner" disabled defaultValue="Design systems" />
-                <FieldDescription>Managed by workspace settings.</FieldDescription>
-              </Field>
-              <Field>
-                <FieldItem>
-                  <Checkbox id="field-notify" defaultChecked />
-                  <div>
-                    <FieldLabel htmlFor="field-notify">Notify teammates</FieldLabel>
-                    <FieldDescription>Send an update when this changes.</FieldDescription>
-                  </div>
-                </FieldItem>
-              </Field>
-              <div className="flex justify-end gap-2 sm:col-span-2">
-                <Button variant="outline">Cancel</Button>
-                <Button>Save changes</Button>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="structure" title="Structure">
+            <DocNote>
+              Field owns the form copy structure. Keep the control itself narrow: use{" "}
+              <Link to="/components/input">Input</Link>,{" "}
+              <Link to="/components/textarea">Textarea</Link>, or another control inside it.
+            </DocNote>
+            <Example html={code.structure} previewClassName={PREVIEW_TOP_CLASS}>
+              <div className="grid w-80 gap-6">
+                <Field>
+                  <FieldLabel htmlFor="field-workspace" required>
+                    Workspace
+                  </FieldLabel>
+                  <Input id="field-workspace" defaultValue="raft-design" />
+                  <FieldDescription>Visible to everyone in this server.</FieldDescription>
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="field-middle-name" optional>
+                    Middle name
+                  </FieldLabel>
+                  <Input id="field-middle-name" placeholder="Alex" />
+                </Field>
               </div>
-            </div>
-          </Example>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="states" title="States">
+            <Example html={code.states} previewClassName={PREVIEW_TOP_CLASS}>
+              <div className="grid w-80 gap-6">
+                <Field>
+                  <FieldLabel htmlFor="field-state-email">Email</FieldLabel>
+                  <Input id="field-state-email" placeholder="you@example.com" />
+                  <FieldDescription>Use your work email.</FieldDescription>
+                </Field>
+                <Field invalid>
+                  <FieldLabel htmlFor="field-state-invalid-email">Email</FieldLabel>
+                  <Input id="field-state-invalid-email" aria-invalid defaultValue="oops" />
+                  <FieldError match>Email is required.</FieldError>
+                </Field>
+                <Field disabled>
+                  <FieldLabel htmlFor="field-state-disabled-email">Email</FieldLabel>
+                  <Input id="field-state-disabled-email" disabled placeholder="Disabled" />
+                  <FieldDescription>This field is locked.</FieldDescription>
+                </Field>
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="controls" title="Controls">
+            <DocNote>
+              Use <InlineCode>FieldItem</InlineCode> for choice controls where the label and helper
+              copy should sit beside the control instead of above it.
+            </DocNote>
+            <Example html={code.controls} previewClassName={PREVIEW_TOP_CLASS}>
+              <div className="grid w-[min(40rem,100%)] gap-5 sm:grid-cols-2">
+                <Field>
+                  <FieldLabel htmlFor="field-project-name" required>
+                    Project name
+                  </FieldLabel>
+                  <Input id="field-project-name" defaultValue="Raft" />
+                  <FieldDescription>Visible in the project switcher.</FieldDescription>
+                </Field>
+                <Field invalid>
+                  <FieldLabel htmlFor="field-project-slug">Slug</FieldLabel>
+                  <InputGroup>
+                    <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                    <InputGroupInput
+                      id="field-project-slug"
+                      aria-invalid
+                      defaultValue="Draft Space"
+                    />
+                  </InputGroup>
+                  <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
+                </Field>
+                <Field className="sm:col-span-2">
+                  <FieldLabel htmlFor="field-release-notes" optional>
+                    Release notes
+                  </FieldLabel>
+                  <TextareaGroup>
+                    <Textarea id="field-release-notes" rows={4} placeholder="Write a note..." />
+                    <TextareaCounter value="" limit={160} />
+                  </TextareaGroup>
+                  <FieldDescription>Markdown is supported.</FieldDescription>
+                </Field>
+                <Field disabled>
+                  <FieldLabel htmlFor="field-owner">Owner</FieldLabel>
+                  <Input id="field-owner" disabled defaultValue="Design systems" />
+                  <FieldDescription>Managed by workspace settings.</FieldDescription>
+                </Field>
+                <Field>
+                  <FieldItem>
+                    <Checkbox id="field-notify" defaultChecked />
+                    <div>
+                      <FieldLabel htmlFor="field-notify">Notify teammates</FieldLabel>
+                      <FieldDescription>Send an update when this changes.</FieldDescription>
+                    </div>
+                  </FieldItem>
+                </Field>
+                <div className="flex justify-end gap-2 sm:col-span-2">
+                  <Button variant="outline">Cancel</Button>
+                  <Button>Save changes</Button>
+                </div>
+              </div>
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

@@ -30,7 +30,7 @@ import {
 } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -49,13 +49,9 @@ import { DocNote } from "#/components/doc-note.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "empty", title: "Empty" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [{ id: "source-comparison-notification-trigger", title: "Notification trigger" }],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -573,43 +569,43 @@ function NotificationCenterDoc() {
         </div>
       </DocSection>
 
-      <DocSection
-        id="empty"
-        title="Empty"
-        badge={<StatusBadge status="in-progress"></StatusBadge>}
-        showThemeSwitcher
-      >
-        <Example html={code.empty}>
-          <NotificationCenterExample entries={[]} size="sm" />
-        </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <DocSubsection
+          parentId="usage"
+          id="empty"
+          title="Empty state"
+          badge={<StatusBadge status="in-progress" />}
+        >
+          <Example html={code.empty}>
+            <NotificationCenterExample entries={[]} size="sm" />
+          </Example>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">NotificationCenter root</h3>
+          <DocSubsection parentId="api" id="api-root" title="NotificationCenter root">
             <PropsTable rows={ROOT_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">Trigger and portal</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger-portal" title="Trigger and portal">
             <PropsTable rows={TRIGGER_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">Popup</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popup" title="Popup">
             <PropsTable rows={POPUP_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">Layout parts</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-layout-parts" title="Layout parts">
             <PropsTable rows={PART_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">Item parts</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-parts" title="Item parts">
             <PropsTable rows={ITEM_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">Actions and empty state</h3>
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-actions-empty-state"
+            title="Actions and empty state"
+          >
             <PropsTable rows={ACTION_EMPTY_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

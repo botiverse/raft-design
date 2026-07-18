@@ -5,7 +5,7 @@ import { Field, FieldError, FieldLabel } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -31,10 +31,7 @@ import LegacyTextarea from "../../../../../packages/ui/src/legacy/Textarea.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "states", title: "States" },
-  { id: "counter", title: "Counter" },
-  { id: "auto-grow", title: "Auto grow" },
-  { id: "field", title: "With Field" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -320,98 +317,94 @@ function TextareaDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
-            disabled invalid textarea keeps the disabled border and removes the invalid ring because
-            the user cannot edit it.
-          </DocNote>
-          <Example html={code.states} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-            <div className="grid w-full max-w-96 gap-3">
-              <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
-              <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
-              <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
-              <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
-              <Textarea
-                aria-label="Message"
-                rows={4}
-                aria-invalid
-                disabled
-                defaultValue="Locked error"
-              />
-            </div>
-          </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="counter" title="Counter" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Place <InlineCode>TextareaCounter</InlineCode> inside{" "}
-            <InlineCode>TextareaGroup</InlineCode> to position it in the textarea. Pass the current{" "}
-            <InlineCode>value</InlineCode> from your change handler and the intended{" "}
-            <InlineCode>limit</InlineCode> explicitly. Omit native{" "}
-            <InlineCode>maxLength</InlineCode> when the counter should show an over-limit state.
-          </DocNote>
-          <Example html={code.counter} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-            <div className="grid w-80 gap-4">
-              <TextareaGroup>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="states" title="States">
+            <DocNote>
+              <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
+              disabled invalid textarea keeps the disabled border and removes the invalid ring
+              because the user cannot edit it.
+            </DocNote>
+            <Example html={code.states} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <div className="grid w-full max-w-96 gap-3">
+                <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
+                <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
+                <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
+                <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
                 <Textarea
                   aria-label="Message"
                   rows={4}
-                  value={counterMessage}
-                  onChange={(event) => setCounterMessage(event.currentTarget.value)}
-                  placeholder="Type your message here."
+                  aria-invalid
+                  disabled
+                  defaultValue="Locked error"
                 />
-                <TextareaCounter value={counterMessage} limit={24} />
-              </TextareaGroup>
-            </div>
-          </Example>
-        </div>
-      </DocSection>
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="auto-grow" title="Auto grow" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Use <InlineCode>field-sizing-content</InlineCode> when the textarea should grow with its
-            content. The component still keeps its default minimum height; pair content sizing with
-            a max height for long drafts so the control scrolls instead of pushing the page
-            indefinitely.
-          </DocNote>
-          <Example html={code.autoGrow} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-            <Textarea
-              aria-label="Auto growing message"
-              className="w-80 field-sizing-content max-h-80 resize-none overflow-y-auto"
-              placeholder="Type a few lines..."
-            />
-          </Example>
-        </div>
-      </DocSection>
+          <DocSubsection parentId="usage" id="counter" title="Counter">
+            <DocNote>
+              Place <InlineCode>TextareaCounter</InlineCode> inside{" "}
+              <InlineCode>TextareaGroup</InlineCode> to position it in the textarea. Pass the
+              current <InlineCode>value</InlineCode> from your change handler and the intended{" "}
+              <InlineCode>limit</InlineCode> explicitly. Omit native{" "}
+              <InlineCode>maxLength</InlineCode> when the counter should show an over-limit state.
+            </DocNote>
+            <Example html={code.counter} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <div className="grid w-80 gap-4">
+                <TextareaGroup>
+                  <Textarea
+                    aria-label="Message"
+                    rows={4}
+                    value={counterMessage}
+                    onChange={(event) => setCounterMessage(event.currentTarget.value)}
+                    placeholder="Type your message here."
+                  />
+                  <TextareaCounter value={counterMessage} limit={24} />
+                </TextareaGroup>
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="field" title="With Field" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Label, description, and error copy come from <Link to="/components/field">Field</Link>.
-            Textarea stays a pure control; the counter is a composed companion part that follows the
-            field invalid state.
-          </DocNote>
-          <Example html={code.field} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-            <Field className="w-80" invalid>
-              <FieldLabel htmlFor="msg">Message</FieldLabel>
-              <TextareaGroup>
-                <Textarea
-                  id="msg"
-                  rows={4}
-                  maxLength={120}
-                  value={fieldMessage}
-                  onChange={(event) => setFieldMessage(event.currentTarget.value)}
-                />
-                <TextareaCounter value={fieldMessage} limit={120} />
-              </TextareaGroup>
-              <FieldError match>Message is required.</FieldError>
-            </Field>
-          </Example>
+          <DocSubsection parentId="usage" id="auto-grow" title="Auto grow">
+            <DocNote>
+              Use <InlineCode>field-sizing-content</InlineCode> when the textarea should grow with
+              its content. The component still keeps its default minimum height; pair content sizing
+              with a max height for long drafts so the control scrolls instead of pushing the page
+              indefinitely.
+            </DocNote>
+            <Example html={code.autoGrow} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <Textarea
+                aria-label="Auto growing message"
+                className="w-80 field-sizing-content max-h-80 resize-none overflow-y-auto"
+                placeholder="Type a few lines..."
+              />
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="field" title="With Field">
+            <DocNote>
+              Label, description, and error copy come from <Link to="/components/field">Field</Link>
+              . Textarea stays a pure control; the counter is a composed companion part that follows
+              the field invalid state.
+            </DocNote>
+            <Example html={code.field} previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <Field className="w-80" invalid>
+                <FieldLabel htmlFor="msg">Message</FieldLabel>
+                <TextareaGroup>
+                  <Textarea
+                    id="msg"
+                    rows={4}
+                    maxLength={120}
+                    value={fieldMessage}
+                    onChange={(event) => setFieldMessage(event.currentTarget.value)}
+                  />
+                  <TextareaCounter value={fieldMessage} limit={120} />
+                </TextareaGroup>
+                <FieldError match>Message is required.</FieldError>
+              </Field>
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

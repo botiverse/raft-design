@@ -14,7 +14,7 @@ import { useId, useRef, type ReactNode, type RefObject } from "react";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -563,14 +563,12 @@ function TooltipDoc() {
             structured content should stay in Popover or a future HoverCard-style primitive. Wrap
             tooltip trees in TooltipProvider once near the app or page root.
           </DocNote>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Action cluster</h3>
+          <DocSubsection parentId="usage" id="action-cluster" title="Action cluster">
             <Example html={code.usageActions}>
               <ActionClusterExample />
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Status hint</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="status-hint" title="Status hint">
             <Example html={code.usageStatus}>
               <TooltipExample content="Agent is thinking">
                 {(triggerId) => (
@@ -590,9 +588,8 @@ function TooltipDoc() {
                 )}
               </TooltipExample>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Icon content</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="icon-content" title="Icon content">
             <Example html={code.usageIconContent}>
               <TooltipExample
                 content={
@@ -609,9 +606,8 @@ function TooltipDoc() {
                 )}
               </TooltipExample>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Long text</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="long-text" title="Long text">
             <Example html={code.usageLongText}>
               <TooltipExample
                 open
@@ -625,9 +621,8 @@ function TooltipDoc() {
                 )}
               </TooltipExample>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Long text with icon</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="long-text-with-icon" title="Long text with icon">
             <Example html={code.usageLongIconContent}>
               <TooltipExample
                 open
@@ -646,9 +641,8 @@ function TooltipDoc() {
                 )}
               </TooltipExample>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Timestamp detail</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="timestamp-detail" title="Timestamp detail">
             <Example html={code.usageTimestamp}>
               <TooltipExample content="Jun 23, 2026, 09:30">
                 {(triggerId) => (
@@ -667,9 +661,8 @@ function TooltipDoc() {
                 )}
               </TooltipExample>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Shortcut hint</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="shortcut-hint" title="Shortcut hint">
             <Example html={code.usageShortcut}>
               <TooltipExample
                 content={
@@ -689,14 +682,13 @@ function TooltipDoc() {
                 )}
               </TooltipExample>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Arrow placement</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="arrow-placement" title="Arrow placement">
             <DocNote>Brutal renders tooltip hints without arrows.</DocNote>
             <Example html={code.usagePlacement}>
               <ArrowPlacementExample />
             </Example>
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

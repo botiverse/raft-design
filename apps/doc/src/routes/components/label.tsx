@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -28,8 +28,7 @@ import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "markers", title: "Markers" },
-  { id: "states", title: "States" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -263,50 +262,50 @@ function LabelDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="markers" title="Markers" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Prefer explicit composition over boolean label props. Use LabelAsterisk for required
-            fields, LabelOptional for optional markers, and LabelSub for custom secondary copy.
-          </DocNote>
-          <Example html={code.markers}>
-            <div className="grid w-80 gap-4">
-              <Label htmlFor="label-required-email">
-                Email address
-                <LabelAsterisk />
-              </Label>
-              <Label htmlFor="label-optional-middle-name">
-                Middle name
-                <LabelOptional />
-              </Label>
-              <Label htmlFor="label-secondary-project-url">
-                Project URL
-                <LabelSub>public</LabelSub>
-              </Label>
-              <Label htmlFor="label-project-url">
-                Project URL
-                <Info aria-hidden className="size-3.5 text-foreground/40" />
-              </Label>
-            </div>
-          </Example>
-        </div>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="markers" title="Markers">
+            <DocNote>
+              Prefer explicit composition over boolean label props. Use LabelAsterisk for required
+              fields, LabelOptional for optional markers, and LabelSub for custom secondary copy.
+            </DocNote>
+            <Example html={code.markers}>
+              <div className="grid w-80 gap-4">
+                <Label htmlFor="label-required-email">
+                  Email address
+                  <LabelAsterisk />
+                </Label>
+                <Label htmlFor="label-optional-middle-name">
+                  Middle name
+                  <LabelOptional />
+                </Label>
+                <Label htmlFor="label-secondary-project-url">
+                  Project URL
+                  <LabelSub>public</LabelSub>
+                </Label>
+                <Label htmlFor="label-project-url">
+                  Project URL
+                  <Info aria-hidden className="size-3.5 text-foreground/40" />
+                </Label>
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Disabled label styling is only visual and semantic. Disable the actual form control
-            separately.
-          </DocNote>
-          <Example html={code.states}>
-            <div className="grid w-80 gap-4">
-              <Label htmlFor="label-state-email">Email address</Label>
-              <Label htmlFor="label-state-disabled-email" disabled>
-                Email address
-                <LabelAsterisk />
-              </Label>
-            </div>
-          </Example>
+          <DocSubsection parentId="usage" id="states" title="States">
+            <DocNote>
+              Disabled label styling is only visual and semantic. Disable the actual form control
+              separately.
+            </DocNote>
+            <Example html={code.states}>
+              <div className="grid w-80 gap-4">
+                <Label htmlFor="label-state-email">Email address</Label>
+                <Label htmlFor="label-state-disabled-email" disabled>
+                  Email address
+                  <LabelAsterisk />
+                </Label>
+              </div>
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

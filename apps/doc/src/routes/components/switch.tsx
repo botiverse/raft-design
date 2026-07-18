@@ -3,7 +3,7 @@ import { Field, FieldDescription, FieldLabel, Switch, type SwitchProps } from "r
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -12,9 +12,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "sizes", title: "Sizes" },
-  { id: "states", title: "States" },
-  { id: "field", title: "Field" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -130,38 +128,40 @@ function SwitchDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <Example html={code.sizes}>
-          <div className="flex items-center gap-4">
-            <Switch size="sm" defaultChecked aria-label="Small switch" />
-            <Switch size="md" defaultChecked aria-label="Medium switch" />
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <Example html={code.states}>
-          <div className="flex items-center gap-4">
-            <Switch aria-label="Off" />
-            <Switch defaultChecked aria-label="On" />
-            <Switch disabled aria-label="Disabled off" />
-            <Switch defaultChecked disabled aria-label="Disabled on" />
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="field" title="Field" showThemeSwitcher>
-        <Example html={code.field}>
-          <Field className="max-w-sm">
-            <div className="flex items-center justify-between gap-4">
-              <div className="grid gap-1">
-                <FieldLabel htmlFor="notifications">Desktop notifications</FieldLabel>
-                <FieldDescription>Show alerts when new messages arrive.</FieldDescription>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <div className="flex items-center gap-4">
+                <Switch size="sm" defaultChecked aria-label="Small switch" />
+                <Switch size="md" defaultChecked aria-label="Medium switch" />
               </div>
-              <Switch id="notifications" defaultChecked aria-label="Desktop notifications" />
-            </div>
-          </Field>
-        </Example>
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="states" title="States">
+            <Example html={code.states}>
+              <div className="flex items-center gap-4">
+                <Switch aria-label="Off" />
+                <Switch defaultChecked aria-label="On" />
+                <Switch disabled aria-label="Disabled off" />
+                <Switch defaultChecked disabled aria-label="Disabled on" />
+              </div>
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="field" title="Field">
+            <Example html={code.field}>
+              <Field className="max-w-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="grid gap-1">
+                    <FieldLabel htmlFor="notifications">Desktop notifications</FieldLabel>
+                    <FieldDescription>Show alerts when new messages arrive.</FieldDescription>
+                  </div>
+                  <Switch id="notifications" defaultChecked aria-label="Desktop notifications" />
+                </div>
+              </Field>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

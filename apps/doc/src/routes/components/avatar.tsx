@@ -12,7 +12,7 @@ import { Check } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -37,10 +37,7 @@ import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.t
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "image", title: "Avatar image" },
-  { id: "badge", title: "Badge" },
-  { id: "group", title: "Group" },
-  { id: "sizes", title: "Sizes" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-differences", title: "Source differences" },
   { id: "source-comparison", title: "Source comparison" },
@@ -543,110 +540,110 @@ function AvatarDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="image" title="Avatar image" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Source <code>AvatarSlot</code> parsed <code>pixel:*</code>, uploaded human avatars, and
-            Gravatar inside the component. Current <code>Avatar</code> keeps that app-domain
-            resolution outside: callers pass a resolved image to <code>AvatarImage</code>, or leave{" "}
-            <code>AvatarFallback</code> visible for placeholders and load failures.
-          </DocNote>
-          <Example html={code.image}>
-            <div className="flex flex-wrap items-end gap-5">
-              <IdentityAvatarExample label="Agent pixel">
-                <Avatar size="sm" type="agent">
-                  <AvatarImage src={SAMPLE_AGENT_PIXEL} alt="Atlas" />
-                  <AvatarFallback />
-                </Avatar>
-              </IdentityAvatarExample>
-              <IdentityAvatarExample label="Agent image">
-                <Avatar size="sm" type="agent">
-                  <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
-                  <AvatarFallback />
-                </Avatar>
-              </IdentityAvatarExample>
-              <IdentityAvatarExample label="Human image">
-                <Avatar size="sm" type="human">
-                  <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
-                  <AvatarFallback />
-                </Avatar>
-              </IdentityAvatarExample>
-              <IdentityAvatarExample label="Human placeholder">
-                <Avatar size="sm" type="human">
-                  <AvatarFallback />
-                </Avatar>
-              </IdentityAvatarExample>
-            </div>
-          </Example>
-        </div>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="image" title="Avatar image">
+            <DocNote>
+              Source <code>AvatarSlot</code> parsed <code>pixel:*</code>, uploaded human avatars,
+              and Gravatar inside the component. Current <code>Avatar</code> keeps that app-domain
+              resolution outside: callers pass a resolved image to <code>AvatarImage</code>, or
+              leave <code>AvatarFallback</code> visible for placeholders and load failures.
+            </DocNote>
+            <Example html={code.image}>
+              <div className="flex flex-wrap items-end gap-5">
+                <IdentityAvatarExample label="Agent pixel">
+                  <Avatar size="sm" type="agent">
+                    <AvatarImage src={SAMPLE_AGENT_PIXEL} alt="Atlas" />
+                    <AvatarFallback />
+                  </Avatar>
+                </IdentityAvatarExample>
+                <IdentityAvatarExample label="Agent image">
+                  <Avatar size="sm" type="agent">
+                    <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
+                    <AvatarFallback />
+                  </Avatar>
+                </IdentityAvatarExample>
+                <IdentityAvatarExample label="Human image">
+                  <Avatar size="sm" type="human">
+                    <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
+                    <AvatarFallback />
+                  </Avatar>
+                </IdentityAvatarExample>
+                <IdentityAvatarExample label="Human placeholder">
+                  <Avatar size="sm" type="human">
+                    <AvatarFallback />
+                  </Avatar>
+                </IdentityAvatarExample>
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="badge" title="Badge" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            The badge auto-scales with the avatar's <code>size</code> via its <code>data-size</code>{" "}
-            + <code>group/avatar</code> hook. Frame, border weight, and inner icon all track the
-            step.
-          </DocNote>
-          <Example html={code.badge} previewClassName="!min-h-56 flex-col gap-8">
-            <div className="flex items-end gap-4">
-              <Avatar size="xl" type="agent">
-                <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
-                <AvatarFallback />
-                <AvatarBadge />
-              </Avatar>
-              <Avatar size="xl" type="human">
-                <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
-                <AvatarFallback />
-                <AvatarBadge className="bg-info-base">
-                  <Check />
-                </AvatarBadge>
-              </Avatar>
-            </div>
-            <div className="flex items-end gap-4">
-              {BADGE_SCALE_SIZES.map((size, index) => (
-                <Avatar key={size} size={size} type="agent">
-                  <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+          <DocSubsection parentId="usage" id="badge" title="Badge">
+            <DocNote>
+              The badge auto-scales with the avatar's <code>size</code> via its{" "}
+              <code>data-size</code> + <code>group/avatar</code> hook. Frame, border weight, and
+              inner icon all track the step.
+            </DocNote>
+            <Example html={code.badge} previewClassName="!min-h-56 flex-col gap-8">
+              <div className="flex items-end gap-4">
+                <Avatar size="xl" type="agent">
+                  <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
                   <AvatarFallback />
                   <AvatarBadge />
                 </Avatar>
-              ))}
-            </div>
-          </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="group" title="Group" showThemeSwitcher>
-        <Example html={code.group}>
-          <AvatarGroup>
-            {AVATAR_PHOTOS.slice(0, 3).map((src, index) => (
-              <Avatar key={src} size="sm" type={index === 1 ? "human" : "agent"}>
-                <AvatarImage src={src} alt="" />
-                <AvatarFallback />
-              </Avatar>
-            ))}
-            <AvatarGroupCount size="sm">+3</AvatarGroupCount>
-          </AvatarGroup>
-        </Example>
-      </DocSection>
-
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <Example html={code.sizes}>
-          <div className="flex flex-wrap items-end gap-4">
-            {SIZES.map(({ size, context, px }, index) => (
-              <div key={size} className="flex flex-col items-center gap-1.5">
-                <Avatar size={size} type="agent">
-                  <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+                <Avatar size="xl" type="human">
+                  <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
                   <AvatarFallback />
+                  <AvatarBadge className="bg-info-base">
+                    <Check />
+                  </AvatarBadge>
                 </Avatar>
-                <span className="font-mono text-black/70 text-xs">{size}</span>
-                <span className="text-[10px] text-black/40">
-                  {context} · {px}px
-                </span>
               </div>
-            ))}
-          </div>
-        </Example>
+              <div className="flex items-end gap-4">
+                {BADGE_SCALE_SIZES.map((size, index) => (
+                  <Avatar key={size} size={size} type="agent">
+                    <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+                    <AvatarFallback />
+                    <AvatarBadge />
+                  </Avatar>
+                ))}
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="group" title="Group">
+            <Example html={code.group}>
+              <AvatarGroup>
+                {AVATAR_PHOTOS.slice(0, 3).map((src, index) => (
+                  <Avatar key={src} size="sm" type={index === 1 ? "human" : "agent"}>
+                    <AvatarImage src={src} alt="" />
+                    <AvatarFallback />
+                  </Avatar>
+                ))}
+                <AvatarGroupCount size="sm">+3</AvatarGroupCount>
+              </AvatarGroup>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <div className="flex flex-wrap items-end gap-4">
+                {SIZES.map(({ size, context, px }, index) => (
+                  <div key={size} className="flex flex-col items-center gap-1.5">
+                    <Avatar size={size} type="agent">
+                      <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+                      <AvatarFallback />
+                    </Avatar>
+                    <span className="font-mono text-black/70 text-xs">{size}</span>
+                    <span className="text-[10px] text-black/40">
+                      {context} · {px}px
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

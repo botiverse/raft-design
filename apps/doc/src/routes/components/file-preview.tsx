@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -19,9 +19,7 @@ import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "formats", title: "Format labels" },
-  { id: "illustrations", title: "File kinds" },
-  { id: "customization", title: "Customization" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -102,27 +100,31 @@ function FilePreviewDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="formats" title="Format labels" showThemeSwitcher>
-        <Example html={code.formats}>
-          <FilePreviewFormatsComposition />
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="formats" title="Format labels">
+            <Example html={code.formats}>
+              <FilePreviewFormatsComposition />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="illustrations" title="File kinds" showThemeSwitcher>
-        <Example html={code.illustrations}>
-          <FilePreviewIllustrationsComposition />
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="illustrations" title="File kinds">
+            <Example html={code.illustrations}>
+              <FilePreviewIllustrationsComposition />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="customization" title="Customization" showThemeSwitcher>
-        <div className="grid gap-3">
-          <p className="text-sm text-foreground">
-            FilePreviewMedia owns the frame, crop, and rounding. Supply an image, video, SVG, or
-            other preview through children.
-          </p>
-          <Example html={code.media}>
-            <FilePreviewMediaComposition />
-          </Example>
+          <DocSubsection parentId="usage" id="customization" title="Customization">
+            <div className="grid gap-3">
+              <p className="text-sm text-foreground">
+                FilePreviewMedia owns the frame, crop, and rounding. Supply an image, video, SVG, or
+                other preview through children.
+              </p>
+              <Example html={code.media}>
+                <FilePreviewMediaComposition />
+              </Example>
+            </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

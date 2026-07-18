@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Checkbox, Label } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -36,11 +36,7 @@ import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
-  { id: "sizes", title: "Sizes" },
-  { id: "states", title: "States" },
-  { id: "label", title: "Label" },
-  { id: "selection", title: "Selection" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -301,90 +297,84 @@ function CheckboxDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.variants}>
-            <Checkbox defaultChecked />
-            <Checkbox variant="primary" defaultChecked />
-          </Example>
-        </div>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="variants" title="Variants">
+            <Example html={code.variants}>
+              <Checkbox defaultChecked />
+              <Checkbox variant="primary" defaultChecked />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.sizes}>
-            <Checkbox size="sm" defaultChecked />
-            <Checkbox size="md" defaultChecked />
-          </Example>
-        </div>
-      </DocSection>
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <Checkbox size="sm" defaultChecked />
+              <Checkbox size="md" defaultChecked />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.states}>
-            <div className="grid gap-4">
-              <div className="flex items-center gap-4">
-                <Checkbox />
-                <Checkbox disabled />
-                <Checkbox variant="primary" />
-                <Checkbox variant="primary" disabled />
+          <DocSubsection parentId="usage" id="states" title="States">
+            <Example html={code.states}>
+              <div className="grid gap-4">
+                <div className="flex items-center gap-4">
+                  <Checkbox />
+                  <Checkbox disabled />
+                  <Checkbox variant="primary" />
+                  <Checkbox variant="primary" disabled />
+                </div>
+                <div className="flex items-center gap-4">
+                  <Checkbox defaultChecked />
+                  <Checkbox defaultChecked disabled />
+                  <Checkbox variant="primary" defaultChecked />
+                  <Checkbox variant="primary" defaultChecked disabled />
+                </div>
+                <div className="flex items-center gap-4">
+                  <Checkbox indeterminate />
+                  <Checkbox indeterminate disabled />
+                  <Checkbox variant="primary" indeterminate />
+                  <Checkbox variant="primary" indeterminate disabled />
+                </div>
               </div>
-              <div className="flex items-center gap-4">
-                <Checkbox defaultChecked />
-                <Checkbox defaultChecked disabled />
-                <Checkbox variant="primary" defaultChecked />
-                <Checkbox variant="primary" defaultChecked disabled />
-              </div>
-              <div className="flex items-center gap-4">
-                <Checkbox indeterminate />
-                <Checkbox indeterminate disabled />
-                <Checkbox variant="primary" indeterminate />
-                <Checkbox variant="primary" indeterminate disabled />
-              </div>
-            </div>
-          </Example>
-        </div>
-      </DocSection>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="label" title="Label" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.label}>
-            <Label>
-              <Checkbox id="checkbox-label-example" defaultChecked />
-              Accept terms
-            </Label>
-          </Example>
-        </div>
-      </DocSection>
+          <DocSubsection parentId="usage" id="label" title="Label">
+            <Example html={code.label}>
+              <Label>
+                <Checkbox id="checkbox-label-example" defaultChecked />
+                Accept terms
+              </Label>
+            </Example>
+          </DocSubsection>
 
-      <DocSection
-        id="selection"
-        title="Selection"
-        badge={<StatusBadge status="in-progress"></StatusBadge>}
-        showThemeSwitcher
-      >
-        <div className="space-y-4">
-          <Example html={code.selection}>
-            <div className="grid min-w-64 gap-2">
-              <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
-                <Checkbox defaultChecked aria-label="Select conversation" />
-                <span className="text-sm font-bold">Customer handoff</span>
-              </label>
-              <label className="flex items-center gap-3 border-2 border-black bg-white p-3">
-                <Checkbox aria-label="Select message" />
-                <span className="text-sm">Message selection</span>
-              </label>
-            </div>
-          </Example>
-          <Example html={code.bulk}>
-            <div className="flex items-center gap-3">
-              <Checkbox indeterminate aria-label="Select all messages" />
-              <span className="text-sm font-bold">3 of 8 selected</span>
-            </div>
-          </Example>
-          <Example html={code.settingsGroup}>
-            <CheckboxSettingsGroupContent />
-          </Example>
+          <DocSubsection
+            parentId="usage"
+            id="selection"
+            title="Selection"
+            badge={<StatusBadge status="in-progress"></StatusBadge>}
+          >
+            <Example html={code.selection}>
+              <div className="grid min-w-64 gap-2">
+                <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
+                  <Checkbox defaultChecked aria-label="Select conversation" />
+                  <span className="text-sm font-bold">Customer handoff</span>
+                </label>
+                <label className="flex items-center gap-3 border-2 border-black bg-white p-3">
+                  <Checkbox aria-label="Select message" />
+                  <span className="text-sm">Message selection</span>
+                </label>
+              </div>
+            </Example>
+            <Example html={code.bulk}>
+              <div className="flex items-center gap-3">
+                <Checkbox indeterminate aria-label="Select all messages" />
+                <span className="text-sm font-bold">3 of 8 selected</span>
+              </div>
+            </Example>
+            <Example html={code.settingsGroup}>
+              <CheckboxSettingsGroupContent />
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

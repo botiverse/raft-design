@@ -29,7 +29,7 @@ import {
 import { cn } from "tailwind-variants";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -48,15 +48,9 @@ import { ImageLightboxShellComposition } from "#/modules/lightbox/compositions/i
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-image-lightbox-shell", title: "Image shell" },
-      { id: "source-comparison-attachment-preview-shell", title: "Attachment shell" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const DEMO_IMAGES = [
@@ -315,6 +309,27 @@ function LightboxDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="image-shell" title="Image shell">
+            <Example
+              html={code.lightboxImageLightboxShellComposition}
+              previewClassName="items-stretch"
+            >
+              <ImageLightboxShellComposition />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="attachment-shell" title="Attachment shell">
+            <Example
+              html={code.lightboxAttachmentPreviewShellComposition}
+              previewClassName="items-stretch"
+            >
+              <AttachmentPreviewShellComposition />
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

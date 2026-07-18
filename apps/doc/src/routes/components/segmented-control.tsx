@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Differences } from "#/components/differences.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -176,40 +176,35 @@ function SegmentedControlDoc() {
             icons, SegmentedControlLabel, and SegmentedControlCount unless a specific custom size is
             intentional.
           </DocNote>
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Filters with counts</h3>
+          <DocSubsection parentId="usage" id="filters-with-counts" title="Filters with counts">
             <Example html={code.filters}>
               <SegmentedControlFiltersExample />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">View mode</h3>
+          <DocSubsection parentId="usage" id="view-mode" title="View mode">
             <Example html={code.viewMode}>
               <SegmentedControlViewModeExample />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Search sort</h3>
+          <DocSubsection parentId="usage" id="search-sort" title="Search sort">
             <Example html={code.searchSort}>
               <SegmentedControlSearchSortExample />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Preference choice</h3>
+          <DocSubsection parentId="usage" id="preference-choice" title="Preference choice">
             <Example html={code.preferences}>
               <SegmentedControlTimeFormatExample />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Disabled state</h3>
+          <DocSubsection parentId="usage" id="disabled-state" title="Disabled state">
             <Example html={code.disabled}>
               <SegmentedControlDisabledComposition />
             </Example>
-          </section>
+          </DocSubsection>
         </div>
       </DocSection>
 

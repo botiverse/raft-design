@@ -6,7 +6,7 @@ import { Status, type StatusProps } from "raft-ui";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -35,12 +35,7 @@ import LegacyStatusDot from "../../../../../packages/ui/src/legacy/StatusDot.tsx
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
-  { id: "sizes", title: "Sizes" },
-  { id: "pulse", title: "Pulse" },
-  { id: "attention", title: "Attention" },
-  { id: "content-glow", title: "Content glow" },
-  { id: "customize", title: "Customize" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -436,91 +431,102 @@ function StatusDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <Example html={code.variants}>
-          {VARIANTS.map((variant) => (
-            <Status key={variant} variant={variant} />
-          ))}
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="variants" title="Variants">
+            <Example html={code.variants}>
+              {VARIANTS.map((variant) => (
+                <Status key={variant} variant={variant} />
+              ))}
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <Example html={code.sizes}>
-          <Status size="xs" variant="success" />
-          <Status size="sm" variant="success" />
-          <Status size="md" variant="success" />
-          <Status size="lg" variant="success" />
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <Status size="xs" variant="success" />
+              <Status size="sm" variant="success" />
+              <Status size="md" variant="success" />
+              <Status size="lg" variant="success" />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="pulse" title="Pulse" showThemeSwitcher>
-        <Example html={code.pulse}>
-          <Status size="xs" variant="primary" pulse />
-          <Status size="sm" variant="primary" pulse />
-          <Status size="md" variant="primary" pulse />
-          <Status size="lg" variant="primary" pulse />
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="pulse" title="Pulse">
+            <Example html={code.pulse}>
+              <Status size="xs" variant="primary" pulse />
+              <Status size="sm" variant="primary" pulse />
+              <Status size="md" variant="primary" pulse />
+              <Status size="lg" variant="primary" pulse />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="attention" title="Attention" showThemeSwitcher>
-        <Example html={code.attention}>
-          <Status variant="accent" attention />
-          <Status variant="primary" attention />
-          <Status variant="warning" attention />
-          <Status variant="danger" attention />
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="attention" title="Attention">
+            <Example html={code.attention}>
+              <Status variant="accent" attention />
+              <Status variant="primary" attention />
+              <Status variant="warning" attention />
+              <Status variant="danger" attention />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="content-glow" title="Content glow" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            <code>attention</code> only styles the dot. Soft wash on the icon comes from a tinted
-            duplicate of the underlying content, masked toward the marker. Same stack as elegant{" "}
-            <code>NotificationCenterTrigger</code>.
-          </DocNote>
-          <Example html={code.contentGlow}>
-            <span className="relative inline-flex size-9 items-center justify-center">
-              <span className="relative inline-flex size-4 items-center justify-center">
-                <Bell className="size-4 shrink-0 text-foreground-muted" strokeWidth={2} />
-                <Bell
+          <DocSubsection parentId="usage" id="content-glow" title="Content glow">
+            <DocNote>
+              <code>attention</code> only styles the dot. Soft wash on the icon comes from a tinted
+              duplicate of the underlying content, masked toward the marker. Same stack as elegant{" "}
+              <code>NotificationCenterTrigger</code>.
+            </DocNote>
+            <Example html={code.contentGlow}>
+              <span className="relative inline-flex size-9 items-center justify-center">
+                <span className="relative inline-flex size-4 items-center justify-center">
+                  <Bell className="size-4 shrink-0 text-foreground-muted" strokeWidth={2} />
+                  <Bell
+                    aria-hidden
+                    className={[
+                      "pointer-events-none absolute inset-0 size-4 shrink-0",
+                      "text-primary-400",
+                      "drop-shadow-[0_0_1px_color-mix(in_oklch,var(--color-primary-400)_82%,transparent)]",
+                      "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
+                    ].join(" ")}
+                    strokeWidth={2}
+                  />
+                </span>
+                <Status
                   aria-hidden
-                  className={[
-                    "pointer-events-none absolute inset-0 size-4 shrink-0",
-                    "text-primary-400",
-                    "drop-shadow-[0_0_1px_color-mix(in_oklch,var(--color-primary-400)_82%,transparent)]",
-                    "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
-                  ].join(" ")}
-                  strokeWidth={2}
+                  variant="primary"
+                  size="sm"
+                  attention
+                  className="pointer-events-none absolute top-[7px] right-[8px]"
                 />
               </span>
-              <Status
-                aria-hidden
-                variant="primary"
-                size="sm"
-                attention
-                className="pointer-events-none absolute top-[7px] right-[8px]"
-              />
-            </span>
-          </Example>
-        </div>
-      </DocSection>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="customize" title="Customize" showThemeSwitcher>
-        <Example html={code.customize}>
-          <div className="flex w-full flex-col items-center gap-6">
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Status className="[--status-color:var(--color-brutal-purple-300)]" />
-              <Status pulse className="[--status-color:var(--color-brutal-purple-300)]" />
-              <Status attention className="[--status-color:var(--color-brutal-purple-300)]" />
-              <Status attention pulse className="[--status-color:var(--color-brutal-purple-300)]" />
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Status className="[--status-color:oklch(0.72_0.14_200)]" />
-              <Status attention className="[--status-color:oklch(0.72_0.14_200)]" />
-              <Status size="lg" attention pulse className="[--status-color:oklch(0.78_0.12_145)]" />
-            </div>
-          </div>
-        </Example>
+          <DocSubsection parentId="usage" id="customize" title="Customize">
+            <Example html={code.customize}>
+              <div className="flex w-full flex-col items-center gap-6">
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <Status className="[--status-color:var(--color-brutal-purple-300)]" />
+                  <Status pulse className="[--status-color:var(--color-brutal-purple-300)]" />
+                  <Status attention className="[--status-color:var(--color-brutal-purple-300)]" />
+                  <Status
+                    attention
+                    pulse
+                    className="[--status-color:var(--color-brutal-purple-300)]"
+                  />
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <Status className="[--status-color:oklch(0.72_0.14_200)]" />
+                  <Status attention className="[--status-color:oklch(0.72_0.14_200)]" />
+                  <Status
+                    size="lg"
+                    attention
+                    pulse
+                    className="[--status-color:oklch(0.78_0.12_145)]"
+                  />
+                </div>
+              </div>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

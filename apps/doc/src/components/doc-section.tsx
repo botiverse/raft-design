@@ -11,6 +11,14 @@ type DocSectionProps = {
   children: ReactNode;
 };
 
+type DocSubsectionProps = {
+  parentId: string;
+  id: string;
+  title: string;
+  badge?: ReactNode;
+  children: ReactNode;
+};
+
 export function DocSection({
   id,
   title,
@@ -45,6 +53,28 @@ export function DocSection({
       <div data-doc-section-content className="mt-5">
         {children}
       </div>
+    </section>
+  );
+}
+
+export function DocSubsection({ parentId, id, title, badge, children }: DocSubsectionProps) {
+  return (
+    <section
+      id={id}
+      data-doc-toc-parent={parentId}
+      data-doc-toc-item={title}
+      className="scroll-mt-8 space-y-4"
+    >
+      <h3 className="group flex items-center gap-2 text-sm font-medium text-foreground-strong">
+        <a href={`#${id}`} className="no-underline">
+          {title}
+          <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">
+            #
+          </span>
+        </a>
+        {badge}
+      </h3>
+      {children}
     </section>
   );
 }

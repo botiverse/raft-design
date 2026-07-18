@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Differences } from "#/components/differences.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -24,7 +24,6 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
-  { id: "states", title: "States" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -239,47 +238,48 @@ function ChatComposerDoc() {
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
-        <Example html={code.composition} previewClassName="min-h-[22rem] items-stretch">
-          <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
-            <ComposerDefaultComposition />
-          </div>
-        </Example>
-      </DocSection>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="default-composer" title="Default composer">
+            <Example html={code.composition} previewClassName="min-h-[22rem] items-stretch">
+              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                <ComposerDefaultComposition />
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <div className="grid gap-8">
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">
-              Pending and failed attachments
-            </h3>
+          <DocSubsection
+            parentId="usage"
+            id="attachment-states"
+            title="Pending and failed attachments"
+          >
             <Example html={code.attachmentStates} previewClassName="min-h-[22rem] items-stretch">
               <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
                 <ComposerAttachmentStatesComposition />
               </div>
             </Example>
-          </section>
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">File drop overlay</h3>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="drop-overlay" title="File drop overlay">
             <Example html={code.dropOverlay} previewClassName="min-h-[22rem] items-stretch">
               <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
                 <ComposerDropOverlayComposition />
               </div>
             </Example>
-          </section>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="compact-composer" title="Compact composer">
+            <DocNote>
+              Compact consumers omit attachment actions and use only a shorter input, status, and
+              submit. Use this shape for a comment or note; thread replies use the full composer
+              with attachments.
+            </DocNote>
+            <Example html={code.compact} previewClassName="items-stretch">
+              <div className="w-full min-w-0">
+                <ComposerCompactComposition />
+              </div>
+            </Example>
+          </DocSubsection>
         </div>
-        <section className="mt-8 grid gap-3">
-          <h3 className="text-sm font-medium text-foreground-strong">Compact composer</h3>
-          <DocNote>
-            Compact consumers omit attachment actions and use only a shorter input, status, and
-            submit. Use this shape for a comment or note; thread replies use the full composer with
-            attachments.
-          </DocNote>
-          <Example html={code.compact} previewClassName="items-stretch">
-            <div className="w-full min-w-0">
-              <ComposerCompactComposition />
-            </div>
-          </Example>
-        </section>
       </DocSection>
 
       <DocSection id="api" title="API">

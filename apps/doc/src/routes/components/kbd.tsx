@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -130,17 +130,15 @@ function KbdDoc() {
             Keep Kbd as supporting metadata, not the primary action label. In menus it sits at the
             trailing edge; in fields it names a shortcut without becoming a clickable control.
           </DocNote>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Menu row</h3>
+          <DocSubsection parentId="usage" id="menu-row" title="Menu row">
             <Example html={code.usageMenu}>
               <div className="flex w-64 items-center gap-2 px-3 py-2 text-sm font-medium">
                 <span className="min-w-0 flex-1 truncate">Copy link</span>
                 <Kbd>⌘C</Kbd>
               </div>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Input hint</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="input-hint" title="Input hint">
             <Example html={code.usageInput}>
               <InputGroup className="w-64">
                 <InputGroupAddon>
@@ -152,9 +150,8 @@ function KbdDoc() {
                 </InputGroupAddon>
               </InputGroup>
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Key sequence</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="key-sequence" title="Key sequence">
             <Example html={code.usageSequence}>
               <div className="flex items-center gap-3 text-sm font-medium">
                 <span>Open command menu</span>
@@ -164,7 +161,7 @@ function KbdDoc() {
                 </KbdGroup>
               </div>
             </Example>
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

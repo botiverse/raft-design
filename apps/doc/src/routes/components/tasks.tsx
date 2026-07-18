@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -79,13 +79,11 @@ const ANATOMY_SNIPPET = `<TasksPanelRoot>
 </TasksPanelRoot>`;
 
 const TOC = [
-  { id: "source-comparison", title: "Source comparison" },
-  { id: "panel-states", title: "Panel states" },
-  { id: "filters", title: "Filter states" },
-  { id: "drag", title: "Drag states" },
-  { id: "create-task", title: "Create Task dialog" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SOURCE_SCENES = [
@@ -175,6 +173,93 @@ function TasksDoc() {
       }
       toc={TOC}
     >
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <Example
+          html={code.panel}
+          previewTheme="brutal"
+          previewMode="light"
+          previewClassName="h-[42rem] items-stretch p-0"
+        >
+          <TasksPanelComposition />
+        </Example>
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage">
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="panel-states" title="Panel states">
+            <Example
+              html={code.states}
+              previewTheme="brutal"
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <TasksLoadingComposition />
+            </Example>
+            <Example
+              html={code.states}
+              previewTheme="brutal"
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <TasksEmptyStatesComposition />
+            </Example>
+            <Example
+              html={code.states}
+              previewTheme="brutal"
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <TasksErrorComposition />
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="filters" title="Filter states">
+            <Example
+              html={code.states}
+              previewTheme="brutal"
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <TasksFilterStatesComposition />
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="drag" title="Allowed and blocked drag states">
+            <Example
+              html={code.states}
+              previewTheme="brutal"
+              previewMode="light"
+              previewClassName="items-stretch p-0"
+            >
+              <TasksDragStatesComposition />
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="create-task" title="Create Task dialog states">
+            <Example
+              html={code.states}
+              previewTheme="brutal"
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <CreateTaskDialogStatesComposition />
+            </Example>
+          </DocSubsection>
+        </div>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
+      </DocSection>
+
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
           layout="auto"
@@ -198,86 +283,13 @@ function TasksDoc() {
               sourceCode: code.sourcePanel,
               brutalCode: code.panel,
               compositionCode: code.panel,
-              compositionPath: "apps/doc/src/compositions/tasks/tasks-panel-composition.tsx",
+              compositionPath:
+                "apps/doc/src/modules/tasks/compositions/tasks-panel.composition.tsx",
               compositionSource: tasksPanelCompositionSource,
               previewClassName: "items-stretch p-0",
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="panel-states" title="Panel states">
-        <div className="space-y-6">
-          <Example
-            html={code.states}
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <TasksLoadingComposition />
-          </Example>
-          <Example
-            html={code.states}
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <TasksEmptyStatesComposition />
-          </Example>
-          <Example
-            html={code.states}
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <TasksErrorComposition />
-          </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="filters" title="Filter states">
-        <Example
-          html={code.states}
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <TasksFilterStatesComposition />
-        </Example>
-      </DocSection>
-
-      <DocSection id="drag" title="Allowed and blocked drag states">
-        <Example
-          html={code.states}
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="items-stretch p-0"
-        >
-          <TasksDragStatesComposition />
-        </Example>
-      </DocSection>
-
-      <DocSection id="create-task" title="Create Task dialog states">
-        <Example
-          html={code.states}
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <CreateTaskDialogStatesComposition />
-        </Example>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

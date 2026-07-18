@@ -36,7 +36,7 @@ import {
 import { useState, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -73,24 +73,9 @@ import { ResetAgentDialogComposition } from "#/modules/dialog/compositions/reset
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-edit-channel", title: "Edit channel" },
-      { id: "source-comparison-edit-channel-management", title: "Edit channel actions" },
-      { id: "source-comparison-invite-human", title: "Invite human" },
-      { id: "source-comparison-add-machine", title: "Add computer" },
-      { id: "source-comparison-attachment-preview", title: "Attachment preview" },
-      { id: "source-comparison-create-channel", title: "Create channel" },
-      { id: "source-comparison-create-agent", title: "Create agent" },
-      { id: "source-comparison-reset-agent", title: "Reset agent" },
-      { id: "source-comparison-agreement", title: "Agreement" },
-      { id: "source-comparison-onboarding", title: "Onboarding" },
-      { id: "source-comparison-announcement", title: "Announcement" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SNIPPETS = {
@@ -243,6 +228,75 @@ const DIALOG_COMPOSITION_PATHS = {
   Onboarding: "apps/doc/src/modules/dialog/compositions/onboarding.composition.tsx",
   Announcement: "apps/doc/src/modules/dialog/compositions/announcement.composition.tsx",
 } as const;
+
+const DIALOG_USAGE_ITEMS = [
+  {
+    id: "edit-channel",
+    title: "Edit channel",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.EditChannel,
+    preview: <EditChannelDialogComposition />,
+  },
+  {
+    id: "edit-channel-actions",
+    title: "Edit channel actions",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.EditChannelManagement,
+    preview: <EditChannelManagementDialogComposition />,
+  },
+  {
+    id: "invite-human",
+    title: "Invite human",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.InviteHuman,
+    preview: <InviteHumanDialogComposition />,
+  },
+  {
+    id: "add-computer",
+    title: "Add computer",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.AddMachine,
+    preview: <AddMachineDialogComposition />,
+  },
+  {
+    id: "attachment-preview",
+    title: "Attachment preview",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.AttachmentPreview,
+    preview: <AttachmentPreviewDialogComposition />,
+  },
+  {
+    id: "announcement",
+    title: "Announcement",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.Announcement,
+    preview: <AnnouncementDialogComposition />,
+  },
+  {
+    id: "create-channel",
+    title: "Create channel",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.CreateChannel,
+    preview: <CreateChannelDialogComposition />,
+  },
+  {
+    id: "create-agent",
+    title: "Create agent",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.CreateAgent,
+    preview: <CreateAgentDialogComposition />,
+  },
+  {
+    id: "reset-agent",
+    title: "Reset agent",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.ResetAgent,
+    preview: <ResetAgentDialogComposition />,
+  },
+  {
+    id: "agreement",
+    title: "Agreement",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.Agreement,
+    preview: <AgreementDialogComposition />,
+  },
+  {
+    id: "onboarding",
+    title: "Onboarding",
+    codeKey: DIALOG_COMPOSITION_SNIPPET_IDS.Onboarding,
+    preview: <OnboardingDialogComposition />,
+  },
+] as const;
 
 type DialogCompositionKey = keyof typeof DIALOG_COMPOSITION_SOURCES;
 
@@ -1020,6 +1074,18 @@ function DialogDoc() {
               <DocsCodeBlock.Content html={code.anatomy} />
             </DocsCodeBlock.Body>
           </DocsCodeBlock>
+        </div>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          {DIALOG_USAGE_ITEMS.map((item) => (
+            <DocSubsection key={item.id} parentId="usage" id={item.id} title={item.title}>
+              <Example html={code[item.codeKey]} previewClassName="items-stretch p-0">
+                {item.preview}
+              </Example>
+            </DocSubsection>
+          ))}
         </div>
       </DocSection>
 

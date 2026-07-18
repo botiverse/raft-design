@@ -25,7 +25,7 @@ import {
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -36,7 +36,6 @@ import { ToastPlaygroundPreview } from "#/modules/toast/toast.preview.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
@@ -482,95 +481,70 @@ function ToastDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <div className="space-y-3">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
           <DocNote>
             Icon, description, action, and dismiss are all optional. Omit the part you don't need
             instead of rendering it empty.
           </DocNote>
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">Full</h3>
-              <Example html={code.variantFull} previewClassName="min-h-32" previewInset="flush">
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[0]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">No icon</h3>
-              <Example html={code.variantNoIcon} previewClassName="min-h-32" previewInset="flush">
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[1]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">No description</h3>
-              <Example
-                html={code.variantNoDescription}
-                previewClassName="min-h-32"
-                previewInset="flush"
-              >
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[2]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">No action</h3>
-              <Example html={code.variantNoAction} previewClassName="min-h-32" previewInset="flush">
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[3]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">No dismiss</h3>
-              <Example
-                html={code.variantNoDismiss}
-                previewClassName="min-h-32"
-                previewInset="flush"
-              >
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[4]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">Loading action</h3>
-              <Example
-                html={code.variantLoadingAction}
-                previewClassName="min-h-32"
-                previewInset="flush"
-              >
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">Icon + title</h3>
-              <Example
-                html={code.variantIconTitle}
-                previewClassName="min-h-32"
-                previewInset="flush"
-              >
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
-              </Example>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-foreground-strong">Minimal</h3>
-              <Example html={code.variantMinimal} previewClassName="min-h-32" previewInset="flush">
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
-              </Example>
-            </div>
-          </div>
-        </div>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
-        <div className="space-y-3">
+          <DocSubsection parentId="usage" id="full" title="Full">
+            <Example html={code.variantFull} previewClassName="min-h-32" previewInset="flush">
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[0]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="no-icon" title="No icon">
+            <Example html={code.variantNoIcon} previewClassName="min-h-32" previewInset="flush">
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[1]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="no-description" title="No description">
+            <Example
+              html={code.variantNoDescription}
+              previewClassName="min-h-32"
+              previewInset="flush"
+            >
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[2]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="no-action" title="No action">
+            <Example html={code.variantNoAction} previewClassName="min-h-32" previewInset="flush">
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[3]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="no-dismiss" title="No dismiss">
+            <Example html={code.variantNoDismiss} previewClassName="min-h-32" previewInset="flush">
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[4]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="loading-action" title="Loading action">
+            <Example
+              html={code.variantLoadingAction}
+              previewClassName="min-h-32"
+              previewInset="flush"
+            >
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="icon-title" title="Icon + title">
+            <Example html={code.variantIconTitle} previewClassName="min-h-32" previewInset="flush">
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="minimal" title="Minimal">
+            <Example html={code.variantMinimal} previewClassName="min-h-32" previewInset="flush">
+              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
+            </Example>
+          </DocSubsection>
           <DocNote>
             Keep long-running or historical notifications in NotificationCenter; use Toast for
             immediate feedback that can disappear.
           </DocNote>
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-foreground-strong">Stacked</h3>
+          <DocSubsection parentId="usage" id="stacked" title="Stacked">
             <Example html={code.usage} previewClassName="min-h-72" previewInset="flush">
               <InlineUsageToast />
             </Example>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-foreground-strong">Anchored with arrow</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="anchored-with-arrow" title="Anchored with arrow">
             <DocNote>
               Anchored toasts use <code>ToastPositioner</code> with the <code>positionerProps</code>{" "}
               supplied to <code>toastManager.add</code>. Keep anchored and stacked toasts in
@@ -580,7 +554,7 @@ function ToastDoc() {
             <Example html={code.anchoredUsage} previewClassName="min-h-56" previewInset="flush">
               <AnchoredUsageToast />
             </Example>
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 
