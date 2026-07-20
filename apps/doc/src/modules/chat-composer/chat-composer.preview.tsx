@@ -1,5 +1,7 @@
+import { useState, type ReactNode } from "react";
 import { ImagePlus, Paperclip, Send } from "lucide-react";
 import { Checkbox } from "raft-ui";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
   Composer,
   ComposerActions,
@@ -14,132 +16,143 @@ import {
   ComposerToolbarLabel,
 } from "raft-ui/wip";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { ComposerAttachmentsComposition } from "./compositions/composer-shared.composition.tsx";
 
-type ComposerPreviewValues = {
-  draft: string;
-  imageUpload: boolean;
-  imageFailed: boolean;
-  fileUpload: boolean;
-  failedUpload: boolean;
-  dropOverlay: boolean;
+type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type ChatComposerPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
 };
 
-export function ChatComposerPreview() {
-  return (
-    <ComponentPlayground<ComposerPreviewValues>
-      key="composer-preview-six-attachment-states"
-      defaultValues={{
-        draft: "",
-        imageUpload: true,
-        imageFailed: true,
-        fileUpload: true,
-        failedUpload: true,
-        dropOverlay: false,
-      }}
-      controls={[
-        {
-          group: "Attachments",
-          name: "imageUpload",
-          label: "Uploading image",
-          type: "boolean",
-        },
-        {
-          group: "Attachments",
-          name: "imageFailed",
-          label: "Failed image upload",
-          type: "boolean",
-        },
-        {
-          group: "Attachments",
-          name: "fileUpload",
-          label: "Uploading file",
-          type: "boolean",
-        },
-        {
-          group: "Attachments",
-          name: "failedUpload",
-          label: "Failed file upload",
-          type: "boolean",
-        },
-        { group: "Feedback", name: "dropOverlay", label: "Drop overlay", type: "boolean" },
-      ]}
-      previewClassName="items-stretch"
-      render={(values, onValueChange) => {
-        const submitDisabled =
-          values.imageUpload || values.imageFailed || values.fileUpload || values.failedUpload;
+export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreviewProps) {
+  const [draft, setDraft] = useState("");
+  const [imageUpload, setImageUpload] = useState(true);
+  const [imageFailed, setImageFailed] = useState(true);
+  const [fileUpload, setFileUpload] = useState(true);
+  const [failedUpload, setFailedUpload] = useState(true);
+  const [dropOverlay, setDropOverlay] = useState(false);
+  const submitDisabled = imageUpload || imageFailed || fileUpload || failedUpload;
 
-        return (
-          <div className="flex min-h-[22rem] w-full min-w-0 flex-col justify-end px-2">
-            <ComposerRoot>
-              <ComposerAttachmentsComposition
-                imageStates={[
-                  "uploaded",
-                  ...(values.imageUpload ? (["uploading"] as const) : []),
-                  ...(values.imageFailed ? (["failed"] as const) : []),
-                ]}
-                fileStates={[
-                  "uploaded",
-                  ...(values.fileUpload ? (["uploading"] as const) : []),
-                  ...(values.failedUpload ? (["failed"] as const) : []),
-                  "uploaded",
-                  "uploaded",
-                  "uploaded",
-                ]}
-                onRetry={(name) => {
-                  if (name.endsWith(".png")) {
-                    onValueChange("imageFailed", false);
-                    onValueChange("imageUpload", true);
-                    return;
-                  }
-                  onValueChange("failedUpload", false);
-                  onValueChange("fileUpload", true);
-                }}
+  return (
+    <Preview previewClassName="items-stretch">
+      <Preview.Canvas>
+        <div className="flex min-h-[22rem] w-full min-w-0 flex-col justify-end px-2">
+          <ComposerRoot>
+            <ComposerAttachmentsComposition
+              imageStates={[
+                "uploaded",
+                ...(imageUpload ? (["uploading"] as const) : []),
+                ...(imageFailed ? (["failed"] as const) : []),
+              ]}
+              fileStates={[
+                "uploaded",
+                ...(fileUpload ? (["uploading"] as const) : []),
+                ...(failedUpload ? (["failed"] as const) : []),
+                "uploaded",
+                "uploaded",
+                "uploaded",
+              ]}
+              onRetry={(name) => {
+                if (name.endsWith(".png")) {
+                  setImageFailed(false);
+                  setImageUpload(true);
+                  return;
+                }
+                setFailedUpload(false);
+                setFileUpload(true);
+              }}
+            />
+            <Composer>
+              <ComposerInput
+                aria-label="Message #proj-uiux"
+                placeholder="Message #proj-uiux"
+                value={draft}
+                onChange={(event) => setDraft(event.currentTarget.value)}
               />
-              <Composer>
-                <ComposerInput
-                  aria-label="Message #proj-uiux"
-                  placeholder="Message #proj-uiux"
-                  value={values.draft}
-                  onChange={(event) => onValueChange("draft", event.currentTarget.value)}
-                />
-                <ComposerToolbar>
-                  <ComposerActions>
-                    <ComposerIconButton
-                      aria-label="Attach image"
-                      onClick={() => onValueChange("imageUpload", !values.imageUpload)}
-                    >
-                      <ImagePlus />
-                    </ComposerIconButton>
-                    <ComposerIconButton
-                      aria-label="Attach file"
-                      onClick={() => onValueChange("fileUpload", !values.fileUpload)}
-                    >
-                      <Paperclip />
-                    </ComposerIconButton>
-                  </ComposerActions>
-                  <ComposerMeta>
-                    <ComposerToolbarLabel>
-                      <Checkbox size="sm" aria-label="Send as task" />
-                      As Task
-                    </ComposerToolbarLabel>
-                    <ComposerSubmit aria-label="Send" disabled={submitDisabled}>
-                      <span>Send</span>
-                      <Send />
-                    </ComposerSubmit>
-                  </ComposerMeta>
-                </ComposerToolbar>
-              </Composer>
-              {values.dropOverlay ? (
-                <ComposerDropOverlay aria-hidden>
-                  <ComposerDropOverlayPrompt />
-                </ComposerDropOverlay>
-              ) : null}
-            </ComposerRoot>
-          </div>
-        );
-      }}
-    />
+              <ComposerToolbar>
+                <ComposerActions>
+                  <ComposerIconButton
+                    aria-label="Attach image"
+                    onClick={() => setImageUpload(!imageUpload)}
+                  >
+                    <ImagePlus />
+                  </ComposerIconButton>
+                  <ComposerIconButton
+                    aria-label="Attach file"
+                    onClick={() => setFileUpload(!fileUpload)}
+                  >
+                    <Paperclip />
+                  </ComposerIconButton>
+                </ComposerActions>
+                <ComposerMeta>
+                  <ComposerToolbarLabel>
+                    <Checkbox size="sm" aria-label="Send as task" />
+                    As Task
+                  </ComposerToolbarLabel>
+                  <ComposerSubmit aria-label="Send" disabled={submitDisabled}>
+                    <span>Send</span>
+                    <Send />
+                  </ComposerSubmit>
+                </ComposerMeta>
+              </ComposerToolbar>
+            </Composer>
+            {dropOverlay ? (
+              <ComposerDropOverlay aria-hidden>
+                <ComposerDropOverlayPrompt />
+              </ComposerDropOverlay>
+            ) : null}
+          </ComposerRoot>
+        </div>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.ControlGroup label="Attachments">
+          <Preview.Control label="Uploading image" htmlFor="composer-preview-image-upload">
+            <Preview.Checkbox
+              id="composer-preview-image-upload"
+              label="Uploading image"
+              checked={imageUpload}
+              onCheckedChange={setImageUpload}
+            />
+          </Preview.Control>
+          <Preview.Control label="Failed image upload" htmlFor="composer-preview-image-failed">
+            <Preview.Checkbox
+              id="composer-preview-image-failed"
+              label="Failed image upload"
+              checked={imageFailed}
+              onCheckedChange={setImageFailed}
+            />
+          </Preview.Control>
+          <Preview.Control label="Uploading file" htmlFor="composer-preview-file-upload">
+            <Preview.Checkbox
+              id="composer-preview-file-upload"
+              label="Uploading file"
+              checked={fileUpload}
+              onCheckedChange={setFileUpload}
+            />
+          </Preview.Control>
+          <Preview.Control label="Failed file upload" htmlFor="composer-preview-failed-upload">
+            <Preview.Checkbox
+              id="composer-preview-failed-upload"
+              label="Failed file upload"
+              checked={failedUpload}
+              onCheckedChange={setFailedUpload}
+            />
+          </Preview.Control>
+        </Preview.ControlGroup>
+        <Preview.ControlGroup label="Feedback">
+          <Preview.Control label="Drop overlay" htmlFor="composer-preview-drop-overlay">
+            <Preview.Checkbox
+              id="composer-preview-drop-overlay"
+              label="Drop overlay"
+              checked={dropOverlay}
+              onCheckedChange={setDropOverlay}
+            />
+          </Preview.Control>
+        </Preview.ControlGroup>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }

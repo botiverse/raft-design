@@ -6,6 +6,7 @@ export const AVATAR_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   IdentityResolution:
     "apps/doc/src/modules/avatar/compositions/identity-resolution.composition.tsx",
   PanelHeader: "apps/doc/src/modules/avatar/compositions/panel-header.composition.tsx",
+  Preview: "apps/doc/src/modules/avatar/compositions/preview.composition.tsx",
   Scale: "apps/doc/src/modules/avatar/compositions/scale.composition.tsx",
 } as const;
 

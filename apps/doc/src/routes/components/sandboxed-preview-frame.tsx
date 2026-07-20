@@ -4,7 +4,7 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
@@ -187,16 +187,19 @@ function SandboxedPreviewFrameDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview}>
-          <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
-            <AppSandboxedPreviewFrame
-              title="HTML attachment preview"
-              src={HTML_ATTACHMENT_URL}
-              sandbox="allow-scripts"
-              className="h-full w-full border-0 bg-white"
-            />
-          </AttachmentPreviewDemo>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
+              <AppSandboxedPreviewFrame
+                title="HTML attachment preview"
+                src={HTML_ATTACHMENT_URL}
+                sandbox="allow-scripts"
+                className="h-full w-full border-0 bg-white"
+              />
+            </AttachmentPreviewDemo>
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -209,27 +212,30 @@ function SandboxedPreviewFrameDoc() {
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <DocSubsection parentId="usage" id="sandboxed-content" title="Sandboxed content">
-          <Example html={code.usage}>
-            <div className="flex flex-wrap gap-4">
-              <MermaidMessagePreview>
-                <AppSandboxedPreviewFrame
-                  title="Inline SVG preview"
-                  srcDoc={MERMAID_SRC_DOC}
-                  sandbox=""
-                  className="block w-full border-0 bg-transparent"
-                  style={{ width: "100%", aspectRatio: "240 / 96" }}
-                />
-              </MermaidMessagePreview>
-              <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
-                <AppSandboxedPreviewFrame
-                  title="HTML attachment preview"
-                  src={HTML_ATTACHMENT_URL}
-                  sandbox="allow-scripts"
-                  className="h-full w-full border-0 bg-white"
-                />
-              </AttachmentPreviewDemo>
-            </div>
-          </Example>
+          <Preview>
+            <Preview.Canvas>
+              <div className="flex flex-wrap gap-4">
+                <MermaidMessagePreview>
+                  <AppSandboxedPreviewFrame
+                    title="Inline SVG preview"
+                    srcDoc={MERMAID_SRC_DOC}
+                    sandbox=""
+                    className="block w-full border-0 bg-transparent"
+                    style={{ width: "100%", aspectRatio: "240 / 96" }}
+                  />
+                </MermaidMessagePreview>
+                <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
+                  <AppSandboxedPreviewFrame
+                    title="HTML attachment preview"
+                    src={HTML_ATTACHMENT_URL}
+                    sandbox="allow-scripts"
+                    className="h-full w-full border-0 bg-white"
+                  />
+                </AttachmentPreviewDemo>
+              </div>
+            </Preview.Canvas>
+            <Preview.Code html={code.usage} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

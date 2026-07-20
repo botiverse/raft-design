@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -88,9 +88,12 @@ function MobileNavDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.mobileNavComposition} previewInset="flush">
-          <MobileNavPreview />
-        </Example>
+        <Preview previewInset="flush">
+          <Preview.Canvas>
+            <MobileNavPreview />
+          </Preview.Canvas>
+          <Preview.Code html={code.mobileNavComposition} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

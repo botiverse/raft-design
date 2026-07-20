@@ -20,7 +20,7 @@ import { useState, type ReactNode } from "react";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import {
@@ -329,32 +329,36 @@ function AlertDialogDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview}>
-          <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger render={<Button variant="danger" />}>
-              Delete task
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Task</AlertDialogTitle>
-                <AlertDialogClose />
-              </AlertDialogHeader>
-              <AlertDialogBody className="grid gap-2">
-                <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-                <p className="m-0 text-sm leading-5 text-foreground/60">
-                  Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
-                  <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
-                </p>
-              </AlertDialogBody>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction variant="danger" size="sm">
-                  Delete Task
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <AlertDialog open={open} onOpenChange={setOpen}>
+              <AlertDialogTrigger render={<Button variant="danger" />}>
+                Delete task
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Task</AlertDialogTitle>
+                  <AlertDialogClose />
+                </AlertDialogHeader>
+                <AlertDialogBody className="grid gap-2">
+                  <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                  <p className="m-0 text-sm leading-5 text-foreground/60">
+                    Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+                    <strong className="font-bold text-foreground">"Review dialog migration"</strong>
+                    ?
+                  </p>
+                </AlertDialogBody>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction variant="danger" size="sm">
+                    Delete Task
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -374,20 +378,20 @@ function AlertDialogDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="typed-delete" title="Typed delete">
-            <Example
-              html={code.alertDialogDeleteServerComposition}
-              previewClassName="items-stretch"
-            >
-              <TypedDeleteAlertDialogComposition />
-            </Example>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <TypedDeleteAlertDialogComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.alertDialogDeleteServerComposition} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="confirm-action" title="Confirm action">
-            <Example
-              html={code.alertDialogConfirmActionComposition}
-              previewClassName="items-stretch"
-            >
-              <ConfirmActionAlertDialogComposition />
-            </Example>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <ConfirmActionAlertDialogComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.alertDialogConfirmActionComposition} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

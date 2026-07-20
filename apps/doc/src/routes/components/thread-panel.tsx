@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown, ChevronUp, Search, User, X } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Badge } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -24,12 +24,9 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-type PlaygroundValues = {
-  search: boolean;
-};
-
 const SNIPPETS = {
   threadPanelComposition: threadPanelCompositionSource,
+  preview: `<ThreadPanelComposition search />`,
   anatomy: `<ThreadPanelRoot>
   <ThreadPanelHeader>
     <Button className="mr-1 lg:hidden" variant="outline" size="icon-sm">
@@ -199,6 +196,39 @@ export const Route = createFileRoute("/components/thread-panel")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
+function ThreadPanelPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [search, setSearch] = useState(true);
+
+  return (
+    <Preview>
+      <Preview.Canvas>
+        <div className="flex h-[660px] w-full justify-start overflow-x-auto">
+          <ThreadPanelFrame>
+            <ThreadPanelComposition search={search} />
+          </ThreadPanelFrame>
+        </div>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Search" htmlFor="thread-panel-preview-search">
+          <Preview.Checkbox
+            id="thread-panel-preview-search"
+            label="Search"
+            checked={search}
+            onCheckedChange={setSearch}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function ThreadPanelDoc() {
   const code = Route.useLoaderData();
 
@@ -209,17 +239,7 @@ function ThreadPanelDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ search: true }}
-          controls={[{ name: "search", label: "Search", type: "boolean" }]}
-          render={(values) => (
-            <div className="flex h-[660px] w-full justify-start overflow-x-auto">
-              <ThreadPanelFrame>
-                <ThreadPanelComposition search={values.search} />
-              </ThreadPanelFrame>
-            </div>
-          )}
-        />
+        <ThreadPanelPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

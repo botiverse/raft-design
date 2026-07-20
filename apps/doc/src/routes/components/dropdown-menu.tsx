@@ -35,7 +35,7 @@ import { useRef } from "react";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -620,9 +620,12 @@ function DropdownMenuDoc() {
           state indicators are composed as children so product code can choose its own visual
           language without a dedicated icon prop.
         </p>
-        <Example html={code.preview} previewClassName="min-h-[30rem] items-start pt-24">
-          <ProfilePreviewMenu />
-        </Example>
+        <Preview previewClassName="min-h-[30rem] items-start pt-24">
+          <Preview.Canvas>
+            <ProfilePreviewMenu />
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -636,62 +639,77 @@ function DropdownMenuDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="submenu" title="Submenu">
-            <Example html={code.submenu} previewClassName="min-h-[18rem] items-start pt-28">
-              <OpenMenuExample triggerId="submenu-trigger" label="Submenu">
-                <SubmenuRows />
-              </OpenMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-28">
+              <Preview.Canvas>
+                <OpenMenuExample triggerId="submenu-trigger" label="Submenu">
+                  <SubmenuRows />
+                </OpenMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.submenu} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="radio-group" title="Radio group">
-            <Example html={code.radioGroupMenu} previewClassName="min-h-[18rem] items-start pt-28">
-              <OpenMenuExample triggerId="radio-group-menu-trigger" label="Radio group">
-                <RadioGroupMenuRows />
-              </OpenMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-28">
+              <Preview.Canvas>
+                <OpenMenuExample triggerId="radio-group-menu-trigger" label="Radio group">
+                  <RadioGroupMenuRows />
+                </OpenMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.radioGroupMenu} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="plain-picker" title="Plain picker">
-            <Example html={code.plainPicker} previewClassName="min-h-[18rem] items-start pt-28">
-              <OpenMenuExample
-                triggerId="plain-picker-trigger"
-                label="Time"
-                contentClassName="flex min-w-[220px] flex-col"
-              >
-                <PlainPickerRows />
-              </OpenMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-28">
+              <Preview.Canvas>
+                <OpenMenuExample
+                  triggerId="plain-picker-trigger"
+                  label="Time"
+                  contentClassName="flex min-w-[220px] flex-col"
+                >
+                  <PlainPickerRows />
+                </OpenMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.plainPicker} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="headerless-picker" title="Headerless picker">
-            <Example
-              html={code.headerlessPicker}
-              previewClassName="min-h-[18rem] items-start pt-28"
-            >
-              <OpenMenuExample
-                triggerId="headerless-picker-trigger"
-                label="Sort"
-                contentClassName="flex min-w-[136px] flex-col"
-              >
-                <HeaderlessSortRows />
-              </OpenMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-28">
+              <Preview.Canvas>
+                <OpenMenuExample
+                  triggerId="headerless-picker-trigger"
+                  label="Sort"
+                  contentClassName="flex min-w-[136px] flex-col"
+                >
+                  <HeaderlessSortRows />
+                </OpenMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.headerlessPicker} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="checkboxes" title="Checkboxes">
-            <Example html={code.checkboxesMenu} previewClassName="min-h-[18rem] items-start pt-28">
-              <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
-                <CheckboxesMenuRows />
-              </OpenMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-28">
+              <Preview.Canvas>
+                <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
+                  <CheckboxesMenuRows />
+                </OpenMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.checkboxesMenu} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="switch" title="Switch">
-            <Example html={code.switchMenu} previewClassName="min-h-[18rem] items-start pt-28">
-              <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
-                <SwitchMenuRows />
-              </OpenMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-28">
+              <Preview.Canvas>
+                <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
+                  <SwitchMenuRows />
+                </OpenMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.switchMenu} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

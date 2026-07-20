@@ -12,6 +12,7 @@ export const INPUT_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   InvalidState: "apps/doc/src/modules/input/compositions/invalid-state.composition.tsx",
   PasswordManagerSuppression:
     "apps/doc/src/modules/input/compositions/password-manager-suppression.composition.tsx",
+  Preview: "apps/doc/src/modules/input/compositions/preview.composition.tsx",
 } as const;
 
 export const INPUT_SOURCE_COMPARISON_COMPOSITION = {

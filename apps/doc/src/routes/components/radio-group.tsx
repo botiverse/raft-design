@@ -7,7 +7,7 @@ import { Check } from "lucide-react";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -224,7 +224,12 @@ function RadioGroupDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <RadioGroupPreview value={referralValue} onValueChange={setReferralValue} />
+        <RadioGroupPreview
+          value={referralValue}
+          onValueChange={setReferralValue}
+          code={code.radioGroupReferralSourceComposition}
+          collapsedCode={code.radioGroupReferralSourceCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -238,75 +243,93 @@ function RadioGroupDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="grid gap-10">
           <DocSubsection parentId="usage" id="option-list" title="Option list">
-            <Example html={code.radioGroupReferralSourceComposition}>
-              <RadioGroupReferralSourceComposition
-                value={referralValue}
-                onValueChange={setReferralValue}
-              />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <RadioGroupReferralSourceComposition
+                  value={referralValue}
+                  onValueChange={setReferralValue}
+                />
+              </Preview.Canvas>
+              <Preview.Code html={code.radioGroupReferralSourceComposition} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="descriptive-cards" title="Descriptive cards">
-            <Example html={code.radioGroupResetModeComposition}>
-              <RadioGroupResetModeComposition value={resetMode} onValueChange={setResetMode} />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <RadioGroupResetModeComposition value={resetMode} onValueChange={setResetMode} />
+              </Preview.Canvas>
+              <Preview.Code html={code.radioGroupResetModeComposition} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="custom-indicator" title="Custom indicator">
-            <Example html={code.customIndicator}>
-              <RadioGroup defaultValue="approved" ariaLabel="Approval state" className="w-48">
-                <label className="flex cursor-pointer items-center gap-2 text-sm">
-                  <RadioGroupItem value="approved">
-                    <RadioGroupIndicator>
-                      <Check aria-hidden className="size-3" strokeWidth={2.25} />
-                    </RadioGroupIndicator>
-                  </RadioGroupItem>
-                  Approved
-                </label>
-                <label className="flex cursor-pointer items-center gap-2 text-sm">
-                  <RadioGroupItem value="review">
-                    <RadioGroupIndicator>
-                      <Check aria-hidden className="size-3" strokeWidth={2.25} />
-                    </RadioGroupIndicator>
-                  </RadioGroupItem>
-                  Needs review
-                </label>
-              </RadioGroup>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <RadioGroup defaultValue="approved" ariaLabel="Approval state" className="w-48">
+                  <label className="flex cursor-pointer items-center gap-2 text-sm">
+                    <RadioGroupItem value="approved">
+                      <RadioGroupIndicator>
+                        <Check aria-hidden className="size-3" strokeWidth={2.25} />
+                      </RadioGroupIndicator>
+                    </RadioGroupItem>
+                    Approved
+                  </label>
+                  <label className="flex cursor-pointer items-center gap-2 text-sm">
+                    <RadioGroupItem value="review">
+                      <RadioGroupIndicator>
+                        <Check aria-hidden className="size-3" strokeWidth={2.25} />
+                      </RadioGroupIndicator>
+                    </RadioGroupItem>
+                    Needs review
+                  </label>
+                </RadioGroup>
+              </Preview.Canvas>
+              <Preview.Code html={code.customIndicator} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="customization" title="Customization">
-            <Example html={code.radioGroupResetModeRestoredComposition}>
-              <RadioGroupResetModeRestoredComposition
-                value={resetMode}
-                onValueChange={setResetMode}
-              />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <RadioGroupResetModeRestoredComposition
+                  value={resetMode}
+                  onValueChange={setResetMode}
+                />
+              </Preview.Canvas>
+              <Preview.Code html={code.radioGroupResetModeRestoredComposition} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="field" title="With Field">
-            <Example html={code.field}>
-              <Field className="w-64 gap-2.5">
-                <FieldLabel>Restart mode</FieldLabel>
-                <RadioGroup defaultValue="restart" ariaLabel="Restart mode">
-                  <label className="flex items-center gap-3 text-sm">
-                    <RadioGroupItem value="restart" />
-                    Restart
-                  </label>
-                  <label className="flex items-center gap-3 text-sm">
-                    <RadioGroupItem value="session" />
-                    Reset session
-                  </label>
-                </RadioGroup>
-                <FieldDescription>Choose one mode before confirming.</FieldDescription>
-              </Field>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Field className="w-64 gap-2.5">
+                  <FieldLabel>Restart mode</FieldLabel>
+                  <RadioGroup defaultValue="restart" ariaLabel="Restart mode">
+                    <label className="flex items-center gap-3 text-sm">
+                      <RadioGroupItem value="restart" />
+                      Restart
+                    </label>
+                    <label className="flex items-center gap-3 text-sm">
+                      <RadioGroupItem value="session" />
+                      Reset session
+                    </label>
+                  </RadioGroup>
+                  <FieldDescription>Choose one mode before confirming.</FieldDescription>
+                </Field>
+              </Preview.Canvas>
+              <Preview.Code html={code.field} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="states" title="States">
-            <Example html={code.disabled}>
-              <RadioGroupReferralSourceComposition disabled />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <RadioGroupReferralSourceComposition disabled />
+              </Preview.Canvas>
+              <Preview.Code html={code.disabled} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

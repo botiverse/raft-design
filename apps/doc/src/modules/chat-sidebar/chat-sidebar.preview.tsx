@@ -1,5 +1,7 @@
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { useState, type ReactNode } from "react";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
+import { Preview } from "#/components/preview.tsx";
 import {
   ChatSidebarComposition,
   type ChatSidebarContentState,
@@ -7,12 +9,9 @@ import {
 } from "./chat-sidebar.composition.tsx";
 
 const CONTENT_STATES = ["Populated", "Empty"] as const;
-type PreviewValues = {
-  content: (typeof CONTENT_STATES)[number];
-  liveActivity: boolean;
-};
+type PreviewContentState = (typeof CONTENT_STATES)[number];
 
-function getContentState(content: PreviewValues["content"]): ChatSidebarContentState {
+function getContentState(content: PreviewContentState): ChatSidebarContentState {
   return content === "Empty" ? "empty" : "populated";
 }
 
@@ -20,35 +19,50 @@ function getLiveActivityState(liveActivity: boolean): ChatSidebarLiveActivitySta
   return liveActivity ? "active" : "none";
 }
 
-export function ChatSidebarPreview() {
+type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type ChatSidebarPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
+};
+
+export function ChatSidebarPreview({ code, collapsedCode }: ChatSidebarPreviewProps) {
+  const [content, setContent] = useState<PreviewContentState>("Populated");
+  const [liveActivity, setLiveActivity] = useState(true);
+
   return (
-    <ComponentPlayground<PreviewValues>
-      defaultValues={{ content: "Populated", liveActivity: true }}
-      controls={[
-        {
-          group: "Content",
-          name: "content",
-          label: "Lists",
-          type: "radio",
-          options: CONTENT_STATES,
-        },
-        {
-          group: "Live activity",
-          name: "liveActivity",
-          label: "Show activity",
-          type: "boolean",
-        },
-      ]}
-      layout="split"
-      previewClassName="!h-[560px] !min-h-0 !items-stretch !justify-center !p-2"
-      render={(values) => (
+    <Preview previewClassName="!h-[560px] !min-h-0 !items-stretch !justify-center !p-2">
+      <Preview.Canvas>
         <div className="flex h-full w-[308px] items-stretch bg-layer-page">
           <ChatSidebarComposition
-            contentState={getContentState(values.content)}
-            liveActivityState={getLiveActivityState(values.liveActivity)}
+            contentState={getContentState(content)}
+            liveActivityState={getLiveActivityState(liveActivity)}
           />
         </div>
-      )}
-    />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.ControlGroup label="Content">
+          <Preview.Control label="Lists">
+            <Preview.Radio
+              label="Lists"
+              options={CONTENT_STATES}
+              value={content}
+              onValueChange={(value) => setContent(value as PreviewContentState)}
+            />
+          </Preview.Control>
+        </Preview.ControlGroup>
+        <Preview.ControlGroup label="Live activity">
+          <Preview.Control label="Show activity" htmlFor="chat-sidebar-preview-live-activity">
+            <Preview.Checkbox
+              id="chat-sidebar-preview-live-activity"
+              label="Show activity"
+              checked={liveActivity}
+              onCheckedChange={setLiveActivity}
+            />
+          </Preview.Control>
+        </Preview.ControlGroup>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }

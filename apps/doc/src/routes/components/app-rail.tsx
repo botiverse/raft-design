@@ -5,6 +5,7 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -124,11 +125,19 @@ function AppRailDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <div className="h-[586px] overflow-hidden border border-line bg-layer-panel p-2">
-          <PreviewThemeScope className="flex h-full items-stretch justify-start bg-layer-page">
-            <AppRailComposition />
-          </PreviewThemeScope>
-        </div>
+        <Preview previewInset="flush">
+          <Preview.Canvas>
+            <div className="h-[586px] overflow-hidden border border-line bg-layer-panel p-2">
+              <PreviewThemeScope className="flex h-full items-stretch justify-start bg-layer-page">
+                <AppRailComposition />
+              </PreviewThemeScope>
+            </div>
+          </Preview.Canvas>
+          <Preview.Code
+            html={code.appRailComposition}
+            collapsedHtml={code.appRailCompositionBody}
+          />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

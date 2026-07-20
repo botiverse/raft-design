@@ -6,7 +6,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -21,6 +21,7 @@ import inputDisabledStylingCompositionSource from "#/modules/input/compositions/
 import inputInvalidDisabledPriorityCompositionSource from "#/modules/input/compositions/invalid-disabled-priority.composition.tsx?raw";
 import inputInvalidStateCompositionSource from "#/modules/input/compositions/invalid-state.composition.tsx?raw";
 import inputPasswordManagerSuppressionCompositionSource from "#/modules/input/compositions/password-manager-suppression.composition.tsx?raw";
+import inputPreviewCompositionSource from "#/modules/input/compositions/preview.composition.tsx?raw";
 import {
   INPUT_SOURCE_COMPARISON_COMPOSITION,
   INPUT_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -263,6 +264,7 @@ const INPUT_COMPOSITION_RAW_SOURCES = {
   InvalidDisabledPriority: inputInvalidDisabledPriorityCompositionSource,
   InvalidState: inputInvalidStateCompositionSource,
   PasswordManagerSuppression: inputPasswordManagerSuppressionCompositionSource,
+  Preview: inputPreviewCompositionSource,
 } as const;
 
 const INPUT_COMPOSITION_SOURCES = createCompositionSourceMap(INPUT_COMPOSITION_RAW_SOURCES);
@@ -273,6 +275,7 @@ const INPUT_COMPOSITION_SNIPPET_IDS = {
   InvalidDisabledPriority: "inputInvalidDisabledPriorityComposition",
   InvalidState: "inputInvalidStateComposition",
   PasswordManagerSuppression: "inputPasswordManagerSuppressionComposition",
+  Preview: "inputPreviewComposition",
 } as const;
 
 type InputCompositionKey = keyof typeof INPUT_COMPOSITION_SOURCES;
@@ -306,7 +309,10 @@ function InputDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <InputPlaygroundPreview />
+        <InputPlaygroundPreview
+          code={code.inputPreviewComposition}
+          collapsedCode={code.inputPreviewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -320,24 +326,27 @@ function InputDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="types" title="Types">
-            <Example html={code.types}>
-              <Input
-                className="w-80"
-                aria-label="Email"
-                type="email"
-                name="email"
-                autoComplete="email"
-                spellCheck={false}
-                placeholder="you@example.com"
-              />
-              <Input
-                className="w-80"
-                aria-label="Verification code"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                placeholder="123456"
-              />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Input
+                  className="w-80"
+                  aria-label="Email"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  spellCheck={false}
+                  placeholder="you@example.com"
+                />
+                <Input
+                  className="w-80"
+                  aria-label="Verification code"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="123456"
+                />
+              </Preview.Canvas>
+              <Preview.Code html={code.types} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="states" title="States">
@@ -346,15 +355,18 @@ function InputDoc() {
               disabled invalid input keeps the disabled border and removes the invalid ring because
               the user cannot edit it.
             </DocNote>
-            <Example html={code.states}>
-              <div className="grid w-full max-w-96 gap-3">
-                <Input aria-label="Email" placeholder="you@example.com" />
-                <Input aria-label="Email" defaultValue="alex@example.com" />
-                <Input aria-label="Email" aria-invalid defaultValue="oops" />
-                <Input aria-label="Email" disabled placeholder="Disabled" />
-                <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid w-full max-w-96 gap-3">
+                  <Input aria-label="Email" placeholder="you@example.com" />
+                  <Input aria-label="Email" defaultValue="alex@example.com" />
+                  <Input aria-label="Email" aria-invalid defaultValue="oops" />
+                  <Input aria-label="Email" disabled placeholder="Disabled" />
+                  <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="field" title="With Field">
@@ -363,13 +375,16 @@ function InputDoc() {
               pure control; set <InlineCode>invalid</InlineCode> on the field when the message
               belongs to the same validation state.
             </DocNote>
-            <Example html={code.field}>
-              <Field className="w-80" invalid>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input id="email" type="email" defaultValue="oops" />
-                <FieldError match>Email is required.</FieldError>
-              </Field>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Field className="w-80" invalid>
+                  <FieldLabel htmlFor="email">Email</FieldLabel>
+                  <Input id="email" type="email" defaultValue="oops" />
+                  <FieldError match>Email is required.</FieldError>
+                </Field>
+              </Preview.Canvas>
+              <Preview.Code html={code.field} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="password-managers" title="Password managers">
@@ -378,14 +393,17 @@ function InputDoc() {
               where extension overlays would cover custom UI. Credential fields should keep native
               browser and password-manager help.
             </DocNote>
-            <Example html={code.passwordManagers}>
-              <Input
-                className="w-80"
-                aria-label="Search"
-                suppressPasswordManager
-                placeholder="Search customers..."
-              />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Input
+                  className="w-80"
+                  aria-label="Search"
+                  suppressPasswordManager
+                  placeholder="Search customers..."
+                />
+              </Preview.Canvas>
+              <Preview.Code html={code.passwordManagers} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

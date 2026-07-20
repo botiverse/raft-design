@@ -5,7 +5,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
@@ -242,15 +242,18 @@ function TextDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview}>
-          <div className="grid max-w-sm gap-2">
-            <Text.Heading level={4}>Workspace updates</Text.Heading>
-            <Text.Sans size="small" variant="muted">
-              3 unread messages
-            </Text.Sans>
-            <Text.Mono size="meta">raft-ui@0.0.1</Text.Mono>
-          </div>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <div className="grid max-w-sm gap-2">
+              <Text.Heading level={4}>Workspace updates</Text.Heading>
+              <Text.Sans size="small" variant="muted">
+                3 unread messages
+              </Text.Sans>
+              <Text.Mono size="meta">raft-ui@0.0.1</Text.Mono>
+            </div>
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -268,29 +271,35 @@ function TextDoc() {
               Use Text for repeatable product typography. Use token pages when auditing the full
               type scale.
             </DocNote>
-            <Example html={code.sizes}>
-              <div className="grid max-w-sm gap-3">
-                <Text.Heading level={5}>Heading level 5</Text.Heading>
-                <Text.Sans size="large">Large body</Text.Sans>
-                <Text.Sans size="body">Body text</Text.Sans>
-                <Text.Sans size="small">Small supporting text</Text.Sans>
-                <Text.Sans size="caption">Caption text</Text.Sans>
-                <Text.Mono size="meta">meta</Text.Mono>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid max-w-sm gap-3">
+                  <Text.Heading level={5}>Heading level 5</Text.Heading>
+                  <Text.Sans size="large">Large body</Text.Sans>
+                  <Text.Sans size="body">Body text</Text.Sans>
+                  <Text.Sans size="small">Small supporting text</Text.Sans>
+                  <Text.Sans size="caption">Caption text</Text.Sans>
+                  <Text.Mono size="meta">meta</Text.Mono>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="variants" title="Variants">
-            <Example html={code.variants}>
-              <div className="grid max-w-sm gap-2">
-                <Text.Sans variant="default">Default</Text.Sans>
-                <Text.Sans variant="muted">Muted</Text.Sans>
-                <Text.Sans variant="placeholder">Placeholder</Text.Sans>
-                <Text.Sans variant="primary">Primary</Text.Sans>
-                <Text.Sans variant="success">Success</Text.Sans>
-                <Text.Sans variant="danger">Danger</Text.Sans>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid max-w-sm gap-2">
+                  <Text.Sans variant="default">Default</Text.Sans>
+                  <Text.Sans variant="muted">Muted</Text.Sans>
+                  <Text.Sans variant="placeholder">Placeholder</Text.Sans>
+                  <Text.Sans variant="primary">Primary</Text.Sans>
+                  <Text.Sans variant="success">Success</Text.Sans>
+                  <Text.Sans variant="danger">Danger</Text.Sans>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.variants} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

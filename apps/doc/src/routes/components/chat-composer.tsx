@@ -5,7 +5,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
   ComposerAttachmentStatesComposition,
@@ -241,7 +241,7 @@ function ChatComposerDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ChatComposerPreview />
+        <ChatComposerPreview code={code.composition} collapsedCode={code.compositionBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -255,11 +255,14 @@ function ChatComposerDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="default-composer" title="Default composer">
-            <Example html={code.composition} previewClassName="min-h-[22rem] items-stretch">
-              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
-                <ComposerDefaultComposition />
-              </div>
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerDefaultComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.composition} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection
@@ -267,11 +270,14 @@ function ChatComposerDoc() {
             id="attachment-states"
             title="Pending and failed attachments"
           >
-            <Example html={code.attachmentStates} previewClassName="min-h-[22rem] items-stretch">
-              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
-                <ComposerAttachmentStatesComposition />
-              </div>
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentStatesComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentStates} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="with-lightbox" title="Ready images with lightbox">
@@ -279,19 +285,25 @@ function ChatComposerDoc() {
               Composer does not own preview state. Ready image attachments stay clickable tiles; the
               consumer opens Lightbox and owns gallery index / navigation.
             </DocNote>
-            <Example html={code.withLightbox} previewClassName="min-h-[22rem] items-stretch">
-              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
-                <ComposerWithLightboxComposition />
-              </div>
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerWithLightboxComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.withLightbox} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="drop-overlay" title="File drop overlay">
-            <Example html={code.dropOverlay} previewClassName="min-h-[22rem] items-stretch">
-              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
-                <ComposerDropOverlayComposition />
-              </div>
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerDropOverlayComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.dropOverlay} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="compact-composer" title="Compact composer">
@@ -300,11 +312,14 @@ function ChatComposerDoc() {
               submit. Use this shape for a comment or note; thread replies use the full composer
               with attachments.
             </DocNote>
-            <Example html={code.compact} previewClassName="items-stretch">
-              <div className="w-full min-w-0">
-                <ComposerCompactComposition />
-              </div>
-            </Example>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="w-full min-w-0">
+                  <ComposerCompactComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.compact} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

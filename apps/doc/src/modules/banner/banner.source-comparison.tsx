@@ -6,6 +6,7 @@ export const BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   IconTitle: "apps/doc/src/modules/banner/compositions/icon-title.composition.tsx",
   IconlessWarning: "apps/doc/src/modules/banner/compositions/iconless-warning.composition.tsx",
   LargeActions: "apps/doc/src/modules/banner/compositions/large-actions.composition.tsx",
+  Preview: "apps/doc/src/modules/banner/compositions/preview.composition.tsx",
 } as const;
 
 export const BANNER_SOURCE_COMPARISON_COMPOSITION = {

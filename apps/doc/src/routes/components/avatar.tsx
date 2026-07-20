@@ -14,7 +14,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -27,6 +27,7 @@ import { SIZES, SIZE_OPTIONS } from "#/modules/avatar/avatar.constants.ts";
 import { AvatarPlaygroundPreview } from "#/modules/avatar/avatar.preview.tsx";
 import avatarIdentityResolutionCompositionSource from "#/modules/avatar/compositions/identity-resolution.composition.tsx?raw";
 import avatarPanelHeaderCompositionSource from "#/modules/avatar/compositions/panel-header.composition.tsx?raw";
+import avatarPreviewCompositionSource from "#/modules/avatar/compositions/preview.composition.tsx?raw";
 import avatarScaleCompositionSource from "#/modules/avatar/compositions/scale.composition.tsx?raw";
 import {
   AVATAR_SOURCE_COMPARISON_COMPOSITION,
@@ -487,6 +488,7 @@ const AvatarCurrent = AVATAR_SOURCE_COMPARISON_COMPOSITION;
 const AVATAR_COMPOSITION_RAW_SOURCES = {
   IdentityResolution: avatarIdentityResolutionCompositionSource,
   PanelHeader: avatarPanelHeaderCompositionSource,
+  Preview: avatarPreviewCompositionSource,
   Scale: avatarScaleCompositionSource,
 } as const;
 
@@ -495,6 +497,7 @@ const AVATAR_COMPOSITION_SOURCES = createCompositionSourceMap(AVATAR_COMPOSITION
 const AVATAR_COMPOSITION_SNIPPET_IDS = {
   IdentityResolution: "avatarIdentityResolutionComposition",
   PanelHeader: "avatarPanelHeaderComposition",
+  Preview: "avatarPreviewComposition",
   Scale: "avatarScaleComposition",
 } as const;
 
@@ -529,7 +532,10 @@ function AvatarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <AvatarPlaygroundPreview />
+        <AvatarPlaygroundPreview
+          code={code.avatarPreviewComposition}
+          collapsedCode={code.avatarPreviewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -549,33 +555,36 @@ function AvatarDoc() {
               resolution outside: callers pass a resolved image to <code>AvatarImage</code>, or
               leave <code>AvatarFallback</code> visible for placeholders and load failures.
             </DocNote>
-            <Example html={code.image}>
-              <div className="flex flex-wrap items-end gap-5">
-                <IdentityAvatarExample label="Agent pixel">
-                  <Avatar size="sm" type="agent">
-                    <AvatarImage src={SAMPLE_AGENT_PIXEL} alt="Atlas" />
-                    <AvatarFallback />
-                  </Avatar>
-                </IdentityAvatarExample>
-                <IdentityAvatarExample label="Agent image">
-                  <Avatar size="sm" type="agent">
-                    <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
-                    <AvatarFallback />
-                  </Avatar>
-                </IdentityAvatarExample>
-                <IdentityAvatarExample label="Human image">
-                  <Avatar size="sm" type="human">
-                    <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
-                    <AvatarFallback />
-                  </Avatar>
-                </IdentityAvatarExample>
-                <IdentityAvatarExample label="Human placeholder">
-                  <Avatar size="sm" type="human">
-                    <AvatarFallback />
-                  </Avatar>
-                </IdentityAvatarExample>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex flex-wrap items-end gap-5">
+                  <IdentityAvatarExample label="Agent pixel">
+                    <Avatar size="sm" type="agent">
+                      <AvatarImage src={SAMPLE_AGENT_PIXEL} alt="Atlas" />
+                      <AvatarFallback />
+                    </Avatar>
+                  </IdentityAvatarExample>
+                  <IdentityAvatarExample label="Agent image">
+                    <Avatar size="sm" type="agent">
+                      <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
+                      <AvatarFallback />
+                    </Avatar>
+                  </IdentityAvatarExample>
+                  <IdentityAvatarExample label="Human image">
+                    <Avatar size="sm" type="human">
+                      <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
+                      <AvatarFallback />
+                    </Avatar>
+                  </IdentityAvatarExample>
+                  <IdentityAvatarExample label="Human placeholder">
+                    <Avatar size="sm" type="human">
+                      <AvatarFallback />
+                    </Avatar>
+                  </IdentityAvatarExample>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.image} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="badge" title="Badge">
@@ -584,64 +593,73 @@ function AvatarDoc() {
               <code>data-size</code> + <code>group/avatar</code> hook. Frame, border weight, and
               inner icon all track the step.
             </DocNote>
-            <Example html={code.badge} previewClassName="!min-h-56 flex-col gap-8">
-              <div className="flex items-end gap-4">
-                <Avatar size="xl" type="agent">
-                  <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
-                  <AvatarFallback />
-                  <AvatarBadge />
-                </Avatar>
-                <Avatar size="xl" type="human">
-                  <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
-                  <AvatarFallback />
-                  <AvatarBadge className="bg-info-base">
-                    <Check />
-                  </AvatarBadge>
-                </Avatar>
-              </div>
-              <div className="flex items-end gap-4">
-                {BADGE_SCALE_SIZES.map((size, index) => (
-                  <Avatar key={size} size={size} type="agent">
-                    <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+            <Preview previewClassName="!min-h-56 flex-col gap-8">
+              <Preview.Canvas>
+                <div className="flex items-end gap-4">
+                  <Avatar size="xl" type="agent">
+                    <AvatarImage src={AVATAR_PHOTOS[0]} alt="Atlas" />
                     <AvatarFallback />
                     <AvatarBadge />
                   </Avatar>
-                ))}
-              </div>
-            </Example>
+                  <Avatar size="xl" type="human">
+                    <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
+                    <AvatarFallback />
+                    <AvatarBadge className="bg-info-base">
+                      <Check />
+                    </AvatarBadge>
+                  </Avatar>
+                </div>
+                <div className="flex items-end gap-4">
+                  {BADGE_SCALE_SIZES.map((size, index) => (
+                    <Avatar key={size} size={size} type="agent">
+                      <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+                      <AvatarFallback />
+                      <AvatarBadge />
+                    </Avatar>
+                  ))}
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.badge} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="group" title="Group">
-            <Example html={code.group}>
-              <AvatarGroup>
-                {AVATAR_PHOTOS.slice(0, 3).map((src, index) => (
-                  <Avatar key={src} size="sm" type={index === 1 ? "human" : "agent"}>
-                    <AvatarImage src={src} alt="" />
-                    <AvatarFallback />
-                  </Avatar>
-                ))}
-                <AvatarGroupCount size="sm">+3</AvatarGroupCount>
-              </AvatarGroup>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <AvatarGroup>
+                  {AVATAR_PHOTOS.slice(0, 3).map((src, index) => (
+                    <Avatar key={src} size="sm" type={index === 1 ? "human" : "agent"}>
+                      <AvatarImage src={src} alt="" />
+                      <AvatarFallback />
+                    </Avatar>
+                  ))}
+                  <AvatarGroupCount size="sm">+3</AvatarGroupCount>
+                </AvatarGroup>
+              </Preview.Canvas>
+              <Preview.Code html={code.group} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
-            <Example html={code.sizes}>
-              <div className="flex flex-wrap items-end gap-4">
-                {SIZES.map(({ size, context, px }, index) => (
-                  <div key={size} className="flex flex-col items-center gap-1.5">
-                    <Avatar size={size} type="agent">
-                      <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
-                      <AvatarFallback />
-                    </Avatar>
-                    <span className="font-mono text-black/70 text-xs">{size}</span>
-                    <span className="text-[10px] text-black/40">
-                      {context} · {px}px
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex flex-wrap items-end gap-4">
+                  {SIZES.map(({ size, context, px }, index) => (
+                    <div key={size} className="flex flex-col items-center gap-1.5">
+                      <Avatar size={size} type="agent">
+                        <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
+                        <AvatarFallback />
+                      </Avatar>
+                      <span className="font-mono text-black/70 text-xs">{size}</span>
+                      <span className="text-[10px] text-black/40">
+                        {context} · {px}px
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

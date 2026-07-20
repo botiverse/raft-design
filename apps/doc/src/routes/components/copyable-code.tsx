@@ -5,7 +5,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
@@ -180,12 +180,15 @@ function CopyableCodeDoc() {
             Use CopyableCode for machine setup commands and other copy-first code rows. Use
             InlineCode for prose tokens and markdown code blocks for rich multi-line code.
           </DocNote>
-          <Example html={code.preview} previewClassName="min-h-40">
-            <div className="grid w-full max-w-lg gap-4">
-              <DialogSetupCommandComposition />
-              <CompactDetailCommandComposition />
-            </div>
-          </Example>
+          <Preview previewClassName="min-h-40">
+            <Preview.Canvas>
+              <div className="grid w-full max-w-lg gap-4">
+                <DialogSetupCommandComposition />
+                <CompactDetailCommandComposition />
+              </div>
+            </Preview.Canvas>
+            <Preview.Code html={code.preview} />
+          </Preview>
         </div>
       </DocSection>
 

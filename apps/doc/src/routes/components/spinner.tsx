@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Badge, Button, Spinner, type SpinnerProps } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -66,6 +66,9 @@ const SIZES = ["sm", "lg"] as const;
 const VARIANTS = ["default", "inverse"] as const;
 
 const SNIPPETS = {
+  preview: `<div className="rounded px-4 py-3 text-black">
+  <Spinner size="sm" />
+</div>`,
   anatomy: `<Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
@@ -104,11 +107,6 @@ const SPINNER_COMPOSITION_SNIPPET_IDS = {
 } as const;
 
 type SpinnerCompositionKey = keyof typeof SPINNER_COMPOSITION_SOURCES;
-
-type PlaygroundValues = {
-  size: NonNullable<SpinnerProps["size"]>;
-  variant: (typeof VARIANTS)[number];
-};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -149,6 +147,49 @@ export const Route = createFileRoute("/components/spinner")({
     }),
 });
 
+function SpinnerPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [size, setSize] = useState<NonNullable<SpinnerProps["size"]>>("sm");
+  const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
+  const variantClassName = variant === "inverse" ? "bg-gray-950 text-white" : "text-black";
+
+  return (
+    <Preview>
+      <Preview.Canvas>
+        <div className={`rounded px-4 py-3 ${variantClassName}`}>
+          <Spinner size={size} />
+        </div>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Size" htmlFor="spinner-preview-size">
+          <Preview.Select
+            id="spinner-preview-size"
+            label="Size"
+            options={SIZES}
+            value={size}
+            onValueChange={(value) => setSize(value as NonNullable<SpinnerProps["size"]>)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Variant" htmlFor="spinner-preview-variant">
+          <Preview.Select
+            id="spinner-preview-variant"
+            label="Variant"
+            options={VARIANTS}
+            value={variant}
+            onValueChange={(value) => setVariant(value as (typeof VARIANTS)[number])}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function SpinnerDoc() {
   const code = Route.useLoaderData();
   const spinnerComposition = (key: SpinnerCompositionKey) => {
@@ -170,27 +211,7 @@ function SpinnerDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ size: "sm", variant: "default" }}
-          controls={[
-            { name: "size", label: "Size", type: "select", options: SIZES },
-            {
-              name: "variant",
-              label: "Variant",
-              type: "select",
-              options: VARIANTS,
-            },
-          ]}
-          render={(values) => {
-            const variantClassName =
-              values.variant === "inverse" ? "bg-gray-950 text-white" : "text-black";
-            return (
-              <div className={`rounded px-4 py-3 ${variantClassName}`}>
-                <Spinner size={values.size} />
-              </div>
-            );
-          }}
-        />
+        <SpinnerPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -204,39 +225,48 @@ function SpinnerDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
-            <Example html={code.sizes}>
-              <div className="flex items-center gap-4">
-                <Spinner size="sm" />
-                <Spinner size="lg" />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex items-center gap-4">
+                  <Spinner size="sm" />
+                  <Spinner size="lg" />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="current-color" title="Current color">
-            <Example html={code.currentColor}>
-              <div className="flex items-center gap-3">
-                <Spinner className="text-primary-400" />
-                <div className="rounded bg-primary-50 p-3">
-                  <Spinner className="text-primary-500" />
-                </div>
-                <div className="rounded bg-primary-950 p-3">
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex items-center gap-3">
                   <Spinner className="text-primary-400" />
+                  <div className="rounded bg-primary-50 p-3">
+                    <Spinner className="text-primary-500" />
+                  </div>
+                  <div className="rounded bg-primary-950 p-3">
+                    <Spinner className="text-primary-400" />
+                  </div>
                 </div>
-              </div>
-            </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.currentColor} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="inline" title="Inline">
-            <Example html={code.inline}>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button>
-                  <Spinner data-icon="inline-start" />
-                  Loading
-                </Button>
-                <Badge>
-                  <Spinner data-icon="inline-start" />
-                  Syncing
-                </Badge>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button>
+                    <Spinner data-icon="inline-start" />
+                    Loading
+                  </Button>
+                  <Badge>
+                    <Spinner data-icon="inline-start" />
+                    Syncing
+                  </Badge>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.inline} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

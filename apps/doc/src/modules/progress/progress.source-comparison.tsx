@@ -8,6 +8,7 @@ import { ProgressRestartIndeterminateSourcePreview } from "./source-comparison/r
 export const PROGRESS_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   AttachmentUpload: "apps/doc/src/modules/progress/compositions/attachment-upload.composition.tsx",
   MachineDownload: "apps/doc/src/modules/progress/compositions/machine-download.composition.tsx",
+  Preview: "apps/doc/src/modules/progress/compositions/preview.composition.tsx",
   RestartIndeterminate:
     "apps/doc/src/modules/progress/compositions/restart-indeterminate.composition.tsx",
 } as const;

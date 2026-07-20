@@ -7,7 +7,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -93,6 +93,11 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
+  preview: `<Textarea
+  className="w-80"
+  rows={4}
+  placeholder="Type your message here."
+/>`,
   anatomy: `<Textarea />`,
   states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
 <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
@@ -306,7 +311,7 @@ function TextareaDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <TextareaPreview />
+        <TextareaPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -325,21 +330,24 @@ function TextareaDoc() {
               disabled invalid textarea keeps the disabled border and removes the invalid ring
               because the user cannot edit it.
             </DocNote>
-            <Example html={code.states} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-              <div className="grid w-full max-w-96 gap-3">
-                <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
-                <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
-                <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
-                <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
-                <Textarea
-                  aria-label="Message"
-                  rows={4}
-                  aria-invalid
-                  disabled
-                  defaultValue="Locked error"
-                />
-              </div>
-            </Example>
+            <Preview previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <Preview.Canvas>
+                <div className="grid w-full max-w-96 gap-3">
+                  <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
+                  <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
+                  <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
+                  <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
+                  <Textarea
+                    aria-label="Message"
+                    rows={4}
+                    aria-invalid
+                    disabled
+                    defaultValue="Locked error"
+                  />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="counter" title="Counter">
@@ -350,20 +358,23 @@ function TextareaDoc() {
               <InlineCode>limit</InlineCode> explicitly. Omit native{" "}
               <InlineCode>maxLength</InlineCode> when the counter should show an over-limit state.
             </DocNote>
-            <Example html={code.counter} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-              <div className="grid w-80 gap-4">
-                <TextareaGroup>
-                  <Textarea
-                    aria-label="Message"
-                    rows={4}
-                    value={counterMessage}
-                    onChange={(event) => setCounterMessage(event.currentTarget.value)}
-                    placeholder="Type your message here."
-                  />
-                  <TextareaCounter value={counterMessage} limit={24} />
-                </TextareaGroup>
-              </div>
-            </Example>
+            <Preview previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <Preview.Canvas>
+                <div className="grid w-80 gap-4">
+                  <TextareaGroup>
+                    <Textarea
+                      aria-label="Message"
+                      rows={4}
+                      value={counterMessage}
+                      onChange={(event) => setCounterMessage(event.currentTarget.value)}
+                      placeholder="Type your message here."
+                    />
+                    <TextareaCounter value={counterMessage} limit={24} />
+                  </TextareaGroup>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.counter} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="auto-grow" title="Auto grow">
@@ -373,13 +384,16 @@ function TextareaDoc() {
               with a max height for long drafts so the control scrolls instead of pushing the page
               indefinitely.
             </DocNote>
-            <Example html={code.autoGrow} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-              <Textarea
-                aria-label="Auto growing message"
-                className="w-80 field-sizing-content max-h-80 resize-none overflow-y-auto"
-                placeholder="Type a few lines..."
-              />
-            </Example>
+            <Preview previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <Preview.Canvas>
+                <Textarea
+                  aria-label="Auto growing message"
+                  className="w-80 field-sizing-content max-h-80 resize-none overflow-y-auto"
+                  placeholder="Type a few lines..."
+                />
+              </Preview.Canvas>
+              <Preview.Code html={code.autoGrow} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="field" title="With Field">
@@ -388,22 +402,25 @@ function TextareaDoc() {
               . Textarea stays a pure control; the counter is a composed companion part that follows
               the field invalid state.
             </DocNote>
-            <Example html={code.field} previewClassName={TEXTAREA_PREVIEW_CLASS}>
-              <Field className="w-80" invalid>
-                <FieldLabel htmlFor="msg">Message</FieldLabel>
-                <TextareaGroup>
-                  <Textarea
-                    id="msg"
-                    rows={4}
-                    maxLength={120}
-                    value={fieldMessage}
-                    onChange={(event) => setFieldMessage(event.currentTarget.value)}
-                  />
-                  <TextareaCounter value={fieldMessage} limit={120} />
-                </TextareaGroup>
-                <FieldError match>Message is required.</FieldError>
-              </Field>
-            </Example>
+            <Preview previewClassName={TEXTAREA_PREVIEW_CLASS}>
+              <Preview.Canvas>
+                <Field className="w-80" invalid>
+                  <FieldLabel htmlFor="msg">Message</FieldLabel>
+                  <TextareaGroup>
+                    <Textarea
+                      id="msg"
+                      rows={4}
+                      maxLength={120}
+                      value={fieldMessage}
+                      onChange={(event) => setFieldMessage(event.currentTarget.value)}
+                    />
+                    <TextareaCounter value={fieldMessage} limit={120} />
+                  </TextareaGroup>
+                  <FieldError match>Message is required.</FieldError>
+                </Field>
+              </Preview.Canvas>
+              <Preview.Code html={code.field} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

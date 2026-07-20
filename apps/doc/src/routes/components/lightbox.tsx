@@ -31,7 +31,7 @@ import { cn } from "tailwind-variants";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import {
@@ -326,9 +326,12 @@ function LightboxDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview}>
-          <LightboxPreviewDemo />
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <LightboxPreviewDemo />
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -342,14 +345,20 @@ function LightboxDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="image-shell" title="Image shell">
-            <Example html={code.lightboxImageLightboxShellComposition}>
-              <ImageLightboxShellComposition />
-            </Example>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <ImageLightboxShellComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.lightboxImageLightboxShellComposition} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="attachment-shell" title="Attachment shell">
-            <Example html={code.lightboxAttachmentPreviewShellComposition}>
-              <AttachmentPreviewShellComposition />
-            </Example>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <AttachmentPreviewShellComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.lightboxAttachmentPreviewShellComposition} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

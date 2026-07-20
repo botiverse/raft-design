@@ -35,12 +35,11 @@ import {
 import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -211,6 +210,30 @@ const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
 ${CHANNEL_LIST_SNIPPET}`;
 
 const SNIPPETS = {
+  preview: `<Combobox items={models} value={selectedModel} onValueChange={setSelectedModel} autoHighlight>
+  <Field className="w-56 gap-1.5">
+    <FieldLabel>Model</FieldLabel>
+    <ComboboxControl>
+      <Sparkles aria-hidden />
+      <ComboboxInput aria-label="Search models" placeholder="Search models..." />
+      <ComboboxClear aria-label="Clear model" />
+      <ComboboxTriggerIndicator>
+        <ChevronDown aria-hidden />
+      </ComboboxTriggerIndicator>
+    </ComboboxControl>
+  </Field>
+  <ComboboxContent>
+    <ComboboxList>
+      {(model) => (
+        <ComboboxItem key={model.id} value={model}>
+          <span>{model.label}</span>
+          <ComboboxItemIndicator />
+        </ComboboxItem>
+      )}
+    </ComboboxList>
+    <ComboboxEmpty>No models found</ComboboxEmpty>
+  </ComboboxContent>
+</Combobox>`,
   anatomy: `<Combobox>
   <Field>
     <FieldLabel />
@@ -1335,9 +1358,12 @@ function ComboboxDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentDemoFrame previewClassName="min-h-[24rem] items-start pt-24">
-          <PreviewCombobox />
-        </ComponentDemoFrame>
+        <Preview previewClassName="min-h-[24rem] items-start pt-24">
+          <Preview.Canvas>
+            <PreviewCombobox />
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -1356,43 +1382,39 @@ function ComboboxDoc() {
               clear, and trigger indicator as children; icons without an explicit size class are
               normalized by the component.
             </DocNote>
-            <Example
-              html={code.asyncSearch}
-              collapsedHtml={code.asyncSearchBody}
-              previewClassName="min-h-[22rem] items-start pt-24"
-            >
-              <AsyncSearchCombobox />
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-start pt-24">
+              <Preview.Canvas>
+                <AsyncSearchCombobox />
+              </Preview.Canvas>
+              <Preview.Code html={code.asyncSearch} collapsedHtml={code.asyncSearchBody} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="button-trigger" title="Button trigger">
-            <Example
-              html={code.buttonTrigger}
-              collapsedHtml={code.buttonTriggerBody}
-              previewClassName="min-h-[24rem] items-start pt-24"
-            >
-              <ButtonTriggerCombobox />
-            </Example>
+            <Preview previewClassName="min-h-[24rem] items-start pt-24">
+              <Preview.Canvas>
+                <ButtonTriggerCombobox />
+              </Preview.Canvas>
+              <Preview.Code html={code.buttonTrigger} collapsedHtml={code.buttonTriggerBody} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="async-load-options" title="Load options">
-            <Example
-              html={code.asyncOptions}
-              collapsedHtml={code.asyncOptionsBody}
-              previewClassName="min-h-[22rem] items-start pt-24"
-            >
-              <AsyncOptionsCombobox />
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-start pt-24">
+              <Preview.Canvas>
+                <AsyncOptionsCombobox />
+              </Preview.Canvas>
+              <Preview.Code html={code.asyncOptions} collapsedHtml={code.asyncOptionsBody} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="async-select" title="Async select">
-            <Example
-              html={code.asyncSelect}
-              collapsedHtml={code.asyncSelectBody}
-              previewClassName="min-h-[22rem] items-start pt-24"
-            >
-              <AsyncSelectCombobox />
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-start pt-24">
+              <Preview.Canvas>
+                <AsyncSelectCombobox />
+              </Preview.Canvas>
+              <Preview.Code html={code.asyncSelect} collapsedHtml={code.asyncSelectBody} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

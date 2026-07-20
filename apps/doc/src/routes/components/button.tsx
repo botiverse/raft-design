@@ -5,7 +5,7 @@ import { Button } from "raft-ui";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -24,6 +24,7 @@ import buttonInlineIconCompositionSource from "#/modules/button/compositions/inl
 import buttonLinkCompositionSource from "#/modules/button/compositions/link.composition.tsx?raw";
 import buttonMutedCompositionSource from "#/modules/button/compositions/muted.composition.tsx?raw";
 import buttonOutlineCompositionSource from "#/modules/button/compositions/outline.composition.tsx?raw";
+import buttonPreviewCompositionSource from "#/modules/button/compositions/preview.composition.tsx?raw";
 import buttonPrimaryCompositionSource from "#/modules/button/compositions/primary.composition.tsx?raw";
 import buttonSizesCompositionSource from "#/modules/button/compositions/sizes.composition.tsx?raw";
 import buttonWarningCompositionSource from "#/modules/button/compositions/warning.composition.tsx?raw";
@@ -284,6 +285,7 @@ export const Route = createFileRoute("/components/button")({
         buttonLinkComposition: BUTTON_COMPOSITION_SOURCES.Link,
         buttonMutedComposition: BUTTON_COMPOSITION_SOURCES.Muted,
         buttonOutlineComposition: BUTTON_COMPOSITION_SOURCES.Outline,
+        buttonPreviewComposition: buttonPreviewCompositionSource,
         buttonPrimaryComposition: BUTTON_COMPOSITION_SOURCES.Primary,
         buttonSizesComposition: BUTTON_COMPOSITION_SOURCES.Sizes,
         buttonWarningComposition: BUTTON_COMPOSITION_SOURCES.Warning,
@@ -312,7 +314,10 @@ function ButtonDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ButtonPlaygroundPreview />
+        <ButtonPlaygroundPreview
+          code={code.buttonPreviewComposition}
+          collapsedCode={code.buttonPreviewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -326,121 +331,142 @@ function ButtonDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="variants" title="Variants">
-            <Example html={code.variants}>
-              <div className="-m-1 grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto p-1">
-                <Button variant="default">Default</Button>
-                <Button variant="primary">Primary</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="information">Information</Button>
-                <Button variant="muted">Muted</Button>
-                <Button variant="accent">Accent</Button>
-                <Button variant="warning">Warning</Button>
-                <Button variant="danger">Danger</Button>
-                <Button variant="danger-secondary">Delete</Button>
-                <Button variant="danger-outline">Remove</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="link">Link</Button>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="-m-1 grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto p-1">
+                  <Button variant="default">Default</Button>
+                  <Button variant="primary">Primary</Button>
+                  <Button variant="outline">Outline</Button>
+                  <Button variant="information">Information</Button>
+                  <Button variant="muted">Muted</Button>
+                  <Button variant="accent">Accent</Button>
+                  <Button variant="warning">Warning</Button>
+                  <Button variant="danger">Danger</Button>
+                  <Button variant="danger-secondary">Delete</Button>
+                  <Button variant="danger-outline">Remove</Button>
+                  <Button variant="ghost">Ghost</Button>
+                  <Button variant="link">Link</Button>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.variants} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="height-alignment" title="Height alignment">
-            <Example html={code.heightAlignment}>
-              <div className="-m-1 max-w-full overflow-x-auto p-1">
-                <div className="grid min-w-max gap-3">
-                  {HEIGHT_ALIGNMENT_SIZES.map((size) => (
-                    <div
-                      key={size}
-                      className="grid grid-cols-[2.5rem_repeat(9,max-content)] items-center gap-2"
-                    >
-                      <span className="font-mono text-xs text-foreground-muted">{size}</span>
-                      {HEIGHT_ALIGNMENT_VARIANTS.map(({ variant, label }) => (
-                        <div key={variant} className="contents">
-                          <Button variant={variant} size={size}>
-                            {label}
-                          </Button>
-                          <Button variant={variant} size={size}>
-                            <Plus data-icon="inline-start" />
-                            {label}
-                          </Button>
-                          <Button variant={variant} size={size}>
-                            {label}
-                            <Plus data-icon="inline-end" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+            <Preview>
+              <Preview.Canvas>
+                <div className="-m-1 max-w-full overflow-x-auto p-1">
+                  <div className="grid min-w-max gap-3">
+                    {HEIGHT_ALIGNMENT_SIZES.map((size) => (
+                      <div
+                        key={size}
+                        className="grid grid-cols-[2.5rem_repeat(9,max-content)] items-center gap-2"
+                      >
+                        <span className="font-mono text-xs text-foreground-muted">{size}</span>
+                        {HEIGHT_ALIGNMENT_VARIANTS.map(({ variant, label }) => (
+                          <div key={variant} className="contents">
+                            <Button variant={variant} size={size}>
+                              {label}
+                            </Button>
+                            <Button variant={variant} size={size}>
+                              <Plus data-icon="inline-start" />
+                              {label}
+                            </Button>
+                            <Button variant={variant} size={size}>
+                              {label}
+                              <Plus data-icon="inline-end" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.heightAlignment} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="states" title="States">
-            <Example html={code.states}>
-              <div className="grid gap-6 sm:grid-cols-3">
-                <div className="grid min-w-32 place-items-center">
-                  <Button>Default</Button>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid gap-6 sm:grid-cols-3">
+                  <div className="grid min-w-32 place-items-center">
+                    <Button>Default</Button>
+                  </div>
+                  <div className="grid min-w-32 place-items-center">
+                    <ButtonPreview focusVisible>Focus visible</ButtonPreview>
+                  </div>
+                  <div className="grid min-w-32 place-items-center">
+                    <Button disabled>Disabled</Button>
+                  </div>
                 </div>
-                <div className="grid min-w-32 place-items-center">
-                  <ButtonPreview focusVisible>Focus visible</ButtonPreview>
-                </div>
-                <div className="grid min-w-32 place-items-center">
-                  <Button disabled>Disabled</Button>
-                </div>
-              </div>
-            </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
-            <Example html={code.sizes}>
-              <Button size="xs">Extra small</Button>
-              <Button size="sm">Small</Button>
-              <Button size="md">Medium</Button>
-              <Button size="lg">Large</Button>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Button size="xs">Extra small</Button>
+                <Button size="sm">Small</Button>
+                <Button size="md">Medium</Button>
+                <Button size="lg">Large</Button>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="icons" title="Icons">
-            <Example html={code.icons}>
-              {ICON_SIZES.map((size) => (
-                <Button key={size} size={size} aria-label={size}>
-                  <Plus />
+            <Preview>
+              <Preview.Canvas>
+                {ICON_SIZES.map((size) => (
+                  <Button key={size} size={size} aria-label={size}>
+                    <Plus />
+                  </Button>
+                ))}
+                <Button variant="default">
+                  <Plus data-icon="inline-start" />
+                  New
                 </Button>
-              ))}
-              <Button variant="default">
-                <Plus data-icon="inline-start" />
-                New
-              </Button>
-              <Button variant="outline">
-                Next
-                <Plus data-icon="inline-end" />
-              </Button>
-              <Button variant="danger" size="icon-sm" aria-label="Delete">
-                <Trash2 />
-              </Button>
-            </Example>
+                <Button variant="outline">
+                  Next
+                  <Plus data-icon="inline-end" />
+                </Button>
+                <Button variant="danger" size="icon-sm" aria-label="Delete">
+                  <Trash2 />
+                </Button>
+              </Preview.Canvas>
+              <Preview.Code html={code.icons} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="loading" title="Loading">
-            <Example html={code.loading}>
-              <Button loading>Saving</Button>
-              <Button variant="danger" loading loadingLabel="Deleting">
-                Delete
-              </Button>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Button loading>Saving</Button>
+                <Button variant="danger" loading loadingLabel="Deleting">
+                  Delete
+                </Button>
+              </Preview.Canvas>
+              <Preview.Code html={code.loading} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="disabled" title="Disabled">
-            <Example html={code.disabled}>
-              <Button disabled>Disabled</Button>
-              <Button variant="primary" disabled>
-                Primary
-              </Button>
-              <Button variant="danger" disabled>
-                Danger
-              </Button>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Button disabled>Disabled</Button>
+                <Button variant="primary" disabled>
+                  Primary
+                </Button>
+                <Button variant="danger" disabled>
+                  Danger
+                </Button>
+              </Preview.Canvas>
+              <Preview.Code html={code.disabled} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

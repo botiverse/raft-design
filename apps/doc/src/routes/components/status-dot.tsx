@@ -4,7 +4,7 @@ import { Status } from "raft-ui";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import {
@@ -89,10 +89,13 @@ function StatusDotMigrationDoc() {
               <DocsCodeBlock.Content html={code.anatomy} />
             </DocsCodeBlock.Body>
           </DocsCodeBlock>
-          <Example html={code.preview}>
-            <Status variant="success" />
-            <Status variant="primary" pulse />
-          </Example>
+          <Preview>
+            <Preview.Canvas>
+              <Status variant="success" />
+              <Status variant="primary" pulse />
+            </Preview.Canvas>
+            <Preview.Code html={code.preview} />
+          </Preview>
         </div>
       </DocSection>
 

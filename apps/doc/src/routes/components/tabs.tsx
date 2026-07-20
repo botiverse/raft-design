@@ -14,11 +14,10 @@ import {
 import { Bell, CreditCard, Files, Settings, MessageSquare, Users } from "lucide-react";
 import { useState, type ComponentType } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -32,6 +31,26 @@ const TOC = [
 const VARIANTS = ["default", "underline"] as const;
 
 const SNIPPETS = {
+  preview: `<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsBackground />
+    <TabsTab value="overview">
+      <MessageSquare />
+      <TabsLabel>Overview</TabsLabel>
+    </TabsTab>
+    <TabsTab value="billing">
+      <CreditCard />
+      <TabsLabel>Billing</TabsLabel>
+    </TabsTab>
+    <TabsTab value="settings">
+      <Settings />
+      <TabsLabel>Settings</TabsLabel>
+    </TabsTab>
+  </TabsList>
+  <TabsPanel value="overview">Overview content</TabsPanel>
+  <TabsPanel value="billing">Billing content</TabsPanel>
+  <TabsPanel value="settings">Settings content</TabsPanel>
+</Tabs>`,
   anatomy: `<Tabs>
   <TabsList>
     <TabsBackground />
@@ -269,12 +288,6 @@ const SORTABLE_TABS_PROPS: readonly PropRow[] = [
   },
 ];
 
-type PlaygroundValues = {
-  background: boolean;
-  variant: (typeof VARIANTS)[number];
-  icons: boolean;
-};
-
 export const Route = createFileRoute("/components/tabs")({
   component: TabsDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -309,6 +322,73 @@ const SETTINGS_TABS: readonly (OrderedTabItem<SettingsTabId> & {
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
+function TabsPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
+  const [background, setBackground] = useState(true);
+  const [icons, setIcons] = useState(true);
+
+  return (
+    <Preview>
+      <Preview.Canvas>
+        <Tabs defaultValue="overview" className="flex flex-col items-center">
+          <TabsList variant={variant}>
+            {background ? <TabsBackground /> : null}
+            {SETTINGS_TABS.map((tab) => (
+              <TabsTab key={tab.id} value={tab.id}>
+                {icons ? <tab.icon /> : null}
+                {icons ? <TabsLabel>{tab.label}</TabsLabel> : tab.label}
+              </TabsTab>
+            ))}
+          </TabsList>
+          {SETTINGS_TABS.map((tab) => (
+            <TabsPanel
+              key={tab.id}
+              value={tab.id}
+              className="w-full max-w-md p-3 text-center text-xs text-foreground-muted"
+            >
+              {tab.label} content
+            </TabsPanel>
+          ))}
+        </Tabs>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Variant" htmlFor="tabs-preview-variant">
+          <Preview.Select
+            id="tabs-preview-variant"
+            label="Variant"
+            options={VARIANTS}
+            value={variant}
+            onValueChange={(value) => setVariant(value as (typeof VARIANTS)[number])}
+          />
+        </Preview.Control>
+        <Preview.Control label="Background" htmlFor="tabs-preview-background">
+          <Preview.Checkbox
+            id="tabs-preview-background"
+            label="Background"
+            checked={background}
+            onCheckedChange={setBackground}
+          />
+        </Preview.Control>
+        <Preview.Control label="Icons" htmlFor="tabs-preview-icons">
+          <Preview.Checkbox
+            id="tabs-preview-icons"
+            label="Icons"
+            checked={icons}
+            onCheckedChange={setIcons}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function TabsDoc() {
   const code = Route.useLoaderData();
 
@@ -319,40 +399,7 @@ function TabsDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            background: true,
-            variant: "default",
-            icons: true,
-          }}
-          controls={[
-            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-            { name: "background", label: "Background", type: "boolean" },
-            { name: "icons", label: "Icons", type: "boolean" },
-          ]}
-          render={(values) => (
-            <Tabs defaultValue="overview" className="flex flex-col items-center">
-              <TabsList variant={values.variant}>
-                {values.background ? <TabsBackground /> : null}
-                {SETTINGS_TABS.map((tab) => (
-                  <TabsTab key={tab.id} value={tab.id}>
-                    {values.icons ? <tab.icon /> : null}
-                    {values.icons ? <TabsLabel>{tab.label}</TabsLabel> : tab.label}
-                  </TabsTab>
-                ))}
-              </TabsList>
-              {SETTINGS_TABS.map((tab) => (
-                <TabsPanel
-                  key={tab.id}
-                  value={tab.id}
-                  className="w-full max-w-md p-3 text-center text-xs text-foreground-muted"
-                >
-                  {tab.label} content
-                </TabsPanel>
-              ))}
-            </Tabs>
-          )}
-        />
+        <TabsPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -366,135 +413,144 @@ function TabsDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="variants" title="Variants">
-            <Example html={code.variants}>
-              <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
-                <Tabs defaultValue="overview" className="overflow-visible">
-                  <TabsList>
-                    <TabsBackground />
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
+                  <Tabs defaultValue="overview" className="overflow-visible">
+                    <TabsList>
+                      <TabsBackground />
+                      {SETTINGS_TABS.map((tab) => (
+                        <TabsTab key={tab.id} value={tab.id}>
+                          <tab.icon />
+                          <TabsLabel>{tab.label}</TabsLabel>
+                        </TabsTab>
+                      ))}
+                    </TabsList>
                     {SETTINGS_TABS.map((tab) => (
-                      <TabsTab key={tab.id} value={tab.id}>
-                        <tab.icon />
-                        <TabsLabel>{tab.label}</TabsLabel>
-                      </TabsTab>
+                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
+                        {tab.label}
+                      </TabsPanel>
                     ))}
-                  </TabsList>
-                  {SETTINGS_TABS.map((tab) => (
-                    <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                      {tab.label}
-                    </TabsPanel>
-                  ))}
-                </Tabs>
+                  </Tabs>
 
-                <Tabs defaultValue="overview" className="overflow-visible">
-                  <TabsList>
+                  <Tabs defaultValue="overview" className="overflow-visible">
+                    <TabsList>
+                      {SETTINGS_TABS.map((tab) => (
+                        <TabsTab key={tab.id} value={tab.id}>
+                          <tab.icon />
+                          <TabsLabel>{tab.label}</TabsLabel>
+                        </TabsTab>
+                      ))}
+                    </TabsList>
                     {SETTINGS_TABS.map((tab) => (
-                      <TabsTab key={tab.id} value={tab.id}>
-                        <tab.icon />
-                        <TabsLabel>{tab.label}</TabsLabel>
-                      </TabsTab>
+                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
+                        {tab.label}
+                      </TabsPanel>
                     ))}
-                  </TabsList>
-                  {SETTINGS_TABS.map((tab) => (
-                    <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                      {tab.label}
-                    </TabsPanel>
-                  ))}
-                </Tabs>
+                  </Tabs>
 
-                <Tabs defaultValue="overview" className="overflow-visible">
-                  <TabsList variant="underline">
-                    <TabsBackground />
+                  <Tabs defaultValue="overview" className="overflow-visible">
+                    <TabsList variant="underline">
+                      <TabsBackground />
+                      {SETTINGS_TABS.map((tab) => (
+                        <TabsTab key={tab.id} value={tab.id}>
+                          <tab.icon />
+                          <TabsLabel>{tab.label}</TabsLabel>
+                        </TabsTab>
+                      ))}
+                    </TabsList>
                     {SETTINGS_TABS.map((tab) => (
-                      <TabsTab key={tab.id} value={tab.id}>
-                        <tab.icon />
-                        <TabsLabel>{tab.label}</TabsLabel>
-                      </TabsTab>
+                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
+                        {tab.label}
+                      </TabsPanel>
                     ))}
-                  </TabsList>
-                  {SETTINGS_TABS.map((tab) => (
-                    <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                      {tab.label}
-                    </TabsPanel>
-                  ))}
-                </Tabs>
+                  </Tabs>
 
-                <Tabs defaultValue="overview" className="overflow-visible">
-                  <TabsList variant="underline">
+                  <Tabs defaultValue="overview" className="overflow-visible">
+                    <TabsList variant="underline">
+                      {SETTINGS_TABS.map((tab) => (
+                        <TabsTab key={tab.id} value={tab.id}>
+                          <tab.icon />
+                          <TabsLabel>{tab.label}</TabsLabel>
+                        </TabsTab>
+                      ))}
+                    </TabsList>
                     {SETTINGS_TABS.map((tab) => (
-                      <TabsTab key={tab.id} value={tab.id}>
-                        <tab.icon />
-                        <TabsLabel>{tab.label}</TabsLabel>
-                      </TabsTab>
+                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
+                        {tab.label}
+                      </TabsPanel>
                     ))}
-                  </TabsList>
-                  {SETTINGS_TABS.map((tab) => (
-                    <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                      {tab.label}
-                    </TabsPanel>
-                  ))}
-                </Tabs>
-              </div>
-            </Example>
+                  </Tabs>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.variants} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="icon-only" title="Icons">
-            <Example html={code.icons}>
-              <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
-                <Tabs defaultValue="overview" className="overflow-visible">
-                  <TabsList>
-                    <TabsBackground />
-                    <TabsTab value="overview" aria-label="Overview">
-                      <MessageSquare />
-                    </TabsTab>
-                    <TabsTab value="billing" aria-label="Billing">
-                      <CreditCard />
-                    </TabsTab>
-                    <TabsTab value="settings" aria-label="Settings">
-                      <Settings />
-                    </TabsTab>
-                  </TabsList>
-                  {SETTINGS_TABS.map((tab) => (
-                    <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                      {tab.label}
-                    </TabsPanel>
-                  ))}
-                </Tabs>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
+                  <Tabs defaultValue="overview" className="overflow-visible">
+                    <TabsList>
+                      <TabsBackground />
+                      <TabsTab value="overview" aria-label="Overview">
+                        <MessageSquare />
+                      </TabsTab>
+                      <TabsTab value="billing" aria-label="Billing">
+                        <CreditCard />
+                      </TabsTab>
+                      <TabsTab value="settings" aria-label="Settings">
+                        <Settings />
+                      </TabsTab>
+                    </TabsList>
+                    {SETTINGS_TABS.map((tab) => (
+                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
+                        {tab.label}
+                      </TabsPanel>
+                    ))}
+                  </Tabs>
 
-                <Tabs defaultValue="messages" className="overflow-visible">
-                  <TabsList variant="underline">
-                    <TabsTab value="messages" aria-label="Messages">
-                      <MessageSquare />
-                    </TabsTab>
-                    <TabsTab value="alerts" aria-label="Alerts">
-                      <Bell />
-                    </TabsTab>
-                    <TabsTab value="settings" aria-label="Settings">
-                      <Settings />
-                    </TabsTab>
-                  </TabsList>
-                  <TabsPanel value="messages" className="sr-only">
-                    Messages
-                  </TabsPanel>
-                  <TabsPanel value="alerts" className="sr-only">
-                    Alerts
-                  </TabsPanel>
-                  <TabsPanel value="settings" className="sr-only">
-                    Settings
-                  </TabsPanel>
-                </Tabs>
-              </div>
-            </Example>
+                  <Tabs defaultValue="messages" className="overflow-visible">
+                    <TabsList variant="underline">
+                      <TabsTab value="messages" aria-label="Messages">
+                        <MessageSquare />
+                      </TabsTab>
+                      <TabsTab value="alerts" aria-label="Alerts">
+                        <Bell />
+                      </TabsTab>
+                      <TabsTab value="settings" aria-label="Settings">
+                        <Settings />
+                      </TabsTab>
+                    </TabsList>
+                    <TabsPanel value="messages" className="sr-only">
+                      Messages
+                    </TabsPanel>
+                    <TabsPanel value="alerts" className="sr-only">
+                      Alerts
+                    </TabsPanel>
+                    <TabsPanel value="settings" className="sr-only">
+                      Settings
+                    </TabsPanel>
+                  </Tabs>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.icons} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="reorderable" title="Reorderable">
-            <Example html={code.reorderable}>
-              <div className="flex w-full max-w-xl flex-col items-center gap-8 overflow-visible px-1">
-                <ReorderableTabsDemo background />
-                <ReorderableTabsDemo />
-                <ReorderableTabsDemo background variant="underline" />
-                <ReorderableTabsDemo variant="underline" />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex w-full max-w-xl flex-col items-center gap-8 overflow-visible px-1">
+                  <ReorderableTabsDemo background />
+                  <ReorderableTabsDemo />
+                  <ReorderableTabsDemo background variant="underline" />
+                  <ReorderableTabsDemo variant="underline" />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.reorderable} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

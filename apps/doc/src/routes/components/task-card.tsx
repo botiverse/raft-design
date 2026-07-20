@@ -4,7 +4,7 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -142,9 +142,12 @@ function TaskCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview">
-        <Example html={code.comparison} previewTheme="brutal" previewMode="light">
-          <TaskCardComparisonComposition />
-        </Example>
+        <Preview previewTheme="brutal" previewMode="light">
+          <Preview.Canvas>
+            <TaskCardComparisonComposition />
+          </Preview.Canvas>
+          <Preview.Code html={code.comparison} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -157,14 +160,12 @@ function TaskCardDoc() {
 
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="states" title="States">
-          <Example
-            html={code.states}
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <TaskCardStateMatrixComposition />
-          </Example>
+          <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview.Canvas>
+              <TaskCardStateMatrixComposition />
+            </Preview.Canvas>
+            <Preview.Code html={code.states} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

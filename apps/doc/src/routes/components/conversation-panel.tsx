@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -26,6 +26,7 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
+  preview: `<ConversationPanelComposition conversation="channel" />`,
   anatomy: `<ConversationPanelRoot>
   <ConversationPanelHeader>
     {/* Sticks to the top on mobile by default. */}
@@ -71,13 +72,6 @@ const SNIPPETS = {
 </ConversationPanelRoot>`,
   conversationPanelComposition: conversationPanelCompositionSource,
 } as const;
-
-type PlaygroundValues = {
-  conversation: NonNullable<ConversationPanelCompositionProps["conversation"]>;
-  muted: boolean;
-  banner: boolean;
-  jumpToLatest: boolean;
-};
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
@@ -203,6 +197,77 @@ export const Route = createFileRoute("/components/conversation-panel")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
+function ConversationPanelPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [conversation, setConversation] =
+    useState<NonNullable<ConversationPanelCompositionProps["conversation"]>>("channel");
+  const [muted, setMuted] = useState(false);
+  const [banner, setBanner] = useState(false);
+  const [jumpToLatest, setJumpToLatest] = useState(false);
+
+  return (
+    <Preview previewInset="flush" previewClassName="min-h-[32rem]">
+      <Preview.Canvas>
+        <div className="h-[32rem] w-full min-w-0 overflow-hidden">
+          <ConversationPanelComposition
+            conversation={conversation}
+            muted={muted}
+            notificationError={
+              banner ? "Couldn’t update Activity mute for this conversation." : null
+            }
+            newMessageCount={jumpToLatest ? 3 : 0}
+          />
+        </div>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Conversation" htmlFor="conversation-panel-preview-conversation">
+          <Preview.Select
+            id="conversation-panel-preview-conversation"
+            label="Conversation"
+            options={CONVERSATIONS}
+            value={conversation}
+            onValueChange={(value) =>
+              setConversation(
+                value as NonNullable<ConversationPanelCompositionProps["conversation"]>,
+              )
+            }
+          />
+        </Preview.Control>
+        <Preview.Control label="Muted" htmlFor="conversation-panel-preview-muted">
+          <Preview.Checkbox
+            id="conversation-panel-preview-muted"
+            label="Muted"
+            checked={muted}
+            onCheckedChange={setMuted}
+          />
+        </Preview.Control>
+        <Preview.Control label="Banner" htmlFor="conversation-panel-preview-banner">
+          <Preview.Checkbox
+            id="conversation-panel-preview-banner"
+            label="Banner"
+            checked={banner}
+            onCheckedChange={setBanner}
+          />
+        </Preview.Control>
+        <Preview.Control label="Jump" htmlFor="conversation-panel-preview-jump">
+          <Preview.Checkbox
+            id="conversation-panel-preview-jump"
+            label="Jump"
+            checked={jumpToLatest}
+            onCheckedChange={setJumpToLatest}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function ConversationPanelDoc() {
   const code = Route.useLoaderData();
 
@@ -213,38 +278,7 @@ function ConversationPanelDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            conversation: "channel",
-            muted: false,
-            banner: false,
-            jumpToLatest: false,
-          }}
-          controls={[
-            {
-              name: "conversation",
-              label: "Conversation",
-              type: "select",
-              options: CONVERSATIONS,
-            },
-            { name: "muted", label: "Muted", type: "boolean" },
-            { name: "banner", label: "Banner", type: "boolean" },
-            { name: "jumpToLatest", label: "Jump", type: "boolean" },
-          ]}
-          previewClassName="!min-h-[32rem] !items-stretch !p-0"
-          render={(values) => (
-            <div className="h-[32rem] w-full min-w-0 overflow-hidden">
-              <ConversationPanelComposition
-                conversation={values.conversation}
-                muted={values.muted}
-                notificationError={
-                  values.banner ? "Couldn’t update Activity mute for this conversation." : null
-                }
-                newMessageCount={values.jumpToLatest ? 3 : 0}
-              />
-            </div>
-          )}
-        />
+        <ConversationPanelPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

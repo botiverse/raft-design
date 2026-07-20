@@ -1,47 +1,78 @@
+import { useState, type ReactNode } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Preview } from "#/components/preview.tsx";
 
-type PlaygroundValues = {
-  addonVariant: "default" | "container";
-  disabled: boolean;
-  invalid: boolean;
-  placeholder: string;
+const ADDON_VARIANTS = ["default", "container"] as const;
+
+type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type InputGroupPlaygroundPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
 };
 
-export function InputGroupPlaygroundPreview() {
+export function InputGroupPlaygroundPreview({
+  code,
+  collapsedCode,
+}: InputGroupPlaygroundPreviewProps) {
+  const [addonVariant, setAddonVariant] = useState<(typeof ADDON_VARIANTS)[number]>("container");
+  const [disabled, setDisabled] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+  const [placeholder, setPlaceholder] = useState("Default");
+
   return (
-    <ComponentPlayground<PlaygroundValues>
-      defaultValues={{
-        addonVariant: "container",
-        disabled: false,
-        invalid: false,
-        placeholder: "Default",
-      }}
-      controls={[
-        {
-          name: "addonVariant",
-          label: "Addon",
-          type: "select",
-          options: ["default", "container"],
-        },
-        { name: "disabled", label: "Disabled", type: "boolean" },
-        { name: "invalid", label: "Invalid", type: "boolean" },
-        { name: "placeholder", label: "Placeholder", type: "text" },
-      ]}
-      render={(values) => (
+    <Preview>
+      <Preview.Canvas>
         <InputGroup className="w-96">
-          <InputGroupAddon.Text variant={values.addonVariant}>https://</InputGroupAddon.Text>
+          <InputGroupAddon.Text variant={addonVariant}>https://</InputGroupAddon.Text>
           <InputGroupInput
-            placeholder={values.placeholder}
-            disabled={values.disabled}
-            aria-invalid={values.invalid || undefined}
+            placeholder={placeholder}
+            disabled={disabled}
+            aria-invalid={invalid || undefined}
           />
-          <InputGroupAddon.Text align="inline-end" variant={values.addonVariant}>
+          <InputGroupAddon.Text align="inline-end" variant={addonVariant}>
             .com
           </InputGroupAddon.Text>
         </InputGroup>
-      )}
-    />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Addon" htmlFor="input-group-preview-addon">
+          <Preview.Select
+            id="input-group-preview-addon"
+            label="Addon"
+            options={ADDON_VARIANTS}
+            value={addonVariant}
+            onValueChange={(value) => setAddonVariant(value as (typeof ADDON_VARIANTS)[number])}
+          />
+        </Preview.Control>
+        <Preview.Control label="Disabled" htmlFor="input-group-preview-disabled">
+          <Preview.Checkbox
+            id="input-group-preview-disabled"
+            label="Disabled"
+            checked={disabled}
+            onCheckedChange={setDisabled}
+          />
+        </Preview.Control>
+        <Preview.Control label="Invalid" htmlFor="input-group-preview-invalid">
+          <Preview.Checkbox
+            id="input-group-preview-invalid"
+            label="Invalid"
+            checked={invalid}
+            onCheckedChange={setInvalid}
+          />
+        </Preview.Control>
+        <Preview.Control label="Placeholder" htmlFor="input-group-preview-placeholder">
+          <Preview.Text
+            id="input-group-preview-placeholder"
+            label="Placeholder"
+            value={placeholder}
+            onValueChange={setPlaceholder}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }

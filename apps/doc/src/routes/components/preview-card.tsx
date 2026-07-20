@@ -13,12 +13,11 @@ import {
 } from "raft-ui";
 import { useRef, type RefObject } from "react";
 
-import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { PreviewCardMentionComposition } from "#/modules/preview-card/preview-card-mention.composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -49,6 +48,21 @@ const MENTION_CARD_BODY_SNIPPET = `    <PreviewCardHeader>
     </PreviewCardDescription>`;
 
 const SNIPPETS = {
+  preview: `<PreviewCard defaultOpen>
+  <PreviewCardTrigger
+    render={
+      <a
+        href="/components/avatar"
+        className="font-bold underline decoration-foreground/30 decoration-2 underline-offset-2"
+      />
+    }
+  >
+    @Atlas
+  </PreviewCardTrigger>
+  <PreviewCardContent className="w-[17.5rem]">
+${MENTION_CARD_BODY_SNIPPET}
+  </PreviewCardContent>
+</PreviewCard>`,
   anatomy: `<PreviewCard>
   <PreviewCardTrigger />
   <PreviewCardContent>
@@ -216,9 +230,12 @@ function PreviewCardDoc() {
           Opens by default so the anatomy is inspectable without hovering, but stays fully
           interactive: move away and it closes on hover/focus intent like any other trigger.
         </p>
-        <ComponentDemoFrame previewClassName="min-h-[22rem] items-start pt-24">
-          <DefaultOpenPreviewCard />
-        </ComponentDemoFrame>
+        <Preview previewClassName="min-h-[22rem] items-start pt-24">
+          <Preview.Canvas>
+            <DefaultOpenPreviewCard />
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -235,9 +252,12 @@ function PreviewCardDoc() {
             Hover or focus the @Atlas link below. delay/closeDelay default to 80ms/40ms so repeated
             message previews stay responsive.
           </DocNote>
-          <Example html={code.usage} previewClassName="min-h-[18rem] items-start pt-8">
-            <PreviewCardMentionComposition />
-          </Example>
+          <Preview previewClassName="min-h-[18rem] items-start pt-8">
+            <Preview.Canvas>
+              <PreviewCardMentionComposition />
+            </Preview.Canvas>
+            <Preview.Code html={code.usage} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

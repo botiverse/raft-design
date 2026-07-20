@@ -13,6 +13,7 @@ export const CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   DefaultChecked: "apps/doc/src/modules/checkbox/compositions/default-checked.composition.tsx",
   Disabled: "apps/doc/src/modules/checkbox/compositions/disabled.composition.tsx",
   Indeterminate: "apps/doc/src/modules/checkbox/compositions/indeterminate.composition.tsx",
+  Preview: "apps/doc/src/modules/checkbox/compositions/preview.composition.tsx",
   PreviewOnHoverMarker:
     "apps/doc/src/modules/checkbox/compositions/preview-on-hover-marker.composition.tsx",
   PrimaryChecked: "apps/doc/src/modules/checkbox/compositions/primary-checked.composition.tsx",

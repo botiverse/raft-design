@@ -2,12 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, InputGroup, InputGroupAddon, InputGroupInput, InlineCode, Kbd } from "raft-ui";
 import { Field, FieldError, FieldLabel } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -19,6 +18,7 @@ import {
 import inputGroupInvalidStateCompositionSource from "#/modules/input-group/compositions/invalid-state.composition.tsx?raw";
 import inputGroupSearchInputCompositionSource from "#/modules/input-group/compositions/search-input.composition.tsx?raw";
 import inputGroupSlugInputCompositionSource from "#/modules/input-group/compositions/slug-input.composition.tsx?raw";
+import { InputGroupPlaygroundPreview } from "#/modules/input-group/input-group.preview.tsx";
 import {
   INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION,
   INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -69,6 +69,11 @@ const SOURCE_SCENES = [
 const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
+  preview: `<InputGroup>
+  <InputGroupAddon.Text variant="container">https://</InputGroupAddon.Text>
+  <InputGroupInput placeholder="Default" />
+  <InputGroupAddon.Text align="inline-end" variant="container">.com</InputGroupAddon.Text>
+</InputGroup>`,
   anatomy: `<InputGroup>
   <InputGroupInput />
 </InputGroup>`,
@@ -206,13 +211,6 @@ const SNIPPETS = {
 </InputGroup>`,
 } as const;
 
-type PlaygroundValues = {
-  addonVariant: "default" | "container";
-  disabled: boolean;
-  invalid: boolean;
-  placeholder: string;
-};
-
 const GROUP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -325,38 +323,7 @@ function InputGroupDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            addonVariant: "container",
-            disabled: false,
-            invalid: false,
-            placeholder: "Default",
-          }}
-          controls={[
-            {
-              name: "addonVariant",
-              label: "Addon",
-              type: "select",
-              options: ["default", "container"],
-            },
-            { name: "disabled", label: "Disabled", type: "boolean" },
-            { name: "invalid", label: "Invalid", type: "boolean" },
-            { name: "placeholder", label: "Placeholder", type: "text" },
-          ]}
-          render={(values) => (
-            <InputGroup className="w-96">
-              <InputGroupAddon.Text variant={values.addonVariant}>https://</InputGroupAddon.Text>
-              <InputGroupInput
-                placeholder={values.placeholder}
-                disabled={values.disabled}
-                aria-invalid={values.invalid || undefined}
-              />
-              <InputGroupAddon.Text align="inline-end" variant={values.addonVariant}>
-                .com
-              </InputGroupAddon.Text>
-            </InputGroup>
-          )}
-        />
+        <InputGroupPlaygroundPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -370,32 +337,38 @@ function InputGroupDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="addons" title="Addons">
-            <Example html={code.addons}>
-              <InputGroup className="w-80">
-                <InputGroupAddon>
-                  <Search />
-                </InputGroupAddon>
-                <InputGroupInput aria-label="Search" placeholder="Search..." />
-              </InputGroup>
-              <InputGroup className="w-80">
-                <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                <InputGroupInput aria-label="Server slug" placeholder="my-server" />
-              </InputGroup>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <InputGroup className="w-80">
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" placeholder="Search..." />
+                </InputGroup>
+                <InputGroup className="w-80">
+                  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
+                </InputGroup>
+              </Preview.Canvas>
+              <Preview.Code html={code.addons} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="text-affixes" title="Text affixes">
-            <Example html={code.textAffixes}>
-              <InputGroup className="w-80">
-                <InputGroupAddon.Text>$</InputGroupAddon.Text>
-                <InputGroupInput aria-label="Amount" placeholder="0.00" inputMode="decimal" />
-                <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
-              </InputGroup>
-              <InputGroup className="w-80">
-                <InputGroupInput aria-label="Email username" placeholder="alex" />
-                <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
-              </InputGroup>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <InputGroup className="w-80">
+                  <InputGroupAddon.Text>$</InputGroupAddon.Text>
+                  <InputGroupInput aria-label="Amount" placeholder="0.00" inputMode="decimal" />
+                  <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
+                </InputGroup>
+                <InputGroup className="w-80">
+                  <InputGroupInput aria-label="Email username" placeholder="alex" />
+                  <InputGroupAddon.Text align="inline-end">@example.com</InputGroupAddon.Text>
+                </InputGroup>
+              </Preview.Canvas>
+              <Preview.Code html={code.textAffixes} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="addon-variants" title="Addon variants">
@@ -406,48 +379,54 @@ function InputGroupDoc() {
                 when the addon is part of the value structure, like a protocol, domain suffix, unit,
                 or icon box.
               </DocNote>
-              <Example html={code.addonVariants}>
-                <InputGroup className="w-80">
-                  <InputGroupAddon variant="container">
-                    <Upload />
-                  </InputGroupAddon>
-                  <InputGroupInput aria-label="Upload target" placeholder="Default" />
-                </InputGroup>
-                <InputGroup className="w-96">
-                  <InputGroupAddon.Text variant="container">https://</InputGroupAddon.Text>
-                  <InputGroupInput aria-label="Domain" placeholder="Default" />
-                  <InputGroupAddon.Text align="inline-end" variant="container">
-                    .com
-                  </InputGroupAddon.Text>
-                </InputGroup>
-                <InputGroup className="w-80">
-                  <InputGroupInput aria-label="Project slug" placeholder="Default" />
-                  <InputGroupAddon variant="container" align="inline-end">
-                    <Upload />
-                  </InputGroupAddon>
-                </InputGroup>
-              </Example>
+              <Preview>
+                <Preview.Canvas>
+                  <InputGroup className="w-80">
+                    <InputGroupAddon variant="container">
+                      <Upload />
+                    </InputGroupAddon>
+                    <InputGroupInput aria-label="Upload target" placeholder="Default" />
+                  </InputGroup>
+                  <InputGroup className="w-96">
+                    <InputGroupAddon.Text variant="container">https://</InputGroupAddon.Text>
+                    <InputGroupInput aria-label="Domain" placeholder="Default" />
+                    <InputGroupAddon.Text align="inline-end" variant="container">
+                      .com
+                    </InputGroupAddon.Text>
+                  </InputGroup>
+                  <InputGroup className="w-80">
+                    <InputGroupInput aria-label="Project slug" placeholder="Default" />
+                    <InputGroupAddon variant="container" align="inline-end">
+                      <Upload />
+                    </InputGroupAddon>
+                  </InputGroup>
+                </Preview.Canvas>
+                <Preview.Code html={code.addonVariants} />
+              </Preview>
             </div>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="actions" title="Actions">
-            <Example html={code.actions}>
-              <InputGroup className="w-80">
-                <InputGroupAddon>
-                  <Search />
-                </InputGroupAddon>
-                <InputGroupInput aria-label="Search" placeholder="Search projects..." />
-                <InputGroupAddon align="inline-end">
-                  <Kbd>Cmd K</Kbd>
-                </InputGroupAddon>
-              </InputGroup>
-              <InputGroup className="w-80">
-                <InputGroupInput aria-label="Invite email" placeholder="teammate@example.com" />
-                <InputGroupAddon align="inline-end" className="px-1">
-                  <Button size="xs">Invite</Button>
-                </InputGroupAddon>
-              </InputGroup>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <InputGroup className="w-80">
+                  <InputGroupAddon>
+                    <Search />
+                  </InputGroupAddon>
+                  <InputGroupInput aria-label="Search" placeholder="Search projects..." />
+                  <InputGroupAddon align="inline-end">
+                    <Kbd>Cmd K</Kbd>
+                  </InputGroupAddon>
+                </InputGroup>
+                <InputGroup className="w-80">
+                  <InputGroupInput aria-label="Invite email" placeholder="teammate@example.com" />
+                  <InputGroupAddon align="inline-end" className="px-1">
+                    <Button size="xs">Invite</Button>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Preview.Canvas>
+              <Preview.Code html={code.actions} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="states" title="States">
@@ -457,48 +436,54 @@ function InputGroupDoc() {
                 <InlineCode>InputGroupInput</InlineCode>. The wrapper owns the visible state through{" "}
                 <InlineCode>has-*</InlineCode>.
               </DocNote>
-              <Example html={code.states}>
-                <div className="grid w-full max-w-96 gap-3">
-                  <InputGroup>
-                    <InputGroupAddon>
-                      <Search />
-                    </InputGroupAddon>
-                    <InputGroupInput aria-label="Search" placeholder="Search..." />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon>
-                      <Search />
-                    </InputGroupAddon>
-                    <InputGroupInput aria-label="Search" aria-invalid defaultValue="???" />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon.Text>$</InputGroupAddon.Text>
-                    <InputGroupInput aria-label="Amount" disabled placeholder="0.00" />
-                    <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                    <InputGroupInput
-                      aria-label="Server slug"
-                      aria-invalid
-                      defaultValue="Bad Slug"
-                    />
-                  </InputGroup>
-                </div>
-              </Example>
+              <Preview>
+                <Preview.Canvas>
+                  <div className="grid w-full max-w-96 gap-3">
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <Search />
+                      </InputGroupAddon>
+                      <InputGroupInput aria-label="Search" placeholder="Search..." />
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <Search />
+                      </InputGroupAddon>
+                      <InputGroupInput aria-label="Search" aria-invalid defaultValue="???" />
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon.Text>$</InputGroupAddon.Text>
+                      <InputGroupInput aria-label="Amount" disabled placeholder="0.00" />
+                      <InputGroupAddon.Text align="inline-end">USD</InputGroupAddon.Text>
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                      <InputGroupInput
+                        aria-label="Server slug"
+                        aria-invalid
+                        defaultValue="Bad Slug"
+                      />
+                    </InputGroup>
+                  </div>
+                </Preview.Canvas>
+                <Preview.Code html={code.states} />
+              </Preview>
             </div>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="field" title="With Field">
-            <Example html={code.field}>
-              <Field className="w-80" invalid>
-                <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>
-                <InputGroup>
-                  <InputGroupInput id="invite-email" type="email" defaultValue="oops" />
-                </InputGroup>
-                <FieldError match>Use a valid email.</FieldError>
-              </Field>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Field className="w-80" invalid>
+                  <FieldLabel htmlFor="invite-email">Invite email</FieldLabel>
+                  <InputGroup>
+                    <InputGroupInput id="invite-email" type="email" defaultValue="oops" />
+                  </InputGroup>
+                  <FieldError match>Use a valid email.</FieldError>
+                </Field>
+              </Preview.Canvas>
+              <Preview.Code html={code.field} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>
