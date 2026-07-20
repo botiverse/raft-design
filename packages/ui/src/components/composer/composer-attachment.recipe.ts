@@ -14,7 +14,7 @@ export const composerAttachment = tv({
       "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
       "[&_[data-slot=composer-attachment]]:shrink-0",
     ],
-    attachmentsNav: ["absolute top-1/2 z-30 -translate-y-1/2"],
+    attachmentsNav: ["absolute top-1/2 z-30 -translate-y-1/2", "disabled:opacity-100"],
     attachment: ["group/composer-attachment relative"],
     attachmentFile: [
       "relative flex h-16 w-44 gap-2 border-2 px-2",
