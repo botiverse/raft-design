@@ -115,10 +115,13 @@ export type {
   AppRailRootProps,
 } from "./components/app-rail/index";
 
-export { CopyableCode } from "./components/copyable-code/index";
+export {
+  CopyableCode,
+  CopyableCodeAction,
+  CopyableCodeRoot,
+} from "./components/copyable-code/index";
 export type {
   CopyableCodeActionProps,
-  CopyableCodeCodeProps,
   CopyableCodeProps,
   CopyableCodeRootProps,
 } from "./components/copyable-code/index";

@@ -49,16 +49,20 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import { CopyableCode } from "raft-ui";
+  preview: `import {
+  CopyableCode,
+  CopyableCodeAction,
+  CopyableCodeRoot,
+} from "raft-ui";
 
-<CopyableCode.Root>
-  <CopyableCode.Code truncate>{connectCommand}</CopyableCode.Code>
-  <CopyableCode.Action ariaLabel="Copy daemon command" />
-</CopyableCode.Root>`,
-  anatomy: `<CopyableCode.Root>
-  <CopyableCode.Code />
-  <CopyableCode.Action />
-</CopyableCode.Root>`,
+<CopyableCodeRoot>
+  <CopyableCode truncate>{connectCommand}</CopyableCode>
+  <CopyableCodeAction ariaLabel="Copy daemon command" />
+</CopyableCodeRoot>`,
+  anatomy: `<CopyableCodeRoot>
+  <CopyableCode />
+  <CopyableCodeAction />
+</CopyableCodeRoot>`,
 } as const;
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
@@ -80,14 +84,8 @@ const COMPOSITION_PATHS = {
 
 const COPYABLE_CODE_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "CopyableCode.Root",
-    type: "div",
-    description: "Owns copied state, size, and copy behavior for composed parts.",
-  },
-  {
     name: "copied",
     type: "boolean",
-    default: "–",
     description: "Optional controlled copied state. Omit it to let the component manage feedback.",
   },
   {
@@ -99,31 +97,30 @@ const COPYABLE_CODE_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "onCopy",
     type: "(value: string) => void | Promise<void>",
-    default: "–",
     description: "Optional callback after Action sends the Code text to the clipboard.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Owns copied state, size, and copy behavior for composed parts.",
   },
 ];
 
 const COPYABLE_CODE_CODE_PROPS: readonly PropRow[] = [
   {
-    name: "CopyableCode.Code",
-    type: "code",
-    description: "Code text slot. Its rendered text is the default value copied by Action.",
-  },
-  {
     name: "truncate",
     type: "boolean",
     default: "false",
-    description: "Single-line horizontally scrollable treatment for CopyableCode.Code.",
+    description: "Single-line horizontally scrollable treatment for the code text.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"code">',
+    description: "Code text slot. Its rendered text is the default value copied by Action.",
   },
 ];
 
 const COPYABLE_CODE_ACTION_PROPS: readonly PropRow[] = [
-  {
-    name: "CopyableCode.Action",
-    type: "Button",
-    description: "Copy trigger slot with default Copy/Check feedback icon.",
-  },
   {
     name: "ariaLabel / copiedAriaLabel",
     type: "string",
@@ -134,7 +131,12 @@ const COPYABLE_CODE_ACTION_PROPS: readonly PropRow[] = [
     name: "children",
     type: "ReactNode | ({ copied }) => ReactNode",
     default: "Copy / Check icon",
-    description: "Optional visible content for CopyableCode.Action.",
+    description: "Optional visible content for the copy trigger.",
+  },
+  {
+    name: "...props",
+    type: "ButtonProps",
+    description: "Copy trigger slot with default Copy/Check feedback icon.",
   },
 ];
 
@@ -202,13 +204,13 @@ function CopyableCodeDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="CopyableCode root">
+          <DocSubsection parentId="api" id="api-root" title="CopyableCodeRoot">
             <PropsTable rows={COPYABLE_CODE_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-code" title="CopyableCode.Code">
+          <DocSubsection parentId="api" id="api-code" title="CopyableCode">
             <PropsTable rows={COPYABLE_CODE_CODE_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-action" title="CopyableCode.Action">
+          <DocSubsection parentId="api" id="api-action" title="CopyableCodeAction">
             <PropsTable rows={COPYABLE_CODE_ACTION_PROPS} />
           </DocSubsection>
         </div>
