@@ -63,7 +63,7 @@ export const composerAttachment = tv({
         attachmentsNav: [
           "shadow-brutal-sm",
           "hover:-translate-y-1/2 hover:shadow-brutal-sm",
-          "active:not-aria-[haspopup]:translate-x-0 active:not-aria-[haspopup]:-translate-y-1/2 active:shadow-brutal-sm",
+          "active:not-data-[has-popup]:translate-x-0 active:not-data-[has-popup]:-translate-y-1/2 active:shadow-brutal-sm",
         ],
         attachment: [
           "has-[[data-slot=composer-attachment-image]]:size-16",
