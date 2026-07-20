@@ -14,25 +14,31 @@ import {
 
 export function ComposerDropOverlayComposition() {
   return (
-    <ComposerRoot>
-      <Composer>
-        <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
-        <ComposerToolbar>
-          <ComposerActions>
-            <ComposerIconButton aria-label="Attach file" disabled>
-              <Paperclip />
-            </ComposerIconButton>
-          </ComposerActions>
-          <ComposerMeta>
-            <ComposerSubmit aria-label="Send" disabled>
-              <Send />
-            </ComposerSubmit>
-          </ComposerMeta>
-        </ComposerToolbar>
-      </Composer>
+    <div className="relative w-full">
+      <ComposerRoot>
+        <Composer>
+          <ComposerInput
+            aria-label="Message #proj-uiux"
+            placeholder="Message #proj-uiux"
+            readOnly
+          />
+          <ComposerToolbar>
+            <ComposerActions>
+              <ComposerIconButton aria-label="Attach file" disabled>
+                <Paperclip />
+              </ComposerIconButton>
+            </ComposerActions>
+            <ComposerMeta>
+              <ComposerSubmit aria-label="Send" disabled>
+                <Send />
+              </ComposerSubmit>
+            </ComposerMeta>
+          </ComposerToolbar>
+        </Composer>
+      </ComposerRoot>
       <ComposerDropOverlay aria-hidden>
         <ComposerDropOverlayPrompt />
       </ComposerDropOverlay>
-    </ComposerRoot>
+    </div>
   );
 }

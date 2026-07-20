@@ -433,21 +433,21 @@ function PlaygroundComposer({
     onKeyDown: handleInputKeyDown,
   });
 
-  const isFileDrag = (event: DragEvent<HTMLFormElement>) =>
+  const isFileDrag = (event: DragEvent<HTMLDivElement>) =>
     event.dataTransfer.types.includes("Files");
-  const handleDragEnter = (event: DragEvent<HTMLFormElement>) => {
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
     if (!isFileDrag(event)) return;
     event.preventDefault();
     if (sendState.kind === "sending") return;
     dragDepthRef.current += 1;
     setIsDragging(true);
   };
-  const handleDragOver = (event: DragEvent<HTMLFormElement>) => {
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     if (!isFileDrag(event)) return;
     event.preventDefault();
     event.dataTransfer.dropEffect = sendState.kind === "sending" ? "none" : "copy";
   };
-  const handleDragLeave = (event: DragEvent<HTMLFormElement>) => {
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
     if (!isFileDrag(event)) return;
     dragDepthRef.current -= 1;
     if (dragDepthRef.current <= 0) {
@@ -455,7 +455,7 @@ function PlaygroundComposer({
       setIsDragging(false);
     }
   };
-  const handleDrop = (event: DragEvent<HTMLFormElement>) => {
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     if (!isFileDrag(event)) return;
     event.preventDefault();
     if (sendState.kind === "sending") return;
@@ -474,121 +474,123 @@ function PlaygroundComposer({
   };
 
   const composer = (
-    <ComposerRoot
-      onSubmit={handleFormSubmit}
+    <div
+      className="relative w-full"
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      {autocomplete.open ? <AutocompleteList autocomplete={autocomplete} /> : null}
-      {attachmentState.kind === "seeded" ? (
-        <PlaygroundSeededComposerAttachments
-          attachments={attachmentState.attachments}
-          onRemove={(name) => {
-            const timer = attachmentTimersRef.current.get(name);
-            if (timer !== undefined) {
-              window.clearTimeout(timer);
-              attachmentTimersRef.current.delete(name);
-            }
-            setAttachmentState((state) => {
-              if (state.kind !== "seeded") return state;
-              const attachments = state.attachments.filter(
-                (attachment) => attachment.name !== name,
-              );
-              return attachments.length > 0 ? { kind: "seeded", attachments } : { kind: "none" };
-            });
-            setStatusMessage(`${name} removed`);
-          }}
-          onRetry={(name) => {
-            setAttachmentState((state) =>
-              state.kind === "seeded"
-                ? {
-                    kind: "seeded",
-                    attachments: state.attachments.map((attachment) =>
-                      attachment.name === name
-                        ? { ...attachment, state: { kind: "uploading", progress: 0 } }
-                        : attachment,
-                    ),
-                  }
-                : state,
-            );
-            setStatusMessage(`Retrying ${name}`);
-            scheduleAttachmentReady(name);
-          }}
-        />
-      ) : null}
-      <Composer>
-        <ComposerInput
-          {...inputProps}
-          aria-label={label}
-          placeholder={label}
-          disabled={sendState.kind === "sending"}
-          onBlur={handleAutocompleteBlur}
-        />
-        <ComposerToolbar>
-          <ComposerActions>
-            <ComposerIconButton
-              aria-label="Attach image"
-              disabled={sendState.kind === "sending"}
-              onClick={() => {
-                addUploadingAttachments([{ name: "screenshot.png", mediaType: "image/png" }]);
-                setStatusMessage("Uploading screenshot.png");
-              }}
-            >
-              <ImagePlus />
-            </ComposerIconButton>
-            <ComposerIconButton
-              aria-label="Attach file"
-              disabled={sendState.kind === "sending"}
-              onClick={() => {
-                addUploadingAttachments([
-                  { name: "release-notes.pdf", mediaType: "application/pdf" },
-                ]);
-                setStatusMessage("Uploading release-notes.pdf");
-              }}
-            >
-              <Paperclip />
-            </ComposerIconButton>
-          </ComposerActions>
-          <ComposerMeta>
-            {sendState.kind === "failed" ? (
-              <span className="text-xs font-medium text-danger-base">Send failed · retry</span>
-            ) : null}
-            {footer === "main" ? (
-              <ComposerToolbarLabel>
-                <Checkbox
-                  size="sm"
-                  aria-label="Send as task"
-                  disabled={sendState.kind === "sending"}
-                />
-                As Task
-              </ComposerToolbarLabel>
-            ) : null}
-            <ComposerSubmit
-              aria-label={sendState.kind === "failed" ? "Retry send" : "Send"}
-              aria-busy={sendState.kind === "sending"}
-              disabled={
-                sendState.kind === "sending" ||
-                hasBlockingAttachments ||
-                (!draft.trim() && !attachmentsVisible)
+      <ComposerRoot onSubmit={handleFormSubmit}>
+        {autocomplete.open ? <AutocompleteList autocomplete={autocomplete} /> : null}
+        {attachmentState.kind === "seeded" ? (
+          <PlaygroundSeededComposerAttachments
+            attachments={attachmentState.attachments}
+            onRemove={(name) => {
+              const timer = attachmentTimersRef.current.get(name);
+              if (timer !== undefined) {
+                window.clearTimeout(timer);
+                attachmentTimersRef.current.delete(name);
               }
-            >
-              <span>{sendState.kind === "sending" ? "Sending…" : "Send"}</span>
-              {sendState.kind === "sending" ? <Spinner size="sm" /> : <Send />}
-            </ComposerSubmit>
-          </ComposerMeta>
-        </ComposerToolbar>
-      </Composer>
+              setAttachmentState((state) => {
+                if (state.kind !== "seeded") return state;
+                const attachments = state.attachments.filter(
+                  (attachment) => attachment.name !== name,
+                );
+                return attachments.length > 0 ? { kind: "seeded", attachments } : { kind: "none" };
+              });
+              setStatusMessage(`${name} removed`);
+            }}
+            onRetry={(name) => {
+              setAttachmentState((state) =>
+                state.kind === "seeded"
+                  ? {
+                      kind: "seeded",
+                      attachments: state.attachments.map((attachment) =>
+                        attachment.name === name
+                          ? { ...attachment, state: { kind: "uploading", progress: 0 } }
+                          : attachment,
+                      ),
+                    }
+                  : state,
+              );
+              setStatusMessage(`Retrying ${name}`);
+              scheduleAttachmentReady(name);
+            }}
+          />
+        ) : null}
+        <Composer>
+          <ComposerInput
+            {...inputProps}
+            aria-label={label}
+            placeholder={label}
+            disabled={sendState.kind === "sending"}
+            onBlur={handleAutocompleteBlur}
+          />
+          <ComposerToolbar>
+            <ComposerActions>
+              <ComposerIconButton
+                aria-label="Attach image"
+                disabled={sendState.kind === "sending"}
+                onClick={() => {
+                  addUploadingAttachments([{ name: "screenshot.png", mediaType: "image/png" }]);
+                  setStatusMessage("Uploading screenshot.png");
+                }}
+              >
+                <ImagePlus />
+              </ComposerIconButton>
+              <ComposerIconButton
+                aria-label="Attach file"
+                disabled={sendState.kind === "sending"}
+                onClick={() => {
+                  addUploadingAttachments([
+                    { name: "release-notes.pdf", mediaType: "application/pdf" },
+                  ]);
+                  setStatusMessage("Uploading release-notes.pdf");
+                }}
+              >
+                <Paperclip />
+              </ComposerIconButton>
+            </ComposerActions>
+            <ComposerMeta>
+              {sendState.kind === "failed" ? (
+                <span className="text-xs font-medium text-danger-base">Send failed · retry</span>
+              ) : null}
+              {footer === "main" ? (
+                <ComposerToolbarLabel>
+                  <Checkbox
+                    size="sm"
+                    aria-label="Send as task"
+                    disabled={sendState.kind === "sending"}
+                  />
+                  As Task
+                </ComposerToolbarLabel>
+              ) : null}
+              <ComposerSubmit
+                aria-label={sendState.kind === "failed" ? "Retry send" : "Send"}
+                aria-busy={sendState.kind === "sending"}
+                disabled={
+                  sendState.kind === "sending" ||
+                  hasBlockingAttachments ||
+                  (!draft.trim() && !attachmentsVisible)
+                }
+              >
+                <span>{sendState.kind === "sending" ? "Sending…" : "Send"}</span>
+                {sendState.kind === "sending" ? <Spinner size="sm" /> : <Send />}
+              </ComposerSubmit>
+            </ComposerMeta>
+          </ComposerToolbar>
+        </Composer>
+        <span className="sr-only" aria-live="polite">
+          {statusMessage}
+        </span>
+      </ComposerRoot>
       {isDragging ? (
         <ComposerDropOverlay aria-hidden>
           <ComposerDropOverlayPrompt />
         </ComposerDropOverlay>
       ) : null}
-      <span className="sr-only" aria-live="polite">
-        {statusMessage}
-      </span>
-    </ComposerRoot>
+    </div>
   );
 
   return footer === "main" ? (

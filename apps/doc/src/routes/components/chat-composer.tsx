@@ -29,51 +29,53 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SNIPPET = `<ComposerRoot>
-  <ComposerAttachments>
-    <ComposerAttachment>
-      <ComposerAttachmentImage />
-      <ComposerAttachmentUploadingOverlay>
-        <Spinner />
-        64%
-      </ComposerAttachmentUploadingOverlay>
-      <ComposerAttachmentUploadProgressBar value={64} />
-      <ComposerAttachmentRemove />
-    </ComposerAttachment>
-    <ComposerAttachment>
-      <ComposerAttachmentFile>
-        <ComposerAttachmentBody>
-          <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-        </ComposerAttachmentBody>
+const ANATOMY_SNIPPET = `<div className="relative">
+  <ComposerRoot>
+    <ComposerAttachments>
+      <ComposerAttachment>
+        <ComposerAttachmentImage />
         <ComposerAttachmentUploadingOverlay>
           <Spinner />
           64%
         </ComposerAttachmentUploadingOverlay>
         <ComposerAttachmentUploadProgressBar value={64} />
-      </ComposerAttachmentFile>
-      <ComposerAttachmentRemove />
-    </ComposerAttachment>
-  </ComposerAttachments>
-  <Composer>
-    <ComposerInput />
-    <ComposerToolbar>
-      <ComposerActions>
-        <ComposerIconButton />
-      </ComposerActions>
+        <ComposerAttachmentRemove />
+      </ComposerAttachment>
+      <ComposerAttachment>
+        <ComposerAttachmentFile>
+          <ComposerAttachmentBody>
+            <ComposerAttachmentTitle />
+            <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+          </ComposerAttachmentBody>
+          <ComposerAttachmentUploadingOverlay>
+            <Spinner />
+            64%
+          </ComposerAttachmentUploadingOverlay>
+          <ComposerAttachmentUploadProgressBar value={64} />
+        </ComposerAttachmentFile>
+        <ComposerAttachmentRemove />
+      </ComposerAttachment>
+    </ComposerAttachments>
+    <Composer>
+      <ComposerInput />
+      <ComposerToolbar>
+        <ComposerActions>
+          <ComposerIconButton />
+        </ComposerActions>
         <ComposerMeta>
           <ComposerToolbarLabel>
             <Checkbox />
             As Task
           </ComposerToolbarLabel>
-        <ComposerSubmit />
-      </ComposerMeta>
-    </ComposerToolbar>
-  </Composer>
+          <ComposerSubmit />
+        </ComposerMeta>
+      </ComposerToolbar>
+    </Composer>
+  </ComposerRoot>
   <ComposerDropOverlay>
     <ComposerDropOverlayPrompt />
   </ComposerDropOverlay>
-</ComposerRoot>`;
+</div>`;
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
@@ -253,7 +255,8 @@ const COMPOSER_DROP_OVERLAY_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description: "Drag-and-drop overlay covering the composer root while files hover over it.",
+    description:
+      "Drag-and-drop overlay that fills its nearest positioned ancestor. May sit inside ComposerRoot or outside it on a shared relative wrapper.",
   },
 ];
 

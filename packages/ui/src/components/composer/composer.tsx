@@ -407,8 +407,6 @@ export function ComposerDropOverlayPrompt({
   className,
   ...props
 }: ComposerDropOverlayPromptProps) {
-  const theme = useThemeFamily();
-
   if (children) {
     return (
       <ComposerDropOverlayLabel className={className} {...props}>
@@ -417,24 +415,16 @@ export function ComposerDropOverlayPrompt({
     );
   }
 
-  if (theme !== "elegant") {
-    return (
-      <ComposerDropOverlayLabel className={className} {...props}>
-        Drop files to attach
-      </ComposerDropOverlayLabel>
-    );
-  }
-
   return (
-    <ComposerDropOverlayLabel className={`gap-3.5${className ? ` ${className}` : ""}`} {...props}>
+    <ComposerDropOverlayLabel className={className} {...props}>
       <span aria-hidden className="relative flex h-10 w-22 items-center justify-center">
-        <span className="absolute -translate-x-6 translate-y-1 -rotate-12 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+        <span className="absolute -translate-x-6 translate-y-1 -rotate-12 rounded-none bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
           <FileText className="size-4 text-foreground-icon" />
         </span>
-        <span className="absolute z-10 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+        <span className="absolute z-10 rounded-none bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
           <Upload className="size-4 text-foreground-icon" />
         </span>
-        <span className="absolute z-20 translate-x-7 translate-y-1 rotate-12 rounded-md bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
+        <span className="absolute z-20 translate-x-7 translate-y-1 rotate-12 rounded-none bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle">
           <ImageIcon className="size-4 text-foreground-icon" />
         </span>
       </span>
