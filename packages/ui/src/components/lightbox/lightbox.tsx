@@ -4,7 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
 import { cn } from "../../lib/cn";
-import { tv } from "../../lib/tv";
+import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -13,8 +13,13 @@ import { Button, type ButtonProps } from "../button/button";
 const lightbox = tv({
   slots: {
     backdrop: ["fixed inset-0 z-[70] bg-layer-backdrop data-[closed]:hidden"],
-    content: ["pointer-events-none fixed inset-0 z-[71] data-[closed]:hidden"],
+    content: ["pointer-events-none fixed inset-0 z-[71] flex flex-col data-[closed]:hidden"],
     header: ["safe-top safe-left safe-right pointer-events-auto shrink-0"],
+    headerBar: [
+      "flex justify-end px-4 pt-4",
+      "[&_[data-slot=button]]:pointer-events-auto",
+      "[&_[data-slot=lightbox-close]]:pointer-events-auto",
+    ],
     title: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
     actions: ["flex shrink-0 items-center gap-1.5"],
     stage: [
@@ -30,6 +35,7 @@ const lightbox = tv({
       "data-[disabled=true]:cursor-default",
       "[&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0",
     ],
+    infoDock: ["pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center"],
     infoBar: [
       "pointer-events-auto flex min-w-0 items-center",
       "bg-layer-panel text-foreground-strong",
@@ -56,6 +62,7 @@ const lightbox = tv({
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
         infoTitle: ["text-xs text-foreground"],
+        close: ["[&_svg]:size-4"],
       },
       elegant: {
         backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
@@ -82,10 +89,29 @@ const lightbox = tv({
         ],
         infoTitle: ["font-sans text-xs font-medium text-[oklch(0.269_0_0)]"],
         infoActions: ["gap-1"],
+        close: ["rounded-full p-1.5", "[&_svg]:size-3.5"],
+      },
+    },
+    placement: {
+      default: {},
+      overlay: {
+        header: ["pointer-events-none absolute inset-x-0 top-0 z-20"],
+      },
+    },
+    flush: {
+      false: {},
+      true: {
+        media: ["border-0 bg-transparent shadow-none"],
       },
     },
   },
+  defaultVariants: {
+    placement: "default",
+    flush: false,
+  },
 });
+
+type LightboxVariantProps = VariantProps<typeof lightbox>;
 
 export type LightboxProps<Payload = unknown> = Omit<
   Dialog.Root.Props<Payload>,
@@ -195,11 +221,17 @@ export function LightboxContent({
   );
 }
 
-export type LightboxHeaderProps = useRender.ComponentProps<"div">;
+export type LightboxHeaderProps = useRender.ComponentProps<"div"> &
+  Pick<LightboxVariantProps, "placement">;
 
-export function LightboxHeader({ render, className, ...props }: LightboxHeaderProps) {
+export function LightboxHeader({
+  placement = "default",
+  render,
+  className,
+  ...props
+}: LightboxHeaderProps) {
   const theme = useThemeFamily();
-  const { header } = lightbox({ theme });
+  const { header } = lightbox({ theme, placement });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -210,6 +242,24 @@ export function LightboxHeader({ render, className, ...props }: LightboxHeaderPr
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "lightbox-header",
+    },
+  });
+}
+
+export type LightboxHeaderBarProps = useRender.ComponentProps<"div">;
+
+export function LightboxHeaderBar({ render, className, ...props }: LightboxHeaderBarProps) {
+  const { headerBar } = lightbox();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: headerBar({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-header-bar",
     },
   });
 }
@@ -271,11 +321,12 @@ export function LightboxStage({ render, className, ...props }: LightboxStageProp
   });
 }
 
-export type LightboxMediaProps = useRender.ComponentProps<"div">;
+export type LightboxMediaProps = useRender.ComponentProps<"div"> &
+  Pick<LightboxVariantProps, "flush">;
 
-export function LightboxMedia({ render, className, ...props }: LightboxMediaProps) {
+export function LightboxMedia({ flush = false, render, className, ...props }: LightboxMediaProps) {
   const theme = useThemeFamily();
-  const { media } = lightbox({ theme });
+  const { media } = lightbox({ theme, flush });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: media({ className }),
   };
@@ -339,6 +390,24 @@ export function LightboxNavigationButton({
   );
 }
 
+export type LightboxInfoDockProps = useRender.ComponentProps<"div">;
+
+export function LightboxInfoDock({ render, className, ...props }: LightboxInfoDockProps) {
+  const { infoDock } = lightbox();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: infoDock({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-info-dock",
+    },
+  });
+}
+
 export type LightboxInfoBarProps = useRender.ComponentProps<"div">;
 
 export function LightboxInfoBar({ render, className, ...props }: LightboxInfoBarProps) {
@@ -398,9 +467,24 @@ export function LightboxInfoActions({ render, className, ...props }: LightboxInf
 
 export type LightboxCloseProps = StyledProps<Dialog.Close.Props>;
 
-export function LightboxClose({ className, ...props }: LightboxCloseProps) {
+export function LightboxClose({ className, render, ...props }: LightboxCloseProps) {
   const theme = useThemeFamily();
   const { close } = lightbox({ theme });
 
-  return <Dialog.Close data-slot="lightbox-close" className={close({ className })} {...props} />;
+  return (
+    <Dialog.Close
+      data-slot="lightbox-close"
+      className={close({ className })}
+      render={
+        render ?? (
+          <Button
+            type="button"
+            variant="outline"
+            size={theme === "elegant" ? "icon-sm" : "icon-md"}
+          />
+        )
+      }
+      {...props}
+    />
+  );
 }

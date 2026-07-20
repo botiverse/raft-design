@@ -6,8 +6,10 @@ import {
   LightboxClose,
   LightboxContent,
   LightboxHeader,
+  LightboxHeaderBar,
   LightboxInfoActions,
   LightboxInfoBar,
+  LightboxInfoDock,
   LightboxInfoTitle,
   LightboxMedia,
   LightboxNavigationButton,
@@ -93,11 +95,12 @@ import {
   LightboxClose,
   LightboxContent,
   LightboxHeader,
+  LightboxHeaderBar,
   LightboxInfoActions,
   LightboxInfoBar,
+  LightboxInfoDock,
   LightboxInfoTitle,
   LightboxMedia,
-  LightboxNavigationButton,
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
@@ -108,20 +111,18 @@ import { Download, X } from "lucide-react";
   <LightboxTrigger render={<Button variant="default" />}>
     Open lightbox
   </LightboxTrigger>
-  <LightboxContent className="flex flex-col">
-    <LightboxHeader className="pointer-events-none absolute inset-x-0 top-0 z-20">
-      <div className="flex justify-end px-4 pt-4">
+  <LightboxContent>
+    <LightboxHeader placement="overlay">
+      <LightboxHeaderBar>
         <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
-        <LightboxClose
-          render={<Button type="button" variant="outline" size="icon-md" aria-label="Close" className="pointer-events-auto" />}
-        >
-          <X className="size-4" />
+        <LightboxClose aria-label="Close">
+          <X />
         </LightboxClose>
-      </div>
+      </LightboxHeaderBar>
     </LightboxHeader>
     <LightboxStage>
-      <LightboxMedia className="border-0 bg-transparent shadow-none" render={<img src={url} alt="" />} />
-      <div className="pointer-events-none absolute right-6 bottom-20 left-6 flex justify-center">
+      <LightboxMedia flush render={<img src={url} alt="" />} />
+      <LightboxInfoDock>
         <LightboxInfoBar>
           <LightboxInfoTitle>product-shot.png</LightboxInfoTitle>
           <LightboxInfoActions>
@@ -130,27 +131,29 @@ import { Download, X } from "lucide-react";
             </Button>
           </LightboxInfoActions>
         </LightboxInfoBar>
-      </div>
+      </LightboxInfoDock>
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
   anatomy: `<Lightbox>
   <LightboxTrigger />
   <LightboxContent>
-    <LightboxHeader>
-      <LightboxTitle />
-      <LightboxActions>
+    <LightboxHeader placement="overlay">
+      <LightboxHeaderBar>
+        <LightboxTitle />
         <LightboxClose />
-      </LightboxActions>
+      </LightboxHeaderBar>
     </LightboxHeader>
     <LightboxStage>
       <LightboxNavigationButton />
-      <LightboxMedia />
+      <LightboxMedia flush />
       <LightboxNavigationButton />
-      <LightboxInfoBar>
-        <LightboxInfoTitle />
-        <LightboxInfoActions />
-      </LightboxInfoBar>
+      <LightboxInfoDock>
+        <LightboxInfoBar>
+          <LightboxInfoTitle />
+          <LightboxInfoActions />
+        </LightboxInfoBar>
+      </LightboxInfoDock>
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
@@ -266,10 +269,33 @@ const PROPS: readonly PropRow[] = [
       "Renders Portal, Backdrop, and Popup. Defaults initialFocus/finalFocus to false for preview-like surfaces.",
   },
   {
-    name: "LightboxHeader / LightboxActions / LightboxStage / LightboxMedia / LightboxNavigationButton / LightboxInfoBar",
+    name: "LightboxHeader",
+    type: 'div props & { placement?: "default" | "overlay" }',
+    description:
+      'Header slot. Use placement="overlay" for the floating image-shell chrome that ignores pointer events except its controls.',
+  },
+  {
+    name: "LightboxHeaderBar",
     type: "div props",
     description:
-      "Layout slots for the title bar, action cluster, preview stage, media element, image navigation, and compact filename/action rail.",
+      "Trailing toolbar row inside an overlay header (padding + re-enabled pointer events).",
+  },
+  {
+    name: "LightboxMedia",
+    type: "div props & { flush?: boolean }",
+    description:
+      "Media frame. Pass flush to drop border/background/shadow when the photo is the stage itself.",
+  },
+  {
+    name: "LightboxInfoDock",
+    type: "div props",
+    description: "Absolute dock that centers LightboxInfoBar near the bottom of the stage.",
+  },
+  {
+    name: "LightboxActions / LightboxStage / LightboxNavigationButton / LightboxInfoBar",
+    type: "div props",
+    description:
+      "Layout slots for the action cluster, preview stage, image navigation, and compact filename/action rail.",
   },
   {
     name: "LightboxTitle",
@@ -279,7 +305,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "LightboxClose",
     type: "Base UI Dialog.Close props",
-    description: "Close primitive. Compose Button through render for icon or footer actions.",
+    description:
+      "Close control. Defaults to an outline icon Button with theme-aware size and elegant rounding; pass render to replace the button.",
   },
 ];
 
@@ -434,24 +461,14 @@ function LightboxPreviewDemo() {
   return (
     <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
       <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
-      <LightboxContent className="flex flex-col" data-testid="lightbox-demo">
-        <LightboxHeader className="pointer-events-none absolute inset-x-0 top-0 z-20">
-          <div className="flex justify-end px-4 pt-4">
+      <LightboxContent data-testid="lightbox-demo">
+        <LightboxHeader placement="overlay">
+          <LightboxHeaderBar>
             <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
-            <LightboxClose
-              render={
-                <Button
-                  type="button"
-                  variant="outline"
-                  size={theme === "elegant" ? "icon-sm" : "icon-md"}
-                  aria-label="Close"
-                  className={cn("pointer-events-auto", theme === "elegant" && "rounded-full p-1.5")}
-                />
-              }
-            >
-              <X className={theme === "elegant" ? "size-3.5" : "size-4"} />
+            <LightboxClose aria-label="Close">
+              <X />
             </LightboxClose>
-          </div>
+          </LightboxHeaderBar>
         </LightboxHeader>
         <LightboxStage data-testid="image-lightbox-stage">
           <LightboxNavigationButton
@@ -470,7 +487,10 @@ function LightboxPreviewDemo() {
           >
             <ChevronRight />
           </LightboxNavigationButton>
-          <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center border-0 bg-transparent shadow-none">
+          <LightboxMedia
+            flush
+            className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center"
+          >
             <img
               src={currentImage.src}
               alt={currentImage.filename}
@@ -478,7 +498,7 @@ function LightboxPreviewDemo() {
               draggable={false}
             />
           </LightboxMedia>
-          <div className="pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center">
+          <LightboxInfoDock>
             <LightboxInfoBar>
               <LightboxInfoTitle>{currentImage.filename}</LightboxInfoTitle>
               <LightboxInfoActions>
@@ -487,7 +507,7 @@ function LightboxPreviewDemo() {
                 </Button>
               </LightboxInfoActions>
             </LightboxInfoBar>
-          </div>
+          </LightboxInfoDock>
           <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
             {DEMO_IMAGES.map((image, index) => {
               const active = index === imageIndex;

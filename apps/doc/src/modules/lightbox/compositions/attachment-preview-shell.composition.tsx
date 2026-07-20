@@ -8,11 +8,15 @@ import {
   LightboxHeader,
   LightboxStage,
   LightboxTitle,
+  LightboxTrigger,
 } from "raft-ui";
 
 export function AttachmentPreviewShellComposition() {
   return (
-    <Lightbox open modal={false} onOpenChange={() => {}}>
+    <Lightbox modal={false}>
+      <LightboxTrigger render={<Button type="button" variant="default" />}>
+        Open attachment preview
+      </LightboxTrigger>
       <LightboxContent render={<section aria-label="Attachment preview" />}>
         <LightboxHeader>
           <div className="flex h-14 items-center gap-3 px-4">

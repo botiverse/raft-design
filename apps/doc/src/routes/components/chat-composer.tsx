@@ -12,12 +12,14 @@ import {
   ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
+  ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
+import composerWithLightboxSource from "#/modules/chat-composer/compositions/composer-with-lightbox.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -79,6 +81,7 @@ const SNIPPETS = {
   compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
+  withLightbox: composerWithLightboxSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -258,6 +261,18 @@ function ChatComposerDoc() {
             <Example html={code.attachmentStates} previewClassName="min-h-[22rem] items-stretch">
               <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
                 <ComposerAttachmentStatesComposition />
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="with-lightbox" title="Ready images with lightbox">
+            <DocNote>
+              Composer does not own preview state. Ready image attachments stay clickable tiles; the
+              consumer opens Lightbox and owns gallery index / navigation.
+            </DocNote>
+            <Example html={code.withLightbox} previewClassName="min-h-[22rem] items-stretch">
+              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                <ComposerWithLightboxComposition />
               </div>
             </Example>
           </DocSubsection>

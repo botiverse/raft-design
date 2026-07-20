@@ -11,6 +11,8 @@ export const composerAttachment = tv({
     attachmentImage: [
       "relative block size-16 shrink-0 overflow-hidden",
       "[&_[data-slot=file-preview]]:size-full [&_[data-slot=file-preview-media]]:size-full",
+      "[&_[data-slot=file-preview-media]]:border-0 [&_[data-slot=file-preview-media]]:bg-transparent",
+      "[&_[data-slot=file-preview-media]]:shadow-none [&_[data-slot=file-preview-media]]:ring-0",
     ],
     attachmentBody: ["block min-w-0 flex-1"],
     attachmentTitle: ["block truncate text-xs font-bold"],
@@ -45,11 +47,7 @@ export const composerAttachment = tv({
           "has-[[data-slot=composer-attachment-image]]:[&_[data-slot=composer-attachment-failed-overlay]]:border-0",
         ],
         attachmentFile: "w-[164px] items-center border-black bg-white [&_svg]:text-black/70",
-        attachmentImage: [
-          "size-full image-transparency-bg",
-          "[&_[data-slot=file-preview-media]]:border-0 [&_[data-slot=file-preview-media]]:bg-transparent",
-          "[&_[data-slot=file-preview-media]]:shadow-none [&_[data-slot=file-preview-media]]:ring-0",
-        ],
+        attachmentImage: "size-full image-transparency-bg",
         attachmentTitle: "text-black",
         attachmentMeta: "text-black/50",
         attachmentUploadingOverlay: "bg-white/85 text-black",
