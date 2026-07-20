@@ -68,11 +68,12 @@ export function DocSubsection({
 }: DocSubsectionProps) {
   const showSwitcher = showThemeSwitcher ?? parentId === "usage";
 
+  const includeInToc = parentId !== "api";
+
   return (
     <section
       id={id}
-      data-doc-toc-parent={parentId}
-      data-doc-toc-item={title}
+      {...(includeInToc ? { "data-doc-toc-parent": parentId, "data-doc-toc-item": title } : {})}
       className="scroll-mt-8 space-y-4"
     >
       <div className="flex items-center justify-between gap-4">
