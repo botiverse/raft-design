@@ -3,7 +3,7 @@ import type { DrawerProps } from "raft-ui";
 
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -300,8 +300,7 @@ function DrawerDoc() {
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Snap points</h3>
+          <DocSubsection parentId="usage" id="snap-points" title="Snap points">
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
               Snap points apply to vertical drawers. Compare separate bottom and top notifications;
               each expands from an 8rem summary to a 24rem detail view.
@@ -311,10 +310,13 @@ function DrawerDoc() {
                 <DrawerSnapPointsComposition />
               </div>
             </Example>
-          </div>
+          </DocSubsection>
 
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Nested close callbacks</h3>
+          <DocSubsection
+            parentId="usage"
+            id="nested-close-callbacks"
+            title="Nested close callbacks"
+          >
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
               Each nested drawer owns its close callback; removing a member closes the confirmation
               and details layers together.
@@ -352,10 +354,13 @@ function DrawerDoc() {
                 <DrawerNestedCloseCallbackComposition />
               </div>
             </Example>
-          </div>
+          </DocSubsection>
 
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Full-width side drawer</h3>
+          <DocSubsection
+            parentId="usage"
+            id="full-width-side-drawer"
+            title="Full-width side drawer"
+          >
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
               Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> on small
               screens to span the floating inset.
@@ -365,10 +370,9 @@ function DrawerDoc() {
                 <DrawerSideFullWidthUsage />
               </div>
             </Example>
-          </div>
+          </DocSubsection>
 
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Responsive placement</h3>
+          <DocSubsection parentId="usage" id="responsive-placement" title="Responsive placement">
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
               Switch <code className="font-mono text-[0.8125rem]">swipeDirection</code> at md:
               bottom on mobile, right on desktop.
@@ -378,7 +382,7 @@ function DrawerDoc() {
                 <DrawerResponsivePlacementComposition />
               </div>
             </Example>
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

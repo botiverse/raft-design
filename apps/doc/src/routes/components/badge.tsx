@@ -4,7 +4,7 @@ import { CircleCheck, Clock, X } from "lucide-react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -13,12 +13,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
-  { id: "appearance", title: "Appearance" },
-  { id: "casing", title: "Casing" },
-  { id: "icons", title: "Icons" },
-  { id: "spinner", title: "Spinner" },
-  { id: "composition", title: "Composition" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -220,128 +215,132 @@ function BadgeDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <Example html={code.variants}>
-          <Badge appearance="outline" uppercase>
-            Default
-          </Badge>
-          <Badge variant="primary" uppercase>
-            Pending
-          </Badge>
-          <Badge variant="information">Open</Badge>
-          <Badge variant="muted">Saved</Badge>
-          <Badge variant="accent">New</Badge>
-          <Badge variant="success">Live</Badge>
-          <Badge variant="warning">Warning</Badge>
-          <Badge variant="danger">Failed</Badge>
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="variants" title="Variants">
+            <Example html={code.variants}>
+              <Badge appearance="outline" uppercase>
+                Default
+              </Badge>
+              <Badge variant="primary" uppercase>
+                Pending
+              </Badge>
+              <Badge variant="information">Open</Badge>
+              <Badge variant="muted">Saved</Badge>
+              <Badge variant="accent">New</Badge>
+              <Badge variant="success">Live</Badge>
+              <Badge variant="warning">Warning</Badge>
+              <Badge variant="danger">Failed</Badge>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="appearance" title="Appearance" showThemeSwitcher>
-        <Example html={code.appearance}>
-          {APPEARANCES.map((appearance) => (
-            <div
-              key={appearance}
-              className="flex w-full flex-wrap items-center justify-center gap-2"
-            >
-              {VARIANTS.map((variant) => (
-                <Badge key={variant} appearance={appearance} variant={variant}>
-                  {variant}
-                </Badge>
+          <DocSubsection parentId="usage" id="appearance" title="Appearance">
+            <Example html={code.appearance}>
+              {APPEARANCES.map((appearance) => (
+                <div
+                  key={appearance}
+                  className="flex w-full flex-wrap items-center justify-center gap-2"
+                >
+                  {VARIANTS.map((variant) => (
+                    <Badge key={variant} appearance={appearance} variant={variant}>
+                      {variant}
+                    </Badge>
+                  ))}
+                </div>
               ))}
-            </div>
-          ))}
-        </Example>
-      </DocSection>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="casing" title="Casing" showThemeSwitcher>
-        <Example html={code.casing}>
-          <Badge>task #42 @bugen</Badge>
-          <Badge uppercase>In Progress</Badge>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="casing" title="Casing">
+            <Example html={code.casing}>
+              <Badge>task #42 @bugen</Badge>
+              <Badge uppercase>In Progress</Badge>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="icons" title="Icons" showThemeSwitcher>
-        <Example html={code.icons}>
-          <Badge variant="primary">
-            <CircleCheck className="size-3" />
-            Approved
-          </Badge>
-          <Badge appearance="outline" variant="success">
-            <Status size="xs" variant="success" />
-            Online
-          </Badge>
-          <Badge appearance="soft" variant="success">
-            <Status size="xs" variant="success" />
-            Available
-          </Badge>
-        </Example>
-      </DocSection>
-
-      <DocSection id="spinner" title="Spinner" showThemeSwitcher>
-        <Example html={code.spinner}>
-          <Badge>
-            <Spinner data-icon="inline-start" />
-            Syncing
-          </Badge>
-          <Badge variant="primary">
-            <Spinner data-icon="inline-start" />
-            Loading
-          </Badge>
-        </Example>
-      </DocSection>
-
-      <DocSection id="composition" title="Composition" showThemeSwitcher>
-        <Example html={code.composition}>
-          <div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
-            <div className="flex flex-col items-start gap-3">
-              <Badge.Experimental />
-              <Badge
-                render={<button type="button" aria-label="Open thread replies" />}
-                variant="information"
-                onClick={() => undefined}
-              >
-                3 replies
+          <DocSubsection parentId="usage" id="icons" title="Icons">
+            <Example html={code.icons}>
+              <Badge variant="primary">
+                <CircleCheck className="size-3" />
+                Approved
               </Badge>
-              <Badge
-                render={<button type="button" aria-label="Remove assignee filter" />}
-                variant="danger"
-              >
-                @bugen
-                <X className="size-3" />
+              <Badge appearance="outline" variant="success">
+                <Status size="xs" variant="success" />
+                Online
               </Badge>
-            </div>
-            <div className="flex flex-col items-start gap-3">
-              <div className="flex items-center gap-3">
-                <Badge variant="success">
-                  <CircleCheck className="size-3" />
-                  Live
-                </Badge>
-                <Text.Sans size="small" variant="success" className="font-medium">
-                  Release channel
-                </Text.Sans>
+              <Badge appearance="soft" variant="success">
+                <Status size="xs" variant="success" />
+                Available
+              </Badge>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="spinner" title="Spinner">
+            <Example html={code.spinner}>
+              <Badge>
+                <Spinner data-icon="inline-start" />
+                Syncing
+              </Badge>
+              <Badge variant="primary">
+                <Spinner data-icon="inline-start" />
+                Loading
+              </Badge>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="composition" title="Composition">
+            <Example html={code.composition}>
+              <div className="grid max-w-full grid-cols-[max-content_minmax(0,1fr)] gap-x-8 gap-y-3">
+                <div className="flex flex-col items-start gap-3">
+                  <Badge.Experimental />
+                  <Badge
+                    render={<button type="button" aria-label="Open thread replies" />}
+                    variant="information"
+                    onClick={() => undefined}
+                  >
+                    3 replies
+                  </Badge>
+                  <Badge
+                    render={<button type="button" aria-label="Remove assignee filter" />}
+                    variant="danger"
+                  >
+                    @bugen
+                    <X className="size-3" />
+                  </Badge>
+                </div>
+                <div className="flex flex-col items-start gap-3">
+                  <div className="flex items-center gap-3">
+                    <Badge variant="success">
+                      <CircleCheck className="size-3" />
+                      Live
+                    </Badge>
+                    <Text.Sans size="small" variant="success" className="font-medium">
+                      Release channel
+                    </Text.Sans>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge variant="warning">
+                      <Clock className="size-3" />
+                      Warning
+                    </Badge>
+                    <Text.Sans size="small" variant="warning" className="font-medium">
+                      deploy:warning
+                    </Text.Sans>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge appearance="soft" variant="danger">
+                      <X className="size-3" />
+                      Retry
+                    </Badge>
+                    <Text.Sans size="small" variant="danger" className="font-medium">
+                      Sync failed
+                    </Text.Sans>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Badge variant="warning">
-                  <Clock className="size-3" />
-                  Warning
-                </Badge>
-                <Text.Sans size="small" variant="warning" className="font-medium">
-                  deploy:warning
-                </Text.Sans>
-              </div>
-              <div className="flex items-center gap-3">
-                <Badge appearance="soft" variant="danger">
-                  <X className="size-3" />
-                  Retry
-                </Badge>
-                <Text.Sans size="small" variant="danger" className="font-medium">
-                  Sync failed
-                </Text.Sans>
-              </div>
-            </div>
-          </div>
-        </Example>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

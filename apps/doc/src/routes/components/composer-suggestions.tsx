@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Kbd } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -16,7 +16,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "states", title: "States" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -248,10 +248,9 @@ function ComposerSuggestionsDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="states" title="States">
+      <DocSection id="usage" title="Usage">
         <div className="grid gap-8">
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">People</h3>
+          <DocSubsection parentId="usage" id="people" title="People">
             <Example
               html={code.composition}
               previewClassName="min-h-[26rem] items-stretch"
@@ -261,9 +260,8 @@ function ComposerSuggestionsDoc() {
                 <ComposerSuggestionComposition />
               </div>
             </Example>
-          </section>
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Channels</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="channels" title="Channels">
             <Example
               html={code.composition}
               previewClassName="min-h-[26rem] items-stretch"
@@ -273,9 +271,8 @@ function ComposerSuggestionsDoc() {
                 <ComposerSuggestionComposition initialValue="#" />
               </div>
             </Example>
-          </section>
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Filtered people</h3>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="filtered-people" title="Filtered people">
             <Example
               html={code.composition}
               previewClassName="min-h-[26rem] items-stretch"
@@ -286,7 +283,7 @@ function ComposerSuggestionsDoc() {
                 <ComposerSuggestionComposition initialValue="@av" />
               </div>
             </Example>
-          </section>
+          </DocSubsection>
         </div>
       </DocSection>
 

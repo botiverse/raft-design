@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -12,7 +12,6 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import AppSandboxedPreviewFrame from "../../../../../packages/ui/src/legacy/SandboxedPreviewFrame.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
@@ -167,27 +166,26 @@ function SandboxedPreviewFrameDoc() {
       title="SandboxedPreviewFrame"
       description="A source security utility that should stay app-local instead of becoming a design-system component."
       overview={
-        <Differences from="SandboxedPreviewFrame">
-          <li>
-            skipped for <code>raft-ui</code>: no visual contract, no theme contract, and no Base
-            UI/composition value
-          </li>
-          <li>
-            HTML/PDF previews keep <code>sandbox=&quot;allow-scripts&quot;</code> without{" "}
-            <code>allow-same-origin</code>; Mermaid keeps an empty sandbox
-          </li>
-          <li>
-            keep the source implementation as an app-level utility so security policy stays close to
-            attachment and markdown preview callsites
-          </li>
-        </Differences>
+        <div className="grid gap-4">
+          <Differences from="SandboxedPreviewFrame">
+            <li>
+              skipped for <code>raft-ui</code>: no visual contract, no theme contract, and no Base
+              UI/composition value
+            </li>
+            <li>
+              HTML/PDF previews keep <code>sandbox=&quot;allow-scripts&quot;</code> without{" "}
+              <code>allow-same-origin</code>; Mermaid keeps an empty sandbox
+            </li>
+            <li>
+              keep the source implementation as an app-level utility so security policy stays close
+              to attachment and markdown preview callsites
+            </li>
+          </Differences>
+          <TodoList items={TODOS} />
+        </div>
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.preview}>
           <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
@@ -210,27 +208,29 @@ function SandboxedPreviewFrameDoc() {
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
-        <Example html={code.usage}>
-          <div className="flex flex-wrap gap-4">
-            <MermaidMessagePreview>
-              <AppSandboxedPreviewFrame
-                title="Inline SVG preview"
-                srcDoc={MERMAID_SRC_DOC}
-                sandbox=""
-                className="block w-full border-0 bg-transparent"
-                style={{ width: "100%", aspectRatio: "240 / 96" }}
-              />
-            </MermaidMessagePreview>
-            <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
-              <AppSandboxedPreviewFrame
-                title="HTML attachment preview"
-                src={HTML_ATTACHMENT_URL}
-                sandbox="allow-scripts"
-                className="h-full w-full border-0 bg-white"
-              />
-            </AttachmentPreviewDemo>
-          </div>
-        </Example>
+        <DocSubsection parentId="usage" id="sandboxed-content" title="Sandboxed content">
+          <Example html={code.usage}>
+            <div className="flex flex-wrap gap-4">
+              <MermaidMessagePreview>
+                <AppSandboxedPreviewFrame
+                  title="Inline SVG preview"
+                  srcDoc={MERMAID_SRC_DOC}
+                  sandbox=""
+                  className="block w-full border-0 bg-transparent"
+                  style={{ width: "100%", aspectRatio: "240 / 96" }}
+                />
+              </MermaidMessagePreview>
+              <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
+                <AppSandboxedPreviewFrame
+                  title="HTML attachment preview"
+                  src={HTML_ATTACHMENT_URL}
+                  sandbox="allow-scripts"
+                  className="h-full w-full border-0 bg-white"
+                />
+              </AttachmentPreviewDemo>
+            </div>
+          </Example>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

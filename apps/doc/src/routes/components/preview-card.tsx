@@ -16,7 +16,7 @@ import { useRef, type RefObject } from "react";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -221,8 +221,7 @@ function PreviewCardDoc() {
       </DocSection>
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium text-foreground-strong">Mention hover card</h3>
+        <DocSubsection parentId="usage" id="mention-hover-card" title="Mention hover card">
           <DocNote>
             Hover or focus the @Atlas link below. delay/closeDelay default to 80ms/40ms so repeated
             message previews stay responsive.
@@ -230,7 +229,7 @@ function PreviewCardDoc() {
           <Example html={code.usage} previewClassName="min-h-[18rem] items-start pt-8">
             <PreviewCardMentionComposition />
           </Example>
-        </div>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

@@ -33,7 +33,7 @@ import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -62,22 +62,9 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "submenu", title: "Submenu" },
-  { id: "radio-group", title: "Radio group" },
-  { id: "plain-picker", title: "Plain picker" },
-  { id: "headerless-picker", title: "Headerless picker" },
-  { id: "checkboxes", title: "Checkboxes" },
-  { id: "switch", title: "Switch" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-server-switcher", title: "Server switcher" },
-      { id: "source-comparison-time-filter", title: "Time filter" },
-      { id: "source-comparison-sort-menu", title: "Sort menu" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -631,60 +618,67 @@ function DropdownMenuDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="submenu" title="Submenu" showThemeSwitcher>
-        <Example html={code.submenu} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample triggerId="submenu-trigger" label="Submenu">
-            <SubmenuRows />
-          </OpenMenuExample>
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="submenu" title="Submenu">
+            <Example html={code.submenu} previewClassName="min-h-[18rem] items-start pt-28">
+              <OpenMenuExample triggerId="submenu-trigger" label="Submenu">
+                <SubmenuRows />
+              </OpenMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="radio-group" title="Radio group" showThemeSwitcher>
-        <Example html={code.radioGroupMenu} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample triggerId="radio-group-menu-trigger" label="Radio group">
-            <RadioGroupMenuRows />
-          </OpenMenuExample>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="radio-group" title="Radio group">
+            <Example html={code.radioGroupMenu} previewClassName="min-h-[18rem] items-start pt-28">
+              <OpenMenuExample triggerId="radio-group-menu-trigger" label="Radio group">
+                <RadioGroupMenuRows />
+              </OpenMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="plain-picker" title="Plain picker" showThemeSwitcher>
-        <Example html={code.plainPicker} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample
-            triggerId="plain-picker-trigger"
-            label="Time"
-            contentClassName="flex min-w-[220px] flex-col"
-          >
-            <PlainPickerRows />
-          </OpenMenuExample>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="plain-picker" title="Plain picker">
+            <Example html={code.plainPicker} previewClassName="min-h-[18rem] items-start pt-28">
+              <OpenMenuExample
+                triggerId="plain-picker-trigger"
+                label="Time"
+                contentClassName="flex min-w-[220px] flex-col"
+              >
+                <PlainPickerRows />
+              </OpenMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="headerless-picker" title="Headerless picker" showThemeSwitcher>
-        <Example html={code.headerlessPicker} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample
-            triggerId="headerless-picker-trigger"
-            label="Sort"
-            contentClassName="flex min-w-[136px] flex-col"
-          >
-            <HeaderlessSortRows />
-          </OpenMenuExample>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="headerless-picker" title="Headerless picker">
+            <Example
+              html={code.headerlessPicker}
+              previewClassName="min-h-[18rem] items-start pt-28"
+            >
+              <OpenMenuExample
+                triggerId="headerless-picker-trigger"
+                label="Sort"
+                contentClassName="flex min-w-[136px] flex-col"
+              >
+                <HeaderlessSortRows />
+              </OpenMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="checkboxes" title="Checkboxes" showThemeSwitcher>
-        <Example html={code.checkboxesMenu} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
-            <CheckboxesMenuRows />
-          </OpenMenuExample>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="checkboxes" title="Checkboxes">
+            <Example html={code.checkboxesMenu} previewClassName="min-h-[18rem] items-start pt-28">
+              <OpenMenuExample triggerId="checkboxes-menu-trigger" label="Checkboxes">
+                <CheckboxesMenuRows />
+              </OpenMenuExample>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="switch" title="Switch" showThemeSwitcher>
-        <Example html={code.switchMenu} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
-            <SwitchMenuRows />
-          </OpenMenuExample>
-        </Example>
+          <DocSubsection parentId="usage" id="switch" title="Switch">
+            <Example html={code.switchMenu} previewClassName="min-h-[18rem] items-start pt-28">
+              <OpenMenuExample triggerId="switch-menu-trigger" label="Switch">
+                <SwitchMenuRows />
+              </OpenMenuExample>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

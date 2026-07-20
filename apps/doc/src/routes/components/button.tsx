@@ -3,7 +3,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { Button } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -36,13 +36,7 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
-  { id: "height-alignment", title: "Height alignment" },
-  { id: "states", title: "States" },
-  { id: "sizes", title: "Sizes" },
-  { id: "icons", title: "Icons" },
-  { id: "loading", title: "Loading" },
-  { id: "disabled", title: "Disabled" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -329,131 +323,125 @@ function ButtonDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.variants}>
-            <div className="-m-1 grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto p-1">
-              <Button variant="default">Default</Button>
-              <Button variant="primary">Primary</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="information">Information</Button>
-              <Button variant="muted">Muted</Button>
-              <Button variant="accent">Accent</Button>
-              <Button variant="warning">Warning</Button>
-              <Button variant="danger">Danger</Button>
-              <Button variant="danger-secondary">Delete</Button>
-              <Button variant="danger-outline">Remove</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="link">Link</Button>
-            </div>
-          </Example>
-        </div>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="variants" title="Variants">
+            <Example html={code.variants}>
+              <div className="-m-1 grid max-w-full grid-cols-[repeat(7,max-content)] gap-3 overflow-x-auto p-1">
+                <Button variant="default">Default</Button>
+                <Button variant="primary">Primary</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="information">Information</Button>
+                <Button variant="muted">Muted</Button>
+                <Button variant="accent">Accent</Button>
+                <Button variant="warning">Warning</Button>
+                <Button variant="danger">Danger</Button>
+                <Button variant="danger-secondary">Delete</Button>
+                <Button variant="danger-outline">Remove</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="height-alignment" title="Height alignment" showThemeSwitcher>
-        <Example html={code.heightAlignment}>
-          <div className="-m-1 max-w-full overflow-x-auto p-1">
-            <div className="grid min-w-max gap-3">
-              {HEIGHT_ALIGNMENT_SIZES.map((size) => (
-                <div
-                  key={size}
-                  className="grid grid-cols-[2.5rem_repeat(9,max-content)] items-center gap-2"
-                >
-                  <span className="font-mono text-xs text-foreground-muted">{size}</span>
-                  {HEIGHT_ALIGNMENT_VARIANTS.map(({ variant, label }) => (
-                    <div key={variant} className="contents">
-                      <Button variant={variant} size={size}>
-                        {label}
-                      </Button>
-                      <Button variant={variant} size={size}>
-                        <Plus data-icon="inline-start" />
-                        {label}
-                      </Button>
-                      <Button variant={variant} size={size}>
-                        {label}
-                        <Plus data-icon="inline-end" />
-                      </Button>
+          <DocSubsection parentId="usage" id="height-alignment" title="Height alignment">
+            <Example html={code.heightAlignment}>
+              <div className="-m-1 max-w-full overflow-x-auto p-1">
+                <div className="grid min-w-max gap-3">
+                  {HEIGHT_ALIGNMENT_SIZES.map((size) => (
+                    <div
+                      key={size}
+                      className="grid grid-cols-[2.5rem_repeat(9,max-content)] items-center gap-2"
+                    >
+                      <span className="font-mono text-xs text-foreground-muted">{size}</span>
+                      {HEIGHT_ALIGNMENT_VARIANTS.map(({ variant, label }) => (
+                        <div key={variant} className="contents">
+                          <Button variant={variant} size={size}>
+                            {label}
+                          </Button>
+                          <Button variant={variant} size={size}>
+                            <Plus data-icon="inline-start" />
+                            {label}
+                          </Button>
+                          <Button variant={variant} size={size}>
+                            {label}
+                            <Plus data-icon="inline-end" />
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="states" title="States">
+            <Example html={code.states}>
+              <div className="grid gap-6 sm:grid-cols-3">
+                <div className="grid min-w-32 place-items-center">
+                  <Button>Default</Button>
+                </div>
+                <div className="grid min-w-32 place-items-center">
+                  <ButtonPreview focusVisible>Focus visible</ButtonPreview>
+                </div>
+                <div className="grid min-w-32 place-items-center">
+                  <Button disabled>Disabled</Button>
+                </div>
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <Button size="xs">Extra small</Button>
+              <Button size="sm">Small</Button>
+              <Button size="md">Medium</Button>
+              <Button size="lg">Large</Button>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="icons" title="Icons">
+            <Example html={code.icons}>
+              {ICON_SIZES.map((size) => (
+                <Button key={size} size={size} aria-label={size}>
+                  <Plus />
+                </Button>
               ))}
-            </div>
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <Example html={code.states}>
-          <div className="grid gap-6 sm:grid-cols-3">
-            <div className="grid min-w-32 place-items-center">
-              <Button>Default</Button>
-            </div>
-            <div className="grid min-w-32 place-items-center">
-              <ButtonPreview focusVisible>Focus visible</ButtonPreview>
-            </div>
-            <div className="grid min-w-32 place-items-center">
-              <Button disabled>Disabled</Button>
-            </div>
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.sizes}>
-            <Button size="xs">Extra small</Button>
-            <Button size="sm">Small</Button>
-            <Button size="md">Medium</Button>
-            <Button size="lg">Large</Button>
-          </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="icons" title="Icons" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.icons}>
-            {ICON_SIZES.map((size) => (
-              <Button key={size} size={size} aria-label={size}>
-                <Plus />
+              <Button variant="default">
+                <Plus data-icon="inline-start" />
+                New
               </Button>
-            ))}
-            <Button variant="default">
-              <Plus data-icon="inline-start" />
-              New
-            </Button>
-            <Button variant="outline">
-              Next
-              <Plus data-icon="inline-end" />
-            </Button>
-            <Button variant="danger" size="icon-sm" aria-label="Delete">
-              <Trash2 />
-            </Button>
-          </Example>
-        </div>
-      </DocSection>
+              <Button variant="outline">
+                Next
+                <Plus data-icon="inline-end" />
+              </Button>
+              <Button variant="danger" size="icon-sm" aria-label="Delete">
+                <Trash2 />
+              </Button>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="loading" title="Loading" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.loading}>
-            <Button loading>Saving</Button>
-            <Button variant="danger" loading loadingLabel="Deleting">
-              Delete
-            </Button>
-          </Example>
-        </div>
-      </DocSection>
+          <DocSubsection parentId="usage" id="loading" title="Loading">
+            <Example html={code.loading}>
+              <Button loading>Saving</Button>
+              <Button variant="danger" loading loadingLabel="Deleting">
+                Delete
+              </Button>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="disabled" title="Disabled" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.disabled}>
-            <Button disabled>Disabled</Button>
-            <Button variant="primary" disabled>
-              Primary
-            </Button>
-            <Button variant="danger" disabled>
-              Danger
-            </Button>
-          </Example>
+          <DocSubsection parentId="usage" id="disabled" title="Disabled">
+            <Example html={code.disabled}>
+              <Button disabled>Disabled</Button>
+              <Button variant="primary" disabled>
+                Primary
+              </Button>
+              <Button variant="danger" disabled>
+                Danger
+              </Button>
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

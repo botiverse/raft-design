@@ -34,12 +34,11 @@ const TOKENS = [
 
 const NAV = [
   {
-    title: "Layout",
+    title: "Shell & Layout",
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
       { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
-      { label: "Logo", to: "/components/logo", status: "done" },
       { label: "Separator", to: "/components/separator", status: "done" },
       {
         label: "Collapsible",
@@ -67,16 +66,22 @@ const NAV = [
       {
         label: "ChatSidebar",
         to: "/components/chat-sidebar",
-        children: [{ label: "ChatSidebarItem", to: "/components/chat-sidebar-item" }],
+        children: [
+          { label: "ChatSidebarItem", to: "/components/chat-sidebar-item" },
+          {
+            label: "LiveAgentActivityBar",
+            to: "/components/live-agent-activity-bar",
+            status: "done",
+          },
+        ],
       },
       {
-        label: "LiveAgentActivityBar",
-        to: "/components/live-agent-activity-bar",
+        label: "ConversationPanel",
+        to: "/components/conversation-panel",
         status: "done",
+        children: [{ label: "MessageItem", to: "/components/message-item", status: "wip" }],
       },
-      { label: "ConversationPanel", to: "/components/conversation-panel", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
-      { label: "MessageItem", to: "/components/message-item", status: "wip" },
       {
         label: "Composer",
         to: "/components/chat-composer",
@@ -94,8 +99,12 @@ const NAV = [
   {
     title: "Tasks",
     items: [
-      { label: "TasksPanel", to: "/components/tasks", status: "todo" },
-      { label: "TaskCard", to: "/components/task-card", status: "todo" },
+      {
+        label: "TasksPanel",
+        to: "/components/tasks",
+        status: "todo",
+        children: [{ label: "TaskCard", to: "/components/task-card", status: "todo" }],
+      },
     ],
   },
   {
@@ -113,17 +122,17 @@ const NAV = [
   {
     title: "Inputs",
     items: [
-      { label: "Checkbox", to: "/components/checkbox", status: "done" },
       { label: "Label", to: "/components/label", status: "done" },
       { label: "Field", to: "/components/field", status: "done" },
       { label: "Input", to: "/components/input", status: "done" },
       { label: "InputGroup", to: "/components/input-group", status: "done" },
-      { label: "Combobox", to: "/components/combobox", status: "done" },
-      { label: "Select", to: "/components/select", status: "done" },
-      { label: "RadioGroup", to: "/components/radio-group", status: "done" },
-      { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
-      { label: "Switch", to: "/components/switch", status: "wip" },
       { label: "Textarea", to: "/components/textarea", status: "done" },
+      { label: "Checkbox", to: "/components/checkbox", status: "done" },
+      { label: "RadioGroup", to: "/components/radio-group", status: "done" },
+      { label: "Switch", to: "/components/switch", status: "done" },
+      { label: "Select", to: "/components/select", status: "done" },
+      { label: "Combobox", to: "/components/combobox", status: "done" },
+      { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
       {
         label: "NumberField",
         status: "later",
@@ -210,10 +219,6 @@ const NAV = [
     title: "Status & Indicators",
     items: [
       { label: "Badge", to: "/components/badge", status: "done" },
-      { label: "CopyableCode", to: "/components/copyable-code", status: "done" },
-      { label: "InlineCode", to: "/components/inline-code", status: "done" },
-      { label: "Kbd", to: "/components/kbd", status: "done" },
-      { label: "Text", to: "/components/text", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
       {
         label: "Meter",
@@ -222,6 +227,19 @@ const NAV = [
         reason: "Wait for bounded metric displays distinct from Progress.",
       },
     ],
+  },
+  {
+    title: "Content & Code",
+    items: [
+      { label: "Text", to: "/components/text", status: "done" },
+      { label: "InlineCode", to: "/components/inline-code", status: "done" },
+      { label: "Kbd", to: "/components/kbd", status: "done" },
+      { label: "CopyableCode", to: "/components/copyable-code", status: "done" },
+    ],
+  },
+  {
+    title: "Brand",
+    items: [{ label: "Logo", to: "/components/logo", status: "done" }],
   },
   {
     title: "Data Display",

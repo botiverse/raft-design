@@ -19,7 +19,7 @@ import { Field, FieldDescription, FieldLabel } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -28,11 +28,7 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "icons", title: "Icons" },
-  { id: "groups", title: "Groups" },
-  { id: "states", title: "States" },
-  { id: "scrolling", title: "Scrolling" },
-  { id: "field", title: "With Field" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -619,34 +615,34 @@ function SelectDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="icons" title="Icons" showThemeSwitcher>
-        <Example html={code.icons} previewClassName="min-h-[18rem] items-start pt-20">
-          <IconSelect />
-        </Example>
-      </DocSection>
-
-      <DocSection id="groups" title="Groups" showThemeSwitcher>
-        <Example html={code.groups} previewClassName="min-h-[18rem] items-start pt-20">
-          <BranchSelect />
-        </Example>
-      </DocSection>
-
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <Example html={code.states} previewClassName="min-h-[18rem] items-start pt-20">
-          <StateSelects />
-        </Example>
-      </DocSection>
-
-      <DocSection id="scrolling" title="Scrolling" showThemeSwitcher>
-        <Example html={code.scrolling} previewClassName="min-h-[18rem] items-start pt-20">
-          <RegionSelect />
-        </Example>
-      </DocSection>
-
-      <DocSection id="field" title="With Field" showThemeSwitcher>
-        <Example html={code.field} previewClassName="min-h-[18rem] items-start pt-16">
-          <FieldSelect />
-        </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="icons" title="Icons">
+            <Example html={code.icons} previewClassName="min-h-[18rem] items-start pt-20">
+              <IconSelect />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="groups" title="Groups">
+            <Example html={code.groups} previewClassName="min-h-[18rem] items-start pt-20">
+              <BranchSelect />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="states" title="States">
+            <Example html={code.states} previewClassName="min-h-[18rem] items-start pt-20">
+              <StateSelects />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="scrolling" title="Scrolling">
+            <Example html={code.scrolling} previewClassName="min-h-[18rem] items-start pt-20">
+              <RegionSelect />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="field" title="With Field">
+            <Example html={code.field} previewClassName="min-h-[18rem] items-start pt-16">
+              <FieldSelect />
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

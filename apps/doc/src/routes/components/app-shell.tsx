@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
@@ -23,8 +23,7 @@ const APP_SHELL_COLLAPSIBLE_SIDEBAR_COMPOSITION_PATH =
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "responsive", title: "Responsive" },
-  { id: "collapsible-sidebar", title: "Collapsible sidebar" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -120,37 +119,42 @@ function AppShellDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="responsive" title="Responsive">
-        <p>
-          AppShell hides the rail and sidebar and switches to a column below md. Keep the active
-          page in AppShellMainSlot and add mobile navigation with md:hidden.
-        </p>
-        <DocsCodeBlock.Panel
-          path={APP_SHELL_RESPONSIVE_COMPOSITION_PATH}
-          source={appShellResponsiveCompositionSource}
-          html={code.responsiveComposition}
-          collapsedHtml={code.responsiveCompositionBody}
-          showLineNumbers={false}
-        />
-      </DocSection>
+      <DocSection id="usage" title="Usage">
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="responsive" title="Responsive">
+            <p>
+              AppShell hides the rail and sidebar and switches to a column below md. Keep the active
+              page in AppShellMainSlot and add mobile navigation with md:hidden.
+            </p>
+            <DocsCodeBlock.Panel
+              path={APP_SHELL_RESPONSIVE_COMPOSITION_PATH}
+              source={appShellResponsiveCompositionSource}
+              html={code.responsiveComposition}
+              collapsedHtml={code.responsiveCompositionBody}
+              showLineNumbers={false}
+            />
+          </DocSubsection>
 
-      <DocSection id="collapsible-sidebar" title="Collapsible sidebar">
-        <p>
-          Set <code>sidebarCollapsible</code> on the root and render{" "}
-          <code>AppShellSidebarTrigger</code> in the main panel. The sidebar remains caller-owned;
-          the shell only measures its width and coordinates the collapse transition. For a resizable
-          desktop shell, keep the sidebar and main slots in sibling relative panels as shown below.
-        </p>
-        <div className="mt-4">
-          <AppShellCollapsibleSidebarComposition />
-        </div>
-        <div className="mt-4">
-          <DocsCodeBlock.Panel
-            path={APP_SHELL_COLLAPSIBLE_SIDEBAR_COMPOSITION_PATH}
-            source={appShellCollapsibleSidebarCompositionSource}
-            html={code.collapsibleSidebarComposition}
-            showLineNumbers={false}
-          />
+          <DocSubsection parentId="usage" id="collapsible-sidebar" title="Collapsible sidebar">
+            <p>
+              Set <code>sidebarCollapsible</code> on the root and render{" "}
+              <code>AppShellSidebarTrigger</code> in the main panel. The sidebar remains
+              caller-owned; the shell only measures its width and coordinates the collapse
+              transition. For a resizable desktop shell, keep the sidebar and main slots in sibling
+              relative panels as shown below.
+            </p>
+            <div className="mt-4">
+              <AppShellCollapsibleSidebarComposition />
+            </div>
+            <div className="mt-4">
+              <DocsCodeBlock.Panel
+                path={APP_SHELL_COLLAPSIBLE_SIDEBAR_COMPOSITION_PATH}
+                source={appShellCollapsibleSidebarCompositionSource}
+                html={code.collapsibleSidebarComposition}
+                showLineNumbers={false}
+              />
+            </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

@@ -5,7 +5,7 @@ import { Field, FieldDescription, FieldLabel } from "raft-ui";
 import { Check } from "lucide-react";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -35,7 +35,6 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
-  { id: "states", title: "States" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -232,25 +231,22 @@ function RadioGroupDoc() {
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="grid gap-10">
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Option list</h3>
+          <DocSubsection parentId="usage" id="option-list" title="Option list">
             <Example html={code.radioGroupReferralSourceComposition}>
               <RadioGroupReferralSourceComposition
                 value={referralValue}
                 onValueChange={setReferralValue}
               />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Descriptive cards</h3>
+          <DocSubsection parentId="usage" id="descriptive-cards" title="Descriptive cards">
             <Example html={code.radioGroupResetModeComposition}>
               <RadioGroupResetModeComposition value={resetMode} onValueChange={setResetMode} />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Custom indicator</h3>
+          <DocSubsection parentId="usage" id="custom-indicator" title="Custom indicator">
             <Example html={code.customIndicator}>
               <RadioGroup defaultValue="approved" ariaLabel="Approval state" className="w-48">
                 <label className="flex cursor-pointer items-center gap-2 text-sm">
@@ -271,20 +267,18 @@ function RadioGroupDoc() {
                 </label>
               </RadioGroup>
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Customization</h3>
+          <DocSubsection parentId="usage" id="customization" title="Customization">
             <Example html={code.radioGroupResetModeRestoredComposition}>
               <RadioGroupResetModeRestoredComposition
                 value={resetMode}
                 onValueChange={setResetMode}
               />
             </Example>
-          </section>
+          </DocSubsection>
 
-          <section className="grid gap-3">
-            <h3 className="text-sm font-medium text-foreground-strong">With Field</h3>
+          <DocSubsection parentId="usage" id="field" title="With Field">
             <Example html={code.field}>
               <Field className="w-64 gap-2.5">
                 <FieldLabel>Restart mode</FieldLabel>
@@ -301,14 +295,14 @@ function RadioGroupDoc() {
                 <FieldDescription>Choose one mode before confirming.</FieldDescription>
               </Field>
             </Example>
-          </section>
-        </div>
-      </DocSection>
+          </DocSubsection>
 
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <Example html={code.disabled}>
-          <RadioGroupReferralSourceComposition disabled />
-        </Example>
+          <DocSubsection parentId="usage" id="states" title="States">
+            <Example html={code.disabled}>
+              <RadioGroupReferralSourceComposition disabled />
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

@@ -6,30 +6,44 @@ export type TocItem = {
   children?: readonly TocItem[];
 };
 
-function getAutoSourceComparisonChildren() {
-  return Array.from(document.querySelectorAll<HTMLElement>("[data-source-comparison-item][id]"))
-    .map((element) => ({
-      id: element.id,
-      title: element.dataset.sourceComparisonItem ?? "",
-    }))
-    .filter((item) => item.id && item.title);
+function getAutoChildren() {
+  const childrenByParent = new Map<string, TocItem[]>();
+
+  for (const element of document.querySelectorAll<HTMLElement>(
+    "[data-doc-toc-parent][data-doc-toc-item][id]",
+  )) {
+    const parentId = element.dataset.docTocParent;
+    const title = element.dataset.docTocItem;
+
+    if (!parentId || !title) {
+      continue;
+    }
+
+    const children = childrenByParent.get(parentId) ?? [];
+    children.push({ id: element.id, title });
+    childrenByParent.set(parentId, children);
+  }
+
+  return childrenByParent;
 }
 
-function withAutoSourceComparisonChildren(items: readonly TocItem[]) {
-  const sourceComparisonChildren = getAutoSourceComparisonChildren();
+function withAutoChildren(items: readonly TocItem[]) {
+  const childrenByParent = getAutoChildren();
 
-  if (!sourceComparisonChildren.length) {
+  if (!childrenByParent.size) {
     return items;
   }
 
   let changed = false;
   const nextItems = items.map((item) => {
-    if (item.id !== "source-comparison") {
+    const children = childrenByParent.get(item.id);
+
+    if (!children?.length) {
       return item;
     }
 
     changed = true;
-    return { ...item, children: sourceComparisonChildren };
+    return { ...item, children };
   });
 
   return changed ? nextItems : items;
@@ -63,7 +77,7 @@ export function Toc({ items }: { items: readonly TocItem[] }) {
   const [resolvedItems, setResolvedItems] = useState(items);
 
   useEffect(() => {
-    setResolvedItems(withAutoSourceComparisonChildren(items));
+    setResolvedItems(withAutoChildren(items));
   }, [items]);
 
   return (

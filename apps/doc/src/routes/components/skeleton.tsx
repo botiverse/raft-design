@@ -3,7 +3,7 @@ import { Skeleton, type SkeletonProps } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -22,7 +22,7 @@ import SourceSkeleton from "../../../../../packages/ui/source/Skeleton.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -149,14 +149,16 @@ function SkeletonDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <Example html={code.variants}>
-          <div className="flex items-center gap-4">
-            <Skeleton variant="line" className="w-40" />
-            <Skeleton variant="block" className="size-12" />
-            <Skeleton variant="circle" className="size-10" />
-          </div>
-        </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <DocSubsection parentId="usage" id="variants" title="Variants">
+          <Example html={code.variants}>
+            <div className="flex items-center gap-4">
+              <Skeleton variant="line" className="w-40" />
+              <Skeleton variant="block" className="size-12" />
+              <Skeleton variant="circle" className="size-10" />
+            </div>
+          </Example>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

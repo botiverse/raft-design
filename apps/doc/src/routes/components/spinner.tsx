@@ -3,7 +3,7 @@ import { Badge, Button, Spinner, type SpinnerProps } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -22,9 +22,7 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "sizes", title: "Sizes" },
-  { id: "current-color", title: "Current color" },
-  { id: "inline", title: "Inline" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -203,42 +201,44 @@ function SpinnerDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <Example html={code.sizes}>
-          <div className="flex items-center gap-4">
-            <Spinner size="sm" />
-            <Spinner size="lg" />
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="current-color" title="Current color" showThemeSwitcher>
-        <Example html={code.currentColor}>
-          <div className="flex items-center gap-3">
-            <Spinner className="text-primary-400" />
-            <div className="rounded bg-primary-50 p-3">
-              <Spinner className="text-primary-500" />
-            </div>
-            <div className="rounded bg-primary-950 p-3">
-              <Spinner className="text-primary-400" />
-            </div>
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="inline" title="Inline" showThemeSwitcher>
-        <Example html={code.inline}>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button>
-              <Spinner data-icon="inline-start" />
-              Loading
-            </Button>
-            <Badge>
-              <Spinner data-icon="inline-start" />
-              Syncing
-            </Badge>
-          </div>
-        </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <div className="flex items-center gap-4">
+                <Spinner size="sm" />
+                <Spinner size="lg" />
+              </div>
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="current-color" title="Current color">
+            <Example html={code.currentColor}>
+              <div className="flex items-center gap-3">
+                <Spinner className="text-primary-400" />
+                <div className="rounded bg-primary-50 p-3">
+                  <Spinner className="text-primary-500" />
+                </div>
+                <div className="rounded bg-primary-950 p-3">
+                  <Spinner className="text-primary-400" />
+                </div>
+              </div>
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="inline" title="Inline">
+            <Example html={code.inline}>
+              <div className="flex flex-wrap items-center gap-3">
+                <Button>
+                  <Spinner data-icon="inline-start" />
+                  Loading
+                </Button>
+                <Badge>
+                  <Spinner data-icon="inline-start" />
+                  Syncing
+                </Badge>
+              </div>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

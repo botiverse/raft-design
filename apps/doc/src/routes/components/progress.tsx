@@ -12,7 +12,7 @@ import {
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -35,10 +35,7 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "variants", title: "Variants" },
-  { id: "sizes", title: "Sizes" },
-  { id: "indeterminate", title: "Indeterminate" },
-  { id: "composition", title: "Composition" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -336,77 +333,79 @@ function ProgressDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <Example html={code.variants}>
-          <div className="grid w-full max-w-sm gap-4">
-            {["primary", "success", "warning", "danger"].map((variant) => (
-              <Progress key={variant} value={64} variant={variant as ProgressProps["variant"]}>
-                <ProgressHeader>
-                  <ProgressLabel>{variant}</ProgressLabel>
-                  <ProgressValue />
-                </ProgressHeader>
-                <ProgressTrack>
-                  <ProgressIndicator />
-                </ProgressTrack>
-              </Progress>
-            ))}
-          </div>
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="variants" title="Variants">
+            <Example html={code.variants}>
+              <div className="grid w-full max-w-sm gap-4">
+                {["primary", "success", "warning", "danger"].map((variant) => (
+                  <Progress key={variant} value={64} variant={variant as ProgressProps["variant"]}>
+                    <ProgressHeader>
+                      <ProgressLabel>{variant}</ProgressLabel>
+                      <ProgressValue />
+                    </ProgressHeader>
+                    <ProgressTrack>
+                      <ProgressIndicator />
+                    </ProgressTrack>
+                  </Progress>
+                ))}
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <Example html={code.sizes}>
-          <div className="grid w-full max-w-sm gap-4">
-            {SIZES.map((size) => (
-              <Progress key={size} value={64} size={size}>
-                <ProgressTrack>
-                  <ProgressIndicator />
-                </ProgressTrack>
-              </Progress>
-            ))}
-          </div>
-        </Example>
-      </DocSection>
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <Example html={code.sizes}>
+              <div className="grid w-full max-w-sm gap-4">
+                {SIZES.map((size) => (
+                  <Progress key={size} value={64} size={size}>
+                    <ProgressTrack>
+                      <ProgressIndicator />
+                    </ProgressTrack>
+                  </Progress>
+                ))}
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="indeterminate" title="Indeterminate" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Use indeterminate progress when work has started but a reliable completion percentage is
-            not available yet.
-          </DocNote>
-          <Example html={code.indeterminate}>
-            <div className="w-full max-w-sm">
-              <Progress value={null} aria-label="Generating response">
-                <ProgressTrack>
-                  <ProgressIndicator />
-                </ProgressTrack>
-              </Progress>
+          <DocSubsection parentId="usage" id="indeterminate" title="Indeterminate">
+            <DocNote>
+              Use indeterminate progress when work has started but a reliable completion percentage
+              is not available yet.
+            </DocNote>
+            <Example html={code.indeterminate}>
+              <div className="w-full max-w-sm">
+                <Progress value={null} aria-label="Generating response">
+                  <ProgressTrack>
+                    <ProgressIndicator />
+                  </ProgressTrack>
+                </Progress>
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="composition" title="Composition">
+            <div className="space-y-4">
+              <Example html={code.composition}>
+                <div className="w-full max-w-sm">
+                  <Progress value={72} variant="information">
+                    <ProgressHeader>
+                      <ProgressLabel>Uploading transcript</ProgressLabel>
+                      <ProgressValue />
+                    </ProgressHeader>
+                    <ProgressTrack>
+                      <ProgressIndicator />
+                    </ProgressTrack>
+                  </Progress>
+                </div>
+              </Example>
+              <DocsCodeBlock.Panel
+                path="ProgressNamedParts.tsx"
+                source={SNIPPETS.anatomyImport}
+                html={code.anatomyImport}
+                collapsedHtml={code.anatomyImportBody}
+              />
             </div>
-          </Example>
-        </div>
-      </DocSection>
-
-      <DocSection id="composition" title="Composition" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.composition}>
-            <div className="w-full max-w-sm">
-              <Progress value={72} variant="information">
-                <ProgressHeader>
-                  <ProgressLabel>Uploading transcript</ProgressLabel>
-                  <ProgressValue />
-                </ProgressHeader>
-                <ProgressTrack>
-                  <ProgressIndicator />
-                </ProgressTrack>
-              </Progress>
-            </div>
-          </Example>
-          <DocsCodeBlock.Panel
-            path="ProgressNamedParts.tsx"
-            source={SNIPPETS.anatomyImport}
-            html={code.anatomyImport}
-            collapsedHtml={code.anatomyImportBody}
-          />
+          </DocSubsection>
         </div>
       </DocSection>
 

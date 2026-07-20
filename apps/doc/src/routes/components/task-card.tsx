@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -38,8 +38,9 @@ const ANATOMY_SNIPPET = `<TaskCard>
 </TaskCard>`;
 
 const TOC = [
-  { id: "states", title: "States" },
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -128,14 +129,9 @@ function TaskCardDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="states" title="States">
-        <Example
-          html={code.states}
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <TaskCardStateMatrixComposition />
+      <DocSection id="preview" title="Preview">
+        <Example html={code.comparison} previewTheme="brutal" previewMode="light">
+          <TaskCardComparisonComposition />
         </Example>
       </DocSection>
 
@@ -145,6 +141,19 @@ function TaskCardDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage">
+        <DocSubsection parentId="usage" id="states" title="States">
+          <Example
+            html={code.states}
+            previewTheme="brutal"
+            previewMode="light"
+            previewClassName="items-stretch"
+          >
+            <TaskCardStateMatrixComposition />
+          </Example>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

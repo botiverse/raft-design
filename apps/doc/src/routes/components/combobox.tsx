@@ -38,7 +38,7 @@ import { useEffect, useRef, useState } from "react";
 import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -68,37 +68,11 @@ import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.t
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
-  {
-    id: "searchable-combobox",
-    title: "Searchable combobox",
-    children: [
-      { id: "preview", title: "Preview" },
-      { id: "anatomy", title: "Anatomy" },
-      { id: "async-search", title: "Async search" },
-    ],
-  },
-  {
-    id: "dropdown-combobox",
-    title: "Dropdown combobox",
-    children: [
-      { id: "button-trigger", title: "Button trigger" },
-      { id: "async-load-options", title: "Load options" },
-      { id: "async-select", title: "Async select" },
-    ],
-  },
+  { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-message-channel", title: "Message channel" },
-      { id: "source-comparison-message-sender", title: "Message sender" },
-      { id: "source-comparison-composer-mention", title: "Composer mention" },
-      { id: "source-comparison-selection-popover", title: "Selection popover" },
-      { id: "source-comparison-tasks-channel", title: "Tasks channel" },
-      { id: "source-comparison-tasks-identity", title: "Tasks identity" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -1351,35 +1325,28 @@ function ComboboxDoc() {
       description="Use Combobox when the user searches, highlights, and selects structured options. Use Popover only for generic floating panels."
       toc={TOC}
     >
-      <DocSection id="searchable-combobox" title="Searchable combobox" showThemeSwitcher>
-        <div className="space-y-8">
-          <DocNote>
-            ComboboxControl owns the searchable field surface. Compose leading icons, input, clear,
-            and trigger indicator as children; icons without an explicit size class are normalized
-            by the component.
-          </DocNote>
-          <div className="space-y-3">
-            <h3 id="preview" className="scroll-mt-24 text-sm font-medium">
-              Preview
-            </h3>
-            <ComponentDemoFrame previewClassName="min-h-[24rem] items-start pt-24">
-              <PreviewCombobox />
-            </ComponentDemoFrame>
-          </div>
-          <div className="space-y-3">
-            <h3 id="anatomy" className="scroll-mt-24 text-sm font-medium">
-              Anatomy
-            </h3>
-            <DocsCodeBlock>
-              <DocsCodeBlock.Body>
-                <DocsCodeBlock.Content html={code.anatomy} />
-              </DocsCodeBlock.Body>
-            </DocsCodeBlock>
-          </div>
-          <div className="space-y-3">
-            <h3 id="async-search" className="scroll-mt-24 text-sm font-medium">
-              Async search
-            </h3>
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <ComponentDemoFrame previewClassName="min-h-[24rem] items-start pt-24">
+          <PreviewCombobox />
+        </ComponentDemoFrame>
+      </DocSection>
+
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="async-search" title="Async search">
+            <DocNote>
+              ComboboxControl owns the searchable field surface. Compose leading icons, input,
+              clear, and trigger indicator as children; icons without an explicit size class are
+              normalized by the component.
+            </DocNote>
             <Example
               html={code.asyncSearch}
               collapsedHtml={code.asyncSearchBody}
@@ -1387,16 +1354,9 @@ function ComboboxDoc() {
             >
               <AsyncSearchCombobox />
             </Example>
-          </div>
-        </div>
-      </DocSection>
+          </DocSubsection>
 
-      <DocSection id="dropdown-combobox" title="Dropdown combobox" showThemeSwitcher>
-        <div className="space-y-8">
-          <div className="space-y-3">
-            <h3 id="button-trigger" className="scroll-mt-24 text-sm font-medium">
-              Button trigger
-            </h3>
+          <DocSubsection parentId="usage" id="button-trigger" title="Button trigger">
             <Example
               html={code.buttonTrigger}
               collapsedHtml={code.buttonTriggerBody}
@@ -1404,11 +1364,9 @@ function ComboboxDoc() {
             >
               <ButtonTriggerCombobox />
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 id="async-load-options" className="scroll-mt-24 text-sm font-medium">
-              Load options
-            </h3>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="async-load-options" title="Load options">
             <Example
               html={code.asyncOptions}
               collapsedHtml={code.asyncOptionsBody}
@@ -1416,11 +1374,9 @@ function ComboboxDoc() {
             >
               <AsyncOptionsCombobox />
             </Example>
-          </div>
-          <div className="space-y-3">
-            <h3 id="async-select" className="scroll-mt-24 text-sm font-medium">
-              Async select
-            </h3>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="async-select" title="Async select">
             <Example
               html={code.asyncSelect}
               collapsedHtml={code.asyncSelectBody}
@@ -1428,7 +1384,7 @@ function ComboboxDoc() {
             >
               <AsyncSelectCombobox />
             </Example>
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

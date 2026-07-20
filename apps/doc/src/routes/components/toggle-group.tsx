@@ -5,7 +5,7 @@ import { useState } from "react";
 import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -23,11 +23,9 @@ import { ToggleGroupDisabledComposition } from "#/modules/toggle-group/compositi
 import LegacySegmentedControl from "../../../../../packages/ui/src/legacy/SegmentedControl.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "counts", title: "Counts" },
-  { id: "disabled", title: "Disabled" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -136,21 +134,20 @@ function ToggleGroupDoc() {
       title="ToggleGroup"
       description="A controlled single-select toggle group rendered as a row of bordered segments."
       overview={
-        <Differences from="SegmentedControl">
-          <li>brutal styling reproduced 1:1 (active yellow + shadow, yellow/30 hover)</li>
-          <li>
-            source <code>SegmentedControl</code> is renamed to Base UI terminology:{" "}
-            <code>ToggleGroup</code> / <code>ToggleGroupItem</code> / <code>ToggleGroupLabel</code>{" "}
-            / <code>ToggleGroupCount</code>
-          </li>
-        </Differences>
+        <div className="grid gap-4">
+          <Differences from="SegmentedControl">
+            <li>brutal styling reproduced 1:1 (active yellow + shadow, yellow/30 hover)</li>
+            <li>
+              source <code>SegmentedControl</code> is renamed to Base UI terminology:{" "}
+              <code>ToggleGroup</code> / <code>ToggleGroupItem</code> /{" "}
+              <code>ToggleGroupLabel</code> / <code>ToggleGroupCount</code>
+            </li>
+          </Differences>
+          <TodoList items={TODOS} />
+        </div>
       }
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Example html={code.counts}>
           <ToggleGroup ariaLabel="Filter" value={value} onValueChange={setValue}>
@@ -174,21 +171,24 @@ function ToggleGroupDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="counts" title="Counts">
-        <CodeBlock html={code.counts} />
-      </DocSection>
-
-      <DocSection id="disabled" title="Disabled" showThemeSwitcher>
-        <Example html={code.disabled}>
-          <ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
-            <ToggleGroupItem value="all">
-              <ToggleGroupLabel>All</ToggleGroupLabel>
-            </ToggleGroupItem>
-            <ToggleGroupItem value="unread">
-              <ToggleGroupLabel>Unread</ToggleGroupLabel>
-            </ToggleGroupItem>
-          </ToggleGroup>
-        </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="counts" title="Counts">
+            <CodeBlock html={code.counts} />
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="disabled" title="Disabled">
+            <Example html={code.disabled}>
+              <ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
+                <ToggleGroupItem value="all">
+                  <ToggleGroupLabel>All</ToggleGroupLabel>
+                </ToggleGroupItem>
+                <ToggleGroupItem value="unread">
+                  <ToggleGroupLabel>Unread</ToggleGroupLabel>
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

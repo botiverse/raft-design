@@ -12,7 +12,7 @@ import { Inbox, Plus, Search, Upload } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
@@ -41,10 +41,7 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "copy", title: "Copy" },
-  { id: "actions", title: "Actions" },
-  { id: "customize", title: "Customize" },
-  { id: "composition", title: "Composition" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -317,106 +314,110 @@ function EmptyStateDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="copy" title="Copy" showThemeSwitcher>
-        <Example html={code.copy} previewClassName="items-stretch">
-          <div className="grid w-full gap-4 md:grid-cols-2">
-            <EmptyState className="min-h-56">
-              <EmptyStateContent>
-                <EmptyStateIcon>
-                  <Search />
-                </EmptyStateIcon>
-                <EmptyStateTitle>No results for "linear sync"</EmptyStateTitle>
-                <EmptyStateDescription>
-                  Try a different keyword or check the selected filters.
-                </EmptyStateDescription>
-              </EmptyStateContent>
-            </EmptyState>
-            <EmptyState className="min-h-56">
-              <EmptyStateContent>
-                <EmptyStateIcon>
-                  <Inbox />
-                </EmptyStateIcon>
-                <EmptyStateTitle>No messages yet</EmptyStateTitle>
-                <EmptyStateDescription>
-                  Conversations you start will show up here.
-                </EmptyStateDescription>
-              </EmptyStateContent>
-            </EmptyState>
-          </div>
-        </Example>
-      </DocSection>
-
-      <DocSection id="actions" title="Actions" showThemeSwitcher>
-        <Example html={code.actions}>
-          <EmptyState>
-            <EmptyStateContent>
-              <EmptyStateIcon>
-                <Inbox />
-              </EmptyStateIcon>
-              <EmptyStateTitle>No channels yet</EmptyStateTitle>
-              <EmptyStateDescription>
-                Create your first channel to start organizing work.
-              </EmptyStateDescription>
-            </EmptyStateContent>
-            <EmptyStateActions className="flex flex-wrap justify-center gap-2">
-              <Button variant="primary" size="sm">
-                <Plus data-icon="inline-start" />
-                New channel
-              </Button>
-              <Button variant="outline" size="sm">
-                Import
-              </Button>
-            </EmptyStateActions>
-          </EmptyState>
-        </Example>
-      </DocSection>
-
-      <DocSection id="customize" title="Customize" showThemeSwitcher>
-        <Example html={code.customize}>
-          <EmptyState className="min-h-72">
-            <EmptyStateContent>
-              <EmptyStateIcon>
-                <Upload />
-              </EmptyStateIcon>
-              <EmptyStateTitle>Drop files to import customers</EmptyStateTitle>
-              <EmptyStateDescription>
-                CSV and TSV files can be mapped before anything is saved.
-              </EmptyStateDescription>
-            </EmptyStateContent>
-            <div className="mt-5 flex flex-col items-center gap-2">
-              <Button variant="primary" size="sm">
-                Choose file
-              </Button>
-              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
-                <button className="underline underline-offset-4 hover:text-foreground-strong">
-                  Download template
-                </button>
-                <span aria-hidden>·</span>
-                <button className="underline underline-offset-4 hover:text-foreground-strong">
-                  View import guide
-                </button>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="copy" title="Copy">
+            <Example html={code.copy} previewClassName="items-stretch">
+              <div className="grid w-full gap-4 md:grid-cols-2">
+                <EmptyState className="min-h-56">
+                  <EmptyStateContent>
+                    <EmptyStateIcon>
+                      <Search />
+                    </EmptyStateIcon>
+                    <EmptyStateTitle>No results for "linear sync"</EmptyStateTitle>
+                    <EmptyStateDescription>
+                      Try a different keyword or check the selected filters.
+                    </EmptyStateDescription>
+                  </EmptyStateContent>
+                </EmptyState>
+                <EmptyState className="min-h-56">
+                  <EmptyStateContent>
+                    <EmptyStateIcon>
+                      <Inbox />
+                    </EmptyStateIcon>
+                    <EmptyStateTitle>No messages yet</EmptyStateTitle>
+                    <EmptyStateDescription>
+                      Conversations you start will show up here.
+                    </EmptyStateDescription>
+                  </EmptyStateContent>
+                </EmptyState>
               </div>
-            </div>
-          </EmptyState>
-        </Example>
-      </DocSection>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="composition" title="Composition" showThemeSwitcher>
-        <Example html={code.composition}>
-          <EmptyState render={<section aria-labelledby="empty-state-title" />}>
-            <EmptyStateContent>
-              <EmptyStateIcon aria-hidden>
-                <Inbox />
-              </EmptyStateIcon>
-              <EmptyStateTitle render={<h2 id="empty-state-title" />}>
-                No notifications right now
-              </EmptyStateTitle>
-              <EmptyStateDescription>
-                New mentions, assignments, and approvals will appear here.
-              </EmptyStateDescription>
-            </EmptyStateContent>
-          </EmptyState>
-        </Example>
+          <DocSubsection parentId="usage" id="actions" title="Actions">
+            <Example html={code.actions}>
+              <EmptyState>
+                <EmptyStateContent>
+                  <EmptyStateIcon>
+                    <Inbox />
+                  </EmptyStateIcon>
+                  <EmptyStateTitle>No channels yet</EmptyStateTitle>
+                  <EmptyStateDescription>
+                    Create your first channel to start organizing work.
+                  </EmptyStateDescription>
+                </EmptyStateContent>
+                <EmptyStateActions className="flex flex-wrap justify-center gap-2">
+                  <Button variant="primary" size="sm">
+                    <Plus data-icon="inline-start" />
+                    New channel
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    Import
+                  </Button>
+                </EmptyStateActions>
+              </EmptyState>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="customize" title="Customize">
+            <Example html={code.customize}>
+              <EmptyState className="min-h-72">
+                <EmptyStateContent>
+                  <EmptyStateIcon>
+                    <Upload />
+                  </EmptyStateIcon>
+                  <EmptyStateTitle>Drop files to import customers</EmptyStateTitle>
+                  <EmptyStateDescription>
+                    CSV and TSV files can be mapped before anything is saved.
+                  </EmptyStateDescription>
+                </EmptyStateContent>
+                <div className="mt-5 flex flex-col items-center gap-2">
+                  <Button variant="primary" size="sm">
+                    Choose file
+                  </Button>
+                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
+                    <button className="underline underline-offset-4 hover:text-foreground-strong">
+                      Download template
+                    </button>
+                    <span aria-hidden>·</span>
+                    <button className="underline underline-offset-4 hover:text-foreground-strong">
+                      View import guide
+                    </button>
+                  </div>
+                </div>
+              </EmptyState>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="composition" title="Composition">
+            <Example html={code.composition}>
+              <EmptyState render={<section aria-labelledby="empty-state-title" />}>
+                <EmptyStateContent>
+                  <EmptyStateIcon aria-hidden>
+                    <Inbox />
+                  </EmptyStateIcon>
+                  <EmptyStateTitle render={<h2 id="empty-state-title" />}>
+                    No notifications right now
+                  </EmptyStateTitle>
+                  <EmptyStateDescription>
+                    New mentions, assignments, and approvals will appear here.
+                  </EmptyStateDescription>
+                </EmptyStateContent>
+              </EmptyState>
+            </Example>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

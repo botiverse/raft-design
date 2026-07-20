@@ -16,7 +16,7 @@ import { useRef } from "react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -31,16 +31,9 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "details", title: "Details" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-notification-popover", title: "Notification popover" },
-      { id: "source-comparison-mention-card", title: "Mention card" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -421,12 +414,14 @@ function PopoverDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="details" title="Details" showThemeSwitcher>
-        <Example html={code.details} previewClassName="min-h-[18rem] items-start pt-28">
-          <OpenPopoverExample triggerId="details-popover-trigger" label="Usage notes">
-            <PopoverPanelBody />
-          </OpenPopoverExample>
-        </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <DocSubsection parentId="usage" id="details" title="Details">
+          <Example html={code.details} previewClassName="min-h-[18rem] items-start pt-28">
+            <OpenPopoverExample triggerId="details-popover-trigger" label="Usage notes">
+              <PopoverPanelBody />
+            </OpenPopoverExample>
+          </Example>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

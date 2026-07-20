@@ -4,7 +4,7 @@ import { Field, FieldError, FieldLabel } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -29,10 +29,7 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "types", title: "Types" },
-  { id: "states", title: "States" },
-  { id: "field", title: "With Field" },
-  { id: "password-managers", title: "Password managers" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -320,80 +317,76 @@ function InputDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="types" title="Types" showThemeSwitcher>
-        <div className="space-y-4">
-          <Example html={code.types}>
-            <Input
-              className="w-80"
-              aria-label="Email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              spellCheck={false}
-              placeholder="you@example.com"
-            />
-            <Input
-              className="w-80"
-              aria-label="Verification code"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="123456"
-            />
-          </Example>
-        </div>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-8">
+          <DocSubsection parentId="usage" id="types" title="Types">
+            <Example html={code.types}>
+              <Input
+                className="w-80"
+                aria-label="Email"
+                type="email"
+                name="email"
+                autoComplete="email"
+                spellCheck={false}
+                placeholder="you@example.com"
+              />
+              <Input
+                className="w-80"
+                aria-label="Verification code"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="123456"
+              />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="states" title="States" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
-            disabled invalid input keeps the disabled border and removes the invalid ring because
-            the user cannot edit it.
-          </DocNote>
-          <Example html={code.states}>
-            <div className="grid w-full max-w-96 gap-3">
-              <Input aria-label="Email" placeholder="you@example.com" />
-              <Input aria-label="Email" defaultValue="alex@example.com" />
-              <Input aria-label="Email" aria-invalid defaultValue="oops" />
-              <Input aria-label="Email" disabled placeholder="Disabled" />
-              <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />
-            </div>
-          </Example>
-        </div>
-      </DocSection>
+          <DocSubsection parentId="usage" id="states" title="States">
+            <DocNote>
+              <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
+              disabled invalid input keeps the disabled border and removes the invalid ring because
+              the user cannot edit it.
+            </DocNote>
+            <Example html={code.states}>
+              <div className="grid w-full max-w-96 gap-3">
+                <Input aria-label="Email" placeholder="you@example.com" />
+                <Input aria-label="Email" defaultValue="alex@example.com" />
+                <Input aria-label="Email" aria-invalid defaultValue="oops" />
+                <Input aria-label="Email" disabled placeholder="Disabled" />
+                <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />
+              </div>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="field" title="With Field" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Label and message come from <Link to="/components/field">Field</Link>. Input stays a
-            pure control; set <InlineCode>invalid</InlineCode> on the field when the message belongs
-            to the same validation state.
-          </DocNote>
-          <Example html={code.field}>
-            <Field className="w-80" invalid>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input id="email" type="email" defaultValue="oops" />
-              <FieldError match>Email is required.</FieldError>
-            </Field>
-          </Example>
-        </div>
-      </DocSection>
+          <DocSubsection parentId="usage" id="field" title="With Field">
+            <DocNote>
+              Label and message come from <Link to="/components/field">Field</Link>. Input stays a
+              pure control; set <InlineCode>invalid</InlineCode> on the field when the message
+              belongs to the same validation state.
+            </DocNote>
+            <Example html={code.field}>
+              <Field className="w-80" invalid>
+                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <Input id="email" type="email" defaultValue="oops" />
+                <FieldError match>Email is required.</FieldError>
+              </Field>
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="password-managers" title="Password managers" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Use <InlineCode>suppressPasswordManager</InlineCode> only for non-credential fields
-            where extension overlays would cover custom UI. Credential fields should keep native
-            browser and password-manager help.
-          </DocNote>
-          <Example html={code.passwordManagers}>
-            <Input
-              className="w-80"
-              aria-label="Search"
-              suppressPasswordManager
-              placeholder="Search customers..."
-            />
-          </Example>
+          <DocSubsection parentId="usage" id="password-managers" title="Password managers">
+            <DocNote>
+              Use <InlineCode>suppressPasswordManager</InlineCode> only for non-credential fields
+              where extension overlays would cover custom UI. Credential fields should keep native
+              browser and password-manager help.
+            </DocNote>
+            <Example html={code.passwordManagers}>
+              <Input
+                className="w-80"
+                aria-label="Search"
+                suppressPasswordManager
+                placeholder="Search customers..."
+              />
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

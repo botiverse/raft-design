@@ -18,7 +18,7 @@ import { AlertTriangle, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -37,15 +37,9 @@ import { TypedDeleteAlertDialogComposition } from "#/modules/alert-dialog/compos
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-delete-server", title: "Delete server" },
-      { id: "source-comparison-confirm-action", title: "Confirm action" },
-    ],
-  },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SNIPPETS = {
@@ -365,6 +359,27 @@ function AlertDialogDoc() {
               <DocsCodeBlock.Content html={code.anatomy} />
             </DocsCodeBlock.Body>
           </DocsCodeBlock>
+        </div>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="typed-delete" title="Typed delete">
+            <Example
+              html={code.alertDialogDeleteServerComposition}
+              previewClassName="items-stretch"
+            >
+              <TypedDeleteAlertDialogComposition />
+            </Example>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="confirm-action" title="Confirm action">
+            <Example
+              html={code.alertDialogConfirmActionComposition}
+              previewClassName="items-stretch"
+            >
+              <ConfirmActionAlertDialogComposition />
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 

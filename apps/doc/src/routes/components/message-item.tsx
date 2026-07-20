@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
@@ -103,89 +103,96 @@ function MessageItemDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="rows" title="Message rows" showThemeSwitcher>
-        <Example html={code.rowsShowcase} previewMode="light" previewClassName="items-stretch">
-          <MessageRowsShowcaseComposition />
-        </Example>
-      </DocSection>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="rows" title="Message rows">
+            <Example html={code.rowsShowcase} previewMode="light" previewClassName="items-stretch">
+              <MessageRowsShowcaseComposition />
+            </Example>
+          </DocSubsection>
 
-      <DocSection id="content" title="Content & references" showThemeSwitcher>
-        <Example
-          html={code.contentCompositions}
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <div className="flex w-full max-w-3xl flex-col gap-5">
-            <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
-            <MessageCodeBlockComposition />
-          </div>
-        </Example>
-        <div className="mt-6">
-          <Example
-            html={code.translationShowcase}
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <div className="w-full max-w-3xl">
-              <MessageTranslationShowcaseComposition />
+          <DocSubsection parentId="usage" id="content" title="Content & references">
+            <Example
+              html={code.contentCompositions}
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <div className="flex w-full max-w-3xl flex-col gap-5">
+                <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
+                <MessageCodeBlockComposition />
+              </div>
+            </Example>
+            <div className="mt-6">
+              <Example
+                html={code.translationShowcase}
+                previewMode="light"
+                previewClassName="items-stretch"
+              >
+                <div className="w-full max-w-3xl">
+                  <MessageTranslationShowcaseComposition />
+                </div>
+              </Example>
             </div>
-          </Example>
-        </div>
-        <div className="mt-6">
-          <Example html={code.productStates} previewMode="light" previewClassName="items-stretch">
-            <MessageProductStatesComposition />
-          </Example>
-        </div>
-        <div className="mt-6">
-          <Example
-            html={code.referenceShowcase}
-            previewMode="light"
-            previewClassName="items-stretch"
-          >
-            <div className="w-full max-w-3xl">
-              <MessageReferenceShowcaseComposition />
+            <div className="mt-6">
+              <Example
+                html={code.productStates}
+                previewMode="light"
+                previewClassName="items-stretch"
+              >
+                <MessageProductStatesComposition />
+              </Example>
             </div>
-          </Example>
+            <div className="mt-6">
+              <Example
+                html={code.referenceShowcase}
+                previewMode="light"
+                previewClassName="items-stretch"
+              >
+                <div className="w-full max-w-3xl">
+                  <MessageReferenceShowcaseComposition />
+                </div>
+              </Example>
+            </div>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="attachments" title="Attachments">
+            <Example
+              html={code.attachmentsShowcase}
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <MessageAttachmentsShowcaseComposition />
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="interactions" title="Interactions">
+            <Example
+              html={code.interactionsShowcase}
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <MessageInteractionsShowcaseComposition />
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="source-visible-states" title="Source-visible states">
+            <Example
+              html={code.sourceVisibleStates}
+              previewMode="light"
+              previewClassName="items-stretch"
+            >
+              <MessageSourceVisibleStatesComposition />
+            </Example>
+          </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="attachments" title="Attachments" showThemeSwitcher>
-        <Example
-          html={code.attachmentsShowcase}
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <MessageAttachmentsShowcaseComposition />
-        </Example>
-      </DocSection>
-
-      <DocSection id="interactions" title="Interactions" showThemeSwitcher>
-        <Example
-          html={code.interactionsShowcase}
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <MessageInteractionsShowcaseComposition />
-        </Example>
-      </DocSection>
-
-      <DocSection id="source-visible-states" title="Source-visible states" showThemeSwitcher>
-        <Example
-          html={code.sourceVisibleStates}
-          previewMode="light"
-          previewClassName="items-stretch"
-        >
-          <MessageSourceVisibleStatesComposition />
-        </Example>
       </DocSection>
 
       <DocSection id="api" title="API">
         <div className="grid gap-8">
           {API_GROUPS.map((group) => (
-            <section key={group.title} className="grid gap-3">
-              <h3 className="text-sm font-medium text-foreground-strong">{group.title}</h3>
+            <DocSubsection key={group.id} parentId="api" id={group.id} title={group.title}>
               <PropsTable rows={group.rows} />
-            </section>
+            </DocSubsection>
           ))}
         </div>
       </DocSection>

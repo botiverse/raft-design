@@ -3,7 +3,7 @@ import { Separator, Text } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -24,7 +24,7 @@ import {
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "orientation", title: "Orientation" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -160,8 +160,8 @@ function SeparatorDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="orientation" title="Orientation" showThemeSwitcher>
-        <div className="space-y-4">
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <DocSubsection parentId="usage" id="orientation" title="Orientation">
           <DocNote>
             Use horizontal separators between stacked groups. Use vertical separators only inside a
             row with a stable height.
@@ -181,7 +181,7 @@ function SeparatorDoc() {
               </div>
             </div>
           </Example>
-        </div>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

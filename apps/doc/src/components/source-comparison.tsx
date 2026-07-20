@@ -344,8 +344,10 @@ export function SourceComparison({
           : `grid bg-white divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
         return (
           <section
-            key={item.id ?? `${item.label}-${index}`}
+            key={itemId}
             id={itemId}
+            data-doc-toc-parent="source-comparison"
+            data-doc-toc-item={item.label}
             data-source-comparison-item={item.label}
             data-source-comparison-status={status}
             className="scroll-mt-8 space-y-5"

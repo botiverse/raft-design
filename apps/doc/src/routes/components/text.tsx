@@ -3,7 +3,7 @@ import { Text } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Example } from "#/components/example.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -26,19 +26,9 @@ import { TextTaskRowComposition } from "#/modules/text/compositions/task-row.com
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "sizes", title: "Sizes" },
-  { id: "variants", title: "Variants" },
-  {
-    id: "source-comparison",
-    title: "Source comparison",
-    children: [
-      { id: "source-comparison-panel-copy", title: "Panel copy" },
-      { id: "source-comparison-task-row", title: "Task row" },
-      { id: "source-comparison-detail-copy", title: "Detail copy" },
-      { id: "source-comparison-dialog-copy", title: "Dialog copy" },
-    ],
-  },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 const SOURCE_SCENES = [
   {
@@ -268,36 +258,42 @@ function TextDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="sizes" title="Sizes" showThemeSwitcher>
-        <div className="space-y-4">
-          <DocNote>
-            Use Text for repeatable product typography. Use token pages when auditing the full type
-            scale.
-          </DocNote>
-          <Example html={code.sizes}>
-            <div className="grid max-w-sm gap-3">
-              <Text.Heading level={5}>Heading level 5</Text.Heading>
-              <Text.Sans size="large">Large body</Text.Sans>
-              <Text.Sans size="body">Body text</Text.Sans>
-              <Text.Sans size="small">Small supporting text</Text.Sans>
-              <Text.Sans size="caption">Caption text</Text.Sans>
-              <Text.Mono size="meta">meta</Text.Mono>
-            </div>
-          </Example>
+      <DocSection id="usage" title="Usage" showThemeSwitcher>
+        <div className="space-y-10">
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <DocNote>
+              Use Text for repeatable product typography. Use token pages when auditing the full
+              type scale.
+            </DocNote>
+            <Example html={code.sizes}>
+              <div className="grid max-w-sm gap-3">
+                <Text.Heading level={5}>Heading level 5</Text.Heading>
+                <Text.Sans size="large">Large body</Text.Sans>
+                <Text.Sans size="body">Body text</Text.Sans>
+                <Text.Sans size="small">Small supporting text</Text.Sans>
+                <Text.Sans size="caption">Caption text</Text.Sans>
+                <Text.Mono size="meta">meta</Text.Mono>
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="variants" title="Variants">
+            <Example html={code.variants}>
+              <div className="grid max-w-sm gap-2">
+                <Text.Sans variant="default">Default</Text.Sans>
+                <Text.Sans variant="muted">Muted</Text.Sans>
+                <Text.Sans variant="placeholder">Placeholder</Text.Sans>
+                <Text.Sans variant="primary">Primary</Text.Sans>
+                <Text.Sans variant="success">Success</Text.Sans>
+                <Text.Sans variant="danger">Danger</Text.Sans>
+              </div>
+            </Example>
+          </DocSubsection>
         </div>
       </DocSection>
 
-      <DocSection id="variants" title="Variants" showThemeSwitcher>
-        <Example html={code.variants}>
-          <div className="grid max-w-sm gap-2">
-            <Text.Sans variant="default">Default</Text.Sans>
-            <Text.Sans variant="muted">Muted</Text.Sans>
-            <Text.Sans variant="placeholder">Placeholder</Text.Sans>
-            <Text.Sans variant="primary">Primary</Text.Sans>
-            <Text.Sans variant="success">Success</Text.Sans>
-            <Text.Sans variant="danger">Danger</Text.Sans>
-          </div>
-        </Example>
+      <DocSection id="api" title="API">
+        <PropsTable rows={PROPS} />
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
@@ -354,10 +350,6 @@ function TextDoc() {
             },
           ]}
         />
-      </DocSection>
-
-      <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
       </DocSection>
     </DocPage>
   );

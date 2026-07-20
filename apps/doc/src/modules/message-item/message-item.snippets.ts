@@ -3,11 +3,7 @@ import type { PropRow } from "#/components/props-table.tsx";
 export const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "rows", title: "Message rows" },
-  { id: "content", title: "Content & references" },
-  { id: "attachments", title: "Attachments" },
-  { id: "interactions", title: "Interactions" },
-  { id: "source-visible-states", title: "Source-visible states" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -225,9 +221,13 @@ export const PROPS: readonly PropRow[] = [
 ];
 
 export const API_GROUPS = [
-  { title: "Row structure", rows: PROPS.slice(0, 5) },
-  { title: "Content, product states, and footer", rows: PROPS.slice(5, 18) },
-  { title: "Attachments", rows: PROPS.slice(18, 25) },
-  { title: "Reactions", rows: PROPS.slice(25, 31) },
-  { title: "System events", rows: PROPS.slice(31) },
-] as const satisfies readonly { title: string; rows: readonly PropRow[] }[];
+  { id: "api-row-structure", title: "Row structure", rows: PROPS.slice(0, 5) },
+  {
+    id: "api-content-product-states-footer",
+    title: "Content, product states, and footer",
+    rows: PROPS.slice(5, 18),
+  },
+  { id: "api-attachments", title: "Attachments", rows: PROPS.slice(18, 25) },
+  { id: "api-reactions", title: "Reactions", rows: PROPS.slice(25, 31) },
+  { id: "api-system-events", title: "System events", rows: PROPS.slice(31) },
+] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];
