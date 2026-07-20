@@ -33,7 +33,7 @@ const SNIPPETS = {
   threadPanelComposition: threadPanelCompositionSource,
   anatomy: `<ThreadPanelRoot>
   <ThreadPanelHeader>
-    <Button variant="outline" size="icon-md">
+    <Button className="mr-1 lg:hidden" variant="outline" size="icon-sm">
       <ChevronLeft />
     </Button>
     <ThreadPanelTitle>
@@ -46,27 +46,22 @@ const SNIPPETS = {
       </PanelAction>
       <PanelAction>
         <ExternalLink />
-        View in channel
+        <span className="hidden md:inline">View in channel</span>
       </PanelAction>
-      <PanelAction>
+      <PanelAction className="max-lg:hidden">
         <X />
       </PanelAction>
     </ThreadPanelActions>
   </ThreadPanelHeader>
   <ThreadPanelContent>
   <ThreadPanelSearch>
-    <InputGroup>
-      <InputGroupAddon>
-        <Search />
-      </InputGroupAddon>
-      <InputGroupInput />
-    </InputGroup>
-    <ThreadPanelSearchCount />
-    <ThreadPanelActions>
-      <PanelAction>
-        <Search />
-      </PanelAction>
-    </ThreadPanelActions>
+    <InputGroup />
+    <ThreadPanelSearchTrailing>
+      <ThreadPanelSearchCount />
+      <ThreadPanelActions>
+        <PanelAction />
+      </ThreadPanelActions>
+    </ThreadPanelSearchTrailing>
   </ThreadPanelSearch>
   <ThreadPanelOriginalMessage>
     <MessageItem />
@@ -80,7 +75,19 @@ const SNIPPETS = {
       <MessageItemSearchMatch />
     </MessageList>
   </ThreadPanelBody>
-  <ThreadPanelFooter />
+  <ThreadPanelFooter>
+    <ComposerRoot>
+      <Composer>
+        <ComposerInput />
+        <ComposerToolbar>
+          <ComposerActions />
+          <ComposerMeta>
+            <ComposerSubmit />
+          </ComposerMeta>
+        </ComposerToolbar>
+      </Composer>
+    </ComposerRoot>
+  </ThreadPanelFooter>
   </ThreadPanelContent>
 </ThreadPanelRoot>`,
 } as const;
@@ -127,12 +134,18 @@ const PROPS: readonly PropRow[] = [
     name: "ThreadPanelSearch",
     type: "div props",
     description:
-      "In-thread search row under the header. Compose it with InputGroup, a match counter, and PanelAction controls.",
+      "In-thread search row under the header. Left: InputGroup. Right: ThreadPanelSearchTrailing.",
+  },
+  {
+    name: "ThreadPanelSearchTrailing",
+    type: "div props",
+    description:
+      "Right-aligned cluster for match count and PanelAction controls. Stays flush to the row end when the input is narrower than the row.",
   },
   {
     name: "ThreadPanelSearchCount",
     type: "div props",
-    description: "Match-count region in the thread search row.",
+    description: "Match-count label in the trailing cluster, formatted as a/b.",
   },
   {
     name: "ThreadPanelOriginalMessage",
@@ -153,7 +166,7 @@ const PROPS: readonly PropRow[] = [
     name: "ThreadPanelFooter",
     type: "div props",
     description:
-      "Optional composer/footer boundary. Override --panel-footer-clearance on the root for a custom composer height.",
+      "Composer/footer boundary. Compose it with ComposerRoot like ConversationPanelFooter. Override --panel-footer-clearance on the root for a custom composer height.",
   },
   {
     name: "MessageListDateDivider",
@@ -201,7 +214,7 @@ function ThreadPanelDoc() {
           defaultValues={{ search: true }}
           controls={[{ name: "search", label: "Search", type: "boolean" }]}
           render={(values) => (
-            <div className="flex h-[420px] w-full justify-start overflow-x-auto">
+            <div className="flex h-[660px] w-full justify-start overflow-x-auto">
               <ThreadPanelFrame>
                 <ThreadPanelComposition search={values.search} />
               </ThreadPanelFrame>
@@ -280,7 +293,7 @@ function PreviewPane({
           </Badge>
         ) : null}
       </div>
-      <div className="flex h-[420px] items-stretch justify-start overflow-x-auto bg-white p-2">
+      <div className="flex h-[660px] items-stretch justify-start overflow-x-auto bg-white p-2">
         {children}
       </div>
     </div>
@@ -326,7 +339,9 @@ function SourceThreadPanelPreview() {
           value="chrome"
           className="min-w-0 flex-1 border-2 border-black bg-white px-2 py-1 text-sm font-medium outline-none focus:shadow-brutal-sm"
         />
-        <div className="w-20 shrink-0 text-center font-mono text-xs text-black/50">1/2</div>
+        <div className="shrink-0 whitespace-nowrap font-mono text-xs tabular-nums text-black/50">
+          1/2
+        </div>
         <button
           type="button"
           className="btn-brutal-sm flex size-7 items-center justify-center bg-white"

@@ -181,6 +181,27 @@ export function ThreadPanelSearch({ className, render, ...props }: ThreadPanelSe
   });
 }
 
+export type ThreadPanelSearchTrailingProps = useRender.ComponentProps<"div">;
+
+export function ThreadPanelSearchTrailing({
+  className,
+  render,
+  ...props
+}: ThreadPanelSearchTrailingProps) {
+  const theme = useThemeFamily();
+  const { searchTrailing } = threadPanel({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "thread-panel-search-trailing",
+    className: searchTrailing({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type ThreadPanelSearchCountProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelSearchCount({
