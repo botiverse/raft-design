@@ -210,7 +210,7 @@ function SandboxedPreviewFrameDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="sandboxed-content" title="Sandboxed content">
           <Preview>
             <Preview.Canvas>

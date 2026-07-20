@@ -646,7 +646,7 @@ function NotificationCenterDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection
           parentId="usage"
           id="empty"

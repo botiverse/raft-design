@@ -679,7 +679,7 @@ function SelectDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="icons" title="Icons">
             <Preview previewClassName="min-h-[18rem] items-start pt-20">

@@ -91,10 +91,9 @@ function PreviewThemeScopeContent({
   children: ReactNode;
   family: Theme;
 }) {
-  const { resolvedMode } = useTheme();
-  const scopeClassName = [resolvedMode === "dark" ? "dark" : null, className]
-    .filter(Boolean)
-    .join(" ");
+  const { mode, resolvedMode } = useTheme();
+  const modeClassName = family === "elegant" && mode !== "system" ? mode : null;
+  const scopeClassName = [modeClassName, className].filter(Boolean).join(" ");
 
   return (
     <div

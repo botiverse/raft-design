@@ -584,7 +584,7 @@ function TooltipDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-8">
           <DocNote>
             Use Tooltip for terse labels or hidden detail. Rich cards with actions, avatars, or

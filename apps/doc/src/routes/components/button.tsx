@@ -328,7 +328,7 @@ function ButtonDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="variants" title="Variants">
             <Preview>

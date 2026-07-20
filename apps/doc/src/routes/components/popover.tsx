@@ -467,7 +467,7 @@ function PopoverDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="details" title="Details">
           <Preview previewClassName="min-h-[18rem] items-start pt-28">
             <Preview.Canvas>

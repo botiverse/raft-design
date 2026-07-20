@@ -337,7 +337,7 @@ function EmptyStateDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="copy" title="Copy">
             <Preview previewClassName="items-stretch">
