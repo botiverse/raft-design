@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
+import { dataPresence, isAriaTrue } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -13,7 +14,7 @@ const select = tv({
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
       "data-[placeholder]:text-foreground-placeholder",
-      "aria-invalid:border-danger-base/45 aria-invalid:hover:border-danger-base/75 aria-invalid:focus-visible:border-danger-base/75 aria-invalid:focus-visible:ring-2 aria-invalid:focus-visible:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)] aria-invalid:focus-visible:ring-offset-1 aria-invalid:focus-visible:ring-offset-background",
+      "data-invalid:border-danger-base/45 data-invalid:hover:border-danger-base/75 data-invalid:focus-visible:border-danger-base/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)] data-invalid:focus-visible:ring-offset-1 data-invalid:focus-visible:ring-offset-background",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:!size-3.5 [&_[data-slot='select-trigger-content']_svg]:shrink-0 [&_[data-slot='select-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='select-trigger-content']_svg_*]:!stroke-[1.5]",
@@ -136,7 +137,13 @@ export function Select<Value, Multiple extends boolean | undefined = false>(
 
 export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props>;
 
-export function SelectTrigger({ className, children, render, ...props }: SelectTriggerProps) {
+export function SelectTrigger({
+  className,
+  children,
+  render,
+  "aria-invalid": ariaInvalid,
+  ...props
+}: SelectTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = select({ theme });
   const defaultRender = theme === "brutal" ? undefined : <Button variant="outline" size="md" />;
@@ -148,6 +155,8 @@ export function SelectTrigger({ className, children, render, ...props }: SelectT
       {...(renderProp ? { render: renderProp } : {})}
       className={trigger({ className })}
       {...props}
+      aria-invalid={ariaInvalid}
+      {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}
     >
       <span data-slot="select-trigger-content" className="flex min-w-0 flex-1 items-center gap-1.5">
         {children}

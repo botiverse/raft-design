@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
+import { dataPresence, isAriaTrue } from "../../lib/data-attributes";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -28,8 +29,8 @@ const inputGroup = tv({
       brutal: {
         root: [
           "border-2 border-line-strong bg-layer-panel shadow-sm",
-          "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-md",
-          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-brutal-red has-[[data-slot=input-group-control][aria-invalid=true]]:bg-brutal-red/5 has-[[data-slot=input-group-control][aria-invalid=true]]:shadow-none has-[[data-slot=input-group-control][aria-invalid=true]]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]]:ring-brutal-red/60",
+          "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
+          "has-[[data-slot=input-group-control][data-invalid]]:border-brutal-red has-[[data-slot=input-group-control][data-invalid]]:bg-brutal-red/5 has-[[data-slot=input-group-control][data-invalid]]:shadow-none has-[[data-slot=input-group-control][data-invalid]]:ring-2 has-[[data-slot=input-group-control][data-invalid]]:ring-brutal-red/60",
         ],
         addon: ["text-foreground/50"],
         text: ["font-heading text-foreground/50"],
@@ -42,11 +43,11 @@ const inputGroup = tv({
           "hover:border-line-field-hover hover:shadow-field-hover",
           "has-[[data-slot=input-group-control]:focus]:border-line-subtle/30 has-[[data-slot=input-group-control]:focus]:bg-layer-field",
           "has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] has-[[data-slot=input-group-control]:focus-visible]:ring-offset-1 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-background",
-          "has-[[data-slot=input-group-control][aria-invalid=true]]:border-danger-base/45 has-[[data-slot=input-group-control][aria-invalid=true]]:hover:border-danger-base/75 has-[[data-slot=input-group-control][aria-invalid=true]:focus]:border-danger-base/75",
-          "has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-2 has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)]",
+          "has-[[data-slot=input-group-control][data-invalid]]:border-danger-base/45 has-[[data-slot=input-group-control][data-invalid]]:hover:border-danger-base/75 has-[[data-slot=input-group-control][data-invalid]:focus]:border-danger-base/75",
+          "has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-2 has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)]",
           "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:bg-layer-muted/50",
           "has-[[data-slot=input-group-control]:disabled]:hover:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:hover:shadow-none",
-          "has-[[data-slot=input-group-control][aria-invalid=true]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control][aria-invalid=true]:disabled]:ring-0",
+          "has-[[data-slot=input-group-control][data-invalid]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control][data-invalid]:disabled]:ring-0",
         ],
         addon: [
           "text-foreground-muted transition duration-200 ease-out",
@@ -196,6 +197,7 @@ export type InputGroupInputProps = WithoutChildren<StyledProps<BaseInput.Props>>
 export function InputGroupInput({
   className,
   suppressPasswordManager,
+  "aria-invalid": ariaInvalid,
   ...props
 }: InputGroupInputProps) {
   const theme = useThemeFamily();
@@ -210,6 +212,8 @@ export function InputGroupInput({
       data-form-type={suppressPasswordManager ? "other" : undefined}
       data-lpignore={suppressPasswordManager ? "true" : undefined}
       {...props}
+      aria-invalid={ariaInvalid}
+      {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}
     />
   );
 }

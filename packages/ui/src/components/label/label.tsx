@@ -1,6 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
+import { type SlotElementProps } from "../../lib/data-attributes";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
@@ -10,10 +11,10 @@ const label = tv({
       "group/label inline-flex w-fit items-center gap-1",
       "cursor-pointer select-none",
       "text-sm leading-none",
-      "aria-disabled:cursor-not-allowed aria-disabled:text-foreground-disabled",
+      "data-[disabled]:cursor-not-allowed data-[disabled]:text-foreground-disabled",
     ],
-    asterisk: ["text-accent-400", "group-aria-disabled/label:text-foreground-disabled"],
-    sub: ["font-normal normal-case", "group-aria-disabled/label:text-foreground-disabled"],
+    asterisk: ["text-accent-400", "group-data-[disabled]/label:text-foreground-disabled"],
+    sub: ["font-normal normal-case", "group-data-[disabled]/label:text-foreground-disabled"],
   },
   variants: {
     theme: {
@@ -44,8 +45,9 @@ export type LabelProps = useRender.ComponentProps<"label"> &
 function LabelRoot({ size, disabled, className, render, ...props }: LabelProps) {
   const theme = useThemeFamily();
   const { root } = label({ theme, size });
-  const defaultProps: useRender.ElementProps<"label"> = {
+  const defaultProps: SlotElementProps<"label"> = {
     "aria-disabled": disabled ? true : undefined,
+    "data-disabled": disabled ? "" : undefined,
     className: root({ className }),
   };
 

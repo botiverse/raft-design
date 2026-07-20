@@ -34,7 +34,7 @@ export const buttonVariants = tv({
           "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
-          "active:not-aria-[haspopup]:scale-[0.985]",
+          "active:not-data-[has-popup]:scale-[0.985]",
         ],
       },
     },
@@ -449,7 +449,7 @@ export const buttonVariants = tv({
           "shadow-sm",
           "hover:border-line-strong hover:bg-brutal-red",
           "hover:-translate-y-px hover:shadow-md",
-          "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
+          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
           "active:shadow-xs",
         ],
       },
@@ -463,7 +463,7 @@ export const buttonVariants = tv({
           "shadow-sm",
           "hover:border-line-strong hover:bg-danger-lighter",
           "hover:-translate-y-px hover:shadow-md",
-          "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
+          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
           "active:shadow-xs",
         ],
       },
@@ -556,7 +556,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "hover:-translate-y-px hover:shadow-md",
-          "active:not-aria-[haspopup]:translate-x-px active:not-aria-[haspopup]:translate-y-px",
+          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
           "active:shadow-xs",
         ],
       },
@@ -580,6 +580,7 @@ export function Button({
   children,
   render,
   nativeButton,
+  "aria-haspopup": ariaHasPopup,
   ...props
 }: ButtonProps) {
   const theme = useThemeFamily();
@@ -597,6 +598,8 @@ export function Button({
       data-slot="button"
       className={root({ className })}
       data-loading={loading ? "true" : undefined}
+      aria-haspopup={ariaHasPopup}
+      {...(ariaHasPopup != null && ariaHasPopup !== false ? { "data-has-popup": "" as const } : {})}
       disabled={disabled || loading}
       aria-disabled={loading || undefined}
     >

@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageSystem } from "./message-system.recipe";
-import { type SlotElementProps } from "../../lib/data-attributes";
+import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
 
 export type SystemMessageItemProps = useRender.ComponentProps<"div">;
 
@@ -70,11 +70,12 @@ export type SystemMessageGroupDisclosureProps = useRender.ComponentProps<"button
 export function SystemMessageGroupDisclosure({
   className,
   render,
+  "aria-expanded": ariaExpanded,
   ...props
 }: SystemMessageGroupDisclosureProps) {
   const theme = useThemeFamily();
   const { systemDisclosure } = messageSystem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     className: systemDisclosure({ className }),
   };
@@ -82,7 +83,10 @@ export function SystemMessageGroupDisclosure({
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, props, {
+      "aria-expanded": ariaExpanded,
+      ...(isAriaTrue(ariaExpanded) ? { "data-expanded": dataPresence(true) } : {}),
+    }),
     state: { slot: "system-message-group-disclosure" },
   });
 }

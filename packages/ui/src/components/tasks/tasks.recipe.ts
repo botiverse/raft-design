@@ -100,7 +100,7 @@ export const tasks = tv({
           "font-heading !text-xs !font-bold text-foreground/70",
           "border-line-subtle bg-layer-panel shadow-none transition-colors",
           "hover:border-line-strong hover:text-foreground",
-          "active:bg-layer-active aria-pressed:border-line-strong aria-pressed:bg-soft-signal aria-pressed:text-foreground aria-pressed:shadow-sm",
+          "active:bg-layer-active data-[pressed]:border-line-strong data-[pressed]:bg-soft-signal data-[pressed]:text-foreground data-[pressed]:shadow-sm",
           "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
           "disabled:pointer-events-none disabled:opacity-40",
           "data-[busy=true]:pointer-events-none data-[busy=true]:opacity-60",
