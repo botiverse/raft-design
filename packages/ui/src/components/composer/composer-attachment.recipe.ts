@@ -41,13 +41,12 @@ export const composerAttachment = tv({
       brutal: {
         attachment: [
           "has-[[data-slot=composer-attachment-image]]:size-16",
-          "has-[[data-slot=composer-attachment-image]]:overflow-hidden",
           "has-[[data-slot=composer-attachment-image]]:border-2",
           "has-[[data-slot=composer-attachment-image]]:border-black",
           "has-[[data-slot=composer-attachment-image]]:[&_[data-slot=composer-attachment-failed-overlay]]:border-0",
         ],
         attachmentFile: "items-center border-black bg-white [&_svg]:text-black/70",
-        attachmentImage: "size-full image-transparency-bg",
+        attachmentImage: "size-full overflow-hidden image-transparency-bg",
         attachmentTitle: "text-black",
         attachmentMeta: "text-black/50",
         attachmentUploadingOverlay: "bg-white/85 text-black",

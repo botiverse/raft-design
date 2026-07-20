@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -288,16 +287,6 @@ function ChatComposerDoc() {
     <DocPage
       title="Composer"
       description="Composable message-editor parts for an input, toolbar, attachments, and drag-and-drop feedback."
-      overview={
-        <Differences from="Composer">
-          <li>does not own draft state, uploads, submit mutations, or drag-and-drop wiring</li>
-          <li>
-            keeps the source composer shell, toolbar clusters, attachment tiles, and drop overlay
-          </li>
-          <li>is hosted by a caller-owned main or thread footer rather than owning either panel</li>
-          <li>leaves inline @/# autocomplete behavior and popup anatomy to ComposerSuggestions</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
