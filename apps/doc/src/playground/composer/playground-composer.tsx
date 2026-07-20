@@ -1,11 +1,5 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type DragEvent,
-  type FormEvent,
-  type KeyboardEvent,
-} from "react";
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useDropzone } from "react-dropzone";
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
 import {
   Avatar,
@@ -27,6 +21,7 @@ import {
   ComposerAttachmentMeta,
   ComposerAttachmentRemove,
   ComposerAttachments,
+  ComposerAttachmentsScrollArea,
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
   ComposerAttachmentUploadProgressBar,
@@ -199,73 +194,79 @@ function PlaygroundSeededComposerAttachments({
 }) {
   return (
     <ComposerAttachments>
-      {attachments.map((attachment) => (
-        <ComposerAttachment key={attachment.name}>
-          {attachment.mediaType.startsWith("image/") ? (
-            <ComposerAttachmentImage>
-              <FilePreview>
-                <FilePreviewMedia>
-                  <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
-                </FilePreviewMedia>
-              </FilePreview>
-            </ComposerAttachmentImage>
-          ) : (
-            <ComposerAttachmentFile>
-              <FilePreview className="h-[46px]">
-                <FilePreviewDocument
-                  className={
-                    attachment.state.kind === "uploading"
-                      ? "h-[46px] !shadow-none !ring-0"
-                      : "h-[46px]"
-                  }
-                />
-                <FilePreviewBadge
-                  className={attachment.state.kind === "uploading" ? "!shadow-none" : undefined}
-                >
-                  {filePreviewLabel(attachment.name)}
-                </FilePreviewBadge>
-              </FilePreview>
-              <ComposerAttachmentBody>
-                <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
-                <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
-              </ComposerAttachmentBody>
-              {attachment.state.kind === "uploading" ? (
-                <>
-                  <ComposerAttachmentUploadingOverlay>
-                    <Spinner size="sm" className="mb-1" />
-                    {Math.round(attachment.state.progress)}%
-                  </ComposerAttachmentUploadingOverlay>
-                  <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
-                </>
-              ) : null}
-            </ComposerAttachmentFile>
-          )}
-          {attachment.mediaType.startsWith("image/") && attachment.state.kind === "uploading" ? (
-            <>
-              <ComposerAttachmentUploadingOverlay>
-                <Spinner size="sm" className="mb-1" />
-                {Math.round(attachment.state.progress)}%
-              </ComposerAttachmentUploadingOverlay>
-              <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
-            </>
-          ) : null}
-          {attachment.state.kind === "failed" ? (
-            <ComposerAttachmentFailedOverlay
-              render={<button type="button" />}
-              onClick={() => onRetry(attachment.name)}
+      <ComposerAttachmentsScrollArea>
+        {attachments.map((attachment) => (
+          <ComposerAttachment key={attachment.name}>
+            {attachment.mediaType.startsWith("image/") ? (
+              <ComposerAttachmentImage>
+                <FilePreview>
+                  <FilePreviewMedia>
+                    <img
+                      alt=""
+                      className="size-full object-cover"
+                      src={attachment.previewUrl ?? COMPOSER_IMAGE_SRC}
+                    />
+                  </FilePreviewMedia>
+                </FilePreview>
+              </ComposerAttachmentImage>
+            ) : (
+              <ComposerAttachmentFile>
+                <FilePreview className="h-[46px]">
+                  <FilePreviewDocument
+                    className={
+                      attachment.state.kind === "uploading"
+                        ? "h-[46px] !shadow-none !ring-0"
+                        : "h-[46px]"
+                    }
+                  />
+                  <FilePreviewBadge
+                    className={attachment.state.kind === "uploading" ? "!shadow-none" : undefined}
+                  >
+                    {filePreviewLabel(attachment.name)}
+                  </FilePreviewBadge>
+                </FilePreview>
+                <ComposerAttachmentBody>
+                  <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
+                  <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
+                </ComposerAttachmentBody>
+                {attachment.state.kind === "uploading" ? (
+                  <>
+                    <ComposerAttachmentUploadingOverlay>
+                      <Spinner size="sm" className="mb-1" />
+                      {Math.round(attachment.state.progress)}%
+                    </ComposerAttachmentUploadingOverlay>
+                    <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+                  </>
+                ) : null}
+              </ComposerAttachmentFile>
+            )}
+            {attachment.mediaType.startsWith("image/") && attachment.state.kind === "uploading" ? (
+              <>
+                <ComposerAttachmentUploadingOverlay>
+                  <Spinner size="sm" className="mb-1" />
+                  {Math.round(attachment.state.progress)}%
+                </ComposerAttachmentUploadingOverlay>
+                <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+              </>
+            ) : null}
+            {attachment.state.kind === "failed" ? (
+              <ComposerAttachmentFailedOverlay
+                render={<button type="button" />}
+                onClick={() => onRetry(attachment.name)}
+              >
+                <span>Upload failed</span>
+                <span className="underline underline-offset-2">Retry</span>
+              </ComposerAttachmentFailedOverlay>
+            ) : null}
+            <ComposerAttachmentRemove
+              aria-label={`Remove ${attachment.name}`}
+              onClick={() => onRemove(attachment.name)}
             >
-              <span>Upload failed</span>
-              <span className="underline underline-offset-2">Retry</span>
-            </ComposerAttachmentFailedOverlay>
-          ) : null}
-          <ComposerAttachmentRemove
-            aria-label={`Remove ${attachment.name}`}
-            onClick={() => onRemove(attachment.name)}
-          >
-            <X />
-          </ComposerAttachmentRemove>
-        </ComposerAttachment>
-      ))}
+              <X />
+            </ComposerAttachmentRemove>
+          </ComposerAttachment>
+        ))}
+      </ComposerAttachmentsScrollArea>
     </ComposerAttachments>
   );
 }
@@ -296,10 +297,9 @@ function PlaygroundComposer({
     attachmentState.attachments.some((attachment) => attachment.state.kind !== "ready");
   const [sendState, setSendState] = useState<ComposerSendState>({ kind: "idle" });
   const [statusMessage, setStatusMessage] = useState("");
-  const [isDragging, setIsDragging] = useState(false);
-  const dragDepthRef = useRef(0);
   const insertMentionRef = useRef<(handle: string) => void>(() => undefined);
   const attachmentTimersRef = useRef(new Map<string, number>());
+  const previewUrlsRef = useRef(new Set<string>());
   const sendTimerRef = useRef<number | null>(null);
   const shouldFailNextSendRef = useRef(true);
 
@@ -330,6 +330,10 @@ function PlaygroundComposer({
       if (sendTimerRef.current !== null) {
         window.clearTimeout(sendTimerRef.current);
       }
+      for (const previewUrl of previewUrlsRef.current) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      previewUrlsRef.current.clear();
     },
     [],
   );
@@ -355,16 +359,33 @@ function PlaygroundComposer({
     attachmentTimersRef.current.set(name, timer);
   };
 
-  const addUploadingAttachments = (attachments: readonly { name: string; mediaType: string }[]) => {
+  const trackPreviewUrl = (previewUrl: string | undefined) => {
+    if (!previewUrl) return previewUrl;
+    previewUrlsRef.current.add(previewUrl);
+    return previewUrl;
+  };
+
+  const revokePreviewUrl = (previewUrl: string | undefined) => {
+    if (!previewUrl) return;
+    if (!previewUrlsRef.current.delete(previewUrl)) return;
+    URL.revokeObjectURL(previewUrl);
+  };
+
+  const addUploadingAttachments = (
+    attachments: readonly Omit<PlaygroundComposerAttachment, "state">[],
+  ) => {
     const pendingAttachments = attachments.map(
       (attachment): PlaygroundComposerAttachment => ({
         ...attachment,
-        state: { kind: "uploading", progress: 0 },
+        state: { kind: "uploading", progress: 64 },
       }),
     );
     setAttachmentState((state) => {
       const currentAttachments = state.kind === "seeded" ? state.attachments : [];
       const incomingNames = new Set(pendingAttachments.map((attachment) => attachment.name));
+      for (const attachment of currentAttachments) {
+        if (incomingNames.has(attachment.name)) revokePreviewUrl(attachment.previewUrl);
+      }
       return {
         kind: "seeded",
         attachments: [
@@ -376,6 +397,46 @@ function PlaygroundComposer({
     for (const attachment of pendingAttachments) scheduleAttachmentReady(attachment.name);
     setSendState({ kind: "idle" });
   };
+
+  const ingestFiles = (files: readonly File[]) => {
+    if (files.length === 0) return;
+    addUploadingAttachments(
+      files.map((file, index) => {
+        const mediaType = file.type || "application/octet-stream";
+        return {
+          name: file.name || `upload-${index + 1}`,
+          mediaType,
+          previewUrl: mediaType.startsWith("image/")
+            ? trackPreviewUrl(URL.createObjectURL(file))
+            : undefined,
+        };
+      }),
+    );
+    setStatusMessage(
+      files.length === 1 ? `Uploading ${files[0]?.name}` : `Uploading ${files.length} files`,
+    );
+  };
+
+  const dropzoneDisabled = sendState.kind === "sending";
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    open: openFilePicker,
+  } = useDropzone({
+    noClick: true,
+    noKeyboard: true,
+    disabled: dropzoneDisabled,
+    onDrop: ingestFiles,
+  });
+  const { getInputProps: getImageInputProps, open: openImagePicker } = useDropzone({
+    noClick: true,
+    noKeyboard: true,
+    noDrag: true,
+    disabled: dropzoneDisabled,
+    accept: { "image/*": [] },
+    onDrop: ingestFiles,
+  });
 
   const handleSubmit = () => {
     const text = draft.trim();
@@ -390,8 +451,6 @@ function PlaygroundComposer({
 
     setSendState({ kind: "sending" });
     setStatusMessage("Sending message");
-    dragDepthRef.current = 0;
-    setIsDragging(false);
     autocomplete.clear();
     setAttachmentState({ kind: "none" });
 
@@ -406,6 +465,11 @@ function PlaygroundComposer({
         return;
       }
 
+      if (submittedAttachments.kind === "seeded") {
+        for (const attachment of submittedAttachments.attachments) {
+          revokePreviewUrl(attachment.previewUrl);
+        }
+      }
       setSendState({ kind: "idle" });
       setStatusMessage(text ? `Sent: ${text}` : "Attachments sent");
     }, MESSAGE_SEND_DELAY_MS);
@@ -435,54 +499,10 @@ function PlaygroundComposer({
     onKeyDown: handleInputKeyDown,
   });
 
-  const isFileDrag = (event: DragEvent<HTMLDivElement>) =>
-    event.dataTransfer.types.includes("Files");
-  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
-    if (!isFileDrag(event)) return;
-    event.preventDefault();
-    if (sendState.kind === "sending") return;
-    dragDepthRef.current += 1;
-    setIsDragging(true);
-  };
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    if (!isFileDrag(event)) return;
-    event.preventDefault();
-    event.dataTransfer.dropEffect = sendState.kind === "sending" ? "none" : "copy";
-  };
-  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
-    if (!isFileDrag(event)) return;
-    dragDepthRef.current -= 1;
-    if (dragDepthRef.current <= 0) {
-      dragDepthRef.current = 0;
-      setIsDragging(false);
-    }
-  };
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    if (!isFileDrag(event)) return;
-    event.preventDefault();
-    if (sendState.kind === "sending") return;
-    dragDepthRef.current = 0;
-    setIsDragging(false);
-    const droppedFiles = Array.from(event.dataTransfer.files, (file, index) => ({
-      name: file.name || `dropped-file-${index + 1}`,
-      mediaType: file.type || "application/octet-stream",
-    }));
-    addUploadingAttachments(
-      droppedFiles.length > 0
-        ? droppedFiles
-        : [{ name: "dropped-file.txt", mediaType: "text/plain" }],
-    );
-    setStatusMessage("Uploading dropped files");
-  };
-
   const composer = (
-    <div
-      className="relative w-full"
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-    >
+    <div {...getRootProps({ className: "relative w-full" })}>
+      <input {...getInputProps()} />
+      <input {...getImageInputProps()} />
       <ComposerRoot onSubmit={handleFormSubmit}>
         {autocomplete.open ? <AutocompleteList autocomplete={autocomplete} /> : null}
         {attachmentState.kind === "seeded" ? (
@@ -496,6 +516,8 @@ function PlaygroundComposer({
               }
               setAttachmentState((state) => {
                 if (state.kind !== "seeded") return state;
+                const removed = state.attachments.find((attachment) => attachment.name === name);
+                revokePreviewUrl(removed?.previewUrl);
                 const attachments = state.attachments.filter(
                   (attachment) => attachment.name !== name,
                 );
@@ -510,7 +532,7 @@ function PlaygroundComposer({
                       kind: "seeded",
                       attachments: state.attachments.map((attachment) =>
                         attachment.name === name
-                          ? { ...attachment, state: { kind: "uploading", progress: 0 } }
+                          ? { ...attachment, state: { kind: "uploading", progress: 64 } }
                           : attachment,
                       ),
                     }
@@ -534,22 +556,14 @@ function PlaygroundComposer({
               <ComposerIconButton
                 aria-label="Attach image"
                 disabled={sendState.kind === "sending"}
-                onClick={() => {
-                  addUploadingAttachments([{ name: "screenshot.png", mediaType: "image/png" }]);
-                  setStatusMessage("Uploading screenshot.png");
-                }}
+                onClick={() => openImagePicker()}
               >
                 <ImagePlus />
               </ComposerIconButton>
               <ComposerIconButton
                 aria-label="Attach file"
                 disabled={sendState.kind === "sending"}
-                onClick={() => {
-                  addUploadingAttachments([
-                    { name: "release-notes.pdf", mediaType: "application/pdf" },
-                  ]);
-                  setStatusMessage("Uploading release-notes.pdf");
-                }}
+                onClick={() => openFilePicker()}
               >
                 <Paperclip />
               </ComposerIconButton>
@@ -587,7 +601,7 @@ function PlaygroundComposer({
           {statusMessage}
         </span>
       </ComposerRoot>
-      {isDragging ? (
+      {isDragActive ? (
         <ComposerDropOverlay aria-hidden>
           <ComposerDropOverlayPrompt />
         </ComposerDropOverlay>

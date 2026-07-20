@@ -39,7 +39,7 @@ const PREVIEW_FILE_STATES = [
 export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreviewProps) {
   const [draft, setDraft] = useState("");
   const [dropOverlay, setDropOverlay] = useState(false);
-  const [attachmentsScroll, setAttachmentsScroll] = useState(false);
+  const [attachmentsScroll, setAttachmentsScroll] = useState(true);
 
   const attachments = (
     <ComposerAttachmentsComposition
