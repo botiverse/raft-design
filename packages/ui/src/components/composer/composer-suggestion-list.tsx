@@ -38,7 +38,7 @@ const composerSuggestionList = tv({
       elegant: {
         root: [
           "mb-1 max-h-[204px] overflow-x-hidden rounded-lg p-1 bg-layer-popover",
-          "shadow-lg max-md:shadow-sm ring-1 ring-ink-2 max-md:ring-ink-6",
+          "shadow-sm ring-1 ring-ink-6",
         ],
         group: "flex flex-col gap-0.5",
         groupLabel: [

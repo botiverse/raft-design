@@ -26,14 +26,11 @@ import {
   TabsLabel,
 } from "raft-ui";
 import {
-  Composer,
   ComposerActions,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   ComposerToolbarLabel,
   ScrollToLatest,
   MessageList,
@@ -54,6 +51,11 @@ import {
   MessageListDateDivider,
   MessageListNotice,
 } from "raft-ui/wip";
+import {
+  Composer,
+  ComposerInput,
+  ComposerToolbar,
+} from "#/modules/chat-composer/composer-responsive.tsx";
 import { ConversationPanelHeaderComposition } from "./conversation-panel-header.composition.tsx";
 
 export type ConversationPanelCompositionProps = {

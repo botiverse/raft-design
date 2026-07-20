@@ -12,21 +12,19 @@ import {
   LightboxTitle,
 } from "raft-ui";
 import {
-  Composer,
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentImage,
   ComposerAttachmentRemove,
   ComposerAttachments,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   FilePreview,
   FilePreviewMedia,
 } from "raft-ui/wip";
+import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 

@@ -18,7 +18,6 @@ import {
   Status,
 } from "raft-ui";
 import {
-  Composer,
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentBody,
@@ -34,26 +33,29 @@ import {
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerSuggestionAside,
   ComposerSuggestionContent,
   ComposerSuggestionGroup,
   ComposerSuggestionGroupLabel,
   ComposerSuggestionIcon,
-  ComposerSuggestionList,
   ComposerSuggestionMeta,
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   ComposerToolbarLabel,
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
   FilePreviewMedia,
 } from "raft-ui/wip";
+import {
+  Composer,
+  ComposerInput,
+  ComposerSuggestionList,
+  ComposerToolbar,
+} from "#/modules/chat-composer/composer-responsive.tsx";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "./use-playground-single-composer-mention-target.ts";
