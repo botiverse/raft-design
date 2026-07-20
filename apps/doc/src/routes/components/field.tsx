@@ -21,7 +21,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -34,6 +34,7 @@ import { FieldPlaygroundPreview } from "#/modules/field/field.preview.tsx";
 import fieldCompactLabelCompositionSource from "#/modules/field/compositions/compact-label.composition.tsx?raw";
 import fieldErrorCompositionSource from "#/modules/field/compositions/error.composition.tsx?raw";
 import fieldLabelControlHelperCompositionSource from "#/modules/field/compositions/label-control-helper.composition.tsx?raw";
+import fieldPreviewCompositionSource from "#/modules/field/compositions/preview.composition.tsx?raw";
 import {
   FIELD_SOURCE_COMPARISON_COMPOSITION,
   FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -319,6 +320,7 @@ const FIELD_COMPOSITION_RAW_SOURCES = {
   CompactLabel: fieldCompactLabelCompositionSource,
   Error: fieldErrorCompositionSource,
   LabelControlHelper: fieldLabelControlHelperCompositionSource,
+  Preview: fieldPreviewCompositionSource,
 } as const;
 
 const FIELD_COMPOSITION_SOURCES = createCompositionSourceMap(FIELD_COMPOSITION_RAW_SOURCES);
@@ -327,6 +329,7 @@ const FIELD_COMPOSITION_SNIPPET_IDS = {
   CompactLabel: "fieldCompactLabelComposition",
   Error: "fieldErrorComposition",
   LabelControlHelper: "fieldLabelControlHelperComposition",
+  Preview: "fieldPreviewComposition",
 } as const;
 
 type FieldCompositionKey = keyof typeof FIELD_COMPOSITION_SOURCES;
@@ -360,7 +363,10 @@ function FieldDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <FieldPlaygroundPreview />
+        <FieldPlaygroundPreview
+          code={code.fieldPreviewComposition}
+          collapsedCode={code.fieldPreviewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -379,45 +385,51 @@ function FieldDoc() {
               <Link to="/components/input">Input</Link>,{" "}
               <Link to="/components/textarea">Textarea</Link>, or another control inside it.
             </DocNote>
-            <Example html={code.structure} previewClassName={PREVIEW_TOP_CLASS}>
-              <div className="grid w-80 gap-6">
-                <Field>
-                  <FieldLabel htmlFor="field-workspace" required>
-                    Workspace
-                  </FieldLabel>
-                  <Input id="field-workspace" defaultValue="raft-design" />
-                  <FieldDescription>Visible to everyone in this server.</FieldDescription>
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="field-middle-name" optional>
-                    Middle name
-                  </FieldLabel>
-                  <Input id="field-middle-name" placeholder="Alex" />
-                </Field>
-              </div>
-            </Example>
+            <Preview previewClassName={PREVIEW_TOP_CLASS}>
+              <Preview.Canvas>
+                <div className="grid w-80 gap-6">
+                  <Field>
+                    <FieldLabel htmlFor="field-workspace" required>
+                      Workspace
+                    </FieldLabel>
+                    <Input id="field-workspace" defaultValue="raft-design" />
+                    <FieldDescription>Visible to everyone in this server.</FieldDescription>
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="field-middle-name" optional>
+                      Middle name
+                    </FieldLabel>
+                    <Input id="field-middle-name" placeholder="Alex" />
+                  </Field>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.structure} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="states" title="States">
-            <Example html={code.states} previewClassName={PREVIEW_TOP_CLASS}>
-              <div className="grid w-80 gap-6">
-                <Field>
-                  <FieldLabel htmlFor="field-state-email">Email</FieldLabel>
-                  <Input id="field-state-email" placeholder="you@example.com" />
-                  <FieldDescription>Use your work email.</FieldDescription>
-                </Field>
-                <Field invalid>
-                  <FieldLabel htmlFor="field-state-invalid-email">Email</FieldLabel>
-                  <Input id="field-state-invalid-email" aria-invalid defaultValue="oops" />
-                  <FieldError match>Email is required.</FieldError>
-                </Field>
-                <Field disabled>
-                  <FieldLabel htmlFor="field-state-disabled-email">Email</FieldLabel>
-                  <Input id="field-state-disabled-email" disabled placeholder="Disabled" />
-                  <FieldDescription>This field is locked.</FieldDescription>
-                </Field>
-              </div>
-            </Example>
+            <Preview previewClassName={PREVIEW_TOP_CLASS}>
+              <Preview.Canvas>
+                <div className="grid w-80 gap-6">
+                  <Field>
+                    <FieldLabel htmlFor="field-state-email">Email</FieldLabel>
+                    <Input id="field-state-email" placeholder="you@example.com" />
+                    <FieldDescription>Use your work email.</FieldDescription>
+                  </Field>
+                  <Field invalid>
+                    <FieldLabel htmlFor="field-state-invalid-email">Email</FieldLabel>
+                    <Input id="field-state-invalid-email" aria-invalid defaultValue="oops" />
+                    <FieldError match>Email is required.</FieldError>
+                  </Field>
+                  <Field disabled>
+                    <FieldLabel htmlFor="field-state-disabled-email">Email</FieldLabel>
+                    <Input id="field-state-disabled-email" disabled placeholder="Disabled" />
+                    <FieldDescription>This field is locked.</FieldDescription>
+                  </Field>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="controls" title="Controls">
@@ -425,57 +437,60 @@ function FieldDoc() {
               Use <InlineCode>FieldItem</InlineCode> for choice controls where the label and helper
               copy should sit beside the control instead of above it.
             </DocNote>
-            <Example html={code.controls} previewClassName={PREVIEW_TOP_CLASS}>
-              <div className="grid w-[min(40rem,100%)] gap-5 sm:grid-cols-2">
-                <Field>
-                  <FieldLabel htmlFor="field-project-name" required>
-                    Project name
-                  </FieldLabel>
-                  <Input id="field-project-name" defaultValue="Raft" />
-                  <FieldDescription>Visible in the project switcher.</FieldDescription>
-                </Field>
-                <Field invalid>
-                  <FieldLabel htmlFor="field-project-slug">Slug</FieldLabel>
-                  <InputGroup>
-                    <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-                    <InputGroupInput
-                      id="field-project-slug"
-                      aria-invalid
-                      defaultValue="Draft Space"
-                    />
-                  </InputGroup>
-                  <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
-                </Field>
-                <Field className="sm:col-span-2">
-                  <FieldLabel htmlFor="field-release-notes" optional>
-                    Release notes
-                  </FieldLabel>
-                  <TextareaGroup>
-                    <Textarea id="field-release-notes" rows={4} placeholder="Write a note..." />
-                    <TextareaCounter value="" limit={160} />
-                  </TextareaGroup>
-                  <FieldDescription>Markdown is supported.</FieldDescription>
-                </Field>
-                <Field disabled>
-                  <FieldLabel htmlFor="field-owner">Owner</FieldLabel>
-                  <Input id="field-owner" disabled defaultValue="Design systems" />
-                  <FieldDescription>Managed by workspace settings.</FieldDescription>
-                </Field>
-                <Field>
-                  <FieldItem>
-                    <Checkbox id="field-notify" defaultChecked />
-                    <div>
-                      <FieldLabel htmlFor="field-notify">Notify teammates</FieldLabel>
-                      <FieldDescription>Send an update when this changes.</FieldDescription>
-                    </div>
-                  </FieldItem>
-                </Field>
-                <div className="flex justify-end gap-2 sm:col-span-2">
-                  <Button variant="outline">Cancel</Button>
-                  <Button>Save changes</Button>
+            <Preview previewClassName={PREVIEW_TOP_CLASS}>
+              <Preview.Canvas>
+                <div className="grid w-[min(40rem,100%)] gap-5 sm:grid-cols-2">
+                  <Field>
+                    <FieldLabel htmlFor="field-project-name" required>
+                      Project name
+                    </FieldLabel>
+                    <Input id="field-project-name" defaultValue="Raft" />
+                    <FieldDescription>Visible in the project switcher.</FieldDescription>
+                  </Field>
+                  <Field invalid>
+                    <FieldLabel htmlFor="field-project-slug">Slug</FieldLabel>
+                    <InputGroup>
+                      <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
+                      <InputGroupInput
+                        id="field-project-slug"
+                        aria-invalid
+                        defaultValue="Draft Space"
+                      />
+                    </InputGroup>
+                    <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
+                  </Field>
+                  <Field className="sm:col-span-2">
+                    <FieldLabel htmlFor="field-release-notes" optional>
+                      Release notes
+                    </FieldLabel>
+                    <TextareaGroup>
+                      <Textarea id="field-release-notes" rows={4} placeholder="Write a note..." />
+                      <TextareaCounter value="" limit={160} />
+                    </TextareaGroup>
+                    <FieldDescription>Markdown is supported.</FieldDescription>
+                  </Field>
+                  <Field disabled>
+                    <FieldLabel htmlFor="field-owner">Owner</FieldLabel>
+                    <Input id="field-owner" disabled defaultValue="Design systems" />
+                    <FieldDescription>Managed by workspace settings.</FieldDescription>
+                  </Field>
+                  <Field>
+                    <FieldItem>
+                      <Checkbox id="field-notify" defaultChecked />
+                      <div>
+                        <FieldLabel htmlFor="field-notify">Notify teammates</FieldLabel>
+                        <FieldDescription>Send an update when this changes.</FieldDescription>
+                      </div>
+                    </FieldItem>
+                  </Field>
+                  <div className="flex justify-end gap-2 sm:col-span-2">
+                    <Button variant="outline">Cancel</Button>
+                    <Button>Save changes</Button>
+                  </div>
                 </div>
-              </div>
-            </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.controls} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

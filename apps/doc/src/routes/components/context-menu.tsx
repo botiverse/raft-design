@@ -19,11 +19,10 @@ import type { ReactNode, RefObject } from "react";
 import { useRef, useState } from "react";
 import { cn } from "tailwind-variants";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -77,11 +76,32 @@ const CONTEXT_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
   contextMenuComposition: contextMenuCompositionSource,
 } as const);
 
-type PlaygroundValues = {
-  label: string;
-};
-
 const SNIPPETS = {
+  preview: `<ContextMenu defaultOpen>
+  <ContextMenuTrigger>Right click thread</ContextMenuTrigger>
+  <ContextMenuContent className="flex w-56 min-w-56 flex-col">
+    <ContextMenuLabel>Thread actions</ContextMenuLabel>
+    <ContextMenuItem>
+      <Pin />
+      Pin thread
+    </ContextMenuItem>
+    <ContextMenuItem>
+      <Copy />
+      Copy link
+      <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem>
+      <Archive />
+      Archive
+    </ContextMenuItem>
+    <ContextMenuItem>
+      <Trash />
+      Delete
+      <ContextMenuShortcut>⌫</ContextMenuShortcut>
+    </ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>`,
   anatomy: `<ContextMenu>
   <ContextMenuTrigger />
   <ContextMenuContent>
@@ -365,11 +385,34 @@ function OpenContextMenuExample({
   );
 }
 
-function ContextMenuPreview({ label }: PlaygroundValues) {
+function ContextMenuPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [label, setLabel] = useState("Right click thread");
+
   return (
-    <OpenContextMenuExample triggerId="preview-context-menu-trigger" label={label}>
-      <ActionMenuRows />
-    </OpenContextMenuExample>
+    <Preview previewClassName="min-h-[26rem] items-start pt-16">
+      <Preview.Canvas>
+        <OpenContextMenuExample triggerId="preview-context-menu-trigger" label={label}>
+          <ActionMenuRows />
+        </OpenContextMenuExample>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Label" htmlFor="context-menu-preview-label">
+          <Preview.Text
+            id="context-menu-preview-label"
+            label="Label"
+            value={label}
+            onValueChange={setLabel}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }
 
@@ -387,14 +430,7 @@ function ContextMenuDoc() {
           Preview defaults the menu open so the row styling, density, and theme differences are
           visible immediately; dismiss it and right-click the trigger to reopen it.
         </p>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            label: "Right click thread",
-          }}
-          controls={[{ name: "label", label: "Label", type: "text" }]}
-          previewClassName="min-h-[26rem] items-start pt-16"
-          render={(values) => <ContextMenuPreview {...values} />}
-        />
+        <ContextMenuPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -408,35 +444,47 @@ function ContextMenuDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="submenu" title="Submenu">
-            <Example html={code.submenu} previewClassName="min-h-[22rem] items-start pt-12">
-              <OpenContextMenuExample triggerId="context-submenu-trigger" label="Right click item">
-                <SubmenuRows />
-              </OpenContextMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-start pt-12">
+              <Preview.Canvas>
+                <OpenContextMenuExample
+                  triggerId="context-submenu-trigger"
+                  label="Right click item"
+                >
+                  <SubmenuRows />
+                </OpenContextMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.submenu} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="radio-group" title="Radio group">
-            <Example html={code.radioGroup} previewClassName="min-h-[24rem] items-start pt-12">
-              <OpenContextMenuExample
-                triggerId="context-radio-trigger"
-                label="Right click notification"
-                contentClassName="flex w-60 min-w-60 flex-col"
-              >
-                <RadioGroupRows />
-              </OpenContextMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[24rem] items-start pt-12">
+              <Preview.Canvas>
+                <OpenContextMenuExample
+                  triggerId="context-radio-trigger"
+                  label="Right click notification"
+                  contentClassName="flex w-60 min-w-60 flex-col"
+                >
+                  <RadioGroupRows />
+                </OpenContextMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.radioGroup} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="checkboxes" title="Checkboxes">
-            <Example html={code.checkboxes} previewClassName="min-h-[22rem] items-start pt-12">
-              <OpenContextMenuExample
-                triggerId="context-checkbox-trigger"
-                label="Right click list"
-                contentClassName="flex w-64 min-w-64 flex-col"
-              >
-                <CheckboxRows />
-              </OpenContextMenuExample>
-            </Example>
+            <Preview previewClassName="min-h-[22rem] items-start pt-12">
+              <Preview.Canvas>
+                <OpenContextMenuExample
+                  triggerId="context-checkbox-trigger"
+                  label="Right click list"
+                  contentClassName="flex w-64 min-w-64 flex-col"
+                >
+                  <CheckboxRows />
+                </OpenContextMenuExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.checkboxes} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

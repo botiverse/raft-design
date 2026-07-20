@@ -1,21 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  Banner,
-  BannerAction,
-  BannerDescription,
-  BannerTitle,
-  Button,
-  type BannerActionProps,
-  type BannerProps,
-} from "raft-ui";
+import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "raft-ui";
 import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -24,9 +15,11 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
+import { BannerPlaygroundPreview } from "#/modules/banner/banner.preview.tsx";
 import bannerIconTitleCompositionSource from "#/modules/banner/compositions/icon-title.composition.tsx?raw";
 import bannerIconlessWarningCompositionSource from "#/modules/banner/compositions/iconless-warning.composition.tsx?raw";
 import bannerLargeActionsCompositionSource from "#/modules/banner/compositions/large-actions.composition.tsx?raw";
+import bannerPreviewCompositionSource from "#/modules/banner/compositions/preview.composition.tsx?raw";
 import {
   BANNER_SOURCE_COMPARISON_COMPOSITION,
   BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -185,20 +178,13 @@ const STATUSES = ["default", "destructive", "warning", "info", "success"] as con
 const SIZES = ["sm", "md", "lg"] as const;
 const ACTION_ALIGNS = ["top", "middle"] as const;
 
-const STATUS_ICON = {
-  default: Info,
-  destructive: CircleX,
-  warning: CircleAlert,
-  info: Info,
-  success: CircleCheck,
-} as const;
-
 const BannerCurrent = BANNER_SOURCE_COMPARISON_COMPOSITION;
 
 const BANNER_COMPOSITION_RAW_SOURCES = {
   IconTitle: bannerIconTitleCompositionSource,
   IconlessWarning: bannerIconlessWarningCompositionSource,
   LargeActions: bannerLargeActionsCompositionSource,
+  Preview: bannerPreviewCompositionSource,
 } as const;
 
 const BANNER_COMPOSITION_SOURCES = createCompositionSourceMap(BANNER_COMPOSITION_RAW_SOURCES);
@@ -207,6 +193,7 @@ const BANNER_COMPOSITION_SNIPPET_IDS = {
   IconTitle: "bannerIconTitleComposition",
   IconlessWarning: "bannerIconlessWarningComposition",
   LargeActions: "bannerLargeActionsComposition",
+  Preview: "bannerPreviewComposition",
 } as const;
 
 type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
@@ -304,15 +291,6 @@ const SNIPPETS = {
 </Banner>`,
 } as const;
 
-type PlaygroundValues = {
-  status: BannerProps["status"];
-  size: NonNullable<BannerProps["size"]>;
-  actionAlign: NonNullable<BannerActionProps["align"]>;
-  withIcon: boolean;
-  withTitle: boolean;
-  withActions: boolean;
-};
-
 const PROPS: readonly PropRow[] = [
   {
     name: "status",
@@ -409,40 +387,9 @@ function BannerDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            status: "warning",
-            size: "md",
-            actionAlign: "middle",
-            withIcon: true,
-            withTitle: false,
-            withActions: false,
-          }}
-          controls={[
-            { name: "status", label: "Status", type: "select", options: STATUSES },
-            { name: "size", label: "Size", type: "select", options: SIZES },
-            { name: "actionAlign", label: "Action align", type: "select", options: ACTION_ALIGNS },
-            { name: "withIcon", label: "With icon", type: "boolean" },
-            { name: "withTitle", label: "With title", type: "boolean" },
-            { name: "withActions", label: "With actions", type: "boolean" },
-          ]}
-          render={(values) => {
-            const Icon = STATUS_ICON[values.status];
-            return (
-              <Banner status={values.status} size={values.size} className="w-[28rem]">
-                {values.withIcon ? <Icon /> : null}
-                {values.withTitle ? <BannerTitle>Review required</BannerTitle> : null}
-                <BannerDescription>This action can&rsquo;t be undone.</BannerDescription>
-                {values.withActions ? (
-                  <BannerAction align={values.actionAlign}>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                ) : null}
-              </Banner>
-            );
-          }}
+        <BannerPlaygroundPreview
+          code={code.bannerPreviewComposition}
+          collapsedCode={code.bannerPreviewCompositionBody}
         />
       </DocSection>
 
@@ -457,64 +404,67 @@ function BannerDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="statuses" title="Statuses">
-            <Example html={code.statuses}>
-              <div className="flex w-[28rem] flex-col gap-3">
-                <Banner status="default">
-                  <Info />
-                  <BannerTitle>Settings synced</BannerTitle>
-                  <BannerDescription>Rules now apply to every project.</BannerDescription>
-                  <BannerAction align="top">
-                    <Button
-                      variant="ghost"
-                      size="icon-xs"
-                      aria-label="Dismiss workspace settings notice"
-                    >
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-                <Banner status="destructive">
-                  <CircleX />
-                  <BannerTitle>Payment failed</BannerTitle>
-                  <BannerDescription>Retry to keep automations running.</BannerDescription>
-                  <BannerAction>
-                    <Button variant="ghost" size="xs">
-                      Retry
-                    </Button>
-                  </BannerAction>
-                </Banner>
-                <Banner status="warning">
-                  <CircleAlert />
-                  <BannerTitle>Invoice details missing</BannerTitle>
-                  <BannerDescription>Add billing email and tax ID.</BannerDescription>
-                  <BannerAction>
-                    <Button variant="outline" size="xs">
-                      Review
-                    </Button>
-                  </BannerAction>
-                </Banner>
-                <Banner status="info">
-                  <Info />
-                  <BannerTitle>Trial ends soon</BannerTitle>
-                  <BannerDescription>Upgrade to keep projects available.</BannerDescription>
-                  <BannerAction>
-                    <Button variant="outline" size="xs">
-                      Upgrade
-                    </Button>
-                  </BannerAction>
-                </Banner>
-                <Banner status="success">
-                  <CircleCheck />
-                  <BannerTitle>Deployment live</BannerTitle>
-                  <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
-                  <BannerAction align="top">
-                    <Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex w-[28rem] flex-col gap-3">
+                  <Banner status="default">
+                    <Info />
+                    <BannerTitle>Settings synced</BannerTitle>
+                    <BannerDescription>Rules now apply to every project.</BannerDescription>
+                    <BannerAction align="top">
+                      <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        aria-label="Dismiss workspace settings notice"
+                      >
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                  <Banner status="destructive">
+                    <CircleX />
+                    <BannerTitle>Payment failed</BannerTitle>
+                    <BannerDescription>Retry to keep automations running.</BannerDescription>
+                    <BannerAction>
+                      <Button variant="ghost" size="xs">
+                        Retry
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                  <Banner status="warning">
+                    <CircleAlert />
+                    <BannerTitle>Invoice details missing</BannerTitle>
+                    <BannerDescription>Add billing email and tax ID.</BannerDescription>
+                    <BannerAction>
+                      <Button variant="outline" size="xs">
+                        Review
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                  <Banner status="info">
+                    <Info />
+                    <BannerTitle>Trial ends soon</BannerTitle>
+                    <BannerDescription>Upgrade to keep projects available.</BannerDescription>
+                    <BannerAction>
+                      <Button variant="outline" size="xs">
+                        Upgrade
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                  <Banner status="success">
+                    <CircleCheck />
+                    <BannerTitle>Deployment live</BannerTitle>
+                    <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
+                    <BannerAction align="top">
+                      <Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice">
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.statuses} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
@@ -522,59 +472,65 @@ function BannerDoc() {
               Banners stay iconless by default, matching the dominant inline pattern. Compose a
               direct icon child for the heavier warning surfaces.
             </DocNote>
-            <Example html={code.sizes}>
-              <div className="flex w-[28rem] flex-col gap-3">
-                <Banner status="info" size="sm">
-                  <Info />
-                  <BannerTitle>Small banner</BannerTitle>
-                  <BannerDescription>Tight form-error banner.</BannerDescription>
-                  <BannerAction>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-                <Banner status="info" size="md">
-                  <Info />
-                  <BannerTitle>Medium banner</BannerTitle>
-                  <BannerDescription>Default banner.</BannerDescription>
-                  <BannerAction>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-                <Banner status="info" size="lg">
-                  <Info />
-                  <BannerTitle>Large banner</BannerTitle>
-                  <BannerDescription>Prominent surface banner.</BannerDescription>
-                  <BannerAction>
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex w-[28rem] flex-col gap-3">
+                  <Banner status="info" size="sm">
+                    <Info />
+                    <BannerTitle>Small banner</BannerTitle>
+                    <BannerDescription>Tight form-error banner.</BannerDescription>
+                    <BannerAction>
+                      <Button size="icon-xs" aria-label="Dismiss">
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                  <Banner status="info" size="md">
+                    <Info />
+                    <BannerTitle>Medium banner</BannerTitle>
+                    <BannerDescription>Default banner.</BannerDescription>
+                    <BannerAction>
+                      <Button size="icon-xs" aria-label="Dismiss">
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                  <Banner status="info" size="lg">
+                    <Info />
+                    <BannerTitle>Large banner</BannerTitle>
+                    <BannerDescription>Prominent surface banner.</BannerDescription>
+                    <BannerAction>
+                      <Button size="icon-xs" aria-label="Dismiss">
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="composition" title="Composition">
-            <Example html={code.composition}>
-              <div className="w-[28rem]">
-                <Banner status="warning">
-                  <CircleAlert />
-                  <BannerTitle>Plan limit reached</BannerTitle>
-                  <BannerDescription>
-                    Remove an inactive machine before adding another.
-                  </BannerDescription>
-                  <BannerAction align="top">
-                    <Button size="icon-xs" aria-label="Dismiss">
-                      <X />
-                    </Button>
-                  </BannerAction>
-                </Banner>
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="w-[28rem]">
+                  <Banner status="warning">
+                    <CircleAlert />
+                    <BannerTitle>Plan limit reached</BannerTitle>
+                    <BannerDescription>
+                      Remove an inactive machine before adding another.
+                    </BannerDescription>
+                    <BannerAction align="top">
+                      <Button size="icon-xs" aria-label="Dismiss">
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.composition} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import filePreviewDefaultCompositionSource from "#/modules/file-preview/compositions/default.composition.tsx?raw";
 import { FilePreviewDefaultComposition } from "#/modules/file-preview/compositions/default.composition.tsx";
@@ -85,11 +85,14 @@ function FilePreviewDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.default}>
-          <div className="flex min-h-28 items-center justify-center">
-            <FilePreviewDefaultComposition />
-          </div>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <div className="flex min-h-28 items-center justify-center">
+              <FilePreviewDefaultComposition />
+            </div>
+          </Preview.Canvas>
+          <Preview.Code html={code.default} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -103,15 +106,21 @@ function FilePreviewDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="formats" title="Format labels">
-            <Example html={code.formats}>
-              <FilePreviewFormatsComposition />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <FilePreviewFormatsComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.formats} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="illustrations" title="File kinds">
-            <Example html={code.illustrations}>
-              <FilePreviewIllustrationsComposition />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <FilePreviewIllustrationsComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.illustrations} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="customization" title="Customization">
@@ -120,9 +129,12 @@ function FilePreviewDoc() {
                 FilePreviewMedia owns the frame, crop, and rounding. Supply an image, video, SVG, or
                 other preview through children.
               </p>
-              <Example html={code.media}>
-                <FilePreviewMediaComposition />
-              </Example>
+              <Preview>
+                <Preview.Canvas>
+                  <FilePreviewMediaComposition />
+                </Preview.Canvas>
+                <Preview.Code html={code.media} />
+              </Preview>
             </div>
           </DocSubsection>
         </div>

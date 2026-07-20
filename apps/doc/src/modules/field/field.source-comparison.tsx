@@ -7,6 +7,7 @@ export const FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS = {
   Error: "apps/doc/src/modules/field/compositions/error.composition.tsx",
   LabelControlHelper:
     "apps/doc/src/modules/field/compositions/label-control-helper.composition.tsx",
+  Preview: "apps/doc/src/modules/field/compositions/preview.composition.tsx",
 } as const;
 
 export const FIELD_SOURCE_COMPARISON_COMPOSITION = {

@@ -17,11 +17,10 @@ import {
 } from "raft-ui";
 import { Field, FieldDescription, FieldLabel } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -68,6 +67,22 @@ const REGION_OPTIONS = [
 type SortIconValue = (typeof SORT_ICON_OPTIONS)[number]["value"];
 
 const SNIPPETS = {
+  preview: `<Select defaultValue="relevance" items={sortOptions}>
+  <SelectTrigger>
+    <SelectValue placeholder="Sort" />
+    <SelectIcon />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectList>
+      {sortOptions.map((option) => (
+        <SelectItem key={option.value} value={option.value}>
+          <SelectItemText>{option.label}</SelectItemText>
+          <SelectItemIndicator />
+        </SelectItem>
+      ))}
+    </SelectList>
+  </SelectContent>
+</Select>`,
   anatomy: `<Select>
   <SelectTrigger>
     <SelectValue />
@@ -292,10 +307,6 @@ function RegionSelect() {
   <FieldDescription>Submitted through the hidden input named sort.</FieldDescription>
 </Field>`,
 } as const;
-
-type PlaygroundValues = {
-  disabled: boolean;
-};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -587,6 +598,35 @@ function FieldSelect() {
   );
 }
 
+function SelectPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <Preview previewClassName="min-h-[18rem] items-start pt-20">
+      <Preview.Canvas>
+        <SortSelect disabled={disabled} />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Disabled" htmlFor="select-preview-disabled">
+          <Preview.Checkbox
+            id="select-preview-disabled"
+            label="Disabled"
+            checked={disabled}
+            onCheckedChange={setDisabled}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function SelectDoc() {
   const code = Route.useLoaderData();
 
@@ -597,14 +637,7 @@ function SelectDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            disabled: false,
-          }}
-          controls={[{ name: "disabled", label: "Disabled", type: "boolean" }]}
-          previewClassName="min-h-[18rem] items-start pt-20"
-          render={(values) => <SortSelect disabled={values.disabled} />}
-        />
+        <SelectPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -618,29 +651,44 @@ function SelectDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="icons" title="Icons">
-            <Example html={code.icons} previewClassName="min-h-[18rem] items-start pt-20">
-              <IconSelect />
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-20">
+              <Preview.Canvas>
+                <IconSelect />
+              </Preview.Canvas>
+              <Preview.Code html={code.icons} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="groups" title="Groups">
-            <Example html={code.groups} previewClassName="min-h-[18rem] items-start pt-20">
-              <BranchSelect />
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-20">
+              <Preview.Canvas>
+                <BranchSelect />
+              </Preview.Canvas>
+              <Preview.Code html={code.groups} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="states" title="States">
-            <Example html={code.states} previewClassName="min-h-[18rem] items-start pt-20">
-              <StateSelects />
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-20">
+              <Preview.Canvas>
+                <StateSelects />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="scrolling" title="Scrolling">
-            <Example html={code.scrolling} previewClassName="min-h-[18rem] items-start pt-20">
-              <RegionSelect />
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-20">
+              <Preview.Canvas>
+                <RegionSelect />
+              </Preview.Canvas>
+              <Preview.Code html={code.scrolling} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="field" title="With Field">
-            <Example html={code.field} previewClassName="min-h-[18rem] items-start pt-16">
-              <FieldSelect />
-            </Example>
+            <Preview previewClassName="min-h-[18rem] items-start pt-16">
+              <Preview.Canvas>
+                <FieldSelect />
+              </Preview.Canvas>
+              <Preview.Code html={code.field} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

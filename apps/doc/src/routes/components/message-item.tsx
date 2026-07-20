@@ -4,7 +4,7 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -15,6 +15,7 @@ import messageRowsShowcaseSource from "#/modules/message-item/compositions/messa
 import messageSourceVisibleStatesSource from "#/modules/message-item/compositions/message-source-visible-states.composition.tsx?raw";
 import messageContentCompositionsSource from "#/modules/message-item/compositions/content.compositions.tsx?raw";
 import messageProductStatesSource from "#/modules/message-item/compositions/message-product-states.composition.tsx?raw";
+import messageItemPreviewCompositionSource from "#/modules/message-item/compositions/preview.composition.tsx?raw";
 import messageReferenceShowcaseSource from "#/modules/message-item/compositions/reference-showcase.composition.tsx?raw";
 import messageTranslationShowcaseSource from "#/modules/message-item/compositions/translation-showcase.composition.tsx?raw";
 
@@ -57,6 +58,7 @@ export const Route = createFileRoute("/components/message-item")({
         attachmentsShowcase: messageAttachmentsShowcaseSource,
         contentCompositions: messageContentCompositionsSource,
         interactionsShowcase: messageInteractionsShowcaseSource,
+        preview: messageItemPreviewCompositionSource,
         productStates: messageProductStatesSource,
         referenceShowcase: messageReferenceShowcaseSource,
         rowsShowcase: messageRowsShowcaseSource,
@@ -92,7 +94,7 @@ function MessageItemDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <MessageItemPlaygroundPreview />
+        <MessageItemPlaygroundPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -106,83 +108,79 @@ function MessageItemDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="rows" title="Message rows">
-            <Example html={code.rowsShowcase} previewMode="light" previewClassName="items-stretch">
-              <MessageRowsShowcaseComposition />
-            </Example>
+            <Preview previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <MessageRowsShowcaseComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.rowsShowcase} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="content" title="Content & references">
-            <Example
-              html={code.contentCompositions}
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <div className="flex w-full max-w-3xl flex-col gap-5">
-                <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
-                <MessageCodeBlockComposition />
-              </div>
-            </Example>
-            <div className="mt-6">
-              <Example
-                html={code.translationShowcase}
-                previewMode="light"
-                previewClassName="items-stretch"
-              >
-                <div className="w-full max-w-3xl">
-                  <MessageTranslationShowcaseComposition />
+            <Preview previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="flex w-full max-w-3xl flex-col gap-5">
+                  <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
+                  <MessageCodeBlockComposition />
                 </div>
-              </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.contentCompositions} />
+            </Preview>
+            <div className="mt-6">
+              <Preview previewMode="light" previewClassName="items-stretch">
+                <Preview.Canvas>
+                  <div className="w-full max-w-3xl">
+                    <MessageTranslationShowcaseComposition />
+                  </div>
+                </Preview.Canvas>
+                <Preview.Code html={code.translationShowcase} />
+              </Preview>
             </div>
             <div className="mt-6">
-              <Example
-                html={code.productStates}
-                previewMode="light"
-                previewClassName="items-stretch"
-              >
-                <MessageProductStatesComposition />
-              </Example>
+              <Preview previewMode="light" previewClassName="items-stretch">
+                <Preview.Canvas>
+                  <MessageProductStatesComposition />
+                </Preview.Canvas>
+                <Preview.Code html={code.productStates} />
+              </Preview>
             </div>
             <div className="mt-6">
-              <Example
-                html={code.referenceShowcase}
-                previewMode="light"
-                previewClassName="items-stretch"
-              >
-                <div className="w-full max-w-3xl">
-                  <MessageReferenceShowcaseComposition />
-                </div>
-              </Example>
+              <Preview previewMode="light" previewClassName="items-stretch">
+                <Preview.Canvas>
+                  <div className="w-full max-w-3xl">
+                    <MessageReferenceShowcaseComposition />
+                  </div>
+                </Preview.Canvas>
+                <Preview.Code html={code.referenceShowcase} />
+              </Preview>
             </div>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="attachments" title="Attachments">
-            <Example
-              html={code.attachmentsShowcase}
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <MessageAttachmentsShowcaseComposition />
-            </Example>
+            <Preview previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <MessageAttachmentsShowcaseComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsShowcase} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="interactions" title="Interactions">
-            <Example
-              html={code.interactionsShowcase}
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <MessageInteractionsShowcaseComposition />
-            </Example>
+            <Preview previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <MessageInteractionsShowcaseComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.interactionsShowcase} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="source-visible-states" title="Source-visible states">
-            <Example
-              html={code.sourceVisibleStates}
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <MessageSourceVisibleStatesComposition />
-            </Example>
+            <Preview previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <MessageSourceVisibleStatesComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.sourceVisibleStates} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

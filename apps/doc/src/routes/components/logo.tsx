@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { LogoComposition } from "#/modules/logo/logo.composition.tsx";
@@ -68,9 +68,12 @@ function LogoDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.composition}>
-          <LogoComposition />
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <LogoComposition />
+          </Preview.Canvas>
+          <Preview.Code html={code.composition} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

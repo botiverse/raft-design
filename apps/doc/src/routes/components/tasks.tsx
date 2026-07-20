@@ -4,7 +4,7 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -174,14 +174,16 @@ function TasksDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example
-          html={code.panel}
+        <Preview
           previewTheme="brutal"
           previewMode="light"
           previewClassName="h-[42rem] items-stretch p-0"
         >
-          <TasksPanelComposition />
-        </Example>
+          <Preview.Canvas>
+            <TasksPanelComposition />
+          </Preview.Canvas>
+          <Preview.Code html={code.panel} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -195,63 +197,51 @@ function TasksDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="panel-states" title="Panel states">
-            <Example
-              html={code.states}
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <TasksLoadingComposition />
-            </Example>
-            <Example
-              html={code.states}
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <TasksEmptyStatesComposition />
-            </Example>
-            <Example
-              html={code.states}
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <TasksErrorComposition />
-            </Example>
+            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <TasksLoadingComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
+            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <TasksEmptyStatesComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
+            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <TasksErrorComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="filters" title="Filter states">
-            <Example
-              html={code.states}
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <TasksFilterStatesComposition />
-            </Example>
+            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <TasksFilterStatesComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="drag" title="Allowed and blocked drag states">
-            <Example
-              html={code.states}
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="items-stretch p-0"
-            >
-              <TasksDragStatesComposition />
-            </Example>
+            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch p-0">
+              <Preview.Canvas>
+                <TasksDragStatesComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="create-task" title="Create Task dialog states">
-            <Example
-              html={code.states}
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="items-stretch"
-            >
-              <CreateTaskDialogStatesComposition />
-            </Example>
+            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+              <Preview.Canvas>
+                <CreateTaskDialogStatesComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

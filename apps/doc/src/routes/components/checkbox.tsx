@@ -4,7 +4,7 @@ import { Checkbox, Label } from "raft-ui";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
@@ -20,6 +20,7 @@ import checkboxCheckedCompositionSource from "#/modules/checkbox/compositions/ch
 import checkboxDefaultCheckedCompositionSource from "#/modules/checkbox/compositions/default-checked.composition.tsx?raw";
 import checkboxDisabledCompositionSource from "#/modules/checkbox/compositions/disabled.composition.tsx?raw";
 import checkboxIndeterminateCompositionSource from "#/modules/checkbox/compositions/indeterminate.composition.tsx?raw";
+import checkboxPreviewCompositionSource from "#/modules/checkbox/compositions/preview.composition.tsx?raw";
 import checkboxPreviewOnHoverMarkerCompositionSource from "#/modules/checkbox/compositions/preview-on-hover-marker.composition.tsx?raw";
 import checkboxPrimaryCheckedCompositionSource from "#/modules/checkbox/compositions/primary-checked.composition.tsx?raw";
 import { CheckboxSettingsGroupContent } from "#/modules/checkbox/compositions/settings-group.composition.tsx";
@@ -231,6 +232,7 @@ const CHECKBOX_COMPOSITION_RAW_SOURCES = {
   DefaultChecked: checkboxDefaultCheckedCompositionSource,
   Disabled: checkboxDisabledCompositionSource,
   Indeterminate: checkboxIndeterminateCompositionSource,
+  Preview: checkboxPreviewCompositionSource,
   PreviewOnHoverMarker: checkboxPreviewOnHoverMarkerCompositionSource,
   PrimaryChecked: checkboxPrimaryCheckedCompositionSource,
   SettingsGroup: checkboxSettingsGroupCompositionSource,
@@ -245,6 +247,7 @@ const CHECKBOX_COMPOSITION_SNIPPET_IDS = {
   DefaultChecked: "checkboxDefaultCheckedComposition",
   Disabled: "checkboxDisabledComposition",
   Indeterminate: "checkboxIndeterminateComposition",
+  Preview: "checkboxPreviewComposition",
   PreviewOnHoverMarker: "checkboxPreviewOnHoverMarkerComposition",
   PrimaryChecked: "checkboxPrimaryCheckedComposition",
   SettingsGroup: "checkboxSettingsGroupComposition",
@@ -286,7 +289,10 @@ function CheckboxDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <CheckboxPlaygroundPreview />
+        <CheckboxPlaygroundPreview
+          code={code.checkboxPreviewComposition}
+          collapsedCode={code.checkboxPreviewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -300,51 +306,63 @@ function CheckboxDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="variants" title="Variants">
-            <Example html={code.variants}>
-              <Checkbox defaultChecked />
-              <Checkbox variant="primary" defaultChecked />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Checkbox defaultChecked />
+                <Checkbox variant="primary" defaultChecked />
+              </Preview.Canvas>
+              <Preview.Code html={code.variants} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
-            <Example html={code.sizes}>
-              <Checkbox size="sm" defaultChecked />
-              <Checkbox size="md" defaultChecked />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Checkbox size="sm" defaultChecked />
+                <Checkbox size="md" defaultChecked />
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="states" title="States">
-            <Example html={code.states}>
-              <div className="grid gap-4">
-                <div className="flex items-center gap-4">
-                  <Checkbox />
-                  <Checkbox disabled />
-                  <Checkbox variant="primary" />
-                  <Checkbox variant="primary" disabled />
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid gap-4">
+                  <div className="flex items-center gap-4">
+                    <Checkbox />
+                    <Checkbox disabled />
+                    <Checkbox variant="primary" />
+                    <Checkbox variant="primary" disabled />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Checkbox defaultChecked />
+                    <Checkbox defaultChecked disabled />
+                    <Checkbox variant="primary" defaultChecked />
+                    <Checkbox variant="primary" defaultChecked disabled />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Checkbox indeterminate />
+                    <Checkbox indeterminate disabled />
+                    <Checkbox variant="primary" indeterminate />
+                    <Checkbox variant="primary" indeterminate disabled />
+                  </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <Checkbox defaultChecked />
-                  <Checkbox defaultChecked disabled />
-                  <Checkbox variant="primary" defaultChecked />
-                  <Checkbox variant="primary" defaultChecked disabled />
-                </div>
-                <div className="flex items-center gap-4">
-                  <Checkbox indeterminate />
-                  <Checkbox indeterminate disabled />
-                  <Checkbox variant="primary" indeterminate />
-                  <Checkbox variant="primary" indeterminate disabled />
-                </div>
-              </div>
-            </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.states} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="label" title="Label">
-            <Example html={code.label}>
-              <Label>
-                <Checkbox id="checkbox-label-example" defaultChecked />
-                Accept terms
-              </Label>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <Label>
+                  <Checkbox id="checkbox-label-example" defaultChecked />
+                  Accept terms
+                </Label>
+              </Preview.Canvas>
+              <Preview.Code html={code.label} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection
@@ -353,27 +371,36 @@ function CheckboxDoc() {
             title="Selection"
             badge={<StatusBadge status="in-progress"></StatusBadge>}
           >
-            <Example html={code.selection}>
-              <div className="grid min-w-64 gap-2">
-                <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
-                  <Checkbox defaultChecked aria-label="Select conversation" />
-                  <span className="text-sm font-bold">Customer handoff</span>
-                </label>
-                <label className="flex items-center gap-3 border-2 border-black bg-white p-3">
-                  <Checkbox aria-label="Select message" />
-                  <span className="text-sm">Message selection</span>
-                </label>
-              </div>
-            </Example>
-            <Example html={code.bulk}>
-              <div className="flex items-center gap-3">
-                <Checkbox indeterminate aria-label="Select all messages" />
-                <span className="text-sm font-bold">3 of 8 selected</span>
-              </div>
-            </Example>
-            <Example html={code.settingsGroup}>
-              <CheckboxSettingsGroupContent />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid min-w-64 gap-2">
+                  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
+                    <Checkbox defaultChecked aria-label="Select conversation" />
+                    <span className="text-sm font-bold">Customer handoff</span>
+                  </label>
+                  <label className="flex items-center gap-3 border-2 border-black bg-white p-3">
+                    <Checkbox aria-label="Select message" />
+                    <span className="text-sm">Message selection</span>
+                  </label>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.selection} />
+            </Preview>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex items-center gap-3">
+                  <Checkbox indeterminate aria-label="Select all messages" />
+                  <span className="text-sm font-bold">3 of 8 selected</span>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.bulk} />
+            </Preview>
+            <Preview>
+              <Preview.Canvas>
+                <CheckboxSettingsGroupContent />
+              </Preview.Canvas>
+              <Preview.Code html={code.settingsGroup} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

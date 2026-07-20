@@ -1,28 +1,25 @@
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { useState, type ReactNode } from "react";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
+
+import { Preview } from "#/components/preview.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
 import { AppShellCollapsibleSidebarComposition } from "./compositions/collapsible-sidebar.composition.tsx";
 
 const VIEWPORTS = ["Desktop", "Mobile"] as const;
 
-type PreviewValues = {
-  viewport: (typeof VIEWPORTS)[number];
+type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type AppShellPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
 };
 
-export function AppShellPreview() {
+export function AppShellPreview({ code, collapsedCode }: AppShellPreviewProps) {
+  const [viewport, setViewport] = useState<(typeof VIEWPORTS)[number]>("Desktop");
+
   return (
-    <ComponentPlayground<PreviewValues>
-      defaultValues={{ viewport: "Desktop" }}
-      controls={[
-        {
-          name: "viewport",
-          label: "Viewport",
-          type: "radio",
-          options: VIEWPORTS,
-        },
-      ]}
-      layout="stack"
-      previewClassName="!min-h-[28rem] !items-stretch !p-0"
-      render={({ viewport }) => (
+    <Preview previewClassName="!min-h-[28rem] !items-stretch !p-0">
+      <Preview.Canvas>
         <div className="flex min-h-[28rem] w-full min-w-0 items-center justify-center overflow-hidden">
           {viewport === "Desktop" ? (
             <AppShellCollapsibleSidebarComposition />
@@ -30,8 +27,19 @@ export function AppShellPreview() {
             <AppShellMobilePreviewFrame />
           )}
         </div>
-      )}
-    />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Viewport">
+          <Preview.Radio
+            label="Viewport"
+            options={VIEWPORTS}
+            value={viewport}
+            onValueChange={(value) => setViewport(value as (typeof VIEWPORTS)[number])}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }
 

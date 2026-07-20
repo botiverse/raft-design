@@ -4,7 +4,7 @@ import { Kbd } from "raft-ui";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -230,14 +230,17 @@ function ComposerSuggestionsDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.composition} previewClassName="items-stretch">
-          <div className="relative h-[460px] w-full overflow-hidden">
-            <p className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-xs text-foreground-muted">
-              Use <Kbd>@</Kbd> to mention people or <Kbd>#</Kbd> to find channels.
-            </p>
-            <ComposerSuggestionComposition initialValue="" />
-          </div>
-        </Example>
+        <Preview previewClassName="items-stretch">
+          <Preview.Canvas>
+            <div className="relative h-[460px] w-full overflow-hidden">
+              <p className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-xs text-foreground-muted">
+                Use <Kbd>@</Kbd> to mention people or <Kbd>#</Kbd> to find channels.
+              </p>
+              <ComposerSuggestionComposition initialValue="" />
+            </div>
+          </Preview.Canvas>
+          <Preview.Code html={code.composition} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -251,38 +254,38 @@ function ComposerSuggestionsDoc() {
       <DocSection id="usage" title="Usage">
         <div className="grid gap-8">
           <DocSubsection parentId="usage" id="people" title="People">
-            <Example
-              html={code.composition}
-              previewClassName="min-h-[26rem] items-stretch"
-              previewTheme="brutal"
-            >
-              <div className="h-[26rem] w-full max-w-[560px]">
-                <ComposerSuggestionComposition />
-              </div>
-            </Example>
+            <Preview previewClassName="min-h-[26rem] items-stretch" previewTheme="brutal">
+              <Preview.Canvas>
+                <div className="h-[26rem] w-full max-w-[560px]">
+                  <ComposerSuggestionComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.composition} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="channels" title="Channels">
-            <Example
-              html={code.composition}
-              previewClassName="min-h-[26rem] items-stretch"
-              previewTheme="elegant"
-            >
-              <div className="h-[26rem] w-full max-w-[560px]">
-                <ComposerSuggestionComposition initialValue="#" />
-              </div>
-            </Example>
+            <Preview previewClassName="min-h-[26rem] items-stretch" previewTheme="elegant">
+              <Preview.Canvas>
+                <div className="h-[26rem] w-full max-w-[560px]">
+                  <ComposerSuggestionComposition initialValue="#" />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.composition} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="filtered-people" title="Filtered people">
-            <Example
-              html={code.composition}
+            <Preview
               previewClassName="min-h-[26rem] items-stretch"
               previewMode="dark"
               previewTheme="elegant"
             >
-              <div className="h-[26rem] w-full max-w-[560px]">
-                <ComposerSuggestionComposition initialValue="@av" />
-              </div>
-            </Example>
+              <Preview.Canvas>
+                <div className="h-[26rem] w-full max-w-[560px]">
+                  <ComposerSuggestionComposition initialValue="@av" />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.composition} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

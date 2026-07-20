@@ -108,7 +108,10 @@ function AppShellDoc() {
       articleClassName="max-w-none"
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <AppShellPreview />
+        <AppShellPreview
+          code={code.collapsibleSidebarComposition}
+          collapsedCode={code.collapsibleSidebarCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

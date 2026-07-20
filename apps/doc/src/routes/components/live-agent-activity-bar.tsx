@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
@@ -22,6 +22,19 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
+  preview: `<LiveAgentActivityBar>
+  <LiveAgentActivityBarRow>
+    <LiveAgentActivityBarAvatar>
+      <AvatarImage src={agent.avatarSrc} alt="" />
+    </LiveAgentActivityBarAvatar>
+    <LiveAgentActivityBarContent>
+      <LiveAgentActivityBarStatus />
+      <LiveAgentActivityBarText title="Summarizing thread">
+        Summarizing thread
+      </LiveAgentActivityBarText>
+    </LiveAgentActivityBarContent>
+  </LiveAgentActivityBarRow>
+</LiveAgentActivityBar>`,
   anatomy: `<LiveAgentActivityBar>
   <LiveAgentActivityBarRow>
     <LiveAgentActivityBarAvatar>
@@ -34,10 +47,6 @@ const SNIPPETS = {
   </LiveAgentActivityBarRow>
 </LiveAgentActivityBar>`,
 } as const;
-
-type PreviewValues = {
-  active: boolean;
-};
 
 const PROPS: readonly PropRow[] = [
   {
@@ -78,6 +87,37 @@ export const Route = createFileRoute("/components/live-agent-activity-bar")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
+function LiveAgentActivityBarPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [active, setActive] = useState(true);
+
+  return (
+    <Preview previewClassName="overflow-visible">
+      <Preview.Canvas>
+        <div className="w-72 self-center overflow-visible">
+          <LiveAgentActivityBarComposition latest={active ? LIVE_AGENT_ACTIVITY_PREVIEW : null} />
+        </div>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Activity" htmlFor="live-agent-activity-bar-preview-active">
+          <Preview.Checkbox
+            id="live-agent-activity-bar-preview-active"
+            label="Activity"
+            checked={active}
+            onCheckedChange={setActive}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function LiveAgentActivityBarDoc() {
   const code = Route.useLoaderData();
 
@@ -88,18 +128,7 @@ function LiveAgentActivityBarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PreviewValues>
-          defaultValues={{ active: true }}
-          controls={[{ name: "active", label: "Activity", type: "boolean" }]}
-          previewClassName="overflow-visible"
-          render={(values) => (
-            <div className="w-72 self-center overflow-visible">
-              <LiveAgentActivityBarComposition
-                latest={values.active ? LIVE_AGENT_ACTIVITY_PREVIEW : null}
-              />
-            </div>
-          )}
-        />
+        <LiveAgentActivityBarPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

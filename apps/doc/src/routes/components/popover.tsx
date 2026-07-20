@@ -12,13 +12,12 @@ import {
 } from "raft-ui";
 import { AlertTriangle, Info, X } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import popoverMentionCardCompositionSource from "#/modules/popover/compositions/popover-mention-card.composition.tsx?raw";
@@ -76,10 +75,6 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-type PlaygroundValues = {
-  open: boolean;
-};
-
 const PANEL_BODY_SNIPPET = `    <PopoverHeader>
       <PopoverTitle>Usage notes</PopoverTitle>
       <PopoverClose aria-label="Close usage notes">
@@ -93,6 +88,15 @@ const PANEL_BODY_SNIPPET = `    <PopoverHeader>
     </div>`;
 
 const SNIPPETS = {
+  preview: `<Popover open modal={false}>
+  <PopoverTrigger render={<Button variant="outline" size="md" />}>
+    <Info size={18} />
+    Usage notes
+  </PopoverTrigger>
+  <PopoverContent className="min-w-[240px]">
+${PANEL_BODY_SNIPPET}
+  </PopoverContent>
+</Popover>`,
   anatomy: `<Popover>
   <PopoverTrigger />
   <PopoverContent>
@@ -383,6 +387,35 @@ function SourceMentionCardPreview() {
   );
 }
 
+function PopoverPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <Preview previewClassName="min-h-[24rem] items-start pt-24">
+      <Preview.Canvas>
+        <SearchGuidePreview open={open} />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Open" htmlFor="popover-preview-open">
+          <Preview.Checkbox
+            id="popover-preview-open"
+            label="Open"
+            checked={open}
+            onCheckedChange={setOpen}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
+  );
+}
+
 function PopoverDoc() {
   const code = Route.useLoaderData();
 
@@ -396,14 +429,7 @@ function PopoverDoc() {
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Preview keeps the surface to one trigger and its supporting guidance panel.
         </p>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            open: true,
-          }}
-          controls={[{ name: "open", label: "Open", type: "boolean" }]}
-          previewClassName="min-h-[24rem] items-start pt-24"
-          render={(values) => <SearchGuidePreview open={values.open} />}
-        />
+        <PopoverPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -416,11 +442,14 @@ function PopoverDoc() {
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <DocSubsection parentId="usage" id="details" title="Details">
-          <Example html={code.details} previewClassName="min-h-[18rem] items-start pt-28">
-            <OpenPopoverExample triggerId="details-popover-trigger" label="Usage notes">
-              <PopoverPanelBody />
-            </OpenPopoverExample>
-          </Example>
+          <Preview previewClassName="min-h-[18rem] items-start pt-28">
+            <Preview.Canvas>
+              <OpenPopoverExample triggerId="details-popover-trigger" label="Usage notes">
+                <PopoverPanelBody />
+              </OpenPopoverExample>
+            </Preview.Canvas>
+            <Preview.Code html={code.details} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

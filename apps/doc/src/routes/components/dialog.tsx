@@ -38,7 +38,7 @@ import { useState, type ReactNode } from "react";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import {
@@ -1032,35 +1032,38 @@ function DialogDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview}>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Edit Channel</DialogTitle>
-                <DialogClose />
-              </DialogHeader>
-              <DialogBody className="grid gap-4">
-                <DialogDescription className="pb-1">
-                  Update the channel name and short description.
-                </DialogDescription>
-                <Field>
-                  <FieldLabel htmlFor="channel-name">Name</FieldLabel>
-                  <Input id="channel-name" defaultValue="design-system" />
-                  <FieldDescription>Shown in the sidebar and message header.</FieldDescription>
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="channel-description">Description</FieldLabel>
-                  <Textarea id="channel-description" className="min-h-20" />
-                </Field>
-              </DialogBody>
-              <DialogFooter>
-                <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-                <Button variant="primary">Save Changes</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Edit Channel</DialogTitle>
+                  <DialogClose />
+                </DialogHeader>
+                <DialogBody className="grid gap-4">
+                  <DialogDescription className="pb-1">
+                    Update the channel name and short description.
+                  </DialogDescription>
+                  <Field>
+                    <FieldLabel htmlFor="channel-name">Name</FieldLabel>
+                    <Input id="channel-name" defaultValue="design-system" />
+                    <FieldDescription>Shown in the sidebar and message header.</FieldDescription>
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="channel-description">Description</FieldLabel>
+                    <Textarea id="channel-description" className="min-h-20" />
+                  </Field>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
+                  <Button variant="primary">Save Changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -1081,9 +1084,10 @@ function DialogDoc() {
         <div className="space-y-10">
           {DIALOG_USAGE_ITEMS.map((item) => (
             <DocSubsection key={item.id} parentId="usage" id={item.id} title={item.title}>
-              <Example html={code[item.codeKey]} previewClassName="items-stretch p-0">
-                {item.preview}
-              </Example>
+              <Preview previewClassName="items-stretch p-0">
+                <Preview.Canvas>{item.preview}</Preview.Canvas>
+                <Preview.Code html={code[item.codeKey]} />
+              </Preview>
             </DocSubsection>
           ))}
         </div>

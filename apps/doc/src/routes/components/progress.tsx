@@ -9,12 +9,11 @@ import {
   type ProgressProps,
 } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -23,8 +22,10 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
+import { ProgressPlaygroundPreview } from "#/modules/progress/progress.preview.tsx";
 import progressAttachmentUploadCompositionSource from "#/modules/progress/compositions/attachment-upload.composition.tsx?raw";
 import progressMachineDownloadCompositionSource from "#/modules/progress/compositions/machine-download.composition.tsx?raw";
+import progressPreviewCompositionSource from "#/modules/progress/compositions/preview.composition.tsx?raw";
 import progressRestartIndeterminateCompositionSource from "#/modules/progress/compositions/restart-indeterminate.composition.tsx?raw";
 import {
   PROGRESS_SOURCE_COMPARISON_COMPOSITION,
@@ -186,13 +187,6 @@ const SNIPPETS = {
 </Progress>`,
 } as const;
 
-type PlaygroundValues = {
-  value: string;
-  variant: NonNullable<ProgressProps["variant"]>;
-  size: NonNullable<ProgressProps["size"]>;
-  indeterminate: boolean;
-};
-
 const PROPS: readonly PropRow[] = [
   {
     name: "value",
@@ -241,6 +235,7 @@ const ProgressCurrent = PROGRESS_SOURCE_COMPARISON_COMPOSITION;
 const PROGRESS_COMPOSITION_RAW_SOURCES = {
   AttachmentUpload: progressAttachmentUploadCompositionSource,
   MachineDownload: progressMachineDownloadCompositionSource,
+  Preview: progressPreviewCompositionSource,
   RestartIndeterminate: progressRestartIndeterminateCompositionSource,
 } as const;
 
@@ -249,6 +244,7 @@ const PROGRESS_COMPOSITION_SOURCES = createCompositionSourceMap(PROGRESS_COMPOSI
 const PROGRESS_COMPOSITION_SNIPPET_IDS = {
   AttachmentUpload: "progressAttachmentUploadComposition",
   MachineDownload: "progressMachineDownloadComposition",
+  Preview: "progressPreviewComposition",
   RestartIndeterminate: "progressRestartIndeterminateComposition",
 } as const;
 
@@ -286,42 +282,9 @@ function ProgressDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            value: "64",
-            variant: "primary",
-            size: "md",
-            indeterminate: false,
-          }}
-          controls={[
-            { name: "value", label: "Value", type: "text" },
-            { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-            { name: "size", label: "Size", type: "select", options: SIZES },
-            { name: "indeterminate", label: "Indeterminate", type: "boolean" },
-          ]}
-          render={(values) => {
-            const value = Math.max(0, Math.min(100, Number(values.value) || 0));
-
-            return (
-              <div className="w-full max-w-sm">
-                <Progress
-                  value={values.indeterminate ? null : value}
-                  variant={values.variant}
-                  size={values.size}
-                >
-                  <ProgressHeader>
-                    <ProgressLabel>
-                      {values.indeterminate ? "Generating response" : "Uploading transcript"}
-                    </ProgressLabel>
-                    <ProgressValue />
-                  </ProgressHeader>
-                  <ProgressTrack>
-                    <ProgressIndicator />
-                  </ProgressTrack>
-                </Progress>
-              </div>
-            );
-          }}
+        <ProgressPlaygroundPreview
+          code={code.progressPreviewComposition}
+          collapsedCode={code.progressPreviewCompositionBody}
         />
       </DocSection>
 
@@ -336,35 +299,45 @@ function ProgressDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="variants" title="Variants">
-            <Example html={code.variants}>
-              <div className="grid w-full max-w-sm gap-4">
-                {["primary", "success", "warning", "danger"].map((variant) => (
-                  <Progress key={variant} value={64} variant={variant as ProgressProps["variant"]}>
-                    <ProgressHeader>
-                      <ProgressLabel>{variant}</ProgressLabel>
-                      <ProgressValue />
-                    </ProgressHeader>
-                    <ProgressTrack>
-                      <ProgressIndicator />
-                    </ProgressTrack>
-                  </Progress>
-                ))}
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid w-full max-w-sm gap-4">
+                  {["primary", "success", "warning", "danger"].map((variant) => (
+                    <Progress
+                      key={variant}
+                      value={64}
+                      variant={variant as ProgressProps["variant"]}
+                    >
+                      <ProgressHeader>
+                        <ProgressLabel>{variant}</ProgressLabel>
+                        <ProgressValue />
+                      </ProgressHeader>
+                      <ProgressTrack>
+                        <ProgressIndicator />
+                      </ProgressTrack>
+                    </Progress>
+                  ))}
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.variants} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
-            <Example html={code.sizes}>
-              <div className="grid w-full max-w-sm gap-4">
-                {SIZES.map((size) => (
-                  <Progress key={size} value={64} size={size}>
-                    <ProgressTrack>
-                      <ProgressIndicator />
-                    </ProgressTrack>
-                  </Progress>
-                ))}
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="grid w-full max-w-sm gap-4">
+                  {SIZES.map((size) => (
+                    <Progress key={size} value={64} size={size}>
+                      <ProgressTrack>
+                        <ProgressIndicator />
+                      </ProgressTrack>
+                    </Progress>
+                  ))}
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="indeterminate" title="Indeterminate">
@@ -372,32 +345,38 @@ function ProgressDoc() {
               Use indeterminate progress when work has started but a reliable completion percentage
               is not available yet.
             </DocNote>
-            <Example html={code.indeterminate}>
-              <div className="w-full max-w-sm">
-                <Progress value={null} aria-label="Generating response">
-                  <ProgressTrack>
-                    <ProgressIndicator />
-                  </ProgressTrack>
-                </Progress>
-              </div>
-            </Example>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="composition" title="Composition">
-            <div className="space-y-4">
-              <Example html={code.composition}>
+            <Preview>
+              <Preview.Canvas>
                 <div className="w-full max-w-sm">
-                  <Progress value={72} variant="information">
-                    <ProgressHeader>
-                      <ProgressLabel>Uploading transcript</ProgressLabel>
-                      <ProgressValue />
-                    </ProgressHeader>
+                  <Progress value={null} aria-label="Generating response">
                     <ProgressTrack>
                       <ProgressIndicator />
                     </ProgressTrack>
                   </Progress>
                 </div>
-              </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.indeterminate} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="composition" title="Composition">
+            <div className="space-y-4">
+              <Preview>
+                <Preview.Canvas>
+                  <div className="w-full max-w-sm">
+                    <Progress value={72} variant="information">
+                      <ProgressHeader>
+                        <ProgressLabel>Uploading transcript</ProgressLabel>
+                        <ProgressValue />
+                      </ProgressHeader>
+                      <ProgressTrack>
+                        <ProgressIndicator />
+                      </ProgressTrack>
+                    </Progress>
+                  </div>
+                </Preview.Canvas>
+                <Preview.Code html={code.composition} />
+              </Preview>
               <DocsCodeBlock.Panel
                 path="ProgressNamedParts.tsx"
                 source={SNIPPETS.anatomyImport}

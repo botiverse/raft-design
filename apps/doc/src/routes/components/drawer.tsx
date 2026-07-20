@@ -1,13 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { DrawerProps } from "raft-ui";
 
-import { ComponentDemoFrame } from "#/components/component-demo-frame.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { Example } from "#/components/example.tsx";
 import { DrawerNestedCloseCallbackComposition } from "#/modules/drawer/compositions/nested-close-callback.composition.tsx";
 import nestedCloseCallbackCompositionSource from "#/modules/drawer/compositions/nested-close-callback.composition.tsx?raw";
 import pwaInstallCompositionSource from "#/modules/drawer/compositions/pwa-install-drawer.composition.tsx?raw";
@@ -297,13 +296,16 @@ function DrawerDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentDemoFrame>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {DIRECTION_PREVIEWS.map(({ label, swipeDirection }) => (
-              <DrawerPreview key={label} swipeDirection={swipeDirection} triggerLabel={label} />
-            ))}
-          </div>
-        </ComponentDemoFrame>
+        <Preview>
+          <Preview.Canvas>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {DIRECTION_PREVIEWS.map(({ label, swipeDirection }) => (
+                <DrawerPreview key={label} swipeDirection={swipeDirection} triggerLabel={label} />
+              ))}
+            </div>
+          </Preview.Canvas>
+          <Preview.Code html={code.leaveChannel} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -322,11 +324,14 @@ function DrawerDoc() {
               Snap points apply to vertical drawers. Compare separate bottom and top notifications;
               each expands from an 8rem summary to a 24rem detail view.
             </p>
-            <Example html={code.usageSnapPoints}>
-              <div className="flex justify-center">
-                <DrawerSnapPointsComposition />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex justify-center">
+                  <DrawerSnapPointsComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageSnapPoints} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection
@@ -338,39 +343,42 @@ function DrawerDoc() {
               Each nested drawer owns its close callback; removing a member closes the confirmation
               and details layers together.
             </p>
-            <Example
-              codeBlock={
-                <DocsCodeBlock.Files
-                  collapsible={false}
-                  files={[
-                    {
-                      path: "nested-close-callback.composition.tsx",
-                      source: nestedCloseCallbackCompositionSource,
-                      html: code.listenNestedCloseComposition,
-                    },
-                    {
-                      path: "workspace-settings/workspace-settings-drawer.tsx",
-                      source: workspaceSettingsDrawerSource,
-                      html: code.listenNestedCloseWorkspaceSettings,
-                    },
-                    {
-                      path: "workspace-settings/member-details-drawer.tsx",
-                      source: memberDetailsDrawerSource,
-                      html: code.listenNestedCloseMemberDetails,
-                    },
-                    {
-                      path: "workspace-settings/remove-member-drawer.tsx",
-                      source: removeMemberDrawerSource,
-                      html: code.listenNestedCloseRemoveMember,
-                    },
-                  ]}
-                />
-              }
-            >
-              <div className="flex justify-center">
-                <DrawerNestedCloseCallbackComposition />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex justify-center">
+                  <DrawerNestedCloseCallbackComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    files={[
+                      {
+                        path: "nested-close-callback.composition.tsx",
+                        source: nestedCloseCallbackCompositionSource,
+                        html: code.listenNestedCloseComposition,
+                      },
+                      {
+                        path: "workspace-settings/workspace-settings-drawer.tsx",
+                        source: workspaceSettingsDrawerSource,
+                        html: code.listenNestedCloseWorkspaceSettings,
+                      },
+                      {
+                        path: "workspace-settings/member-details-drawer.tsx",
+                        source: memberDetailsDrawerSource,
+                        html: code.listenNestedCloseMemberDetails,
+                      },
+                      {
+                        path: "workspace-settings/remove-member-drawer.tsx",
+                        source: removeMemberDrawerSource,
+                        html: code.listenNestedCloseRemoveMember,
+                      },
+                    ]}
+                  />
+                }
+              />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection
@@ -382,11 +390,14 @@ function DrawerDoc() {
               Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> on small
               screens to span the floating inset.
             </p>
-            <Example html={code.usageSideFullWidth}>
-              <div className="flex justify-center">
-                <DrawerSideFullWidthUsage />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex justify-center">
+                  <DrawerSideFullWidthUsage />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageSideFullWidth} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="responsive-placement" title="Responsive placement">
@@ -394,11 +405,14 @@ function DrawerDoc() {
               Switch <code className="font-mono text-[0.8125rem]">swipeDirection</code> at md:
               bottom on mobile, right on desktop.
             </p>
-            <Example html={code.usageResponsivePlacement}>
-              <div className="flex justify-center">
-                <DrawerResponsivePlacementComposition />
-              </div>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex justify-center">
+                  <DrawerResponsivePlacementComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageResponsivePlacement} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

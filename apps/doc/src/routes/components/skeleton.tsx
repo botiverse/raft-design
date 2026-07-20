@@ -1,16 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Skeleton, type SkeletonProps } from "raft-ui";
+import { Skeleton } from "raft-ui";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { SkeletonPlaygroundPreview } from "#/modules/skeleton/skeleton.preview.tsx";
 import skeletonBasicCompositionSource from "#/modules/skeleton/compositions/basic.composition.tsx?raw";
 import { SkeletonBasicComposition } from "#/modules/skeleton/compositions/basic.composition.tsx";
+import skeletonPreviewCompositionSource from "#/modules/skeleton/compositions/preview.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   createCompositionPanelProps,
@@ -56,14 +57,17 @@ const SNIPPETS = {
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
   Basic: skeletonBasicCompositionSource,
+  Preview: skeletonPreviewCompositionSource,
 });
 
 const COMPOSITION_PATHS = {
   Basic: "apps/doc/src/modules/skeleton/compositions/basic.composition.tsx",
+  Preview: "apps/doc/src/modules/skeleton/compositions/preview.composition.tsx",
 } as const;
 
 const COMPOSITION_SNIPPET_IDS = {
   Basic: "skeletonBasicComposition",
+  Preview: "skeletonPreviewComposition",
 } as const;
 
 const COMPOSITION_SNIPPETS = createCompositionSnippetMap(
@@ -85,10 +89,6 @@ const PROPS: readonly PropRow[] = [
     description: "Shape treatment: text line, filled block, or circular avatar/status stand-in.",
   },
 ];
-
-type PlaygroundValues = {
-  variant: NonNullable<SkeletonProps["variant"]>;
-};
 
 type CompositionKey = keyof typeof COMPOSITION_SOURCES;
 
@@ -121,23 +121,9 @@ function SkeletonDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{ variant: "line" }}
-          controls={[{ name: "variant", label: "Variant", type: "select", options: VARIANTS }]}
-          render={(values) => (
-            <div className="flex min-h-20 items-center justify-center">
-              <Skeleton
-                variant={values.variant}
-                className={
-                  values.variant === "line"
-                    ? "w-44"
-                    : values.variant === "circle"
-                      ? "size-10"
-                      : "size-12"
-                }
-              />
-            </div>
-          )}
+        <SkeletonPlaygroundPreview
+          code={code.skeletonPreviewComposition}
+          collapsedCode={code.skeletonPreviewCompositionBody}
         />
       </DocSection>
 
@@ -151,13 +137,16 @@ function SkeletonDoc() {
 
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <DocSubsection parentId="usage" id="variants" title="Variants">
-          <Example html={code.variants}>
-            <div className="flex items-center gap-4">
-              <Skeleton variant="line" className="w-40" />
-              <Skeleton variant="block" className="size-12" />
-              <Skeleton variant="circle" className="size-10" />
-            </div>
-          </Example>
+          <Preview>
+            <Preview.Canvas>
+              <div className="flex items-center gap-4">
+                <Skeleton variant="line" className="w-40" />
+                <Skeleton variant="block" className="size-12" />
+                <Skeleton variant="circle" className="size-10" />
+              </div>
+            </Preview.Canvas>
+            <Preview.Code html={code.variants} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

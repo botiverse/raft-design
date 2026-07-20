@@ -27,9 +27,10 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import toastPreviewCompositionSource from "#/modules/toast/compositions/preview.composition.tsx?raw";
 import { ToastPreviewScene } from "#/modules/toast/toast.composition.tsx";
 import { ToastPlaygroundPreview } from "#/modules/toast/toast.preview.tsx";
 
@@ -118,6 +119,7 @@ type AnatomyVariantData = {
 };
 
 const SNIPPETS = {
+  previewComposition: toastPreviewCompositionSource,
   anatomy: `<ToastProvider>
   <ToastPortal>
     <ToastViewport>
@@ -470,7 +472,10 @@ function ToastDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ToastPlaygroundPreview />
+        <ToastPlaygroundPreview
+          code={code.previewComposition}
+          collapsedCode={code.previewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -488,61 +493,80 @@ function ToastDoc() {
             instead of rendering it empty.
           </DocNote>
           <DocSubsection parentId="usage" id="full" title="Full">
-            <Example html={code.variantFull} previewClassName="min-h-32" previewInset="flush">
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[0]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[0]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantFull} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="no-icon" title="No icon">
-            <Example html={code.variantNoIcon} previewClassName="min-h-32" previewInset="flush">
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[1]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[1]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantNoIcon} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="no-description" title="No description">
-            <Example
-              html={code.variantNoDescription}
-              previewClassName="min-h-32"
-              previewInset="flush"
-            >
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[2]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[2]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantNoDescription} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="no-action" title="No action">
-            <Example html={code.variantNoAction} previewClassName="min-h-32" previewInset="flush">
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[3]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[3]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantNoAction} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="no-dismiss" title="No dismiss">
-            <Example html={code.variantNoDismiss} previewClassName="min-h-32" previewInset="flush">
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[4]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[4]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantNoDismiss} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="loading-action" title="Loading action">
-            <Example
-              html={code.variantLoadingAction}
-              previewClassName="min-h-32"
-              previewInset="flush"
-            >
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantLoadingAction} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="icon-title" title="Icon + title">
-            <Example html={code.variantIconTitle} previewClassName="min-h-32" previewInset="flush">
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantIconTitle} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="minimal" title="Minimal">
-            <Example html={code.variantMinimal} previewClassName="min-h-32" previewInset="flush">
-              <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
-            </Example>
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantMinimal} />
+            </Preview>
           </DocSubsection>
           <DocNote>
             Keep long-running or historical notifications in NotificationCenter; use Toast for
             immediate feedback that can disappear.
           </DocNote>
           <DocSubsection parentId="usage" id="stacked" title="Stacked">
-            <Example html={code.usage} previewClassName="min-h-72" previewInset="flush">
-              <InlineUsageToast />
-            </Example>
+            <Preview previewClassName="min-h-72" previewInset="flush">
+              <Preview.Canvas>
+                <InlineUsageToast />
+              </Preview.Canvas>
+              <Preview.Code html={code.usage} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="anchored-with-arrow" title="Anchored with arrow">
             <DocNote>
@@ -551,9 +575,12 @@ function ToastDoc() {
               separate <code>ToastProvider</code> instances when both patterns appear in the same
               app.
             </DocNote>
-            <Example html={code.anchoredUsage} previewClassName="min-h-56" previewInset="flush">
-              <AnchoredUsageToast />
-            </Example>
+            <Preview previewClassName="min-h-56" previewInset="flush">
+              <Preview.Canvas>
+                <AnchoredUsageToast />
+              </Preview.Canvas>
+              <Preview.Code html={code.anchoredUsage} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

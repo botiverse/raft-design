@@ -5,7 +5,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -65,11 +65,14 @@ function InlineCodeDoc() {
             Use InlineCode inside explanatory prose when naming props, attributes, classes, or
             component parts.
           </DocNote>
-          <Example html={code.preview}>
-            <p className="max-w-2xl text-sm leading-6 text-foreground">
-              Set <InlineCode>aria-invalid</InlineCode> on the control.
-            </p>
-          </Example>
+          <Preview>
+            <Preview.Canvas>
+              <p className="max-w-2xl text-sm leading-6 text-foreground">
+                Set <InlineCode>aria-invalid</InlineCode> on the control.
+              </p>
+            </Preview.Canvas>
+            <Preview.Code html={code.preview} />
+          </Preview>
         </div>
       </DocSection>
 
@@ -87,17 +90,20 @@ function InlineCodeDoc() {
             Keep InlineCode for short inline identifiers. Use CodeBlock for snippets, multi-token
             examples, or anything that needs syntax highlighting.
           </DocNote>
-          <Example html={code.usage}>
-            <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground">
-              <p>
-                Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on
-                the control.
-              </p>
-              <p>
-                Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
-              </p>
-            </div>
-          </Example>
+          <Preview>
+            <Preview.Canvas>
+              <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground">
+                <p>
+                  Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on
+                  the control.
+                </p>
+                <p>
+                  Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
+                </p>
+              </div>
+            </Preview.Canvas>
+            <Preview.Code html={code.usage} />
+          </Preview>
         </div>
       </DocSection>
 

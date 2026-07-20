@@ -9,16 +9,13 @@ import {
   EmptyStateTitle,
 } from "raft-ui";
 import { Inbox, Plus, Search, Upload } from "lucide-react";
-import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
-import { PreviewThemeScope } from "#/components/preview-theme.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { ThemeSwitcher } from "#/components/theme-switcher.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   createCompositionPanelProps,
@@ -98,6 +95,17 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
+  preview: `<EmptyState>
+  <EmptyStateContent>
+    <EmptyStateIcon>
+      <Inbox />
+    </EmptyStateIcon>
+    <EmptyStateTitle>No messages yet</EmptyStateTitle>
+    <EmptyStateDescription>
+      Conversations you start will show up here.
+    </EmptyStateDescription>
+  </EmptyStateContent>
+</EmptyState>`,
   anatomy: `<EmptyState>
   <EmptyStateContent>
     <EmptyStateIcon />
@@ -291,19 +299,22 @@ function EmptyStateDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <QuietPreview>
-          <EmptyState>
-            <EmptyStateContent>
-              <EmptyStateIcon>
-                <Inbox />
-              </EmptyStateIcon>
-              <EmptyStateTitle>No messages yet</EmptyStateTitle>
-              <EmptyStateDescription>
-                Conversations you start will show up here.
-              </EmptyStateDescription>
-            </EmptyStateContent>
-          </EmptyState>
-        </QuietPreview>
+        <Preview>
+          <Preview.Canvas>
+            <EmptyState>
+              <EmptyStateContent>
+                <EmptyStateIcon>
+                  <Inbox />
+                </EmptyStateIcon>
+                <EmptyStateTitle>No messages yet</EmptyStateTitle>
+                <EmptyStateDescription>
+                  Conversations you start will show up here.
+                </EmptyStateDescription>
+              </EmptyStateContent>
+            </EmptyState>
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -317,105 +328,117 @@ function EmptyStateDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="copy" title="Copy">
-            <Example html={code.copy} previewClassName="items-stretch">
-              <div className="grid w-full gap-4 md:grid-cols-2">
-                <EmptyState className="min-h-56">
-                  <EmptyStateContent>
-                    <EmptyStateIcon>
-                      <Search />
-                    </EmptyStateIcon>
-                    <EmptyStateTitle>No results for "linear sync"</EmptyStateTitle>
-                    <EmptyStateDescription>
-                      Try a different keyword or check the selected filters.
-                    </EmptyStateDescription>
-                  </EmptyStateContent>
-                </EmptyState>
-                <EmptyState className="min-h-56">
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="grid w-full gap-4 md:grid-cols-2">
+                  <EmptyState className="min-h-56">
+                    <EmptyStateContent>
+                      <EmptyStateIcon>
+                        <Search />
+                      </EmptyStateIcon>
+                      <EmptyStateTitle>No results for "linear sync"</EmptyStateTitle>
+                      <EmptyStateDescription>
+                        Try a different keyword or check the selected filters.
+                      </EmptyStateDescription>
+                    </EmptyStateContent>
+                  </EmptyState>
+                  <EmptyState className="min-h-56">
+                    <EmptyStateContent>
+                      <EmptyStateIcon>
+                        <Inbox />
+                      </EmptyStateIcon>
+                      <EmptyStateTitle>No messages yet</EmptyStateTitle>
+                      <EmptyStateDescription>
+                        Conversations you start will show up here.
+                      </EmptyStateDescription>
+                    </EmptyStateContent>
+                  </EmptyState>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.copy} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="actions" title="Actions">
+            <Preview>
+              <Preview.Canvas>
+                <EmptyState>
                   <EmptyStateContent>
                     <EmptyStateIcon>
                       <Inbox />
                     </EmptyStateIcon>
-                    <EmptyStateTitle>No messages yet</EmptyStateTitle>
+                    <EmptyStateTitle>No channels yet</EmptyStateTitle>
                     <EmptyStateDescription>
-                      Conversations you start will show up here.
+                      Create your first channel to start organizing work.
                     </EmptyStateDescription>
                   </EmptyStateContent>
+                  <EmptyStateActions className="flex flex-wrap justify-center gap-2">
+                    <Button variant="primary" size="sm">
+                      <Plus data-icon="inline-start" />
+                      New channel
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      Import
+                    </Button>
+                  </EmptyStateActions>
                 </EmptyState>
-              </div>
-            </Example>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="actions" title="Actions">
-            <Example html={code.actions}>
-              <EmptyState>
-                <EmptyStateContent>
-                  <EmptyStateIcon>
-                    <Inbox />
-                  </EmptyStateIcon>
-                  <EmptyStateTitle>No channels yet</EmptyStateTitle>
-                  <EmptyStateDescription>
-                    Create your first channel to start organizing work.
-                  </EmptyStateDescription>
-                </EmptyStateContent>
-                <EmptyStateActions className="flex flex-wrap justify-center gap-2">
-                  <Button variant="primary" size="sm">
-                    <Plus data-icon="inline-start" />
-                    New channel
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Import
-                  </Button>
-                </EmptyStateActions>
-              </EmptyState>
-            </Example>
+              </Preview.Canvas>
+              <Preview.Code html={code.actions} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="customize" title="Customize">
-            <Example html={code.customize}>
-              <EmptyState className="min-h-72">
-                <EmptyStateContent>
-                  <EmptyStateIcon>
-                    <Upload />
-                  </EmptyStateIcon>
-                  <EmptyStateTitle>Drop files to import customers</EmptyStateTitle>
-                  <EmptyStateDescription>
-                    CSV and TSV files can be mapped before anything is saved.
-                  </EmptyStateDescription>
-                </EmptyStateContent>
-                <div className="mt-5 flex flex-col items-center gap-2">
-                  <Button variant="primary" size="sm">
-                    Choose file
-                  </Button>
-                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
-                    <button className="underline underline-offset-4 hover:text-foreground-strong">
-                      Download template
-                    </button>
-                    <span aria-hidden>·</span>
-                    <button className="underline underline-offset-4 hover:text-foreground-strong">
-                      View import guide
-                    </button>
+            <Preview>
+              <Preview.Canvas>
+                <EmptyState className="min-h-72">
+                  <EmptyStateContent>
+                    <EmptyStateIcon>
+                      <Upload />
+                    </EmptyStateIcon>
+                    <EmptyStateTitle>Drop files to import customers</EmptyStateTitle>
+                    <EmptyStateDescription>
+                      CSV and TSV files can be mapped before anything is saved.
+                    </EmptyStateDescription>
+                  </EmptyStateContent>
+                  <div className="mt-5 flex flex-col items-center gap-2">
+                    <Button variant="primary" size="sm">
+                      Choose file
+                    </Button>
+                    <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
+                      <button className="underline underline-offset-4 hover:text-foreground-strong">
+                        Download template
+                      </button>
+                      <span aria-hidden>·</span>
+                      <button className="underline underline-offset-4 hover:text-foreground-strong">
+                        View import guide
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </EmptyState>
-            </Example>
+                </EmptyState>
+              </Preview.Canvas>
+              <Preview.Code html={code.customize} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="composition" title="Composition">
-            <Example html={code.composition}>
-              <EmptyState render={<section aria-labelledby="empty-state-title" />}>
-                <EmptyStateContent>
-                  <EmptyStateIcon aria-hidden>
-                    <Inbox />
-                  </EmptyStateIcon>
-                  <EmptyStateTitle render={<h2 id="empty-state-title" />}>
-                    No notifications right now
-                  </EmptyStateTitle>
-                  <EmptyStateDescription>
-                    New mentions, assignments, and approvals will appear here.
-                  </EmptyStateDescription>
-                </EmptyStateContent>
-              </EmptyState>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <EmptyState render={<section aria-labelledby="empty-state-title" />}>
+                  <EmptyStateContent>
+                    <EmptyStateIcon aria-hidden>
+                      <Inbox />
+                    </EmptyStateIcon>
+                    <EmptyStateTitle render={<h2 id="empty-state-title" />}>
+                      No notifications right now
+                    </EmptyStateTitle>
+                    <EmptyStateDescription>
+                      New mentions, assignments, and approvals will appear here.
+                    </EmptyStateDescription>
+                  </EmptyStateContent>
+                </EmptyState>
+              </Preview.Canvas>
+              <Preview.Code html={code.composition} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>
@@ -504,20 +527,5 @@ function EmptyStateDoc() {
         />
       </DocSection>
     </DocPage>
-  );
-}
-
-function QuietPreview({ children }: { children: ReactNode }) {
-  return (
-    <div className="relative">
-      <div className="mb-2 flex justify-end px-2 sm:absolute sm:right-0 sm:-top-11 sm:mb-0">
-        <ThemeSwitcher />
-      </div>
-      <div className="overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]">
-        <PreviewThemeScope className="flex min-h-84 w-full flex-wrap items-center justify-center gap-4 bg-white px-6 py-4 text-foreground">
-          {children}
-        </PreviewThemeScope>
-      </div>
-    </div>
   );
 }

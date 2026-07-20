@@ -5,7 +5,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -142,14 +142,17 @@ function SeparatorDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview}>
-          <div className="grid w-64 gap-3">
-            <Text.Sans size="small">Channel settings</Text.Sans>
-            <Separator />
-            <Separator>Actions</Separator>
-            <Text.Sans size="small">Visibility actions</Text.Sans>
-          </div>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <div className="grid w-64 gap-3">
+              <Text.Sans size="small">Channel settings</Text.Sans>
+              <Separator />
+              <Separator>Actions</Separator>
+              <Text.Sans size="small">Visibility actions</Text.Sans>
+            </div>
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -166,21 +169,24 @@ function SeparatorDoc() {
             Use horizontal separators between stacked groups. Use vertical separators only inside a
             row with a stable height.
           </DocNote>
-          <Example html={code.orientation}>
-            <div className="grid gap-8">
-              <div className="grid w-64 gap-3">
-                <Text.Sans size="small">Channel settings</Text.Sans>
-                <Separator />
-                <Separator>Actions</Separator>
-                <Text.Sans size="small">Visibility actions</Text.Sans>
+          <Preview>
+            <Preview.Canvas>
+              <div className="grid gap-8">
+                <div className="grid w-64 gap-3">
+                  <Text.Sans size="small">Channel settings</Text.Sans>
+                  <Separator />
+                  <Separator>Actions</Separator>
+                  <Text.Sans size="small">Visibility actions</Text.Sans>
+                </div>
+                <div className="flex h-14 items-center gap-4">
+                  <Text.Sans size="small">Filters</Text.Sans>
+                  <Separator orientation="vertical" />
+                  <Text.Sans size="small">Sort</Text.Sans>
+                </div>
               </div>
-              <div className="flex h-14 items-center gap-4">
-                <Text.Sans size="small">Filters</Text.Sans>
-                <Separator orientation="vertical" />
-                <Text.Sans size="small">Sort</Text.Sans>
-              </div>
-            </div>
-          </Example>
+            </Preview.Canvas>
+            <Preview.Code html={code.orientation} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

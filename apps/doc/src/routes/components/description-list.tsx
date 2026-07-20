@@ -12,7 +12,7 @@ import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
@@ -170,33 +170,36 @@ function DescriptionListDoc() {
       </DocSection>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.examples}>
-          <DescriptionList className="flex w-full max-w-xl flex-wrap gap-x-8 gap-y-3">
-            <DescriptionItem>
-              <DescriptionTerm>Created</DescriptionTerm>
-              <DescriptionDetails className="font-mono">Jun 5, 2026</DescriptionDetails>
-            </DescriptionItem>
-            <DescriptionItem>
-              <DescriptionTerm>Email</DescriptionTerm>
-              <DescriptionDetails className="break-all font-mono">
-                ada@example.com
-              </DescriptionDetails>
-            </DescriptionItem>
-            <DescriptionItem>
-              <DescriptionTerm>
-                Creator
-                <DescriptionAction render={<button type="button" aria-label="Edit creator" />}>
-                  <Pencil />
-                </DescriptionAction>
-              </DescriptionTerm>
-              <DescriptionDetails className="flex items-center gap-2">
-                <span className="size-5 border-2 border-black bg-brutal-yellow" />
-                <span className="font-bold">Ada</span>
-                <span className="font-mono text-xs text-black/50">@ada</span>
-              </DescriptionDetails>
-            </DescriptionItem>
-          </DescriptionList>
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <DescriptionList className="flex w-full max-w-xl flex-wrap gap-x-8 gap-y-3">
+              <DescriptionItem>
+                <DescriptionTerm>Created</DescriptionTerm>
+                <DescriptionDetails className="font-mono">Jun 5, 2026</DescriptionDetails>
+              </DescriptionItem>
+              <DescriptionItem>
+                <DescriptionTerm>Email</DescriptionTerm>
+                <DescriptionDetails className="break-all font-mono">
+                  ada@example.com
+                </DescriptionDetails>
+              </DescriptionItem>
+              <DescriptionItem>
+                <DescriptionTerm>
+                  Creator
+                  <DescriptionAction render={<button type="button" aria-label="Edit creator" />}>
+                    <Pencil />
+                  </DescriptionAction>
+                </DescriptionTerm>
+                <DescriptionDetails className="flex items-center gap-2">
+                  <span className="size-5 border-2 border-black bg-brutal-yellow" />
+                  <span className="font-bold">Ada</span>
+                  <span className="font-mono text-xs text-black/50">@ada</span>
+                </DescriptionDetails>
+              </DescriptionItem>
+            </DescriptionList>
+          </Preview.Canvas>
+          <Preview.Code html={code.examples} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

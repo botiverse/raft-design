@@ -1,3 +1,4 @@
+import { useState, type ReactNode } from "react";
 import {
   Banner,
   BannerAction,
@@ -8,9 +9,12 @@ import {
   type BannerProps,
 } from "raft-ui";
 import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { ACTION_ALIGNS, SIZES, STATUSES } from "./banner.constants.ts";
+
+type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 const STATUS_ICON = {
   default: Info,
@@ -20,51 +24,92 @@ const STATUS_ICON = {
   success: CircleCheck,
 } as const;
 
-type PlaygroundValues = {
-  status: BannerProps["status"];
-  size: NonNullable<BannerProps["size"]>;
-  actionAlign: NonNullable<BannerActionProps["align"]>;
-  withIcon: boolean;
-  withTitle: boolean;
-  withActions: boolean;
+type BannerPlaygroundPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
 };
 
-export function BannerPlaygroundPreview() {
+export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroundPreviewProps) {
+  const [status, setStatus] = useState<NonNullable<BannerProps["status"]>>("warning");
+  const [size, setSize] = useState<NonNullable<BannerProps["size"]>>("md");
+  const [actionAlign, setActionAlign] = useState<NonNullable<BannerActionProps["align"]>>("middle");
+  const [withIcon, setWithIcon] = useState(true);
+  const [withTitle, setWithTitle] = useState(false);
+  const [withActions, setWithActions] = useState(false);
+  const Icon = STATUS_ICON[status];
+
   return (
-    <ComponentPlayground<PlaygroundValues>
-      defaultValues={{
-        status: "warning",
-        size: "md",
-        actionAlign: "middle",
-        withIcon: true,
-        withTitle: false,
-        withActions: false,
-      }}
-      controls={[
-        { name: "status", label: "Status", type: "select", options: STATUSES },
-        { name: "size", label: "Size", type: "select", options: SIZES },
-        { name: "actionAlign", label: "Action align", type: "select", options: ACTION_ALIGNS },
-        { name: "withIcon", label: "With icon", type: "boolean" },
-        { name: "withTitle", label: "With title", type: "boolean" },
-        { name: "withActions", label: "With actions", type: "boolean" },
-      ]}
-      render={(values) => {
-        const Icon = STATUS_ICON[values.status];
-        return (
-          <Banner status={values.status} size={values.size} className="w-[28rem]">
-            {values.withIcon ? <Icon /> : null}
-            {values.withTitle ? <BannerTitle>Review required</BannerTitle> : null}
-            <BannerDescription>This action can&rsquo;t be undone.</BannerDescription>
-            {values.withActions ? (
-              <BannerAction align={values.actionAlign}>
-                <Button size="icon-xs" aria-label="Dismiss">
-                  <X />
-                </Button>
-              </BannerAction>
-            ) : null}
-          </Banner>
-        );
-      }}
-    />
+    <Preview>
+      <Preview.Canvas>
+        <Banner status={status} size={size} className="w-[28rem]">
+          {withIcon ? <Icon /> : null}
+          {withTitle ? <BannerTitle>Review required</BannerTitle> : null}
+          <BannerDescription>This action can&rsquo;t be undone.</BannerDescription>
+          {withActions ? (
+            <BannerAction align={actionAlign}>
+              <Button size="icon-xs" aria-label="Dismiss">
+                <X />
+              </Button>
+            </BannerAction>
+          ) : null}
+        </Banner>
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Status" htmlFor="banner-preview-status">
+          <Preview.Select
+            id="banner-preview-status"
+            label="Status"
+            options={STATUSES}
+            value={status}
+            onValueChange={(value) => setStatus(value as NonNullable<BannerProps["status"]>)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Size" htmlFor="banner-preview-size">
+          <Preview.Select
+            id="banner-preview-size"
+            label="Size"
+            options={SIZES}
+            value={size}
+            onValueChange={(value) => setSize(value as NonNullable<BannerProps["size"]>)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Action align" htmlFor="banner-preview-action-align">
+          <Preview.Select
+            id="banner-preview-action-align"
+            label="Action align"
+            options={ACTION_ALIGNS}
+            value={actionAlign}
+            onValueChange={(value) =>
+              setActionAlign(value as NonNullable<BannerActionProps["align"]>)
+            }
+          />
+        </Preview.Control>
+        <Preview.Control label="With icon" htmlFor="banner-preview-with-icon">
+          <Preview.Checkbox
+            id="banner-preview-with-icon"
+            label="With icon"
+            checked={withIcon}
+            onCheckedChange={setWithIcon}
+          />
+        </Preview.Control>
+        <Preview.Control label="With title" htmlFor="banner-preview-with-title">
+          <Preview.Checkbox
+            id="banner-preview-with-title"
+            label="With title"
+            checked={withTitle}
+            onCheckedChange={setWithTitle}
+          />
+        </Preview.Control>
+        <Preview.Control label="With actions" htmlFor="banner-preview-with-actions">
+          <Preview.Checkbox
+            id="banner-preview-with-actions"
+            label="With actions"
+            checked={withActions}
+            onCheckedChange={setWithActions}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }

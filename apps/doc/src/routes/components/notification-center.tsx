@@ -32,7 +32,7 @@ import {
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
@@ -549,9 +549,12 @@ function NotificationCenterDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.preview} previewClassName="!min-h-[38rem] items-start pt-16">
-          <NotificationCenterBasicExample />
-        </Example>
+        <Preview previewClassName="!min-h-[38rem] items-start pt-16">
+          <Preview.Canvas>
+            <NotificationCenterBasicExample />
+          </Preview.Canvas>
+          <Preview.Code html={code.preview} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -576,9 +579,12 @@ function NotificationCenterDoc() {
           title="Empty state"
           badge={<StatusBadge status="in-progress" />}
         >
-          <Example html={code.empty}>
-            <NotificationCenterExample entries={[]} size="sm" />
-          </Example>
+          <Preview>
+            <Preview.Canvas>
+              <NotificationCenterExample entries={[]} size="sm" />
+            </Preview.Canvas>
+            <Preview.Code html={code.empty} />
+          </Preview>
         </DocSubsection>
       </DocSection>
 

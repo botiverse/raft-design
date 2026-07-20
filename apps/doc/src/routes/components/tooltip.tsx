@@ -9,14 +9,13 @@ import {
   TooltipTrigger,
 } from "raft-ui";
 import { Bell, Bookmark, Info, MessageSquare, SmilePlus } from "lucide-react";
-import { useId, useRef, type ReactNode, type RefObject } from "react";
+import { useId, useRef, useState, type ReactNode, type RefObject } from "react";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -374,7 +373,7 @@ function TooltipExample({
   );
 }
 
-function TooltipPlaygroundPreview({ label, side }: PlaygroundValues) {
+function TooltipPreviewCanvas({ label, side }: PlaygroundValues) {
   const triggerId = useId();
   const content = label.trim() || "Tooltip";
 
@@ -390,6 +389,45 @@ function TooltipPlaygroundPreview({ label, side }: PlaygroundValues) {
         <TooltipContent side={side}>{content}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  );
+}
+
+function TooltipPreview({
+  code,
+  collapsedCode,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>["preview"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+}) {
+  const [side, setSide] = useState<(typeof PREVIEW_SIDES)[number]>("top");
+  const [label, setLabel] = useState("Add reaction");
+
+  return (
+    <Preview>
+      <Preview.Canvas>
+        <TooltipPreviewCanvas side={side} label={label} />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Side" htmlFor="tooltip-preview-side">
+          <Preview.Select
+            id="tooltip-preview-side"
+            label="Side"
+            options={PREVIEW_SIDES}
+            value={side}
+            onValueChange={(value) => setSide(value as (typeof PREVIEW_SIDES)[number])}
+          />
+        </Preview.Control>
+        <Preview.Control label="Label" htmlFor="tooltip-preview-label">
+          <Preview.Text
+            id="tooltip-preview-label"
+            label="Label"
+            value={label}
+            onValueChange={setLabel}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }
 
@@ -535,17 +573,7 @@ function TooltipDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ComponentPlayground<PlaygroundValues>
-          defaultValues={{
-            side: "top",
-            label: "Add reaction",
-          }}
-          controls={[
-            { name: "side", label: "Side", type: "select", options: PREVIEW_SIDES },
-            { name: "label", label: "Label", type: "text" },
-          ]}
-          render={(values) => <TooltipPlaygroundPreview {...values} />}
-        />
+        <TooltipPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -564,130 +592,154 @@ function TooltipDoc() {
             tooltip trees in TooltipProvider once near the app or page root.
           </DocNote>
           <DocSubsection parentId="usage" id="action-cluster" title="Action cluster">
-            <Example html={code.usageActions}>
-              <ActionClusterExample />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <ActionClusterExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.usageActions} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="status-hint" title="Status hint">
-            <Example html={code.usageStatus}>
-              <TooltipExample content="Agent is thinking">
-                {(triggerId) => (
-                  <TooltipTrigger
-                    id={triggerId}
-                    render={
-                      <span
-                        tabIndex={0}
-                        aria-label="Agent is thinking"
-                        className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
-                      />
-                    }
-                  >
-                    <Status variant="primary" pulse aria-hidden />
-                    Thinking
-                  </TooltipTrigger>
-                )}
-              </TooltipExample>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <TooltipExample content="Agent is thinking">
+                  {(triggerId) => (
+                    <TooltipTrigger
+                      id={triggerId}
+                      render={
+                        <span
+                          tabIndex={0}
+                          aria-label="Agent is thinking"
+                          className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
+                        />
+                      }
+                    >
+                      <Status variant="primary" pulse aria-hidden />
+                      Thinking
+                    </TooltipTrigger>
+                  )}
+                </TooltipExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageStatus} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="icon-content" title="Icon content">
-            <Example html={code.usageIconContent}>
-              <TooltipExample
-                content={
-                  <>
-                    <Info aria-hidden />
-                    Only admins can change this
-                  </>
-                }
-              >
-                {(triggerId) => (
-                  <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
-                    Permission
-                  </TooltipTrigger>
-                )}
-              </TooltipExample>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <TooltipExample
+                  content={
+                    <>
+                      <Info aria-hidden />
+                      Only admins can change this
+                    </>
+                  }
+                >
+                  {(triggerId) => (
+                    <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
+                      Permission
+                    </TooltipTrigger>
+                  )}
+                </TooltipExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageIconContent} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="long-text" title="Long text">
-            <Example html={code.usageLongText}>
-              <TooltipExample
-                open
-                frameClassName="min-h-56 px-10 py-20"
-                content="packages/web/src/components/message/MessageItem.tsx:695"
-              >
-                {(triggerId) => (
-                  <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
-                    Source path
-                  </TooltipTrigger>
-                )}
-              </TooltipExample>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <TooltipExample
+                  open
+                  frameClassName="min-h-56 px-10 py-20"
+                  content="packages/web/src/components/message/MessageItem.tsx:695"
+                >
+                  {(triggerId) => (
+                    <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
+                      Source path
+                    </TooltipTrigger>
+                  )}
+                </TooltipExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageLongText} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="long-text-with-icon" title="Long text with icon">
-            <Example html={code.usageLongIconContent}>
-              <TooltipExample
-                open
-                frameClassName="min-h-56 px-10 py-20"
-                content={
-                  <>
-                    <Info aria-hidden />
-                    packages/web/src/components/message/MessageItem.tsx:695
-                  </>
-                }
-              >
-                {(triggerId) => (
-                  <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
-                    Source path
-                  </TooltipTrigger>
-                )}
-              </TooltipExample>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <TooltipExample
+                  open
+                  frameClassName="min-h-56 px-10 py-20"
+                  content={
+                    <>
+                      <Info aria-hidden />
+                      packages/web/src/components/message/MessageItem.tsx:695
+                    </>
+                  }
+                >
+                  {(triggerId) => (
+                    <TooltipTrigger id={triggerId} render={<Button variant="outline" size="sm" />}>
+                      Source path
+                    </TooltipTrigger>
+                  )}
+                </TooltipExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageLongIconContent} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="timestamp-detail" title="Timestamp detail">
-            <Example html={code.usageTimestamp}>
-              <TooltipExample content="Jun 23, 2026, 09:30">
-                {(triggerId) => (
-                  <TooltipTrigger
-                    id={triggerId}
-                    render={
-                      <time
-                        dateTime="2026-06-23T09:30:00+08:00"
-                        tabIndex={0}
-                        className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
-                      />
-                    }
-                  >
-                    Today at 09:30
-                  </TooltipTrigger>
-                )}
-              </TooltipExample>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <TooltipExample content="Jun 23, 2026, 09:30">
+                  {(triggerId) => (
+                    <TooltipTrigger
+                      id={triggerId}
+                      render={
+                        <time
+                          dateTime="2026-06-23T09:30:00+08:00"
+                          tabIndex={0}
+                          className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
+                        />
+                      }
+                    >
+                      Today at 09:30
+                    </TooltipTrigger>
+                  )}
+                </TooltipExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageTimestamp} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="shortcut-hint" title="Shortcut hint">
-            <Example html={code.usageShortcut}>
-              <TooltipExample
-                content={
-                  <>
-                    Open command menu
-                    <Kbd>Cmd K</Kbd>
-                  </>
-                }
-              >
-                {(triggerId) => (
-                  <TooltipTrigger
-                    id={triggerId}
-                    render={<Button variant="ghost" size="icon-sm" aria-label="Shortcut help" />}
-                  >
-                    <Info />
-                  </TooltipTrigger>
-                )}
-              </TooltipExample>
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <TooltipExample
+                  content={
+                    <>
+                      Open command menu
+                      <Kbd>Cmd K</Kbd>
+                    </>
+                  }
+                >
+                  {(triggerId) => (
+                    <TooltipTrigger
+                      id={triggerId}
+                      render={<Button variant="ghost" size="icon-sm" aria-label="Shortcut help" />}
+                    >
+                      <Info />
+                    </TooltipTrigger>
+                  )}
+                </TooltipExample>
+              </Preview.Canvas>
+              <Preview.Code html={code.usageShortcut} />
+            </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="arrow-placement" title="Arrow placement">
             <DocNote>Brutal renders tooltip hints without arrows.</DocNote>
-            <Example html={code.usagePlacement}>
-              <ArrowPlacementExample />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <ArrowPlacementExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.usagePlacement} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

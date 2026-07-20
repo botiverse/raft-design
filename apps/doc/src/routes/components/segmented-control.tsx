@@ -6,7 +6,7 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { Example } from "#/components/example.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SegmentedControlDisabledComposition } from "#/modules/segmented-control/compositions/disabled.composition.tsx";
 import { SegmentedControlFiltersComposition } from "#/modules/segmented-control/compositions/filters.composition.tsx";
@@ -156,9 +156,12 @@ function SegmentedControlDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Example html={code.filters}>
-          <SegmentedControlFiltersExample />
-        </Example>
+        <Preview>
+          <Preview.Canvas>
+            <SegmentedControlFiltersExample />
+          </Preview.Canvas>
+          <Preview.Code html={code.filters} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -177,33 +180,48 @@ function SegmentedControlDoc() {
             intentional.
           </DocNote>
           <DocSubsection parentId="usage" id="filters-with-counts" title="Filters with counts">
-            <Example html={code.filters}>
-              <SegmentedControlFiltersExample />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <SegmentedControlFiltersExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.filters} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="view-mode" title="View mode">
-            <Example html={code.viewMode}>
-              <SegmentedControlViewModeExample />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <SegmentedControlViewModeExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.viewMode} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="search-sort" title="Search sort">
-            <Example html={code.searchSort}>
-              <SegmentedControlSearchSortExample />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <SegmentedControlSearchSortExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.searchSort} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="preference-choice" title="Preference choice">
-            <Example html={code.preferences}>
-              <SegmentedControlTimeFormatExample />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <SegmentedControlTimeFormatExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.preferences} />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="disabled-state" title="Disabled state">
-            <Example html={code.disabled}>
-              <SegmentedControlDisabledComposition />
-            </Example>
+            <Preview>
+              <Preview.Canvas>
+                <SegmentedControlDisabledComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.disabled} />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

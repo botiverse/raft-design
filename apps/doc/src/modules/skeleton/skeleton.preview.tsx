@@ -1,31 +1,42 @@
+import { useState, type ReactNode } from "react";
 import { Skeleton, type SkeletonProps } from "raft-ui";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { VARIANTS } from "./skeleton.constants.ts";
 
-type PlaygroundValues = {
-  variant: NonNullable<SkeletonProps["variant"]>;
+type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type SkeletonPlaygroundPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
 };
 
-export function SkeletonPlaygroundPreview() {
+export function SkeletonPlaygroundPreview({ code, collapsedCode }: SkeletonPlaygroundPreviewProps) {
+  const [variant, setVariant] = useState<NonNullable<SkeletonProps["variant"]>>("line");
+
   return (
-    <ComponentPlayground<PlaygroundValues>
-      defaultValues={{ variant: "line" }}
-      controls={[{ name: "variant", label: "Variant", type: "select", options: VARIANTS }]}
-      render={(values) => (
+    <Preview>
+      <Preview.Canvas>
         <div className="flex min-h-20 items-center justify-center">
           <Skeleton
-            variant={values.variant}
-            className={
-              values.variant === "line"
-                ? "w-44"
-                : values.variant === "circle"
-                  ? "size-10"
-                  : "size-12"
-            }
+            variant={variant}
+            className={variant === "line" ? "w-44" : variant === "circle" ? "size-10" : "size-12"}
           />
         </div>
-      )}
-    />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Variant" htmlFor="skeleton-preview-variant">
+          <Preview.Select
+            id="skeleton-preview-variant"
+            label="Variant"
+            options={VARIANTS}
+            value={variant}
+            onValueChange={(value) => setVariant(value as NonNullable<SkeletonProps["variant"]>)}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }

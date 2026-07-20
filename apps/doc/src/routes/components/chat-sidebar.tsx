@@ -11,6 +11,7 @@ import { ChatSidebarComposition } from "#/modules/chat-sidebar/chat-sidebar.comp
 import { ChatSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.preview.tsx";
 import { SourceSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.source-preview.tsx";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
+import chatSidebarPreviewCompositionSource from "#/modules/chat-sidebar/compositions/preview.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_SIDEBAR_COMPOSITION_PATH =
@@ -25,6 +26,7 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
+  chatSidebarPreviewComposition: chatSidebarPreviewCompositionSource,
   anatomy: `<ChatSidebarRoot>
   <ChatSidebarHeader>
     <ChatSidebarHeaderTitle />
@@ -284,7 +286,10 @@ function ChatSidebarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ChatSidebarPreview />
+        <ChatSidebarPreview
+          code={code.chatSidebarPreviewComposition}
+          collapsedCode={code.chatSidebarPreviewCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

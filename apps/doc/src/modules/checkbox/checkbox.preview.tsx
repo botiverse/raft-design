@@ -1,42 +1,80 @@
+import { useState, type ReactNode } from "react";
 import { Checkbox, type CheckboxProps } from "raft-ui";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
-import { ComponentPlayground } from "#/components/component-playground.tsx";
+import { Preview } from "#/components/preview.tsx";
 import { SIZES, VARIANTS } from "./checkbox.constants.ts";
 
-type PlaygroundValues = {
-  size: NonNullable<CheckboxProps["size"]>;
-  variant: NonNullable<CheckboxProps["variant"]>;
-  checked: boolean;
-  indeterminate: boolean;
-  disabled: boolean;
+type CodeContent = ReactNode | AnyRenderableServerComponent;
+
+type CheckboxPlaygroundPreviewProps = {
+  code: CodeContent;
+  collapsedCode?: CodeContent;
 };
 
-export function CheckboxPlaygroundPreview() {
+export function CheckboxPlaygroundPreview({ code, collapsedCode }: CheckboxPlaygroundPreviewProps) {
+  const [size, setSize] = useState<NonNullable<CheckboxProps["size"]>>("sm");
+  const [variant, setVariant] = useState<NonNullable<CheckboxProps["variant"]>>("default");
+  const [checked, setChecked] = useState(true);
+  const [indeterminate, setIndeterminate] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
   return (
-    <ComponentPlayground<PlaygroundValues>
-      defaultValues={{
-        size: "sm",
-        variant: "default",
-        checked: true,
-        indeterminate: false,
-        disabled: false,
-      }}
-      controls={[
-        { name: "size", label: "Size", type: "select", options: SIZES },
-        { name: "variant", label: "Variant", type: "select", options: VARIANTS },
-        { name: "checked", label: "Checked", type: "boolean" },
-        { name: "indeterminate", label: "Indeterminate", type: "boolean" },
-        { name: "disabled", label: "Disabled", type: "boolean" },
-      ]}
-      render={(values) => (
+    <Preview>
+      <Preview.Canvas>
         <Checkbox
-          size={values.size}
-          variant={values.variant}
-          checked={values.checked}
-          indeterminate={values.indeterminate}
-          disabled={values.disabled}
+          size={size}
+          variant={variant}
+          checked={checked}
+          indeterminate={indeterminate}
+          disabled={disabled}
         />
-      )}
-    />
+      </Preview.Canvas>
+      <Preview.Controls>
+        <Preview.Control label="Size" htmlFor="checkbox-preview-size">
+          <Preview.Select
+            id="checkbox-preview-size"
+            label="Size"
+            options={SIZES}
+            value={size}
+            onValueChange={(value) => setSize(value as NonNullable<CheckboxProps["size"]>)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Variant" htmlFor="checkbox-preview-variant">
+          <Preview.Select
+            id="checkbox-preview-variant"
+            label="Variant"
+            options={VARIANTS}
+            value={variant}
+            onValueChange={(value) => setVariant(value as NonNullable<CheckboxProps["variant"]>)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Checked" htmlFor="checkbox-preview-checked">
+          <Preview.Checkbox
+            id="checkbox-preview-checked"
+            label="Checked"
+            checked={checked}
+            onCheckedChange={setChecked}
+          />
+        </Preview.Control>
+        <Preview.Control label="Indeterminate" htmlFor="checkbox-preview-indeterminate">
+          <Preview.Checkbox
+            id="checkbox-preview-indeterminate"
+            label="Indeterminate"
+            checked={indeterminate}
+            onCheckedChange={setIndeterminate}
+          />
+        </Preview.Control>
+        <Preview.Control label="Disabled" htmlFor="checkbox-preview-disabled">
+          <Preview.Checkbox
+            id="checkbox-preview-disabled"
+            label="Disabled"
+            checked={disabled}
+            onCheckedChange={setDisabled}
+          />
+        </Preview.Control>
+      </Preview.Controls>
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+    </Preview>
   );
 }
