@@ -84,6 +84,7 @@ interface ComposerSuggestionsListInternalProps {
 
 interface ComposerSuggestionsOptionInternalProps {
   "aria-disabled": boolean;
+  "aria-selected": boolean;
   "data-disabled": boolean;
   "data-composer-suggestion-index": number;
   "data-highlighted": boolean;
@@ -315,11 +316,13 @@ export function useComposerSuggestions<TItem extends object>({
     index: number,
     props: ComposerSuggestionsOptionProps = {},
   ): ComposerSuggestionsOptionInternalProps & ComposerSuggestionsOptionProps => {
+    const highlighted = index === highlightedIndex;
     const internalProps: ComposerSuggestionsOptionInternalProps = {
       "aria-disabled": isItemDisabled(item),
+      "aria-selected": highlighted,
       "data-disabled": isItemDisabled(item),
       "data-composer-suggestion-index": index,
-      "data-highlighted": index === highlightedIndex,
+      "data-highlighted": highlighted,
       id: `${listId}-option-${index}`,
       role: "option",
       onClick: () => select(item),
