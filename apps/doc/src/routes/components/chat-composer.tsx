@@ -81,7 +81,7 @@ const SNIPPETS = {
   dropOverlay: composerDropOverlaySource,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_COMPOSER_PROPS: readonly PropRow[] = [
   {
     name: "ComposerRoot",
     type: "form props",
@@ -98,6 +98,9 @@ const PROPS: readonly PropRow[] = [
     type: "textarea props",
     description: "Auto-growing message textarea.",
   },
+];
+
+const TOOLBAR_PROPS: readonly PropRow[] = [
   {
     name: "ComposerToolbar",
     type: "div props",
@@ -129,6 +132,9 @@ const PROPS: readonly PropRow[] = [
     type: "label props",
     description: "A labelled checkbox or status cluster with theme-aware spacing and typography.",
   },
+];
+
+const ATTACHMENT_PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachments",
     type: "div props",
@@ -184,6 +190,9 @@ const PROPS: readonly PropRow[] = [
     type: "button props",
     description: "Corner remove affordance.",
   },
+];
+
+const DROP_OVERLAY_PROPS: readonly PropRow[] = [
   {
     name: "ComposerDropOverlay",
     type: "div props",
@@ -283,7 +292,20 @@ function ChatComposerDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root-composer" title="Root and composer">
+            <PropsTable rows={ROOT_COMPOSER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-toolbar" title="Toolbar">
+            <PropsTable rows={TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-attachments" title="Attachments">
+            <PropsTable rows={ATTACHMENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-drop-overlay" title="Drop overlay">
+            <PropsTable rows={DROP_OVERLAY_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

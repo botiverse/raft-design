@@ -693,23 +693,19 @@ function TooltipDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="space-y-8">
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">TooltipProvider props</h3>
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-provider" title="TooltipProvider">
             <PropsTable rows={TOOLTIP_PROVIDER_PROPS} />
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Tooltip props</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-root" title="Tooltip">
             <PropsTable rows={TOOLTIP_ROOT_PROPS} />
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">TooltipTrigger props</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="TooltipTrigger">
             <PropsTable rows={TOOLTIP_TRIGGER_PROPS} />
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">TooltipContent props</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="TooltipContent">
             <PropsTable rows={TOOLTIP_CONTENT_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
     </DocPage>

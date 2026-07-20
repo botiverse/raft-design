@@ -100,17 +100,23 @@ const SNIPPETS = {
 </AlertDialog>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "AlertDialog",
     type: "Base UI Dialog.Root.Props",
     description: "Owns modal state for destructive or irreversible confirmation flows.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "AlertDialogTrigger",
     type: "Base UI Dialog.Trigger.Props",
     description: "Opens the alert dialog. Compose a Button through render.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "AlertDialogContent",
     type: "Base UI Dialog.Popup.Props",
@@ -121,6 +127,9 @@ const PROPS: readonly PropRow[] = [
     type: "false | AlertDialogOverlayProps",
     description: "Pass false for framed previews; otherwise renders the themed backdrop.",
   },
+];
+
+const ACTION_PROPS: readonly PropRow[] = [
   {
     name: "AlertDialogAction",
     type: "ButtonProps",
@@ -384,7 +393,20 @@ function AlertDialogDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="AlertDialog root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-actions" title="Actions">
+            <PropsTable rows={ACTION_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

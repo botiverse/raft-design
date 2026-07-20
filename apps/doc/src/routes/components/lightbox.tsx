@@ -247,24 +247,33 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "Lightbox",
     type: "Base UI Dialog.Root props",
     description:
       "Owns open state, modal behavior, Escape, pointer dismissal, and the optional Mod+W close helper.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "LightboxTrigger",
     type: "Base UI Dialog.Trigger props",
     description: "Opens the lightbox. Compose Button through render for visible triggers.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "LightboxContent",
     type: "Base UI Dialog.Popup props",
     description:
       "Renders Portal, Backdrop, and Popup. Defaults initialFocus/finalFocus to false for preview-like surfaces.",
   },
+];
+
+const LAYOUT_PROPS: readonly PropRow[] = [
   {
     name: "LightboxHeader / LightboxActions / LightboxStage / LightboxMedia / LightboxNavigationButton / LightboxInfoBar",
     type: "div props",
@@ -333,7 +342,20 @@ function LightboxDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Lightbox root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-layout" title="Layout parts">
+            <PropsTable rows={LAYOUT_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

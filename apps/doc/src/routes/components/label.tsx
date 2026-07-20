@@ -311,16 +311,16 @@ function LabelDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Label</h3>
+          <DocSubsection parentId="api" id="api-root" title="Label">
             <PropsTable rows={LABEL_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">
-              LabelAsterisk / LabelOptional / LabelSub
-            </h3>
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-markers"
+            title="LabelAsterisk / LabelOptional / LabelSub"
+          >
             <PropsTable rows={MARKER_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

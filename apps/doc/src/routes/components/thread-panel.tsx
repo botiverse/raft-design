@@ -6,7 +6,7 @@ import { Badge } from "raft-ui";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -85,7 +85,7 @@ const SNIPPETS = {
 </ThreadPanelRoot>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_HEADER_PROPS: readonly PropRow[] = [
   {
     name: "ThreadPanelRoot",
     type: "section props",
@@ -113,15 +113,18 @@ const PROPS: readonly PropRow[] = [
     description: "Action cluster for header or search controls.",
   },
   {
-    name: "ThreadPanelContent",
-    type: "div props",
-    description: "Thread surface below the header, including search, messages, and composer slots.",
-  },
-  {
     name: "PanelAction",
     type: "button props",
     description:
       "Panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
+  },
+];
+
+const SEARCH_PROPS: readonly PropRow[] = [
+  {
+    name: "ThreadPanelContent",
+    type: "div props",
+    description: "Thread surface below the header, including search, messages, and composer slots.",
   },
   {
     name: "ThreadPanelSearch",
@@ -134,6 +137,9 @@ const PROPS: readonly PropRow[] = [
     type: "div props",
     description: "Match-count region in the thread search row.",
   },
+];
+
+const MESSAGE_PROPS: readonly PropRow[] = [
   {
     name: "ThreadPanelOriginalMessage",
     type: "div props",
@@ -150,12 +156,6 @@ const PROPS: readonly PropRow[] = [
     description: "Scrollable message body.",
   },
   {
-    name: "ThreadPanelFooter",
-    type: "div props",
-    description:
-      "Optional composer/footer boundary. Override --panel-footer-clearance on the root for a custom composer height.",
-  },
-  {
     name: "MessageListDateDivider",
     type: "div props",
     description: "Day-boundary marker in the message list.",
@@ -170,6 +170,15 @@ const PROPS: readonly PropRow[] = [
     type: "MessageItem props",
     description:
       "Message row variant that highlights the active in-thread search match. Caller-owned like MessageItem.",
+  },
+];
+
+const FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "ThreadPanelFooter",
+    type: "div props",
+    description:
+      "Optional composer/footer boundary. Override --panel-footer-clearance on the root for a custom composer height.",
   },
 ];
 
@@ -219,7 +228,20 @@ function ThreadPanelDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root-header" title="Root and header">
+            <PropsTable rows={ROOT_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-search" title="Content and search">
+            <PropsTable rows={SEARCH_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-messages" title="Messages">
+            <PropsTable rows={MESSAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer" title="Footer">
+            <PropsTable rows={FOOTER_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

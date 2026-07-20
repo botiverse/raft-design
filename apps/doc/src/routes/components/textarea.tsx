@@ -410,18 +410,15 @@ function TextareaDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Textarea</h3>
+          <DocSubsection parentId="api" id="api-root" title="Textarea">
             <PropsTable rows={PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">TextareaGroup</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-group" title="TextareaGroup">
             <PropsTable rows={GROUP_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">TextareaCounter</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-counter" title="TextareaCounter">
             <PropsTable rows={COUNTER_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

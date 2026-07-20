@@ -493,30 +493,62 @@ function ProfilePreviewMenu() {
   );
 }
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenu",
     type: "Base UI Menu.Root.Props",
     description: "Owns open state, focus, Escape, outside press, and menu dismissal.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenuTrigger",
     type: "Base UI Menu.Trigger.Props",
     description:
       "Button-like trigger. Defaults to an outline md Button; pass render for a custom control.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenuContent",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled card shell. Defaults to side=bottom, align=start, sideOffset=4, disableAnchorTracking=false, and positionMethod=fixed.",
   },
+];
+
+const ITEM_PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenuItem",
     type: "Base UI Menu.Item.Props",
     description:
       "Source server-switcher row styling with keyboard highlight. Compose special rows with className.",
   },
+  {
+    name: "DropdownMenuLabel",
+    type: "div props",
+    description: "Non-interactive section label composed inside DropdownMenuContent.",
+  },
+  {
+    name: "DropdownMenuShortcut",
+    type: "Kbd props",
+    description: "Right-aligned keyboard hint composed inside DropdownMenuItem.",
+  },
+  {
+    name: "DropdownMenuItemCount",
+    type: "Badge props",
+    description: "Right-aligned count chip composed from Badge with its default state.",
+  },
+  {
+    name: "DropdownMenuSeparator",
+    type: "Base UI Separator.Props",
+    description: "Source server-switcher divider styling as the separator part.",
+  },
+];
+
+const SELECTION_PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenuRadioGroup",
     type: "Base UI Menu.RadioGroup.Props",
@@ -547,11 +579,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Lower-level indicator for custom composition (e.g. switch visuals). Renders children only when the parent checkbox item is checked. Use keepMounted to preserve layout when unchecked.",
   },
-  {
-    name: "DropdownMenuLabel",
-    type: "div props",
-    description: "Non-interactive section label composed inside DropdownMenuContent.",
-  },
+];
+
+const SUBMENU_PROPS: readonly PropRow[] = [
   {
     name: "DropdownMenuSubmenu",
     type: "Base UI Menu.SubmenuRoot.Props",
@@ -561,21 +591,6 @@ const PROPS: readonly PropRow[] = [
     name: "DropdownMenuSubmenuTrigger",
     type: "Base UI Menu.SubmenuTrigger.Props",
     description: "Item-like trigger that opens a nested DropdownMenuContent.",
-  },
-  {
-    name: "DropdownMenuShortcut",
-    type: "Kbd props",
-    description: "Right-aligned keyboard hint composed inside DropdownMenuItem.",
-  },
-  {
-    name: "DropdownMenuItemCount",
-    type: "Badge props",
-    description: "Right-aligned count chip composed from Badge with its default state.",
-  },
-  {
-    name: "DropdownMenuSeparator",
-    type: "Base UI Separator.Props",
-    description: "Source server-switcher divider styling as the separator part.",
   },
 ];
 
@@ -682,7 +697,26 @@ function DropdownMenuDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="DropdownMenu root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-items" title="Items">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-selection" title="Selection items">
+            <PropsTable rows={SELECTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-submenu" title="Submenu">
+            <PropsTable rows={SUBMENU_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

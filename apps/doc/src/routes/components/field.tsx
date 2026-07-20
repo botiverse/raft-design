@@ -273,13 +273,16 @@ const SNIPPETS = {
 </Field>`,
 } as const;
 
-const FIELD_PROPS: readonly PropRow[] = [
+const FIELD_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "Field",
     type: "Base UI Field.Root",
     description:
       "Stacks label, control, helper text, and error. Pass invalid for externally controlled errors.",
   },
+];
+
+const FIELD_PART_PROPS: readonly PropRow[] = [
   {
     name: "FieldLabel",
     type: "Base UI Field.Label",
@@ -481,7 +484,14 @@ function FieldDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={FIELD_PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Field root">
+            <PropsTable rows={FIELD_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Parts">
+            <PropsTable rows={FIELD_PART_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">
