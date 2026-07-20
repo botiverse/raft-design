@@ -35,29 +35,32 @@ const TOC = [
 const ANATOMY_SNIPPET = `<div className="relative">
   <ComposerRoot>
     <ComposerAttachments>
-      <ComposerAttachment>
-        <ComposerAttachmentImage />
-        <ComposerAttachmentUploadingOverlay>
-          <Spinner />
-          64%
-        </ComposerAttachmentUploadingOverlay>
-        <ComposerAttachmentUploadProgressBar value={64} />
-        <ComposerAttachmentRemove />
-      </ComposerAttachment>
-      <ComposerAttachment>
-        <ComposerAttachmentFile>
-          <ComposerAttachmentBody>
-            <ComposerAttachmentTitle />
-            <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-          </ComposerAttachmentBody>
+      {/* optional single-row scroller with prev/next arrows */}
+      <ComposerAttachmentsScrollArea>
+        <ComposerAttachment>
+          <ComposerAttachmentImage />
           <ComposerAttachmentUploadingOverlay>
             <Spinner />
             64%
           </ComposerAttachmentUploadingOverlay>
           <ComposerAttachmentUploadProgressBar value={64} />
-        </ComposerAttachmentFile>
-        <ComposerAttachmentRemove />
-      </ComposerAttachment>
+          <ComposerAttachmentRemove />
+        </ComposerAttachment>
+        <ComposerAttachment>
+          <ComposerAttachmentFile>
+            <ComposerAttachmentBody>
+              <ComposerAttachmentTitle />
+              <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+            </ComposerAttachmentBody>
+            <ComposerAttachmentUploadingOverlay>
+              <Spinner />
+              64%
+            </ComposerAttachmentUploadingOverlay>
+            <ComposerAttachmentUploadProgressBar value={64} />
+          </ComposerAttachmentFile>
+          <ComposerAttachmentRemove />
+        </ComposerAttachment>
+      </ComposerAttachmentsScrollArea>
     </ComposerAttachments>
     <Composer>
       <ComposerInput />

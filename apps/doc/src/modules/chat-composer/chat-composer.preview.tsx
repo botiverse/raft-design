@@ -4,6 +4,8 @@ import { Checkbox } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
   ComposerActions,
+  ComposerAttachments,
+  ComposerAttachmentsScrollArea,
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
   ComposerIconButton,
@@ -24,9 +26,28 @@ type ChatComposerPreviewProps = {
   collapsedCode?: CodeContent;
 };
 
+const PREVIEW_IMAGE_STATES = ["uploaded", "uploading", "failed"] as const;
+const PREVIEW_FILE_STATES = [
+  "uploaded",
+  "uploading",
+  "failed",
+  "uploaded",
+  "uploaded",
+  "uploaded",
+] as const;
+
 export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreviewProps) {
   const [draft, setDraft] = useState("");
   const [dropOverlay, setDropOverlay] = useState(false);
+  const [attachmentsScroll, setAttachmentsScroll] = useState(false);
+
+  const attachments = (
+    <ComposerAttachmentsComposition
+      wrap={!attachmentsScroll}
+      imageStates={PREVIEW_IMAGE_STATES}
+      fileStates={PREVIEW_FILE_STATES}
+    />
+  );
 
   return (
     <Preview previewClassName="items-stretch">
@@ -34,10 +55,13 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
         <div className="flex min-h-[22rem] w-full min-w-0 flex-col justify-end px-2">
           <div className="relative w-full">
             <ComposerRoot>
-              <ComposerAttachmentsComposition
-                imageStates={["uploaded", "uploading", "failed"]}
-                fileStates={["uploaded", "uploading", "failed", "uploaded", "uploaded", "uploaded"]}
-              />
+              {attachmentsScroll ? (
+                <ComposerAttachments>
+                  <ComposerAttachmentsScrollArea>{attachments}</ComposerAttachmentsScrollArea>
+                </ComposerAttachments>
+              ) : (
+                attachments
+              )}
               <Composer>
                 <ComposerInput
                   aria-label="Message #proj-uiux"
@@ -76,6 +100,16 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
         </div>
       </Preview.Canvas>
       <Preview.Controls>
+        <Preview.ControlGroup label="Attachments">
+          <Preview.Control label="Scroll area" htmlFor="composer-preview-attachments-scroll">
+            <Preview.Checkbox
+              id="composer-preview-attachments-scroll"
+              label="Scroll area"
+              checked={attachmentsScroll}
+              onCheckedChange={setAttachmentsScroll}
+            />
+          </Preview.Control>
+        </Preview.ControlGroup>
         <Preview.ControlGroup label="Feedback">
           <Preview.Control label="Drop overlay" htmlFor="composer-preview-drop-overlay">
             <Preview.Checkbox
