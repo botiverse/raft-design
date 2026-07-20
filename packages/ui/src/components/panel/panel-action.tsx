@@ -7,7 +7,13 @@ import { panelAction } from "./panel-action.recipe";
 
 export type PanelActionProps = Omit<StyledProps<BaseButton.Props>, "type">;
 
-export function PanelAction({ className, render, nativeButton, ...props }: PanelActionProps) {
+export function PanelAction({
+  className,
+  render,
+  nativeButton,
+  "aria-haspopup": ariaHasPopup,
+  ...props
+}: PanelActionProps) {
   const theme = useThemeFamily();
 
   return (
@@ -17,6 +23,8 @@ export function PanelAction({ className, render, nativeButton, ...props }: Panel
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
       data-slot="panel-action"
+      aria-haspopup={ariaHasPopup}
+      {...(ariaHasPopup != null && ariaHasPopup !== false ? { "data-has-popup": "" as const } : {})}
       className={panelAction({ theme, className })}
     />
   );

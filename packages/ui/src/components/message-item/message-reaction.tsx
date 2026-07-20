@@ -9,14 +9,19 @@ import {
 } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
-import { type SlotElementProps } from "../../lib/data-attributes";
+import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
 
 export type MessageReactionChipProps = useRender.ComponentProps<"button">;
 
-export function MessageReactionChip({ className, render, ...props }: MessageReactionChipProps) {
+export function MessageReactionChip({
+  className,
+  render,
+  "aria-pressed": ariaPressed,
+  ...props
+}: MessageReactionChipProps) {
   const theme = useThemeFamily();
   const { chip } = messageReaction({ theme });
-  const defaultProps: useRender.ElementProps<"button"> = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     className: chip({ className }),
   };
@@ -24,7 +29,10 @@ export function MessageReactionChip({ className, render, ...props }: MessageReac
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, props, {
+      "aria-pressed": ariaPressed,
+      ...(isAriaTrue(ariaPressed) ? { "data-pressed": dataPresence(true) } : {}),
+    }),
     state: {
       slot: "message-reaction-chip",
     },

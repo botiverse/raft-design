@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
@@ -34,11 +35,12 @@ export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button">;
 export function MessageItemToolbarButton({
   className,
   render,
+  "aria-pressed": ariaPressed,
   ...props
 }: MessageItemToolbarButtonProps) {
   const theme = useThemeFamily();
   const { toolbarButton } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     className: toolbarButton({ className }),
   };
@@ -46,7 +48,10 @@ export function MessageItemToolbarButton({
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, props, {
+      "aria-pressed": ariaPressed,
+      ...(isAriaTrue(ariaPressed) ? { "data-pressed": dataPresence(true) } : {}),
+    }),
     state: {
       slot: "message-item-toolbar-button",
     },
@@ -55,10 +60,15 @@ export function MessageItemToolbarButton({
 
 export type MessageItemSaveButtonProps = MessageItemToolbarButtonProps;
 
-export function MessageItemSaveButton({ className, render, ...props }: MessageItemSaveButtonProps) {
+export function MessageItemSaveButton({
+  className,
+  render,
+  "aria-pressed": ariaPressed,
+  ...props
+}: MessageItemSaveButtonProps) {
   const theme = useThemeFamily();
   const { saveButton, toolbarButton } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> = {
+  const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     className: toolbarButton({ className: saveButton({ className }) }),
   };
@@ -66,7 +76,10 @@ export function MessageItemSaveButton({ className, render, ...props }: MessageIt
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, props, {
+      "aria-pressed": ariaPressed,
+      ...(isAriaTrue(ariaPressed) ? { "data-pressed": dataPresence(true) } : {}),
+    }),
     state: {
       slot: "message-item-save-button",
     },

@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import {
   Group as ResizableGroupPrimitive,
   Panel as ResizablePanelPrimitive,
@@ -8,6 +9,10 @@ import {
 } from "react-resizable-panels";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { resizable } from "./resizable.recipe";
+
+type ResizableOrientation = NonNullable<ResizableGroupPrimitiveProps["orientation"]>;
+
+const ResizableOrientationContext = createContext<ResizableOrientation>("horizontal");
 
 export type ResizableGroupProps = Omit<ResizableGroupPrimitiveProps, "className"> & {
   className?: string;
@@ -21,12 +26,15 @@ export function ResizableGroup({
   const { group } = resizable();
 
   return (
-    <ResizableGroupPrimitive
-      data-slot="resizable-group"
-      orientation={orientation}
-      className={group({ className })}
-      {...props}
-    />
+    <ResizableOrientationContext.Provider value={orientation}>
+      <ResizableGroupPrimitive
+        data-slot="resizable-group"
+        data-orientation={orientation}
+        orientation={orientation}
+        className={group({ className })}
+        {...props}
+      />
+    </ResizableOrientationContext.Provider>
   );
 }
 
@@ -53,10 +61,14 @@ export type ResizableHandleProps = Omit<ResizableHandlePrimitiveProps, "classNam
 export function ResizableHandle({ className, ...props }: ResizableHandleProps) {
   const theme = useThemeFamily();
   const { handle } = resizable({ theme });
+  const groupOrientation = useContext(ResizableOrientationContext);
+  // Match react-resizable-panels: handle aria/data orientation is inverted from the group.
+  const handleOrientation = groupOrientation === "horizontal" ? "vertical" : "horizontal";
 
   return (
     <ResizableHandlePrimitive
       data-slot="resizable-handle"
+      data-orientation={handleOrientation}
       className={handle({ className })}
       {...props}
     />

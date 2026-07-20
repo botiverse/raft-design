@@ -4,7 +4,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const skeleton = tv({
   slots: {
-    root: ["animate-pulse", "aria-hidden:pointer-events-none"],
+    root: ["animate-pulse", "pointer-events-none"],
   },
   variants: {
     theme: {

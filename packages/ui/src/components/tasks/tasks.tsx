@@ -1,6 +1,7 @@
 import { Collapsible } from "@base-ui/react/collapsible";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentProps } from "react";
+import { dataPresence, isAriaTrue } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import {
   ComboboxClear,
@@ -116,12 +117,18 @@ export function TaskLoadingLines(props: TaskLoadingLinesProps) {
 }
 
 export type TaskFilterTriggerProps = SlotProps<"button"> & { busy?: boolean };
-export function TaskFilterTrigger({ busy = false, ...props }: TaskFilterTriggerProps) {
+export function TaskFilterTrigger({
+  busy = false,
+  "aria-pressed": ariaPressed,
+  ...props
+}: TaskFilterTriggerProps) {
   const slotProps = {
     type: "button",
     "aria-busy": busy || undefined,
     "data-busy": busy ? "true" : undefined,
     ...props,
+    "aria-pressed": ariaPressed,
+    ...(isAriaTrue(ariaPressed) ? { "data-pressed": dataPresence(true) } : {}),
   } as TaskFilterTriggerProps;
   return useTaskSlot("filterTrigger", "task-filter-trigger", "button", slotProps);
 }

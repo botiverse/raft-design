@@ -76,11 +76,10 @@ export const messageItem = tv({
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
-          "aria-[pressed=true]:text-black aria-[pressed=true]:hover:text-black",
+          "data-[pressed]:text-black data-[pressed]:hover:text-black",
           "[&_svg]:size-[13px]",
         ],
-        saveButton:
-          "aria-[pressed=true]:text-brutal-orange aria-[pressed=true]:hover:text-brutal-orange",
+        saveButton: "data-[pressed]:text-brutal-orange data-[pressed]:hover:text-brutal-orange",
       },
       elegant: {
         root: [
@@ -126,7 +125,7 @@ export const messageItem = tv({
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent !p-0",
           "text-foreground-icon hover:bg-layer-strong/80 hover:text-foreground",
-          "aria-[pressed=true]:text-primary-400 aria-[pressed=true]:hover:text-primary-400",
+          "data-[pressed]:text-primary-400 data-[pressed]:hover:text-primary-400",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
         ],
