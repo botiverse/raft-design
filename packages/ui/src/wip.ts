@@ -37,6 +37,7 @@ export type {
 
 export {
   ComposerAttachments,
+  ComposerAttachmentsScrollArea,
   ComposerAttachment,
   ComposerAttachmentFile,
   ComposerAttachmentImage,
@@ -72,6 +73,7 @@ export {
 } from "./components/composer/index";
 export type {
   ComposerAttachmentsProps,
+  ComposerAttachmentsScrollAreaProps,
   ComposerAttachmentProps,
   ComposerAttachmentFileProps,
   ComposerAttachmentImageProps,

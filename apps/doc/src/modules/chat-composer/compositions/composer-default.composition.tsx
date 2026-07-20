@@ -15,17 +15,15 @@ import {
 
 export function ComposerDefaultComposition() {
   const [draft, setDraft] = useState("");
-  const [attachment, setAttachment] = useState<"Image ready" | "File ready" | null>(null);
-  const [status, setStatus] = useState("Ready to send");
+  const [hasAttachment, setHasAttachment] = useState(false);
 
   return (
     <ComposerRoot
       onSubmit={(event) => {
         event.preventDefault();
-        if (!draft.trim() && !attachment) return;
-        setStatus(draft.trim() ? `Sent: ${draft.trim()}` : "Attachment sent");
+        if (!draft.trim() && !hasAttachment) return;
         setDraft("");
-        setAttachment(null);
+        setHasAttachment(false);
       }}
     >
       <Composer>
@@ -37,32 +35,19 @@ export function ComposerDefaultComposition() {
         />
         <ComposerToolbar>
           <ComposerActions>
-            <ComposerIconButton
-              aria-label="Attach image"
-              onClick={() => {
-                setAttachment("Image ready");
-                setStatus("Image attached");
-              }}
-            >
+            <ComposerIconButton aria-label="Attach image" onClick={() => setHasAttachment(true)}>
               <ImagePlus />
             </ComposerIconButton>
-            <ComposerIconButton
-              aria-label="Attach file"
-              onClick={() => {
-                setAttachment("File ready");
-                setStatus("File attached");
-              }}
-            >
+            <ComposerIconButton aria-label="Attach file" onClick={() => setHasAttachment(true)}>
               <Paperclip />
             </ComposerIconButton>
           </ComposerActions>
           <ComposerMeta>
-            <ComposerToolbarLabel aria-live="polite">{attachment ?? status}</ComposerToolbarLabel>
             <ComposerToolbarLabel>
               <Checkbox size="sm" aria-label="Send as task" />
               As Task
             </ComposerToolbarLabel>
-            <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !attachment}>
+            <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !hasAttachment}>
               <span>Send</span>
               <Send />
             </ComposerSubmit>

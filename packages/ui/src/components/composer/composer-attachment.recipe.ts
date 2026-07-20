@@ -2,7 +2,19 @@ import { tv } from "../../lib/tv";
 
 export const composerAttachment = tv({
   slots: {
-    attachments: ["flex flex-wrap gap-2"],
+    attachments: [
+      "flex flex-wrap gap-2",
+      "has-[[data-slot=composer-attachments-scroll-area]]:relative",
+      "has-[[data-slot=composer-attachments-scroll-area]]:block",
+      "has-[[data-slot=composer-attachments-scroll-area]]:min-w-0",
+    ],
+    attachmentsScrollArea: ["relative w-full min-w-0"],
+    attachmentsViewport: [
+      "flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden overscroll-x-contain py-1.5",
+      "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+      "[&_[data-slot=composer-attachment]]:shrink-0",
+    ],
+    attachmentsNav: ["absolute top-1/2 z-30 -translate-y-1/2"],
     attachment: ["group/composer-attachment relative"],
     attachmentFile: [
       "relative flex h-16 w-44 gap-2 border-2 px-2",
@@ -37,8 +49,22 @@ export const composerAttachment = tv({
     ],
   },
   variants: {
+    side: {
+      prev: {
+        attachmentsNav: "left-1.5",
+      },
+      next: {
+        attachmentsNav: "right-1.5",
+      },
+    },
     theme: {
       brutal: {
+        attachmentsViewport: "pe-1.5",
+        attachmentsNav: [
+          "shadow-brutal-sm",
+          "hover:-translate-y-1/2 hover:shadow-brutal-sm",
+          "active:not-aria-[haspopup]:translate-x-0 active:not-aria-[haspopup]:-translate-y-1/2 active:shadow-brutal-sm",
+        ],
         attachment: [
           "has-[[data-slot=composer-attachment-image]]:size-16",
           "has-[[data-slot=composer-attachment-image]]:border-2",
@@ -55,7 +81,9 @@ export const composerAttachment = tv({
         attachmentRemove: "bg-black text-white outline-2 outline-solid outline-white",
       },
       elegant: {
-        attachments: "pt-0.5",
+        attachments: ["pt-0.5", "has-[[data-slot=composer-attachments-scroll-area]]:-mx-1"],
+        attachmentsViewport: "px-1",
+        attachmentsNav: "rounded-full shadow-md",
         attachmentFile: [
           "items-start gap-3 overflow-hidden rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5",
           "ring-1 ring-ink-10 [&_svg]:text-foreground-icon",

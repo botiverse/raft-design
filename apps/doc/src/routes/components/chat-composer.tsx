@@ -9,6 +9,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
   ComposerAttachmentLimitComposition,
   ComposerAttachmentStatesComposition,
+  ComposerAttachmentsScrollComposition,
   ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
@@ -17,6 +18,7 @@ import {
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentLimitSource from "#/modules/chat-composer/compositions/composer-attachment-limit.composition.tsx?raw";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
+import composerAttachmentsScrollSource from "#/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
@@ -82,6 +84,7 @@ const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   attachmentLimit: composerAttachmentLimitSource,
   attachmentStates: composerAttachmentStatesSource,
+  attachmentsScroll: composerAttachmentsScrollSource,
   compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
@@ -167,6 +170,15 @@ const COMPOSER_ATTACHMENTS_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description: "Pending-upload strip above the input.",
+  },
+];
+
+const COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Opt-in single-row overflow with prev/next arrows. Nest inside ComposerAttachments; omit for the default wrap layout.",
   },
 ];
 
@@ -347,6 +359,26 @@ function ChatComposerDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection
+            parentId="usage"
+            id="attachments-scroll"
+            title="Single-row attachments with arrows"
+          >
+            <DocNote>
+              Nest <code>ComposerAttachmentsScrollArea</code> inside{" "}
+              <code>ComposerAttachments</code> for a single-row strip with prev/next arrows. Without
+              it, attachments wrap normally.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentsScrollComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsScroll} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="with-lightbox" title="Ready images with lightbox">
             <DocNote>
               Composer does not own preview state. Ready image attachments stay clickable tiles; the
@@ -426,6 +458,13 @@ function ChatComposerDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-composer-attachments" title="ComposerAttachments">
             <PropsTable rows={COMPOSER_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachments-scroll-area"
+            title="ComposerAttachmentsScrollArea"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
             <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />

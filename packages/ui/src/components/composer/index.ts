@@ -45,6 +45,9 @@ export type {
   ComposerToolbarProps,
 } from "./composer";
 
+export { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-area";
+export type { ComposerAttachmentsScrollAreaProps } from "./composer-attachments-scroll-area";
+
 export {
   ComposerSuggestionAside,
   ComposerSuggestionContent,
