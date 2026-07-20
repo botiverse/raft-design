@@ -1,9 +1,15 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { ScrollArea } from "@base-ui/react/scroll-area";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import {
+  ScrollArea,
+  ScrollAreaContent,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "../scroll-area";
 import { chatSidebar } from "./chat-sidebar.recipe";
 
 export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
@@ -132,13 +138,9 @@ export function ChatSidebarContent({
 }: ChatSidebarContentProps) {
   const isMobile = useMobileViewport();
   const theme = useThemeFamily();
-  const {
-    sidebarContent,
-    sidebarContentInner,
-    sidebarScrollbar,
-    sidebarScrollbarThumb,
-    sidebarViewport,
-  } = chatSidebar({ theme });
+  const { sidebarContent, sidebarContentInner, sidebarScrollbar, sidebarViewport } = chatSidebar({
+    theme,
+  });
 
   const nativeViewportProps: SlotElementProps<"div"> = {
     "data-slot": "chat-sidebar-content",
@@ -164,24 +166,24 @@ export function ChatSidebarContent({
   }
 
   return (
-    <ScrollArea.Root data-slot="chat-sidebar-scroll-area" className={sidebarContent()}>
-      <ScrollArea.Viewport
+    <ScrollArea data-slot="chat-sidebar-scroll-area" className={sidebarContent()}>
+      <ScrollAreaViewport
         {...props}
         render={render}
         data-slot="chat-sidebar-content"
         className={sidebarViewport()}
       >
-        <ScrollArea.Content
+        <ScrollAreaContent
           className={sidebarContentInner({ className })}
           style={{ minWidth: 0, width: "100%" }}
         >
           {children}
-        </ScrollArea.Content>
-      </ScrollArea.Viewport>
-      <ScrollArea.Scrollbar className={sidebarScrollbar()}>
-        <ScrollArea.Thumb className={sidebarScrollbarThumb()} />
-      </ScrollArea.Scrollbar>
-    </ScrollArea.Root>
+        </ScrollAreaContent>
+      </ScrollAreaViewport>
+      <ScrollAreaScrollbar className={sidebarScrollbar()}>
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+    </ScrollArea>
   );
 }
 

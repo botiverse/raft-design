@@ -43,6 +43,7 @@ import { Route as ComponentsSkeletonRouteImport } from './routes/components/skel
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
+import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
@@ -276,6 +277,11 @@ const ComponentsSegmentedControlRoute =
     path: '/segmented-control',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
+  id: '/scroll-area',
+  path: '/scroll-area',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsSandboxedPreviewFrameRoute =
   ComponentsSandboxedPreviewFrameRouteImport.update({
     id: '/sandboxed-preview-frame',
@@ -637,6 +643,7 @@ export interface FileRoutesByFullPath {
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
+  '/components/scroll-area': typeof ComponentsScrollAreaRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -730,6 +737,7 @@ export interface FileRoutesByTo {
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
+  '/components/scroll-area': typeof ComponentsScrollAreaRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -825,6 +833,7 @@ export interface FileRoutesById {
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
+  '/components/scroll-area': typeof ComponentsScrollAreaRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -921,6 +930,7 @@ export interface FileRouteTypes {
     | '/components/progress'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
+    | '/components/scroll-area'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1014,6 +1024,7 @@ export interface FileRouteTypes {
     | '/components/progress'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
+    | '/components/scroll-area'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1108,6 +1119,7 @@ export interface FileRouteTypes {
     | '/components/progress'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
+    | '/components/scroll-area'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1410,6 +1422,13 @@ declare module '@tanstack/react-router' {
       path: '/segmented-control'
       fullPath: '/components/segmented-control'
       preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/scroll-area': {
+      id: '/components/scroll-area'
+      path: '/scroll-area'
+      fullPath: '/components/scroll-area'
+      preLoaderRoute: typeof ComponentsScrollAreaRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/sandboxed-preview-frame': {
@@ -1988,6 +2007,7 @@ interface ComponentsRouteChildren {
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
+  ComponentsScrollAreaRoute: typeof ComponentsScrollAreaRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
@@ -2048,6 +2068,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
+  ComponentsScrollAreaRoute: ComponentsScrollAreaRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,

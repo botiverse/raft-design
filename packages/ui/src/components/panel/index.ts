@@ -4,8 +4,6 @@ export {
   PanelFooter,
   PanelHeader,
   PanelScrollContent,
-  PanelScrollbar,
-  PanelScrollbarThumb,
   PanelScrollViewport,
 } from "./panel";
 export type {
@@ -14,8 +12,6 @@ export type {
   PanelHeaderProps,
   PanelProps,
   PanelScrollContentProps,
-  PanelScrollbarProps,
-  PanelScrollbarThumbProps,
   PanelScrollViewportProps,
 } from "./panel";
 export { PanelAction } from "./panel-action";

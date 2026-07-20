@@ -54,9 +54,8 @@ const NAV = [
       },
       {
         label: "ScrollArea",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components/scroll-area",
-        reason: "Prefer native scrolling until custom scrollbar behavior is required.",
+        to: "/components/scroll-area",
+        status: "wip",
       },
     ],
   },

@@ -10,12 +10,6 @@ export const panel = tv({
       "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
     ],
     scrollContent: ["min-h-full"],
-    scrollbar: [
-      "z-50 me-1.5 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
-      "pointer-events-none",
-      "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
-    ],
-    scrollbarThumb: ["w-1.5 rounded-full"],
     footer: [
       "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
       "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+0.375rem)]",
@@ -23,12 +17,9 @@ export const panel = tv({
   },
   variants: {
     theme: {
-      brutal: {
-        scrollbarThumb: "bg-black/35 hover:bg-black/55",
-      },
+      brutal: {},
       elegant: {
         scrollContent: "md:pb-[var(--panel-footer-clearance)]",
-        scrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         footer: [
           "z-40 md:absolute md:inset-x-0 md:bottom-0",
           "max-md:px-2.5 md:px-7 max-md:pt-0 md:pt-0",

@@ -110,44 +110,92 @@ function ThreadSearchRow() {
   );
 }
 
+const THREAD_REPLIES = [
+  {
+    sender: "Cindy",
+    type: "human" as const,
+    time: "10:09",
+    body: "SideThreadColumn owns persisted width and desktop resize chrome.",
+  },
+  {
+    sender: "Atlas",
+    type: "agent" as const,
+    time: "10:11",
+    body: "ThreadPanel now owns the right-panel header, body, action, and footer chrome.",
+  },
+  {
+    sender: "Noah",
+    type: "human" as const,
+    time: "10:14",
+    body: "Keep the original message pinned above the scroll body so context stays visible.",
+  },
+  {
+    sender: "Atlas",
+    type: "agent" as const,
+    time: "10:16",
+    body: "Agreed. Replies should scroll independently from the header search and composer footer.",
+  },
+  {
+    sender: "Mia",
+    type: "human" as const,
+    time: "10:19",
+    body: "Can we verify scrollbar fade-in while scrolling through a longer reply stack?",
+  },
+  {
+    sender: "Cindy",
+    type: "human" as const,
+    time: "10:21",
+    body: "Yes — add enough messages that the MessageList viewport overflows at the docs preview height.",
+  },
+  {
+    sender: "Atlas",
+    type: "agent" as const,
+    time: "10:23",
+    body: "Desktop uses ScrollArea; mobile keeps native PanelScrollViewport. Both need overflow to exercise.",
+  },
+  {
+    sender: "Noah",
+    type: "human" as const,
+    time: "10:26",
+    body: "Also check elegant bottom clearance so the last reply is not hidden behind the composer.",
+  },
+  {
+    sender: "Mia",
+    type: "human" as const,
+    time: "10:28",
+    body: "Scrolling to the end should leave a comfortable gap above the footer on elegant.",
+  },
+  {
+    sender: "Atlas",
+    type: "agent" as const,
+    time: "10:30",
+    body: "That clearance comes from the message-list content recipe on elegant only.",
+  },
+] as const;
+
 function ThreadReplies() {
   return (
     <>
       <div className="px-3 pt-2">
         <MessageListNotice>Beginning of replies</MessageListNotice>
-        <ThreadPanelReplyCount>2 replies</ThreadPanelReplyCount>
+        <ThreadPanelReplyCount>{THREAD_REPLIES.length} replies</ThreadPanelReplyCount>
       </div>
       <MessageListDateDivider>Today</MessageListDateDivider>
-      <MessageItem>
-        <MessageItemAvatarSlot>
-          <Avatar size="md" type="human" />
-        </MessageItemAvatarSlot>
-        <MessageItemContent>
-          <MessageItemHeader>
-            <MessageItemSender>Cindy</MessageItemSender>
-            <MessageItemTime>10:09</MessageItemTime>
-          </MessageItemHeader>
-          <MessageItemBody>
-            SideThreadColumn owns persisted width and desktop resize chrome.
-          </MessageItemBody>
-        </MessageItemContent>
-        <MessageRowToolbar />
-      </MessageItem>
-      <MessageItem>
-        <MessageItemAvatarSlot>
-          <Avatar size="md" type="agent" />
-        </MessageItemAvatarSlot>
-        <MessageItemContent>
-          <MessageItemHeader>
-            <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemTime>10:11</MessageItemTime>
-          </MessageItemHeader>
-          <MessageItemBody>
-            ThreadPanel now owns the right-panel header, body, action, and footer chrome.
-          </MessageItemBody>
-        </MessageItemContent>
-        <MessageRowToolbar />
-      </MessageItem>
+      {THREAD_REPLIES.map((reply) => (
+        <MessageItem key={`${reply.sender}-${reply.time}`}>
+          <MessageItemAvatarSlot>
+            <Avatar size="md" type={reply.type} />
+          </MessageItemAvatarSlot>
+          <MessageItemContent>
+            <MessageItemHeader>
+              <MessageItemSender>{reply.sender}</MessageItemSender>
+              <MessageItemTime>{reply.time}</MessageItemTime>
+            </MessageItemHeader>
+            <MessageItemBody>{reply.body}</MessageItemBody>
+          </MessageItemContent>
+          <MessageRowToolbar />
+        </MessageItem>
+      ))}
       <div className="h-6" aria-hidden />
     </>
   );
