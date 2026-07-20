@@ -6,12 +6,12 @@ import {
   ComposerSuggestionGroup,
   ComposerSuggestionGroupLabel,
   ComposerSuggestionIcon,
-  ComposerSuggestionList,
   ComposerSuggestionMeta,
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
   useComposerSuggestions,
 } from "raft-ui/wip";
+import { ComposerSuggestionList } from "#/modules/chat-composer/composer-responsive.tsx";
 
 import { isPersonSuggestion } from "./composer-suggestions.data.ts";
 import type {

@@ -1,16 +1,14 @@
 import { Paperclip, Send } from "lucide-react";
 import {
-  Composer,
   ComposerActions,
   ComposerAttachments,
   ComposerAttachmentsScrollArea,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
 } from "raft-ui/wip";
+import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { ComposerAttachmentsComposition } from "./composer-shared.composition.tsx";
 

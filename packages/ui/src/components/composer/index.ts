@@ -1,6 +1,23 @@
 export {
   Composer,
   ComposerActions,
+  ComposerIconButton,
+  ComposerInput,
+  ComposerMeta,
+  ComposerSubmit,
+  ComposerToolbar,
+} from "./composer";
+export type {
+  ComposerActionsProps,
+  ComposerIconButtonProps,
+  ComposerInputProps,
+  ComposerMetaProps,
+  ComposerProps,
+  ComposerSubmitProps,
+  ComposerToolbarProps,
+} from "./composer";
+
+export {
   ComposerAttachment,
   ComposerAttachmentBody,
   ComposerAttachmentFailedOverlay,
@@ -12,17 +29,8 @@ export {
   ComposerAttachmentTitle,
   ComposerAttachmentUploadingOverlay,
   ComposerAttachmentUploadProgressBar,
-  ComposerDropOverlay,
-  ComposerDropOverlayLabel,
-  ComposerDropOverlayPrompt,
-  ComposerIconButton,
-  ComposerInput,
-  ComposerMeta,
-  ComposerSubmit,
-  ComposerToolbar,
-} from "./composer";
+} from "./composer-attachments";
 export type {
-  ComposerActionsProps,
   ComposerAttachmentBodyProps,
   ComposerAttachmentFailedOverlayProps,
   ComposerAttachmentFileProps,
@@ -34,19 +42,21 @@ export type {
   ComposerAttachmentTitleProps,
   ComposerAttachmentUploadingOverlayProps,
   ComposerAttachmentUploadProgressBarProps,
-  ComposerDropOverlayLabelProps,
-  ComposerDropOverlayPromptProps,
-  ComposerDropOverlayProps,
-  ComposerIconButtonProps,
-  ComposerInputProps,
-  ComposerMetaProps,
-  ComposerProps,
-  ComposerSubmitProps,
-  ComposerToolbarProps,
-} from "./composer";
+} from "./composer-attachments";
 
 export { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-area";
 export type { ComposerAttachmentsScrollAreaProps } from "./composer-attachments-scroll-area";
+
+export {
+  ComposerDropOverlay,
+  ComposerDropOverlayLabel,
+  ComposerDropOverlayPrompt,
+} from "./composer-drop-overlay";
+export type {
+  ComposerDropOverlayLabelProps,
+  ComposerDropOverlayPromptProps,
+  ComposerDropOverlayProps,
+} from "./composer-drop-overlay";
 
 export {
   ComposerSuggestionAside,

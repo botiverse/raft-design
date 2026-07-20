@@ -2,16 +2,14 @@ import { ImagePlus, Paperclip, Send } from "lucide-react";
 import { useState } from "react";
 import { Checkbox } from "raft-ui";
 import {
-  Composer,
   ComposerActions,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   ComposerToolbarLabel,
 } from "raft-ui/wip";
+import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 export function ComposerDefaultComposition() {
   const [draft, setDraft] = useState("");

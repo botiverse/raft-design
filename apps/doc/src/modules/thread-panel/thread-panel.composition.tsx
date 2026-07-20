@@ -34,14 +34,11 @@ import {
   ThreadPanelTitleMeta,
 } from "raft-ui";
 import {
-  Composer,
   ComposerActions,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   ComposerToolbarLabel,
   MessageItem,
   MessageItemAvatarSlot,
@@ -57,6 +54,11 @@ import {
   MessageListNotice,
   PanelAction,
 } from "raft-ui/wip";
+import {
+  Composer,
+  ComposerInput,
+  ComposerToolbar,
+} from "#/modules/chat-composer/composer-responsive.tsx";
 
 interface ThreadPanelCompositionProps {
   search?: boolean;

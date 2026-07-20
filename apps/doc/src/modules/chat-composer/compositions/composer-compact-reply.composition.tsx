@@ -1,14 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
-import {
-  Composer,
-  ComposerActions,
-  ComposerInput,
-  ComposerMeta,
-  ComposerRoot,
-  ComposerSubmit,
-  ComposerToolbar,
-} from "raft-ui/wip";
+import { ComposerActions, ComposerMeta, ComposerRoot, ComposerSubmit } from "raft-ui/wip";
+import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 type SendState = { kind: "idle" } | { kind: "sending" } | { kind: "failed" };
 

@@ -2,17 +2,19 @@ import { ImagePlus, Paperclip, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Checkbox } from "raft-ui";
 import {
-  Composer,
   ComposerActions,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   ComposerToolbarLabel,
   useComposerSuggestions,
 } from "raft-ui/wip";
+import {
+  Composer,
+  ComposerInput,
+  ComposerToolbar,
+} from "#/modules/chat-composer/composer-responsive.tsx";
 
 import {
   detectSuggestion,
